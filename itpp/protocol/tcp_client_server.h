@@ -1,0 +1,134 @@
+/*---------------------------------------------------------------------------*
+ *                                   IT++			             *
+ *---------------------------------------------------------------------------*
+ * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
+ * Tobias Ringström, and Jonas Samuelsson.                                   *
+ *                                                                           *
+ * Permission to use, copy, modify, and distribute this software and its     *
+ * documentation under the terms of the GNU General Public License is hereby *
+ * granted. No representations are made about the suitability of this        *
+ * software for any purpose. It is provided "as is" without expressed or     *
+ * implied warranty. See the GNU General Public License for more details.    *
+ *---------------------------------------------------------------------------*/
+
+/*!
+  \file
+  \brief TCP Client and Server Application s
+  \author Krister Norlund
+
+  $Revision$
+
+  $Date$ 
+*/
+
+
+#include "itpp/protocol/packet.h"
+#include "itpp/protocol/events.h"
+#include "itpp/protocol/signals_slots.h"
+#include "itpp/protocol/tcp.h"
+
+
+
+/*!
+
+*/
+class TCP_Server_Application {
+  public:
+   TCP_Server_Application() {
+      write.set_name("TcpServerApplicationWriteSignal");
+      write.set_debug();
+   }
+   ~TCP_Server_Application() { }
+
+   Signal<itpp::Packet*> write;
+
+   void write_to_net(unsigned byte_size, double delta_time) {
+      itpp::Packet *packet = new Packet(8*byte_size);
+      write(packet, delta_time);
+
+      std::cout << "TcpServerApplication::write_to_net,"
+                << " byte_size=" << packet->bit_size()/8
+                << " ptr=" << packet
+                << " time=" << Event_Queue::now() << std::endl;
+   }
+};
+
+/*!
+
+*/
+class TCP_Client_Application {
+  public:
+
+   TCP_Client_Application(TCP_Sender *tcp_snd_p, TCP_Receiver *tcp_recv_p) {
+      tcp_receiver_p = tcp_recv_p;
+      tcp_sender_p = tcp_snd_p;
+      nbr_bytes_received = 0;
+      select.forward(this, &TCP_Client_Application::received_packet_indication);
+      select.set_name("TcpClientApplicationSelectSlot");
+      seq_num_index = 0;
+   }
+
+   ~TCP_Client_Application() { }
+
+   Slot<TCP_Client_Application, int> select;
+
+   void read_from_net(unsigned byte_size) { 
+      nbr_bytes_to_receive = byte_size; 
+      seq_num_val.set_size(10+byte_size/1460);
+      seq_num_val.zeros();
+      seq_num_time.set_size(10+byte_size/1460);
+      seq_num_time.zeros();
+      seq_num_val(0) = 0;
+      seq_num_time(0) = 0;
+      seq_num_index=1;
+   };
+
+  private:
+   TCP_Receiver *tcp_receiver_p;
+   TCP_Sender *tcp_sender_p;
+   unsigned nbr_bytes_received;
+   unsigned nbr_bytes_to_receive;
+
+   vec seq_num_val;
+   vec seq_num_time;
+   int seq_num_index;
+
+   void TCP_Client_Application::received_packet_indication(int label) {
+      
+      itpp::Packet &packet = tcp_receiver_p->get_user_message();
+      nbr_bytes_received = nbr_bytes_received + packet.bit_size()/8;
+      delete &packet;
+
+      if (seq_num_index >= seq_num_time.size()) {
+         seq_num_time.set_size(2*seq_num_time.size(),true);
+         seq_num_val.set_size(2*seq_num_val.size(),true);
+      }
+
+      seq_num_val(seq_num_index) = nbr_bytes_received;
+      seq_num_time(seq_num_index) = Event_Queue::now();
+      seq_num_index++;
+
+      std::cout << "### sequence number: " << nbr_bytes_received
+                << " ### time:" << Event_Queue::now() << std::endl;      
+
+      if (nbr_bytes_received >= nbr_bytes_to_receive) {
+         std::cout << "###### Stop sender and receiver" << std::endl;      
+         tcp_receiver_p->release();
+         tcp_sender_p->release();
+         tcp_sender_p->save_trace("seq_num.it");
+         seq_num_val.set_size(seq_num_index, true);
+         seq_num_time.set_size(seq_num_index,true);
+         save_to_file("seq_num.it");
+      }
+   }
+
+   void TCP_Client_Application::save_to_file(string file) {
+
+      it_file ff2(file);
+      ff2 << Name("seq_num_val") << seq_num_val;
+      ff2 << Name("seq_num_time") << seq_num_time;
+      ff2 << Name("seq_num_index") << seq_num_index;
+      ff2.flush();
+      ff2.close();
+   }
+};

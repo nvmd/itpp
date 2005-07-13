@@ -1,0 +1,110 @@
+/*! 
+\page linking Linking your programs with IT++
+\addindex Linking
+
+\section linking_altas_lapack Linking IT++ with ATLAS and netlib-LAPACK
+Assuming that you are using an it++external library you should link your programs with the following flags:
+\code
+-L<ITPP_HOME>/lib -L<ITPP_EXTERNAL_HOME>/lib/<ARCH>/gcc<VERSION> -lit++ -lit++external -lg2c
+\endcode
+However, this is rather complicated and inconvenient. The simplest way to link IT++ with it++external is to
+simply make a symbolic link in the \<ITPP_HOME\>/lib folder to the libit++external.a file in the
+\<ITPP_EXTERNAL_HOME\>/lib/<ARCH>/gcc\<VERSION\> folder like this:
+
+\code         
+ln -s <ITPP_EXTERNAL_HOME>/lib/<ARCH>/gcc<VERSION>/libit++external.a <ITPP_HOME>/lib/libit++external.a
+\endcode
+Hence you now link your programs with
+\code
+-L<ITPP_HOME>/lib -lit++ -lit++external -lg2c
+\endcode
+
+Even simpler is to instead you may use the \c it-config script described in section \ref using_itconfig.
+
+\section linking_mkl Linking IT++ with Intels' MKL
+If you are using Intels' MKL you can now link your programs with the following flags:
+\code
+-L<ITPP_HOME>/lib -L<MKL_LIBDIR> -L<ITPP_EXTERNAL_HOME>/lib/<ARCH>/gcc<VERSION> -lit++ -lmkl_lapack -lmkl_<cpu> -lguide -lpthread -lit++external -lg2c
+\endcode
+Replace \c \<cpu\> above with \c 'def' (without the quotes) if you have a Pentium, Pentium Pro and 
+Pentium II processor, with \c 'p3' (without the quotes) if you have a Pentium III processor, or 
+with \c 'p4' (without the quotes) if you have a Pentium 4 processor.
+
+If you have created symbolic links in your \c \<ITPP_HOME\>/lib folder to your MKL library files 
+(as described in section \ref install_linux_mkl) you can skip the \c -L\<MKL_LIBDIR\> flag above. 
+The symbolic links to your MKL libraries are required if you want to use the \c it-config script.
+
+\section using_itconfig Using the it-config script
+\addindex it-config
+
+There is a convenient script called \c it-config that you may use in the IT++ \c bin folder. 
+To be able to use this script you need to set your PATH variable to include the IT++ \c bin folder. 
+Depending on what shell you use this is done in different ways. If you are using bash 
+(the default Linux shell) you may issue the following command:
+\code
+export PATH=<Path to your IT++ directory>/bin:$PATH
+\endcode
+The above line may also be added to your local \c .bashrc file in your home directory. 
+If you are using tcsh you need to issue the following command instead:
+\code
+setenv PATH <Path to your IT++ directory>/bin:$PATH
+\endcode
+\addindex PATH
+
+The \c it-config script can be used to simplify compilation and linking of your programs. 
+Assuming that you want to compile the program \c my_prog.cpp you can now do that with the 
+following command:
+\code
+g++ `it-config --flags` -o my_prog my_prog.cpp `it-config --libs`
+\endcode
+More details on \c it-config is available by just typing \c it-config at the unix prompt:
+\code
+Usage: it-config [OPTIONS]
+
+Options:
+        [--libs]     Display the libraries required for linking with IT++.
+        [--flags]    Display flags that should be used to compile IT++ programs.
+        [--opt]      Modifies the --libs or the --flags option to enable optimization settings.
+        [--debug]    Modifies the --libs or the --flags option to enable debug settings.
+        [--prof]     Modifies the --libs or the --flags option to enable profiling settings.
+        [--shared]   Modifies the --libs or the --flags option to enable shared settings.
+        [--version]  Display the version number of IT++.
+
+Examples:
+        Display the libraries that should be used when using a debugger:
+        > it-config --libs --debug
+
+        Display the compiler flags that should be used when using a profiler (e.g. gprof):
+        > it-config --flags --prof
+\endcode
+
+\section dynamic_linking Using IT++ with Dynamic Linking
+
+When using static linking some of the library routines in IT++ are copied into your 
+executable program. This can lead to unnecessary large executables. To avoid having 
+too large executable files you may use dynamic linking instead. Dynamic linking means 
+that the actual linking is performed when the program is executed. This requires that 
+the system is able to locate the IT++ library file when your program is being executed. 
+The \c LD_LIBRARY_PATH environment variable is used for this purpose. Thus, if you want 
+to use dynamic linking you need to add the following line to your \c ~/.bashrc file 
+(assuming that you are using the BASH shell):
+
+\code
+export LD_LIBRARY_PATH=<path to your IT++ directory>/lib:$LD_LIBRARY_PATH
+\endcode
+
+You need to specify to the IT++ \c configure script that you want to compile a shared 
+IT++ library (See section \ref compiling_itpp for details). The shared IT++ library 
+is named \c libit++_s.so.
+
+\section matlab_load_and_save Information for Matlab users
+
+In the IT++ \c matlab folder there are two m-files: \c load_it.m and \c save_it.m. 
+These files are used for reading and writing IT++ data files from and to Matlab. 
+To ensure that Matlab finds these two files you should add the following line to 
+your \c ~/matlab/startup.m file:
+
+\code
+p=path; path(p,<Path to your IT++ directory>/matlab);
+\endcode
+*/

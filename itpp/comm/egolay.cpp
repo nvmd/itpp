@@ -1,0 +1,132 @@
+/*---------------------------------------------------------------------------*
+ *                                   IT++			             *
+ *---------------------------------------------------------------------------*
+ * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
+ * Tobias Ringström, and Jonas Samuelsson.                                   *
+ *                                                                           *
+ * Permission to use, copy, modify, and distribute this software and its     *
+ * documentation under the terms of the GNU General Public License is hereby *
+ * granted. No representations are made about the suitability of this        *
+ * software for any purpose. It is provided "as is" without expressed or     *
+ * implied warranty. See the GNU General Public License for more details.    *
+ *---------------------------------------------------------------------------*/
+
+/*! 
+  \file 
+  \brief Implementation of Class for the Extended Golay Code (24,12,8).
+  \author Tony Ottosson
+
+  $Revision$
+
+  $Date$
+*/
+
+#include "itpp/base/specmat.h"
+#include "itpp/comm/egolay.h"
+#include "itpp/comm/commfunc.h"
+#include <iostream>
+
+namespace itpp { 
+
+  Extended_Golay::Extended_Golay(void)
+  {	
+    B="0 1 1 1 1 1 1 1 1 1 1 1;1 1 1 0 1 1 1 0 0 0 1 0;1 1 0 1 1 1 0 0 0 1 0 1;1 0 1 1 1 0 0 0 1 0 1 1;1 1 1 1 0 0 0 1 0 1 1 0;1 1 1 0 0 0 1 0 1 1 0 1;1 1 0 0 0 1 0 1 1 0 1 1;1 0 0 0 1 0 1 1 0 1 1 1;1 0 0 1 0 1 1 0 1 1 1 0;1 0 1 0 1 1 0 1 1 1 0 0;1 1 0 1 1 0 1 1 1 0 0 0;1 0 1 1 0 1 1 1 0 0 0 1";
+
+    G = concat_horizontal(eye_b(12), B);
+  }
+
+  void Extended_Golay::encode(const bvec &uncoded_bits, bvec &coded_bits)
+  {
+    int no_bits = uncoded_bits.length();
+    int no_blocks = (int)floor((double)no_bits/12);
+    
+    coded_bits.set_size(24*no_blocks, false);
+    bmat Gt = G.T();
+    int i;
+	
+    for (i=0; i<no_blocks; i++) 
+      coded_bits.replace_mid(24*i, Gt * uncoded_bits.mid(i*12,12));
+  }
+
+  bvec Extended_Golay::encode(const bvec &uncoded_bits)
+  {
+    bvec coded_bits;
+    encode(uncoded_bits, coded_bits);
+    return coded_bits;
+  }
+
+  void Extended_Golay::decode(const bvec &coded_bits, bvec &decoded_bits)
+  {
+    int no_bits = coded_bits.length();
+    int no_blocks = (int)floor((double)no_bits/24);
+    
+    decoded_bits.set_size(12*no_blocks, false);
+    int i, j;
+    bvec S(12),BS(12),r(12),temp(12),e(24),c(24);
+    bmat eyetemp = eye_b(12);
+
+    for (i=0; i<no_blocks; i++) {
+      r = coded_bits.mid(i*24,24);
+      // Step 1. Compute S=G*r.
+      S = G*r;
+      // Step 2. w(S)<=3. e=(S,0). Goto 8.
+      if( weight(S) <= 3 ) {
+	e = concat(S, zeros_b(12)); goto Step8;
+      }
+	  
+      // Step 3. w(S+Ii)<=2. e=(S+Ii,yi). Goto 8.
+      for (j=0; j<12; j++) {
+			
+	temp = S + B.get_col(j);
+	if ( weight(temp) <=2 ) {
+	  e = concat(temp, eyetemp.get_row(j)); goto Step8;
+	}
+      }
+
+      // STEP 4. Compute B*S
+      BS = B*S;
+
+      // Step 5. w(B*S)<=3. e=(0,BS). Goto8.
+      if ( weight(BS) <=3 ) {
+	e = concat(zeros_b(12), BS); goto Step8;
+      }
+
+      // Step 6. w(BS+Ri)<=2. e=(xi,BS+Ri). Goto 8.
+      for (j=0; j<12; j++) {
+	temp = BS + B.get_row(j);
+	if ( weight(temp) <=2 ) {
+	  e = concat(eyetemp.get_row(j), temp); goto Step8;
+	}
+      }
+
+      // Step 7. Uncorrectable erreor pattern. Choose the first 12 bits.
+      e = zeros_b(24); goto Step8;
+	  
+    Step8: // Step 8. c=r+e. STOP
+      c = r + e;
+      decoded_bits.replace_mid(i*12, c.left(12));
+    }  
+  }
+
+  bvec Extended_Golay::decode(const bvec &coded_bits)
+  {
+    bvec decoded_bits;
+    decode(coded_bits, decoded_bits);
+    return decoded_bits;
+  }
+
+
+  // --------------- Soft-decision decoding is not implemented --------------------------------
+  void Extended_Golay::decode(const vec &received_signal, bvec &output)
+  {
+    it_error("Extended_Golay::decode(vec, bvec); soft-decision decoding is not implemented");
+  }
+
+  bvec Extended_Golay::decode(const vec &received_signal)
+  {
+    it_error("Extended_Golay::decode(vec, bvec); soft-decision decoding is not implemented");
+    return bvec();
+  }
+
+
+} //namespace itpp
