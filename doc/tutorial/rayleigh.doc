@@ -1,0 +1,22 @@
+/*! 
+\page rayleigh Generating a correlated Rayleigh fading process
+
+In this example we will generate a correlated Rayleigh fading process with a normaized Doppler frequency equal to 0.1. The normalized Doppler equals the true Doppler frequency multiplyed by the sampling time (i.e. \f$f_d = F_d T_s\f$). The result is examined in Matlab.
+
+\include rayleigh.cpp
+
+You can use Matlab to examine the channel fading process that is stored int the file \c rayleigh_test.it. Try the followigh Matlab code to view a part of the fading process (make sure that the folder \verbatim it++<version>/matlab \endverbatim is included your Matlab path variable):
+
+\code
+load_it rayleigh_test.it
+figure(1); clf;
+semilogy(abs(chan(1:200)))
+\endcode
+
+If you want to look at the power spectral density of the channel fading process, then enter the following line in Matlab:
+
+\code
+psd(chan,[],1)
+\endcode
+
+*/

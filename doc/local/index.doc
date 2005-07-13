@@ -1,0 +1,134 @@
+/*!
+\mainpage Welcome to IT++!
+
+\latexonly
+\section{Introduction}
+
+
+IT++ is a C++ library of mathematical, signal processing, speech processing, and 
+communications classes and functions. It has been developed by researchers in these areas and is
+wildly used by researchers both in the communications industry and in Universities. Since 2004
+IT++ is also being developed as a part of the European network of excellence <a href="http://newcom.ismb.it/">NEWCOM</a>.
+
+The kernel of IT++ are templated vector and matrix classes and lots of 
+functions for vectors and matrices. As such the kernel is similar to the Matlab functions. IT++ makes extensive
+ use of existing open source libraries for increased functionality, speed and accuracy.
+In particular the libraries ATLAS (or CBLAS), LAPACK, and FFTW are used. For more details about these packages
+and how to install the see the installation section.
+
+The IT++ library originates from the former department of Information Theory at Chalmers University of 
+Technology, Gothenburg, Sweden. Since the library is coded in C++ the name of the library 
+seemed like a good idea at the time. While departments come and go, IT++ have developed 
+a life of its' own and is now released under the GNU GPL license for you to enjoy.
+
+The information in this document is sometimes quite short and may therefore be difficult to 
+understand. For this we apologize in advance and would like to offer some good links that 
+may be helpful to fill the gaps:
+\begin{itemize}
+\item GNU homepage: http://www.gnu.org
+\item The GCC online manuals: http://www.gnu.org/software/gcc/onlinedocs/
+\item Debugging with GDB: http://www.gnu.org/manual/gdb-5.1.1/gdb.html
+\item Debugging with DDD: http://www.gnu.org/manual/ddd/ddd.html
+\item The GNU gprof Profiler: http://www.gnu.org/manual/gprof-2.9.1/gprof.html
+\item Gnu Make manual: http://www.gnu.org/manual/make-3.79.1/make.html
+\item Basic Linear Algebra Subprograms (BLAS): http://www.netlib.org/blas/
+\item Automatically Tuned Linear Algebra Software (ATLAS): http://math-atlas.sourceforge.net/
+\item Linear Algebra PACKage (LAPACK): http://www.netlib.org/lapack/
+\item Cygwin: http://sources.redhat.com/cygwin/
+\item Doxygen homepage: http://www.doxygen.org
+\item CVS manual: http://www.gnu.org/manual/cvs-1.9/cvs.html
+\item IT++ online documentation: http://itpp.sourceforge.net/
+\end{itemize}
+\endlatexonly
+
+\htmlonly
+<table cellpadding="2" cellspacing="2" border="0" width="100%">
+   <tbody>
+      <tr>
+         <td valign="top" width="20%"><small>
+	    <b>Getting Started Manual:</b><br>
+ 	    <a href="installation.html">Installation</a><br>
+       	    <a href="linking.html">Linking with IT++</a><br>
+       	    <a href="users_guide.html">Short Introduction to IT++</a><br>
+       	    <a href="tutorial.html">Some Tutorial Examples</a><br>
+       	    <a href="copyright.html">Copyright and License</a><br>
+       	    <a href="help_wanted.html">Make a Difference</a><br>
+            <br>
+       	    <b>Download:</b><br>
+       	    Getting Started Manual: 
+	        (<a href="./getting_started.pdf">pdf</a>)
+	        (<a href="./getting_started.ps">ps</a>)<br>
+	    Reference Manual: 
+       	        (<a href="./itpp_refman.pdf">pdf</a>)
+       	        (<a href="./itpp_refman.ps">ps</a>)<br>
+	    Complete documentation: 
+		(<a href="./itpp_doc_html.tar.gz">html</a>)<br>
+	    <a href="https://sourceforge.net/project/showfiles.php?group_id=37044">Download IT++</a><br>
+            <br>
+            <b>IT++ Forums:</b><br>
+            <a href="https://sourceforge.net/tracker/?atid=418758&group_id=37044&func=browse">Bug Reports</a><br>
+            <a href="https://sourceforge.net/forum/forum.php?forum_id=115656">Ask for Help</a><br>
+            <a href="https://sourceforge.net/forum/forum.php?forum_id=115655">Discuss IT++</a><br>
+            <br>
+            <b><a href="verification.html">IT++ Test Matrix</a></b><br>
+            <br>
+            <b>Old versions:</b><br>
+            <b><a href="../3.8.0/">3.8.0</a></b><br>
+            <b><a href="../3.7.3/">3.7.3</a></b><br>
+     	 </td>
+         <td valign="top">          
+     	    <h3>Introduction</h3>
+
+ 	    <p>IT++ is a C++ library of mathematical, signal processing, speech processing,
+ 	    and  communications classes and functions. It has been developed by researchers
+ 	    in these areas and is wildly used by researchers both in the communications industry
+	    and in Universities. Since 2004 IT++ is also being developed as a part of the European
+	    network of excellence <a href="http://newcom.ismb.it/">NEWCOM</a>.</p>
+
+	    <p>The kernel of IT++ are templated vector and matrix classes and lots of 
+	    functions for vectors and matrices. As such the kernel is similar to the Matlab functions.
+	    IT++ makes extensive use of existing open source libraries for increased functionality, 
+	    speed and accuracy. In particular the libraries ATLAS (or CBLAS), LAPACK, and FFTW are used. 
+	    For more details about these packages and how to install the see the installation section.</p>
+      
+	    <p>The IT++ library originates from the former department of Information
+ 	    Theory at Chalmers University of  Technology, Gothenburg, Sweden. Since
+	    the library is coded in C++ the name of the library  seemed like a good
+	    idea at the time. While departments come and go, IT++ have developed
+	    a life of its' own and is now released under the GNU GPL license for you
+	    to enjoy.</p>
+
+            <p>IT++ works on GNU/Linux, Sun Solaris, Cygwin, Windows 2000/NT/XP (with 
+            Microsoft Visual C++ .Net (more testers needed)), and Mac OS X (more testers needed).</p>
+            <br>
+         </td>
+         <td valign="top" width="20%" align="left"><small>
+            <b>Auxiliary Links:</b><br>
+       	    <a href="http://www.doxygen.org">Doxygen homepage</a><br>
+       	    <a href="http://www.gnu.org/software/make/manual/make.html">Make manual</a><br>
+       	    <a href="http://www.gnu.org/manual/cvs-1.9/cvs.html">CVS manual</a><br>
+       	    <a href="http://www.gnu.org/software/gdb/documentation/">Debugging with GDB</a><br>
+       	    <a href="http://www.gnu.org/manual/ddd/ddd.html">Debugging with DDD</a><br>
+       	    <a href="http://www.gnu.org/software/binutils/manual/gprof-2.9.1/gprof.html">The GNU gprof Profiler</a><br>
+       	    <a href="http://www.gnu.org/software/gcc/onlinedocs/">The GCC online manuals</a><br>
+       	    <a href="http://www.gnu.org">GNU homepage</a><br>
+       	    <a href="http://www.netlib.org/blas/">Basic Linear Algebra Subprograms (BLAS)</a><br>
+       	    <a href="http://math-atlas.sourceforge.net/">Automatically Tuned Linear Algebra Software (ATLAS)</a><br>
+       	    <a href="http://www.netlib.org/lapack/">Linear Algebra PACKage (LAPACK)</a><br>
+       	    <a href="http://sources.redhat.com/cygwin/">Cygwin</a><br>
+       	    <br>
+       	    <b>Developers:</b><br>
+       	    <a href="https://sourceforge.net/projects/itpp/">IT++ @ SourceForge</a><br>
+       	    <a href="codingrules.html">Coding Rules</a><br>
+       	    <a href="documentation.html">Documentation Rules</a><br>
+       	    <a href="test.html">Test Rules</a><br>
+            <a href="https://sourceforge.net/cvs/?group_id=37044">CVS</a><br>
+            <a href="https://sourceforge.net/project/stats/index.php?report=last_30&group_id=37044">Statistics</a><br>
+	    </small>
+         </td>
+      </tr> 
+   </tbody> 
+</table>
+\endhtmlonly
+*/
+

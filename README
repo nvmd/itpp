@@ -1,0 +1,21 @@
+IT++ README
+===========
+
+IT++ is a library of mathematical, signal processing, speech processing, and
+communications classes and functions. It has been developed by researchers in
+these areas.
+
+The kernel of the package are templated vector and matrix classes and lots of
+functions for vectors and matrices. As such the kernel is similar to the matlab
+functions.
+
+In order to use all functionality provided in the IT++ library it is required
+that FFTW, LAPACK and CBLAS libraries are installed on your computer. 
+Optionally an optimized Intel Math Kernel Library (MKL) can be used instead.
+It is possible to compile and use IT++ without FFTW, LAPACK and CBLAS 
+(or without MKL), but the functionality will be reduced.  
+
+IT++ is released under the terms of the Gnu Public License (GPL).
+
+For installation instructions please read the INSTALL file or the IT++ 
+"Getting Started" manual.

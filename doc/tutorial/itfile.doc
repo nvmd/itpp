@@ -1,0 +1,22 @@
+/*! 
+\page itfile Writing and reading data from files
+
+Here we will use the class \c it_file to store some data. The program \c write_it_file.cpp looks as follows:
+
+\include write_it_file.cpp
+
+When you run this program you will obtain a file called \c it_file_test.it in the same directory as the program is located. You can read the file into Matlab to view the data by entering the following lines at the Matlab prompt:
+
+\code
+load_it it_file_test.it
+figure(1); clf;
+plot(a);
+\endcode
+
+Make shure that the program \c load_it.m is in your Matlab path and that you run the code above from the directory where \c it_file_test.it is located. 
+
+The it++ program \c read_it_file.cpp that reads the file and prints the content can look like this:
+
+\include read_it_file.cpp
+
+*/

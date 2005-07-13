@@ -1,0 +1,168 @@
+/*---------------------------------------------------------------------------*
+ *                                   IT++			             *
+ *---------------------------------------------------------------------------*
+ * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
+ * Tobias Ringström, and Jonas Samuelsson.                                   *
+ *                                                                           *
+ * Permission to use, copy, modify, and distribute this software and its     *
+ * documentation under the terms of the GNU General Public License is hereby *
+ * granted. No representations are made about the suitability of this        *
+ * software for any purpose. It is provided "as is" without expressed or     *
+ * implied warranty. See the GNU General Public License for more details.    *
+ *---------------------------------------------------------------------------*/
+
+/*! 
+  \file 
+  \brief Implementation of Galois Field algebra classes and functions
+  \author Tony Ottosson
+
+  $Revision$
+
+  $Date$
+*/
+
+#include "itpp/comm/galois.h"
+#include <iostream>
+
+using std::ostream;
+using std::istream;
+
+namespace itpp { 
+
+  Array<Array<int> > GF::alphapow;
+  Array<Array<int> > GF::logalpha;
+  ivec GF::q="1 2 4 8 16 32 64 128 256 512 1024 2048 4096 8192 16384 32768 65536";
+
+  // set q=2^mvalue
+  void GF::set_size(int qvalue)
+  {
+    int mtemp;
+
+    mtemp = round_i(log2(double(qvalue)));
+    it_assert((1<<mtemp)==qvalue, "GF::setsize : q is not a power of 2");
+    it_assert(mtemp<=16, "GF::setsize : q must be less than or equal to 2^16");
+
+    /* Construct GF(q), q=2^m. From Wicker, "Error Control Systems
+       for digital communication and storage" pp. 463-465 */
+
+    int reduce, temp, n;
+    const int reducetable[]={3,3,3,5,3,9,29,17,9,5,83,27,43,3,4107}; // starts at m=2,..,16
+    it_error_if(mtemp < 1 || mtemp > 16, "createfield : m out of range");
+    m=mtemp;
+    if (alphapow.size() <  (m+1) ) {
+      alphapow.set_size(m+1);
+      logalpha.set_size(m+1);	
+    }
+	
+    if (alphapow(m).size() == 0) {
+      alphapow(m).set_size(qvalue);
+      logalpha(m).set_size(qvalue);	
+      alphapow(m) = 0;
+      logalpha(m) = 0;
+      if (m == 1) { // GF(2), special case
+	alphapow(1)(0)=1;
+	logalpha(1)(0)=-1; logalpha(1)(1)=0;
+      } else {
+	reduce=reducetable[m-2];
+	alphapow(m)(0)=1; // alpha^0 = 1
+	for (n=1; n<(1<<m)-1; n++) {
+	  temp=alphapow(m)(n-1);
+	  temp=(temp << 1); // multiply by alpha
+	  if (temp & (1<<m)) // contains alpha**m term
+	    alphapow(m)(n)=(temp & ~(1<<m))^reduce;
+	  else
+	    alphapow(m)(n)=temp; // if no alpha**m term, store as is
+		
+	  // create table to go in opposite direction
+	  logalpha(m)(0)=-1; // special case, actually log(0)=-inf
+	}
+
+	for (n=0;n<(1<<m)-1;n++)
+	  logalpha(m)(alphapow(m)(n))=n;
+      }
+    }
+  }
+
+  //! Output stream operator for GF
+  ostream &operator<<(ostream &os, const GF &ingf)
+  {
+    if (ingf.value == -1)
+      os << "0";
+    else
+      os << "alpha^" << ingf.value;
+    return os;
+  }
+
+  //! Output stream operator for GFX
+  ostream &operator<<(ostream &os, const GFX &ingfx)
+  {
+    int terms=0;
+    for (int i=0; i<ingfx.degree+1; i++) {
+      if (ingfx.coeffs(i) != GF(ingfx.q,-1) ) {
+	if (terms != 0) os << " + ";
+	terms++;
+	if (ingfx.coeffs(i) == GF(ingfx.q,0) ) {// is the coefficient an one (=alpha^0=1)
+	  os  << "x^" << i;
+	} else {
+	  os  << ingfx.coeffs(i) << "*x^" << i;
+	}
+      }
+    }
+    if (terms == 0) os << "0";
+    return os;
+  }
+
+  //----------------- Help Functions -----------------
+
+  //! Division of two GFX (local help function)
+  GFX divgfx(const GFX &c, const GFX &g) {
+    int q = c.get_size();
+    GFX temp = c;
+    int tempdegree = temp.get_true_degree();
+    int gdegree = g.get_true_degree();
+    int degreedif = tempdegree - gdegree;
+    if (degreedif < 0) return GFX(q,0); // denominator larger than nominator. Return zero polynomial.
+    GFX m(q,degreedif), divisor(q);
+
+    for (int i=0; i<c.get_degree(); i++) {
+      m[degreedif] = temp[tempdegree]/g[gdegree];
+      divisor.set_degree(degreedif);
+      divisor.clear();
+      divisor[degreedif] = m[degreedif];
+      temp -= divisor*g;
+      tempdegree = temp.get_true_degree();
+      degreedif = tempdegree - gdegree;
+      if ( (degreedif<0) || (temp.get_true_degree()==0 && temp[0] == GF(q,-1) ) ) {
+	break;
+      }
+    }
+    return m;
+  }
+
+  //! Modulo function of two GFX (local help function)
+  GFX modgfx(const GFX &a, const GFX &b) 
+  {
+    int q = a.get_size();
+    GFX temp = a;
+    int tempdegree = temp.get_true_degree();
+    int bdegree = b.get_true_degree();
+    int degreedif = a.get_true_degree() - b.get_true_degree();
+    if (degreedif < 0) return temp; // Denominator larger than nominator. Return nominator.
+    GFX m(q,degreedif), divisor(q);
+
+    for (int i=0; i<a.get_degree(); i++) {
+      m[degreedif] = temp[tempdegree]/b[bdegree];
+      divisor.set_degree(degreedif);
+      divisor.clear();
+      divisor[degreedif] =  m[degreedif];
+      temp -= divisor*b; // Bug-fixed. Used to be: temp -= divisor*a;
+      tempdegree = temp.get_true_degree();
+      degreedif = temp.get_true_degree() - bdegree;
+      if ( (degreedif<0) || (temp.get_true_degree()==0 && temp[0] == GF(q,-1) ) ) {
+	break;
+      }
+    }
+    return temp;
+  }
+
+} //namespace itpp

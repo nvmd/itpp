@@ -1,0 +1,62 @@
+/*! 
+\page codingrules Coding Rules
+
+In this section we describe the naming conventions that we use for files, classes, structures, local variables, and global variables. 
+
+\section cr_naming Default Naming Rule for Variables
+
+Variables are named using lower-case letters and words are separated using under-score. Abreviations, when used in variable names, are also written with lower-case letters. Examples:
+
+<ul>
+<li> nrof_rake_fingers </li>
+<li> nrof_phchs </li>
+<li> my_variable_name </li>
+</ul>
+
+Some variable names or parts of variable names are commonly used in several different functions and files to denote the same thing. 
+For such common names we the following shall be used:
+
+<ul>
+<li> rows          : Number of rows in a matrix </li>
+<li> cols          : Number of columns in a matrix </li>
+<li> nbr           : Number </li>
+<li> nrof          : Number of </li>
+</ul>
+
+\section cr_files Default Naming Rules for Files
+
+Files are named using lower-case letters and words are separated using under-score. Abreviations, when used in file names, are also written with lower-case letters. Example:
+
+<ul>
+<li> my_file_name.h </li>
+</ul>
+
+\section cr_functions Default Naming Rules for Functions
+
+Function names are named using lower-case letters and words are separated using under-score. Abreviations, when used in function names, are also written with lower-case letters. This rule applies both to stand-alone functions as well as to member functions of classes. Example:
+
+<ul>
+<li> int my_function_name(int a, int b) </li>
+</ul>
+
+\section cr_classes Default Naming Rules for Classes and Structures
+
+Each new word in a class or structure name should always start with a capital letter and the words should be separated with an under-score. Abreviations are written with capital letters. Examples:
+
+<ul>
+<li> My_Class_Name </li>
+<li> My_Struct_Name </li>
+</ul>
+
+\section cr_classes_functionality Default Functionality of all Classes
+
+All classes that are configured by input parameters shall have 
+<ul>
+<li> An empty default constructor </li>
+<li> One or more additional constructor(s) that takes the input parameters and initializes the class instance</li>
+<li> A setup function, preferably named \c setup. </li> 
+</ul>
+Explicit destructor functions are not required unless they are needed. It shall not be possible to use any of the other
+member functions unless the class have been properly initiated by the input parameters. 
+*/
+
