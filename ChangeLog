@@ -1,3 +1,8 @@
+2005-07-16  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/local/installation.doc and doc/local/index.doc documentation
+	files updated
+
 2005-07-13  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* Removed unnecessary config/acx_*.m4 macros
