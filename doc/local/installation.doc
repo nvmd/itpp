@@ -1,335 +1,332 @@
 /*!
 \page installation Installation
-\addindex Installation
 
-\section requirements Requirements for Installing IT++
-\addindex Requirements
+\section requirements Requirements for installing IT++
 
-IT++ should compile without errors or warnings on most GNU/Linux systems and on 
-most other 
-UNIX like system like Solaris, Mac OS X, or Cygwin. It is possible to compile IT++ on 
-Windows NT/2000/XP 
-using Microsoft's Visual C++ .Net. On Linux/Unix/Cygwin/Mac OS X systems we will
-assume that you have at least the following GNU software installed on your 
-computer:
+IT++ should compile without errors or warnings on most GNU/Linux
+systems and on most other UNIX like systems like Solaris, Mac OS X, or
+Cygwin. It is possible to compile IT++ on Windows NT/2000/XP using
+Microsoft's Visual C++ .NET. For Linux, Unix, Cygwin and Mac OS X
+systems we assume that you have at least the following GNU software
+installed on your computer:
 <ul>
-<li> GNU make, version 3.72.1 or later, it may run with other versions also (run 
-make -v ).</li>
-<li> GCC compilers (gcc, g77, and g++) version 3.3 or later (run gcc -v).</li>
-<li> To compile the documentation you need Doxygen 1.2.18 (or later) and LaTeX.
-</ul>
-We strongly recommend that you use the latest versions of the GCC compilers if 
-possible. We don't actively work on supporting older compiler versions and they may
-therefore (without prior notice) become unsupported in future versions of IT++.
-
-In order to use all functionality provided in the IT++ library it is required 
-that you have some external libraries compiled. Most important are ATLAS (or CBLAS), LAPACK and FFTW.
-It is possible to compile and use IT++ without these packages, but the functionality will be reduced.
-We therefore recommend that you take the time and effort to compile IT++ properly with support for
-the external libraries. 
-
-
-\section obtaining_source_code Obtaining the IT++ Source Code
-
-IT++ is released under the Gnu Public License (GPL) and hence the source code of 
-the IT++ library is available for free download. To obtain the source code for IT++, go 
-to the IT++ project page on SourceForge:
-
-\htmlonly <a 
-href="http://www.sourceforge.net/projects/itpp/">http://www.sourceforge.net/projects/itpp/</a> \endhtmlonly
-\latexonly
-\begin{itemize}
-\item http://www.sourceforge.net/projects/itpp/
-\end{itemize}
-\endlatexonly
-
-and download the file consisting of the latest distribution (currently 
-it++3.8.1.tar.gz).
-
-If possible, also download a binary distribution of the it++external library for the platform you use.
-If you e.g. use linux on a Pentium4 machine you should download it++external_1.0_Linux_P4SSE2.tar.gz.
-If a binary distribution of the it++external library does not exist you have to compile one yourself.
-
-
-
-\subsection compiling_itpp Compiling IT++
-
-To compile your IT++ library you need to download the file \c it++\<VERSION\>.tar.gz from 
-<ul><li>https://sourceforge.net/projects/itpp/</li></ul>
-Untar, unzip and change directory with:
-\code
-tar xvfz it++<VERSION>.tar.gz
-cd it++<VERSION>
-\endcode
-
-Next download a precompiled external library (contains ATLAS, LAPACK and FFTW) for your platform.
-The file is named it++external_<version>_<os>_<cpu+mathprocessor>.tar.gz. The following are available:
-<ul>
-<li> <tt>it++external_1.0_Linux_P4SSE2.tar.gz</tt>: Use this file if you are running 
-Linux and have an Intel P4 machine.</li>
-<li> <tt>it++external_1.0_WinNT_PIIISSE1.tar.gz</tt>: Use this file if you are 
-running Cygwin under Windows XP or NT and have an Intel PIII machine.</li>
-</ul>
-Save, untar and unzip the file in it++<VERSION>/lib directory:
-\code
-tar xvfz it++<VERSION>.tar.gz
-\endcode
-If there is no precompiled version of the external library for your platform you have two choices:
-either compile one yourself or compile it++ without support of the external library (use the no-extlib flag in configure).
-You can also use Intel MKL to replace CBLAS, LAPACK and FFTW if you have that libary present (use the mkl flag in the
-configure).
-
-Next, in the it++<VERSION> directory, you need to run the configure script:
-\code
-./configure <OPTIONS>
-\endcode
-where \c \<OPTIONS\> are one or more of these alternatives:
-<ul>
-<li>\a all             Create optimized, debugging, profiling and shared libraries.</li>
-<li>\a opt             Create an optimized library (default).</li>
-<li>\a no-opt          Do not create an optimized library.</li>
-<li>\a debug           Create a debugging library.</li>
-<li>\a no-debug        Do not create a debugging library.</li>
-<li>\a prof            Create a profiling library.</li>
-<li>\a no-prof         Do not create a profiling library.</li>
-<li>\a shared          Create a shared (dynamically linked) library.</li>
-<li>\a no-shared       Do not create a shared library.</li>
-<li>\a exceptions      Use throw instead of abort().</li>
-<li>\a matlab          Enable the use of matlab. (Auto detected)</li>
-<li>\a no-matlab       Disable the use of matlab.</li>
-<li>\a pentium3        Compile for pentium3 with SSE1 instructions.</li>
-<li>\a pentium4        Compile for pentium4 with SSE2 instructions.</li>
-<li>\a sparc           Compile for sparc. (Auto detected)</li>
-<li>\a CC              Use the CC compiler instead of g++ (experimental)</li>
-<li>\a no-extlib       Do not use an external library (i.e. no CBLAS, LAPACK or FFTW support)
-<li>\a no-cblas        Don't use BLAS routines (depreciated)</li>
-<li>\a no-lapack       Don't use LAPACK routines (depreciated)</li>
-<li>\a no-fftw         Don't use FFTW routines (depreciated)</li>
-<li>\a mkl             Use Intel Math Kernel Library instead of Netlib-CBLAS/LAPACK and FFTW for faster math
-<li>\a haru            Use libharu for plot pdf support
-<li>\a ranlib          Use ranlib instead of ar (to create table of content for the libfiles)
-<li>\a help            Help text for the configure script</li>
+<li> GNU make, version 3.72.1 or later (to check version run: <tt>make
+--version</tt>) </li>   
+<li> GCC compilers (gcc, g++ and g77), version 3.3.x or later (<tt>gcc
+--version</tt>) </li> 
+<li> To compile the documentation you need Doxygen, version 1.3.x or
+later (<tt>doxygen --version</tt>)</li>
 </ul>
 
-E.g. use
-\code
-./configure
+We strongly recommend that you use the latest stable versions of the
+GCC compilers if possible. We don't actively work on supporting older
+compiler versions and they may therefore (without prior notice) become
+unsupported in future versions of IT++.
+
+In order to use all functionality provided in the IT++ library it is
+recommended that you have some external libraries compiled and
+installed on your computer. The most important are FFTW, ATLAS (or
+CBLAS) and LAPACK (optionally Intel Math Kernel Library as a
+replacement of these). It is possible to compile and use IT++ without
+these libraries, but the functionality will be reduced. We therefore
+recommend that you take some time and effort to provide these external
+libraries in your system. Please note, that some of them (FFTW,
+LAPACK) are usually included in the most modern Linux distributions.
+
+
+\section download Obtaining the IT++ source code
+
+IT++ is released under the GNU General Public License (GPL) and hence
+the source code of the IT++ library is available for free download. To
+obtain the IT++ source code, visit the IT++ project page on
+SourceForge:
+
+<ul>
+<li> <a href="http://sourceforge.net/projects/itpp/">
+http://sourceforge.net/projects/itpp/ </a> </li>
+</ul>
+
+and download the file named \c itpp-\<VERSION\>.tar.gz, where \c
+\<VERSION\> is the latest release number, e.g. 3.9.0.
+
+
+\section compilation Compiling and installing the IT++ library
+
+Assuming that you have already downloaded the latest IT++ sources,
+untar and gunzip the sources, and enter the unpacked directory:
+\code 
+% gzip -cd itpp-<VERSION>.tar.gz | tar xvf - 
+% cd itpp-<VERSION> 
 \endcode
-to compile an optimized version of IT++ with CBLAS and LAPACK support. 
-\addindex configure
 
-Then run
-\code
-make
-\endcode
-to compile the IT++ package.
-
-IT++ should compile without any errors or warnings. If this is not the case, 
-please file a bug-report on the IT++ project page on SorceForge.
-Please include information about your OS and compiler version.
-
-
-To remove all files generated by gmake you can write:
-\code
-make clean
+Since version 3.9.0, the IT++ library uses Autoconf/Automake tools for
+configuration and Makefiles creation, so the compilation procedure
+resembles a standard, well-known GNU method, i.e. 
+\code 
+% ./configure
+% make
 \endcode
 
+The \c ./configure command can be invoked with additional switches and
+options (run <tt>./configure --help</tt> to get a list of them). The
+most important are:
+<ul>
+<li> <tt>--prefix=PREFIX</tt>, where \c PREFIX is the top installation
+directory of the library files, headers, HTML documentation, etc. It
+is set to <tt>/usr/local</tt> by default. </li>
+<li> <tt>--enable-debug</tt> - switch to DEBUG mode by setting
+additional debugging flags used by compiler and linker (disabled by
+default) </li>
+<li> <tt>--enable-pedantic</tt> - use even more debugging flags 
+(disabled by default) </li>
+<li> <tt>--disable-html-docs</tt> - do not generate and install HTML
+documentation (enabled by default) </li>
+<li> <tt>--with-cpu=CPU</tt> - enable optimization flags for a
+specific CPU: pentium3, pentium4, athlon-xp, sparc. This option is
+only used for GCC compilers. </li>
+</ul> 
 
+By default, the \c configure script checks for a few external libraries
+used by the IT++ library. These are: FFTW, ATLAS (CBLAS), LAPACK and HARU.
+If these libraries are found in your system, appropriate flags (i.e.
+HAVE_FFTW, HAVE_CBLAS, HAVE_LAPACK and HAVE_HARU) will be defined, and used
+during the compilation and linking.
 
+If some of the external libraries are installed in a non-standard way in
+your system, so they can not be detected by the configure script
+automatically, you might use additional \c --with-\<LIBNAME\>-dir and 
+\c --with-\<LIBNAME\> switches, where \c \<LIBNAME\> is one of the
+following: \c fftw, \c cblas, \c lapack or \c haru. For example:
+<ul>
+<li> <tt>--with-fftw-dir="/home/user/lib"</tt> will add \c -L/home/user/lib
+to the LDFLAGS environment variable, which is used during configuration 
+and linking </li>
+<li> <tt>--with-fftw="-lfftw3"</tt> will extend the default LIBS variable
+with \c -lfftw3 </li>
+</ul>
+
+Please run <tt>./configure --help</tt> to obtain a full list of \c
+--with-\<LIBNAME\>-dir and \c --with-\<LIBNAME\> switches available.
+
+Optionally, instead of using \c --with-\<LIBNAME\>-dir switches you can
+set \c LDFLAGS environment variable before executing \c ./configure
+command:
+\code
+% export LDFLAGS="-L/home/user/lib" 
+% ./configure --with-fftw="-lfftw3"
+\endcode
+
+Although it is not recommended, you can intentionally prevent detection of 
+some external libraries. To do this you should use \c --without-\<LIBNAME\>
+or \c --with-\<LIBNAME\>=no, e.g:
+\code
+% ./configure --without-cblas --without-lapack
+\endcode
+
+When the configuration process is finished a status message is briefly
+presented. For instance, after having invoked the following configuration
+command:
+\code
+% ./configure --enable-debug --with-cpu=pentium3 --without-haru
+\endcode
+one can observe something like that:
+\verbatim
+------------------------------------------------------------------------------
+itpp-3.9.0 library configuration:
+------------------------------------------------------------------------------
+
+Directories:
+  - prefix ....... : /usr/local
+  - exec_prefix .. : ${prefix}
+  - includedir ... : ${prefix}/include
+  - libdir ....... : ${exec_prefix}/lib
+  - docdir ....... : ${prefix}/share/doc/itpp-3.9.0
+
+Platform:
+  - CPU .......... : pentium3
+
+Switches:
+  - debug ........ : yes
+  - pedantic ..... : no
+  - HTML docs .... : yes
+
+External libs:
+  - MKL .......... : no
+  - FFTW ......... : yes
+  - ATLAS ........ : yes
+  - CBLAS ........ : yes
+  - LAPACK ....... : yes
+  - HARU ......... : disabled
+
+Compiler/linker flags/libs/defs:
+  - CXX .......... : g++
+  - CPPFLAGS ..... : 
+  - CXXFLAGS ..... : -march=pentium3 -ffast-math -mfpmath=sse -msse -Wall -g -DA
+SSERT_LEVEL=2 
+  - LDFLAGS ...... :    
+  - LIBS ......... : -lfftw3 -llapack -lcblas -lblas -latlas -lm   -L/usr/lib/gc
+c-lib/i686-pc-linux-gnu/3.3.5-20050130 -L/usr/lib/gcc-lib/i686-pc-linux-gnu/3.3.
+5-20050130/../../../../i686-pc-linux-gnu/lib -L/usr/lib/gcc-lib/i686-pc-linux-gn
+u/3.3.5-20050130/../../.. -lfrtbegin -lg2c -lm -lgcc_s
+  - DEFS ......... : -DPACKAGE_NAME=\"IT++\" -DPACKAGE_TARNAME=\"itpp\" -DPACKAG
+E_VERSION=\"3.9.0-pre0\" -DPACKAGE_STRING=\"IT++\ 3.9.0-pre0\" -DPACKAGE_BUGREPO
+RT=\"tonnyottoson@users.sourceforge.net\" -DPACKAGE=\"itpp\" -DVERSION=\"3.9.0-p
+re0\" -DSTDC_HEADERS=1 -DHAVE_SYS_TYPES_H=1 -DHAVE_SYS_STAT_H=1 -DHAVE_STDLIB_H=
+1 -DHAVE_STRING_H=1 -DHAVE_MEMORY_H=1 -DHAVE_STRINGS_H=1 -DHAVE_INTTYPES_H=1 -DH
+AVE_STDINT_H=1 -DHAVE_UNISTD_H=1 -DHAVE_DLFCN_H=1 -DASSERT_LEVEL=2 -DHAVE_LIBM=1
+ -DHAVE_CBLAS=1 -DHAVE_LAPACK=1 -DHAVE_FFTW=1 -DSTDC_HEADERS=1 -DHAVE_FLOAT_H=1 
+-DHAVE_STDLIB_H=1 -DHAVE_STRING_H=1 -DHAVE_SYS_TIME_H=1 -DHAVE_UNISTD_H=1 
+
+------------------------------------------------------------------------------
+Now type 'make && make install' to build and install itpp-3.9.0 library
+------------------------------------------------------------------------------
+\endverbatim
+
+Now, it is time for compiling and linking the IT++ library. To do so, 
+please simply run the following command:
+\code
+% make
+\endcode
+
+IT++ should compile without any errors or warnings. If this is not the
+case, please submit a bug-report on the IT++ project page on SourceForge.
+Please include information about your OS, compiler version, external
+libraries and their versions, etc.
+
+Finally, you should install the compiled and linked library, include files
+and HTML documentation (optionally) by typing:
+\code
+% make install
+\endcode
+
+Depending on the \c PREFIX settings during configuration, you might need
+a root (administrator) access to success with this step.
+
+Eventually, you might remove all files created during compilation process 
+using
+\code
+% make clean
+\endcode
+or even
+\code
+% make distclean
+\endcode
+in order to remove all generated files by the \c configure script.
 
 
 \section install_macosx Instructions for Mac OS X
-To compile and use IT++ under Mac OS X, you should  install the latest 
-version of Apple's developer tools. The tools are delivered with Mac OS X, 
-but you may need to unpack them.  Problems have been encountered with Apple's 
-GCC version 2.95.2 and 3.1. However, with Apple's version GCC 3.3 which can 
-be downloaded from Apple, IT++ has compiled successfully.
 
-BLAS and LAPACK support is obtained  with the \c vecLib framework. Hence, the it++external library should only include
-FFTW and HARU, but you must then use Apple's GCC compiler.
+To compile and use IT++ under Mac OS X, you should  install the latest
+version of Apple's developer tools. The tools are delivered with Mac OS X,
+but you may need to unpack them. Problems have been encountered with
+Apple's GCC version 2.95.2 and 3.1. However, with Apple's version GCC 3.3
+which can be downloaded from Apple, IT++ has compiled successfully.
 
-If your processor has AltiVec support, the configure script shall detect this
-and ensure that Apple's GCC is invoked with the \c -faltivec option.
+BLAS and LAPACK support is obtained with the \c vecLib framework, but you
+must then use Apple's GCC compiler. Hence, only FFTW and HARU are then
+needed to be installed externally.
 
-In summary, to install IT++ on Mac OS X, you simply execute the configure
-script
-\code
-./configure opt debug
-\endcode
-to compile an optimized and a debug version of IT++ with CBLAS and LAPACK support. 
-\addindex configure
 
-Then run
-\code
-make
-\endcode
-to compile the IT++ package.
+\section install_mvc_mkl Instructions for Microsoft Visual C++ .NET using Intel MKL
 
-To build the documentation, tools like LaTeX and Doxygen are required. These are available from FINK,
-
-\htmlonly <a href="http://fink.sourceforge.net/">http://fink.sourceforge.net/</a> \endhtmlonly
-\latexonly
-\begin{itemize}
-\item http://fink.sourceforge.net/
-\end{itemize}
-\endlatexonly
-
-\section install_mvc_mkl Instructions for Microsoft Visual C++ .Net using Intel MKL
-You need to perform the following tasks in order to compile IT++ with Microsoft 
-Visual C++ .Net together with Intel Math Kernel Library (MKL):
+You need to perform the following tasks in order to compile IT++ with
+Microsoft Visual C++ .NET together with Intel Math Kernel Library (MKL):
 <ul>
-<li>Install MKL.</li>
-<li>Ensure that the windows \c PATH variable includes the folder 
-\verbatim "C:\Program Files\Intel\MKL\ia32\bin" \endverbatim (Or the folder
-where you chose to install MKL). This is required for Windows
-to find the MKL dll-files. Setting the \c PATH variable can be done via
-the settings in "Control Panel/Advanced/Environment Variables". Note that
-there are \c PATH variables for both the user and the system. Make shure that 
-they both contain the MKL directory. Alternatively you can copy all MKL dll-files
-from \verbatim "C:\Program Files\Intel\MKL\ia32\bin" \endverbatim to \verbatim "C:\windows\system32" 
-\endverbatim where windows also will find them. Restart the computer to make the PATH change
-valid. </li>
+<li>Install MKL</li>
+<li>Ensure that the windows' \c PATH variable includes the folder
+<tt>"C:\Program Files\Intel\MKL\ia32\bin"</tt> (or the folder where you
+have installed MKL). This is required for Windows to find the MKL dll
+files. Setting the \c PATH variable can be done via the settings in
+<tt>"Control Panel/Advanced/Environment Variables"</tt>. Note that there
+are \c PATH variables for both the user and the system. Make sure that
+they both contain the MKL directory. Alternatively you can copy all MKL
+dll files from <tt>"C:\Program Files\Intel\MKL\ia32\bin"</tt> to
+<tt>"C:\windows\system32"</tt> where windows also will find them. Restart
+the computer to make the PATH change valid. </li>
 <li>Compile IT++. Note that \c LAPACK_NO_UNDERSCORE should be defined among
-the preprocessor definitions (found in  "project/properties/configuration
+the preprocessor definitions (found in "project/properties/configuration
 properties/CC++/Preprocessor/Preprocessor definitions").</li>
 </ul>
 
-The next step is to compile yor program and to link with IT++ and MKL. Observe that several 
-things need to be correctly set up:
+The next step is to compile your program and link it with IT++ and MKL.
+Observe that several things need to be correctly set up:
 <ul>
-<li>The IT++ include directory must be found. The settings for this are found in the
-menu "tools/options/Projects/VC++ Directories/Include Files". Add a path to
-\verbatim {whatever}\it++\include. \endverbatim </li>
-<li>The IT++ lib directory must be found. The settings for this are found in the
-menu "tools/options/Projects/VC++ Directories/Library Files". Add a path to
-\verbatim {whatever}\it++\lib. \endverbatim </li>
-<li>The MKL lib directory must be found.The settings for this are found in the
-menu "tools/options/Projects/VC++ Directories/Library Files". Add a path to
-\verbatim "{whatever}\Intel\MKL\ia32\lib". \endverbatim </li>
-<li>Linking with IT++ and MKL must be set up. Do this by marking your project and go to
-the menu "Project/properties/configuration properties/CC++/Linker/Input/Additional Dependencies".
-There you need to add "itplusplus_debug.lib" or "itplusplus.lib" depending on whether debug or
-release mode are beeing used. Furthermore, you need to add "mkl_c_dll.lib". </li>
+<li>The IT++ include directory must be found. The settings for this are
+found in the menu "tools/options/Projects/VC++ Directories/Include Files".
+Add a path to <tt>{whatever}\\itpp\\include</tt>. </li>
+<li>The IT++ library directory must be found. The settings for this are found
+in the menu "tools/options/Projects/VC++ Directories/Library Files". Add a
+path to <tt>{whatever}\\itpp\\lib</tt>. </li>
+<li>The MKL library directory must be found. The settings for this are
+found in the menu "tools/options/Projects/VC++ Directories/Library Files".
+Add a path to <tt>"{whatever}\Intel\MKL\ia32\lib"</tt>. </li>
+<li> Linking with IT++ and MKL must be set up. Do this by marking your
+project and go to the menu "Project/properties/configuration
+properties/CC++/Linker/Input/Additional Dependencies". There you need to
+add "itplusplus_debug.lib" or "itplusplus.lib" depending on whether debug
+or release mode are being used. Furthermore, you need to add
+"mkl_c_dll.lib". </li>
 </ul>
 
-Please note that the project settings for your program must be made for both the debug- and the release-mode.
+Please note that the project settings for your program must be made for
+both the debug- and the release-mode.
 
-Below is some information from the MKL-manual. Alternative 3 below is recomended:
+Below is some information from the MKL-manual. Alternative 3 below is
+recommended:
 
 \code
-//To use LAPACK and BLAS software you must link three libraries: an interface,
-//LAPACK, and one of the processor specific kernels. Some possible variants:
+// To use LAPACK and BLAS software you must link three libraries: an interface,
+// LAPACK, and one of the processor specific kernels. Some possible variants:
 
-/* 1. cdecl interface for 32-bit processor static linking, LAPACK library,
-Pentium III processor kernel. */
+// 1. cdecl interface for 32-bit processor static linking, LAPACK library,
+// Pentium III processor kernel.
 link myprog.obj mkl_c.lib mkl_lapack.lib mkl_p3.lib
 
-/* 2. CVF default interface for 32-bit processor static linking, LAPACK 
-library, Pentium 4 processor kernel. */
+// 2. CVF default interface for 32-bit processor static linking, LAPACK 
+// library, Pentium 4 processor kernel.
 link myprog.obj mkl_s.lib mkl_lapack.lib mkl_p4.lib
 
-/* 3. cdecl interface for 32-bit processor dynamic linking. DLL dispatcher
-will load the appropriate dll for the processor dynamic kernel. */
+// 3. cdecl interface for 32-bit processor dynamic linking. DLL dispatcher
+// will load the appropriate dll for the processor dynamic kernel.
 link myprog.obj mkl_c_dll.lib
 
-/* 4. 64-bit processor static linking of LAPACK and kernel. */
+// 4. 64-bit processor static linking of LAPACK and kernel.
 link myprog.obj mkl_lapack.lib mkl_itp.lib
 \endcode
 
 
-\section compiling_extlib Compiling the external library
-If there is no precompiled external library, we recommend that you try to compile
-one yourself. Download the source file \c it++external\<VERSION\>.tar.gz from 
-<ul><li>https://sourceforge.net/projects/itpp/</li></ul>
-Untar, unzip and change directory with:
-\code
-tar xvfz it++external<VERSION>.tar.gz
-cd it++external<VERSION>
-\endcode
+\section solaris_shared_library Compiling shared version of LAPACK and
+ATLAS under Solaris.
 
-Run the configure script
-\code
-./configure
-\endcode
-You will have to answer a few questions. In most cases you should be able to use the default setting.
-Then run
-\code
-make
-\endcode
-to compile the external library. This may take a few hours! The external library can be found in the
-directory it++external<VERSION>/lib/<OS>_<cpu + mathprocessor>/<compiler version> and is named
-it++external.a. Move this to your it++<VERSION>/lib directory and compile IT++. By default you will get
-CBLAS, LAPACK, FFTW and HARU. For increased speed please replace CBLAS by ATLAS by giving the flag \c atlas to
-the configure script.
-
-If you use MacOS and the altivec framework you should compile it++external without CBLAS and LAPACK. Hence configure with
-\code
-./configure no-cblas no-lapack
-\endcode
-and then run
-\code
-make
-\endcode
-to compile the MacOS version of the library.
-
-
-
-\section no_extlib Compiling IT++ without the external library
-
-If you don't want to compile IT++ with the external library
-this is also possible. However there are some drawbacks: You will get a library
-with poorer performance and less functionality. Furthermore, several of the programs
-in the \c tests folder will not compile without CBLAS, LAPACK and FFTW. You will get a run-time error if the routine you
-call need CBLAS, LAPACK or FFTW.
-
-Inside the IT++ source code we use the following defines: HAVE_CBLAS, HAVE_LAPACK, and HAVE_FFTW to activate the support for the external libaries.
- In Unix, Linux, and Cygwin, CBLAS, LAPACK and FFTW are used by default settings of the \c configure script. You can disable these code sections 
-by calling the \c configure script with the following options:
-\code
-./configure no-extlib
-\endcode
-After that you can compile IT++ without the external library support by simply 
-entering
-\code
-make
-\endcode
-
-When you compile your own programs that includes some IT++ functionality you do not need to worry about any flags. However,
-when using a routine that need CBLAS, LAPACK or FFTW you will get a run-time error and a message will be printed.
-If you have some but not all of the packages CBLAS, LAPACK and FFTW you can configure IT++ to use the packages you have
-by feeding the configure script with the correct values (see the help text for configure).
-
-\section solaris_shared_library Compiling shared version of LAPACK and ATLAS under Solaris.
-
-If you work under linux, your distribution should ship with static and
+If you work under Linux, your distribution should ship with static and
 shared version of these libraries, it is not the case for
 Solaris. When building these libraries from sources, you only get
-static \c .a files. In order to build a shared library, two steps
+static \c *.a files. In order to build a shared library, two steps
 are required:
-
 <ul>
-<li>Compiling the code with the \c -fPIC flag</li>
-<li>Building a \c .so file with the \c -shared flag</li>
+<li> Compiling the code with the \c -fPIC flag </li>
+<li> Building a \c *.so file with the \c -shared flag </li>
 </ul>
+
 
 \subsection shared_lapack A shared version of LAPACK
 
 Edit the \c make.inc file and change the compilation flag to:
-
 \code
 OPTS = -O3 -fPIC
 \endcode
 
 We don't need a library there, the archive is enough.
 
+
 \subsection shared_atlas A shared version of ATLAS
 
-When you follow the process described above, you need to add \c -fPIC to all of the compilation flags:
-
+When you follow the process described above, you need to add \c -fPIC to
+all of the compilation flags:
 <ul>
-<li>Enter F77 Link Flags  [$(F77FLAGS)]: -O3 -fPIC </li>
-<li>Enter C Flags (CCFLAGS) [-dalign -fsingle -xO5 -native]: -O3 -fPIC</li>
-<li>Then you can accept the defaults and the summary should be :</li>
+<li> Enter F77 Link Flags  [$(F77FLAGS)]: -O3 -fPIC </li>
+<li> Enter C Flags (CCFLAGS) [-dalign -fsingle -xO5 -native]: -O3 -fPIC </li>
+<li> Then you can accept the defaults and the summary should be:
 \code
 F77 & FLAGS: /usr/local/gcc-3.3/bin/g77 -O -fPIC
 FLINKER & FLAGS: g77 -O3 -fPIC
@@ -337,42 +334,28 @@ CC & FLAGS: gcc -O3 -fPIC
 MCC & FLAGS: /usr/local/gcc-3.3/bin/gcc -O -fPIC
 CLINKER & FLAGS: $(CC) $(CCFLAGS)
 \endcode
+</li>
 </ul>
 
-One more tip is to edit the \c Make.SunOS_PLATFORM file, check
-every thing and modify the \c CDEFS variable :
-
+One more tip is to edit the \c Make.SunOS_PLATFORM file, check every thing
+and modify the \c CDEFS variable :
 \code
 CDEFS = $(L2SIZE) $(INCLUDES) $(F2CDEFS) $(ARCHDEFS) -fPIC
 \endcode
 
-Follow the tips to build a complete \c liblapack.a. Now, we will
-build the shared version of the libraries. For each \c .a (\c libatlas.a, \c libcblas.a, \c libf77blas.a, \c liblapack.a), do :
-
+Follow the tips to build a complete \c liblapack.a. Now, we will build the
+shared version of the libraries. For each \c *.a (\c libatlas.a, \c
+libcblas.a, \c libf77blas.a, \c liblapack.a), do:
 \code
-$ mkdir tmp
-$ cd tmp
-$ ar x ../libXYZ.a
-$ gcc -shared *.o -o../libXYZ.so
-$ cd ..
-$ rm -r tmp
+% mkdir tmp
+% cd tmp
+% ar x ../libXYZ.a
+% gcc -shared *.o -o../libXYZ.so
+% cd ..
+% rm -r tmp
 \endcode
 
-If you get link error, try to check if the \c .o has really been
-compiled with the \c -fPIC flag.
-
-\subsection shared_itpp A shared version of IT++
-
-This is very easy, you only need to enable shared library at configure
-time :
-\code
-configure shared
-\endcode
-
-It remains a few things to do:
-<ul>
-<li>Make symbolic links in you \c $(ITPP)/lib to your new \c .so libraries </li>
-<li>Add \c $(ITPP)/lib to your \c LD_LIBRARY_PATH </li>
-</ul>
+If you get link error, try to check if the \c .o has really been compiled
+with the \c -fPIC flag.
 
 */
