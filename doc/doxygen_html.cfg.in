@@ -451,6 +451,12 @@ WARN_LOGFILE           = doxygen_html.log
 # with spaces.
 
 INPUT                  = @top_srcdir@/@PACKAGE@ \
+                         @top_srcdir@/@PACKAGE@/base \
+                         @top_srcdir@/@PACKAGE@/comm \
+                         @top_srcdir@/@PACKAGE@/fixedpoint \
+                         @top_srcdir@/@PACKAGE@/graphics \
+                         @top_srcdir@/@PACKAGE@/protocol \
+                         @top_srcdir@/@PACKAGE@/srccode \
                          @top_srcdir@/doc/local \
                          @top_srcdir@/doc/tutorial
 
@@ -468,13 +474,15 @@ FILE_PATTERNS          = *.h *.cpp \
 # should be searched for input files as well. Possible values are YES and NO. 
 # If left blank NO is used.
 
-RECURSIVE              = YES
+RECURSIVE              = NO
 
 # The EXCLUDE tag can be used to specify files and/or directories that should 
 # excluded from the INPUT source files. This way you can easily exclude a 
 # subdirectory from a directory tree whose root is specified with the INPUT tag.
 
-EXCLUDE                = 
+EXCLUDE                = @top_srcdir@/@PACKAGE@/base/fftw3.h \
+                         @top_srcdir@/@PACKAGE@/base/cblas.h \
+                         @top_srcdir@/@PACKAGE@/graphics/libharu.h
 
 # The EXCLUDE_SYMLINKS tag can be used select whether or not files or 
 # directories that are symbolic links (a Unix filesystem feature) are excluded 

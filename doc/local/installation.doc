@@ -295,8 +295,7 @@ link myprog.obj mkl_lapack.lib mkl_itp.lib
 \endcode
 
 
-\section solaris_shared_library Compiling shared version of LAPACK and
-ATLAS under Solaris.
+\section solaris_shared_library Compiling shared versions of LAPACK and ATLAS under Solaris
 
 If you work under Linux, your distribution should ship with static and
 shared version of these libraries, it is not the case for
@@ -309,7 +308,7 @@ are required:
 </ul>
 
 
-\subsection shared_lapack A shared version of LAPACK
+\subsection shared_lapack Shared version of LAPACK
 
 Edit the \c make.inc file and change the compilation flag to:
 \code
@@ -319,7 +318,7 @@ OPTS = -O3 -fPIC
 We don't need a library there, the archive is enough.
 
 
-\subsection shared_atlas A shared version of ATLAS
+\subsection shared_atlas Shared version of ATLAS
 
 When you follow the process described above, you need to add \c -fPIC to
 all of the compilation flags:

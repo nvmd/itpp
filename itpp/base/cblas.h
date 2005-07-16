@@ -1,33 +1,3 @@
-/*---------------------------------------------------------------------------*
- *                                   IT++			             *
- *---------------------------------------------------------------------------*
- * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
- * Tobias Ringström, and Jonas Samuelsson.                                   *
- *                                                                           *
- * Permission to use, copy, modify, and distribute this software and its     *
- * documentation under the terms of the GNU General Public License is hereby *
- * granted. No representations are made about the suitability of this        *
- * software for any purpose. It is provided "as is" without expressed or     *
- * implied warranty. See the GNU General Public License for more details.    *
- *---------------------------------------------------------------------------*/
-
-/*! 
-  \file 
-  \brief CBLAS Include file from the ATLAS project
-  \author Tony Ottosson
-
-  This file is from the ATLAS project (http://math-atlas.sourceforge.net/) version 3.3.5.
-
-  Changes:
-  2001-10-10: Added extern "C" definitions to be able to use a C++ compiler.
-
-  $Revision$
-
-  $Date$
-*/
-
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-
 #ifndef CBLAS_H
 
 #ifndef CBLAS_ENUM_DEFINED_H
@@ -40,15 +10,14 @@
    enum CBLAS_SIDE  {CblasLeft=141, CblasRight=142};
 #endif
 
-
 #ifndef CBLAS_ENUM_ONLY
 #define CBLAS_H
 #define CBLAS_INDEX int
 
+/* Added by Tony Ottosson, 2001-10-10 */
 #ifdef __cplusplus
-extern "C" {            /* Added by Tony Ottosson, 2001-10-10 */
+extern "C" {
 #endif /* __cplusplus */
-
 
 int cblas_errprn(int ierr, int info, char *form, ...);
 
@@ -628,11 +597,10 @@ void cblas_zher2k(const enum CBLAS_ORDER Order, const enum CBLAS_UPLO Uplo,
 
 int cblas_errprn(int ierr, int info, char *form, ...);
 
+/* Added by Tony Ottosson, 2001-10-10 */
 #ifdef __cplusplus
 }
-#endif    /* __cplusplus */
+#endif /* __cplusplus */
 
 #endif  /* end #ifdef CBLAS_ENUM_ONLY */
 #endif
-
-#endif /* DOXYGEN_SHOULD_SKIP_THIS */
