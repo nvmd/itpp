@@ -1,3 +1,7 @@
+2005-07-17  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* Fixed a small documentation bug in itpp/itconfig.h
+
 2005-07-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* Updated cblas.h and libharu.h header files to their latest

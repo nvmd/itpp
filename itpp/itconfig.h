@@ -1,7 +1,7 @@
 /*---------------------------------------------------------------------------*
- *                                   IT++			             *
+ *                                   IT++                                    *
  *---------------------------------------------------------------------------*
- * Copyright (c) 1995-2004 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
+ * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
  * Tobias Ringström, and Jonas Samuelsson.                                   *
  *                                                                           *
  * Permission to use, copy, modify, and distribute this software and its     *
@@ -13,7 +13,7 @@
 
 /*!
   \file
-  \brief Some it++ specific configurations and definitions
+  \brief Some IT++ specific configurations and definitions
 
   $Revision$
 
@@ -34,10 +34,9 @@
 #define __WIN32__
 #endif
 
-//---------------------------------------------------------------
+namespace std {
 
 //! Output stream operator for complex numbers
-namespace std {
   template <class T>
     std::ostream& operator<<(std::ostream &os, const std::complex<T> &x)
     {
@@ -46,10 +45,8 @@ namespace std {
       else os << x.imag();
       return os << 'i';
     }
-}
 
 //! Input stream operator for complex numbers
-namespace std {
   template <class T>
   std::istream& operator>>(std::istream &is, std::complex<T> &x)
   {
@@ -86,6 +83,7 @@ namespace std {
     }
     return is;
   }
-}
+
+} // namespace std
 
 #endif // __itconfig_h
