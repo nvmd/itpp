@@ -12,12 +12,6 @@
  *
  */
 
-// This file is taken from libhary 1.2.0 beta 3
-#define NOPNG
-#define NOJPEG
-#define NOZLIB
-
-
 #ifndef _LIB_HARU_H 
 #define _LIB_HARU_H 
 
@@ -76,7 +70,7 @@ extern "C" {
 #ifdef __cplusplus
 }
 #endif /* __cplusplus */
-#endif /* NOJPEG */
+#endif
 
 /*----------------------------------------------------------------------------*/
 /*---- error number definition -----------------------------------------------*/
@@ -183,7 +177,7 @@ extern "C" {
 #define PDF_DEF_MITERLIMIT          10
 #define PDF_DEF_PAGE_NUM            1
 
-#define LIB_HARU_VERSION_TXT        "HARU Free PDF Library Version 1.2.0 Beta2"
+#define LIB_HARU_VERSION_TXT        "HARU Free PDF Library Version 1.2.0 Beta5"
 #define PDF_ERROR_MSG_MAX           512
 #define PDF_DEFAULT_ITEMS_PER_BLOCK 20
 #define PDF_UNICODE_HEADER_LEN      2
@@ -1008,7 +1002,7 @@ typedef enum pdf_auto_ptr_object_type_enum {
     PDF_OBJECT_UNKNOWN = 0,
     PDF_OBJECT_FONT_DEF,
     PDF_OBJECT_ENCODING_DEF,
-    PDF_OBJECT_CMAP
+    PDF_OBJECT_CMAP,
 } pdf_auto_ptr_object_type;
 
 /*----------------------------------------------------------------------------*/
@@ -2806,7 +2800,7 @@ virtual bool            IsValidObject() = 0;
 protected:
         void            SetName(const char* name);
 private:
-        char*           fName;
+        char            fName[PDF_LIMIT_MAX_NAME + 1];
         bool            fValid;
 };
 
@@ -2846,8 +2840,6 @@ protected:
         unsigned int    fHeight;
         unsigned int    fBitsPerComponent;
         pdf_color_space fColorSpace;
-        pdf_pal_color*  fPallet;
-        unsigned int    fNumPallet;
 };
 
 /*----------------------------------------------------------------------------*/
@@ -2974,6 +2966,8 @@ private:
         FILE*           OpenImageFile(const char* filename);
         void            CreatePallet(png_structp png_ptr, png_infop info_ptr);
         bool            fHasImage;
+        unsigned char*  fPallet;
+        unsigned int    fNumPallet;
 };
 
 #endif /* NOPNG */

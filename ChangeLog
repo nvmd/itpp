@@ -1,5 +1,10 @@
 2005-07-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* Updated cblas.h and libharu.h header files to their latest
+	stable versions (atlas-3.6.0, libharu-1.2.2)
+
+	* Recursive processing of doxygen replaced with a fixed set of
+	paths
 	* doc/local/installation.doc and doc/local/index.doc documentation
 	files updated
 
