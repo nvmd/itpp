@@ -1,5 +1,8 @@
 2005-07-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* Modified configure.ac checking rutines to provide detection of
+	Cygwin's CBLAS library in it's lapack-3.0-2 package
+
 	* Fixed a small documentation bug in itpp/itconfig.h
 
 2005-07-16  Adam Piatyszek  <ediap@users.sourceforge.net>

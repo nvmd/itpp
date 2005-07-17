@@ -195,15 +195,18 @@ if test "x$cblas_ok" = xno; then
   fi
 fi
 
+if test "x$atlas_ok" = xyes; then
+  cblas_ok=yes
+  CBLAS_LIBS="$ATLAS_LIBS"
+fi
+
 if test "x$cblas_ok" = xno; then
-	if test "x$atlas_ok" = xno; then
-		AC_CHECK_LIB(cblas, cblas_sgemm, 
-			[cblas_ok=yes; CBLAS_LIBS="-lcblas -lblas"],
-	    [], [-lblas])
-	else
-	  cblas_ok=yes
-	  CBLAS_LIBS="$ATLAS_LIBS"
-	fi
+  AC_CHECK_LIB(blas, cblas_sgemm, [cblas_ok=yes; CBLAS_LIBS="-lblas"])
+fi
+
+if test "x$cblas_ok" = xno; then
+  AC_CHECK_LIB(cblas, cblas_sgemm, [cblas_ok=yes; CBLAS_LIBS="-lcblas -lblas"],
+    [], [-lblas])
 fi
 
 if test "x$cblas_ok" = xyes; then
