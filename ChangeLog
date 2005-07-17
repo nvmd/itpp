@@ -1,5 +1,8 @@
 2005-07-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* Fixed checks for documentation tools in configure.ac; now
+	Doxygen and LaTeX are both required for HTML docs generation
+
 	* Modified configure.ac checking rutines to provide detection of
 	Cygwin's CBLAS library in it's lapack-3.0-2 package
 
