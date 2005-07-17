@@ -50,9 +50,13 @@ test "x$enable_pedantic" != xyes && enable_pedantic=no
 
 # Check for htmldocs switch
 AC_ARG_ENABLE(html-docs, 
-	  [AS_HELP_STRING([--disable-html-docs], [disable creation of HTML documentation (enabled by default)])])
-test "x$enable_html_docs" != xno && enable_html_docs=yes
-AM_CONDITIONAL([HTML_DOCS], [test "x$enable_html_docs" = xyes])
+  [AS_HELP_STRING([--disable-html-docs], 
+    [disable creation of HTML documentation (enabled by default)])])
+if test "x$enable_html_docs" = xno; then
+  enable_html_docs=disabled
+else
+  enable_html_docs=yes
+fi
 
 # Check for CPU option
 AC_ARG_WITH(cpu, 
@@ -93,10 +97,22 @@ if test "x$GXX" = xyes; then
 fi
 
 
-AC_PATH_PROG([PERL], [perl], [])
-AC_CHECK_PROG([HAVE_DOXYGEN], [doxygen], [YES], [NO])
-AM_CONDITIONAL([HAVE_DOXYGEN], [test "x$HAVE_DOXYGEN" = "xYES"])
-AC_CHECK_PROG([HAVE_DOT], [dot], [YES], [NO])
+# Checks for documentation build tools
+if test "x$enable_html_docs" != xdisabled; then
+  AC_CHECK_PROG([HAVE_DOXYGEN], [doxygen], [yes], [no])
+  AC_CHECK_PROG([HAVE_LATEX], [latex], [yes], [no])
+  AC_CHECK_PROG([HAVE_DOT], [dot], [yes], [no])
+  AC_PATH_PROG([PERL], [perl], [])
+  if test "x$HAVE_DOXYGEN" != xyes; then
+    AC_MSG_WARN([Could not find Doxygen - the documentation will not be created!]) 
+    enable_html_docs=no
+  fi
+  if test "x$HAVE_LATEX" != xyes; then
+    AC_MSG_WARN([Could not find LaTeX - the documentation will not be created!]) 
+    enable_html_docs=no
+  fi
+fi
+AM_CONDITIONAL([HTML_DOCS], [test "x$enable_html_docs" = xyes])
 
 
 # Check for standard math library

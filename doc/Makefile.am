@@ -9,13 +9,8 @@ html-local: html/index.html
 		cp $(srcdir)/images/itpp_logga.jpg html; \
 	fi
 
-if HAVE_DOXYGEN
 html/index.html: doxygen_html.cfg
 	doxygen $<
-else 
-html/index.html:
-	@echo "*** WARNING: Doxygen not found; documentation will not be built. ***"
-endif
 
 install-data-local: html-local
 	$(mkinstalldirs) $(DESTDIR)$(docdir)
