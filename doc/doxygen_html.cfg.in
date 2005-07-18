@@ -741,13 +741,13 @@ LATEX_OUTPUT           = latex
 # The LATEX_CMD_NAME tag can be used to specify the LaTeX command name to be 
 # invoked. If left blank `latex' will be used as the default command name.
 
-LATEX_CMD_NAME         = latex
+LATEX_CMD_NAME         =
 
 # The MAKEINDEX_CMD_NAME tag can be used to specify the command name to 
 # generate index for LaTeX. If left blank `makeindex' will be used as the 
 # default command name.
 
-MAKEINDEX_CMD_NAME     = makeindex
+MAKEINDEX_CMD_NAME     =
 
 # If the COMPACT_LATEX tag is set to YES Doxygen generates more compact 
 # LaTeX documents. This may be useful for small projects and may help to 
@@ -1087,7 +1087,7 @@ HIDE_UNDOC_RELATIONS   = YES
 # toolkit from AT&T and Lucent Bell Labs. The other options in this section 
 # have no effect if this option is set to NO (the default)
 
-HAVE_DOT               = @HAVE_DOT@
+HAVE_DOT               = NO
 
 # If the CLASS_GRAPH and HAVE_DOT tags are set to YES then doxygen 
 # will generate a graph for each documented class showing the direct and 

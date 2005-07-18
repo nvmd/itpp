@@ -1,2 +1,2 @@
 #!/bin/sh
-autoreconf --force --install --verbose
+autoreconf --install --verbose

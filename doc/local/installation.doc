@@ -14,9 +14,9 @@ installed on your computer:
 --version</tt>) </li>   
 <li> GCC compilers (gcc, g++ and g77), version 3.3.x or later (<tt>gcc
 --version</tt>) </li> 
-<li> To compile the documentation you need Doxygen, version 1.3.x or
-later (<tt>doxygen --version</tt>), and LaTeX </li>
 </ul>
+Optionally, you might need Doxygen, LaTeX and Ghostscript to generate the
+HTML documentation.
 
 We strongly recommend that you use the latest stable versions of the
 GCC compilers if possible. We don't actively work on supporting older
@@ -148,7 +148,12 @@ Platform:
 Switches:
   - debug ........ : yes
   - pedantic ..... : no
-  - HTML docs .... : yes
+  - html-docs .... : yes
+
+Documentation tools:
+  - Doxygen ...... : yes
+  - LaTeX ........ : yes
+  - Ghostscript .. : yes
 
 External libs:
   - MKL .......... : no
