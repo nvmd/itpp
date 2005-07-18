@@ -1,3 +1,11 @@
+2005-07-18  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac: added check for Ghostscript needed for HTML documentation 
+	generation; configure output message extended with "Documentation tools:"
+	* HAVE_DOT is now set to NO by default in doxygen configuration file
+	* doc/local/installation.doc: minor updates in the Requirements Section
+	* autogen.sh: removed --force option
+
 2005-07-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* Fixed checks for documentation tools in configure.ac; now
