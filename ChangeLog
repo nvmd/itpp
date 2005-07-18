@@ -1,3 +1,8 @@
+2005-07-19  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* INSTALL: part of the doc/local/installation.doc modified file inserted
+	before original GNU generic installation description
+
 2005-07-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac: added check for Ghostscript needed for HTML documentation 

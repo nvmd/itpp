@@ -1,45 +1,45 @@
 /*!
-\page installation Installation
+\page installation IT++ Installation
 
-\section requirements Requirements for installing IT++
+\section requirements IT++ Requirements
 
-IT++ should compile without errors or warnings on most GNU/Linux
-systems and on most other UNIX like systems like Solaris, Mac OS X, or
-Cygwin. It is possible to compile IT++ on Windows NT/2000/XP using
-Microsoft's Visual C++ .NET. For Linux, Unix, Cygwin and Mac OS X
-systems we assume that you have at least the following GNU software
-installed on your computer:
+IT++ should compile without errors or warnings on most GNU/Linux systems
+and on most other UNIX like systems like Solaris, Mac OS X, or Cygwin. It
+is possible to compile IT++ on Windows NT/2000/XP using Microsoft's Visual
+C++ .NET. For Linux, Unix, Cygwin and Mac OS X systems we assume that you
+have at least the following GNU software installed on your computer:
+
 <ul>
-<li> GNU make, version 3.72.1 or later (to check version run: <tt>make
---version</tt>) </li>   
-<li> GCC compilers (gcc, g++ and g77), version 3.3.x or later (<tt>gcc
---version</tt>) </li> 
+<li> GNU make, version 3.72.1 or later (to check version run <tt>`make
+--version'</tt>) </li>   
+<li> GCC - GNU Compilers Collection (gcc, g++ and g77), version 3.3.x or 
+later (to check version run <tt>`gcc --version'</tt>) </li> 
 </ul>
-Optionally, you might need Doxygen, LaTeX and Ghostscript to generate the
-HTML documentation.
 
-We strongly recommend that you use the latest stable versions of the
-GCC compilers if possible. We don't actively work on supporting older
-compiler versions and they may therefore (without prior notice) become
-unsupported in future versions of IT++.
+Optionally, you might need additional tools like: Doxygen, LaTeX, Dvips
+and Ghostscript to generate the HTML documentation.
+
+We strongly recommend that you use the latest stable versions of the GCC
+compilers if possible. We don't actively work on supporting older compiler
+versions and they may therefore (without prior notice) become unsupported
+in future versions of IT++.
 
 In order to use all functionality provided in the IT++ library it is
-recommended that you have some external libraries compiled and
-installed on your computer. The most important are FFTW, ATLAS (or
-CBLAS) and LAPACK (optionally Intel Math Kernel Library as a
-replacement of these). It is possible to compile and use IT++ without
-these libraries, but the functionality will be reduced. We therefore
-recommend that you take some time and effort to provide these external
-libraries in your system. Please note, that some of them (FFTW,
-LAPACK) are usually included in the most modern Linux distributions.
+recommended that you have some external libraries compiled and installed
+on your computer. The most important are FFTW, ATLAS (or CBLAS) and LAPACK
+(optionally Intel Math Kernel Library as a replacement of these). It is
+possible to compile and use IT++ without these libraries, but the
+functionality will be reduced. We therefore recommend that you take some
+time and effort to provide these external libraries in your system. Please
+note, that some of them (FFTW, LAPACK) are usually included in the most
+modern Linux distributions.
 
 
-\section download Obtaining the IT++ source code
+\section download Obtaining the IT++ Source Codes
 
-IT++ is released under the GNU General Public License (GPL) and hence
-the source code of the IT++ library is available for free download. To
-obtain the IT++ source code, visit the IT++ project page on
-SourceForge:
+IT++ is released under the GNU General Public License (GPL) and hence the
+source code of the IT++ library is available for free download. To obtain
+the IT++ source code, visit the IT++ project page on SourceForge:
 
 <ul>
 <li> <a href="http://sourceforge.net/projects/itpp/">
@@ -50,10 +50,11 @@ and download the file named \c itpp-\<VERSION\>.tar.gz, where \c
 \<VERSION\> is the latest release number, e.g. 3.9.0.
 
 
-\section compilation Compiling and installing the IT++ library
+\section compilation IT++ Configuration, Compilation and Installation
 
-Assuming that you have already downloaded the latest IT++ sources,
-untar and gunzip the sources, and enter the unpacked directory:
+Assuming that you have already downloaded the latest IT++ sources, untar
+and gunzip the sources, and enter the unpacked directory:
+
 \code 
 % gzip -cd itpp-<VERSION>.tar.gz | tar xvf - 
 % cd itpp-<VERSION> 
@@ -62,63 +63,77 @@ untar and gunzip the sources, and enter the unpacked directory:
 Since version 3.9.0, the IT++ library uses Autoconf/Automake tools for
 configuration and Makefiles creation, so the compilation procedure
 resembles a standard, well-known GNU method, i.e. 
+
 \code 
 % ./configure
 % make
 \endcode
 
-The \c ./configure command can be invoked with additional switches and
-options (run <tt>./configure --help</tt> to get a list of them). The
+The \c `configure' command can be invoked with additional switches and
+options (run <tt>`./configure --help'</tt> to get a list of them). The
 most important are:
-<ul>
-<li> <tt>--prefix=PREFIX</tt>, where \c PREFIX is the top installation
-directory of the library files, headers, HTML documentation, etc. It
-is set to <tt>/usr/local</tt> by default. </li>
-<li> <tt>--enable-debug</tt> - switch to DEBUG mode by setting
-additional debugging flags used by compiler and linker (disabled by
+
+<ul> 
+
+<li> \c `--prefix=PREFIX' - set top installation directory to a certain \c
+PREFIX value. By default it is set to \c `/usr/local', so <tt>`make
+install'</tt> will install the package's files into \c
+`/usr/local/include', \c `/usr/local/lib`, etc. </li>
+
+<li> \c `--enable-debug' - switch to DEBUG mode by setting additional
+debugging flags used by compiler and linker (disabled by default) </li>
+
+<li> \c `--enable-pedantic' - use even more debugging flags (disabled by
 default) </li>
-<li> <tt>--enable-pedantic</tt> - use even more debugging flags 
-(disabled by default) </li>
-<li> <tt>--disable-html-docs</tt> - do not generate and install HTML
+
+<li> \c `--disable-html-docs' - do not generate and install HTML
 documentation (enabled by default) </li>
-<li> <tt>--with-cpu=CPU</tt> - enable optimization flags for a
-specific CPU: pentium3, pentium4, athlon-xp, sparc. This option is
-only used for GCC compilers. </li>
+
+<li> \c `--with-cpu=CPU' - enable optimization flags for a specific CPU:
+\c `pentium3', \c `pentium4', \c `athlon-xp' or \c `sparc'. This option is
+only used by GCC. </li>
+
 </ul> 
 
-By default, the \c configure script checks for a few external libraries
+By default, the \c `configure' script checks for a few external libraries
 used by the IT++ library. These are: FFTW, ATLAS (CBLAS), LAPACK and HARU.
 If these libraries are found in your system, appropriate flags (i.e.
-HAVE_FFTW, HAVE_CBLAS, HAVE_LAPACK and HAVE_HARU) will be defined, and used
-during the compilation and linking.
+HAVE_FFTW, HAVE_CBLAS, HAVE_LAPACK and HAVE_HARU) will be defined, and
+used during the compilation and linking.
 
 If some of the external libraries are installed in a non-standard way in
-your system, so they can not be detected by the configure script
-automatically, you might use additional \c --with-\<LIBNAME\>-dir and 
-\c --with-\<LIBNAME\> switches, where \c \<LIBNAME\> is one of the
-following: \c fftw, \c cblas, \c lapack or \c haru. For example:
+your system, so they can not be detected by the `configure' script
+automatically, you might use additional \c `--with-\<LIBNAME\>-dir' and \c
+`--with-\<LIBNAME\>' switches, where \c \<LIBNAME\> is one of the
+following: \c `fftw', \c `cblas', \c `lapack' or \c `haru'. For example:
+
 <ul>
-<li> <tt>--with-fftw-dir="/home/user/lib"</tt> will add \c -L/home/user/lib
-to the LDFLAGS environment variable, which is used during configuration 
-and linking </li>
-<li> <tt>--with-fftw="-lfftw3"</tt> will extend the default LIBS variable
-with \c -lfftw3 </li>
+
+<li> \c `--with-fftw-dir=/home/user/lib' will add \c `-L/home/user/lib' to
+the LDFLAGS environment variable, which is used during configuration and
+linking </li>
+
+<li> \c `--with-fftw=-lfftw3' will extend the default LIBS variable with
+\c `-lfftw3' </li>
+
 </ul>
 
-Please run <tt>./configure --help</tt> to obtain a full list of \c
---with-\<LIBNAME\>-dir and \c --with-\<LIBNAME\> switches available.
+Please run <tt>`./configure --help'</tt> to obtain a full list of \c
+`--with-\<LIBNAME\>-dir' and \c `--with-\<LIBNAME\>' switches available.
 
-Optionally, instead of using \c --with-\<LIBNAME\>-dir switches you can
-set \c LDFLAGS environment variable before executing \c ./configure
+Optionally, instead of using \c `--with-\<LIBNAME\>-dir' switches you can
+set \c LDFLAGS environment variable before executing \c `configure'
 command:
+
 \code
 % export LDFLAGS="-L/home/user/lib" 
 % ./configure --with-fftw="-lfftw3"
 \endcode
 
-Although it is not recommended, you can intentionally prevent detection of 
-some external libraries. To do this you should use \c --without-\<LIBNAME\>
-or \c --with-\<LIBNAME\>=no, e.g:
+Although it is not recommended, you can intentionally prevent detection of
+some external libraries. To do this you should use \c
+`--without-\<LIBNAME\>' or \c `--with-\<LIBNAME\>=no', e.g.:
+
 \code
 % ./configure --without-cblas --without-lapack
 \endcode
@@ -126,10 +141,13 @@ or \c --with-\<LIBNAME\>=no, e.g:
 When the configuration process is finished a status message is briefly
 presented. For instance, after having invoked the following configuration
 command:
+
 \code
 % ./configure --enable-debug --with-cpu=pentium3 --without-haru
 \endcode
+
 one can observe something like that:
+
 \verbatim
 ------------------------------------------------------------------------------
 itpp-3.9.0 library configuration:
@@ -187,8 +205,9 @@ Now type 'make && make install' to build and install itpp-3.9.0 library
 ------------------------------------------------------------------------------
 \endverbatim
 
-Now, it is time for compiling and linking the IT++ library. To do so, 
+Now, it is time for compiling and linking the IT++ library. To do so,
 please simply run the following command:
+
 \code
 % make
 \endcode
@@ -200,26 +219,30 @@ libraries and their versions, etc.
 
 Finally, you should install the compiled and linked library, include files
 and HTML documentation (optionally) by typing:
+
 \code
 % make install
 \endcode
 
 Depending on the \c PREFIX settings during configuration, you might need
-a root (administrator) access to success with this step.
+the root (administrator) access to success with this step.
 
-Eventually, you might remove all files created during compilation process 
-using
+Eventually, you might invoke the following command
+
 \code
 % make clean
 \endcode
-or even
+
+to remove all files created during compilation process, or even
+
 \code
 % make distclean
 \endcode
-in order to remove all generated files by the \c configure script.
+
+to remove all files generated by the \c `configure' script.
 
 
-\section install_macosx Instructions for Mac OS X
+\section macosx Instructions for Mac OS X
 
 To compile and use IT++ under Mac OS X, you should  install the latest
 version of Apple's developer tools. The tools are delivered with Mac OS X,
@@ -232,7 +255,7 @@ must then use Apple's GCC compiler. Hence, only FFTW and HARU are then
 needed to be installed externally.
 
 
-\section install_mvc_mkl Instructions for Microsoft Visual C++ .NET using Intel MKL
+\section visualcpp Instructions for Microsoft Visual C++ .NET using Intel MKL
 
 You need to perform the following tasks in order to compile IT++ with
 Microsoft Visual C++ .NET together with Intel Math Kernel Library (MKL):
@@ -300,7 +323,7 @@ link myprog.obj mkl_lapack.lib mkl_itp.lib
 \endcode
 
 
-\section solaris_shared_library Compiling shared versions of LAPACK and ATLAS under Solaris
+\section solaris Compiling shared versions of LAPACK and ATLAS under Solaris
 
 If you work under Linux, your distribution should ship with static and
 shared version of these libraries, it is not the case for
@@ -313,7 +336,7 @@ are required:
 </ul>
 
 
-\subsection shared_lapack Shared version of LAPACK
+\subsection sharedlapack Shared version of LAPACK
 
 Edit the \c make.inc file and change the compilation flag to:
 \code
@@ -323,7 +346,7 @@ OPTS = -O3 -fPIC
 We don't need a library there, the archive is enough.
 
 
-\subsection shared_atlas Shared version of ATLAS
+\subsection sharedatlas Shared version of ATLAS
 
 When you follow the process described above, you need to add \c -fPIC to
 all of the compilation flags:
