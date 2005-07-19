@@ -1,3 +1,9 @@
+2005-07-20  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* tests/pulse_shape_test.{cpp,ref}: fixed different floating-point
+	numbers' precision in `cout' output problem by using `setprecision()'
+	manipulator
+
 2005-07-19  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* INSTALL: part of the doc/local/installation.doc modified file inserted
