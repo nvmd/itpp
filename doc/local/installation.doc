@@ -171,6 +171,7 @@ Switches:
 Documentation tools:
   - Doxygen ...... : yes
   - LaTeX ........ : yes
+  - Dvips ........ : yes
   - Ghostscript .. : yes
 
 External libs:

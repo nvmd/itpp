@@ -2,6 +2,8 @@
 
 	* INSTALL: part of the doc/local/installation.doc modified file inserted
 	before original GNU generic installation description
+	* configure.ac: added check for Dvips needed for HTML documentation
+	generation
 
 2005-07-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
