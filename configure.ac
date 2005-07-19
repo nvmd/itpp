@@ -1,6 +1,8 @@
 # Process this file with autoconf to produce a configure script
+# Copyright (c) 2005 by Adam Piatyszek <ediap@users.sourceforge.net>
+#-------------------------------------------------------------------
 AC_PREREQ(2.59)
-AC_INIT([IT++],[3.9.0-pre0],[tonnyottoson@users.sourceforge.net],[itpp])
+AC_INIT([IT++],[3.9.0-pre0],[ediap@users.sourceforge.net],[itpp])
 AC_CONFIG_SRCDIR([itpp/base/vec.cpp])
 AC_CONFIG_AUX_DIR([config])
 AM_INIT_AUTOMAKE
@@ -100,9 +102,11 @@ fi
 if test "x$enable_html_docs" != xdisabled; then
   AC_CHECK_PROG([doxygen_ok], [doxygen], [yes], [no])
   AC_CHECK_PROG([latex_ok], [latex], [yes], [no])
+  AC_CHECK_PROG([dvips_ok], [dvips], [yes], [no])
   AC_CHECK_PROG([gs_ok], [gs], [yes], [no])
   test "x$doxygen_ok" != xyes && enable_html_docs=no
   test "x$latex_ok" != xyes && enable_html_docs=no
+  test "x$dvips_ok" != xyes && enable_html_docs=no
   test "x$gs_ok" != xyes && enable_html_docs=no
   AC_PATH_PROG([PERL], [perl], [])
 fi
@@ -406,6 +410,7 @@ Switches:
 Documentation tools:
   - Doxygen ...... : ${doxygen_ok}
   - LaTeX ........ : ${latex_ok}
+	- Dvips ........ : ${dvips_ok}
   - Ghostscript .. : ${gs_ok}
 
 External libs:
