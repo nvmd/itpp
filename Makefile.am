@@ -6,7 +6,11 @@ if HTML_DOCS
 HTMLDOCDIR = doc
 endif
 
-SUBDIRS = itpp $(HTMLDOCDIR)
+if HAVE_DIFF
+TESTDIR = tests
+endif
+
+SUBDIRS = itpp $(HTMLDOCDIR) $(TESTDIR)
 
 EXTRA_DIST = autogen.sh Makefile.common TODO
 

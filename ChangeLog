@@ -5,6 +5,10 @@
 	* configure.ac: added check for Dvips needed for HTML documentation
 	generation
 
+	* Added `tests' directory with IT++ library modules test programs. Some
+	tests need to be revised and fixed, since failures occur.  Testing is
+	started with `make check' command and depends on `diff' program.
+
 2005-07-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac: added check for Ghostscript needed for HTML documentation 

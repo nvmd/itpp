@@ -99,11 +99,11 @@ fi
 
 
 # Checks for documentation build tools
+AC_CHECK_PROG([doxygen_ok], [doxygen], [yes], [no])
+AC_CHECK_PROG([latex_ok], [latex], [yes], [no])
+AC_CHECK_PROG([dvips_ok], [dvips], [yes], [no])
+AC_CHECK_PROG([gs_ok], [gs], [yes], [no])
 if test "x$enable_html_docs" != xdisabled; then
-  AC_CHECK_PROG([doxygen_ok], [doxygen], [yes], [no])
-  AC_CHECK_PROG([latex_ok], [latex], [yes], [no])
-  AC_CHECK_PROG([dvips_ok], [dvips], [yes], [no])
-  AC_CHECK_PROG([gs_ok], [gs], [yes], [no])
   test "x$doxygen_ok" != xyes && enable_html_docs=no
   test "x$latex_ok" != xyes && enable_html_docs=no
   test "x$dvips_ok" != xyes && enable_html_docs=no
@@ -111,6 +111,11 @@ if test "x$enable_html_docs" != xdisabled; then
   AC_PATH_PROG([PERL], [perl], [])
 fi
 AM_CONDITIONAL([HTML_DOCS], [test "x$enable_html_docs" = xyes])
+
+
+# Check for diff program used for tests
+AC_CHECK_PROG([diff_ok], [diff], [yes], [no])
+AM_CONDITIONAL([HAVE_DIFF], [test "x$diff_ok" = xyes])
 
 
 # Check for standard math library
@@ -382,6 +387,7 @@ AC_CONFIG_FILES([Makefile \
   doc/tutorial/src/Makefile \
   doc/local/Makefile \
   doc/doxygen_html.cfg \
+  tests/Makefile \
   itpp.pc \
   itpp-config])
 
@@ -410,8 +416,11 @@ Switches:
 Documentation tools:
   - Doxygen ...... : ${doxygen_ok}
   - LaTeX ........ : ${latex_ok}
-	- Dvips ........ : ${dvips_ok}
-  - Ghostscript .. : ${gs_ok}
+  - Dvips ........ : ${dvips_ok}
+  - GhostScript .. : ${gs_ok}
+
+Testing tools:
+  - Diff ......... : ${diff_ok}
 
 External libs:
   - MKL .......... : ${mkl_ok}

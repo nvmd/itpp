@@ -1,0 +1,37 @@
+peek(out_vec,2) = [0.226258 -0.268102]: display 2 first elements of the buffer, without affecting the content
+peek_reverse(out_vec,-1) = [-0.73301 -0.268102 0.226258]: display buffer, without affecting the content
+peek_reverse(out_array,-1) = {-0.73301 -0.268102 0.226258}: display buffer, without affecting the content
+get(out_vec,1) = [-0.268102]
+get(out_vec) = [-0.73301 -0.367909 0.0734973 0.646178 1.11345 -0.164981 -0.315922 1.24923 -0.970894]
+get(out_vec) = []; get(out_array,0) = {}: empty buffer, no content
+buffer size = 10
+nrof_elements = 10
+i = 0: peek() = -0.268102; peek_reverse() = -0.970894; get() = -0.268102
+i = 1: peek() = -0.73301; peek_reverse() = -0.970894; get() = -0.73301
+i = 2: peek() = -0.367909; peek_reverse() = -0.970894; get() = -0.367909
+i = 3: peek() = 0.0734973; peek_reverse() = -0.970894; get() = 0.0734973
+i = 4: peek() = 0.646178; peek_reverse() = -0.970894; get() = 0.646178
+i = 5: peek() = 1.11345; peek_reverse() = -0.970894; get() = 1.11345
+i = 6: peek() = -0.164981; peek_reverse() = -0.970894; get() = -0.164981
+i = 7: peek() = -0.315922; peek_reverse() = -0.970894; get() = -0.315922
+i = 8: peek() = 1.24923; peek_reverse() = -0.970894; get() = 1.24923
+i = 9: peek() = -0.970894; peek_reverse() = -0.970894; get() = -0.970894
+buffer size = 10
+nrof_elements = 8
+peek(out_vec) = [-0.367909 0.0734973 0.646178 1.11345 -0.164981 -0.315922 1.24923 -0.970894]
+peek at index 5: peek(5) = -0.315922
+peek at index 3: peek(3) = 1.11345
+peek at index 7: peek(7) = -0.970894
+peek at index 1: peek(1) = 0.0734973
+peek at indices [5 3 7 1]:
+peek(index_vec,out_vec) = [-0.315922 1.11345 -0.970894 0.0734973]
+buffer size = 15
+nrof_elements = 8
+peek(out_vec) = [-0.367909 0.0734973 0.646178 1.11345 -0.164981 -0.315922 1.24923 -0.970894]
+buffer size = 5
+nrof_elements = 5
+peek(out_vec) = [1.11345 -0.164981 -0.315922 1.24923 -0.970894]
+Copy constructor: 
+Circular_Buffer<double> cb2(cb1): cb2.peek(out_vec) = [1.11345 -0.164981 -0.315922 1.24923 -0.970894]
+Copy operator: 
+Circular_Buffer<double> cb3=cb1: cb3.peek(out_array) = {1.11345 -0.164981 -0.315922 1.24923 -0.970894}
