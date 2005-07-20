@@ -3,6 +3,10 @@
 	* tests/pulse_shape_test.{cpp,ref}: fixed different floating-point
 	numbers' precision in `cout' output problem by using `setprecision()'
 	manipulator
+	
+	* tests/Makefile.am: Cygwin's `.exe' extension problem in test programs'
+	filenames 
+	* TODO updated
 
 2005-07-19  Adam Piatyszek  <ediap@users.sourceforge.net>
 
