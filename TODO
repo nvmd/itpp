@@ -8,9 +8,6 @@ IT++ based on Autoconf/Automake/Libtool:
   of DEFS in the commandline. This needs some changes in the
   source/header files.
   
-* Develop some sensible mechanism and Makefile.am for performing
-  tests.
-  
 * Update HTML docummentation (Installation, Linking, Tutorial,
   Copyright ;), Download)... Some links might be added (Autoconf,
   Automake, Libtool, etc.). Also update documentation in *.h *.cpp

@@ -94,12 +94,13 @@ turbo_test_SOURCES = turbo_test.cpp
 vec_test_SOURCES = vec_test.cpp
 vector_test_SOURCES = vector_test.cpp
 
-ref_sources = $(patsubst %, %.ref, $(check_PROGRAMS))
+noext_tests = $(patsubst %$(EXEEXT), %, $(check_PROGRAMS))
+ref_sources = $(patsubst %$(EXEEXT), %.ref, $(check_PROGRAMS))
 
 check-local: $(check_PROGRAMS) $(ref_sources)
-	@for i in $(check_PROGRAMS); do \
+	@for i in $(noext_tests); do \
 		echo ------------------------------------------------------------------------------; \
-		./$$i > $$i.tmp; \
+		./$$i$(EXEEXT) > $$i.tmp; \
 		diff -q $$i.tmp $(srcdir)/$$i.ref; \
 		if test "x$$?" = "x0"; then \
 			echo "Test \`$$i' PASSED."; \
