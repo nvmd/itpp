@@ -27,9 +27,9 @@
 
 #define MAX_STR_LEN 4096
 
-#include "itpp/base/vec.h"
-#include "itpp/base/mat.h"
-#include "itpp/base/array.h"
+#include <itpp/base/vec.h>
+#include <itpp/base/mat.h>
+#include <itpp/base/array.h>
 #include <fstream>
 #include <string>
 

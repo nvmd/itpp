@@ -20,8 +20,8 @@
   $Date$
 */
 
-#include "itpp/fixedpoint/cfix.h"
-#include "itpp/base/itassert.h"
+#include <itpp/fixedpoint/cfix.h>
+#include <itpp/base/itassert.h>
 #include <iostream>
 
 

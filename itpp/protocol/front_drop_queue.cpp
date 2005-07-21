@@ -21,7 +21,7 @@
   $Date$ 
 */
 
-#include "itpp/protocol/front_drop_queue.h"
+#include <itpp/protocol/front_drop_queue.h>
 
 
 namespace itpp {

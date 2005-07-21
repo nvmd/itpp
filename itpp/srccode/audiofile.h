@@ -24,8 +24,8 @@
 #ifndef __audiofile_h
 #define __audiofile_h
 
-#include "itpp/itconfig.h"
-#include "itpp/base/vec.h"
+#include <itpp/itconfig.h>
+#include <itpp/base/vec.h>
 #include <fstream>
 
 namespace itpp {

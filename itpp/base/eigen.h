@@ -24,8 +24,8 @@
 #ifndef __eigen_h
 #define __eigen_h
 
-#include "itpp/base/vec.h"
-#include "itpp/base/mat.h"
+#include <itpp/base/vec.h>
+#include <itpp/base/mat.h>
 
 namespace itpp {
 

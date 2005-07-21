@@ -25,7 +25,7 @@
 #ifndef __itpp_version_h
 #define __itpp_version_h
 
-#include "itpp/itconfig.h"
+#include <itpp/itconfig.h>
 #include <string>
 
 

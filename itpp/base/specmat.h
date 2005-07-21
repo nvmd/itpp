@@ -24,10 +24,10 @@
 #ifndef __specmat_h
 #define __specmat_h
 
-#include "itpp/base/vec.h"
-#include "itpp/base/mat.h"
-#include "itpp/base/converters.h"
-#include "itpp/base/scalfunc.h"
+#include <itpp/base/vec.h>
+#include <itpp/base/mat.h>
+#include <itpp/base/converters.h>
+#include <itpp/base/scalfunc.h>
 
 namespace itpp {
 

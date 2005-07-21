@@ -21,7 +21,7 @@
   $Date$ 
 */
 
-#include "itpp/protocol/events.h"
+#include <itpp/protocol/events.h>
 
 
 namespace itpp {

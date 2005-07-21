@@ -24,8 +24,8 @@
 #ifndef __helpfunctions_h
 #define __helpfunctions_h
 
-#include "itpp/base/vec.h"
-#include "itpp/base/mat.h"
+#include <itpp/base/vec.h>
+#include <itpp/base/mat.h>
 
 namespace itpp {
 

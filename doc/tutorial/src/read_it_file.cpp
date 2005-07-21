@@ -1,4 +1,6 @@
-#include "itcomm.h"
+#include <itpp/itcomm.h>
+
+using namespace itpp;
 
 //These lines are needed for use of cout and endl
 using std::cout;

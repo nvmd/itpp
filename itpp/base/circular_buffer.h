@@ -28,10 +28,10 @@
 #ifndef __circular_buffer_h
 #define __circular_buffer_h
 
-#include "itpp/itconfig.h"
-#include "itpp/base/itassert.h"
-#include "itpp/base/vec.h"
-#include "itpp/base/array.h"
+#include <itpp/itconfig.h>
+#include <itpp/base/itassert.h>
+#include <itpp/base/vec.h>
+#include <itpp/base/array.h>
 #include <iostream>
 
 namespace itpp {

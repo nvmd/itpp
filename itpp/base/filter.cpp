@@ -21,7 +21,7 @@
   $Date$
 */
 
-#include "itpp/base/filter.h"
+#include <itpp/base/filter.h>
 
 namespace itpp {
 

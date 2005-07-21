@@ -23,8 +23,8 @@
 #ifndef __cfixed_h
 #define __cfixed_h
 
-#include "itpp/fixedpoint/fix.h"
-#include "itpp/fixedpoint/cfix.h"
+#include <itpp/fixedpoint/fix.h>
+#include <itpp/fixedpoint/cfix.h>
 
 namespace itpp {
 

@@ -26,9 +26,9 @@
 #ifndef __itgraphics_h
 #define __itgraphics_h
 
-#include "itpp/itbase.h"
+#include <itpp/itbase.h>
 
-#include "itpp/graphics/plot_pdf.h"
+#include <itpp/graphics/plot_pdf.h>
 
 
 #endif // __itgraphics_h

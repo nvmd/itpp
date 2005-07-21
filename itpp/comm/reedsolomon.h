@@ -24,9 +24,9 @@
 #ifndef __reedsolomon_h
 #define __reedsolomon_h
 
-#include "itpp/base/vec.h"
-#include "itpp/comm/galois.h"
-#include "itpp/comm/channel_code.h"
+#include <itpp/base/vec.h>
+#include <itpp/comm/galois.h>
+#include <itpp/comm/channel_code.h>
 
 namespace itpp {
 

@@ -24,9 +24,9 @@ $Revision$
 $Date$
 */
 
-#include "itpp/base/matfunc.h"
-#include "itpp/base/transforms.h"
-#include "itpp/base/elmatfunc.h"
+#include <itpp/base/matfunc.h>
+#include <itpp/base/transforms.h>
+#include <itpp/base/elmatfunc.h>
 #include <iostream>
 #include <cmath>
 
@@ -144,7 +144,7 @@ namespace itpp {
   //---------------------------------------------------------------------------
 
 
-#include "itpp/base/fftw3.h"
+#include <itpp/base/fftw3.h>
 
   void fft(const cvec &in, cvec &out)
   {

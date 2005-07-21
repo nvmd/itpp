@@ -25,13 +25,13 @@
 #define __freq_filt_h
 
 #include <complex>
-#include "itpp/itconfig.h"
-#include "itpp/base/vec.h"
-#include "itpp/base/scalfunc.h"
-#include "itpp/base/converters.h"
-#include "itpp/base/specmat.h"
-#include "itpp/base/elmatfunc.h"
-#include "itpp/base/stat.h"
+#include <itpp/itconfig.h>
+#include <itpp/base/vec.h>
+#include <itpp/base/scalfunc.h>
+#include <itpp/base/converters.h>
+#include <itpp/base/specmat.h>
+#include <itpp/base/elmatfunc.h>
+#include <itpp/base/stat.h>
 
 namespace itpp {
 

@@ -21,7 +21,7 @@
   $Date$
 */
  
-#include "itpp/base/binary.h"
+#include <itpp/base/binary.h>
 
 using std::ostream;
 using std::istream;

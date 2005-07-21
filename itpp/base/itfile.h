@@ -24,12 +24,12 @@
 #ifndef __itfile_h
 #define __itfile_h
 
-#include "itpp/base/binary.h"
-#include "itpp/base/mat.h"
-#include "itpp/base/vec.h"
-#include "itpp/base/array.h"
-#include "itpp/base/binfile.h"
-#include "itpp/base/machdep.h"
+#include <itpp/base/binary.h>
+#include <itpp/base/mat.h>
+#include <itpp/base/vec.h>
+#include <itpp/base/array.h>
+#include <itpp/base/binfile.h>
+#include <itpp/base/machdep.h>
 #include <fstream>
 
 namespace itpp {

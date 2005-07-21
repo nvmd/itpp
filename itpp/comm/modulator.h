@@ -25,8 +25,8 @@
 #define __modulator_h
 
 #include <iostream>
-#include "itpp/base/vec.h"
-#include "itpp/base/specmat.h"
+#include <itpp/base/vec.h>
+#include <itpp/base/specmat.h>
 
 namespace itpp {
 

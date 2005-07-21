@@ -24,11 +24,11 @@
 #ifndef __interleave_h
 #define __interleave_h
 
-#include "itpp/base/binary.h"
-#include "itpp/base/matfunc.h"
-#include "itpp/base/random.h"
-#include "itpp/base/vec.h"
-#include "itpp/base/mat.h"
+#include <itpp/base/binary.h>
+#include <itpp/base/matfunc.h>
+#include <itpp/base/random.h>
+#include <itpp/base/vec.h>
+#include <itpp/base/mat.h>
 
 namespace itpp {
 

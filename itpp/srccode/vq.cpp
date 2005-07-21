@@ -21,8 +21,8 @@ $Revision$
 $Date$
 */
 
-#include "itpp/srccode/vq.h"
-#include "itpp/base/matfunc.h"
+#include <itpp/srccode/vq.h>
+#include <itpp/base/matfunc.h>
 #include <fstream>
 #include <string>
 

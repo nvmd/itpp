@@ -24,11 +24,11 @@
 #ifndef __channel_h
 #define __channel_h
 
-#include "itpp/base/vec.h"
-#include "itpp/base/mat.h"
-#include "itpp/base/random.h"
-#include "itpp/base/array.h"
-#include "itpp/base/filter.h"
+#include <itpp/base/vec.h>
+#include <itpp/base/mat.h>
+#include <itpp/base/random.h>
+#include <itpp/base/array.h>
+#include <itpp/base/filter.h>
 
 namespace itpp {
 

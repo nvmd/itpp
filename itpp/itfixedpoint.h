@@ -25,16 +25,16 @@
 #ifndef __itfixedpoint_h
 #define __itfixedpoint_h
 
-#include "itpp/itbase.h"
+#include <itpp/itbase.h>
 
-#include "itpp/fixedpoint/fix_base.h"
-#include "itpp/fixedpoint/fix.h"
-#include "itpp/fixedpoint/fixed.h"
-#include "itpp/fixedpoint/cfix.h"
-#include "itpp/fixedpoint/cfixed.h"
-#include "itpp/fixedpoint/fix_factory.h"
-#include "itpp/fixedpoint/fix_operators.h"
-#include "itpp/fixedpoint/fix_functions.h"
+#include <itpp/fixedpoint/fix_base.h>
+#include <itpp/fixedpoint/fix.h>
+#include <itpp/fixedpoint/fixed.h>
+#include <itpp/fixedpoint/cfix.h>
+#include <itpp/fixedpoint/cfixed.h>
+#include <itpp/fixedpoint/fix_factory.h>
+#include <itpp/fixedpoint/fix_operators.h>
+#include <itpp/fixedpoint/fix_functions.h>
 
 
 #endif // __itfixedpoint_h

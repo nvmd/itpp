@@ -21,12 +21,12 @@
   $Date$ 
 */
 
-#include "itpp/base/integration.h"
+#include <itpp/base/integration.h>
 
-#include "itpp/base/specmat.h"
-#include "itpp/base/matfunc.h"
-#include "itpp/base/scalfunc.h"
-#include "itpp/base/help_functions.h"
+#include <itpp/base/specmat.h>
+#include <itpp/base/matfunc.h>
+#include <itpp/base/scalfunc.h>
+#include <itpp/base/help_functions.h>
 
 namespace itpp {
 

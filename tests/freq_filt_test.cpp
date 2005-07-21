@@ -8,7 +8,7 @@
 
 
 #include <iostream>
-#include "itpp/itbase.h"
+#include <itpp/itbase.h>
 
 using std::cout;
 using std::endl;

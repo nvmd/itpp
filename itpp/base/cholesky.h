@@ -24,8 +24,8 @@
 #ifndef __cholesky_h
 #define __cholesky_h
 
-#include "itpp/base/vec.h"
-#include "itpp/base/mat.h"
+#include <itpp/base/vec.h>
+#include <itpp/base/mat.h>
 
 namespace itpp {
 

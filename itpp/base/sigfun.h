@@ -24,8 +24,8 @@
 #ifndef __sigfun_h
 #define __sigfun_h
 
-#include "itpp/base/vec.h"
-#include "itpp/base/transforms.h"
+#include <itpp/base/vec.h>
+#include <itpp/base/transforms.h>
 
 namespace itpp {
 

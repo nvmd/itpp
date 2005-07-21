@@ -21,9 +21,9 @@
   $Date$
 */
 
-#include "itpp/base/qr.h"
-#include "itpp/base/matfunc.h"
-#include "itpp/base/lapack.h"
+#include <itpp/base/qr.h>
+#include <itpp/base/matfunc.h>
+#include <itpp/base/lapack.h>
 
 namespace itpp { 
 

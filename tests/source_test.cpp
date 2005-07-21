@@ -9,10 +9,10 @@
 #include <iostream>
 #include <iomanip>
 
-#include "itpp/base/matfunc.h"
-#include "itpp/base/random.h"
-#include "itpp/base/source.h"
-#include "itpp/base/stat.h"
+#include <itpp/base/matfunc.h>
+#include <itpp/base/random.h>
+#include <itpp/base/source.h>
+#include <itpp/base/stat.h>
 
 using std::cout;
 using std::endl;

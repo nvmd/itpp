@@ -23,11 +23,11 @@
 
 #include <float.h>
 
-#include "itpp/base/binary.h"
-#include "itpp/base/matfunc.h"
-#include "itpp/base/specmat.h"
-#include "itpp/comm/modulator.h"
-#include "itpp/comm/commfunc.h"
+#include <itpp/base/binary.h>
+#include <itpp/base/matfunc.h>
+#include <itpp/base/specmat.h>
+#include <itpp/comm/modulator.h>
+#include <itpp/comm/commfunc.h>
 
 #include <complex>
 

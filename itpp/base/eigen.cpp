@@ -21,9 +21,9 @@
   2003/06/19 09:03:05
 */
 
-#include "itpp/base/eigen.h"
-#include "itpp/base/matfunc.h"
-#include "itpp/base/lapack.h"
+#include <itpp/base/eigen.h>
+#include <itpp/base/matfunc.h>
+#include <itpp/base/lapack.h>
 
 namespace itpp { 
 

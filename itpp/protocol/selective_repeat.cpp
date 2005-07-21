@@ -21,7 +21,7 @@
   $Date$ 
 */
 
-#include "itpp/protocol/selective_repeat.h"
+#include <itpp/protocol/selective_repeat.h>
 
 
 namespace itpp {

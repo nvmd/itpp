@@ -24,9 +24,9 @@
 #ifndef __egolay_h
 #define __egolay_h
 
-#include "itpp/base/vec.h"
-#include "itpp/base/mat.h"
-#include "itpp/comm/channel_code.h"
+#include <itpp/base/vec.h>
+#include <itpp/base/mat.h>
+#include <itpp/comm/channel_code.h>
 
 namespace itpp {
 

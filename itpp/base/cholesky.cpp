@@ -23,9 +23,9 @@
 
 #include <algorithm>
 #include <cassert>
-#include "itpp/itconfig.h"
-#include "itpp/base/cholesky.h"
-#include "itpp/base/lapack.h"
+#include <itpp/itconfig.h>
+#include <itpp/base/cholesky.h>
+#include <itpp/base/lapack.h>
 
 namespace itpp { 
 

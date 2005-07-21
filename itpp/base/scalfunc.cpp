@@ -24,9 +24,9 @@
 #include <ctime>
 #include <cmath>
 
-#include "itpp/base/itassert.h"
-#include "itpp/base/vec.h"
-#include "itpp/base/scalfunc.h"
+#include <itpp/base/itassert.h>
+#include <itpp/base/vec.h>
+#include <itpp/base/scalfunc.h>
 
 using std::cout;
 using std::endl;

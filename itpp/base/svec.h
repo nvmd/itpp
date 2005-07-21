@@ -25,10 +25,10 @@
 #define __itpp_svec_h
 
 #include <algorithm>
-#include "itpp/itconfig.h"
-#include "itpp/base/vec.h"
-#include "itpp/base/matfunc.h"
-#include "itpp/base/stat.h"
+#include <itpp/itconfig.h>
+#include <itpp/base/vec.h>
+#include <itpp/base/matfunc.h>
+#include <itpp/base/stat.h>
 
 namespace itpp {
 

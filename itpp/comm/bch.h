@@ -24,8 +24,8 @@
 #ifndef _bch_h
 #define _bch_h
 
-#include "itpp/comm/galois.h"
-#include "itpp/comm/channel_code.h"
+#include <itpp/comm/galois.h>
+#include <itpp/comm/channel_code.h>
 
 namespace itpp {
 

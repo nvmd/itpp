@@ -21,9 +21,9 @@
   $Date$
 */
 
-#include "itpp/srccode/audiofile.h"
-#include "itpp/base/machdep.h"
-#include "itpp/base/scalfunc.h"
+#include <itpp/srccode/audiofile.h>
+#include <itpp/base/machdep.h>
+#include <itpp/base/scalfunc.h>
 #include <sys/types.h>
 #include <sys/stat.h>
 

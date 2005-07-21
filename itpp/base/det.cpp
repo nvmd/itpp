@@ -21,9 +21,9 @@
   $Date$
 */
 
-#include "itpp/base/vec.h"
-#include "itpp/base/itassert.h"
-#include "itpp/base/lu.h"
+#include <itpp/base/vec.h>
+#include <itpp/base/itassert.h>
+#include <itpp/base/lu.h>
 
 namespace itpp {
 

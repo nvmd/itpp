@@ -21,7 +21,7 @@
   $Date$
 */
 
-#include "itpp/comm/galois.h"
+#include <itpp/comm/galois.h>
 #include <iostream>
 
 using std::ostream;

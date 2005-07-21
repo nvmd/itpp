@@ -1,3 +1,10 @@
+2005-07-21  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac: changed version number to `3.9.0'
+	* doc/Makefile.am: added dependencies for `html/index.html' rule
+	* All instances of `"itpp/h_file.h"' replaced with `<itpp/h_file.h>'
+	* Added `using namespace itpp;' to the tutorial source files
+
 2005-07-20  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/pulse_shape_test.{cpp,ref}: fixed different floating-point

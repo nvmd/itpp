@@ -23,9 +23,9 @@
 #ifndef __cfix_h
 #define __cfix_h
 
-#include "itpp/fixedpoint/fix_base.h"
-#include "itpp/fixedpoint/fix_factory.h"
-#include "itpp/fixedpoint/fix.h"
+#include <itpp/fixedpoint/fix_base.h>
+#include <itpp/fixedpoint/fix_factory.h>
+#include <itpp/fixedpoint/fix.h>
 
 namespace itpp {
 

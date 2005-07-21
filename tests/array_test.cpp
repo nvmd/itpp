@@ -1,5 +1,5 @@
 #include <iostream>
-#include "itpp/base/array.h"
+#include <itpp/base/array.h>
 
 using namespace std;
 using namespace itpp;

@@ -24,8 +24,8 @@
 #ifndef _channel_code_h
 #define _channel_code_h
 
-#include "itpp/base/vec.h"
-#include "itpp/comm/modulator.h"
+#include <itpp/base/vec.h>
+#include <itpp/comm/modulator.h>
 
 
 namespace itpp {

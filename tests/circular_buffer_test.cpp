@@ -1,7 +1,7 @@
 #include <iostream>
 
-#include "itpp/base/circular_buffer.h"
-#include "itpp/base/random.h"
+#include <itpp/base/circular_buffer.h>
+#include <itpp/base/random.h>
 
 using namespace std;
 using namespace itpp;

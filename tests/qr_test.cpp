@@ -1,5 +1,5 @@
-#include "itpp/itbase.h"
-#include "itpp/base/qr.h"
+#include <itpp/itbase.h>
+#include <itpp/base/qr.h>
 
 using std::cout;
 using std::endl;

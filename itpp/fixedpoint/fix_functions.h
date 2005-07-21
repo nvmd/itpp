@@ -23,12 +23,12 @@
 #ifndef __fix_functions_h
 #define __fix_functions_h
 
-#include "itpp/fixedpoint/fix.h"
-#include "itpp/fixedpoint/cfix.h"
-#include "itpp/base/vec.h"
-#include "itpp/base/mat.h"
-#include "itpp/base/array.h"
-#include "itpp/base/converters.h"
+#include <itpp/fixedpoint/fix.h>
+#include <itpp/fixedpoint/cfix.h>
+#include <itpp/base/vec.h>
+#include <itpp/base/mat.h>
+#include <itpp/base/array.h>
+#include <itpp/base/converters.h>
 
 using std::complex;
 

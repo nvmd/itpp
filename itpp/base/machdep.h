@@ -24,7 +24,7 @@
 #ifndef __machdep_h
 #define __machdep_h
 
-#include "itpp/itconfig.h"
+#include <itpp/itconfig.h>
 
 namespace itpp {
 

@@ -23,8 +23,8 @@
 #ifndef __fix_h
 #define __fix_h
 
-#include "itpp/fixedpoint/fix_base.h"
-#include "itpp/fixedpoint/fix_factory.h"
+#include <itpp/fixedpoint/fix_base.h>
+#include <itpp/fixedpoint/fix_factory.h>
 
 namespace itpp {
 

@@ -21,7 +21,7 @@
   2003/05/22 08:55:19
 */
  
-#include "itpp/base/elmatfunc.h"
+#include <itpp/base/elmatfunc.h>
 
 using std::real;
 using std::imag;
