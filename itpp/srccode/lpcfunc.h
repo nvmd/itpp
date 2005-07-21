@@ -36,7 +36,7 @@
 #ifndef __lpcfunc_h
 #define __lpcfunc_h
 
-#include "itpp/base/vec.h"
+#include <itpp/base/vec.h>
 
 namespace itpp {
 

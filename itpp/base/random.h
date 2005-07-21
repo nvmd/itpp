@@ -66,11 +66,11 @@
 #define __random_h
 
 #include <cstdlib>
-#include "itpp/base/binary.h"
-#include "itpp/base/vec.h"
-#include "itpp/base/mat.h"
-#include "itpp/base/scalfunc.h"
-#include "itpp/base/operators.h"
+#include <itpp/base/binary.h>
+#include <itpp/base/vec.h>
+#include <itpp/base/mat.h>
+#include <itpp/base/scalfunc.h>
+#include <itpp/base/operators.h>
 
 namespace itpp {
 

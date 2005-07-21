@@ -24,7 +24,7 @@
 #ifndef __inv_h
 #define __inv_h
 
-#include "itpp/base/mat.h"
+#include <itpp/base/mat.h>
 
 namespace itpp {
 

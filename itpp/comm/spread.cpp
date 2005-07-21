@@ -21,13 +21,13 @@
   $Date$
 */
 
-#include "itpp/base/binary.h"
-#include "itpp/base/elmatfunc.h"
-#include "itpp/base/stat.h"
-#include "itpp/base/matfunc.h"
-#include "itpp/base/fastmath.h"
-#include "itpp/base/operators.h"
-#include "itpp/comm/spread.h"
+#include <itpp/base/binary.h>
+#include <itpp/base/elmatfunc.h>
+#include <itpp/base/stat.h>
+#include <itpp/base/matfunc.h>
+#include <itpp/base/fastmath.h>
+#include <itpp/base/operators.h>
+#include <itpp/comm/spread.h>
 
 //------------- Spread1d -------------------
 

@@ -17,12 +17,12 @@
   \author Thomas Eriksson
 */
 
-#include "itpp/srccode/vqtrain.h"
-#include "itpp/base/random.h"
-#include "itpp/base/timing.h"
-#include "itpp/base/elmatfunc.h"
-#include "itpp/base/stat.h"
-#include "itpp/base/matfunc.h"
+#include <itpp/srccode/vqtrain.h>
+#include <itpp/base/random.h>
+#include <itpp/base/timing.h>
+#include <itpp/base/elmatfunc.h>
+#include <itpp/base/stat.h>
+#include <itpp/base/matfunc.h>
 
 namespace itpp {
 

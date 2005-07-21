@@ -21,7 +21,7 @@
   2003/05/22 08:55:19
 */
 
-#include "itpp/base/matfunc.h"
+#include <itpp/base/matfunc.h>
 
 namespace itpp {
 

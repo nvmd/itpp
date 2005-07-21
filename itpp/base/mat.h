@@ -31,12 +31,12 @@
 #include <sstream>
 #include <cmath>
 #include <algorithm>
-#include "itpp/itconfig.h"
+#include <itpp/itconfig.h>
 //#include "base/vec.h" is done below Mat<Num_T> class definition (needed for g++ 3.4)
-#include "itpp/base/itassert.h"
-#include "itpp/base/binary.h"
-#include "itpp/base/scalfunc.h"
-#include "itpp/base/factory.h"
+#include <itpp/base/itassert.h>
+#include <itpp/base/binary.h>
+#include <itpp/base/scalfunc.h>
+#include <itpp/base/factory.h>
 
 
 //using std::cout;
@@ -475,7 +475,7 @@ namespace itpp {
 
 } //namespace itpp
 
-#include "itpp/base/vec.h"
+#include <itpp/base/vec.h>
 
 namespace itpp {
 

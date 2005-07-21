@@ -24,8 +24,8 @@
 #ifndef __binfile_h
 #define __binfile_h
 
-#include "itpp/itconfig.h"
-#include "itpp/base/binary.h"
+#include <itpp/itconfig.h>
+#include <itpp/base/binary.h>
 #include <string>
 #include <fstream>
 

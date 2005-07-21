@@ -8,7 +8,7 @@
    Created by Pål Frenger 2002-12-11
 */
 
-#include "itpp/itbase.h"
+#include <itpp/itbase.h>
 
 using std::cout;
 using std::endl;

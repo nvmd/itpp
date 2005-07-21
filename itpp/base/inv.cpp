@@ -21,10 +21,10 @@
   $Date$
 */
 
-#include "itpp/base/inv.h"
-#include "itpp/base/vec.h"
-#include "itpp/base/itassert.h"
-#include "itpp/base/lapack.h"
+#include <itpp/base/inv.h>
+#include <itpp/base/vec.h>
+#include <itpp/base/itassert.h>
+#include <itpp/base/lapack.h>
 
 namespace itpp { 
 

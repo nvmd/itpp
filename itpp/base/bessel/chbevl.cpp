@@ -57,7 +57,7 @@ Copyright 1985, 1987 by Stephen L. Moshier
 Direct inquiries to 30 Frost Street, Cambridge, MA 02140
 */
 
-#include "itpp/base/bessel/bessel_internal.h"
+#include <itpp/base/bessel/bessel_internal.h>
 
 double chbevl(double x, double array[], int n)
 {

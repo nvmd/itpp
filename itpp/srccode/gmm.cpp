@@ -21,12 +21,12 @@
 */
 
 
-#include "itpp/base/random.h"
-#include "itpp/base/timing.h"
-#include "itpp/srccode/vqtrain.h"
-#include "itpp/base/matfunc.h"
-#include "itpp/base/specmat.h"
-#include "itpp/srccode/gmm.h"
+#include <itpp/base/random.h>
+#include <itpp/base/timing.h>
+#include <itpp/srccode/vqtrain.h>
+#include <itpp/base/matfunc.h>
+#include <itpp/base/specmat.h>
+#include <itpp/srccode/gmm.h>
 #include <string>
 #include <fstream>
 

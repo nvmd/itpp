@@ -24,9 +24,9 @@
 #ifndef __packet_generator_h
 #define __packet_generator_h
 
-#include "itpp/protocol/signals_slots.h"
-#include "itpp/protocol/packet.h"
-#include "itpp/base/random.h"
+#include <itpp/protocol/signals_slots.h>
+#include <itpp/protocol/packet.h>
+#include <itpp/base/random.h>
 
 namespace itpp {
 

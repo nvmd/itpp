@@ -26,12 +26,12 @@
 
 #ifdef HAVE_HARU
 
-#include "itpp/graphics/libharu.h"
+#include <itpp/graphics/libharu.h>
 
-#include "itpp/base/vec.h"
-#include "itpp/base/mat.h"
-#include "itpp/base/array.h"
-#include "itpp/base/converters.h"
+#include <itpp/base/vec.h>
+#include <itpp/base/mat.h>
+#include <itpp/base/array.h>
+#include <itpp/base/converters.h>
 
 
 /*

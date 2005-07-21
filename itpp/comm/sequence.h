@@ -24,9 +24,9 @@
 #ifndef __sequence_h
 #define __sequence_h
 
-#include "itpp/base/vec.h"
-#include "itpp/base/mat.h"
-#include "itpp/base/binary.h"
+#include <itpp/base/vec.h>
+#include <itpp/base/mat.h>
+#include <itpp/base/binary.h>
 
 namespace itpp {
 

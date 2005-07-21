@@ -21,7 +21,7 @@
   $Date$
 */
 
-#include "itpp/base/itassert.h"
+#include <itpp/base/itassert.h>
 #include <iostream>
 #include <cstdio>
 #include <cstdlib>

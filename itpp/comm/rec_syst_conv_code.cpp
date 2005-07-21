@@ -21,7 +21,7 @@
   $Date$
 */
 
-#include "itpp/comm/rec_syst_conv_code.h"
+#include <itpp/comm/rec_syst_conv_code.h>
 
 namespace itpp { 
 

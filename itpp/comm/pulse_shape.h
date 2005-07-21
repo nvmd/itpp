@@ -24,9 +24,9 @@
 #ifndef __pulse_shape_h
 #define __pulse_shape_h
 
-#include "itpp/base/matfunc.h"
-#include "itpp/base/filter.h"
-#include "itpp/base/vec.h"
+#include <itpp/base/matfunc.h>
+#include <itpp/base/filter.h>
+#include <itpp/base/vec.h>
 
 namespace itpp {
 

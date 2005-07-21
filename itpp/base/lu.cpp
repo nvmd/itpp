@@ -21,9 +21,9 @@
   $Date$
 */
 
-#include "itpp/base/lu.h"
-#include "itpp/base/matfunc.h"
-#include "itpp/base/lapack.h"
+#include <itpp/base/lu.h>
+#include <itpp/base/matfunc.h>
+#include <itpp/base/lapack.h>
 
 namespace itpp { 
 

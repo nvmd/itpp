@@ -24,10 +24,10 @@
 #ifndef __punct_convcode_h
 #define __punct_convcode_h
 
-#include "itpp/comm/convcode.h"
-#include "itpp/base/vec.h"
-#include "itpp/base/mat.h"
-#include "itpp/base/array.h"
+#include <itpp/comm/convcode.h>
+#include <itpp/base/vec.h>
+#include <itpp/base/mat.h>
+#include <itpp/base/array.h>
 
 namespace itpp {
 

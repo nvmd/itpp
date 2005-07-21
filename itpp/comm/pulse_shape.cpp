@@ -21,7 +21,7 @@
   $Date$
 */
 
-#include "itpp/comm/pulse_shape.h"
+#include <itpp/comm/pulse_shape.h>
 
 namespace itpp {
 

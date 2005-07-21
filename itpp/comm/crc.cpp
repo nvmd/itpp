@@ -21,11 +21,11 @@
   $Date$ 
 */
 
-#include "itpp/base/vec.h"
-#include "itpp/base/binary.h"
-#include "itpp/base/specmat.h"
-#include "itpp/base/matfunc.h" //for reverse
-#include "itpp/comm/crc.h"
+#include <itpp/base/vec.h>
+#include <itpp/base/binary.h>
+#include <itpp/base/specmat.h>
+#include <itpp/base/matfunc.h> //for reverse
+#include <itpp/comm/crc.h>
 
 namespace itpp { 
 

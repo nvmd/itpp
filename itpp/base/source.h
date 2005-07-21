@@ -26,10 +26,10 @@
 
 #include <cstdlib>
 
-#include "itpp/base/binary.h"
-#include "itpp/base/vec.h"
-#include "itpp/base/mat.h"
-#include "itpp/base/scalfunc.h"
+#include <itpp/base/binary.h>
+#include <itpp/base/vec.h>
+#include <itpp/base/mat.h>
+#include <itpp/base/scalfunc.h>
 
 namespace itpp {
 

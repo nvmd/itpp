@@ -24,8 +24,8 @@
 #ifndef __vqtrain_h
 #define __vqtrain_h
 
-#include "itpp/base/mat.h"
-#include "itpp/base/array.h"
+#include <itpp/base/mat.h>
+#include <itpp/base/array.h>
 
 namespace itpp {
 

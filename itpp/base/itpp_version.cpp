@@ -21,7 +21,7 @@
   $Date$
 */
 
-#include "itpp/base/itpp_version.h"
+#include <itpp/base/itpp_version.h>
 
 namespace itpp { 
 

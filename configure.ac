@@ -2,7 +2,7 @@
 # Copyright (c) 2005 by Adam Piatyszek <ediap@users.sourceforge.net>
 #-------------------------------------------------------------------
 AC_PREREQ(2.59)
-AC_INIT([IT++],[3.9.0-pre0],[ediap@users.sourceforge.net],[itpp])
+AC_INIT([IT++], [3.9.0], [ediap@users.sourceforge.net], [itpp])
 AC_CONFIG_SRCDIR([itpp/base/vec.cpp])
 AC_CONFIG_AUX_DIR([config])
 AM_INIT_AUTOMAKE

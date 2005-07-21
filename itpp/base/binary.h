@@ -27,7 +27,7 @@
 #include <iostream>
 #include <cassert>
 
-#include "itpp/base/itassert.h"
+#include <itpp/base/itassert.h>
 
 namespace itpp {
 

@@ -24,11 +24,11 @@
 #ifndef __copy_vector_h
 #define __copy_vector_h
 
-#include "itpp/itconfig.h"
-#include "itpp/base/binary.h"
+#include <itpp/itconfig.h>
+#include <itpp/base/binary.h>
 
 #if defined (HAVE_CBLAS) || defined(HAVE_MKL)
-#include "itpp/base/cblas.h"
+#include <itpp/base/cblas.h>
 #endif
 
 //using std::complex;

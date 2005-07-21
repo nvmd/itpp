@@ -22,9 +22,9 @@
   $Date$
 */
 
-#include "itpp/base/parser.h"
-#include "itpp/base/vec.h"
-#include "itpp/base/mat.h"
+#include <itpp/base/parser.h>
+#include <itpp/base/vec.h>
+#include <itpp/base/mat.h>
 #include <iostream>
 #include <fstream>
 #include <string>

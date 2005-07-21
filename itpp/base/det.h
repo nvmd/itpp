@@ -24,7 +24,7 @@
 #ifndef __det_h
 #define __det_h
 
-#include "itpp/base/mat.h"
+#include <itpp/base/mat.h>
 
 namespace itpp {
 

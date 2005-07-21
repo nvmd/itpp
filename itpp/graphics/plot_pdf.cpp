@@ -23,8 +23,8 @@
 
 #ifdef HAVE_HARU
 
-#include "itpp/graphics/plot_pdf.h"
-#include "itpp/base/itfile.h"
+#include <itpp/graphics/plot_pdf.h>
+#include <itpp/base/itfile.h>
 
 
 namespace itpp {

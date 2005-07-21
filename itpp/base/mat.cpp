@@ -21,7 +21,7 @@
   $Date$ 
 */
 
-#include "itpp/base/mat.h"
+#include <itpp/base/mat.h>
 
 namespace itpp {
 

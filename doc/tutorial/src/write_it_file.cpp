@@ -1,4 +1,6 @@
-#include "itcomm.h"
+#include <itpp/itcomm.h>
+
+using namespace itpp;
 
 int main()
 {

@@ -24,9 +24,9 @@
 #ifndef __galois_h
 #define __galois_h
 
-#include "itpp/base/vec.h"
-#include "itpp/base/specmat.h"
-#include "itpp/base/array.h"
+#include <itpp/base/vec.h>
+#include <itpp/base/specmat.h>
+#include <itpp/base/array.h>
 #include <iostream>
 #include <cassert>
 

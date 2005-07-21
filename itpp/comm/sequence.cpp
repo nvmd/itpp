@@ -21,9 +21,9 @@
   $Date$
 */
 
-#include "itpp/base/itassert.h"
-#include "itpp/comm/sequence.h"
-#include "itpp/base/specmat.h"
+#include <itpp/base/itassert.h>
+#include <itpp/comm/sequence.h>
+#include <itpp/base/specmat.h>
 
 namespace itpp { 
 

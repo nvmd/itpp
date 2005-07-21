@@ -21,9 +21,9 @@
   $Date$
 */
 
-#include "itpp/comm/punct_convcode.h"
-#include "itpp/base/binary.h"
-#include "itpp/base/matfunc.h"
+#include <itpp/comm/punct_convcode.h>
+#include <itpp/base/binary.h>
+#include <itpp/base/matfunc.h>
 
 // #ifdef _MSC_VER
 // #pragma warning(disable : 4244)

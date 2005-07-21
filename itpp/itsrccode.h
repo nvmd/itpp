@@ -23,12 +23,12 @@
 #ifndef __itsrccode_h
 #define __itsrccode_h
 
-#include "itpp/itbase.h"
+#include <itpp/itbase.h>
 
-#include "itpp/srccode/vq.h"
-#include "itpp/srccode/vqtrain.h"
-#include "itpp/srccode/gmm.h"
-#include "itpp/srccode/lpcfunc.h"
-#include "itpp/srccode/audiofile.h"
+#include <itpp/srccode/vq.h>
+#include <itpp/srccode/vqtrain.h>
+#include <itpp/srccode/gmm.h>
+#include <itpp/srccode/lpcfunc.h>
+#include <itpp/srccode/audiofile.h>
 
 #endif // __itsrccode_h

@@ -24,11 +24,11 @@
 #ifndef __sort_h
 #define __sort_h
 
-#include "itpp/base/vec.h"
+#include <itpp/base/vec.h>
 //#include "base/mat.h"
 //#include "base/converters.h"
 //#include "base/scalfunc.h"
-#include "itpp/base/itassert.h"
+#include <itpp/base/itassert.h>
 //#include "base/specmat.h"
 //#include "base/binary.h"
 

@@ -24,7 +24,7 @@
 #ifndef __itassert_h
 #define __itassert_h
 
-#include "itpp/itconfig.h"
+#include <itpp/itconfig.h>
 #include <iostream>
 #include <string>
 

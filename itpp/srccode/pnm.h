@@ -23,7 +23,7 @@
 #ifndef __pnm_h
 #define __pnm_h
 
-#include "itpp/base/mat.h"
+#include <itpp/base/mat.h>
 
 using std::string;
 

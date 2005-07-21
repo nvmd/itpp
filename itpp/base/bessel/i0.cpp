@@ -7,7 +7,7 @@
 #include <cmath>
 #include <iostream> //This line is needed for the Sun WorkShop Compiler 5.0 (CC). Dunno why... (PF 2001-12-03)
 
-#include "itpp/base/bessel/bessel_internal.h"
+#include <itpp/base/bessel/bessel_internal.h>
 
 // This is slightly modified routine from the Cephes library, see http://www.netlib.org/cephes/
 //  

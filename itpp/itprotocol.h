@@ -26,21 +26,21 @@
 #ifndef __itprotocol_h
 #define __itprotocol_h
 
-#include "itpp/itcomm.h"
+#include <itpp/itcomm.h>
 
-#include "itpp/protocol/events.h"
-#include "itpp/protocol/signals_slots.h"
+#include <itpp/protocol/events.h>
+#include <itpp/protocol/signals_slots.h>
 
-#include "itpp/protocol/packet.h"
-#include "itpp/protocol/packet_generator.h"
-#include "itpp/protocol/packet_channel.h"
+#include <itpp/protocol/packet.h>
+#include <itpp/protocol/packet_generator.h>
+#include <itpp/protocol/packet_channel.h>
 
-#include "itpp/protocol/front_drop_queue.h"
+#include <itpp/protocol/front_drop_queue.h>
 
-#include "itpp/protocol/selective_repeat.h"
+#include <itpp/protocol/selective_repeat.h>
 
-#include "itpp/protocol/tcp.h"
-#include "itpp/protocol/tcp_client_server.h"
+#include <itpp/protocol/tcp.h>
+#include <itpp/protocol/tcp_client_server.h>
 
 
 #endif // __itprotocol_h

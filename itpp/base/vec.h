@@ -31,12 +31,12 @@
 #include <cstring>
 #include <cmath>
 #include <sstream>
-#include "itpp/itconfig.h"
-#include "itpp/base/binary.h"
-#include "itpp/base/itassert.h"
-#include "itpp/base/scalfunc.h"
-#include "itpp/base/factory.h"
-#include "itpp/base/copy_vector.h"
+#include <itpp/itconfig.h>
+#include <itpp/base/binary.h>
+#include <itpp/base/itassert.h>
+#include <itpp/base/scalfunc.h>
+#include <itpp/base/factory.h>
+#include <itpp/base/copy_vector.h>
 
 
 
@@ -458,7 +458,7 @@ namespace itpp {
 
 } //namespace itpp
 
-#include "itpp/base/mat.h"
+#include <itpp/base/mat.h>
 
 namespace itpp {
 

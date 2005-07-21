@@ -24,10 +24,10 @@
 #ifndef __smat_h
 #define __smat_h
 
-#include "itpp/itconfig.h"
-#include "itpp/base/svec.h"
-#include "itpp/base/vec.h"
-#include "itpp/base/mat.h"
+#include <itpp/itconfig.h>
+#include <itpp/base/svec.h>
+#include <itpp/base/vec.h>
+#include <itpp/base/mat.h>
 
 namespace itpp {
 

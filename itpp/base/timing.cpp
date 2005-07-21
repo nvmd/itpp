@@ -28,7 +28,7 @@ $Date$
 #include <sys/time.h>
 #endif
 
-#include "itpp/base/timing.h"
+#include <itpp/base/timing.h>
 
 using std::cout;
 using std::endl;

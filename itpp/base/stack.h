@@ -29,8 +29,8 @@
 #ifndef __stack_h
 #define __stack_h
 
-#include "itpp/itconfig.h"
-#include "itpp/base/itassert.h"
+#include <itpp/itconfig.h>
+#include <itpp/base/itassert.h>
 #include <iostream>
 
 namespace itpp {

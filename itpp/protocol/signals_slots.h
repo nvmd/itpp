@@ -24,7 +24,7 @@
 #ifndef __signal_slot_h
 #define __signal_slot_h
 
-#include "itpp/protocol/events.h"
+#include <itpp/protocol/events.h>
 
 
 #include <string>

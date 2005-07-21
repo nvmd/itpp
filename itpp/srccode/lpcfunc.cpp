@@ -21,12 +21,12 @@
   $Date$
 */
 
-#include "itpp/srccode/lpcfunc.h"
-#include "itpp/base/scalfunc.h"
-#include "itpp/base/stat.h"
-#include "itpp/base/matfunc.h"
-#include "itpp/base/elmatfunc.h"
-#include "itpp/base/sigfun.h"
+#include <itpp/srccode/lpcfunc.h>
+#include <itpp/base/scalfunc.h>
+#include <itpp/base/stat.h>
+#include <itpp/base/matfunc.h>
+#include <itpp/base/elmatfunc.h>
+#include <itpp/base/sigfun.h>
 
 using std::cout;
 using std::endl;

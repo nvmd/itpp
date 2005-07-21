@@ -26,7 +26,7 @@
 #define __itmex_h
 
 #include <mex.h>
-#include "itpp/itbase.h"
+#include <itpp/itbase.h>
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 

@@ -24,8 +24,8 @@
 #ifndef __spread_h
 #define __spread_h
 
-#include "itpp/base/vec.h"
-#include "itpp/base/mat.h"
+#include <itpp/base/vec.h>
+#include <itpp/base/mat.h>
 
 namespace itpp {
 

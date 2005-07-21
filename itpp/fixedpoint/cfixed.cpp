@@ -20,7 +20,7 @@
   $Date$
 */
 
-#include "itpp/fixedpoint/cfixed.h"
+#include <itpp/fixedpoint/cfixed.h>
 
 namespace itpp {
 

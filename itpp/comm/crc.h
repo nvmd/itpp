@@ -24,8 +24,8 @@
 #ifndef __crc_h
 #define __crc_h
 
-#include "itpp/base/vec.h"
-#include "itpp/base/mat.h"
+#include <itpp/base/vec.h>
+#include <itpp/base/mat.h>
 
 namespace itpp {
 

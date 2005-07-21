@@ -24,10 +24,10 @@
 #ifndef __operators_h
 #define __operators_h
 
-#include "itpp/base/vec.h"
-#include "itpp/base/mat.h"
-#include "itpp/base/scalfunc.h"
-#include "itpp/base/converters.h"
+#include <itpp/base/vec.h>
+#include <itpp/base/mat.h>
+#include <itpp/base/scalfunc.h>
+#include <itpp/base/converters.h>
 
 namespace itpp {
 

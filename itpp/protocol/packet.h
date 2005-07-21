@@ -25,7 +25,7 @@
 #define __packet_h
 
 #include <stdlib.h>
-#include "itpp/protocol/signals_slots.h"
+#include <itpp/protocol/signals_slots.h>
 
 namespace itpp {
 

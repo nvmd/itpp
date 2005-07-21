@@ -24,8 +24,8 @@
 #ifndef __lu_h
 #define __lu_h
 
-#include "itpp/base/vec.h"
-#include "itpp/base/mat.h"
+#include <itpp/base/vec.h>
+#include <itpp/base/mat.h>
 
 namespace itpp {
 

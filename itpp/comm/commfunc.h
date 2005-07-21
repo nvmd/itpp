@@ -24,8 +24,8 @@
 #ifndef _commfunc_h
 #define _commfunc_h
 
-#include "itpp/base/mat.h"
-#include "itpp/base/vec.h"
+#include <itpp/base/mat.h>
+#include <itpp/base/vec.h>
 
 namespace itpp {
 

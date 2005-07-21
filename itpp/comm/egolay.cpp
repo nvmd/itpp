@@ -21,9 +21,9 @@
   $Date$
 */
 
-#include "itpp/base/specmat.h"
-#include "itpp/comm/egolay.h"
-#include "itpp/comm/commfunc.h"
+#include <itpp/base/specmat.h>
+#include <itpp/comm/egolay.h>
+#include <itpp/comm/commfunc.h>
 #include <iostream>
 
 namespace itpp { 

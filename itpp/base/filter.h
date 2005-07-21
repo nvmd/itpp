@@ -29,11 +29,11 @@
 #include <iostream>
 #include <algorithm>
 
-#include "itpp/itconfig.h"
-#include "itpp/base/vec.h"
-#include "itpp/base/matfunc.h"
-#include "itpp/base/specmat.h"
-#include "itpp/base/itassert.h"
+#include <itpp/itconfig.h>
+#include <itpp/base/vec.h>
+#include <itpp/base/matfunc.h>
+#include <itpp/base/specmat.h>
+#include <itpp/base/itassert.h>
 
 namespace itpp {
 

@@ -26,10 +26,10 @@
 #define __stat_h
 
 #include <cmath>
-#include "itpp/base/vec.h"
-#include "itpp/base/mat.h"
-#include "itpp/base/scalfunc.h"
-#include "itpp/base/matfunc.h"
+#include <itpp/base/vec.h>
+#include <itpp/base/mat.h>
+#include <itpp/base/scalfunc.h>
+#include <itpp/base/matfunc.h>
 
 namespace itpp {
 

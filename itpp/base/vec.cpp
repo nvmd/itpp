@@ -21,10 +21,10 @@
   $Date$ 
 */
 
-#include "itpp/base/vec.h"
+#include <itpp/base/vec.h>
 
 #if defined (HAVE_CBLAS) || defined(HAVE_MKL)
-#include "itpp/base/cblas.h"
+#include <itpp/base/cblas.h>
 #endif
 
 namespace itpp {

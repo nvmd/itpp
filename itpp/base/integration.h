@@ -24,8 +24,8 @@
 #ifndef __integration_h
 #define __integration_h
 
-#include "itpp/itconfig.h"
-#include "itpp/base/vec.h"
+#include <itpp/itconfig.h>
+#include <itpp/base/vec.h>
 #include <limits>
 
 

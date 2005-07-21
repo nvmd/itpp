@@ -24,9 +24,9 @@
 #ifndef __hamming_h
 #define __hamming_h
 
-#include "itpp/base/vec.h"
-#include "itpp/base/mat.h"
-#include "itpp/comm/channel_code.h"
+#include <itpp/base/vec.h>
+#include <itpp/base/mat.h>
+#include <itpp/comm/channel_code.h>
 
 namespace itpp {
 

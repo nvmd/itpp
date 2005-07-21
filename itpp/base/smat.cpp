@@ -21,7 +21,7 @@
   2003/05/22 08:55:20
 */
 
-#include "itpp/base/smat.h"
+#include <itpp/base/smat.h>
 
 namespace itpp {
  

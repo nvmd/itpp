@@ -21,10 +21,10 @@
   $Date$
 */
 
-#include "itpp/itconfig.h"
-#include "itpp/base/binary.h"
-#include "itpp/base/matfunc.h"
-#include "itpp/comm/error_counters.h"
+#include <itpp/itconfig.h>
+#include <itpp/base/binary.h>
+#include <itpp/base/matfunc.h>
+#include <itpp/comm/error_counters.h>
 
 using std::cout;
 using std::endl;

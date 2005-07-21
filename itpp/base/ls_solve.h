@@ -24,9 +24,9 @@
 #ifndef __ls_solve_h
 #define __ls_solve_h
 
-#include "itpp/base/vec.h"
-#include "itpp/base/mat.h"
-#include "itpp/base/cholesky.h"
+#include <itpp/base/vec.h>
+#include <itpp/base/mat.h>
+#include <itpp/base/cholesky.h>
 
 namespace itpp {
 

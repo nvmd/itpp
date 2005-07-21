@@ -21,7 +21,7 @@
   $Date$ 
 */
 
-#include "itpp/protocol/packet_generator.h"
+#include <itpp/protocol/packet_generator.h>
 
 
 namespace itpp {

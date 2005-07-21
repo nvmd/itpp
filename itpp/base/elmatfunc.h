@@ -24,11 +24,11 @@
 #ifndef __elmatfunc_h
 #define __elmatfunc_h
 
-#include "itpp/base/vec.h"
-#include "itpp/base/mat.h"
-#include "itpp/base/scalfunc.h"
-#include "itpp/base/help_functions.h"
-#include "itpp/base/converters.h"
+#include <itpp/base/vec.h>
+#include <itpp/base/mat.h>
+#include <itpp/base/scalfunc.h>
+#include <itpp/base/help_functions.h>
+#include <itpp/base/converters.h>
 
 namespace itpp {
   // ACTION: This should be split into several files. And documented per group

@@ -24,10 +24,10 @@
 #ifndef __packet_channel_h
 #define __packet_channel_h
 
-#include "itpp/protocol/signals_slots.h"
-#include "itpp/protocol/packet.h"
-#include "itpp/base/vec.h"
-#include "itpp/base/itassert.h"
+#include <itpp/protocol/signals_slots.h>
+#include <itpp/protocol/packet.h>
+#include <itpp/base/vec.h>
+#include <itpp/base/itassert.h>
 
 namespace itpp {
 

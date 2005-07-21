@@ -22,9 +22,9 @@
 */
 
 #include <cassert>
-#include "itpp/itconfig.h"
-#include "itpp/base/ls_solve.h"
-#include "itpp/base/lapack.h"
+#include <itpp/itconfig.h>
+#include <itpp/base/ls_solve.h>
+#include <itpp/base/lapack.h>
 
 
 

@@ -57,7 +57,7 @@
  * - default approach is SYMM wit non-linearity POW3                                      *
  *----------------------------------------------------------------------------------------*/
 
-#include "itpp/itbase.h"
+#include <itpp/itbase.h>
 #include "stdio.h"
 
 using std::cout;
