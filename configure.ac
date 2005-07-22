@@ -126,7 +126,6 @@ AC_CHECK_LIB(m, sin)
 AC_F77_FUNC(sgemm) 
 AC_F77_FUNC(cheev)
 
-
 # Checks for Intel MKL
 AC_ARG_WITH(mkl_dir, [AS_HELP_STRING([--with-mkl-dir=DIR], 
   [set Intel MKL directory to DIR])], [MKL_DIR=$withval], [MKL_DIR=""])
@@ -170,6 +169,7 @@ fi
 
 # Checks for ATLAS and BLAS libraries
 if test "x$atlas_ok" != xdisabled; then
+  atlas_save_LIBS="$LIBS"; LIBS="$LIBS $FLIBS"
   atlas_ok=no
   test "x$blas_ok" != xdisabled && blas_ok=no
   AC_CHECK_LIB(atlas, ATL_xerbla,
@@ -185,8 +185,8 @@ if test "x$atlas_ok" != xdisabled; then
           [], [-lblas -latlas])], 
         [], [-latlas])])],
     [AC_CHECK_LIB(blas, $sgemm, [blas_ok=yes; BLAS_LIBS="-lblas"])])
+  LIBS="$atlas_save_LIBS"
 fi
-
 
 # Checks for CBLAS library
 AC_ARG_WITH(cblas_dir, [AS_HELP_STRING([--with-cblas-dir=DIR], 
@@ -195,7 +195,7 @@ if test "x$CBLAS_DIR" != x; then
   CBLAS_LDFLAGS="-L$CBLAS_DIR"
 fi
 cblas_save_LDFLAGS="$LDFLAGS"; LDFLAGS="$CBLAS_LDFLAGS $LDFLAGS"
- 
+
 test "x$cblas_ok" != xdisabled && cblas_ok=no
 AC_ARG_WITH(cblas, [AS_HELP_STRING([--with-cblas=LIB], 
   [use CBLAS library, e.g. -lcblas -lblas])])
@@ -205,34 +205,32 @@ case $with_cblas in
   *) CBLAS_LIBS="$with_cblas" ;;
 esac
 
-if test "x$cblas_ok" = xno; then
-  if test "x$CBLAS_LIBS" != x; then
-    cblas_save_LIBS="$LIBS"; LIBS="$CBLAS_LIBS $LIBS"
-    AC_CHECK_FUNC(cblas_sgemm, [cblas_ok=yes], [CBLAS_LIBS=""])
-    LIBS="$cblas_save_LIBS"
-  fi
-fi
-
 if test "x$atlas_ok" = xyes; then
   cblas_ok=yes
   CBLAS_LIBS="$ATLAS_LIBS"
 fi
 
 if test "x$cblas_ok" = xno; then
-  AC_CHECK_LIB(blas, cblas_sgemm, [cblas_ok=yes; CBLAS_LIBS="-lblas"])
+  if test "x$CBLAS_LIBS" != x; then
+    cblas_save_LIBS="$LIBS"; LIBS="$CBLAS_LIBS $LIBS $FLIBS"
+    AC_CHECK_FUNC(cblas_sgemm, [cblas_ok=yes], [CBLAS_LIBS=""])
+    LIBS="$cblas_save_LIBS"
+  fi
 fi
 
 if test "x$cblas_ok" = xno; then
+  cblas_save_LIBS="$LIBS"; LIBS="$LIBS $FLIBS"
   AC_CHECK_LIB(cblas, cblas_sgemm, [cblas_ok=yes; CBLAS_LIBS="-lcblas -lblas"],
-    [], [-lblas])
+    [AC_CHECK_LIB(blas, cblas_sgemm, [cblas_ok=yes; CBLAS_LIBS="-lblas"])], 
+    [-lblas])
+  LIBS="$cblas_save_LIBS"
 fi
-
 
 if test "x$cblas_ok" = xyes; then
   AC_DEFINE([HAVE_CBLAS], [1], [Define if you have CBLAS library.])
   LIBS="$CBLAS_LIBS $LIBS $FLIBS"
 else
-	LDFLAGS="$cblas_save_LDFLAGS"
+  LDFLAGS="$cblas_save_LDFLAGS"
 fi
 
 
@@ -255,28 +253,28 @@ case $with_lapack in
 esac
 
 if test "x$lapack_ok" = xno; then
-  if test "x$blas_ok" = xyes; then
-    if test "x$atlas_ok" = xyes; then
-      BLAS_LIBS="$ATLAS_LIBS"
-    fi
-    if test "x$LAPACK_LIBS" != x; then
-      lapack_save_LIBS="$LIBS"; LIBS="$LAPACK_LIBS $BLAS_LIBS $LIBS"
-      AC_CHECK_FUNC($cheev, [lapack_ok=yes], [LAPACK_LIBS=""])
+  if test "x$LAPACK_LIBS" != x; then
+    lapack_save_LIBS="$LIBS"; LIBS="$LAPACK_LIBS $LIBS $FLIBS"
+    AC_CHECK_FUNC($cheev, [lapack_ok=yes], [LAPACK_LIBS=""])
+    LIBS="$lapack_save_LIBS"
+  fi
+fi
+
+if test "x$blas_ok" = xyes; then
+  if test "x$atlas_ok" = xyes; then
+    BLAS_LIBS="$ATLAS_LIBS"
+  fi
+  if test "x$lapack_ok" = xno; then
+    lapack_save_LIBS="$LIBS"; LIBS="$BLAS_LIBS $LIBS $FLIBS"
+    AC_CHECK_FUNC($cheev, [lapack_ok=yes])
+    LIBS="$lapack_save_LIBS"
+  fi
+  if test "x$lapack_ok" = xno; then
+    for lapack in lapack lapack_rs6k; do
+      lapack_save_LIBS="$LIBS"; LIBS="$BLAS_LIBS $LIBS $FLIBS"
+      AC_CHECK_LIB($lapack, $cheev, [lapack_ok=yes; LAPACK_LIBS="-l$lapack"])
       LIBS="$lapack_save_LIBS"
-    fi
-    if test "x$lapack_ok" = xno; then
-      lapack_save_LIBS="$LIBS"; LIBS="$BLAS_LIBS $LIBS"
-      AC_CHECK_FUNC($cheev, [lapack_ok=yes])
-      LIBS="$lapack_save_LIBS"
-    fi
-    if test "x$lapack_ok" = xno; then
-      for lapack in lapack lapack_rs6k; do
-        lapack_save_LIBS="$LIBS"; LIBS="$BLAS_LIBS $LIBS"
-        AC_CHECK_LIB($lapack, $cheev, [lapack_ok=yes; LAPACK_LIBS="-l$lapack"], 
-          [], [$FLIBS])
-        LIBS="$lapack_save_LIBS"
-      done
-    fi
+    done
   fi
 fi
     
@@ -288,7 +286,7 @@ if test "x$lapack_ok" = xyes; then
     LIBS="$LAPACK_LIBS $BLAS_LIBS $LIBS $FLIBS"
   fi
 else    
-	LDFLAGS="$lapack_save_LDFLAGS"
+  LDFLAGS="$lapack_save_LDFLAGS"
 fi
 
 
