@@ -1,3 +1,10 @@
+2005-07-27  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* Fixed bug [1084246]. Operators and other functions in Vec, Mat
+	and Array revised to follow standard C++ conventions. Now
+	operators provide an lvalue and also check against self-
+	assignment. 
+
 2005-07-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac: fixed a bug that prevented detection of nonstandard 

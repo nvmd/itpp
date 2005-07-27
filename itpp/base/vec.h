@@ -1,5 +1,5 @@
 /*---------------------------------------------------------------------------*
- *                                   IT++			             *
+ *                                   IT++                                    *
  *---------------------------------------------------------------------------*
  * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
  * Tobias Ringström, and Jonas Samuelsson.                                   *
@@ -39,16 +39,6 @@
 #include <itpp/base/copy_vector.h>
 
 
-
-//using std::cout;
-//using std::endl;
-//using std::string;
-//using std::ostream;
-//using std::istream;
-//using std::istringstream;
-//using std::getline;
-//using std::complex;
-
 namespace itpp {
 
   // Declaration of Vec
@@ -63,61 +53,60 @@ namespace itpp {
   //-----------------------------------------------------------------------------------
 
   //! Addition of two vectors
-  template<class Num_T> Vec<Num_T> operator+(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
+  template<class Num_T> const Vec<Num_T> operator+(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
   //! Addition of a vector and a scalar
-  template<class Num_T> Vec<Num_T> operator+(const Vec<Num_T> &v, Num_T t);
+  template<class Num_T> const Vec<Num_T> operator+(const Vec<Num_T> &v, const Num_T t);
   //! Addition of a scalar and a vector
-  template<class Num_T> Vec<Num_T> operator+(Num_T t, const Vec<Num_T> &v);
+  template<class Num_T> const Vec<Num_T> operator+(const Num_T t, const Vec<Num_T> &v);
 
   //! Subtraction of a vector from a vector
-  template<class Num_T> Vec<Num_T> operator-(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
+  template<class Num_T> const Vec<Num_T> operator-(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
   //! Subtraction of a scalar from a vector
-  template<class Num_T> Vec<Num_T> operator-(const Vec<Num_T> &v, Num_T t);
+  template<class Num_T> const Vec<Num_T> operator-(const Vec<Num_T> &v, const Num_T t);
   //! Subtraction of vector from scalar. Results in a vector
-  template<class Num_T> Vec<Num_T> operator-(Num_T t, const Vec<Num_T> &v);
+  template<class Num_T> const Vec<Num_T> operator-(const Num_T t, const Vec<Num_T> &v);
   //! Negation of vector
-  template<class Num_T> Vec<Num_T> operator-(const Vec<Num_T> &v);
+  template<class Num_T> const Vec<Num_T> operator-(const Vec<Num_T> &v);
 
   //! Inner (dot) product of two vectors v1 and v2
-  template<class Num_T> Num_T dot(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
+  template<class Num_T> const Num_T dot(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
   //! Inner (dot) product of two vectors v1 and v2
-  template<class Num_T> Num_T operator*(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
+  template<class Num_T> const Num_T operator*(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
   { return dot(v1, v2); }
   //! Outer product of two vectors v1 and v2
-  template<class Num_T> Mat<Num_T> outer_product(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
+  template<class Num_T> const Mat<Num_T> outer_product(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
   //! Multiplication of a vector and a scalar
-  template<class Num_T> Vec<Num_T> operator*(const Vec<Num_T> &v, Num_T t);
+  template<class Num_T> const Vec<Num_T> operator*(const Vec<Num_T> &v, const Num_T t);
   //! Multiplication of a scalar and a vector. Results in a vector
-  template<class Num_T> Vec<Num_T> operator*(Num_T t, const Vec<Num_T> &v);
+  template<class Num_T> const Vec<Num_T> operator*(const Num_T t, const Vec<Num_T> &v);
   //! Elementwise multiplication of the two vectors
-  template<class Num_T> Vec<Num_T> elem_mult(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
+  template<class Num_T> const Vec<Num_T> elem_mult(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
   //! Elementwise multiplication of the three vectors
-  template<class Num_T> Vec<Num_T> elem_mult(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3);
+  template<class Num_T> const Vec<Num_T> elem_mult(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3);
   //! Elementwise multiplication of the four vectors
-  template<class Num_T> Vec<Num_T> elem_mult(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3, const Vec<Num_T> &v4);
+  template<class Num_T> const Vec<Num_T> elem_mult(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3, const Vec<Num_T> &v4);
 
   //! Division of all elements in \c v with \c t
-  template<class Num_T> Vec<Num_T> operator/(const Vec<Num_T> &v, Num_T t);
+  template<class Num_T> const Vec<Num_T> operator/(const Vec<Num_T> &v, const Num_T t);
   //! Division of \c t with all elements in \c v
-  template<class Num_T> Vec<Num_T> operator/(const Num_T t, const Vec<Num_T> &v);
+  template<class Num_T> const Vec<Num_T> operator/(const Num_T t, const Vec<Num_T> &v);
   //! Elementwise division
-  template<class Num_T> Vec<Num_T> elem_div(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
+  template<class Num_T> const Vec<Num_T> elem_div(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
   //! Elementwise division of scalar \c t and vector \c v
-  template<class Num_T> Vec<Num_T> elem_div(const Num_T t, const Vec<Num_T> &v);
+  template<class Num_T> const Vec<Num_T> elem_div(const Num_T t, const Vec<Num_T> &v);
 
   //! Append element \c a to the end of the vector \c v
-  template<class Num_T> Vec<Num_T> concat(const Vec<Num_T> &v, const Num_T a);
+  template<class Num_T> const Vec<Num_T> concat(const Vec<Num_T> &v, const Num_T a);
   //! Concat element \c a to the beginning of the vector \c v
-  template<class Num_T> Vec<Num_T> concat(const Num_T a, const Vec<Num_T> &v);
+  template<class Num_T> const Vec<Num_T> concat(const Num_T a, const Vec<Num_T> &v);
   //! Concat vectors \c v1 and \c v2
-  template<class Num_T> Vec<Num_T> concat(const Vec<Num_T> &v1,const Vec<Num_T> &v2);
+  template<class Num_T> const Vec<Num_T> concat(const Vec<Num_T> &v1,const Vec<Num_T> &v2);
   //! Concat vectors \c v1, \c v2 and \c v3
-  template<class Num_T> Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3);
+  template<class Num_T> const Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3);
   //! Concat vectors \c v1, \c v2, \c v3 and \c v4
-  template<class Num_T> Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3, const Vec<Num_T> &v4);
+  template<class Num_T> const Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3, const Vec<Num_T> &v4);
   //! Concat vectors \c v1, \c v2 \c v3, \c v4 and \c v5
-  template<class Num_T> Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3,
-					  const Vec<Num_T> &v4, const Vec<Num_T> &v5);
+  template<class Num_T> const Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3, const Vec<Num_T> &v4, const Vec<Num_T> &v5);
 
   //-----------------------------------------------------------------------------------
   // Declaration of Vec
@@ -186,12 +175,12 @@ namespace itpp {
     the Vec constructor call; see Detailed Description for Factory.
   */
   template<class Num_T>
-    class Vec {
+	class Vec {
   public:
     //! Default constructor. An element factory \c f can be specified
     explicit Vec(const Factory &f = DEFAULT_FACTORY) : factory(f) { init(); }
     //! Constructor. An element factory \c f can be specified
-    explicit Vec(int size, const Factory &f = DEFAULT_FACTORY) : factory(f) { it_assert1(size>=0,"Negative size in Vec::Vec(int)"); init(); alloc(size); }
+    explicit Vec(const int size, const Factory &f = DEFAULT_FACTORY) : factory(f) { it_assert1(size>=0, "Negative size in Vec::Vec(int)"); init(); alloc(size); }
     //! Copy constructor
     Vec(const Vec<Num_T> &v);
     //! Constructor, similar to the copy constructor, but also takes an element factory \c f as argument
@@ -201,7 +190,7 @@ namespace itpp {
     //! Constructor. An element factory \c f can be specified
     Vec(const std::string &values, const Factory &f = DEFAULT_FACTORY) : factory(f) { init(); set(values); }
     //! Constructor taking a C-array as input. Copies all data. An element factory \c f can be specified
-    Vec(Num_T *c_array, int size, const Factory &f = DEFAULT_FACTORY) : factory(f) { init(); alloc(size); copy_vector(size, c_array, data); }
+    Vec(Num_T *c_array, const int size, const Factory &f = DEFAULT_FACTORY) : factory(f) { init(); alloc(size); copy_vector(size, c_array, data); }
 
     //! Destructor
     ~Vec() { free(); }
@@ -212,9 +201,9 @@ namespace itpp {
     int size() const { return datasize; }
 
     //! Set length of vector. if copy = true then keeping the old values
-    void set_length(int size, bool copy=false) { set_size(size,copy); }
+    void set_length(const int size, const bool copy=false) { set_size(size,copy); }
     //! Set length of vector. if copy = true then keeping the old values
-    void set_size(int size, bool copy=false);
+    void set_size(const int size, const bool copy=false);
     //! Set the vector to the all zero vector
     void zeros() { for (int i=0; i<datasize; i++) {data[i]=Num_T(0);} }
     //! Set the vector to the all zero vector
@@ -227,24 +216,24 @@ namespace itpp {
     bool set(const std::string &str);
 
     //! C-style index operator. First element is 0
-    const Num_T &operator[](int i) const { it_assert0(i>=0&&i<datasize, "operator[]"); return data[i]; }
+    const Num_T &operator[](const int i) const { it_assert0(i>=0&&i<datasize, "operator[]"); return data[i]; }
     //! Index operator. First element is 0
-    const Num_T &operator()(int i) const { it_assert0(i>=0&&i<datasize, "operator()"); return data[i]; }
+    const Num_T &operator()(const int i) const { it_assert0(i>=0&&i<datasize, "operator()"); return data[i]; }
     //! C-style index operator. First element is 0
-    Num_T &operator[](int i) { it_assert0(i>=0&&i<datasize, "operator[]"); return data[i]; }
+    Num_T &operator[](const int i) { it_assert0(i>=0&&i<datasize, "operator[]"); return data[i]; }
     //! Index operator. First element is 0
-    Num_T &operator()(int i) { it_assert0(i>=0&&i<datasize, "operator()"); return data[i]; }
+    Num_T &operator()(const int i) { it_assert0(i>=0&&i<datasize, "operator()"); return data[i]; }
     //! Sub-vector with elements from \c i1 to \c i2. Index -1 indicates the last element.
-    const Vec<Num_T> operator()(int i1, int i2) const;
+    const Vec<Num_T> operator()(const int i1, const int i2) const;
     //! Sub-vector where the elements are given by the list \c indexlist
     const Vec<Num_T> operator()(const Vec<int> &indexlist) const;
 
     //! Accessor-style method. First element is 0
-    const Num_T &get(int i) const { it_assert0(i>=0&&i<datasize, "method get()"); return data[i]; }
+    const Num_T &get(const int i) const { it_assert0(i>=0&&i<datasize, "method get()"); return data[i]; }
     //! Sub-vector with elements from \c i1 to \c i2. Index -1 indicates the last element.
-    const Vec<Num_T> get(int i1, int i2) const;
+    const Vec<Num_T> get(const int i1, const int i2) const;
     //! Modifier-style method. First element is 0
-    void set(int i, const Num_T &v) { it_assert0(i>=0&&i<datasize, "method set()"); data[i]=v; }
+    void set(const int i, const Num_T &v) { it_assert0(i>=0&&i<datasize, "method set()"); data[i]=v; }
 
     //! Matrix transpose. Converts to a matrix with the vector in the first row
     Mat<Num_T> transpose() const;
@@ -256,114 +245,114 @@ namespace itpp {
     Mat<Num_T> H() const { return this->hermitian_transpose(); }
 
     //! Addition of vector
-    void operator+=(const Vec<Num_T> &v);
+    Vec<Num_T>& operator+=(const Vec<Num_T> &v);
     //! Addition of scalar
-    void operator+=(Num_T t) { for (int i=0;i<datasize;i++) data[i]+=t; }
+		Vec<Num_T>& operator+=(const Num_T t);
     //! Addition of two vectors
-    friend Vec<Num_T> operator+<>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
+    friend const Vec<Num_T> operator+<>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
     //! Addition of a vector and a scalar
-    friend Vec<Num_T> operator+<>(const Vec<Num_T> &v, Num_T t);
+    friend const Vec<Num_T> operator+<>(const Vec<Num_T> &v, const Num_T t);
     //! Addition of a scalar and a vector
-    friend Vec<Num_T> operator+<>(Num_T t, const Vec<Num_T> &v);
+    friend const Vec<Num_T> operator+<>(const Num_T t, const Vec<Num_T> &v);
 
     //! Subtraction of vector
-    void operator-=(const Vec<Num_T> &v);
+    Vec<Num_T>& operator-=(const Vec<Num_T> &v);
     //! Subtraction of scalar
-    void operator-=(Num_T t) { for (int i=0;i<datasize;i++) data[i]-=t; }
+		Vec<Num_T>& operator-=(const Num_T t);
     //! Subtraction of \c v2 from \c v1
-    friend Vec<Num_T> operator-<>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
+    friend const Vec<Num_T> operator-<>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
     //! Subtraction of scalar from vector
-    friend Vec<Num_T> operator-<>(const Vec<Num_T> &v, Num_T t);
+    friend const Vec<Num_T> operator-<>(const Vec<Num_T> &v, const Num_T t);
     //! Sutraction of vector from scalar
-    friend Vec<Num_T> operator-<>(Num_T t, const Vec<Num_T> &v);
+    friend const Vec<Num_T> operator-<>(const Num_T t, const Vec<Num_T> &v);
     //! Negation of vector
-    friend Vec<Num_T> operator-<>(const Vec<Num_T> &v);
+    friend const Vec<Num_T> operator-<>(const Vec<Num_T> &v);
 
     //! Multiply with a scalar
-    void operator*=(Num_T t) { for (int i=0;i<datasize;i++) data[i] *= t; }
+		Vec<Num_T>& operator*=(const Num_T t);
     //! Inner (dot) product
-    friend Num_T operator*<>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
+    friend const Num_T operator*<>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
     //! Inner (dot) product
-    friend Num_T dot <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
+    friend const Num_T dot <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
     //! Outer product of two vectors v1 and v2
-    friend Mat<Num_T> outer_product <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
+    friend const Mat<Num_T> outer_product <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
     //! Elementwise multiplication of vector and scalar
-    friend Vec<Num_T> operator*<>(const Vec<Num_T> &v, Num_T t);
+    friend const Vec<Num_T> operator*<>(const Vec<Num_T> &v, const Num_T t);
     //! Elementwise multiplication of vector and scalar
-    friend Vec<Num_T> operator*<>(Num_T t, const Vec<Num_T> &v);
+    friend const Vec<Num_T> operator*<>(const Num_T t, const Vec<Num_T> &v);
     //! Elementwise multiplication
-    friend Vec<Num_T> elem_mult <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
+    friend const Vec<Num_T> elem_mult <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
     //! Elementwise multiplication of three vectors
-    friend Vec<Num_T> elem_mult <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3);
+    friend const Vec<Num_T> elem_mult <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3);
     //! Elementwise multiplication of four vectors
-    friend Vec<Num_T> elem_mult <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3, const Vec<Num_T> &v4);
+    friend const Vec<Num_T> elem_mult <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3, const Vec<Num_T> &v4);
 
     //! Elementwise division
-    void operator/=(Num_T t) { for (int i=0;i<datasize;i++) data[i]/=t; }
+		Vec<Num_T>& operator/=(const Num_T t);
     //! Elementwise division
-    friend Vec<Num_T> operator/<>(const Vec<Num_T> &v, Num_T t);
+    Vec<Num_T>& operator/=(const Vec<Num_T> &v);
     //! Elementwise division
-    friend Vec<Num_T> operator/<>(const Num_T t, const Vec<Num_T> &v);
+    friend const Vec<Num_T> operator/<>(const Vec<Num_T> &v, const Num_T t);
     //! Elementwise division
-    void operator/=(const Vec<Num_T> &v);
+    friend const Vec<Num_T> operator/<>(const Num_T t, const Vec<Num_T> &v);
     //! Elementwise division
-    friend Vec<Num_T> elem_div <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
+    friend const Vec<Num_T> elem_div <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
     //! Elementwise division
-    friend Vec<Num_T> elem_div <>(const Num_T t, const Vec<Num_T> &v);
+    friend const Vec<Num_T> elem_div <>(const Num_T t, const Vec<Num_T> &v);
 
     //! Get the elements in the vector where \c binlist is \c 1
     Vec<Num_T> get(const Vec<bin> &binlist) const;
     //! Get the right \c nr elements from the vector
-    Vec<Num_T> right(int nr) const;
+    Vec<Num_T> right(const int nr) const;
     //! Get the left \c nr elements from the vector
-    Vec<Num_T> left(int nr) const;
+    Vec<Num_T> left(const int nr) const;
     //! Get the middle part of vector from \c start including \c nr elements
-    Vec<Num_T> mid(int start, int nr) const;
+    Vec<Num_T> mid(const int start, const int nr) const;
     //! Split the vector into two parts at element \c pos. Return the first part and keep the second.
-    Vec<Num_T> split(int pos);
+    Vec<Num_T> split(const int pos);
     //! Shift in element \c In at position 0 \c n times
-    void shift_right(Num_T In, int n=1);
+    void shift_right(const Num_T In, const int n=1);
     //! Shift in vector \c In at position 0
     void shift_right(const Vec<Num_T> &In);
     //! Shift out the \c n left elements and a the same time shift in the element \c at last position \c n times
-    void shift_left(Num_T In, int n=1);
+    void shift_left(const Num_T In, const int n=1);
     //! Shift in vector \c In at last position
     void shift_left(const Vec<Num_T> &In);
 
     //! Append element \c a to the end of the vector \c v
-    friend Vec<Num_T> concat <>(const Vec<Num_T> &v, const Num_T a);
+    friend const Vec<Num_T> concat<>(const Vec<Num_T> &v, const Num_T a);
     //! Concat element \c a to the beginning of the vector \c v
-    friend Vec<Num_T> concat <>(const Num_T a, const Vec<Num_T> &v);
+    friend const Vec<Num_T> concat<>(const Num_T a, const Vec<Num_T> &v);
     //! Concat vectors \c v1 and \c v2
-    friend Vec<Num_T> concat <>(const Vec<Num_T> &v1,const Vec<Num_T> &v2);
+    friend const Vec<Num_T> concat<>(const Vec<Num_T> &v1,const Vec<Num_T> &v2);
     //! Concat vectors \c v1, \c v2 and \c v3
-    friend Vec<Num_T> concat <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3);
+    friend const Vec<Num_T> concat<>(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3);
 
     //! Set subvector defined by indicies \c i1 to \c i2 to vector \c v
     void set_subvector(int i1, int i2, const Vec<Num_T> &v);
     //! Set subvector defined by first index \c i and size of vector \c v to \c v
-    void set_subvector(int i, const Vec<Num_T> &v);
+    void set_subvector(const int i, const Vec<Num_T> &v);
     //! Set subvector defined by indicies i1 to i2 to constant t
     void set_subvector(int i1, int i2, const Num_T t);
     //! Replace the elements from \c pos by the vector \c v
-    void replace_mid(int pos, const Vec<Num_T> &v);
+    void replace_mid(const int pos, const Vec<Num_T> &v);
     //! Delete element number \c index
-    void del(int index);
+    void del(const int index);
     //! Delete elements from \c i1 to \c i2
-    void del(int i1, int i2);
+    void del(const int i1, const int i2);
     //! Insert element \c in at \c index
-    void ins(int index, Num_T in);
+    void ins(const int index, const Num_T in);
     //! Insert vector \c in at \c index
-    void ins(int index, const Vec<Num_T> &in);
+    void ins(const int index, const Vec<Num_T> &in);
 
     //! Assign all elements in vector to \c t
-    void operator=(Num_T t) { for (int i=0;i<datasize;i++) data[i] = t; }
-    //! Assign vector the value and length of \c v
-    void operator=(const Vec<Num_T> &v);
+		Vec<Num_T>& operator=(const Num_T t);
+		//! Assign vector the value and length of \c v
+		Vec<Num_T>& operator=(const Vec<Num_T> &v);
     //! Assign vector equal to the 1-dimensional matrix \c m
-    void operator=(const Mat<Num_T> &m);
+    Vec<Num_T>& operator=(const Mat<Num_T> &m);
     //! Assign vector the values in the string \c values
-    void operator=(const char *values) { set(values); }
+		Vec<Num_T>& operator=(const char *values);
 
     //! Elementwise equal to the scalar
     Vec<bin> operator==(const Num_T value) const;
@@ -384,9 +373,9 @@ namespace itpp {
     bool operator!=(const Vec<Num_T> &v) const;
 
     //! Index operator without boundary check. Not recommended to use.
-    Num_T &_elem(int i) { return data[i]; }
+    Num_T &_elem(const int i) { return data[i]; }
     //! Index operator without boundary check. Not recommended to use.
-    const Num_T &_elem(int i) const { return data[i]; }
+    const Num_T &_elem(const int i) const { return data[i]; }
 
     //! Get the pointer to the internal structure. Not recommended to use.
     Num_T *_data() { return data; }
@@ -396,7 +385,7 @@ namespace itpp {
 
   protected:
     //! Allocate storage for a vector of length \c size.
-    void alloc(int size)
+    void alloc(const int size)
     {
       if ( datasize == size ) return;
 
@@ -405,7 +394,7 @@ namespace itpp {
 
       create_elements(data, size, factory);
       datasize=size;
-      it_assert1(data, "Out of memory in Vec::alloc()");
+      it_assert1(data, "Vec<Num_T>::alloc(): Out of memory");
     }
 
     //! Free the storage space allocated by the vector
@@ -471,7 +460,7 @@ namespace itpp {
     \brief Stream output of vector
   */
   template <class Num_T>
-    std::ostream &operator<<(std::ostream &os, const Vec<Num_T> &v);
+	std::ostream &operator<<(std::ostream &os, const Vec<Num_T> &v);
 
   /*!
     \relates Vec
@@ -485,14 +474,14 @@ namespace itpp {
     "1 4 7 10".
   */
   template <class Num_T>
-    std::istream &operator>>(std::istream &is, Vec<Num_T> &v);
+	std::istream &operator>>(std::istream &is, Vec<Num_T> &v);
 
   //-----------------------------------------------------------------------------------
   // Implementation of templated Vec members and friends
   //-----------------------------------------------------------------------------------
 
   template<class Num_T> inline
-    Vec<Num_T>::Vec(const Vec<Num_T> &v) : factory(v.factory)
+	Vec<Num_T>::Vec(const Vec<Num_T> &v) : factory(v.factory)
   {
     init();
     alloc(v.datasize);
@@ -500,7 +489,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-    Vec<Num_T>::Vec(const Vec<Num_T> &v, const Factory &f) : factory(f)
+	Vec<Num_T>::Vec(const Vec<Num_T> &v, const Factory &f) : factory(f)
   {
     init();
     alloc(v.datasize);
@@ -508,18 +497,18 @@ namespace itpp {
   }
 
   template<class Num_T>
-    void Vec<Num_T>::set_size(int size, bool copy)
+	void Vec<Num_T>::set_size(const int size, bool copy)
   {
-    it_assert1(size >= 0, "New size must not be negative in Vec::set_size()");
+    it_assert1(size >= 0, "Vec<Num_T>::set_size(): New size must not be negative");
     if (size!=datasize) {
       if (copy) {
-	Vec<Num_T> temp(*this);
+				Vec<Num_T> temp(*this);
 
-	alloc(size);
-	for (int i=0; i<size; i++)
-	  data[i] = i < temp.datasize ? temp.data[i] : Num_T(0);
+				alloc(size);
+				for (int i=0; i<size; i++)
+					data[i] = i < temp.datasize ? temp.data[i] : Num_T(0);
       } else
-	alloc(size);
+				alloc(size);
     }
   }
 
@@ -527,7 +516,7 @@ namespace itpp {
   template<> bool bvec::set(const char *values);
 
   template<class Num_T>
-    bool Vec<Num_T>::set(const char *values)
+	bool Vec<Num_T>::set(const char *values)
   {
     std::istringstream buffer(values);
     Num_T b, c;
@@ -539,49 +528,49 @@ namespace itpp {
 
       switch (buffer.peek()) {
       case ':': // reads format a:b:c or a:b
-	buffer.get();
-	if (!buffer.eof()) {
-	  buffer >> b;
-	}
-	if (!buffer.eof() && buffer.peek() == ':') {
-	  buffer.get();
-	  if (!buffer.eof()) {
-	    buffer >> c;
+				buffer.get();
+				if (!buffer.eof()) {
+					buffer >> b;
+				}
+				if (!buffer.eof() && buffer.peek() == ':') {
+					buffer.get();
+					if (!buffer.eof()) {
+						buffer >> c;
 
-	    while (sign(b)*(data[pos-1]+b-c)<=0) {
-	      pos++;
-	      if (pos > maxpos) {
-		maxpos=maxpos*2;
-		set_size(maxpos, true);
-	      }
-	      data[pos-1]=data[pos-2]+b;
-	    }
-	  }
-	} else {
-	  while (data[pos-1]<b) {
-	    pos++;
-	    if (pos > maxpos) {
-	      maxpos=maxpos*2;
-	      set_size(maxpos, true);
-	    }
-	    data[pos-1]=data[pos-2]+1;
-	  }
-	}
-	break;
+						while (sign(b)*(data[pos-1]+b-c)<=0) {
+							pos++;
+							if (pos > maxpos) {
+								maxpos=maxpos*2;
+								set_size(maxpos, true);
+							}
+							data[pos-1]=data[pos-2]+b;
+						}
+					}
+				} else {
+					while (data[pos-1]<b) {
+						pos++;
+						if (pos > maxpos) {
+							maxpos=maxpos*2;
+							set_size(maxpos, true);
+						}
+						data[pos-1]=data[pos-2]+1;
+					}
+				}
+				break;
 
       case ',':
-	buffer.get();
-	break;
+				buffer.get();
+				break;
 
       default:
-	pos++;
-	if (pos > maxpos) {
-	  maxpos *= 2;
-	  set_size(maxpos, true);
-	}
-	buffer >> data[pos-1];
-	while (buffer.peek()==' ') { buffer.get(); }
-	break;
+				pos++;
+				if (pos > maxpos) {
+					maxpos *= 2;
+					set_size(maxpos, true);
+				}
+				buffer >> data[pos-1];
+				while (buffer.peek()==' ') { buffer.get(); }
+				break;
       }
 
     }
@@ -591,13 +580,13 @@ namespace itpp {
   }
 
   template<class Num_T>
-    bool Vec<Num_T>::set(const std::string &str)
+	bool Vec<Num_T>::set(const std::string &str)
   {
     return set(str.c_str());
   }
 
   template<class Num_T> inline
-    const Vec<Num_T> Vec<Num_T>::operator()(int i1, int i2) const
+	const Vec<Num_T> Vec<Num_T>::operator()(int i1, int i2) const
   {
     if (i1 == -1)	i1 = datasize-1;
     if (i2 == -1) i2 = datasize-1;
@@ -612,13 +601,13 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-    const Vec<Num_T> Vec<Num_T>::get(int i1, int i2) const
+	const Vec<Num_T> Vec<Num_T>::get(const int i1, const int i2) const
   {
     return (*this)(i1, i2);
   }
 
   template<class Num_T>
-    const Vec<Num_T> Vec<Num_T>::operator()(const Vec<int> &indexlist) const
+	const Vec<Num_T> Vec<Num_T>::operator()(const Vec<int> &indexlist) const
   {
     Vec<Num_T> temp(indexlist.length());
     for (int i=0;i<indexlist.length();i++) {
@@ -629,7 +618,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-    Mat<Num_T> Vec<Num_T>::transpose() const
+	Mat<Num_T> Vec<Num_T>::transpose() const
   {
     Mat<Num_T> temp(1, datasize);
     for (int i=0; i<datasize; i++)
@@ -641,7 +630,7 @@ namespace itpp {
   template<> Mat<std::complex<double> > cvec::hermitian_transpose() const;
 
   template<class Num_T>
-    Mat<Num_T> Vec<Num_T>::hermitian_transpose() const
+	Mat<Num_T> Vec<Num_T>::hermitian_transpose() const
   {
     Mat<Num_T> temp(1, datasize);
     for (int i=0; i<datasize; i++)
@@ -651,23 +640,33 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-    void Vec<Num_T>::operator+=(const Vec<Num_T> &v)
+	Vec<Num_T>& Vec<Num_T>::operator+=(const Vec<Num_T> &v)
   {
-    int i;
-
-    if (datasize == 0) { // if not assigned a size.
-      alloc(v.datasize);
-      for (i=0; i<v.datasize; i++)
-	data[i] = v.data[i];
-    } else {
-      it_assert1(datasize==v.datasize, "Vec<Num_T>::operator+=: wrong sizes");
-      for (i=0; i<datasize; i++)
-	data[i] += v.data[i];
-    }
+		if (this != &v) {
+			int i;
+			if (datasize == 0) { // if not assigned a size.
+				alloc(v.datasize);
+				for (i=0; i<v.datasize; i++)
+					data[i] = v.data[i];
+			} else {
+				it_assert1(datasize==v.datasize, "Vec<Num_T>::operator+=: wrong sizes");
+				for (i=0; i<datasize; i++)
+					data[i] += v.data[i];
+			}
+		}
+		return *this;
   }
 
   template<class Num_T> inline
-    Vec<Num_T> operator+(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
+	Vec<Num_T>& Vec<Num_T>::operator+=(const Num_T t)
+	{ 
+		for (int i=0;i<datasize;i++) 
+			data[i]+=t; 
+		return *this;
+	}
+
+  template<class Num_T> inline
+	const Vec<Num_T> operator+(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
   {
     int i;
     Vec<Num_T> r(v1.datasize);
@@ -680,7 +679,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-    Vec<Num_T> operator+(const Vec<Num_T> &v, Num_T t)
+	const Vec<Num_T> operator+(const Vec<Num_T> &v, const Num_T t)
   {
     int i;
     Vec<Num_T> r(v.datasize);
@@ -692,7 +691,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-    Vec<Num_T> operator+(Num_T t, const Vec<Num_T> &v)
+	const Vec<Num_T> operator+(const Num_T t, const Vec<Num_T> &v)
   {
     int i;
     Vec<Num_T> r(v.datasize);
@@ -704,23 +703,33 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-    void Vec<Num_T>::operator-=(const Vec<Num_T> &v)
+  Vec<Num_T>& Vec<Num_T>::operator-=(const Vec<Num_T> &v)
   {
-    int i;
-
-    if (datasize == 0) { // if not assigned a size.
-      alloc(v.datasize);
-      for (i=0; i<v.datasize; i++)
-	data[i] = -v.data[i];
-    } else {
-      it_assert1(datasize==v.datasize, "Vec<Num_T>::operator-=: wrong sizes");
-      for (i=0; i<datasize; i++)
-	data[i] -= v.data[i];
-    }
+		if (this != &v) {
+			int i;
+			if (datasize == 0) { // if not assigned a size.
+				alloc(v.datasize);
+				for (i=0; i<v.datasize; i++)
+					data[i] = -v.data[i];
+			} else {
+				it_assert1(datasize==v.datasize, "Vec<Num_T>::operator-=: wrong sizes");
+				for (i=0; i<datasize; i++)
+					data[i] -= v.data[i];
+			}
+		}
+		return *this;
   }
 
   template<class Num_T> inline
-    Vec<Num_T> operator-(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
+  Vec<Num_T>& Vec<Num_T>::operator-=(const Num_T t)
+	{ 
+		for (int i=0;i<datasize;i++) 
+			data[i]-=t;
+		return *this;
+	}
+
+  template<class Num_T> inline
+	const Vec<Num_T> operator-(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
   {
     int i;
     Vec<Num_T> r(v1.datasize);
@@ -733,7 +742,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-    Vec<Num_T> operator-(const Vec<Num_T> &v, Num_T t)
+	const Vec<Num_T> operator-(const Vec<Num_T> &v, const Num_T t)
   {
     int i;
     Vec<Num_T> r(v.datasize);
@@ -745,7 +754,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-    Vec<Num_T> operator-(Num_T t, const Vec<Num_T> &v)
+	const Vec<Num_T> operator-(const Num_T t, const Vec<Num_T> &v)
   {
     int i;
     Vec<Num_T> r(v.datasize);
@@ -757,7 +766,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-    Vec<Num_T> operator-(const Vec<Num_T> &v)
+	const Vec<Num_T> operator-(const Vec<Num_T> &v)
   {
     int i;
     Vec<Num_T> r(v.datasize);
@@ -768,13 +777,21 @@ namespace itpp {
     return r;
   }
 
+  template<class Num_T> inline
+	Vec<Num_T>& Vec<Num_T>::operator*=(const Num_T t)
+	{ 
+		for (int i=0;i<datasize;i++) 
+			data[i] *= t; 
+		return *this;
+	}
+
 #if defined(HAVE_CBLAS) || defined(HAVE_MKL)
- template<> double dot(const Vec<double> &v1, const Vec<double> &v2);
- template<> std::complex<double> dot(const Vec<std::complex<double> > &v1, const Vec<std::complex<double> > &v2);
+	template<> const double dot(const Vec<double> &v1, const Vec<double> &v2);
+	template<> const std::complex<double> dot(const Vec<std::complex<double> > &v1, const Vec<std::complex<double> > &v2);
 #endif
 
   template<class Num_T> inline
-    Num_T dot(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
+	const Num_T dot(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
   {
     int i;
     Num_T r=Num_T(0);
@@ -787,17 +804,17 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-    Mat<Num_T> outer_product(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
+	const Mat<Num_T> outer_product(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
   {
     int i, j;
 
-    it_assert1(v1.datasize>0 && v2.datasize>0, "outer_product:: Vector of zero size");
+    it_assert1(v1.datasize>0 && v2.datasize>0, "Vec<Num_T>::outer_product:: Vector of zero size");
 
     Mat<Num_T> r(v1.datasize, v2.datasize);
 
     for (i=0; i<v1.datasize; i++) {
       for (j=0; j<v2.datasize; j++) {
-	r(i,j) = v1.data[i] * v2.data[j];
+				r(i,j) = v1.data[i] * v2.data[j];
       }
     }
 
@@ -805,7 +822,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-    Vec<Num_T> operator*(const Vec<Num_T> &v, Num_T t)
+	const Vec<Num_T> operator*(const Vec<Num_T> &v, const Num_T t)
   {
     int i;
     Vec<Num_T> r(v.datasize);
@@ -817,7 +834,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-    Vec<Num_T> operator*(Num_T t, const Vec<Num_T> &v)
+	const Vec<Num_T> operator*(const Num_T t, const Vec<Num_T> &v)
   {
     int i;
     Vec<Num_T> r(v.datasize);
@@ -829,7 +846,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-    Vec<Num_T> elem_mult(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
+	const Vec<Num_T> elem_mult(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
   {
     int i;
     Vec<Num_T> r(v1.datasize);
@@ -842,7 +859,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-    Vec<Num_T> elem_mult(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3)
+	const Vec<Num_T> elem_mult(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3)
   {
     int i;
     Vec<Num_T> r(v1.datasize);
@@ -856,7 +873,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-    Vec<Num_T> elem_mult(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3, const Vec<Num_T> &v4)
+	const Vec<Num_T> elem_mult(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3, const Vec<Num_T> &v4)
   {
     int i;
     Vec<Num_T> r(v1.datasize);
@@ -871,7 +888,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-    Vec<Num_T> operator/(const Vec<Num_T> &v, Num_T t)
+	const Vec<Num_T> operator/(const Vec<Num_T> &v, const Num_T t)
   {
     int i;
     Vec<Num_T> r(v.datasize);
@@ -883,7 +900,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-    Vec<Num_T> operator/(const Num_T t, const Vec<Num_T> &v)
+	const Vec<Num_T> operator/(const Num_T t, const Vec<Num_T> &v)
   {
     int i;
     Vec<Num_T> r(v.datasize);
@@ -895,22 +912,32 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-    void Vec<Num_T>::operator/=(const Vec<Num_T> &v)
-  {
-    int i;
+	Vec<Num_T>& Vec<Num_T>::operator/=(const Num_T t)
+	{ 
+		for (int i=0;i<datasize;i++) 
+			data[i]/=t; 
+		return *this;
+	}
 
-    it_assert1(datasize==v.datasize, "Vec<Num_T>::operator/=: wrong sizes");
-    for (i=0; i<datasize; i++)
-      data[i] /= v.data[i];
+  template<class Num_T> inline
+  Vec<Num_T>& Vec<Num_T>::operator/=(const Vec<Num_T> &v)
+  {
+		if (this != &v) {
+			int i;
+			it_assert1(datasize==v.datasize, "Vec<Num_T>::operator/=: wrong sizes");
+			for (i=0; i<datasize; i++)
+				data[i] /= v.data[i];
+		}
+		return *this;
   }
 
   template<class Num_T> inline
-    Vec<Num_T> elem_div(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
+	const Vec<Num_T> elem_div(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
   {
     int i;
     Vec<Num_T> r(v1.datasize);
 
-    it_assert1(v1.datasize==v2.datasize, "elem_div: wrong sizes");
+    it_assert1(v1.datasize==v2.datasize, "Vec<Num_T>elem_div: wrong sizes");
     for (i=0; i<v1.datasize; i++)
       r.data[i] = v1.data[i] / v2.data[i];
 
@@ -918,7 +945,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-    Vec<Num_T> elem_div(const Num_T t, const Vec<Num_T> &v)
+	const Vec<Num_T> elem_div(const Num_T t, const Vec<Num_T> &v)
   {
     int i;
     Vec<Num_T> r(v.datasize);
@@ -930,7 +957,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-    Vec<Num_T> Vec<Num_T>::get(const Vec<bin> &binlist) const
+	Vec<Num_T> Vec<Num_T>::get(const Vec<bin> &binlist) const
   {
     it_assert1(datasize == binlist.size(), "Vec<Num_T>::get(bvec &): wrong sizes");
     Vec<Num_T> temp(binlist.length());
@@ -938,8 +965,8 @@ namespace itpp {
 
     for (int i=0;i<binlist.length();i++) {
       if (binlist(i) == bin(1)) {
-	temp(j)=data[i];
-	j++;
+				temp(j)=data[i];
+				j++;
       }
     }
     temp.set_size(j, true);
@@ -947,7 +974,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-    Vec<Num_T> Vec<Num_T>::right(int nr) const
+	Vec<Num_T> Vec<Num_T>::right(const int nr) const
   {
     it_assert1(nr<=datasize, "Vec<Num_T>::right: index out of range");
     Vec<Num_T> temp(nr);
@@ -958,7 +985,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-    Vec<Num_T> Vec<Num_T>::left(int nr) const
+	Vec<Num_T> Vec<Num_T>::left(const int nr) const
   {
     it_assert1(nr<=datasize, "Vec<Num_T>::left: index out of range");
     Vec<Num_T> temp(nr);
@@ -969,7 +996,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-    Vec<Num_T> Vec<Num_T>::mid(int start, int nr) const
+	Vec<Num_T> Vec<Num_T>::mid(const int start, const int nr) const
   {
     it_assert1((start>=0)&& ((start+nr)<=datasize), "Vec<Num_T>::mid: indexing out of range");
     Vec<Num_T> temp(nr);
@@ -981,7 +1008,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-    Vec<Num_T> Vec<Num_T>::split(int Position)
+	Vec<Num_T> Vec<Num_T>::split(const int Position)
   {
     it_assert1((Position>=0) && (Position<=datasize), "Vec<Num_T>::split: index out of range");
     Vec<Num_T> Temp1(Position);
@@ -999,7 +1026,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-    void Vec<Num_T>::shift_right(Num_T In, int n)
+	void Vec<Num_T>::shift_right(const Num_T In, const int n)
   {
     int i=datasize;
 
@@ -1011,7 +1038,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-    void Vec<Num_T>::shift_right(const Vec<Num_T> &In)
+	void Vec<Num_T>::shift_right(const Vec<Num_T> &In)
   {
     int	i;
 
@@ -1022,7 +1049,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-    void Vec<Num_T>::shift_left(Num_T In, int n)
+	void Vec<Num_T>::shift_left(const Num_T In, const int n)
   {
     int i;
 
@@ -1034,7 +1061,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-    void Vec<Num_T>::shift_left(const Vec<Num_T> &In)
+	void Vec<Num_T>::shift_left(const Vec<Num_T> &In)
   {
     int	i;
 
@@ -1045,7 +1072,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-    Vec<Num_T> concat(const Vec<Num_T> &v, const Num_T a)
+	const Vec<Num_T> concat(const Vec<Num_T> &v, const Num_T a)
   {
     Vec<Num_T> temp(v.size()+1);
 
@@ -1057,7 +1084,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-    Vec<Num_T> concat(const Num_T a, const Vec<Num_T> &v)
+	const Vec<Num_T> concat(const Num_T a, const Vec<Num_T> &v)
   {
     Vec<Num_T> temp(v.size()+1);
 
@@ -1070,7 +1097,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-    Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
+	const Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
   {
     int i;
     Vec<Num_T> temp(v1.size()+v2.size());
@@ -1085,7 +1112,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-    Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3)
+	const Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3)
   {
     // There should be some error control?
     int i;
@@ -1104,7 +1131,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-    Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3, const Vec<Num_T> &v4)
+	const Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3, const Vec<Num_T> &v4)
   {
     // There should be some error control?
     int i;
@@ -1126,7 +1153,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-    Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3, const Vec<Num_T> &v4, const Vec<Num_T> &v5)
+	const Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3, const Vec<Num_T> &v4, const Vec<Num_T> &v5)
   {
     // There should be some error control?
     int i;
@@ -1151,7 +1178,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-    void Vec<Num_T>::set_subvector(int i1, int i2, const Vec<Num_T> &v)
+	void Vec<Num_T>::set_subvector(int i1, int i2, const Vec<Num_T> &v)
   {
     if (i1 == -1) i1 = datasize-1;
     if (i2 == -1) i2 = datasize-1;
@@ -1164,7 +1191,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-    void Vec<Num_T>:: set_subvector(int i, const Vec<Num_T> &v)
+	void Vec<Num_T>:: set_subvector(const int i, const Vec<Num_T> &v)
   {
     it_assert1(i>=0, "Vec<Num_T>::set_subvector(): index out of range");
     it_assert1(i+v.datasize <= datasize, "Vec<Num_T>::set_subvector(): too long input vector");
@@ -1172,7 +1199,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-    void Vec<Num_T>::set_subvector(int i1, int i2, const Num_T t)
+	void Vec<Num_T>::set_subvector(int i1, int i2, const Num_T t)
   {
     if (i1 == -1) i1 = datasize-1;
     if (i2 == -1) i2 = datasize-1;
@@ -1185,14 +1212,14 @@ namespace itpp {
   }
 
   template<class Num_T>
-    void Vec<Num_T>::replace_mid(int pos, const Vec<Num_T> &v)
+	void Vec<Num_T>::replace_mid(const int pos, const Vec<Num_T> &v)
   {
     it_assert1((pos>=0) && ((pos+v.length())<=datasize), "Vec<Num_T>::replace_mid: indexing out of range");
     copy_vector(v.datasize, v.data, &data[pos]);
   }
 
   template<class Num_T>
-    void Vec<Num_T>::del(int index)
+	void Vec<Num_T>::del(const int index)
   {
     it_assert1((index>=0) && (index<datasize), "Vec<Num_T>::del: index out of range");
     Vec<Num_T> Temp(*this);
@@ -1208,7 +1235,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-    void  Vec<Num_T>::del(int i1, int i2) 
+	void  Vec<Num_T>::del(const int i1, const int i2) 
   {
     it_assert1((i1>=0) && (i2<datasize) && (i1<i2), "Vec<Num_T>::del: index out of range");
 
@@ -1220,7 +1247,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-    void Vec<Num_T>::ins(int index, Num_T in)
+	void Vec<Num_T>::ins(const int index, const Num_T in)
   {
     it_assert1((index>=0) && (index<=datasize), "Vec<Num_T>::ins: index out of range");
     Vec<Num_T> Temp(*this);
@@ -1232,7 +1259,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-    void Vec<Num_T>::ins(int index, const Vec<Num_T> &in)
+	void Vec<Num_T>::ins(const int index, const Vec<Num_T> &in)
   {
     it_assert1((index>=0) && (index<=datasize), "Vec<Num_T>::ins: index out of range");
     Vec<Num_T> Temp(*this);
@@ -1244,32 +1271,51 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-    void Vec<Num_T>::operator=(const Vec<Num_T> &v)
-    {
-      set_size(v.datasize, false);
-      copy_vector(datasize, v.data, data);
-    }
+	Vec<Num_T>& Vec<Num_T>::operator=(const Num_T t)
+	{ 
+		for (int i=0;i<datasize;i++) 
+			data[i] = t; 
+		return *this;
+	}
 
   template<class Num_T> inline
-    void Vec<Num_T>::operator=(const Mat<Num_T> &m)
-    {
-      it_assert1( (m.cols() == 1 && datasize == m.rows()) ||
-		  (m.rows() == 1 && datasize == m.cols()), "vec::op=(mat); wrong size");
+	Vec<Num_T>& Vec<Num_T>::operator=(const Vec<Num_T> &v)
+	{
+		if (this != &v) {
+			set_size(v.datasize, false);
+			copy_vector(datasize, v.data, data);
+		}
+		return *this;
+	}
 
-      if (m.cols() == 1) {
-	set_size(m.rows(), false);
-	copy_vector(m.rows(), m._data(), data);
-      } else if (m.rows() == 1) {
-	set_size(m.cols(), false);
-	copy_vector(m.cols(), m._data(), m.rows(), data, 1);
-      } else
-	it_error("vec::op=(mat); wrong size");
-    }
+  template<class Num_T> inline
+	Vec<Num_T>& Vec<Num_T>::operator=(const Mat<Num_T> &m)
+	{
+		it_assert1( (m.cols() == 1 && datasize == m.rows()) ||
+								(m.rows() == 1 && datasize == m.cols()), "Vec<Num_T>::operator=(Mat<Num_T>): wrong size");
+
+		if (m.cols() == 1) {
+			set_size(m.rows(), false);
+			copy_vector(m.rows(), m._data(), data);
+		} else if (m.rows() == 1) {
+			set_size(m.cols(), false);
+			copy_vector(m.cols(), m._data(), m.rows(), data, 1);
+		} else
+			it_error("Vec<Num_T>::operator=(Mat<Num_T>): wrong size");
+		return *this;
+	}
+
+  template<class Num_T> inline
+	Vec<Num_T>& Vec<Num_T>::operator=(const char *values) 
+	{ 
+		set(values);
+		return *this;
+	}
 
   template<> bvec cvec::operator==(const std::complex<double>) const;
 
   template<class Num_T>
-    bvec Vec<Num_T>::operator==(const Num_T value) const
+	bvec Vec<Num_T>::operator==(const Num_T value) const
   {
     it_assert(datasize > 0, "Vec<Num_T>::operator==: vector must have size > 0");
     Vec<Num_T> invector(*this);
@@ -1284,7 +1330,7 @@ namespace itpp {
   template<> bvec cvec::operator!=(const std::complex<double>) const;
 
   template<class Num_T>
-    bvec Vec<Num_T>::operator!=(const Num_T value) const
+	bvec Vec<Num_T>::operator!=(const Num_T value) const
   {
     it_assert(datasize > 0, "Vec<Num_T>::operator!=: vector must have size > 0");
     Vec<Num_T> invector(*this);
@@ -1299,7 +1345,7 @@ namespace itpp {
   template<> bvec cvec::operator<(const std::complex<double>) const;
 
   template<class Num_T>
-    bvec Vec<Num_T>::operator<(const Num_T value) const
+	bvec Vec<Num_T>::operator<(const Num_T value) const
   {
     it_assert(datasize > 0, "Vec<Num_T>::operator<: vector must have size > 0");
     Vec<Num_T> invector(*this);
@@ -1314,7 +1360,7 @@ namespace itpp {
   template<> bvec cvec::operator<=(const std::complex<double>) const;
 
   template<class Num_T>
-    bvec Vec<Num_T>::operator<=(const Num_T value) const
+	bvec Vec<Num_T>::operator<=(const Num_T value) const
   {
     it_assert(datasize > 0, "Vec<Num_T>::operator<=: vector must have size > 0");
     Vec<Num_T> invector(*this);
@@ -1329,7 +1375,7 @@ namespace itpp {
   template<> bvec cvec::operator>(const std::complex<double>) const;
 
   template<class Num_T>
-    bvec Vec<Num_T>::operator>(const Num_T value) const
+	bvec Vec<Num_T>::operator>(const Num_T value) const
   {
     it_assert(datasize > 0, "Vec<Num_T>::operator>: vector must have size > 0");
     Vec<Num_T> invector(*this);
@@ -1344,7 +1390,7 @@ namespace itpp {
   template<> bvec cvec::operator>=(const std::complex<double>) const;
 
   template<class Num_T>
-    bvec Vec<Num_T>::operator>=(const Num_T value) const
+	bvec Vec<Num_T>::operator>=(const Num_T value) const
   {
     it_assert(datasize > 0, "Vec<Num_T>::operator>=: vector must have size > 0");
     Vec<Num_T> invector(*this);
@@ -1357,7 +1403,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-    bool Vec<Num_T>::operator==(const Vec<Num_T> &invector) const
+	bool Vec<Num_T>::operator==(const Vec<Num_T> &invector) const
   {
     // OBS ! if wrong size, return false
     if (datasize!=invector.datasize) return false;
@@ -1368,7 +1414,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-    bool Vec<Num_T>::operator!=(const Vec<Num_T> &invector) const
+	bool Vec<Num_T>::operator!=(const Vec<Num_T> &invector) const
   {
     if (datasize!=invector.datasize) return true;
     for (int i=0;i<datasize;i++) {
@@ -1378,7 +1424,7 @@ namespace itpp {
   }
 
   template <class Num_T>
-    std::ostream &operator<<(std::ostream &os, const Vec<Num_T> &v)
+	std::ostream &operator<<(std::ostream &os, const Vec<Num_T> &v)
   {
     int i, sz=v.length();
 
@@ -1386,7 +1432,7 @@ namespace itpp {
     for (i=0; i<sz; i++) {
       os << v(i) ;
       if (i < sz-1)
-	os << " ";
+				os << " ";
     }
     os << "]" ;
 
@@ -1394,7 +1440,7 @@ namespace itpp {
   }
 
   template <class Num_T>
-    std::istream &operator>>(std::istream &is, Vec<Num_T> &v)
+	std::istream &operator>>(std::istream &is, Vec<Num_T> &v)
   {
     std::ostringstream buffer;
     bool started = false;
@@ -1480,293 +1526,293 @@ namespace itpp {
   //------------- Addition operator ----------
 
   //! Template instantiation of operator+
-  extern template vec operator+(const vec &v1, const vec &v2);
+  extern template const vec operator+(const vec &v1, const vec &v2);
   //! Template instantiation of operator+
-  extern template cvec operator+(const cvec &v1, const cvec &v2);
+  extern template const cvec operator+(const cvec &v1, const cvec &v2);
   //! Template instantiation of operator+
-  extern template ivec operator+(const ivec &v1, const ivec &v2);
+  extern template const ivec operator+(const ivec &v1, const ivec &v2);
   //! Template instantiation of operator+
-  extern template svec operator+(const svec &v1, const svec &v2);
+  extern template const svec operator+(const svec &v1, const svec &v2);
   //! Template instantiation of operator+
-  extern template bvec operator+(const bvec &v1, const bvec &v2);
+  extern template const bvec operator+(const bvec &v1, const bvec &v2);
 
   //! Template instantiation of operator+
-  extern template vec operator+(const vec &v1, double t);
+  extern template const vec operator+(const vec &v1, const double t);
   //! Template instantiation of operator+
-  extern template cvec operator+(const cvec &v1, std::complex<double> t);
+  extern template const cvec operator+(const cvec &v1, std::complex<double> t);
   //! Template instantiation of operator+
-  extern template ivec operator+(const ivec &v1, int t);
+  extern template const ivec operator+(const ivec &v1, const int t);
   //! Template instantiation of operator+
-  extern template svec operator+(const svec &v1, short t);
+  extern template const svec operator+(const svec &v1, const short t);
   //! Template instantiation of operator+
-  extern template bvec operator+(const bvec &v1, bin t);
+  extern template const bvec operator+(const bvec &v1, const bin t);
 
   //! Template instantiation of operator+
-  extern template vec operator+(double t, const vec &v1);
+  extern template const vec operator+(const double t, const vec &v1);
   //! Template instantiation of operator+
-  extern template cvec operator+(std::complex<double> t, const cvec &v1);
+  extern template const cvec operator+(std::complex<double> t, const cvec &v1);
   //! Template instantiation of operator+
-  extern template ivec operator+(int t, const ivec &v1);
+  extern template const ivec operator+(const int t, const ivec &v1);
   //! Template instantiation of operator+
-  extern template svec operator+(short t, const svec &v1);
+  extern template const svec operator+(const short t, const svec &v1);
   //! Template instantiation of operator+
-  extern template bvec operator+(bin t, const bvec &v1);
+  extern template const bvec operator+(const bin t, const bvec &v1);
 
   //------------- Subraction operator ----------
 
   //! Template instantiation of operator-
-  extern template vec operator-(const vec &v1, const vec &v2);
+  extern template const vec operator-(const vec &v1, const vec &v2);
   //! Template instantiation of operator-
-  extern template cvec operator-(const cvec &v1, const cvec &v2);
+  extern template const cvec operator-(const cvec &v1, const cvec &v2);
   //! Template instantiation of operator-
-  extern template ivec operator-(const ivec &v1, const ivec &v2);
+  extern template const ivec operator-(const ivec &v1, const ivec &v2);
   //! Template instantiation of operator-
-  extern template svec operator-(const svec &v1, const svec &v2);
+  extern template const svec operator-(const svec &v1, const svec &v2);
   //! Template instantiation of operator-
-  extern template bvec operator-(const bvec &v1, const bvec &v2);
+  extern template const bvec operator-(const bvec &v1, const bvec &v2);
 
   //! Template instantiation of operator-
-  extern template vec operator-(const vec &v, double t);
+  extern template const vec operator-(const vec &v, const double t);
   //! Template instantiation of operator-
-  extern template cvec operator-(const cvec &v, std::complex<double> t);
+  extern template const cvec operator-(const cvec &v, std::complex<double> t);
   //! Template instantiation of operator-
-  extern template ivec operator-(const ivec &v, int t);
+  extern template const ivec operator-(const ivec &v, const int t);
   //! Template instantiation of operator-
-  extern template svec operator-(const svec &v, short t);
+  extern template const svec operator-(const svec &v, const short t);
   //! Template instantiation of operator-
-  extern template bvec operator-(const bvec &v, bin t);
+  extern template const bvec operator-(const bvec &v, const bin t);
 
   //! Template instantiation of operator-
-  extern template vec operator-(double t, const vec &v);
+  extern template const vec operator-(const double t, const vec &v);
   //! Template instantiation of operator-
-  extern template cvec operator-(std::complex<double> t, const cvec &v);
+  extern template const cvec operator-(std::complex<double> t, const cvec &v);
   //! Template instantiation of operator-
-  extern template ivec operator-(int t, const ivec &v);
+  extern template const ivec operator-(const int t, const ivec &v);
   //! Template instantiation of operator-
-  extern template svec operator-(short t, const svec &v);
+  extern template const svec operator-(const short t, const svec &v);
   //! Template instantiation of operator-
-  extern template bvec operator-(bin t, const bvec &v);
+  extern template const bvec operator-(const bin t, const bvec &v);
 
   //---------- Unary minus -------------
 
   //! Template instantiation of operator-
-  extern template vec operator-(const vec &v);
+  extern template const vec operator-(const vec &v);
   //! Template instantiation of operator-
-  extern template cvec operator-(const cvec &v);
+  extern template const cvec operator-(const cvec &v);
   //! Template instantiation of operator-
-  extern template ivec operator-(const ivec &v);
+  extern template const ivec operator-(const ivec &v);
   //! Template instantiation of operator-
-  extern template svec operator-(const svec &v);
+  extern template const svec operator-(const svec &v);
   //! Template instantiation of operator-
-  extern template bvec operator-(const bvec &v);
+  extern template const bvec operator-(const bvec &v);
 
   //------------- Multiplication operator ----------
 
   //! Template instantiation of dot
-  extern template double dot(const vec &v1, const vec &v2);
+  extern template const double dot(const vec &v1, const vec &v2);
   //! Template instantiation of dot
-  extern template std::complex<double> dot(const cvec &v1, const cvec &v2);
+  extern template const std::complex<double> dot(const cvec &v1, const cvec &v2);
   //! Template instantiation of dot
-  extern template int dot(const ivec &v1, const ivec &v2);
+  extern template const int dot(const ivec &v1, const ivec &v2);
   //! Template instantiation of dot
-  extern template short dot(const svec &v1, const svec &v2);
+  extern template const short dot(const svec &v1, const svec &v2);
   //! Template instantiation of dot
-  extern template bin dot(const bvec &v1, const bvec &v2);
+  extern template const bin dot(const bvec &v1, const bvec &v2);
 
   //! Template instantiation of operator*
-  extern template int operator*(const ivec &v1, const ivec &v2);
+  extern template const int operator*(const ivec &v1, const ivec &v2);
   //! Template instantiation of operator*
-  extern template short operator*(const svec &v1, const svec &v2);
+  extern template const short operator*(const svec &v1, const svec &v2);
   //! Template instantiation of operator*
-  extern template bin operator*(const bvec &v1, const bvec &v2);
+  extern template const bin operator*(const bvec &v1, const bvec &v2);
 
   //! Template instantiation of outer_product
-  extern template mat outer_product(const vec &v1, const vec &v2);
+  extern template const mat outer_product(const vec &v1, const vec &v2);
   //! Template instantiation of outer_product
-  extern template cmat outer_product(const cvec &v1, const cvec &v2);
+  extern template const cmat outer_product(const cvec &v1, const cvec &v2);
   //! Template instantiation of outer_product
-  extern template imat outer_product(const ivec &v1, const ivec &v2);
+  extern template const imat outer_product(const ivec &v1, const ivec &v2);
   //! Template instantiation of outer_product
-  extern template smat outer_product(const svec &v1, const svec &v2);
+  extern template const smat outer_product(const svec &v1, const svec &v2);
   //! Template instantiation of outer_product
-  extern template bmat outer_product(const bvec &v1, const bvec &v2);
+  extern template const bmat outer_product(const bvec &v1, const bvec &v2);
 
   //! Template instantiation of operator*
-  extern template vec operator*(const vec &v, double t);
+  extern template const vec operator*(const vec &v, const double t);
   //! Template instantiation of operator*
-  extern template cvec operator*(const cvec &v, std::complex<double> t);
+  extern template const cvec operator*(const cvec &v, std::complex<double> t);
   //! Template instantiation of operator*
-  extern template ivec operator*(const ivec &v, int t);
+  extern template const ivec operator*(const ivec &v, const int t);
   //! Template instantiation of operator*
-  extern template svec operator*(const svec &v, short t);
+  extern template const svec operator*(const svec &v, const short t);
   //! Template instantiation of operator*
-  extern template bvec operator*(const bvec &v, bin t);
+  extern template const bvec operator*(const bvec &v, const bin t);
 
   //! Template instantiation of operator*
-  extern template vec operator*(double t, const vec &v);
+  extern template const vec operator*(const double t, const vec &v);
   //! Template instantiation of operator*
-  extern template cvec operator*(std::complex<double> t, const cvec &v);
+  extern template const cvec operator*(std::complex<double> t, const cvec &v);
   //! Template instantiation of operator*
-  extern template ivec operator*(int t, const ivec &v);
+  extern template const ivec operator*(const int t, const ivec &v);
   //! Template instantiation of operator*
-  extern template svec operator*(short t, const svec &v);
+  extern template const svec operator*(const short t, const svec &v);
   //! Template instantiation of operator*
-  extern template bvec operator*(bin t, const bvec &v);
+  extern template const bvec operator*(const bin t, const bvec &v);
 
   //------------- Elementwise Multiplication operator (two vectors) ----------
 
   //! Template instantiation of elem_mult
-  extern template vec elem_mult(const vec &v1, const vec &v2);
+  extern template const vec elem_mult(const vec &v1, const vec &v2);
   //! Template instantiation of elem_mult
-  extern template cvec elem_mult(const cvec &v1, const cvec &v2);
+  extern template const cvec elem_mult(const cvec &v1, const cvec &v2);
   //! Template instantiation of elem_mult
-  extern template ivec elem_mult(const ivec &v1, const ivec &v2);
+  extern template const ivec elem_mult(const ivec &v1, const ivec &v2);
   //! Template instantiation of elem_mult
-  extern template svec elem_mult(const svec &v1, const svec &v2);
+  extern template const svec elem_mult(const svec &v1, const svec &v2);
   //! Template instantiation of elem_mult
-  extern template bvec elem_mult(const bvec &v1, const bvec &v2);
+  extern template const bvec elem_mult(const bvec &v1, const bvec &v2);
 
   //------------- Elementwise Multiplication operator (three vectors) ----------
 
   //! Template instantiation of elem_mult
-  extern template vec elem_mult(const vec &v1, const vec &v2, const vec &v3);
+  extern template const vec elem_mult(const vec &v1, const vec &v2, const vec &v3);
   //! Template instantiation of elem_mult
-  extern template cvec elem_mult(const cvec &v1, const cvec &v2, const cvec &v3);
+  extern template const cvec elem_mult(const cvec &v1, const cvec &v2, const cvec &v3);
   //! Template instantiation of elem_mult
-  extern template ivec elem_mult(const ivec &v1, const ivec &v2, const ivec &v3);
+  extern template const ivec elem_mult(const ivec &v1, const ivec &v2, const ivec &v3);
   //! Template instantiation of elem_mult
-  extern template svec elem_mult(const svec &v1, const svec &v2, const svec &v3);
+  extern template const svec elem_mult(const svec &v1, const svec &v2, const svec &v3);
   //! Template instantiation of elem_mult
-  extern template bvec elem_mult(const bvec &v1, const bvec &v2, const bvec &v3);
+  extern template const bvec elem_mult(const bvec &v1, const bvec &v2, const bvec &v3);
 
   //------------- Elementwise Multiplication operator (four vectors) ----------
 
   //! Template instantiation of elem_mult
-  extern template vec elem_mult(const vec &v1, const vec &v2, const vec &v3, const vec &v4);
+  extern template const vec elem_mult(const vec &v1, const vec &v2, const vec &v3, const vec &v4);
   //! Template instantiation of elem_mult
-  extern template cvec elem_mult(const cvec &v1, const cvec &v2, const cvec &v3, const cvec &v4);
+  extern template const cvec elem_mult(const cvec &v1, const cvec &v2, const cvec &v3, const cvec &v4);
   //! Template instantiation of elem_mult
-  extern template ivec elem_mult(const ivec &v1, const ivec &v2, const ivec &v3, const ivec &v4);
+  extern template const ivec elem_mult(const ivec &v1, const ivec &v2, const ivec &v3, const ivec &v4);
   //! Template instantiation of elem_mult
-  extern template svec elem_mult(const svec &v1, const svec &v2, const svec &v3, const svec &v4);
+  extern template const svec elem_mult(const svec &v1, const svec &v2, const svec &v3, const svec &v4);
   //! Template instantiation of elem_mult
-  extern template bvec elem_mult(const bvec &v1, const bvec &v2, const bvec &v3, const bvec &v4);
+  extern template const bvec elem_mult(const bvec &v1, const bvec &v2, const bvec &v3, const bvec &v4);
 
   //------------- Division operator ----------
 
   //! Template instantiation of operator/
-  extern template vec operator/(const vec &v, double t);
+  extern template const vec operator/(const vec &v, const double t);
   //! Template instantiation of operator/
-  extern template cvec operator/(const cvec &v, std::complex<double> t);
+  extern template const cvec operator/(const cvec &v, std::complex<double> t);
   //! Template instantiation of operator/
-  extern template ivec operator/(const ivec &v, int t);
+  extern template const ivec operator/(const ivec &v, const int t);
   //! Template instantiation of operator/
-  extern template svec operator/(const svec &v, short t);
+  extern template const svec operator/(const svec &v, const short t);
   //! Template instantiation of operator/
-  extern template bvec operator/(const bvec &v, bin t);
+  extern template const bvec operator/(const bvec &v, const bin t);
 
   //! Template instantiation of operator/
-  extern template vec operator/(const double t, const vec &v);
+  extern template const vec operator/(const double t, const vec &v);
   //! Template instantiation of operator/
-  extern template cvec operator/(const std::complex<double> t, const cvec &v);
+  extern template const cvec operator/(const std::complex<double> t, const cvec &v);
   //! Template instantiation of operator/
-  extern template ivec operator/(const int t, const ivec &v);
+  extern template const ivec operator/(const int t, const ivec &v);
   //! Template instantiation of operator/
-  extern template svec operator/(const short t, const svec &v);
+  extern template const svec operator/(const short t, const svec &v);
   //! Template instantiation of operator/
-  extern template bvec operator/(const bin t, const bvec &v);
+  extern template const bvec operator/(const bin t, const bvec &v);
 
   //------------- Elementwise Division operator ----------
 
   //! Template instantiation of elem_div
-  extern template vec elem_div(const vec &v1, const vec &v2);
+  extern template const vec elem_div(const vec &v1, const vec &v2);
   //! Template instantiation of elem_div
-  extern template cvec elem_div(const cvec &v1, const cvec &v2);
+  extern template const cvec elem_div(const cvec &v1, const cvec &v2);
   //! Template instantiation of elem_div
-  extern template ivec elem_div(const ivec &v1, const ivec &v2);
+  extern template const ivec elem_div(const ivec &v1, const ivec &v2);
   //! Template instantiation of elem_div
-  extern template svec elem_div(const svec &v1, const svec &v2);
+  extern template const svec elem_div(const svec &v1, const svec &v2);
   //! Template instantiation of elem_div
-  extern template bvec elem_div(const bvec &v1, const bvec &v2);
+  extern template const bvec elem_div(const bvec &v1, const bvec &v2);
 
   //! Template instantiation of elem_div
-  extern template vec elem_div(const double t, const vec &v);
+  extern template const vec elem_div(const double t, const vec &v);
   //! Template instantiation of elem_div
-  extern template cvec elem_div(const std::complex<double> t, const cvec &v);
+  extern template const cvec elem_div(const std::complex<double> t, const cvec &v);
   //! Template instantiation of elem_div
-  extern template ivec elem_div(const int t, const ivec &v);
+  extern template const ivec elem_div(const int t, const ivec &v);
   //! Template instantiation of elem_div
-  extern template svec elem_div(const short t, const svec &v);
+  extern template const svec elem_div(const short t, const svec &v);
   //! Template instantiation of elem_div
-  extern template bvec elem_div(const bin t, const bvec &v);
+  extern template const bvec elem_div(const bin t, const bvec &v);
 
   //--------------------- concat operator -----------------
 
   //! Template instantiation of concat
-  extern template vec concat(const vec &v, const double a);
+  extern template const vec concat(const vec &v, const double a);
   //! Template instantiation of concat
-  extern template cvec concat(const cvec &v, const std::complex<double> a);
+  extern template const cvec concat(const cvec &v, const std::complex<double> a);
   //! Template instantiation of concat
-  extern template ivec concat(const ivec &v, const int a);
+  extern template const ivec concat(const ivec &v, const int a);
   //! Template instantiation of concat
-  extern template svec concat(const svec &v, const short a);
+  extern template const svec concat(const svec &v, const short a);
   //! Template instantiation of concat
-  extern template bvec concat(const bvec &v, const bin a);
+  extern template const bvec concat(const bvec &v, const bin a);
 
   //! Template instantiation of concat
-  extern template vec concat(const double a, const vec &v);
+  extern template const vec concat(const double a, const vec &v);
   //! Template instantiation of concat
-  extern template cvec concat(const std::complex<double> a, const cvec &v);
+  extern template const cvec concat(const std::complex<double> a, const cvec &v);
   //! Template instantiation of concat
-  extern template ivec concat(const int a, const ivec &v);
+  extern template const ivec concat(const int a, const ivec &v);
   //! Template instantiation of concat
-  extern template svec concat(const short a, const svec &v);
+  extern template const svec concat(const short a, const svec &v);
   //! Template instantiation of concat
-  extern template bvec concat(const bin a, const bvec &v);
+  extern template const bvec concat(const bin a, const bvec &v);
 
   //! Template instantiation of concat
-  extern template vec concat(const vec &v1, const vec &v2);
+  extern template const vec concat(const vec &v1, const vec &v2);
   //! Template instantiation of concat
-  extern template cvec concat(const cvec &v1, const cvec &v2);
+  extern template const cvec concat(const cvec &v1, const cvec &v2);
   //! Template instantiation of concat
-  extern template ivec concat(const ivec &v1, const ivec &v2);
+  extern template const ivec concat(const ivec &v1, const ivec &v2);
   //! Template instantiation of concat
-  extern template svec concat(const svec &v1, const svec &v2);
+  extern template const svec concat(const svec &v1, const svec &v2);
   //! Template instantiation of concat
-  extern template bvec concat(const bvec &v1, const bvec &v2);
+  extern template const bvec concat(const bvec &v1, const bvec &v2);
 
   //! Template instantiation of concat
-  extern template vec concat(const vec &v1, const vec &v2, const vec &v3);
+  extern template const vec concat(const vec &v1, const vec &v2, const vec &v3);
   //! Template instantiation of concat
-  extern template cvec concat(const cvec &v1, const cvec &v2, const cvec &v3);
+  extern template const cvec concat(const cvec &v1, const cvec &v2, const cvec &v3);
   //! Template instantiation of concat
-  extern template ivec concat(const ivec &v1, const ivec &v2, const ivec &v3);
+  extern template const ivec concat(const ivec &v1, const ivec &v2, const ivec &v3);
   //! Template instantiation of concat
-  extern template svec concat(const svec &v1, const svec &v2, const svec &v3);
+  extern template const svec concat(const svec &v1, const svec &v2, const svec &v3);
   //! Template instantiation of concat
-  extern template bvec concat(const bvec &v1, const bvec &v2, const bvec &v3);
+  extern template const bvec concat(const bvec &v1, const bvec &v2, const bvec &v3);
 
   //! Template instantiation of concat
-  extern template vec concat(const vec &v1, const vec &v2, const vec &v3, const vec &v4);
+  extern template const vec concat(const vec &v1, const vec &v2, const vec &v3, const vec &v4);
   //! Template instantiation of concat
-  extern template cvec concat(const cvec &v1, const cvec &v2, const cvec &v3, const cvec &v4);
+  extern template const cvec concat(const cvec &v1, const cvec &v2, const cvec &v3, const cvec &v4);
   //! Template instantiation of concat
-  extern template ivec concat(const ivec &v1, const ivec &v2, const ivec &v3, const ivec &v4);
+  extern template const ivec concat(const ivec &v1, const ivec &v2, const ivec &v3, const ivec &v4);
   //! Template instantiation of concat
-  extern template svec concat(const svec &v1, const svec &v2, const svec &v3, const svec &v4);
+  extern template const svec concat(const svec &v1, const svec &v2, const svec &v3, const svec &v4);
   //! Template instantiation of concat
-  extern template bvec concat(const bvec &v1, const bvec &v2, const bvec &v3, const bvec &v4);
+  extern template const bvec concat(const bvec &v1, const bvec &v2, const bvec &v3, const bvec &v4);
 
   //! Template instantiation of concat
-  extern template vec concat(const vec &v1, const vec &v2, const vec &v3, const vec &v4, const vec &v5);
+  extern template const vec concat(const vec &v1, const vec &v2, const vec &v3, const vec &v4, const vec &v5);
   //! Template instantiation of concat
-  extern template cvec concat(const cvec &v1, const cvec &v2, const cvec &v3, const cvec &v4, const cvec &v5);
+  extern template const cvec concat(const cvec &v1, const cvec &v2, const cvec &v3, const cvec &v4, const cvec &v5);
   //! Template instantiation of concat
-  extern template ivec concat(const ivec &v1, const ivec &v2, const ivec &v3, const ivec &v4, const ivec &v5);
+  extern template const ivec concat(const ivec &v1, const ivec &v2, const ivec &v3, const ivec &v4, const ivec &v5);
   //! Template instantiation of concat
-  extern template svec concat(const svec &v1, const svec &v2, const svec &v3, const svec &v4, const svec &v5);
+  extern template const svec concat(const svec &v1, const svec &v2, const svec &v3, const svec &v4, const svec &v5);
   //! Template instantiation of concat
-  extern template bvec concat(const bvec &v1, const bvec &v2, const bvec &v3, const bvec &v4, const bvec &v5);
+  extern template const bvec concat(const bvec &v1, const bvec &v2, const bvec &v3, const bvec &v4, const bvec &v5);
 
   // -------------- output stream --------------------
 
