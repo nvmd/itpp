@@ -96,7 +96,7 @@ namespace itpp {
 
 #if defined(HAVE_CBLAS) || defined(HAVE_MKL)
   template<>
-  double dot(const vec &v1, const vec &v2)
+  const double dot(const vec &v1, const vec &v2)
   {
     it_assert1(v1.datasize==v2.datasize, "vec::dot: wrong sizes");
     double r=0.0;
@@ -107,7 +107,7 @@ namespace itpp {
   }
  
   template<>
-  std::complex<double> dot(const cvec &v1, const cvec &v2)
+  const std::complex<double> dot(const cvec &v1, const cvec &v2)
   {
     it_assert1(v1.datasize==v2.datasize, "cvec::dot: wrong sizes");
     std::complex<double> r=0.0;
@@ -192,171 +192,171 @@ namespace itpp {
 
   //------------- Addition operator ----------
 
-  template vec operator+(const vec &v1, const vec &v2);
-  template cvec operator+(const cvec &v1, const cvec &v2);
-  template ivec operator+(const ivec &v1, const ivec &v2);
-  template svec operator+(const svec &v1, const svec &v2);
-  template bvec operator+(const bvec &v1, const bvec &v2);
+  template const vec operator+(const vec &v1, const vec &v2);
+  template const cvec operator+(const cvec &v1, const cvec &v2);
+  template const ivec operator+(const ivec &v1, const ivec &v2);
+  template const svec operator+(const svec &v1, const svec &v2);
+  template const bvec operator+(const bvec &v1, const bvec &v2);
 
-  template vec operator+(const vec &v1, double t);
-  template cvec operator+(const cvec &v1, std::complex<double> t);
-  template ivec operator+(const ivec &v1, int t);
-  template svec operator+(const svec &v1, short t);
-  template bvec operator+(const bvec &v1, bin t);
+  template const vec operator+(const vec &v1, double t);
+  template const cvec operator+(const cvec &v1, std::complex<double> t);
+  template const ivec operator+(const ivec &v1, int t);
+  template const svec operator+(const svec &v1, short t);
+  template const bvec operator+(const bvec &v1, bin t);
 
-  template vec operator+(double t, const vec &v1);
-  template cvec operator+(std::complex<double> t, const cvec &v1);
-  template ivec operator+(int t, const ivec &v1);
-  template svec operator+(short t, const svec &v1);
-  template bvec operator+(bin t, const bvec &v1);
+  template const vec operator+(double t, const vec &v1);
+  template const cvec operator+(std::complex<double> t, const cvec &v1);
+  template const ivec operator+(int t, const ivec &v1);
+  template const svec operator+(short t, const svec &v1);
+  template const bvec operator+(bin t, const bvec &v1);
 
   //------------- Subraction operator ----------
 
-  template vec operator-(const vec &v1, const vec &v2);
-  template cvec operator-(const cvec &v1, const cvec &v2);
-  template ivec operator-(const ivec &v1, const ivec &v2);
-  template svec operator-(const svec &v1, const svec &v2);
-  template bvec operator-(const bvec &v1, const bvec &v2);
+  template const vec operator-(const vec &v1, const vec &v2);
+  template const cvec operator-(const cvec &v1, const cvec &v2);
+  template const ivec operator-(const ivec &v1, const ivec &v2);
+  template const svec operator-(const svec &v1, const svec &v2);
+  template const bvec operator-(const bvec &v1, const bvec &v2);
 
-  template vec operator-(const vec &v, double t);
-  template cvec operator-(const cvec &v, std::complex<double> t);
-  template ivec operator-(const ivec &v, int t);
-  template svec operator-(const svec &v, short t);
-  template bvec operator-(const bvec &v, bin t);
+  template const vec operator-(const vec &v, double t);
+  template const cvec operator-(const cvec &v, std::complex<double> t);
+  template const ivec operator-(const ivec &v, int t);
+  template const svec operator-(const svec &v, short t);
+  template const bvec operator-(const bvec &v, bin t);
 
-  template vec operator-(double t, const vec &v);
-  template cvec operator-(std::complex<double> t, const cvec &v);
-  template ivec operator-(int t, const ivec &v);
-  template svec operator-(short t, const svec &v);
-  template bvec operator-(bin t, const bvec &v);
+  template const vec operator-(double t, const vec &v);
+  template const cvec operator-(std::complex<double> t, const cvec &v);
+  template const ivec operator-(int t, const ivec &v);
+  template const svec operator-(short t, const svec &v);
+  template const bvec operator-(bin t, const bvec &v);
 
   //---------- Unary minus -------------
 
-  template vec operator-(const vec &v);
-  template cvec operator-(const cvec &v);
-  template ivec operator-(const ivec &v);
-  template svec operator-(const svec &v);
-  template bvec operator-(const bvec &v);
+  template const vec operator-(const vec &v);
+  template const cvec operator-(const cvec &v);
+  template const ivec operator-(const ivec &v);
+  template const svec operator-(const svec &v);
+  template const bvec operator-(const bvec &v);
 
   //------------- Multiplication operator ----------
 
-  template double dot(const vec &v1, const vec &v2);
-  template std::complex<double> dot(const cvec &v1, const cvec &v2);
-  template int dot(const ivec &v1, const ivec &v2);
-  template short dot(const svec &v1, const svec &v2);
-  template bin dot(const bvec &v1, const bvec &v2);
+  template const double dot(const vec &v1, const vec &v2);
+  template const std::complex<double> dot(const cvec &v1, const cvec &v2);
+  template const int dot(const ivec &v1, const ivec &v2);
+  template const short dot(const svec &v1, const svec &v2);
+  template const bin dot(const bvec &v1, const bvec &v2);
 
-  template int operator*(const ivec &v1, const ivec &v2);
-  template short operator*(const svec &v1, const svec &v2);
-  template bin operator*(const bvec &v1, const bvec &v2);
+  template const int operator*(const ivec &v1, const ivec &v2);
+  template const short operator*(const svec &v1, const svec &v2);
+  template const bin operator*(const bvec &v1, const bvec &v2);
 
-  template mat outer_product(const vec &v1, const vec &v2);
-  template cmat outer_product(const cvec &v1, const cvec &v2);
-  template imat outer_product(const ivec &v1, const ivec &v2);
-  template smat outer_product(const svec &v1, const svec &v2);
-  template bmat outer_product(const bvec &v1, const bvec &v2);
+  template const mat outer_product(const vec &v1, const vec &v2);
+  template const cmat outer_product(const cvec &v1, const cvec &v2);
+  template const imat outer_product(const ivec &v1, const ivec &v2);
+  template const smat outer_product(const svec &v1, const svec &v2);
+  template const bmat outer_product(const bvec &v1, const bvec &v2);
 
-  template vec operator*(const vec &v, double t);
-  template cvec operator*(const cvec &v, std::complex<double> t);
-  template ivec operator*(const ivec &v, int t);
-  template svec operator*(const svec &v, short t);
-  template bvec operator*(const bvec &v, bin t);
+  template const vec operator*(const vec &v, double t);
+  template const cvec operator*(const cvec &v, std::complex<double> t);
+  template const ivec operator*(const ivec &v, int t);
+  template const svec operator*(const svec &v, short t);
+  template const bvec operator*(const bvec &v, bin t);
 
-  template vec operator*(double t, const vec &v);
-  template cvec operator*(std::complex<double> t, const cvec &v);
-  template ivec operator*(int t, const ivec &v);
-  template svec operator*(short t, const svec &v);
-  template bvec operator*(bin t, const bvec &v);
+  template const vec operator*(double t, const vec &v);
+  template const cvec operator*(std::complex<double> t, const cvec &v);
+  template const ivec operator*(int t, const ivec &v);
+  template const svec operator*(short t, const svec &v);
+  template const bvec operator*(bin t, const bvec &v);
 
   //------------- Elementwise Multiplication operator (two vectors) ----------
 
-  template vec elem_mult(const vec &v1, const vec &v2);
-  template cvec elem_mult(const cvec &v1, const cvec &v2);
-  template ivec elem_mult(const ivec &v1, const ivec &v2);
-  template svec elem_mult(const svec &v1, const svec &v2);
-  template bvec elem_mult(const bvec &v1, const bvec &v2);
+  template const vec elem_mult(const vec &v1, const vec &v2);
+  template const cvec elem_mult(const cvec &v1, const cvec &v2);
+  template const ivec elem_mult(const ivec &v1, const ivec &v2);
+  template const svec elem_mult(const svec &v1, const svec &v2);
+  template const bvec elem_mult(const bvec &v1, const bvec &v2);
 
   //------------- Elementwise Multiplication operator (three vectors) ----------
 
-  template vec elem_mult(const vec &v1, const vec &v2, const vec &v3);
-  template cvec elem_mult(const cvec &v1, const cvec &v2, const cvec &v3);
-  template ivec elem_mult(const ivec &v1, const ivec &v2, const ivec &v3);
-  template svec elem_mult(const svec &v1, const svec &v2, const svec &v3);
-  template bvec elem_mult(const bvec &v1, const bvec &v2, const bvec &v3);
+  template const vec elem_mult(const vec &v1, const vec &v2, const vec &v3);
+  template const cvec elem_mult(const cvec &v1, const cvec &v2, const cvec &v3);
+  template const ivec elem_mult(const ivec &v1, const ivec &v2, const ivec &v3);
+  template const svec elem_mult(const svec &v1, const svec &v2, const svec &v3);
+  template const bvec elem_mult(const bvec &v1, const bvec &v2, const bvec &v3);
 
   //------------- Elementwise Multiplication operator (four vectors) ----------
 
-  template vec elem_mult(const vec &v1, const vec &v2, const vec &v3, const vec &v4);
-  template cvec elem_mult(const cvec &v1, const cvec &v2, const cvec &v3, const cvec &v4);
-  template ivec elem_mult(const ivec &v1, const ivec &v2, const ivec &v3, const ivec &v4);
-  template svec elem_mult(const svec &v1, const svec &v2, const svec &v3, const svec &v4);
-  template bvec elem_mult(const bvec &v1, const bvec &v2, const bvec &v3, const bvec &v4);
+  template const vec elem_mult(const vec &v1, const vec &v2, const vec &v3, const vec &v4);
+  template const cvec elem_mult(const cvec &v1, const cvec &v2, const cvec &v3, const cvec &v4);
+  template const ivec elem_mult(const ivec &v1, const ivec &v2, const ivec &v3, const ivec &v4);
+  template const svec elem_mult(const svec &v1, const svec &v2, const svec &v3, const svec &v4);
+  template const bvec elem_mult(const bvec &v1, const bvec &v2, const bvec &v3, const bvec &v4);
 
   //------------- Division operator ----------
 
-  template vec operator/(const vec &v, double t);
-  template cvec operator/(const cvec &v, std::complex<double> t);
-  template ivec operator/(const ivec &v, int t);
-  template svec operator/(const svec &v, short t);
-  template bvec operator/(const bvec &v, bin t);
+  template const vec operator/(const vec &v, double t);
+  template const cvec operator/(const cvec &v, std::complex<double> t);
+  template const ivec operator/(const ivec &v, int t);
+  template const svec operator/(const svec &v, short t);
+  template const bvec operator/(const bvec &v, bin t);
 
-  template vec operator/(const double t, const vec &v);
-  template cvec operator/(const std::complex<double> t, const cvec &v);
-  template ivec operator/(const int t, const ivec &v);
-  template svec operator/(const short t, const svec &v);
-  template bvec operator/(const bin t, const bvec &v);
+  template const vec operator/(const double t, const vec &v);
+  template const cvec operator/(const std::complex<double> t, const cvec &v);
+  template const ivec operator/(const int t, const ivec &v);
+  template const svec operator/(const short t, const svec &v);
+  template const bvec operator/(const bin t, const bvec &v);
 
   //------------- Elementwise Division operator ----------
 
-  template vec elem_div(const vec &v1, const vec &v2);
-  template cvec elem_div(const cvec &v1, const cvec &v2);
-  template ivec elem_div(const ivec &v1, const ivec &v2);
-  template svec elem_div(const svec &v1, const svec &v2);
-  template bvec elem_div(const bvec &v1, const bvec &v2);
+  template const vec elem_div(const vec &v1, const vec &v2);
+  template const cvec elem_div(const cvec &v1, const cvec &v2);
+  template const ivec elem_div(const ivec &v1, const ivec &v2);
+  template const svec elem_div(const svec &v1, const svec &v2);
+  template const bvec elem_div(const bvec &v1, const bvec &v2);
 
-  template vec elem_div(const double t, const vec &v);
-  template cvec elem_div(const std::complex<double> t, const cvec &v);
-  template ivec elem_div(const int t, const ivec &v);
-  template svec elem_div(const short t, const svec &v);
-  template bvec elem_div(const bin t, const bvec &v);
+  template const vec elem_div(const double t, const vec &v);
+  template const cvec elem_div(const std::complex<double> t, const cvec &v);
+  template const ivec elem_div(const int t, const ivec &v);
+  template const svec elem_div(const short t, const svec &v);
+  template const bvec elem_div(const bin t, const bvec &v);
 
   //--------------------- concat operator -----------------
 
-  template vec concat(const vec &v, const double a);
-  template cvec concat(const cvec &v, const std::complex<double> a);
-  template ivec concat(const ivec &v, const int a);
-  template svec concat(const svec &v, const short a);
-  template bvec concat(const bvec &v, const bin a);
+  template const vec concat(const vec &v, const double a);
+  template const cvec concat(const cvec &v, const std::complex<double> a);
+  template const ivec concat(const ivec &v, const int a);
+  template const svec concat(const svec &v, const short a);
+  template const bvec concat(const bvec &v, const bin a);
 
-  template vec concat(const double a, const vec &v);
-  template cvec concat(const std::complex<double> a, const cvec &v);
-  template ivec concat(const int a, const ivec &v);
-  template svec concat(const short a, const svec &v);
-  template bvec concat(const bin a, const bvec &v);
+  template const vec concat(const double a, const vec &v);
+  template const cvec concat(const std::complex<double> a, const cvec &v);
+  template const ivec concat(const int a, const ivec &v);
+  template const svec concat(const short a, const svec &v);
+  template const bvec concat(const bin a, const bvec &v);
 
-  template vec concat(const vec &v1, const vec &v2);
-  template cvec concat(const cvec &v1, const cvec &v2);
-  template ivec concat(const ivec &v1, const ivec &v2);
-  template svec concat(const svec &v1, const svec &v2);
-  template bvec concat(const bvec &v1, const bvec &v2);
+  template const vec concat(const vec &v1, const vec &v2);
+  template const cvec concat(const cvec &v1, const cvec &v2);
+  template const ivec concat(const ivec &v1, const ivec &v2);
+  template const svec concat(const svec &v1, const svec &v2);
+  template const bvec concat(const bvec &v1, const bvec &v2);
 
-  template vec concat(const vec &v1, const vec &v2, const vec &v3);
-  template cvec concat(const cvec &v1, const cvec &v2, const cvec &v3);
-  template ivec concat(const ivec &v1, const ivec &v2, const ivec &v3);
-  template svec concat(const svec &v1, const svec &v2, const svec &v3);
-  template bvec concat(const bvec &v1, const bvec &v2, const bvec &v3);
+  template const vec concat(const vec &v1, const vec &v2, const vec &v3);
+  template const cvec concat(const cvec &v1, const cvec &v2, const cvec &v3);
+  template const ivec concat(const ivec &v1, const ivec &v2, const ivec &v3);
+  template const svec concat(const svec &v1, const svec &v2, const svec &v3);
+  template const bvec concat(const bvec &v1, const bvec &v2, const bvec &v3);
 
-  template vec concat(const vec &v1, const vec &v2, const vec &v3, const vec &v4);
-  template cvec concat(const cvec &v1, const cvec &v2, const cvec &v3, const cvec &v4);
-  template ivec concat(const ivec &v1, const ivec &v2, const ivec &v3, const ivec &v4);
-  template svec concat(const svec &v1, const svec &v2, const svec &v3, const svec &v4);
-  template bvec concat(const bvec &v1, const bvec &v2, const bvec &v3, const bvec &v4);
+  template const vec concat(const vec &v1, const vec &v2, const vec &v3, const vec &v4);
+  template const cvec concat(const cvec &v1, const cvec &v2, const cvec &v3, const cvec &v4);
+  template const ivec concat(const ivec &v1, const ivec &v2, const ivec &v3, const ivec &v4);
+  template const svec concat(const svec &v1, const svec &v2, const svec &v3, const svec &v4);
+  template const bvec concat(const bvec &v1, const bvec &v2, const bvec &v3, const bvec &v4);
 
-  template vec concat(const vec &v1, const vec &v2, const vec &v3, const vec &v4, const vec &v5);
-  template cvec concat(const cvec &v1, const cvec &v2, const cvec &v3, const cvec &v4, const cvec &v5);
-  template ivec concat(const ivec &v1, const ivec &v2, const ivec &v3, const ivec &v4, const ivec &v5);
-  template svec concat(const svec &v1, const svec &v2, const svec &v3, const svec &v4, const svec &v5);
-  template bvec concat(const bvec &v1, const bvec &v2, const bvec &v3, const bvec &v4, const bvec &v5);
+  template const vec concat(const vec &v1, const vec &v2, const vec &v3, const vec &v4, const vec &v5);
+  template const cvec concat(const cvec &v1, const cvec &v2, const cvec &v3, const cvec &v4, const cvec &v5);
+  template const ivec concat(const ivec &v1, const ivec &v2, const ivec &v3, const ivec &v4, const ivec &v5);
+  template const svec concat(const svec &v1, const svec &v2, const svec &v3, const svec &v4, const svec &v5);
+  template const bvec concat(const bvec &v1, const bvec &v2, const bvec &v3, const bvec &v4, const bvec &v5);
 
   // -------------- output stream --------------------
 
