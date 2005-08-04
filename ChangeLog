@@ -1,3 +1,9 @@
+2005-08-04  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* Fixed bug [1251878]. `min' and `max' functions did not return
+	indexes properly due to the lack of reference in functions'
+	arguments.
+
 2005-07-27  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* Fixed bug [1084246]. Operators and other functions in Vec, Mat

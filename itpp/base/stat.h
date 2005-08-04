@@ -1,5 +1,5 @@
 /*---------------------------------------------------------------------------*
- *                                   IT++			             *
+ *                                   IT++                                    *
  *---------------------------------------------------------------------------*
  * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
  * Tobias Ringström, and Johan Bergman.                                      *
@@ -126,7 +126,7 @@ namespace itpp {
 
   //! Maximum value of vector, also returns the index position of max value
   template<class T>
-    T max(const Vec<T> &v, int index)
+    T max(const Vec<T> &v, int& index)
   {
     T maxdata = v(0);
     index = 0;
@@ -207,7 +207,7 @@ namespace itpp {
 
   //! Minimum value of vector, also returns the index position of min value
   template<class T>
-    T min(const Vec<T> &in, int index)
+    T min(const Vec<T> &in, int& index)
   {
     T mindata=in[0];
     index = 0;
