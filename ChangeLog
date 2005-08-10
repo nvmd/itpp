@@ -1,3 +1,8 @@
+2005-08-10  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* Fixed reopened bug [1094934]. Now endianity of x86_64
+	platforms can be successfully detected.
+
 2005-08-04  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* Fixed bug [1251878]. `min' and `max' functions did not return

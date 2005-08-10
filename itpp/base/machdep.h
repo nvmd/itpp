@@ -73,7 +73,7 @@ namespace itpp {
 
 #if defined(sparc)
 #define __LITTLE_ENDIAN__
-#elif defined(i386) || defined(_M_IX86) || defined(_x86_64) || defined(alpha) || defined(vms)
+#elif defined(i386) || defined(_M_IX86) || defined(__x86_64__) || defined(alpha) || defined(vms)
 #define __BIG_ENDIAN__
 #endif
 
@@ -166,7 +166,7 @@ namespace itpp {
   inline void little_endian(it_f64 x, it_f64 &y) { y = x; }
 
   //Additions for some 64 bit architechtures
-#if defined(alpha) || defined(_x86_64)
+#if defined(alpha) || defined(__x86_64__)
   typedef signed long        it_s64;
   typedef unsigned long      it_u64;
   inline it_s64 big_endian(it_s64 x) { it_s64 y; REV_4(&x,&y); return y; }
