@@ -1,3 +1,6 @@
+2005-08-18  Tony Ottosson  <tonyottosson@users.sourceforge.net>
+	* Fixed bug for Vec<>::operator(const int, const int) changing input parameters.
+
 2005-08-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* Fixed reopened bug [1094934]. Now endianity of x86_64

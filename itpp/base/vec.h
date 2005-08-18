@@ -586,16 +586,18 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	const Vec<Num_T> Vec<Num_T>::operator()(int i1, int i2) const
+	const Vec<Num_T> Vec<Num_T>::operator()(const int i1, const int i2) const
   {
-    if (i1 == -1)	i1 = datasize-1;
-    if (i2 == -1) i2 = datasize-1;
+    int ii1=i1, ii2=i2;
 
-    it_assert1(i1>=0 && i2>=0 && i1<datasize && i2<datasize, "Vec<Num_T>::operator()(i1,i2): indicies out of range");
-    it_assert1(i2>=i1, "Vec<Num_T>::op(i1,i2): i2 >= i1 necessary");
+    if (ii1 == -1) ii1 = datasize-1;
+    if (ii2 == -1) ii2 = datasize-1;
 
-    Vec<Num_T> s(i2-i1+1);
-    copy_vector(s.datasize, data+i1, s.data);
+    it_assert1(ii1>=0 && ii2>=0 && ii1<datasize && ii2<datasize, "Vec<Num_T>::operator()(i1,i2): indicies out of range");
+    it_assert1(ii2>=ii1, "Vec<Num_T>::op(i1,i2): i2 >= i1 necessary");
+
+    Vec<Num_T> s(ii2-ii1+1);
+    copy_vector(s.datasize, data+ii1, s.data);
 
     return s;
   }
