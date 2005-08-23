@@ -1,5 +1,5 @@
 /*---------------------------------------------------------------------------*
- *                                   IT++			             *
+ *                                   IT++                                    *
  *---------------------------------------------------------------------------*
  * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
  * Tobias Ringström, and Jonas Samuelsson.                                   *
@@ -16,9 +16,9 @@
   \brief Definitions of elementary functions on vectors and matrices
   \author Tony Ottosson
 
-  1.17
+	$Revision$
 
-  2003/06/13 06:45:42
+  $Date$
 */
 
 #ifndef __elmatfunc_h
@@ -113,13 +113,17 @@ inline itpp::mat gamma(const itpp::mat &x) {return itpp::mat_function((double(*)
   //!@}
 
 
-  /*! \addtogroup errorfunc */
   //!\addtogroup errorfunc
   //!@{
+
   //! Error function
   inline vec erf(const vec &x) {return vec_function((double(*)(double)) ::erf,x);}
   //! Error function
   inline mat erf(const mat &x) {return mat_function((double(*)(double)) ::erf,x);}
+  //! Error function
+  inline cvec erf(const cvec &x) {return cvec_function((std::complex<double>(*)(const std::complex<double> &)) erf,x);}
+  //! Error function
+  inline cmat erf(const cmat &x) {return cmat_function((std::complex<double>(*)(const std::complex<double> &)) erf,x);}
   //! Inverse of error function
   inline vec erfinv(const vec &x) {return vec_function(erfinv,x);}
   //! Inverse of error function
@@ -134,7 +138,6 @@ inline itpp::mat gamma(const itpp::mat &x) {return itpp::mat_function((double(*)
   inline mat Qfunc(const mat &x) {return mat_function(Qfunc,x);}
   //!@}
 
-  /*! \addtogroup trifunc */
 
   //!\addtogroup trifunc
   //!@{
@@ -169,7 +172,6 @@ inline itpp::mat gamma(const itpp::mat &x) {return itpp::mat_function((double(*)
   inline mat sinc(const mat &x) {return mat_function((double(*)(double)) sinc,x);}
   //!@}
 
-  /*! \addtogroup hypfunc */
 
   //!\addtogroup hypfunc
   //!@{
@@ -200,7 +202,6 @@ inline itpp::mat gamma(const itpp::mat &x) {return itpp::mat_function((double(*)
   inline mat atanh(const mat &x) {return mat_function((double(*)(double)) ::atanh,x);}
   //!@}
 
-  /*! \addtogroup miscfunc */
 
   //!\addtogroup miscfunc
   //!@{
