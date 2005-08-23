@@ -1,5 +1,5 @@
 /*---------------------------------------------------------------------------*
- *                                   IT++			             *
+ *                                   IT++			                               *
  *---------------------------------------------------------------------------*
  * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
  * Tobias Ringström, and Jonas Samuelsson.                                   *
@@ -14,11 +14,11 @@
 /*!
   \file
   \brief Definitions of scalar functions
-  \author Tony Ottosson and Pål Frenger
+  \author Tony Ottosson, Pål Frenger and Adam Piatyszek
 
-  1.22
+  $Revision$
 
-  2003/06/13 06:45:42
+  $Date$
 */
 
 #ifndef __scalfunc_h
@@ -30,8 +30,6 @@
 #include <cstdlib>
 #include <limits>
 #include <itpp/base/itassert.h>
-
-//using std::complex;
 
 #if !defined(__GLIBC__) || __GLIBC__ < 2
 
@@ -103,6 +101,27 @@ namespace itpp {
   */
   double erfinv(double x);
 
+  /*!
+   * \brief Error function for complex argument
+	 * \ingroup errorfunc
+	 * \author Adam Piatyszek
+   *
+   * This function calculates a well known error function \c erf(z)
+   * for complex \c z. The implementation is based on unofficial
+   * implementation for Octave. Here is a part of the author's note
+   * from original sources:
+	 *
+	 * Put together by John Smith john at arrows dot demon dot co dot uk, 
+	 * using ideas by others.
+	 *
+	 * Calculate \c erf(z) for complex \c z.
+	 * Three methods are implemented; which one is used depends on z.
+	 *
+	 * The code includes some hard coded constants that are intended to
+	 * give about 14 decimal places of accuracy. This is appropriate for
+	 * 64-bit floating point numbers. 
+	 */
+  std::complex<double> erf(const std::complex<double>& z);
 
   /*!
     \brief Base-2 logarithm

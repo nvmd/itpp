@@ -16,17 +16,13 @@
   \brief Implementation of elementary functions on vectors and matrices.
   \author Tony Ottosson
  
-  1.5
+	$Revision$
 
-  2003/05/22 08:55:19
+  $Date$
 */
  
 #include <itpp/base/elmatfunc.h>
 
-using std::real;
-using std::imag;
-using std::arg;
-using std::conj;
 
 namespace itpp { 
 
