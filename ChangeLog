@@ -1,3 +1,9 @@
+2005-08-25  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac, doc/Makefile.am: `--with-docdir' option added to the
+	configure script. This option can be used to decide where the html
+	documentation will be installed. 
+
 2005-08-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* Added an implementation of error function erf(z) for complex
