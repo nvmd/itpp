@@ -60,6 +60,17 @@ else
   enable_html_docs=yes
 fi
 
+# Provide --with-docdir
+AC_ARG_WITH(docdir,
+	[AS_HELP_STRING([--with-docdir=DIR], [set documentation directory to DIR])],
+	[DOC_DIR="$withval"], [DOC_DIR=""])
+if test "x$DOC_DIR" != x; then
+	docdir="$DOC_DIR"
+else
+	docdir="${datadir}/doc/$PACKAGE-$VERSION"
+fi
+AC_SUBST(docdir)
+
 # Check for CPU option
 AC_ARG_WITH(cpu, 
   [AS_HELP_STRING([--with-cpu=CPU], 
@@ -401,7 +412,7 @@ Directories:
   - exec_prefix .. : ${exec_prefix}
   - includedir ... : ${includedir}
   - libdir ....... : ${libdir}
-  - docdir ....... : ${datadir}/doc/$PACKAGE-$VERSION
+  - docdir ....... : ${docdir}
 
 Platform:
   - CPU .......... : ${with_cpu}
