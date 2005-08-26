@@ -1,5 +1,5 @@
 /*---------------------------------------------------------------------------*
- *                                   IT++			             *
+ *                                   IT++                                    *
  *---------------------------------------------------------------------------*
  * Copyright (c) 1995-2001 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
  * Tobias Ringström, and Jonas Samuelsson.                                   *
@@ -72,22 +72,22 @@ namespace itpp {
 #  define it_assert1(t,s) ((void)0)
 #elif ASSERT_LEVEL==1 // Only some tests
 #  define it_assert0(t,s) ((void)0)
-#  define it_assert1(t,s) (void)((t) || (it_assert_f(#t,s,__FILE__,__LINE__),0))
+#  define it_assert1(t,s) (void)((t) || (itpp::it_assert_f(#t,s,__FILE__,__LINE__),0))
 #else // Full tests
   //! Abort if \c t is not true and IT++ is compiled with \c -DASSERT_LEVEL = 2. The message string \c s is printed on standard output.
-#  define it_assert0(t,s) (void)((t) || (it_assert_f(#t,s,__FILE__,__LINE__),0))
+#  define it_assert0(t,s) (void)((t) || (itpp::it_assert_f(#t,s,__FILE__,__LINE__),0))
   //! Abort if \c t is not true and IT++ is compiled with \c -DASSERT_LEVEL = 1 or 2. The message string \c s is printed on standard output.
-#  define it_assert1(t,s) (void)((t) || (it_assert_f(#t,s,__FILE__,__LINE__),0))
+#  define it_assert1(t,s) (void)((t) || (itpp::it_assert_f(#t,s,__FILE__,__LINE__),0))
 #endif // ASSERT_LEVEL
 
   //! Abort if \c t is NOT true and output \c s
-#define it_assert(t,s)   (void)((t) || (it_assert_f(#t,s,__FILE__,__LINE__),0))
+#define it_assert(t,s)   (void)((t) || (itpp::it_assert_f(#t,s,__FILE__,__LINE__),0))
   //! Abort if \c t is true and output \c s
-#define it_error_if(t,s) (void)((!(t)) || (it_error_f(s,__FILE__,__LINE__),0))
+#define it_error_if(t,s) (void)((!(t)) || (itpp::it_error_f(s,__FILE__,__LINE__),0))
   //! Abort and output \c s
-#define it_error(s)      it_error_f(s,__FILE__,__LINE__)
+#define it_error(s)      itpp::it_error_f(s,__FILE__,__LINE__)
   //! Output the warning \c s
-#define it_warning(s)    it_warning_f(s,__FILE__,__LINE__)
+#define it_warning(s)    itpp::it_warning_f(s,__FILE__,__LINE__)
 
   //!@}
 
