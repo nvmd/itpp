@@ -1,3 +1,10 @@
+2005-08-26  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* Fixed bug [1254814]. Added `itpp::' explicit scope for
+	`it_assert_f', `it_warning_f' and `it_error_f' functions. Now the
+	macros that use them work properly without `using namespace itpp'
+	in the application file.
+
 2005-08-25  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac, doc/Makefile.am: `--with-docdir' option added to the
