@@ -5,7 +5,7 @@ h_sources = \
 	plot_pdf.h
 
 cpp_sources = \
-	plot_pdf.h
+	plot_pdf.cpp
 
 noinst_LTLIBRARIES = libgraphics.la
 libgraphics_la_SOURCES = $(h_sources) $(cpp_sources) 

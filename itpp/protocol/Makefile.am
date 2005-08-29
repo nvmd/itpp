@@ -16,7 +16,7 @@ cpp_sources = \
 	front_drop_queue.cpp \
 	packet_channel.cpp \
 	packet_generator.cpp \
-	selective_repeat.cpp 
+	selective_repeat.cpp \
 	tcp.cpp
 
 noinst_LTLIBRARIES = libprotocol.la
