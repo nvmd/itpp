@@ -1,3 +1,8 @@
+2005-08-29  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/graphics/Makefile.am, itpp/protocol/Makefile.am: fixed
+	small bugs in `*.cpp' source file listings
+
 2005-08-27  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/ofdm.cpp: fixed a bug in the oversampling of the OFDM
