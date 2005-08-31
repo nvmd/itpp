@@ -1,6 +1,6 @@
 include $(top_srcdir)/Makefile.common
 
-SUBDIRS = base comm fixedpoint graphics protocol srccode
+SUBDIRS = base comm fixedpoint protocol srccode
 
 h_sources = \
 	alpha_modules.h \
@@ -8,7 +8,6 @@ h_sources = \
 	itcomm.h \
 	itconfig.h \
 	itfixedpoint.h \
-	itgraphics.h \
 	itmex.h \
 	itprotocol.h \
 	itsrccode.h
@@ -20,7 +19,6 @@ lib@PACKAGE@_la_LIBADD = \
 	$(top_builddir)/@PACKAGE@/base/libbase.la \
 	$(top_builddir)/@PACKAGE@/comm/libcomm.la \
 	$(top_builddir)/@PACKAGE@/fixedpoint/libfixedpoint.la \
-	$(top_builddir)/@PACKAGE@/graphics/libgraphics.la \
 	$(top_builddir)/@PACKAGE@/protocol/libprotocol.la \
 	$(top_builddir)/@PACKAGE@/srccode/libsrccode.la
 

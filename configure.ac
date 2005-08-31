@@ -339,43 +339,6 @@ else
 fi
 
 
-# Checks for HARU library
-AC_ARG_WITH(haru_dir, [AS_HELP_STRING([--with-haru-dir=DIR], 
-  [set HARU library directory to DIR])], [HARU_DIR=$withval], [HARU_DIR=""])
-if test "x$HARU_DIR" != x; then
-  HARU_LDFLAGS="-L$HARU_DIR"
-fi
-haru_save_LDFLAGS="$LDFLAGS"; LDFLAGS="$HARU_LDFLAGS $LDFLAGS"
-
-test "x$haru_ok" != xdisabled && haru_ok=no
-AC_ARG_WITH(haru, [AS_HELP_STRING([--with-haru=LIB], 
-  [use HARU library, e.g. -lharu])])
-case $with_haru in
-  yes | "") ;;
-  no) haru_ok=disabled ;;
-  *) HARU_LIBS="$with_haru" ;;
-esac
-
-if test "x$haru_ok" = xno; then
-  if test "x$HARU_LIBS" != x; then
-    haru_save_LIBS="$LIBS"; LIBS="$HARU_LIBS $LIBS"
-    AC_CHECK_FUNC(PdfBox, [haru_ok=yes], [HARU_LIBS=""])
-    LIBS="$haru_save_LIBS"
-  fi
-fi
-
-if test "x$haru_ok" = xno; then
-  AC_CHECK_LIB(haru, PdfBox, [haru_ok=yes; HARU_LIBS="-lharu"])
-fi
-
-if test "x$haru_ok" = xyes; then
-  AC_DEFINE([HAVE_HARU], [1], [Define if you have HARU library])
-  LIBS="$HARU_LIBS $LIBS"
-else
-  LDFLAGS="$haru_save_LDFLAGS"
-fi
-
-
 # Checks for header files
 AC_HEADER_STDC
 AC_CHECK_HEADERS([float.h stdlib.h string.h sys/time.h unistd.h])
@@ -387,7 +350,6 @@ AC_CONFIG_FILES([Makefile \
   itpp/base/bessel/Makefile \
   itpp/comm/Makefile \
   itpp/fixedpoint/Makefile \
-  itpp/graphics/Makefile \
   itpp/protocol/Makefile \
   itpp/srccode/Makefile \
   doc/Makefile \
@@ -437,7 +399,6 @@ External libs:
   - ATLAS ........ : ${atlas_ok}
   - CBLAS ........ : ${cblas_ok}
   - LAPACK ....... : ${lapack_ok}
-  - HARU ......... : ${haru_ok}
 
 Compiler/linker flags/libs/defs:
   - CXX .......... : ${CXX}
