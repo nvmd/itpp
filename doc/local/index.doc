@@ -15,7 +15,7 @@ The kernel of IT++ are templated vector and matrix classes and lots of
 functions for vectors and matrices. As such the kernel is similar to the
 Matlab functions. IT++ makes extensive use of existing Open Source
 libraries for increased functionality, speed and accuracy. In particular
-the libraries FFTW, ATLAS (or CBLAS), LAPACK and HARU are used.
+the FFTW, ATLAS (or CBLAS) and LAPACK libraries are used.
       
 The IT++ library originates from the former department of Information
 Theory at the Chalmers University of Technology, Gothenburg, Sweden. Since
@@ -74,7 +74,7 @@ is also being developed as a part of the European Network of Excellence
 functions for vectors and matrices. As such the kernel is similar to the
 Matlab functions. IT++ makes extensive use of existing Open Source
 libraries for increased functionality, speed and accuracy. In particular
-the libraries FFTW, ATLAS (or CBLAS), LAPACK and HARU are used. </p>
+the FFTW, ATLAS (or CBLAS) and LAPACK libraries are used. </p>
       
 <p> The IT++ library originates from the former department of Information
 Theory at the Chalmers University of Technology, Gothenburg, Sweden. Since
@@ -95,7 +95,6 @@ testers needed). </p>
 		<a href="http://www.netlib.org/blas/">Basic Linear Algebra Subprograms (BLAS)</a><br>
 		<a href="http://math-atlas.sourceforge.net/">Automatically Tuned Linear Algebra Software (ATLAS)</a><br>
 		<a href="http://www.netlib.org/lapack/">Linear Algebra PACKage (LAPACK)</a><br>
-		<a href="http://sourceforge.net/projects/libharu">Haru Free PDF Library</a><br>
 		<br>
 	<b>GNU Tools:</b><br>
 		<a href="http://gcc.gnu.org/">GNU GCC</a><br>

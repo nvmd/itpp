@@ -18,9 +18,6 @@
 	exit;
 }
 
-echo "Generating configuration files for IT++, please wait...."
-echo;
-
 echo n | libtoolize --copy --force || exit;
 aclocal || exit;
 #autoheader || exit;

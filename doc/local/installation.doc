@@ -19,10 +19,10 @@ later (to check version run <tt>`gcc --version'</tt>) </li>
 Optionally, you might need additional tools like: Doxygen, LaTeX, Dvips
 and Ghostscript to generate the HTML documentation.
 
-We strongly recommend that you use the latest stable versions of the GCC
-compilers if possible. We don't actively work on supporting older compiler
-versions and they may therefore (without prior notice) become unsupported
-in future versions of IT++.
+We strongly recommend that you use well tested and stable releases of the
+GCC compilers, i.e. 3.4.x, 3.3.x or 3.2.x, if possible. We do not actively
+work on supporting older compilers and they may therefore (without prior
+notice) become unsupported in future versions of IT++.
 
 In order to use all functionality provided in the IT++ library it is
 recommended that you have some external libraries compiled and installed
@@ -96,10 +96,10 @@ only used by GCC. </li>
 </ul> 
 
 By default, the \c `configure' script checks for a few external libraries
-used by the IT++ library. These are: FFTW, ATLAS (CBLAS), LAPACK and HARU.
-If these libraries are found in your system, appropriate flags (i.e.
-HAVE_FFTW, HAVE_CBLAS, HAVE_LAPACK and HAVE_HARU) will be defined, and
-used during the compilation and linking.
+used by the IT++ library. These are: FFTW, ATLAS (CBLAS) and LAPACK. If
+these libraries are found in your system, appropriate flags (i.e.
+HAVE_FFTW, HAVE_CBLAS and HAVE_LAPACK) will be defined, and used during
+the compilation and linking process.
 
 If some of the external libraries are installed in a non-standard way in
 your system, so they can not be detected by the `configure' script
@@ -143,7 +143,7 @@ presented. For instance, after having invoked the following configuration
 command:
 
 \code
-% ./configure --enable-debug --with-cpu=pentium3 --without-haru
+% ./configure --enable-debug --with-cpu=pentium3
 \endcode
 
 one can observe something like that:
@@ -180,7 +180,6 @@ External libs:
   - ATLAS ........ : yes
   - CBLAS ........ : yes
   - LAPACK ....... : yes
-  - HARU ......... : disabled
 
 Compiler/linker flags/libs/defs:
   - CXX .......... : g++

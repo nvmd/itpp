@@ -1,6 +1,7 @@
 2005-08-31  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* Support for libharu removed definitely.
+	* Support for libharu removed definitely. Documentation updated to
+	remove references to libharu.
 	* autogen.sh: script modifications based on autogen.sh from Gaim
 	project
 	* TODO list updated
