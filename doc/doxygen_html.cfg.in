@@ -454,7 +454,6 @@ INPUT                  = @top_srcdir@/@PACKAGE@ \
                          @top_srcdir@/@PACKAGE@/base \
                          @top_srcdir@/@PACKAGE@/comm \
                          @top_srcdir@/@PACKAGE@/fixedpoint \
-                         @top_srcdir@/@PACKAGE@/graphics \
                          @top_srcdir@/@PACKAGE@/protocol \
                          @top_srcdir@/@PACKAGE@/srccode \
                          @top_srcdir@/doc/local \
@@ -481,8 +480,7 @@ RECURSIVE              = NO
 # subdirectory from a directory tree whose root is specified with the INPUT tag.
 
 EXCLUDE                = @top_srcdir@/@PACKAGE@/base/fftw3.h \
-                         @top_srcdir@/@PACKAGE@/base/cblas.h \
-                         @top_srcdir@/@PACKAGE@/graphics/libharu.h
+                         @top_srcdir@/@PACKAGE@/base/cblas.h
 
 # The EXCLUDE_SYMLINKS tag can be used select whether or not files or 
 # directories that are symbolic links (a Unix filesystem feature) are excluded 

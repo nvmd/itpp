@@ -7,13 +7,14 @@ all-local: html-local
 html-local: html/index.html
 
 html/index.html: doxygen_html.cfg \
-	$(doc_local_sources) $(doc_tutorial_sources) \
-	$(h_sources) $(h_base_sources) $(h_comm_sources) \
-	$(h_fixedpoint_sources) $(h_graphics_sources) \
-	$(h_protocol_sources) $(h_srccode_sources) \
-	$(cpp_base_sources) $(cpp_comm_sources) $(cpp_fixedpoint_sources) \
-	$(cpp_graphics_sources) $(cpp_protocol_sources) \
-	$(cpp_srccode_sources) $(cpp_tutorial_sources)
+	$(doc_local_sources) \
+	$(doc_tutorial_sources) $(cpp_tutorial_sources) \
+	$(h_sources) \
+	$(h_base_sources) $(cpp_base_sources) \
+	$(h_comm_sources) $(cpp_comm_sources) \
+	$(h_fixedpoint_sources)	$(cpp_fixedpoint_sources) \
+	$(h_protocol_sources) $(cpp_protocol_sources) \
+	$(h_srccode_sources) $(cpp_srccode_sources)
 	doxygen $<; \
 	if test -d html; then \
 		cp $(srcdir)/images/itpp_logga.jpg html; \
@@ -141,10 +142,6 @@ h_fixedpoint_sources = \
 	$(top_srcdir)/itpp/fixedpoint/fix.h \
 	$(top_srcdir)/itpp/fixedpoint/fix_operators.h
 
-h_graphics_sources = \
-	$(top_srcdir)/itpp/graphics/libharu.h \
-	$(top_srcdir)/itpp/graphics/plot_pdf.h
-
 h_protocol_sources = \
 	$(top_srcdir)/itpp/protocol/events.h \
 	$(top_srcdir)/itpp/protocol/front_drop_queue.h \
@@ -170,7 +167,6 @@ h_sources = \
 	$(top_srcdir)/itpp/itcomm.h \
 	$(top_srcdir)/itpp/itconfig.h \
 	$(top_srcdir)/itpp/itfixedpoint.h \
-	$(top_srcdir)/itpp/itgraphics.h \
 	$(top_srcdir)/itpp/itmex.h \
 	$(top_srcdir)/itpp/itprotocol.h \
 	$(top_srcdir)/itpp/itsrccode.h
@@ -255,9 +251,6 @@ cpp_fixedpoint_sources = \
 	$(top_srcdir)/itpp/fixedpoint/fix_factory.cpp \
 	$(top_srcdir)/itpp/fixedpoint/fix_functions.cpp \
 	$(top_srcdir)/itpp/fixedpoint/fix_operators.cpp
-
-cpp_graphics_sources = \
-	$(top_srcdir)/itpp/graphics/plot_pdf.cpp
 
 cpp_protocol_sources = \
 	$(top_srcdir)/itpp/protocol/events.cpp \

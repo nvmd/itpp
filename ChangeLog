@@ -1,3 +1,10 @@
+2005-08-31  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* Support for libharu removed definitely.
+	* autogen.sh: script modifications based on autogen.sh from Gaim
+	project
+	* TODO list updated
+
 2005-08-30  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* AUTHORS: updated developer's list
