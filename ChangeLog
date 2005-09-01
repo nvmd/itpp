@@ -1,3 +1,8 @@
+2005-09-01  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* Removed unnecessary `tests/plot_pdf_test.{cpp,ref}' files after
+	libharu removal
+
 2005-08-31  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* Support for libharu removed definitely. Documentation updated to

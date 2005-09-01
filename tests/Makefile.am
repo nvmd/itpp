@@ -46,7 +46,6 @@ check_PROGRAMS = \
 	turbo_test \
 	vec_test \
 	vector_test
-# plot_pdf_test 
 
 array_test_SOURCES = array_test.cpp
 bch_test_SOURCES = bch_test.cpp
@@ -76,7 +75,6 @@ modulator_test_SOURCES = modulator_test.cpp
 pam_test_SOURCES = pam_test.cpp
 parser_test_SOURCES = parser_test.cpp
 parser_test_CPPFLAGS = -DPARSER_TEST_FILE=\"$(srcdir)/parser_test_data.txt\" $(AM_CPPFLAGS)
-#plot_pdf_test_SOURCES = plot_pdf_test.cpp
 psk_test_SOURCES = psk_test.cpp
 pulse_shape_test_SOURCES = pulse_shape_test.cpp
 qam_test_SOURCES = qam_test.cpp
