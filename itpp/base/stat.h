@@ -1,34 +1,43 @@
-/*---------------------------------------------------------------------------*
- *                                   IT++                                    *
- *---------------------------------------------------------------------------*
- * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
- * Tobias Ringström, and Johan Bergman.                                      *
- *                                                                           *
- * Permission to use, copy, modify, and distribute this software and its     *
- * documentation under the terms of the GNU General Public License is hereby *
- * granted. No representations are made about the suitability of this        *
- * software for any purpose. It is provided "as is" without expressed or     *
- * implied warranty. See the GNU General Public License for more details.    *
- *---------------------------------------------------------------------------*/
-
-
 /*!
-  \file
-  \brief Functions and classes for calculation of statistics
-  \author Tony Ottosson and Johan Bergman
-  
-  $Revision$
-  
-  $Date$
-*/
+ * \file 
+ * \brief Functions and classes for calculation of statistics
+ * \author Tony Ottosson and Johan Bergman
+ *
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ * -------------------------------------------------------------------------
+ */
 
-#ifndef __stat_h
-#define __stat_h
+
+
+#ifndef STAT_H
+#define STAT_H
 
 #include <cmath>
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/scalfunc.h>
+#include <itpp/base/elmatfunc.h>
 #include <itpp/base/matfunc.h>
 
 namespace itpp {
@@ -442,6 +451,30 @@ namespace itpp {
   }
 
 
+  //! Return true if the input vector \c x is elementwise within the tolerance \c tol of the reference vector \xref
+  bool within_tolerance(const vec &x, const vec &xref, const double tol = 1e-15)
+  {
+    return ( max(abs(x-xref)) <= tol ) ? true : false; 
+  }
+
+  //! Return true if the input vector \c x is elementwise within the tolerance \c tol of the reference vector \xref
+  bool within_tolerance(const cvec &x, const cvec &xref, const double tol = 1e-15)
+  {
+    return ( max(abs(x-xref)) <= tol ) ? true : false; 
+  }
+
+  //! Return true if the input matrix \c X is elementwise within the tolerance \c tol of the reference matrix \Xref
+  bool within_tolerance(const mat &X, const mat &Xref, const double tol = 1e-15)
+  {
+    return ( max(max(abs(X-Xref))) <= tol ) ? true : false; 
+  }
+
+  //! Return true if the input matrix \c X is elementwise within the tolerance \c tol of the reference matrix \Xref
+  bool within_tolerance(const cmat &X, const cmat &Xref, const double tol = 1e-15)
+  {
+    return ( max(max(abs(X-Xref))) <= tol ) ? true : false; 
+  }
+
   /*!
     \brief Calculate the central moment of vector x
   
@@ -521,4 +554,4 @@ namespace itpp {
 
 } //namespace itpp
 
-#endif // __stat_h
+#endif // STAT_H
