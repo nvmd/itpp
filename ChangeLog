@@ -1,3 +1,6 @@
+2005-09-14  Tony Ottosson  <tonyottosson@users.sourceforge.net>
+	* Added the functions within_tolerance(x, xref, tol) in stat.h.
+
 2005-09-01  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* Removed unnecessary `tests/plot_pdf_test.{cpp,ref}' files after
