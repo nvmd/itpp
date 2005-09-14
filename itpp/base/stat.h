@@ -452,25 +452,25 @@ namespace itpp {
 
 
   //! Return true if the input vector \c x is elementwise within the tolerance \c tol of the reference vector \xref
-  bool within_tolerance(const vec &x, const vec &xref, const double tol = 1e-15)
+  inline bool within_tolerance(const vec &x, const vec &xref, const double tol = 1e-15)
   {
     return ( max(abs(x-xref)) <= tol ) ? true : false; 
   }
 
   //! Return true if the input vector \c x is elementwise within the tolerance \c tol of the reference vector \xref
-  bool within_tolerance(const cvec &x, const cvec &xref, const double tol = 1e-15)
+  inline bool within_tolerance(const cvec &x, const cvec &xref, const double tol = 1e-15)
   {
     return ( max(abs(x-xref)) <= tol ) ? true : false; 
   }
 
   //! Return true if the input matrix \c X is elementwise within the tolerance \c tol of the reference matrix \Xref
-  bool within_tolerance(const mat &X, const mat &Xref, const double tol = 1e-15)
+  inline bool within_tolerance(const mat &X, const mat &Xref, const double tol = 1e-15)
   {
     return ( max(max(abs(X-Xref))) <= tol ) ? true : false; 
   }
 
   //! Return true if the input matrix \c X is elementwise within the tolerance \c tol of the reference matrix \Xref
-  bool within_tolerance(const cmat &X, const cmat &Xref, const double tol = 1e-15)
+  inline bool within_tolerance(const cmat &X, const cmat &Xref, const double tol = 1e-15)
   {
     return ( max(max(abs(X-Xref))) <= tol ) ? true : false; 
   }
