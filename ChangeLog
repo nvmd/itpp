@@ -1,4 +1,11 @@
 2005-09-14  Tony Ottosson  <tonyottosson@users.sourceforge.net>
+	* itpp/base/itfile.{h,cpp}: Changed exceptions into it_error.
+	  it_ifile::seek(string) now returns bool indicating if the variable is found.
+
+2005-09-14  Tony Ottosson  <tonyottosson@users.sourceforge.net>
+	* itpp/comm/ofdm.cpp: fixed bug on line 45, sqrt() should be std::sqrt().
+
+2005-09-14  Tony Ottosson  <tonyottosson@users.sourceforge.net>
 	* Added the functions within_tolerance(x, xref, tol) in stat.h.
 
 2005-09-01  Adam Piatyszek  <ediap@users.sourceforge.net>
