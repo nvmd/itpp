@@ -230,7 +230,7 @@ fi
 
 if test "x$cblas_ok" = xyes; then
   AC_DEFINE([HAVE_CBLAS], [1], [Define if you have CBLAS library.])
-  LIBS="$CBLAS_LIBS $LIBS $FLIBS"
+  LIBS="$CBLAS_LIBS $LIBS"
 else
   LDFLAGS="$cblas_save_LDFLAGS"
 fi
@@ -282,11 +282,7 @@ fi
     
 if test "x$lapack_ok" = xyes; then
   AC_DEFINE([HAVE_LAPACK], [1], [Define if you have LAPACK library.])
-  if test "x$cblas_ok" = xyes; then
-    LIBS="$LAPACK_LIBS $LIBS"
-  else
-    LIBS="$LAPACK_LIBS $BLAS_LIBS $LIBS $FLIBS"
-  fi
+  LIBS="$LAPACK_LIBS $LIBS"
 else    
   LDFLAGS="$lapack_save_LDFLAGS"
 fi

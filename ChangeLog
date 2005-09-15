@@ -1,5 +1,9 @@
 2005-09-15  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* TODO: updated to reflect recent changes
+	* configure.ac, Makefile.common: now $FLIBS are not added to
+	default $LIBS, but set as $AM_LDFLAGS
+
 	* Added autoheader file `itpp/config.h' that collects all DEFS
 	used in the project
 	* COPYING: updated with pure GPL2 license text
