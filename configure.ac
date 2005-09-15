@@ -9,7 +9,7 @@ AC_CONFIG_AUX_DIR([config])
 AM_INIT_AUTOMAKE
 
 # Shared library versioning
-GENERIC_LIBRARY_VERSION="3:9:0"
+GENERIC_LIBRARY_VERSION="1:0:0"
 #                        | | |
 #                 +------+ | +---+
 #                 |        |     |
