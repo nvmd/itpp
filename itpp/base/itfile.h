@@ -1,7 +1,8 @@
 /*!
  * \file 
- * \brief Definition of classes for the IT++ file format.
- * \author Tony Ottosson and Tobias Ringström
+ * \brief Definition of classes for the IT++ file format
+ * \author Tony Ottosson and Tobias Ringstrom
+ *
  * $Date$
  * $Revision$
  *
@@ -30,13 +31,13 @@
 #ifndef ITFILE_H
 #define ITFILE_H
 
+#include <fstream>
 #include <itpp/base/binary.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/vec.h>
 #include <itpp/base/array.h>
 #include <itpp/base/binfile.h>
 #include <itpp/base/machdep.h>
-#include <fstream>
 
 namespace itpp {
 
@@ -608,7 +609,7 @@ namespace itpp {
 
   //!@}
 
-} //namespace itpp
+} // namespace itpp
 
-#endif // IT_FILE_H
+#endif // #ifndef IT_FILE_H
 

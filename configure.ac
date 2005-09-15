@@ -1,14 +1,15 @@
 # Process this file with autoconf to produce a configure script
-# Copyright (c) 2005 by Adam Piatyszek <ediap@users.sourceforge.net>
 #-------------------------------------------------------------------
 AC_PREREQ(2.59)
+AC_COPYRIGHT([Copyright (C) 2005  Adam Piatyszek <ediap@users.sourceforge.net>])
 AC_INIT([IT++], [3.9.0], [ediap@users.sourceforge.net], [itpp])
+AC_CONFIG_HEADER([itpp/config.h])
 AC_CONFIG_SRCDIR([itpp/base/vec.cpp])
 AC_CONFIG_AUX_DIR([config])
 AM_INIT_AUTOMAKE
 
 # Shared library versioning
-GENERIC_LIBRARY_VERSION="1:0:0"
+GENERIC_LIBRARY_VERSION="3:9:0"
 #                        | | |
 #                 +------+ | +---+
 #                 |        |     |
@@ -43,12 +44,6 @@ AC_ARG_ENABLE(debug,
   [AS_HELP_STRING([--enable-debug], 
     [enable debugging (disabled by default)])])
 test "x$enable_debug" != xyes && enable_debug=no
-
-# Check for pedantic switch
-AC_ARG_ENABLE(pedantic, 
-  [AS_HELP_STRING([--enable-pedantic], 
-    [enable additional warning and pedantic flags (disabled by default)])])
-test "x$enable_pedantic" != xyes && enable_pedantic=no
 
 # Check for htmldocs switch
 AC_ARG_ENABLE(html-docs, 
@@ -91,11 +86,7 @@ fi
 if test "x$GXX" = xyes; then
   # Add gcc warnings, in debug/maintainer mode only
   if test "x$enable_debug" = xyes; then
-    if test "x$enable_pedantic" = xyes; then
-      CXXFLAGS="-W -Wcast-qual -Wcast-align -Wpointer-arith -Wlong-long -Wshadow -Wbad-function-cast -Wwrite-strings -Wstrict-prototypes -Wredundant-decls -Wnested-externs -Woverloaded-virtual -pedantic $CXXFLAGS"
-    else
-      CXXFLAGS="-Wall $CXXFLAGS"
-    fi
+	  CXXFLAGS="-Wall $CXXFLAGS"
   fi
 
   # Processor flags settings
@@ -381,7 +372,6 @@ Platform:
 
 Switches:
   - debug ........ : ${enable_debug}
-  - pedantic ..... : ${enable_pedantic}
   - html-docs .... : ${enable_html_docs}
 
 Documentation tools:
@@ -406,7 +396,6 @@ Compiler/linker flags/libs/defs:
   - CXXFLAGS ..... : ${CXXFLAGS}
   - LDFLAGS ...... : ${LDFLAGS}
   - LIBS ......... : ${LIBS}
-  - DEFS ......... : ${DEFS}
 
 ------------------------------------------------------------------------------
 Now type 'make && make install' to build and install $PACKAGE-$VERSION library

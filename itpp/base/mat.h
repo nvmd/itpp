@@ -1,28 +1,35 @@
-/*---------------------------------------------------------------------------*
- *                                   IT++			                               *
- *---------------------------------------------------------------------------*
- * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
- * Tobias Ringström, and Jonas Samuelsson.                                   *
- *                                                                           *
- * Permission to use, copy, modify, and distribute this software and its     *
- * documentation under the terms of the GNU General Public License is hereby *
- * granted. No representations are made about the suitability of this        *
- * software for any purpose. It is provided "as is" without expressed or     *
- * implied warranty. See the GNU General Public License for more details.    *
- *---------------------------------------------------------------------------*/
-
 /*!
-  \file
-  \brief Matrix Class Definitions
-  \author Tony Ottosson and Tobias Ringstrom
+ * \file
+ * \brief Matrix Class Definitions
+ * \author Tony Ottosson and Tobias Ringstrom
+ * 
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ * -------------------------------------------------------------------------
+ */
 
-  $Revision$
-
-  $Date$
-*/
-
-#ifndef __mat_h
-#define __mat_h
+#ifndef MAT_H
+#define MAT_H
 
 #include <iostream>
 #include <string>
@@ -31,8 +38,8 @@
 #include <sstream>
 #include <cmath>
 #include <algorithm>
+#include <itpp/config.h>
 #include <itpp/itconfig.h>
-//#include "base/vec.h" is done below Mat<Num_T> class definition (needed for g++ 3.4)
 #include <itpp/base/itassert.h>
 #include <itpp/base/binary.h>
 #include <itpp/base/scalfunc.h>
@@ -40,9 +47,6 @@
 
 
 namespace itpp {
-
-  // Define of minimum of two numbers x and y
-	//#define minimum(x,y) (((x)<(y)) ? (x) : (y))
 
   // Declaration of Vec
   template<class Num_T> class Vec;
@@ -1777,8 +1781,9 @@ namespace itpp {
   extern template std::istream &operator>>(std::istream &is, smat  &m);
   //! Template instantiation of input stream
   extern template std::istream &operator>>(std::istream &is, bmat  &m);
+
 #endif // _MSC_VER
 
-} //namespace itpp
+} // namespace itpp
 
-#endif // __mat_h
+#endif // #ifndef MAT_H

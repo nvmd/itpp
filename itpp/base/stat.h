@@ -1,8 +1,8 @@
 /*!
- * \file 
- * \brief Functions and classes for calculation of statistics
+ * \file
+ * \brief Definitions of statistics functions and classes
  * \author Tony Ottosson and Johan Bergman
- *
+ * 
  * $Date$
  * $Revision$
  *
@@ -27,8 +27,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * -------------------------------------------------------------------------
  */
-
-
 
 #ifndef STAT_H
 #define STAT_H
@@ -552,6 +550,6 @@ namespace itpp {
 
   //!@}
 
-} //namespace itpp
+} // namespace itpp
 
-#endif // STAT_H
+#endif // #ifndef STAT_H

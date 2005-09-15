@@ -1,69 +1,63 @@
-/*---------------------------------------------------------------------------*
- *                                   IT++			             *
- *---------------------------------------------------------------------------*
- * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
- * Tobias Ringström, and Jonas Samuelsson.                                   *
- *                                                                           *
- * Permission to use, copy, modify, and distribute this software and its     *
- * documentation under the terms of the GNU General Public License is hereby *
- * granted. No representations are made about the suitability of this        *
- * software for any purpose. It is provided "as is" without expressed or     *
- * implied warranty. See the GNU General Public License for more details.    *
- *---------------------------------------------------------------------------*/
+/*!
+ * \file
+ * \brief Definition of classes for random number generators
+ * \author Tony Ottosson
+ * 
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ * -------------------------------------------------------------------------
+ *
+ * The Random_Generator class is built on the MersenneTwister MTRand
+ * class code by Richard J. Wagner. See
+ * http://www-personal.engin.umich.edu/~wagnerr/MersenneTwister.html
+ * for details. The code is distributed under the GPL license.
+ * 
+ * The Mersenne Twister is an algorithm for generating random numbers.
+ * It was designed with consideration of the flaws in various other
+ * generators. The period, 2^19937-1, and the order of
+ * equidistribution, 623 dimensions, are far greater. The generator is
+ * also fast; it avoids multiplication and division, and it benefits
+ * from caches and pipelines. For more information see the inventors'
+ * web page at http://www.math.keio.ac.jp/~matumoto/emt.html
+ * 
+ * Reference: 
+ * M. Matsumoto and T. Nishimura, "Mersenne Twister: A
+ * 623-Dimensionally Equidistributed Uniform Pseudo-Random Number
+ * Generator", ACM Transactions on Modeling and Computer Simulation,
+ * Vol. 8, No. 1, January 1998, pp 3-30.
+ * 
+ * The original code included the following notice:
+ * 
+ * Copyright (C) 1997, 1999 Makoto Matsumoto and Takuji Nishimura.
+ * When you use this, send an email to: matumoto@math.keio.ac.jp
+ * with an appropriate reference to your work.
+ * 
+ * It would be nice to CC: rjwagner@writeme.com and Cokus@math.washington.edu
+ * when you write.
+ */
 
-/*! 
-  \file 
-  \brief Definition of classes for random number generators
-  \author Tony Ottosson
-
-  The Random_Generator class is built on the MersenneTwister MTRand class code by
-  Richard J. Wagner. See http://www-personal.engin.umich.edu/~wagnerr/MersenneTwister.html
-  for details. The code is distributed under the GPL license.
-
-  The Mersenne Twister is an algorithm for generating random numbers.  It
-  was designed with consideration of the flaws in various other generators.
-  The period, 2^19937-1, and the order of equidistribution, 623 dimensions,
-  are far greater.  The generator is also fast; it avoids multiplication and
-  division, and it benefits from caches and pipelines.  For more information
-  see the inventors' web page at http://www.math.keio.ac.jp/~matumoto/emt.html
-  
-  Reference:
-  M. Matsumoto and T. Nishimura, "Mersenne Twister: A 623-Dimensionally
-  Equidistributed Uniform Pseudo-Random Number Generator", ACM Transactions on
-  Modeling and Computer Simulation, Vol. 8, No. 1, January 1998, pp 3-30.
-
-  Copyright (C) 2001  Richard J. Wagner
- 
-  This library is free software; you can redistribute it and/or
-  modify it under the terms of the GNU Lesser General Public
-  License as published by the Free Software Foundation; either
-  version 2.1 of the License, or (at your option) any later version.
- 
-  This library is distributed in the hope that it will be useful,
-  but WITHOUT ANY WARRANTY; without even the implied warranty of
-  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-  Lesser General Public License for more details.
-  
-  You should have received a copy of the GNU Lesser General Public
-  License along with this library; if not, write to the Free Software
-  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
-
-  The original code included the following notice:
-  
-  Copyright (C) 1997, 1999 Makoto Matsumoto and Takuji Nishimura.
-  When you use this, send an email to: matumoto@math.keio.ac.jp
-  with an appropriate reference to your work.
-
-  It would be nice to CC: rjwagner@writeme.com and Cokus@math.washington.edu
-  when you write.
-
-  $Revision$
-
-  $Date$
-*/
-
-#ifndef __random_h
-#define __random_h
+#ifndef RANDOM_H
+#define RANDOM_H
 
 #include <cstdlib>
 #include <itpp/base/binary.h>
@@ -111,7 +105,7 @@ namespace itpp {
       return ( s1 ^ (s1 >> 18) );
     }
 
-    //! Return a uniformly distributed (0,1) value. [2^¯33,1-2^-33] in steps of 2^-32.
+    //! Return a uniformly distributed (0,1) value. [2^33,1-2^-33] in steps of 2^-32.
     double random_01() { return ( (double(random_int()) + 0.5) * 2.3283064365386963e-10 ); } //*2^-32+2^-33
     //! Return a uniformly distributed [0,1] value.
     double random_01_closed() { return ( double(random_int()) * 2.3283064370807974e-10 ); } // * 1/(2^32-1)
@@ -784,7 +778,7 @@ namespace itpp {
       return samp;
     }
 
-} //namespace itpp
+} // namespace itpp
 
-#endif // __random_h
+#endif // #ifndef RANDOM_H
 

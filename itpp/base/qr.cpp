@@ -1,33 +1,42 @@
-/*---------------------------------------------------------------------------*
- *                                   IT++			             *
- *---------------------------------------------------------------------------*
- * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
- * Tobias Ringström, and Jonas Samuelsson.                                   *
- *                                                                           *
- * Permission to use, copy, modify, and distribute this software and its     *
- * documentation under the terms of the GNU General Public License is hereby *
- * granted. No representations are made about the suitability of this        *
- * software for any purpose. It is provided "as is" without expressed or     *
- * implied warranty. See the GNU General Public License for more details.    *
- *---------------------------------------------------------------------------*/
-
 /*!
-  \file
-  \brief Implementation of QR factorisation functions.
-  \author Tony Ottosson
+ * \file
+ * \brief Implementation of QR factorisation functions
+ * \author Tony Ottosson
+ * 
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ * -------------------------------------------------------------------------
+ */
 
-  $Revision$
-
-  $Date$
-*/
-
+#include <itpp/config.h>
 #include <itpp/base/qr.h>
 #include <itpp/base/matfunc.h>
-#include <itpp/base/lapack.h>
 
 namespace itpp { 
 
 #if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+
+#include <itpp/base/lapack.h>
 
   bool qr(const mat &A, mat &Q, mat &R)
   {
@@ -149,8 +158,8 @@ namespace itpp {
     return (info==0);
   }
 
-
 #else
+
   bool qr(const mat &A, mat &Q, mat &R)
   {
     it_error("You need to compile IT++ with LAPACK or MKL for qr() to exist");
@@ -175,9 +184,6 @@ namespace itpp {
     return false;
   }
 
-
 #endif // HAVE_LAPACK or HAVE_MKL
 
-
-
-} //namespace itpp
+} // namespace itpp

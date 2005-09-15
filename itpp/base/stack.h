@@ -1,33 +1,41 @@
-/*---------------------------------------------------------------------------*
- *                                   IT++                                    *
- *---------------------------------------------------------------------------*
- * Copyright (c) 1995-2002 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
- * Tobias Ringström, and Jonas Samuelsson.                                   *
- *                                                                           *
- * Permission to use, copy, modify, and distribute this software and its     *
- * documentation under the terms of the GNU General Public License is hereby *
- * granted. No representations are made about the suitability of this        *
- * software for any purpose. It is provided "as is" without expressed or     *
- * implied warranty. See the GNU General Public License for more details.    *
- *---------------------------------------------------------------------------*/
+/*!
+ * \file
+ * \brief Stack class (container)
+ * \author Thomas Eriksson
+ * 
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ * -------------------------------------------------------------------------
+ *
+ * This file is not separated into a .h and a .cpp file. The reason is
+ * to avoid problems with template initializations of this class. 
+ * An \c Stack<type> can contain any type and it is not possible to
+ * initialize and pre-compile all types that might be put into an 
+ * \c Stack.
+ */
 
-/*! 
-  \file 
-  \brief Stack class (container)
-  \author Thomas Eriksson
-  
-  This file is not separated into a .h and a .cpp file. The reason is to 
-  avoid problems with template initializations of this class.
-  An \c Stack<type> can contain any type and it is not possible 
-  to initialize and pre-compile all types that might be put into an \c Stack.
-  
-  $Revision$
-
-  $Date$
-*/
-
-#ifndef __stack_h
-#define __stack_h
+#ifndef STACK_H
+#define STACK_H
 
 #include <itpp/itconfig.h>
 #include <itpp/base/itassert.h>
@@ -216,6 +224,6 @@ namespace itpp {
       ndata = sz;
     }
 
-} //namespace itpp
+} // namespace itpp
 
-#endif // __Stack_h
+#endif // #ifndef STACK_H

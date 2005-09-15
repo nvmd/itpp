@@ -4,6 +4,7 @@ SUBDIRS = base comm fixedpoint protocol srccode
 
 h_sources = \
 	alpha_modules.h \
+	config.h \
 	itbase.h \
 	itcomm.h \
 	itconfig.h \

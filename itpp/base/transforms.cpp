@@ -1,38 +1,43 @@
-/*---------------------------------------------------------------------------*
-*                                   IT++			             *
-*---------------------------------------------------------------------------*
-* Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
-* Tobias Ringström, and Jonas Samuelsson.                                   *
-*                                                                           *
-* Permission to use, copy, modify, and distribute this software and its     *
-* documentation under the terms of the GNU General Public License is hereby *
-* granted. No representations are made about the suitability of this        *
-* software for any purpose. It is provided "as is" without expressed or     *
-* implied warranty. See the GNU General Public License for more details.    *
-*---------------------------------------------------------------------------*/
+/*!
+ * \file
+ * \brief Implementation of Fourier, Hadamard, Walsh-Hadamard, and 2D Hadamard 
+ * transforms
+ * \author Tony Ottosson, Thomas Eriksson, and Simon Wood
+ * 
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ * -------------------------------------------------------------------------
+ *
+ * This file uses the FFTW package version 3.0.x that is distributed under 
+ * the GNU GPL licence. For details see http://www.fftw.org/.
+ */
 
-/*! 
-\file 
-\brief Implementation of Fourier, Hadamard, Walsh-Hadamard, and 2D Hadamard transforms.
-\author Tony Ottosson, Thomas Eriksson, and Simon Wood 
-
-This file uses the FFTW package version 3.0.1 that is distributed under the GNU GPL licence. 
-For details see http://www.fftw.org.
-
-$Revision$
-
-$Date$
-*/
-
+#include <iostream>
+#include <cmath>
+#include <itpp/config.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/base/transforms.h>
 #include <itpp/base/elmatfunc.h>
-#include <iostream>
-#include <cmath>
-
-using std::complex;
-using std::cout;
-using std::endl;
 
 namespace itpp { 
 
@@ -116,7 +121,7 @@ namespace itpp {
   void dct(const vec &in, vec &out)
   {
     cvec    c;
-    complex<double> fprod=1/std::sqrt(length(in)*2.0),f=std::complex<double>(std::cos(-pi/length(in)/2),std::sin(-pi/length(in)/2));
+		std::complex<double> fprod = 1/std::sqrt(length(in)*2.0), f = std::complex<double>(std::cos(-pi/length(in)/2), std::sin(-pi/length(in)/2));
 
     fft_real(concat(in,reverse(in)),c);
     c=c.left(length(in));
@@ -129,7 +134,7 @@ namespace itpp {
 
   void idct(const vec &in, vec &out)
   {
-    cout << "Not implemented yet" << endl ;
+		std::cout << "Not implemented yet" << std::endl;
   }
 
   // y=real(fft([x fliplr(x)]).*exp(-j*pi/length(x)/2*[0:(length(x)*2-1)])/sqrt(length(x)*2));y(1)=y(1)/sqrt(2);y=y(1:length(x))
@@ -589,4 +594,4 @@ namespace itpp {
   template mat  dwht2(const mat &m);
   template cmat dwht2(const cmat &m);
 
-} //namespace itpp
+} // namespace itpp
