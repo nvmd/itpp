@@ -1,28 +1,35 @@
-/*---------------------------------------------------------------------------*
- *                                   IT++			             *
- *---------------------------------------------------------------------------*
- * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
- * Tobias Ringström, and Jonas Samuelsson.                                   *
- *                                                                           *
- * Permission to use, copy, modify, and distribute this software and its     *
- * documentation under the terms of the GNU General Public License is hereby *
- * granted. No representations are made about the suitability of this        *
- * software for any purpose. It is provided "as is" without expressed or     *
- * implied warranty. See the GNU General Public License for more details.    *
- *---------------------------------------------------------------------------*/
-
 /*!
-  \file
-  \brief Definition of frequency domain filter class and methods
-  \author Simon Wood
+ * \file
+ * \brief Definition of frequency domain filter class
+ * \author Simon Wood
+ * 
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ * -------------------------------------------------------------------------
+ */
 
-  $Revision$
-
-  $Date$
-*/
-
-#ifndef __freq_filt_h
-#define __freq_filt_h
+#ifndef FREQ_FILT_H
+#define FREQ_FILT_H
 
 #include <complex>
 #include <itpp/itconfig.h>
@@ -59,9 +66,9 @@ namespace itpp {
     Freq_Filt<double> FF(b,8000);
     \endcode
 
-    where 8000 corresponds to the expected vector length of the data to be
-    filtered. The actual number of elements does not have to be exact, but it should
-    be close.
+    where 8000 corresponds to the expected vector length of the data
+    to be filtered. The actual number of elements does not have to be
+    exact, but it should be close.
 
     Here is a complete example:
     \code
@@ -80,10 +87,10 @@ namespace itpp {
     int blk = FF.getBlkSize();
     \endcode
 
-    To facilitate large data sets the Freq_Filt class has a streaming option. In
-    this mode of operation data history is internally stored. This allows the class 
-    to be used for large data sets that are read from disk or streamed
-    in real-time.
+    To facilitate large data sets the Freq_Filt class has a streaming
+    option. In this mode of operation data history is internally
+    stored. This allows the class to be used for large data sets that
+    are read from disk or streamed in real-time.
 
     \code
     bool stream = true;
@@ -268,6 +275,6 @@ namespace itpp {
       return output;
     }
 
-} //namespace itpp
+} // namespace itpp
 
-#endif // __freq_filt_h
+#endif // #ifndef FREQ_FILT_H

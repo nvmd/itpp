@@ -1,7 +1,8 @@
 /*!
  * \file 
- * \brief Implementation of an Orthogonal Frequency Division Multiplex (OFDM) class.
- * \author Pål Frenger, Anders Persson and Tony Ottosson
+ * \brief Implementation of an Orthogonal Frequency Division Multiplex 
+ * (OFDM) class.
+ * \author Pal Frenger, Anders Persson and Tony Ottosson
  *
  * $Date$
  * $Revision$
@@ -27,7 +28,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  * -------------------------------------------------------------------------
  */
-
 
 
 #include <itpp/comm/ofdm.h>

@@ -1,7 +1,8 @@
 /*!
  * \file 
- * \brief Implementation of classes for the IT++ file format.
+ * \brief Implementation of classes for the IT++ file format
  * \author Tony Ottosson and Tobias Ringstrom
+ *
  * $Date$
  * $Revision$
  *
@@ -1703,4 +1704,4 @@ namespace itpp {
     return f;
   }
 
-} //namespace itpp
+} // namespace itpp

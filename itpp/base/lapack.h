@@ -1,27 +1,39 @@
-/*---------------------------------------------------------------------------*
- *                                   IT++			             *
- *---------------------------------------------------------------------------*
- * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
- * Tobias Ringström, and Jonas Samuelsson.                                   *
- *                                                                           *
- * Permission to use, copy, modify, and distribute this software and its     *
- * documentation under the terms of the GNU General Public License is hereby *
- * granted. No representations are made about the suitability of this        *
- * software for any purpose. It is provided "as is" without expressed or     *
- * implied warranty. See the GNU General Public License for more details.    *
- *---------------------------------------------------------------------------*/
-
 /*!
-  \file 
-  \brief Lapack header functions. For internal use only.
-  \author Tony Ottosson
+ * \file
+ * \brief Lapack header functions. For internal use only.
+ * \author Tony Ottosson
+ * 
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ * -------------------------------------------------------------------------
+ */
 
-  $Revision$
+#ifndef LAPACK_H
+#define LAPACK_H
 
-  $Date$
-*/
+#include <itpp/config.h>
 
-#ifndef NO_LAPACK
+#ifdef HAVE_LAPACK
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
@@ -29,6 +41,7 @@ extern "C" {
 
 // Fix for MKL Windows version so that naming is consistent with the 5.x and 7.x MKL LAPACK libraries
 #ifdef HAVE_MKL
+
 #define dgetrf_ dgetrf
 #define zgetrf_ zgetrf
 
@@ -71,8 +84,7 @@ extern "C" {
 #define dgels_ dgels
 #define zgels_ zgels
 
-
-#endif
+#endif // #ifdef HAVE_MKL
 
 
   // Exists in ATLAS
@@ -166,11 +178,10 @@ void ztrtrs_(char *uplo, char *trans, char *diag, int *n, int *nrhs, std::comple
 void dgels_(char *trans, int *m, int *n, int *nrhs, double *a, int *lda, double *b, int *ldb, double *work, int *lwork, int *info);
 void zgels_(char *trans, int *m, int *n, int *nrhs, std::complex<double> *a, int *lda, std::complex<double> *b, int *ldb, std::complex<double> *work, int *lwork, int *info);
 
-
 } // extern C
 
+#endif // #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
+#endif // #ifdef HAVE_LAPACK
 
-#endif //DOXYGEN_SHOULD_SKIP_THIS
-
-#endif //NO_LAPACK
+#endif // #ifndef LAPACK_H

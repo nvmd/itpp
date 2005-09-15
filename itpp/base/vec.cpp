@@ -1,25 +1,32 @@
-/*---------------------------------------------------------------------------*
- *                                   IT++			             *
- *---------------------------------------------------------------------------*
- * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
- * Tobias Ringström, and Jonas Samuelsson.                                   *
- *                                                                           *
- * Permission to use, copy, modify, and distribute this software and its     *
- * documentation under the terms of the GNU General Public License is hereby *
- * granted. No representations are made about the suitability of this        *
- * software for any purpose. It is provided "as is" without expressed or     *
- * implied warranty. See the GNU General Public License for more details.    *
- *---------------------------------------------------------------------------*/
-
 /*!
-  \file
-  \brief Templated Vector Class Implementation
-  \author Tony Ottosson and Tobias Ringström
-
-  $Revision$
-
-  $Date$ 
-*/
+ * \file
+ * \brief Templated Vector Class Implementation
+ * \author Tony Ottosson and Tobias Ringstrom
+ *
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ * -------------------------------------------------------------------------
+ */
 
 #include <itpp/base/vec.h>
 
@@ -37,32 +44,29 @@ namespace itpp {
 
     alloc(maxpos);
     
-    while (buffer.peek()!=EOF) {
+    while (buffer.peek() != EOF) {
 
       switch (buffer.peek()) {
-
-      case ':':
+			case ':':
         it_error("set: expressions with ':' are not valid for cvec");
-	break;
-
-      case ',':
-	buffer.get();
-	break;
-
+				break;
+			case ',':
+				buffer.get();
+				break;
       default:
-	pos++;
-	if (pos > maxpos) {
-	  maxpos *= 2;
-	  set_size(maxpos, true);
-	}
-	buffer >> data[pos-1];
-	while (buffer.peek()==' ') { buffer.get(); }
-	break;
+				pos++;
+				if (pos > maxpos) {
+					maxpos *= 2;
+					set_size(maxpos, true);
+				}
+				buffer >> data[pos-1];
+				while (buffer.peek() == ' ') { buffer.get(); }
+				break;
       }
 
     }
     set_size(pos, true);
-
+		
     return true;
   }
 
@@ -75,19 +79,19 @@ namespace itpp {
 
     alloc(maxpos);
 
-    while (buffer.peek()!=EOF) {
-      if (buffer.peek()==',') {
-	buffer.get();
+    while (buffer.peek() != EOF) {
+      if (buffer.peek() == ',') {
+				buffer.get();
       } else {
-	pos++;
-	if (pos > maxpos) {
-	  maxpos=maxpos*2;
-	  set_size(maxpos, true);
-	}
-	buffer >> intemp;
-	data[pos-1]=intemp;
- 	while (buffer.peek()==' ') { buffer.get(); }
-     }
+				pos++;
+				if (pos > maxpos) {
+					maxpos *= 2;
+					set_size(maxpos, true);
+				}
+				buffer >> intemp;
+				data[pos-1] = intemp;
+				while (buffer.peek() == ' ') { buffer.get(); }
+			}
     }
     set_size(pos, true);
 
@@ -98,7 +102,7 @@ namespace itpp {
   template<>
   const double dot(const vec &v1, const vec &v2)
   {
-    it_assert1(v1.datasize==v2.datasize, "vec::dot: wrong sizes");
+    it_assert1(v1.datasize == v2.datasize, "vec::dot: wrong sizes");
     double r=0.0;
 
     r= cblas_ddot(v1.datasize, v1.data, 1, v2.data, 1);
@@ -109,9 +113,9 @@ namespace itpp {
   template<>
   const std::complex<double> dot(const cvec &v1, const cvec &v2)
   {
-    it_assert1(v1.datasize==v2.datasize, "cvec::dot: wrong sizes");
+    it_assert1(v1.datasize == v2.datasize, "cvec::dot: wrong sizes");
     std::complex<double> r=0.0;
-
+		
     cblas_zdotu_sub(v1.datasize, v1.data, 1, v2.data, 1, &r);
 
     return r;
@@ -374,4 +378,4 @@ namespace itpp {
   template std::istream &operator>>(std::istream& is, ivec &vect);
   template std::istream &operator>>(std::istream& is, bvec &vect);
 
-} //namespace itpp
+} // namespace itpp

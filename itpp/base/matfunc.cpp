@@ -1,31 +1,38 @@
-/*---------------------------------------------------------------------------*
- *                                   IT++			             *
- *---------------------------------------------------------------------------*
- * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
- * Tobias Ringström, and Jonas Samuelsson.                                   *
- *                                                                           *
- * Permission to use, copy, modify, and distribute this software and its     *
- * documentation under the terms of the GNU General Public License is hereby *
- * granted. No representations are made about the suitability of this        *
- * software for any purpose. It is provided "as is" without expressed or     *
- * implied warranty. See the GNU General Public License for more details.    *
- *---------------------------------------------------------------------------*/
-
 /*!
-  \file
-  \brief Implementation of functions on vectors and matrices.
-  \author Tony Ottosson
-
-  1.21
-
-  2003/05/22 08:55:19
-*/
+ * \file
+ * \brief Implementation of functions on vectors and matrices
+ * \author Tony Ottosson
+ * 
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ * -------------------------------------------------------------------------
+ */
 
 #include <itpp/base/matfunc.h>
 
 namespace itpp {
 
-  // ---------------------- Instantiations -----------------------------------------
+  // ---------------------- Instantiations ------------------------------------
 
   template int length(const vec &v);
   template int length(const cvec &v);
@@ -235,7 +242,7 @@ namespace itpp {
   template void upsample(const smat &v, int usf,  smat & u);
   template void upsample(const imat &v, int usf,  imat & u);
   template void upsample(const bmat &v, int usf,  bmat & u);
-
+ 
   template vec lininterp(const vec &v, int usf);
   template cvec lininterp(const cvec &v, int usf);
 
@@ -254,4 +261,4 @@ namespace itpp {
   template vec lininterp(const vec &v, const double f_base, const double f_ups, const int nrof_samples, const double t_start);
   template cvec lininterp(const cvec &v, const double f_base, const double f_ups, const int nrof_samples, const double t_start);
 
-} //namespace itpp
+} // namespace itpp

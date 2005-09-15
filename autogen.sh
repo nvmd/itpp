@@ -20,7 +20,7 @@
 
 echo n | libtoolize --copy --force || exit;
 aclocal || exit;
-#autoheader || exit;
+autoheader || exit;
 automake --add-missing --copy;
 autoconf || exit;
 automake || exit;

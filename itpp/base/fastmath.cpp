@@ -1,25 +1,33 @@
-/*---------------------------------------------------------------------------*
- *                                   IT++			             *
- *---------------------------------------------------------------------------*
- * Copyright (c) 1995-2001 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
- * Tobias Ringström, and Jonas Samuelsson.                                   *
- *                                                                           *
- * Permission to use, copy, modify, and distribute this software and its     *
- * documentation under the terms of the GNU General Public License is hereby *
- * granted. No representations are made about the suitability of this        *
- * software for any purpose. It is provided "as is" without expressed or     *
- * implied warranty. See the GNU General Public License for more details.    *
- *---------------------------------------------------------------------------*/
-
-/*! 
-  \file 
-  \brief Implementation of special operations on vectors and matricies optimized for speed
-  \author Tony Ottosson
-
-  $Revision$
-
-  $Date$
-*/
+/*!
+ * \file
+ * \brief Implementation of special operations on vectors and matricies 
+ * optimized for speed
+ * \author Tony Ottosson and Tobias Ringstrom
+ * 
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ * -------------------------------------------------------------------------
+ */
 
 #include <itpp/base/binary.h>
 #include <itpp/base/fastmath.h>
@@ -41,7 +49,7 @@ namespace itpp {
       tmp = 0.0;
       vp=v._data();
       for (i=0; i<m.rows(); i++)
-	tmp += *(vp++) * m._elem(i,j);
+				tmp += *(vp++) * m._elem(i,j);
       *(v2p++) = tmp;
     }
 
@@ -49,7 +57,7 @@ namespace itpp {
     for (i=0; i<m.rows(); i++) {
       v2p = v2._data();
       for (j=0; j<m.cols(); j++)
-	m._elem(i,j) -= *vp * *(v2p++);
+				m._elem(i,j) -= *vp * *(v2p++);
       vp++;
     }
   }
@@ -69,7 +77,7 @@ namespace itpp {
       tmp = 0.0;
       vp = v._data();
       for (j=0; j<m.cols(); j++)
-	tmp += *(vp++) * m._elem(i,j);
+				tmp += *(vp++) * m._elem(i,j);
       *(v2p++) = tmp;
     }
 
@@ -77,9 +85,9 @@ namespace itpp {
     for (i=0; i<m.rows(); i++) {
       vp=v._data();
       for (j=0; j<m.cols(); j++)
-	m._elem(i,j) -= *v2p * *(vp++);
+				m._elem(i,j) -= *v2p * *(vp++);
       v2p++;
     }
   }
 
-} //namespace itpp
+} // namespace itpp
