@@ -1,28 +1,34 @@
-/*---------------------------------------------------------------------------*
- *                                   IT++			             *
- *---------------------------------------------------------------------------*
- * Copyright (c) 1995-2004 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
- * Tobias Ringström, and Jonas Samuelsson.                                   *
- *                                                                           *
- * Permission to use, copy, modify, and distribute this software and its     *
- * documentation under the terms of the GNU General Public License is hereby *
- * granted. No representations are made about the suitability of this        *
- * software for any purpose. It is provided "as is" without expressed or     *
- * implied warranty. See the GNU General Public License for more details.    *
- *---------------------------------------------------------------------------*/
-
 /*!
-  \file
-  \brief Definition of classes for the IT++ file format
-  \author Tobias Ringström and Tony Ottosson
+ * \file 
+ * \brief Definition of classes for the IT++ file format.
+ * \author Tony Ottosson and Tobias Ringström
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ * -------------------------------------------------------------------------
+ */
 
-  $Revision$
-
-  $Date$
-*/
-
-#ifndef __itfile_h
-#define __itfile_h
+#ifndef ITFILE_H
+#define ITFILE_H
 
 #include <itpp/base/binary.h>
 #include <itpp/base/mat.h>
@@ -37,7 +43,7 @@ namespace itpp {
   /*!
     \addtogroup itfile
     \brief The IT++ file format
-    \author Tobias Ringstrom and Tony Ottosson
+    \author Tony Ottosson and Tobias Ringstrom
 
     The IT++ file format is a file format that can be used to save variables to
     files.  These files can also be read an written by Matlab using the m-files
@@ -75,20 +81,11 @@ namespace itpp {
   class it_file_base {
   public:
 
-    //! Error exception. Thrown by it_ifile and it_file.
-    class Error {
-    public:
-      //! Construct an error.
-      Error(const std::string &m) : msg(m) { }
-      //! String describing the error.
-      std::string msg;
-    };
-
     //! Data header structure
     struct data_header {
       //! 0=little, 1=big
       char endianity;
-      //! ACTION: Add documentation
+      //! size variables
       it_u32 hdr_bytes, data_bytes, block_bytes;
       //! type=="" means deleted
       std::string name, type;
@@ -113,7 +110,6 @@ namespace itpp {
     \brief The IT++ file format reading class.
     \ingroup itfile
 
-    Errors are handled by exceptions.
   */
   class it_ifile : public it_file_base {
   public:
@@ -201,7 +197,7 @@ namespace itpp {
     void low_level_read_hi(Array<std::complex<double> > &v);
 
     //! Find the variable \c  name.
-    void seek(const std::string &name);
+    bool seek(const std::string &name);
 
     //! Find the variable number \c n.
     bool seek(int n);
@@ -217,7 +213,6 @@ namespace itpp {
     \brief The IT++ file format reading and writing class.
     \ingroup itfile
 
-    Errors are handled by exceptions.
   */
   class it_file : public it_ifile {
   public:
@@ -615,5 +610,5 @@ namespace itpp {
 
 } //namespace itpp
 
-#endif // __itfile_h
+#endif // IT_FILE_H
 

@@ -1,25 +1,32 @@
-/*---------------------------------------------------------------------------*
- *                                   IT++			             *
- *---------------------------------------------------------------------------*
- * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
- * Tobias Ringström, and Jonas Samuelsson.                                   *
- *                                                                           *
- * Permission to use, copy, modify, and distribute this software and its     *
- * documentation under the terms of the GNU General Public License is hereby *
- * granted. No representations are made about the suitability of this        *
- * software for any purpose. It is provided "as is" without expressed or     *
- * implied warranty. See the GNU General Public License for more details.    *
- *---------------------------------------------------------------------------*/
-
 /*!
-  \file
-  \brief Implementation of classes for the IT++ file format.
-  \author Tobias Ringström and Tony Ottosson
+ * \file 
+ * \brief Implementation of classes for the IT++ file format.
+ * \author Tony Ottosson and Tobias Ringstrom
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ * -------------------------------------------------------------------------
+ */
 
-  $Revision$
-
-  $Date$
-*/
 
 #include <itpp/base/itfile.h>
 
@@ -41,13 +48,13 @@ namespace itpp {
   void it_ifile::open(const std::string &name)
   {
     if (!exist(name))
-      throw Error("File does not exist");
+      it_error("File does not exist");
 
     s.open_readonly(name);
 
     if (!read_check_file_header()) {
       s.close();
-      throw Error("Corrupt file");
+     it_error("Corrupt file (Not an it-file)");
     }
 
   }
@@ -57,7 +64,7 @@ namespace itpp {
     s.close();
   }
 
-  void it_ifile::seek(const std::string &name)
+  bool it_ifile::seek(const std::string &name)
   {
     data_header h;
     std::streampos p;
@@ -70,7 +77,7 @@ namespace itpp {
       read_data_header(h);
       if (s.eof()) {
 	s.clear();
-	throw Error("Variable '"+name+"' not found");
+	return false;
       }
       if (h.type != "" && h.name == name) {
 	s.seekg(p);
@@ -78,6 +85,8 @@ namespace itpp {
       }
       s.seekg(p + static_cast<std::streampos>(h.block_bytes));
     }
+
+    return true;
   }
 
   bool it_ifile::seek(int n)
@@ -477,12 +486,15 @@ namespace itpp {
   {
     if (!exist(name))
       trunc = true;
+
     s.open(name, trunc);
+    it_error_if(!s.is_open(), "Could not open file for writing");
+
     if (trunc)
       write_file_header();
     else if (!read_check_file_header()) {
       s.close();
-      throw Error("Corrupt file");
+      it_error("Corrupt file (Not an it-file)");
     }
   }
 
@@ -505,7 +517,7 @@ namespace itpp {
   void it_file::write_data_header(const std::string &type, it_u32 size)
   {
     if (next_name == "")
-      throw Error("Try to write without a name");
+      it_error("Try to write without a name");
     write_data_header(type, next_name, size);
     next_name = "";
   }
@@ -604,14 +616,10 @@ namespace itpp {
 
   bool it_file::exists(const std::string &name)
   {
-    try {
-      seek(name);
-    }
-    catch (...) { // Assume a "Not found" message
+    if (seek(name))
+      return true;
+    else
       return false;
-    }
-
-    return true;
   }
 
   void it_file::pack()
@@ -841,7 +849,7 @@ namespace itpp {
     if (h.type == "bin")
       f.low_level_read(x);
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -854,7 +862,7 @@ namespace itpp {
     if (h.type == "int16")
       f.low_level_read(x);
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -872,7 +880,7 @@ namespace itpp {
       x = x16;
     }
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -890,7 +898,7 @@ namespace itpp {
       x = f32;
     }
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -903,7 +911,7 @@ namespace itpp {
     if (h.type == "float32")
       f.low_level_read(x);
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -920,7 +928,7 @@ namespace itpp {
       x = f32_c;
     }
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -938,7 +946,7 @@ namespace itpp {
       x = f32_c;
     }
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -953,7 +961,7 @@ namespace itpp {
     else if (h.type == "dvec")
       f.low_level_read_hi(v);
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -966,7 +974,7 @@ namespace itpp {
     if (h.type == "ivec")
       f.low_level_read(v);
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -979,7 +987,7 @@ namespace itpp {
     if (h.type == "bvec")
       f.low_level_read(v);
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -994,7 +1002,7 @@ namespace itpp {
     else if (h.type == "dcvec")
       f.low_level_read_hi(v);
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -1007,7 +1015,7 @@ namespace itpp {
     if (h.type == "string")
       f.low_level_read(str);
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -1022,7 +1030,7 @@ namespace itpp {
     else if (h.type == "dmat")
       f.low_level_read_hi(m);
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -1035,7 +1043,7 @@ namespace itpp {
     if (h.type == "imat")
       f.low_level_read(m);
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -1048,7 +1056,7 @@ namespace itpp {
     if (h.type == "bmat")
       f.low_level_read(m);
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -1063,7 +1071,7 @@ namespace itpp {
     else if (h.type == "dcmat")
       f.low_level_read_hi(m);
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -1076,7 +1084,7 @@ namespace itpp {
     if (h.type == "fArray")
       f.low_level_read_lo(v);
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -1091,7 +1099,7 @@ namespace itpp {
     else if (h.type == "dArray")
       f.low_level_read_hi(v);
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -1104,7 +1112,7 @@ namespace itpp {
     if (h.type == "iArray")
       f.low_level_read(v);
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -1117,7 +1125,7 @@ namespace itpp {
     if (h.type == "bArray")
       f.low_level_read(v);
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -1130,7 +1138,7 @@ namespace itpp {
     if (h.type == "fcArray")
       f.low_level_read_lo(v);
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -1145,7 +1153,7 @@ namespace itpp {
     else if (h.type == "dcArray")
       f.low_level_read_hi(v);
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -1163,7 +1171,7 @@ namespace itpp {
 	f.low_level_read_hi(v(i));
     }
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -1181,7 +1189,7 @@ namespace itpp {
 	f.low_level_read(v(i));
     }
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -1199,7 +1207,7 @@ namespace itpp {
 	f.low_level_read(v(i));
     }
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -1217,7 +1225,7 @@ namespace itpp {
 	f.low_level_read_hi(v(i));
     }
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -1235,7 +1243,7 @@ namespace itpp {
 	f.low_level_read(v(i));
     }
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -1253,7 +1261,7 @@ namespace itpp {
 	f.low_level_read_hi(v(i));
     }
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -1271,7 +1279,7 @@ namespace itpp {
 	f.low_level_read(v(i));
     }
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -1289,7 +1297,7 @@ namespace itpp {
 	f.low_level_read(v(i));
     }
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
@@ -1307,7 +1315,7 @@ namespace itpp {
 	f.low_level_read_hi(v(i));
     }
     else
-      throw it_file_base::Error("Wrong type");
+      it_error("Wrong type");
 
     return f;
   }
