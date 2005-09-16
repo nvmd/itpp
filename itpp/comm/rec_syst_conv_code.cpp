@@ -267,8 +267,8 @@ namespace itpp {
 
   }
 
-  void Rec_Syst_Conv_Code::log_decode(const vec &rec_systematic, const mat &rec_parity, const vec &extrinsic_input, 
-				      vec &extrinsic_output, bool in_terminated, string metric)
+  void Rec_Syst_Conv_Code::log_decode(const vec &rec_systematic, const mat &rec_parity, 
+    const vec &extrinsic_input, vec &extrinsic_output, bool in_terminated, std::string metric)
   {
     const double INF = 10e300;
     double nom, den, exp_temp0, exp_temp1, rp, temp0, temp1;
@@ -370,8 +370,8 @@ namespace itpp {
   
   }
 
-  void Rec_Syst_Conv_Code::log_decode_n2(const vec &rec_systematic, const vec &rec_parity, const vec &extrinsic_input, 
-					 vec &extrinsic_output, bool in_terminated, string metric)
+  void Rec_Syst_Conv_Code::log_decode_n2(const vec &rec_systematic, const vec &rec_parity, 
+    const vec &extrinsic_input, vec &extrinsic_output, bool in_terminated, std::string metric)
   {
     const double INF = 10e300;
     double nom, den, exp_temp0, exp_temp1, rp;

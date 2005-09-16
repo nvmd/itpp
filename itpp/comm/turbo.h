@@ -83,8 +83,8 @@ namespace itpp {
       full iteration equals the previous iteration. Default value is false.
     */
     void set_parameters(ivec gen1, ivec gen2, int constraint_length, const ivec &interleaver_sequence, 
-			int in_iterations=8, string in_metric="LOGMAX", double in_logmax_scale_factor=1.0, 
-			bool in_adaptive_stop=false);
+												int in_iterations=8, std::string in_metric="LOGMAX", double in_logmax_scale_factor=1.0, 
+												bool in_adaptive_stop=false);
 
     /*!
       \brief Set a new internal interleaver sequence for the turbo encoder/decoder
@@ -103,7 +103,7 @@ namespace itpp {
       This parameter allows for a down-scaling of the extrinsic information that will be passed on to the next decoder. 
       The default value is 1.0. This parameter is ignored for other metrices than "LOGMAX".
     */
-    void set_metric(string in_metric="LOGMAX", double in_logmax_scale_factor=1.0);
+    void set_metric(std::string in_metric="LOGMAX", double in_logmax_scale_factor=1.0);
 
     /*!
       \brief Sets the number of decoding iterations. Default value is 8.
@@ -263,7 +263,7 @@ namespace itpp {
     int m_tail, n1, n2, n_tot, iterations;
     double Ec, N0, Lc, R, logmax_scale_factor;
     bool adaptive_stop;
-    string metric;
+    std::string metric;
 
     //Vectors:
     bvec decoded_bits_previous_iteration;

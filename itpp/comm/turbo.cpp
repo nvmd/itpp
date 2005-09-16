@@ -33,7 +33,8 @@
 namespace itpp { 
 
   void Turbo_Codec::set_parameters(ivec gen1, ivec gen2, int constraint_length, const ivec &interleaver_sequence, 
-				   int in_iterations, string in_metric, double in_logmax_scale_factor, bool in_adaptive_stop)
+																	 int in_iterations, std::string in_metric, double in_logmax_scale_factor, 
+																	 bool in_adaptive_stop)
   {
     //Set the input parameters:
     iterations          = in_iterations;
@@ -96,7 +97,7 @@ namespace itpp {
     float_interleaver.set_interleaver_sequence(interleaver_sequence);
   }
 
-  void Turbo_Codec::set_metric(string in_metric, double in_logmax_scale_factor)
+  void Turbo_Codec::set_metric(std::string in_metric, double in_logmax_scale_factor)
   {
     logmax_scale_factor = in_logmax_scale_factor;
   

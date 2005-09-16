@@ -128,8 +128,8 @@ namespace itpp {
       \param set_terminated Equal to \a true if the trellis was terminated by the encoder and false otherwise 
       \param metric May be "LOGMAP" or "LOGMAX" (default)
     */
-    virtual void log_decode(const vec &rec_systematic, const mat &rec_parity, const vec &extrinsic_input, vec &extrinsic_output,
-			    bool set_terminated = false, string metric = "LOGMAX");
+    virtual void log_decode(const vec &rec_systematic, const mat &rec_parity, const vec &extrinsic_input, 
+														vec &extrinsic_output, bool set_terminated = false, std::string metric = "LOGMAX");
 
     /*!
       \brief Special Log-MAP/Log-MAX decoder implementation for \a n = 2
@@ -141,8 +141,8 @@ namespace itpp {
       \param in_terminated Equal to \a true if the trellis was terminated by the encoder and false otherwise 
       \param metric May be "LOGMAP" or "LOGMAX" (default)
     */
-    virtual void log_decode_n2(const vec &rec_systematic, const vec &rec_parity, const vec &extrinsic_input, vec &extrinsic_output, 
-			       bool in_terminated = false, string metric = "LOGMAX");
+    virtual void log_decode_n2(const vec &rec_systematic, const vec &rec_parity, const vec &extrinsic_input, 
+															 vec &extrinsic_output, bool in_terminated = false, std::string metric = "LOGMAX");
 
   private:
 
