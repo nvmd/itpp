@@ -1,5 +1,9 @@
 2005-09-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/config.h.in: missing file added to CVS
+	* itpp/comm/turbo.*, itpp/comm/rec_syst_conv_code.*: fixed minor
+	bug (string -> std::string)
+
 	* itpp/*/*.{h,cpp}: file descriptions and copyright notes
 	updated
 
