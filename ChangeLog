@@ -1,5 +1,6 @@
 2005-09-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/turbo_test.cpp: added `using namespace std' statement
 	* itpp/comm/turbo.*, itpp/comm/rec_syst_conv_code.*: fixed minor
 	bug (string -> std::string)
 
