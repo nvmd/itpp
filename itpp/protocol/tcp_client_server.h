@@ -1,48 +1,54 @@
-/*---------------------------------------------------------------------------*
- *                                   IT++			             *
- *---------------------------------------------------------------------------*
- * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
- * Tobias Ringström, and Jonas Samuelsson.                                   *
- *                                                                           *
- * Permission to use, copy, modify, and distribute this software and its     *
- * documentation under the terms of the GNU General Public License is hereby *
- * granted. No representations are made about the suitability of this        *
- * software for any purpose. It is provided "as is" without expressed or     *
- * implied warranty. See the GNU General Public License for more details.    *
- *---------------------------------------------------------------------------*/
-
 /*!
-  \file
-  \brief TCP Client and Server Application s
-  \author Krister Norlund
-
-  $Revision$
-
-  $Date$ 
-*/
-
+ * \file 
+ * \brief Definitions of TCP Client and Server Applications
+ * \author Krister Norlund
+ *
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ * -------------------------------------------------------------------------
+ */
 
 #include <itpp/protocol/packet.h>
 #include <itpp/protocol/events.h>
 #include <itpp/protocol/signals_slots.h>
 #include <itpp/protocol/tcp.h>
 
+namespace itpp {
 
+	/*!
 
-/*!
-
-*/
-class TCP_Server_Application {
+	*/
+	class TCP_Server_Application {
   public:
-   TCP_Server_Application() {
+		TCP_Server_Application() {
       write.set_name("TcpServerApplicationWriteSignal");
       write.set_debug();
-   }
-   ~TCP_Server_Application() { }
+		}
+		~TCP_Server_Application() { }
 
-   Signal<itpp::Packet*> write;
+		Signal<itpp::Packet*> write;
 
-   void write_to_net(unsigned byte_size, double delta_time) {
+		void write_to_net(unsigned byte_size, double delta_time) {
       itpp::Packet *packet = new Packet(8*byte_size);
       write(packet, delta_time);
 
@@ -50,29 +56,29 @@ class TCP_Server_Application {
                 << " byte_size=" << packet->bit_size()/8
                 << " ptr=" << packet
                 << " time=" << Event_Queue::now() << std::endl;
-   }
-};
+		}
+	};
 
-/*!
+	/*!
 
-*/
-class TCP_Client_Application {
+	*/
+	class TCP_Client_Application {
   public:
 
-   TCP_Client_Application(TCP_Sender *tcp_snd_p, TCP_Receiver *tcp_recv_p) {
+		TCP_Client_Application(TCP_Sender *tcp_snd_p, TCP_Receiver *tcp_recv_p) {
       tcp_receiver_p = tcp_recv_p;
       tcp_sender_p = tcp_snd_p;
       nbr_bytes_received = 0;
       select.forward(this, &TCP_Client_Application::received_packet_indication);
       select.set_name("TcpClientApplicationSelectSlot");
       seq_num_index = 0;
-   }
+		}
 
-   ~TCP_Client_Application() { }
+		~TCP_Client_Application() { }
 
-   Slot<TCP_Client_Application, int> select;
+		Slot<TCP_Client_Application, int> select;
 
-   void read_from_net(unsigned byte_size) { 
+		void read_from_net(unsigned byte_size) { 
       nbr_bytes_to_receive = byte_size; 
       seq_num_val.set_size(10+byte_size/1460);
       seq_num_val.zeros();
@@ -81,27 +87,27 @@ class TCP_Client_Application {
       seq_num_val(0) = 0;
       seq_num_time(0) = 0;
       seq_num_index=1;
-   };
+		};
 
   private:
-   TCP_Receiver *tcp_receiver_p;
-   TCP_Sender *tcp_sender_p;
-   unsigned nbr_bytes_received;
-   unsigned nbr_bytes_to_receive;
+		TCP_Receiver *tcp_receiver_p;
+		TCP_Sender *tcp_sender_p;
+		unsigned nbr_bytes_received;
+		unsigned nbr_bytes_to_receive;
 
-   vec seq_num_val;
-   vec seq_num_time;
-   int seq_num_index;
+		vec seq_num_val;
+		vec seq_num_time;
+		int seq_num_index;
 
-   void TCP_Client_Application::received_packet_indication(int label) {
+		void TCP_Client_Application::received_packet_indication(int label) {
       
       itpp::Packet &packet = tcp_receiver_p->get_user_message();
       nbr_bytes_received = nbr_bytes_received + packet.bit_size()/8;
       delete &packet;
 
       if (seq_num_index >= seq_num_time.size()) {
-         seq_num_time.set_size(2*seq_num_time.size(),true);
-         seq_num_val.set_size(2*seq_num_val.size(),true);
+				seq_num_time.set_size(2*seq_num_time.size(),true);
+				seq_num_val.set_size(2*seq_num_val.size(),true);
       }
 
       seq_num_val(seq_num_index) = nbr_bytes_received;
@@ -112,17 +118,17 @@ class TCP_Client_Application {
                 << " ### time:" << Event_Queue::now() << std::endl;      
 
       if (nbr_bytes_received >= nbr_bytes_to_receive) {
-         std::cout << "###### Stop sender and receiver" << std::endl;      
-         tcp_receiver_p->release();
-         tcp_sender_p->release();
-         tcp_sender_p->save_trace("seq_num.it");
-         seq_num_val.set_size(seq_num_index, true);
-         seq_num_time.set_size(seq_num_index,true);
-         save_to_file("seq_num.it");
+				std::cout << "###### Stop sender and receiver" << std::endl;      
+				tcp_receiver_p->release();
+				tcp_sender_p->release();
+				tcp_sender_p->save_trace("seq_num.it");
+				seq_num_val.set_size(seq_num_index, true);
+				seq_num_time.set_size(seq_num_index,true);
+				save_to_file("seq_num.it");
       }
-   }
+		}
 
-   void TCP_Client_Application::save_to_file(string file) {
+		void TCP_Client_Application::save_to_file(string file) {
 
       it_file ff2(file);
       ff2 << Name("seq_num_val") << seq_num_val;
@@ -130,5 +136,8 @@ class TCP_Client_Application {
       ff2 << Name("seq_num_index") << seq_num_index;
       ff2.flush();
       ff2.close();
-   }
-};
+		}
+	
+	};
+	
+} // namespace itpp

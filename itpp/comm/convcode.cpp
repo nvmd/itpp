@@ -1,25 +1,32 @@
-/*---------------------------------------------------------------------------*
- *                                   IT++			             *
- *---------------------------------------------------------------------------*
- * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
- * Tobias Ringström, and Jonas Samuelsson.                                   *
- *                                                                           *
- * Permission to use, copy, modify, and distribute this software and its     *
- * documentation under the terms of the GNU General Public License is hereby *
- * granted. No representations are made about the suitability of this        *
- * software for any purpose. It is provided "as is" without expressed or     *
- * implied warranty. See the GNU General Public License for more details.    *
- *---------------------------------------------------------------------------*/
-
 /*!
-  \file
-  \brief Implementation of a binary convolutional encoder class.
-  \author Tony Ottosson 951019, Revised completely 980205
-
-  $Revision$
-
-  $Date$
-*/
+ * \file 
+ * \brief Implementation of a binary convolutional encoder class
+ * \author Tony Ottosson
+ *
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ * -------------------------------------------------------------------------
+ */
 
 #include <itpp/comm/convcode.h>
 #include <itpp/base/binary.h>
@@ -43,8 +50,8 @@ namespace itpp {
       out = 0;
       temp = shiftreg & gen_pol(j);
       for (i=0; i<K; i++) {
-	out ^= (temp & 1);
-	temp = temp >> 1;
+				out ^= (temp & 1);
+				temp = temp >> 1;
       }
       w += out;
       //w += weight_int_table(temp);
@@ -64,8 +71,8 @@ namespace itpp {
       out = 0;
       temp = shiftreg & gen_pol_rev(j);
       for (i=0; i<K; i++) {
-	out ^= (temp & 1);
-	temp = temp >> 1;
+				out ^= (temp & 1);
+				temp = temp >> 1;
       }
       w += out;
       //w += weight_int_table(temp);
@@ -87,8 +94,8 @@ namespace itpp {
       temp = shiftreg & gen_pol(j);
 
       for (i=0; i<m; i++) {
-	out ^= (temp & 1);
-	temp = temp >> 1;
+				out ^= (temp & 1);
+				temp = temp >> 1;
       }
       w0 += out;
       w1 += out ^ (temp & 1);
@@ -109,8 +116,8 @@ namespace itpp {
       temp = shiftreg & gen_pol_rev(j);
 
       for (i=0; i<m; i++) {
-	out ^= (temp & 1);
-	temp = temp >> 1;
+				out ^= (temp & 1);
+				temp = temp >> 1;
       }
       w0 += out;
       w1 += out ^ (temp & 1);
@@ -203,18 +210,18 @@ namespace itpp {
 
     if (no_outputs <= no_states) {
       for (i=0; i<no_loop; i++) { // all input possibilities
-	delta_metrics(i) = 0;
-	temp = i;
-	for (j=n-1; j>=0; j--) {
-	  if (temp&1)
-	    delta_metrics(i) += rx_codeword(j);
-	  else
-	    delta_metrics(i) -= rx_codeword(j);
+				delta_metrics(i) = 0;
+				temp = i;
+				for (j=n-1; j>=0; j--) {
+					if (temp&1)
+						delta_metrics(i) += rx_codeword(j);
+					else
+						delta_metrics(i) -= rx_codeword(j);
 
-	  temp = temp>>1;
-	}
+					temp = temp>>1;
+				}
     
-	delta_metrics(i^mask) = -delta_metrics(i); // the inverse codeword
+				delta_metrics(i^mask) = -delta_metrics(i); // the inverse codeword
     
       }
     } else {
@@ -222,29 +229,29 @@ namespace itpp {
       int zero_output=0, one_output=0, temp_state;
       bin one_bit;
       for (int s=0; s<no_states; s++) { // all states
-	zero_metric=0, one_metric=0;
-	zero_output=0, one_output=0;
-	temp_state = (s<<1) | 1;
-	for (j=0; j<n; j++) {
-	  temp = temp_state & gen_pol(j);
-	  one_bit = temp & 1;
-	  temp = temp >> 1;
+				zero_metric=0, one_metric=0;
+				zero_output=0, one_output=0;
+				temp_state = (s<<1) | 1;
+				for (j=0; j<n; j++) {
+					temp = temp_state & gen_pol(j);
+					one_bit = temp & 1;
+					temp = temp >> 1;
 
-	  if (xor_int_table(temp)) {
-	    zero_metric += rx_codeword(j);
-	    one_metric -= rx_codeword(j);
-	  }
-	  else {
-	    zero_metric -= rx_codeword(j);
-	    one_metric += rx_codeword(j);
-	  }
+					if (xor_int_table(temp)) {
+						zero_metric += rx_codeword(j);
+						one_metric -= rx_codeword(j);
+					}
+					else {
+						zero_metric -= rx_codeword(j);
+						one_metric += rx_codeword(j);
+					}
 
-	  one_output = (one_output<<1) | int(xor_int_table(temp) ^ one_bit);
-	  zero_output = (zero_output<<1) | int(xor_int_table(temp));
-	}
+					one_output = (one_output<<1) | int(xor_int_table(temp) ^ one_bit);
+					zero_output = (zero_output<<1) | int(xor_int_table(temp));
+				}
 
-	delta_metrics(zero_output) = zero_metric;
-	delta_metrics(one_output) = one_metric;
+				delta_metrics(zero_output) = zero_metric;
+				delta_metrics(one_output) = one_metric;
       }
     }
   }
@@ -547,7 +554,7 @@ namespace itpp {
       K = constraint_length;
       xor_int_table.set_size(pow2(K), false);
       for (int i=0; i<pow2(K); i++) {
-	xor_int_table(i) = (weight_int(K, i) & 1);
+				xor_int_table(i) = (weight_int(K, i) & 1);
       }
     }
 
@@ -608,8 +615,8 @@ namespace itpp {
     for (ii=0; ii<input.size(); ii++) {
       encoder_state = encoder_state | (int(input(ii)) << m);
       for (j=0; j<n; j++) {
-	temp = encoder_state & gen_pol(j);
-	output(ii*n+j) = xor_int_table(temp);
+				temp = encoder_state & gen_pol(j);
+				output(ii*n+j) = xor_int_table(temp);
       }
       encoder_state = encoder_state >> 1;
     }
@@ -630,8 +637,8 @@ namespace itpp {
     for (ii=0; ii<input.size(); ii++) {
       encoder_state = encoder_state | (int(input(ii)) << m);
       for (j=0; j<n; j++) {
-	temp = encoder_state & gen_pol(j);
-	output(ii*n+j) = xor_int_table(temp);
+				temp = encoder_state & gen_pol(j);
+				output(ii*n+j) = xor_int_table(temp);
       }
       encoder_state = encoder_state >> 1;
     }
@@ -639,8 +646,8 @@ namespace itpp {
     // add tail of m=K-1 zeros
     for (ii=input.size(); ii<input.size()+m; ii++) {
       for (j=0; j<n; j++) {
-	temp = encoder_state & gen_pol(j);
-	output(ii*n+j) = xor_int_table(temp);
+				temp = encoder_state & gen_pol(j);
+				output(ii*n+j) = xor_int_table(temp);
       }
       encoder_state = encoder_state >> 1;
     }
@@ -666,8 +673,8 @@ namespace itpp {
     for (ii=0; ii<input.size(); ii++) {
       encoder_state = encoder_state | (int(input(ii)) << m);
       for (j=0; j<n; j++) {
-	temp = encoder_state & gen_pol(j);
-	output(ii*n+j) = xor_int_table(temp);
+				temp = encoder_state & gen_pol(j);
+				output(ii*n+j) = xor_int_table(temp);
       }
       encoder_state = encoder_state >> 1;
     }
@@ -691,7 +698,7 @@ namespace itpp {
   }
 
 
-  // --------------- Hard-decision decoding is not implemented --------------------------------
+  // --------------- Hard-decision decoding is not implemented -----------------
   void Convolutional_Code::decode(const bvec &coded_bits, bvec &output)
   {
     it_error("Convolutional_Code::decode(bvec, bvec); hard-decision decoding is not implemented");
@@ -760,27 +767,27 @@ namespace itpp {
       calc_metric(temp_rec, delta_metrics);
 
       for (s=0; s<no_states; s++) { // all states
-	previous_state(s, S0, S1); // S0 and S1 are the states that expanded end at state s
+				previous_state(s, S0, S1); // S0 and S1 are the states that expanded end at state s
 
-	if (visited_state(S0)) { // expand trellis if state S0 is visited
-	  temp_metric_zero = sum_metric(S0) + delta_metrics( output_reverse_int(s, 0) );
-	  temp_visited_state(s) = true;
-	} else
-	  temp_metric_zero = 1e30;
+				if (visited_state(S0)) { // expand trellis if state S0 is visited
+					temp_metric_zero = sum_metric(S0) + delta_metrics( output_reverse_int(s, 0) );
+					temp_visited_state(s) = true;
+				} else
+					temp_metric_zero = 1e30;
 
-	if (visited_state(S1)) { // expand trellis if state S0 is visited
-	  temp_metric_one = sum_metric(S1) + delta_metrics( output_reverse_int(s, 1) );
-	  temp_visited_state(s) = true;
-	} else
-	  temp_metric_one = 1e30;
+				if (visited_state(S1)) { // expand trellis if state S0 is visited
+					temp_metric_one = sum_metric(S1) + delta_metrics( output_reverse_int(s, 1) );
+					temp_visited_state(s) = true;
+				} else
+					temp_metric_one = 1e30;
 
-	if (temp_metric_zero < temp_metric_one) { // path zero survives
-	  temp_sum_metric(s) = temp_metric_zero;
-	  path_memory(s, l) = 0;
-	} else { // path one survives
-	  temp_sum_metric(s) = temp_metric_one;
-	  path_memory(s, l) = 1;
-	}
+				if (temp_metric_zero < temp_metric_one) { // path zero survives
+					temp_sum_metric(s) = temp_metric_zero;
+					path_memory(s, l) = 0;
+				} else { // path one survives
+					temp_sum_metric(s) = temp_metric_one;
+					path_memory(s, l) = 1;
+				}
 
       } // all states, s
       sum_metric = temp_sum_metric;
@@ -795,16 +802,16 @@ namespace itpp {
       calc_metric(temp_rec, delta_metrics);
 
       for (s=0; s<no_states; s++) { // all states
-	previous_state(s, S0, S1); // S0 and S1 are the states that expanded end at state s
-	temp_metric_zero = sum_metric(S0) + delta_metrics( output_reverse_int(s, 0) );
-	temp_metric_one = sum_metric(S1) + delta_metrics( output_reverse_int(s, 1) );
-	if (temp_metric_zero < temp_metric_one) { // path zero survives
-	  temp_sum_metric(s) = temp_metric_zero;
-	  path_memory(s, l) = 0;
-	} else { // path one survives
-	  temp_sum_metric(s) = temp_metric_one;
-	  path_memory(s, l) = 1;
-	}
+				previous_state(s, S0, S1); // S0 and S1 are the states that expanded end at state s
+				temp_metric_zero = sum_metric(S0) + delta_metrics( output_reverse_int(s, 0) );
+				temp_metric_one = sum_metric(S1) + delta_metrics( output_reverse_int(s, 1) );
+				if (temp_metric_zero < temp_metric_one) { // path zero survives
+					temp_sum_metric(s) = temp_metric_zero;
+					path_memory(s, l) = 0;
+				} else { // path one survives
+					temp_sum_metric(s) = temp_metric_one;
+					path_memory(s, l) = 1;
+				}
       } // all states, s
       sum_metric = temp_sum_metric;
     } // all transitions, l
@@ -858,51 +865,51 @@ namespace itpp {
       sum_metric.zeros();
 
       for (l=0; l<block_length; l++) { // all transitions
-	temp_rec = received_signal.mid(l*n, n);
-	// calculate all metrics for all codewords at the same time
-	calc_metric(temp_rec, delta_metrics);
-	for (s=0; s<no_states; s++) { // all states
-	  previous_state(s, S0, S1); // S0 and S1 are the states that expanded end at state s
+				temp_rec = received_signal.mid(l*n, n);
+				// calculate all metrics for all codewords at the same time
+				calc_metric(temp_rec, delta_metrics);
+				for (s=0; s<no_states; s++) { // all states
+					previous_state(s, S0, S1); // S0 and S1 are the states that expanded end at state s
 
-	  if (visited_state(S0)) { // expand trellis if state S0 is visited
-	    temp_metric_zero = sum_metric(S0) + delta_metrics( output_reverse_int(s, 0) );
-	    temp_visited_state(s) = true;
+					if (visited_state(S0)) { // expand trellis if state S0 is visited
+						temp_metric_zero = sum_metric(S0) + delta_metrics( output_reverse_int(s, 0) );
+						temp_visited_state(s) = true;
 
-	  } else
-	    temp_metric_zero = 1e30;
+					} else
+						temp_metric_zero = 1e30;
 
-	  if (visited_state(S1)) { // expand trellis if state S0 is visited
-	    temp_metric_one = sum_metric(S1) + delta_metrics( output_reverse_int(s, 1) );
-	    temp_visited_state(s) = true;
+					if (visited_state(S1)) { // expand trellis if state S0 is visited
+						temp_metric_one = sum_metric(S1) + delta_metrics( output_reverse_int(s, 1) );
+						temp_visited_state(s) = true;
 
-	  } else
-	    temp_metric_one = 1e30;
+					} else
+						temp_metric_one = 1e30;
 
-	  if (temp_metric_zero < temp_metric_one) { // path zero survives
-	    temp_sum_metric(s) = temp_metric_zero;
-	    path_memory(s, l) = 0;
-	  } else { // path one survives
-	    temp_sum_metric(s) = temp_metric_one;
-	    path_memory(s, l) = 1;
-	  }
+					if (temp_metric_zero < temp_metric_one) { // path zero survives
+						temp_sum_metric(s) = temp_metric_zero;
+						path_memory(s, l) = 0;
+					} else { // path one survives
+						temp_sum_metric(s) = temp_metric_one;
+						path_memory(s, l) = 1;
+					}
 
-	} // all states, s
-	sum_metric = temp_sum_metric;
-	visited_state = temp_visited_state;
+				} // all states, s
+				sum_metric = temp_sum_metric;
+				visited_state = temp_visited_state;
       } // all transitions, l
 
       min_metric_state = ss; // minimum metric is the ss state due to the tail-bite
 
       // trace back to calculate output sequence
       for (l=block_length-1; l>=0; l--) {
-	temp_output(l) = get_input(min_metric_state);
-	// previous state calculation
-	min_metric_state = previous_state(min_metric_state, path_memory(min_metric_state, l));
+				temp_output(l) = get_input(min_metric_state);
+				// previous state calculation
+				min_metric_state = previous_state(min_metric_state, path_memory(min_metric_state, l));
       }
 
       if (sum_metric(ss)<best_metric) {
-	best_metric = sum_metric(ss);
-	best_output = temp_output;
+				best_metric = sum_metric(ss);
+				best_output = temp_output;
       }
 
     }// all start states ss
@@ -945,28 +952,28 @@ namespace itpp {
       calc_metric(temp_rec, delta_metrics);
 
       for (s=0; s<no_states; s++) { // all states
-	// the states that expanded end at state s
-	previous_state(s, S0, S1);
+				// the states that expanded end at state s
+				previous_state(s, S0, S1);
 
-	if (visited_state(S0)) { // expand trellis if state S0 is visited
-	  temp_metric_zero = sum_metric(S0) + delta_metrics( output_reverse_int(s, 0) );
-	  temp_visited_state(s) = true;
-	} else
-	  temp_metric_zero = 1e30;
+				if (visited_state(S0)) { // expand trellis if state S0 is visited
+					temp_metric_zero = sum_metric(S0) + delta_metrics( output_reverse_int(s, 0) );
+					temp_visited_state(s) = true;
+				} else
+					temp_metric_zero = 1e30;
 
-	if (visited_state(S1)) { // expand trellis if state S0 is visited
-	  temp_metric_one = sum_metric(S1) + delta_metrics( output_reverse_int(s, 1) );
-	  temp_visited_state(s) = true;
-	} else
-	  temp_metric_one = 1e30;
+				if (visited_state(S1)) { // expand trellis if state S0 is visited
+					temp_metric_one = sum_metric(S1) + delta_metrics( output_reverse_int(s, 1) );
+					temp_visited_state(s) = true;
+				} else
+					temp_metric_one = 1e30;
 
-	if (temp_metric_zero < temp_metric_one) { // path zero survives
-	  temp_sum_metric(s) = temp_metric_zero;
-	  path_memory(s, l) = 0;
-	} else { // path one survives
-	  temp_sum_metric(s) = temp_metric_one;
-	  path_memory(s, l) = 1;
-	}
+				if (temp_metric_zero < temp_metric_one) { // path zero survives
+					temp_sum_metric(s) = temp_metric_zero;
+					path_memory(s, l) = 0;
+				} else { // path one survives
+					temp_sum_metric(s) = temp_metric_one;
+					path_memory(s, l) = 1;
+				}
 
       } // all states, s
       sum_metric = temp_sum_metric;
@@ -983,8 +990,8 @@ namespace itpp {
 
       // trace back to calculate the output symbol
       for (tt=l-1; tt>l-trunc_length; tt--) {
-	// previous state calculation
-	min_metric_state = previous_state(min_metric_state, path_memory(min_metric_state, tt%trunc_length) );
+				// previous state calculation
+				min_metric_state = previous_state(min_metric_state, path_memory(min_metric_state, tt%trunc_length) );
       }
       output(tt) = get_input(min_metric_state);
 
@@ -995,19 +1002,19 @@ namespace itpp {
       calc_metric(temp_rec, delta_metrics);
 
       for (s=0; s<no_states; s++) { // all states
-	// the states that expanded end at state s
-	previous_state(s, S0, S1);
+				// the states that expanded end at state s
+				previous_state(s, S0, S1);
 
-	temp_metric_zero = sum_metric(S0) +  delta_metrics( output_reverse_int(s, 0) );
-	temp_metric_one = sum_metric(S1) + delta_metrics( output_reverse_int(s, 1) );
+				temp_metric_zero = sum_metric(S0) +  delta_metrics( output_reverse_int(s, 0) );
+				temp_metric_one = sum_metric(S1) + delta_metrics( output_reverse_int(s, 1) );
 
-	if (temp_metric_zero < temp_metric_one) { // path zero survives
-	  temp_sum_metric(s) = temp_metric_zero;
-	  path_memory(s, tt%trunc_length) = 0;
-	} else { // path one survives
-	  temp_sum_metric(s) = temp_metric_one;
-	  path_memory(s, tt%trunc_length) = 1;
-	}
+				if (temp_metric_zero < temp_metric_one) { // path zero survives
+					temp_sum_metric(s) = temp_metric_zero;
+					path_memory(s, tt%trunc_length) = 0;
+				} else { // path one survives
+					temp_sum_metric(s) = temp_metric_one;
+					path_memory(s, tt%trunc_length) = 1;
+				}
       } // all states, s
       sum_metric = temp_sum_metric;
 
@@ -1035,19 +1042,19 @@ namespace itpp {
       zero_state = state;
       one_state = state | (1 << m);
       for (j=0; j<n; j++) {
-	zero_temp = zero_state & gen_pol(j);
-	one_temp = one_state & gen_pol(j);
-	zero_output(j) = xor_int_table(zero_temp);
-	one_output(j) = xor_int_table(one_temp);
+				zero_temp = zero_state & gen_pol(j);
+				one_temp = one_state & gen_pol(j);
+				zero_output(j) = xor_int_table(zero_temp);
+				one_output(j) = xor_int_table(one_temp);
       }
       if (coded_sequence.mid(i*n, n) == zero_output) {
-	input(i) = bin(0);
-	state = zero_state >> 1;
+				input(i) = bin(0);
+				state = zero_state >> 1;
       } else if (coded_sequence.mid(i*n, n) == one_output) {
-	input(i) = bin(1);
-	state = one_state >> 1;
+				input(i) = bin(1);
+				state = one_state >> 1;
       } else
-	return false;
+				return false;
     }
 
     return true;
@@ -1074,7 +1081,7 @@ namespace itpp {
       if (W1 > 0) goto node0;
 
       if (visited(S1) == bin(1))
-	return true;
+				return true;
       S = S1; // goto node1
       visited(S) = 1;
       goto node1;
@@ -1084,7 +1091,7 @@ namespace itpp {
       if (W0 > 0) continue; // goto end;
 
       if (visited(S0) == bin(1))
-	return true;
+				return true;
       S = S0;
       visited(S) = 1;
       goto node1;
@@ -1128,17 +1135,17 @@ namespace itpp {
     if (t < m) {
       W0 = W + w0;
       if (W0 < dist_prof(m)) { // store node0 (S, W0, and t+1)
-	stack_pos++;
-	if (stack_pos >= max_stack_size) {
-	  max_stack_size = 2*max_stack_size;
-	  S_stack.set_size(max_stack_size, true);
-	  W_stack.set_size(max_stack_size, true);
-	  t_stack.set_size(max_stack_size, true);
-	}
+				stack_pos++;
+				if (stack_pos >= max_stack_size) {
+					max_stack_size = 2*max_stack_size;
+					S_stack.set_size(max_stack_size, true);
+					W_stack.set_size(max_stack_size, true);
+					t_stack.set_size(max_stack_size, true);
+				}
 
-	S_stack(stack_pos) = next_state(S, 0); //S>>1;
-	W_stack(stack_pos) = W0;
-	t_stack(stack_pos) = t+1;
+				S_stack(stack_pos) = next_state(S, 0); //S>>1;
+				W_stack(stack_pos) = W0;
+				t_stack(stack_pos) = t+1;
       }
     } else goto stack;
 
@@ -1165,7 +1172,7 @@ namespace itpp {
       stack_pos--;
 
       if (W < dist_prof(t))
-	dist_prof(t) = W;
+				dist_prof(t) = W;
 
       if (t == m) goto stack;
 
@@ -1224,28 +1231,28 @@ namespace itpp {
       mindist_temp.zeros();
       visited_states_temp.zeros(); //false
       for (s=1; s<no_states; s++) {
-	if ((mindist(s)>0) && (mindist(s)<wmax)) {
-	  proceede = true;
-	  weight(s,w0,w1);
-	  s0 = next_state(s, 0);
-	  for (d=mindist(s); d<(wmax-w0); d++) {
-	    Ad_temp(s0,d+w0) += Ad_states(s,d);
-	    Cd_temp(s0,d+w0) += Cd_states(s,d);
-	    visited_states_temp(s0) = 1; //true
-	  }
+				if ((mindist(s)>0) && (mindist(s)<wmax)) {
+					proceede = true;
+					weight(s,w0,w1);
+					s0 = next_state(s, 0);
+					for (d=mindist(s); d<(wmax-w0); d++) {
+						Ad_temp(s0,d+w0) += Ad_states(s,d);
+						Cd_temp(s0,d+w0) += Cd_states(s,d);
+						visited_states_temp(s0) = 1; //true
+					}
 
-	  s1 = next_state(s, 1);
-	  for (d=mindist(s); d<(wmax-w1); d++) {
-	    Ad_temp(s1,d+w1) += Ad_states(s,d);
-	    Cd_temp(s1,d+w1) += Cd_states(s,d) + Ad_states(s,d);
-	    visited_states_temp(s1) = 1; //true
-	  }
-	  if (mindist_temp(s0)>0) { mindist_temp(s0) = ( mindist(s)+w0 ) < mindist_temp(s0) ? mindist(s)+w0 :  mindist_temp(s0); }
-	  else { mindist_temp(s0) = mindist(s)+w0; }
-	  if (mindist_temp(s1)>0) { mindist_temp(s1) = ( mindist(s)+w1 ) < mindist_temp(s1) ? mindist(s)+w1 :  mindist_temp(s1); }
-	  else { mindist_temp(s1) = mindist(s)+w1; }
+					s1 = next_state(s, 1);
+					for (d=mindist(s); d<(wmax-w1); d++) {
+						Ad_temp(s1,d+w1) += Ad_states(s,d);
+						Cd_temp(s1,d+w1) += Cd_states(s,d) + Ad_states(s,d);
+						visited_states_temp(s1) = 1; //true
+					}
+					if (mindist_temp(s0)>0) { mindist_temp(s0) = ( mindist(s)+w0 ) < mindist_temp(s0) ? mindist(s)+w0 :  mindist_temp(s0); }
+					else { mindist_temp(s0) = mindist(s)+w0; }
+					if (mindist_temp(s1)>0) { mindist_temp(s1) = ( mindist(s)+w1 ) < mindist_temp(s1) ? mindist(s)+w1 :  mindist_temp(s1); }
+					else { mindist_temp(s1) = mindist(s)+w1; }
 
-	}
+				}
       }
       Ad_states = Ad_temp;
       Cd_states = Cd_temp;
@@ -1289,12 +1296,12 @@ namespace itpp {
     // is the reverse distance profile better?
     for (i=0; i<K; i++) {
       if (dist_prof_rev(i) > dist_prof(i)) {
-	reverse = true;
-	dist_prof_rev0 = dist_prof(0);
-	dist_prof = dist_prof_rev;
-	break;
+				reverse = true;
+				dist_prof_rev0 = dist_prof(0);
+				dist_prof = dist_prof_rev;
+				break;
       } else if (dist_prof_rev(i) < dist_prof(i)) {
-	break;
+				break;
       }
     }
 
@@ -1334,7 +1341,7 @@ namespace itpp {
       spectrum(1)(d-W0) += b;
       // The code is worse than the best found.
       if ( ((d-W0) < dfree) || ( ((d-W0) == dfree) && (spectrum(1)(d-W0) > Cdfree) ) )
-	return -1;
+				return -1;
     }
 
 
@@ -1344,7 +1351,7 @@ namespace itpp {
     if (test_catastrophic && W == W1) {
       c++;
       if (c>cat_treshold)
-	return 0;
+				return 0;
     } else {
       c = 0;
       W = W1;
@@ -1374,15 +1381,15 @@ namespace itpp {
     if ( (W1 >= dist_prof(m-1)) && (W >= dist_prof(m)) ) {
       // save node 1
       if (test_catastrophic && stack_pos > 10000)
-	return 0;
+				return 0;
 
       stack_pos++;
       if (stack_pos >= max_stack_size) {
-	max_stack_size = 2*max_stack_size;
-	S_stack.set_size(max_stack_size, true);
-	W_stack.set_size(max_stack_size, true);
-	b_stack.set_size(max_stack_size, true);
-	c_stack.set_size(max_stack_size, true);
+				max_stack_size = 2*max_stack_size;
+				S_stack.set_size(max_stack_size, true);
+				W_stack.set_size(max_stack_size, true);
+				b_stack.set_size(max_stack_size, true);
+				c_stack.set_size(max_stack_size, true);
       }
       S_stack(stack_pos) = S1;
       W_stack(stack_pos) = W1;
@@ -1394,7 +1401,7 @@ namespace itpp {
     if (test_catastrophic && W == W0) {
       c++;
       if (c>cat_treshold)
-	return 0;
+				return 0;
     } else {
       c = 0;
       W = W0;
@@ -1408,7 +1415,7 @@ namespace itpp {
     return 1;
   }
 
-  //-------------------- These functions should be moved into some onther place -----------------
+  //----------- These functions should be moved into some other place -------
 
   /*
     Reverses the bitrepresentation of in (of size length) and converts to an integer
@@ -1451,9 +1458,9 @@ namespace itpp {
 
     for (int i=0; i<v1.size(); i++) {
       if (v1(i) < v2(i)) {
-	return 1;
+				return 1;
       } else if (v1(i) > v2(i)) {
-	return 0;
+				return 0;
       }
     }
     return -1;
@@ -1476,4 +1483,4 @@ namespace itpp {
     else return -1;
   }
 
-} //namespace itpp
+} // namespace itpp

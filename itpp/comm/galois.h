@@ -1,28 +1,35 @@
-/*---------------------------------------------------------------------------*
- *                                   IT++			             *
- *---------------------------------------------------------------------------*
- * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
- * Tobias Ringström, and Jonas Samuelsson.                                   *
- *                                                                           *
- * Permission to use, copy, modify, and distribute this software and its     *
- * documentation under the terms of the GNU General Public License is hereby *
- * granted. No representations are made about the suitability of this        *
- * software for any purpose. It is provided "as is" without expressed or     *
- * implied warranty. See the GNU General Public License for more details.    *
- *---------------------------------------------------------------------------*/
+/*!
+ * \file 
+ * \brief Definitions of Galois Field algebra classes and functions
+ * \author Tony Ottosson
+ *
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ * -------------------------------------------------------------------------
+ */
 
-/*! 
-  \file 
-  \brief  Definitions of Galois Field algebra classes and functions
-  \author Tony Ottosson
-
-  $Revision$
-
-  $Date$
-*/
-
-#ifndef __galois_h
-#define __galois_h
+#ifndef GALOIS_H
+#define GALOIS_H
 
 #include <itpp/base/vec.h>
 #include <itpp/base/specmat.h>
@@ -70,7 +77,7 @@ namespace itpp {
     GF() { m=0; }
     //! Constructor
     GF(int qvalue) { m=0; if (qvalue==0) // qvalue==0 gives the zeroth element
-      value=-1; else set_size(qvalue); }
+														value=-1; else set_size(qvalue); }
     //! Constructor
     GF(int qvalue, int inexp) { m=0; set(qvalue,inexp); }
     //! Copy constructor
@@ -235,313 +242,313 @@ namespace itpp {
   // --------------- class GF -----------------------
 
   inline void GF::set(int qvalue, const bvec &vectorspace)
-    {
-      set_size(qvalue);
-      it_assert0(vectorspace.length() == m, "GF::set, out of range");
-      value=logalpha(m)(bin2dec(vectorspace));
-    }
+	{
+		set_size(qvalue);
+		it_assert0(vectorspace.length() == m, "GF::set, out of range");
+		value=logalpha(m)(bin2dec(vectorspace));
+	}
 
   inline bvec GF::get_vectorspace() const
-    {
-      bvec temp(m);
-      if (value == -1)
-	temp=dec2bin(m,0);
-      else
-	temp=dec2bin(m,alphapow(m)(value));
-      return temp;
-    }
+	{
+		bvec temp(m);
+		if (value == -1)
+			temp=dec2bin(m,0);
+		else
+			temp=dec2bin(m,alphapow(m)(value));
+		return temp;
+	}
 
   inline int  GF::get_value() const
-    {
-      return value;
-    }
+	{
+		return value;
+	}
 
   inline int GF::operator==(const GF &ingf) const
-    {
-      if (value == -1 && ingf.value == -1)
-	return true;
-      if (m==ingf.m && value==ingf.value)
-	return true;
-      else
-	return false;
-    }
+	{
+		if (value == -1 && ingf.value == -1)
+			return true;
+		if (m==ingf.m && value==ingf.value)
+			return true;
+		else
+			return false;
+	}
 
   inline int GF::operator!=(const GF &ingf) const
-    {
-      GF tmp(*this);
-      return !(tmp==ingf);
-    }
+	{
+		GF tmp(*this);
+		return !(tmp==ingf);
+	}
 
   inline void GF::operator=(const GF &ingf)
-    {
-      m=ingf.m;
-      value=ingf.value;
-    }
+	{
+		m=ingf.m;
+		value=ingf.value;
+	}
 
   inline void GF::operator=(const int inexp)
-    {
-      it_assert0(m>0 && inexp>=-1 && inexp<(q[m]-1), "GF::op=, out of range");
-      value=inexp;
-    }
+	{
+		it_assert0(m>0 && inexp>=-1 && inexp<(q[m]-1), "GF::op=, out of range");
+		value=inexp;
+	}
 
   inline void GF::operator+=(const GF &ingf)
-    {
-      if (value == -1) {
-	value=ingf.value;
-	m=ingf.m;
-      }
-      else if (ingf.value != -1) {
-	it_assert0(ingf.m == m, "GF::op+=, not same field");
-	value=logalpha(m)(alphapow(m)(value)^alphapow(m)(ingf.value));
-      }
-    }
+	{
+		if (value == -1) {
+			value=ingf.value;
+			m=ingf.m;
+		}
+		else if (ingf.value != -1) {
+			it_assert0(ingf.m == m, "GF::op+=, not same field");
+			value=logalpha(m)(alphapow(m)(value)^alphapow(m)(ingf.value));
+		}
+	}
 
   inline GF GF::operator+(const GF &ingf) const
-    {
-      GF tmp(*this);
-      tmp+=ingf;
-      return tmp;
-    }
+	{
+		GF tmp(*this);
+		tmp+=ingf;
+		return tmp;
+	}
 
   inline void GF::operator-=(const GF &ingf)
-    {
-      (*this)+=ingf;
-    }
+	{
+		(*this)+=ingf;
+	}
 
   inline GF GF::operator-(const GF &ingf) const
-    {
-      GF tmp(*this);
-      tmp-=ingf;
-      return tmp;
-    }
+	{
+		GF tmp(*this);
+		tmp-=ingf;
+		return tmp;
+	}
 
   inline void GF::operator*=(const GF &ingf)
-    {
-      if (value == -1 || ingf.value == -1)
-	value=-1;
-      else {
-	it_assert0(ingf.m == m, "GF::op+=, not same field");
-	value=(value+ingf.value)%(q[m]-1);
-      }
-    }
+	{
+		if (value == -1 || ingf.value == -1)
+			value=-1;
+		else {
+			it_assert0(ingf.m == m, "GF::op+=, not same field");
+			value=(value+ingf.value)%(q[m]-1);
+		}
+	}
 
   inline GF GF::operator*(const GF &ingf) const
-    {
-      GF tmp(*this);
-      tmp*=ingf;
-      return tmp;
-    }
+	{
+		GF tmp(*this);
+		tmp*=ingf;
+		return tmp;
+	}
 
   inline void GF::operator/=(const GF &ingf)
-    {
-      assert(ingf.value !=-1); // no division by the zeroth element
-      if (value == -1)
-	value=-1;
-      else {
-	it_assert0(ingf.m == m, "GF::op+=, not same field");
-	value=(value-ingf.value+q[m]-1)%(q[m]-1);
-      }
-    }
+	{
+		assert(ingf.value !=-1); // no division by the zeroth element
+		if (value == -1)
+			value=-1;
+		else {
+			it_assert0(ingf.m == m, "GF::op+=, not same field");
+			value=(value-ingf.value+q[m]-1)%(q[m]-1);
+		}
+	}
 
   inline GF GF::operator/(const GF &ingf) const
-    {
-      GF tmp(*this);
-      tmp/=ingf;
-      return tmp;
-    }
+	{
+		GF tmp(*this);
+		tmp/=ingf;
+		return tmp;
+	}
 
   // ------------------ class GFX --------------------
   inline GFX::GFX()
-    {
-      degree=-1;
-      q=0;
-    }
+	{
+		degree=-1;
+		q=0;
+	}
 
   inline GFX::GFX(int qvalue)
-    {
-      it_assert0(qvalue>=0, "GFX::GFX, out of range");
-      q=qvalue;
-    }
+	{
+		it_assert0(qvalue>=0, "GFX::GFX, out of range");
+		q=qvalue;
+	}
 
   inline void GFX::set(int qvalue, const ivec &invalues)
-    {
-      it_assert0(qvalue>0, "GFX::set, out of range");
-      degree=invalues.size()-1;
-      coeffs.set_size(degree+1, false);
-      for (int i=0;i<degree+1;i++)
-	coeffs(i).set(qvalue,invalues(i));
-      q=qvalue;
-    }
+	{
+		it_assert0(qvalue>0, "GFX::set, out of range");
+		degree=invalues.size()-1;
+		coeffs.set_size(degree+1, false);
+		for (int i=0;i<degree+1;i++)
+			coeffs(i).set(qvalue,invalues(i));
+		q=qvalue;
+	}
 
   inline void GFX::set(int qvalue, const char *invalues)
-    {
-      set(qvalue,ivec(invalues));
-    }
+	{
+		set(qvalue,ivec(invalues));
+	}
 
   inline void GFX::set(int qvalue, const std::string invalues)
-    {
-      set(qvalue,invalues.c_str());
-    }
+	{
+		set(qvalue,invalues.c_str());
+	}
 
   inline GFX::GFX(int qvalue, int indegree)
-    {
-      it_assert0(qvalue>0 && indegree>=0, "GFX::GFX, out of range");
-      q=qvalue;
-      coeffs.set_size(indegree+1, false);
-      degree=indegree;
-      for (int i=0;i<degree+1;i++)
-	coeffs(i).set(q,-1);
-    }
+	{
+		it_assert0(qvalue>0 && indegree>=0, "GFX::GFX, out of range");
+		q=qvalue;
+		coeffs.set_size(indegree+1, false);
+		degree=indegree;
+		for (int i=0;i<degree+1;i++)
+			coeffs(i).set(q,-1);
+	}
   inline GFX::GFX(int qvalue, const ivec &invalues)
-    {
-      set(qvalue,invalues);
-    }
+	{
+		set(qvalue,invalues);
+	}
 
   inline GFX::GFX(int qvalue, char *invalues)
-    {
-      set(qvalue,invalues);
-    }
+	{
+		set(qvalue,invalues);
+	}
 
   inline GFX::GFX(int qvalue, std::string invalues)
-    {
-      set(qvalue,invalues.c_str());
-    }
+	{
+		set(qvalue,invalues.c_str());
+	}
 
   inline GFX::GFX(const GFX &ingfx)
-    {
-      degree=ingfx.degree;
-      coeffs=ingfx.coeffs;
-      q=ingfx.q;
-    }
+	{
+		degree=ingfx.degree;
+		coeffs=ingfx.coeffs;
+		q=ingfx.q;
+	}
 
   inline int GFX::get_size() const
-    {
-      return q;
-    }
+	{
+		return q;
+	}
 
   inline int GFX::get_degree() const
-    {
-      return degree;
-    }
+	{
+		return degree;
+	}
 
   inline void GFX::set_degree(int indegree)
-    {
-      it_assert0(indegree>=-1, "GFX::set_degree, out of range");
-      coeffs.set_size(indegree+1);
-      degree=indegree;
-    }
+	{
+		it_assert0(indegree>=-1, "GFX::set_degree, out of range");
+		coeffs.set_size(indegree+1);
+		degree=indegree;
+	}
 
   inline int GFX::get_true_degree() const
-    {
-      int i=degree;
-      while(coeffs(i).get_value()==-1) {
-	i--;
-	if (i==-1)
-	  break;
-      }
-      return i;
-    }
+	{
+		int i=degree;
+		while(coeffs(i).get_value()==-1) {
+			i--;
+			if (i==-1)
+				break;
+		}
+		return i;
+	}
 
   inline void GFX::clear()
-    {
-      it_assert0(degree>=0 && q>0, "GFX::clear, not set");
-      for(int i=0;i<degree+1;i++)
-	coeffs(i).set(q,-1);
-    }
+	{
+		it_assert0(degree>=0 && q>0, "GFX::clear, not set");
+		for(int i=0;i<degree+1;i++)
+			coeffs(i).set(q,-1);
+	}
 
   inline void GFX::operator=(const GFX &ingfx)
-    {
-      degree=ingfx.degree;
-      coeffs=ingfx.coeffs;
-      q=ingfx.q;
-    }
+	{
+		degree=ingfx.degree;
+		coeffs=ingfx.coeffs;
+		q=ingfx.q;
+	}
 
   inline void GFX::operator+=(const GFX &ingfx)
-    {
-      it_assert0(q == ingfx.q, "GFX::op+=, not same field");
-      if (ingfx.degree > degree) {
-	coeffs.set_size(ingfx.degree+1, true);
-	// set new coefficients to the zeroth element
-	for (int j=degree+1; j<coeffs.size(); j++){ coeffs(j).set(q,-1); }
-	degree=ingfx.degree;
-      }
-      for (int i=0;i<ingfx.degree+1;i++) { coeffs(i)+=ingfx.coeffs(i); }
-    }
+	{
+		it_assert0(q == ingfx.q, "GFX::op+=, not same field");
+		if (ingfx.degree > degree) {
+			coeffs.set_size(ingfx.degree+1, true);
+			// set new coefficients to the zeroth element
+			for (int j=degree+1; j<coeffs.size(); j++){ coeffs(j).set(q,-1); }
+			degree=ingfx.degree;
+		}
+		for (int i=0;i<ingfx.degree+1;i++) { coeffs(i)+=ingfx.coeffs(i); }
+	}
 
   inline GFX GFX::operator+(const GFX &ingfx) const
-    {
-      GFX tmp(*this);
-      tmp+=ingfx;
-      return tmp;
-    }
+	{
+		GFX tmp(*this);
+		tmp+=ingfx;
+		return tmp;
+	}
 
   inline void GFX::operator-=(const GFX &ingfx)
-    {
-      (*this)+=ingfx;
-    }
+	{
+		(*this)+=ingfx;
+	}
 
   inline GFX GFX::operator-(const GFX &ingfx) const
-    {
-      GFX tmp(*this);
-      tmp-=ingfx;
-      return tmp;
-    }
+	{
+		GFX tmp(*this);
+		tmp-=ingfx;
+		return tmp;
+	}
 
   inline void GFX::operator*=(const GFX &ingfx)
-    {
-      it_assert0(q == ingfx.q, "GFX::op*=, Not same field");
-      int i,j;
-      Array<GF> tempcoeffs=coeffs;
-      coeffs.set_size(degree+ingfx.degree+1, false);
-      for (j=0; j<coeffs.size(); j++)
-	coeffs(j).set(q,-1); // set coefficients to the zeroth element (log(0)=-Inf=-1)
-      for (i=0;i<degree+1;i++)
-	for (j=0;j<ingfx.degree+1;j++)
-	  coeffs(i+j)+=tempcoeffs(i)*ingfx.coeffs(j);
-      degree=coeffs.size()-1;
-    }
+	{
+		it_assert0(q == ingfx.q, "GFX::op*=, Not same field");
+		int i,j;
+		Array<GF> tempcoeffs=coeffs;
+		coeffs.set_size(degree+ingfx.degree+1, false);
+		for (j=0; j<coeffs.size(); j++)
+			coeffs(j).set(q,-1); // set coefficients to the zeroth element (log(0)=-Inf=-1)
+		for (i=0;i<degree+1;i++)
+			for (j=0;j<ingfx.degree+1;j++)
+				coeffs(i+j)+=tempcoeffs(i)*ingfx.coeffs(j);
+		degree=coeffs.size()-1;
+	}
 
   inline GFX GFX::operator*(const GFX &ingfx) const
-    {
-      GFX tmp(*this);
-      tmp*=ingfx;
-      return tmp;
-    }
+	{
+		GFX tmp(*this);
+		tmp*=ingfx;
+		return tmp;
+	}
 
   inline GFX operator*(const GF &ingf, const GFX &ingfx)
-    {
-      it_assert0(ingf.get_size() == ingfx.q, "GFX::op*, Not same field");
-      GFX temp(ingfx);
-      for (int i=0;i<ingfx.degree+1;i++)
-	temp.coeffs(i)*=ingf;
-      return temp;
-    }
+	{
+		it_assert0(ingf.get_size() == ingfx.q, "GFX::op*, Not same field");
+		GFX temp(ingfx);
+		for (int i=0;i<ingfx.degree+1;i++)
+			temp.coeffs(i)*=ingf;
+		return temp;
+	}
 
   inline GFX  operator*( const GFX &ingfx, const GF &ingf)
-    {
-      return ingf*ingfx;
-    }
+	{
+		return ingf*ingfx;
+	}
 
   inline GFX  operator/(const GFX &ingfx, const GF &ingf)
-    {
-      it_assert0(ingf.get_size() == ingfx.q, "GFX::op/, Not same field");
-      GFX temp(ingfx);
-      for (int i=0;i<ingfx.degree+1;i++)
-	temp.coeffs(i)/=ingf;
-      return temp;
-    }
+	{
+		it_assert0(ingf.get_size() == ingfx.q, "GFX::op/, Not same field");
+		GFX temp(ingfx);
+		for (int i=0;i<ingfx.degree+1;i++)
+			temp.coeffs(i)/=ingf;
+		return temp;
+	}
 
   inline GF GFX::operator()(const GF &ingf)
-    {
-      it_assert0(q == ingf.get_size(), "GFX::op(), Not same field");
-      GF temp(coeffs(0)), ingfpower(ingf);
-      for (int i=1; i<degree+1; i++) {
-	temp+=coeffs(i)*ingfpower;
-	ingfpower*=ingf;
-      }
-      return temp;
-    }
+	{
+		it_assert0(q == ingf.get_size(), "GFX::op(), Not same field");
+		GF temp(coeffs(0)), ingfpower(ingf);
+		for (int i=1; i<degree+1; i++) {
+			temp+=coeffs(i)*ingfpower;
+			ingfpower*=ingf;
+		}
+		return temp;
+	}
 
-} //namespace itpp
+} // namespace itpp
 
-#endif // __galois_h
+#endif // #ifndef GALOIS_H

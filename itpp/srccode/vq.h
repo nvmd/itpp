@@ -1,28 +1,35 @@
-/*---------------------------------------------------------------------------*
-*                                   IT++			             *
-*---------------------------------------------------------------------------*
-* Copyright (c) 1995-2004 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
-* Tobias Ringström, and Jonas Samuelsson.                                   *
-*                                                                           *
-* Permission to use, copy, modify, and distribute this software and its     *
-* documentation under the terms of the GNU General Public License is hereby *
-* granted. No representations are made about the suitability of this        *
-* software for any purpose. It is provided "as is" without expressed or     *
-* implied warranty. See the GNU General Public License for more details.    *
-*---------------------------------------------------------------------------*/
+/*!
+ * \file 
+ * \brief Definition of a vector quantizer class (unconstrained)
+ * \author Thomas Eriksson
+ *
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ * -------------------------------------------------------------------------
+ */
 
-/*! 
-\file 
-\brief Vector quantizer class (unconstrained)
-\author Thomas Eriksson
-
-$Revision$
-
-$Date$
-*/
-
-#ifndef __vq_h
-#define __vq_h
+#ifndef VQ_H
+#define VQ_H
 
 #include <string>
 #include <itpp/itconfig.h>
@@ -198,6 +205,6 @@ inline double scalar_quantize(double x, vec &Levels) { return Levels(scalar_enco
 inline vec scalar_quantize(vec &x, vec &Levels) { return Levels(scalar_encode(x,Levels)); }
 
 
-} //namespace itpp
+} // namespace itpp
 
-#endif //__vq_h
+#endif // #ifndef VQ_H

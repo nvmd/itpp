@@ -1,7 +1,7 @@
 /*!
  * \file 
- * \brief Implementation of an Orthogonal Frequency Division Multiplex 
- * (OFDM) class.
+ * \brief Implementation of an Orthogonal Frequency Division Multiplex
+ * (OFDM) class
  * \author Pal Frenger, Anders Persson and Tony Ottosson
  *
  * $Date$

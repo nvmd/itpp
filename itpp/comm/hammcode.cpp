@@ -1,25 +1,32 @@
-/*---------------------------------------------------------------------------*
- *                                   IT++			             *
- *---------------------------------------------------------------------------*
- * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
- * Tobias Ringström, and Jonas Samuelsson.                                   *
- *                                                                           *
- * Permission to use, copy, modify, and distribute this software and its     *
- * documentation under the terms of the GNU General Public License is hereby *
- * granted. No representations are made about the suitability of this        *
- * software for any purpose. It is provided "as is" without expressed or     *
- * implied warranty. See the GNU General Public License for more details.    *
- *---------------------------------------------------------------------------*/
-
-/*! 
-  \file 
-  \brief Implementation of a Hamming code class
-  \author Tony Ottosson
-
-  $Revision$
-
-  $Date$
-*/
+/*!
+ * \file 
+ * \brief Implementation of a Hamming code class
+ * \author Tony Ottosson
+ *
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ * -------------------------------------------------------------------------
+ */
 
 #include <itpp/base/binary.h>
 #include <itpp/base/scalfunc.h>
@@ -52,14 +59,14 @@ namespace itpp {
     for (i=1; i<=n; i++) {
       NotUsed = 1;
       for (j=0; j<n; j++) 
-	if (i == indexes(j)) { NotUsed = 0; }
+				if (i == indexes(j)) { NotUsed = 0; }
       if (NotUsed) { indexes(NextPos) = i; NextPos = NextPos + 1; }
     }
 			
     for (i=0; i<n; i++) {	
       temp = dec2bin(n-k,indexes(i)); //<-CHECK THIS OUT!!!!
       for (j = 0; j < (n-k); j++) {
-	H(j,i) = temp(j);
+				H(j,i) = temp(j);
       }
     }
   }
@@ -69,12 +76,12 @@ namespace itpp {
     short i, j;
     for (i=0; i<k; i++) {
       for(j=0; j<n-k; j++) 
-	G(i,j) = H(j,i+n-k);
+				G(i,j) = H(j,i+n-k);
     }
 	
     for (i=0; i<k; i++) {
       for (j=n-k; j<n; j++) 
-	G(i,j) = 0;
+				G(i,j) = 0;
     }
 	
     for (i=0; i<k; i++)
@@ -115,7 +122,7 @@ namespace itpp {
 
     for (i=0; i<n; i++) {
       for (j=0; j<n-k; j++) 
-	temp(j) = H(j,i);
+				temp(j) = H(j,i);
       Hindexes(i) = bin2dec(temp); 
     }
 	
@@ -125,9 +132,9 @@ namespace itpp {
       syndrome = H * coded;
       isynd = bin2dec(syndrome); 
       if (isynd != 0) {
-	for (j=0; j<n; j++) 
-	  if (Hindexes(j) == isynd) { errorpos = j; };
-	coded(errorpos) += 1;
+				for (j=0; j<n; j++) 
+					if (Hindexes(j) == isynd) { errorpos = j; };
+				coded(errorpos) += 1;
       }
       decoded_bits.replace_mid(k*i,coded.right(k));
     }
@@ -141,7 +148,7 @@ namespace itpp {
   }
 
 
-  // --------------- Soft-decision decoding is not implemented --------------------------------
+  // -------------- Soft-decision decoding is not implemented ----------------
   void Hamming_Code::decode(const vec &received_signal, bvec &output)
   {
     it_error("Hamming_Code::decode(vec, bvec); soft-decision decoding is not implemented");
@@ -154,4 +161,4 @@ namespace itpp {
   }
 
 
-} //namespace itpp
+} // namespace itpp
