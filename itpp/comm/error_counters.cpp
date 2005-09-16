@@ -1,33 +1,38 @@
-/*---------------------------------------------------------------------------*
- *                                   IT++			             *
- *---------------------------------------------------------------------------*
- * Copyright (c) 1995-2004 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
- * Tobias Ringström, and Jonas Samuelsson.                                   *
- *                                                                           *
- * Permission to use, copy, modify, and distribute this software and its     *
- * documentation under the terms of the GNU General Public License is hereby *
- * granted. No representations are made about the suitability of this        *
- * software for any purpose. It is provided "as is" without expressed or     *
- * implied warranty. See the GNU General Public License for more details.    *
- *---------------------------------------------------------------------------*/
-
-/*! 
-  \file 
-  \brief Implementation of Bit error rate counter (BERC) and Block error rate counter (BLERC) classes.
-  \author Pål Frenger
-
-  $Revision$
-
-  $Date$
-*/
+/*!
+ * \file 
+ * \brief Implementation of Bit Error Rate Counter (BERC) and 
+ * BLock Error Rate Counter (BLERC) classes
+ * \author Pal Frenger
+ *
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ * -------------------------------------------------------------------------
+ */
 
 #include <itpp/itconfig.h>
 #include <itpp/base/binary.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/comm/error_counters.h>
-
-using std::cout;
-using std::endl;
 
 namespace itpp { 
 
@@ -51,19 +56,19 @@ namespace itpp {
   
     if (delay >= 0) {
       for (i=0; i<countlength; i++) {
-	if ( (short)(in1(i+ignorefirst)) == (short)(in2(i+ignorefirst+delay)) ) {
-	  corrects += 1;
-	} else {
-	  errors += 1;
-	}
+				if ( (short)(in1(i+ignorefirst)) == (short)(in2(i+ignorefirst+delay)) ) {
+					corrects += 1;
+				} else {
+					errors += 1;
+				}
       }
     } else {
       for (i=0; i<countlength; i++) {
-	if ( (short)(in1(i+ignorefirst-delay)) == (short)(in2(i+ignorefirst)) ) {
-	  corrects += 1;
-	} else {
-	  errors += 1;
-	}
+				if ( (short)(in1(i+ignorefirst-delay)) == (short)(in2(i+ignorefirst)) ) {
+					corrects += 1;
+				} else {
+					errors += 1;
+				}
       }
     }	
   }	
@@ -83,8 +88,8 @@ namespace itpp {
       start2  = i>0 ?  i : 0;
       correlation = fabs( sum( to_vec( elem_mult( in1.mid(start1,num), in2.mid(start2,num) ) ) ) );
       if (correlation > bestcorr) {
-	bestdelay = i;
-	bestcorr  = correlation;
+				bestdelay = i;
+				bestcorr  = correlation;
       }
     }
     delay = bestdelay;
@@ -92,19 +97,18 @@ namespace itpp {
 
   void BERC::report()
   {
-    cout << endl;
-    cout << "==================================" << endl;
-    cout << "     Bit Error Counter Report     " << endl;
-    cout << "==================================" << endl;
-    cout << " Ignore First           = " << ignorefirst << endl;
-    cout << " Ignore Last            = " << ignorelast << endl;
-    cout << " Delay                  = " << delay << endl;
-    cout << " Number of counted bits = " << (errors + corrects) << endl;
-    cout << " Number of errors       = " << errors << endl;
-    cout << "==================================" << endl;
-    cout << " Error rate             = " << double(errors)/double(errors+corrects) << endl;
-    cout << "==================================" << endl;
-    cout << endl;
+    std::cout << std::endl
+							<< "==================================" << std::endl
+							<< "     Bit Error Counter Report     " << std::endl
+							<< "==================================" << std::endl
+							<< " Ignore First           = " << ignorefirst << std::endl
+							<< " Ignore Last            = " << ignorelast << std::endl
+							<< " Delay                  = " << delay << std::endl
+							<< " Number of counted bits = " << (errors + corrects) << std::endl
+							<< " Number of errors       = " << errors << std::endl
+							<< "==================================" << std::endl
+							<< " Error rate             = " << double(errors)/double(errors+corrects) << std::endl
+							<< "==================================" << std::endl << std::endl;
   }
 
   long BERC::count_errors(const bvec &in1, const bvec &in2, long indelay, long inignorefirst, long inignorelast)
@@ -114,15 +118,15 @@ namespace itpp {
   
     if (indelay >= 0) {
       for (i=0; i<countlength; i++) {
-	if ( (short)(in1(i+inignorefirst)) != (short)(in2(i+inignorefirst+indelay)) ) {
-	  err += 1;
-	}
+				if ( (short)(in1(i+inignorefirst)) != (short)(in2(i+inignorefirst+indelay)) ) {
+					err += 1;
+				}
       }
     } else {
       for (i=0; i<countlength; i++) {
-	if ( (short)(in1(i+inignorefirst-indelay)) != (short)(in2(i+inignorefirst)) ) {
-	  err += 1;
-	}
+				if ( (short)(in1(i+inignorefirst-indelay)) != (short)(in2(i+inignorefirst)) ) {
+					err += 1;
+				}
       }
     }
     return err;
@@ -154,18 +158,18 @@ namespace itpp {
     for (i=0; i<countlength; i++) {
       CORR = true;
       for (j=0; j<blocksize; j++) {
-	if (in1(i*blocksize+j)!=in2(i*blocksize+j)) {
-	  CORR = false;
-	  break;
-	}
+				if (in1(i*blocksize+j)!=in2(i*blocksize+j)) {
+					CORR = false;
+					break;
+				}
       }
       if (CORR) {
-	corrects++;
+				corrects++;
       } else {
-	errors++; 
+				errors++; 
       }
     }
 
   }	
 
-} //namespace itpp
+} // namespace itpp

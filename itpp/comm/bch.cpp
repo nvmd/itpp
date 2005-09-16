@@ -1,25 +1,32 @@
-/*---------------------------------------------------------------------------*
- *                                   IT++			             *
- *---------------------------------------------------------------------------*
- * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
- * Tobias Ringström, and Jonas Samuelsson.                                   *
- *                                                                           *
- * Permission to use, copy, modify, and distribute this software and its     *
- * documentation under the terms of the GNU General Public License is hereby *
- * granted. No representations are made about the suitability of this        *
- * software for any purpose. It is provided "as is" without expressed or     *
- * implied warranty. See the GNU General Public License for more details.    *
- *---------------------------------------------------------------------------*/
-
-/*! 
-  \file 
-  \brief Implementation of a BCH encoder/decoder class.
-  \author Pål frenger
-
-  $Revision$
-
-  $Date$
-*/
+/*!
+ * \file 
+ * \brief Implementation of a BCH encoder/decoder class
+ * \author Pal Frenger
+ *
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ * -------------------------------------------------------------------------
+ */
 
 #include <itpp/comm/bch.h>
 #include <itpp/base/binary.h>
@@ -55,17 +62,17 @@ namespace itpp {
       //Fix the message polynom m(x).
       mbit = uncoded_bits.mid(i*k,k);
       for (j=0; j<k; j++) {
-	degree = int(-1) + int(mbit(j));
-	m[j] = GF(n+1,degree);
+				degree = int(-1) + int(mbit(j));
+				m[j] = GF(n+1,degree);
       }  
       //Fix the outputbits cbit.
       c = g*m;
       for (j=0; j<n; j++) {
-	if ( c[j] == GF(n+1,0) ) {
-	  cbit(j) = 1;
-	} else {
-	  cbit(j) = 0;
-	}
+				if ( c[j] == GF(n+1,0) ) {
+					cbit(j) = 1;
+				} else {
+					cbit(j) = 0;
+				}
       }
       coded_bits.replace_mid(i*n,cbit);
     }
@@ -92,84 +99,84 @@ namespace itpp {
       //Fix the received polynomial r(x)
       rbin = coded_bits.mid(i*n,n);
       for (j=0; j<n; j++) {
-	degree = int(-1) + int(rbin(j));
-	r[j] = GF(n+1,degree);
+				degree = int(-1) + int(rbin(j));
+				r[j] = GF(n+1,degree);
       }
       //Fix the syndrome polynomial S(x).
       S[0] = GF(n+1,-1);
       for (j=1; j<=2*t; j++) {
-	S[j] =  r(GF(n+1,j));
+				S[j] =  r(GF(n+1,j));
       }
       if (S.get_true_degree() >= 1) { //Errors in the received word
-	//Itterate to find Lambda(x).
-	kk = 0;                
-	Lambda = GFX(n+1,(char*)"0"); 
-	T = GFX(n+1,(char*)"0");      
-	while (kk<t) {
-	  Ohmega = Lambda * (S + One);
-	  delta = Ohmega[2*kk+1];
-	  OldLambda = Lambda;
-	  Lambda = OldLambda + delta*( GFX(n+1,(char*)"-1 0")*T );
-	  if ((delta == GF(n+1,-1)) || (OldLambda.get_degree() > kk)) {
-	    T = GFX(n+1,(char*)"-1 -1 0") * T;
-	  } else {
-	    T = ( GFX(n+1,(char*)"-1 0") * OldLambda ) / delta;
-	  } 
-	  kk = kk + 1;
-	}   
-	//Find the zeros to Lambda(x).
-	errorpos.set_size(Lambda.get_true_degree(), true);
-	foundzeros = 0;
-	for (j=0; j<=n-1; j++) {
-	  temp = Lambda( GF(n+1,j) );
-	  if  (Lambda( GF(n+1,j) ) == GF(n+1,-1) ) {
-	    errorpos( foundzeros ) = (n-j) % n;
-	    foundzeros +=1;
-	    if (foundzeros >= Lambda.get_true_degree()) {
-	      break;
-	    }
-	  }
-	}
-	//Correct the codeword.
-	for (j=0; j<foundzeros; j++) {
-	  rbin(errorpos(j)) += 1;
-	}
-	//Reconstruct the corrected codeword.
-	for (j=0; j<n; j++) {
-	  degree = int(-1) + int(rbin(j));
-	  c[j] = GF(n+1,degree);
-	}
-	//Code word validation.
-	S[0] = GF(n+1,-1);
-	for (j=1; j<=2*t; j++) {
-	  S[j] =  c(GF(n+1,j));
-	}
-	if (S.get_true_degree()<=0) { //c(x) is a valid codeword.
-	  cisvalid = true;  
-	} else {
-	  cisvalid = false;
-	}
+				//Itterate to find Lambda(x).
+				kk = 0;                
+				Lambda = GFX(n+1,(char*)"0"); 
+				T = GFX(n+1,(char*)"0");      
+				while (kk<t) {
+					Ohmega = Lambda * (S + One);
+					delta = Ohmega[2*kk+1];
+					OldLambda = Lambda;
+					Lambda = OldLambda + delta*( GFX(n+1,(char*)"-1 0")*T );
+					if ((delta == GF(n+1,-1)) || (OldLambda.get_degree() > kk)) {
+						T = GFX(n+1,(char*)"-1 -1 0") * T;
+					} else {
+						T = ( GFX(n+1,(char*)"-1 0") * OldLambda ) / delta;
+					} 
+					kk = kk + 1;
+				}   
+				//Find the zeros to Lambda(x).
+				errorpos.set_size(Lambda.get_true_degree(), true);
+				foundzeros = 0;
+				for (j=0; j<=n-1; j++) {
+					temp = Lambda( GF(n+1,j) );
+					if  (Lambda( GF(n+1,j) ) == GF(n+1,-1) ) {
+						errorpos( foundzeros ) = (n-j) % n;
+						foundzeros +=1;
+						if (foundzeros >= Lambda.get_true_degree()) {
+							break;
+						}
+					}
+				}
+				//Correct the codeword.
+				for (j=0; j<foundzeros; j++) {
+					rbin(errorpos(j)) += 1;
+				}
+				//Reconstruct the corrected codeword.
+				for (j=0; j<n; j++) {
+					degree = int(-1) + int(rbin(j));
+					c[j] = GF(n+1,degree);
+				}
+				//Code word validation.
+				S[0] = GF(n+1,-1);
+				for (j=1; j<=2*t; j++) {
+					S[j] =  c(GF(n+1,j));
+				}
+				if (S.get_true_degree()<=0) { //c(x) is a valid codeword.
+					cisvalid = true;  
+				} else {
+					cisvalid = false;
+				}
       } else {
-	c = r;
-	cisvalid = true; 
+				c = r;
+				cisvalid = true; 
       }
       //Construct the message bit vector.
       if (cisvalid) { //c(x) is a valid codeword.
-	if (c.get_true_degree() > 1) {
-	  m = divgfx(c,g);
-	  mbin.clear();
-	  for (j=0; j<=m.get_true_degree(); j++) {
-	    if ( m[j] == GF(n+1,0) ) {
-	      mbin(j) = 1;
-	    }
-	  }
-	} else { //The zero word was transmitted
-	  mbin = zeros_b(k);
-	  m = GFX(n+1,(char*)"-1"); 
-	}
+				if (c.get_true_degree() > 1) {
+					m = divgfx(c,g);
+					mbin.clear();
+					for (j=0; j<=m.get_true_degree(); j++) {
+						if ( m[j] == GF(n+1,0) ) {
+							mbin(j) = 1;
+						}
+					}
+				} else { //The zero word was transmitted
+					mbin = zeros_b(k);
+					m = GFX(n+1,(char*)"-1"); 
+				}
       } else { //Decoder failure.
-	mbin = zeros_b(k);
-	m = GFX(n+1,(char*)"-1");
+				mbin = zeros_b(k);
+				m = GFX(n+1,(char*)"-1");
       }
       decoded_bits.replace_mid(i*k,mbin);
     }
@@ -197,4 +204,4 @@ namespace itpp {
   }
 
 
-} //namespace itpp
+} // namespace itpp

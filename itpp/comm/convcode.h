@@ -1,37 +1,41 @@
-/*---------------------------------------------------------------------------*
- *                                   IT++			             *
- *---------------------------------------------------------------------------*
- * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
- * Tobias Ringström, and Jonas Samuelsson.                                   *
- *                                                                           *
- * Permission to use, copy, modify, and distribute this software and its     *
- * documentation under the terms of the GNU General Public License is hereby *
- * granted. No representations are made about the suitability of this        *
- * software for any purpose. It is provided "as is" without expressed or     *
- * implied warranty. See the GNU General Public License for more details.    *
- *---------------------------------------------------------------------------*/
-
 /*!
-  \file
-  \brief Definition of a binary convolutional encoder class
-  \author Tony Ottosson 951019, Revised completely 980205.
+ * \file 
+ * \brief Definition of a binary convolutional encoder class
+ * \author Tony Ottosson
+ *
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ * -------------------------------------------------------------------------
+ */
 
-  $Revision$
-
-  $Date$
-*/
-
-#ifndef __convcode_h
-#define __convcode_h
+#ifndef CONVCODE_H
+#define CONVCODE_H
 
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/binary.h>
 #include <itpp/base/array.h>
-
 #include <itpp/comm/channel_code.h>
-
-using std::string;
 
 namespace itpp {
 
@@ -51,15 +55,21 @@ namespace itpp {
     \ingroup fec
     \brief Binary Convolutional rate 1/n class
 
-    The codes are given as feedforward encoders an given in the Proakis form. That is the binary
-    generators (K-tuples) are converted to octal integers. Observe that the constraint length (K)
-    is defined as the number of meomory cells plus one (as in Proakis).
+    The codes are given as feedforward encoders an given in the
+    Proakis form. That is the binary generators (K-tuples) are
+    converted to octal integers. Observe that the constraint length
+    (K) is defined as the number of meomory cells plus one (as in
+    Proakis).
 
-    Encoding is performed with the encode function. The default method for encoding is by adding a tail of K-1
-    zeros and also assume that the encoder starts in the zero state (the encode_tail() function). Observe that decode() by
-    default also assumes that a tail is added. Both encoding and decoding method can be changed by the set_method() function.
+    Encoding is performed with the encode function. The default method
+    for encoding is by adding a tail of K-1 zeros and also assume that
+    the encoder starts in the zero state (the encode_tail()
+    function). Observe that decode() by default also assumes that a
+    tail is added. Both encoding and decoding method can be changed by
+    the set_method() function.
 
-    Example of use: (rate 1/3 constraint length K=7 ODS code using BPSK over AWGN)
+    Example of use: (rate 1/3 constraint length K=7 ODS code using BPSK 
+		over AWGN)
     \code
     BPSK bpsk;
     Convolutional_Code code;
@@ -77,13 +87,17 @@ namespace itpp {
     rx_signal = tx_signal + sqrt(0.5)*randn(tx_signal.size());
     code.decode_tail(rx_signal, decoded_bits);
     \endcode
-    Comment: ODS-code stand for Optimum Distance Spectrum Code. For details see T. Ottosson, "Coding, Modulation
-    and Multiuser Decoding for DS-CDMA Systems," Ph.d. thesis, Department of Information Theory, Scool of Electrical
-    and Computer Engineering, Chalmers University of Technology, Göteborg 1997.
 
-    It is also possible to set the generatorpolynomials directly using the builtin tables which consists of:
-    Maximum Free Distance (MFD) Codes of rates R=1/2 through R=1/8 and
-    Optimum Distance Spectrum (ODS) Codes of rates R=1/2 through R=1/4.
+    Comment: ODS-code stand for Optimum Distance Spectrum Code. For
+    details see T. Ottosson, "Coding, Modulation and Multiuser
+    Decoding for DS-CDMA Systems," Ph.d. thesis, Department of
+    Information Theory, Scool of Electrical and Computer Engineering,
+    Chalmers University of Technology, Göteborg 1997.
+
+    It is also possible to set the generatorpolynomials directly using
+    the builtin tables which consists of: Maximum Free Distance (MFD)
+    Codes of rates R=1/2 through R=1/8 and Optimum Distance Spectrum
+    (ODS) Codes of rates R=1/2 through R=1/4.
   */
   class Convolutional_Code : public Channel_Code {
   public:
@@ -95,8 +109,9 @@ namespace itpp {
     /*!
       \brief Set the code according to built-in tables
 
-      The \a type_of_code can be either \a MFD or \a ODS for maximum free distance codes (according to Proakis)
-      or Optimum Distance Spectrum Codes accoring to Frenger, Orten and Ottosson.
+      The \a type_of_code can be either \a MFD or \a ODS for maximum
+      free distance codes (according to Proakis) or Optimum Distance
+      Spectrum Codes accoring to Frenger, Orten and Ottosson.
     */
     void set_code(const CONVOLUTIONAL_CODE_TYPE type_of_code, int inverse_rate, int constraint_length);
 
@@ -123,9 +138,9 @@ namespace itpp {
     /*!
       \brief Encoding that strarts and ends in the zero state
 
-      Encode a binary vector of inputs starting from zero state and also adds a tail
-      of K-1 zeros to force the encoder into the zero state. Well suited for packet
-      transmission.
+      Encode a binary vector of inputs starting from zero state and
+      also adds a tail of K-1 zeros to force the encoder into the zero
+      state. Well suited for packet transmission.
     */
     void encode_tail(const bvec &input, bvec &output);
     //! Encode a binary vector of inputs starting from state set by the set_state function
@@ -184,9 +199,10 @@ namespace itpp {
     /*!
       \brief Calculate the inverse sequence
 
-      Assumes that encode_tail is used in the encoding process. Returns false if there is
-      an error in the coded sequence (not a valid codeword). Do not check that the tail forces
-      the encoder into the zeroth state.
+      Assumes that encode_tail is used in the encoding
+      process. Returns false if there is an error in the coded
+      sequence (not a valid codeword). Do not check that the tail
+      forces the encoder into the zeroth state.
     */
     bool inverse_tail(const bvec coded_sequence, bvec &input);
     //! Set encoder and decoder start state. The generator polynomials must be set first.
@@ -209,33 +225,41 @@ namespace itpp {
     /*!
       \brief Calculate spectrum
 
-      Calculates both the weight spectrum (Ad) and the information weight spectrum (Cd) and
-      returns it as ivec:s in the 0:th and 1:st component of spectrum, respectively. Suitable
-      for calculating many terms in the spectra (uses an breadth first algorithm). It is assumed
-      that the code is non-catastrophic or else it is a possibility for an eternal loop.
-      dmax = an upper bound on the free distance
+      Calculates both the weight spectrum (Ad) and the information
+      weight spectrum (Cd) and returns it as ivec:s in the 0:th and
+      1:st component of spectrum, respectively. Suitable for
+      calculating many terms in the spectra (uses an breadth first
+      algorithm). It is assumed that the code is non-catastrophic or
+      else it is a possibility for an eternal loop.  
+      dmax = an upper bound on the free distance 
       no_terms = no_terms including the dmax term that should be calculated
 
-      Observe that there is a risk that some of the integers are overflow if many terms are calculated in the spectrum.
+      Observe that there is a risk that some of the integers are
+      overflow if many terms are calculated in the spectrum.
     */
     void calculate_spectrum(Array<ivec> &spectrum, int dmax, int no_terms);
     //void calculate_spectrum(Array<llvec> &spectrum, int dmax, int no_terms);
     /*!
       \brief Cederwall's fast algorithm
 
-      See IT No. 6, pp. 1146-1159, Nov. 1989 for details.
-      Calculates both the weight spectrum (Ad) and the information weight spectrum (Cd) and
-      returns it as ivec:s in the 0:th and 1:st component of spectrum, respectively. The FAST algorithm
-      is good for calculating only a few terms in the spectrum. If many terms are desired, use calc_spectrum instead.
-      The algorithm returns -1 if the code tested is worse that the input dfree and Cdfree.
-      It returns 0 if the code MAY be catastrophic (assuming that test_catastrophic is true),
-      and returns 1 if everything went right.
+      Calculates both the weight spectrum (Ad) and the information
+      weight spectrum (Cd) and returns it as ivec:s in the 0:th and
+      1:st component of spectrum, respectively. The FAST algorithm is
+      good for calculating only a few terms in the spectrum. If many
+      terms are desired, use calc_spectrum instead.  The algorithm
+      returns -1 if the code tested is worse that the input dfree and
+      Cdfree.  It returns 0 if the code MAY be catastrophic (assuming
+      that test_catastrophic is true), and returns 1 if everything
+      went right.
 
       \arg \c dfree the free distance of the code (or an upper bound)
       \arg \c no_terms including the dfree term that should be calculated
       \arg \c Cdfree is the best value of information weight spectrum found so far
 
-      Observe that there is a risk that some of the integers are overflow if many terms are calculated in the spectrum.
+      Observe that there is a risk that some of the integers are
+      overflow if many terms are calculated in the spectrum.
+
+			See IT No. 6, pp. 1146-1159, Nov. 1989 for details.
     */
     int fast(Array<ivec> &spectrum, const int dfree, const int no_terms,
 	     const int Cdfree = 1000000, const bool test_catastrophic = false);
@@ -326,6 +350,6 @@ namespace itpp {
   */
   int compare_spectra(ivec v1, ivec v2, vec weight_profile);
 
-} //namespace itpp
+} // namespace itpp
 
-#endif // __convcode_h
+#endif // #ifndef CONVCODE_H

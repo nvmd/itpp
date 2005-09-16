@@ -1,42 +1,38 @@
-/*---------------------------------------------------------------------------*
- *                                   IT++			             *
- *---------------------------------------------------------------------------*
- * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
- * Tobias Ringström, and Jonas Samuelsson.                                   *
- *                                                                           *
- * Permission to use, copy, modify, and distribute this software and its     *
- * documentation under the terms of the GNU General Public License is hereby *
- * granted. No representations are made about the suitability of this        *
- * software for any purpose. It is provided "as is" without expressed or     *
- * implied warranty. See the GNU General Public License for more details.    *
- *---------------------------------------------------------------------------*/
-
 /*!
-  \file
-  \brief Transport Control Protocol (TCP) 
-  \author Krister Norlund
+ * \file 
+ * \brief Definition of Transport Control Protocol (TCP)
+ * \author Krister Norlund
+ *
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ * -------------------------------------------------------------------------
+ *
+ * Copyright (c) 2000-2004 IKR (formerly IND), University of Stuttgart
+ * This file is part of the IKR (formerly IND) TCP Library.
+ */
 
-  All classes are based on the IKR library from University of Stuttgart.
-
-  $Revision$
-
-  $Date$ 
-*/
-
-
-
-//
-// Copyright (c) 2000-2004 IKR (formerly IND), University of Stuttgart
-//
-// This file is part of the IKR (formerly IND) TCP Library.
-//
-// This library is free software; you can redistribute it and/or modify it
-// under the terms of the GNU Lesser General Public License.
-// See the file COPYING in directory doc for more details.
-
-
-#ifndef __tcp_h
-#define __tcp_h
+#ifndef TCP_H
+#define TCP_H
 
 #include <iostream>
 
@@ -70,33 +66,33 @@ namespace itpp {
     //construction and assignment
     Sequence_Number() : seq(0) { }
 
-      Sequence_Number(const Sequence_Number &n) : seq(n.seq) { }
-	Sequence_Number &operator=(const Sequence_Number &n) { seq = n.seq; return *this; }
-	Sequence_Number &operator=(const int &rep) { seq = rep; return *this; }
+		Sequence_Number(const Sequence_Number &n) : seq(n.seq) { }
+		Sequence_Number &operator=(const Sequence_Number &n) { seq = n.seq; return *this; }
+		Sequence_Number &operator=(const int &rep) { seq = rep; return *this; }
 	
-	//relational operators
-	bool operator==(const Sequence_Number &n) const { return seq == n.seq; }
-	bool operator!=(const Sequence_Number &n) const { return seq != n.seq; }
-	bool operator>(const Sequence_Number &n) const { return (seq - n.seq) > 0; }
-	bool operator>=(const Sequence_Number &n) const { return (seq - n.seq) >= 0; }
-	bool operator<(const Sequence_Number &n) const { return (seq - n.seq) < 0; }
-	bool operator<=(const Sequence_Number &n) const { return (seq - n.seq) <= 0; }
+		//relational operators
+		bool operator==(const Sequence_Number &n) const { return seq == n.seq; }
+		bool operator!=(const Sequence_Number &n) const { return seq != n.seq; }
+		bool operator>(const Sequence_Number &n) const { return (seq - n.seq) > 0; }
+		bool operator>=(const Sequence_Number &n) const { return (seq - n.seq) >= 0; }
+		bool operator<(const Sequence_Number &n) const { return (seq - n.seq) < 0; }
+		bool operator<=(const Sequence_Number &n) const { return (seq - n.seq) <= 0; }
 
-	//addition and subtraction
-	Sequence_Number operator+(const int n) const { return Sequence_Number(seq + n); }
-	Sequence_Number &operator+=(const int n) { seq += n; return *this; }
-	Sequence_Number operator-(const int n) const { return Sequence_Number(seq - n); }
-	Sequence_Number &operator-=(const int n) { seq -= n; return *this; }
-	int operator-(const Sequence_Number &n) const { return seq - n.seq; }
+		//addition and subtraction
+		Sequence_Number operator+(const int n) const { return Sequence_Number(seq + n); }
+		Sequence_Number &operator+=(const int n) { seq += n; return *this; }
+		Sequence_Number operator-(const int n) const { return Sequence_Number(seq - n); }
+		Sequence_Number &operator-=(const int n) { seq -= n; return *this; }
+		int operator-(const Sequence_Number &n) const { return seq - n.seq; }
    
-	//access to internal representation
-	int value() const { return seq; }
+		//access to internal representation
+		int value() const { return seq; }
 
-	friend Sequence_Number operator+(const int n1, const Sequence_Number &n2) { return Sequence_Number(n1 + n2.seq); }
-	friend std::ostream &operator<<(std::ostream &os, const Sequence_Number &n) { os << n.seq; return os; }
+		friend Sequence_Number operator+(const int n1, const Sequence_Number &n2) { return Sequence_Number(n1 + n2.seq); }
+		friend std::ostream &operator<<(std::ostream &os, const Sequence_Number &n) { os << n.seq; return os; }
 
   protected:
-	Sequence_Number(int n) : seq(n) {}
+		Sequence_Number(int n) : seq(n) {}
 	  int seq;
   };
 
@@ -590,75 +586,75 @@ namespace itpp {
 
 
   inline Sequence_Number TCP_Receiver_Buffer::first_byte() const
-    {
-      return fFirstByte;
-    }
+	{
+		return fFirstByte;
+	}
 
 
   inline Sequence_Number TCP_Receiver_Buffer::last_byte() const
-    {
-      if (fBufList.empty()) {
-	return fFirstByte;
-      } else {
-	return fBufList.back().end();
-      }
-    }
+	{
+		if (fBufList.empty()) {
+			return fFirstByte;
+		} else {
+			return fBufList.back().end();
+		}
+	}
 
 
   inline Sequence_Number TCP_Receiver_Buffer::next_expected() const
-    {
-      return fFirstByte + first_block_size();
-    }
+	{
+		return fFirstByte + first_block_size();
+	}
 
 
   inline void TCP_Segment::set_begin(const Sequence_Number &sn)
-    {
-      seq_begin = sn;
+	{
+		seq_begin = sn;
 
-      it_assert(seq_begin <= seq_end, "TCP_Segment::begin, end byte " + to_str(seq_end.value()) + " < begin byte " + to_str(seq_begin.value()));
-    }
+		it_assert(seq_begin <= seq_end, "TCP_Segment::begin, end byte " + to_str(seq_end.value()) + " < begin byte " + to_str(seq_begin.value()));
+	}
 
 
   inline void TCP_Segment::set_end(const Sequence_Number &sn)
-    {
-      seq_end = sn;
+	{
+		seq_end = sn;
 
-      it_assert(seq_begin <= seq_end, "TCP_Segment::set_begin, end byte " + to_str(seq_end.value()) + " < begin byte " + to_str(seq_begin.value()));
-    }
+		it_assert(seq_begin <= seq_end, "TCP_Segment::set_begin, end byte " + to_str(seq_end.value()) + " < begin byte " + to_str(seq_begin.value()));
+	}
 
 
   inline bool TCP_Segment::operator==(const TCP_Segment &segment) const
-    {
-      return (this->seq_begin == segment.seq_begin) && (this->seq_end == segment.seq_end);
-    }
+	{
+		return (this->seq_begin == segment.seq_begin) && (this->seq_end == segment.seq_end);
+	}
 
 
   inline bool TCP_Segment::operator!=(const TCP_Segment &segment) const
-    {
-      return (this->seq_begin != segment.seq_begin) || (this->seq_end != segment.seq_end);
-    }
+	{
+		return (this->seq_begin != segment.seq_begin) || (this->seq_end != segment.seq_end);
+	}
 
 
   inline bool TCP_Segment::can_be_combined(const TCP_Segment &segment) const
-    {
-      return (this->seq_begin <= segment.seq_end) && (segment.seq_begin <= this->seq_end);
-    }
+	{
+		return (this->seq_begin <= segment.seq_end) && (segment.seq_begin <= this->seq_end);
+	}
 
 
   inline bool TCP_Segment::is_contained(const TCP_Segment &segment) const
-    {
-      return (segment.seq_begin <= this->seq_begin) && (this->seq_end <= segment.seq_end);
-    }
+	{
+		return (segment.seq_begin <= this->seq_begin) && (this->seq_end <= segment.seq_end);
+	}
 
 
   inline unsigned TCP_Segment::length() const
-    {
-      return seq_end - seq_begin;
-    }
+	{
+		return seq_end - seq_begin;
+	}
 
 
 
 } // namespace itpp
 
-#endif //__tcp_h
+#endif // #ifndef TCP_H
 

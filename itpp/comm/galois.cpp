@@ -1,31 +1,35 @@
-/*---------------------------------------------------------------------------*
- *                                   IT++			             *
- *---------------------------------------------------------------------------*
- * Copyright (c) 1995-2005 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
- * Tobias Ringström, and Jonas Samuelsson.                                   *
- *                                                                           *
- * Permission to use, copy, modify, and distribute this software and its     *
- * documentation under the terms of the GNU General Public License is hereby *
- * granted. No representations are made about the suitability of this        *
- * software for any purpose. It is provided "as is" without expressed or     *
- * implied warranty. See the GNU General Public License for more details.    *
- *---------------------------------------------------------------------------*/
-
-/*! 
-  \file 
-  \brief Implementation of Galois Field algebra classes and functions
-  \author Tony Ottosson
-
-  $Revision$
-
-  $Date$
-*/
+/*!
+ * \file 
+ * \brief Implementation of Galois Field algebra classes and functions
+ * \author Tony Ottosson
+ *
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ * -------------------------------------------------------------------------
+ */
 
 #include <itpp/comm/galois.h>
 #include <iostream>
-
-using std::ostream;
-using std::istream;
 
 namespace itpp { 
 
@@ -60,31 +64,31 @@ namespace itpp {
       alphapow(m) = 0;
       logalpha(m) = 0;
       if (m == 1) { // GF(2), special case
-	alphapow(1)(0)=1;
-	logalpha(1)(0)=-1; logalpha(1)(1)=0;
+				alphapow(1)(0)=1;
+				logalpha(1)(0)=-1; logalpha(1)(1)=0;
       } else {
-	reduce=reducetable[m-2];
-	alphapow(m)(0)=1; // alpha^0 = 1
-	for (n=1; n<(1<<m)-1; n++) {
-	  temp=alphapow(m)(n-1);
-	  temp=(temp << 1); // multiply by alpha
-	  if (temp & (1<<m)) // contains alpha**m term
-	    alphapow(m)(n)=(temp & ~(1<<m))^reduce;
-	  else
-	    alphapow(m)(n)=temp; // if no alpha**m term, store as is
+				reduce=reducetable[m-2];
+				alphapow(m)(0)=1; // alpha^0 = 1
+				for (n=1; n<(1<<m)-1; n++) {
+					temp=alphapow(m)(n-1);
+					temp=(temp << 1); // multiply by alpha
+					if (temp & (1<<m)) // contains alpha**m term
+						alphapow(m)(n)=(temp & ~(1<<m))^reduce;
+					else
+						alphapow(m)(n)=temp; // if no alpha**m term, store as is
 		
-	  // create table to go in opposite direction
-	  logalpha(m)(0)=-1; // special case, actually log(0)=-inf
-	}
+					// create table to go in opposite direction
+					logalpha(m)(0)=-1; // special case, actually log(0)=-inf
+				}
 
-	for (n=0;n<(1<<m)-1;n++)
-	  logalpha(m)(alphapow(m)(n))=n;
+				for (n=0;n<(1<<m)-1;n++)
+					logalpha(m)(alphapow(m)(n))=n;
       }
     }
   }
 
   //! Output stream operator for GF
-  ostream &operator<<(ostream &os, const GF &ingf)
+  std::ostream &operator<<(std::ostream &os, const GF &ingf)
   {
     if (ingf.value == -1)
       os << "0";
@@ -94,18 +98,18 @@ namespace itpp {
   }
 
   //! Output stream operator for GFX
-  ostream &operator<<(ostream &os, const GFX &ingfx)
+  std::ostream &operator<<(std::ostream &os, const GFX &ingfx)
   {
     int terms=0;
     for (int i=0; i<ingfx.degree+1; i++) {
       if (ingfx.coeffs(i) != GF(ingfx.q,-1) ) {
-	if (terms != 0) os << " + ";
-	terms++;
-	if (ingfx.coeffs(i) == GF(ingfx.q,0) ) {// is the coefficient an one (=alpha^0=1)
-	  os  << "x^" << i;
-	} else {
-	  os  << ingfx.coeffs(i) << "*x^" << i;
-	}
+				if (terms != 0) os << " + ";
+				terms++;
+				if (ingfx.coeffs(i) == GF(ingfx.q,0) ) {// is the coefficient an one (=alpha^0=1)
+					os  << "x^" << i;
+				} else {
+					os  << ingfx.coeffs(i) << "*x^" << i;
+				}
       }
     }
     if (terms == 0) os << "0";
@@ -133,7 +137,7 @@ namespace itpp {
       tempdegree = temp.get_true_degree();
       degreedif = tempdegree - gdegree;
       if ( (degreedif<0) || (temp.get_true_degree()==0 && temp[0] == GF(q,-1) ) ) {
-	break;
+				break;
       }
     }
     return m;
@@ -159,10 +163,10 @@ namespace itpp {
       tempdegree = temp.get_true_degree();
       degreedif = temp.get_true_degree() - bdegree;
       if ( (degreedif<0) || (temp.get_true_degree()==0 && temp[0] == GF(q,-1) ) ) {
-	break;
+				break;
       }
     }
     return temp;
   }
 
-} //namespace itpp
+} // namespace itpp

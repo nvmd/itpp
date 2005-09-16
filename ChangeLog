@@ -1,3 +1,8 @@
+2005-09-16  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/*/*.{h,cpp}: file descriptions and copyright notes
+	updated
+
 2005-09-15  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* TODO: updated to reflect recent changes
