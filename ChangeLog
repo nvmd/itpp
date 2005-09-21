@@ -1,3 +1,8 @@
+2005-09-21  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* test/Makefile.am: fixed testing routine execution parameters -
+	there is no `-q' option of diff on Solaris 5.9
+
 2005-09-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/turbo_test.cpp: added `using namespace std' statement

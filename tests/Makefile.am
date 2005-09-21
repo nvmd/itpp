@@ -99,7 +99,7 @@ check-local: $(check_PROGRAMS) $(ref_sources)
 	@for i in $(noext_tests); do \
 		echo ------------------------------------------------------------------------------; \
 		./$$i$(EXEEXT) > $$i.tmp; \
-		diff -q $$i.tmp $(srcdir)/$$i.ref; \
+		diff $$i.tmp $(srcdir)/$$i.ref > /dev/null; \
 		if test "x$$?" = "x0"; then \
 			echo "Test \`$$i' PASSED."; \
 		else \
