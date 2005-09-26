@@ -1,3 +1,8 @@
+2005-09-26  Johan Bergman  <emwjohb@users.sourceforge.net>
+
+	* Fixed bug [1302350]. Corrected behavior of operator<< in
+	itpp/itconfig.h when the imaginary part equals "minus zero".
+
 2005-09-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* test/Makefile.am: fixed testing routine execution parameters -
