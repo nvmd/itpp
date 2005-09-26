@@ -44,17 +44,18 @@
 
 namespace std {
 
-	//! Output stream operator for complex numbers
+  //! Output stream operator for complex numbers
   template <class T>
-	std::ostream& operator<<(std::ostream &os, const std::complex<T> &x)
-	{
-		os <<  x.real() ;
-		if (x.imag() >= 0) os << '+' << x.imag();
-		else os << x.imag();
-		return os << 'i';
-	}
+  std::ostream& operator<<(std::ostream &os, const std::complex<T> &x)
+  {
+    os << x.real();
+    ios::fmtflags saved_format = os.setf(ios::showpos);
+    os << x.imag();
+    os.setf(saved_format, ios::showpos);
+    return os << 'i';
+  }
 
-	//! Input stream operator for complex numbers
+  //! Input stream operator for complex numbers
   template <class T>
   std::istream& operator>>(std::istream &is, std::complex<T> &x)
   {
