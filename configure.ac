@@ -169,6 +169,41 @@ if test "x$mkl_ok" = xyes; then
 fi
 
 
+# Checks for FFTW library
+AC_ARG_WITH(fftw_dir, [AS_HELP_STRING([--with-fftw-dir=DIR], 
+  [set FFTW library directory to DIR])], [FFTW_DIR=$withval], [FFTW_DIR=""])
+if test "x$FFTW_DIR" != x; then
+  LDFLAGS="-L$FFTW_DIR $LDFLAGS"
+fi
+
+test "x$fftw_ok" != xdisabled && fftw_ok=no
+AC_ARG_WITH(fftw, [AS_HELP_STRING([--with-fftw=LIB], 
+  [use FFTW library, e.g. -lfftw3])])
+case $with_fftw in
+  yes | "") ;;
+  no) fftw_ok=disabled ;;
+  *) FFTW_LIBS="$with_fftw" ;;
+esac
+
+if test "x$fftw_ok" = xno; then
+  if test "x$FFTW_LIBS" != x; then
+    fftw_save_LIBS="$LIBS"; LIBS="$FFTW_LIBS $LIBS"
+    AC_CHECK_FUNC(fftw_plan_dft_1d, [fftw_ok=yes], [FFTW_LIBS=""])
+    LIBS="$fftw_save_LIBS"
+  fi
+fi
+
+if test "x$fftw_ok" = xno; then
+  AC_CHECK_LIB(fftw3, fftw_plan_dft_1d, [fftw_ok=yes; FFTW_LIBS="-lfftw3"],
+    [], [-lm])
+fi
+
+if test "x$fftw_ok" = xyes; then
+  AC_DEFINE([HAVE_FFTW], [1], [Define if you have FFTW library.])
+  LIBS="$FFTW_LIBS $LIBS"
+fi
+
+
 # Checks for ATLAS and BLAS libraries
 if test "x$atlas_ok" != xdisabled; then
   atlas_save_LIBS="$LIBS"; LIBS="$LIBS $FLIBS"
@@ -194,9 +229,8 @@ fi
 AC_ARG_WITH(cblas_dir, [AS_HELP_STRING([--with-cblas-dir=DIR], 
   [set CBLAS library directory to DIR])], [CBLAS_DIR=$withval], [CBLAS_DIR=""])
 if test "x$CBLAS_DIR" != x; then
-  CBLAS_LDFLAGS="-L$CBLAS_DIR"
+  LDFLAGS="-L$CBLAS_DIR $LDFLAGS"
 fi
-cblas_save_LDFLAGS="$LDFLAGS"; LDFLAGS="$CBLAS_LDFLAGS $LDFLAGS"
 
 test "x$cblas_ok" != xdisabled && cblas_ok=no
 AC_ARG_WITH(cblas, [AS_HELP_STRING([--with-cblas=LIB], 
@@ -231,8 +265,6 @@ fi
 if test "x$cblas_ok" = xyes; then
   AC_DEFINE([HAVE_CBLAS], [1], [Define if you have CBLAS library.])
   LIBS="$CBLAS_LIBS $LIBS"
-else
-  LDFLAGS="$cblas_save_LDFLAGS"
 fi
 
 
@@ -241,9 +273,8 @@ AC_ARG_WITH(lapack_dir, [AS_HELP_STRING([--with-lapack-dir=DIR],
   [set LAPACK library directory to DIR])], 
   [LAPACK_DIR=$withval], [LAPACK_DIR=""])
 if test "x$LAPACK_DIR" != x; then
-  LAPACK_LDFLAGS="-L$LAPACK_DIR"
+  LDFLAGS="-L$LAPACK_DIR $LDFLAGS"
 fi
-lapack_save_LDFLAGS="$LDFLAGS"; LDFLAGS="$LAPACK_LDFLAGS $LDFLAGS"
 
 test "x$lapack_ok" != xdisabled && lapack_ok=no
 AC_ARG_WITH(lapack, [AS_HELP_STRING([--with-lapack=LIB], 
@@ -282,47 +313,11 @@ fi
     
 if test "x$lapack_ok" = xyes; then
   AC_DEFINE([HAVE_LAPACK], [1], [Define if you have LAPACK library.])
-  LIBS="$LAPACK_LIBS $LIBS"
-else    
-  LDFLAGS="$lapack_save_LDFLAGS"
-fi
-
-
-# Checks for FFTW library
-AC_ARG_WITH(fftw_dir, [AS_HELP_STRING([--with-fftw-dir=DIR], 
-  [set FFTW library directory to DIR])], [FFTW_DIR=$withval], [FFTW_DIR=""])
-if test "x$FFTW_DIR" != x; then
-  FFTW_LDFLAGS="-L$FFTW_DIR"
-fi
-fftw_save_LDFLAGS="$LDFLAGS"; LDFLAGS="$FFTW_LDFLAGS $LDFLAGS"
-
-test "x$fftw_ok" != xdisabled && fftw_ok=no
-AC_ARG_WITH(fftw, [AS_HELP_STRING([--with-fftw=LIB], 
-  [use FFTW library, e.g. -lfftw3])])
-case $with_fftw in
-  yes | "") ;;
-  no) fftw_ok=disabled ;;
-  *) FFTW_LIBS="$with_fftw" ;;
-esac
-
-if test "x$fftw_ok" = xno; then
-  if test "x$FFTW_LIBS" != x; then
-    fftw_save_LIBS="$LIBS"; LIBS="$FFTW_LIBS $LIBS"
-    AC_CHECK_FUNC(fftw_plan_dft_1d, [fftw_ok=yes], [FFTW_LIBS=""])
-    LIBS="$fftw_save_LIBS"
+  if test "x$cblas_ok" = xno; then
+    LIBS="$LAPACK_LIBS $BLAS_LIBS $LIBS"
+  else
+    LIBS="$LAPACK_LIBS $LIBS"
   fi
-fi
-
-if test "x$fftw_ok" = xno; then
-  AC_CHECK_LIB(fftw3, fftw_plan_dft_1d, [fftw_ok=yes; FFTW_LIBS="-lfftw3"],
-    [], [-lm])
-fi
-
-if test "x$fftw_ok" = xyes; then
-  AC_DEFINE([HAVE_FFTW], [1], [Define if you have FFTW library.])
-  LIBS="$FFTW_LIBS $LIBS"
-else
-  LDFLAGS="$fftw_save_LDFLAGS"
 fi
 
 
