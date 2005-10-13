@@ -1,5 +1,8 @@
 2005-10-13  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac: fixed a problem with linking when using gcc-4.0.x
+	with its gfortran compiler (tested on SuSE 10.0)
+
 	* configure.ac: fixed a bug with proper detection of FFTW and
 	LAPACK libraries when neither ATLAS nor CBLAS is installed
 
