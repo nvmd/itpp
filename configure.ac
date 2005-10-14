@@ -220,7 +220,7 @@ if test "x$atlas_ok" != xdisabled; then
           [atlas_ok=yes; blas_ok=yes; ATLAS_LIBS="-lcblas -lblas -latlas";
             BLAS_LIBS="-lblas"],
           [], [-lblas -latlas])], 
-        [], [-latlas])])],
+        [], [-latlas])], [-latlas])],
     [AC_CHECK_LIB(blas, $sgemm, [blas_ok=yes; BLAS_LIBS="-lblas"])])
   LIBS="$atlas_save_LIBS"
 fi
