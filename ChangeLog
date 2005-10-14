@@ -1,3 +1,10 @@
+2005-10-14  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/local/installation.doc: description updated to reflect
+	recent changes in configuration process
+
+	* itpp/*/*.{h,cpp}: cosmetic changes in copyright notes
+
 2005-10-13  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac: fixed a problem with linking when using gcc-4.0.x
