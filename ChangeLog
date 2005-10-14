@@ -1,5 +1,7 @@
 2005-10-14  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac: fixed a bug with ATLAS/BLAS library detection
+
 	* doc/local/installation.doc: description updated to reflect
 	recent changes in configuration process
 
