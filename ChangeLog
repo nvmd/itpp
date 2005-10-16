@@ -1,3 +1,8 @@
+2005-10-17  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* Makefile.common: AM_CPPFLAGS fixed to support building in a
+	separate directory (required by rpm-build) 
+
 2005-10-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* doc/local/*.doc: documentation files updated in order to release
