@@ -1,3 +1,8 @@
+2005-10-16  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/local/*.doc: documentation files updated in order to release
+	version 3.9.0
+
 2005-10-14  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac: fixed a bug with ATLAS/BLAS library detection

@@ -1,19 +1,32 @@
 /*!
 \page help_wanted Make a Difference            
 
-Ask not what IT++ can do for you. Ask what you can do for IT++. You can help us to develop IT++ into an even greater library! There are several things you can do to help us out:
+<b>Do not ask what IT++ can do for you. Ask what you can do for IT++.</b>
+
+You can help us to develop the IT++ library. There are always a lot of things 
+you can do:
+
 <ul>
-<li> Start using IT++. </li>
-<li> Tell your friends about IT++ and help them to get starded using IT++. </li>
-<li> If you find a bug, report it to us. Without your help we can never hope to produce bug free code. </li>
-<li> Help us improve the documentation. Send us information about documentation bugs. </li>
-<li> Answer support requests in the IT++ discussion foras on SourceForge. If you know the answer to a question,
-then help others to overcome their IT++ problems. </li>
-<li> Help us improve our algorithms. If you know of a better way (e.g. that is faster or requires less memory)
-to implement some of our algorithms, then let us know. </li>
-<li> Help us port IT++ to new platforms. If you manage to compile IT++ on a new platform, then tell us how you did it. </li>
-<li> Send us your code. If you have good IT++ compatible code that you can release under the GPL and that you
-think should be included in IT++, then send it to us. </li>
-<li> Become and IT++ developer. Send us an email and tell us what you can do for IT++. </li>
+<li> Start using IT++ </li>
+<li> Tell your friends about IT++ and help them to get started using
+it </li>  
+<li> If you find a bug, report it to us. Without your help we can
+never hope to produce a bug free code. </li>
+<li> Help us to improve the documentation by providing information
+about documentation bugs </li>
+<li> Answer support requests in the IT++ discussion forums on
+SourceForge. If you know the answer to a question, help others to
+overcome their IT++ problems. </li>
+<li> Help us to improve our algorithms. If you know of a better way
+(e.g. that is faster or requires less memory) to implement some of our
+algorithms, then let us know. </li> 
+<li> Help us to port IT++ to new platforms. If you manage to compile
+IT++ on a new platform, then tell us how you did it. </li> 
+<li> Send us your code. If you have a good IT++ compatible code, which you
+can release under the GPL, and you think it should be included in
+IT++, then send it to us. </li> 
+<li> Become an IT++ developer. Send us an e-mail and tell what you can
+do for IT++. </li> 
 </ul>
+
 */

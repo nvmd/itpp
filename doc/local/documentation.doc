@@ -1,14 +1,19 @@
 /*! 
 \page documentation Documentation Rules
 
-All classes in \c IT++ shall be properly documented with Doxygen comments in the include (.h) file. 
-The implementation (.c/.cpp) should be documented according to normal standard for well documented code.
+\section doc_general General Rules
 
-An example of how the interface of a class shall be implemented in \c IT++ is shown here:
+All classes in IT++ should be properly documented with Doxygen
+comments in include (`.h') files. Source (`.cpp') files should be
+documented according to a normal standard for well documented C++
+code.
+
+An example of how the interface of a class shall be documented in IT++
+is shown here:
 
 \verbatim
 /*!
-  \brief Brief decription of My_Class here
+  \brief Brief description of My_Class here
 
   Detailed description of My_Class here. With example code if needed.
 */
@@ -16,7 +21,7 @@ class My_Class {
 
 public:
 
-  //!Default constructor
+  //! Default constructor
   My_Class(void) { setup_done = false; }
 
   /*!
@@ -24,18 +29,18 @@ public:
 
     Detailed description of the constructor here if needed
 
-    \param param1 (Input) [size] Description of \a param1 here
-    \param param2 (Input) [size] Description of \a param2 here
+    \param param1 [in] Description of \a param1 here
+    \param param2 [in] Description of \a param2 here
   */
-  My_Class(TYPE1 param1, TYPE2 param2) { setup(param1,param2); }
+  My_Class(TYPE1 param1, TYPE2 param2) { setup(param1, param2); }
 
   /*!
     \brief Setup function for My_Class
 
     Detailed description of the setup function here if needed
 
-    \param param1 (Input) [size] Description of \a param1 here
-    \param param2 (Input) [size] Description of \a param2 here
+    \param param1 [in] Description of \a param1 here
+    \param param2 [in] Description of \a param2 here
   */
   void setup(TYPE1 param1, TYPE2 param2);
 
@@ -44,57 +49,71 @@ public:
 
     Detailed description of member_function1 here if needed
 
-    \param param1 (Input) [size] Description of \a param1 here
-    \param param2 (Input) [size] Description of \a param2 here
-    \param param3 (Output) [size] Description of \a param3 here
-    \return Descrition of the return value here
+    \param param1 [in] Description of \a param1 here
+    \param param2 [in] Description of \a param2 here
+    \param param3 [in,out] Description of \a param3 here
+    \return Description of the return value here
   */
   TYPE4 member_function1(TYPE1 param1, TYPE2 param2, TYPE3 &param3);
 
 private:
 
-  bool setup_done;         //Variable that checks if the class is properly initialized with parameters
-  TYPE1 private_variable1; //Short description of private_variable1 here
-  TYPE2 private_variable2; //Short description of private_variable2 here
+  bool setup_done;         // Variable that checks if the class is properly 
+                           // initialized with parameters
+  TYPE1 private_variable1; // Short description of private_variable1 here
+  TYPE2 private_variable2; // Short description of private_variable2 here
 };
 \endverbatim
 
-Scalar parameters does not need to have any \c [size] information.
-All files shall have a doxygen \c file tag that makes use of CVS for Revisions and Date, see example below. 
+
+\section doc_header File Header
+
+All files should start with the following header, which include
+Doxygen's \c \\file, \c \\brief and \c \\author tags, \c \$Date\$ and
+\c \$Revisions\$ CVS tags, and a common copyright note:
 
 \verbatim
 /*! 
-  \file 
-  \brief Brief description of the file here
-  \author Your Name 
-  
-  Detailed description of the file here if needed.
-
-  $Revision$ 
-
-  $Date$
-*/
+ * \file 
+ * \brief Brief description of the file here
+ * \author Names of the authors who contributed to this code
+ * 
+ * Detailed description of the file here if needed.
+ *
+ * $Date$
+ * $Revision$ 
+ *
+ * -------------------------------------------------------------------------
+ *
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ *
+ * -------------------------------------------------------------------------
+ */
 \endverbatim
 
-Furthermore, all files, except from the files in the \c IT++/tests folder shall 
-begin the following copyright notice:
-\verbatim
-/*---------------------------------------------------------------------------*
- *                                   IT++			             *
- *---------------------------------------------------------------------------*
- * Copyright (c) 1995-2002 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
- * Tobias Ringström, and Jonas Samuelsson.                                   *
- *                                                                           *
- * Permission to use, copy, modify, and distribute this software and its     *
- * documentation under the terms of the GNU General Public License is hereby *
- * granted. No representations are made about the suitability of this        *
- * software for any purpose. It is provided "as is" without expressed or     *
- * implied warranty. See the GNU General Public License for more details.    *
- *---------------------------------------------------------------------------*/
-\endverbatim
 
-All functions must be added to a Doxygen group in order to appear in the printed
-documentation. The following code example defines the group \c my_group:
+\section doc_groups Grouping Various Parts
+
+All functions must be added to a Doxygen group in order to appear in
+the documentation. The following code example defines the group \c
+`my_group':
 
 \verbatim
 /*! 
@@ -104,8 +123,9 @@ documentation. The following code example defines the group \c my_group:
 */
 \endverbatim
 
-The following example shows how to document the function \c my_function and to
-add it to the group \c my_group:
+
+The following example shows how to document the function \c
+`my_function' and how to add it to the group \c `my_group':
 
 \verbatim
 /*!
@@ -114,8 +134,8 @@ add it to the group \c my_group:
 
   Detailed description of my_function here
 
-  \param param1 (Input) [size] Description of \a param1 here
-  \param param2 (Output) [size] Description of \a param2 here
+  \param param1 [in] Description of \a param1 here
+  \param param2 [in] Description of \a param2 here
   \return Description of the return value here
 */
 TYPE3 my_function(TYPE1 param1, TYPE2 &param2);
