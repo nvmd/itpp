@@ -1,7 +1,7 @@
 /*!
  * \file 
  * \brief Definitions of an event-based simulation class
- * \author Anders Persson
+ * \author Anders Persson and Tony Ottosson
  *
  * $Date$
  * $Revision$
@@ -50,7 +50,11 @@ namespace itpp {
   class Base_Signal;
 
   /*!
+    \brief Base Event Class
 
+    An abstract Base class of Events that can be used to derive new events. All Event classes
+    need to define the exec() function which is called when the event expires. An event has an
+    execution time and an id.
   */
   class Base_Event {
   public:
@@ -69,7 +73,7 @@ namespace itpp {
       id = global_id++;
     }
 
-    //!
+    //! Destructor
     virtual ~Base_Event(){}
 
     //! Cancel an event
@@ -84,7 +88,7 @@ namespace itpp {
     static unsigned long long int global_id;
   };
 
-  //!
+  //! Compare to events, Returns true if expire time of event1 is larger than the expire time of event2
   struct Compare_Base_Event_Times {
     //!
     bool operator()(Base_Event *event1, Base_Event *event2) {
@@ -96,15 +100,20 @@ namespace itpp {
   };
 
   /*!
+    \brief Event Queue class
+
+    A class for storing and executing events. Events can be added to the queue and when the start() is
+    called all events will be executed. Observe that Events need to be created before they are added to the 
+    queue by calling an appropriate constructor. However, expired events are destroyed automatically (the destructor is called).
 
   */
   class Event_Queue {
   public:
     friend class Base_Signal;
 
-    //!
+    //! Constructor
     Event_Queue(){}
-    //!
+    //! Destructor
     ~Event_Queue(){}
     
     //! Add event to Queue
@@ -130,18 +139,20 @@ namespace itpp {
   };
 
   /*!
+    \brief An Event class that executes a function when the event expires.
 
+    Since Events are objects you need supply both a pointer to the object and the function pointer to create the Event
   */
   template <class ObjectType>
     class Event : public Base_Event {
   public:
-    //!
+    //! Construct an Event to expire delta_time from now by calling the function (*object_pointer.*object_function_pointer)()
     Event(ObjectType *object_pointer, void (ObjectType::*object_function_pointer)(), const Ttype delta_time) : Base_Event(delta_time) {
       po = object_pointer;
       pm = object_function_pointer;
     }
       
-      //!
+      //! Destructor
       virtual ~Event(){}
 
       //! Execute (call) the assigned function
@@ -153,11 +164,13 @@ namespace itpp {
   };
   
   /*!
+    \brief An Event class that executes a function with some data as input when the event expires.
 
+    Since Events are objects you need supply both a pointer to the object and the function pointer to create the Event
   */
   template <class ObjectType, class DataType> class Data_Event : public Base_Event {
   public:
-    //!
+    //! Construct an Event to expire delta_time from now by calling the function (*object_pointer.*object_function_pointer)(data)
     Data_Event(ObjectType *object_pointer, 
 	       void (ObjectType::*object_function_pointer)(DataType data), 
 	       DataType data, const Ttype delta_time) : Base_Event(delta_time) {
@@ -166,7 +179,7 @@ namespace itpp {
       u = data;
     }
 
-      //!
+      //! Destructor
       virtual ~Data_Event(){}
 
       //! Execute (call) the assigned function with user data.
