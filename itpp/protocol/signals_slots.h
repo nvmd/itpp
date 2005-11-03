@@ -43,7 +43,68 @@ namespace itpp {
   template<class DataType> class Base_Slot;
   template<class ObjectType, class DataType> class Slot;
 
+
   /*!
+    \brief Signals and slots
+
+
+  A simple example where to objects A and B are communicating through signals and slots. Each object has one signal
+  and one slot. The A_signal is used to send a signal to the B_slot and vice versa. When a signal is received by the B_slot
+  it is forwarded to the function forward(). The class definition includes the definition of the signals, slots and 
+  forward functions including a name and the type of data to transmit.
+
+
+  \code
+  #include "signals_slots.h"
+  class A;
+  class B;
+
+  class A {
+  public:
+    A(){
+      A_slot.forward(this, &A::member);
+      A_signal.set_name("A_signal");
+      A_signal.set_debug(true);
+      A_slot.set_name("A_slot");
+      N = 10;
+    }
+    Signal<int> A_signal;
+    Slot<A, double> A_slot;
+  private:
+    int N;
+    void member(const double x) {
+      if(N)
+        A_signal.arm(3.4, N--);
+    }
+  };
+
+  class B {
+  public:
+    B(){
+      B_slot.forward(this, &B::member);
+      B_signal.set_name("B_signal");
+      B_signal.set_debug();
+      B_slot.set_name("B_slot");
+    }
+    Signal<double> B_signal;
+    Slot<B, int> B_slot;
+  private:
+    void member(const int k){ B_signal.arm(23.2, M_PI); }  
+  };
+
+  int main(){
+    A a; // class A does not know anything about class B.
+    B b; // class B does not know anything about class A.
+  
+    a.A_signal.connect(&b.B_slot); // Connect a to b.
+    b.B_signal.connect(&a.A_slot); // Connect b to a.
+
+    a.A_signal.arm(56.2, 3); // First event in 56.2 seconds carrying data = 3
+  
+    EventQueue::start(); // start the event-based simulation
+  }
+
+  \endcode
 
   */
   template<class DataType>
