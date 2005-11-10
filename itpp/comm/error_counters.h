@@ -2,7 +2,7 @@
  * \file 
  * \brief Definitions of Bit Error Rate Counter (BERC) and 
  * BLock Error Rate Counter (BLERC) classes
- * \author Pal Frenger
+ * \author Pal Frenger and Adam Piatyszek
  *
  * $Date$
  * $Revision$
@@ -88,7 +88,7 @@ namespace itpp {
     //! Returns the counted number of corectly received bits
     long  get_corrects() { return corrects; }
     //! Returns the estimated bit error rate.
-    double get_errorrate() { return double(errors)/double(corrects+errors); }
+    double get_errorrate() { return static_cast<double>(errors) / (corrects + errors); }
     /*!
       \brief static function to allow simple and fast count of bit-errors
 
@@ -99,7 +99,7 @@ namespace itpp {
       long errors = BERC::count_errors(in1, in2);
       \endcode
     */
-    static long count_errors(const bvec &in1, const bvec &in2, long indelay=0, long inignorefirst=0, long inignorelast=0);
+    static long count_errors(const bvec &in1, const bvec &in2, long indelay = 0, long inignorefirst = 0, long inignorelast = 0);
 
     //protected:
   private:
@@ -119,9 +119,11 @@ namespace itpp {
   public:
     //! Class constructor
     BLERC(void);
+    //! Specialised constructor
+    BLERC(long blocksize);
     //! Set the block size
-    void set_blocksize(long inblocksize);
-    //! Calculate the number of  block errors between \a in1 and \a in2
+    void set_blocksize(long inblocksize, bool clear = true);
+    //! Calculate the number of block errors between \a in1 and \a in2
     void count(const bvec &in1, const bvec &in2);
     //! Clear the block error counter
     void clear() { errors = 0; corrects = 0; }
@@ -130,10 +132,11 @@ namespace itpp {
     //! Returns the number of correct blocks
     long get_corrects() { return corrects; }
     //! Returns the block error rate
-    double get_errorrate() { return double(errors)/double(corrects+errors); }
+    double get_errorrate() { return static_cast<double>(errors) / (corrects + errors); }
 
     //protected:
   private:
+    bool setup_done;
     long blocksize;
     long errors;
     long corrects;
