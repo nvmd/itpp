@@ -2,7 +2,7 @@
  * \file 
  * \brief Implementation of Bit Error Rate Counter (BERC) and 
  * BLock Error Rate Counter (BLERC) classes
- * \author Pal Frenger
+ * \author Pal Frenger and Adam Piatyszek
  *
  * $Date$
  * $Revision$
@@ -58,19 +58,19 @@ namespace itpp {
   
     if (delay >= 0) {
       for (i=0; i<countlength; i++) {
-				if ( (short)(in1(i+ignorefirst)) == (short)(in2(i+ignorefirst+delay)) ) {
-					corrects += 1;
-				} else {
-					errors += 1;
-				}
+	if ( (short)(in1(i+ignorefirst)) == (short)(in2(i+ignorefirst+delay)) ) {
+	  corrects += 1;
+	} else {
+	  errors += 1;
+	}
       }
     } else {
       for (i=0; i<countlength; i++) {
-				if ( (short)(in1(i+ignorefirst-delay)) == (short)(in2(i+ignorefirst)) ) {
-					corrects += 1;
-				} else {
-					errors += 1;
-				}
+	if ( (short)(in1(i+ignorefirst-delay)) == (short)(in2(i+ignorefirst)) ) {
+	  corrects += 1;
+	} else {
+	  errors += 1;
+	}
       }
     }	
   }	
@@ -90,8 +90,8 @@ namespace itpp {
       start2  = i>0 ?  i : 0;
       correlation = fabs( sum( to_vec( elem_mult( in1.mid(start1,num), in2.mid(start2,num) ) ) ) );
       if (correlation > bestcorr) {
-				bestdelay = i;
-				bestcorr  = correlation;
+	bestdelay = i;
+	bestcorr  = correlation;
       }
     }
     delay = bestdelay;
@@ -100,17 +100,17 @@ namespace itpp {
   void BERC::report()
   {
     std::cout << std::endl
-							<< "==================================" << std::endl
-							<< "     Bit Error Counter Report     " << std::endl
-							<< "==================================" << std::endl
-							<< " Ignore First           = " << ignorefirst << std::endl
-							<< " Ignore Last            = " << ignorelast << std::endl
-							<< " Delay                  = " << delay << std::endl
-							<< " Number of counted bits = " << (errors + corrects) << std::endl
-							<< " Number of errors       = " << errors << std::endl
-							<< "==================================" << std::endl
-							<< " Error rate             = " << double(errors)/double(errors+corrects) << std::endl
-							<< "==================================" << std::endl << std::endl;
+	      << "==================================" << std::endl
+	      << "     Bit Error Counter Report     " << std::endl
+	      << "==================================" << std::endl
+	      << " Ignore First           = " << ignorefirst << std::endl
+	      << " Ignore Last            = " << ignorelast << std::endl
+	      << " Delay                  = " << delay << std::endl
+	      << " Number of counted bits = " << (errors + corrects) << std::endl
+	      << " Number of errors       = " << errors << std::endl
+	      << "==================================" << std::endl
+	      << " Error rate             = " << double(errors)/double(errors+corrects) << std::endl
+	      << "==================================" << std::endl << std::endl;
   }
 
   long BERC::count_errors(const bvec &in1, const bvec &in2, long indelay, long inignorefirst, long inignorelast)
@@ -120,15 +120,15 @@ namespace itpp {
   
     if (indelay >= 0) {
       for (i=0; i<countlength; i++) {
-				if ( (short)(in1(i+inignorefirst)) != (short)(in2(i+inignorefirst+indelay)) ) {
-					err += 1;
-				}
+	if ( (short)(in1(i+inignorefirst)) != (short)(in2(i+inignorefirst+indelay)) ) {
+	  err += 1;
+	}
       }
     } else {
       for (i=0; i<countlength; i++) {
-				if ( (short)(in1(i+inignorefirst-indelay)) != (short)(in2(i+inignorefirst)) ) {
-					err += 1;
-				}
+	if ( (short)(in1(i+inignorefirst-indelay)) != (short)(in2(i+inignorefirst)) ) {
+	  err += 1;
+	}
       }
     }
     return err;
@@ -138,40 +138,46 @@ namespace itpp {
   // The Block error rate counter class (BERC)
   //-----------------------------------------------------------
 
-  BLERC::BLERC(void)
-  {
-    errors      = 0;
-    corrects    = 0;
-  }
+  BLERC::BLERC(void): setup_done(false), errors(0), corrects(0) {}
 
-  void BLERC::set_blocksize(long inblocksize)
+  
+  BLERC::BLERC(long inblocksize): blocksize(inblocksize), setup_done(true),
+				  errors(0), corrects(0) {}
+
+    
+  void BLERC::set_blocksize(long inblocksize, bool clear)
   {
     blocksize = inblocksize;
-    errors      = 0;
-    corrects    = 0;
+    if (clear) {
+      errors = 0;
+      corrects = 0;
+    }
+    setup_done = true;
   }
 
 
   void BLERC::count(const bvec &in1, const bvec &in2)
   {
-    long countlength = std::min( in1.length()/blocksize, in2.length()/blocksize);
-    long i, j;
+    it_assert(setup_done == true, "BLERC::count(): Block size has to be setup before counting errors.");
+
+    long countlength = std::min(in1.length() / blocksize, 
+				in2.length() / blocksize);
   
-    for (i=0; i<countlength; i++) {
+    for (int i = 0; i < countlength; i++) {
       CORR = true;
-      for (j=0; j<blocksize; j++) {
-				if (in1(i*blocksize+j)!=in2(i*blocksize+j)) {
-					CORR = false;
-					break;
-				}
+      for (int j = 0; j < blocksize; j++) {
+	if (in1(i * blocksize + j) != in2(i * blocksize + j)) {
+	  CORR = false;
+	  break;
+	}
       }
       if (CORR) {
-				corrects++;
+	corrects++;
       } else {
-				errors++; 
+	errors++; 
       }
     }
-
-  }	
+    
+  }
 
 } // namespace itpp
