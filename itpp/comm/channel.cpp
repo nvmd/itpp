@@ -73,7 +73,7 @@ namespace itpp {
 
   void Fading_Generator::set_norm_doppler(const double norm_doppler)
   {
-    it_assert(norm_doppler >=0 && norm_doppler <1.0, "Fading_Generator: Normalized Doppler must be >=0 and <1.");
+    it_assert((norm_doppler >= 0) && (norm_doppler < 1.0), "Fading_Generator: Normalized Doppler must be >= 0 and < 1.");
     n_dopp = norm_doppler; 
     init_flag = false;
   }
@@ -90,7 +90,7 @@ namespace itpp {
 
   void Fading_Generator::set_LOS(const double relative_power, const double relative_doppler)
   {
-    it_assert(relative_doppler >=0 && relative_doppler <=1.0, "Relative Doppler must be >=0 and <=1.");
+    it_assert((relative_doppler >= 0) && (relative_doppler <= 1.0), "Relative Doppler must be >=0 and <=1.");
     it_assert(relative_power >= 0.0, "Rice factor need to be >= 0.0");
     it_assert(dopp_spectrum == Rice, "Can only set LOS component if Rice spectrum");
     los_power = relative_power;
@@ -664,7 +664,7 @@ namespace itpp {
   void Channel_Specification::set_LOS(const double relative_power, const double norm_doppler)
   {
     it_assert(N_taps >= 1, "Cannot set LOS component if not set channel profile");
-    it_assert(norm_doppler >=0 && norm_doppler <=1.0, "Normalized Doppler must be >=0 and <=1.");
+    it_assert((norm_doppler >= 0) && (norm_doppler <= 1.0), "Normalized Doppler must be >=0 and <=1.");
     it_assert(relative_power >= 0.0, "Rice factor need to be >= 0.0");
     it_assert(tap_doppler_spectrum(0) == Rice, "Can only set LOS component if Rice spectrum");
 
@@ -690,7 +690,7 @@ namespace itpp {
 
   DOPPLER_SPECTRUM Channel_Specification::get_doppler_spectrum(const int index)
   {
-    it_assert( (index >=0) && (index < N_taps), "Channel_Specification: index of of range");
+    it_assert((index >= 0) && (index < N_taps), "Channel_Specification: index of of range");
     return tap_doppler_spectrum(index);
   }
 
@@ -814,7 +814,7 @@ namespace itpp {
 
   void TDL_Channel::set_norm_doppler(const double norm_doppler)
   {
-    it_assert(norm_doppler >=0 && norm_doppler <=1.0, "TDL_Channel: Normalized Doppler must be >=0 and <=1.");
+    it_assert((norm_doppler >= 0) && (norm_doppler <= 1.0), "TDL_Channel: Normalized Doppler must be >=0 and <=1.");
     n_dopp = norm_doppler;
     init_flag = false;
   }
@@ -874,7 +874,7 @@ namespace itpp {
   void TDL_Channel::set_LOS(const double relative_power, const double norm_doppler)
   {
     it_assert(N_taps >= 1, "Cannot set LOS component if not set channel profile");
-    it_assert(norm_doppler >=0 && norm_doppler <=1.0, "Normalized Doppler must be >=0 and <=1.");
+    it_assert((norm_doppler >= 0) && (norm_doppler <= 1.0), "Normalized Doppler must be >=0 and <=1.");
     it_assert(relative_power >= 0.0, "Rice factor need to be >= 0.0");
     it_assert(tap_doppler_spectrum(0) == Rice, "Can only set LOS component if Rice spectrum");
 
