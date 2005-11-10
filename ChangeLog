@@ -1,3 +1,8 @@
+2005-11-10  Adam Piatyszek  <ediap@lespaul.et.put.poznan.pl>
+
+	* itpp/comm/channel.cpp: fixed a minor problem with documentation
+	parsing by Doxygen (added a few lacking parentheses)
+
 2005-10-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* Makefile.common: AM_CPPFLAGS fixed to support building in a
