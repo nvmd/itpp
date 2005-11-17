@@ -48,7 +48,7 @@ namespace itpp {
       if (puncture_matrix(j, time) == bin(1)) {
 	out = 0;
 	temp = shiftreg & gen_pol(j);
-	for (i=0; i<K; i++) {
+	for (i = 0; i < K; i++) {
 	  out ^= (temp & 1);
 	  temp = temp >> 1;
 	}
@@ -63,11 +63,11 @@ namespace itpp {
     int i, j, temp, out, w = 0, shiftreg = state;
 
     shiftreg = shiftreg | (int(input) << m);
-    for (j=0; j<n; j++) {
-      if (puncture_matrix(j, Period-1-time) == bin(1)) {
+    for (j = 0; j < n; j++) {
+      if (puncture_matrix(j, Period - 1 - time) == bin(1)) {
 	out = 0;
 	temp = shiftreg & gen_pol_rev(j);
-	for (i=0; i<K; i++) {
+	for (i = 0; i < K; i++) {
 	  out ^= (temp & 1);
 	  temp = temp >> 1;
 	}
@@ -83,11 +83,11 @@ namespace itpp {
     w0 = 0; w1 = 0;
 
     shiftreg = shiftreg | (1 << m);
-    for (j=0; j<n; j++) {
+    for (j = 0; j < n; j++) {
       if (puncture_matrix(j, time) == bin(1)) {
 	out = 0;
 	temp = shiftreg & gen_pol(j);
-	for (i=0; i<m; i++) {
+	for (i = 0; i < m; i++) {
 	  out ^= (temp & 1);
 	  temp = temp >> 1;
 	}
@@ -103,11 +103,11 @@ namespace itpp {
     w0 = 0; w1 = 0;
 
     shiftreg = shiftreg | (1 << m);
-    for (j=0; j<n; j++) {
-      if (puncture_matrix(j, Period-1-time) == bin(1)) {
+    for (j = 0; j < n; j++) {
+      if (puncture_matrix(j, Period - 1 - time) == bin(1)) {
 	out = 0;
 	temp = shiftreg & gen_pol_rev(j);
-	for (i=0; i<m; i++) {
+	for (i = 0; i < m; i++) {
 	  out ^= (temp & 1);
 	  temp = temp >> 1;
 	}
@@ -121,18 +121,18 @@ namespace itpp {
 
   void Punctured_Convolutional_Code::set_puncture_matrix(const bmat &pmatrix)
   {
-    it_error_if(pmatrix.rows() != n || pmatrix.cols() == 0, "Wrong size of puncture matrix");
+    it_error_if((pmatrix.rows() != n) || (pmatrix.cols() == 0), "Wrong size of puncture matrix");
     puncture_matrix = pmatrix;
     Period = puncture_matrix.cols();
 
     int p, j; 
     total = 0;
 
-    for (j=0; j<n; j++) {
-      for (p=0; p<Period; p++)
-	total = total + (int)(puncture_matrix(j,p));
+    for (j = 0; j < n; j++) {
+      for (p = 0; p < Period; p++)
+	total = total + (int)(puncture_matrix(j, p));
     }
-    rate = (double)Period/total;
+    rate = (double)Period / total;
   }
 
   void Punctured_Convolutional_Code::encode(const bvec &input, bvec &output)
@@ -159,10 +159,10 @@ namespace itpp {
 
     int nn = 0, i, p = 0, j;
 
-    for (i=0; i<int(output.size()/n); i++) {
-      for (j=0; j<n; j++) {
+    for (i = 0; i < int(output.size() / n); i++) {
+      for (j = 0; j < n; j++) {
 	if (puncture_matrix(j, p) == bin(1)) {
-	  output(nn) = output(i*n+j);
+	  output(nn) = output(i * n + j);
 	  nn++;
 	}
       }
@@ -177,10 +177,10 @@ namespace itpp {
 
     int nn = 0, i, p = 0, j;
 
-    for (i=0; i<int(output.size()/n); i++) {
-      for (j=0; j<n; j++) {
+    for (i = 0; i < int(output.size() / n); i++) {
+      for (j = 0; j < n; j++) {
 	if (puncture_matrix(j, p) == bin(1)) {
-	  output(nn) = output(i*n+j);
+	  output(nn) = output(i * n + j);
 	  nn++;
 	}
       }
@@ -188,6 +188,25 @@ namespace itpp {
     }
     output.set_size(nn, true);
   }
+
+  void Punctured_Convolutional_Code::encode_tailbite(const bvec &input, bvec &output)
+  {
+    Convolutional_Code::encode_tailbite(input, output);
+
+    int nn = 0, i, p = 0, j;
+
+    for (i = 0; i < int(output.size() / n); i++) {
+      for (j = 0; j < n; j++) {
+	if (puncture_matrix(j, p) == bin(1)) {
+	  output(nn) = output(i * n + j);
+	  nn++;
+	}
+      }
+      p = (p + 1) % Period;
+    }
+    output.set_size(nn, true);
+  }
+
 
   // --------------- Hard-decision decoding is not implemented --------------------------------
   void Punctured_Convolutional_Code::decode(const bvec &coded_bits, bvec &output)
@@ -226,22 +245,22 @@ namespace itpp {
   // Viterbi decoder using TruncLength (=5*K if not specified)
   void Punctured_Convolutional_Code::decode_trunc(const vec &received_signal, bvec &output)
   {
-    int nn = 0, i = 0, p = received_signal.size()/total, j; 
+    int nn = 0, i = 0, p = received_signal.size() / total, j; 
 
-    int temp_size = p*Period*n;
+    int temp_size = p * Period * n;
     // number of punctured bits in a fraction of the puncture matrix 
     // correcponding to the end of the received_signal vector 
-    p = received_signal.size() - p*total;
+    p = received_signal.size() - p * total;
     // precise calculation of the number of unpunctured bits 
     // (in the above fraction of the puncture matrix)
-    while (p>0) {
-      for (j=0; j<n; j++) {
-	if (puncture_matrix(j,nn) == bin(1))
+    while (p > 0) {
+      for (j = 0; j < n; j++) {
+	if (puncture_matrix(j, nn) == bin(1))
 	  p--;
       }
       nn++;
     } 
-    temp_size += n*nn;
+    temp_size += n * nn;
     if (p != 0)
       it_warning("Punctured_Convolutional_Code::decode(): Improper length of the received punctured block, dummy bits have been added");
     
@@ -250,8 +269,8 @@ namespace itpp {
     j = 0;
     p = 0;
 
-    while (nn<temp.size()) {
-      if (puncture_matrix(j,p) == bin(1) && i<received_signal.size()) {
+    while (nn < temp.size()) {
+      if ((puncture_matrix(j, p) == bin(1)) && (i < received_signal.size())) {
 	temp(nn) = received_signal(i);
 	i++;
       } else { // insert dummy symbols with the same contribution for 0 and 1
@@ -273,22 +292,22 @@ namespace itpp {
   // Viterbi decoder using TruncLength (=5*K if not specified)
   void Punctured_Convolutional_Code::decode_tail(const vec &received_signal, bvec &output)
   {
-    int nn = 0, i = 0, p = received_signal.size()/total, j; 
+    int nn = 0, i = 0, p = received_signal.size() / total, j; 
 
-    int temp_size = p*Period*n;
+    int temp_size = p * Period * n;
     // number of punctured bits in a fraction of the puncture matrix 
     // correcponding to the end of the received_signal vector 
-    p = received_signal.size() - p*total;
+    p = received_signal.size() - p * total;
     // precise calculation of the number of unpunctured bits 
     // (in the above fraction of the puncture matrix)
-    while (p>0) {
-      for (j=0; j<n; j++) {
-	if (puncture_matrix(j,nn) == bin(1))
+    while (p > 0) {
+      for (j = 0; j < n; j++) {
+	if (puncture_matrix(j, nn) == bin(1))
 	  p--;
       }
       nn++;
     } 
-    temp_size += n*nn;
+    temp_size += n * nn;
     if (p != 0)
       it_warning("Punctured_Convolutional_Code::decode_tail(): Improper length of the received punctured block, dummy bits have been added");
  
@@ -298,8 +317,8 @@ namespace itpp {
     j = 0;
     p = 0;
 
-    while (nn<temp.size()) {
-      if (puncture_matrix(j,p) == bin(1) && i<received_signal.size()) {
+    while (nn < temp.size()) {
+      if ((puncture_matrix(j, p) == bin(1)) && (i < received_signal.size())) {
 	temp(nn) = received_signal(i);
 	i++;
       } else { // insert dummy symbols with same contribution for 0 and 1
@@ -318,6 +337,55 @@ namespace itpp {
     Convolutional_Code::decode_tail(temp, output);
   }
 
+  // Decode a block of encoded data where encode_tailbite has been used. Tries all start states.
+  void Punctured_Convolutional_Code::decode_tailbite(const vec &received_signal, bvec &output) 
+  {
+    int nn = 0, i = 0, p = received_signal.size() / total, j; 
+
+    int temp_size = p * Period * n;
+    // number of punctured bits in a fraction of the puncture matrix 
+    // correcponding to the end of the received_signal vector 
+    p = received_signal.size() - p * total;
+    // precise calculation of the number of unpunctured bits 
+    // (in the above fraction of the puncture matrix)
+    while (p > 0) {
+      for (j = 0; j < n; j++) {
+	if (puncture_matrix(j, nn) == bin(1))
+	  p--;
+      }
+      nn++;
+    } 
+    temp_size += n * nn;
+    if (p != 0)
+      it_warning("Punctured_Convolutional_Code::decode_tailbite(): Improper length of the received punctured block, dummy bits have been added");
+ 
+    vec temp(temp_size);
+
+    nn = 0;
+    j = 0;
+    p = 0;
+
+    while (nn < temp.size()) {
+      if ((puncture_matrix(j, p) == bin(1)) && (i < received_signal.size())) {
+	temp(nn) = received_signal(i);
+	i++;
+      } else { // insert dummy symbols with same contribution for 0 and 1
+	temp(nn) = 0;
+      }
+
+      nn++;
+      j++;
+
+      if (j == n) {
+	j = 0;
+	p = (p + 1) % Period;
+      }
+    } // while
+
+    Convolutional_Code::decode_tailbite(temp, output);
+  }
+
+
   /*
     Calculate the inverse sequence
 
@@ -331,18 +399,18 @@ namespace itpp {
     int block_length = 0;
     bvec zero_output(n), one_output(n), temp_output(n);
 
-    block_length = coded_sequence.size()*Period/total - m;
+    block_length = coded_sequence.size() * Period / total - m;
 
-    it_error_if(block_length<=0, "The input sequence is to short");
+    it_error_if(block_length <= 0, "The input sequence is to short");
     input.set_length(block_length, false); // not include the tail in the output
 
     p = 0;
 
-    for (i=0; i<block_length; i++) {
+    for (i = 0; i < block_length; i++) {
       zero_state = state;
       one_state = state | (1 << m);
       no_symbols = 0;
-      for (j=0; j<n; j++) {
+      for (j = 0; j < n; j++) {
 	if (puncture_matrix(j, p) == bin(1)) {
 	  zero_temp = zero_state & gen_pol(j);
 	  one_temp = one_state & gen_pol(j);
@@ -381,40 +449,40 @@ namespace itpp {
     int start, S, W0, W1, S0, S1, pos, t=0;
     int stack_pos = -1;
 
-    for (pos=0; pos<Period; pos++) { // test all start positions
-      for (start=0; start<(1<<m); start++) {
+    for (pos = 0; pos < Period; pos++) { // test all start positions
+      for (start = 0; start < (1 << m); start++) {
 	stack_pos = -1;
 	S = start;
 	t = 0;
 
       node1:
-	if (t > (1<<m)*Period) { return true; }
+	if (t > (1 << m) * Period) { return true; }
 	S0 = next_state(S, 0);
 	S1 = next_state(S, 1);
-	weight(S, W0, W1, (pos+t)%Period);
+	weight(S, W0, W1, (pos + t) % Period);
 	if (W1 > 0) { goto node0; }
-	if ((W0==0) && (S0 == start) && ((pos+t+1)%Period == pos)) { return true; }
-	if ((W0==0) && (S0 == 0) && (S!=0)) { return true; }
-	if ((S0!=0)&&(W0==0)) { //Stacka undan S0
+	if ((W0 == 0) && (S0 == start) && (((pos + t + 1) % Period) == pos)) { return true; }
+	if ((W0 == 0) && (S0 == 0) && (S != 0)) { return true; }
+	if ((S0 != 0) && (W0 == 0)) { //Stacka undan S0
 	  stack_pos++;
 	  if (stack_pos >= max_stack_size) {
-	    max_stack_size = 2*max_stack_size;
+	    max_stack_size = 2 * max_stack_size;
 	    S_stack.set_size(max_stack_size, true);
 	    t_stack.set_size(max_stack_size, true);
 	  }
 	  S_stack(stack_pos) = S0;
-	  t_stack(stack_pos) = t+1;
+	  t_stack(stack_pos) = t + 1;
 	}
-	if ((W1==0) && (S1 == start) && ((pos+t+1)%Period == pos)) { return true; }
+	if ((W1 == 0) && (S1 == start) && (((pos+t+1)%Period) == pos)) { return true; }
 	S = S1; //Fortsätt med S1
 	t++;
 	goto node1;
 
       node0:
 	if (W0 > 0) goto stack;
-	if ((W0==0) && (S0 == start) && ((pos+t+1)%Period == pos)) { return true; }
-	if ((W0==0) && (S0 == 0) && (S!=0)) { return true; }
-	if (S0!=0) {//Fortsätt med S0 om S0!=0
+	if ((W0 == 0) && (S0 == start) && (((pos + t + 1) % Period) == pos)) { return true; }
+	if ((W0 == 0) && (S0 == 0) && (S != 0)) { return true; }
+	if (S0 != 0) {//Fortsätt med S0 om S0!=0
 	  S = S0;
 	  t++;
 	  goto node1;
@@ -439,7 +507,7 @@ namespace itpp {
     int max_stack_size = 50000;
     ivec S_stack(max_stack_size), W_stack(max_stack_size), t_stack(max_stack_size);
 
-    int stack_pos=-1, t, S, W, W0, w0, w1;
+    int stack_pos = -1, t, S, W, W0, w0, w1;
 
 
     dist_prof.zeros();
@@ -464,14 +532,14 @@ namespace itpp {
       if (W0 < dist_prof(m)) { // store node0 (S, W0, and t+1)
 	stack_pos++;
 	if (stack_pos >= max_stack_size) {
-	  max_stack_size = 2*max_stack_size;
+	  max_stack_size = 2 * max_stack_size;
 	  S_stack.set_size(max_stack_size, true);
 	  W_stack.set_size(max_stack_size, true);
 	  t_stack.set_size(max_stack_size, true);
 	}
 	S_stack(stack_pos) = next_state(S, 0);
 	W_stack(stack_pos) = W0;
-	t_stack(stack_pos) = t+1;
+	t_stack(stack_pos) = t + 1;
       }
     } else goto stack;
 
@@ -509,8 +577,8 @@ namespace itpp {
   int Punctured_Convolutional_Code::fast(Array<ivec> &spectrum, int start_time, int dfree, int no_terms, 
 					 int d_best_so_far, bool test_catastrophic)
   {
-    int cat_treshold = (1<<m)*Period;
-    int i, j, t=0;
+    int cat_treshold = (1 << m) * Period;
+    int i, j, t = 0;
     ivec dist_prof(K), dist_prof_rev(K), dist_prof_temp(K);
     //llvec dist_prof(K), dist_prof_rev(K), dist_prof_temp(K);
 
@@ -523,24 +591,24 @@ namespace itpp {
     bool reverse = true; // true = use reverse dist_prof
 
     // choose the lowest dist_prof over all periods
-    for (i=1; i<Period; i++) {
+    for (i = 1; i < Period; i++) {
       distance_profile(dist_prof_temp, i, dfree, true);
       // switch if new is lower
-      for (j=0; j<K; j++) {
+      for (j = 0; j < K; j++) {
 	if (dist_prof_temp(j) < dist_prof_rev(j)) {
 	  dist_prof_rev(j) = dist_prof_temp(j);
 	}
       }
     }
 
-    dist_prof_rev0=dist_prof(0);
+    dist_prof_rev0 = dist_prof(0);
     dist_prof = dist_prof_rev;
 
     int d = dfree + no_terms - 1;
     int max_stack_size = 50000;
     ivec S_stack(max_stack_size), W_stack(max_stack_size), b_stack(max_stack_size);
     ivec c_stack(max_stack_size), t_stack(max_stack_size);
-    int stack_pos=-1;
+    int stack_pos = -1;
 
     // F1.
     int mf = 1, b = 1;
@@ -570,16 +638,16 @@ namespace itpp {
 
     //F3:
     if (W0 >= 0) {
-      spectrum(0)(d-W0)++;
-      spectrum(1)(d-W0) += b;
+      spectrum(0)(d - W0)++;
+      spectrum(1)(d - W0) += b;
     }
     //Test on d_best_so_far
-    if ((d-W0)<d_best_so_far) { return -1; }
+    if ((d - W0) < d_best_so_far) { return -1; }
 
   F4:
     if ( (W1 < dist_prof(m-1)) || (W < dist_prof(m)) ) goto F5;
     // select node 1
-    if (test_catastrophic && W == W1) {
+    if (test_catastrophic && (W == W1)) {
       c++;
       if (c>cat_treshold)
 	return 0;
@@ -607,17 +675,17 @@ namespace itpp {
     goto F2;
 
   F6:
-    if (W0 < dist_prof(m-mf-1)) goto F4;
+    if (W0 < dist_prof(m - mf - 1)) goto F4;
 
     //F7:
-    if ( (W1 >= dist_prof(m-1)) && (W >= dist_prof(m)) ) {
+    if ( (W1 >= dist_prof(m - 1)) && (W >= dist_prof(m)) ) {
       // save node 1
-      if (test_catastrophic && stack_pos > 40000)
+      if (test_catastrophic && (stack_pos > 40000))
 	return 0;
 
       stack_pos++;
       if (stack_pos >= max_stack_size) {
-	max_stack_size = 2*max_stack_size;
+	max_stack_size = 2 * max_stack_size;
 	S_stack.set_size(max_stack_size, true);
 	W_stack.set_size(max_stack_size, true);
 	b_stack.set_size(max_stack_size, true);
@@ -628,14 +696,14 @@ namespace itpp {
       W_stack(stack_pos) = W1;
       b_stack(stack_pos) = b + 1; // because gone to node 1
       c_stack(stack_pos) = c;
-      t_stack(stack_pos) = t+1;
+      t_stack(stack_pos) = t + 1;
     }
     // select node 0
     S = S0;
     t++;
-    if (test_catastrophic && W == W0) {
+    if (test_catastrophic && (W == W0)) {
       c++;
-      if (c>cat_treshold)
+      if (c > cat_treshold)
 	return false;
     } else {
       c = 0;
@@ -654,12 +722,12 @@ namespace itpp {
     Array<ivec> temp_spectra(2);
     //Array<llvec> temp_spectra(2);
     spectrum.set_size(2);
-    spectrum(0).set_size(dmax+no_terms, false);
-    spectrum(1).set_size(dmax+no_terms, false);
+    spectrum(0).set_size(dmax + no_terms, false);
+    spectrum(1).set_size(dmax + no_terms, false);
     spectrum(0).zeros();
     spectrum(1).zeros();
 
-    for (int pos=0; pos<Period; pos++) {
+    for (int pos = 0; pos < Period; pos++) {
       calculate_spectrum(temp_spectra, pos, dmax, no_terms);
       spectrum(0) += temp_spectra(0);
       spectrum(1) += temp_spectra(1);
@@ -668,27 +736,27 @@ namespace itpp {
 
   void Punctured_Convolutional_Code::calculate_spectrum(Array<ivec> &spectrum, int time, int dmax, int no_terms, int block_length)
   {
-    imat Ad_states(1<<(K-1), dmax+no_terms), Cd_states(1<<m, dmax+no_terms);
-    imat Ad_temp(1<<(K-1), dmax+no_terms), Cd_temp(1<<m, dmax+no_terms);
-    ivec mindist(1<<(K-1)), mindist_temp(1<<m);
+    imat Ad_states(1 << (K - 1), dmax + no_terms), Cd_states(1 << m, dmax + no_terms);
+    imat Ad_temp(1 << (K - 1), dmax + no_terms), Cd_temp(1 << m, dmax + no_terms);
+    ivec mindist(1 << (K - 1)), mindist_temp(1 << m);
     //llmat Ad_states(1<<(K-1), dmax+no_terms), Cd_states(1<<m, dmax+no_terms);
     //llmat Ad_temp(1<<(K-1), dmax+no_terms), Cd_temp(1<<m, dmax+no_terms);
     //llvec mindist(1<<(K-1)), mindist_temp(1<<m);
 
     spectrum.set_size(2);
-    spectrum(0).set_size(dmax+no_terms, false);
-    spectrum(1).set_size(dmax+no_terms, false);
+    spectrum(0).set_size(dmax + no_terms, false);
+    spectrum(1).set_size(dmax + no_terms, false);
     spectrum(0).zeros();
     spectrum(1).zeros();
     Ad_states.zeros();
     Cd_states.zeros();
     mindist.zeros();
-    int wmax = dmax+no_terms;
-    ivec visited_states(1<<m), visited_states_temp(1<<m);
+    int wmax = dmax + no_terms;
+    ivec visited_states(1 << m), visited_states_temp(1 << m);
     //long_long wmax = dmax+no_terms;
     //llvec visited_states(1<<m), visited_states_temp(1<<m);
     bool proceede, expand_s1;
-    int t, d, w0, w1, s, s0, s1=0, s_start;
+    int t, d, w0, w1, s, s0, s1 = 0, s_start;
 
     // initial phase. Evolv trellis up to time K.
     visited_states.zeros(); // 0 = false
@@ -700,7 +768,7 @@ namespace itpp {
     Cd_states(s1, w1) = 1;
     mindist(s1) = w1;
 
-    if (block_length>0) {
+    if (block_length > 0) {
       s0 = next_state(0, 0);
       visited_states(s0) = 1;  // 1 = true. Expand also the zero-path
       w0 = weight(0, 0, time);
@@ -721,35 +789,35 @@ namespace itpp {
       mindist_temp.zeros();
       visited_states_temp.zeros(); //false
 
-      for (s=s_start; s<(1<<m); s++) {
+      for (s = s_start; s < (1 << m); s++) {
 
-	if (visited_states(s)==1) {
-	  if ((mindist(s)>=0) && (mindist(s)<wmax)) {
+	if (visited_states(s) == 1) {
+	  if ((mindist(s) >= 0) && (mindist(s) < wmax)) {
 	    proceede = true;
-	    weight(s, w0, w1, (time+t)%Period);
+	    weight(s, w0, w1, (time + t) % Period);
 
 	    s0 = next_state(s, 0);
-	    for (d=mindist(s); d<(wmax-w0); d++) {
-	      Ad_temp(s0,d+w0) += Ad_states(s,d);
-	      Cd_temp(s0,d+w0) += Cd_states(s,d);
+	    for (d = mindist(s); d < (wmax - w0); d++) {
+	      Ad_temp(s0, d + w0) += Ad_states(s, d);
+	      Cd_temp(s0, d + w0) += Cd_states(s, d);
 	    }
-	    if (visited_states_temp(s0) == 0) {mindist_temp(s0) = mindist(s)+w0;}
-	    else {mindist_temp(s0) = (mindist(s)+w0) < mindist_temp(s0) ? mindist(s)+w0 :  mindist_temp(s0);}
+	    if (visited_states_temp(s0) == 0) { mindist_temp(s0) = mindist(s) + w0; }
+	    else { mindist_temp(s0) = ((mindist(s) + w0) < mindist_temp(s0)) ? mindist(s) + w0 :  mindist_temp(s0); }
 	    visited_states_temp(s0) = 1; //true
 
 	    expand_s1 = false;
-	    if ((block_length == 0) || (t<(block_length-(K-1)))) {
+	    if ((block_length == 0) || (t < (block_length - (K - 1)))) {
 	      expand_s1 = true;
 	    }
 
 	    if (expand_s1) {
 	      s1 = next_state(s, 1);
-	      for (d=mindist(s); d<(wmax-w1); d++) {
-		Ad_temp(s1,d+w1) += Ad_states(s,d);
-		Cd_temp(s1,d+w1) += Cd_states(s,d) + Ad_states(s,d);
+	      for (d = mindist(s); d < (wmax - w1); d++) {
+		Ad_temp(s1, d + w1) += Ad_states(s, d);
+		Cd_temp(s1, d + w1) += Cd_states(s, d) + Ad_states(s, d);
 	      }
-	      if (visited_states_temp(s1) == 0) {mindist_temp(s1) = mindist(s)+w1;}
-	      else {mindist_temp(s1) = (mindist(s)+w1) < mindist_temp(s1) ? mindist(s)+w1 :  mindist_temp(s1);}
+	      if (visited_states_temp(s1) == 0) { mindist_temp(s1) = mindist(s) + w1; }
+	      else { mindist_temp(s1) = ((mindist(s) + w1) < mindist_temp(s1)) ? mindist(s) + w1 :  mindist_temp(s1); }
 	      visited_states_temp(s1) = 1; //true
 	    }
 	  }
@@ -758,17 +826,17 @@ namespace itpp {
 
       Ad_states = Ad_temp;
       Cd_states = Cd_temp;
-      if (block_length==0) {
+      if (block_length == 0) {
 	spectrum(0) += Ad_temp.get_row(0);
 	spectrum(1) += Cd_temp.get_row(0);
       }
       visited_states = visited_states_temp;
       mindist = elem_mult(mindist_temp, visited_states);
       t++;
-      if ((t>block_length)&&(block_length>0)) {proceede = false;}
+      if ((t > block_length) && (block_length > 0)) { proceede = false; }
     }
 
-    if (block_length>0) {
+    if (block_length > 0) {
       spectrum(0) = Ad_states.get_row(0);
       spectrum(1) = Cd_states.get_row(0);
     }
