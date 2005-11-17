@@ -1,5 +1,9 @@
 2005-11-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/comm/punct_convcode.{h,cpp}, itpp/comm/convcode.h: Fixed
+	bug [1358858]. Now it is possible to use decode_tailbite() method
+	for a punctured code.
+
 	* itpp/comm/channel.{h,cpp}: Fixed bug [1358861]. Now the
 	destructor properly deletes the fading generators dynamically
 	created.

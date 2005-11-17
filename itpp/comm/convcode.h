@@ -190,7 +190,7 @@ namespace itpp {
     virtual void decode_tailbite(const vec &received_signal, bvec &output);
     //! Decode a block of encoded data where encode_tailbite has been used. Tries all start states.
     virtual bvec decode_tailbite(const vec &received_signal)
-      { bvec output; decode_tail(received_signal, output); return output; }
+      { bvec output; decode_tailbite(received_signal, output); return output; }
 
     //! Viterbi decoding using truncation of memory (default = 5*K)
     virtual void decode_trunc(const vec &received_signal, bvec &output);

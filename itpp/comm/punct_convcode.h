@@ -143,6 +143,13 @@ namespace itpp {
     */
     bvec encode_tail(const bvec &input) { bvec output; encode_tail(input, output); return output; }
 
+    //! Encode a binary vector of inputs using tailbiting.
+    void encode_tailbite(const bvec &input, bvec &output);
+    //! Encode a binary vector of inputs using tailbiting.
+    bvec encode_tailbite(const bvec &input)
+      { bvec output; encode_tailbite(input, output); return output; }
+
+
     //! Viterbi decoding using specified method
     virtual void decode(const vec &received_signal, bvec &output);
     //! Viterbi decoding using specified method
@@ -171,6 +178,12 @@ namespace itpp {
       K-1 zeros has been added. No memory truncation.
     */
     bvec decode_tail(const vec &received_signal) { bvec output; decode_tail(received_signal, output); return output; }
+
+    //! Decode a block of encoded data where encode_tailbite has been used. Tries all start states.
+    void decode_tailbite(const vec &received_signal, bvec &output);
+    //! Decode a block of encoded data where encode_tailbite has been used. Tries all start states.
+    bvec decode_tailbite(const vec &received_signal)
+      { bvec output; decode_tailbite(received_signal, output); return output; }
 
     /*
       \brief Calculate the inverse sequence
