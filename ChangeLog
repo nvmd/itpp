@@ -1,3 +1,9 @@
+2005-11-17  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/channel.{h,cpp}: Fixed bug [1358861]. Now the
+	destructor properly deletes the fading generators dynamically
+	created.
+
 2005-11-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/error_counters.{h,cpp}: BLERC class improved by adding

@@ -792,6 +792,17 @@ namespace itpp {
     method = Rice_MEDS; // default generation method
   }
 
+  TDL_Channel::~TDL_Channel()
+  {
+    if (fading_gen.size() > 0) { // delete all old generators
+      for (int i = 0; i < fading_gen.size(); i++) { 
+	if (fading_gen(i) != NULL)
+	  delete fading_gen(i);
+	fading_gen(i) = NULL;
+      }
+    }
+  }
+
   void TDL_Channel::set_channel_profile(const vec &avg_power_dB, const ivec &delay_prof)
   {
     it_assert(min(delay_prof) == 0, "Minimum relative delay must be 0.");
