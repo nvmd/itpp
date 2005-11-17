@@ -672,7 +672,7 @@ namespace itpp {
     //! Set with defined Channel_Specification (need to be discretized)
     TDL_Channel(Channel_Specification &channel_spec);
     //! Destructor
-    virtual ~TDL_Channel() { }
+    virtual ~TDL_Channel();
 
     //! Set both average power profile in dB and power delay profile in samples
     void set_channel_profile(const vec &avg_power_dB="0", const ivec &delay_prof="0");
