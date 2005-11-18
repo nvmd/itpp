@@ -53,42 +53,49 @@ namespace itpp {
 
   void BERC::count(const bvec &in1, const bvec &in2)
   {
-    long countlength = std::min(in1.length(),in2.length()) - std::abs(delay) - ignorefirst - ignorelast;
-    long i;
+    long countlength = std::min(in1.length(), in2.length()) - std::abs(delay) 
+      - ignorefirst - ignorelast;
   
     if (delay >= 0) {
-      for (i=0; i<countlength; i++) {
-	if ( (short)(in1(i+ignorefirst)) == (short)(in2(i+ignorefirst+delay)) ) {
-	  corrects += 1;
-	} else {
-	  errors += 1;
+      for (long i = 0; i < countlength; i++) {
+	if (in1(i + ignorefirst) == in2(i + ignorefirst + delay)) {
+	  corrects++;
+	} 
+	else {
+	  errors++;
 	}
       }
-    } else {
-      for (i=0; i<countlength; i++) {
-	if ( (short)(in1(i+ignorefirst-delay)) == (short)(in2(i+ignorefirst)) ) {
-	  corrects += 1;
-	} else {
-	  errors += 1;
+    } 
+    else {
+      for (long i = 0; i < countlength; i++) {
+	if (in1(i + ignorefirst - delay) == in2(i + ignorefirst)) {
+	  corrects++;
+	} 
+	else {
+	  errors++;
 	}
       }
-    }	
-  }	
+    }
+  }
 
-  void BERC::estimate_delay(const bvec &in1, const bvec &in2, long mindelay, long maxdelay) 
+  void BERC::estimate_delay(const bvec &in1, const bvec &in2, long mindelay, 
+			    long maxdelay) 
   { 
-    long i, length1 = in1.length(), length2 = in2.length(), num, start1, start2;
+    long num, start1, start2;
+    long min_input_length = std::min(in1.length(), in2.length());
     long bestdelay = mindelay;
-    double bestcorr = 0, correlation;
-    for (i=mindelay; i<maxdelay; i++) {
-      //#ifdef _MSC_VER
-      //num = std::min(length1,length2) - abs(long(i)) - ignorefirst - ignorelast;
-      //#else
-      num = std::min(length1,length2) - std::abs(long(i)) - ignorefirst - ignorelast;
-      //#endif
-      start1  = i<0 ? -i : 0;
-      start2  = i>0 ?  i : 0;
-      correlation = fabs( sum( to_vec( elem_mult( in1.mid(start1,num), in2.mid(start2,num) ) ) ) );
+    double correlation;
+    double bestcorr = 0; 
+    for (long i = mindelay; i < maxdelay; i++) {
+      // #ifdef _MSC_VER
+      // num = min_input_length - abs(i) - ignorefirst - ignorelast;
+      // #else
+      num = min_input_length - std::abs(i) - ignorefirst - ignorelast;
+      // #endif
+      start1 = (i < 0) ? -i : 0;
+      start2 = (i > 0) ?  i : 0;
+      correlation = fabs(sum(to_vec(elem_mult(in1.mid(start1, num), 
+					      in2.mid(start2, num)))));
       if (correlation > bestcorr) {
 	bestdelay = i;
 	bestcorr  = correlation;
@@ -109,30 +116,36 @@ namespace itpp {
 	      << " Number of counted bits = " << (errors + corrects) << std::endl
 	      << " Number of errors       = " << errors << std::endl
 	      << "==================================" << std::endl
-	      << " Error rate             = " << double(errors)/double(errors+corrects) << std::endl
+	      << " Error rate             = " << static_cast<double>(errors) 
+      / (errors + corrects) << std::endl
 	      << "==================================" << std::endl << std::endl;
   }
 
-  long BERC::count_errors(const bvec &in1, const bvec &in2, long indelay, long inignorefirst, long inignorelast)
+  long BERC::count_errors(const bvec &in1, const bvec &in2, long indelay, 
+			  long inignorefirst, long inignorelast)
   {
-    long countlength = std::min(in1.length(),in2.length()) - std::abs(indelay) - inignorefirst - inignorelast;
-    long i, err=0;
+    long countlength = std::min(in1.length(), in2.length()) - std::abs(indelay) 
+      - inignorefirst - inignorelast;
+    long errors = 0;
   
     if (indelay >= 0) {
-      for (i=0; i<countlength; i++) {
-	if ( (short)(in1(i+inignorefirst)) != (short)(in2(i+inignorefirst+indelay)) ) {
-	  err += 1;
+      for (long i = 0; i < countlength; i++) {
+	if (in1(i + inignorefirst) != in2(i + inignorefirst + indelay)) {
+	  errors++;
 	}
       }
-    } else {
-      for (i=0; i<countlength; i++) {
-	if ( (short)(in1(i+inignorefirst-indelay)) != (short)(in2(i+inignorefirst)) ) {
-	  err += 1;
+    } 
+    else {
+      for (long i = 0; i < countlength; i++) {
+	if (in1(i + inignorefirst - indelay) != in2(i + inignorefirst)) {
+	  errors++;
 	}
       }
     }
-    return err;
+    
+    return errors;
   }
+
 
   //-----------------------------------------------------------
   // The Block error rate counter class (BERC)
@@ -158,12 +171,13 @@ namespace itpp {
 
   void BLERC::count(const bvec &in1, const bvec &in2)
   {
-    it_assert(setup_done == true, "BLERC::count(): Block size has to be setup before counting errors.");
-
-    long countlength = std::min(in1.length() / blocksize, 
-				in2.length() / blocksize);
-  
-    for (int i = 0; i < countlength; i++) {
+    it_assert(setup_done == true, 
+	      "BLERC::count(): Block size has to be setup before counting errors.");
+    long min_input_length = std::min(in1.length(), in2.length());
+    it_assert(blocksize <= min_input_length, 
+	      "BLERC::count(): Block size must not be longer than input vectors."); 
+    
+    for (int i = 0; i < (min_input_length / blocksize); i++) {
       CORR = true;
       for (int j = 0; j < blocksize; j++) {
 	if (in1(i * blocksize + j) != in2(i * blocksize + j)) {
