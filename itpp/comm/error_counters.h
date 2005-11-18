@@ -43,7 +43,7 @@ namespace itpp {
 
     Example:
     \code
-    #include "itpp/itcomm.h"
+    #include <itpp/itcomm.h>
 
     int main() {
     //Initiate the Bit Error Counter
@@ -68,15 +68,19 @@ namespace itpp {
       \brief Constructor for the berc class.
 
       <ul>
-      <li> \a delay is positive if \a in2 is a delayed replica of \a in1 and negative otherwise. </li>
-      <li> \a ignorefirst and \a ignorelast may be used if errors in the begining and/or the end is to be ignored.</li>
+      <li> \a delay is positive if \a in2 is a delayed replica of 
+      \a in1 and negative otherwise. </li>
+      <li> \a ignorefirst and \a ignorelast may be used if errors in
+      the begining and/or the end is to be ignored.</li> 
       </ul>
     */
     BERC(long indelay = 0, long inignorefirst = 0, long inignorelast = 0);
     //! Cumulative error counter
     void  count(const bvec &in1, const bvec &in2);
-    //! Run this member function if the delay between \a in1 and \a in2 is unknown.
-    void  estimate_delay(const bvec &in1, const bvec &in2, long mindelay = -100, long maxdelay = 100);
+    //! Run this member function if the delay between \a in1 and
+    //! \a in2 is unknown. 
+    void  estimate_delay(const bvec &in1, const bvec &in2, long mindelay = -100,
+			 long maxdelay = 100);
     //! Clears the bit error counter
     void  clear() { errors = 0; corrects = 0; }
     //! Writes an error report
@@ -88,7 +92,9 @@ namespace itpp {
     //! Returns the counted number of corectly received bits
     long  get_corrects() { return corrects; }
     //! Returns the estimated bit error rate.
-    double get_errorrate() { return static_cast<double>(errors) / (corrects + errors); }
+    double get_errorrate() { 
+      return static_cast<double>(errors) / (corrects + errors); 
+    }
     /*!
       \brief static function to allow simple and fast count of bit-errors
 
@@ -99,7 +105,8 @@ namespace itpp {
       long errors = BERC::count_errors(in1, in2);
       \endcode
     */
-    static long count_errors(const bvec &in1, const bvec &in2, long indelay = 0, long inignorefirst = 0, long inignorelast = 0);
+    static long count_errors(const bvec &in1, const bvec &in2, long indelay = 0,
+			     long inignorefirst = 0, long inignorelast = 0);
 
     //protected:
   private:
@@ -132,7 +139,9 @@ namespace itpp {
     //! Returns the number of correct blocks
     long get_corrects() { return corrects; }
     //! Returns the block error rate
-    double get_errorrate() { return static_cast<double>(errors) / (corrects + errors); }
+    double get_errorrate() { 
+      return static_cast<double>(errors) / (corrects + errors); 
+    }
 
     //protected:
   private:

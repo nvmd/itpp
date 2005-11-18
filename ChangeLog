@@ -1,3 +1,10 @@
+2005-11-18  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/error_counters.{h.cpp}: Fixed a bug in the BLERC
+	counter, which caused that errors were not measured if the
+	blocksize was longer then the minimum length of input bit vectors.
+	Cosmetics changes in the BERC class.
+
 2005-11-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/punct_convcode.{h,cpp}, itpp/comm/convcode.h: Fixed
