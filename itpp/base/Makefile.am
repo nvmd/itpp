@@ -21,6 +21,7 @@ h_sources = \
 	fftw3.h \
 	filter.h \
 	freq_filt.h \
+	gf2mat.h \
 	help_functions.h \
 	integration.h \
 	inv.h \
@@ -64,6 +65,7 @@ cpp_sources = \
 	fastmath.cpp \
 	filter.cpp \
 	freq_filt.cpp \
+	gf2mat.cpp \
 	integration.cpp \
 	inv.cpp \
 	itassert.cpp \
