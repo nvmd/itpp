@@ -179,6 +179,14 @@ namespace itpp {
 
 } // namespace itpp
 
+namespace std{     // added 11/2005, EGL
+  /*! 
+    \relates bin
+    \brief absolute value of bin
+  */
+  inline short abs(const itpp::bin &inbin) { return inbin; }
+}
+
 #endif // #ifndef BINARY_H
 
 
