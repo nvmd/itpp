@@ -80,6 +80,7 @@ h_base_sources = \
 	$(top_srcdir)/itpp/base/fftw3.h \
 	$(top_srcdir)/itpp/base/filter.h \
 	$(top_srcdir)/itpp/base/freq_filt.h \
+	$(top_srcdir)/itpp/base/gf2mat.h \
 	$(top_srcdir)/itpp/base/help_functions.h \
 	$(top_srcdir)/itpp/base/integration.h \
 	$(top_srcdir)/itpp/base/inv.h \
@@ -196,6 +197,7 @@ cpp_base_sources = \
 	$(top_srcdir)/itpp/base/fastmath.cpp \
 	$(top_srcdir)/itpp/base/filter.cpp \
 	$(top_srcdir)/itpp/base/freq_filt.cpp \
+	$(top_srcdir)/itpp/base/gf2mat.cpp \
 	$(top_srcdir)/itpp/base/integration.cpp \
 	$(top_srcdir)/itpp/base/inv.cpp \
 	$(top_srcdir)/itpp/base/itassert.cpp \
