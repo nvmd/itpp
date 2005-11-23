@@ -1,6 +1,13 @@
-2005-11-23 Erik Larsson <erik_g_larsson@users.sourceforge.net>
-	* itpp/itpp/base/gf2mat.{h,cpp} added (the new GF2 matrix module)
-	* itpp/itpp/tests/gf2mat_test.cpp added (test program for GF2 matrix module)
+2005-11-23  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/channel.cpp: fixed two minor bugs in COST channels'
+	specifications
+
+2005-11-23  Erik Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/base/gf2mat.{h,cpp}: added a new GF2 matrix module
+	* tests/gf2mat_test.cpp: added a test program for GF2 matrix
+	module
 	
 2005-11-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 

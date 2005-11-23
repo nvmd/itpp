@@ -1,7 +1,8 @@
 /*!
  * \file 
  * \brief Definition of Communication Channel classes and functions
- * \author Tony Ottosson, Pal Frenger and Zbigniew Dlugaszewski
+ * \author Tony Ottosson, Pal Frenger, Zbigniew Dlugaszewski 
+ *         and Adam Piatyszek 
  *
  * $Date$
  * $Revision$
