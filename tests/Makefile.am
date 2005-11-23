@@ -19,6 +19,7 @@ check_PROGRAMS = \
 	fix_test \
 	freq_filt_test \
 	galois_test \
+	gf2mat_test \
 	integration_test \
 	interleaver_test \
 	inv_test \
@@ -63,6 +64,7 @@ filter_test_SOURCES = filter_test.cpp
 fix_test_SOURCES = fix_test.cpp
 freq_filt_test_SOURCES = freq_filt_test.cpp
 galois_test_SOURCES = galois_test.cpp
+gf2mat_test_SOURCES = gf2mat_test.cpp
 integration_test_SOURCES = integration_test.cpp
 interleaver_test_SOURCES = interleaver_test.cpp
 inv_test_SOURCES = inv_test.cpp
