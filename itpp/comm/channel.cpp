@@ -1,7 +1,8 @@
 /*!
  * \file 
  * \brief Implementation of Communication Channel classes and functions
- * \author Tony Ottosson, Pal Frenger and Zbigniew Dlugaszewski
+ * \author Tony Ottosson, Pal Frenger, Zbigniew Dlugaszewski 
+ *         and Adam Piatyszek 
  *
  * $Date$
  * $Revision$
@@ -482,53 +483,61 @@ namespace itpp {
     switch (profile) {
       // -------------- ITU Channel models -----------------
     case ITU_Vehicular_A:
-      set_channel_profile( vec("0 -1 -9 -10 -15 -20"), vec("0 310 710 1090 1730 2510") * 1e-9 );
+      set_channel_profile(vec("0 -1 -9 -10 -15 -20"), 
+			  vec("0 310 710 1090 1730 2510") * 1e-9);
       break;
 
     case ITU_Vehicular_B:
-      set_channel_profile( vec("-2.5 0 -12.8 -10 -25.2 -16"), vec("0 300 8900 12900 17100 20000") * 1e-9 );
+      set_channel_profile(vec("-2.5 0 -12.8 -10 -25.2 -16"), 
+			  vec("0 300 8900 12900 17100 20000") * 1e-9);
       break;
       
     case ITU_Pedestrian_A:
-      set_channel_profile( vec("0 -9.7 -19.2 -22.8"), vec("0 110 190 410") * 1e-9 );
+      set_channel_profile(vec("0 -9.7 -19.2 -22.8"), 
+			  vec("0 110 190 410") * 1e-9);
       break;
  
     case ITU_Pedestrian_B:
-      set_channel_profile( vec("0 -0.9 -4.9 -8 -7.8 -23.9"), vec("0 200 800 1200 2300 3700") * 1e-9 );
+      set_channel_profile(vec("0 -0.9 -4.9 -8 -7.8 -23.9"), 
+			  vec("0 200 800 1200 2300 3700") * 1e-9);
       break;
 
       // -------------- COST259 Channel models -----------------
     case COST259_TUx:
-      set_channel_profile( vec("-5.7 -7.6 -10.1 -10.2 -10.2 -11.5 -13.4 -16.3 -16.9 -17.1 -17.4 -19 -19 -19.8 -21.5 -21.6 -22.1 -22.6 -23.5 -24.3"), 
-			   vec("217 512 514 517 674 882 1230 1287 1311 1349 1533 1535 1622 1818 1836 1884 1943 2048 2140") * 1e-9 );
+      set_channel_profile(vec("-5.7 -7.6 -10.1 -10.2 -10.2 -11.5 -13.4 -16.3 -16.9 -17.1 -17.4 -19 -19 -19.8 -21.5 -21.6 -22.1 -22.6 -23.5 -24.3"), 
+			  vec("0 217 512 514 517 674 882 1230 1287 1311 1349 1533 1535 1622 1818 1836 1884 1943 2048 2140") * 1e-9);
       break;
 
     case COST259_RAx:
-      set_channel_profile( vec("-5.2 -6.4 -8.4 -9.3 -10 -13.1 -15.3 -18.5 -20.4 -22.4"), vec("0 42 101 129 149 245 312 410 469 528") * 1e-9 );
+      set_channel_profile(vec("-5.2 -6.4 -8.4 -9.3 -10 -13.1 -15.3 -18.5 -20.4 -22.4"), 
+			  vec("0 42 101 129 149 245 312 410 469 528") * 1e-9);
       set_doppler_spectrum(0, Rice);
       set_LOS( sqr(0.91/0.41), 0.7); // What should the rice factor be??? Not sure from report!
       break;
 
     case COST259_HTx:
-      set_channel_profile( vec("-3.6 -8.9 -10.2 -11.5 -11.8 -12.7 -13.0 -16.2 -17.3 -17.7 -17.6 -22.7 -24.1 -25.8 -25.8 -26.2 -29 -29.9 -30 -30.7"), 
-			   vec("356 441 528 546 609 625 842 916 941 15000 16172 16492 16876 16882 16978 17615 17827 17849 18016") * 1e-9 );
+      set_channel_profile(vec("-3.6 -8.9 -10.2 -11.5 -11.8 -12.7 -13.0 -16.2 -17.3 -17.7 -17.6 -22.7 -24.1 -25.8 -25.8 -26.2 -29 -29.9 -30 -30.7"), 
+			  vec("0 356 441 528 546 609 625 842 916 941 15000 16172 16492 16876 16882 16978 17615 17827 17849 18016") * 1e-9);
       break;
 
       // -------------- COST207 Channel models -----------------
     case COST207_RA:
-      set_channel_profile( vec("0 -2 -10 -20"), vec("0 200 400 600") * 1e-9 );
+      set_channel_profile(vec("0 -2 -10 -20"), 
+			  vec("0 200 400 600") * 1e-9);
       set_doppler_spectrum(0, Rice);
       set_LOS( sqr(0.91/0.41), 0.7);
       break;
 
     case COST207_RA6:
-      set_channel_profile( vec("0 -4 -8 -12 -16 -20"), vec("0 100 200 300 400 500") * 1e-9 );
+      set_channel_profile(vec("0 -4 -8 -12 -16 -20"), 
+			  vec("0 100 200 300 400 500") * 1e-9);
       set_doppler_spectrum(0, Rice);
       set_LOS( sqr(0.91/0.41), 0.7);
       break;
 
     case COST207_TU:
-      set_channel_profile( vec("-3 0 -2 -6 -8 -10"), vec("0 200 600 1600 2400 5000") * 1e-9 );
+      set_channel_profile(vec("-3 0 -2 -6 -8 -10"), 
+			  vec("0 200 600 1600 2400 5000") * 1e-9);
       set_doppler_spectrum(2, GaussI);
       set_doppler_spectrum(3, GaussI);
       set_doppler_spectrum(4, GaussII);
@@ -536,14 +545,16 @@ namespace itpp {
       break;
 
     case COST207_TU6alt:
-      set_channel_profile( vec("-3 0 -2 -6 -8 -10"), vec("0 200 500 1600 2300 5000") * 1e-9 );
+      set_channel_profile(vec("-3 0 -2 -6 -8 -10"), 
+			  vec("0 200 500 1600 2300 5000") * 1e-9);
       set_doppler_spectrum(3, GaussI);
       set_doppler_spectrum(4, GaussII);
       set_doppler_spectrum(5, GaussII);
       break;
 
     case COST207_TU12:
-      set_channel_profile( vec("-4 -3 0 -2 -3 -5 -7 -5 -6 -9 -11 -10"), vec("0 200 400 600 800 1200 1400 1800 2400 3000 3200 5000") * 1e-9 );
+      set_channel_profile(vec("-4 -3 0 -2 -3 -5 -7 -5 -6 -9 -11 -10"), 
+			  vec("0 200 400 600 800 1200 1400 1800 2400 3000 3200 5000") * 1e-9);
       set_doppler_spectrum(3, GaussI);
       set_doppler_spectrum(4, GaussI);
       set_doppler_spectrum(5, GaussI);
@@ -556,7 +567,8 @@ namespace itpp {
       break;
 
     case COST207_TU12alt:
-      set_channel_profile( vec("-4 -3 0 -2.6 -3 -5 -7 -5 -6.5 -8.6 -11 -10"), vec("0 200 400 600 800 1200 1400 1800 2400 3000 3200 5000") * 1e-9 );
+      set_channel_profile(vec("-4 -3 0 -2.6 -3 -5 -7 -5 -6.5 -8.6 -11 -10"), 
+			  vec("0 200 400 600 800 1200 1400 1800 2400 3000 3200 5000") * 1e-9);
       set_doppler_spectrum(4, GaussI);
       set_doppler_spectrum(5, GaussI);
       set_doppler_spectrum(6, GaussI);
@@ -568,7 +580,8 @@ namespace itpp {
       break;
 
     case COST207_BU:
-      set_channel_profile( vec("-3 0 -3 -5 -2 -4"), vec("0 400 1000 1600 5000 6600") * 1e-9 );
+      set_channel_profile(vec("-3 0 -3 -5 -2 -4"), 
+			  vec("0 400 1000 1600 5000 6600") * 1e-9);
       set_doppler_spectrum(2, GaussI);
       set_doppler_spectrum(3, GaussI);
       set_doppler_spectrum(4, GaussII);
@@ -576,7 +589,8 @@ namespace itpp {
       break;
 
     case COST207_BU6alt:
-      set_channel_profile( vec("-2.5 0 -3 -5 -2 -4"), vec("0 300 1000 1600 5000 6600") * 1e-9 );
+      set_channel_profile(vec("-2.5 0 -3 -5 -2 -4"), 
+			  vec("0 300 1000 1600 5000 6600") * 1e-9);
       set_doppler_spectrum(2, GaussI);
       set_doppler_spectrum(3, GaussI);
       set_doppler_spectrum(4, GaussII);
@@ -584,7 +598,8 @@ namespace itpp {
       break;
 
     case COST207_BU12:
-      set_channel_profile( vec("-7 -3 -1 0 -2 -6 -7 -1 -2 -7 -10 -15"), vec("0 200 400 800 1600 2200 3200 5000 6000 7200 8200 10000") * 1e-9 );
+      set_channel_profile(vec("-7 -3 -1 0 -2 -6 -7 -1 -2 -7 -10 -15"), 
+			  vec("0 200 400 800 1600 2200 3200 5000 6000 7200 8200 10000") * 1e-9);
       set_doppler_spectrum(3, GaussI);
       set_doppler_spectrum(4, GaussI);
       set_doppler_spectrum(5, GaussII);
@@ -597,7 +612,8 @@ namespace itpp {
       break;
 
     case COST207_BU12alt:
-      set_channel_profile( vec("-7.7 -3.4 -1.3 0 -2.3 -5.6 -7.4 -1.4 -1.6 -6.7 -9.8 -15.1"), ivec("0 100 300 700 1600 2200 3100 5000 6000 7200 8100 10000") * 1e-9 );
+      set_channel_profile(vec("-7.7 -3.4 -1.3 0 -2.3 -5.6 -7.4 -1.4 -1.6 -6.7 -9.8 -15.1"), 
+			  vec("0 100 300 700 1600 2200 3100 5000 6000 7200 8100 10000") * 1e-9);
       set_doppler_spectrum(3, GaussI);
       set_doppler_spectrum(4, GaussI);
       set_doppler_spectrum(5, GaussII);
@@ -611,19 +627,22 @@ namespace itpp {
 
 
     case COST207_HT:
-      set_channel_profile( vec("0 -2 -4 -7 -6 -12"), vec("0 200 400 600 15000 17200") * 1e-9 );
+      set_channel_profile(vec("0 -2 -4 -7 -6 -12"), 
+			  vec("0 200 400 600 15000 17200") * 1e-9);
       set_doppler_spectrum(4, GaussII);
       set_doppler_spectrum(5, GaussII);
       break;
 
     case COST207_HT6alt:
-      set_channel_profile( vec("0 -1.5 -4.5 -7.5 -8 -17.7"), vec("0 100 300 500 15000 17200") * 1e-9 );
+      set_channel_profile(vec("0 -1.5 -4.5 -7.5 -8 -17.7"), 
+			  vec("0 100 300 500 15000 17200") * 1e-9);
       set_doppler_spectrum(4, GaussII);
       set_doppler_spectrum(5, GaussII);
       break;
 
     case COST207_HT12:
-      set_channel_profile( vec("-10 -8 -6 -4 0 0 -4 -8 -9 -10 -12 -14"), vec("0 200 400 600 800 2000 2400 15000 15200 15800 17200 20000") * 1e-9 );
+      set_channel_profile(vec("-10 -8 -6 -4 0 0 -4 -8 -9 -10 -12 -14"), 
+			  vec("0 200 400 600 800 2000 2400 15000 15200 15800 17200 20000") * 1e-9);
       set_doppler_spectrum(3, GaussI);
       set_doppler_spectrum(4, GaussI);
       set_doppler_spectrum(5, GaussI);
@@ -636,7 +655,8 @@ namespace itpp {
       break;
 
     case COST207_HT12alt:
-      set_channel_profile( vec("-10 -8 -6 -4 0 0 -4 -8 -9 -10 -12 -14"), vec("0 100 300 500 700 1000 1300 15000 15200 15700 17200 20000") * 1e-9 );
+      set_channel_profile(vec("-10 -8 -6 -4 0 0 -4 -8 -9 -10 -12 -14"),
+			  vec("0 100 300 500 700 1000 1300 15000 15200 15700 17200 20000") * 1e-9);
       set_doppler_spectrum(4, GaussI);
       set_doppler_spectrum(5, GaussI);
       set_doppler_spectrum(6, GaussI);
