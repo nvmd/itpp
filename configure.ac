@@ -67,9 +67,9 @@ fi
 AC_SUBST(docdir)
 
 # Check for CPU option
-AC_ARG_WITH(cpu, 
-  [AS_HELP_STRING([--with-cpu=CPU], 
-    [enable optimization for a specific CPU: pentium3, pentium4, athlon-xp, sparc])])
+AC_ARG_WITH(march, 
+  [AS_HELP_STRING([--with-march=CPU], 
+    [enable optimization for a specific CPU: i686, pentium3, pentium4, prescott, athlon-tbird, athlon-xp, athlon-mp])])
 
 # Set debug/optimised flags
 if test "x$enable_debug" = xyes; then
@@ -78,7 +78,7 @@ if test "x$enable_debug" = xyes; then
 else
   AC_DEFINE([ASSERT_LEVEL], [1], [Define ASSERT_LEVEL as 1])
   AC_DEFINE([NDEBUG], [1], [Define NDEBUG flag])
-  CXXFLAGS="-O3 -DNDEBUG -DASSERT_LEVEL=1 $CXXFLAGS"
+  CXXFLAGS="-O2 -DNDEBUG -DASSERT_LEVEL=1 $CXXFLAGS"
 fi
 
 
@@ -86,17 +86,20 @@ fi
 if test "x$GXX" = xyes; then
   # Add gcc warnings, in debug/maintainer mode only
   if test "x$enable_debug" = xyes; then
-	  CXXFLAGS="-Wall $CXXFLAGS"
+    CXXFLAGS="-Wall $CXXFLAGS"
+  else
+    CXXFLAGS="-pipe -fomit-frame-pointer $CXXFLAGS"
   fi
 
-  # Processor flags settings
-  case $with_cpu in
-    pentium3) CXXFLAGS="-march=pentium3 -ffast-math -mfpmath=sse -msse $CXXFLAGS" ;;
-    pentium4) CXXFLAGS="-march=pentium4 -ffast-math -mfpmath=sse -msse2 $CXXFLAGS" ;;
-    athlon-xp) CXXFLAGS="-march=athlon-xp -ffast-math -mfpmath=sse -msse2 $CXXFLAGS" ;;
-    sparc) CXXFLAGS="-mv8 $CXXFLAGS" ;;
+  # CPU optimisations
+  case $with_march in
+    i?86) CXXFLAGS="-march=$with_march $CXXFLAGS" ;;
+    pentium*) CXXFLAGS="-march=$with_march $CXXFLAGS" ;;
+    prescott) CXXFLAGS="-march=$with_march $CXXFLAGS" ;;
+    athlon*) CXXFLAGS="-march=$with_march $CXXFLAGS" ;;
     *) ;;
   esac
+
 fi
 
 
@@ -357,9 +360,6 @@ Directories:
   - includedir ... : ${includedir}
   - libdir ....... : ${libdir}
   - docdir ....... : ${docdir}
-
-Platform:
-  - CPU .......... : ${with_cpu}
 
 Switches:
   - debug ........ : ${enable_debug}

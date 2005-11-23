@@ -1,3 +1,13 @@
+2005-11-23  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac: Removed some cpu-specific optimise flags from
+	CXXFLAGS. The default optimisation is `-O2'. When using GCC compiler
+	CXXFLAGS is extended with `-pipe -fomit-frame-pointer'. Moreover,
+	`--with-cpu' switch has been renamed to `--with-march', which is
+	more intuitive.
+	* INSTALL, doc/local/installation.doc: Documentation updated due
+	to the changes in `configure.ac'.
+
 2005-11-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/error_counters.{h.cpp}: Fixed a bug in the BLERC
