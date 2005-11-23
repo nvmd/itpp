@@ -86,9 +86,10 @@ debugging flags used by compiler and linker (disabled by default) </li>
 <li> \c `--disable-html-docs' - do not generate and install HTML
 documentation (enabled by default) </li>
 
-<li> \c `--with-cpu=CPU' - enable optimization flags for a specific CPU:
-\c `pentium3', \c `pentium4', \c `athlon-xp' or \c `sparc'. This option is
-only used by GCC. </li>
+<li> \c `--with-march=CPU' - enable optimization flags for a specific CPU:
+\c `i686', \c `pentium3', \c `pentium4', \c `prescott', \c `athlon-tbird', 
+\c `athlon-xp', \c `athlon-mp', etc. This option is only used by GCC. 
+See `man gcc' for more details. </li>
 
 </ul> 
 
@@ -140,7 +141,7 @@ presented. For instance, after having invoked the following configuration
 command:
 
 \code
-% ./configure --enable-debug --with-cpu=pentium3
+% ./configure --with-march=pentium3
 \endcode
 
 one can observe something like that:
@@ -156,9 +157,6 @@ Directories:
   - includedir ... : ${prefix}/include
   - libdir ....... : ${exec_prefix}/lib
   - docdir ....... : ${prefix}/share/doc/itpp-3.9.0
-
-Platform:
-  - CPU .......... : pentium3
 
 Switches:
   - debug ........ : yes
@@ -180,9 +178,9 @@ External libs:
 Compiler/linker flags/libs/defs:
   - CXX .......... : g++
   - CPPFLAGS ..... : 
-  - CXXFLAGS ..... : -march=pentium3 -ffast-math -mfpmath=sse -msse -Wall -g -DA
-SSERT_LEVEL=2 
-  - LDFLAGS ...... :    
+  - CXXFLAGS ..... : -march=pentium3 -pipe -fomit-frame-pointer -O2 -DNDEBUG -DA
+SSERT_LEVEL=1 
+  - LDFLAGS ...... : 
   - LIBS ......... : -llapack -lcblas -lblas -latlas -lfftw3 -lm   -L/usr/lib/gc
 c-lib/i686-pc-linux-gnu/3.3.6 -L/usr/lib/gcc-lib/i686-pc-linux-gnu/3.3.6/../../.
 ./../i686-pc-linux-gnu/lib -L/usr/lib/gcc-lib/i686-pc-linux-gnu/3.3.6/../../.. -
