@@ -35,15 +35,15 @@
   TEST PROGRAM:
 
   - The program gf2mat_test.cpp contains routines to demonstrate and
-    test the functionality in Gf2mat_dense.
+    test the functionality in GF2mat.
 
 */
 
 
 
 /*!  \file \brief Classes for algebra on GF(2) (binary) matrices.  Two
-  representations are offered: Gf2mat_sparse for sparse GF(2) matrices
-  and Gf2mat_dense for dense GF(2) matrices.  Conversions between
+  representations are offered: GF2mat_sparse for sparse GF(2) matrices
+  and GF2mat for dense GF(2) matrices.  Conversions between
   dense and sparse GF(2) are also possible.
 
   Binary vectors are represented either via the bvec class (memory
@@ -82,10 +82,10 @@ using namespace itpp;
 
 
 //! Sparse GF(2) vector
-typedef Sparse_Vec<bin> Gf2vec_sparse;
+typedef Sparse_Vec<bin> GF2vec_sparse;
 
 //! Sparse GF(2) matrix
-typedef Sparse_Mat<bin> Gf2mat_sparse;
+typedef Sparse_Mat<bin> GF2mat_sparse;
 
 /*! \brief Dense GF(2) matrices
 
@@ -95,36 +95,36 @@ typedef Sparse_Mat<bin> Gf2mat_sparse;
   making efficient use of computer memory. (One bit in the matrix
   requires one bit of memory.)
  */
-class Gf2mat_dense {
+class GF2mat {
 public:
   
   // ----------- Constructors -----------
 
   //! Default constructor (this gives a 1*1 matrix consisting of a single zero)
-  Gf2mat_dense();
+  GF2mat();
   
   //! Construct an empty (all-zero) m*n matrix 
-  Gf2mat_dense(int m, int n);
+  GF2mat(int m, int n);
 
   //! Construct a dense GF(2) matrix from a sparse GF(2) matrix
-  Gf2mat_dense(const Gf2mat_sparse &X);
+  GF2mat(const GF2mat_sparse &X);
   
   //! Construct a dense GF(2) matrix from a subset (m1,n1) to (m2,n2) of sparse GF(2) matrix 
-  Gf2mat_dense(const Gf2mat_sparse &X, int m1, int n1, int m2, int n2);  
+  GF2mat(const GF2mat_sparse &X, int m1, int n1, int m2, int n2);  
 
   //! Construct a dense GF(2) matrix from a subset of columns in sparse GF(2) matrix 
-  Gf2mat_dense(const Gf2mat_sparse &X, ivec &columns);
+  GF2mat(const GF2mat_sparse &X, ivec &columns);
 
   /*! Create a dense GF(2) matrix from a single vector. The variable
     row_or_column indicates whether it should be a row vector (0), or
     a column vector (1, default) */
-  Gf2mat_dense(const bvec &x, bool row_or_column=1);
+  GF2mat(const bvec &x, bool row_or_column=1);
 
   //! Create a dense GF(2) matrix from a bmat
-  Gf2mat_dense(const bmat &X);
+  GF2mat(const bmat &X);
 
   //! Create a sparse GF(2) matrix from a dense GF(2) matrix
-  Gf2mat_sparse sparsify();
+  GF2mat_sparse sparsify();
 
   //! Create a bvec from a GF(2) matrix (must have one column or one row)
   bvec bvecify();
@@ -168,16 +168,16 @@ public:
   void permute_cols(ivec &perm, bool I); 
 
   //! Transpose 
-  Gf2mat_dense transpose() const;
+  GF2mat transpose() const;
 
   //! Submatrix from (m1,n1) to (m2,n2)
-  Gf2mat_dense get_submatrix(int m1, int n1, int m2, int n2);
+  GF2mat get_submatrix(int m1, int n1, int m2, int n2);
 
   //! Concatenate horizontally (append X on the right side of matrix)
-  Gf2mat_dense concatenate_horizontal(const Gf2mat_dense &X);
+  GF2mat concatenate_horizontal(const GF2mat &X);
 
   //! Concatenate vertically (append X underneath)
-  Gf2mat_dense concatenate_vertical(const Gf2mat_dense &X);
+  GF2mat concatenate_vertical(const GF2mat &X);
   
   //! Get row
   bvec get_row(int i);
@@ -202,7 +202,7 @@ public:
   /*!  Inversion. The matrix must be invertible, otherwise the
     function will terminate with an error.  
   */ 
-  Gf2mat_dense inverse();
+  GF2mat inverse();
 
   //! Returns the number of linearly independent rows 
   int row_rank();
@@ -217,7 +217,7 @@ public:
       The function returns the row rank of X.  (If X is full row rank,
       then the number of rows is returned.)
   */
-  int T_fact(Gf2mat_dense &T, Gf2mat_dense &U, ivec &P);
+  int T_fact(GF2mat &T, GF2mat &U, ivec &P);
   
   /*! Update upper triangular factor U in the T-factorization (U=TXP)
       when the bit at position (r,c) is changed (0->1 or 1->0). The
@@ -236,7 +236,7 @@ public:
       This function was primarily written specifically for use by
       certain optimization algorithms in the LDPC codec class.
   */
-  int T_fact_update_bitflip(Gf2mat_dense &T, Gf2mat_dense &U, ivec &P, int rank, int r, int c);
+  int T_fact_update_bitflip(GF2mat &T, GF2mat &U, ivec &P, int rank, int r, int c);
 
   /*! Update upper triangular factor U in the T-factorization (U=TXP)
       when a column (newcol) is appended at the right side of the
@@ -255,39 +255,39 @@ public:
       This function was written primarily intended for use by the LDPC
       codec class.
   */
-  int T_fact_update_addcol(Gf2mat_dense &T, Gf2mat_dense &U, ivec &P, bvec newcol);
+  int T_fact_update_addcol(GF2mat &T, GF2mat &U, ivec &P, bvec newcol);
 
   // ----- Operators -----------
 
   //! Assignment operator
-  void operator=(const Gf2mat_dense &X);
+  void operator=(const GF2mat &X);
 
   //! Check if equal
-  bool operator==(const Gf2mat_dense &X) const; 
+  bool operator==(const GF2mat &X) const; 
 
   // ----- Friends ------
 
   //! Multiplication operator
-  friend Gf2mat_dense operator*(const Gf2mat_dense &X, const Gf2mat_dense &Y);
+  friend GF2mat operator*(const GF2mat &X, const GF2mat &Y);
 
   //! Multiplication operator with binary vector
-  friend bvec operator*(const Gf2mat_dense &X, const bvec &y);
+  friend bvec operator*(const GF2mat &X, const bvec &y);
 
   /*! Addition operator (subtraction is not implemented because it is
     equivalent to addition) */
-  friend Gf2mat_dense operator+(const Gf2mat_dense &X, const Gf2mat_dense &Y);
+  friend GF2mat operator+(const GF2mat &X, const GF2mat &Y);
 
   //! Output stream operator (plain text)
-  friend std::ostream &operator<<(std::ostream &os, const Gf2mat_dense &X);
+  friend std::ostream &operator<<(std::ostream &os, const GF2mat &X);
 
   //! Write the matrix to file
-  friend it_file &operator<<(it_file &f, const Gf2mat_dense &X);
+  friend it_file &operator<<(it_file &f, const GF2mat &X);
 
   //! Read the matrix from file
-  friend it_ifile &operator>>(it_ifile &f, Gf2mat_dense &X);
+  friend it_ifile &operator>>(it_ifile &f, GF2mat &X);
 
   //!Multiplication X*Y' where X and Y are GF(2) matrices
-  friend Gf2mat_dense mult_trans(const Gf2mat_dense &X, const Gf2mat_dense &Y);
+  friend GF2mat mult_trans(const GF2mat &X, const GF2mat &Y);
 
  private:
   int nwords;                  // number of bytes used
@@ -299,58 +299,58 @@ public:
 // ============ RELATED FUNCTIONS ============================
 
 /*!  
-  /relates Gf2mat_dense 
+  /relates GF2mat 
   /brief Write GF(2) matrix to file.
 */
-it_file &operator<<(it_file &f, const Gf2mat_dense &X);
+it_file &operator<<(it_file &f, const GF2mat &X);
 
 /*!  
-  /relates Gf2mat_dense 
+  /relates GF2mat 
   /brief Read GF(2) matrix from file.
 */
-it_ifile &operator>>(it_ifile &f, Gf2mat_dense &X);
+it_ifile &operator>>(it_ifile &f, GF2mat &X);
 
 /*!
-  \relates Gf2mat_dense
+  \relates GF2mat
   \brief GF(2) matrix multiplication 
 */
-Gf2mat_dense operator*(const Gf2mat_dense &X, const Gf2mat_dense &Y);
+GF2mat operator*(const GF2mat &X, const GF2mat &Y);
 
 /*!
-  \relates Gf2mat_dense
+  \relates GF2mat
   \brief GF(2) matrix multiplication with "regular" binary vector
 */
-bvec operator*(const Gf2mat_dense &X, const bvec &y);
+bvec operator*(const GF2mat &X, const bvec &y);
 
 /*!
-  \relates Gf2mat_dense
+  \relates GF2mat
   \brief GF(2) matrix addition 
 */
-Gf2mat_dense operator+(const Gf2mat_dense &X, const Gf2mat_dense &Y);
+GF2mat operator+(const GF2mat &X, const GF2mat &Y);
 
 /*!
-  \relates Gf2mat_dense
+  \relates GF2mat
   \brief Output stream (plain text) operator for dense GF(2) matrices
 */
-std::ostream &operator<<(std::ostream &os, const Gf2mat_dense &X);
+std::ostream &operator<<(std::ostream &os, const GF2mat &X);
 
 /*!
-  \relates Gf2mat_dense
+  \relates GF2mat
   \brief GF(2) Identity matrix
 */
-Gf2mat_dense gf2dense_eye(int m);
+GF2mat gf2dense_eye(int m);
 
-/*! \relates Gf2mat_dense
+/*! \relates GF2mat
     \brief Multiplication X*Y' where X and Y are GF(2) matrices
 */
-Gf2mat_dense mult_trans(const Gf2mat_dense &X, const Gf2mat_dense &Y);
+GF2mat mult_trans(const GF2mat &X, const GF2mat &Y);
 
 // ================= INLINE IMPLEMENTATIONS =======================
 
-inline void Gf2mat_dense::addto_element(int i, int j, bin s) 
+inline void GF2mat::addto_element(int i, int j, bin s) 
 {
-  it_assert0(i>=0 && i<nrows,"Gf2mat_dense::addto_element()");
-  it_assert0(j>=0 && j<ncols,"Gf2mat_dense::addto_element()");
+  it_assert0(i>=0 && i<nrows,"GF2mat::addto_element()");
+  it_assert0(j>=0 && j<ncols,"GF2mat::addto_element()");
   if (s==1) { 
     int col = j>>lImax;
     char bit = j&mImax;
@@ -358,20 +358,20 @@ inline void Gf2mat_dense::addto_element(int i, int j, bin s)
   }
 };
 
-inline bin Gf2mat_dense::get(int i, int j) const 
+inline bin GF2mat::get(int i, int j) const 
 {
-  it_assert0(i>=0 && i<nrows,"Gf2mat_dense::get_element()");
-  it_assert0(j>=0 && j<ncols,"Gf2mat_dense::get_element()");
+  it_assert0(i>=0 && i<nrows,"GF2mat::get_element()");
+  it_assert0(j>=0 && j<ncols,"GF2mat::get_element()");
   int col = j>>lImax;
   char bit = j&mImax;
   return ((data(i,col) >> bit) & 1);    // NB data must be unsigned for this to be well defined
 };
 
-inline void Gf2mat_dense::set(int i, int j, bin s) 
+inline void GF2mat::set(int i, int j, bin s) 
 {
-  it_assert0(i>=0 && i<nrows,"Gf2mat_dense::set_element()");
-  it_assert0(j>=0 && j<ncols,"Gf2mat_dense::set_element()");
-  it_assert0(s==0 || s==1,"Gf2mat_dense::set_element()");
+  it_assert0(i>=0 && i<nrows,"GF2mat::set_element()");
+  it_assert0(j>=0 && j<ncols,"GF2mat::set_element()");
+  it_assert0(s==0 || s==1,"GF2mat::set_element()");
   int col = j>>lImax;
   char bit = j&mImax;
   //    int oldvalue = (data(i,col) >> bit) & 1;
