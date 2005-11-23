@@ -27,7 +27,7 @@
 #include "gf2mat.h"
 
 
-Gf2mat_dense::Gf2mat_dense(int i, int j) 
+GF2mat::GF2mat(int i, int j) 
 {
   int k = j/(1<<lImax)+1;
   nrows=i;
@@ -41,7 +41,7 @@ Gf2mat_dense::Gf2mat_dense(int i, int j)
   }
 }
 
-Gf2mat_dense::Gf2mat_dense()   
+GF2mat::GF2mat()   
 {
   nrows=1;
   ncols=1;
@@ -50,7 +50,7 @@ Gf2mat_dense::Gf2mat_dense()
   data(0,0) = 0;
 }
 
-Gf2mat_dense::Gf2mat_dense(const bvec &x, bool row_or_column)
+GF2mat::GF2mat(const bvec &x, bool row_or_column)
 {
   if (row_or_column==1) {     // create column vector
     nrows=length(x);
@@ -76,17 +76,17 @@ Gf2mat_dense::Gf2mat_dense(const bvec &x, bool row_or_column)
 }
   
 
-Gf2mat_dense::Gf2mat_dense(const bmat &X)
+GF2mat::GF2mat(const bmat &X)
 {
   it_error("not yet implemented");
 }
 
 
-Gf2mat_dense::Gf2mat_dense(const Gf2mat_sparse &X)
+GF2mat::GF2mat(const GF2mat_sparse &X)
 {
   nrows=X.rows();
   ncols=X.cols();
-  //  Gf2mat_dense(m,n);
+  //  GF2mat(m,n);
   int k = ncols/(1<<lImax)+1;
   nwords=k;
   data.set_size(nrows,nwords);
@@ -104,11 +104,11 @@ Gf2mat_dense::Gf2mat_dense(const Gf2mat_sparse &X)
   }
 }
 
-Gf2mat_dense::Gf2mat_dense(const Gf2mat_sparse &X, int m1, int n1, int m2, int n2)
+GF2mat::GF2mat(const GF2mat_sparse &X, int m1, int n1, int m2, int n2)
 {
-  it_assert1(X.rows()>m2,"Gf2mat_dense()");
-  it_assert1(X.cols()>n2,"Gf2mat_dense()");
-  it_assert1(m1>=0 && n1>=0 && m2>=m1 && n2>=n1,"Gf2mat_dense::Gf2mat_dense()");
+  it_assert1(X.rows()>m2,"GF2mat()");
+  it_assert1(X.cols()>n2,"GF2mat()");
+  it_assert1(m1>=0 && n1>=0 && m2>=m1 && n2>=n1,"GF2mat::GF2mat()");
   
   nrows=m2-m1+1;
   ncols=n2-n1+1;
@@ -130,10 +130,10 @@ Gf2mat_dense::Gf2mat_dense(const Gf2mat_sparse &X, int m1, int n1, int m2, int n
 }
 
 
-Gf2mat_dense::Gf2mat_dense(const Gf2mat_sparse &X, ivec &columns)
+GF2mat::GF2mat(const GF2mat_sparse &X, ivec &columns)
 {
-  it_assert1(X.cols()>max(columns),"Gf2mat_dense()");
-  it_assert1(min(columns)>=0,"Gf2mat_dense()");
+  it_assert1(X.cols()>max(columns),"GF2mat()");
+  it_assert1(min(columns)>=0,"GF2mat()");
   
   nrows=X.rows();
   ncols=length(columns);
@@ -154,9 +154,9 @@ Gf2mat_dense::Gf2mat_dense(const Gf2mat_sparse &X, ivec &columns)
   }
 }
 
-Gf2mat_sparse Gf2mat_dense::sparsify()
+GF2mat_sparse GF2mat::sparsify()
 {
-  Gf2mat_sparse Z(nrows,ncols);
+  GF2mat_sparse Z(nrows,ncols);
   for (int i=0; i<nrows; i++) {
     for (int j=0; j<ncols; j++) {
       if (get(i,j)==1) {
@@ -168,9 +168,9 @@ Gf2mat_sparse Gf2mat_dense::sparsify()
   return Z;
 }
 
-bvec Gf2mat_dense::bvecify()
+bvec GF2mat::bvecify()
 {
-  it_assert1(nrows==1 || ncols==1,"Gf2mat_dense::bvecify()");
+  it_assert1(nrows==1 || ncols==1,"GF2mat::bvecify()");
   int n=(nrows==1 ? ncols : nrows);
   bvec result(n);
   for (int i=0; i<n; i++) {
@@ -180,36 +180,36 @@ bvec Gf2mat_dense::bvecify()
 }
 
 
-void Gf2mat_dense::set_row(int i, bvec x)
+void GF2mat::set_row(int i, bvec x)
 {
-  it_assert1(length(x)==ncols,"Gf2mat_dense::set_row()");
+  it_assert1(length(x)==ncols,"GF2mat::set_row()");
   for (int j=0; j<ncols; j++) {
     set(i,j,x(j));
   }
 }
  
-void Gf2mat_dense::set_col(int j, bvec x)
+void GF2mat::set_col(int j, bvec x)
 {
-  it_assert1(length(x)==nrows,"Gf2mat_dense::set_col()");
+  it_assert1(length(x)==nrows,"GF2mat::set_col()");
   for (int i=0; i<nrows; i++) {
     set(i,j,x(i));
   }
 }
 
 
-Gf2mat_dense gf2dense_eye(int m)
+GF2mat gf2dense_eye(int m)
 {
-  Gf2mat_dense Z(m,m);
+  GF2mat Z(m,m);
   for (int i=0; i<m; i++) {
     Z.set(i,i,1);
   }
   return Z;
 };
 
-Gf2mat_dense Gf2mat_dense::get_submatrix(int m1, int n1, int m2, int n2)
+GF2mat GF2mat::get_submatrix(int m1, int n1, int m2, int n2)
 {
-  it_assert1(m1>=0 && n1>=0 && m2>=m1 && n2>=n1 && m2<nrows && n2<ncols,"Gf2mat_dense::submatrix");
-  Gf2mat_dense result(m2-m1+1,n2-n1+1);
+  it_assert1(m1>=0 && n1>=0 && m2>=m1 && n2>=n1 && m2<nrows && n2<ncols,"GF2mat::submatrix");
+  GF2mat result(m2-m1+1,n2-n1+1);
 
   for (int i=m1; i<=m2; i++) {
     for (int j=n1; j<=n2; j++) {
@@ -221,12 +221,12 @@ Gf2mat_dense Gf2mat_dense::get_submatrix(int m1, int n1, int m2, int n2)
 }
 
 
-Gf2mat_dense Gf2mat_dense::concatenate_vertical(const Gf2mat_dense &X)
+GF2mat GF2mat::concatenate_vertical(const GF2mat &X)
 {
-  it_assert1(X.ncols==ncols,"Gf2mat_dense::concatenate_vertical()");
-  it_assert1(X.nwords==nwords,"Gf2mat_dense::concatenate_vertical()");
+  it_assert1(X.ncols==ncols,"GF2mat::concatenate_vertical()");
+  it_assert1(X.nwords==nwords,"GF2mat::concatenate_vertical()");
   
-  Gf2mat_dense result(nrows+X.nrows,ncols);
+  GF2mat result(nrows+X.nrows,ncols);
   for (int i=0; i<nrows; i++) {
     for (int j=0; j<nwords; j++) {
       result.data(i,j) = data(i,j);
@@ -242,13 +242,13 @@ Gf2mat_dense Gf2mat_dense::concatenate_vertical(const Gf2mat_dense &X)
   return result;
 }
 
-Gf2mat_dense Gf2mat_dense::concatenate_horizontal(const Gf2mat_dense &X)
+GF2mat GF2mat::concatenate_horizontal(const GF2mat &X)
 {
   //  cout << X.nrows << "     " << X.ncols << endl;
   //  cout << nrows << "     " << ncols << endl;
-  it_assert1(X.nrows==nrows,"Gf2mat_dense::concatenate_horizontal()");
+  it_assert1(X.nrows==nrows,"GF2mat::concatenate_horizontal()");
 
-  Gf2mat_dense result(nrows,X.ncols+ncols);
+  GF2mat result(nrows,X.ncols+ncols);
   for (int i=0; i<nrows; i++) {
     for (int j=0; j<ncols; j++) {
       result.set(i,j,get(i,j));
@@ -264,7 +264,7 @@ Gf2mat_dense Gf2mat_dense::concatenate_horizontal(const Gf2mat_dense &X)
   return result;
 }
 
-bvec Gf2mat_dense::get_row(int i)
+bvec GF2mat::get_row(int i)
 {
   bvec result = zeros_b(ncols);
   for (int j=0; j<ncols; j++) {
@@ -274,7 +274,7 @@ bvec Gf2mat_dense::get_row(int i)
   return result;
 }
 
-bvec Gf2mat_dense::get_col(int j)
+bvec GF2mat::get_col(int j)
 {
   bvec result = zeros_b(nrows);
   for (int i=0; i<nrows; i++) {
@@ -285,7 +285,7 @@ bvec Gf2mat_dense::get_col(int j)
 }
   
 
-int Gf2mat_dense::T_fact(Gf2mat_dense &T, Gf2mat_dense &U, ivec &perm)
+int GF2mat::T_fact(GF2mat &T, GF2mat &U, ivec &perm)
 {
   T = gf2dense_eye(nrows);
   U = *this;
@@ -340,7 +340,7 @@ int Gf2mat_dense::T_fact(Gf2mat_dense &T, Gf2mat_dense &U, ivec &perm)
 }
 
 
-int Gf2mat_dense::T_fact_update_bitflip(Gf2mat_dense &T, Gf2mat_dense &U, ivec &perm, int rank, int r, int c)
+int GF2mat::T_fact_update_bitflip(GF2mat &T, GF2mat &U, ivec &perm, int rank, int r, int c)
 {
   // First, update U (before re-triangulization)
   int c0=c;
@@ -349,7 +349,7 @@ int Gf2mat_dense::T_fact_update_bitflip(Gf2mat_dense &T, Gf2mat_dense &U, ivec &
       goto foundidx;
     }
   }
-  it_error("Gf2mat_dense::T_fact_update_bitflip() - internal error");  // should never reach this line
+  it_error("GF2mat::T_fact_update_bitflip() - internal error");  // should never reach this line
 
  foundidx:
   for (int i=0; i<nrows; i++) {
@@ -421,19 +421,19 @@ int Gf2mat_dense::T_fact_update_bitflip(Gf2mat_dense &T, Gf2mat_dense &U, ivec &
   return nrows;
 }
 
-int Gf2mat_dense::T_fact_update_addcol(Gf2mat_dense &T, Gf2mat_dense &U, ivec &perm, bvec newcol)
+int GF2mat::T_fact_update_addcol(GF2mat &T, GF2mat &U, ivec &perm, bvec newcol)
 {
   int i0 = T.rows();
   int j0 = U.cols();
-  it_assert1(j0>0,"Gf2mat_dense::T_fact_update_addcol()");
-  it_assert1(i0==T.cols(),"Gf2mat_dense::T_fact_update_addcol()");
-  it_assert1(i0==U.rows(),"Gf2mat_dense::T_fact_update_addcol()");
-  it_assert1(length(perm)==j0,"Gf2mat_dense::T_fact_update_addcol()");
-  it_assert1(U.get(j0-1,j0-1)==1,"Gf2mat::T_fact_update_addcol()");
-  it_assert0(U.row_rank()==j0,"Gf2mat::T_fact_update_addcol()");  // VERY TIME CONSUMING TEST
+  it_assert1(j0>0,"GF2mat::T_fact_update_addcol()");
+  it_assert1(i0==T.cols(),"GF2mat::T_fact_update_addcol()");
+  it_assert1(i0==U.rows(),"GF2mat::T_fact_update_addcol()");
+  it_assert1(length(perm)==j0,"GF2mat::T_fact_update_addcol()");
+  it_assert1(U.get(j0-1,j0-1)==1,"GF2mat::T_fact_update_addcol()");
+  it_assert0(U.row_rank()==j0,"GF2mat::T_fact_update_addcol()");  // VERY TIME CONSUMING TEST
 
   bvec z = T*newcol;
-  Gf2mat_dense Utemp = U.concatenate_horizontal(Gf2mat_dense(z,1));
+  GF2mat Utemp = U.concatenate_horizontal(GF2mat(z,1));
 
   // start working on position (j0,j0)
   int i;
@@ -465,15 +465,15 @@ int Gf2mat_dense::T_fact_update_addcol(Gf2mat_dense &T, Gf2mat_dense &U, ivec &p
 
 
 
-Gf2mat_dense Gf2mat_dense::inverse()
+GF2mat GF2mat::inverse()
 {
-  it_assert1(nrows==ncols,"Gf2mat_dense::inverse(): Matrix must be square");
+  it_assert1(nrows==ncols,"GF2mat::inverse(): Matrix must be square");
 
   // first compute the T-factorization
-  Gf2mat_dense T,U;
+  GF2mat T,U;
   ivec perm;
   int rank = T_fact(T,U,perm);
-  it_assert1(rank==ncols,"Gf2mat_dense::inverse(): Matrix is not full rank"); 
+  it_assert1(rank==ncols,"GF2mat::inverse(): Matrix is not full rank"); 
  
   // backward substitution
   for (int i=ncols-2; i>=0; i--) {
@@ -488,15 +488,15 @@ Gf2mat_dense Gf2mat_dense::inverse()
   return T;
 }
 
-int Gf2mat_dense::row_rank()
+int GF2mat::row_rank()
 {
-  Gf2mat_dense T,U;
+  GF2mat T,U;
   ivec perm;
   int rank = T_fact(T,U,perm);
   return rank;  
 }
 
-bool Gf2mat_dense::is_zero()
+bool GF2mat::is_zero()
 {
   for (int i=0; i<nrows; i++) {
     for (int j=0; j<nwords; j++) {
@@ -508,11 +508,11 @@ bool Gf2mat_dense::is_zero()
   return true;
 }
 
-bool Gf2mat_dense::operator==(const Gf2mat_dense &X) const
+bool GF2mat::operator==(const GF2mat &X) const
 {
   if (X.nrows!=nrows) { return false; }
   if (X.ncols!=ncols) { return false; }
-  it_assert1(X.nwords==nwords,"Gf2mat_dense::operator==()");
+  it_assert1(X.nwords==nwords,"GF2mat::operator==()");
  
   for (int i=0; i<nrows; i++) {
     for (int j=0; j<nwords; j++) {
@@ -526,19 +526,19 @@ bool Gf2mat_dense::operator==(const Gf2mat_dense &X) const
 }
 
 
-void Gf2mat_dense::add_rows(int i, int j)
+void GF2mat::add_rows(int i, int j)
 {
-  it_assert0(i>=0 && i<nrows,"Gf2mat_dense::add_rows() - out of range");
-  it_assert0(j>=0 && j<nrows,"Gf2mat_dense::add_rows() - out of range");
+  it_assert0(i>=0 && i<nrows,"GF2mat::add_rows() - out of range");
+  it_assert0(j>=0 && j<nrows,"GF2mat::add_rows() - out of range");
   for (int k=0; k<nwords; k++)   {
     data(i,k) ^= data(j,k);    
   }  
 }
 
-void Gf2mat_dense::swap_rows(int i, int j)
+void GF2mat::swap_rows(int i, int j)
 {
-  it_assert0(i>=0 && i<nrows,"Gf2mat_dense::swap_rows()");
-  it_assert0(j>=0 && j<nrows,"Gf2mat_dense::swap_rows()");
+  it_assert0(i>=0 && i<nrows,"GF2mat::swap_rows()");
+  it_assert0(j>=0 && j<nrows,"GF2mat::swap_rows()");
   for (int k=0; k<nwords; k++) {
     int temp = data(i,k);
     data(i,k) = data(j,k);
@@ -546,17 +546,17 @@ void Gf2mat_dense::swap_rows(int i, int j)
   }
 }
 
-void Gf2mat_dense::swap_cols(int i, int j)
+void GF2mat::swap_cols(int i, int j)
 {
-  it_assert0(i>=0 && i<ncols,"Gf2mat_dense::swap_cols()");
-  it_assert0(j>=0 && j<ncols,"Gf2mat_dense::swap_cols()");
+  it_assert0(i>=0 && i<ncols,"GF2mat::swap_cols()");
+  it_assert0(j>=0 && j<ncols,"GF2mat::swap_cols()");
   bvec temp = get_col(i);
   set_col(i,get_col(j));
   set_col(j,temp);
 }
 
 
-void Gf2mat_dense::operator=(const Gf2mat_dense &X)
+void GF2mat::operator=(const GF2mat &X)
 {
   nrows=X.nrows;
   ncols=X.ncols;
@@ -564,15 +564,15 @@ void Gf2mat_dense::operator=(const Gf2mat_dense &X)
   data = X.data;
 }
 
-Gf2mat_dense operator*(const Gf2mat_dense &X, const Gf2mat_dense &Y)
+GF2mat operator*(const GF2mat &X, const GF2mat &Y)
 {
-  it_assert1(X.ncols==Y.nrows,"Gf2mat_dense::operator*");
-  it_assert0(X.nwords>0,"Gfmat_dense::operator*");
-  it_assert0(Y.nwords>0,"Gfmat_dense::operator*");
+  it_assert1(X.ncols==Y.nrows,"GF2mat::operator*");
+  it_assert0(X.nwords>0,"Gfmat::operator*");
+  it_assert0(Y.nwords>0,"Gfmat::operator*");
 
   /*  
   // this can be done more efficiently?
-  Gf2mat_dense result(X.nrows,Y.ncols);
+  GF2mat result(X.nrows,Y.ncols);
   for (int i=0; i<X.nrows; i++) {
     for (int j=0; j<Y.ncols; j++) {
       bin b=0;
@@ -590,10 +590,10 @@ Gf2mat_dense operator*(const Gf2mat_dense &X, const Gf2mat_dense &Y)
   return mult_trans(X,Y.transpose());
 }
 
-bvec operator*(const Gf2mat_dense &X, const bvec &y) 
+bvec operator*(const GF2mat &X, const bvec &y) 
 {
-  it_assert1(length(y)==X.ncols,"Gf2mat_dense::operator*");
-  it_assert0(X.nwords>0,"Gfmat_dense::operator*");
+  it_assert1(length(y)==X.ncols,"GF2mat::operator*");
+  it_assert0(X.nwords>0,"Gfmat::operator*");
 
   /*  
   // this can be done more efficiently?
@@ -617,17 +617,17 @@ bvec operator*(const Gf2mat_dense &X, const bvec &y)
   return result; */
 
   // is this better?
-  return (mult_trans(X,Gf2mat_dense(y,0))).bvecify();
+  return (mult_trans(X,GF2mat(y,0))).bvecify();
 }
 
-Gf2mat_dense mult_trans(const Gf2mat_dense &X, const Gf2mat_dense &Y)
+GF2mat mult_trans(const GF2mat &X, const GF2mat &Y)
 {
-  it_assert1(X.ncols==Y.ncols,"Gf2mat_dense mult_trans");
-  it_assert0(X.nwords>0,"Gf2mat_dense mult_trans");
-  it_assert0(Y.nwords>0,"Gf2mat_dense mult_trans");
-  it_assert0(X.nwords==Y.nwords,"Gf2mat_dense mult_trans");
+  it_assert1(X.ncols==Y.ncols,"GF2mat mult_trans");
+  it_assert0(X.nwords>0,"GF2mat mult_trans");
+  it_assert0(Y.nwords>0,"GF2mat mult_trans");
+  it_assert0(X.nwords==Y.nwords,"GF2mat mult_trans");
   
-  Gf2mat_dense result(X.nrows,Y.nrows);
+  GF2mat result(X.nrows,Y.nrows);
 
   for (int i=0; i<X.nrows; i++) {
     for (int j=0; j<Y.nrows; j++) {
@@ -653,10 +653,10 @@ Gf2mat_dense mult_trans(const Gf2mat_dense &X, const Gf2mat_dense &Y)
   return result;
 }
 
-Gf2mat_dense Gf2mat_dense::transpose() const
+GF2mat GF2mat::transpose() const
 {
   // CAN BE SPEEDED UP
-  Gf2mat_dense result(ncols,nrows);
+  GF2mat result(ncols,nrows);
   
   for (int i=0; i<nrows; i++) {
     for (int j=0; j<ncols; j++) {
@@ -666,12 +666,12 @@ Gf2mat_dense Gf2mat_dense::transpose() const
   return result;
 }
 
-Gf2mat_dense operator+(const Gf2mat_dense &X, const Gf2mat_dense &Y)
+GF2mat operator+(const GF2mat &X, const GF2mat &Y)
 {
-  it_assert1(X.nrows==Y.nrows,"Gf2mat_dense operator+");
-  it_assert1(X.ncols==Y.ncols,"Gf2mat_dense operator+");
-  it_assert1(X.nwords==Y.nwords,"Gf2mat_dense operator+");
-  Gf2mat_dense result(X.nrows,X.ncols);
+  it_assert1(X.nrows==Y.nrows,"GF2mat operator+");
+  it_assert1(X.ncols==Y.ncols,"GF2mat operator+");
+  it_assert1(X.nwords==Y.nwords,"GF2mat operator+");
+  GF2mat result(X.nrows,X.ncols);
   
   for (int i=0; i<X.nrows; i++) {
     for (int j=0; j<X.nwords; j++) {
@@ -682,11 +682,11 @@ Gf2mat_dense operator+(const Gf2mat_dense &X, const Gf2mat_dense &Y)
   return result;
 }
 
-void Gf2mat_dense::permute_cols(ivec &perm, bool I)
+void GF2mat::permute_cols(ivec &perm, bool I)
 {
-  it_assert1(length(perm)==ncols,"Gf2mat_dense::permute_cols()");
+  it_assert1(length(perm)==ncols,"GF2mat::permute_cols()");
 
-  Gf2mat_dense temp = (*this);
+  GF2mat temp = (*this);
   for (int j=0; j<ncols; j++) {
     if (I==0) {
       set_col(j,temp.get_col(perm(j)));
@@ -696,11 +696,11 @@ void Gf2mat_dense::permute_cols(ivec &perm, bool I)
   }
 }
 
-void Gf2mat_dense::permute_rows(ivec &perm, bool I)
+void GF2mat::permute_rows(ivec &perm, bool I)
 {
-  it_assert1(length(perm)==nrows,"Gf2mat_dense::permute_rows()");
+  it_assert1(length(perm)==nrows,"GF2mat::permute_rows()");
 
-  Gf2mat_dense temp = (*this);
+  GF2mat temp = (*this);
   for (int i=0; i<nrows; i++) {
     if (I==0) {
       for (int j=0; j<nwords; j++) {
@@ -717,7 +717,7 @@ void Gf2mat_dense::permute_rows(ivec &perm, bool I)
 }
 
 
-std::ostream &operator<<(std::ostream &os, const Gf2mat_dense &X)
+std::ostream &operator<<(std::ostream &os, const GF2mat &X)
 {
   int i,j;
   os << "---- GF(2) matrix of dimension " << X.nrows << "*" << X.ncols
@@ -734,7 +734,7 @@ std::ostream &operator<<(std::ostream &os, const Gf2mat_dense &X)
   return os;
 }
 
-double Gf2mat_dense::density() const
+double GF2mat::density() const
 {
   int no_of_ones=0;
 
@@ -748,10 +748,10 @@ double Gf2mat_dense::density() const
 }
 
 
-it_file &operator<<(it_file &f, const Gf2mat_dense &X)
+it_file &operator<<(it_file &f, const GF2mat &X)
 {
   int bytecount = 3*sizeof(int)+X.nrows*X.nwords*sizeof(int);
-  f.write_data_header("Gf2mat_dense", bytecount);
+  f.write_data_header("GF2mat", bytecount);
 
   f.low_level_write(X.nrows);
   f.low_level_write(X.ncols);
@@ -765,12 +765,12 @@ it_file &operator<<(it_file &f, const Gf2mat_dense &X)
   return f; 
 }
 
-it_ifile &operator>>(it_ifile &f, Gf2mat_dense &X)
+it_ifile &operator>>(it_ifile &f, GF2mat &X)
 {
   it_file::data_header h;
   
   f.read_data_header(h);
-  if (h.type == "Gf2mat_dense") {
+  if (h.type == "GF2mat") {
     f.low_level_read(X.nrows);
     f.low_level_read(X.ncols);
     f.low_level_read(X.nwords);
