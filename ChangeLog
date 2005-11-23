@@ -1,7 +1,7 @@
-2005-11-23 Erik Larsson <erik.larsson@s3.kth.se>
-	* itpp/itpp/base/gf2mat.h added (the new GF2 matrix module)
-	* itpp/itpp/base/gf2mat.cpp added 
-
+2005-11-23 Erik Larsson <erik_g_larsson@users.sourceforge.net>
+	* itpp/itpp/base/gf2mat.{h,cpp} added (the new GF2 matrix module)
+	* itpp/itpp/tests/gf2mat_test.cpp added (test program for GF2 matrix module)
+	
 2005-11-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac: Removed some cpu-specific optimise flags from
