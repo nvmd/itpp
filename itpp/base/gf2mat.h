@@ -49,10 +49,10 @@
   Binary vectors are represented either via the bvec class (memory
   typically is not an issue here) or as n*1 (or 1*n) GF(2) matrix. 
 
-  Note that the bmat class also provides some functionality for matrix
-  algebra over GF(2) but this class is based on Mat<> which has a
+  Note that the \c bmat class also provides some functionality for matrix
+  algebra over GF(2) but this class is based on \c Mat<> which has a
   fundamentally different addressing mechanism and which is much less
-  memory efficient.  (Mat<> uses one byte memory minimum per element.)
+  memory efficient.  (\c Mat<> uses one byte memory minimum per element.)
   
   \author Erik G. Larsson
 
@@ -87,13 +87,24 @@ typedef Sparse_Vec<bin> GF2vec_sparse;
 //! Sparse GF(2) matrix
 typedef Sparse_Mat<bin> GF2mat_sparse;
 
-/*! \brief Dense GF(2) matrices
+/*! \brief Class for dense GF(2) matrices
 
   \author Erik G. Larsson 
+
+  \relates bmat
 
   This class is used to represent relatively large GF(2) matrices
   making efficient use of computer memory. (One bit in the matrix
   requires one bit of memory.)
+
+  The \c GF2mat class extends the \c bmat class by offering a more
+  memory efficient representation of data and providing several 
+  functios for linear algebra.   \c GF2mat may be used in lieu of
+  \c bmat whenever the linear algebra functionality or improved
+  memory efficiency is desired.
+
+  See also \c GF2mat_sparse which offers an efficient representation of sparse 
+  GF(2) matrices.
  */
 class GF2mat {
 public:
