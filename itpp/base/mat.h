@@ -112,8 +112,11 @@ namespace itpp {
     prepared for \c bin, \c short, \c int, \c double, and \c complex<double>
     vectors and these are predefined as: \c bmat, \c smat, \c imat, \c mat,
     and \c cmat. \c double and \c complex<double> are usually \c double and
-    \c complex<double> respectively. However, this can be changed when \
-    compiling the it++ (see installation notes for more details).
+    \c complex<double> respectively. However, this can be changed when 
+    compiling the it++ (see installation notes for more details). (Note: for 
+    binary matrices, an alternative to the bmat class is \c GF2mat and \c GF2mat_dense, 
+    which offer a more memory efficient representation and additional functions for 
+    linear algebra.) 
 
     Examples:
 
@@ -465,6 +468,8 @@ namespace itpp {
 
   /*!
     \relates Mat
+    \relates GF2mat
+    \relates GF2mat_sparse
     \brief bin matrix
   */
   typedef Mat<bin> bmat;
