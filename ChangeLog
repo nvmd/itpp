@@ -1,3 +1,13 @@
+2005-11-25  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/gf2mat.{h,cpp}: Added `namespace itpp'. Fixed improper
+	way of including header files. File comments addapted to the IT++
+	standard.
+	* itpp/itbase.h: Included `gf2mat.h'.
+	* tests/Makefile.am: Commented out gf2mat_test program, since it
+	is prepared in a different way than the standard IT++ testing
+	programs.
+
 2005-11-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/channel.cpp: fixed two minor bugs in COST channels'
