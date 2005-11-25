@@ -74,6 +74,6 @@
 #include <itpp/base/fastica.h>
 #include <itpp/base/integration.h>
 #include <itpp/base/freq_filt.h>
-
+#include <itpp/base/gf2mat.h>
 
 #endif // #ifndef ITBASE_H
