@@ -70,9 +70,9 @@ namespace itpp {
     /*! 
       \brief Set parameters for the turbo encoder/decoder
     
-      \param gen1 A vector with \a n1 elements containing the generator polynomials for the first constitiuent encoder 
-      \param gen2 A vector with \a n2 elements containing the generator polynomials for the second constitiuent encoder 
-      \param constraint_length The constraint length of the two constitiuent encoders 
+      \param gen1 A vector with \a n1 elements containing the generator polynomials for the first constituent encoder 
+      \param gen2 A vector with \a n2 elements containing the generator polynomials for the second constituent encoder 
+      \param constraint_length The constraint length of the two constituent encoders 
       \param interleaver_sequence An ivec defining the internal turbo interleaver. 
       \param in_iterations The number of decoding iterations. Default value is 8.
       \param in_metric Determines the decoder metric. May equal "MAP", LOGMAP", or "LOGMAX". Default value is "LOGMAX".
@@ -80,7 +80,7 @@ namespace itpp {
       LOGMAX decoding is used.
       This parameter allows for a down-scaling of the extrinsic information that will be passed on to the next decoder. 
       The default value 
-      is 1.0. This parameter is ignored for other metrices than "LOGMAX".
+      is 1.0. This parameter is ignored for other metrics than "LOGMAX".
       \param in_adaptive_stop If this parameter is true, then the iterations will stop if the decoding results after one 
       full iteration equals the previous iteration. Default value is false.
     */
@@ -103,7 +103,7 @@ namespace itpp {
       \param in_logmax_scale_factor The extrinsic information from each constituent decoder is to optimistic when 
       LOGMAX decoding is used.
       This parameter allows for a down-scaling of the extrinsic information that will be passed on to the next decoder. 
-      The default value is 1.0. This parameter is ignored for other metrices than "LOGMAX".
+      The default value is 1.0. This parameter is ignored for other metrics than "LOGMAX".
     */
     void set_metric(std::string in_metric="LOGMAX", double in_logmax_scale_factor=1.0);
 
@@ -155,12 +155,12 @@ namespace itpp {
     /*!
       \brief Encoder function
 
-      This function can encode several consequtive coding blocks. The output is organized as follows:
+      This function can encode several consecutive coding blocks. The output is organized as follows:
 
       \f[ s(1), p_{1,1}(1), p_{1,2}(1), \ldots , p_{1,n_1}(1), p_{2,1}(1), p_{2,2}(1), \ldots , p_{2,n_2}(1), s(2), \ldots \f]
 
       In the above expression \f$s(n)\f$ is the n-th systematic bit and \f$p_{l,k}(n)\f$ is the n-th bit from the k-th 
-      encoder polynom of the l-th constituent encoder. A tail of both systematic and parity bits is added after each 
+      encoder polynomial of the l-th constituent encoder. A tail of both systematic and parity bits is added after each 
       coding block to force both encoder to the zero state. The tail of each encoder is structured as follows (using 
       encoder one as an example):
 
@@ -168,7 +168,7 @@ namespace itpp {
 
       The tailbits from the first encoder are placed before the tailbits from the second encoder.
 
-      \param input The input bits the the encoder. Must contain an integer number of code blocks
+      \param input The input bits to the encoder. Must contain an integer number of code blocks
       \param output The encoded bits including two tail, one from each constituent encoder, after each coding block.
     */
     void encode(const bvec &input, bvec &output);
@@ -176,7 +176,7 @@ namespace itpp {
     /*! 
       \brief Decoder function
 
-      This function can decode several consequtive coding blocks that were encoded with the encode member function
+      This function can decode several consecutive coding blocks that were encoded with the encode member function
 
       \param received_signal The vector of received bits
       \param decoded_bits A vector of decoded bits
@@ -189,7 +189,7 @@ namespace itpp {
     /*! 
       \brief Decoder function
 
-      This function can decode several consequtive coding blocks that were encoded with the encode member function
+      This function can decode several consecutive coding blocks that were encoded with the encode member function
 
       \param received_signal The vector of received bits
       \param decoded_bits A vector of decoded bits
@@ -204,13 +204,13 @@ namespace itpp {
     /*! 
       \brief Encode a single block
 
-      This function is usefull if rate matching is to be aplied after the turbo encoder. The size of \a in1 and \a in2
+      This function is useful if rate matching is to be applied after the turbo encoder. The size of \a in1 and \a in2
       equals the size of \a input plus the tail bits. Tailbits are appended ate the end of \a in1 and \a in2. The number
       of rows in \a parity1 and \a parity2 equals the lengths of \a in1 and \a in2 respectively. The number of columns of
       \a parity1 and \a parity2 equals the number of parity bits from the first and the second constituent encoders
       respectively.
 
-      \param input The input bits the the encoder. Must contain a single code block
+      \param input The input bits to the encoder. Must contain a single code block
       \param in1 The input bits to the first constituent encoder with a tail added at the end
       \param in2 The input bits to the second constituent encoder (i.e. the interleaved data bits) with a tail 
       added at the end

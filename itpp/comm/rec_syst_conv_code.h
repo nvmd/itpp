@@ -46,7 +46,7 @@ namespace itpp {
     \ingroup fec
     \brief A Recursive Systematic Convolutional Encoder/Decoder class
   
-    The main purpose of this class is its use un the Turbo_Codec class which uses two recursive systematic
+    The main purpose of this class is to be used by the Turbo_Codec class which uses two recursive systematic
     convolutional encoders. It can however be used as a stand alone class. The map_decode
     member function implementation follows the paper "A Turbo Code Tutorial" by William 
     E. Ryan, New Mexico State University. This paper was found on the web and is probably
@@ -67,7 +67,7 @@ namespace itpp {
       The generator polynomials are given in Proakis integer form. First generator (gen(0)) is the recursive polynomial.
 
       \param gen A vector containing the generator polynomials of the RSC Code.
-      \param constraint_length The Constraing length of the encoder.
+      \param constraint_length The Constraint length of the encoder.
     */
     void set_generator_polynomials(const ivec &gen, int constraint_length);
 
@@ -101,9 +101,9 @@ namespace itpp {
     void encode(const bvec &input, bmat &parity_bits);
 
     /*!
-      \brief Maximum Aposteriori Probability symbol-by-symbol decoder.
+      \brief Maximum A Posteriori (MAP) Probability symbol-by-symbol decoder.
 
-      The extrinsic_input is the a priori information on each systematic bit. If no a priori information is availiable, this vector should
+      The extrinsic_input is the a priori information on each systematic bit. If no a priori information is available, this vector should
       contain only zeros. The extrinsic_output term may be passed to a subsequent decoder in a Turbo
       scheme. The decision variable is \code L = Lc*rec_systematic + extrinsic_output \endcode where \code Lc = 4*sqrt(Ec)/N0 \endcode 
 
@@ -117,9 +117,9 @@ namespace itpp {
 			    bool set_terminated = false);
 
     /*!
-      \brief Log domain implementation of the Maximum Aposteriori Probability symbol-by-symbol decoder.
+      \brief Log domain implementation of the Maximum A Posteriori (MAP) Probability symbol-by-symbol decoder.
 
-      The extrinsic_input is the a priori information on each systematic bit. If no a priori information is availiable, this vector should
+      The extrinsic_input is the a priori information on each systematic bit. If no a priori information is available, this vector should
       contain only zeros. The extrinsic_output term may be passed to a subsequent decoder in a Turbo
       scheme. The decision variable is \code L = Lc*rec_systematic + extrinsic_output \endcode where \code Lc = 4*sqrt(Ec)/N0 \endcode 
 
