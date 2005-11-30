@@ -83,6 +83,13 @@ namespace itpp {
   
     \section fix_intro Introduction
     
+    How to include the support for fixed-point data types in your program:
+    \code
+    #include <itfixedpoint.h>
+    \endcode
+    
+    \note itbase.h is automatically included by itfixedpoint.h.
+    
     Fixed-point data types in IT++:
     <ul>
     <li> Fix (real-valued, restrictions specified as constructor arguments)
@@ -113,8 +120,13 @@ namespace itpp {
     additions and subtractions. Also, it is used to "un-shift" the data when a
     fixed-point number is converted to floating point.
   
-    Names of classes and enums have been aligned with SystemC to some extent
-    (but the fixed-point data types in IT++ and SystemC are quite different).
+    Names of classes and enums have been aligned with the fixed-point data types
+    in SystemC to some extent, but the fixed-point data types in IT++ and SystemC
+    are quite different. In fact, the fixed-point data types in IT++ probably
+    correspond better to the variable-precision integer types in SystemC, but
+    there is one important difference: the fixed-point numbers in IT++ remember
+    the amount of bit-shifting that has been applied to them, so that they can
+    be converted back to "floating-point magnitude" easily if this is desired.
   
     Sometimes the documentation for the IT++ fixed-point data types states that
     a function is "useful in templated code". This means that the function
