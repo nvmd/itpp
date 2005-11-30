@@ -569,8 +569,7 @@ namespace itpp {
 	  availpos = p;
 	}
 	else if (h2.block_bytes-h2.hdr_bytes-h2.data_bytes >= h1.block_bytes) {
-	  h1.block_bytes = h2.block_bytes - h2.hdr_bytes -
-	    h2.data_bytes - h1.block_bytes;
+	  h1.block_bytes = h2.block_bytes - h2.hdr_bytes - h2.data_bytes;
 	  h2.block_bytes = h2.hdr_bytes + h2.data_bytes;
 	  s.seekp(p);
 	  write_data_header_here(h2);

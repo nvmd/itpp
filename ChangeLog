@@ -1,3 +1,11 @@
+2005-11-30  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/itfile.cpp: Fixed bug [1333897]. The problem with
+	infinite loop in `it_file::seek(...)' function has been solved by
+	fixing `it_file::write_data_header(...)' function. See the bug
+	report for more details. Thanks to Bjorn Furugard (luminosity) for
+	having reported this problem and solution for it.
+
 2005-11-25  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/gf2mat.{h,cpp}: Added `namespace itpp'. Fixed improper
