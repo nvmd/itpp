@@ -92,10 +92,10 @@ namespace itpp {
     
     Fixed-point data types in IT++:
     <ul>
-    <li> Fix (real-valued, restrictions specified as constructor arguments)
-    <li> Fixed (real-valued, restrictions specified as template arguments)
-    <li> CFix (complex-valued, restrictions specified as constructor arguments)
-    <li> CFixed (complex-valued, restrictions specified as template arguments)
+    <li> itpp::Fix (real-valued, restrictions specified as constructor arguments)
+    <li> itpp::Fixed (real-valued, restrictions specified as template arguments)
+    <li> itpp::CFix (complex-valued, restrictions specified as constructor arguments)
+    <li> itpp::CFixed (complex-valued, restrictions specified as template arguments)
     </ul>
 
     These classes have a common base class called Fix_Base; see inheritance
@@ -123,10 +123,15 @@ namespace itpp {
     Names of classes and enums have been aligned with the fixed-point data types
     in SystemC to some extent, but the fixed-point data types in IT++ and SystemC
     are quite different. In fact, the fixed-point data types in IT++ probably
-    correspond better to the variable-precision integer types in SystemC, but
-    there is one important difference: the fixed-point numbers in IT++ remember
-    the amount of bit-shifting that has been applied to them, so that they can
-    be converted back to "floating-point magnitude" easily if this is desired.
+    correspond better to the variable-precision integer types in SystemC (with
+    one important difference: the fixed-point numbers in IT++ remember the amount
+    of bit-shifting that has been applied to them, so that they can be converted
+    back to "floating-point magnitude" easily if this is desired). The reason for
+    this design choice in IT++ is to make the fixed-point simulations as fast as
+    possible. If necessary, the core parts in itbase.h (e.g. Array, Vec and Mat)
+    should be able to use some other data type than the ones presented here,
+    assuming that a proper itpp::Factory is created for the data type, just like
+    itpp::Fix_Factory has been created for these data types.
   
     Sometimes the documentation for the IT++ fixed-point data types states that
     a function is "useful in templated code". This means that the function
