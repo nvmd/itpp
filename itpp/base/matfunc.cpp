@@ -136,8 +136,8 @@ namespace itpp {
   template void diag(const vec &in, mat &m);
   template void diag(const cvec &in, cmat &m);
 
-  template mat diag(const vec &v);
-  template cmat diag(const cvec &v);
+  template mat diag(const vec &v, const int K);
+  template cmat diag(const cvec &v, const int K);
 
   template mat bidiag(const vec &, const vec &);
   template cmat bidiag(const cvec &, const cvec &);

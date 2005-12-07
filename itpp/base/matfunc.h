@@ -384,12 +384,17 @@ namespace itpp {
     The size of the return matrix will be \f$n \times n\f$, where \f$n\f$ is the length of the input vector \c v.
   */
   template<class T>
-    Mat<T> diag(const Vec<T> &v)
+    Mat<T> diag(const Vec<T> &v, const int K = 0)
     {
-      Mat<T> m(v.size(), v.size());
+      Mat<T> m(v.size()+abs(K), v.size()+abs(K));
       m = T(0);
-      for (int i=v.size()-1; i>=0; i--)
-	m(i,i) = v(i);
+      if (K>0)
+	for (int i=v.size()-1; i>=0; i--)
+	  m(i,i+K) = v(i);
+      else
+	for (int i=v.size()-1; i>=0; i--)
+	  m(i-K,i) = v(i);
+
       return m;
     }
 
@@ -1048,9 +1053,9 @@ namespace itpp {
   extern template void diag(const cvec &in, cmat &m);
 
   //! Extern Template instantiation of diag
-  extern template mat diag(const vec &v);
+  extern template mat diag(const vec &v, const int K);
   //! Extern Template instantiation of diag
-  extern template cmat diag(const cvec &v);
+  extern template cmat diag(const cvec &v, const int K);
 
   //! Extern Template instantiation of bidiag
   extern template mat bidiag(const vec &, const vec &);
