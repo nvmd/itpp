@@ -101,7 +101,7 @@ namespace itpp {
 
     a.A_signal.arm(56.2, 3); // First event in 56.2 seconds carrying data = 3
   
-    EventQueue::start(); // start the event-based simulation
+    Event_Queue::start(); // start the event-based simulation
   }
 
   \endcode
