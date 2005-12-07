@@ -1,6 +1,11 @@
 2005-12-07  Tony Ottosson  <tonyottosson@users.sourceforge.net>
 
-	* itpp/base/protocol/{events.h,signals_slots.h}: Documentation updates.
+	* itpp/base/matfunc.{h,cpp}: diag() now takes a second argument stating
+	which diagonal to fill with values (matlab compatible).
+
+2005-12-07  Tony Ottosson  <tonyottosson@users.sourceforge.net>
+
+	* itpp/protocol/{events.h,signals_slots.h}: Documentation updates.
 
 2005-11-30  Adam Piatyszek  <ediap@users.sourceforge.net>
 
