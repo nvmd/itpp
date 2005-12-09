@@ -1,5 +1,16 @@
 2005-12-07  Tony Ottosson  <tonyottosson@users.sourceforge.net>
 
+	* itpp/base/poly.{h,cpp}: new files added with support
+	for polynomials. For now poly(), polyval(), and roots().
+	* itpp/base/filter_design.{h,cpp}: new files added with support
+	for filter design. For now only polystab() and freqz().
+	* itpp/itbase.h: updated includes with new files.
+	* itpp/base/Makefile.am: updated with new files.
+	* itpp/tests/{poly_test.cpp,filter_design_test.cpp}: new test files.
+	* itpp/tests/Makefile.am: updated with new files
+
+2005-12-07  Tony Ottosson  <tonyottosson@users.sourceforge.net>
+
 	* itpp/base/matfunc.{h,cpp}: diag() now takes a second argument stating
 	which diagonal to fill with values (matlab compatible).
 
