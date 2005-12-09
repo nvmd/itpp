@@ -75,5 +75,7 @@
 #include <itpp/base/integration.h>
 #include <itpp/base/freq_filt.h>
 #include <itpp/base/gf2mat.h>
+#include <itpp/base/poly.h>
+#include <itpp/base/filter_design.h>
 
 #endif // #ifndef ITBASE_H

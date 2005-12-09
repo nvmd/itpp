@@ -20,6 +20,7 @@ h_sources = \
 	fastmath.h \
 	fftw3.h \
 	filter.h \
+	filter_design.h \
 	freq_filt.h \
 	gf2mat.h \
 	help_functions.h \
@@ -36,6 +37,7 @@ h_sources = \
 	mat.h \
 	operators.h \
 	parser.h \
+	poly.h \
 	qr.h \
 	random.h \
 	scalfunc.h \
@@ -64,6 +66,7 @@ cpp_sources = \
 	fastica.cpp \
 	fastmath.cpp \
 	filter.cpp \
+	filter_design.cpp \
 	freq_filt.cpp \
 	gf2mat.cpp \
 	integration.cpp \
@@ -77,6 +80,7 @@ cpp_sources = \
 	matfunc.cpp \
 	operators.cpp \
 	parser.cpp \
+	poly.cpp \
 	qr.cpp \
 	random.cpp \
 	scalfunc.cpp \
