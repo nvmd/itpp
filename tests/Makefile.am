@@ -16,6 +16,7 @@ check_PROGRAMS = \
 	fastmath_test \
 	fft_test \
 	filter_test \
+	filter_design_test \
 	fix_test \
 	freq_filt_test \
 	galois_test \
@@ -30,6 +31,7 @@ check_PROGRAMS = \
 	modulator_test \
 	pam_test \
 	parser_test \
+	poly_test \
 	psk_test \
 	pulse_shape_test \
 	qam_test \
@@ -61,6 +63,7 @@ fastica_test_CPPFLAGS = -DFASTICA_TEST_FILE=\"$(srcdir)/fastica_test_data.txt\" 
 fastmath_test_SOURCES = fastmath_test.cpp
 fft_test_SOURCES = fft_test.cpp
 filter_test_SOURCES = filter_test.cpp
+filter_design_test_SOURCES = filter_design_test.cpp
 fix_test_SOURCES = fix_test.cpp
 freq_filt_test_SOURCES = freq_filt_test.cpp
 galois_test_SOURCES = galois_test.cpp
@@ -77,6 +80,7 @@ modulator_test_SOURCES = modulator_test.cpp
 pam_test_SOURCES = pam_test.cpp
 parser_test_SOURCES = parser_test.cpp
 parser_test_CPPFLAGS = -DPARSER_TEST_FILE=\"$(srcdir)/parser_test_data.txt\" $(AM_CPPFLAGS)
+poly_test_SOURCES = poly_test.cpp
 psk_test_SOURCES = psk_test.cpp
 pulse_shape_test_SOURCES = pulse_shape_test.cpp
 qam_test_SOURCES = qam_test.cpp
