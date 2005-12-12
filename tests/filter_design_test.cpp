@@ -5,21 +5,25 @@ using std::endl;
 using std::complex;
 using namespace itpp;
 
-#ifdef NO_LAPACK
+#ifndef HAVE_LAPACK
 #define __THIS_PROGRAM_WILL_NOT_RUN__
 #endif
 
-#ifdef NO_CBLAS
+#ifndef HAVE_CBLAS
 #define __THIS_PROGRAM_WILL_NOT_RUN__
 #endif
 
 #ifdef __THIS_PROGRAM_WILL_NOT_RUN__
-int main() { cout << "LAPACK and CBLAS is needed for this test program" << endl; }
+
+int main() 
+{ 
+  cout << "LAPACK and CBLAS is needed for this test program" << endl;
+}
+
 #else
 
 int main()
 {
-
   cout << "===================================" << endl;
   cout << "    Test of filter design routines" << endl;
   cout << "===================================" << endl;
@@ -41,7 +45,6 @@ int main()
     cout << "Polynomial, p = " << p << endl;
     cout << "p2 = polystab(p) = " << p2 << endl;
   }
-
 
   {
     cout << "Stabilisation of complex filters" << endl;
@@ -67,13 +70,10 @@ int main()
     cout << "a = " << a << endl;
     cout << "b = " << b << endl;
     cout << "freqz(b,a,32) = " << h << endl;
-
-
     
   }
 
   return 0;
-
 }
 
 #endif

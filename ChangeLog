@@ -1,3 +1,11 @@
+2005-12-12  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* tests/filter_design_test.ref, tests/poly_test.ref: added missing
+	reference files
+	* tests/filter_design_test.cpp: not used `NO_LAPACK' and
+	`NO_CBLAS' definitions replaced with `HAVE_LAPACK' and `HAVE_CBLAS'
+	* doc/Makefile.am: updated with new files
+
 2005-12-12  Tony Ottosson  <tonyottosson@users.sourceforge.net>
 
 	* itpp/base/matfunc.h: Added functions is_hermitian() and is_unitary()
