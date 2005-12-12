@@ -165,7 +165,7 @@ h_srccode_sources = \
 	$(top_srcdir)/itpp/srccode/vqtrain.h
 
 h_sources = \
-	$(top_srcdir)/itpp/alpha_modules.h \
+	$(top_srcdir)/itpp/config.h \
 	$(top_srcdir)/itpp/itbase.h \
 	$(top_srcdir)/itpp/itcomm.h \
 	$(top_srcdir)/itpp/itconfig.h \

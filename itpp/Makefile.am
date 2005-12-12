@@ -3,7 +3,6 @@ include $(top_srcdir)/Makefile.common
 SUBDIRS = base comm fixedpoint protocol srccode
 
 h_sources = \
-	alpha_modules.h \
 	config.h \
 	itbase.h \
 	itcomm.h \
