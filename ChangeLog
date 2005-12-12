@@ -1,3 +1,9 @@
+2005-12-13  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp.pc.in: fixed a typo in URL address
+	* itpp/comm/error_counters.cpp: fixed incorrect order in BLERC
+	constructor's initialisation list
+
 2005-12-12  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/itconfig.h: Doxygen modules moved from `alpha_modules.h'
