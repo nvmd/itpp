@@ -154,7 +154,7 @@ namespace itpp {
   BLERC::BLERC(void): setup_done(false), errors(0), corrects(0) {}
 
   
-  BLERC::BLERC(long inblocksize): blocksize(inblocksize), setup_done(true),
+  BLERC::BLERC(long inblocksize): setup_done(true), blocksize(inblocksize),
 				  errors(0), corrects(0) {}
 
     
