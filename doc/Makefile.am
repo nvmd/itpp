@@ -79,6 +79,7 @@ h_base_sources = \
 	$(top_srcdir)/itpp/base/fastmath.h \
 	$(top_srcdir)/itpp/base/fftw3.h \
 	$(top_srcdir)/itpp/base/filter.h \
+	$(top_srcdir)/itpp/base/filter_design.h \
 	$(top_srcdir)/itpp/base/freq_filt.h \
 	$(top_srcdir)/itpp/base/gf2mat.h \
 	$(top_srcdir)/itpp/base/help_functions.h \
@@ -95,6 +96,7 @@ h_base_sources = \
 	$(top_srcdir)/itpp/base/mat.h \
 	$(top_srcdir)/itpp/base/operators.h \
 	$(top_srcdir)/itpp/base/parser.h \
+	$(top_srcdir)/itpp/base/poly.h \
 	$(top_srcdir)/itpp/base/qr.h \
 	$(top_srcdir)/itpp/base/random.h \
 	$(top_srcdir)/itpp/base/scalfunc.h \
@@ -196,6 +198,7 @@ cpp_base_sources = \
 	$(top_srcdir)/itpp/base/fastica.cpp \
 	$(top_srcdir)/itpp/base/fastmath.cpp \
 	$(top_srcdir)/itpp/base/filter.cpp \
+	$(top_srcdir)/itpp/base/filter_design.cpp \
 	$(top_srcdir)/itpp/base/freq_filt.cpp \
 	$(top_srcdir)/itpp/base/gf2mat.cpp \
 	$(top_srcdir)/itpp/base/integration.cpp \
@@ -209,6 +212,7 @@ cpp_base_sources = \
 	$(top_srcdir)/itpp/base/matfunc.cpp \
 	$(top_srcdir)/itpp/base/operators.cpp \
 	$(top_srcdir)/itpp/base/parser.cpp \
+	$(top_srcdir)/itpp/base/poly.cpp \
 	$(top_srcdir)/itpp/base/qr.cpp \
 	$(top_srcdir)/itpp/base/random.cpp \
 	$(top_srcdir)/itpp/base/scalfunc.cpp \
