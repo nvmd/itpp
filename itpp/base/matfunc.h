@@ -337,6 +337,44 @@ namespace itpp {
     Mat<T> hermitian_transpose(const Mat<T> &m) { return m.H(); }
 
 
+
+  /*!  
+    \brief Returns true if matrix \c X is hermitian, false otherwise
+    \author M. Szalay
+
+    A square matrix \f$\mathbf{X}\f$ is hermitian if
+    \f[
+    \mathbf{X} = \mathbf{X}^H
+    \f]
+  */
+  template<class Num_T>
+    bool is_hermitian(const Mat<Num_T>& X) {
+    
+    if (X == X.H() )
+      return true;
+    else
+      return false;
+  }
+
+  /*!  
+    \brief Returns true if matrix \c X is unitary, false otherwise
+    \author M. Szalay
+
+    A square matrix \f$\mathbf{X}\f$ is unitary if
+    \f[
+    \mathbf{X}^H = \mathbf{X}^{-1}
+    \f]
+  */
+  template<class Num_T>
+    bool is_unitary(const Mat<Num_T>& X) {
+    
+    if ( inv(X) == X.H() )
+      return true;
+    else
+      return false;
+  }
+
+
   /*! 
     \brief Computes the Kronecker product of two matrices
 
@@ -1142,6 +1180,17 @@ namespace itpp {
   extern template imat hermitian_transpose(const imat &m);
   //! Extern Template instantiation of hermitian transpose
   extern template bmat hermitian_transpose(const bmat &m);
+
+
+  //! Extern Template instantiation of is_hermitian
+  extern template bool is_hermitian(const mat &X);
+  //! Extern Template instantiation of is_hermitian
+  extern template bool is_hermitian(const cmat &X);
+
+  //! Extern Template instantiation of is_unitary
+  extern template bool is_unitary(const mat &X);
+  //! Extern Template instantiation of is_unitary
+  extern template bool is_unitary(const cmat &X);
 
   //! Extern Template instantiation of repeat
   extern template mat repeat(const mat &m, int norepeats);
