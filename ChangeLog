@@ -1,5 +1,10 @@
 2005-12-12  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/itconfig.h: Doxygen modules moved from `alpha_modules.h'
+	into this file
+	* itpp/Makefile.am, doc/Makefile.am, doc/doxygen_html.cfg.in:
+	minor updates in lists of `*.h' and `*.cpp' sources 
+
 	* tests/filter_design_test.ref, tests/poly_test.ref: added missing
 	reference files
 	* tests/filter_design_test.cpp: not used `NO_LAPACK' and
