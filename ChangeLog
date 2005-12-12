@@ -1,3 +1,8 @@
+2005-12-12  Tony Ottosson  <tonyottosson@users.sourceforge.net>
+
+	* itpp/base/matfunc.h: Added functions is_hermitian() and is_unitary()
+	contributed by M. Szalay.
+
 2005-12-07  Tony Ottosson  <tonyottosson@users.sourceforge.net>
 
 	* itpp/base/poly.{h,cpp}: new files added with support
