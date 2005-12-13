@@ -1,5 +1,13 @@
 2005-12-13  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* Created lists of source files in `sources.mk' files, which are
+	included by `Makefile.am' files. This solves the problem of
+	doubled dependency information in `doc/Makefile.am'
+	* doc/local/documentation.doc: some minor fixes in the code
+	examples
+	* doc/local/itpp_header.html: added `tabs.css' stylesheet
+	compatible with Doxygen 1.4.5
+
 	* itpp.pc.in: fixed a typo in URL address
 	* itpp/comm/error_counters.cpp: fixed incorrect order in BLERC
 	constructor's initialisation list
