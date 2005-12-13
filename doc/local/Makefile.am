@@ -1,5 +1,4 @@
 include $(top_srcdir)/Makefile.common
+include $(srcdir)/sources.mk
 
-EXTRA_DIST = codingrules.doc copyright.doc documentation.doc help_wanted.doc \
-	index.doc installation.doc linking.doc test.doc users_guide.doc \
-	verification.doc itpp_footer.html itpp_header.html
+EXTRA_DIST = $(doc_local_sources) $(html_local_sources)

@@ -1,16 +1,7 @@
 include $(top_srcdir)/Makefile.common
+include $(srcdir)/sources.mk
 
 SUBDIRS = base comm fixedpoint protocol srccode
-
-h_sources = \
-	config.h \
-	itbase.h \
-	itcomm.h \
-	itconfig.h \
-	itfixedpoint.h \
-	itmex.h \
-	itprotocol.h \
-	itsrccode.h
 
 lib_LTLIBRARIES = lib@PACKAGE@.la
 lib@PACKAGE@_la_SOURCES = 
