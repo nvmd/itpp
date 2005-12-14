@@ -36,7 +36,7 @@
 #define HAVE_MEMORY_H 1
 
 /* Define if you have MKL library. */
-/* #undef HAVE_MKL */
+#define HAVE_MKL
 
 /* Define to 1 if you have the <stdint.h> header file. */
 #define HAVE_STDINT_H 1
