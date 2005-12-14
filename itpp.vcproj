@@ -34,7 +34,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/itpp.lib"/>
+				OutputFile=".lib/itpp_debug.lib"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
@@ -74,7 +74,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="$(OutDir)/itpp.lib"/>
+				OutputFile=".lib/itpp.lib"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
