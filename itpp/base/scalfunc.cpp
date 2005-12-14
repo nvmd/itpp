@@ -33,10 +33,12 @@
 #include <ctime>
 #include <cmath>
 #include <complex>
+#include <math.h>
 
 #include <itpp/base/itassert.h>
 #include <itpp/base/vec.h>
 #include <itpp/base/scalfunc.h>
+
 
 #ifdef _MSC_VER
 double lgamma(double x)
@@ -251,7 +253,7 @@ namespace itpp {
     f = 1.0 / f;
 
     // and do the final scaling
-    f = f * exp(-z * z) / sqrt(M_PI);
+	f = f * exp(-z * z) / sqrt(3.14159265358979323846);
 
     return f;
   }
@@ -280,7 +282,7 @@ namespace itpp {
       term *= -z2 / static_cast<double>(n + 1);
     }
 
-    return sum * 2.0 / sqrt(M_PI);
+    return sum * 2.0 / sqrt(3.14159265358979323846);
   }
 
   /*
@@ -312,7 +314,7 @@ namespace itpp {
       sum += b; 
     }
 
-    sum *= 2.0 * exp(-z * z) / M_PI;
+    sum *= 2.0 * exp(-z * z) / 3.14159265358979323846;
 
     return std::complex<double>(-sum.imag(), sum.real());
   }
