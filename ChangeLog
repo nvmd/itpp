@@ -1,3 +1,7 @@
+2005-12-15  Thomas Eriksson  <thomases2@users.sourceforge.net>
+
+	* Updated the documentation on IT++ and MKL setup for MSVC++.
+
 2005-12-15  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/scalfunc.cpp, itpp/base/source.cpp,	itpp/base/timing.cpp: 
