@@ -3,6 +3,8 @@ include $(srcdir)/sources.mk
 
 SUBDIRS = base comm fixedpoint protocol srccode
 
+EXTRA_DIST = config_msvc.h
+
 lib_LTLIBRARIES = lib@PACKAGE@.la
 lib@PACKAGE@_la_SOURCES = 
 lib@PACKAGE@_la_LDFLAGS = -version-info $(GENERIC_LIBRARY_VERSION)

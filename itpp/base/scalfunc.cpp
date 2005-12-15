@@ -33,7 +33,6 @@
 #include <ctime>
 #include <cmath>
 #include <complex>
-#include <math.h>
 
 #include <itpp/base/itassert.h>
 #include <itpp/base/vec.h>
@@ -43,31 +42,36 @@
 #ifdef _MSC_VER
 double lgamma(double x)
 {
-	it_error_if(x<0,"lgamma: only defined for x>=0");
-	return (x+0.5)*log(x+5.5)-x-5.5+log((2.50662827510730+190.9551718930764/(x+1)-216.8366818437280/(x+2)+60.19441764023333/(x+3)-3.08751323928546/(x+4)+0.00302963870525/(x+5)-0.00001352385959072596/(x+6))/x);
-}
-
-namespace itpp { 
-double gamma(double x)
-{
-	double s=(2.50662827510730+190.9551718930764/(x+1)-216.8366818437280/(x+2)+60.19441764023333/(x+3)-3.08751323928546/(x+4)+0.00302963870525/(x+5)-0.00001352385959072596/(x+6))/x;
-	if (s<0) return -exp((x+0.5)*log(x+5.5)-x-5.5+log(-s));
-	else return exp((x+0.5)*log(x+5.5)-x-5.5+log(s));
-}
+  it_error_if(x < 0, "lgamma(): only defined for x >= 0");
+  return ((x + 0.5) * log(x + 5.5) - x - 5.5 
+	  + log((2.50662827510730 + 190.9551718930764 / (x + 1)
+		 - 216.8366818437280 / (x + 2) + 60.19441764023333 
+		 / (x + 3) - 3.08751323928546 / (x + 4) + 0.00302963870525
+		 / (x + 5) - 0.00001352385959072596 / (x + 6)) / x));
 }
 
 double cbrt(double x)
 {
-	it_error("cbrt() not yet implemented for MS C++");
-    return 0.0;
+  it_error("cbrt() not yet implemented for MS C++");
+  return 0.0;
 }
-
 #endif
 
 namespace itpp { 
 
-  // Part of C99.
 #ifdef _MSC_VER
+  double gamma(double x)
+  {
+    double s = (2.50662827510730 + 190.9551718930764 / (x + 1)
+		- 216.8366818437280 / (x + 2) + 60.19441764023333
+		/ (x + 3) - 3.08751323928546 / (x + 4) + 0.00302963870525
+		/ (x + 5) - 0.00001352385959072596 / (x + 6)) / x;
+    if (s < 0) 
+      return (-exp((x + 0.5) * log(x + 5.5) - x - 5.5 + log(-s)));
+    else 
+      return exp((x + 0.5) * log(x + 5.5) - x - 5.5 + log(s));
+  }
+
   double erfc(double Y)
   {
     int  ISW,I;
@@ -253,7 +257,7 @@ namespace itpp {
     f = 1.0 / f;
 
     // and do the final scaling
-	f = f * exp(-z * z) / sqrt(3.14159265358979323846);
+	f = f * exp(-z * z) / sqrt(pi);
 
     return f;
   }
@@ -282,7 +286,7 @@ namespace itpp {
       term *= -z2 / static_cast<double>(n + 1);
     }
 
-    return sum * 2.0 / sqrt(3.14159265358979323846);
+    return sum * 2.0 / sqrt(pi);
   }
 
   /*
@@ -314,7 +318,7 @@ namespace itpp {
       sum += b; 
     }
 
-    sum *= 2.0 * exp(-z * z) / 3.14159265358979323846;
+    sum *= 2.0 * exp(-z * z) / pi;
 
     return std::complex<double>(-sum.imag(), sum.real());
   }

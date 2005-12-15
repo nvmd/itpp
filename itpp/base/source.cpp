@@ -30,31 +30,13 @@
  * -------------------------------------------------------------------------
  */
 
-#include <ctime>
-//#ifdef _MSC_VER
-//#  include <process.h>
-//#  define getpid _getpid
-//#else
-//#  include <unistd.h>
-//#endif
-
 #include <itpp/base/binary.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/base/scalfunc.h>
 #include <itpp/base/source.h>
 
+
 namespace itpp { 
-
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-
-#ifndef M_PI_2
-#define M_PI_2 1.57079632679489661923
-#endif
-#ifndef M_PI_4
-#define M_PI_4 0.78539816339744830962
-#endif
-
-#endif //DOXYGEN_SHOULD_SKIP_THIS
 
   ///////////////////////////////////////////////
   // Sine_Source
