@@ -23,8 +23,8 @@ the library is coded in C++ the name IT++ seemed like a good idea at the
 time. While departments come and go, IT++ have developed a life of its'
 own and is now released under the GNU GPL license for you to enjoy.
 
-IT++ works on GNU/Linux, Sun Solaris, Microsoft Windows (under Cygwin) 
-and Mac OS X (more testers needed).
+IT++ works on GNU/Linux, Sun Solaris, Microsoft Windows (under Cygwin and
+Microsoft Visual C++) and Mac OS X (more testers needed).
 \endlatexonly
 
 \htmlonly
@@ -82,8 +82,8 @@ the library is coded in C++ the name IT++ seemed like a good idea at the
 time. While departments come and go, IT++ have developed a life of its'
 own and is now released under the GNU GPL license for you to enjoy. </p>
 
-<p> IT++ works on GNU/Linux, Sun Solaris, Microsoft Windows (under Cygwin)
-and Mac OS X (more testers needed). </p>
+<p> IT++ works on GNU/Linux, Sun Solaris, Microsoft Windows (under Cygwin and
+Microsoft Visual C++) and Mac OS X (more testers needed). </p>
 
 </td>
 <td valign="top" width="20%" align="left">
@@ -101,6 +101,7 @@ and Mac OS X (more testers needed). </p>
 		<a href="http://www.netlib.org/blas/">Basic Linear Algebra Subprograms (BLAS)</a><br>
 		<a href="http://math-atlas.sourceforge.net/">Automatically Tuned Linear Algebra Software (ATLAS)</a><br>
 		<a href="http://www.netlib.org/lapack/">Linear Algebra PACKage (LAPACK)</a><br>
+		<a href="http://www.intel.com/cd/software/products/asmo-na/eng/perflib/219769.htm">Intel Math Kernel Library (MKL)</a><br>
 		<br>
 	<b>GNU Tools:</b><br>
 		<a href="http://gcc.gnu.org/">GNU GCC</a><br>
