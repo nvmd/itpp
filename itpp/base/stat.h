@@ -531,13 +531,11 @@ namespace itpp {
   double skewness(const vec &x);
 
 
-  // This is not the kurtosis defined by matlab (don't subtract 3)
   /*!
     \brief Calculate the kurtosis excess of the input vector x
 
-    The kurtosis is a measure of peakedness of a distribution. Several definitions
-    of kurtosis exist, but here it is assumed the so called kurtosis excess defined
-    as
+    The kurtosis excess is a measure of peakedness of a distribution. 
+	The kurtosis excess is defined as
     \f[
     \gamma_2 = \frac{\mathrm{E}[x-\mu]^4}{\sigma^4} - 3
     \f]
@@ -557,10 +555,23 @@ namespace itpp {
     \f]
     Here \f$m_2\f$ is the sample variance and \f$m_4\f$ is the 4th sample
     central moment.
-    
-    This is not the kurtosis defined by matlab which do not subtract 3!
   */
-  double kurtosis(const vec &x);
+  double kurtosisexcess(const vec &x);
+
+    /*!
+    \brief Calculate the kurtosis of the input vector x
+
+    The kurtosis is a measure of peakedness of a distribution. The kurtosis 
+	is defined as
+    \f[
+    \gamma_2 = \frac{\mathrm{E}[x-\mu]^4}{\sigma^4}
+    \f]
+    where \f$\mu\f$ is the mean and \f$\sigma\f$ the standard deviation.
+	For a Gaussian variable, the kurtusis is 3.
+
+	See also the definition of kurtosisexcess.
+  */
+  inline double kurtosis(const vec &x) {return kurtosisexcess(x)+3;}
 
   //!@}
 

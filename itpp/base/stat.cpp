@@ -192,8 +192,7 @@ namespace itpp {
     return k3/std::pow(k2, 3.0/2.0);
   }
 
-
-  double kurtosis(const vec &x)
+  double kurtosisexcess(const vec &x)
   {
     int n = x.size();
     double m2 = variance(x);
