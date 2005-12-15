@@ -1,6 +1,14 @@
+2005-12-15  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/scalfunc.cpp, itpp/base/source.cpp,	itpp/base/timing.cpp: 
+	minor cosmetic changes (math.h -> cmath; 3.1415 -> pi)
+	* Makefile.am, itpp/Makefile.am: added missing filenames to
+	EXTRA_DIST
+
 2005-12-14  Thomas Eriksson  <thomases2@users.sourceforge.net>
 
-	* Changes and additions for compability with Microsoft Visual C++ (MSVC)
+	* itpp.sln, itpp.vcproj, itpp/config_msvc.h: changes and additions
+	for compability with Microsoft Visual C++ (MSVC) 
 
 2005-12-13  Adam Piatyszek  <ediap@users.sourceforge.net>
 
@@ -31,8 +39,8 @@
 
 2005-12-12  Tony Ottosson  <tonyottosson@users.sourceforge.net>
 
-	* itpp/base/matfunc.h: Added functions is_hermitian() and is_unitary()
-	contributed by M. Szalay.
+	* itpp/base/matfunc.h: added functions is_hermitian() and
+	is_unitary() contributed by M. Szalay
 
 2005-12-07  Tony Ottosson  <tonyottosson@users.sourceforge.net>
 
@@ -40,9 +48,9 @@
 	for polynomials. For now poly(), polyval(), and roots().
 	* itpp/base/filter_design.{h,cpp}: new files added with support
 	for filter design. For now only polystab() and freqz().
-	* itpp/itbase.h: updated includes with new files.
-	* itpp/base/Makefile.am: updated with new files.
-	* itpp/tests/{poly_test.cpp,filter_design_test.cpp}: new test files.
+	* itpp/itbase.h: updated includes with new files
+	* itpp/base/Makefile.am: updated with new files
+	* itpp/tests/{poly_test.cpp,filter_design_test.cpp}: new test files
 	* itpp/tests/Makefile.am: updated with new files
 
 2005-12-07  Tony Ottosson  <tonyottosson@users.sourceforge.net>
