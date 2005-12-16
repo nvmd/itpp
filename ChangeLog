@@ -1,8 +1,14 @@
+2005-12-16  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/doc/local/installation.doc: minor cosmetic changes in the
+	MSVC++ and MKL part
+
 2005-12-15  Thomas Eriksson  <thomases2@users.sourceforge.net>
 
 	* Updated the documentation on IT++ and MKL setup for MSVC++.
-	* Old function "kurtosis" is renamed to "kurtosisexcess" for MATLAB compability 
-	and conformance to literature. A new function "kurtosis" is defined.
+	* Function `kurtosis' renamed to `kurtosisexcess' for MATLAB
+	compability and conformance to literature. A new function
+	`kurtosis' is defined. 
 
 2005-12-15  Adam Piatyszek  <ediap@users.sourceforge.net>
 
