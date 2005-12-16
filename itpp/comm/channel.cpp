@@ -852,7 +852,7 @@ namespace itpp {
 
   void TDL_Channel::set_channel_profile_uniform(const int no_taps)
   {
-    it_assert(no_taps >= 1, "Minimum number of taps is 1.");
+    it_assert(no_taps >= 1, "TDL_Channel::set_channel_profile_uniform(): Minimum number of taps is 1.");
 
     vec avg_power_dB = zeros(no_taps);
     ivec delay_prof(no_taps);
@@ -863,13 +863,13 @@ namespace itpp {
     set_channel_profile(avg_power_dB, delay_prof);
   }
 
-  // not implemented
-  void TDL_Channel::set_channel_profile_exponential(const double delay_spread)
+
+  // TODO: implement the exponential channel profile according to:
+  //       p(k*ts) = exp(-k*ts),    k = 0...no_taps-1 
+  void TDL_Channel::set_channel_profile_exponential(int no_taps)
   {
-    it_assert(delay_spread > 0.0, "Delay spread must be larger than 0.");
-
-
-    //a_prof /= norm(a_prof); // Normalize
+    it_assert(no_taps >= 1, "TDL_Channel::set_channel_profile_exponential(): Minimum number of taps is 1.");
+    it_error("TDL_Channel::set_channel_profile_exponential(): Not implemented yet");
   }
 
 
