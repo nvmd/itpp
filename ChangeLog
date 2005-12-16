@@ -1,6 +1,10 @@
 2005-12-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* itpp/doc/local/installation.doc: minor cosmetic changes in the
+	* itpp/comm/channel.cpp, itpp/comm/channel.h: interface of
+	function `set_channel_profile_exponential' changed; function still
+	not implemented
+
+	* doc/local/installation.doc: minor cosmetic changes in the
 	MSVC++ and MKL part
 
 2005-12-15  Thomas Eriksson  <thomases2@users.sourceforge.net>

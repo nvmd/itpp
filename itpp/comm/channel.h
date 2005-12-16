@@ -143,9 +143,9 @@ namespace itpp {
 
     \subsection channel_ref References
 
-    [Pätzold] Matthias Pätzold, Mobile fading channels, Wiley, 2002.
+    [Patzold] Matthias Patzold, Mobile fading channels, Wiley, 2002.
 
-    [Stüber] Gordon L. Stüber, Principles of mobile communication, 2nd. ed., Kluwer, 2001.
+    [Stuber] Gordon L. Stuber, Principles of mobile communication, 2nd. ed., Kluwer, 2001.
 
     [Rappaport] Theodore S. Rappaport, Wireless communications: principles and practise, Prentice Hall, 1996.
   */
@@ -215,7 +215,7 @@ namespace itpp {
 
     References:
 
-    [Pätzold] Matthias Pätzold, Mobile fading channels, Wiley, 2002.
+    [P"atzold] Matthias P"atzold, Mobile fading channels, Wiley, 2002.
   */
   class Fading_Generator {
   public:
@@ -291,11 +291,11 @@ namespace itpp {
     
     Furthermore also the number of doppler frequencies, \f$N_i\f$ and the method used to calculate the parameters
     \f$c_{i,n}\f$, \f$f_{i,n}\f$, and \f$\theta_{i,n}\f$ are parameters. For now the only method defined for calculating
-    the parameters is the Method of Exact Doppler Spread (MEDS). See [Pätzold] for more details.
+    the parameters is the Method of Exact Doppler Spread (MEDS). See [P"atzold] for more details.
 
     References:
 
-    [Pätzold] Matthias Pätzold, Mobile fading channels, Wiley, 2002.
+    [P"atzold] Matthias P"atzold, Mobile fading channels, Wiley, 2002.
   */
   class Rice_Fading_Generator : public Fading_Generator {
   public:
@@ -359,7 +359,7 @@ namespace itpp {
 
     References:
 
-    [Stüber] Gordon L. Stüber, Principles of mobile communication, 2nd. ed., Kluwer, 2001.
+    [St"uber] Gordon L. St"uber, Principles of mobile communication, 2nd. ed., Kluwer, 2001.
 
     [Rappaport] Theodore S. Rappaport, Wireless communications: principles and practise, Prentice Hall, 1996.
   */
@@ -414,7 +414,7 @@ namespace itpp {
 
     References:
 
-    [Stüber] Gordon L. Stüber, Principles of mobile communication, 2nd. ed., Kluwer, 2001.
+    [St"uber] Gordon L. St"uber, Principles of mobile communication, 2nd. ed., Kluwer, 2001.
 
     [Rappaport] Theodore S. Rappaport, Wireless communications: principles and practise, Prentice Hall, 1996.
   */
@@ -481,7 +481,7 @@ namespace itpp {
     <li>\a ITU_Pedestrian_A, 4-tap channel</li>
     <li>\a ITU_Pedestrian_B, 6-tap channel</li>
     </ul>
-    <li>COST 207 Channel models (see [Pätzold] pp. 259-266):
+    <li>COST 207 Channel models (see [P"atzold] pp. 259-266):
     <ul>
     <li>\a COST207_RA, Rural area, 4-tap channel</li>
     <li>\a COST207_RA6, Rural area, 6-tap channel</li>
@@ -511,7 +511,7 @@ namespace itpp {
 
     References:
 
-    [Pätzold] Matthias Pätzold, Mobile fading channels, Wiley, 2002.
+    [P"atzold] Matthias P"atzold, Mobile fading channels, Wiley, 2002.
 
     [3GPP TR 25.943] Technical Specification Group Radio Access Networs; Deployment aspects. Version 5.1.0 (2002-06).
   */
@@ -660,9 +660,9 @@ namespace itpp {
 
     References:
 
-    [Pätzold] Matthias Pätzold, Mobile fading channels, Wiley, 2002.
+    [P"atzold] Matthias P"atzold, Mobile fading channels, Wiley, 2002.
 
-    [Stüber] Gordon L. Stüber, Principles of mobile communication, 2nd. ed., Kluwer, 2001.
+    [St"uber] Gordon L. St"uber, Principles of mobile communication, 2nd. ed., Kluwer, 2001.
 
     [Rappaport] Theodore S. Rappaport, Wireless communications: principles and practise, Prentice Hall, 1996.
   */
@@ -679,8 +679,8 @@ namespace itpp {
     void set_channel_profile(const vec &avg_power_dB="0", const ivec &delay_prof="0");
     //! Set channel profile to uniform with \c no_taps taps
     void set_channel_profile_uniform(const int no_taps);
-    //! Set channel profile to exponential with \c delay_spread
-    void set_channel_profile_exponential(const double delay_spread);
+    //! Set channel profile to exponential with \c no_taps taps
+    void set_channel_profile_exponential(int no_taps);
     //! Set channel profile to a defined Channel_Specification (need to be discretized)
     void set_channel_profile(Channel_Specification &channel_spec);
 
