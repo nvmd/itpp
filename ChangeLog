@@ -1,16 +1,22 @@
+2005-12-16  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac, Makefile.am, INSTALL, doc/local/installation.doc:
+	Changed the name of the switch `--disable-html-docs' into
+	`--disable-html-doc'
+
 2005-12-16  Tony Ottosson  <tonyottosson@users.sourceforge.net>
 
-        * itpp/base/specmat.{h,.cpp}: Added real Toeplitz matrices using the
-        fucntion toeplitz(mat,mat). Generalized also to be valid for non-square
-        matrices.
+	* itpp/base/specmat.{h,cpp}: Added real Toeplitz matrices using
+	the fucntion toeplitz(mat, mat). Generalized also to be valid for
+	non-square matrices.
 
 2005-12-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* itpp/comm/channel.cpp, itpp/comm/channel.h: interface of
-	function `set_channel_profile_exponential' changed; function still
-	not implemented
+	* itpp/comm/channel.cpp, itpp/comm/channel.h: Interface of
+	function `set_channel_profile_exponential' changed. Function still
+	not implemented.
 
-	* doc/local/installation.doc: minor cosmetic changes in the
+	* doc/local/installation.doc: Minor cosmetic changes in the
 	MSVC++ and MKL part
 
 2005-12-15  Thomas Eriksson  <thomases2@users.sourceforge.net>
@@ -23,27 +29,27 @@
 2005-12-15  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/scalfunc.cpp, itpp/base/source.cpp,	itpp/base/timing.cpp: 
-	minor cosmetic changes (math.h -> cmath; 3.1415 -> pi)
-	* Makefile.am, itpp/Makefile.am: added missing filenames to
+	Minor cosmetic changes (math.h -> cmath; 3.1415 -> pi)
+	* Makefile.am, itpp/Makefile.am: Added missing filenames to
 	EXTRA_DIST
 
 2005-12-14  Thomas Eriksson  <thomases2@users.sourceforge.net>
 
-	* itpp.sln, itpp.vcproj, itpp/config_msvc.h: changes and additions
+	* itpp.sln, itpp.vcproj, itpp/config_msvc.h: Changes and additions
 	for compability with Microsoft Visual C++ (MSVC) 
 
 2005-12-13  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* Created lists of source files in `sources.mk' files, which are
 	included by `Makefile.am' files. This solves the problem of
-	doubled dependency information in `doc/Makefile.am'
-	* doc/local/documentation.doc: some minor fixes in the code
+	doubled dependency information in `doc/Makefile.am'.
+	* doc/local/documentation.doc: Some minor fixes in the code
 	examples
-	* doc/local/itpp_header.html: added `tabs.css' stylesheet
+	* doc/local/itpp_header.html: Added `tabs.css' stylesheet
 	compatible with Doxygen 1.4.5
 
-	* itpp.pc.in: fixed a typo in URL address
-	* itpp/comm/error_counters.cpp: fixed incorrect order in BLERC
+	* itpp.pc.in: Fixed a typo in the URL address
+	* itpp/comm/error_counters.cpp: Fixed incorrect order in BLERC
 	constructor's initialisation list
 
 2005-12-12  Adam Piatyszek  <ediap@users.sourceforge.net>
@@ -51,38 +57,38 @@
 	* itpp/itconfig.h: Doxygen modules moved from `alpha_modules.h'
 	into this file
 	* itpp/Makefile.am, doc/Makefile.am, doc/doxygen_html.cfg.in:
-	minor updates in lists of `*.h' and `*.cpp' sources 
+	Minor updates in lists of `*.h' and `*.cpp' sources 
 
-	* tests/filter_design_test.ref, tests/poly_test.ref: added missing
+	* tests/filter_design_test.ref, tests/poly_test.ref: Added missing
 	reference files
-	* tests/filter_design_test.cpp: not used `NO_LAPACK' and
-	`NO_CBLAS' definitions replaced with `HAVE_LAPACK' and `HAVE_CBLAS'
-	* doc/Makefile.am: updated with new files
+	* tests/filter_design_test.cpp: `NO_LAPACK' and	`NO_CBLAS'
+	definitions replaced with `HAVE_LAPACK' and `HAVE_CBLAS' 
+	* doc/Makefile.am: Updated with new files
 
 2005-12-12  Tony Ottosson  <tonyottosson@users.sourceforge.net>
 
-	* itpp/base/matfunc.h: added functions is_hermitian() and
+	* itpp/base/matfunc.h: Added functions is_hermitian() and
 	is_unitary() contributed by M. Szalay
 
 2005-12-07  Tony Ottosson  <tonyottosson@users.sourceforge.net>
 
-	* itpp/base/poly.{h,cpp}: new files added with support
+	* itpp/base/poly.{h,cpp}: New files added with support
 	for polynomials. For now poly(), polyval(), and roots().
-	* itpp/base/filter_design.{h,cpp}: new files added with support
+	* itpp/base/filter_design.{h,cpp}: New files added with support
 	for filter design. For now only polystab() and freqz().
-	* itpp/itbase.h: updated includes with new files
-	* itpp/base/Makefile.am: updated with new files
-	* itpp/tests/{poly_test.cpp,filter_design_test.cpp}: new test files
-	* itpp/tests/Makefile.am: updated with new files
+	* itpp/itbase.h: Updated includes with new files
+	* itpp/base/Makefile.am: Updated with new files
+	* itpp/tests/{poly_test.cpp,filter_design_test.cpp}: New test files
+	* itpp/tests/Makefile.am: Updated with new files
 
 2005-12-07  Tony Ottosson  <tonyottosson@users.sourceforge.net>
 
-	* itpp/base/matfunc.{h,cpp}: diag() now takes a second argument stating
-	which diagonal to fill with values (matlab compatible).
+	* itpp/base/matfunc.{h,cpp}: diag() now takes a second argument
+	stating which diagonal to fill with values (matlab compatible).
 
 2005-12-07  Tony Ottosson  <tonyottosson@users.sourceforge.net>
 
-	* itpp/protocol/{events.h,signals_slots.h}: Documentation updates.
+	* itpp/protocol/{events.h,signals_slots.h}: Documentation updates
 
 2005-11-30  Adam Piatyszek  <ediap@users.sourceforge.net>
 
@@ -104,12 +110,12 @@
 
 2005-11-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* itpp/comm/channel.cpp: fixed two minor bugs in COST channels'
+	* itpp/comm/channel.cpp: Fixed two minor bugs in COST channels'
 	specifications
 
 2005-11-23  Erik Larsson  <erik_g_larsson@users.sourceforge.net>
 
-	* itpp/base/gf2mat.{h,cpp}: added a new GF2 matrix module
+	* itpp/base/gf2mat.{h,cpp}: Added a new GF2 matrix module
 	* tests/gf2mat_test.cpp: added a test program for GF2 matrix
 	module
 	
@@ -149,7 +155,7 @@
 
 2005-11-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* itpp/comm/channel.cpp: fixed a minor problem with documentation
+	* itpp/comm/channel.cpp: Fixed a minor problem with documentation
 	parsing by Doxygen (added a few lacking parentheses)
 
 2005-10-17  Adam Piatyszek  <ediap@users.sourceforge.net>
@@ -159,29 +165,29 @@
 
 2005-10-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* doc/local/*.doc: documentation files updated in order to release
+	* doc/local/*.doc: Documentation files updated in order to release
 	version 3.9.0
 
 2005-10-14  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* configure.ac: fixed a bug with ATLAS/BLAS library detection
+	* configure.ac: Fixed a bug with ATLAS/BLAS library detection
 
-	* doc/local/installation.doc: description updated to reflect
+	* doc/local/installation.doc: Description updated to reflect
 	recent changes in configuration process
 
-	* itpp/*/*.{h,cpp}: cosmetic changes in copyright notes
+	* itpp/*/*.{h,cpp}: Cosmetic changes in copyright notes
 
 2005-10-13  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* configure.ac: fixed a problem with linking when using gcc-4.0.x
+	* configure.ac: Fixed a problem with linking when using gcc-4.0.x
 	with its gfortran compiler (tested on SuSE 10.0)
 
-	* configure.ac: fixed a bug with proper detection of FFTW and
+	* configure.ac: Fixed a bug with proper detection of FFTW and
 	LAPACK libraries when neither ATLAS nor CBLAS is installed
 
 2005-10-12  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* itpp/base/stat.h: added `within_tolerance' function for double
+	* itpp/base/stat.h: Added `within_tolerance' function for double
 	and complex<double> arguments and fixed minor documentation errors
 
 2005-09-26  Johan Bergman  <emwjohb@users.sourceforge.net>
@@ -191,28 +197,28 @@
 
 2005-09-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* test/Makefile.am: fixed testing routine execution parameters -
+	* test/Makefile.am: Fixed testing routine execution parameters -
 	there is no `-q' option of diff on Solaris 5.9
 
 2005-09-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* tests/turbo_test.cpp: added `using namespace std' statement
-	* itpp/comm/turbo.*, itpp/comm/rec_syst_conv_code.*: fixed minor
+	* tests/turbo_test.cpp: Added `using namespace std' statement
+	* itpp/comm/turbo.*, itpp/comm/rec_syst_conv_code.*: Fixed minor
 	bug (string -> std::string)
 
-	* itpp/*/*.{h,cpp}: file descriptions and copyright notes
+	* itpp/*/*.{h,cpp}: File descriptions and copyright notes
 	updated
 
 2005-09-15  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* TODO: updated to reflect recent changes
-	* configure.ac, Makefile.common: now $FLIBS are not added to
+	* TODO: Updated to reflect recent changes
+	* configure.ac, Makefile.common: Now $FLIBS are not added to
 	default $LIBS, but set as $AM_LDFLAGS
 
 	* Added autoheader file `itpp/config.h' that collects all DEFS
 	used in the project
-	* COPYING: updated with pure GPL2 license text
-	* itpp/base/*.{h,cpp}: file descriptions and copyright notes
+	* COPYING: Updated with pure GPL2 license text
+	* itpp/base/*.{h,cpp}: File descriptions and copyright notes
 	updated
 	* configure.ac: `--enable-pedantic' switch removed
 
@@ -224,7 +230,7 @@
 
 2005-09-14  Tony Ottosson  <tonyottosson@users.sourceforge.net>
 
-	* itpp/comm/ofdm.cpp: fixed bug on line 45, sqrt() should be
+	* itpp/comm/ofdm.cpp: Fixed bug on line 45, sqrt() should be
 	std::sqrt()
 	* Added the functions within_tolerance(x, xref, tol) in stat.h
 
@@ -237,24 +243,24 @@
 
 	* Support for libharu removed definitely. Documentation updated to
 	remove references to libharu.
-	* autogen.sh: script modifications based on autogen.sh from Gaim
+	* autogen.sh: Script modifications based on autogen.sh from Gaim
 	project
 	* TODO list updated
 
 2005-08-30  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* AUTHORS: updated developer's list
-	* COPYING: converted from UTF-8 to ASCII; GNU GPL-2 license text
+	* AUTHORS: Updated developer's list
+	* COPYING: Converted from UTF-8 to ASCII; GNU GPL-2 license text
 	updated 
 
 2005-08-29  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* itpp/graphics/Makefile.am, itpp/protocol/Makefile.am: fixed
+	* itpp/graphics/Makefile.am, itpp/protocol/Makefile.am: Fixed
 	small bugs in `*.cpp' source file listings
 
 2005-08-27  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* itpp/comm/ofdm.cpp: fixed a bug in the oversampling of the OFDM
+	* itpp/comm/ofdm.cpp: Fixed a bug in the oversampling of the OFDM
 	class (bugfix submitted by Thomas Eriksson)
 
 2005-08-26  Adam Piatyszek  <ediap@users.sourceforge.net>
@@ -301,44 +307,46 @@
 
 2005-07-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* configure.ac: fixed a bug that prevented detection of nonstandard 
+	* configure.ac: Fixed a bug that prevented detection of nonstandard 
 	CBLAS and LAPACK libraries ($FLIBS has not been used where neccessary)
 
 2005-07-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* configure.ac: changed version number to `3.9.0'
-	* doc/Makefile.am: added dependencies for `html/index.html' rule
+	* configure.ac: Changed version number to `3.9.0'
+	* doc/Makefile.am: Added dependencies for `html/index.html' rule
 	* All instances of `"itpp/h_file.h"' replaced with `<itpp/h_file.h>'
 	* Added `using namespace itpp;' to the tutorial source files
 
 2005-07-20  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* tests/pulse_shape_test.{cpp,ref}: fixed different floating-point
+	* tests/pulse_shape_test.{cpp,ref}: Fixed different floating-point
 	numbers' precision in `cout' output problem by using `setprecision()'
 	manipulator
 	
-	* tests/Makefile.am: Cygwin's `.exe' extension problem in test programs'
-	filenames 
+	* tests/Makefile.am: Cygwin's `.exe' extension problem in test
+	programs' filenames 
 	* TODO updated
 
 2005-07-19  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* INSTALL: part of the doc/local/installation.doc modified file inserted
-	before original GNU generic installation description
-	* configure.ac: added check for Dvips needed for HTML documentation
-	generation
+	* INSTALL: Part of the doc/local/installation.doc modified file
+	inserted before original GNU generic installation description
+	* configure.ac: Added check for Dvips needed for HTML
+	documentation generation
 
-	* Added `tests' directory with IT++ library modules test programs. Some
-	tests need to be revised and fixed, since failures occur.  Testing is
-	started with `make check' command and depends on `diff' program.
+	* Added `tests' directory with IT++ library modules test
+	programs. Some tests need to be revised and fixed, since failures
+	occur. Testing is started with `make check' command and depends on
+	`diff' program.
 
 2005-07-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* configure.ac: added check for Ghostscript needed for HTML documentation 
-	generation; configure output message extended with "Documentation tools:"
+	* configure.ac: Added check for Ghostscript needed for HTML
+	documentation generation; configure output message extended with
+	"Documentation tools:"
 	* HAVE_DOT is now set to NO by default in doxygen configuration file
-	* doc/local/installation.doc: minor updates in the Requirements Section
-	* autogen.sh: removed --force option
+	* doc/local/installation.doc: Minor updates in the Requirements Section
+	* autogen.sh: Removed --force option
 
 2005-07-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
@@ -357,7 +365,7 @@
 
 	* Recursive processing of doxygen replaced with a fixed set of
 	paths
-	* doc/local/installation.doc and doc/local/index.doc documentation
+	* doc/local/installation.doc, doc/local/index.doc: Documentation
 	files updated
 
 2005-07-13  Adam Piatyszek  <ediap@users.sourceforge.net>
@@ -425,4 +433,3 @@
 	* Changed the way the documentation is generated using doxygen
 
 	* Improved HTML header and footer of documentation webside
-
