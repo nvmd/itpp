@@ -1,3 +1,9 @@
+2005-12-16  Tony Ottosson  <tonyottosson@users.sourceforge.net>
+
+        * itpp/base/specmat.{h,.cpp}: Added real Toeplitz matrices using the
+        fucntion toeplitz(mat,mat). Generalized also to be valid for non-square
+        matrices.
+
 2005-12-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/channel.cpp, itpp/comm/channel.h: interface of
