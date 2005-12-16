@@ -2,7 +2,7 @@ include $(top_srcdir)/Makefile.common
 
 ACLOCAL_AMFLAGS = -I config
 
-if HTML_DOCS
+if HTML_DOC
 HTMLDOCDIR = doc
 endif
 

@@ -2,7 +2,7 @@
 #-------------------------------------------------------------------
 AC_PREREQ(2.59)
 AC_COPYRIGHT([Copyright (C) 2005  Adam Piatyszek <ediap@users.sourceforge.net>])
-AC_INIT([IT++], [3.9.0], [ediap@users.sourceforge.net], [itpp])
+AC_INIT([IT++], [3.9.0-rc1], [ediap@users.sourceforge.net], [itpp])
 AC_CONFIG_HEADER([itpp/config.h])
 AC_CONFIG_SRCDIR([itpp/base/vec.cpp])
 AC_CONFIG_AUX_DIR([config])
@@ -46,13 +46,13 @@ AC_ARG_ENABLE(debug,
 test "x$enable_debug" != xyes && enable_debug=no
 
 # Check for htmldocs switch
-AC_ARG_ENABLE(html-docs, 
-  [AS_HELP_STRING([--disable-html-docs], 
+AC_ARG_ENABLE(html-doc, 
+  [AS_HELP_STRING([--disable-html-doc], 
     [disable creation of HTML documentation (enabled by default)])])
-if test "x$enable_html_docs" = xno; then
-  enable_html_docs=disabled
+if test "x$enable_html_doc" = xno; then
+  enable_html_doc=disabled
 else
-  enable_html_docs=yes
+  enable_html_doc=yes
 fi
 
 # Provide --with-docdir
@@ -108,14 +108,14 @@ AC_CHECK_PROG([doxygen_ok], [doxygen], [yes], [no])
 AC_CHECK_PROG([latex_ok], [latex], [yes], [no])
 AC_CHECK_PROG([dvips_ok], [dvips], [yes], [no])
 AC_CHECK_PROG([gs_ok], [gs], [yes], [no])
-if test "x$enable_html_docs" != xdisabled; then
-  test "x$doxygen_ok" != xyes && enable_html_docs=no
-  test "x$latex_ok" != xyes && enable_html_docs=no
-  test "x$dvips_ok" != xyes && enable_html_docs=no
-  test "x$gs_ok" != xyes && enable_html_docs=no
+if test "x$enable_html_doc" != xdisabled; then
+  test "x$doxygen_ok" != xyes && enable_html_doc=no
+  test "x$latex_ok" != xyes && enable_html_doc=no
+  test "x$dvips_ok" != xyes && enable_html_doc=no
+  test "x$gs_ok" != xyes && enable_html_doc=no
   AC_PATH_PROG([PERL], [perl], [])
 fi
-AM_CONDITIONAL([HTML_DOCS], [test "x$enable_html_docs" = xyes])
+AM_CONDITIONAL([HTML_DOC], [test "x$enable_html_doc" = xyes])
 
 
 # Check for diff program used for tests
@@ -363,7 +363,7 @@ Directories:
 
 Switches:
   - debug ........ : ${enable_debug}
-  - html-docs .... : ${enable_html_docs}
+  - html-doc ..... : ${enable_html_doc}
 
 Documentation tools:
   - Doxygen ...... : ${doxygen_ok}

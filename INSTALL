@@ -58,7 +58,7 @@ important are:
     Switch to DEBUG mode by setting additional debugging flags used by
     compiler and linker (disabled by default) 
 
-`--disable-html-docs'
+`--disable-html-doc'
     Do not generate and install HTML documentation (enabled by default) 
 
 `--with-march=CPU'
@@ -121,7 +121,7 @@ Directories:
 
 Switches:
   - debug ........ : yes
-  - html-docs .... : yes
+  - html-doc ..... : yes
 
 Documentation tools:
   - Doxygen ...... : yes
