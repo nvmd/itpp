@@ -282,6 +282,38 @@ imat conference(int n)
     return output;
   }
 
+  mat toeplitz(const vec &c, const vec &r) {
+
+    mat output(c.size(), r.size());
+
+    for (int i=0; i<c.size(); i++) {
+      for(int j=0; j<std::min(r.size(), c.size()-i); j++)
+	output(i+j,j) = c(i);
+    }
+
+    for (int j=1; j<r.size(); j++) {
+      for(int i=0; i<std::min(c.size(), r.size()-j); i++)
+	output(i,i+j) = r(j);
+    }
+
+    return output;
+  }
+
+  mat toeplitz(const vec &c) {
+    mat output(c.size(), c.size());
+
+    for (int i=0; i<c.size(); i++) {
+      for(int j=0; j<c.size()-i; j++)
+	output(i+j,j) = c(i);
+    }
+
+    for (int j=1; j<c.size(); j++) {
+      for(int i=0; i<c.size()-j; i++)
+	output(i,i+j) = c(j);
+    }
+
+    return output;
+  }
 
 mat rotation_matrix(int dim, int plane1, int plane2, double angle)
 {

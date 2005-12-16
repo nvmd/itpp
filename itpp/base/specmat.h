@@ -165,11 +165,12 @@ namespace itpp {
     \author Adam Piatyszek
   */
   cmat toeplitz(const cvec &c, const cvec &r);
-
-  /*!
-    \brief Computes the Hermitian Toeplitz matrix.
-  */
+  //! Computes the Hermitian Toeplitz matrix.
   cmat toeplitz(const cvec &c);
+  //! Computes the Hermitian Toeplitz matrix.
+  mat toeplitz(const vec &c, const vec &r);
+  //! Computes the Hermitian Toeplitz matrix.
+  mat toeplitz(const vec &c);
 
   //!@}
 
