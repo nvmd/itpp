@@ -342,6 +342,7 @@ AC_CONFIG_FILES([Makefile \
   doc/tutorial/Makefile \
   doc/tutorial/src/Makefile \
   doc/local/Makefile \
+  doc/local/index.doc \
   doc/doxygen_html.cfg \
   tests/Makefile \
   itpp.pc \

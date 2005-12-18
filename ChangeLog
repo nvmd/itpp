@@ -1,3 +1,10 @@
+2005-12-18  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* NEWS: updated for itpp-3.9.0 release
+	* configure.ac, doc/doxygen_html.cfg.in, doc/local/index.doc.in,
+	doc/local/sources.mk: Changed the HTML main page to automatically
+	update the download links based on the PACKAGE_VERSION.
+
 2005-12-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac, Makefile.am, INSTALL, doc/local/installation.doc:
@@ -7,7 +14,7 @@
 2005-12-16  Tony Ottosson  <tonyottosson@users.sourceforge.net>
 
 	* itpp/base/specmat.{h,cpp}: Added real Toeplitz matrices using
-	the fucntion toeplitz(mat, mat). Generalized also to be valid for
+	the function toeplitz(mat, mat). Generalized also to be valid for
 	non-square matrices.
 
 2005-12-16  Adam Piatyszek  <ediap@users.sourceforge.net>
