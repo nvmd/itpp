@@ -1,5 +1,8 @@
 2005-12-19  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/specmat.cpp, itpp/base/specmat.h: Cosmetic changes -
+	removed e-mail address and updated author's info
+
 	* doc/sourceforge/howto_release_itpp.html: Source of the
 	"How to release a new version of IT++" documentation added
 

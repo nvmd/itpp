@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Definitions of special vectors and matrices
- * \author Tony Ottosson, Tobias Ringstrom and Pal Frenger
+ * \author Tony Ottosson, Tobias Ringstrom, Pal Frenger and Adam Piatyszek
  * 
  * $Date$
  * $Revision$
@@ -161,8 +161,6 @@ namespace itpp {
 
           c(n)*  c(n-1)*  c(n-2)* ...   c(0)
     \endverbatim
-
-    \author Adam Piatyszek
   */
   cmat toeplitz(const cvec &c, const cvec &r);
   //! Computes the Hermitian Toeplitz matrix.
