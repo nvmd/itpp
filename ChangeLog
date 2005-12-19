@@ -1,6 +1,13 @@
+2005-12-19  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/sourceforge/howto_release_itpp.html: Source of the
+	"How to release a new version of IT++" documentation added
+
 2005-12-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* NEWS: updated for itpp-3.9.0 release
+	* IT++ 3.9.0-rc1 released (CVS tag: release-3-9-0-rc1)
+	
+	* NEWS: Updated for itpp-3.9.0 release
 	* configure.ac, doc/doxygen_html.cfg.in, doc/local/index.doc.in,
 	doc/local/sources.mk: Changed the HTML main page to automatically
 	update the download links based on the PACKAGE_VERSION.
