@@ -1,5 +1,9 @@
 2005-12-20  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/comm/error_counters.cpp, itpp/comm/error_counters.h: Error
+	and correct bit/packet counters are now of `double' type instead
+	of `long'.
+
 	* configure.ac, itpp/base/lapack.h: Fixed bug [1385960]. Although
 	the MKL library was detected properly, the IT++ compilation failed
 	on files that use `itpp/base/lapack.h'. The patch attached to the

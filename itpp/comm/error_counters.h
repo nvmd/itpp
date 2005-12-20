@@ -46,19 +46,22 @@ namespace itpp {
     #include <itpp/itcomm.h>
 
     int main() {
-    //Initiate the Bit Error Counter
-    BERC berc;
+      //Initiate the Bit Error Counter
+      BERC berc;
 
-    //Initiate a Binary Symetric Channel with cross-over probability 0.1
-    BSC binary_symetric_channel(0.1);
+      //Initiate a Binary Symetric Channel with cross-over probability 0.1
+      BSC binary_symetric_channel(0.1);
   
-    bvec transmitted_bits = randb(100);
-    bvec received_bits = binary_symetric_channel(transmitted_bits);
+      bvec transmitted_bits = randb(100);
+      bvec received_bits = binary_symetric_channel(transmitted_bits);
 
-    //Count the number of bit errors
-    berc.count(transmitted_bits,received_bits);
+      //Count the number of bit errors
+      berc.count(transmitted_bits, received_bits);
 
-    cout << "Estimated bit error probability is " << berc.get_errorrate() << endl;
+      cout << "Estimated bit error probability is " << berc.get_errorrate() 
+           << endl;
+
+      return 0;
     } 
     \endcode
   */
@@ -76,25 +79,23 @@ namespace itpp {
     */
     BERC(long indelay = 0, long inignorefirst = 0, long inignorelast = 0);
     //! Cumulative error counter
-    void  count(const bvec &in1, const bvec &in2);
+    void count(const bvec &in1, const bvec &in2);
     //! Run this member function if the delay between \a in1 and
     //! \a in2 is unknown. 
-    void  estimate_delay(const bvec &in1, const bvec &in2, long mindelay = -100,
-			 long maxdelay = 100);
+    void estimate_delay(const bvec &in1, const bvec &in2, long mindelay = -100,
+			long maxdelay = 100);
     //! Clears the bit error counter
-    void  clear() { errors = 0; corrects = 0; }
+    void clear() { errors = 0; corrects = 0; }
     //! Writes an error report
-    void  report();
+    void report();
     //! Return the \a delay, assumed or estimated, between \a in1 and \a in2.
-    long  get_delay() { return delay; }
+    long get_delay() { return delay; }
     //! Returns the counted number of bit errors
-    long  get_errors() { return errors; }
+    double get_errors() { return errors; }
     //! Returns the counted number of corectly received bits
-    long  get_corrects() { return corrects; }
+    double get_corrects() { return corrects; }
     //! Returns the estimated bit error rate.
-    double get_errorrate() { 
-      return static_cast<double>(errors) / (corrects + errors); 
-    }
+    double get_errorrate() { return (errors / (corrects + errors)); }
     /*!
       \brief static function to allow simple and fast count of bit-errors
 
@@ -102,19 +103,19 @@ namespace itpp {
       \code
       bvec in1 = randb(100);
       bvec in2 = randb(100);
-      long errors = BERC::count_errors(in1, in2);
+      double errors = BERC::count_errors(in1, in2);
       \endcode
     */
-    static long count_errors(const bvec &in1, const bvec &in2, long indelay = 0,
-			     long inignorefirst = 0, long inignorelast = 0);
+    static double count_errors(const bvec &in1, const bvec &in2, 
+			       long indelay = 0, long inignorefirst = 0, 
+			       long inignorelast = 0);
 
-    //protected:
   private:
-    long	delay;
-    long	ignorefirst;
-    long	ignorelast;
-    long	errors;
-    long	corrects;
+    long delay;
+    long ignorefirst;
+    long ignorelast;
+    double errors;
+    double corrects;
   };
 
   /*!
@@ -135,24 +136,21 @@ namespace itpp {
     //! Clear the block error counter
     void clear() { errors = 0; corrects = 0; }
     //! Returns the number of block errors
-    long get_errors() { return errors; }
+    double get_errors() { return errors; }
     //! Returns the number of correct blocks
-    long get_corrects() { return corrects; }
+    double get_corrects() { return corrects; }
     //! Returns the block error rate
-    double get_errorrate() { 
-      return static_cast<double>(errors) / (corrects + errors); 
-    }
+    double get_errorrate() { return (errors / (corrects + errors)); }
 
     //protected:
   private:
     bool setup_done;
     long blocksize;
-    long errors;
-    long corrects;
+    double errors;
+    double corrects;
     bool CORR;
   };
 
 } // namespace itpp
 
 #endif // #ifndef ERROR_COUNTERS_H
-
