@@ -1,5 +1,11 @@
 2005-12-20  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/Makefile.am: Added support for redesigned tests, which
+	should be more robust to negligible precison errors, ie.
+	plus/minus zero. 
+	* tests/pulse_shape_test2.cpp, tests/pulse_shape_test2.ref:
+	Redesined tests of pulse shaping classes added.
+
 	* itpp/comm/error_counters.cpp, itpp/comm/error_counters.h: Error
 	and correct bit/packet counters are now of `double' type instead
 	of `long'.
