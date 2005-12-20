@@ -31,6 +31,7 @@
  * -------------------------------------------------------------------------
  */
 
+#include <iomanip>
 #include <itpp/itconfig.h>
 #include <itpp/base/binary.h>
 #include <itpp/base/matfunc.h>
@@ -106,6 +107,7 @@ namespace itpp {
 
   void BERC::report()
   {
+    std::cout.setf(std::ios::fixed);
     std::cout << std::endl
 	      << "==================================" << std::endl
 	      << "     Bit Error Counter Report     " << std::endl
@@ -113,16 +115,18 @@ namespace itpp {
 	      << " Ignore First           = " << ignorefirst << std::endl
 	      << " Ignore Last            = " << ignorelast << std::endl
 	      << " Delay                  = " << delay << std::endl
-	      << " Number of counted bits = " << (errors + corrects) << std::endl
-	      << " Number of errors       = " << errors << std::endl
+	      << " Number of counted bits = " << std::setprecision(0) 
+	      << (errors + corrects) << std::endl
+	      << " Number of errors       = " << std::setprecision(0) 
+	      << errors << std::endl
 	      << "==================================" << std::endl
-	      << " Error rate             = " << static_cast<double>(errors) 
-      / (errors + corrects) << std::endl
+	      << " Error rate             = " << std::setprecision(8) 
+	      << (errors / (errors + corrects)) << std::endl
 	      << "==================================" << std::endl << std::endl;
   }
 
-  long BERC::count_errors(const bvec &in1, const bvec &in2, long indelay, 
-			  long inignorefirst, long inignorelast)
+  double BERC::count_errors(const bvec &in1, const bvec &in2, long indelay, 
+			    long inignorefirst, long inignorelast)
   {
     long countlength = std::min(in1.length(), in2.length()) - std::abs(indelay) 
       - inignorefirst - inignorelast;
