@@ -135,7 +135,7 @@ AC_F77_FUNC(cheev)
 AC_ARG_WITH(mkl_dir, [AS_HELP_STRING([--with-mkl-dir=DIR], 
   [set Intel MKL directory to DIR])], [MKL_DIR=$withval], [MKL_DIR=""])
 if test "x$MKL_DIR" != x; then
-  MKL_LDFLAGS="-L$MKL_DIR -L$MKL_DIR/lib/32"
+  MKL_LDFLAGS="-L$MKL_DIR/lib/32 -L$MKL_DIR/lib/64"
 fi
 
 mkl_ok=no
@@ -164,6 +164,7 @@ if test "x$mkl_ok" = xyes; then
   AC_DEFINE([HAVE_MKL], [1], [Define if you have MKL library.])
   LIBS="$MKL_LIBS $LIBS $FLIBS"
   LDFLAGS="$MKL_LDFLAGS $LDFLAGS"
+  CPPFLAGS="-I$MKL_DIR/include $CPPFLAGS"
   blas_ok=disabled
   atlas_ok=disabled
   fftw_ok=disabled

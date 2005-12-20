@@ -35,7 +35,7 @@
 
 #include <itpp/config.h>
 
-#ifdef HAVE_LAPACK
+#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
@@ -184,6 +184,6 @@ void zgels_(char *trans, int *m, int *n, int *nrhs, std::complex<double> *a, int
 
 #endif // #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
-#endif // #ifdef HAVE_LAPACK
+#endif // #if defined(HAVE_LAPACK) || defined(HAVE_MKL)
 
 #endif // #ifndef LAPACK_H
