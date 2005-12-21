@@ -1,5 +1,13 @@
 2005-12-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* NEWS: Updated to include recent changes
+	* configure.ac: Updated version number and fixed header files'
+	checks 
+	* itpp/base/binfile.cpp, itpp/base/timing.cpp,
+	itpp/comm/modulator.cpp: Updated include statements due to
+	`configure.ac' changes
+	* doc/local/verification.doc: Updated according to the latest test
+
 	* tests/turbo_test.cpp: Minor fix and cosmetic changes
 
 	* TODO: Updated to include recent changes

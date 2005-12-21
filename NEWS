@@ -1,5 +1,5 @@
 ===============================================================================
-IT++ version 3.9.0                                         Released: 2005-12-18
+IT++ version 3.9.0                                         Released: 2005-12-21
 -------------------------------------------------------------------------------
 
 New features:
@@ -50,6 +50,9 @@ Modifications:
 
 Bug-fixes:
 ---------
+
+* Fixed test programs failures due to minor precision differences on
+  different platforms.
 
 * Fixed bug [1333897]. The problem with	infinite loop in
   `it_file::seek(...)' function has been solved by fixing

@@ -20,13 +20,43 @@
 	</tr>
 
 	<tr>
+	  <td valign="top">Linux Fedora Core 4.0, Intel Pentium 4<br></td>
+	  <td valign="top">g++ (GCC) 4.0.2<br></td>
+	  <td valign="top">December 21, 2005<br></td>
+	  <td valign="top">From FC4 distribution: fftw3.i386-3.0.1-3, fftw3-devel.i386-3.0.1-3, atlas-sse2.i386-3.6.0-8.fc4, atlas-sse2-devel.i386-3.6.0-8.fc4, blas.i386-3.0-35.fc4, lapack.i386-3.0-35.fc4<br></td>
+	  <td valign="top">OK<br></td>
+	  <td valign="top"> <br></td>
+	  <td valign="top">Tony Ottosson<br></td>
+	</tr>
+
+	<tr>
 	  <td valign="top">Gentoo Linux, Intel Pentium M 1.6GHz Centrino<br></td>
-	  <td valign="top">g++ (GCC) 3.3.6<br></td>
-	  <td valign="top">October 16, 2005<br></td>
-	  <td valign="top">compiled from Gentoo portage: fftw-3.0.1, blas-atlas-3.6.0, lapack-atlas-3.6.0<br></td>
+	  <td valign="top">g++ (GCC) 3.4.4<br></td>
+	  <td valign="top">December 21, 2005<br></td>
+	  <td valign="top">Compiled from Gentoo portage: fftw-3.0.1-r2, blas-atlas-3.6.0, lapack-atlas-3.6.0<br></td>
 	  <td valign="top">OK<br></td>
 	  <td valign="top"> <br></td>
 	  <td valign="top">Adam Piatyszek<br></td>
+	</tr>
+
+	<tr>
+	  <td valign="top">MS Windows XP, Cygwin, AMD Sempron 3000+<br></td>
+	  <td valign="top">g++ (GCC) 3.4.4 (cygming special)<br></td>
+	  <td valign="top">December 21, 2005<br></td>
+	  <td valign="top">From Cygwin repository: fftw-3.0.1-1, fftw-dev-3.0.1-1, lapack-3.0-3<br></td>
+	  <td valign="top">OK<br></td>
+	  <td valign="top">timer_test fails - Real_Timer class does not work<br></td>
+	  <td valign="top">Adam Piatyszek<br></td>
+	</tr>
+
+	<tr>
+	  <td valign="top">MS Windows XP, Intel P4<br></td>
+	  <td valign="top">MS Visual C++ .Net 2003<br></td>
+	  <td valign="top">December 21, 2005<br></td>
+	  <td valign="top">MKL 8.0.1<br></td>
+	  <td valign="top">Compilation and linking: OK<br></td>
+	  <td valign="top"> <br></td>
+	  <td valign="top">Thomas Eriksson<br></td>
 	</tr>
 
 </table>
@@ -79,10 +109,10 @@
 	</tr>
 
 	<tr>
-		<td valign="top">Solaris SunOS 5.9, SPARC<br></td>
-		<td valign="top">g++ (GCC) 3.4.4<br></td>
-		<td valign="top">June 22, 2005<br></td>
-		<td valign="top">it++external 1.0.1 (FFTW, LAPACK, CBLAS)<br></td>
+	  <td valign="top">Solaris SunOS 5.9, SPARC<br></td>
+	  <td valign="top">g++ (GCC) 3.4.4<br></td>
+	  <td valign="top">June 22, 2005<br></td>
+	  <td valign="top">it++external 1.0.1 (FFTW, LAPACK, CBLAS)<br></td>
 	  <td valign="top">OK<br></td>
 	  <td valign="top"> <br></td>
 	  <td valign="top">Adam Piatyszek<br></td>
