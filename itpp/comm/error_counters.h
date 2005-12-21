@@ -1,7 +1,7 @@
 /*!
  * \file 
  * \brief Definitions of Bit Error Rate Counter (BERC) and 
- * BLock Error Rate Counter (BLERC) classes
+ *        BLock Error Rate Counter (BLERC) classes
  * \author Pal Frenger and Adam Piatyszek
  *
  * $Date$
@@ -77,19 +77,19 @@ namespace itpp {
       the begining and/or the end is to be ignored.</li> 
       </ul>
     */
-    BERC(long indelay = 0, long inignorefirst = 0, long inignorelast = 0);
+    BERC(int indelay = 0, int inignorefirst = 0, int inignorelast = 0);
     //! Cumulative error counter
     void count(const bvec &in1, const bvec &in2);
     //! Run this member function if the delay between \a in1 and
     //! \a in2 is unknown. 
-    void estimate_delay(const bvec &in1, const bvec &in2, long mindelay = -100,
-			long maxdelay = 100);
+    void estimate_delay(const bvec &in1, const bvec &in2, int mindelay = -100,
+			int maxdelay = 100);
     //! Clears the bit error counter
     void clear() { errors = 0; corrects = 0; }
     //! Writes an error report
     void report();
     //! Return the \a delay, assumed or estimated, between \a in1 and \a in2.
-    long get_delay() { return delay; }
+    int get_delay() { return delay; }
     //! Returns the counted number of bit errors
     double get_errors() { return errors; }
     //! Returns the counted number of corectly received bits
@@ -107,13 +107,13 @@ namespace itpp {
       \endcode
     */
     static double count_errors(const bvec &in1, const bvec &in2, 
-			       long indelay = 0, long inignorefirst = 0, 
-			       long inignorelast = 0);
+			       int indelay = 0, int inignorefirst = 0, 
+			       int inignorelast = 0);
 
   private:
-    long delay;
-    long ignorefirst;
-    long ignorelast;
+    int delay;
+    int ignorefirst;
+    int ignorelast;
     double errors;
     double corrects;
   };
@@ -128,9 +128,9 @@ namespace itpp {
     //! Class constructor
     BLERC(void);
     //! Specialised constructor
-    BLERC(long blocksize);
+    BLERC(int blocksize);
     //! Set the block size
-    void set_blocksize(long inblocksize, bool clear = true);
+    void set_blocksize(int inblocksize, bool clear = true);
     //! Calculate the number of block errors between \a in1 and \a in2
     void count(const bvec &in1, const bvec &in2);
     //! Clear the block error counter
@@ -145,7 +145,7 @@ namespace itpp {
     //protected:
   private:
     bool setup_done;
-    long blocksize;
+    int blocksize;
     double errors;
     double corrects;
     bool CORR;
