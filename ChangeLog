@@ -1,5 +1,10 @@
 2005-12-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/comm/error_counters.cpp, itpp/comm/error_counters.h:
+	Changed `long' to `int', since they have the same size on most
+	32-bit platforms. Fixed bugs in `if' statements (lack of casting
+	to `short').
+
 	* NEWS: Updated to include recent changes
 	* configure.ac: Updated version number and fixed header files'
 	checks 
