@@ -1,5 +1,9 @@
 2005-12-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/config_msvc.h: Updated due to recent modifications of the
+	configure.ac file. Undefined HAVE_CBLAS, HAVE_FFTW and
+	HAVE_LAPACK, since HAVE_MKL is defined.
+
 	* itpp/comm/error_counters.cpp, itpp/comm/error_counters.h:
 	Changed `long' to `int', since they have the same size on most
 	32-bit platforms. Fixed bugs in `if' statements (lack of casting
