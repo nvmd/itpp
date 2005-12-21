@@ -1,11 +1,6 @@
 IT++ based on Autoconf/Automake/Libtool:
 ========================================
 
-* Update HTML docummentation (Installation, Linking, Tutorial,
-  Copyright ;), Download)... Some links might be added (Autoconf,
-  Automake, Libtool, etc.). Also update documentation in *.h *.cpp
-  files (i.e.  document itpp namespace somewhere).
-  
 * Create contrib/ subdirectory for storing additional stuff, like e.g.
   rpm *.spec file, Gentoo *.ebuild, etc.
 
@@ -14,6 +9,7 @@ Things to fix before releasing version 4.0.0
 ============================================
 
 Big fixes:
+----------
 
 * A new directory structure with modules, external modules, and
   support for simultaneous multiple architectures and compilers. (Pal
@@ -30,6 +26,7 @@ Big fixes:
 
 
 Feature enhancements:
+---------------------
 
 * Multi-dimensional arrays.
 
@@ -39,9 +36,6 @@ Feature enhancements:
   virtual so that these can be replaced.
 
 * Update random number generator. Seed initialization and license.
-
-* Speed-up in random number generator for Gaussian numbers? Some work
-  has been done for 3.8.0 (Tony Ottosson)
 
 * Add the Simulation_Admin class from Hakan Eriksson
 
@@ -60,7 +54,9 @@ Feature enhancements:
 
 * Compression in it-file format??? Difficult to read in matlab???
 
+
 Bug fixes and Internal fixes:
+-----------------------------
 
 * Remove the function mult_trans in src/base/smat.cpp?
 
@@ -70,11 +66,6 @@ Bug fixes and Internal fixes:
 * The member functions in needs to be revised. The "<<" functions does
   not always match the ">>" functions.
 
-* Update headers with authors and year
-
-* Fix bug in it_ifile [866173]. See e.g. it_ifile::open().
-
-
 
 Improvements
 ============
@@ -83,15 +74,13 @@ Improvements
   members. The current implementation does not allow newlines, tabs,
   etc. Complex numbers should also be supported.
 
+
 COMPILER support
 ================
 
 * SUN CC compiler?
 
 * Intel C++ compiler?
-
-CONFIGURE
-=========
 
 
 AUDIO
@@ -100,6 +89,7 @@ AUDIO
 * Remove audiodev and audiofile. Replace with another audiolibrary
   that is more transparent. Use libsndfile
   (http://www.zip.com.au/~erikd/libsndfile/)?
+
 
 IT-FILE
 =======
@@ -112,6 +102,7 @@ IT-FILE
 
 * Add support for Array<Mat<T> > and Array<Vec<T> > in load_it.m
 
+
 RANDOM GENERATORS
 =================
 
@@ -120,6 +111,10 @@ RANDOM GENERATORS
 * Implement bug-fixes in seed. See the home-page of
   Mersenne-Twister. Also change to BSD license.
 
+* Speed-up in random number generator for Gaussian numbers? Some work
+  has been done for 3.8.0 (Tony Ottosson)
+
+
 FILTER
 ======
 
@@ -127,12 +122,14 @@ FILTER
 
 * Add good FFT based filter functions?
 
+
 GENERAL
 =======
 
 * Add support for stream versions of classes.
 
 * Add functions and classes for optimization.
+
 
 NEW MODULES
 ===========
