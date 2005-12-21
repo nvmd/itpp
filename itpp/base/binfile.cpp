@@ -29,11 +29,14 @@
  *
  */
 
+#include <itpp/config.h>
+#include <fstream>
+#include <string>
+#ifdef HAVE_SYS_STAT_H
+#  include <sys/stat.h>
+#endif
 #include <itpp/base/binfile.h>
 #include <itpp/base/machdep.h>
-#include <fstream>
-#include <sys/stat.h>
-#include <string>
 
 using std::string;
 using std::ofstream;
@@ -45,9 +48,13 @@ namespace itpp {
 
   bool exist(const std::string &name)
   {
+#ifdef HAVE_SYS_STAT_H
     struct stat st;
-
     return stat(name.c_str(), &st) == 0;
+#else
+    // since <sys/stat.h> is not available, assume that file exists
+    return true;
+#endif
   }
 
   bfstream_base::bfstream_base(endian e)

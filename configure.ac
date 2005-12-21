@@ -2,7 +2,7 @@
 #-------------------------------------------------------------------
 AC_PREREQ(2.59)
 AC_COPYRIGHT([Copyright (C) 2005  Adam Piatyszek <ediap@users.sourceforge.net>])
-AC_INIT([IT++], [3.9.0-rc1], [ediap@users.sourceforge.net], [itpp])
+AC_INIT([IT++], [3.9.0-rc2], [ediap@users.sourceforge.net], [itpp])
 AC_CONFIG_HEADER([itpp/config.h])
 AC_CONFIG_SRCDIR([itpp/base/vec.cpp])
 AC_CONFIG_AUX_DIR([config])
@@ -327,7 +327,20 @@ fi
 
 # Checks for header files
 AC_HEADER_STDC
-AC_CHECK_HEADERS([float.h stdlib.h string.h sys/time.h unistd.h])
+AC_HEADER_STAT
+AC_HEADER_TIME
+AC_CHECK_HEADERS([sys/time.h \
+  algorithm \
+  cassert \
+  cmath \
+  complex \
+  cstring \
+  deque \
+  fstream \
+  limits \
+  list \
+  queue \
+  string])
 
 # Define configured files
 AC_CONFIG_FILES([Makefile \

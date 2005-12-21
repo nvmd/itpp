@@ -30,13 +30,12 @@
  * -------------------------------------------------------------------------
  */
 
-#include <float.h>
+#include <complex>
 #include <itpp/base/binary.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/base/specmat.h>
 #include <itpp/comm/modulator.h>
 #include <itpp/comm/commfunc.h>
-#include <complex>
 
 
 namespace itpp {
