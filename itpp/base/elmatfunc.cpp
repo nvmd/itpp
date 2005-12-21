@@ -207,4 +207,25 @@ namespace itpp {
     return false;
   } 
 
+  cvec round_to_zero(const cvec &x, double threshold) {
+    cvec temp(x.length());
+
+    for (int i = 0; i < x.length(); i++)
+      temp(i) = round_to_zero(x(i), threshold);
+
+    return temp;
+  }
+
+  cmat round_to_zero(const cmat &x, double threshold) {
+    cmat temp(x.rows(), x.cols());
+
+    for (int i = 0; i < x.rows(); i++) {
+      for (int j = 0; j < x.cols(); j++) {
+	temp(i, j) = round_to_zero(x(i, j), threshold);
+      }
+    }
+
+    return temp;
+  }
+
 } // namespace itpp

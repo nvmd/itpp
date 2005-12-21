@@ -456,4 +456,10 @@ namespace itpp {
     return out;
   }
 
+  std::complex<double> round_to_zero(const std::complex<double>& x,
+				     double threshold) {
+    return std::complex<double>(round_to_zero(x.real(), threshold), 
+				round_to_zero(x.imag(), threshold));
+  }
+
 } // namespace itpp

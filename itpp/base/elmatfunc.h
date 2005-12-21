@@ -302,6 +302,20 @@ inline itpp::mat gamma(const itpp::mat &x) {return itpp::mat_function((double(*)
   //! Returns \a true if any element is one and \a false otherwise
   bool any(const Vec<bin> &testvec);
 
+  //! Round each element to zero if element < threshold
+  inline vec round_to_zero(const vec &x, double threshold = 1e-15) {
+    return vec_double_function((double(*)(double,double)) round_to_zero,x,threshold);
+  }
+  //! Round each element to zero if element < threshold
+  inline mat round_to_zero(const mat &x, double threshold = 1e-15) {
+    return mat_double_function((double(*)(double,double)) round_to_zero,x,threshold);
+  }
+  //! Round each element to zero if element < threshold
+  cvec round_to_zero(const cvec &x, double threshold = 1e-15);
+
+  //! Round each element to zero if element < threshold
+  cmat round_to_zero(const cmat &x, double threshold = 1e-15);
+
   //!@}
 
 } // namespace itpp

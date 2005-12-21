@@ -1,3 +1,13 @@
+2005-12-21  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/elmatfunc.cpp, itpp/base/elmatfunc.h,
+	itpp/base/scalfunc.cpp, itpp/base/scalfunc.h: Added
+	`round_to_zero()' function, which rounds arguments below a certain
+	threshold to zero. This function is useful for test programs.
+	* tests/Makefile.am: Reverted to revision 1.7
+	* tests/*.cpp, tests/*.ref: Updated test programs to make them
+	robust for precision differences on various platforms.
+
 2005-12-20  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/Makefile.am: Added support for redesigned tests, which
