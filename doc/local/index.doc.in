@@ -45,7 +45,7 @@ Microsoft Visual C++) and Mac OS X (more testers needed).
 <b>Download IT++:</b><br>
 <a href="https://sourceforge.net/project/showfiles.php?group_id=37044">Files at SourceForge</a><br>
 <a href="http://prdownloads.sourceforge.net/itpp/itpp-@PACKAGE_VERSION@.tar.gz?download">itpp-@PACKAGE_VERSION@.tar.gz</a><br>
-<a href="../doc/itpp-html-doc-@PACKAGE_VERSION@.tar.gz">itpp-html-doc-@PACKAGE_VERSION@.tar.gz</a><br>
+<a href="http://itpp.sourceforge.net/doc/itpp-html-doc-@PACKAGE_VERSION@.tar.gz">itpp-html-doc-@PACKAGE_VERSION@.tar.gz</a><br>
 <a href="http://prdownloads.sourceforge.net/itpp/itpp-external-2.0.0.tar.gz?download">itpp-external-2.0.0.tar.gz</a><br>
 <br>
 <b>Bugs and Forums:</b><br>
