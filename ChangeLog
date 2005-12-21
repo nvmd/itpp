@@ -1,5 +1,7 @@
 2005-12-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* TODO: Updated to include recent changes
+
 	* itpp/protocol/packet.h, itpp/protocol/selective_repeat.h:
 	Removed unnecessary include preprocessor commands 
 
