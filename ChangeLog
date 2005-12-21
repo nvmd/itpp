@@ -1,5 +1,8 @@
 2005-12-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/local/index.doc.in: Relative URL address replaced with a
+	full one
+
 	* itpp/config_msvc.h: Updated due to recent modifications of the
 	configure.ac file. Undefined HAVE_CBLAS, HAVE_FFTW and
 	HAVE_LAPACK, since HAVE_MKL is defined.
