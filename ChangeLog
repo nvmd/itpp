@@ -1,5 +1,8 @@
 2005-12-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/protocol/packet.h, itpp/protocol/selective_repeat.h:
+	Removed unnecessary include preprocessor commands 
+
 	* itpp/base/elmatfunc.cpp, itpp/base/elmatfunc.h,
 	itpp/base/scalfunc.cpp, itpp/base/scalfunc.h: Added
 	`round_to_zero()' function, which rounds arguments below a certain
