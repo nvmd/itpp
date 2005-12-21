@@ -33,11 +33,10 @@
 #ifndef PACKET_H
 #define PACKET_H
 
-#include <stdlib.h>
 #include <itpp/protocol/signals_slots.h>
 
-namespace itpp {
 
+namespace itpp {
 
   /*! \brief Packet
 
