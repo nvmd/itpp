@@ -33,7 +33,7 @@ check_PROGRAMS = \
 	parser_test \
 	poly_test \
 	psk_test \
-	pulse_shape_test2 \
+	pulse_shape_test \
 	qam_test \
 	qr_test \
 	rand_test \
@@ -82,7 +82,7 @@ parser_test_SOURCES = parser_test.cpp
 parser_test_CPPFLAGS = -DPARSER_TEST_FILE=\"$(srcdir)/parser_test_data.txt\" $(AM_CPPFLAGS)
 poly_test_SOURCES = poly_test.cpp
 psk_test_SOURCES = psk_test.cpp
-pulse_shape_test2_SOURCES = pulse_shape_test2.cpp
+pulse_shape_test_SOURCES = pulse_shape_test.cpp
 qam_test_SOURCES = qam_test.cpp
 qr_test_SOURCES = qr_test.cpp
 rand_test_SOURCES = rand_test.cpp
@@ -104,12 +104,8 @@ ref_sources = $(patsubst %$(EXEEXT), %.ref, $(check_PROGRAMS))
 check-local: $(check_PROGRAMS) $(ref_sources)
 	@for i in $(noext_tests); do \
 		echo ------------------------------------------------------------------------------; \
-		if test x"`echo $$i | sed 's/test2//'`" = "x$$i"; then \
-			./$$i$(EXEEXT) > $$i.tmp; \
-			diff $$i.tmp $(srcdir)/$$i.ref > /dev/null 2>&1; \
-		else \
-			./$$i$(EXEEXT) $(srcdir)/$$i.ref > /dev/null 2>&1; \
-		fi; \
+		./$$i$(EXEEXT) > $$i.tmp; \
+		diff $$i.tmp $(srcdir)/$$i.ref > /dev/null; \
 		if test "x$$?" = "x0"; then \
 			echo "Test \`$$i' PASSED."; \
 		else \
