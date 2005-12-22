@@ -1,3 +1,9 @@
+==============================================================================
+
+2005-12-21  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* IT++ 3.9.0-rc2 released (CVS tag: release-3-9-0-rc2)
+
 2005-12-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* doc/local/index.doc.in: Relative URL address replaced with a
@@ -60,9 +66,13 @@
 	* doc/sourceforge/howto_release_itpp.html: Source of the
 	"How to release a new version of IT++" documentation added
 
+==============================================================================
+
 2005-12-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* IT++ 3.9.0-rc1 released (CVS tag: release-3-9-0-rc1)
+
+2005-12-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 	
 	* NEWS: Updated for itpp-3.9.0 release
 	* configure.ac, doc/doxygen_html.cfg.in, doc/local/index.doc.in,
