@@ -1,5 +1,8 @@
 2005-12-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/local/index.doc.in: Added "What's New" links to the NEWS and
+	ChangeLog files in the CVS
+
 	* Makefile.am, doc/Makefile.am: Added `disthtml' target for
 	preparing packages with HTML documentation
 
