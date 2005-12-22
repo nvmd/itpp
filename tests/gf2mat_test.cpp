@@ -30,12 +30,6 @@
  * -------------------------------------------------------------------------
  */
 
-/*
-  NOTE:
-
-  - With the debugging options enables at compilation, this program
-    takes a while to run.
-*/
 
 #include <itpp/itbase.h>
 
@@ -56,6 +50,50 @@ GF2mat random_matrix(int m, int n)
 
 int main()
 {
+
+  // ========== SIMPLE DEMOS/TESTS ====================
+
+  cout << "===========================================================" << endl;
+  cout << "gf2mat_test: Test of matrix operations in gfmat.h/gfmat.cpp" << endl;
+  cout << "===========================================================" << endl;
+
+  GF2mat A(3,3);
+  A.set(0,0,1);
+  A.set(1,2,1);
+  A.set(2,1,1);
+  cout << "A=" << A << endl;
+  cout << "A*A=" << A*A << endl;
+  cout << "A*A'=" << A*A.transpose() << endl;
+
+  GF2mat B=A;
+  cout << "B=" << B << endl;
+  cout << "B.get_row(1)=" << B.get_row(1) << endl;
+  cout << "B.get_col(2)=" << B.get_col(2) << endl;
+
+  bvec v(3);
+  v(0)=1;
+  v(1)=1;
+  cout << "v=" << v << endl;
+  cout << "A*v=" << A*v << endl;
+
+  cout << "rank(A)=" << A.row_rank() << endl;
+  cout << "inv(A)=" << A.inverse() << endl;
+
+  GF2mat C,D;
+  ivec p;
+  A.T_fact(C,D,p);
+  cout << "C=" << C << endl;
+  cout << "D=" << D << endl;
+  cout << "p=" << p << endl;
+  
+  /*            // to run the extensive tests, remove this comment   
+     
+  // ========== EXTENSIVE RANDOM TESTS ========== 
+
+  // The following code can be used to verify the behavior of the GF2
+  // class for large matrix dimensions.  Note that with debugging
+  // options enabled, this code takes a while to run.  To run these
+  // extensive tests, simply remove the comments around this code segment.
 
   // Test of file I/O
   GF2mat Z = random_matrix(301,179);
@@ -108,17 +146,17 @@ int main()
   cout << "Passed assignment operator test." << endl;
 
   // Sparse-dense conversions
-  GF2mat_sparse A(Z.rows(),Z.cols());
+  GF2mat_sparse As(Z.rows(),Z.cols());
   for (int i=0; i<Z.rows(); i++) {
     for (int j=0; j<Z.cols(); j++) {
       if (Z.get(i,j)==1) { 
-	A.set(i,j,1);
+	As.set(i,j,1);
       }
     }
   }
-  it_assert(GF2mat(A)==Z,"error");
-  GF2mat_sparse C = Z.sparsify();
-  it_assert(C.full()==A.full(),"error");
+  it_assert(GF2mat(As)==Z,"error");
+  GF2mat_sparse Cs = Z.sparsify();
+  it_assert(Cs.full()==As.full(),"error");
   cout << "Passed sparse test." << endl;
 
   Z = random_matrix(100,75);
@@ -209,6 +247,8 @@ int main()
     }
   }
 
-
   cout << "All tests successfully passed." << endl;
+
+  */     // to run the extensive tests, remove this comment   
+
 }

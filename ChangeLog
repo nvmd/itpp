@@ -1,3 +1,9 @@
+2005-12-22  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* tests/gf2mat_test.cpp: New short test program for GF2mat class.
+
+==============================================================================
+
 2005-12-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/*.cpp, tests/*.ref: Fixed some of the test programs when
