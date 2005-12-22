@@ -36,7 +36,7 @@ using namespace itpp;
 using namespace std;
 
 
-#if defined(HAVE_LAPACK) && defined(HAVE_CBLAS)
+#if (defined(HAVE_LAPACK) && defined(HAVE_CBLAS)) || defined(HAVE_MKL)
 
 int main(void)
 {
@@ -112,7 +112,7 @@ int main(void)
 #else
 
 int main() { 
-  cerr << "Error: LAPACK and CBLAS is needed for this test program" << endl;
+  cerr << "Error: LAPACK and CBLAS (or MKL) are needed for this test program" << endl;
   return 1;
 }
 

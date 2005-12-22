@@ -1,24 +1,6 @@
-
-Test program for FastICA / IT++
-
-
-FastICA (C) 1998
-J. Hurri, H. Gävert, J. Särelä, A. Hyvärinen
-Laboratory of Information and Computer Science
-Helsinki University of Technology
-
-IT++ port from Matlab by F. Cayre and T. Furon
-TEMICS Team
-IRISA - INRIA/Rennes
-
-FastICA is the implementation of : 
-A. Hyvärinen, Fast and robust fixed-point algorithms for independent component analysis, IEEE Transactions on Neural Networks 10(3):626-634, 1999.
-
-
-Sample test data come from fastiCa C standalone version of fastICA, (C) 2003 Jonathan Marchini : 
-URL : http://www.stats.ox.ac.uk/~marchini/software/fastICA/fastiCa.tgz
-
-==========================================================================
+=====================================
+   Test program for FastICA / IT++   
+=====================================
 Use default parameters:
 Mixing matrix = [[-0.201462 -0.379849]
  [0.389676 -0.319209]]

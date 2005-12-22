@@ -14,7 +14,7 @@ using namespace itpp;
 #endif
 
 #ifdef __THIS_PROGRAM_WILL_NOT_RUN__
-int main() { cout << "LAPACK and CBLAS is needed for this test program" << endl; }
+int main() { cout << "LAPACK and CBLAS (or MKL) are needed for this test program" << endl; }
 #else
 
 int main()

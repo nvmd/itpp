@@ -1,5 +1,9 @@
 2005-12-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/*.cpp, tests/*.ref: Fixed some of the test programs when
+	IT++ uses the MKL. Real IFFT function gives incorrect results for
+	MKL!!!
+
 	* configure.ac: Updated version number to the upcomming final
 	3.9.0 release
 
