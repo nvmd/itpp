@@ -21,3 +21,6 @@ pkgconfig_DATA = @PACKAGE@.pc
 
 uninstall-local:
 	rm -rf $(DESTDIR)$(includedir)/@PACKAGE@
+
+disthtml:
+	$(MAKE) -C doc disthtml

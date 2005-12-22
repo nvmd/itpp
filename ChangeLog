@@ -1,3 +1,11 @@
+2005-12-22  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* Makefile.am, doc/Makefile.am: Added `disthtml' target for
+	preparing packages with HTML documentation
+
+	* doc/sourceforge/howto_release_itpp.html: Updated the
+	documentation
+
 ==============================================================================
 
 2005-12-21  Adam Piatyszek  <ediap@users.sourceforge.net>

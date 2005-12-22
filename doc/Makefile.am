@@ -13,6 +13,8 @@ SUBDIRS = images tutorial local
 
 docdir = @docdir@
 
+html_tarname = @PACKAGE_TARNAME@-html-doc-@PACKAGE_VERSION@
+
 all-local: html-local
 
 html-local: html/index.html
@@ -31,6 +33,12 @@ html/index.html: doxygen_html.cfg \
 	if test -d html; then \
 		cp $(srcdir)/images/itpp_logga.jpg html; \
 	fi
+
+disthtml: html-local
+	cp -a $(top_builddir)/doc/html $(top_builddir)/$(html_tarname);
+	tar chof - $(top_builddir)/$(html_tarname) | \
+		gzip --best -c > $(top_builddir)/$(html_tarname).tar.gz;
+	rm -rf $(top_builddir)/$(html_tarname)
 
 install-data-local: html-local
 	$(mkinstalldirs) $(DESTDIR)$(docdir)
