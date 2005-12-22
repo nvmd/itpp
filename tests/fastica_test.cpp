@@ -1,20 +1,39 @@
-/*---------------------------------------------------------------------------*
- *                                   IT++			             *
- *---------------------------------------------------------------------------*
- * Copyright (c) 1995-2004 by Tony Ottosson, Thomas Eriksson, Pål Frenger,   *
- * Tobias Ringström, and Jonas Samuelsson.                                   *
- *                                                                           *
- * Permission to use, copy, modify, and distribute this software and its     *
- * documentation under the terms of the GNU General Public License is hereby *
- * granted. No representations are made about the suitability of this        *
- * software for any purpose. It is provided "as is" without expressed or     *
- * implied warranty. See the GNU General Public License for more details.    *
- *---------------------------------------------------------------------------*/
+/*!
+ * \file 
+ * \brief FastICA test program
+ * \author Francois Cayre, Teddy Furon and Adam Piatyszek
+ *
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ *
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ *
+ * -------------------------------------------------------------------------
+ */
 
 /*----------------------------------------------------------------------------------------*
  * FastICA for IT++                                                                       *
  *----------------------------------------------------------------------------------------*
- * This code is Copyright (C) 2004 by François CAYRE and Teddy FURON                      *
+ * This code is Copyright (C) 2004 by Francois CAYRE and Teddy FURON                      *
  *                                    TEMICS Project                                      *
  *                                    INRIA/Rennes (IRISA)                                *
  *                                    Campus Universitaire de Beaulieu                    *
@@ -24,8 +43,8 @@
  *                                                                                        *
  * This is the IT++ implementation of the original Matlab package FastICA.                * 
  *                                                                                        *
- * Matlab package is Copyright (C) 1998 by Jarmo HURRI, Hugo GÄVERT, Jaakko SÄRELÄ and    *
- *                                         Aapo HYVÄRINEN                                 *
+ * Matlab package is Copyright (C) 1998 by Jarmo HURRI, Hugo GAVERT, Jaakko SARELA and    *
+ *                                         Aapo HYVARINEN                                 *
  *                                         Laboratory of Information and Computer Science *
  *                                         Helsinki University of Technology              *
  *                                                                                        *
@@ -35,7 +54,7 @@
  * journal, conference proceedings or similar, please include the following original      *
  * reference in the bibliography :                                                        *
  *                                                                                        *
- *     A. Hyvärinen. Fast and Robust Fixed-Point Algorithms for Independent Component     *
+ *     A. Hyvarinen. Fast and Robust Fixed-Point Algorithms for Independent Component     *
  *     Analysis. IEEE Transactions on Neural Networks 10(3):626-634, 1999.                *
  *----------------------------------------------------------------------------------------*
  *                                           DISCLAIMER                                   *
@@ -58,55 +77,31 @@
  *----------------------------------------------------------------------------------------*/
 
 #include <itpp/itbase.h>
-#include "stdio.h"
+#include <cstdio>
 
-using std::cout;
-using std::endl;
 using namespace itpp;
+using namespace std;
 
-#ifndef HAVE_LAPACK
-#define __THIS_PROGRAM_WILL_NOT_RUN__
-#endif
 
-#ifndef HAVE_CBLAS
-#define __THIS_PROGRAM_WILL_NOT_RUN__
-#endif
+#if ((defined(HAVE_LAPACK) && defined(HAVE_CBLAS)) || defined(HAVE_MKL)) && defined(FASTICA_TEST_FILE)
 
-#ifndef FASTICA_TEST_FILE
-#define __THIS_PROGRAM_WILL_NOT_RUN__
-#endif
-
-#ifdef __THIS_PROGRAM_WILL_NOT_RUN__
-int main() { 
-	cout << "1) LAPACK and CBLAS are needed for this test program" << endl;
-	cout << "2) FASTICA_TEST_FILE should be defined" << endl;
-}
-#else
-
-int main() {
-  
+int main()
+{
   FILE * fpin= NULL; 
   float tmp= 0.0; 
 
   // Separate nrIC independent components in nrSamples samples
   int nrSamples= 0, nrIC= 0;
 
-    cout << "\nTest program for FastICA / IT++\n"; 
-    cout << "\n\nFastICA (C) 1998\nJ. Hurri, H. Gävert, J. Särelä, A. Hyvärinen";
-    cout << "\nLaboratory of Information and Computer Science\nHelsinki University of Technology";
-    cout << "\n\nIT++ port from Matlab by F. Cayre and T. Furon\nTEMICS Team\nIRISA - INRIA/Rennes" << endl; 
-
-    cout << "\nFastICA is the implementation of : \n"; 
-    cout << "A. Hyvärinen, Fast and robust fixed-point algorithms for independent component analysis, IEEE Transactions on Neural Networks 10(3):626-634, 1999.\n" << endl;
-
-    cout << "\nSample test data come from fastiCa C standalone version of fastICA, (C) 2003 Jonathan Marchini : " << endl; 
-    cout << "URL : http://www.stats.ox.ac.uk/~marchini/software/fastICA/fastiCa.tgz\n" << endl;
-    cout << "==========================================================================" << endl;
-
-
-
-
   fpin = fopen( FASTICA_TEST_FILE, "r");
+  if (fpin == 0) {
+    cerr << "Error: Could not open FASTICA_TEST_FILE for reading" << endl;
+    return 1;
+  }
+
+  cout << "=====================================" << endl;
+  cout << "   Test program for FastICA / IT++   " << endl; 
+  cout << "=====================================" << endl;
 
   fscanf( fpin, "%d", &nrSamples );
   fscanf( fpin, "%d", &nrIC );
@@ -167,8 +162,16 @@ int main() {
   
   cout << "End of Fast_ICA test execution. " << endl; 
 
-  exit( 0 );
+  return 0;
+}
 
+#else
+
+int main() { 
+  cerr << "1) Error: FASTICA_TEST_FILE has to be defined" << endl;
+  cout << "2) Error: LAPACK and CBLAS (or MKL) are needed for this test program"
+       << endl;
+  return 1;
 }
 
 #endif

@@ -1,18 +1,40 @@
-/*
- * Test the Freq_Filt Class
- *
- * $Revision$
+/*!
+ * \file 
+ * \brief Frequency filters test program
+ * \author Simon Wood and Adam Piatyszek
  *
  * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ *
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ *
+ * -------------------------------------------------------------------------
  */
 
-
-#include <iostream>
 #include <itpp/itbase.h>
 
-using std::cout;
-using std::endl;
 using namespace itpp;
+using namespace std;
+
 
 int main()
 {
@@ -34,7 +56,7 @@ int main()
   cout << fftsize << endl;
   cout << blksize << endl;
 
-  cout << y << endl;
+  cout << round_to_zero(y) << endl;
 
   // Test streaming mode
   x = linspace(0,10,100);
@@ -42,8 +64,7 @@ int main()
   vec y1 = FFS.filter(x(0,49),1);
   vec y2 = FFS.filter(x(50,99),1);
 
-  cout << concat(y1,y2) << endl;
+  cout << round_to_zero(concat(y1,y2)) << endl;
 
   return 0;
-
 }
