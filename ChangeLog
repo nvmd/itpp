@@ -1,5 +1,8 @@
 2005-12-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp.spec.in: Initial spec file prepared. Not yet included in
+	the package.
+
 	* itpp.pc.in: Cosmetic changes
 
 	* dot/local/verification.doc: Updated with new information from
