@@ -1,8 +1,14 @@
+2005-12-22  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/transforms.cpp, tests/transforms_test.ref: Fixed bug
+	[1388024]. Both versions of fft_real() and ifft_real() functions
+	(based on FFTW3 and MKL) worked differently than the reference
+	Matlab's fft()/ifft() functions. It seems to be fixed now, but an  
+	additional code overhead was added.
+
 2005-12-22  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
-	* tests/gf2mat_test.cpp: New short test program for GF2mat class.
-
-==============================================================================
+	* tests/gf2mat_test.cpp: New short test program for GF2mat class
 
 2005-12-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
