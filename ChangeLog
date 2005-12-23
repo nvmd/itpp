@@ -1,11 +1,13 @@
 2005-12-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* README, doc/local/index.doc.in: Introduction text updated
+
 	* itpp.spec.in: Initial spec file prepared. Not yet included in
 	the package.
 
 	* itpp.pc.in: Cosmetic changes
 
-	* dot/local/verification.doc: Updated with new information from
+	* doc/local/verification.doc: Updated with new information from
 	testers
 
 	* NEWS: Updated to reflect recent changes
