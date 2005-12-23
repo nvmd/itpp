@@ -72,12 +72,11 @@ platforms: </p>
 <tr>
   <td valign="top">MS Windows XP, Cygwin, AMD Sempron 3000+</td>
   <td valign="top">g++ (GCC) 3.4.4 (cygming special)</td>
-  <td valign="top">December 21, 2005</td>
+  <td valign="top">December 23, 2005</td>
   <td valign="top">From Cygwin's repository: <tt>fftw-3.0.1-1</tt>, 
     <tt>fftw-dev-3.0.1-1</tt>, <tt>lapack-3.0-3</tt></td>
   <td valign="top">OK</td>
-  <td valign="top"><tt>timer_test</tt> fails - <tt>Real_Timer</tt> class 
-    does not work</td>
+  <td valign="top">-</td>
   <td valign="top">Adam Piatyszek</td>
 </tr>
 
