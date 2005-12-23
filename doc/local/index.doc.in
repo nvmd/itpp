@@ -1,32 +1,6 @@
 /*!
 \mainpage Welcome to IT++!
 
-\latexonly
-\section{Introduction}
-
-IT++ is a C++ library of mathematical, signal processing, speech
-processing, and communications classes and functions. It has been
-developed by researchers in these areas and is widely used by researchers
-both in the communications industry and in Universities. Since 2004 IT++
-is also being developed as a part of the European Network of Excellence 
-NEWCOM (http://newcom.ismb.it/).
-
-The kernel of IT++ are templated vector and matrix classes and lots of
-functions for vectors and matrices. As such the kernel is similar to the
-Matlab functions. IT++ makes extensive use of existing Open Source
-libraries for increased functionality, speed and accuracy. In particular
-the FFTW, ATLAS (or CBLAS) and LAPACK libraries are used.
-      
-The IT++ library originates from the former department of Information
-Theory at the Chalmers University of Technology, Gothenburg, Sweden. Since
-the library is coded in C++ the name IT++ seemed like a good idea at the
-time. While departments come and go, IT++ have developed a life of its'
-own and is now released under the GNU GPL license for you to enjoy.
-
-IT++ works on GNU/Linux, Sun Solaris, Microsoft Windows (under Cygwin and
-Microsoft Visual C++) and Mac OS X (more testers needed).
-\endlatexonly
-
 \htmlonly
 <table cellpadding="10" cellspacing="0" border="0" width="100%">
 <tr>
@@ -69,26 +43,33 @@ Microsoft Visual C++) and Mac OS X (more testers needed).
 <h3> Introduction </h3>
 
 <p> IT++ is a C++ library of mathematical, signal processing, speech
-processing, and communications classes and functions. It has been
-developed by researchers in these areas and is widely used by researchers
-both in the communications industry and in Universities. Since 2004 IT++
-is also being developed as a part of the European Network of Excellence 
+processing, and communications classes and functions. It is being developed
+by researchers in these areas and is widely used by researchers, both in the
+communications industry and universities. Since 2004, IT++ is also being
+developed as a part of the European Network of Excellence 
 <a href="http://newcom.ismb.it/">NEWCOM</a>. </p>
 
-<p> The kernel of IT++ are templated vector and matrix classes and lots of
-functions for vectors and matrices. As such the kernel is similar to the
-Matlab functions. IT++ makes extensive use of existing Open Source
-libraries for increased functionality, speed and accuracy. In particular
-the FFTW, ATLAS (or CBLAS) and LAPACK libraries are used. </p>
+<p> The kernel of the IT++ library are templated vector and matrix classes,
+and lots of functions for vectors and matrices. Such a kernel makes IT++
+library similar to Matlab. </p>
+
+<p> IT++ makes an extensive use of existing open-source libraries for
+increased functionality, speed and accuracy. In particular FFTW, ATLAS (or
+CBLAS) and LAPACK libraries are used. Optionally an optimized Intel Math
+Kernel Library (MKL) can be used instead. It might be possible to compile
+and use IT++ without FFTW, ATLAS (or CBLAS) and LAPACK (or without MKL), but
+the functionality will be reduced. </p> 
       
 <p> The IT++ library originates from the former department of Information
 Theory at the Chalmers University of Technology, Gothenburg, Sweden. Since
 the library is coded in C++ the name IT++ seemed like a good idea at the
 time. While departments come and go, IT++ have developed a life of its'
-own and is now released under the GNU GPL license for you to enjoy. </p>
+own and is now released under the terms of the Gnu Public License (GPL) for
+you to enjoy. </p> 
 
-<p> IT++ works on GNU/Linux, Sun Solaris, Microsoft Windows (under Cygwin and
-Microsoft Visual C++) and Mac OS X (more testers needed). </p>
+<p> IT++ shold work on GNU/Linux, Sun Solaris, Microsoft Windows (with
+Cygwin or Microsoft Visual C++ .NET) and Mac OS X (more testers needed).
+</p>
 
 </td>
 <td valign="top" width="20%" align="left">

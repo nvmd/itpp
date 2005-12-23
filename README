@@ -1,21 +1,33 @@
 IT++ README
 ===========
 
-IT++ is a library of mathematical, signal processing, speech processing, and
-communications classes and functions. It has been developed by researchers in
-these areas.
+IT++ is a C++ library of mathematical, signal processing, speech processing,
+and communications classes and functions. It is being developed by
+researchers in these areas and is widely used by researchers, both in the
+communications industry and universities. Since 2004, IT++ is also being
+developed as a part of the European Network of Excellence 
+<a href="http://newcom.ismb.it/">NEWCOM</a>.
 
-The kernel of the package are templated vector and matrix classes and lots of
-functions for vectors and matrices. As such the kernel is similar to the matlab
-functions.
+The kernel of the IT++ library are templated vector and matrix classes, and
+lots of functions for vectors and matrices. Such a kernel makes IT++ library
+similar to Matlab.
 
-In order to use all functionality provided in the IT++ library it is required
-that FFTW, CBLAS (or ATLAS) and LAPACK libraries are installed on your
-computer. Optionally an optimized Intel Math Kernel Library (MKL) can be used
-instead. It is possible to compile and use IT++ without FFTW, ATLAS (or CBLAS)
-and LAPACK (or without MKL), but the functionality will be reduced.  
+IT++ makes an extensive use of existing open-source libraries for increased
+functionality, speed and accuracy. In particular FFTW, ATLAS (or CBLAS) and
+LAPACK libraries are used. Optionally an optimized Intel Math Kernel Library
+(MKL) can be used instead. It might be possible to compile and use IT++
+without FFTW, ATLAS (or CBLAS) and LAPACK (or without MKL), but the
+functionality will be reduced.
 
-IT++ is released under the terms of the Gnu Public License (GPL).
+The IT++ library originates from the former department of Information Theory
+at the Chalmers University of Technology, Gothenburg, Sweden. Since the
+library is coded in C++ the name IT++ seemed like a good idea at the time.
+While departments come and go, IT++ have developed a life of its' own and is
+now released under the terms of the Gnu Public License (GPL) for you to
+enjoy.
 
-For installation instructions please read the INSTALL file or the IT++ 
+IT++ shold work on GNU/Linux, Sun Solaris, Microsoft Windows (with Cygwin or
+Microsoft Visual C++ .NET) and Mac OS X (more testers needed).
+
+For installation instructions please read the INSTALL file or the IT++
 "Getting Started" manual.
