@@ -5,8 +5,7 @@ IT++ is a C++ library of mathematical, signal processing, speech processing,
 and communications classes and functions. It is being developed by
 researchers in these areas and is widely used by researchers, both in the
 communications industry and universities. Since 2004, IT++ is also being
-developed as a part of the European Network of Excellence 
-<a href="http://newcom.ismb.it/">NEWCOM</a>.
+developed as a part of the European Network of Excellence NEWCOM.
 
 The kernel of the IT++ library are templated vector and matrix classes, and
 lots of functions for vectors and matrices. Such a kernel makes IT++ library
