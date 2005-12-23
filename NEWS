@@ -1,5 +1,5 @@
 ===============================================================================
-IT++ version 3.9.0                                         Released: 2005-12-21
+IT++ version 3.9.0                                         Released: 2005-12-28
 -------------------------------------------------------------------------------
 
 New features:
@@ -50,6 +50,10 @@ Modifications:
 
 Bug-fixes:
 ---------
+
+* Fixed bug [1388024]. `fft_real()' and `ifft_real()' functions now work
+  correctly for both external libraries: FFTW3 and MKL. They are also
+  compatible to Matlab's implementation.
 
 * Fixed test programs failures due to minor precision differences on
   different platforms.

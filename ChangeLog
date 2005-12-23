@@ -1,4 +1,6 @@
-2005-12-22  Adam Piatyszek  <ediap@users.sourceforge.net>
+2005-12-23  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* NEWS: Updated to reflect recent changes
 
 	* itpp/base/transforms.cpp, tests/transforms_test.ref: Fixed bug
 	[1388024]. Both versions of fft_real() and ifft_real() functions
