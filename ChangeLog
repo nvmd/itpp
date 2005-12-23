@@ -1,5 +1,7 @@
 2005-12-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp.pc.in: Cosmetic changes
+
 	* dot/local/verification.doc: Updated with new information from
 	testers
 
