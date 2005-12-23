@@ -41,6 +41,12 @@
 #include <itpp/base/transforms.h>
 #include <itpp/base/elmatfunc.h>
 
+#if defined(HAVE_MKL)
+#  include <mkl_dfti.h>
+#elif defined(HAVE_FFTW)
+#  include <itpp/base/fftw3.h>
+#endif
+
 namespace itpp { 
 
 #ifdef HAVE_MKL
@@ -49,99 +55,105 @@ namespace itpp {
   // FFT based on MKL
   //---------------------------------------------------------------------------
 
-#include <mkl_dfti.h>
-
-
-  void fft(const cvec &in, cvec &out)
+  void fft(const cvec &in, cvec &out) 
   {
-    static DFTI_DESCRIPTOR  *fft_handle=NULL;
-    static int              N;
+    static DFTI_DESCRIPTOR* fft_handle = NULL;
+    static int N;
 
     out.set_size(in.size(), false);
     if (N != in.size()) {
-      N=in.size();
-      if (fft_handle!=NULL) DftiFreeDescriptor(&fft_handle);
-      DftiCreateDescriptor( &fft_handle, DFTI_DOUBLE, DFTI_COMPLEX, 1, length(in));
+      N = in.size();
+      if (fft_handle != NULL) DftiFreeDescriptor(&fft_handle);
+      DftiCreateDescriptor(&fft_handle, DFTI_DOUBLE, DFTI_COMPLEX, 1, N);
       DftiSetValue(fft_handle, DFTI_PLACEMENT, DFTI_NOT_INPLACE);
-      DftiCommitDescriptor( fft_handle );
+      DftiCommitDescriptor(fft_handle);
     }
-    DftiComputeForward( fft_handle, (void *)in._data(), out._data());
+    DftiComputeForward(fft_handle, (void *)in._data(), out._data());
   }
 
   void ifft(const cvec &in, cvec &out)
   {
-    static DFTI_DESCRIPTOR  *fft_handle=NULL;
-    static int              N;
+    static DFTI_DESCRIPTOR* fft_handle = NULL;
+    static int N;
 
     out.set_size(in.size(), false);
     if (N != in.size()) {
-      N=in.size();
-      if (fft_handle!=NULL) DftiFreeDescriptor(&fft_handle);
-      DftiCreateDescriptor( &fft_handle, DFTI_DOUBLE, DFTI_COMPLEX, 1, length(in));
+      N = in.size();
+      if (fft_handle != NULL) DftiFreeDescriptor(&fft_handle);
+      DftiCreateDescriptor(&fft_handle, DFTI_DOUBLE, DFTI_COMPLEX, 1, N);
       DftiSetValue(fft_handle, DFTI_PLACEMENT, DFTI_NOT_INPLACE);
       DftiSetValue(fft_handle, DFTI_BACKWARD_SCALE, 1.0/N);
-      DftiCommitDescriptor( fft_handle );
+      DftiCommitDescriptor(fft_handle);
     }
-    DftiComputeBackward( fft_handle, (void *)in._data(), out._data());
+    DftiComputeBackward(fft_handle, (void *)in._data(), out._data());
   }
 
   void fft_real(const vec &in, cvec &out)
   {
-    static DFTI_DESCRIPTOR  *fft_handle=NULL;
-    static int              N;
+    static DFTI_DESCRIPTOR* fft_handle = NULL;
+    static int N;
 
-    out.set_size(in.size()/2+1, false);
+    out.set_size(in.size(), false);
     if (N != in.size()) {
-      N=in.size();
-      if (fft_handle!=NULL) DftiFreeDescriptor(&fft_handle);
-      DftiCreateDescriptor( &fft_handle, DFTI_DOUBLE, DFTI_REAL, 1, length(in));
+      N = in.size();
+      if (fft_handle != NULL) DftiFreeDescriptor(&fft_handle);
+      DftiCreateDescriptor(&fft_handle, DFTI_DOUBLE, DFTI_REAL, 1, N);
       DftiSetValue(fft_handle, DFTI_PLACEMENT, DFTI_NOT_INPLACE);
-      DftiCommitDescriptor( fft_handle );
+      DftiCommitDescriptor(fft_handle);
     }
-    DftiComputeForward( fft_handle, (void *)in._data(), out._data());
+    DftiComputeForward(fft_handle, (void *)in._data(), out._data());
+
+    // Real FFT does not compute the 2nd half of the FFT points because it
+    // is redundant to the 1st half. However, we want all of the data so we
+    // fill it in. This is consistent with Matlab's functionality
+    int istart = ceil_i(in.size() / 2.0);
+    int iend = in.size() - 1;
+    int idelta = iend - istart + 1;
+    out.set_subvector(istart, iend, reverse(conj(out(1, idelta))));
   }
 
   void ifft_real(const cvec &in, vec &out)
   {
-    static DFTI_DESCRIPTOR  *fft_handle=NULL;
-    static int              N;
+    static DFTI_DESCRIPTOR* fft_handle = NULL;
+    static int N;
 
-    out.set_size((in.size()-1)*2, false);
+    out.set_size(in.size(), false);
     if (N != in.size()) {
-      N=in.size();
-      if (fft_handle!=NULL) DftiFreeDescriptor(&fft_handle);
-      DftiCreateDescriptor( &fft_handle, DFTI_DOUBLE, DFTI_REAL, 1, length(in));
+      N = in.size();
+      if (fft_handle != NULL) DftiFreeDescriptor(&fft_handle);
+      DftiCreateDescriptor( &fft_handle, DFTI_DOUBLE, DFTI_REAL, 1, N);
       DftiSetValue(fft_handle, DFTI_PLACEMENT, DFTI_NOT_INPLACE);
       DftiSetValue(fft_handle, DFTI_BACKWARD_SCALE, 1.0/N);
-      DftiCommitDescriptor( fft_handle );
+      DftiCommitDescriptor(fft_handle);
     }
-    DftiComputeBackward( fft_handle, (void *)in._data(), out._data());
+    DftiComputeBackward(fft_handle, (void *)in._data(), out._data());
   }
 
   // DCT
 
   void dct(const vec &in, vec &out)
   {
-    cvec    c;
-		std::complex<double> fprod = 1/std::sqrt(length(in)*2.0), f = std::complex<double>(std::cos(-pi/length(in)/2), std::sin(-pi/length(in)/2));
+    cvec c;
+    std::complex<double> fprod = 1 / std::sqrt(length(in)*2.0), 
+      f = std::complex<double>(std::cos(-pi / length(in) / 2), 
+			       std::sin(-pi / length(in) / 2));
 
-    fft_real(concat(in,reverse(in)),c);
-    c=c.left(length(in));
-    for (int i=0;i<length(c);i++) {
-      c(i)*=fprod;
-      fprod*=f;
+    fft_real(concat(in, reverse(in)), c);
+    c = c.left(length(in));
+    for (int i = 0; i < length(c); i++) {
+      c(i) *= fprod;
+      fprod *= f;
     }
-    out=real(c);out(0)/=std::sqrt(2.0);
+    out = real(c);
+    out(0) /= std::sqrt(2.0);
   }
 
   void idct(const vec &in, vec &out)
   {
-		std::cout << "Not implemented yet" << std::endl;
+    std::cerr << "Error: idct(): Not implemented yet" << std::endl;
   }
 
   // y=real(fft([x fliplr(x)]).*exp(-j*pi/length(x)/2*[0:(length(x)*2-1)])/sqrt(length(x)*2));y(1)=y(1)/sqrt(2);y=y(1:length(x))
-
-
 
 
 #elif defined(HAVE_FFTW)
@@ -150,107 +162,97 @@ namespace itpp {
   // FFT based on FFTW
   //---------------------------------------------------------------------------
 
-
-#include <itpp/base/fftw3.h>
-
   void fft(const cvec &in, cvec &out)
   {
-    static int N;
+    static int N = 0;
+    static fftw_plan p = NULL;
     out.set_size(in.size(), false);
 
-    static fftw_plan p = NULL;
-
     if (N != in.size()) {
+      N = in.size();
       if (p != NULL)
-	fftw_destroy_plan(p);// destroy the previous plan
+	fftw_destroy_plan(p); // destroy the previous plan
       // create a new plan
-      p = fftw_plan_dft_1d(in.length(),(fftw_complex *)in._data(),(fftw_complex *)out._data(),
+      p = fftw_plan_dft_1d(N, (fftw_complex *)in._data(), (fftw_complex *)out._data(),
 			   FFTW_FORWARD, FFTW_ESTIMATE);
-      N = in.length();
     }
 
-    //Compute FFT using the GURU FFTW interface
-    fftw_execute_dft(p,(fftw_complex *)in._data(),(fftw_complex *)out._data());
-
+    // compute FFT using the GURU FFTW interface
+    fftw_execute_dft(p, (fftw_complex *)in._data(), (fftw_complex *)out._data());
   }
 
   void ifft(const cvec &in, cvec &out)
   {
-    static int N=0;
+    static int N = 0;
     static double inv_N;
+    static fftw_plan p = NULL;
     out.set_size(in.size(), false);
 
-    static fftw_plan p = NULL;
-
     if (N != in.size()) {
-      if (p != NULL)
-	fftw_destroy_plan(p);// destroy the previous plan
-      // create a new plan
-      p = fftw_plan_dft_1d(in.length(),(fftw_complex *)in._data(),(fftw_complex *)out._data(),
-			   FFTW_BACKWARD, FFTW_ESTIMATE);
-      N = in.length();
+      N = in.size();
       inv_N = 1.0/N;
+      if (p != NULL)
+	fftw_destroy_plan(p); // destroy the previous plan
+      // create a new plan
+      p = fftw_plan_dft_1d(N, (fftw_complex *)in._data(), (fftw_complex *)out._data(),
+			   FFTW_BACKWARD, FFTW_ESTIMATE);
     }
 
-    //Compute IFFT using the GURU FFTW interface
-    fftw_execute_dft(p,(fftw_complex *)in._data(),(fftw_complex *)out._data());
+    // compute IFFT using the GURU FFTW interface
+    fftw_execute_dft(p, (fftw_complex *)in._data(), (fftw_complex *)out._data());
 
-    // Scale output
+    // scale output
     out *= inv_N;
   }
 
   void fft_real(const vec &in, cvec &out)
   {
-    static int N;
+    static int N = 0;
     static fftw_plan p = NULL;
-    //out.set_size(in.size(), false);
-    out.set_size(in.size()/2+1, false);
+    out.set_size(in.size(), false);
 
-    if( N != in.size() )
-      {
-        if( p!= NULL)
-	  fftw_destroy_plan(p); //destroy the previous plan
+    if (N != in.size()) {
+      N = in.size();
+      if (p!= NULL)
+	fftw_destroy_plan(p); //destroy the previous plan
 
-        // create a new plan
-        p = fftw_plan_dft_r2c_1d(in.length(),(double *)in._data(),(fftw_complex *)out._data(),
-				 FFTW_ESTIMATE);
-        N = in.size();
-      }
+      // create a new plan
+      p = fftw_plan_dft_r2c_1d(N, (double *)in._data(), (fftw_complex *)out._data(),
+			       FFTW_ESTIMATE);
+    }
 
-    //Compute FFT using the GURU FFTW interface
-    fftw_execute_dft_r2c(p,(double *)in._data(),(fftw_complex *)out._data());
+    // compute FFT using the GURU FFTW interface
+    fftw_execute_dft_r2c(p, (double *)in._data(), (fftw_complex *)out._data());
 
-    //The real FFT does not compute the 2nd half of FFT points because it is redundant
-    //to the 1st half. However we want all of the data so we fill it in. This is consistent 
-    //with Matlab's functionality
-    //int istart = static_cast<int>(std::ceil(in.length()/2.0) + 1) -1;
-    //int iend = in.length()-1;
-    //int idelta = iend - istart + 1;
-    //out.set_subvector(istart,iend,reverse(conj(out(1,idelta))));
-
+    // Real FFT does not compute the 2nd half of the FFT points because it
+    // is redundant to the 1st half. However, we want all of the data so we
+    // fill it in. This is consistent with Matlab's functionality
+    int istart = ceil_i(in.size() / 2.0);
+    int iend = in.size() - 1;
+    int idelta = iend - istart + 1;
+    out.set_subvector(istart, iend, reverse(conj(out(1, idelta))));
   }
 
   void ifft_real(const cvec &in, vec & out)
   {
-    static int N;
+    static int N = 0;
     static double inv_N;
-
-    out.set_size((in.size()-1)*2, false); // always assume an even fft size/Thomas
     static fftw_plan p = NULL;
+    out.set_size(in.size(), false);
 
-    if( N != out.size() )
-      {
-        if( p!=NULL) 
-	  fftw_destroy_plan(p); //destroy the previous plan
+    if (N != in.size()) {
+      N = in.size();
+      inv_N = 1.0/N;
+      if (p != NULL) 
+	fftw_destroy_plan(p); // destroy the previous plan
 
-        //Create a new plan
-        p = fftw_plan_dft_c2r_1d(out.size(),(fftw_complex *)in._data(), (double *)out._data(), FFTW_ESTIMATE);
-        N = out.size();
-        inv_N = 1.0/N;
-      }
+      // create a new plan
+      p = fftw_plan_dft_c2r_1d(N, (fftw_complex *)in._data(), (double *)out._data(), 
+			       FFTW_ESTIMATE);
+    }
 
-    //Compute IFFT using the GURU FFTW interface
-    fftw_execute_dft_c2r(p,(fftw_complex *)in._data(),(double *)out._data());
+    // compute IFFT using the GURU FFTW interface
+    fftw_execute_dft_c2r(p, (fftw_complex *)in._data(), (double *)out._data());
 
     out *= inv_N;
   }
@@ -262,21 +264,21 @@ namespace itpp {
     static fftw_plan p = NULL;
     out.set_size(in.size(), false);
 
-    if( N != in.size() )
-      {
-        if( p!= NULL)
-	  fftw_destroy_plan(p); //destroy the previous plan
+    if (N != in.size()) {
+      N = in.size();
+      if (p!= NULL)
+	fftw_destroy_plan(p); // destroy the previous plan
 
-        // create a new plan
-        p = fftw_plan_r2r_1d(in.length(),(double *)in._data(),(double *)out._data(), FFTW_REDFT10, FFTW_ESTIMATE);
-        N = in.size();
-      }
+      // create a new plan
+      p = fftw_plan_r2r_1d(N, (double *)in._data(), (double *)out._data(), 
+			   FFTW_REDFT10, FFTW_ESTIMATE);
+    }
 
-    //Compute FFT using the GURU FFTW interface
-    fftw_execute_r2r(p, (double *)in._data(),(double *)out._data());
+    // compute FFT using the GURU FFTW interface
+    fftw_execute_r2r(p, (double *)in._data(), (double *)out._data());
 
     // Scale to matlab definition format
-    out /= std::sqrt(2.0*(double)N);
+    out /= std::sqrt(2.0 * N);
     out(0) /= std::sqrt(2.0);
   }
 
@@ -289,21 +291,20 @@ namespace itpp {
 
     // Rescale to FFTW format
     out(0) *= std::sqrt(2.0);
-    out /= std::sqrt(2.0*(double)in.size());
+    out /= std::sqrt(2.0 * in.size());
 
-    if( N != in.size() )
-      {
-        if( p!= NULL)
-	  fftw_destroy_plan(p); //destroy the previous plan
+    if (N != in.size()) {
+      N = in.size();
+      if (p != NULL)
+	fftw_destroy_plan(p); // destroy the previous plan
+      
+      // create a new plan
+      p = fftw_plan_r2r_1d(N, (double *)out._data(), (double *)out._data(),
+			   FFTW_REDFT01, FFTW_ESTIMATE);
+    }
 
-        // create a new plan
-        p = fftw_plan_r2r_1d(in.length(),(double *)out._data(),(double *)out._data(), FFTW_REDFT01, FFTW_ESTIMATE);
-        N = out.size();
-      }
-
-
-    //Compute FFT using the GURU FFTW interface
-    fftw_execute_r2r(p, (double *)out._data(),(double *)out._data());
+    // compute FFT using the GURU FFTW interface
+    fftw_execute_r2r(p, (double *)out._data(), (double *)out._data());
   }
 
 
