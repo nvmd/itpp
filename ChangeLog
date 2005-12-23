@@ -1,5 +1,8 @@
 2005-12-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* dot/local/verification.doc: Updated with new information from
+	testers
+
 	* NEWS: Updated to reflect recent changes
 
 	* itpp/base/transforms.cpp, tests/transforms_test.ref: Fixed bug
