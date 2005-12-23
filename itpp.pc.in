@@ -3,9 +3,9 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 includedir=@includedir@
 
-Name: GNU IT++
-Description: IT++ is a C++ library of mathematical, signal processing, speech processing, and communications classes and functions.
-Version: @VERSION@
+Name: @PACKAGE_NAME@
+Description: @PACKAGE_NAME@ is a C++ library of mathematical, signal processing, speech processing, and communications classes and functions
+Version: @PACKAGE_VERSION@
 URL: http://itpp.sourceforge.net/
 Requires: fftw3 >= 3.0.0 
 Libs: -L${libdir} @LDFLAGS@ -l@PACKAGE@ @LIBS@
