@@ -10,7 +10,7 @@ if HAVE_DIFF
 TESTDIR = tests
 endif
 
-SUBDIRS = itpp $(HTMLDOCDIR) $(TESTDIR)
+SUBDIRS = itpp extras $(HTMLDOCDIR) $(TESTDIR)
 
 EXTRA_DIST = autogen.sh itpp.sln itpp.vcproj Makefile.common TODO
 

@@ -1,3 +1,10 @@
+2005-12-28  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* extras/itload.m, extras/itsave.m, extras/Makefile.am,
+	Makefile.am, configure.ac: Added missing `itload.m' and `itsave.m'
+	files for loading and saving an itfile in Matlab/Octave (function
+	and file names changed from `load_it.m' and `save_it.m'). 
+
 2005-12-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* README, doc/local/index.doc.in: Introduction text updated
