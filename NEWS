@@ -47,6 +47,9 @@ Modifications:
 * diag() function now takes a second argument stating which diagonal to fill
   with values (Matlab compatible).
 
+* Implemented feature request [1167378]. An error message is displayed if
+  the Parser's init() functions can not open a file.
+
 
 Bug-fixes:
 ---------

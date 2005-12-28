@@ -1,5 +1,9 @@
 2005-12-28  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/parser.cpp: Implemented feature request [1167378]. An
+	error message is displayed if the Parser's init() functions can
+	not open a file.
+
 	* extras/itload.m, extras/itsave.m, extras/Makefile.am,
 	Makefile.am, configure.ac: Added missing `itload.m' and `itsave.m'
 	files for loading and saving an itfile in Matlab/Octave (function

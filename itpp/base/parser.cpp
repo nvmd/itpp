@@ -259,6 +259,8 @@ namespace itpp {
     string Line;
     SetupStrings.set_size(0,false);
     std::ifstream SetupFile(filename.c_str());
+    it_assert(SetupFile.is_open(), 
+	      "Parser::init(): Could not open `" + filename + "' file");
 
     while (getline(SetupFile,Line,'\n')) {
       SetupStrings.set_size( SetupStrings.size() + 1, true );
@@ -285,6 +287,8 @@ namespace itpp {
     string Line;
     int i;
     std::ifstream SetupFile(filename.c_str());
+    it_assert(SetupFile.is_open(), 
+	      "Parser::init(): Could not open `" + filename + "' file");
 
     //Read the command line parameters:
     SetupStrings.set_size(argc);
