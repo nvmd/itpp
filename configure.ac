@@ -2,7 +2,7 @@
 #-------------------------------------------------------------------
 AC_PREREQ(2.59)
 AC_COPYRIGHT([Copyright (C) 2005  Adam Piatyszek <ediap@users.sourceforge.net>])
-AC_INIT([IT++], [3.9.0], [ediap@users.sourceforge.net], [itpp])
+AC_INIT([IT++], [3.9.1-pre1], [ediap@users.sourceforge.net], [itpp])
 AC_CONFIG_HEADER([itpp/config.h])
 AC_CONFIG_SRCDIR([itpp/base/vec.cpp])
 AC_CONFIG_AUX_DIR([config])
@@ -361,7 +361,8 @@ AC_CONFIG_FILES([Makefile \
   extras/Makefile \
   tests/Makefile \
   itpp.pc \
-  itpp-config])
+  itpp-config \
+  itpp.spec])
 
 AC_OUTPUT
 
