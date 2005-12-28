@@ -18,8 +18,8 @@
 %define disttag rhfc
 %endif
 
-%define name @PACKAGE_NAME@
-%define version @PACKAGE_VERSION@
+%define name @PACKAGE@
+%define version @VERSION@
 
 %define distver %(release="`rpm -q --queryformat='%{VERSION}' %{dist}-release 2>/dev/null`" ; if test $? != 0 ; then release="" ; fi ; echo "$release")
 
@@ -81,9 +81,14 @@ make
 %{_libdir}/*.so
 %{_libdir}/*.so.*
 %{_libdir}/pkgconfig/%{name}.pc
-%{_includedir}/itpp
+%{_bindir}/%{name}-config
+%{_includedir}/%{name}
 %{_datadir}/doc
 
 %changelog
+* Fri Dec 28 2005  Adam Piatyszek  <ediap@users.sourceforge.net>
+- Fixed `name' and `version' definitions
+- Added `itpp-config' in %files section
+
 * Fri Dec 23 2005  Adam Piatyszek  <ediap@users.sourceforge.net>
 - Initial spec file prepared
