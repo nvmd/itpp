@@ -187,6 +187,8 @@ namespace itpp {
   template<class Num_T>
 	class Vec {
   public:
+    //! The type of the vector values
+    typedef Num_T value_type;
     //! Default constructor. An element factory \c f can be specified
     explicit Vec(const Factory &f = DEFAULT_FACTORY) : factory(f) { init(); }
     //! Constructor. An element factory \c f can be specified
