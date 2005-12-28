@@ -1,5 +1,8 @@
 2005-12-28  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/local/index.doc.in: `https://' links changed to `http://'
+	ones
+
 	* itpp/base/parser.cpp: Implemented feature request [1167378]. An
 	error message is displayed if the Parser's init() functions can
 	not open a file.
