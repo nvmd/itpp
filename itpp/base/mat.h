@@ -171,6 +171,8 @@ namespace itpp {
   template<class Num_T>
 	class Mat {
   public:
+    //! The type of the matrix values
+    typedef Num_T value_type;
     //! Default constructor. An element factory \c f can be specified
     explicit Mat(const Factory &f = DEFAULT_FACTORY) : factory(f) { init(); }
     //! Create a matrix of size (inrow, incol). An element factory \c f can be specified

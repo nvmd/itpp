@@ -1,5 +1,9 @@
 2005-12-28  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/mat.h, itpp/base/vec.h: Added a `value_type' typedef,
+	which provides a similar notation to the std::vector<> class.
+	Requested by Christian Stimming in patch report [1387075].
+
 	* doc/local/index.doc.in: `https://' links changed to `http://'
 	ones
 
