@@ -1,5 +1,8 @@
 2005-12-29  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* NEWS, configure.ac, doc/local/index.doc.in: Updated for the
+	future release
+
 	* itpp.spec.in: Minor fixes
 
 ==============================================================================
