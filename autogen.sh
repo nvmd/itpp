@@ -18,10 +18,10 @@
 	exit;
 }
 
-echo n | libtoolize --copy --force || exit;
 aclocal || exit;
-autoheader || exit;
-automake --add-missing --copy;
+libtoolize --copy --force --automake || exit;
+aclocal || exit;
 autoconf || exit;
-automake || exit;
-#./configure $@
+autoheader || exit;
+automake --add-missing --copy || exit;
+
