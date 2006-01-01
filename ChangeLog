@@ -1,3 +1,7 @@
+2006-01-01  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* autogen.sh: Reordering of the invoked commands
+
 2005-12-29  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* NEWS, configure.ac, doc/local/index.doc.in: Updated for the
