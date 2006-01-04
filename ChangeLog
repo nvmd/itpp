@@ -1,3 +1,9 @@
+2006-01-04  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* extras/itsave.m: Fixed bug [1396020]. Now itsave() works properly
+	in both Matlab and Octave. Thanks to Jordy Potman for providing a
+	patch.
+
 2006-01-01  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* autogen.sh: Reordering of the invoked commands

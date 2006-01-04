@@ -37,10 +37,10 @@ if (nargin > 1)
   vars = varargin;
 else
   % vars = evalin('caller', 'who -variables')';
-  error('syntax error: itsaveo(fname, variables ...)');
+  error('syntax error: itsave(fname, variables ...)');
 end
 
-nargs = size(vars)(2);
+nargs = size(vars,2);
 
 endianity = 1; % Always big endian for now...
 file_version = 1; % The current file-version of it_file
@@ -60,8 +60,11 @@ end
 fprintf(fid, 'IT++%c', file_version);
 
 for ai=1:nargs
-
-  vname = deblank(argn(ai+1,:));
+  if (exist('OCTAVE_VERSION')) % check for octave
+      vname = deblank(argn(ai+1,:)); % octave way of getting parameter name
+  else
+      vname = inputname(ai+1); % matlab way of getting parameter name
+  end
   v = vars{ai};
 
   if (isa(v, 'double')) % double precision floating point type
@@ -83,7 +86,7 @@ for ai=1:nargs
       % Writes a header
       fwrite(fid, [hdr_bytes data_bytes block_bytes], 'uint32');
       % Writes variable name as string
-      fprintf(fid, "%s%c", vname); fwrite(fid, 0, 'char');
+      fprintf(fid, '%s%c', vname); fwrite(fid, 0, 'char');
 
       if (is_vector)
         fprintf(fid, 'dvec'); fwrite(fid, 0, 'char');
