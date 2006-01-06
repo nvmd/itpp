@@ -1,3 +1,8 @@
+2006-01-06  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/images/favicon.ico, doc/images/Makefile.am, 
+	doc/local/itpp_header.html, doc/Makefile.am: Added IT++ favicon
+
 2006-01-04  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* extras/itsave.m: Fixed bug [1396020]. Now itsave() works properly
