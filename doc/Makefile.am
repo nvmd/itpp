@@ -32,6 +32,7 @@ html/index.html: doxygen_html.cfg \
 	doxygen $<; \
 	if test -d html; then \
 		cp $(srcdir)/images/itpp_logga.jpg html; \
+		cp $(srcdir)/images/favicon.ico html; \
 	fi
 
 disthtml: html-local
