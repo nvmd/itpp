@@ -37,6 +37,7 @@ h_base_sources = \
 	$(top_srcdir)/itpp/base/qr.h \
 	$(top_srcdir)/itpp/base/random.h \
 	$(top_srcdir)/itpp/base/scalfunc.h \
+	$(top_srcdir)/itpp/base/schur.h \
 	$(top_srcdir)/itpp/base/sigfun.h \
 	$(top_srcdir)/itpp/base/smat.h \
 	$(top_srcdir)/itpp/base/sort.h \
@@ -80,6 +81,7 @@ cpp_base_sources = \
 	$(top_srcdir)/itpp/base/qr.cpp \
 	$(top_srcdir)/itpp/base/random.cpp \
 	$(top_srcdir)/itpp/base/scalfunc.cpp \
+	$(top_srcdir)/itpp/base/schur.cpp \
 	$(top_srcdir)/itpp/base/sigfun.cpp \
 	$(top_srcdir)/itpp/base/smat.cpp \
 	$(top_srcdir)/itpp/base/source.cpp \
