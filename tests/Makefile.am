@@ -39,6 +39,7 @@ check_PROGRAMS = \
 	qr_test \
 	rand_test \
 	rec_syst_conv_code \
+	schur_test \
 	sigfun_test \
 	source_test \
 	sparse_test \
@@ -87,6 +88,7 @@ qam_test_SOURCES = qam_test.cpp
 qr_test_SOURCES = qr_test.cpp
 rand_test_SOURCES = rand_test.cpp
 rec_syst_conv_code_SOURCES = rec_syst_conv_code.cpp
+schur_test_SOURCES = schur_test.cpp
 sigfun_test_SOURCES = sigfun_test.cpp
 source_test_SOURCES = source_test.cpp
 sparse_test_SOURCES = sparse_test.cpp

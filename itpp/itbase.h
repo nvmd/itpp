@@ -77,5 +77,6 @@
 #include <itpp/base/gf2mat.h>
 #include <itpp/base/poly.h>
 #include <itpp/base/filter_design.h>
+#include <itpp/base/schur.h>
 
 #endif // #ifndef ITBASE_H
