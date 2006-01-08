@@ -800,8 +800,8 @@ namespace itpp {
 	}
 
 #if defined(HAVE_CBLAS) || defined(HAVE_MKL)
-	template<> const double dot(const Vec<double> &v1, const Vec<double> &v2);
-	template<> const std::complex<double> dot(const Vec<std::complex<double> > &v1, const Vec<std::complex<double> > &v2);
+  template<> const double dot(const vec &v1, const vec &v2);
+  template<> const std::complex<double> dot(const cvec &v1, const cvec &v2);
 #endif
 
   template<class Num_T> inline
@@ -1519,13 +1519,14 @@ namespace itpp {
     return is;
   }
 
+#ifndef _MSC_VER
+
   //---------------------------------------------------------------------
   // Instantiations
   //---------------------------------------------------------------------
 
   //--------- class instantiations -------------
 
-#ifndef _MSC_VER
   //! Template instantiation of Vec<double>
   extern template class Vec<double>;
   //! Template instantiation of Vec<int>
@@ -1622,10 +1623,12 @@ namespace itpp {
 
   //------------- Multiplication operator ----------
 
+#if !defined(HAVE_CBLAS) && !defined(HAVE_MKL)
   //! Template instantiation of dot
   extern template const double dot(const vec &v1, const vec &v2);
   //! Template instantiation of dot
   extern template const std::complex<double> dot(const cvec &v1, const cvec &v2);
+#endif
   //! Template instantiation of dot
   extern template const int dot(const ivec &v1, const ivec &v2);
   //! Template instantiation of dot
@@ -1854,7 +1857,7 @@ namespace itpp {
   //! Template instantiation of input stream
   extern template std::istream &operator>>(std::istream& is, bvec &vect);
 
-#endif
+#endif // #ifndef _MSC_VER
 
 } // namespace itpp
 
