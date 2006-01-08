@@ -1,4 +1,12 @@
+2006-01-09  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* NEWS: Merged changes from itpp-3-9-release branch into the trunk
+
 2006-01-08  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/images/favicon.ico, doc/images/itpp_logga.jpg,
+	doc/images/itpp_logga.xcf: Changed keyword expansion mode for
+	binary files
 
 	* doc/local/installation.doc: Updated fragment with GCC version
 	recommendations

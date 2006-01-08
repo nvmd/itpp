@@ -1,17 +1,20 @@
 ===============================================================================
-IT++ version 3.9.1                                         Released: 2006-??-??
+IT++ version 3.9.1                                         Released: 2006-01-??
 -------------------------------------------------------------------------------
 
-New features:
--------------
-
-
-Modifications:
---------------
-
+This is a bug-fix release. Therefore, no new features and major
+modifications have been added since release 3.9.0.
 
 Bug-fixes:
 ---------
+
+* Fixed bug [1399822]. The problem was caused by explicit specialisation of
+  some templated operators, when HAVE_CBLAS or HAVE_MKL are defined. In such
+  a case, the following forward declarations of explicit instantiations
+  (with extern) of these operators should be switched off.
+
+* Fixed bug [1396020]. Now itsave() works properly in both Matlab and
+  Octave. Thanks to Jordy Potman for providing a patch.
 
 
 ===============================================================================
