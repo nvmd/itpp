@@ -1,5 +1,8 @@
 2006-01-08  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/local/installation.doc: Updated fragment with GCC version
+	recommendations
+
 	* tests/Makefile.am, tests/rec_syst_conv_code_test.cpp,
 	tests/rec_syst_conv_code_test.ref: Minor cosmetic changes (renamed
 	some test files)
