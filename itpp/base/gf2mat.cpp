@@ -211,7 +211,7 @@ namespace itpp {
       Z.set(i,i,1);
     }
     return Z;
-  };
+  }
 
   GF2mat GF2mat::get_submatrix(int m1, int n1, int m2, int n2)
   {

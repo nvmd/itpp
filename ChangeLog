@@ -1,5 +1,11 @@
 2006-01-08  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/fastica.cpp, itpp/base/gf2mat.cpp, itpp/base/gf2mat.h,
+	itpp/base/machdep.h, itpp/base/scalfunc.h, itpp/comm/interleave.h, 
+	itpp/protocol/packet_generator.cpp, tests/gf2mat_test.cpp: Minor
+	cosmetic changes, e.g. removing inappropriate semicolons (detected
+	when compiling with `-ansi' and `-pedantic' flags).
+	
 	* itpp/base/mat.h, itpp/base/vec.h: Fixed bug [1399822]. The
 	problem was caused by explicit specialisation of some templated
 	operators, when HAVE_CBLAS or HAVE_MKL are defined. In such a

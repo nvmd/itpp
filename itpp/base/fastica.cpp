@@ -169,54 +169,54 @@ namespace itpp {
     }
   }
 
-  void Fast_ICA::set_approach( int in_approach ) { approach = in_approach; if ( approach == FICA_APPROACH_DEFL ) finetune = true; }; 
+  void Fast_ICA::set_approach( int in_approach ) { approach = in_approach; if ( approach == FICA_APPROACH_DEFL ) finetune = true; }
 
-  void Fast_ICA::set_nrof_independent_components( int in_nrIC ) { numOfIC = in_nrIC; }; 
+  void Fast_ICA::set_nrof_independent_components( int in_nrIC ) { numOfIC = in_nrIC; }
 
-  void Fast_ICA::set_non_linearity( int in_g ) { g = in_g; };
+  void Fast_ICA::set_non_linearity( int in_g ) { g = in_g; }
 
-  void Fast_ICA::set_fine_tune( bool in_finetune ) { finetune = in_finetune; };
+  void Fast_ICA::set_fine_tune( bool in_finetune ) { finetune = in_finetune; }
 
-  void Fast_ICA::set_a1( double fl_a1 ) { a1 = fl_a1; };
+  void Fast_ICA::set_a1( double fl_a1 ) { a1 = fl_a1; }
   
-  void Fast_ICA::set_a2( double fl_a2 ) { a2 = fl_a2; };
+  void Fast_ICA::set_a2( double fl_a2 ) { a2 = fl_a2; }
 
-  void Fast_ICA::set_mu( double fl_mu ) { mu = fl_mu; };
+  void Fast_ICA::set_mu( double fl_mu ) { mu = fl_mu; }
 
-  void Fast_ICA::set_epsilon( double fl_epsilon ) { epsilon = fl_epsilon; };
+  void Fast_ICA::set_epsilon( double fl_epsilon ) { epsilon = fl_epsilon; }
 
-  void Fast_ICA::set_sample_size( double fl_sampleSize ) { sampleSize = fl_sampleSize; };
+  void Fast_ICA::set_sample_size( double fl_sampleSize ) { sampleSize = fl_sampleSize; }
 
-  void Fast_ICA::set_stabilization( bool in_stabilization ) { stabilization = in_stabilization; };
+  void Fast_ICA::set_stabilization( bool in_stabilization ) { stabilization = in_stabilization; }
 
-  void Fast_ICA::set_max_num_iterations( int in_maxNumIterations ) { maxNumIterations = in_maxNumIterations; };
+  void Fast_ICA::set_max_num_iterations( int in_maxNumIterations ) { maxNumIterations = in_maxNumIterations; }
 
-  void Fast_ICA::set_max_fine_tune( int in_maxFineTune ) { maxFineTune = in_maxFineTune; };
+  void Fast_ICA::set_max_fine_tune( int in_maxFineTune ) { maxFineTune = in_maxFineTune; }
 
-  void Fast_ICA::set_first_eig( int in_firstEig ) { firstEig = in_firstEig; };
+  void Fast_ICA::set_first_eig( int in_firstEig ) { firstEig = in_firstEig; }
 
-  void Fast_ICA::set_last_eig( int in_lastEig ) { lastEig = in_lastEig; };
+  void Fast_ICA::set_last_eig( int in_lastEig ) { lastEig = in_lastEig; }
 
-  void Fast_ICA::set_pca_only( bool in_PCAonly ) { PCAonly = in_PCAonly; };
+  void Fast_ICA::set_pca_only( bool in_PCAonly ) { PCAonly = in_PCAonly; }
 
-  void Fast_ICA::set_init_guess( mat ma_initGuess ) { initGuess = ma_initGuess; };
+  void Fast_ICA::set_init_guess( mat ma_initGuess ) { initGuess = ma_initGuess; }
 
 
-  mat Fast_ICA::get_mixing_matrix() { if ( PCAonly ) { it_warning ( "No ICA performed." ); return (zeros(1,1));} else return A; };
+  mat Fast_ICA::get_mixing_matrix() { if ( PCAonly ) { it_warning ( "No ICA performed." ); return (zeros(1,1));} else return A; }
 
-  mat Fast_ICA::get_separating_matrix() { if ( PCAonly ) { it_warning ( "No ICA performed." ); return(zeros(1,1)); } else return W; };
+  mat Fast_ICA::get_separating_matrix() { if ( PCAonly ) { it_warning ( "No ICA performed." ); return(zeros(1,1)); } else return W; }
 
-  mat Fast_ICA::get_independent_components() { if ( PCAonly ) { it_warning ( "No ICA performed." ); return(zeros(1,1)); } else return icasig; };
+  mat Fast_ICA::get_independent_components() { if ( PCAonly ) { it_warning ( "No ICA performed." ); return(zeros(1,1)); } else return icasig; }
 
-  int Fast_ICA::get_nrof_independent_components() { return numOfIC; };
+  int Fast_ICA::get_nrof_independent_components() { return numOfIC; }
 
-  mat Fast_ICA::get_principal_eigenvectors() { return VecPr; };
+  mat Fast_ICA::get_principal_eigenvectors() { return VecPr; }
 
-  mat Fast_ICA::get_whitening_matrix() { return whiteningMatrix; };
+  mat Fast_ICA::get_whitening_matrix() { return whiteningMatrix; }
 
-  mat Fast_ICA::get_dewhitening_matrix() { return dewhiteningMatrix; };
+  mat Fast_ICA::get_dewhitening_matrix() { return dewhiteningMatrix; }
 
-  mat Fast_ICA::get_white_sig() { return whitesig; };
+  mat Fast_ICA::get_white_sig() { return whitesig; }
 
 } // namespace itpp
 

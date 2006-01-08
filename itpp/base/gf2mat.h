@@ -376,7 +376,7 @@ namespace itpp {
       char bit = j&mImax;
       data(i,col) ^= (1<<bit); 
     }
-  };
+  }
 
   inline bin GF2mat::get(int i, int j) const 
   {
@@ -385,7 +385,7 @@ namespace itpp {
     int col = j>>lImax;
     char bit = j&mImax;
     return ((data(i,col) >> bit) & 1);    // NB data must be unsigned for this to be well defined
-  };
+  }
 
   inline void GF2mat::set(int i, int j, bin s) 
   {
@@ -400,7 +400,7 @@ namespace itpp {
     }  else { // set bit to zero
       data(i,col) &= ((~0) ^ (1<<bit));
     }
-  };
+  }
 
 } // namespace itpp
 

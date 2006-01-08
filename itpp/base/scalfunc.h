@@ -268,7 +268,7 @@ namespace itpp {
   //! Round \a x to zero if \a abs(x) is smaller than \a threshold
   inline double round_to_zero(double x, double threshold = 1e-15) {
     return (std::abs(x) < threshold) ? 0.0 : x;
-  };
+  }
   
   //! Round each part of \a x smaller than \a threshold to zero  
   std::complex<double> round_to_zero(const std::complex<double>& x, 

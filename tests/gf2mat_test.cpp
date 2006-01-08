@@ -46,7 +46,7 @@ GF2mat random_matrix(int m, int n)
     } 
   }
   return Z;
-};
+}
 
 int main()
 {
