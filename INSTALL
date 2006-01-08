@@ -19,8 +19,8 @@ have at least the following GNU software installed on your computer:
 Optionally, you might need additional tools like: Doxygen, LaTeX, Dvips
 and Ghostscript to generate the HTML documentation.
 
-We strongly recommend that you use well tested and stable releases of the
-GCC compilers, i.e. 3.4.x, 3.3.x or 3.2.x, if possible. We do not actively
+We strongly recommend that you use the recent stable releases of the
+GCC, i.e. 4.0.2, 3.4.5 or 3.3.6, if possible. We do not actively
 work on supporting older compilers and they may therefore (without prior
 notice) become unsupported in future versions of IT++.
 
