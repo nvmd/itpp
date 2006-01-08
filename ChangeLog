@@ -1,5 +1,9 @@
 2006-01-08  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/Makefile.am, tests/rec_syst_conv_code_test.cpp,
+	tests/rec_syst_conv_code_test.ref: Minor cosmetic changes (renamed
+	some test files)
+
 	* itpp/base/fastica.cpp, itpp/base/gf2mat.cpp, itpp/base/gf2mat.h,
 	itpp/base/machdep.h, itpp/base/scalfunc.h, itpp/comm/interleave.h, 
 	itpp/protocol/packet_generator.cpp, tests/gf2mat_test.cpp: Minor
