@@ -200,7 +200,7 @@ namespace itpp {
       rows = in_rows;
       cols = in_cols;
       input_length = 0;
-    };
+    }
 
   template<class T>
     void Block_Interleaver<T>::interleave(const Vec<T> &input, Vec<T> &output)

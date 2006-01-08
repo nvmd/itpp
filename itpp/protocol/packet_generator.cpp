@@ -42,9 +42,7 @@ namespace itpp {
     set_parameters(Packet_size, Max_packets);
   }
 
-  Packet_Generator::~Packet_Generator(){
-  
-  }
+  Packet_Generator::~Packet_Generator() { }
 
   void Packet_Generator::set_parameters(const int Packet_size, const unsigned long int Max_packets){
     assert(Packet_size>0);
@@ -156,13 +154,13 @@ namespace itpp {
     Nbytes = 0;
     packet_input.forward(this, &Sink::handle_packet_input);
     start_time = Event_Queue::now();
-  };
+  }
 
   Sink::~Sink(){
     std::cout << "Time = "<<Event_Queue::now()<<", Sink : " << std::endl;
     std::cout << "Received "<<Ncp<<" packets in sequence." << std::endl;
     std::cout << "Receive average bit rate = "<<Nbytes*8.0/(Event_Queue::now()-start_time)<<" [bits/second]." << std::endl;
-  };
+  }
 
 
   void Sink::handle_packet_input(Packet *P){
@@ -175,7 +173,7 @@ namespace itpp {
       std::cout << "Simulation stopped because : Ncp > max_packets" << std::endl;
       Event_Queue::stop();
     }
-  };
+  }
 
 
 } // namespace itpp
