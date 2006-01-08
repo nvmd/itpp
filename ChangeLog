@@ -1,5 +1,8 @@
 2006-01-09  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac, doc/local/index.doc.in: Updated for the next minor
+	release (3.10.0)
+
 	* NEWS: Merged changes from itpp-3-9-release branch into the trunk
 
 2006-01-08  Adam Piatyszek  <ediap@users.sourceforge.net>
