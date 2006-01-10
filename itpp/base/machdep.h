@@ -39,28 +39,28 @@ namespace itpp {
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
-#define REV_2(from, to)				\
-    ((char *)(to))[0] = ((char *)(from))[1];	\
-    ((char *)(to))[1] = ((char *)(from))[0];
+#define REV_2(from, to)                                   \
+              ((char *)(to))[0] = ((char *)(from))[1];    \
+              ((char *)(to))[1] = ((char *)(from))[0];
 
-#define REV_4(from, to)				\
-    ((char *)(to))[0] = ((char *)(from))[3];	\
-    ((char *)(to))[1] = ((char *)(from))[2];    \
-    ((char *)(to))[2] = ((char *)(from))[1];    \
-    ((char *)(to))[3] = ((char *)(from))[0];
+#define REV_4(from, to)                                   \
+              ((char *)(to))[0] = ((char *)(from))[3];    \
+              ((char *)(to))[1] = ((char *)(from))[2];    \
+              ((char *)(to))[2] = ((char *)(from))[1];    \
+              ((char *)(to))[3] = ((char *)(from))[0];
 
-#define REV_8(from, to)				\
-    ((char *)(to))[0] = ((char *)(from))[7];	\
-    ((char *)(to))[1] = ((char *)(from))[6];    \
-    ((char *)(to))[2] = ((char *)(from))[5];    \
-    ((char *)(to))[3] = ((char *)(from))[4];    \
-    ((char *)(to))[4] = ((char *)(from))[3];    \
-    ((char *)(to))[5] = ((char *)(from))[2];    \
-    ((char *)(to))[6] = ((char *)(from))[1];    \
-    ((char *)(to))[7] = ((char *)(from))[0];
+#define REV_8(from, to)                                   \
+              ((char *)(to))[0] = ((char *)(from))[7];    \
+              ((char *)(to))[1] = ((char *)(from))[6];    \
+              ((char *)(to))[2] = ((char *)(from))[5];    \
+              ((char *)(to))[3] = ((char *)(from))[4];    \
+              ((char *)(to))[4] = ((char *)(from))[3];    \
+              ((char *)(to))[5] = ((char *)(from))[2];    \
+              ((char *)(to))[6] = ((char *)(from))[1];    \
+              ((char *)(to))[7] = ((char *)(from))[0];
 
 
-  // Typedefs for 32 bit architechures (default)
+  //Typedefs for 32 bit architechures (default)
   typedef signed char        it_s8;
   typedef unsigned char      it_u8;
   typedef signed short       it_s16;
@@ -70,7 +70,7 @@ namespace itpp {
   typedef float              it_f32;
   typedef double             it_f64;
 
-  // One byte data types are independent of endianity:
+  //One byte data types are independent of endianity:
   inline it_s8 big_endian(it_s8 x)              { return x; }
   inline it_u8 big_endian(it_u8 x)              { return x; }
   inline it_s8 little_endian(it_s8 x)           { return x; }
@@ -80,12 +80,10 @@ namespace itpp {
   inline void  little_endian(it_s8 x, it_s8 &y) { y = x; }
   inline void  little_endian(it_u8 x, it_u8 &y) { y = x; }
 
-
-  // Determine the endianity (Little or Big):
-#if defined(__sparc__)
+  //Determine the endianity (Little or Big):
+#if defined(sparc)
 #define __LITTLE_ENDIAN__
-//#elif defined(__i386__) || defined(__M_IX86__) || defined(__x86_64__) || defined(__alpha__) || defined(__vms__)
-#elif defined(i386) || defined(_M_IX86) || defined(__x86_64__) || defined(alpha) || defined(vms) 
+#elif defined(i386) || defined(_M_IX86) || defined(__x86_64__) || defined(alpha) || defined(vms)
 #define __BIG_ENDIAN__
 #endif
 
@@ -126,7 +124,7 @@ namespace itpp {
   inline void little_endian(it_f64 x, it_f64 &y) { REV_8(&x,&y); }
 
   //Additions for some 64 bit architechtures
-#if defined(__sparc__)
+#if defined(sparc)
   typedef signed long        it_s64;
   typedef unsigned long      it_u64;
   inline it_s64 big_endian(it_s64 x) { return x; }
@@ -177,7 +175,7 @@ namespace itpp {
   inline void little_endian(it_f64 x, it_f64 &y) { y = x; }
 
   //Additions for some 64 bit architechtures
-#if defined(__alpha__) || defined(__x86_64__)
+#if defined(alpha) || defined(__x86_64__)
   typedef signed long        it_s64;
   typedef unsigned long      it_u64;
   inline it_s64 big_endian(it_s64 x) { it_s64 y; REV_4(&x,&y); return y; }
