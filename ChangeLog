@@ -1,3 +1,8 @@
+2006-01-10  Thomas Eriksson  <thomases2@users.sourceforge.net>
+
+	* itpp/base/machdep.h was changed in an undocumented way. I had to change
+	back one line ("#elif defined(__i386__) .....") to make it compile in MSVC++.
+
 2006-01-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/matfunc.cpp, itpp/base/matfunc.h: Cosmetic changes -
