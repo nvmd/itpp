@@ -84,7 +84,8 @@ namespace itpp {
   // Determine the endianity (Little or Big):
 #if defined(__sparc__)
 #define __LITTLE_ENDIAN__
-#elif defined(__i386__) || defined(__M_IX86__) || defined(__x86_64__) || defined(__alpha__) || defined(__vms__)
+//#elif defined(__i386__) || defined(__M_IX86__) || defined(__x86_64__) || defined(__alpha__) || defined(__vms__)
+#elif defined(i386) || defined(_M_IX86) || defined(__x86_64__) || defined(alpha) || defined(vms) 
 #define __BIG_ENDIAN__
 #endif
 
