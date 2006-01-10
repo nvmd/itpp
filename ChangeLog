@@ -1,7 +1,13 @@
+2006-01-11  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/machdep.h: Reverted back recent changes due to
+	compilation problems under MSVC++ .NET (merged from itpp-3-9-branch)
+
 2006-01-10  Thomas Eriksson  <thomases2@users.sourceforge.net>
 
-	* itpp/base/machdep.h was changed in an undocumented way. I had to change
-	back one line ("#elif defined(__i386__) .....") to make it compile in MSVC++.
+	* itpp/base/machdep.h: Was changed in an undocumented way. I had
+	to change back one line ("#elif defined(__i386__) .....") to make
+	it compile in MSVC++.
 
 2006-01-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
