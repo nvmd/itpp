@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Definitions of functions on vectors and matrices
- * \author Tony Ottosson
+ * \author Tony Ottosson and Adam Piatyszek
  * 
  * $Date$
  * $Revision$
@@ -44,10 +44,6 @@
 
 
 namespace itpp {
-
-
-  //! Define of absolute(x)
-#define absolut(x) (((x)>0) ? (x) : (-(x)))
 
   /*!
     \addtogroup matrix_functions

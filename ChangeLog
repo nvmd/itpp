@@ -1,3 +1,9 @@
+2006-01-10  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/matfunc.cpp, itpp/base/matfunc.h: Cosmetic changes -
+	removed unnecessary definition and updated author's list (merged
+	from itpp-3-9-branch)
+
 2006-01-09  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* INSTALL: Updated fragment with GCC version recommendations

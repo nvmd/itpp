@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Implementation of functions on vectors and matrices
- * \author Tony Ottosson
+ * \author Tony Ottosson and Adam Piatyszek
  * 
  * $Date$
  * $Revision$
