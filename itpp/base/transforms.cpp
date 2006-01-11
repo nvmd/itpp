@@ -352,7 +352,7 @@ namespace itpp {
     return out; 
   }
 
-  cvec fft(const cvec &in, int N)  
+  cvec fft(const cvec &in, const int N)  
   { 
     cvec in2(N),out;
     in2.clear(); 
@@ -368,7 +368,7 @@ namespace itpp {
     return out; 
   }
 
-  cvec ifft(const cvec &in, int N)  
+  cvec ifft(const cvec &in, const int N)  
   { 
     cvec in2(N),out; 
     in2.clear(); 
@@ -384,10 +384,31 @@ namespace itpp {
     return out; 
   }
 
+  cvec fft_real(const vec& in, const int N)  
+  { 
+    vec in2(N);
+    in2.clear(); 
+    in2.set_subvector(0,in); 
+
+    cvec out;
+    fft_real(in2, out);
+    return out; 
+  }
+
   vec ifft_real(const cvec &in) 
   {
     vec out;
     ifft_real(in, out);
+    return out; 
+  }
+
+  vec ifft_real(const cvec &in, const int N) 
+  {
+    cvec in2(N); 
+    in2.clear(); 
+    in2.set_subvector(0,in);
+    vec out;
+    ifft_real(in2, out);
     return out; 
   }
 

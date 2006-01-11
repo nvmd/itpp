@@ -43,7 +43,7 @@
 namespace itpp {
 
   /*! 
-		\addtogroup fft
+    \addtogroup fft
     \brief One dimensional fast fourier transform
     \author Tony Ottosson
 
@@ -76,22 +76,26 @@ namespace itpp {
   //! Fast Fourier Transform
   cvec fft(const cvec &in);
   //! Fast Fourier Transform, with zero-padding up to size N
-  cvec fft(const cvec &in, int N);
+  cvec fft(const cvec &in, const int N);
   //! Inverse Fast Fourier Transform
   void ifft(const cvec &in, cvec &out);
   //! Inverse Fast Fourier Transform
   cvec ifft(const cvec &in);
   //! Inverse Fast Fourier Transform, with zero-padding up to size N
-  cvec ifft(const cvec &in, int N);
+  cvec ifft(const cvec &in, const int N);
 
   //! Real Fast Fourier Transform
   void fft_real(const vec& in, cvec &out);
   //! Real Fast Fourier Transform
   cvec fft_real(const vec& in);
-  //! Inverse Fast Fourier Transform. Assumes even size.
+  //! Real Fast Fourier Transform, with zero-padding up to size N
+  cvec fft_real(const vec &in, const int N);
+  //! Inverse Real Fast Fourier Transform. Assumes even size.
   void ifft_real(const cvec &in, vec &out);
-  //! Inverse Fast Fourier Transform. Assumes even size.
+  //! Inverse Real Fast Fourier Transform. Assumes even size.
   vec ifft_real(const cvec &in);
+  //! Inverse Real Fast Fourier Transform, with zero-padding up to size N
+  vec ifft_real(const cvec &in, const int N);
   //!@}
 
 

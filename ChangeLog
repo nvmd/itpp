@@ -1,3 +1,10 @@
+
+2006-01-11  Tony Ottosson  <tonyottosson@users.sourceforge.net>
+
+	* itpp/base/transforms.{h,cpp}: Added zero-padding for fft_real()
+	  and ifft_real(). Also made all size input variables const.
+
+
 2006-01-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/matfunc.cpp, itpp/base/matfunc.h,
