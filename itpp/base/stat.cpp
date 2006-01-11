@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Implementation of statistics functions and classes
- * \author Tony Ottosson and Johan Bergman
+ * \author Tony Ottosson, Johan Bergman and Adam Piatyszek
  * 
  * $Date$
  * $Revision$
@@ -128,6 +128,29 @@ namespace itpp {
       return max(sum(abs(m)));
     else
       return max(svd(m));
+  }
+
+
+  // Calculate the Frobenius norm of a real matrix
+  double frob_norm(const mat &m) 
+  {
+    double temp_sum = 0.0;
+    for (int i = 0; i < m.rows(); i++)
+      for (int j = 0; j < m.cols(); j++)
+	temp_sum += sqr(m(i, j));
+
+    return std::sqrt(temp_sum);
+  }
+
+  // Calculate the Frobenius norm of a complex matrix
+  double frob_norm(const cmat &m) 
+  {
+    double temp_sum = 0.0;
+    for (int i = 0; i < m.rows(); i++)
+      for (int j = 0; j < m.cols(); j++)
+	temp_sum += sqr(abs(m(i, j)));
+
+    return std::sqrt(temp_sum);
   }
 
 

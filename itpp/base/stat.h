@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Definitions of statistics functions and classes
- * \author Tony Ottosson and Johan Bergman
+ * \author Tony Ottosson, Johan Bergman and Adam Piatyszek
  * 
  * $Date$
  * $Revision$
@@ -148,10 +148,12 @@ namespace itpp {
   }
 
   /*! 
-    \brief max of elements in the matrix \c m
-    sum(m)=sum(m,1) returns a vector where the elements are max over each column
-    sum(m,2) returns a vector where the elements are max over each row
-  */
+   * Maximum values over each row/column in the matrix \c m
+   *
+   * <tt>max(m) = max(m, 1)</tt> returns a vector where the elements are
+   * maximum over each column, whereas <tt>max(m, 2)</tt> returns a vector
+   * where the elements are maximum over each row.
+   */
   template<class T>
     Vec<T> max(const Mat<T> &m, int dim=1)
   {
@@ -174,12 +176,15 @@ namespace itpp {
   }
 
   /*! 
-    \brief max of elements in the matrix \c m
-    sum(m)=sum(m,1) returns a vector where the elements are max over each column
-    sum(m,2) returns a vector where the elements are max over each row
-
-    Also returns an vector of indices with positions of max value within column/row
-  */
+   * Maximum values over each row/column in the matrix \c m
+   *
+   * <tt>max(m) = max(m, 1)</tt> returns a vector where the elements are
+   * maximum over each column, whereas <tt>max(m, 2)</tt> returns a vector
+   * where the elements are maximum over each row.
+   *
+   * Also returns a vector of indices with positions of maximum value within
+   * a column/row.
+   */
   template<class T>
     Vec<T> max(const Mat<T> &m, ivec &index, int dim=1)
   {
@@ -230,10 +235,12 @@ namespace itpp {
 
 
   /*! 
-    \brief min of elements in the matrix \c m
-    sum(m)=sum(m,1) returns a vector where the elements are min over each column
-    sum(m,2) returns a vector where the elements are min over each row
-  */
+   * Minimum values over each row/column in the matrix \c m
+   *
+   * <tt>min(m) = min(m, 1)</tt> returns a vector where the elements are
+   * minimum over each column, whereas <tt>min(m, 2)</tt> returns a vector
+   * where the elements are minimum over each row.
+   */
   template<class T>
     Vec<T> min(const Mat<T> &m, int dim=1)
   {
@@ -256,12 +263,15 @@ namespace itpp {
 
 
   /*! 
-    \brief min of elements in the matrix \c m
-    sum(m)=sum(m,1) returns a vector where the elements are min over each column
-    sum(m,2) returns a vector where the elements are min over each row
-
-    Also returns an vector of indices with positions of max value within column/row
-  */
+   * Minimum values over each row/column in the matrix \c m
+   *
+   * <tt>min(m) = min(m, 1)</tt> returns a vector where the elements are
+   * minimum over each column, whereas <tt>min(m, 2)</tt> returns a vector
+   * where the elements are minimum over each row.
+   *
+   * Also returns a vector of indices with positions of minimum value within
+   * a column/row.
+   */
   template<class T>
     Vec<T> min(const Mat<T> &m,  ivec &index, int dim=1)
   {
@@ -423,6 +433,13 @@ namespace itpp {
   */
   double norm(const cmat &m, int p=2);
   
+
+  //! Calculate the Frobenius norm of a real matrix
+  double frob_norm(const mat &m);
+
+  //! Calculate the Frobenius norm of a complex matrix
+  double frob_norm(const cmat &m);
+
 
   //! The variance of the elements in the vector. Normalized with N-1 to be unbiased.
   double variance(const cvec &v);
