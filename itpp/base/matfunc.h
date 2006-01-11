@@ -49,192 +49,201 @@ namespace itpp {
     \addtogroup matrix_functions
     \brief Functions on vectors and matrices
   */
-
   //!@{
 
   //! Length of vector
-	
-	template<class T>
-    int length(const Vec<T> &v) { return v.length(); }
+  template<class T>
+  int length(const Vec<T> &v) { return v.length(); }
 
   //! Length of vector
   template<class T>
-    int size(const Vec<T> &v) { return v.length(); }
-
+  int size(const Vec<T> &v) { return v.length(); }
 
 
   //! Sum of all elements in the vector 
   template<class T>
-    T sum(const Vec<T> &v)
-    {
-      T M=0;
+  T sum(const Vec<T> &v)
+  {
+    T M = 0;
 
-      for (int i=0;i<v.length();i++)
-	M += v[i];
+    for (int i=0;i<v.length();i++)
+      M += v[i];
 
-      return M;
-    }
+    return M;
+  }
 
   /*! 
-    \brief sum of elements in the matrix \c m
-    sum(m)=sum(m,1) returns a vector where the elements are sum over each column
-    sum(m,2) returns a vector where the elements are sum over each row
-  */
+   * \brief Sum of elements in the matrix \c m
+   *
+   * <tt>sum(m) = sum(m, 1)</tt> returns a vector where the elements are sum
+   * over each column, whereas <tt>sum(m, 2)</tt> returns a vector where the
+   * elements are sum over each row
+   */
   template<class T>
-    Vec<T> sum(const Mat<T> &m, int dim=1)
-    {
-      it_assert(dim==1 || dim==2, "sum: dimension need to be 1 or 2");
-      Vec<T> out;
+  Vec<T> sum(const Mat<T> &m, int dim=1)
+  {
+    it_assert((dim == 1) || (dim == 2), "sum: dimension need to be 1 or 2");
+    Vec<T> out;
 
-      if (dim == 1) {
-	out.set_size(m.cols(), false);
+    if (dim == 1) {
+      out.set_size(m.cols(), false);
 
-	for (int i=0; i<m.cols(); i++)
-	  out(i) = sum(m.get_col(i));
-      } else {
-	out.set_size(m.rows(), false);
+      for (int i=0; i<m.cols(); i++)
+	out(i) = sum(m.get_col(i));
+    } 
+    else {
+      out.set_size(m.rows(), false);
 
-	for (int i=0; i<m.rows(); i++)
-	  out(i) = sum(m.get_row(i));
-      }
-      
-      return out;
+      for (int i=0; i<m.rows(); i++)
+	out(i) = sum(m.get_row(i));
     }
+      
+    return out;
+  }
 
   //! Sum of square of the elements in a vector
   template<class T>
-    T sum_sqr(const Vec<T> &v)
-    {
-      T M=0;
+  T sum_sqr(const Vec<T> &v)
+  {
+    T M=0;
 
-      for (int i=0; i<v.length(); i++)
-	M += v[i] * v[i];
+    for (int i=0; i<v.length(); i++)
+      M += v[i] * v[i];
 
-      return M;
-    }
+    return M;
+  }
 
   /*! 
-    \brief sum of the square of elements in the matrix \c m
-    sum(m)=sum(m,1) returns a vector where the elements are sum squared over each column
-    sum(m,2) returns a vector where the elements are sum squared over each row
-  */
+   * \brief Sum of the square of elements in the matrix \c m
+   *
+   * <tt>sum(m) = sum(m, 1)</tt> returns a vector where the elements are sum
+   * squared over each column, whereas <tt>sum(m, 2)</tt> returns a vector
+   * where the elements are sum squared over each row
+   */
   template<class T>
-    Vec<T> sum_sqr(const Mat<T> &m, int dim=1)
-    {
-      it_assert(dim==1 || dim==2, "sum_sqr: dimension need to be 1 or 2");
-      Vec<T> out;
+  Vec<T> sum_sqr(const Mat<T> &m, int dim=1)
+  {
+    it_assert((dim == 1) || (dim == 2), "sum_sqr: dimension need to be 1 or 2");
+    Vec<T> out;
 
-      if (dim == 1) {
-	out.set_size(m.cols(), false);
+    if (dim == 1) {
+      out.set_size(m.cols(), false);
 
-	for (int i=0; i<m.cols(); i++)
-	  out(i) = sum_sqr(m.get_col(i));
-      } else {
-	out.set_size(m.rows(), false);
+      for (int i=0; i<m.cols(); i++)
+	out(i) = sum_sqr(m.get_col(i));
+    } 
+    else {
+      out.set_size(m.rows(), false);
 
-	for (int i=0; i<m.rows(); i++)
-	  out(i) = sum_sqr(m.get_row(i));
-      }
-      
-      return out;
+      for (int i=0; i<m.rows(); i++)
+	out(i) = sum_sqr(m.get_row(i));
     }
+      
+    return out;
+  }
 
   //! Cumulative sum of all elements in the vector 
   template<class T>
-    Vec<T> cumsum(const Vec<T> &v)
-    {
-      Vec<T> out(v.size());
+  Vec<T> cumsum(const Vec<T> &v)
+  {
+    Vec<T> out(v.size());
 
-      out(0)=v(0);
-      for (int i=1; i<v.size(); i++)
-	out(i) = out(i-1) + v(i);
+    out(0)=v(0);
+    for (int i=1; i<v.size(); i++)
+      out(i) = out(i-1) + v(i);
 
-      return out;
-    }
+    return out;
+  }
 
   /*! 
-    \brief cumulative sum of elements in the matrix \c m
-    cumsum(m)=cumsum(m,1) returns a matrix where the elements are sums over each column
-    cumsum(m,2) returns a matrix where the elements are sums over each row
-  */
+   * \brief Cumulative sum of elements in the matrix \c m
+   *
+   * <tt>cumsum(m) = cumsum(m, 1)</tt> returns a matrix where the elements
+   * are sums over each column, whereas <tt>cumsum(m, 2)</tt> returns a
+   * matrix where the elements are sums over each row
+   */
   template<class T>
-    Mat<T> cumsum(const Mat<T> &m, int dim=1)
-    {
-      it_assert(dim==1 || dim==2, "cumsum: dimension need to be 1 or 2");
-      Mat<T> out(m.rows(), m.cols());
+  Mat<T> cumsum(const Mat<T> &m, int dim=1)
+  {
+    it_assert((dim == 1) || (dim == 2), "cumsum: dimension need to be 1 or 2");
+    Mat<T> out(m.rows(), m.cols());
 
-      if (dim == 1) {
-	for (int i=0; i<m.cols(); i++)
-	  out.set_col(i, cumsum(m.get_col(i)));
-      } else {
-	for (int i=0; i<m.rows(); i++)
-	  out.set_row(i, cumsum(m.get_row(i)));
-      }
-
-      return out;
+    if (dim == 1) {
+      for (int i=0; i<m.cols(); i++)
+	out.set_col(i, cumsum(m.get_col(i)));
+    } else {
+      for (int i=0; i<m.rows(); i++)
+	out.set_row(i, cumsum(m.get_row(i)));
     }
+
+    return out;
+  }
   
   //! The product of all elements in the vector
   template<class T>
-    T prod(const Vec<T> &v)
-    {
-      it_assert(v.size() >= 1, "prod: size of vector should be at least 1");
-      T out = v(0);
+  T prod(const Vec<T> &v)
+  {
+    it_assert(v.size() >= 1, "prod: size of vector should be at least 1");
+    T out = v(0);
 
-      for (int i=1; i<v.size(); i++)
-	out *= v(i);
+    for (int i=1; i<v.size(); i++)
+      out *= v(i);
 
-      return out;
-    }
+    return out;
+  }
 
   /*! 
-    \brief product of elements in the matrix \c m
-    prod(m)=prod(m,1) returns a vector where the elements are products over each column
-    prod(m,2) returns a vector where the elements are products over each row
-  */
+   * \brief Product of elements in the matrix \c m 
+   *
+   * <tt>prod(m) = prod(m, 1)</tt> returns a vector where the elements are
+   * products over each column, whereas <tt>prod(m, 2)</tt> returns a vector
+   * where the elements are products over each row
+   */
   template<class T>
-    Vec<T> prod(const Mat<T> &m, int dim=1)
-    {
-      it_assert(dim==1 || dim==2, "prod: dimension need to be 1 or 2");
-      Vec<T> out(m.cols());
+  Vec<T> prod(const Mat<T> &m, int dim=1)
+  {
+    it_assert((dim == 1) || (dim == 2), "prod: dimension need to be 1 or 2");
+    Vec<T> out(m.cols());
 
-      if (dim == 1) {
-	it_assert(m.cols() >= 1 && m.rows() >= 1, "prod: number of columns should be at least 1");
-	out.set_size(m.cols(), false);
+    if (dim == 1) {
+      it_assert((m.cols() >= 1) && (m.rows() >= 1), 
+		"prod: number of columns should be at least 1");
+      out.set_size(m.cols(), false);
 
-	for (int i=0; i<m.cols(); i++)
-	  out(i) = prod(m.get_col(i));
-      } else {
-	it_assert(m.cols() >= 1 && m.rows() >= 1, "prod: number of rows should be at least 1");
-	out.set_size(m.rows(), false);
+      for (int i=0; i<m.cols(); i++)
+	out(i) = prod(m.get_col(i));
+    } 
+    else {
+      it_assert((m.cols() >= 1) && (m.rows() >= 1),
+		"prod: number of rows should be at least 1");
+      out.set_size(m.rows(), false);
 
-	for (int i=0; i<m.rows(); i++)
-	  out(i) = prod(m.get_row(i));
-      }
-      return out;
+      for (int i=0; i<m.rows(); i++)
+	out(i) = prod(m.get_row(i));
     }
+    return out;
+  }
 
   //! Vector cross product. Vectors need to be of size 3
   template<class T>
-    Vec<T> cross(const Vec<T> &v1, const Vec<T> &v2)
-    {
-      it_assert( v1.size() == 3 && v2.size() == 3, "cross: vectors should be of size 3");
+  Vec<T> cross(const Vec<T> &v1, const Vec<T> &v2)
+  {
+    it_assert((v1.size() == 3) && (v2.size() == 3), 
+	      "cross: vectors should be of size 3");
 
-      Vec<T> r(3);
+    Vec<T> r(3);
 
-      r(0) = v1(1) * v2(2) - v1(2) * v2(1);
-      r(1) = v1(2) * v2(0) - v1(0) * v2(2);
-      r(2) = v1(0) * v2(1) - v1(1) * v2(0);
+    r(0) = v1(1) * v2(2) - v1(2) * v2(1);
+    r(1) = v1(2) * v2(0) - v1(0) * v2(2);
+    r(2) = v1(0) * v2(1) - v1(1) * v2(0);
 
-      return r;
-    }
-
-
+    return r;
+  }
 
 
   //! Apply arbitrary function to a vector
   template<class T, class fT>
-    Vec<T> apply_function(fT (*f)(fT), const Vec<T> &data)
+  Vec<T> apply_function(fT (*f)(fT), const Vec<T> &data)
   {
     Vec<T> out(data.length());
 
@@ -246,7 +255,7 @@ namespace itpp {
 
   //! Apply arbitrary functions to a matrix
   template<class T, class fT>
-    Mat<T> apply_function(fT (*f)(fT), const Mat<T> &data)
+  Mat<T> apply_function(fT (*f)(fT), const Mat<T> &data)
   {
     Mat<T> out(data.rows(),data.cols());
 
@@ -259,46 +268,47 @@ namespace itpp {
   }
 
 
-
   //! Zero-pad a vector to size n
   template<class T>
-    Vec<T> zero_pad(const Vec<T> &v, int n)
-    {
-      it_assert(n>=v.size(), "zero_pad() cannot shrink the vector!");
-      Vec<T> v2(n);
-      v2.set_subvector(0, v.size()-1, v);
-      if (n > v.size())
-	v2.set_subvector(v.size(), n-1, T(0));
+  Vec<T> zero_pad(const Vec<T> &v, int n)
+  {
+    it_assert(n >= v.size(), "zero_pad() cannot shrink the vector!");
+    Vec<T> v2(n);
+    v2.set_subvector(0, v.size()-1, v);
+    if (n > v.size())
+      v2.set_subvector(v.size(), n-1, T(0));
 
-      return v2;
-    }
+    return v2;
+  }
 
   //! Zero-pad a vector to the nearest greater power of two
   template<class T>
-    Vec<T> zero_pad(const Vec<T> &v)
-    {
-      int n = pow2(needed_bits(v.size()));
+  Vec<T> zero_pad(const Vec<T> &v)
+  {
+    int n = pow2(needed_bits(v.size()));
 
-      return n==v.size() ? v : zero_pad(v, n);
-    }
+    return (n == v.size()) ? v : zero_pad(v, n);
+  }
 
   //! Zero-pad a matrix to size rows x cols
   template<class T>
-    Mat<T> zero_pad(const Mat<T> &m, int rows, int cols)
-    {
-      it_assert(rows>=m.rows() && cols>=m.cols(), "zero_pad() cannot shrink the matrix!");
-      Mat<T> m2(rows, cols);
-      m2.set_submatrix(0,m.rows()-1,0,m.cols()-1, m);
-      if (cols > m.cols()) // Zero
-	m2.set_submatrix(0,m.rows()-1, m.cols(),cols-1, T(0));
-      if (rows > m.rows()) // Zero
-	m2.set_submatrix(m.rows(), rows-1, 0, cols-1, T(0));
+  Mat<T> zero_pad(const Mat<T> &m, int rows, int cols)
+  {
+    it_assert((rows >= m.rows()) && (cols >= m.cols()), 
+	      "zero_pad() cannot shrink the matrix!");
+    Mat<T> m2(rows, cols);
+    m2.set_submatrix(0,m.rows()-1,0,m.cols()-1, m);
+    if (cols > m.cols()) // Zero
+      m2.set_submatrix(0,m.rows()-1, m.cols(),cols-1, T(0));
+    if (rows > m.rows()) // Zero
+      m2.set_submatrix(m.rows(), rows-1, 0, cols-1, T(0));
 
-      return m2;
-    }
+    return m2;
+  }
   
 
-  //! Return zero if indexing outside the vector \c v otherwise return the element \c index
+  //! Return zero if indexing outside the vector \c v otherwise return the
+  //! element \c index
   template<class T>
   T index_zero_pad(const Vec<T> &v, const int index)
   {
@@ -308,43 +318,38 @@ namespace itpp {
       return T(0);
   }
 
-  /*! 
-    \brief Transposition of the matrix \c m returning the transposed matrix in \c out
-  */
-  template<class T>
-    void transpose(const Mat<T> &m, Mat<T> &out) { out = m.T(); }
 
-  /*! 
-    \brief Transposition of the matrix \c m
-  */
+  //! Transposition of the matrix \c m returning the transposed matrix in \c out
   template<class T>
-    Mat<T> transpose(const Mat<T> &m) { return m.T(); }
+  void transpose(const Mat<T> &m, Mat<T> &out) { out = m.T(); }
 
-  /*! 
-    \brief Hermitian transpose (complex conjugate transpose) of the matrix \c m returning the transposed matrix in \c out
-  */
+  //! Transposition of the matrix \c m
   template<class T>
-    void hermitian_transpose(const Mat<T> &m, Mat<T> &out) { out = m.H(); }
+  Mat<T> transpose(const Mat<T> &m) { return m.T(); }
 
-  /*!  
-    \brief Hermitian transpose (complex conjugate transpose) of the matrix \c m
-  */
+
+  //! Hermitian transpose (complex conjugate transpose) of the matrix \c m
+  //! returning the transposed matrix in \c out 
   template<class T>
-    Mat<T> hermitian_transpose(const Mat<T> &m) { return m.H(); }
+  void hermitian_transpose(const Mat<T> &m, Mat<T> &out) { out = m.H(); }
+
+  //! Hermitian transpose (complex conjugate transpose) of the matrix \c m
+  template<class T>
+  Mat<T> hermitian_transpose(const Mat<T> &m) { return m.H(); }
 
 
 
   /*!  
-    \brief Returns true if matrix \c X is hermitian, false otherwise
-    \author M. Szalay
-
-    A square matrix \f$\mathbf{X}\f$ is hermitian if
-    \f[
-    \mathbf{X} = \mathbf{X}^H
-    \f]
-  */
+   * \brief Returns true if matrix \c X is hermitian, false otherwise
+   * \author M. Szalay
+   *
+   * A square matrix \f$\mathbf{X}\f$ is hermitian if
+   * \f[
+   * \mathbf{X} = \mathbf{X}^H
+   * \f]
+   */
   template<class Num_T>
-    bool is_hermitian(const Mat<Num_T>& X) {
+  bool is_hermitian(const Mat<Num_T>& X) {
     
     if (X == X.H() )
       return true;
@@ -353,16 +358,16 @@ namespace itpp {
   }
 
   /*!  
-    \brief Returns true if matrix \c X is unitary, false otherwise
-    \author M. Szalay
-
-    A square matrix \f$\mathbf{X}\f$ is unitary if
-    \f[
-    \mathbf{X}^H = \mathbf{X}^{-1}
-    \f]
-  */
+   * \brief Returns true if matrix \c X is unitary, false otherwise
+   * \author M. Szalay
+   *
+   * A square matrix \f$\mathbf{X}\f$ is unitary if
+   * \f[
+   * \mathbf{X}^H = \mathbf{X}^{-1}
+   * \f]
+   */
   template<class Num_T>
-    bool is_unitary(const Mat<Num_T>& X) {
+  bool is_unitary(const Mat<Num_T>& X) {
     
     if ( inv(X) == X.H() )
       return true;
@@ -372,33 +377,57 @@ namespace itpp {
 
 
   /*! 
-    \brief Computes the Kronecker product of two matrices
-
-    <tt>k = kron(x, y)</tt> returns the Kronecker tensor product of \c
-    x and \c y. The result is a large array formed by taking all
-    possible products between the elements of \c x and those of \c
-    Y. If \c x is <tt>(m x n)</tt> and \c y is <tt>(p x q)</tt>, then
-    <tt>kron(x, y)</tt> is <tt>(m*p x n*q)</tt>.
-
-    \author Adam Piatyszek
-  */
+   * \brief Computes the Kronecker product of two matrices
+   *
+   * <tt>K = kron(X, Y)</tt> returns the Kronecker tensor product of \c X
+   * and \c Y. The result is a large array formed by taking all possible
+   * products between the elements of \c X and those of \c Y. If \c X is
+   * <tt>(m x n)</tt> and \c Y is <tt>(p x q)</tt>, then <tt>kron(X, Y)</tt>
+   * is <tt>(m*p x n*q)</tt>.
+   *
+   * \author Adam Piatyszek
+   */
   template<class Num_T>
-    Mat<Num_T> kron(const Mat<Num_T>& x, const Mat<Num_T>& y) {
-    int x_rows = x.rows();
-    int x_cols = x.cols();
-    int y_rows = y.rows();
-    int y_cols = y.cols();
-    
-    Mat<Num_T> result(x_rows * y_rows, x_cols * y_cols);
+  Mat<Num_T> kron(const Mat<Num_T>& X, const Mat<Num_T>& Y) 
+  {
+    Mat<Num_T> result(X.rows() * Y.rows(), X.cols() * Y.cols());
 
-    for (int i = 0; i < x_rows; i++) {
-      for (int j = 0; j < x_cols; j++) {
-	result.set_submatrix(i * y_rows, j * y_cols, x(i, j) * y);
-      }
-    }
+    for (int i = 0; i < X.rows(); i++)
+      for (int j = 0; j < X.cols(); j++)
+	result.set_submatrix(i * Y.rows(), j * Y.cols(), X(i, j) * Y);
     
     return result;
   }
+
+
+  /*! 
+   * \brief Square root of the complex square matrix \c A 
+   *  
+   * This function computes the matrix square root of the complex square
+   * matrix \c A. The implementation is based on the Matlab/Octave \c
+   * sqrtm() function.
+   *
+   * Ref: N. J. Higham, "Numerical Analysis Report No. 336", Manchester
+   * Centre for Computational Mathematics, Manchester, England, January 1999
+   *
+   * \author Adam Piatyszek
+   */
+  cmat sqrtm(const cmat& A);
+
+  /*! 
+   * \brief Square root of the real square matrix \c A 
+   *  
+   * This function computes the matrix square root of the real square matrix
+   * \c A. Please note that the returned matrix is complex. The
+   * implementation is based on the Matlab/Octave \c sqrtm() function.
+   *
+   * Ref: N. J. Higham, "Numerical Analysis Report No. 336", Manchester
+   * Centre for Computational Mathematics, Manchester, England, January 1999
+   *
+   * \author Adam Piatyszek
+   */
+  cmat sqrtm(const mat& A);
+
   //!@}
 
 
@@ -418,19 +447,19 @@ namespace itpp {
     The size of the return matrix will be \f$n \times n\f$, where \f$n\f$ is the length of the input vector \c v.
   */
   template<class T>
-    Mat<T> diag(const Vec<T> &v, const int K = 0)
-    {
-      Mat<T> m(v.size()+abs(K), v.size()+abs(K));
-      m = T(0);
-      if (K>0)
-	for (int i=v.size()-1; i>=0; i--)
-	  m(i,i+K) = v(i);
-      else
-	for (int i=v.size()-1; i>=0; i--)
-	  m(i-K,i) = v(i);
+  Mat<T> diag(const Vec<T> &v, const int K = 0)
+  {
+    Mat<T> m(v.size()+abs(K), v.size()+abs(K));
+    m = T(0);
+    if (K>0)
+      for (int i=v.size()-1; i>=0; i--)
+	m(i,i+K) = v(i);
+    else
+      for (int i=v.size()-1; i>=0; i--)
+	m(i-K,i) = v(i);
 
-      return m;
-    }
+    return m;
+  }
 
   /*! 
     \brief Returns in the output wariable \c m a diagonal matrix whith the elements of the vector \c v on the 
@@ -439,13 +468,13 @@ namespace itpp {
     The size of the output matrix \c m will be \f$n \times n\f$, where \f$n\f$ is the length of the input vector \c v.
   */
   template<class T>
-    void diag(const Vec<T> &v, Mat<T> &m)
-    {
-      m.set_size(v.size(), v.size(), false);
-      m = T(0);
-      for (int i=v.size()-1; i>=0; i--)
-	m(i,i) = v(i);
-    }
+  void diag(const Vec<T> &v, Mat<T> &m)
+  {
+    m.set_size(v.size(), v.size(), false);
+    m = T(0);
+    for (int i=v.size()-1; i>=0; i--)
+      m(i,i) = v(i);
+  }
 
   /*! 
     \brief Returns the diagonal elements of the input matrix \c m.
@@ -453,15 +482,15 @@ namespace itpp {
     The input matrix \c m must be a square \f$n \times n\f$ matrix. The size of the output vector will be \f$n\f$.
   */
   template<class T>
-    Vec<T> diag(const Mat<T> &m)
-    {
-      Vec<T> t(std::min(m.rows(), m.cols()));
+  Vec<T> diag(const Mat<T> &m)
+  {
+    Vec<T> t(std::min(m.rows(), m.cols()));
 
-      for (int i=0; i<t.size(); i++)
-	t(i) = m(i,i);
+    for (int i=0; i<t.size(); i++)
+      t(i) = m(i,i);
 
-      return t;
-    }
+    return t;
+  }
 
   // 
   /*!
@@ -472,21 +501,21 @@ namespace itpp {
     \c sup must be \f$n-1\f$. The size of the return matrix will be \f$n \times n\f$.
   */
   template<class T>
-    Mat<T> bidiag(const Vec<T> &main, const Vec<T> &sup)
-    {
-      it_assert(main.size() == sup.size()+1, "bidiag()");
+  Mat<T> bidiag(const Vec<T> &main, const Vec<T> &sup)
+  {
+    it_assert(main.size() == sup.size()+1, "bidiag()");
 
-      int n=main.size();
-      Mat<T> m(n, n);
-      m = T(0);
-      for (int i=0; i<n-1; i++) {
-	m(i,i) = main(i);
-	m(i,i+1) = sup(i);
-      }
-      m(n-1,n-1) = main(n-1);
-
-      return m;
+    int n=main.size();
+    Mat<T> m(n, n);
+    m = T(0);
+    for (int i=0; i<n-1; i++) {
+      m(i,i) = main(i);
+      m(i,i+1) = sup(i);
     }
+    m(n-1,n-1) = main(n-1);
+
+    return m;
+  }
 
   /*!
     \brief Returns in the output variable \c m a matrix with the elements of the input vector \c main on the diagonal 
@@ -496,19 +525,19 @@ namespace itpp {
     \c sup must be \f$n-1\f$. The size of the output matrix \c m will be \f$n \times n\f$.
   */
   template<class T>
-    void bidiag(const Vec<T> &main, const Vec<T> &sup, Mat<T> &m)
-    {
-      it_assert(main.size() == sup.size()+1, "bidiag()");
+  void bidiag(const Vec<T> &main, const Vec<T> &sup, Mat<T> &m)
+  {
+    it_assert(main.size() == sup.size()+1, "bidiag()");
 
-      int n=main.size();
-      m.set_size(n, n);
-      m = T(0);
-      for (int i=0; i<n-1; i++) {
-	m(i,i) = main(i);
-	m(i,i+1) = sup(i);
-      }
-      m(n-1,n-1) = main(n-1);
+    int n=main.size();
+    m.set_size(n, n);
+    m = T(0);
+    for (int i=0; i<n-1; i++) {
+      m(i,i) = main(i);
+      m(i,i+1) = sup(i);
     }
+    m(n-1,n-1) = main(n-1);
+  }
 
   /*!
     \brief Returns the main diagonal and the diagonal row above in the two output vectors \c main and \c sup.
@@ -517,19 +546,19 @@ namespace itpp {
     and the length of the output vector \c sup will be \f$n-1\f$.
   */
   template<class T>
-    void bidiag(const Mat<T> &m, Vec<T> &main, Vec<T> &sup)
-    {
-      it_assert(m.rows() == m.cols(), "bidiag(): Matrix must be square!");
+  void bidiag(const Mat<T> &m, Vec<T> &main, Vec<T> &sup)
+  {
+    it_assert(m.rows() == m.cols(), "bidiag(): Matrix must be square!");
 
-      int n=m.cols();
-      main.set_size(n);
-      sup.set_size(n-1);
-      for (int i=0; i<n-1; i++) {
-	main(i) = m(i,i);
-	sup(i) = m(i,i+1);
-      }
-      main(n-1) = m(n-1,n-1);
+    int n=m.cols();
+    main.set_size(n);
+    sup.set_size(n-1);
+    for (int i=0; i<n-1; i++) {
+      main(i) = m(i,i);
+      sup(i) = m(i,i+1);
     }
+    main(n-1) = m(n-1,n-1);
+  }
 
   /*!
     \brief Returns a matrix with the elements of \c main on the diagonal, the elements of \c sup on the diagonal row above, 
@@ -539,22 +568,22 @@ namespace itpp {
     must equal \f$n-1\f$. The size of the return matrix will be \f$n \times n\f$.
   */
   template<class T>
-    Mat<T> tridiag(const Vec<T> &main, const Vec<T> &sup, const Vec<T> &sub)
-    {
-      it_assert(main.size()==sup.size()+1 && main.size()==sub.size()+1, "bidiag()");
+  Mat<T> tridiag(const Vec<T> &main, const Vec<T> &sup, const Vec<T> &sub)
+  {
+    it_assert(main.size()==sup.size()+1 && main.size()==sub.size()+1, "bidiag()");
 
-      int n=main.size();
-      Mat<T> m(n, n);
-      m = T(0);
-      for (int i=0; i<n-1; i++) {
-	m(i,i) = main(i);
-	m(i,i+1) = sup(i);
-	m(i+1,i) = sub(i);
-      }
-      m(n-1,n-1) = main(n-1);
-
-      return m;
+    int n=main.size();
+    Mat<T> m(n, n);
+    m = T(0);
+    for (int i=0; i<n-1; i++) {
+      m(i,i) = main(i);
+      m(i,i+1) = sup(i);
+      m(i+1,i) = sub(i);
     }
+    m(n-1,n-1) = main(n-1);
+
+    return m;
+  }
 
   /*!
     \brief Returns in the output matrix \c m a matrix with the elements of \c main on the diagonal, the elements of \c sup on the
@@ -564,20 +593,20 @@ namespace itpp {
     must equal \f$n-1\f$. The size of the output matrix \c m will be \f$n \times n\f$.
   */
   template<class T>
-    void tridiag(const Vec<T> &main, const Vec<T> &sup, const Vec<T> &sub, Mat<T> &m)
-    {
-      it_assert(main.size()==sup.size()+1 && main.size()==sub.size()+1, "bidiag()");
+  void tridiag(const Vec<T> &main, const Vec<T> &sup, const Vec<T> &sub, Mat<T> &m)
+  {
+    it_assert(main.size()==sup.size()+1 && main.size()==sub.size()+1, "bidiag()");
 
-      int n=main.size();
-      m.set_size(n, n);
-      m = T(0);
-      for (int i=0; i<n-1; i++) {
-	m(i,i) = main(i);
-	m(i,i+1) = sup(i);
-	m(i+1,i) = sub(i);
-      }
-      m(n-1,n-1) = main(n-1);
+    int n=main.size();
+    m.set_size(n, n);
+    m = T(0);
+    for (int i=0; i<n-1; i++) {
+      m(i,i) = main(i);
+      m(i,i+1) = sup(i);
+      m(i+1,i) = sub(i);
     }
+    m(n-1,n-1) = main(n-1);
+  }
 
   /*!
     \brief Returns the main diagonal, the diagonal row above, and the diagonal row below int the output vectors \c main, \c sup, and \c sub.
@@ -586,21 +615,21 @@ namespace itpp {
     and the length of the output vectors \c sup and \c sup will be \f$n-1\f$.
   */
   template<class T>
-    void tridiag(const Mat<T> &m, Vec<T> &main, Vec<T> &sup, Vec<T> &sub)
-    {
-      it_assert(m.rows() == m.cols(), "tridiag(): Matrix must be square!");
+  void tridiag(const Mat<T> &m, Vec<T> &main, Vec<T> &sup, Vec<T> &sub)
+  {
+    it_assert(m.rows() == m.cols(), "tridiag(): Matrix must be square!");
 
-      int n=m.cols();
-      main.set_size(n);
-      sup.set_size(n-1);
-      sub.set_size(n-1);
-      for (int i=0; i<n-1; i++) {
-	main(i) = m(i,i);
-	sup(i) = m(i,i+1);
-	sub(i) = m(i+1,i);
-      }
-      main(n-1) = m(n-1,n-1);
+    int n=m.cols();
+    main.set_size(n);
+    sup.set_size(n-1);
+    sub.set_size(n-1);
+    for (int i=0; i<n-1; i++) {
+      main(i) = m(i,i);
+      sup(i) = m(i,i+1);
+      sub(i) = m(i+1,i);
     }
+    main(n-1) = m(n-1,n-1);
+  }
 
 
 
@@ -608,10 +637,10 @@ namespace itpp {
     \brief The trace of the matrix \c m, i.e. the sum of the diagonal elements.
   */
   template<class T>
-    T trace(const Mat<T> &m)
-    {
-      return sum(diag(m));
-    }
+  T trace(const Mat<T> &m)
+  {
+    return sum(diag(m));
+  }
 
   //!@}
 
@@ -626,43 +655,43 @@ namespace itpp {
 
   //! Reverse the input vector
   template<class T>
-    Vec<T> reverse(const Vec<T> &in)
-    {
-      int i, s=in.length();
+  Vec<T> reverse(const Vec<T> &in)
+  {
+    int i, s=in.length();
 
-      Vec<T> out(s);
-      for (i=0;i<s;i++)
-	out[i]=in[s-1-i];
-      return out;
-    }
+    Vec<T> out(s);
+    for (i=0;i<s;i++)
+      out[i]=in[s-1-i];
+    return out;
+  }
 
   //! Row vectorize the matrix [(0,0) (0,1) ... (N-1,N-2) (N-1,N-1)]
   template<class T>
-    Vec<T> rvectorize(const Mat<T> &m)
-    {
-      int i, j, n=0, r=m.rows(), c=m.cols();
-      Vec<T> v(r * c);
+  Vec<T> rvectorize(const Mat<T> &m)
+  {
+    int i, j, n=0, r=m.rows(), c=m.cols();
+    Vec<T> v(r * c);
 
-      for (i=0; i<r; i++)
-	for (j=0; j<c; j++)
-	  v(n++) = m(i,j);
+    for (i=0; i<r; i++)
+      for (j=0; j<c; j++)
+	v(n++) = m(i,j);
 
-      return v;
-    }
+    return v;
+  }
 
   //! Column vectorize the matrix [(0,0) (1,0) ... (N-2,N-1) (N-1,N-1)]
   template<class T>
-    Vec<T> cvectorize(const Mat<T> &m)
-    {
-      int i, j, n=0, r=m.rows(), c=m.cols();
-      Vec<T> v(r * c);
+  Vec<T> cvectorize(const Mat<T> &m)
+  {
+    int i, j, n=0, r=m.rows(), c=m.cols();
+    Vec<T> v(r * c);
 
-      for (j=0; j<c; j++)
-	for (i=0; i<r; i++)
-	  v(n++) = m(i,j);
+    for (j=0; j<c; j++)
+      for (i=0; i<r; i++)
+	v(n++) = m(i,j);
 
-      return v;
-    }
+    return v;
+  }
 
   /*!
     \brief Reshape the matrix into an rows*cols matrix
@@ -670,21 +699,21 @@ namespace itpp {
     The data is taken columnwise from the original matrix and written columnwise into the new matrix.
   */
   template<class T>
-    Mat<T> reshape(const Mat<T> &m, int rows, int cols)
-    {
-      it_assert1(m.rows()*m.cols() == rows*cols, "Mat<T>::reshape: Sizes must match");
-      Mat<T> temp(rows, cols);
-      int i, j, ii=0, jj=0;
-      for (j=0; j<m.cols(); j++) {
-	for (i=0; i<m.rows(); i++) {
-	  temp(ii++,jj) = m(i,j);
-	  if (ii == rows) {
-	    jj++; ii=0;
-	  }
+  Mat<T> reshape(const Mat<T> &m, int rows, int cols)
+  {
+    it_assert1(m.rows()*m.cols() == rows*cols, "Mat<T>::reshape: Sizes must match");
+    Mat<T> temp(rows, cols);
+    int i, j, ii=0, jj=0;
+    for (j=0; j<m.cols(); j++) {
+      for (i=0; i<m.rows(); i++) {
+	temp(ii++,jj) = m(i,j);
+	if (ii == rows) {
+	  jj++; ii=0;
 	}
       }
-      return temp;
     }
+    return temp;
+  }
 
   /*!
     \brief Reshape the vector into an rows*cols matrix
@@ -692,18 +721,18 @@ namespace itpp {
     The data is element by element from the vector and written columnwise into the new matrix.
   */
   template<class T>
-    Mat<T> reshape(const Vec<T> &v, int rows, int cols)
-    {
-      it_assert1(v.size() == rows*cols, "Mat<T>::reshape: Sizes must match");
-      Mat<T> temp(rows, cols);
-      int i, j, ii=0;
-      for (j=0; j<cols; j++) {
-	for (i=0; i<rows; i++) {
-	  temp(i,j) = v(ii++);
-	}
+  Mat<T> reshape(const Vec<T> &v, int rows, int cols)
+  {
+    it_assert1(v.size() == rows*cols, "Mat<T>::reshape: Sizes must match");
+    Mat<T> temp(rows, cols);
+    int i, j, ii=0;
+    for (j=0; j<cols; j++) {
+      for (i=0; i<rows; i++) {
+	temp(i,j) = v(ii++);
       }
-      return temp;
     }
+    return temp;
+  }
 
   //!@}
 
@@ -716,85 +745,85 @@ namespace itpp {
 
   //! Repeat each element in the vector norepeats times in sequence
   template<class T>
-    Vec<T> repeat(const Vec<T> &v, int norepeats)
-    {
-      Vec<T> temp(v.length()*norepeats);
+  Vec<T> repeat(const Vec<T> &v, int norepeats)
+  {
+    Vec<T> temp(v.length()*norepeats);
 
-      for(int i=0; i<v.length(); i++) {
-	for(int j=0;j<norepeats;j++)
-	  temp(i*norepeats+j)=v(i);
-      }
-      return temp;
+    for(int i=0; i<v.length(); i++) {
+      for(int j=0;j<norepeats;j++)
+	temp(i*norepeats+j)=v(i);
     }
+    return temp;
+  }
 
   //! Repeats each column norepeats times in sequence
   template<class T>
-    Mat<T> repeat(const Mat<T> &m, int norepeats)
-    {
-      Mat<T> temp(m.rows(), m.cols()*norepeats);
+  Mat<T> repeat(const Mat<T> &m, int norepeats)
+  {
+    Mat<T> temp(m.rows(), m.cols()*norepeats);
 
-      for (int j=0; j<m.cols(); j++) {
-	for (int i=0;i<norepeats;i++) {
-	  temp.set_col(j*norepeats+i, m.get_col(j));
-	}
+    for (int j=0; j<m.cols(); j++) {
+      for (int i=0;i<norepeats;i++) {
+	temp.set_col(j*norepeats+i, m.get_col(j));
       }
-      return temp;
     }
+    return temp;
+  }
 
   //! Upsample a vector by inserting \a (usf-1) zeros after each sample
   template<class T> 
-    void upsample(const Vec<T> &v, int usf, Vec<T> &u)
-    {
-      it_assert1(usf >= 1, "upsample: upsampling factor must be equal or greater than one" );
-      u.set_size(v.length()*usf);
-      u.clear();
-      for(long i=0;i<v.length();i++)
-	u(i*usf)=v(i);
-    }
+  void upsample(const Vec<T> &v, int usf, Vec<T> &u)
+  {
+    it_assert1(usf >= 1, "upsample: upsampling factor must be equal or greater than one" );
+    u.set_size(v.length()*usf);
+    u.clear();
+    for(long i=0;i<v.length();i++)
+      u(i*usf)=v(i);
+  }
 
 
   //! Upsample a vector by incerting \a (usf-1) zeros after each sample
   template<class T>
-    Vec<T> upsample(const Vec<T> &v, int usf)
-    {
-      Vec<T> u;
-      upsample(v,usf,u);
-      return u;
-    }
+  Vec<T> upsample(const Vec<T> &v, int usf)
+  {
+    Vec<T> u;
+    upsample(v,usf,u);
+    return u;
+  }
 
   //! Upsample each column by incerting \a (usf-1) zeros after each column
   template<class T>
-    void upsample(const Mat<T> &v, int usf, Mat<T> &u)
-    {
-      it_assert1(usf >= 1, "upsample: upsampling factor must be equal or greater than one" );
-      u.set_size(v.rows(),v.cols()*usf);
-      u.clear();
-      for (long j=0;j<v.cols();j++)
-	u.set_col(j*usf,v.get_col(j));
-    }
+  void upsample(const Mat<T> &v, int usf, Mat<T> &u)
+  {
+    it_assert1(usf >= 1, "upsample: upsampling factor must be equal or greater than one" );
+    u.set_size(v.rows(),v.cols()*usf);
+    u.clear();
+    for (long j=0;j<v.cols();j++)
+      u.set_col(j*usf,v.get_col(j));
+  }
 
   //! Upsample each column by incerting \a (usf-1) zeros after each column
   template<class T>
-    Mat<T> upsample(const Mat<T> &v, int usf)
-    {
-      Mat<T> u;
-      upsample(v,usf,u);
-      return u;
-    }
+  Mat<T> upsample(const Mat<T> &v, int usf)
+  {
+    Mat<T> u;
+    upsample(v,usf,u);
+    return u;
+  }
 
   //! Upsample each column by a factor of  \a (usf-1) by linear interpolation
   template<class T>
-    void lininterp(const Mat<T> &m, int usf, Mat<T> &u)
-    {
-      it_assert1(usf >= 1, "lininterp: upsampling factor must be equal or greater than one" );
-      long L = (m.cols()-1)*usf+1;
-      u.set_size(m.rows(),L);
-      for (long i = 0; i < m.rows(); i++){
-	for (long j = 0; j < L-1; j++)
-	  u(i,j) = (m(i,j/usf) + (j % usf)/((double)usf)*(m(i,(j+usf)/usf)-m(i,j/usf)));
-	u(i,L-1) = m(i,m.cols()-1);
-      }
+  void lininterp(const Mat<T> &m, int usf, Mat<T> &u)
+  {
+    it_assert1(usf >= 1, "lininterp: upsampling factor must be equal or greater than one" );
+    long L = (m.cols()-1)*usf+1;
+    u.set_size(m.rows(),L);
+    for (long i = 0; i < m.rows(); i++){
+      for (long j = 0; j < L-1; j++)
+	u(i,j) = (m(i,j/usf) + (j % usf)/((double)usf)*(m(i,(j+usf)/usf)-m(i,j/usf)));
+      u(i,L-1) = m(i,m.cols()-1);
     }
+  }
 
   /*! 
     \brief Upsample each column of matrix \a m to achieve \a f_ups
@@ -808,65 +837,65 @@ namespace itpp {
     \author Adam Piatyszek
   */
   template<class T>
-    Mat<T> lininterp(const Mat<T> &m, const double f_base, const double f_ups, const int nrof_samples, const double t_start = 0)
-    {
-      double t_base = 1 / f_base;
-      double t_ups = 1 / f_ups;
-      int rows = m.rows();
-      int cols = m.cols();
-      it_assert1(f_ups > f_base, "lininterp: upsampled frequency must be greater than base frequency" );
-      it_assert1((t_start >= 0) && (t_start < cols * t_base), "lininterp: incorrect start time offset");
-      it_assert1((nrof_samples * t_ups + t_start) <= (cols * t_base), "lininterp: too many samples required or input data to short");
-      Mat<T> u(rows, nrof_samples);
-      double curr_time = t_start;
+  Mat<T> lininterp(const Mat<T> &m, const double f_base, const double f_ups, const int nrof_samples, const double t_start = 0)
+  {
+    double t_base = 1 / f_base;
+    double t_ups = 1 / f_ups;
+    int rows = m.rows();
+    int cols = m.cols();
+    it_assert1(f_ups > f_base, "lininterp: upsampled frequency must be greater than base frequency" );
+    it_assert1((t_start >= 0) && (t_start < cols * t_base), "lininterp: incorrect start time offset");
+    it_assert1((nrof_samples * t_ups + t_start) <= (cols * t_base), "lininterp: too many samples required or input data to short");
+    Mat<T> u(rows, nrof_samples);
+    double curr_time = t_start;
     
-      int i = 0;
-      int k = 0;
-      while (i < cols - 1) {
-	while ((curr_time < (i + 1) * t_base) && (k < nrof_samples)) {
-	  for (int j = 0; j < rows; j++) {
-	    u(j, k) = (m(j, i) * ((i + 1) * t_base - curr_time) 
-		       - m(j, i + 1) * (i * t_base - curr_time)) / t_base;
-	  }
-	  k++;
-	  curr_time += t_ups;
+    int i = 0;
+    int k = 0;
+    while (i < cols - 1) {
+      while ((curr_time < (i + 1) * t_base) && (k < nrof_samples)) {
+	for (int j = 0; j < rows; j++) {
+	  u(j, k) = (m(j, i) * ((i + 1) * t_base - curr_time) 
+		     - m(j, i + 1) * (i * t_base - curr_time)) / t_base;
 	}
-	i++;
+	k++;
+	curr_time += t_ups;
       }
-      return u;
+      i++;
     }
+    return u;
+  }
 
 
   //! Upsample each column by a factor of  \a (usf-1) by linear interpolation
   template<class T>
-    Mat<T> lininterp(const Mat<T> &m, int usf)
-    {
-      Mat<T> u;
-      lininterp(m,usf,u);
-      return u;
-    }
+  Mat<T> lininterp(const Mat<T> &m, int usf)
+  {
+    Mat<T> u;
+    lininterp(m,usf,u);
+    return u;
+  }
 
   //! Upsample by a factor of  \a (usf-1) by linear interpolation
   template<class T>
-    void lininterp(const Vec<T> &v, int usf, Vec<T> &u)
-    {
-      it_assert1(usf >= 1, "lininterp: upsampling factor must be equal or greater than one" );
-      long L = (v.length()-1)*usf+1;
-      u.set_size(L);
-      for (long j = 0; j < L-1; j++) {
-	u(j) = (v(j/usf) + (j % usf)/((double)usf)*(v((j+usf)/usf)-v(j/usf)));
-      }
-      u(L-1) = v(v.length()-1);
+  void lininterp(const Vec<T> &v, int usf, Vec<T> &u)
+  {
+    it_assert1(usf >= 1, "lininterp: upsampling factor must be equal or greater than one" );
+    long L = (v.length()-1)*usf+1;
+    u.set_size(L);
+    for (long j = 0; j < L-1; j++) {
+      u(j) = (v(j/usf) + (j % usf)/((double)usf)*(v((j+usf)/usf)-v(j/usf)));
     }
+    u(L-1) = v(v.length()-1);
+  }
 
   //! Upsample by a factor of  \a (usf-1) by linear interpolation
   template<class T>
-    Vec<T> lininterp(const Vec<T> &v, int usf)
-    {
-      Vec<T> u;
-      lininterp(v,usf,u);
-      return u;
-    }
+  Vec<T> lininterp(const Vec<T> &v, int usf)
+  {
+    Vec<T> u;
+    lininterp(v,usf,u);
+    return u;
+  }
 
   /*! 
     \brief Upsample each sample of vector \a v to achieve \a f_ups
@@ -880,30 +909,30 @@ namespace itpp {
     \author Adam Piatyszek
   */
   template<class T>
-    Vec<T> lininterp(const Vec<T> &v, const double f_base, const double f_ups, const int nrof_samples, const double t_start = 0)
-    {
-      double t_base = 1 / f_base;
-      double t_ups = 1 / f_ups;
-      int len = v.length();
-      it_assert1(f_ups > f_base, "lininterp: upsampled frequency must be greater than base frequency" );
-      it_assert1((t_start >= 0) && (t_start < len * t_base), "lininterp: incorrect start time offset");
-      it_assert1((nrof_samples * t_ups + t_start) <= (len * t_base), "lininterp: too many samples required or input data to short");
-      Vec<T> u(nrof_samples);
-      double curr_time = t_start;
+  Vec<T> lininterp(const Vec<T> &v, const double f_base, const double f_ups, const int nrof_samples, const double t_start = 0)
+  {
+    double t_base = 1 / f_base;
+    double t_ups = 1 / f_ups;
+    int len = v.length();
+    it_assert1(f_ups > f_base, "lininterp: upsampled frequency must be greater than base frequency" );
+    it_assert1((t_start >= 0) && (t_start < len * t_base), "lininterp: incorrect start time offset");
+    it_assert1((nrof_samples * t_ups + t_start) <= (len * t_base), "lininterp: too many samples required or input data to short");
+    Vec<T> u(nrof_samples);
+    double curr_time = t_start;
 
-      int i = 0;
-      int k = 0;
-      while (i < len - 1) {
-	while ((curr_time < (i + 1) * t_base) && (k < nrof_samples)) {
-	  u(k) = (v(i) * ((i + 1) * t_base - curr_time) 
-		  - v(i + 1) * (i * t_base - curr_time)) / t_base;
-	  k++;
-	  curr_time += t_ups;
-	}
-	i++;
+    int i = 0;
+    int k = 0;
+    while (i < len - 1) {
+      while ((curr_time < (i + 1) * t_base) && (k < nrof_samples)) {
+	u(k) = (v(i) * ((i + 1) * t_base - curr_time) 
+		- v(i + 1) * (i * t_base - curr_time)) / t_base;
+	k++;
+	curr_time += t_ups;
       }
-      return u;
+      i++;
     }
+    return u;
+  }
 
   //!@}
 

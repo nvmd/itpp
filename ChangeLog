@@ -1,5 +1,10 @@
 2006-01-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/matfunc.cpp, itpp/base/matfunc.h,
+	tests/matfunc_test.cpp, tests/matfunc_test.ref: Added sqrtm()
+	function that calculates the matrix square root for real and
+	complex matrices. Based on Octave implementation.
+
 	* itpp/base/stat.cpp, itpp/base/stat.h: Added frob_norm()
 	functions that calculate Frobenius norm of matrices
 
