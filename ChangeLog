@@ -1,5 +1,8 @@
 2006-01-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/stat.cpp, itpp/base/stat.h: Added frob_norm()
+	functions that calculate Frobenius norm of matrices
+
 	* itpp/base/machdep.h: Reverted back recent changes due to
 	compilation problems under MSVC++ .NET (merged from itpp-3-9-branch)
 
