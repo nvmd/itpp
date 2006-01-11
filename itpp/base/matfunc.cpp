@@ -30,9 +30,52 @@
  * -------------------------------------------------------------------------
  */
 
+#include <limits>
 #include <itpp/base/matfunc.h>
+#include <itpp/base/schur.h>
+#include <itpp/base/stat.h>
 
 namespace itpp {
+
+  // Square root of a square matrix (based on Octave sqrtm implementation)
+  cmat sqrtm(const mat& A)
+  {
+    return sqrtm(to_cmat(A));
+  }
+
+  // Square root of the complex square matrix A
+  cmat sqrtm(const cmat& A)
+  {
+    cmat U, T;
+    schur(to_cmat(A), U, T);
+
+    int n = U.rows();
+    cmat R(n, n);
+
+    R.zeros();
+    for (int j = 0; j < n; j++)
+      R(j, j) = std::sqrt(T(j, j));
+
+    const double fudge = std::sqrt(std::numeric_limits<double>::min());
+
+    for (int p = 0; p < n - 1; p++) {
+      for (int i = 0; i < n - (p + 1); i++) {
+	const int j = i + p + 1;
+	std::complex<double> s = T(i, j);
+
+	for (int k = i + 1; k < j; k++)
+	  s -= R(i, k) * R(k, j);
+
+	const std::complex<double> d = R(i, i) + R(j, j) + fudge;
+	const std::complex<double> conj_d = conj(d);
+
+	R(i, j) = (s * conj_d) / (d * conj_d);
+      }
+    }
+
+    return U * R * U.H();
+  }
+
 
   // ---------------------- Instantiations ------------------------------------
 
