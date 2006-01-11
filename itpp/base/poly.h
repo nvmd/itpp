@@ -89,6 +89,8 @@ namespace itpp {
   */  
   //!@{
   vec polyval(const vec &p, const vec &x);
+  cvec polyval(const vec &p, const cvec &x);
+  cvec polyval(const cvec &p, const vec &x);
   cvec polyval(const cvec &p, const cvec &x);
   //!@}
 

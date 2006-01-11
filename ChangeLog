@@ -4,6 +4,8 @@
 	* itpp/base/transforms.{h,cpp}: Added zero-padding for fft_real()
 	  and ifft_real(). Also made all size input variables const.
 
+	* itpp/base/poly.{h,cpp}: Added polyval() for vec and cvec input
+	  combinations.
 
 2006-01-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
