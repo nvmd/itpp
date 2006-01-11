@@ -144,6 +144,36 @@ namespace itpp {
     return out;
   }
 
+  cvec polyval(const vec &p, const cvec &x)
+  {
+    it_error_if(p.size() == 0, "polyval: size of polynomial is zero");
+    it_error_if(x.size() == 0, "polyval: size of input value vector is zero");
+
+    cvec out(x.size());
+
+    out = p(0);
+
+    for (int i=1; i<p.size(); i++)
+      out = std::complex<double>(p(i)) + elem_mult(x, out);
+
+    return out;
+  }
+
+  cvec polyval(const cvec &p, const vec &x)
+  {
+    it_error_if(p.size() == 0, "polyval: size of polynomial is zero");
+    it_error_if(x.size() == 0, "polyval: size of input value vector is zero");
+
+    cvec out(x.size());
+
+    out = p(0);
+
+    for (int i=1; i<p.size(); i++)
+      out = std::complex<double>(p(i)) + elem_mult(to_cvec(x), out);
+
+    return out;
+  }
+
   cvec polyval(const cvec &p, const cvec &x)
   {
     it_error_if(p.size() == 0, "polyval: size of polynomial is zero");
