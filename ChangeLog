@@ -1,3 +1,15 @@
+2006-01-13  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* tests/*.cpp, tests/transforms_test.ref: Fixed incorrect
+	preprocessor checks for defined external libraries. One reference
+	file updated. (merged from itpp-3-9-branch)
+	
+	* itpp/base/transform.cpp: Fixed improper error messages (merged
+	from itpp-3-9-branch)
+
+	* configure.ac: Fixed a minor bug, which prevented disabling CBLAS
+	support using `--without-cblas' configure switch (merged from
+	itpp-3-9-branch)
 
 2006-01-11  Tony Ottosson  <tonyottosson@users.sourceforge.net>
 

@@ -36,6 +36,8 @@ using namespace itpp;
 using namespace std;
 
 
+#if defined(HAVE_FFTW) || defined(HAVE_MKL)
+
 int main()
 {
   vec b = "1 2 3 4";
@@ -68,3 +70,12 @@ int main()
 
   return 0;
 }
+
+#else
+
+int main() { 
+  cerr << "Error: FFTW (or MKL) is needed for this test program" << endl; 
+  return 1;
+}
+
+#endif

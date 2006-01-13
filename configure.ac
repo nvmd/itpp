@@ -245,9 +245,11 @@ case $with_cblas in
   *) CBLAS_LIBS="$with_cblas" ;;
 esac
 
-if test "x$atlas_ok" = xyes; then
-  cblas_ok=yes
-  CBLAS_LIBS="$ATLAS_LIBS"
+if test "x$cblas_ok" = xno; then
+  if test "x$atlas_ok" = xyes; then
+    cblas_ok=yes
+    CBLAS_LIBS="$ATLAS_LIBS"
+  fi
 fi
 
 if test "x$cblas_ok" = xno; then
