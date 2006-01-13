@@ -1,6 +1,6 @@
 /*!
  * \file 
- * \brief FFT/IFFT test program
+ * \brief Transforms test program
  * \author Tony Ottosson, Thomas Eriksson, Simon Wood and Adam Piatyszek
  *
  * $Date$
@@ -45,7 +45,7 @@ int main()
   cout << "========================" << endl;
 
   {
-    cout << "Real vector: fft_real(x,y), ifft(y,z)" << endl;
+    cout << "Real vector: fft_real(x,y), ifft_real(y,z)" << endl;
     int N = 16;
 
     vec x, z;
@@ -60,7 +60,7 @@ int main()
     cout << "z = " << z << endl;
   }
   {
-    cout << "Complex vector: fft_real(x,y), ifft(y,z)" << endl;
+    cout << "Complex vector: fft(x,y), ifft(y,z)" << endl;
     int N = 16;
 
     cvec x, y, z;
@@ -80,12 +80,8 @@ int main()
 #else
 
 int main() { 
-  cerr << "Error: FFTW or MKL is needed for this test program" << endl; 
+  cerr << "Error: FFTW (or MKL) is needed for this test program" << endl; 
   return 1;
 }
 
 #endif
-
-
-
-

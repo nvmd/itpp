@@ -312,32 +312,32 @@ namespace itpp {
 
   void fft(const cvec &in, cvec &out)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for fft() to exist");
+    it_error("You need to compile IT++ with FFTW (or MKL) for fft() to exist");
   }
 
   void ifft(const cvec &in, cvec &out)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for ifft() to exist");
+    it_error("You need to compile IT++ with FFTW (or MKL) for ifft() to exist");
   }
 
   void fft_real(const vec &in, cvec &out)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for fft_real() to exist");
+    it_error("You need to compile IT++ with FFTW (or MKL) for fft_real() to exist");
   }
 
   void ifft_real(const cvec &in, vec & out)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for ifft_real() to exist");
+    it_error("You need to compile IT++ with FFTW (or MKL) for ifft_real() to exist");
   }
 
   void dct(const vec &in, vec &out)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for dct() to exist");
+    it_error("You need to compile IT++ with FFTW (or MKL) for dct() to exist");
   }
 
   void idct(const vec &in, vec &out)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for idct() to exist");
+    it_error("You need to compile IT++ with FFTW (or MKL) for idct() to exist");
   }
 
 #endif // HAVE_MKL or HAVE_FFTW

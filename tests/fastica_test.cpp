@@ -83,7 +83,9 @@ using namespace itpp;
 using namespace std;
 
 
-#if ((defined(HAVE_LAPACK) && defined(HAVE_CBLAS)) || defined(HAVE_MKL)) && defined(FASTICA_TEST_FILE)
+#if defined(FASTICA_TEST_FILE)
+
+#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
 
 int main()
 {
@@ -168,10 +170,17 @@ int main()
 #else
 
 int main() { 
-  cerr << "1) Error: FASTICA_TEST_FILE has to be defined" << endl;
-  cout << "2) Error: LAPACK and CBLAS (or MKL) are needed for this test program"
+  cerr << "Error: LAPACK (or MKL) are needed for this test program"
        << endl;
   return 1;
 }
 
-#endif
+#endif // defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#else
+
+int main() { 
+  cerr << "Error: FASTICA_TEST_FILE has to be defined" << endl;
+  return 1;
+}
+
+#endif // defined(FASTICA_TEST_FILE)
