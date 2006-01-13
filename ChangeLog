@@ -1,3 +1,10 @@
+2006-01-14  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/matfunc.cpp (sqrtm): Removed unnecessary to_cmat()
+	conversion
+
+	* tests/matfunc_test.ref: Updated improper reference file
+
 2006-01-13  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/*.cpp, tests/transforms_test.ref: Fixed incorrect

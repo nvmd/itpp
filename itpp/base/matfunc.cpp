@@ -47,7 +47,7 @@ namespace itpp {
   cmat sqrtm(const cmat& A)
   {
     cmat U, T;
-    schur(to_cmat(A), U, T);
+    schur(A, U, T);
 
     int n = U.rows();
     cmat R(n, n);
