@@ -1,5 +1,8 @@
 2006-01-14  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/schur.cpp, tests/schur_test.cpp: Fixed a bug that
+	caused compilation error when LAPACK was not installed
+
 	* itpp/base/matfunc.cpp (sqrtm): Removed unnecessary to_cmat()
 	conversion
 
