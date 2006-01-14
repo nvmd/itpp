@@ -94,14 +94,14 @@ namespace itpp {
 
 #else
 
-  bool schur(const mat &A, vec &d, mat &V) {
-    it_error("You need to compile IT++ with LAPACK or MKL to use schur() function");
+  bool schur(const mat &A, mat &U, mat &T) {
+    it_error("You need to compile IT++ with LAPACK (or MKL) to use this function");
     return false;   
   }
 
 
-  bool schur(const cmat &A, cvec &d, cmat &V) {
-    it_error("You need to compile IT++ with LAPACK or MKL to use schur() function");
+  bool schur(const cmat &A, cmat &U, cmat &T) {
+    it_error("You need to compile IT++ with LAPACK (or MKL) to use this function");
     return false;
   }
 
