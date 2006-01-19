@@ -96,6 +96,11 @@ inline itpp::mat gamma(const itpp::mat &x) {return itpp::mat_function((double(*)
   inline vec log(const vec &x) {return vec_function((double(*)(double)) std::log,x);}
   //! The natural logarithm of the elements
   inline mat log(const mat &x) {return mat_function((double(*)(double)) std::log,x);}
+  //! The natural logarithm of the elements
+  inline cvec log(const cvec &x) {return cvec_function((std::complex<double>(*)(const std::complex<double> &)) std::log,x);}
+  //! The natural logarithm of the elements
+  inline cmat log(const cmat &x) {return cmat_function((std::complex<double>(*)(const std::complex<double> &)) std::log,x);}
+
 
   //! log-2 of the elements
   inline vec log2(const vec &x) {return vec_function((double(*)(double)) itpp::log2,x);}
