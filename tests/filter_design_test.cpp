@@ -31,6 +31,7 @@
  */
 
 #include <itpp/itbase.h>
+#include <itpp/itcomm.h>
 
 using namespace itpp;
 using namespace std;
@@ -87,6 +88,34 @@ int main()
     cout << "a = " << a << endl;
     cout << "b = " << b << endl;
     cout << "freqz(b,a,32) = " << round_to_zero(h) << endl;
+  }
+  {
+    cout << "Yulewalk filter design" << endl;
+    vec f="0 0.5 0.6 1";
+    vec m="1 1 0 0";
+    vec a, b, R;
+
+    cout << "f = " << f << endl;
+    cout << "m = " << m << endl;
+    cout << "filter_design_autocorrelation(32, f, m, R): " << endl;
+    filter_design_autocorrelation(256, f, m, R);
+    
+    cout << "R = " << R << endl;
+
+    cout << "arma_estimator(8, 8, R, b, a): " << endl;
+    arma_estimator(8, 8, R, b, a);
+    cout << "a = " << a << endl;
+    cout << "b = " << b << endl;
+
+    vec n = "0:1:256";
+    double fd=0.1;
+    R = besselj(0, 2*pi*fd*n);
+    cout << "R = " << R << endl;
+    arma_estimator(8, 8, R, b, a);
+    cout << "arma_estimator(8, 8, R, b, a): " << endl;
+    cout << "a = " << a << endl;
+    cout << "b = " << b << endl;
+    
   }
 
   return 0;
