@@ -85,6 +85,10 @@ namespace itpp {
 	A = diag(ones(l-2), -1);
 	A.set_row(0, -v(1,l-1)/v(0)); 
 	r = eig(A);
+	cvec d;
+	cmat V;
+	eig(A, d ,V);
+
 	if (f(m-1) < n)
 	  r = concat(r, zeros_c(n-f(m-1)-1));
       } else {
