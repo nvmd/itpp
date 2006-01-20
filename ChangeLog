@@ -1,3 +1,9 @@
+2006-01-19  Tony Ottosson  <tonyottosson@users.sourceforge.net>
+	
+	* itpp/base/window.{h,cpp}, tests/window_test.cpp: New files.
+	Some code moved from base/specmat.{h,cpp}. Also added
+	blackman() and increased the documentation.
+
 2006-01-18  Tony Ottosson  <tonyottosson@users.sourceforge.net>
 	
 	* itpp/base/elmatfunc.h: Added log() for cvec and cmat.
@@ -7,8 +13,6 @@
 
 	* test/filter_design_test.{cpp,ref}: updated for new functions.
 	
-	
-
 2006-01-14  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/schur.cpp, tests/schur_test.cpp: Fixed a bug that

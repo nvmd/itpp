@@ -31,6 +31,7 @@
  */
 
 #include <itpp/base/filter.h>
+#include <itpp/base/window.h>
 
 namespace itpp {
 

@@ -36,6 +36,7 @@
 #include <itpp/base/specmat.h>
 #include <itpp/base/operators.h>
 #include <itpp/base/sigfun.h>
+#include <itpp/base/window.h>
 #include <iostream>
 
 namespace itpp { 
