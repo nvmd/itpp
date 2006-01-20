@@ -41,6 +41,7 @@
 #include <itpp/base/filter.h>
 #include <itpp/base/transforms.h>
 #include <itpp/base/bessel.h>
+#include <itpp/base/window.h>
 
 namespace itpp {
 

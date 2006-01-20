@@ -76,6 +76,7 @@
 #include <itpp/base/freq_filt.h>
 #include <itpp/base/gf2mat.h>
 #include <itpp/base/poly.h>
+#include <itpp/base/window.h>
 #include <itpp/base/filter_design.h>
 #include <itpp/base/schur.h>
 

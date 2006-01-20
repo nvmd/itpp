@@ -173,24 +173,6 @@ namespace itpp {
   //!@}
 
 
-
-  /*! 
-    \addtogroup windfunc
-  */
-
-  //!\addtogroup windfunc
-  //!@{
-
-  //! A length size hamming window
-  vec hamming(int size);
-  //! A length size hamming window
-  vec hanning(int size);
-  //! A length size triangular window
-  vec triang(int size);
-  //! A length size square root window (=sqrt(triang(size)))
-  vec sqrt_win(int size);
-  //!@}
-
   /*! 
     \brief Create a rotation matrix that rotates the given plane \c angle radians. Note that the order of the planes are important!
     \ingroup miscfunc

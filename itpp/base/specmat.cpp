@@ -128,58 +128,6 @@ namespace itpp {
     }
   }
 
-  vec hamming(int size)
-  {
-    vec	t(size);
-    
-    if (size == 1)
-      t(0) = 0.08;
-    else
-      for (int i=0;i<size;i++)
-	t[i]=(0.54-0.46*std::cos(2.0*pi*i/(size-1)));
-    
-    return t;
-  }
-
-  vec hanning(int size)
-  {
-    vec	t(size);
-    
-    for (int i=0;i<size;i++)
-      t(i) = 0.5 * (1.0 - std::cos(2.0*pi*(i+1)/(size+1)));
-    
-    return t;
-  }
-
-  vec triang(int size)
-  {
-    vec	t(size);
-    
-    if (size % 2) { // Odd
-      for (int i=0; i<size/2; i++)
-	t(i) = t(size-i-1) = 2.0*(i+1)/(size+1);
-      t(size/2) = 1.0;
-    } else
-      for (int i=0; i<size/2; i++)
-	t(i) = t(size-i-1) = (2.0*i+1)/size;
-
-    return t;
-  }
-
-  vec sqrt_win(int size)
-  {
-    vec	t(size);
-    
-    if (size % 2) { // Odd
-      for (int i=0; i<size/2; i++)
-	t(i) = t(size-i-1) = std::sqrt(2.0*(i+1)/(size+1));
-      t(size/2) = 1.0;
-    } else
-      for (int i=0; i<size/2; i++)
-	t(i) = t(size-i-1) = std::sqrt((2.0*i+1)/size);
-
-    return t;
-  }
 
   // Construct a Hadamard-imat of size "size"
   imat hadamard(int size) {	
