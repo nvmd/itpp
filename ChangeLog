@@ -1,3 +1,13 @@
+2006-01-21  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/binfile.cpp, itpp/base/cholesky.cpp,
+	itpp/base/copy_vector.h, itpp/base/eigen.cpp, itpp/base/inv.cpp,
+	itpp/base/lapack.h, itpp/base/ls_solve.cpp, itpp/base/lu.cpp,
+	itpp/base/mat.h, itpp/base/qr.cpp, itpp/base/svd.cpp,
+	itpp/base/timing.cpp, itpp/base/transforms.cpp, itpp/base/vec.h:
+	Including a proper configuration header depending on _MSC_VER
+	definition (merged from itpp-3-9-branch)
+
 2006-01-19  Tony Ottosson  <tonyottosson@users.sourceforge.net>
 	
 	* itpp/base/window.{h,cpp}, tests/window_test.cpp: New files.
@@ -8,10 +18,10 @@
 	
 	* itpp/base/elmatfunc.h: Added log() for cvec and cmat.
 	
-	* itpp/base/filter_design.{h,cpp}: added 
+	* itpp/base/filter_design.{h,cpp}: Added 
 	modified_yulewalker(), arma_estimator(), and yulewalk().
 
-	* test/filter_design_test.{cpp,ref}: updated for new functions.
+	* test/filter_design_test.{cpp,ref}: Updated for new functions.
 	
 2006-01-14  Adam Piatyszek  <ediap@users.sourceforge.net>
 

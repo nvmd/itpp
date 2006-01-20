@@ -33,6 +33,12 @@
 #ifndef VEC_H
 #define VEC_H
 
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
+
 #include <string> 
 #include <iostream>
 #include <complex>
@@ -40,7 +46,7 @@
 #include <cstring>
 #include <cmath>
 #include <sstream>
-#include <itpp/config.h>
+
 #include <itpp/itconfig.h>
 #include <itpp/base/binary.h>
 #include <itpp/base/itassert.h>

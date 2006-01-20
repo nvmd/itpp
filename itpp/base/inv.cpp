@@ -30,7 +30,12 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/config.h>
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
+
 #include <itpp/base/inv.h>
 #include <itpp/base/vec.h>
 #include <itpp/base/itassert.h>

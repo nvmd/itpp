@@ -30,9 +30,12 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/config.h>
-#include <iostream>
-#include <cmath>
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
+
 #ifdef TIME_WITH_SYS_TIME
 #  include <sys/time.h>
 #  include <ctime>
@@ -44,10 +47,8 @@
 #  endif
 #endif
 
-// #include <ctime>
-// #ifndef _MSC_VER
-// #include <sys/time.h>
-// #endif
+#include <iostream>
+#include <cmath>
 
 #include <itpp/base/timing.h>
 

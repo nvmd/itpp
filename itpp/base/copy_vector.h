@@ -33,12 +33,17 @@
 #ifndef COPY_VECTOR_H
 #define COPY_VECTOR_H
 
-#include <itpp/config.h>
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
+
 #include <itpp/itconfig.h>
 #include <itpp/base/binary.h>
 
 #if defined (HAVE_CBLAS) || defined(HAVE_MKL)
-#include <itpp/base/cblas.h>
+#  include <itpp/base/cblas.h>
 #endif
 
 namespace itpp {
