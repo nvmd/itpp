@@ -29,12 +29,19 @@
  *
  */
 
-#include <itpp/config.h>
-#include <fstream>
-#include <string>
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
+
 #ifdef HAVE_SYS_STAT_H
 #  include <sys/stat.h>
 #endif
+
+#include <fstream>
+#include <string>
+
 #include <itpp/base/binfile.h>
 #include <itpp/base/machdep.h>
 

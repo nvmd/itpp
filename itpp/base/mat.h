@@ -33,6 +33,12 @@
 #ifndef MAT_H
 #define MAT_H
 
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
+
 #include <iostream>
 #include <string>
 #include <cstdlib>
@@ -40,7 +46,7 @@
 #include <sstream>
 #include <cmath>
 #include <algorithm>
-#include <itpp/config.h>
+
 #include <itpp/itconfig.h>
 #include <itpp/base/itassert.h>
 #include <itpp/base/binary.h>

@@ -33,7 +33,11 @@
 #ifndef LAPACK_H
 #define LAPACK_H
 
-#include <itpp/config.h>
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
 
 #if defined(HAVE_LAPACK) || defined(HAVE_MKL)
 

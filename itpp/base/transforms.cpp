@@ -34,9 +34,14 @@
  * the GNU GPL licence. For details see http://www.fftw.org/.
  */
 
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
+
 #include <iostream>
 #include <cmath>
-#include <itpp/config.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/base/transforms.h>
 #include <itpp/base/elmatfunc.h>

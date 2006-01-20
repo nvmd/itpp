@@ -30,8 +30,12 @@
  * -------------------------------------------------------------------------
  */
 
-#include <cassert>
-#include <itpp/config.h>
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
+
 #include <itpp/itconfig.h>
 #include <itpp/base/ls_solve.h>
 

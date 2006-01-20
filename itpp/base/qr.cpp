@@ -30,7 +30,12 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/config.h>
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
+
 #include <itpp/base/qr.h>
 #include <itpp/base/matfunc.h>
 
