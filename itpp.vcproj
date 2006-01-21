@@ -361,6 +361,10 @@
 					RelativePath=".\itpp\base\vec.cpp"
 					>
 				</File>
+				<File
+					RelativePath=".\itpp\base\window.cpp"
+					>
+				</File>
 			</Filter>
 			<Filter
 				Name="comm"
@@ -717,6 +721,10 @@
 				</File>
 				<File
 					RelativePath=".\itpp\base\vec.h"
+					>
+				</File>
+				<File
+					RelativePath=".\itpp\base\window.h"
 					>
 				</File>
 			</Filter>
