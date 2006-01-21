@@ -40,8 +40,8 @@ namespace itpp {
 
   Hamming_Code::Hamming_Code(short m)
   {
-    n = round_i(pow(2,m)) - 1;
-    k = round_i(pow(2,m)) - m - 1;
+    n = round_i(pow(2.,m)) - 1;
+    k = round_i(pow(2.,m)) - m - 1;
     H.set_size(n-k,n,0); 	
     G.set_size(k,n,0);	
     generate_H(); // generate_H must be run before generate_G
@@ -56,7 +56,7 @@ namespace itpp {
     svec indexes(n);
     indexes.zeros();
 	
-    for (i=1; i<=n-k; i++) { indexes(i-1) = round_i(pow(2,n-k-i)); }
+    for (i=1; i<=n-k; i++) { indexes(i-1) = round_i(pow(2.,n-k-i)); }
     NextPos = n-k;
     for (i=1; i<=n; i++) {
       NotUsed = 1;
