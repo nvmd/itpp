@@ -939,4 +939,3 @@ static void fpica ( const mat X, const mat whiteningMatrix, const mat dewhitenin
   } // ELSE Deflation
   
 } // FPICA
-
