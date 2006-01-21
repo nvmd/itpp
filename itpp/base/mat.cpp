@@ -275,14 +275,18 @@ namespace itpp {
 
   //-------- Multiplication operators ---------------
 
-  template const mat operator*(const mat &m1, const mat &m2);
-  template const cmat operator*(const cmat &m1, const cmat &m2);
+// Specializations already exist: Don't instantiate
+//  template const mat operator*(const mat &m1, const mat &m2);
+// Specialization already exists: Don't instantiate
+//  template const cmat operator*(const cmat &m1, const cmat &m2);
   template const imat operator*(const imat &m1, const imat &m2);
   template const smat operator*(const smat &m1, const smat &m2);
   template const bmat operator*(const bmat &m1, const bmat &m2);
 
-  template const vec operator*(const mat &m, const vec &v);
-  template const cvec operator*(const cmat &m, const cvec &v);
+// Specialization already exists: Don't instantiate
+//  template const vec operator*(const mat &m, const vec &v);
+// Specialization already exists: Don't instantiate
+//  template const cvec operator*(const cmat &m, const cvec &v);
   template const ivec operator*(const imat &m, const ivec &v);
   template const svec operator*(const smat &m, const svec &v);
   template const bvec operator*(const bmat &m, const bvec &v);

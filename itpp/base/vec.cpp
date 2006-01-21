@@ -246,8 +246,10 @@ namespace itpp {
 
   //------------- Multiplication operator ----------
 
-  template const double dot(const vec &v1, const vec &v2);
-  template const std::complex<double> dot(const cvec &v1, const cvec &v2);
+// Specializations already exist: Don't instantiate
+//  template const double dot(const vec &v1, const vec &v2);
+// Specializations already exist: Don't instantiate
+//  template const std::complex<double> dot(const cvec &v1, const cvec &v2);
   template const int dot(const ivec &v1, const ivec &v2);
   template const short dot(const svec &v1, const svec &v2);
   template const bin dot(const bvec &v1, const bvec &v2);
