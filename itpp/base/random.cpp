@@ -69,7 +69,7 @@ namespace itpp {
 
   void Random_Generator::randomize()
   {
-    lastSeed = time(0) * getpid(); // not good enough if randomize is used within a short time-interval
+    lastSeed = static_cast<unsigned long>(time(0)) * getpid(); // not good enough if randomize is used within a short time-interval
     reset();
   }
 
