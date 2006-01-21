@@ -1,3 +1,6 @@
+2006-01-21  Thomas Eriksson  <thomases2@users.sourceforge.net>
+	* A lot of changes for MSVC.net 2005 compability
+
 2006-01-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/binfile.cpp, itpp/base/cholesky.cpp,
