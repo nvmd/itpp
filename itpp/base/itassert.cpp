@@ -30,12 +30,17 @@
  * -------------------------------------------------------------------------
  */
 
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
+
 #include <itpp/base/itassert.h>
 #include <iostream>
-#include <cstdio>
-#include <cstdlib>
 #include <string>
 #include <stdexcept>
+
 
 namespace itpp { 
 
@@ -43,7 +48,11 @@ namespace itpp {
 
   static bool warnings_enabled = true;
   static std::ostream *warn = &std::cerr;
-  static bool it_using_exceptions = ITPP_DEFAULT_EXCEPTIONS;
+#ifdef ITPP_EXCEPTIONS
+  static bool it_using_exceptions = true;
+#else
+  static bool it_using_exceptions = false;
+#endif
 
 #endif //DOXYGEN_SHOULD_SKIP_THIS
 
@@ -90,7 +99,7 @@ namespace itpp {
   {
     if (warnings_enabled)
       (*warn) << "*** Warning in " << file << " on line " << line << ":" 
-							<< std::endl << msg << std::endl << std::flush;
+	      << std::endl << msg << std::endl << std::flush;
   }
 
   void it_enable_exceptions(bool on)

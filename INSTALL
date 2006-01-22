@@ -58,6 +58,10 @@ important are:
     Switch to DEBUG mode by setting additional debugging flags used by
     compiler and linker (disabled by default) 
 
+`--enable-exceptions'
+    Enable exceptions handling of run-time errors instead of aborting 
+    the program (disabled by default) 
+
 `--disable-html-doc'
     Do not generate and install HTML documentation (enabled by default) 
 
@@ -121,6 +125,7 @@ Directories:
 
 Switches:
   - debug ........ : yes
+  - exceptions ... : no
   - html-doc ..... : yes
 
 Documentation tools:
