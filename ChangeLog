@@ -1,12 +1,21 @@
+2006-01-22  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* INSTALL, doc/local/installation.doc: Updated to reflect recent
+	changes in configuration script
+	* configure.ac, itpp/itconfig.h, itpp/base/itassert.cpp,
+	itpp/base/itassert.h: Added `--enable-exceptions' switch to
+	configure handling of exceptions
+
 2006-01-22  Thomas Eriksson  <thomases2@users.sourceforge.net>
-	* Added project files itpp_msvc2003 to keep MSVC.net 2003 compability
+	
+	* itpp_msvc2003.sln, itpp_msvc2003.vcproj: Added project files to
+	keep MSVC.net 2003 compability 
 
 2006-01-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/hammcode.cpp, itpp/comm/reedsolomon.cpp,
 	itpp/comm/sequence.cpp: Minor improvements, e.g. changing
 	`round_i(pow(2,m)' to `pow2i(m)'
-
 
 	* itpp/base/filter_design.cpp: Cosmetic change - unused variable
 	commented out
@@ -22,7 +31,7 @@
 	* A lot of changes for MSVC.net 2005 compability
 	Removed warnings on depreceated functions j0, j1, hypot etc.
 	(using #pragma directives)
-	These functions should not be used in the next ISO c++ standard.
+	These functions should not be used in the next ISO C++ standard.
 
 2006-01-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
