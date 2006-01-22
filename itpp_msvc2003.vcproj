@@ -2,8 +2,8 @@
 <VisualStudioProject
 	ProjectType="Visual C++"
 	Version="7.10"
-	Name="itpp"
-	ProjectGUID="{C069ECD3-26E8-437C-8B20-3A5D68B22F2A}"
+	Name="itpp_msvc2003"
+	ProjectGUID="{9CC852B1-93F8-458F-A318-8FDD424312DF}"
 	Keyword="Win32Proj">
 	<Platforms>
 		<Platform
@@ -19,13 +19,15 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="../;./"
-				PreprocessorDefinitions="WIN32;_DEBUG;_LIB"
+				PreprocessorDefinitions="WIN32;_DEBUG;_CONSOLE"
 				MinimalRebuild="TRUE"
 				BasicRuntimeChecks="3"
-				RuntimeLibrary="5"
+				RuntimeLibrary="1"
+				DisableLanguageExtensions="FALSE"
+				TreatWChar_tAsBuiltInType="TRUE"
+				ForceConformanceInForLoopScope="TRUE"
 				RuntimeTypeInfo="TRUE"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				WarnAsError="TRUE"
 				Detect64BitPortabilityProblems="FALSE"
@@ -34,7 +36,7 @@
 				Name="VCCustomBuildTool"/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="lib/itpp_debug.lib"/>
+				OutputFile="$(OutDir)/../lib/itpp_debug.lib"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
@@ -58,24 +60,27 @@
 			Name="Release|Win32"
 			OutputDirectory="Release"
 			IntermediateDirectory="Release"
-			ConfigurationType="4"
+			ConfigurationType="1"
 			CharacterSet="2">
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..\itpp\"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
 				RuntimeLibrary="4"
-				RuntimeTypeInfo="TRUE"
-				UsePrecompiledHeader="2"
+				UsePrecompiledHeader="0"
 				WarningLevel="3"
-				WarnAsError="TRUE"
-				Detect64BitPortabilityProblems="FALSE"
+				Detect64BitPortabilityProblems="TRUE"
 				DebugInformationFormat="3"/>
 			<Tool
 				Name="VCCustomBuildTool"/>
 			<Tool
-				Name="VCLibrarianTool"
-				OutputFile="lib/itpp.lib"/>
+				Name="VCLinkerTool"
+				OutputFile="$(OutDir)/itpp_msvc2003.exe"
+				LinkIncremental="1"
+				GenerateDebugInformation="TRUE"
+				SubSystem="1"
+				OptimizeReferences="2"
+				EnableCOMDATFolding="2"
+				TargetMachine="1"/>
 			<Tool
 				Name="VCMIDLTool"/>
 			<Tool
@@ -90,6 +95,8 @@
 				Name="VCWebServiceProxyGeneratorTool"/>
 			<Tool
 				Name="VCXMLDataGeneratorTool"/>
+			<Tool
+				Name="VCWebDeploymentTool"/>
 			<Tool
 				Name="VCManagedWrapperGeneratorTool"/>
 			<Tool
@@ -227,6 +234,9 @@
 					RelativePath=".\itpp\base\scalfunc.cpp">
 				</File>
 				<File
+					RelativePath=".\itpp\base\schur.cpp">
+				</File>
+				<File
 					RelativePath=".\itpp\base\sigfun.cpp">
 				</File>
 				<File
@@ -258,6 +268,9 @@
 				</File>
 				<File
 					RelativePath=".\itpp\base\vec.cpp">
+				</File>
+				<File
+					RelativePath=".\itpp\base\window.cpp">
 				</File>
 			</Filter>
 			<Filter
@@ -386,9 +399,6 @@
 					RelativePath=".\itpp\base\bessel.h">
 				</File>
 				<File
-					RelativePath=".\itpp\base\bessel\bessel_internal.h">
-				</File>
-				<File
 					RelativePath=".\itpp\base\binary.h">
 				</File>
 				<File
@@ -497,6 +507,9 @@
 					RelativePath=".\itpp\base\scalfunc.h">
 				</File>
 				<File
+					RelativePath=".\itpp\base\schur.h">
+				</File>
+				<File
 					RelativePath=".\itpp\base\sigfun.h">
 				</File>
 				<File
@@ -531,6 +544,9 @@
 				</File>
 				<File
 					RelativePath=".\itpp\base\vec.h">
+				</File>
+				<File
+					RelativePath=".\itpp\base\window.h">
 				</File>
 			</Filter>
 			<Filter
@@ -654,7 +670,7 @@
 			UniqueIdentifier="{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}">
 		</Filter>
 		<File
-			RelativePath=".\ReadMe.txt">
+			RelativePath=".\ChangeLog">
 		</File>
 	</Files>
 	<Globals>

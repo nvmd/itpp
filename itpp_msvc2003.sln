@@ -1,5 +1,5 @@
 Microsoft Visual Studio Solution File, Format Version 8.00
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "itpp", "itpp.vcproj", "{C069ECD3-26E8-437C-8B20-3A5D68B22F2A}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "itpp_msvc2003", "itpp_msvc2003.vcproj", "{9CC852B1-93F8-458F-A318-8FDD424312DF}"
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
@@ -9,10 +9,10 @@ Global
 		Release = Release
 	EndGlobalSection
 	GlobalSection(ProjectConfiguration) = postSolution
-		{C069ECD3-26E8-437C-8B20-3A5D68B22F2A}.Debug.ActiveCfg = Debug|Win32
-		{C069ECD3-26E8-437C-8B20-3A5D68B22F2A}.Debug.Build.0 = Debug|Win32
-		{C069ECD3-26E8-437C-8B20-3A5D68B22F2A}.Release.ActiveCfg = Release|Win32
-		{C069ECD3-26E8-437C-8B20-3A5D68B22F2A}.Release.Build.0 = Release|Win32
+		{9CC852B1-93F8-458F-A318-8FDD424312DF}.Debug.ActiveCfg = Debug|Win32
+		{9CC852B1-93F8-458F-A318-8FDD424312DF}.Debug.Build.0 = Debug|Win32
+		{9CC852B1-93F8-458F-A318-8FDD424312DF}.Release.ActiveCfg = Release|Win32
+		{9CC852B1-93F8-458F-A318-8FDD424312DF}.Release.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 	EndGlobalSection
