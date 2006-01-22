@@ -56,9 +56,9 @@ namespace itpp {
   Reed_Solomon::Reed_Solomon(int in_m, int in_t) {
     m = in_m;
     t = in_t;
-    n = round_i(pow(2.,m)-1);
-    k = round_i(pow(2.,m))-1-2*t;
-    q = round_i(pow(2.,m));
+    n = pow2i(m) - 1;
+    k = pow2i(m) - 1 - 2*t;
+    q = pow2i(m);
     int i;
     GFX x(q,(char *)"-1 0");
     ivec alphapow(1);
