@@ -219,7 +219,6 @@ namespace itpp {
     }
 
   // ---------------------- Instantiations -----------------------------------------
-#if 0
 #ifndef _MSC_VER
 
   //! Template instantiation of to_bvec
@@ -321,7 +320,7 @@ namespace itpp {
   extern template cmat to_cmat(const imat &real, const imat &imag);
   //! Template instantiation of to_cmat
   extern template cmat to_cmat(const mat &real, const mat &imag);
-#endif
+
 #endif
 
 } //namespace itpp
