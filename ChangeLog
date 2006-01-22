@@ -1,3 +1,6 @@
+2006-01-22  Thomas Eriksson  <thomases2@users.sourceforge.net>
+	* Added project files itpp_msvc2003 to keep MSVC.net 2003 compability
+
 2006-01-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/hammcode.cpp, itpp/comm/reedsolomon.cpp,
@@ -17,6 +20,9 @@
 2006-01-21  Thomas Eriksson  <thomases2@users.sourceforge.net>
 
 	* A lot of changes for MSVC.net 2005 compability
+	Removed warnings on depreceated functions j0, j1, hypot etc.
+	(using #pragma directives)
+	These functions should not be used in the next ISO c++ standard.
 
 2006-01-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
