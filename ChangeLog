@@ -1,4 +1,11 @@
+2006-01-22  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/bessel.cpp, itpp/base/random.h,
+	itpp/base/bessel/jv.cpp, itpp/base/bessel/struve.cpp: Fixed a
+	problem with "#pragma" warnings during compilation with GCC
+
 2006-01-21  Thomas Eriksson  <thomases2@users.sourceforge.net>
+
 	* A lot of changes for MSVC.net 2005 compability
 
 2006-01-21  Adam Piatyszek  <ediap@users.sourceforge.net>

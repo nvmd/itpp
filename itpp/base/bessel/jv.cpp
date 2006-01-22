@@ -55,7 +55,9 @@ Cephes Math Library Release 2.8:  June, 2000
 Copyright 1984, 1987, 1989, 1992, 2000 by Stephen L. Moshier
 */
 
+#ifdef _MSC_VER
 #pragma warning(disable:4996)
+#endif
 #define MAXGAM 171.624376956302725
 
 
@@ -817,4 +819,6 @@ static double jnt(double n, double x)
   fk = cbtwo * ai * pp/cbn  +  cbrt(4.0) * aip * qq/n;
   return(fk);
 }
+#ifdef _MSC_VER
 #pragma warning(default:4996)
+#endif

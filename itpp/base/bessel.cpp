@@ -34,7 +34,10 @@
 #include <itpp/base/bessel.h>
 #include <itpp/base/bessel/bessel_internal.h>
 
+#ifdef _MSC_VER
 #pragma warning(disable:4996)
+#endif
+
 namespace itpp { 
 
   // Bessel function of order nu
@@ -109,4 +112,7 @@ namespace itpp {
   }
 
 } // namespace itpp
+
+#ifdef _MSC_VER
 #pragma warning(default:4996)
+#endif
