@@ -1,5 +1,7 @@
 2006-01-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* Makefile.am: Added itpp_msvc2003.* files to EXTRA_DIST variable
+
 	* INSTALL, doc/local/installation.doc: Updated to reflect recent
 	changes in configuration script
 	* configure.ac, itpp/itconfig.h, itpp/base/itassert.cpp,
@@ -13,7 +15,6 @@
 	* Some changes of protocol module for msvc compability
 
 2006-01-22  Thomas Eriksson  <thomases2@users.sourceforge.net>
-	* Added project files itpp_msvc2003 to keep MSVC.net 2003 compability	
 
 	* itpp_msvc2003.sln, itpp_msvc2003.vcproj: Added project files to
 	keep MSVC.net 2003 compability 
