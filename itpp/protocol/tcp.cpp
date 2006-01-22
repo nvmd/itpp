@@ -36,9 +36,9 @@
 #include <itpp/protocol/tcp.h>
 #include <itpp/base/itfile.h>
 #include <limits>
-#include <time.h>
 
 #ifdef _MSC_VER
+#include <time.h>
 #pragma warning(disable:4996;disable:4355)
 #endif
 
