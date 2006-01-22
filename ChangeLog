@@ -1,5 +1,8 @@
 2006-01-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/converters.h: Removed strange `#if 0 ... #endif'
+	statements
+
 	* Makefile.am: Added itpp_msvc2003.* files to EXTRA_DIST variable
 
 	* INSTALL, doc/local/installation.doc: Updated to reflect recent
