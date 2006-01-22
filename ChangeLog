@@ -1,5 +1,7 @@
 2006-01-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/sources.mk: Added missing window.{cpp,h} files
+
 	* itpp/base/bessel.cpp, itpp/base/random.h,
 	itpp/base/bessel/jv.cpp, itpp/base/bessel/struve.cpp: Fixed a
 	problem with "#pragma" warnings during compilation with GCC
