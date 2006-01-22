@@ -68,7 +68,10 @@
 #include <itpp/base/scalfunc.h>
 #include <itpp/base/operators.h>
 
+#ifdef _MSC_VER
 #pragma warning(disable:4996)
+#endif
+
 namespace itpp {
 
   //! Definition of M_2PI = 2*pi
@@ -783,6 +786,8 @@ namespace itpp {
 
 } // namespace itpp
 
+#ifdef _MSC_VER
 #pragma warning(default:4996)
+#endif
 
 #endif // #ifndef RANDOM_H

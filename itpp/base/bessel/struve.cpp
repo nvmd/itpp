@@ -10,7 +10,9 @@
 #include <itpp/base/scalfunc.h>
 #include <itpp/base/bessel/bessel_internal.h>
 
+#ifdef _MSC_VER
 #pragma warning(disable:4996)
+#endif
 
 // This is slightly modified routine from the Cephes library, see http://www.netlib.org/cephes/
 //  
@@ -269,4 +271,6 @@ double yv(double v, double x)
  *	40	40.0
  */
 
+#ifdef _MSC_VER
 #pragma warning(default:4996)
+#endif
