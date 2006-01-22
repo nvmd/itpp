@@ -36,6 +36,11 @@
 #include <itpp/protocol/tcp.h>
 #include <itpp/base/itfile.h>
 #include <limits>
+#include <time.h>
+
+#ifdef _MSC_VER
+#pragma warning(disable:4996;disable:4355)
+#endif
 
 namespace itpp {
 
@@ -1879,3 +1884,7 @@ namespace itpp {
 
 
 } //namespace itpp
+
+#ifdef _MSC_VER
+#pragma warning(default:4996;default:4355)
+#endif
