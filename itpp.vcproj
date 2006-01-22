@@ -107,7 +107,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\itpp\"
-				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES"
+				PreprocessorDefinitions="WIN32;NDEBUG;_LIB;_CRT_SECURE_CPP_OVERLOAD_STANDARD_NAMES=1"
 				RuntimeLibrary="0"
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
@@ -507,6 +507,34 @@
 				</File>
 				<File
 					RelativePath=".\itpp\fixedpoint\fixed.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="protocol"
+				>
+				<File
+					RelativePath=".\itpp\protocol\events.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\itpp\protocol\front_drop_queue.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\itpp\protocol\packet_channel.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\itpp\protocol\packet_generator.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\itpp\protocol\selective_repeat.cpp"
+					>
+				</File>
+				<File
+					RelativePath=".\itpp\protocol\tcp.cpp"
 					>
 				</File>
 			</Filter>
