@@ -165,7 +165,8 @@ namespace itpp {
     // interpolate frequency-response
     int N_fft = 512;
     vec m_interp(N_fft+1);
-    double df_interp = 1.0/double(N_fft);
+    // unused variable:
+    // double df_interp = 1.0/double(N_fft); 
 
     m_interp(0) = m(0);
     double inc;
