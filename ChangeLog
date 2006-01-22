@@ -7,7 +7,14 @@
 	configure handling of exceptions
 
 2006-01-22  Thomas Eriksson  <thomases2@users.sourceforge.net>
-	
+
+	* Added module "protocol" to msvc project files
+
+	* Some changes of protocol module for msvc compability
+
+2006-01-22  Thomas Eriksson  <thomases2@users.sourceforge.net>
+	* Added project files itpp_msvc2003 to keep MSVC.net 2003 compability	
+
 	* itpp_msvc2003.sln, itpp_msvc2003.vcproj: Added project files to
 	keep MSVC.net 2003 compability 
 
