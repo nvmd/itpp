@@ -40,10 +40,10 @@ namespace itpp {
 
   Hamming_Code::Hamming_Code(short m)
   {
-    n = round_i(pow(2.,m)) - 1;
-    k = round_i(pow(2.,m)) - m - 1;
-    H.set_size(n-k,n,0); 	
-    G.set_size(k,n,0);	
+    n = pow2i(m) - 1;
+    k = pow2i(m) - m - 1;
+    H.set_size(n-k, n); 	
+    G.set_size(k, n);	
     generate_H(); // generate_H must be run before generate_G
     generate_G();
   }
@@ -56,19 +56,19 @@ namespace itpp {
     svec indexes(n);
     indexes.zeros();
 	
-    for (i=1; i<=n-k; i++) { indexes(i-1) = round_i(pow(2.,n-k-i)); }
+    for (i=1; i<=n-k; i++) { indexes(i-1) = pow2i(n-k-i); }
     NextPos = n-k;
     for (i=1; i<=n; i++) {
       NotUsed = 1;
       for (j=0; j<n; j++) 
-				if (i == indexes(j)) { NotUsed = 0; }
+	if (i == indexes(j)) { NotUsed = 0; }
       if (NotUsed) { indexes(NextPos) = i; NextPos = NextPos + 1; }
     }
 			
     for (i=0; i<n; i++) {	
       temp = dec2bin(n-k,indexes(i)); //<-CHECK THIS OUT!!!!
       for (j = 0; j < (n-k); j++) {
-				H(j,i) = temp(j);
+	H(j,i) = temp(j);
       }
     }
   }
@@ -78,12 +78,12 @@ namespace itpp {
     short i, j;
     for (i=0; i<k; i++) {
       for(j=0; j<n-k; j++) 
-				G(i,j) = H(j,i+n-k);
+	G(i,j) = H(j,i+n-k);
     }
 	
     for (i=0; i<k; i++) {
       for (j=n-k; j<n; j++) 
-				G(i,j) = 0;
+	G(i,j) = 0;
     }
 	
     for (i=0; i<k; i++)
@@ -124,7 +124,7 @@ namespace itpp {
 
     for (i=0; i<n; i++) {
       for (j=0; j<n-k; j++) 
-				temp(j) = H(j,i);
+	temp(j) = H(j,i);
       Hindexes(i) = bin2dec(temp); 
     }
 	
@@ -134,9 +134,9 @@ namespace itpp {
       syndrome = H * coded;
       isynd = bin2dec(syndrome); 
       if (isynd != 0) {
-				for (j=0; j<n; j++) 
-					if (Hindexes(j) == isynd) { errorpos = j; };
-				coded(errorpos) += 1;
+	for (j=0; j<n; j++) 
+	  if (Hindexes(j) == isynd) { errorpos = j; };
+	coded(errorpos) += 1;
       }
       decoded_bits.replace_mid(k*i,coded.right(k));
     }

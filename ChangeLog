@@ -1,5 +1,10 @@
 2006-01-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/comm/hammcode.cpp, itpp/comm/reedsolomon.cpp,
+	itpp/comm/sequence.cpp: Minor improvements, e.g. changing
+	`round_i(pow(2,m)' to `pow2i(m)'
+
+
 	* itpp/base/filter_design.cpp: Cosmetic change - unused variable
 	commented out
 

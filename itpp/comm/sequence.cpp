@@ -110,7 +110,7 @@ namespace itpp {
     }
     mseq1.set_connections(mseq1_connections);
     mseq2.set_connections(mseq2_connections);
-    N=round_i(pow(2.0,(double)mseq1.get_length()))-1;
+    N = pow2i(mseq1.get_length()) - 1;
   }
 
   Gold::Gold(const bvec &mseq1_connections, const bvec &mseq2_connections)
@@ -118,7 +118,7 @@ namespace itpp {
     assert(mseq1_connections.size()==mseq2_connections.size());
     mseq1.set_connections(mseq1_connections);
     mseq2.set_connections(mseq2_connections);
-    N=round_i(pow(2.0,(double)mseq1.get_length()))-1;
+    N = pow2i(mseq1.get_length()) - 1;
   }
 
   Gold::Gold(const ivec &mseq1_connections, const ivec &mseq2_connections)
@@ -126,7 +126,7 @@ namespace itpp {
     mseq1.set_connections(mseq1_connections);
     mseq2.set_connections(mseq2_connections);
     assert(mseq1.get_length()==mseq1.get_length());
-    N=round_i(pow(2.0,(double)mseq1.get_length()))-1;
+    N = pow2i(mseq1.get_length()) - 1;
   }
 
   void Gold::set_state(const bvec &state1, const bvec &state2)
