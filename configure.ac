@@ -45,6 +45,13 @@ AC_ARG_ENABLE(debug,
     [enable debugging (disabled by default)])])
 test "x$enable_debug" != xyes && enable_debug=no
 
+# Check for exceptions switch
+AC_ARG_ENABLE(exceptions, 
+  [AS_HELP_STRING([--enable-exceptions], 
+    [enable exceptions handling (disabled by default)])],
+  [AC_DEFINE([ITPP_EXCEPTIONS], [1], [Define if you want exceptions handling])])
+test "x$enable_exceptions" != xyes && enable_exceptions=no
+
 # Check for htmldocs switch
 AC_ARG_ENABLE(html-doc, 
   [AS_HELP_STRING([--disable-html-doc], 
@@ -382,6 +389,7 @@ Directories:
 
 Switches:
   - debug ........ : ${enable_debug}
+  - exceptions ... : ${enable_exceptions}
   - html-doc ..... : ${enable_html_doc}
 
 Documentation tools:

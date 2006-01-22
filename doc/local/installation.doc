@@ -88,6 +88,9 @@ install'</tt> will install the package's files into \c
 <li> \c `--enable-debug' - switch to DEBUG mode by setting additional
 debugging flags used by compiler and linker (disabled by default) </li>
 
+<li> \c `--enable-exceptions' - enable exceptions handling of run-time
+errors instead of aborting the program (disabled by default) </li>
+
 <li> \c `--disable-html-doc' - do not generate and install HTML
 documentation (enabled by default) </li>
 
@@ -165,6 +168,7 @@ Directories:
 
 Switches:
   - debug ........ : yes
+  - exceptions ... : no
   - html-doc ..... : yes
 
 Documentation tools:
@@ -255,10 +259,6 @@ contain the MKL path. Alternatively you can copy all MKL dll files
 from <tt>"C:\Program Files\Intel\MKL\ia32\bin"</tt> to
 <tt>"C:\windows\system32"</tt> where Windows also will find
 them. Restart the computer to make the PATH change valid. </li>
-
-<li> The directory <tt>"<IT++ source directory>\itpp"</tt> contains
-a file named <tt>config_msvc.h</tt>. This file must be renamed to
-<tt>config.h</tt>. </li> 
 
 <li> Compile IT++.</li>
 

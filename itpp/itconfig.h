@@ -35,11 +35,6 @@
 
 #include <complex>
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-#define ITPP_DEFAULT_EXCEPTIONS 0
-#endif // DOXYGEN_SHOULD_SKIP_THIS
-
-
 #ifdef _MSC_VER
 #define __WIN32__
 #endif
