@@ -33,7 +33,7 @@
 #include <itpp/base/vec.h>
 
 #if defined (HAVE_CBLAS) || defined(HAVE_MKL)
-#include <itpp/base/cblas.h>
+#  include <itpp/base/cblas.h>
 #endif
 
 namespace itpp {
@@ -49,21 +49,21 @@ namespace itpp {
     while (buffer.peek() != EOF) {
 
       switch (buffer.peek()) {
-			case ':':
+      case ':':
         it_error("set: expressions with ':' are not valid for cvec");
-				break;
-			case ',':
-				buffer.get();
-				break;
+	break;
+      case ',':
+	buffer.get();
+	break;
       default:
-				pos++;
-				if (pos > maxpos) {
-					maxpos *= 2;
-					set_size(maxpos, true);
-				}
-				buffer >> data[pos-1];
-				while (buffer.peek() == ' ') { buffer.get(); }
-				break;
+	pos++;
+	if (pos > maxpos) {
+	  maxpos *= 2;
+	  set_size(maxpos, true);
+	}
+	buffer >> data[pos-1];
+	while (buffer.peek() == ' ') { buffer.get(); }
+	break;
       }
 
     }
@@ -83,17 +83,17 @@ namespace itpp {
 
     while (buffer.peek() != EOF) {
       if (buffer.peek() == ',') {
-				buffer.get();
+	buffer.get();
       } else {
-				pos++;
-				if (pos > maxpos) {
-					maxpos *= 2;
-					set_size(maxpos, true);
-				}
-				buffer >> intemp;
-				data[pos-1] = intemp;
-				while (buffer.peek() == ' ') { buffer.get(); }
-			}
+	pos++;
+	if (pos > maxpos) {
+	  maxpos *= 2;
+	  set_size(maxpos, true);
+	}
+	buffer >> intemp;
+	data[pos-1] = intemp;
+	while (buffer.peek() == ' ') { buffer.get(); }
+      }
     }
     set_size(pos, true);
 
@@ -246,10 +246,10 @@ namespace itpp {
 
   //------------- Multiplication operator ----------
 
-// Specializations already exist: Don't instantiate
-//  template const double dot(const vec &v1, const vec &v2);
-// Specializations already exist: Don't instantiate
-//  template const std::complex<double> dot(const cvec &v1, const cvec &v2);
+#if !defined(HAVE_CBLAS) && !defined(HAVE_MKL)
+  template const double dot(const vec &v1, const vec &v2);
+  template const std::complex<double> dot(const cvec &v1, const cvec &v2);
+#endif
   template const int dot(const ivec &v1, const ivec &v2);
   template const short dot(const svec &v1, const svec &v2);
   template const bin dot(const bvec &v1, const bvec &v2);

@@ -191,7 +191,7 @@ namespace itpp {
     the Vec constructor call; see Detailed Description for Factory.
   */
   template<class Num_T>
-	class Vec {
+  class Vec {
   public:
     //! The type of the vector values
     typedef Num_T value_type;
@@ -265,7 +265,7 @@ namespace itpp {
     //! Addition of vector
     Vec<Num_T>& operator+=(const Vec<Num_T> &v);
     //! Addition of scalar
-		Vec<Num_T>& operator+=(const Num_T t);
+    Vec<Num_T>& operator+=(const Num_T t);
     //! Addition of two vectors
     friend const Vec<Num_T> operator+<>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
     //! Addition of a vector and a scalar
@@ -276,7 +276,7 @@ namespace itpp {
     //! Subtraction of vector
     Vec<Num_T>& operator-=(const Vec<Num_T> &v);
     //! Subtraction of scalar
-		Vec<Num_T>& operator-=(const Num_T t);
+    Vec<Num_T>& operator-=(const Num_T t);
     //! Subtraction of \c v2 from \c v1
     friend const Vec<Num_T> operator-<>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
     //! Subtraction of scalar from vector
@@ -287,7 +287,7 @@ namespace itpp {
     friend const Vec<Num_T> operator-<>(const Vec<Num_T> &v);
 
     //! Multiply with a scalar
-		Vec<Num_T>& operator*=(const Num_T t);
+    Vec<Num_T>& operator*=(const Num_T t);
     //! Inner (dot) product
     friend const Num_T operator*<>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
     //! Inner (dot) product
@@ -306,7 +306,7 @@ namespace itpp {
     friend const Vec<Num_T> elem_mult <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3, const Vec<Num_T> &v4);
 
     //! Elementwise division
-		Vec<Num_T>& operator/=(const Num_T t);
+    Vec<Num_T>& operator/=(const Num_T t);
     //! Elementwise division
     Vec<Num_T>& operator/=(const Vec<Num_T> &v);
     //! Elementwise division
@@ -364,13 +364,13 @@ namespace itpp {
     void ins(const int index, const Vec<Num_T> &in);
 
     //! Assign all elements in vector to \c t
-		Vec<Num_T>& operator=(const Num_T t);
-		//! Assign vector the value and length of \c v
-		Vec<Num_T>& operator=(const Vec<Num_T> &v);
+    Vec<Num_T>& operator=(const Num_T t);
+    //! Assign vector the value and length of \c v
+    Vec<Num_T>& operator=(const Vec<Num_T> &v);
     //! Assign vector equal to the 1-dimensional matrix \c m
     Vec<Num_T>& operator=(const Mat<Num_T> &m);
     //! Assign vector the values in the string \c values
-		Vec<Num_T>& operator=(const char *values);
+    Vec<Num_T>& operator=(const char *values);
 
     //! Elementwise equal to the scalar
     Vec<bin> operator==(const Num_T value) const;
@@ -478,7 +478,7 @@ namespace itpp {
     \brief Stream output of vector
   */
   template <class Num_T>
-	std::ostream &operator<<(std::ostream &os, const Vec<Num_T> &v);
+  std::ostream &operator<<(std::ostream &os, const Vec<Num_T> &v);
 
   /*!
     \relates Vec
@@ -492,14 +492,14 @@ namespace itpp {
     "1 4 7 10".
   */
   template <class Num_T>
-	std::istream &operator>>(std::istream &is, Vec<Num_T> &v);
+  std::istream &operator>>(std::istream &is, Vec<Num_T> &v);
 
   //-----------------------------------------------------------------------------------
   // Implementation of templated Vec members and friends
   //-----------------------------------------------------------------------------------
 
   template<class Num_T> inline
-	Vec<Num_T>::Vec(const Vec<Num_T> &v) : factory(v.factory)
+  Vec<Num_T>::Vec(const Vec<Num_T> &v) : factory(v.factory)
   {
     init();
     alloc(v.datasize);
@@ -507,7 +507,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	Vec<Num_T>::Vec(const Vec<Num_T> &v, const Factory &f) : factory(f)
+  Vec<Num_T>::Vec(const Vec<Num_T> &v, const Factory &f) : factory(f)
   {
     init();
     alloc(v.datasize);
@@ -515,18 +515,18 @@ namespace itpp {
   }
 
   template<class Num_T>
-	void Vec<Num_T>::set_size(const int size, bool copy)
+  void Vec<Num_T>::set_size(const int size, bool copy)
   {
     it_assert1(size >= 0, "Vec<Num_T>::set_size(): New size must not be negative");
     if (size!=datasize) {
       if (copy) {
-				Vec<Num_T> temp(*this);
+	Vec<Num_T> temp(*this);
 
-				alloc(size);
-				for (int i=0; i<size; i++)
-					data[i] = i < temp.datasize ? temp.data[i] : Num_T(0);
+	alloc(size);
+	for (int i=0; i<size; i++)
+	  data[i] = i < temp.datasize ? temp.data[i] : Num_T(0);
       } else
-				alloc(size);
+	alloc(size);
     }
   }
 
@@ -534,7 +534,7 @@ namespace itpp {
   template<> bool bvec::set(const char *values);
 
   template<class Num_T>
-	bool Vec<Num_T>::set(const char *values)
+  bool Vec<Num_T>::set(const char *values)
   {
     std::istringstream buffer(values);
     Num_T b, c;
@@ -546,49 +546,49 @@ namespace itpp {
 
       switch (buffer.peek()) {
       case ':': // reads format a:b:c or a:b
-				buffer.get();
-				if (!buffer.eof()) {
-					buffer >> b;
-				}
-				if (!buffer.eof() && buffer.peek() == ':') {
-					buffer.get();
-					if (!buffer.eof()) {
-						buffer >> c;
+	buffer.get();
+	if (!buffer.eof()) {
+	  buffer >> b;
+	}
+	if (!buffer.eof() && buffer.peek() == ':') {
+	  buffer.get();
+	  if (!buffer.eof()) {
+	    buffer >> c;
 
-						while (sign(b)*(data[pos-1]+b-c)<=0) {
-							pos++;
-							if (pos > maxpos) {
-								maxpos=maxpos*2;
-								set_size(maxpos, true);
-							}
-							data[pos-1]=data[pos-2]+b;
-						}
-					}
-				} else {
-					while (data[pos-1]<b) {
-						pos++;
-						if (pos > maxpos) {
-							maxpos=maxpos*2;
-							set_size(maxpos, true);
-						}
-						data[pos-1]=data[pos-2]+1;
-					}
-				}
-				break;
+	    while (sign(b)*(data[pos-1]+b-c)<=0) {
+	      pos++;
+	      if (pos > maxpos) {
+		maxpos=maxpos*2;
+		set_size(maxpos, true);
+	      }
+	      data[pos-1]=data[pos-2]+b;
+	    }
+	  }
+	} else {
+	  while (data[pos-1]<b) {
+	    pos++;
+	    if (pos > maxpos) {
+	      maxpos=maxpos*2;
+	      set_size(maxpos, true);
+	    }
+	    data[pos-1]=data[pos-2]+1;
+	  }
+	}
+	break;
 
       case ',':
-				buffer.get();
-				break;
+	buffer.get();
+	break;
 
       default:
-				pos++;
-				if (pos > maxpos) {
-					maxpos *= 2;
-					set_size(maxpos, true);
-				}
-				buffer >> data[pos-1];
-				while (buffer.peek()==' ') { buffer.get(); }
-				break;
+	pos++;
+	if (pos > maxpos) {
+	  maxpos *= 2;
+	  set_size(maxpos, true);
+	}
+	buffer >> data[pos-1];
+	while (buffer.peek()==' ') { buffer.get(); }
+	break;
       }
 
     }
@@ -598,13 +598,13 @@ namespace itpp {
   }
 
   template<class Num_T>
-	bool Vec<Num_T>::set(const std::string &str)
+  bool Vec<Num_T>::set(const std::string &str)
   {
     return set(str.c_str());
   }
 
   template<class Num_T> inline
-	const Vec<Num_T> Vec<Num_T>::operator()(const int i1, const int i2) const
+  const Vec<Num_T> Vec<Num_T>::operator()(const int i1, const int i2) const
   {
     int ii1=i1, ii2=i2;
 
@@ -621,13 +621,13 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	const Vec<Num_T> Vec<Num_T>::get(const int i1, const int i2) const
+  const Vec<Num_T> Vec<Num_T>::get(const int i1, const int i2) const
   {
     return (*this)(i1, i2);
   }
 
   template<class Num_T>
-	const Vec<Num_T> Vec<Num_T>::operator()(const Vec<int> &indexlist) const
+  const Vec<Num_T> Vec<Num_T>::operator()(const Vec<int> &indexlist) const
   {
     Vec<Num_T> temp(indexlist.length());
     for (int i=0;i<indexlist.length();i++) {
@@ -638,7 +638,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-	Mat<Num_T> Vec<Num_T>::transpose() const
+  Mat<Num_T> Vec<Num_T>::transpose() const
   {
     Mat<Num_T> temp(1, datasize);
     for (int i=0; i<datasize; i++)
@@ -650,7 +650,7 @@ namespace itpp {
   template<> Mat<std::complex<double> > cvec::hermitian_transpose() const;
 
   template<class Num_T>
-	Mat<Num_T> Vec<Num_T>::hermitian_transpose() const
+  Mat<Num_T> Vec<Num_T>::hermitian_transpose() const
   {
     Mat<Num_T> temp(1, datasize);
     for (int i=0; i<datasize; i++)
@@ -660,33 +660,33 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	Vec<Num_T>& Vec<Num_T>::operator+=(const Vec<Num_T> &v)
+  Vec<Num_T>& Vec<Num_T>::operator+=(const Vec<Num_T> &v)
   {
-		if (this != &v) {
-			int i;
-			if (datasize == 0) { // if not assigned a size.
-				alloc(v.datasize);
-				for (i=0; i<v.datasize; i++)
-					data[i] = v.data[i];
-			} else {
-				it_assert1(datasize==v.datasize, "Vec<Num_T>::operator+=: wrong sizes");
-				for (i=0; i<datasize; i++)
-					data[i] += v.data[i];
-			}
-		}
-		return *this;
+    if (this != &v) {
+      int i;
+      if (datasize == 0) { // if not assigned a size.
+	alloc(v.datasize);
+	for (i=0; i<v.datasize; i++)
+	  data[i] = v.data[i];
+      } else {
+	it_assert1(datasize==v.datasize, "Vec<Num_T>::operator+=: wrong sizes");
+	for (i=0; i<datasize; i++)
+	  data[i] += v.data[i];
+      }
+    }
+    return *this;
   }
 
   template<class Num_T> inline
-	Vec<Num_T>& Vec<Num_T>::operator+=(const Num_T t)
-	{ 
-		for (int i=0;i<datasize;i++) 
-			data[i]+=t; 
-		return *this;
-	}
+  Vec<Num_T>& Vec<Num_T>::operator+=(const Num_T t)
+  { 
+    for (int i=0;i<datasize;i++) 
+      data[i]+=t; 
+    return *this;
+  }
 
   template<class Num_T> inline
-	const Vec<Num_T> operator+(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
+  const Vec<Num_T> operator+(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
   {
     int i;
     Vec<Num_T> r(v1.datasize);
@@ -699,7 +699,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	const Vec<Num_T> operator+(const Vec<Num_T> &v, const Num_T t)
+  const Vec<Num_T> operator+(const Vec<Num_T> &v, const Num_T t)
   {
     int i;
     Vec<Num_T> r(v.datasize);
@@ -711,7 +711,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	const Vec<Num_T> operator+(const Num_T t, const Vec<Num_T> &v)
+  const Vec<Num_T> operator+(const Num_T t, const Vec<Num_T> &v)
   {
     int i;
     Vec<Num_T> r(v.datasize);
@@ -725,31 +725,31 @@ namespace itpp {
   template<class Num_T> inline
   Vec<Num_T>& Vec<Num_T>::operator-=(const Vec<Num_T> &v)
   {
-		if (this != &v) {
-			int i;
-			if (datasize == 0) { // if not assigned a size.
-				alloc(v.datasize);
-				for (i=0; i<v.datasize; i++)
-					data[i] = -v.data[i];
-			} else {
-				it_assert1(datasize==v.datasize, "Vec<Num_T>::operator-=: wrong sizes");
-				for (i=0; i<datasize; i++)
-					data[i] -= v.data[i];
-			}
-		}
-		return *this;
+    if (this != &v) {
+      int i;
+      if (datasize == 0) { // if not assigned a size.
+	alloc(v.datasize);
+	for (i=0; i<v.datasize; i++)
+	  data[i] = -v.data[i];
+      } else {
+	it_assert1(datasize==v.datasize, "Vec<Num_T>::operator-=: wrong sizes");
+	for (i=0; i<datasize; i++)
+	  data[i] -= v.data[i];
+      }
+    }
+    return *this;
   }
 
   template<class Num_T> inline
   Vec<Num_T>& Vec<Num_T>::operator-=(const Num_T t)
-	{ 
-		for (int i=0;i<datasize;i++) 
-			data[i]-=t;
-		return *this;
-	}
+  { 
+    for (int i=0;i<datasize;i++) 
+      data[i]-=t;
+    return *this;
+  }
 
   template<class Num_T> inline
-	const Vec<Num_T> operator-(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
+  const Vec<Num_T> operator-(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
   {
     int i;
     Vec<Num_T> r(v1.datasize);
@@ -762,7 +762,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	const Vec<Num_T> operator-(const Vec<Num_T> &v, const Num_T t)
+  const Vec<Num_T> operator-(const Vec<Num_T> &v, const Num_T t)
   {
     int i;
     Vec<Num_T> r(v.datasize);
@@ -774,7 +774,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	const Vec<Num_T> operator-(const Num_T t, const Vec<Num_T> &v)
+  const Vec<Num_T> operator-(const Num_T t, const Vec<Num_T> &v)
   {
     int i;
     Vec<Num_T> r(v.datasize);
@@ -786,7 +786,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	const Vec<Num_T> operator-(const Vec<Num_T> &v)
+  const Vec<Num_T> operator-(const Vec<Num_T> &v)
   {
     int i;
     Vec<Num_T> r(v.datasize);
@@ -798,12 +798,12 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	Vec<Num_T>& Vec<Num_T>::operator*=(const Num_T t)
-	{ 
-		for (int i=0;i<datasize;i++) 
-			data[i] *= t; 
-		return *this;
-	}
+  Vec<Num_T>& Vec<Num_T>::operator*=(const Num_T t)
+  { 
+    for (int i=0;i<datasize;i++) 
+      data[i] *= t; 
+    return *this;
+  }
 
 #if defined(HAVE_CBLAS) || defined(HAVE_MKL)
   template<> const double dot(const vec &v1, const vec &v2);
@@ -811,7 +811,7 @@ namespace itpp {
 #endif
 
   template<class Num_T> inline
-	const Num_T dot(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
+  const Num_T dot(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
   {
     int i;
     Num_T r=Num_T(0);
@@ -824,7 +824,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	const Mat<Num_T> outer_product(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
+  const Mat<Num_T> outer_product(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
   {
     int i, j;
 
@@ -834,7 +834,7 @@ namespace itpp {
 
     for (i=0; i<v1.datasize; i++) {
       for (j=0; j<v2.datasize; j++) {
-				r(i,j) = v1.data[i] * v2.data[j];
+	r(i,j) = v1.data[i] * v2.data[j];
       }
     }
 
@@ -842,7 +842,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	const Vec<Num_T> operator*(const Vec<Num_T> &v, const Num_T t)
+  const Vec<Num_T> operator*(const Vec<Num_T> &v, const Num_T t)
   {
     int i;
     Vec<Num_T> r(v.datasize);
@@ -854,7 +854,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	const Vec<Num_T> operator*(const Num_T t, const Vec<Num_T> &v)
+  const Vec<Num_T> operator*(const Num_T t, const Vec<Num_T> &v)
   {
     int i;
     Vec<Num_T> r(v.datasize);
@@ -866,7 +866,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	const Vec<Num_T> elem_mult(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
+  const Vec<Num_T> elem_mult(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
   {
     int i;
     Vec<Num_T> r(v1.datasize);
@@ -879,7 +879,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	const Vec<Num_T> elem_mult(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3)
+  const Vec<Num_T> elem_mult(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3)
   {
     int i;
     Vec<Num_T> r(v1.datasize);
@@ -893,7 +893,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	const Vec<Num_T> elem_mult(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3, const Vec<Num_T> &v4)
+  const Vec<Num_T> elem_mult(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3, const Vec<Num_T> &v4)
   {
     int i;
     Vec<Num_T> r(v1.datasize);
@@ -908,7 +908,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	const Vec<Num_T> operator/(const Vec<Num_T> &v, const Num_T t)
+  const Vec<Num_T> operator/(const Vec<Num_T> &v, const Num_T t)
   {
     int i;
     Vec<Num_T> r(v.datasize);
@@ -920,7 +920,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	const Vec<Num_T> operator/(const Num_T t, const Vec<Num_T> &v)
+  const Vec<Num_T> operator/(const Num_T t, const Vec<Num_T> &v)
   {
     int i;
     Vec<Num_T> r(v.datasize);
@@ -932,27 +932,27 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	Vec<Num_T>& Vec<Num_T>::operator/=(const Num_T t)
-	{ 
-		for (int i=0;i<datasize;i++) 
-			data[i]/=t; 
-		return *this;
-	}
+  Vec<Num_T>& Vec<Num_T>::operator/=(const Num_T t)
+  { 
+    for (int i=0;i<datasize;i++) 
+      data[i]/=t; 
+    return *this;
+  }
 
   template<class Num_T> inline
   Vec<Num_T>& Vec<Num_T>::operator/=(const Vec<Num_T> &v)
   {
-		if (this != &v) {
-			int i;
-			it_assert1(datasize==v.datasize, "Vec<Num_T>::operator/=: wrong sizes");
-			for (i=0; i<datasize; i++)
-				data[i] /= v.data[i];
-		}
-		return *this;
+    if (this != &v) {
+      int i;
+      it_assert1(datasize==v.datasize, "Vec<Num_T>::operator/=: wrong sizes");
+      for (i=0; i<datasize; i++)
+	data[i] /= v.data[i];
+    }
+    return *this;
   }
 
   template<class Num_T> inline
-	const Vec<Num_T> elem_div(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
+  const Vec<Num_T> elem_div(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
   {
     int i;
     Vec<Num_T> r(v1.datasize);
@@ -965,7 +965,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	const Vec<Num_T> elem_div(const Num_T t, const Vec<Num_T> &v)
+  const Vec<Num_T> elem_div(const Num_T t, const Vec<Num_T> &v)
   {
     int i;
     Vec<Num_T> r(v.datasize);
@@ -977,7 +977,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-	Vec<Num_T> Vec<Num_T>::get(const Vec<bin> &binlist) const
+  Vec<Num_T> Vec<Num_T>::get(const Vec<bin> &binlist) const
   {
     it_assert1(datasize == binlist.size(), "Vec<Num_T>::get(bvec &): wrong sizes");
     Vec<Num_T> temp(binlist.length());
@@ -985,8 +985,8 @@ namespace itpp {
 
     for (int i=0;i<binlist.length();i++) {
       if (binlist(i) == bin(1)) {
-				temp(j)=data[i];
-				j++;
+	temp(j)=data[i];
+	j++;
       }
     }
     temp.set_size(j, true);
@@ -994,7 +994,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	Vec<Num_T> Vec<Num_T>::right(const int nr) const
+  Vec<Num_T> Vec<Num_T>::right(const int nr) const
   {
     it_assert1(nr<=datasize, "Vec<Num_T>::right: index out of range");
     Vec<Num_T> temp(nr);
@@ -1005,7 +1005,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	Vec<Num_T> Vec<Num_T>::left(const int nr) const
+  Vec<Num_T> Vec<Num_T>::left(const int nr) const
   {
     it_assert1(nr<=datasize, "Vec<Num_T>::left: index out of range");
     Vec<Num_T> temp(nr);
@@ -1016,7 +1016,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	Vec<Num_T> Vec<Num_T>::mid(const int start, const int nr) const
+  Vec<Num_T> Vec<Num_T>::mid(const int start, const int nr) const
   {
     it_assert1((start>=0)&& ((start+nr)<=datasize), "Vec<Num_T>::mid: indexing out of range");
     Vec<Num_T> temp(nr);
@@ -1028,7 +1028,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-	Vec<Num_T> Vec<Num_T>::split(const int Position)
+  Vec<Num_T> Vec<Num_T>::split(const int Position)
   {
     it_assert1((Position>=0) && (Position<=datasize), "Vec<Num_T>::split: index out of range");
     Vec<Num_T> Temp1(Position);
@@ -1046,7 +1046,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-	void Vec<Num_T>::shift_right(const Num_T In, const int n)
+  void Vec<Num_T>::shift_right(const Num_T In, const int n)
   {
     int i=datasize;
 
@@ -1058,7 +1058,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-	void Vec<Num_T>::shift_right(const Vec<Num_T> &In)
+  void Vec<Num_T>::shift_right(const Vec<Num_T> &In)
   {
     int	i;
 
@@ -1069,7 +1069,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-	void Vec<Num_T>::shift_left(const Num_T In, const int n)
+  void Vec<Num_T>::shift_left(const Num_T In, const int n)
   {
     int i;
 
@@ -1081,7 +1081,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-	void Vec<Num_T>::shift_left(const Vec<Num_T> &In)
+  void Vec<Num_T>::shift_left(const Vec<Num_T> &In)
   {
     int	i;
 
@@ -1092,7 +1092,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-	const Vec<Num_T> concat(const Vec<Num_T> &v, const Num_T a)
+  const Vec<Num_T> concat(const Vec<Num_T> &v, const Num_T a)
   {
     Vec<Num_T> temp(v.size()+1);
 
@@ -1104,7 +1104,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-	const Vec<Num_T> concat(const Num_T a, const Vec<Num_T> &v)
+  const Vec<Num_T> concat(const Num_T a, const Vec<Num_T> &v)
   {
     Vec<Num_T> temp(v.size()+1);
 
@@ -1117,7 +1117,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-	const Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
+  const Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
   {
     int i;
     Vec<Num_T> temp(v1.size()+v2.size());
@@ -1132,7 +1132,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-	const Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3)
+  const Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3)
   {
     // There should be some error control?
     int i;
@@ -1151,7 +1151,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-	const Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3, const Vec<Num_T> &v4)
+  const Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3, const Vec<Num_T> &v4)
   {
     // There should be some error control?
     int i;
@@ -1173,7 +1173,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-	const Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3, const Vec<Num_T> &v4, const Vec<Num_T> &v5)
+  const Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3, const Vec<Num_T> &v4, const Vec<Num_T> &v5)
   {
     // There should be some error control?
     int i;
@@ -1198,7 +1198,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	void Vec<Num_T>::set_subvector(int i1, int i2, const Vec<Num_T> &v)
+  void Vec<Num_T>::set_subvector(int i1, int i2, const Vec<Num_T> &v)
   {
     if (i1 == -1) i1 = datasize-1;
     if (i2 == -1) i2 = datasize-1;
@@ -1211,7 +1211,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	void Vec<Num_T>:: set_subvector(const int i, const Vec<Num_T> &v)
+  void Vec<Num_T>:: set_subvector(const int i, const Vec<Num_T> &v)
   {
     it_assert1(i>=0, "Vec<Num_T>::set_subvector(): index out of range");
     it_assert1(i+v.datasize <= datasize, "Vec<Num_T>::set_subvector(): too long input vector");
@@ -1219,7 +1219,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-	void Vec<Num_T>::set_subvector(int i1, int i2, const Num_T t)
+  void Vec<Num_T>::set_subvector(int i1, int i2, const Num_T t)
   {
     if (i1 == -1) i1 = datasize-1;
     if (i2 == -1) i2 = datasize-1;
@@ -1232,14 +1232,14 @@ namespace itpp {
   }
 
   template<class Num_T>
-	void Vec<Num_T>::replace_mid(const int pos, const Vec<Num_T> &v)
+  void Vec<Num_T>::replace_mid(const int pos, const Vec<Num_T> &v)
   {
     it_assert1((pos>=0) && ((pos+v.length())<=datasize), "Vec<Num_T>::replace_mid: indexing out of range");
     copy_vector(v.datasize, v.data, &data[pos]);
   }
 
   template<class Num_T>
-	void Vec<Num_T>::del(const int index)
+  void Vec<Num_T>::del(const int index)
   {
     it_assert1((index>=0) && (index<datasize), "Vec<Num_T>::del: index out of range");
     Vec<Num_T> Temp(*this);
@@ -1255,7 +1255,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-	void  Vec<Num_T>::del(const int i1, const int i2) 
+  void  Vec<Num_T>::del(const int i1, const int i2) 
   {
     it_assert1((i1>=0) && (i2<datasize) && (i1<i2), "Vec<Num_T>::del: index out of range");
 
@@ -1267,7 +1267,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-	void Vec<Num_T>::ins(const int index, const Num_T in)
+  void Vec<Num_T>::ins(const int index, const Num_T in)
   {
     it_assert1((index>=0) && (index<=datasize), "Vec<Num_T>::ins: index out of range");
     Vec<Num_T> Temp(*this);
@@ -1279,7 +1279,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-	void Vec<Num_T>::ins(const int index, const Vec<Num_T> &in)
+  void Vec<Num_T>::ins(const int index, const Vec<Num_T> &in)
   {
     it_assert1((index>=0) && (index<=datasize), "Vec<Num_T>::ins: index out of range");
     Vec<Num_T> Temp(*this);
@@ -1291,51 +1291,51 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-	Vec<Num_T>& Vec<Num_T>::operator=(const Num_T t)
-	{ 
-		for (int i=0;i<datasize;i++) 
-			data[i] = t; 
-		return *this;
-	}
+  Vec<Num_T>& Vec<Num_T>::operator=(const Num_T t)
+  { 
+    for (int i=0;i<datasize;i++) 
+      data[i] = t; 
+    return *this;
+  }
 
   template<class Num_T> inline
-	Vec<Num_T>& Vec<Num_T>::operator=(const Vec<Num_T> &v)
-	{
-		if (this != &v) {
-			set_size(v.datasize, false);
-			copy_vector(datasize, v.data, data);
-		}
-		return *this;
-	}
+  Vec<Num_T>& Vec<Num_T>::operator=(const Vec<Num_T> &v)
+  {
+    if (this != &v) {
+      set_size(v.datasize, false);
+      copy_vector(datasize, v.data, data);
+    }
+    return *this;
+  }
 
   template<class Num_T> inline
-	Vec<Num_T>& Vec<Num_T>::operator=(const Mat<Num_T> &m)
-	{
-		it_assert1( (m.cols() == 1 && datasize == m.rows()) ||
-								(m.rows() == 1 && datasize == m.cols()), "Vec<Num_T>::operator=(Mat<Num_T>): wrong size");
+  Vec<Num_T>& Vec<Num_T>::operator=(const Mat<Num_T> &m)
+  {
+    it_assert1( (m.cols() == 1 && datasize == m.rows()) ||
+		(m.rows() == 1 && datasize == m.cols()), "Vec<Num_T>::operator=(Mat<Num_T>): wrong size");
 
-		if (m.cols() == 1) {
-			set_size(m.rows(), false);
-			copy_vector(m.rows(), m._data(), data);
-		} else if (m.rows() == 1) {
-			set_size(m.cols(), false);
-			copy_vector(m.cols(), m._data(), m.rows(), data, 1);
-		} else
-			it_error("Vec<Num_T>::operator=(Mat<Num_T>): wrong size");
-		return *this;
-	}
+    if (m.cols() == 1) {
+      set_size(m.rows(), false);
+      copy_vector(m.rows(), m._data(), data);
+    } else if (m.rows() == 1) {
+      set_size(m.cols(), false);
+      copy_vector(m.cols(), m._data(), m.rows(), data, 1);
+    } else
+      it_error("Vec<Num_T>::operator=(Mat<Num_T>): wrong size");
+    return *this;
+  }
 
   template<class Num_T> inline
-	Vec<Num_T>& Vec<Num_T>::operator=(const char *values) 
-	{ 
-		set(values);
-		return *this;
-	}
+  Vec<Num_T>& Vec<Num_T>::operator=(const char *values) 
+  { 
+    set(values);
+    return *this;
+  }
 
   template<> bvec cvec::operator==(const std::complex<double>) const;
 
   template<class Num_T>
-	bvec Vec<Num_T>::operator==(const Num_T value) const
+  bvec Vec<Num_T>::operator==(const Num_T value) const
   {
     it_assert(datasize > 0, "Vec<Num_T>::operator==: vector must have size > 0");
     Vec<Num_T> invector(*this);
@@ -1350,7 +1350,7 @@ namespace itpp {
   template<> bvec cvec::operator!=(const std::complex<double>) const;
 
   template<class Num_T>
-	bvec Vec<Num_T>::operator!=(const Num_T value) const
+  bvec Vec<Num_T>::operator!=(const Num_T value) const
   {
     it_assert(datasize > 0, "Vec<Num_T>::operator!=: vector must have size > 0");
     Vec<Num_T> invector(*this);
@@ -1365,7 +1365,7 @@ namespace itpp {
   template<> bvec cvec::operator<(const std::complex<double>) const;
 
   template<class Num_T>
-	bvec Vec<Num_T>::operator<(const Num_T value) const
+  bvec Vec<Num_T>::operator<(const Num_T value) const
   {
     it_assert(datasize > 0, "Vec<Num_T>::operator<: vector must have size > 0");
     Vec<Num_T> invector(*this);
@@ -1380,7 +1380,7 @@ namespace itpp {
   template<> bvec cvec::operator<=(const std::complex<double>) const;
 
   template<class Num_T>
-	bvec Vec<Num_T>::operator<=(const Num_T value) const
+  bvec Vec<Num_T>::operator<=(const Num_T value) const
   {
     it_assert(datasize > 0, "Vec<Num_T>::operator<=: vector must have size > 0");
     Vec<Num_T> invector(*this);
@@ -1395,7 +1395,7 @@ namespace itpp {
   template<> bvec cvec::operator>(const std::complex<double>) const;
 
   template<class Num_T>
-	bvec Vec<Num_T>::operator>(const Num_T value) const
+  bvec Vec<Num_T>::operator>(const Num_T value) const
   {
     it_assert(datasize > 0, "Vec<Num_T>::operator>: vector must have size > 0");
     Vec<Num_T> invector(*this);
@@ -1410,7 +1410,7 @@ namespace itpp {
   template<> bvec cvec::operator>=(const std::complex<double>) const;
 
   template<class Num_T>
-	bvec Vec<Num_T>::operator>=(const Num_T value) const
+  bvec Vec<Num_T>::operator>=(const Num_T value) const
   {
     it_assert(datasize > 0, "Vec<Num_T>::operator>=: vector must have size > 0");
     Vec<Num_T> invector(*this);
@@ -1423,7 +1423,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-	bool Vec<Num_T>::operator==(const Vec<Num_T> &invector) const
+  bool Vec<Num_T>::operator==(const Vec<Num_T> &invector) const
   {
     // OBS ! if wrong size, return false
     if (datasize!=invector.datasize) return false;
@@ -1434,7 +1434,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-	bool Vec<Num_T>::operator!=(const Vec<Num_T> &invector) const
+  bool Vec<Num_T>::operator!=(const Vec<Num_T> &invector) const
   {
     if (datasize!=invector.datasize) return true;
     for (int i=0;i<datasize;i++) {
@@ -1444,7 +1444,7 @@ namespace itpp {
   }
 
   template <class Num_T>
-	std::ostream &operator<<(std::ostream &os, const Vec<Num_T> &v)
+  std::ostream &operator<<(std::ostream &os, const Vec<Num_T> &v)
   {
     int i, sz=v.length();
 
@@ -1452,7 +1452,7 @@ namespace itpp {
     for (i=0; i<sz; i++) {
       os << v(i) ;
       if (i < sz-1)
-				os << " ";
+	os << " ";
     }
     os << "]" ;
 
@@ -1460,7 +1460,7 @@ namespace itpp {
   }
 
   template <class Num_T>
-	std::istream &operator>>(std::istream &is, Vec<Num_T> &v)
+  std::istream &operator>>(std::istream &is, Vec<Num_T> &v)
   {
     std::ostringstream buffer;
     bool started = false;

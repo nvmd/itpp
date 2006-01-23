@@ -45,30 +45,30 @@ namespace itpp {
     while (buffer.peek()!=EOF) {
       rows++;
       if (rows > maxrows) {
-				maxrows=maxrows*2;
-				set_size(maxrows, maxcols, true);
+	maxrows=maxrows*2;
+	set_size(maxrows, maxcols, true);
       }
 
       cols=0;
       while ( (buffer.peek() != ';') && (buffer.peek() != EOF) ) {
-				if (buffer.peek()==',') {
-					buffer.get();
-				} else {
-					cols++;
-					if (cols > nocols) {
-						nocols=cols;
-						if (cols > maxcols) {
-							maxcols=maxcols*2;
-							set_size(maxrows, maxcols, true);
-						}
-					}
-					buffer >> this->operator()(rows-1,cols-1);
-					while (buffer.peek()==' ') { buffer.get(); }
-				}
+	if (buffer.peek()==',') {
+	  buffer.get();
+	} else {
+	  cols++;
+	  if (cols > nocols) {
+	    nocols=cols;
+	    if (cols > maxcols) {
+	      maxcols=maxcols*2;
+	      set_size(maxrows, maxcols, true);
+	    }
+	  }
+	  buffer >> this->operator()(rows-1,cols-1);
+	  while (buffer.peek()==' ') { buffer.get(); }
+	}
       }
 
       if (!buffer.eof())
-				buffer.get();
+	buffer.get();
     }
     set_size(rows, nocols, true);
 
@@ -88,29 +88,29 @@ namespace itpp {
     while (buffer.peek()!=EOF) {
       rows++;
       if (rows > maxrows) {
-				maxrows *= 2;
-				set_size(maxrows, maxcols, true);
+	maxrows *= 2;
+	set_size(maxrows, maxcols, true);
       }
       cols=0;
       while ( (buffer.peek() != ';') && (buffer.peek() != EOF) ) {
-				if (buffer.peek()==',') {
-					buffer.get();
-				} else {
-					cols++;
-					if (cols > nocols) {
-						nocols=cols;
-						if (cols > maxcols) {
-							maxcols=maxcols*2;
-							set_size(maxrows, maxcols, true);
-						}
-					}
-					buffer >> intemp;
-					this->operator()(rows-1,cols-1)=intemp;
-					while (buffer.peek()==' ') { buffer.get(); }
-				}
+	if (buffer.peek()==',') {
+	  buffer.get();
+	} else {
+	  cols++;
+	  if (cols > nocols) {
+	    nocols=cols;
+	    if (cols > maxcols) {
+	      maxcols=maxcols*2;
+	      set_size(maxrows, maxcols, true);
+	    }
+	  }
+	  buffer >> intemp;
+	  this->operator()(rows-1,cols-1)=intemp;
+	  while (buffer.peek()==' ') { buffer.get(); }
+	}
       }
       if (!buffer.eof())
-				buffer.get();
+	buffer.get();
     }
     set_size(rows, nocols, true);
 
@@ -123,7 +123,7 @@ namespace itpp {
     cmat temp(no_cols, no_rows);
     for (int i=0; i<no_rows; i++)
       for (int j=0; j<no_cols; j++)
-				temp(j,i) = std::conj(operator()(i,j));
+	temp(j,i) = std::conj(operator()(i,j));
 
     return temp;
   }
@@ -139,11 +139,11 @@ namespace itpp {
     mat r(no_rows, m.no_cols); // unnecessary memory??
 
     cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, no_rows, m.no_cols, no_cols, 1.0,
-								data, no_rows, m.data, m.no_rows, 0.0, r.data, r.no_rows);
+		data, no_rows, m.data, m.no_rows, 0.0, r.data, r.no_rows);
 
     operator=(r); // time consuming 
-		return *this;
-	}
+    return *this;
+  }
 
   template<>
   cmat& cmat::operator*=(const cmat &m)
@@ -153,10 +153,10 @@ namespace itpp {
     cmat r(no_rows, m.no_cols); // unnecessary memory??
 
     cblas_zgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, no_rows, m.no_cols, no_cols, (const void *)&alpha,
-								data, no_rows, m.data, m.no_rows, (const void*)&beta, &r.data, r.no_rows);
+		data, no_rows, m.data, m.no_rows, (const void*)&beta, &r.data, r.no_rows);
 
     operator=(r); // time consuming
-		return *this;
+    return *this;
   }
 
   template<>
@@ -166,7 +166,7 @@ namespace itpp {
     mat r(m1.no_rows, m2.no_cols);
 
     cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, m1.no_rows, m2.no_cols, m1.no_cols, 1.0,
-								m1.data, m1.no_rows, m2.data, m2.no_rows, 0.0, r.data, r.no_rows);
+		m1.data, m1.no_rows, m2.data, m2.no_rows, 0.0, r.data, r.no_rows);
 
     return r;
   }
@@ -179,7 +179,7 @@ namespace itpp {
     cmat r(m1.no_rows, m2.no_cols);
 
     cblas_zgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, m1.no_rows, m2.no_cols, m1.no_cols, (const void *)&alpha,
-								m1.data, m1.no_rows, m2.data, m2.no_rows, (const void*)&beta, r.data, r.no_rows);
+		m1.data, m1.no_rows, m2.data, m2.no_rows, (const void*)&beta, r.data, r.no_rows);
 
     return r;
   }
@@ -191,7 +191,7 @@ namespace itpp {
     vec r(m.no_rows);
 
     cblas_dgemv(CblasColMajor, CblasNoTrans, m.no_rows, m.no_cols, 1.0, m.data, m.no_rows, v._data(), 1,
-								0.0, r._data(), 1);
+		0.0, r._data(), 1);
 
     return r;
   }
@@ -204,7 +204,7 @@ namespace itpp {
     cvec r(m.no_rows);
 
     cblas_zgemv(CblasColMajor, CblasNoTrans, m.no_rows, m.no_cols, (const void *)&alpha, m.data, m.no_rows,
-								v._data(), 1, (const void*)&beta, r._data(), 1);
+		v._data(), 1, (const void*)&beta, r._data(), 1);
 
     return r;
   }
@@ -275,18 +275,18 @@ namespace itpp {
 
   //-------- Multiplication operators ---------------
 
-// Specializations already exist: Don't instantiate
-//  template const mat operator*(const mat &m1, const mat &m2);
-// Specialization already exists: Don't instantiate
-//  template const cmat operator*(const cmat &m1, const cmat &m2);
+#if !defined(HAVE_CBLAS) && !defined(HAVE_MKL)
+  template const mat operator*(const mat &m1, const mat &m2);
+  template const cmat operator*(const cmat &m1, const cmat &m2);
+#endif
   template const imat operator*(const imat &m1, const imat &m2);
   template const smat operator*(const smat &m1, const smat &m2);
   template const bmat operator*(const bmat &m1, const bmat &m2);
 
-// Specialization already exists: Don't instantiate
-//  template const vec operator*(const mat &m, const vec &v);
-// Specialization already exists: Don't instantiate
-//  template const cvec operator*(const cmat &m, const cvec &v);
+#if !defined(HAVE_CBLAS) && !defined(HAVE_MKL)
+  template const vec operator*(const mat &m, const vec &v);
+  template const cvec operator*(const cmat &m, const cvec &v);
+#endif
   template const ivec operator*(const imat &m, const ivec &v);
   template const svec operator*(const smat &m, const svec &v);
   template const bvec operator*(const bmat &m, const bvec &v);
