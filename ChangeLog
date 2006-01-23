@@ -1,3 +1,9 @@
+2006-01-23  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/mat.cpp, itpp/base/mat.h, itpp/base/vec.cpp,
+	itpp/base/vec.h: Fixed a problem with non existing specialisation
+	of the `operator*' and `dot' function when linking without CBLAS
+
 2006-01-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/converters.h: Removed strange `#if 0 ... #endif'
