@@ -49,7 +49,8 @@ check_PROGRAMS = \
 	transforms_test \
 	turbo_test \
 	vec_test \
-	vector_test
+	vector_test \
+	window_test
 
 array_test_SOURCES = array_test.cpp
 bch_test_SOURCES = bch_test.cpp
@@ -99,6 +100,7 @@ transforms_test_SOURCES = transforms_test.cpp
 turbo_test_SOURCES = turbo_test.cpp
 vec_test_SOURCES = vec_test.cpp
 vector_test_SOURCES = vector_test.cpp
+window_test_SOURCES = window_test.cpp
 
 noext_tests = $(patsubst %$(EXEEXT), %, $(check_PROGRAMS))
 ref_sources = $(patsubst %$(EXEEXT), %.ref, $(check_PROGRAMS))
