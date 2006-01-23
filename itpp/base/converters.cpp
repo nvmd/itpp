@@ -252,7 +252,7 @@ namespace itpp {
 
   bvec dec2bin(int index, bool msb_first)
   {
-    int length = needed_bits(index)+1;
+    int length = needed_bits(index);
     int i, bintemp = index;
     bvec temp(length);
 
@@ -270,7 +270,7 @@ namespace itpp {
   void dec2bin(int index, bvec &v)
   {
     int i, bintemp = index;
-    v.set_size(needed_bits(index)+1, false);
+    v.set_size(needed_bits(index), false);
 
     for (i=v.size()-1; i>=0; i--) {
       v(i) = bin(bintemp & 1);
