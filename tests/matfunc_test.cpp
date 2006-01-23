@@ -35,6 +35,8 @@
 using namespace std;
 using namespace itpp;
 
+#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+
 int main()
 {
   cout << "=================================" << endl;
@@ -93,3 +95,12 @@ int main()
   
   return 0;
 }
+
+#else
+
+int main() { 
+  cerr << "Error: LAPACK (or MKL) is needed for this test program" << endl; 
+  return 1;
+}
+
+#endif

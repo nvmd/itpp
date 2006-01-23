@@ -1,5 +1,8 @@
 2006-01-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/matfunc_test.cpp: Added a check for LAPACK or MKL libraries,
+	which are needed by the sqrtm() funciton
+
 	* itpp/base/mat.cpp, itpp/base/mat.h, itpp/base/vec.cpp,
 	itpp/base/vec.h: Fixed a problem with non existing specialisation
 	of the `operator*' and `dot' function when linking without CBLAS
