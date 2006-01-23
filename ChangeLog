@@ -1,5 +1,9 @@
 2006-01-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/converters.cpp: Fixed bug [1412383]. The dec2bin()
+	functions appended en extra zero in front of the bit vector. This
+	wrong behaviour has been fixed. (merged from itpp-3-9-branch)
+
 	* tests/matfunc_test.cpp: Added a check for LAPACK or MKL libraries,
 	which are needed by the sqrtm() funciton
 
