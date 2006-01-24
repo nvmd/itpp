@@ -54,5 +54,6 @@
 #include <itpp/comm/rec_syst_conv_code.h>
 #include <itpp/comm/turbo.h>
 #include <itpp/comm/pulse_shape.h>
+#include <itpp/comm/llr.h>
 
 #endif // #ifndef ITCOMM_H
