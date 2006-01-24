@@ -1,0 +1,146 @@
+-------------------------------
+LLR_calc_unit table properties:
+The granularity in the LLR representation is 0.000976562
+The LLR scale factor is 1024
+The largest LLR that can be represented is 524288
+The table resolution is 0.03125
+The number of entries in the table is 300
+The tables truncates at the LLR value 9.375
+-------------------------------
+
+-------------------------------
+LLR_calc_unit table properties:
+The granularity in the LLR representation is 0.000976562
+The LLR scale factor is 1024
+The largest LLR that can be represented is 524288
+The table resolution is 0.5
+The number of entries in the table is 7
+The tables truncates at the LLR value 3.5
+-------------------------------
+
+-------------------------------
+LLR_calc_unit table properties:
+The granularity in the LLR representation is 0.25
+The LLR scale factor is 4
+The largest LLR that can be represented is 1.34218e+08
+The table resolution is 0.25
+The number of entries in the table is 15
+The tables truncates at the LLR value 3.75
+-------------------------------
+
+Testing Jacobian logarithm with four different resolutions.
+JacLog(0) = 0.693359 ; 0.693359 ; 0.75 ; 0
+JacLog(0.1) = 0.647461 ; 0.693359 ; 0.75 ; 0
+JacLog(0.2) = 0.603516 ; 0.693359 ; 0.5 ; 0
+JacLog(0.3) = 0.5625 ; 0.693359 ; 0.5 ; 0
+JacLog(0.4) = 0.523438 ; 0.693359 ; 0.5 ; 0
+JacLog(0.5) = 0.473633 ; 0.473633 ; 0.5 ; 0
+JacLog(0.6) = 0.439453 ; 0.473633 ; 0.5 ; 0
+JacLog(0.7) = 0.407227 ; 0.473633 ; 0.5 ; 0
+JacLog(0.8) = 0.376953 ; 0.473633 ; 0.5 ; 0
+JacLog(0.9) = 0.348633 ; 0.473633 ; 0.25 ; 0
+JacLog(1) = 0.313477 ; 0.313477 ; 0.25 ; 0
+JacLog(1.1) = 0.289062 ; 0.313477 ; 0.25 ; 0
+JacLog(1.2) = 0.266602 ; 0.313477 ; 0.25 ; 0
+JacLog(1.3) = 0.245117 ; 0.313477 ; 0.25 ; 0
+JacLog(1.4) = 0.225586 ; 0.313477 ; 0.25 ; 0
+JacLog(1.5) = 0.201172 ; 0.201172 ; 0.25 ; 0
+JacLog(1.6) = 0.18457 ; 0.201172 ; 0.25 ; 0
+JacLog(1.7) = 0.169922 ; 0.201172 ; 0.25 ; 0
+JacLog(1.8) = 0.155273 ; 0.201172 ; 0.25 ; 0
+JacLog(1.9) = 0.142578 ; 0.201172 ; 0.25 ; 0
+JacLog(2) = 0.126953 ; 0.126953 ; 0.25 ; 0
+JacLog(2.1) = 0.116211 ; 0.126953 ; 0.25 ; 0
+JacLog(2.2) = 0.106445 ; 0.126953 ; 0 ; 0
+JacLog(2.3) = 0.0976562 ; 0.126953 ; 0 ; 0
+JacLog(2.4) = 0.0888672 ; 0.126953 ; 0 ; 0
+JacLog(2.5) = 0.0791016 ; 0.0791016 ; 0 ; 0
+JacLog(2.6) = 0.0722656 ; 0.0791016 ; 0 ; 0
+JacLog(2.7) = 0.0654297 ; 0.0791016 ; 0 ; 0
+JacLog(2.8) = 0.0605469 ; 0.0791016 ; 0 ; 0
+JacLog(2.9) = 0.0546875 ; 0.0791016 ; 0 ; 0
+JacLog(3) = 0.0488281 ; 0.0488281 ; 0 ; 0
+JacLog(3.1) = 0.0439453 ; 0.0488281 ; 0 ; 0
+JacLog(3.2) = 0.0400391 ; 0.0488281 ; 0 ; 0
+JacLog(3.3) = 0.0371094 ; 0.0488281 ; 0 ; 0
+JacLog(3.4) = 0.0332031 ; 0.0488281 ; 0 ; 0
+JacLog(3.5) = 0.0292969 ; 0 ; 0 ; 0
+JacLog(3.6) = 0.0273438 ; 0 ; 0 ; 0
+JacLog(3.7) = 0.0244141 ; 0 ; 0 ; 0
+JacLog(3.8) = 0.0224609 ; 0 ; 0 ; 0
+JacLog(3.9) = 0.0205078 ; 0 ; 0 ; 0
+JacLog(4) = 0.0185547 ; 0 ; 0 ; 0
+JacLog(4.1) = 0.0166016 ; 0 ; 0 ; 0
+JacLog(4.2) = 0.0146484 ; 0 ; 0 ; 0
+JacLog(4.3) = 0.0136719 ; 0 ; 0 ; 0
+JacLog(4.4) = 0.0126953 ; 0 ; 0 ; 0
+JacLog(4.5) = 0.0107422 ; 0 ; 0 ; 0
+JacLog(4.6) = 0.00976562 ; 0 ; 0 ; 0
+JacLog(4.7) = 0.00878906 ; 0 ; 0 ; 0
+JacLog(4.8) = 0.00878906 ; 0 ; 0 ; 0
+JacLog(4.9) = 0.0078125 ; 0 ; 0 ; 0
+JacLog(5) = 0.00683594 ; 0 ; 0 ; 0
+JacLog(5.1) = 0.00585938 ; 0 ; 0 ; 0
+JacLog(5.2) = 0.00585938 ; 0 ; 0 ; 0
+JacLog(5.3) = 0.00488281 ; 0 ; 0 ; 0
+JacLog(5.4) = 0.00488281 ; 0 ; 0 ; 0
+JacLog(5.5) = 0.00390625 ; 0 ; 0 ; 0
+JacLog(5.6) = 0.00390625 ; 0 ; 0 ; 0
+JacLog(5.7) = 0.00292969 ; 0 ; 0 ; 0
+JacLog(5.8) = 0.00292969 ; 0 ; 0 ; 0
+JacLog(5.9) = 0.00292969 ; 0 ; 0 ; 0
+JacLog(6) = 0.00292969 ; 0 ; 0 ; 0
+JacLog(6.1) = 0.00195312 ; 0 ; 0 ; 0
+JacLog(6.2) = 0.00195312 ; 0 ; 0 ; 0
+JacLog(6.3) = 0.00195312 ; 0 ; 0 ; 0
+JacLog(6.4) = 0.00195312 ; 0 ; 0 ; 0
+JacLog(6.5) = 0.00195312 ; 0 ; 0 ; 0
+JacLog(6.6) = 0.000976562 ; 0 ; 0 ; 0
+JacLog(6.7) = 0.000976562 ; 0 ; 0 ; 0
+JacLog(6.8) = 0.000976562 ; 0 ; 0 ; 0
+JacLog(6.9) = 0.000976562 ; 0 ; 0 ; 0
+JacLog(7) = 0.000976562 ; 0 ; 0 ; 0
+JacLog(7.1) = 0.000976562 ; 0 ; 0 ; 0
+JacLog(7.2) = 0.000976562 ; 0 ; 0 ; 0
+JacLog(7.3) = 0.000976562 ; 0 ; 0 ; 0
+JacLog(7.4) = 0.000976562 ; 0 ; 0 ; 0
+JacLog(7.5) = 0.000976562 ; 0 ; 0 ; 0
+JacLog(7.6) = 0.000976562 ; 0 ; 0 ; 0
+JacLog(7.7) = 0 ; 0 ; 0 ; 0
+JacLog(7.8) = 0 ; 0 ; 0 ; 0
+JacLog(7.9) = 0 ; 0 ; 0 ; 0
+JacLog(8) = 0 ; 0 ; 0 ; 0
+JacLog(8.1) = 0 ; 0 ; 0 ; 0
+JacLog(8.2) = 0 ; 0 ; 0 ; 0
+JacLog(8.3) = 0 ; 0 ; 0 ; 0
+JacLog(8.4) = 0 ; 0 ; 0 ; 0
+JacLog(8.5) = 0 ; 0 ; 0 ; 0
+JacLog(8.6) = 0 ; 0 ; 0 ; 0
+JacLog(8.7) = 0 ; 0 ; 0 ; 0
+JacLog(8.8) = 0 ; 0 ; 0 ; 0
+JacLog(8.9) = 0 ; 0 ; 0 ; 0
+JacLog(9) = 0 ; 0 ; 0 ; 0
+JacLog(9.1) = 0 ; 0 ; 0 ; 0
+JacLog(9.2) = 0 ; 0 ; 0 ; 0
+JacLog(9.3) = 0 ; 0 ; 0 ; 0
+JacLog(9.4) = 0 ; 0 ; 0 ; 0
+JacLog(9.5) = 0 ; 0 ; 0 ; 0
+JacLog(9.6) = 0 ; 0 ; 0 ; 0
+JacLog(9.7) = 0 ; 0 ; 0 ; 0
+JacLog(9.8) = 0 ; 0 ; 0 ; 0
+JacLog(9.9) = 0 ; 0 ; 0 ; 0
+JacLog(10) = 0 ; 0 ; 0 ; 0
+-------------------
+Some special cases:
+0.75
+-0.75
+-0.75
+0.75
+0
+0
+-1.17773
+-1.17773
+-1.17773
+-1.17773
+1.17773
+1.17773

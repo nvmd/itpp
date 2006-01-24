@@ -25,6 +25,7 @@ check_PROGRAMS = \
 	interleaver_test \
 	inv_test \
 	limits_test \
+	llr_test \
 	ls_solve_test \
 	lu_test \
 	matfunc_test \
@@ -74,6 +75,7 @@ integration_test_SOURCES = integration_test.cpp
 interleaver_test_SOURCES = interleaver_test.cpp
 inv_test_SOURCES = inv_test.cpp
 limits_test_SOURCES = limits_test.cpp
+llr_test_SOURCES = llr_test.cpp
 ls_solve_test_SOURCES = ls_solve_test.cpp
 lu_test_SOURCES = lu_test.cpp
 matfunc_test_SOURCES = matfunc_test.cpp

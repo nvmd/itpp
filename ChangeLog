@@ -1,3 +1,11 @@
+2006-01-24  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+	* itpp/comm/llr.h, itpp/comm/llr.cpp: Added new LLR algebra class
+
+	* tests/llr_test.cpp, tests/llr_test.ref: Added test program for
+	LLR class
+
+	* itpp/comm/sources.mk, tests/Makefile.am: Updated accordingly
+	
 2006-01-24  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/schur_test.cpp, tests/schur_test.ref: Fixed the schur test
