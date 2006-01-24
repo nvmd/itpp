@@ -80,19 +80,17 @@ int main()
   A = randn(3,3);
   cmat A_sqrtm = sqrtm(A);
   cout << "A = " << A << endl;
-  cout << "sqrtm(A) = " << A_sqrtm << endl;
-  cout << "frob_norm(sqrtm(A) * sqrtm(A) - A) = " << 
-    round_to_zero(frob_norm(A_sqrtm * A_sqrtm - to_cmat(A)), 1e-14) << 
-    endl << endl;
+  cout << "norm(sqrtm(A) * sqrtm(A) - A) = " 
+       << round_to_zero(norm(A_sqrtm * A_sqrtm - to_cmat(A)), 1e-14) 
+       << endl << endl;
 
   cout << "sqrtm of a complex matrix" << endl;
   cmat B = randn_c(3,3);
   cmat B_sqrtm = sqrtm(B);
   cout << "B = " << B << endl;
-  cout << "sqrtm(B) = " << B_sqrtm << endl;
-  cout << "frob_norm(sqrtm(B) * sqrtm(B) - B) = " << 
-    round_to_zero(frob_norm(B_sqrtm * B_sqrtm - B), 1e-14) << endl;
-  
+  cout << "norm(sqrtm(B) * sqrtm(B) - B) = " 
+       << round_to_zero(norm(B_sqrtm * B_sqrtm - B), 1e-14) << endl;
+
   return 0;
 }
 
