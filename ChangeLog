@@ -1,4 +1,9 @@
 2006-01-24  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/itcomm.h: Included llr.h
+
+2006-01-24  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
 	* itpp/comm/llr.h, itpp/comm/llr.cpp: Added new LLR algebra class
 
 	* tests/llr_test.cpp, tests/llr_test.ref: Added test program for
