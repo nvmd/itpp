@@ -1,5 +1,9 @@
 2006-01-24  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/matfunc_test.cpp, tests/matfunc_test.ref: Fixed	the
+	problem with two possible solutions of a complex matrix square
+	root - `sqrtm()' function
+
 	* itpp/base/stat.cpp, itpp/base/stat.h: `norm()' functions revised
 	- from now the implementation is similar to the Octave one, i.e.
 	both vector- and matrix-based functions accept "fro" argument to
