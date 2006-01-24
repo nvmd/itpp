@@ -1,3 +1,9 @@
+2006-01-24  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* tests/schur_test.cpp, tests/schur_test.ref: Fixed the schur test
+	program so now it should pass for different BLAS/LAPACK
+	implementations
+
 2006-01-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/converters.cpp: Fixed bug [1412383]. The dec2bin()
