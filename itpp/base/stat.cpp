@@ -79,78 +79,73 @@ namespace itpp {
     return static_cast<double>(sum(sum(m)))/(m.rows()*m.cols());
   }
 
+
   double norm(const cvec &v)
   {
-    int i;
-    double E=0.0;
-
-    for (i=0; i<v.length(); i++)
+    double E = 0.0;
+    for (int i = 0; i < v.length(); i++)
       E += std::norm(v[i]);
-
+    
     return std::sqrt(E);
   }
 
   double norm(const cvec &v, int p)
   {
-    int i;
-    double E=0;
+    double E = 0.0;
+    for (int i = 0; i < v.size(); i++)
+      E += std::pow(std::norm(v[i]), p / 2.0); // Yes, 2.0 is correct!
 
-    for (i=0;i<v.size();i++)
-      E += std::pow(std::norm(v[i]), p/2.0); // Yes, 2.0 is correct!
-
-    return std::pow(E,1.0/(double)p);
+    return std::pow(E, 1.0 / p);
   }
 
+  double norm(const cvec &v, const std::string &s) {
+    return norm(v, 2);
+  }
 
-  /* Calculate the p-norm of a real matrix
-    p=1: max(svd(m))
-    p=2: max(sum(abs(X)))
-  */
+  /* 
+   * Calculate the p-norm of a real matrix
+   * p = 1: max(svd(m))
+   * p = 2: max(sum(abs(X)))
+   */
   double norm(const mat &m, int p)
   {
-    it_assert(p==1 || p==2, "norm: Can only calculate a matrix norm of order 1 or 2");
+    it_assert((p == 1) || (p == 2), 
+	      "norm(): Can only calculate a matrix norm of order 1 or 2");
 
-    if (p==1)
+    if (p == 1)
       return max(sum(abs(m)));
     else
       return max(svd(m));
   }
 
-  /* Calculate the p-norm of a complex matrix
-    p=1: max(svd(m))
-    p=2: max(sum(abs(X)))
-  */
+  /*
+   * Calculate the p-norm of a complex matrix
+   * p = 1: max(svd(m))
+   * p = 2: max(sum(abs(X)))
+   */
   double norm(const cmat &m, int p)
   {
-    it_assert(p==1 || p==2, "norm: Can only calculate a matrix norm of order 1 or 2");
+    it_assert((p == 1) || (p == 2), 
+	      "norm(): Can only calculate a matrix norm of order 1 or 2");
 
-    if (p==1)
+    if (p == 1)
       return max(sum(abs(m)));
     else
       return max(svd(m));
   }
 
-
-  // Calculate the Frobenius norm of a real matrix
-  double frob_norm(const mat &m) 
+  // Calculate the frobeniuos norm of a matrix for s = "fro"
+  double norm(const mat &m, const std::string &s)
   {
-    double temp_sum = 0.0;
-    for (int i = 0; i < m.rows(); i++)
-      for (int j = 0; j < m.cols(); j++)
-	temp_sum += sqr(m(i, j));
-
-    return std::sqrt(temp_sum);
+    it_assert(s == "fro", "norm(): Unrecognised norm");
+    return std::sqrt(sum(diag(transpose(m) * m)));
   }
 
-  // Calculate the Frobenius norm of a complex matrix
-  double frob_norm(const cmat &m) 
+  // Calculate the frobeniuos norm of a matrix for s = "fro"
+  double norm(const cmat &m, const std::string &s)
   {
-    double temp_sum = 0.0;
-    for (int i = 0; i < m.rows(); i++)
-      for (int j = 0; j < m.cols(); j++)
-	temp_sum += sqr(abs(m(i, j)));
-
-    return std::sqrt(temp_sum);
+    it_assert(s == "fro", "norm(): Unrecognised norm");
+    return std::sqrt(sum(real(diag(hermitian_transpose(m) * m))));
   }
 
 
