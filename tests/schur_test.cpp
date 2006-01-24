@@ -40,35 +40,51 @@ using namespace std;
 
 int main()
 {
+  int size = 5;
+  double thres = 1e-13;
+  
   cout << "==========================================" << endl;
   cout << "   Test of Schur decomposition routines   " << endl;
   cout << "==========================================" << endl;
   {
     cout << "Real matrix" << endl;
-    mat A = randn(5,5);
+    mat A = randn(size, size);
     mat T, U;
     schur(A, U, T);
-
+    
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "U = " << round_to_zero(U) << endl;
-    cout << "T = " << round_to_zero(T) << endl;
-    cout << "norm(A - U*T*U^T) = " << 
-      round_to_zero(norm(A - (U * T * transpose(U))), 1e-13) << endl;
-    cout << "only T = " << round_to_zero(schur(A)) << endl;
-
+    cout << "norm(A - U*T*U^T) = " 
+	 << round_to_zero(norm(A - (U * T * transpose(U))), thres) << endl;
+    cout << "norm(I - U*U^T) = " 
+	 << round_to_zero(norm(eye(size) - (U * transpose(U))), thres) << endl;
+    double temp_sum = 0;
+    for (int i = 1; i < size; i++)
+      for (int j = 0; j < i; j++)
+	temp_sum += sqr(T(i, j));
+    cout << "norm(lower triangular part of T) = " 
+	 << round_to_zero(sqrt(temp_sum), thres) << endl; 
+    // Note: The last norm might be non zero, since T matrix might be
+    // quasi-upper triangular for real matrix A 
   }
   {
     cout << endl << "Complex matrix" << endl;
-    cmat A = randn_c(5,5);
+    cmat A = randn_c(size, size);
     cmat T, U;
     schur(A, U, T);
 
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "U = " << round_to_zero(U) << endl;
-    cout << "T = " << round_to_zero(T) << endl;
-    cout << "norm(A - U*T*U^T) = " << 
-      round_to_zero(norm(A - (U * T * hermitian_transpose(U))), 1e-13) << endl;
-    cout << "only T = " << round_to_zero(schur(A)) << endl;
+    cout << "norm(A - U*T*U^H) = " 
+	 << round_to_zero(norm(A - (U * T * hermitian_transpose(U))), thres)
+	 << endl;
+    cout << "norm(I - U*U^H) = " 
+	 << round_to_zero(norm(eye(size) - (U * hermitian_transpose(U))), thres)
+	 << endl;
+    double temp_sum = 0;
+    for (int i = 1; i < size; i++)
+      for (int j = 0; j < i; j++)
+	temp_sum += sqr(T(i, j));
+    cout << "norm(lower triangular part of T) = " 
+	 << round_to_zero(sqrt(temp_sum), thres) << endl;
   }
 
   return 0;
