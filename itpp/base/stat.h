@@ -390,13 +390,11 @@ namespace itpp {
 
   //! Calculate the 2-norm: norm(v)=sqrt(sum(abs(v).^2))
   template<class T>
-    double norm(const Vec<T> &v)
+  double norm(const Vec<T> &v)
   {
-    int i;
-    double E=0.0;
-
-    for (i=0; i<v.size(); i++)
-      E += sqr(double(v[i]));
+    double E = 0.0;
+    for (int i = 0; i < v.size(); i++)
+      E += sqr(static_cast<double>(v[i]));
 
     return std::sqrt(E);
   }
@@ -406,39 +404,56 @@ namespace itpp {
 
   //! Calculate the p-norm: norm(v,p)=sum(abs(v).^2)^(1/p)
   template<class T>
-    double norm(const Vec<T> &v, int p)
+  double norm(const Vec<T> &v, int p)
   {
-    int i;
-    double E=0;
+    double E = 0.0;
+    for (int i = 0; i < v.size(); i++)
+      E += std::pow(fabs(static_cast<double>(v[i])), static_cast<double>(p));
 
-    for (i=0;i<v.size();i++)
-      E += std::pow(fabs((double)v[i]),(double)p);
-
-    return std::pow(E,1.0/(double)p);
+    return std::pow(E, 1.0 / p);
   }
 
-  /*! Calculate the p-norm of a real matrix
-    p=1: max(svd(m))
-    p=2: max(sum(abs(X)))
+  //! Calculate the frobeniuos norm for s = "fro" (equal to 2-norm)
+  double norm(const cvec &v, const std::string &s);
 
-    Default if no p is given is the 2-norm
-  */
-  double norm(const mat &m, int p=2);
+  //! Calculate the frobeniuos norm for s = "fro" (equal to 2-norm)
+  template<class T>
+  double norm(const Vec<T> &v, const std::string &s)
+  {
+    it_assert(s == "fro", "norm(): Unrecognised norm");
 
-  /*! Calculate the p-norm of a complex matrix
-    p=1: max(svd(m))
-    p=2: max(sum(abs(X)))
+    double E = 0.0;
+    for (int i = 0; i < v.size(); i++)
+      E += sqr(static_cast<double>(v[i]));
 
-    Default if no p is given is the 2-norm
-  */
-  double norm(const cmat &m, int p=2);
+    return std::sqrt(E);
+  }
+
+  /*!
+   * Calculate the p-norm of a real matrix
+   *
+   * p = 1: max(svd(m))
+   * p = 2: max(sum(abs(X)))
+   *
+   * Default if no p is given is the 2-norm
+   */
+  double norm(const mat &m, int p = 2);
+
+  /*! 
+   * Calculate the p-norm of a complex matrix
+   *
+   * p = 1: max(svd(m))
+   * p = 2: max(sum(abs(X)))
+   *
+   * Default if no p is given is the 2-norm
+   */
+  double norm(const cmat &m, int p = 2);
+
+  //! Calculate the frobeniuos norm of a matrix for s = "fro"
+  double norm(const mat &m, const std::string &s);
   
-
-  //! Calculate the Frobenius norm of a real matrix
-  double frob_norm(const mat &m);
-
-  //! Calculate the Frobenius norm of a complex matrix
-  double frob_norm(const cmat &m);
+  //! Calculate the frobeniuos norm of a matrix for s = "fro"
+  double norm(const cmat &m, const std::string &s);
 
 
   //! The variance of the elements in the vector. Normalized with N-1 to be unbiased.

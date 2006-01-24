@@ -1,6 +1,13 @@
+2006-01-24  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/stat.cpp, itpp/base/stat.h: `norm()' functions revised
+	- from now the implementation is similar to the Octave one, i.e.
+	both vector- and matrix-based functions accept "fro" argument to
+	choose the Frobenius norm. `frob_norm()' functions removed.
+
 2006-01-24  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
-	* itpp/itcomm.h: Included llr.h
+	* itpp/itcomm.h: Included <itpp/comm/llr.h>
 
 2006-01-24  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
