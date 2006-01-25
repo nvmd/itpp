@@ -2,7 +2,7 @@
 /* itpp/config.h.in.  Generated from configure.ac by autoheader.  */
 
 /* Define ASSERT_LEVEL as 1 */
-#define ASSERT_LEVEL 1
+/* #undef ASSERT_LEVEL */
 
 /* Define to dummy `main' function (if any) required to link to the Fortran
    libraries. */
@@ -93,7 +93,7 @@
 #define HAVE_UNISTD_H 1
 
 /* Define NDEBUG flag */
-#define NDEBUG 1
+/* #undef NDEBUG */
 
 /* Name of package */
 #define PACKAGE "itpp"
@@ -105,13 +105,13 @@
 #define PACKAGE_NAME "IT++"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "IT++ 3.9.0"
+#define PACKAGE_STRING "IT++ 3.10.0"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "itpp"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "3.9.0"
+#define PACKAGE_VERSION "3.10.0"
 
 /* Define to 1 if the `S_IS*' macros in <sys/stat.h> do not work properly. */
 /* #undef STAT_MACROS_BROKEN */
@@ -123,4 +123,4 @@
 /* #undef TIME_WITH_SYS_TIME */
 
 /* Version number of package */
-#define VERSION "3.9.0"
+#define VERSION "3.10.0"

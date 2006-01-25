@@ -1,3 +1,15 @@
+2006-01-25  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* tests/timer_test.cpp: Minor fixes in the order of logical tests
+	occurence (merged from itpp-3-9-branch)
+
+	* doc/local/index.doc.in, doc/local/itpp_header.html: Cosmetic
+	changes: "Version" -> "Stable Release" (merged from itpp-3-9-branch)
+
+	* configure.ac, itpp/config_msvc.h, itpp/base/itassert.h: Fixed a
+	bug with redefinition of NDEBUG and ASSERT_LEVEL in the
+	<itpp/config.h>	and CXXFLAGS (merged from itpp-3-9-branch)
+
 2006-01-24  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/matfunc_test.cpp, tests/matfunc_test.ref: Fixed	the

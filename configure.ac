@@ -64,12 +64,12 @@ fi
 
 # Provide --with-docdir
 AC_ARG_WITH(docdir,
-	[AS_HELP_STRING([--with-docdir=DIR], [set documentation directory to DIR])],
-	[DOC_DIR="$withval"], [DOC_DIR=""])
+  [AS_HELP_STRING([--with-docdir=DIR], [set documentation directory to DIR])],
+    [DOC_DIR="$withval"], [DOC_DIR=""])
 if test "x$DOC_DIR" != x; then
-	docdir="$DOC_DIR"
+  docdir="$DOC_DIR"
 else
-	docdir="${datadir}/doc/$PACKAGE-$VERSION"
+  docdir="${datadir}/doc/$PACKAGE-$VERSION"
 fi
 AC_SUBST(docdir)
 
@@ -81,11 +81,11 @@ AC_ARG_WITH(march,
 # Set debug/optimised flags
 if test "x$enable_debug" = xyes; then
   AC_DEFINE([ASSERT_LEVEL], [2], [Define ASSERT_LEVEL as 2])
-  CXXFLAGS="-g -DASSERT_LEVEL=2 $CXXFLAGS"
+  CXXFLAGS="-g $CXXFLAGS"
 else
   AC_DEFINE([ASSERT_LEVEL], [1], [Define ASSERT_LEVEL as 1])
   AC_DEFINE([NDEBUG], [1], [Define NDEBUG flag])
-  CXXFLAGS="-O2 -DNDEBUG -DASSERT_LEVEL=1 $CXXFLAGS"
+  CXXFLAGS="-O2 $CXXFLAGS"
 fi
 
 
