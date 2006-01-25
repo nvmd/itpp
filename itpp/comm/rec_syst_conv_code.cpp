@@ -1,7 +1,7 @@
 /*!
  * \file 
  * \brief Implementation of a Recursive Systematic Convolutional codec class
- * \author Pal Frenger
+ * \author Pal Frenger.  QLLR support by Erik G. Larsson.
  *
  * $Date$
  * $Revision$
@@ -272,6 +272,20 @@ namespace itpp {
   void Rec_Syst_Conv_Code::log_decode(const vec &rec_systematic, const mat &rec_parity, 
     const vec &extrinsic_input, vec &extrinsic_output, bool in_terminated, std::string metric)
   {
+    if (metric=="TABLE") {  
+      /* Use the QLLR decoder.  This can probably be done more
+	 efficiently since it converts floating point vectors to QLLR.
+	 However we have to live with this for the time being. */
+      QLLRvec rec_systematic_q  = llrcalc.to_qllr(rec_systematic);
+      QLLRmat rec_parity_q = llrcalc.to_qllr(rec_parity);
+      QLLRvec extrinsic_input_q = llrcalc.to_qllr(extrinsic_input);
+      QLLRvec extrinsic_output_q(length(extrinsic_output));
+      log_decode(rec_systematic_q,rec_parity_q,extrinsic_input_q,
+		 extrinsic_output_q,in_terminated);
+      extrinsic_output = llrcalc.to_double(extrinsic_output_q);
+      return;
+    }
+
     const double INF = 10e300;
     double nom, den, exp_temp0, exp_temp1, rp, temp0, temp1;
     int i, j, s0, s1, k, kk, l, s, s_prim, s_prim0, s_prim1, block_length = rec_systematic.length();
@@ -375,6 +389,17 @@ namespace itpp {
   void Rec_Syst_Conv_Code::log_decode_n2(const vec &rec_systematic, const vec &rec_parity, 
     const vec &extrinsic_input, vec &extrinsic_output, bool in_terminated, std::string metric)
   {
+    if (metric=="TABLE") {  // use the QLLR decoder; also see comment under log_decode()
+      QLLRvec rec_systematic_q  = llrcalc.to_qllr(rec_systematic);
+      QLLRvec rec_parity_q = llrcalc.to_qllr(rec_parity);
+      QLLRvec extrinsic_input_q = llrcalc.to_qllr(extrinsic_input);
+      QLLRvec extrinsic_output_q(length(extrinsic_output));
+      log_decode_n2(rec_systematic_q,rec_parity_q,extrinsic_input_q,
+		    extrinsic_output_q,in_terminated);
+      extrinsic_output = llrcalc.to_double(extrinsic_output_q);
+      return;
+    }
+
     const double INF = 10e300;
     double nom, den, exp_temp0, exp_temp1, rp;
     int k, kk, l, s, s_prim, s_prim0, s_prim1, block_length = rec_systematic.length();
@@ -465,5 +490,206 @@ namespace itpp {
       }    
     }
   }
+
+  // === Below new decoder functions by EGL, using QLLR arithmetics ===========
+
+  void Rec_Syst_Conv_Code::log_decode(const QLLRvec &rec_systematic, const QLLRmat &rec_parity, 
+				      const QLLRvec &extrinsic_input, 
+				      QLLRvec &extrinsic_output, bool in_terminated)
+  {
+    
+    int nom, den, exp_temp0, exp_temp1, rp, temp0, temp1;
+    int i, j, s0, s1, k, kk, l, s, s_prim, s_prim0, s_prim1, block_length = rec_systematic.length();
+    //    ivec p0, p1; 
+
+    alpha_q.set_size(Nstates,block_length+1,false);
+    beta_q.set_size(Nstates,block_length+1,false);
+    gamma_q.set_size(2*Nstates,block_length+1,false);
+    extrinsic_output.set_size(block_length,false);
+    denom_q.set_size(block_length+1,false); for (k=0; k<=block_length; k++) { denom_q(k) = -QLLR_MAX; } 
+
+    if (in_terminated) { terminated = true; }
+
+    //Check that Lc = 1.0
+    it_assert(Lc==1.0,
+	      "Rec_Syst_Conv_Code::log_decode: This function assumes that Lc = 1.0. Please use proper scaling of the input data");
+  
+    //Calculate gamma_q
+    for (k=1; k<=block_length; k++) {
+      kk = k-1;
+      for (s_prim = 0; s_prim<Nstates; s_prim++) {
+	exp_temp0 = 0;
+	exp_temp1 = 0;
+	for (j=0; j<(n-1); j++) {
+	  rp = rec_parity(kk,j);
+	  if (output_parity( s_prim , 2*j+0 )==0) { exp_temp0 += rp; } else { exp_temp0 -= rp; }
+	  if (output_parity( s_prim , 2*j+1 )==0) { exp_temp1 += rp; } else { exp_temp1 -= rp; }
+	}
+	// right shift cannot be used due to implementation dependancy of how sign is handled?
+	gamma_q(2*s_prim+0,k) =   (( extrinsic_input(kk) + rec_systematic(kk) ) + exp_temp0)/2;
+	gamma_q(2*s_prim+1,k) = - (( extrinsic_input(kk) + rec_systematic(kk) ) - exp_temp1)/2;
+      }
+    }
+
+    //Initiate alpha_q
+    for (j=1; j<Nstates; j++) { alpha_q(j,0) = -QLLR_MAX; } 
+    alpha_q(0,0) = 0;
+  
+    //Calculate alpha_q, going forward through the trellis
+    for (k=1; k<=block_length; k++) {
+      for (s = 0; s<Nstates; s++) {
+	s_prim0 = rev_state_trans(s,0);	
+	s_prim1 = rev_state_trans(s,1);
+	temp0 = alpha_q(s_prim0,k-1) + gamma_q(2*s_prim0+0,k);
+	temp1 = alpha_q(s_prim1,k-1) + gamma_q(2*s_prim1+1,k); 
+	//	alpha_q(s,k) = com_log( temp0, temp1 );
+	//	denom_q(k)   = com_log( alpha_q(s,k), denom_q(k) );
+	alpha_q(s,k) = llrcalc.jaclog( temp0, temp1 );
+	denom_q(k)   = llrcalc.jaclog( alpha_q(s,k), denom_q(k) );
+      }
+      //Normalization of alpha_q
+      for (l=0; l<Nstates; l++) { alpha_q(l,k) -= denom_q(k); } 
+    }
+  
+    //Initiate beta_q
+    if (terminated) {
+      for (i=1; i<Nstates; i++) { beta_q(i,block_length) = -QLLR_MAX; } 
+      beta_q(0,block_length) = 0;
+    } else {
+      beta_q.set_col(block_length, alpha_q.get_col(block_length) );
+    }
+  
+    //Calculate beta_q going backward in the trellis
+    for (k=block_length; k>=1; k--) { 
+      for (s_prim=0; s_prim<Nstates; s_prim++) {
+	s0 = state_trans(s_prim,0);
+	s1 = state_trans(s_prim,1);
+	//	beta_q(s_prim,k-1) = com_log( beta_q(s0,k) + gamma_q(2*s_prim+0,k) , beta_q(s1,k) + gamma_q(2*s_prim+1,k) );
+	beta_q(s_prim,k-1) = llrcalc.jaclog( beta_q(s0,k) + gamma_q(2*s_prim+0,k) , beta_q(s1,k) + gamma_q(2*s_prim+1,k) );
+      }
+      //Normalization of beta_q
+      for (l=0; l<Nstates; l++) { beta_q(l,k-1) -= denom_q(k); }
+    }
+
+    //Calculate extrinsic output for each bit
+    for (k=1; k<=block_length; k++) {
+      kk = k-1;
+      nom = -QLLR_MAX;
+      den = -QLLR_MAX;
+      for (s_prim=0; s_prim<Nstates; s_prim++) {
+	s0 = state_trans(s_prim,0);
+	s1 = state_trans(s_prim,1);
+	exp_temp0 = 0;
+	exp_temp1 = 0;
+	for (j=0; j<(n-1); j++) {
+	  rp = rec_parity(kk,j);
+	  if (output_parity( s_prim , 2*j+0 )==0) { exp_temp0 += rp; } else { exp_temp0 -= rp; }
+	  if (output_parity( s_prim , 2*j+1 )==0) { exp_temp1 += rp; } else { exp_temp1 -= rp; }
+	}
+	//	nom = com_log(nom, alpha_q(s_prim,kk) + 0.5*exp_temp0 + beta_q(s0,k) );
+	//	den = com_log(den, alpha_q(s_prim,kk) + 0.5*exp_temp1 + beta_q(s1,k) );
+	nom = llrcalc.jaclog(nom, alpha_q(s_prim,kk) + exp_temp0/2 + beta_q(s0,k) );
+	den = llrcalc.jaclog(den, alpha_q(s_prim,kk) + exp_temp1/2 + beta_q(s1,k) );
+      }
+      extrinsic_output(kk) = nom - den;
+    }
+  
+  }
+
+
+
+  void Rec_Syst_Conv_Code::log_decode_n2(const ivec &rec_systematic, const ivec &rec_parity, 
+					 const ivec &extrinsic_input, 
+					 ivec &extrinsic_output, bool in_terminated)
+  {
+    int nom, den, exp_temp0, exp_temp1, rp;
+    int k, kk, l, s, s_prim, s_prim0, s_prim1, block_length = rec_systematic.length();
+    int ext_info_length = extrinsic_input.length();
+    ivec p0, p1; 
+    int ex, norm;
+
+ 
+    alpha_q.set_size(Nstates,block_length+1,false);
+    beta_q.set_size(Nstates,block_length+1,false);
+    gamma_q.set_size(2*Nstates,block_length+1,false);
+    extrinsic_output.set_size(ext_info_length,false);
+    //denom.set_size(block_length+1,false); for (k=0; k<=block_length; k++) { denom(k) = -INF; } 
+
+    if (in_terminated) { terminated = true; }
+
+    //Check that Lc = 1.0
+    it_assert(Lc==1.0,
+	      "Rec_Syst_Conv_Code::log_decode_n2: This function assumes that Lc = 1.0. Please use proper scaling of the input data");
+  
+    //Initiate alpha
+    for (s=1; s<Nstates; s++) { alpha_q(s,0) = -QLLR_MAX; } 
+    alpha_q(0,0) = 0;
+
+    //Calculate alpha and gamma going forward through the trellis
+    for (k=1; k<=block_length; k++) {
+      kk = k-1;
+      if (kk<ext_info_length) {
+	ex =  ( extrinsic_input(kk) + rec_systematic(kk) )/2;
+      } else {
+	ex =  rec_systematic(kk)/2;
+      }      
+      rp =  rec_parity(kk)/2;
+      for (s = 0; s<Nstates; s++) {
+	s_prim0 = rev_state_trans(s,0);	
+	s_prim1 = rev_state_trans(s,1);
+	if (output_parity( s_prim0 , 0 )) { exp_temp0 = -rp; } else { exp_temp0 = rp; }
+	if (output_parity( s_prim1 , 1 )) { exp_temp1 = -rp; } else { exp_temp1 = rp; }
+	gamma_q(2*s_prim0  ,k) =   ex + exp_temp0;
+	gamma_q(2*s_prim1+1,k) =  -ex + exp_temp1;
+	alpha_q(s,k) = llrcalc.jaclog( alpha_q(s_prim0,kk) + gamma_q(2*s_prim0  ,k),
+			      alpha_q(s_prim1,kk) + gamma_q(2*s_prim1+1,k)  );
+	//denom(k)   = com_log( alpha(s,k), denom(k) );
+      }
+      norm = alpha_q(0,k); //norm = denom(k);
+      for (l=0; l<Nstates; l++) { alpha_q(l,k) -= norm; } 
+    }
+
+    //Initiate beta
+    if (terminated) {
+      for (s=1; s<Nstates; s++) { beta_q(s,block_length) = -QLLR_MAX; } 
+      beta_q(0,block_length) = 0;
+    } else {
+      beta_q.set_col(block_length, alpha_q.get_col(block_length) );
+    }
+  
+    //Calculate beta going backward in the trellis
+    for (k=block_length; k>=1; k--) { 
+      kk = k-1;
+      for (s_prim=0; s_prim<Nstates; s_prim++) {
+	beta_q(s_prim,kk) = llrcalc.jaclog( beta_q(state_trans(s_prim,0),k) + gamma_q(2*s_prim,k), 
+				   beta_q(state_trans(s_prim,1),k) + gamma_q(2*s_prim+1,k) );
+      }
+      norm = beta_q(0,k); //norm = denom(k);
+      for (l=0; l<Nstates; l++) { beta_q(l,k) -= norm; }
+    }
+
+    //Calculate extrinsic output for each bit
+    for (k=1; k<=block_length; k++) {
+      kk = k-1;
+      if (kk<ext_info_length) {
+	nom = -QLLR_MAX;
+	den = -QLLR_MAX;
+	rp =  rec_parity(kk)/2;
+	for (s_prim=0; s_prim<Nstates; s_prim++) {
+	  if (output_parity( s_prim , 0 )) { exp_temp0 = -rp; } else { exp_temp0 = rp; }
+	  if (output_parity( s_prim , 1 )) { exp_temp1 = -rp; } else { exp_temp1 = rp; }
+	  nom = llrcalc.jaclog(nom, alpha_q(s_prim,kk) + exp_temp0 + beta_q(state_trans(s_prim,0),k) );
+	  den = llrcalc.jaclog(den, alpha_q(s_prim,kk) + exp_temp1 + beta_q(state_trans(s_prim,1),k) );
+	} 
+	extrinsic_output(kk) = nom - den;
+      }    
+    }
+  }
+  
+  void Rec_Syst_Conv_Code::set_llrcalc(LLR_calc_unit in_llrcalc) 
+  {    
+    llrcalc = in_llrcalc;
+  } 
+
 
 } // namespace itpp

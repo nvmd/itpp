@@ -1,6 +1,6 @@
 =============================================
            Starting Simulation               
- Bit error rate as a function of itterations 
+ Bit error rate as a function of Eb/N0       
 =============================================
   Block length = 400
   Generator polynomials = [7 5]
@@ -14,7 +14,24 @@ Now simulating EbN0db = 0.5
 Now simulating EbN0db = 1
 Now simulating EbN0db = 1.5
 Now simulating EbN0db = 2
-Average numer of iterations used = [7.62 6.58 4.3 3.6 2.92]
-err = [1542 378 49 9 0]
-cor = [18458 19622 19951 19991 20000]
-ber = [0.0771 0.0189 0.00245 0.00045 0]
+Results: (1st row: logmax, 2nd row: logmap, 3rd row: qllr, default resolution, 4th row: qllr, low resolution
+Bit error rate: 
+ber = [[0.1246 0.0433 0.0064 0.00045 0]
+ [0.06135 0.01495 0.00085 0.0006 0]
+ [0.06095 0.01495 0.0008 0.0006 0]
+ [0.0636 0.0141 0.00035 0.00045 0]]
+Average numer of iterations used: 
+[[7.78 7.02 4.78 3.66 2.84]
+ [7.44 6.12 4.08 3.52 2.86]
+ [7.5 6.12 4.06 3.5 2.86]
+ [7.6 6.22 4.08 3.56 2.92]]
+Number of bit errors counted: 
+err = [[2492 866 128 9 0]
+ [1227 299 17 12 0]
+ [1219 299 16 12 0]
+ [1272 282 7 9 0]]
+Number of correct bits counted: 
+cor = [[17508 19134 19872 19991 20000]
+ [18773 19701 19983 19988 20000]
+ [18781 19701 19984 19988 20000]
+ [18728 19718 19993 19991 20000]]
