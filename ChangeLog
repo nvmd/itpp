@@ -13,6 +13,18 @@
 	
 2006-01-25  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/cholesky_test.cpp, tests/cholesky_test.ref,
+	tests/det_test.cpp, tests/det_test.ref, tests/eigen_test.cpp,
+	tests/eigen_test.ref, tests/inv_test.cpp, tests/lu_test.cpp,
+	tests/lu_test.ref, tests/qr_test.cpp, tests/qr_test.ref,
+	tests/svd_test.cpp, tests/svd_test.ref: Modified test rutines
+	based on LAPACK to make them robust to non-unique results
+	(merged from itpp-3-9-branch)
+	
+	* itpp/base/elmatfunc.h, itpp/base/scalfunc.h, itpp/base/stat.h:
+	Changed the default floating-point precision threshold from 1e-15
+	to 1e-14 (merged from itpp-3-9-branch)
+
 	* tests/timer_test.cpp: Minor fixes in the order of logical tests
 	occurence (merged from itpp-3-9-branch)
 

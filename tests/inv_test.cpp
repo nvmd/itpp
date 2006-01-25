@@ -43,35 +43,35 @@ int main(void)
   cout << "======================================" << endl;
   cout << "    Test of Matrix inversion routines" << endl;
   cout << "======================================" << endl;
+
   {
     cout << "Real matrix" << endl;
 
-    mat X = randn(5,5), Y;
+    mat X = randn(5, 5), Y;
     Y = inv(X);
-    cout << "X = " << X << endl;
-    cout << "inv(X) = " << Y << endl;
+    cout << "X = " << round_to_zero(X) << endl;
+    cout << "inv(X) = " << round_to_zero(Y) << endl;
 
-    X = randn(5,5);
+    X = randn(5, 5);
     Y = inv(X);
-    cout << "X = " << X << endl;
-    cout << "inv(X) = " << Y << endl;
+    cout << "X = " << round_to_zero(X) << endl;
+    cout << "inv(X) = " << round_to_zero(Y) << endl;
   }
   {
     cout << endl << "Complex matrix" << endl;
 
-    cmat X = randn_c(5,5), Y;
+    cmat X = randn_c(5, 5), Y;
     Y = inv(X);
-    cout << "X = " << X << endl;
-    cout << "inv(X) = " << Y << endl;
+    cout << "X = " << round_to_zero(X) << endl;
+    cout << "inv(X) = " << round_to_zero(Y) << endl;
 
-    X = randn_c(5,5);
+    X = randn_c(5, 5);
     Y = inv(X);
-    cout << "X = " << X << endl;
-    cout << "inv(X) = " << Y << endl;
+    cout << "X = " << round_to_zero(X) << endl;
+    cout << "inv(X) = " << round_to_zero(Y) << endl;
   }
 
   return 0;
-
 }
 
 #else
