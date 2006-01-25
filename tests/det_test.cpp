@@ -40,37 +40,36 @@ using namespace std;
 
 int main()
 {
-
   cout << "===================================" << endl;
-  cout << "    Test of Determinant routines" << endl;
+  cout << "    Test of Determinant routines   " << endl;
   cout << "===================================" << endl;
 
   {
     cout << "Real matrix" << endl;
-    mat X = randn(5,5);
+    mat X = randn(5, 5);
     double d;
     d = det(X);
-    cout << "X = " << X << endl;
-    cout << "det(X) = " << d << endl;
+    cout << "X = " << round_to_zero(X) << endl;
+    cout << "det(X) = " << round_to_zero(d) << endl;
 
-    X = randn(5,5);
+    X = randn(5, 5);
     d = det(X);
-    cout << "X = " << X << endl;
-    cout << "det(X) = " << d << endl;
+    cout << "X = " << round_to_zero(X) << endl;
+    cout << "det(X) = " << round_to_zero(d) << endl;
   }
 
   {
     cout << endl << "Complex matrix" << endl;
-    cmat X = randn_c(5,5);
+    cmat X = randn_c(5, 5);
     complex<double> d;
     d = det(X);
-    cout << "X = " << X << endl;
-    cout << "det(X) = " << d << endl;
+    cout << "X = " << round_to_zero(X) << endl;
+    cout << "det(X) = " << round_to_zero(d) << endl;
 
-    X = randn_c(5,5);
+    X = randn_c(5, 5);
     d = det(X);
-    cout << "X = " << X << endl;
-    cout << "det(X) = " << d << endl;
+    cout << "X = " << round_to_zero(X) << endl;
+    cout << "det(X) = " << round_to_zero(d) << endl;
   }
 
   return 0;

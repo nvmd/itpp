@@ -46,150 +46,104 @@ int main()
 
   {
     cout << "QR of Real matrix" << endl;
-    cout << "=================" << endl;
-    mat A = randn(5,5);
     mat Q, R, e;
-
+    mat A = randn(5, 5);
     qr(A, Q, R);
-    e = A-Q*R;
-
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "Q = " << round_to_zero(Q) << endl;
-    cout << "R = " << round_to_zero(R) << endl;
-    cout << "norm(e) = " << round_to_zero(norm(e), 1e-14) << endl << endl;
+    cout << "norm(A - Q*R) = " << round_to_zero(norm(A - Q * R)) << endl 
+	 << endl;
 
     // This does not give same sizes as matlab. Why???!!!!!
-    A = randn(4,2);
+    A = randn(4, 2);
     qr(A, Q, R);
-    e = A-Q*R;
-
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "Q = " << round_to_zero(Q) << endl;
-    cout << "R = " << round_to_zero(R) << endl;
-    cout << "norm(e) = " << round_to_zero(norm(e), 1e-14) << endl << endl;
+    cout << "norm(A - Q*R) = " << round_to_zero(norm(A - Q * R)) << endl 
+	 << endl;
 
-    A = randn(2,4);
+    A = randn(2, 4);
     qr(A, Q, R);
-    e = A-Q*R;
-
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "Q = " << round_to_zero(Q) << endl;
-    cout << "R = " << round_to_zero(R) << endl;
-    cout << "norm(e) = " << round_to_zero(norm(e), 1e-14) << endl << endl;
+    cout << "norm(A - Q*R) = " << round_to_zero(norm(A - Q * R)) << endl 
+	 << endl;
   }
 
   {
     cout << "QR of Real matrix with pivoting" << endl;
-    cout << "===============================" << endl;
-    mat A = randn(5,5);
     mat Q, R, e;
     bmat P;
-
+    mat A = randn(5, 5);
     qr(A, Q, R, P);
-    e = A*to_mat(P)-Q*R;
-
+    e = A*to_mat(P) - Q*R;
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "Q = " << round_to_zero(Q) << endl;
-    cout << "R = " << round_to_zero(R) << endl;
-    cout << "P = " << P << endl << endl;
-    cout << "norm(e) = " << round_to_zero(norm(e), 1e-14) << endl << endl;
+    cout << "norm(A*mat(P) - Q*R) = " << round_to_zero(norm(e)) << endl << endl;
 
     // This does not give same sizes as matlab. Why???!!!!!
-    A = randn(4,2);
+    A = randn(4, 2);
     qr(A, Q, R, P);
-    e = A*to_mat(P)-Q*R;
-
+    e = A*to_mat(P) - Q*R;
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "Q = " << round_to_zero(Q) << endl;
-    cout << "R = " << round_to_zero(R) << endl;
-    cout << "P = " << P << endl << endl;
-    cout << "norm(e) = " << round_to_zero(norm(e), 1e-14) << endl << endl;
+    cout << "norm(A*mat(P) - Q*R) = " << round_to_zero(norm(e)) << endl << endl;
 
-    A = randn(2,4);
+    A = randn(2, 4);
     qr(A, Q, R, P);
-    e = A*to_mat(P)-Q*R;
-
+    e = A*to_mat(P) - Q*R;
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "Q = " << round_to_zero(Q) << endl;
-    cout << "R = " << round_to_zero(R) << endl;
-    cout << "P = " << P << endl << endl;
-    cout << "norm(e) = " << round_to_zero(norm(e), 1e-14) << endl << endl;
+    cout << "norm(A*mat(P) - Q*R) = " << round_to_zero(norm(e)) << endl << endl;
   }
 
   {
     cout << "QR of Complex matrix" << endl;
-    cout << "====================" << endl;
-    cmat A = randn_c(5,5);
+    cmat A = randn_c(5, 5);
     cmat Q, R, e;
 
     qr(A, Q, R);
-    e = A-Q*R;
-
+    e = A - Q*R;
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "Q = " << round_to_zero(Q) << endl;
-    cout << "R = " << round_to_zero(R) << endl;
-    cout << "norm(e) = " << round_to_zero(norm(e), 1e-14) << endl << endl;
+    cout << "norm(A - Q*R) = " << round_to_zero(norm(e)) << endl << endl;
 
     // This does not give same sizes as matlab. Why???!!!!!
-    A = randn_c(4,2);
+    A = randn_c(4, 2);
     qr(A, Q, R);
-    e = A-Q*R;
-
+    e = A - Q*R;
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "Q = " << round_to_zero(Q) << endl;
-    cout << "R = " << round_to_zero(R) << endl;
-    cout << "norm(e) = " << round_to_zero(norm(e), 1e-14) << endl << endl;
+    cout << "norm(A - Q*R) = " << round_to_zero(norm(e)) << endl << endl;
 
-    A = randn_c(2,4);
+    A = randn_c(2, 4);
     qr(A, Q, R);
-    e = A-Q*R;
-
+    e = A - Q*R;
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "Q = " << round_to_zero(Q) << endl;
-    cout << "R = " << round_to_zero(R) << endl;
-    cout << "norm(e) = " << round_to_zero(norm(e), 1e-14) << endl << endl;
+    cout << "norm(A - Q*R) = " << round_to_zero(norm(e)) << endl << endl;
   }
 
   {
     cout << "QR of Complex matrix with pivoting" << endl;
-    cout << "==================================" << endl;
-    cmat A = randn_c(5,5);
+    cmat A = randn_c(5, 5);
     cmat Q, R, e;
     bmat P;
 
     qr(A, Q, R, P);
-    e = A*to_mat(P)-Q*R;
+    e = A*to_mat(P) - Q*R;
 
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "Q = " << round_to_zero(Q) << endl;
-    cout << "R = " << round_to_zero(R) << endl;
-    cout << "P = " << P << endl << endl;
-    cout << "norm(e) = " << round_to_zero(norm(e), 1e-14) << endl << endl;
+    cout << "norm(A*mat(P) - Q*R) = " << round_to_zero(norm(e)) << endl << endl;
 
     // This does not give same sizes as matlab. Why???!!!!!
-    A = randn_c(4,2);
+    A = randn_c(4, 2);
     qr(A, Q, R, P);
-    e = A*to_mat(P)-Q*R;
+    e = A*to_mat(P) - Q*R;
 
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "Q = " << round_to_zero(Q) << endl;
-    cout << "R = " << round_to_zero(R) << endl;
-    cout << "P = " << P << endl << endl;
-    cout << "norm(e) = " << round_to_zero(norm(e), 1e-14) << endl << endl;
+    cout << "norm(A*mat(P) - Q*R) = " << round_to_zero(norm(e)) << endl << endl;
 
-    A = randn_c(2,4);
+    A = randn_c(2, 4);
     qr(A, Q, R, P);
-    e = A*to_mat(P)-Q*R;
+    e = A*to_mat(P) - Q*R;
 
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "Q = " << round_to_zero(Q) << endl;
-    cout << "R = " << round_to_zero(R) << endl;
-    cout << "P = " << P << endl << endl;
-    cout << "norm(e) = " << round_to_zero(norm(e), 1e-14) << endl << endl;
+    cout << "norm(A*mat(P) - Q*R) = " << round_to_zero(norm(e)) << endl << endl;
   }
 
   return 0;
-
 }
 
 #else

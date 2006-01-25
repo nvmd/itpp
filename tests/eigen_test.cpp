@@ -46,64 +46,52 @@ int main(void)
 
   {
     cout << "Real symmetric matrix" << endl;
-    mat A = randn(5,5);
-    A = transpose(A)*A; // make it symmetic
+    mat A = randn(5, 5);
+    A = transpose(A) * A; // make it symmetic
     mat V;
     vec d;
     eig_sym(A, d, V);
 
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "V = " << round_to_zero(V) << endl;
-    cout << "d = " << round_to_zero(d) << endl;
-    cout << "only d = " << round_to_zero(eig_sym(A)) << endl;
     cout << "norm(A*V-V*diag(d)) = " 
-	 << round_to_zero(norm(A * V - V * diag(d)), 1e-14) << endl;
+	 << round_to_zero(norm(A * V - V * diag(d))) << endl;
   }
 
   {
     cout << endl << "Real non-symmetric matrix" << endl;
-    mat A = randn(5,5);
+    mat A = randn(5, 5);
     cmat V;
     cvec d;
     eig(A, d, V);
 
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "V = " << round_to_zero(V) << endl;
-    cout << "d = " << round_to_zero(d) << endl;
-    cout << "only d = " << round_to_zero(eig(A)) << endl;
     cout << "norm(A*V-V*diag(d)) = " 
-	 << round_to_zero(norm(A * V - V * diag(d)), 1e-14) << endl;
+	 << round_to_zero(norm(A * V - V * diag(d))) << endl;
   }
 
   {
     cout << endl << "Complex hermitian matrix" << endl;
-    cmat A = randn_c(5,5);
-    A = transpose(conj(A))*A; // make it hermitian
+    cmat A = randn_c(5, 5);
+    A = transpose(conj(A)) * A; // make it hermitian
     cmat V;
     vec d;
     eig_sym(A, d, V);
 
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "V = " << round_to_zero(V) << endl;
-    cout << "d = " << round_to_zero(d) << endl;
-    cout << "only d = " << round_to_zero(eig_sym(A)) << endl;
     cout << "norm(A*V-V*diag(d)) = " 
-	 << round_to_zero(norm(A * V - V * diag(d)), 1e-14) << endl;
+	 << round_to_zero(norm(A * V - V * diag(d))) << endl;
   }
 
   {
     cout << endl << "Complex non-hermitian matrix" << endl;
-    cmat A = randn_c(5,5);
+    cmat A = randn_c(5, 5);
     cmat V;
     cvec d;
     eig(A, d, V);
 
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "V = " << round_to_zero(V) << endl;
-    cout << "d = " << round_to_zero(d) << endl;
-    cout << "only d = " << round_to_zero(eig(A)) << endl;
     cout << "norm(A*V-V*diag(d)) = " 
-	 << round_to_zero(norm(A * V - V * diag(d)), 1e-14) << endl;
+	 << round_to_zero(norm(A * V - V * diag(d))) << endl;
   }
 
   return 0;

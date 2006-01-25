@@ -50,21 +50,19 @@ int main()
     bool ok = false;
 
     while (!ok) {
-      X = randn(5,5);
-      X = X.T()*X; // create a symmetric matrix
+      X = randn(5, 5);
+      X = transpose(X) * X; // create a symmetric matrix
       // Make diagonal real and positive
-      for (int i=0; i<X.cols(); i++)
-	X(i,i) = std::abs(X(i,i));
+      for (int i = 0; i < X.cols(); i++)
+	X(i, i) = std::abs(X(i, i));
 
       ok = chol(X, F);      
       cout << "X = " << round_to_zero(X) << endl;
       if (!ok)
 	cout << "matrix is not positive definite" << endl;
       else {
-	cout << "F = " << round_to_zero(F) << endl;
-	cout << "X = F^T * F = " << round_to_zero(F.T() * F) << endl;
-	cout << "only F = " << round_to_zero(chol(X)) << endl;
-	cout << "norm(e) = " << round_to_zero(norm(X-F.T()*F)) << endl;
+	cout << "norm(X - F^T*F) = " 
+	     << round_to_zero(norm(X - transpose(F) * F)) << endl;
       }
     }
   }
@@ -75,11 +73,11 @@ int main()
     bool ok = false;
 
     while (!ok) {
-      X = randn_c(5,5);
-      X = X.H()*X; // create a symmetric matrix
+      X = randn_c(5, 5);
+      X = hermitian_transpose(X) * X; // create a symmetric matrix
       // Make diagonal real and positive
-      for (int i=0; i<X.cols(); i++)
-	X(i,i) = std::abs(real(X(i,i)))
+      for (int i = 0; i < X.cols(); i++)
+	X(i, i) = std::abs(real(X(i, i)))
 ;
       ok = chol(X, F);      
       cout << "X = " << round_to_zero(X) << endl;
@@ -87,10 +85,8 @@ int main()
       if (!ok)
 	cout << "matrix is not positive definite" << endl;
       else {
-	cout << "F = " << round_to_zero(F) << endl;
-	cout << "X = F^H * F = " << round_to_zero(F.H() * F) << endl;
-	cout << "only F = " << round_to_zero(chol(X)) << endl;
-	cout << "norm(e) = " << round_to_zero(norm(X-F.H()*F)) << endl;
+	cout << "norm(X - F^H*F) = " 
+	     << round_to_zero(norm(X - hermitian_transpose(F) * F)) << endl;
       }
     }
   }

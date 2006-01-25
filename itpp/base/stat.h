@@ -484,37 +484,37 @@ namespace itpp {
 
 
   //! Return true if the input value \c x is within the tolerance \c tol of the reference value \c xref
-  inline bool within_tolerance(double x, double xref, double tol = 1e-15)
+  inline bool within_tolerance(double x, double xref, double tol = 1e-14)
   {
     return ( fabs(x-xref) <= tol ) ? true : false; 
   }
 
   //! Return true if the input value \c x is within the tolerance \c tol of the reference value \c xref
-  inline bool within_tolerance(std::complex<double> x, std::complex<double> xref, double tol = 1e-15)
+  inline bool within_tolerance(std::complex<double> x, std::complex<double> xref, double tol = 1e-14)
   {
     return ( abs(x-xref) <= tol ) ? true : false; 
   }
 
   //! Return true if the input vector \c x is elementwise within the tolerance \c tol of the reference vector \c xref
-  inline bool within_tolerance(const vec &x, const vec &xref, double tol = 1e-15)
+  inline bool within_tolerance(const vec &x, const vec &xref, double tol = 1e-14)
   {
     return ( max(abs(x-xref)) <= tol ) ? true : false; 
   }
 
   //! Return true if the input vector \c x is elementwise within the tolerance \c tol of the reference vector \c xref
-  inline bool within_tolerance(const cvec &x, const cvec &xref, double tol = 1e-15)
+  inline bool within_tolerance(const cvec &x, const cvec &xref, double tol = 1e-14)
   {
     return ( max(abs(x-xref)) <= tol ) ? true : false; 
   }
 
   //! Return true if the input matrix \c X is elementwise within the tolerance \c tol of the reference matrix \c Xref
-  inline bool within_tolerance(const mat &X, const mat &Xref, double tol = 1e-15)
+  inline bool within_tolerance(const mat &X, const mat &Xref, double tol = 1e-14)
   {
     return ( max(max(abs(X-Xref))) <= tol ) ? true : false; 
   }
 
   //! Return true if the input matrix \c X is elementwise within the tolerance \c tol of the reference matrix \c Xref
-  inline bool within_tolerance(const cmat &X, const cmat &Xref, double tol = 1e-15)
+  inline bool within_tolerance(const cmat &X, const cmat &Xref, double tol = 1e-14)
   {
     return ( max(max(abs(X-Xref))) <= tol ) ? true : false; 
   }
