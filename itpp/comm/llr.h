@@ -109,12 +109,13 @@ namespace itpp {
     //! Constructor, using the default table resolution
     LLR_calc_unit();
 
-    /*! Constructor, using a specific table resolution. See
-      init_llr_tables() for more detail on the parameters.
+    /*! \brief Constructor, using a specific table resolution. 
+
+    See init_llr_tables() for more detail on the parameters.
      */
     LLR_calc_unit(const short int in_Dint1, const short int in_Dint2, const short int in_Dint3);
 
-    /*! Set the quantization and table parameters
+    /*! \brief Set the quantization and table parameters
 
       \param Dint1 Determines the relation between LLR represented as
       real number and as integer.  The relation is \f[ LLR_int =
@@ -146,18 +147,22 @@ namespace itpp {
     //! Convert a matrix of LLR types to a "real" LLR 
     mat to_double(const QLLRmat &l);
 
-    /*! Jacobian logarithm. This function computes log(exp(a)+exp(b)).
+    /*! \brief Jacobian logarithm. 
+
+     This function computes log(exp(a)+exp(b)).
      Note: a version of this function taking "double" values as input
      is deliberately omitted. */
     inline QLLR jaclog(QLLR a, QLLR b);
 
-    /*! Hagenauer's "Boxplus" operator.  This function computes
+    /*! \brief Hagenauer's "Boxplus" operator.  
+
+      This function computes
       sign(a)*sign(b)*min(abs(a),abs(b))+f(abs(a+b))-f(abs(a-b)),
-      where f(x) = log(1+exp(-x))  */
+      where f(x) = log(1+exp(-x))  
+    */
     inline QLLR Boxplus(QLLR, QLLR);
 
-    /*! Compute f(x) = log(1+exp(-x)), where x=QLLR multiplied by
-      1<<Dint1 is integer */
+    /*! \brief Compute f(x) = log(1+exp(-x)) via table-lookup. */
     QLLR logexp(QLLR x);
 
     //! Retrieve the table resolution values
@@ -166,7 +171,7 @@ namespace itpp {
     //! Assignment operator for LLR_calc_unit 
     void operator=(const LLR_calc_unit&);
 
-    //!  Print some properties of the LLR calculation unit in plain text
+    //!  Print some properties of the LLR calculation unit (i.e., the lookup table parameters) in plain text
     friend std::ostream &operator<<(std::ostream &os, const LLR_calc_unit &lcu);
     
   private:
@@ -181,7 +186,7 @@ namespace itpp {
   };
 
   /*! \relates LLR_calc_unit
-    Print some properties of the LLR calculation unit in plain text.
+    \brief Print some properties of the LLR calculation unit in plain text.
   */
   std::ostream &operator<<(std::ostream &os, const LLR_calc_unit &lcu);
 

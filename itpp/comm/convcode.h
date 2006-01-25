@@ -57,10 +57,10 @@ namespace itpp {
     \ingroup fec
     \brief Binary Convolutional rate 1/n class
 
-    The codes are given as feedforward encoders an given in the
-    Proakis form. That is the binary generators (K-tuples) are
+    The codes are given as feedforward encoders and given in the
+    Proakis form. That is, the binary generators (K-tuples) are
     converted to octal integers. Observe that the constraint length
-    (K) is defined as the number of meomory cells plus one (as in
+    (K) is defined as the number of memory cells plus one (as in
     Proakis).
 
     Encoding is performed with the encode function. The default method
@@ -113,7 +113,7 @@ namespace itpp {
 
       The \a type_of_code can be either \a MFD or \a ODS for maximum
       free distance codes (according to Proakis) or Optimum Distance
-      Spectrum Codes accoring to Frenger, Orten and Ottosson.
+      Spectrum Codes according to Frenger, Orten and Ottosson.
     */
     void set_code(const CONVOLUTIONAL_CODE_TYPE type_of_code, int inverse_rate, int constraint_length);
 
@@ -138,7 +138,7 @@ namespace itpp {
     //! Encode a binary vector of inputs starting from state set by the set_state function
     bvec encode_trunc(const bvec &input) { bvec output; encode_trunc(input, output); return output; }
     /*!
-      \brief Encoding that strarts and ends in the zero state
+      \brief Encoding that starts and ends in the zero state
 
       Encode a binary vector of inputs starting from zero state and
       also adds a tail of K-1 zeros to force the encoder into the zero

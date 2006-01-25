@@ -1,3 +1,16 @@
+
+2006-01-25  Erik G. Larsson <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/comm/turbo.h, itpp/comm/turbo.cpp: Added support for
+	table-lookup based decoding (in LLR domain)
+
+	* itpp/comm/rec_syst_conv_code.h, itpp/comm/rec_syst_conv_code.cpp: 
+	Added support for table-lookup based decoding (in LLR domain)
+
+	* tests/turbo_test.cpp: Revised test program for turbo codes
+
+	* itpp/base/gf2mat.h, itpp/comm/llr.h: Documentation updates	
+	
 2006-01-25  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/timer_test.cpp: Minor fixes in the order of logical tests

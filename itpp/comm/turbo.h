@@ -1,7 +1,7 @@
 /*!
  * \file 
  * \brief Definition of a turbo encoder/decoder class
- * \author Pal Frenger
+ * \author Pal Frenger. QLLR support by Erik G. Larsson.
  *
  * $Date$
  * $Revision$
@@ -41,6 +41,7 @@
 #include <itpp/base/matfunc.h>
 #include <itpp/comm/rec_syst_conv_code.h>
 #include <itpp/comm/interleave.h>
+#include <itpp/comm/llr.h>
 
 namespace itpp {
 
@@ -75,7 +76,7 @@ namespace itpp {
       \param constraint_length The constraint length of the two constituent encoders 
       \param interleaver_sequence An ivec defining the internal turbo interleaver. 
       \param in_iterations The number of decoding iterations. Default value is 8.
-      \param in_metric Determines the decoder metric. May equal "MAP", LOGMAP", or "LOGMAX". Default value is "LOGMAX".
+      \param in_metric Determines the decoder metric: "MAP", LOGMAP", "LOGMAX", or "TABLE". The default is "LOGMAX".
       \param in_logmax_scale_factor The extrinsic information from each constituent decoder is to optimistic when 
       LOGMAX decoding is used.
       This parameter allows for a down-scaling of the extrinsic information that will be passed on to the next decoder. 
@@ -83,10 +84,14 @@ namespace itpp {
       is 1.0. This parameter is ignored for other metrics than "LOGMAX".
       \param in_adaptive_stop If this parameter is true, then the iterations will stop if the decoding results after one 
       full iteration equals the previous iteration. Default value is false.
+
+      \param lcalc This parameter can be used to provide a specific \c LLR_calc_unit which defines the resolution in 
+      the table-lookup if decoding with the metric "TABLE" is used.
     */
-    void set_parameters(ivec gen1, ivec gen2, int constraint_length, const ivec &interleaver_sequence, 
-												int in_iterations=8, std::string in_metric="LOGMAX", double in_logmax_scale_factor=1.0, 
-												bool in_adaptive_stop=false);
+    void set_parameters(ivec gen1, ivec gen2, int constraint_length, 
+			const ivec &interleaver_sequence, int in_iterations=8, 
+			std::string in_metric="LOGMAX", double in_logmax_scale_factor=1.0, 
+			bool in_adaptive_stop=false, LLR_calc_unit lcalc=LLR_calc_unit());
 
     /*!
       \brief Set a new internal interleaver sequence for the turbo encoder/decoder
@@ -99,13 +104,17 @@ namespace itpp {
     /*!
       \brief Set the decoder metric
 
-      \param in_metric Determines the decoder metric. May equal "MAP", LOGMAP", or "LOGMAX". Default value is "LOGMAX".
+      \param in_metric Determines the decoder metric: "MAP", LOGMAP", "LOGMAX", or "TABLE". The default is "LOGMAX".
       \param in_logmax_scale_factor The extrinsic information from each constituent decoder is to optimistic when 
       LOGMAX decoding is used.
       This parameter allows for a down-scaling of the extrinsic information that will be passed on to the next decoder. 
       The default value is 1.0. This parameter is ignored for other metrics than "LOGMAX".
+
+      \param lcalc This parameter can be used to provide a specific \c LLR_calc_unit which defines the resolution in 
+      the table-lookup if decoding with the metric "TABLE" is used.
     */
-    void set_metric(std::string in_metric="LOGMAX", double in_logmax_scale_factor=1.0);
+    void set_metric(std::string in_metric="LOGMAX", double in_logmax_scale_factor=1.0,
+		    LLR_calc_unit lcalc=LLR_calc_unit());
 
     /*!
       \brief Sets the number of decoding iterations. Default value is 8.
@@ -251,6 +260,12 @@ namespace itpp {
     virtual void decode_block(const vec &rec_syst1, const vec &rec_syst2, const mat &rec_parity1, const mat &rec_parity2, 
 			      bmat &decoded_bits_i, int &nrof_used_iterations_i, const bvec &true_bits="0");
 
+    //! Get number of coded bits
+    long get_Ncoded() { return Ncoded; }
+    
+    //! Get number of uncoded bits
+    long get_Nuncoded() { return Nuncoded; }
+
   protected:   
 
     /*! 
@@ -274,7 +289,6 @@ namespace itpp {
     Rec_Syst_Conv_Code rscc1, rscc2;
     Sequence_Interleaver<bin> bit_interleaver;
     Sequence_Interleaver<double> float_interleaver;
-
   };
 
   /*!

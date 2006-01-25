@@ -1,7 +1,7 @@
 /*!
  * \file 
  * \brief Definitions of a Recursive Systematic Convolutional codec class
- * \author Pal Frenger
+ * \author Pal Frenger. QLLR support by Erik G. Larsson.
  *
  * $Date$
  * $Revision$
@@ -39,6 +39,7 @@
 #include <itpp/base/specmat.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/comm/convcode.h>
+#include <itpp/comm/llr.h>
 
 namespace itpp {
 
@@ -87,6 +88,11 @@ namespace itpp {
     void set_scaling_factor(double in_Lc);
 
     /*!
+      \brief Set the lookup table for algebra with quantized LLR values (see \c LLR_calc_unit class)
+    */
+    void set_llrcalc(LLR_calc_unit in_llrcalc); 
+
+    /*!
       \brief Encode a binary vector of inputs and also adds a tail of \a K-1 zeros to force the encoder into the zero state.
 
       The encoder remembers that the trellis is terminated in the zero state at the end of the input block. This is then
@@ -128,10 +134,10 @@ namespace itpp {
       \param extrinsic_input For all systematic bits
       \param extrinsic_output For all systematic bits
       \param set_terminated Equal to \a true if the trellis was terminated by the encoder and false otherwise 
-      \param metric May be "LOGMAP" or "LOGMAX" (default)
+      \param metric May be "LOGMAP", "LOGMAX" (default), or "TABLE"
     */
     virtual void log_decode(const vec &rec_systematic, const mat &rec_parity, const vec &extrinsic_input, 
-														vec &extrinsic_output, bool set_terminated = false, std::string metric = "LOGMAX");
+			    vec &extrinsic_output, bool set_terminated = false, std::string metric = "LOGMAX");
 
     /*!
       \brief Special Log-MAP/Log-MAX decoder implementation for \a n = 2
@@ -140,11 +146,53 @@ namespace itpp {
       \param rec_parity Matrix including all parity bits from all polynomials as well as parity bits from the tail (if terminated)
       \param extrinsic_input For all systematic bits
       \param extrinsic_output For all systematic bits
-      \param in_terminated Equal to \a true if the trellis was terminated by the encoder and false otherwise 
-      \param metric May be "LOGMAP" or "LOGMAX" (default)
+      \param set_terminated Equal to \a true if the trellis was terminated by the encoder and false otherwise 
+      \param metric May be "LOGMAP", "LOGMAX" (default), or "TABLE"
     */
     virtual void log_decode_n2(const vec &rec_systematic, const vec &rec_parity, const vec &extrinsic_input, 
 															 vec &extrinsic_output, bool in_terminated = false, std::string metric = "LOGMAX");
+
+    // ===== EGL: ADDED FUNCTIONS NOV 2005 (THESE ARE DERIVATIVES OF EXISTING FUNCTIONS) ======
+
+    /*!  \brief Implementation of the log-map decoder using quantized
+      LLR values (the \c QLLR type) and table-lookup (using the \c
+      LLR_calc_unit class).
+
+      \param rec_systematic Including both systematic bits and tail bits (if any)
+      \param rec_parity Matrix including all parity bits from all polynomials as well 
+      as parity bits from the tail (if terminated)
+      \param extrinsic_input For all systematic bits
+      \param extrinsic_output For all systematic bits
+      \param set_terminated Equal to \a true if the trellis was terminated by the encoder and false otherwise 
+
+      \relates LLR_calc_unit
+    */
+    virtual void log_decode(const QLLRvec &rec_systematic, 
+			    const QLLRmat &rec_parity, 
+			    const QLLRvec &extrinsic_input, 
+			    QLLRvec &extrinsic_output, 
+			    bool set_terminated = false);
+
+    /*!  \brief Implementation of the log-map decoder for the n=2 case
+      using quantized LLR values (the \c QLLR type) and table-lookup
+      (using the \c LLR_calc_unit class).
+
+      \param rec_systematic Including both systematic bits and tail bits (if any)
+      \param rec_parity Matrix including all parity bits from all polynomials as well 
+      as parity bits from the tail (if terminated)
+      \param extrinsic_input For all systematic bits
+      \param extrinsic_output For all systematic bits
+      \param set_terminated Equal to \a true if the trellis was terminated by the encoder and false otherwise 
+
+      \relates LLR_calc_unit
+     */
+    virtual void log_decode_n2(const QLLRvec &rec_systematic, 
+			       const QLLRvec &rec_parity, 
+			       const QLLRvec &extrinsic_input, 
+			       QLLRvec &extrinsic_output, 
+			       bool set_terminated = false);
+
+    // ========================================================
 
   private:
 
@@ -158,8 +206,16 @@ namespace itpp {
     imat state_trans, output_parity, rev_state_trans, rev_output_parity;
     bool terminated;
     mat gamma, alpha, beta;
+    QLLRmat gamma_q, alpha_q, beta_q;
     vec denom;
+    QLLRvec denom_q;
     double ln2;
+
+    /*! 
+      This instance of an \c LLR_calc_unit contains the tables used for table lookup
+      in the table-based map decoder.
+    */
+    LLR_calc_unit llrcalc;  
 
   };
 

@@ -1,7 +1,7 @@
 /*!
  * \file 
  * \brief Turbo encoder/decoder class test program
- * \author Pal Frenger
+ * \author Pal Frenger. Additions by Erik G. Larsson.
  *
  * $Date$
  * $Revision$
@@ -62,16 +62,11 @@ int main()
     vec EbN0 = pow(10.0, 0.1 * EbN0db);
     vec N0 = Eb * pow(EbN0, -1.0);
     vec sigma2 = N0 / 2;
-    vec ber(EbN0db.length()); ber.clear();
-    vec avg_nrof_iterations(EbN0db.length()); avg_nrof_iterations.clear();
     ivec nrof_used_iterations;
     int i;
 
-    vec rec_systematic, rec_parity, rec_parity1, rec_parity2, extrinsic_input, 
-      extrinsic_output, received, symbols;
-    bvec input, parity1, parity2, parity_punct, tail1, output1, output2, 
-      transmitted, uncoded_bits;
-    bvec coded_bits, decoded_bits;
+    vec symbols, received; 
+    bvec input, coded_bits, decoded_bits, transmitted;
 
     Normal_RNG noise_src;
     RNG_reset(12345);
@@ -81,7 +76,7 @@ int main()
 
     cout << "=============================================" << endl;
     cout << "           Starting Simulation               " << endl;
-    cout << " Bit error rate as a function of itterations " << endl;
+    cout << " Bit error rate as a function of Eb/N0       " << endl;
     cout << "=============================================" << endl;
     cout << "  Block length = " << block_length << endl;
     cout << "  Generator polynomials = " << std::oct << gen << std::dec << endl;
@@ -91,8 +86,13 @@ int main()
     cout << "  Turbo encoder rate 1/3 (plus tail bits)" << endl;
     cout << "=============================================" << endl;
 
-    vec err(EbN0db.length());
-    vec cor(EbN0db.length());
+    mat err = zeros(4,EbN0db.length());
+    mat cor = zeros(4,EbN0db.length());
+    mat ber = zeros(4,EbN0db.length()); 
+    mat avg_nrof_iterations = zeros(4,EbN0db.length()); 
+    LLR_calc_unit lowresllrcalc(10,7,9);  // table with low resolution
+    Array<Real_Timer> timer(4);
+    for (int i=0; i<4; i++) { timer(i).reset(); }
 
     for (i = 0; i < EbN0db.length(); i++) {
 	cout << "Now simulating EbN0db = " << EbN0db(i) << endl;
@@ -104,22 +104,74 @@ int main()
 	turbo.encode(input,transmitted);
 	bpsk.modulate_bits(transmitted, symbols);
 	received = symbols + noise_src(transmitted.length());
-	turbo.decode(received, decoded_bits, nrof_used_iterations);
 
+	// -- logmax decoding --
+	turbo.set_metric("LOGMAX",1.0);
+	timer(0).start();
+	turbo.decode(received, decoded_bits, nrof_used_iterations);
+	timer(0).stop();
 	berc.clear();
 	berc.count(input,decoded_bits);
-	err(i) = berc.get_errors();
-	cor(i) = berc.get_corrects();
-	ber(i) = berc.get_errorrate();
-	avg_nrof_iterations(i) = static_cast<double>(sum(nrof_used_iterations)) 
-	  / length(nrof_used_iterations);
+	err(0,i) = berc.get_errors();
+	cor(0,i) = berc.get_corrects();
+	ber(0,i) = berc.get_errorrate();
+	avg_nrof_iterations(0,i) = static_cast<double>(sum(nrof_used_iterations)) / length(nrof_used_iterations);
+
+	// -- logmap decoding --
+	turbo.set_metric("LOGMAP",1.0);
+	timer(1).start();
+	turbo.decode(received, decoded_bits, nrof_used_iterations);
+	timer(1).stop();
+	berc.clear();
+	berc.count(input,decoded_bits);
+	err(1,i) = berc.get_errors();
+	cor(1,i) = berc.get_corrects();
+	ber(1,i) = berc.get_errorrate();
+	avg_nrof_iterations(1,i) = static_cast<double>(sum(nrof_used_iterations)) / length(nrof_used_iterations);
+
+	// -- QLLR decoding, default resolution --
+	turbo.set_metric("TABLE",1.0);
+	timer(2).start();
+	turbo.decode(received, decoded_bits, nrof_used_iterations);
+	timer(2).stop();
+	berc.clear();
+	berc.count(input,decoded_bits);
+	err(2,i) = berc.get_errors();
+	cor(2,i) = berc.get_corrects();
+	ber(2,i) = berc.get_errorrate();
+	avg_nrof_iterations(2,i) = static_cast<double>(sum(nrof_used_iterations)) / length(nrof_used_iterations);
+
+	// -- QLLR decoding, low resolution --
+	turbo.set_metric("TABLE",1.0,lowresllrcalc);
+	timer(3).start();
+	turbo.decode(received, decoded_bits, nrof_used_iterations);
+	timer(3).stop();
+	berc.clear();
+	berc.count(input,decoded_bits);
+	err(3,i) = berc.get_errors();
+	cor(3,i) = berc.get_corrects();
+	ber(3,i) = berc.get_errorrate();
+	avg_nrof_iterations(3,i) = static_cast<double>(sum(nrof_used_iterations)) / length(nrof_used_iterations);
+
     }
 
-    cout << "Average numer of iterations used = " << avg_nrof_iterations 
-	 << endl;
-    cout << "err = " << err << endl;
-    cout << "cor = " << cor << endl;
+    cout << "Results: (1st row: logmax, 2nd row: logmap, 3rd row: qllr, default resolution, 4th row: qllr, low resolution" << endl;
+    cout << "Bit error rate: " << endl;
     cout << "ber = " << ber << endl;
+    cout << "Average numer of iterations used: " << endl;
+    cout << avg_nrof_iterations  << endl;
+    cout << "Number of bit errors counted: " << endl;
+    cout << "err = " << err << endl;
+    cout << "Number of correct bits counted: " << endl;
+    cout << "cor = " << cor << endl;
+    
+    /*  
+    // The test program cannot print this out, but on my system
+    // the QLLR based decoder is about 8 times faster than logmap. -EGL
+      cout << "Timers: ";
+      for (int i=0; i<4; i++) { cout << timer(i).get_time() << "  "; }
+      cout << endl;
+    */
 
     return 0;
 }

@@ -1,7 +1,7 @@
 /*!
  * \file 
  * \brief Implementation of a turbo encoder/decoder class
- * \author Pal Frenger
+ * \author Pal Frenger. QLLR support by Erik G. Larsson.
  *
  * $Date$
  * $Revision$
@@ -31,12 +31,13 @@
  */
 
 #include <itpp/comm/turbo.h>
+#include <itpp/comm/llr.h>
 
 namespace itpp { 
 
-  void Turbo_Codec::set_parameters(ivec gen1, ivec gen2, int constraint_length, const ivec &interleaver_sequence, 
-																	 int in_iterations, std::string in_metric, double in_logmax_scale_factor, 
-																	 bool in_adaptive_stop)
+  void Turbo_Codec::set_parameters(ivec gen1, ivec gen2, int constraint_length, const ivec &interleaver_sequence,
+				   int in_iterations, std::string in_metric, double in_logmax_scale_factor, 
+				   bool in_adaptive_stop,  LLR_calc_unit in_llrcalc)
   {
     //Set the input parameters:
     iterations          = in_iterations;
@@ -52,6 +53,8 @@ namespace itpp {
       metric = "LOGMAP";
     } else if (in_metric=="MAP") {
       metric = "MAP";
+    } else if (in_metric=="TABLE") {
+      metric = "TABLE";
     } else {
       it_error("Turbo_Codec::set_parameters: The decoder metric must be either MAP, LOGMAP or LOGMAX");
     }
@@ -82,6 +85,10 @@ namespace itpp {
     //Default value of the channel reliability scaling factor is 1
     Lc = 1.0;
 
+    // LLR algebra table   
+    rscc1.set_llrcalc(in_llrcalc);
+    rscc2.set_llrcalc(in_llrcalc);
+
   }
 
   void Turbo_Codec::set_interleaver(const ivec &interleaver_sequence)
@@ -99,7 +106,7 @@ namespace itpp {
     float_interleaver.set_interleaver_sequence(interleaver_sequence);
   }
 
-  void Turbo_Codec::set_metric(std::string in_metric, double in_logmax_scale_factor)
+  void Turbo_Codec::set_metric(std::string in_metric, double in_logmax_scale_factor, LLR_calc_unit in_llrcalc)
   {
     logmax_scale_factor = in_logmax_scale_factor;
   
@@ -110,9 +117,14 @@ namespace itpp {
       metric = "LOGMAP";
     } else if (in_metric=="MAP") {
       metric = "MAP";
+    } else if (in_metric=="TABLE") {
+      metric = "TABLE";
     } else {
       it_error("Turbo_Codec::set_metric: The decoder metric must be either MAP, LOGMAP or LOGMAX");
     }
+
+    rscc1.set_llrcalc(in_llrcalc);
+    rscc2.set_llrcalc(in_llrcalc);
   }
 
   void Turbo_Codec::set_iterations(int in_iterations)
@@ -358,7 +370,7 @@ namespace itpp {
       // Decode Code 1
       if (metric=="MAP") {
 	rscc1.map_decode(rec_syst, rec_parity1, Le21, Le12, true);
-      } else if ((metric=="LOGMAX") || (metric=="LOGMAP")) {
+      } else if ((metric=="LOGMAX") || (metric=="LOGMAP") || (metric=="TABLE")) {
 	rscc1.log_decode(rec_syst, rec_parity1, Le21, Le12, true, metric);
 	if (logmax_scale_factor != 1.0) {
 	  Le12 *= logmax_scale_factor;
@@ -374,7 +386,7 @@ namespace itpp {
       // Decode Code 2
       if (metric=="MAP") {
 	rscc2.map_decode(int_rec_syst, rec_parity2, Le12_int, Le21_int, true);
-      } else if ((metric=="LOGMAX") || (metric=="LOGMAP")) {
+      } else if ((metric=="LOGMAX") || (metric=="LOGMAP")  || (metric=="TABLE")) {
 	rscc2.log_decode(int_rec_syst, rec_parity2, Le12_int, Le21_int, true, metric);
 	if (logmax_scale_factor != 1.0) {
 	  Le21_int *= logmax_scale_factor;
