@@ -134,11 +134,14 @@ namespace itpp {
     GF2mat(const GF2mat_sparse &X, ivec &columns);
 
     /*!  
-      Create a dense GF(2) matrix from a single vector. The variable
-      row_or_column indicates whether it should be a row vector (0),
-      or a column vector (1, default)
+      \brief Create a dense GF(2) matrix from a single vector. 
+
+      \param x The input vector
+
+      \param rc A parameter that  indicates whether the result should be a row vector (rc=0),
+      or a column vector (rc=1, default)
     */
-    GF2mat(const bvec &x, bool row_or_column=1);
+    GF2mat(const bvec &x, bool rc=1);
 
     //! Create a dense GF(2) matrix from a bmat
     GF2mat(const bmat &X);
@@ -178,13 +181,19 @@ namespace itpp {
     //! Swap columns i and j
     void swap_cols(int i, int j);
 
-    //! Multiply from left with permutation matrix (permute rows)
-    //! I=0: apply permutation, I=1: apply inverse permutation
+    /*! \brief Multiply from left with permutation matrix (permute rows).
+
+    \param perm Permutation vector
+
+    \param I Parameter that determines permutation.   I=0: apply permutation, I=1: apply inverse permutation
+    */
     void permute_rows(ivec &perm, bool I);
 
-    /*! Multiply a matrix from right with a permutation matrix (i.e.,
-      permute the columns).  I=0: apply permutation, I=1: apply inverse
-      permutation */
+    /*! \brief Multiply a matrix from right with a permutation matrix (i.e.,
+      permute the columns).  
+
+    \param I Parameter that determines permutation.   I=0: apply permutation, I=1: apply inverse permutation
+    */
     void permute_cols(ivec &perm, bool I); 
 
     //! Transpose 
@@ -219,7 +228,9 @@ namespace itpp {
 
     // ---------- Linear algebra --------------
 
-    /*!  Inversion. The matrix must be invertible, otherwise the
+    /*!  \brief Inversion. 
+
+    The matrix must be invertible, otherwise the
       function will terminate with an error.  
     */ 
     GF2mat inverse();
@@ -227,7 +238,9 @@ namespace itpp {
     //! Returns the number of linearly independent rows 
     int row_rank();
 
-    /*! Given X, compute a factorization of the form U=TXP, where U is
+    /*! \brief TXP factorization. 
+
+    Given X, compute a factorization of the form U=TXP, where U is
       upper triangular, T is square and invertible, and P is a
       permutation matrix.  This is basically an "LU"-factorization,
       but not called so here because T is not necessarily lower
@@ -239,7 +252,9 @@ namespace itpp {
     */
     int T_fact(GF2mat &T, GF2mat &U, ivec &P);
   
-    /*! Update upper triangular factor U in the T-factorization (U=TXP)
+    /*! \brief TXP factorization update, when bit is flipped.
+
+      Update upper triangular factor U in the T-factorization (U=TXP)
       when the bit at position (r,c) is changed (0->1 or 1->0). The
       purpose of this function is to avoid re-running a complete
       T-factorization when a single bit is changed. The function
@@ -258,7 +273,9 @@ namespace itpp {
     */
     int T_fact_update_bitflip(GF2mat &T, GF2mat &U, ivec &P, int rank, int r, int c);
 
-    /*! Update upper triangular factor U in the T-factorization (U=TXP)
+    /*!  \brief TXP factorization update, when column is added
+
+    Update upper triangular factor U in the T-factorization (U=TXP)
       when a column (newcol) is appended at the right side of the
       matrix.  The purpose of this function is to avoid re-running a
       complete T-factorization when a column is added. The function
@@ -293,8 +310,10 @@ namespace itpp {
     //! Multiplication operator with binary vector
     friend bvec operator*(const GF2mat &X, const bvec &y);
 
-    /*! Addition operator (subtraction is not implemented because it is
-      equivalent to addition) */
+    /*! \brief Addition operator 
+
+    Subtraction is not implemented because it is
+      equivalent to addition. */
     friend GF2mat operator+(const GF2mat &X, const GF2mat &Y);
 
     //! Output stream operator (plain text)
