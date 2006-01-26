@@ -39,12 +39,11 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
-#include <cstring>
-#include <iostream>
 #include <itpp/itconfig.h>
 #include <itpp/base/itassert.h>
 #include <itpp/base/factory.h>
 #include <itpp/base/copy_vector.h>
+
 
 namespace itpp {
 

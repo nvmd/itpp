@@ -32,6 +32,7 @@
 
 #include <itpp/comm/rec_syst_conv_code.h>
 
+
 namespace itpp { 
 
   //! Pointer to logarithmic branch metric function

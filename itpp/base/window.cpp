@@ -31,9 +31,7 @@
  */
 
 #include <itpp/base/window.h>
-//#include <itpp/base/elmatfunc.h>
-//#include <itpp/base/matfunc.h>
-//#include <itpp/base/binary.h>
+
 
 namespace itpp { 
 

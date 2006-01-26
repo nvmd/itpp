@@ -31,6 +31,9 @@
  */
 
 #include <itpp/base/gf2mat.h>
+#include <itpp/base/specmat.h>
+#include <itpp/base/matfunc.h>
+#include <iostream>
 
 namespace itpp {
 

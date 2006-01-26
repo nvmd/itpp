@@ -30,14 +30,22 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/config.h>
-#include <itpp/base/matfunc.h>
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
+
+#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#  include <itpp/base/lapack.h>
+#endif
+
+#include <itpp/base/schur.h>
+
 
 namespace itpp { 
 
 #if defined(HAVE_LAPACK) || defined(HAVE_MKL)
-
-#include <itpp/base/lapack.h>
 
   bool schur(const mat &A, mat &U, mat &T) {
     it_assert1(A.rows() == A.cols(), "schur(): Matrix is not square");
@@ -120,4 +128,4 @@ namespace itpp {
     return T;
   }
 
-} //namespace itpp
+} // namespace itpp

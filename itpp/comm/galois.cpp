@@ -33,7 +33,8 @@
 #include <itpp/comm/galois.h>
 #include <iostream>
 
-namespace itpp { 
+
+namespace itpp {
 
   Array<Array<int> > GF::alphapow;
   Array<Array<int> > GF::logalpha;

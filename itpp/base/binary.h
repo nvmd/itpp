@@ -33,9 +33,8 @@
 #ifndef BINARY_H
 #define BINARY_H
 
-#include <iostream>
-#include <cassert>
 #include <itpp/base/itassert.h>
+
 
 namespace itpp {
 

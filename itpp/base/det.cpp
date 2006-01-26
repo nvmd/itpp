@@ -30,9 +30,9 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/base/vec.h>
-#include <itpp/base/itassert.h>
+#include <itpp/base/det.h>
 #include <itpp/base/lu.h>
+
 
 namespace itpp {
 
@@ -59,7 +59,7 @@ namespace itpp {
       temp*=U(i,i);
     }
 
-    // Calculate det(P´). Equal to (-1)^(no row changes)
+    // Calculate det(P'). Equal to (-1)^(no row changes)
     for (i=0; i<p.size(); i++)
       if (i != p(i))
 	s *=-1.0;
@@ -92,7 +92,7 @@ namespace itpp {
       temp*=U(i,i);
     }
 
-    // Calculate det(P´). Equal to (-1)^(no row changes)
+    // Calculate det(P'). Equal to (-1)^(no row changes)
     for (i=0; i<p.size(); i++)
       if (i != p(i))
 	s *=-1.0;

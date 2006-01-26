@@ -33,10 +33,11 @@
 #ifndef PUNCT_CONVCODE_H
 #define PUNCT_CONVCODE_H
 
-#include <itpp/comm/convcode.h>
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/array.h>
+#include <itpp/comm/convcode.h>
+
 
 namespace itpp {
 

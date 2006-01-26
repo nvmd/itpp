@@ -35,6 +35,7 @@
 
 #include <itpp/fixedpoint/fix.h>
 
+
 namespace itpp {
 
   //! \addtogroup fixtypes

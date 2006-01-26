@@ -30,9 +30,9 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/base/itassert.h>
 #include <itpp/srccode/pnm.h>
 #include <fstream>
+
 
 using std::istream;
 using std::ostream;

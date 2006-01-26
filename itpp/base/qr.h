@@ -33,8 +33,8 @@
 #ifndef QR_H
 #define QR_H
 
-#include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
+
 
 namespace itpp {
 

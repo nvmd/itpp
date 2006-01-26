@@ -36,15 +36,16 @@
 #  include <itpp/config_msvc.h>
 #endif
 
+#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#  include <itpp/base/lapack.h>
+#endif
+
 #include <itpp/base/inv.h>
-#include <itpp/base/vec.h>
-#include <itpp/base/itassert.h>
+
 
 namespace itpp { 
 
 #if defined(HAVE_LAPACK) || defined(HAVE_MKL)
-
-#include <itpp/base/lapack.h>
 
   bool inv(const mat &X, mat &Y)
   {

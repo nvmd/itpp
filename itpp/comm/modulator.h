@@ -33,9 +33,9 @@
 #ifndef MODULATOR_H
 #define MODULATOR_H
 
-#include <iostream>
 #include <itpp/base/vec.h>
 #include <itpp/base/specmat.h>
+
 
 namespace itpp {
 

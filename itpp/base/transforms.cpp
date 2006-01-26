@@ -40,17 +40,16 @@
 #  include <itpp/config_msvc.h>
 #endif
 
-#include <iostream>
-#include <cmath>
-#include <itpp/base/matfunc.h>
-#include <itpp/base/transforms.h>
-#include <itpp/base/elmatfunc.h>
-
 #if defined(HAVE_MKL)
 #  include <mkl_dfti.h>
 #elif defined(HAVE_FFTW)
 #  include <itpp/base/fftw3.h>
 #endif
+
+#include <itpp/base/matfunc.h>
+#include <itpp/base/transforms.h>
+#include <itpp/base/elmatfunc.h>
+
 
 namespace itpp { 
 
@@ -155,7 +154,7 @@ namespace itpp {
 
   void idct(const vec &in, vec &out)
   {
-    std::cerr << "Error: idct(): Not implemented yet" << std::endl;
+    it_error("idct(): Not implemented yet");
   }
 
   // y=real(fft([x fliplr(x)]).*exp(-j*pi/length(x)/2*[0:(length(x)*2-1)])/sqrt(length(x)*2));y(1)=y(1)/sqrt(2);y=y(1:length(x))

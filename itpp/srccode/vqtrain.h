@@ -33,8 +33,10 @@
 #ifndef VQTRAIN_H
 #define VQTRAIN_H
 
+#include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/array.h>
+
 
 namespace itpp {
 

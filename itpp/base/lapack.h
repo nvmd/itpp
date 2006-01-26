@@ -39,13 +39,17 @@
 #  include <itpp/config_msvc.h>
 #endif
 
+#include <complex>
+
+
 #if defined(HAVE_LAPACK) || defined(HAVE_MKL)
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
 extern "C" {
 
-// Fix for MKL Windows version so that naming is consistent with the 5.x and 7.x MKL LAPACK libraries
+// Fix for MKL Windows version so that naming is consistent with the 5.x and 
+// 7.x MKL LAPACK libraries
 #ifdef HAVE_MKL
 
 #define dgetrf_ dgetrf

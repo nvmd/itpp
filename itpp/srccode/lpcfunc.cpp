@@ -32,11 +32,10 @@
  */
 
 #include <itpp/srccode/lpcfunc.h>
-#include <itpp/base/scalfunc.h>
 #include <itpp/base/stat.h>
-#include <itpp/base/matfunc.h>
-#include <itpp/base/elmatfunc.h>
 #include <itpp/base/sigfun.h>
+#include <iostream>
+
 
 using std::cout;
 using std::endl;
@@ -410,19 +409,19 @@ namespace itpp {
 
   vec poly2cepstrum(const vec &a, int num)
   {
-    it_error_if(num<length(a),"a2cepstrum : not allowed cepstrum length");
+    it_error_if(num<a.length(),"a2cepstrum : not allowed cepstrum length");
     vec	c(num);
     int	n;
     
-    for (n=1;n<length(a);n++) {
+    for (n=1;n<a.length();n++) {
       c[n-1]=a[n];
       for (int k=1;k<n;k++) {
 	c[n-1]-=double(k)/n*a[n-k]*c[k-1];
       }
     }
-    for (n=a.length();n<=length(c);n++) {
+    for (n=a.length();n<=c.length();n++) {
       c[n-1]=0;
-      for (int k=n-length(a)+1;k<n;k++) {
+      for (int k=n-a.length()+1;k<n;k++) {
 	c[n-1]-=double(k)/n*a[n-k]*c[k-1];
       }
     }
@@ -431,10 +430,10 @@ namespace itpp {
 
   vec cepstrum2poly(const vec &c)
   {
-    vec	a(length(c)+1);
+    vec	a(c.length()+1);
     
     a[0]=1;
-    for (int n=1;n<=length(c);n++) {
+    for (int n=1;n<=c.length();n++) {
       a[n]=c[n-1];
       for (int k=1;k<n;k++) {
 	a[n]+=double(k)/n*a[n-k]*c[k-1];

@@ -36,15 +36,11 @@
 #ifndef TCP_H
 #define TCP_H
 
-#include <iostream>
-
-#include <itpp/base/itassert.h>
 #include <itpp/base/vec.h>
 #include <itpp/base/converters.h>
-
-#include <itpp/protocol/events.h>
-#include <itpp/protocol/signals_slots.h>
 #include <itpp/protocol/packet.h>
+#include <itpp/protocol/events.h>
+
 
 namespace itpp {
 

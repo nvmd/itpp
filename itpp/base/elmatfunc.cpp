@@ -32,6 +32,7 @@
 
 #include <itpp/base/elmatfunc.h>
 
+
 namespace itpp { 
 
   vec sqr(const cvec &x)

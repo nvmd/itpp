@@ -35,9 +35,10 @@
 
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
-#include <itpp/base/binary.h>
 #include <itpp/base/array.h>
+#include <itpp/base/binary.h>
 #include <itpp/comm/channel_code.h>
+
 
 namespace itpp {
 
@@ -94,7 +95,7 @@ namespace itpp {
     details see T. Ottosson, "Coding, Modulation and Multiuser
     Decoding for DS-CDMA Systems," Ph.d. thesis, Department of
     Information Theory, Scool of Electrical and Computer Engineering,
-    Chalmers University of Technology, Göteborg 1997.
+    Chalmers University of Technology, Goteborg 1997.
 
     It is also possible to set the generatorpolynomials directly using
     the builtin tables which consists of: Maximum Free Distance (MFD)

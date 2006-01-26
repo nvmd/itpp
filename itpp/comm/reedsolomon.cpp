@@ -30,8 +30,8 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/base/binary.h>
 #include <itpp/comm/reedsolomon.h>
+
 
 namespace itpp { 
 

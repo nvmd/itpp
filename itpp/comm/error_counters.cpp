@@ -31,11 +31,12 @@
  * -------------------------------------------------------------------------
  */
 
-#include <iomanip>
-#include <itpp/itconfig.h>
-#include <itpp/base/binary.h>
-#include <itpp/base/matfunc.h>
 #include <itpp/comm/error_counters.h>
+#include <itpp/base/matfunc.h>
+#include <itpp/base/converters.h>
+#include <iostream>
+#include <iomanip>
+
 
 namespace itpp { 
 

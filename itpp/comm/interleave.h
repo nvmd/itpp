@@ -33,11 +33,11 @@
 #ifndef INTERLEAVE_H
 #define INTERLEAVE_H
 
-#include <itpp/base/binary.h>
-#include <itpp/base/matfunc.h>
-#include <itpp/base/random.h>
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
+#include <itpp/base/random.h>
+#include <itpp/base/sort.h>
+
 
 namespace itpp {
 

@@ -31,9 +31,11 @@
  */
 
 #include <itpp/comm/commfunc.h>
+#include <itpp/base/converters.h>
 #include <itpp/base/specmat.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/base/binary.h>
+
 
 namespace itpp { 
 

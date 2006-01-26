@@ -32,8 +32,8 @@
 
 #include <itpp/base/smat.h>
 
+
 namespace itpp {
- 
 
   /*--------------------------------------------------------------
    * Explicit initializations

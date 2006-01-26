@@ -33,7 +33,6 @@
 #ifndef MACHDEP_H
 #define MACHDEP_H
 
-#include <itpp/itconfig.h>
 
 namespace itpp {
 

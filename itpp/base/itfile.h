@@ -33,13 +33,11 @@
 #ifndef ITFILE_H
 #define ITFILE_H
 
-#include <fstream>
-#include <itpp/base/binary.h>
-#include <itpp/base/mat.h>
 #include <itpp/base/vec.h>
 #include <itpp/base/array.h>
 #include <itpp/base/binfile.h>
 #include <itpp/base/machdep.h>
+
 
 namespace itpp {
 

@@ -39,11 +39,9 @@
 #ifndef CIRCULAR_BUFFER_H
 #define CIRCULAR_BUFFER_H
 
-#include <itpp/itconfig.h>
-#include <itpp/base/itassert.h>
 #include <itpp/base/vec.h>
 #include <itpp/base/array.h>
-#include <iostream>
+
 
 namespace itpp {
 

@@ -30,10 +30,11 @@
  * -------------------------------------------------------------------------
  */
 
-#include <limits>
 #include <itpp/base/matfunc.h>
 #include <itpp/base/schur.h>
-#include <itpp/base/stat.h>
+#include <itpp/base/converters.h>
+#include <limits>
+
 
 namespace itpp {
 

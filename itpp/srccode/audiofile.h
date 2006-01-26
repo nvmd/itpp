@@ -33,9 +33,9 @@
 #ifndef AUDIOFILE_H
 #define AUDIOFILE_H
 
-#include <itpp/itconfig.h>
 #include <itpp/base/vec.h>
 #include <fstream>
+
 
 namespace itpp {
 

@@ -31,16 +31,13 @@
  */
 
 #include <itpp/base/filter_design.h>
-
 #include <itpp/base/poly.h>
 #include <itpp/base/elmatfunc.h>
 #include <itpp/base/transforms.h>
 #include <itpp/base/ls_solve.h>
+#include <itpp/base/matfunc.h>
 #include <itpp/base/specmat.h>
 #include <itpp/base/filter.h>
-#include <itpp/base/stat.h>
-#include <itpp/base/sigfun.h>
-#include <itpp/srccode/lpcfunc.h>
 
 
 namespace itpp {

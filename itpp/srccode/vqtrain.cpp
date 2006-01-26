@@ -32,10 +32,12 @@
 
 #include <itpp/srccode/vqtrain.h>
 #include <itpp/base/random.h>
-#include <itpp/base/timing.h>
-#include <itpp/base/elmatfunc.h>
+#include <itpp/base/sort.h>
+#include <itpp/base/specmat.h>
 #include <itpp/base/stat.h>
 #include <itpp/base/matfunc.h>
+#include <iostream>
+
 
 namespace itpp {
 
@@ -219,7 +221,7 @@ mat vqtrain(Array<vec> &DB, int SIZE, int NOITER, double STARTSTEP, bool VERBOSE
     dist(MinIndex)+=MinS;
     num(MinIndex)+=1;
   }
-  dist=10*log10(dist*length(dist)/sum(dist));
+  dist=10*log10(dist*dist.length()/sum(dist));
   if (VERBOSE) std::cout << std::endl << "Distortion contribution: " << dist << std::endl ;
   if (VERBOSE) std::cout << "Num spread: " << num/DB.length()*100 << " %" << std::endl << std::endl ;
   if (min(dist)<-30) {

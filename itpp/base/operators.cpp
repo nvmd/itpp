@@ -32,7 +32,7 @@
  */
 
 #include <itpp/base/operators.h>
-#include <itpp/base/binary.h>
+
 
 namespace itpp {
 

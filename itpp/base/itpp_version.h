@@ -34,16 +34,15 @@
 #define ITPP_VERSION_H
 
 #include <string>
-#include <itpp/itconfig.h>
+
 
 namespace itpp {
 
-/*!
-  \brief IT++ version function
-  
-  Returns the version number of IT++. E.g. "3.7.1". If your IT++ distribution
-  is checked out from CVS "CVS version" is returned.
-*/
+  /*!
+   * \brief Return IT++ version
+   *
+   * Returns the version number of the IT++ library, e.g. "3.7.1".
+   */
   std::string itpp_version(void);
 
 } //namespace itpp

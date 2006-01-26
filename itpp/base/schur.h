@@ -33,8 +33,8 @@
 #ifndef SCHUR_H
 #define SCHUR_H
 
-#include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
+
 
 namespace itpp {
 

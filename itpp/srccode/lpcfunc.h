@@ -50,6 +50,7 @@
 
 #include <itpp/base/vec.h>
 
+
 namespace itpp {
 
   /*! \addtogroup lpc

@@ -31,10 +31,7 @@
  */
 
 #include <itpp/base/stat.h>
-#include <itpp/base/itassert.h>
 #include <itpp/base/svd.h>
-#include <itpp/base/elmatfunc.h>
-#include <itpp/base/matfunc.h>
 
 
 namespace itpp {

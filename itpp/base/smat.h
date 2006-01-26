@@ -33,10 +33,8 @@
 #ifndef SMAT_H
 #define SMAT_H
 
-#include <itpp/itconfig.h>
 #include <itpp/base/svec.h>
-#include <itpp/base/vec.h>
-#include <itpp/base/mat.h>
+
 
 namespace itpp {
 

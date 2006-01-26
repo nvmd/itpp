@@ -31,14 +31,11 @@
  */
 
 #include <itpp/base/poly.h>
-
+#include <itpp/base/converters.h>
 #include <itpp/base/eigen.h>
 #include <itpp/base/specmat.h>
 #include <itpp/base/matfunc.h>
 
-#include <iostream>
-using std::cout;
-using std::endl;
 
 namespace itpp {
 

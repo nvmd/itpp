@@ -36,9 +36,9 @@
 #include <cmath>
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
-#include <itpp/base/scalfunc.h>
 #include <itpp/base/elmatfunc.h>
 #include <itpp/base/matfunc.h>
+
 
 namespace itpp {
 

@@ -36,15 +36,16 @@
 #  include <itpp/config_msvc.h>
 #endif
 
+#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#  include <itpp/base/lapack.h>
+#endif
+
 #include <itpp/base/svd.h>
-#include <itpp/base/matfunc.h>
-#include <itpp/base/elmatfunc.h>
+
 
 namespace itpp { 
 
 #if defined(HAVE_LAPACK) || defined(HAVE_MKL)
-
-#include <itpp/base/lapack.h>
 
   bool svd(const mat &A, vec &S)
   {

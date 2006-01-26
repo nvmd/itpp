@@ -31,8 +31,7 @@
  */
 
 #include <itpp/comm/punct_convcode.h>
-#include <itpp/base/binary.h>
-#include <itpp/base/matfunc.h>
+
 
 namespace itpp { 
 
@@ -463,7 +462,7 @@ namespace itpp {
 	if (W1 > 0) { goto node0; }
 	if ((W0 == 0) && (S0 == start) && (((pos + t + 1) % Period) == pos)) { return true; }
 	if ((W0 == 0) && (S0 == 0) && (S != 0)) { return true; }
-	if ((S0 != 0) && (W0 == 0)) { //Stacka undan S0
+	if ((S0 != 0) && (W0 == 0)) {
 	  stack_pos++;
 	  if (stack_pos >= max_stack_size) {
 	    max_stack_size = 2 * max_stack_size;
@@ -474,7 +473,7 @@ namespace itpp {
 	  t_stack(stack_pos) = t + 1;
 	}
 	if ((W1 == 0) && (S1 == start) && (((pos+t+1)%Period) == pos)) { return true; }
-	S = S1; //Fortsätt med S1
+	S = S1;
 	t++;
 	goto node1;
 
@@ -482,7 +481,7 @@ namespace itpp {
 	if (W0 > 0) goto stack;
 	if ((W0 == 0) && (S0 == start) && (((pos + t + 1) % Period) == pos)) { return true; }
 	if ((W0 == 0) && (S0 == 0) && (S != 0)) { return true; }
-	if (S0 != 0) {//Fortsätt med S0 om S0!=0
+	if (S0 != 0) {
 	  S = S0;
 	  t++;
 	  goto node1;

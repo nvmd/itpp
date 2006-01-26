@@ -30,30 +30,24 @@
  * -------------------------------------------------------------------------
  */
 
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
+
 #include <itpp/base/itpp_version.h>
+
 
 namespace itpp { 
 
   std::string itpp_version(void)
   {
-    std::string release_tag = "$Name$";
-    std::string out;
-    int pos;
-  
-    if (release_tag == "$Name$")
-      return "CVS version";
-    
-    pos = release_tag.find_first_of("-");
-    out = release_tag.substr(pos+1, release_tag.size());
-  
-    // Replace all remaining "-" with "."
-    pos = out.find("-");
-    while (pos != -1) {
-			out.replace(pos, 1, ".");
-			pos = out.find("-");
-		}
-		
-    return out;
+#ifdef PACKAGE_VERSION
+    return std::string(PACKAGE_VERSION);
+#else
+    return std::string("Warning: Version unknown!");
+#endif
   }
 
 } //namespace itpp

@@ -33,16 +33,9 @@
 #ifndef VQ_H
 #define VQ_H
 
-#include <string>
-#include <itpp/itconfig.h>
-#include <itpp/base/itassert.h>
-#include <iostream>
 #include <itpp/base/vec.h>
-#include <itpp/base/mat.h>
-#include <itpp/base/elmatfunc.h>
-#include <itpp/base/array.h>
 #include <itpp/base/sort.h>
-#include <cstring>
+
 
 namespace itpp {
 

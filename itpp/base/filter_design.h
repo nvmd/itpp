@@ -33,16 +33,8 @@
 #ifndef FILTER_DESIGN_H
 #define FILTER_DESIGN_H
 
-#include <complex>
-#include <cstdlib>
-#include <iostream>
-#include <algorithm>
-
-#include <itpp/itconfig.h>
 #include <itpp/base/vec.h>
-#include <itpp/base/matfunc.h>
-#include <itpp/base/specmat.h>
-#include <itpp/base/itassert.h>
+
 
 namespace itpp {
 

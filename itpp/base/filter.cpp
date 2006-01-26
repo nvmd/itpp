@@ -32,6 +32,8 @@
 
 #include <itpp/base/filter.h>
 #include <itpp/base/window.h>
+#include <itpp/base/matfunc.h>
+
 
 namespace itpp {
 

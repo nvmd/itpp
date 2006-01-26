@@ -31,9 +31,11 @@
  */
 
 #include <itpp/srccode/vq.h>
+#include <itpp/base/array.h>
 #include <itpp/base/matfunc.h>
 #include <fstream>
-#include <string>
+#include <iostream>
+
 
 using std::ifstream;
 using std::ofstream;

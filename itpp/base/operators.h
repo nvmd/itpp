@@ -36,8 +36,8 @@
 
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
-#include <itpp/base/scalfunc.h>
 #include <itpp/base/converters.h>
+
 
 namespace itpp {
 

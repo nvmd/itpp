@@ -39,12 +39,13 @@
 #  include <itpp/config_msvc.h>
 #endif
 
-#include <itpp/itconfig.h>
-#include <itpp/base/binary.h>
-
 #if defined (HAVE_CBLAS) || defined(HAVE_MKL)
 #  include <itpp/base/cblas.h>
 #endif
+
+#include <itpp/base/binary.h>
+#include <complex>
+
 
 namespace itpp {
 

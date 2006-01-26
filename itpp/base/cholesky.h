@@ -33,8 +33,8 @@
 #ifndef CHOLESKY_H
 #define CHOLESKY_H
 
-#include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
+
 
 namespace itpp {
 

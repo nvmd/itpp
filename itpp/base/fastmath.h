@@ -34,11 +34,9 @@
 #ifndef FASTMATH_H
 #define FASTMATH_H
 
-#include <itpp/base/binary.h> // inclusion of this include made it possible 
-                              // to compile in M$VC; WHY??
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
-#include <itpp/base/scalfunc.h>
+
 
 namespace itpp {
 

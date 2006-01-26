@@ -66,7 +66,6 @@
 #ifndef FASTICA_H
 #define FASTICA_H
 
-#include <itpp/base/matfunc.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/vec.h>
 
