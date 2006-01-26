@@ -34,11 +34,9 @@
 #ifndef FIX_OPERATORS_H
 #define FIX_OPERATORS_H
 
-#include <itpp/fixedpoint/fix.h>
 #include <itpp/fixedpoint/cfix.h>
-#include <itpp/base/vec.h>
-#include <itpp/base/mat.h>
 #include <itpp/fixedpoint/fix_functions.h>
+
 
 namespace itpp {
 

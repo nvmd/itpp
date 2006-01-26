@@ -39,11 +39,9 @@
 #  include <sys/stat.h>
 #endif
 
-#include <fstream>
-#include <string>
-
 #include <itpp/base/binfile.h>
 #include <itpp/base/machdep.h>
+
 
 using std::string;
 using std::ofstream;

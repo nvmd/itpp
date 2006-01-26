@@ -33,15 +33,8 @@
 #ifndef GMM_H
 #define GMM_H
 
-#include <string>
-#include <itpp/itconfig.h>
-#include <itpp/base/itassert.h>
-#include <iostream>
-#include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
-#include <itpp/base/elmatfunc.h>
-#include <itpp/base/array.h>
-#include <cstring>
+
 
 namespace itpp {
 

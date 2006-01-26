@@ -36,6 +36,7 @@
 #  include <itpp/base/cblas.h>
 #endif
 
+
 namespace itpp {
 
   template<>

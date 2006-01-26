@@ -36,14 +36,16 @@
 #  include <itpp/config_msvc.h>
 #endif
 
-#include <itpp/itconfig.h>
+#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#  include <itpp/base/lapack.h>
+#endif
+
 #include <itpp/base/cholesky.h>
+
 
 namespace itpp { 
 
 #if defined(HAVE_LAPACK) || defined(HAVE_MKL)
-
-#include <itpp/base/lapack.h>
 
   bool chol(const mat &X, mat &F)
   {

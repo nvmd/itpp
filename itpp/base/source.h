@@ -33,11 +33,8 @@
 #ifndef SOURCE_H
 #define SOURCE_H
 
-#include <cstdlib>
-#include <itpp/base/binary.h>
 #include <itpp/base/vec.h>
-#include <itpp/base/mat.h>
-#include <itpp/base/scalfunc.h>
+
 
 namespace itpp {
 

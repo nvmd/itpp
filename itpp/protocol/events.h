@@ -33,12 +33,10 @@
 #ifndef EVENTS_H
 #define EVENTS_H
 
-#include <list>
+#include <itpp/base/itassert.h>
 #include <queue>
 #include <deque>
-#include <string>
-#include <iostream>
-#include <itpp/base/itassert.h>
+
 
 namespace itpp {
   //typedef long double Ttype; // 128-bit floating point time.

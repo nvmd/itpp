@@ -34,7 +34,7 @@
 #define SORT_H
 
 #include <itpp/base/vec.h>
-#include <itpp/base/itassert.h>
+
 
 namespace itpp {
 

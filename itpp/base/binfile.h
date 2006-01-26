@@ -32,10 +32,9 @@
 #ifndef BINFILE_H
 #define BINFILE_H
 
-#include <itpp/itconfig.h>
 #include <itpp/base/binary.h>
-#include <string>
 #include <fstream>
+
 
 namespace itpp {
 

@@ -33,15 +33,10 @@
 #ifndef TURBO_H
 #define TURBO_H
 
-#include <itpp/base/vec.h>
-#include <itpp/base/mat.h>
-#include <itpp/base/matfunc.h>
-#include <itpp/base/binary.h>
-#include <itpp/base/random.h>
-#include <itpp/base/matfunc.h>
 #include <itpp/comm/rec_syst_conv_code.h>
 #include <itpp/comm/interleave.h>
 #include <itpp/comm/llr.h>
+
 
 namespace itpp {
 

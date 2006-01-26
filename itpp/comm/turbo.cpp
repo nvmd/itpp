@@ -31,7 +31,7 @@
  */
 
 #include <itpp/comm/turbo.h>
-#include <itpp/comm/llr.h>
+
 
 namespace itpp { 
 
@@ -750,7 +750,6 @@ namespace itpp {
     
       return I;    
     }
-
   }
 
 } // namespace itpp

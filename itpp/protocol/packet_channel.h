@@ -33,10 +33,9 @@
 #ifndef PACKET_CHANNEL_H
 #define PACKET_CHANNEL_H
 
-#include <itpp/protocol/signals_slots.h>
 #include <itpp/protocol/packet.h>
 #include <itpp/base/vec.h>
-#include <itpp/base/itassert.h>
+
 
 namespace itpp {
 

@@ -40,8 +40,8 @@
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/array.h>
-#include <fstream>
-#include <string>
+#include <iostream>
+
 
 namespace itpp {
 
@@ -49,8 +49,8 @@ namespace itpp {
     \addtogroup parser
 
     \brief Argument Parser
-    \author Thomas Eriksson and Pål Frenger (Thanks to Svante Signell for valuable
-            input), modifications by Johan Bergman
+    \author Thomas Eriksson and Pal Frenger (Thanks to Svante Signell for
+            valuable input), modifications by Johan Bergman
 
     This class parses strings to variables. The syntax is compatible with Matlab
     and Octave. It can be used in several different ways. The following test
@@ -95,7 +95,8 @@ namespace itpp {
   /*!
     \ingroup parser
     \brief Argument Parser Class
-    \author Thomas Eriksson and Pål Frenger (Thanks to Svante Signell for valuable input)
+    \author Thomas Eriksson and Pal Frenger (Thanks to Svante Signell for
+    valuable input)  
 
     This class parses strings to variables. The syntax is compatible with Matlab
     and Octave. It can be used in several different ways. See the Detailed Description

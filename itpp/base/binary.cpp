@@ -31,6 +31,8 @@
  */
  
 #include <itpp/base/binary.h>
+#include <iostream>
+
 
 namespace itpp { 
 

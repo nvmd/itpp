@@ -34,6 +34,7 @@
 #include <itpp/base/itassert.h>
 #include <iostream>
 
+
 namespace itpp {
 
   CFix& CFix::operator=(const CFix &x)

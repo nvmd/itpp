@@ -30,11 +30,8 @@
  * -------------------------------------------------------------------------
  */
 
-#include <complex>
-#include <itpp/base/binary.h>
-#include <itpp/base/matfunc.h>
-#include <itpp/base/specmat.h>
 #include <itpp/comm/modulator.h>
+#include <itpp/base/converters.h>
 #include <itpp/comm/commfunc.h>
 
 

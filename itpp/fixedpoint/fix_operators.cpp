@@ -32,7 +32,7 @@
  */
 
 #include <itpp/fixedpoint/fix_operators.h>
-#include <itpp/base/itassert.h>
+
 
 namespace itpp {
 

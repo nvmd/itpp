@@ -32,6 +32,7 @@
 
 #include <itpp/protocol/events.h>
 
+
 namespace itpp {
 
   Ttype Event_Queue::t = 0;

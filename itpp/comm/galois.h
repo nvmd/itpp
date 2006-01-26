@@ -34,10 +34,10 @@
 #define GALOIS_H
 
 #include <itpp/base/vec.h>
-#include <itpp/base/specmat.h>
 #include <itpp/base/array.h>
-#include <iostream>
-#include <cassert>
+#include <itpp/base/binary.h>
+#include <itpp/base/converters.h>
+
 
 namespace itpp {
 

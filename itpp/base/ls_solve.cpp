@@ -36,16 +36,18 @@
 #  include <itpp/config_msvc.h>
 #endif
 
-#include <itpp/itconfig.h>
+#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#  include <itpp/base/lapack.h>
+#endif
+
 #include <itpp/base/ls_solve.h>
+
 
 namespace itpp { 
 
   // ----------- ls_solve_chol -----------------------------------------------------------
 
 #if defined(HAVE_LAPACK) || defined(HAVE_MKL)
-
-#include <itpp/base/lapack.h>
 
   bool ls_solve_chol(const mat &A, const vec &b, vec &x)
   {

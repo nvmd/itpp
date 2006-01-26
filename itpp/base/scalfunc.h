@@ -33,12 +33,9 @@
 #ifndef SCALFUNC_H
 #define SCALFUNC_H
 
-#include <complex>
-#include <cmath>
-#include <algorithm>
-#include <cstdlib>
-#include <limits>
 #include <itpp/base/itassert.h>
+#include <complex>
+
 
 #if !defined(__GLIBC__) || __GLIBC__ < 2
 

@@ -33,13 +33,8 @@
 #ifndef POLY_H
 #define POLY_H
 
-#include <complex>
-#include <cstdlib>
-#include <iostream>
-
-#include <itpp/itconfig.h>
 #include <itpp/base/vec.h>
-#include <itpp/base/itassert.h>
+
 
 namespace itpp {
 

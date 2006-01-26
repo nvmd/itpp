@@ -33,11 +33,10 @@
 #ifndef SELECTIVE_REPEAT_H
 #define SELECTIVE_REPEAT_H
 
-#include <itpp/protocol/signals_slots.h>
 #include <itpp/protocol/packet.h>
 #include <itpp/protocol/front_drop_queue.h>
-#include <itpp/base/array.h>
 #include <itpp/base/vec.h>
+#include <itpp/base/array.h>
 
 
 namespace itpp {

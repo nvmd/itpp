@@ -42,7 +42,7 @@
 #include <stdexcept>
 
 
-namespace itpp { 
+namespace itpp {
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 

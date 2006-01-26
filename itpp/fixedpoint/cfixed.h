@@ -33,8 +33,8 @@
 #ifndef CFIXED_H
 #define CFIXED_H
 
-#include <itpp/fixedpoint/fix.h>
 #include <itpp/fixedpoint/cfix.h>
+
 
 namespace itpp {
 

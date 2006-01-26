@@ -34,7 +34,6 @@
 
 #include <itpp/comm/ofdm.h>
 #include <itpp/base/specmat.h>
-#include <itpp/base/stat.h>
 #include <itpp/base/transforms.h>
 #include <itpp/base/operators.h>
 

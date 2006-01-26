@@ -30,9 +30,10 @@
  * -------------------------------------------------------------------------
  */
 
-#include <cmath>
 #include <itpp/base/bessel.h>
 #include <itpp/base/bessel/bessel_internal.h>
+#include <cmath>
+
 
 #ifdef _MSC_VER
 #pragma warning(disable:4996)

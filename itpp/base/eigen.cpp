@@ -36,14 +36,17 @@
 #  include <itpp/config_msvc.h>
 #endif
 
+#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#  include <itpp/base/lapack.h>
+#endif
+
 #include <itpp/base/eigen.h>
-#include <itpp/base/matfunc.h>
+#include <itpp/base/converters.h>
+
 
 namespace itpp { 
 
 #if defined(HAVE_LAPACK) || defined(HAVE_MKL)
-
-#include <itpp/base/lapack.h>
 
   bool eig_sym(const mat &A, vec &d, mat &V)
   {

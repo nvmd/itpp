@@ -36,6 +36,7 @@
 #include <itpp/comm/galois.h>
 #include <itpp/comm/channel_code.h>
 
+
 namespace itpp {
 
   /*!

@@ -1,3 +1,9 @@
+2006-01-26  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/**/*.{cpp,h}: Revised all "#include" commands to minimise
+	the number of dependencies between various sources and modules.
+	Please report any compilation and linking problems, which might
+	occure after this mass update.
 
 2006-01-25  Erik G. Larsson <erik_g_larsson@users.sourceforge.net>
 

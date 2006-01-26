@@ -39,16 +39,7 @@
 #  include <itpp/config_msvc.h>
 #endif
 
-#include <string> 
-#include <iostream>
-#include <complex>
-#include <cstdlib>
-#include <cstring>
-#include <cmath>
-#include <sstream>
-
 #include <itpp/itconfig.h>
-#include <itpp/base/binary.h>
 #include <itpp/base/itassert.h>
 #include <itpp/base/scalfunc.h>
 #include <itpp/base/factory.h>

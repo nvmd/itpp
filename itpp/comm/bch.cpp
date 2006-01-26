@@ -33,6 +33,7 @@
 #include <itpp/comm/bch.h>
 #include <itpp/base/binary.h>
 
+
 namespace itpp { 
 
   //---------------------- BCH -----------------------------------

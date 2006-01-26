@@ -34,12 +34,9 @@
 #define WINDOW_H
 
 #include <itpp/base/vec.h>
-#include <itpp/base/mat.h>
 
 
 namespace itpp {
-
-
 
   /*! 
     \addtogroup windfunc

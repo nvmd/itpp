@@ -33,8 +33,6 @@
 #ifndef INTEGRATION_H
 #define INTEGRATION_H
 
-#include <itpp/itconfig.h>
-#include <itpp/base/vec.h>
 #include <limits>
 
 

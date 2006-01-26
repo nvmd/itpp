@@ -36,14 +36,16 @@
 #  include <itpp/config_msvc.h>
 #endif
 
+#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#  include <itpp/base/lapack.h>
+#endif
+
 #include <itpp/base/qr.h>
-#include <itpp/base/matfunc.h>
+
 
 namespace itpp { 
 
 #if defined(HAVE_LAPACK) || defined(HAVE_MKL)
-
-#include <itpp/base/lapack.h>
 
   bool qr(const mat &A, mat &Q, mat &R)
   {

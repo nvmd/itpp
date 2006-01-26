@@ -47,10 +47,10 @@
 #  endif
 #endif
 
+#include <itpp/base/timing.h>
 #include <iostream>
 #include <cmath>
 
-#include <itpp/base/timing.h>
 
 namespace itpp { 
 

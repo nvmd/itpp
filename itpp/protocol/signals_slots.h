@@ -34,7 +34,9 @@
 #define SIGNAL_SLOT_H
 
 #include <itpp/protocol/events.h>
-#include <string>
+#include <list>
+#include <iostream>
+
 
 namespace itpp {
 

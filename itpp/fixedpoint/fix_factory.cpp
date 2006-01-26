@@ -31,10 +31,9 @@
  * -------------------------------------------------------------------------
  */
 
-#include <cstring>
 #include <itpp/fixedpoint/fix_factory.h>
-#include <itpp/fixedpoint/fix.h>
 #include <itpp/fixedpoint/cfix.h>
+
 
 namespace itpp {
 

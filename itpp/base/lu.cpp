@@ -36,14 +36,17 @@
 #  include <itpp/config_msvc.h>
 #endif
 
+#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#  include <itpp/base/lapack.h>
+#endif
+
 #include <itpp/base/lu.h>
-#include <itpp/base/matfunc.h>
+#include <itpp/base/specmat.h>
+
 
 namespace itpp { 
 
 #if defined(HAVE_LAPACK) || defined(HAVE_MKL)
-
-#include <itpp/base/lapack.h>
 
   bool lu(const mat &X, mat &L, mat &U, ivec &p)
   {

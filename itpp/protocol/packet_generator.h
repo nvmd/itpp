@@ -33,9 +33,9 @@
 #ifndef PACKET_GENERATOR_H
 #define PACKET_GENERATOR_H
 
-#include <itpp/protocol/signals_slots.h>
 #include <itpp/protocol/packet.h>
 #include <itpp/base/random.h>
+
 
 namespace itpp {
 

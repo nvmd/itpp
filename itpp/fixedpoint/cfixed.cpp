@@ -32,6 +32,7 @@
 
 #include <itpp/fixedpoint/cfixed.h>
 
+
 namespace itpp {
 
   // Template instantiations

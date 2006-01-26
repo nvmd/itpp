@@ -34,6 +34,7 @@
 #include <itpp/base/itassert.h>
 #include <iostream>
 
+
 namespace itpp {
 
   // Definition and initialization of static data member

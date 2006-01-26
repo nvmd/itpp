@@ -32,6 +32,7 @@
 
 #include <itpp/protocol/front_drop_queue.h>
 
+
 namespace itpp {
 
 	void Front_Drop_Queue::push(Packet *packet)

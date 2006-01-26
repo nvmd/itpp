@@ -35,11 +35,9 @@
 
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
-#include <itpp/base/binary.h>
-#include <itpp/base/specmat.h>
-#include <itpp/base/matfunc.h>
 #include <itpp/comm/convcode.h>
 #include <itpp/comm/llr.h>
+
 
 namespace itpp {
 

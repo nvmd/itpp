@@ -30,11 +30,6 @@
  * -------------------------------------------------------------------------
  */
 
-#include <ctime>
-#include <cmath>
-#include <complex>
-
-#include <itpp/base/itassert.h>
 #include <itpp/base/vec.h>
 #include <itpp/base/scalfunc.h>
 

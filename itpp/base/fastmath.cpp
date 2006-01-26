@@ -31,8 +31,8 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/base/binary.h>
 #include <itpp/base/fastmath.h>
+
  
 namespace itpp { 
 

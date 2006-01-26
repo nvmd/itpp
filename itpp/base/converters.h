@@ -35,7 +35,6 @@
 
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
-#include <sstream>
 
 
 namespace itpp {

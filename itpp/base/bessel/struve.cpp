@@ -6,7 +6,7 @@
  
 #include <cmath>
 
-#include <itpp/base/itassert.h>
+// #include <itpp/base/itassert.h>
 #include <itpp/base/scalfunc.h>
 #include <itpp/base/bessel/bessel_internal.h>
 

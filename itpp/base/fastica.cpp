@@ -63,19 +63,16 @@
  * - default approach is SYMM with non-linearity POW3
  */
 
-#include <cmath>
-#include <itpp/base/vec.h>
-#include <itpp/base/mat.h>
 #include <itpp/base/fastica.h>
 #include <itpp/base/svec.h>
 #include <itpp/base/sigfun.h>
 #include <itpp/base/specmat.h>
-#include <itpp/base/elmatfunc.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/base/stat.h>
 #include <itpp/base/eigen.h>
 #include <itpp/base/svd.h>
 #include <itpp/base/random.h>
+#include <itpp/base/sort.h>
 
 
 // This is needed for the local functions

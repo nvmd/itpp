@@ -38,10 +38,8 @@
 #  include <unistd.h>
 #endif
 
-#include <itpp/base/binary.h>
-#include <itpp/base/matfunc.h>
-#include <itpp/base/scalfunc.h>
 #include <itpp/base/random.h>
+
 
 namespace itpp { 
 

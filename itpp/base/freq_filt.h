@@ -33,14 +33,11 @@
 #ifndef FREQ_FILT_H
 #define FREQ_FILT_H
 
-#include <complex>
-#include <itpp/itconfig.h>
 #include <itpp/base/vec.h>
-#include <itpp/base/scalfunc.h>
-#include <itpp/base/converters.h>
 #include <itpp/base/specmat.h>
 #include <itpp/base/elmatfunc.h>
 #include <itpp/base/stat.h>
+
 
 namespace itpp {
 
