@@ -1,29 +1,5 @@
-IT++ based on Autoconf/Automake/Libtool:
-========================================
-
-* Create contrib/ subdirectory for storing additional stuff, like e.g.
-  rpm *.spec file, Gentoo *.ebuild, etc.
-
-
 Things to fix before releasing version 4.0.0
 ============================================
-
-Big fixes:
-----------
-
-* A new directory structure with modules, external modules, and
-  support for simultaneous multiple architectures and compilers. (Pal
-  Frenger)
-
-* Fix the makefiles so that new functions can be added more easilly
-  (Pal)
-
-* Fix makefiles for the users own main programs, i.e. a prog folder
-  with a make file (Pal)
-
-* Add the it++/ext folder with the corresponding configure script and
-  make file (Pal)
-
 
 Feature enhancements:
 ---------------------
@@ -31,9 +7,6 @@ Feature enhancements:
 * Multi-dimensional arrays.
 
 * Script for testfiles on Visual C++ .NET.
-
-* Convert decoder functions in Turbo_Codec and Convolutional_Code to
-  virtual so that these can be replaced.
 
 * Update random number generator. Seed initialization and license.
 
@@ -66,13 +39,10 @@ Bug fixes and Internal fixes:
 * The member functions in needs to be revised. The "<<" functions does
   not always match the ">>" functions.
 
-
-Improvements
-============
-
 * Improve the functionality of the Vec::set(char*) and Mat::set(char*)
   members. The current implementation does not allow newlines, tabs,
   etc. Complex numbers should also be supported.
+
 
 
 COMPILER support
@@ -113,14 +83,6 @@ RANDOM GENERATORS
 
 * Speed-up in random number generator for Gaussian numbers? Some work
   has been done for 3.8.0 (Tony Ottosson)
-
-
-FILTER
-======
-
-* Filter design?
-
-* Add good FFT based filter functions?
 
 
 GENERAL

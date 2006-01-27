@@ -1,12 +1,22 @@
 ===============================================================================
-IT++ version 3.9.1                                         Released: 2006-01-??
+IT++ version 3.9.1                                         Released: 2006-01-27
 -------------------------------------------------------------------------------
 
-This is a bug-fix release. Therefore, no new features and major
-modifications have been added since release 3.9.0.
+This is a bug-fix release. Therefore, no new features has been added
+since release 3.9.0. Only minor modifications and bug-fixes have been done.
+
 
 Bug-fixes:
 ---------
+
+* Fixed a few test programs that use LAPACK, so now they are robust to
+  non-unique results and floating-point precision differences on different
+  platforms.
+
+* Protocol sources are now included in the MSVC++ project file.
+
+* Fixed bug [1412383]. The dec2bin() functions appended en extra zero in
+  front of the bit vector. This wrong behaviour has been fixed.
 
 * Fixed bug [1399822]. The problem was caused by explicit specialisation of
   some templated operators, when HAVE_CBLAS or HAVE_MKL are defined. In such
@@ -15,6 +25,9 @@ Bug-fixes:
 
 * Fixed bug [1396020]. Now itsave() works properly in both Matlab and
   Octave. Thanks to Jordy Potman for providing a patch.
+
+* A lot of other minor bug-fixes. For a full list of them, please check the
+  ChangeLog file. 
 
 
 ===============================================================================
