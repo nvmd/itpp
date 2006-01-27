@@ -1,4 +1,20 @@
+2006-01-27  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* INSTALL, doc/local/installation.doc: Updated to reflect recent
+	modifications in configuration scripts (merged from
+	itpp-3-9-branch)
+
+	* autogen.sh, configure.ac, config/acx_blas.m4,
+	config/acx_cblas.m4, config/acx_lapack.m4: Scripts modified to
+	simplify the configuration process (merged from itpp-3-9-branch)
+
 2006-01-26  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/local/verification.doc: Test results of version 3.9.1
+	included (merged from itpp-3-9-branch)
+
+	* NEWS, TODO: Updated before releasing verision 3.9.1 (merged from
+	itpp-3-9-branch)
 
 	* itpp/**/*.{cpp,h}: Revised all "#include" commands to minimise
 	the number of dependencies between various sources and modules.
@@ -55,8 +71,6 @@
 2006-01-24  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/itcomm.h: Included <itpp/comm/llr.h>
-
-2006-01-24  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/comm/llr.h, itpp/comm/llr.cpp: Added new LLR algebra class
 

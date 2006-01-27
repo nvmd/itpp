@@ -30,15 +30,17 @@ notice) become unsupported in future versions of IT++.
 
 In order to use all functionality provided in the IT++ library it is
 recommended that you have some external libraries compiled and installed
-on your computer. The most important are FFTW, ATLAS (or CBLAS) and LAPACK
-(optionally Intel Math Kernel Library as a replacement of these). It is
-possible to compile and use IT++ without these libraries, but the
-functionality will be reduced. We therefore recommend that you take some
-time and effort to provide these external libraries in your system. Please
-note, that some of them (FFTW, LAPACK) are usually included in the most
-modern Linux distributions. With MSVC++, the best is to install MKL
-7.2 or newer, since some of the other libraries are difficult to
-compile under MSVC++.
+on your computer. The most important are FFTW, BLAS and LAPACK. To improve
+some vector based operations CBLAS is also recommened. BLAS and CBLAS are
+included in ATLAS (Automatically Tuned Linear Algebra Software), which is a
+recommended choice. Optionally, binary version of Intel Math Kernel Library
+might be used as a replacement of all of these. It is possible to compile
+and use IT++ without these libraries, but the functionality will be reduced.
+We therefore recommend that you take some time and effort to provide these
+external libraries in your system. Please note, that some of them (FFTW,
+BLAS and LAPACK) are usually included in the most modern Linux
+distributions.
+
 
 \section download Obtaining the IT++ Source Codes
 
@@ -91,7 +93,7 @@ debugging flags used by compiler and linker (disabled by default) </li>
 <li> \c `--enable-exceptions' - enable exceptions handling of run-time
 errors instead of aborting the program (disabled by default) </li>
 
-<li> \c `--disable-html-doc' - do not generate and install HTML
+<li> \c `--enable-html-doc' - do not generate and install HTML
 documentation (enabled by default) </li>
 
 <li> \c `--with-march=CPU' - enable optimization flags for a specific CPU:
@@ -99,42 +101,37 @@ documentation (enabled by default) </li>
 \c `athlon-xp', \c `athlon-mp', etc. This option is only used by GCC. 
 See `man gcc' for more details. </li>
 
+<li> \c `--disable-shared' - prevent building a shared library (enabled by 
+default) </li>
+
+<li> \c `--disable-static' - prevent building a static library (enabled by
+default) </li>
+
 </ul> 
 
 By default, the \c `configure' script checks for a few external libraries
-used by the IT++ library. These are: FFTW, ATLAS (CBLAS) and LAPACK. If
+used by the IT++ library. These are: FFTW, BLAS, CBLAS and LAPACK. If
 these libraries are found in your system, appropriate flags (i.e.
-HAVE_FFTW, HAVE_CBLAS and HAVE_LAPACK) will be defined, and used during
-the compilation and linking process.
+HAVE_FFTW, HAVE_BLAS, HAVE_CBLAS and HAVE_LAPACK) will be defined, and used
+during the compilation and linking process.
 
-If some of the external libraries are installed in a non-standard way in
-your system, so they can not be detected by the `configure' script
-automatically, you might use additional \c `--with-\<LIBNAME\>-dir' and \c
-`--with-\<LIBNAME\>' switches, where \c \<LIBNAME\> is one of the
-following: \c `fftw', \c `cblas', \c `lapack' or \c `haru'. For example:
-
-<ul>
-
-<li> \c `--with-fftw-dir=/home/user/lib' will add \c `-L/home/user/lib' to
-the LDFLAGS environment variable, which is used during configuration and
-linking </li>
-
-<li> \c `--with-fftw=-lfftw3' will extend the default LIBS variable with
-\c `-lfftw3' </li>
-
-</ul>
-
-Please run <tt>`./configure --help'</tt> to obtain a full list of \c
-`--with-\<LIBNAME\>-dir' and \c `--with-\<LIBNAME\>' switches available.
-
-Optionally, instead of using \c `--with-\<LIBNAME\>-dir' switches you can
-set \c LDFLAGS environment variable before executing \c `configure'
-command:
+If some of the external libraries are installed in a non-standard location 
+in your system, so they can not be detected by the \c `configure' script
+automatically, you might use LDFLAGS environment variable to define
+additional directories to be searched, e.g.:
 
 \code
 % export LDFLAGS="-L/home/user/lib" 
-% ./configure --with-fftw="-lfftw3"
 \endcode
+
+Besides, if the external libraries have non-standard names, you might
+specify them to the configure using \c `--with-\<LIBNAME\>' switches, where 
+\c \<LIBNAME\> is one of the following: \c `fftw', \c `blas', \c `cblas' 
+or \c `lapack'. For example: \c `--with-fftw=-lfftw3' or \c 
+`--with-fftw=fftw3' will extend the default LIBS variable with \c `-lfftw3'.
+
+Please run <tt>`./configure --help'</tt> to obtain a full list of \c
+`--with-\<LIBNAME\>' switches available.
 
 Although it is not recommended, you can intentionally prevent detection of
 some external libraries. To do this you should use \c
@@ -156,7 +153,7 @@ one can observe something like that:
 
 \verbatim
 ------------------------------------------------------------------------------
-itpp-3.9.0 library configuration:
+itpp-3.9.1 library configuration:
 ------------------------------------------------------------------------------
 
 Directories:
@@ -164,39 +161,43 @@ Directories:
   - exec_prefix .. : ${prefix}
   - includedir ... : ${prefix}/include
   - libdir ....... : ${exec_prefix}/lib
-  - docdir ....... : ${prefix}/share/doc/itpp-3.9.0
+  - docdir ....... : ${prefix}/share/doc/itpp-3.9.1
 
 Switches:
-  - debug ........ : yes
+  - debug ........ : no
   - exceptions ... : no
   - html-doc ..... : yes
+  - shared ....... : yes
+  - static ....... : yes
 
 Documentation tools:
   - Doxygen ...... : yes
   - LaTeX ........ : yes
   - Dvips ........ : yes
-  - Ghostscript .. : yes
+  - GhostScript .. : yes
+
+Testing tools:
+  - Diff ......... : yes
 
 External libs:
   - MKL .......... : no
   - FFTW ......... : yes
-  - ATLAS ........ : yes
+  - BLAS ......... : yes
   - CBLAS ........ : yes
   - LAPACK ....... : yes
 
 Compiler/linker flags/libs/defs:
   - CXX .......... : g++
   - CPPFLAGS ..... : 
-  - CXXFLAGS ..... : -march=pentium3 -pipe -fomit-frame-pointer -O2 -DNDEBUG -DA
-SSERT_LEVEL=1 
+  - CXXFLAGS ..... : -march=pentium3 -pipe -fomit-frame-pointer -O2 
   - LDFLAGS ...... : 
-  - LIBS ......... : -llapack -lcblas -lblas -latlas -lfftw3 -lm   -L/usr/lib/gc
-c-lib/i686-pc-linux-gnu/3.3.6 -L/usr/lib/gcc-lib/i686-pc-linux-gnu/3.3.6/../../.
-./../i686-pc-linux-gnu/lib -L/usr/lib/gcc-lib/i686-pc-linux-gnu/3.3.6/../../.. -
-lfrtbegin -lg2c -lm -lgcc_s
+  - LIBS ......... : -llapack  -lcblas -lblas -latlas -lfftw3 -lm   -L/usr/lib/g
+cc/i686-pc-linux-gnu/3.4.4 -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../../../i6
+86-pc-linux-gnu/lib -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../.. -lfrtbegin -
+lg2c -lm -lgcc_s
 
 ------------------------------------------------------------------------------
-Now type 'make && make install' to build and install itpp-3.9.0 library
+Now type 'make && make install' to build and install itpp-3.9.1 library
 ------------------------------------------------------------------------------
 \endverbatim
 
@@ -211,6 +212,56 @@ IT++ should compile without any errors or warnings. If this is not the
 case, please submit a bug-report on the IT++ project page on SourceForge.
 Please include information about your OS, compiler version, external
 libraries and their versions, etc.
+
+It is recommended that you check if your library has been compiled and
+linked properly and works as expected. To do so, you should execute the
+testing process:
+
+\code
+% make check
+\endcode
+
+As a result, you should obtain a similar report:
+
+\verbatim
+------------------------------------------------------------------------------
+Test `array_test' PASSED.
+------------------------------------------------------------------------------
+Test `bch_test' PASSED.
+------------------------------------------------------------------------------
+Test `bessel_test' PASSED.
+------------------------------------------------------------------------------
+Test `cholesky_test' PASSED.
+------------------------------------------------------------------------------
+Test `circular_buffer_test' PASSED.
+------------------------------------------------------------------------------
+
+[...]
+
+------------------------------------------------------------------------------
+Test `rec_syst_conv_code_test' PASSED.
+------------------------------------------------------------------------------
+Test `sigfun_test' PASSED.
+------------------------------------------------------------------------------
+Test `source_test' PASSED.
+------------------------------------------------------------------------------
+Test `sparse_test' PASSED.
+------------------------------------------------------------------------------
+Test `stat_test' PASSED.
+------------------------------------------------------------------------------
+Test `svd_test' PASSED.
+------------------------------------------------------------------------------
+Test `timer_test' PASSED.
+------------------------------------------------------------------------------
+Test `transforms_test' PASSED.
+------------------------------------------------------------------------------
+Test `turbo_test' PASSED.
+------------------------------------------------------------------------------
+Test `vec_test' PASSED.
+------------------------------------------------------------------------------
+Test `vector_test' PASSED.
+------------------------------------------------------------------------------
+\endverbatim
 
 Finally, you should install the compiled and linked library, include files
 and HTML documentation (optionally) by typing:
@@ -378,3 +429,5 @@ libcblas.a, \c libf77blas.a, \c liblapack.a), do:
 
 If you get link error, try to check if the \c .o has really been compiled
 with the \c -fPIC flag.
+
+*/

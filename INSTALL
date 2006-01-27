@@ -6,9 +6,10 @@ IT++ Requirements
 
 IT++ should compile without errors or warnings on most GNU/Linux systems
 and on most other UNIX like systems like Solaris, Mac OS X, or Cygwin. It
-is possible to compile IT++ on Windows NT/2000/XP using Microsoft's Visual
-C++ .NET. For Linux, Unix, Cygwin and Mac OS X systems we assume that you
-have at least the following GNU software installed on your computer:
+also compiles on Windows NT/2000/XP using Microsoft's Visual C++ .NET
+2003 (MSVC++). For Linux, Unix, Cygwin and Mac OS X systems we assume
+that you have at least the following GNU software installed on your
+computer: 
 
   - GNU make, version 3.72.1 or later (to check version run `make
     --version')
@@ -20,19 +21,22 @@ Optionally, you might need additional tools like: Doxygen, LaTeX, Dvips
 and Ghostscript to generate the HTML documentation.
 
 We strongly recommend that you use the recent stable releases of the
-GCC, i.e. 4.0.2, 3.4.5 or 3.3.6, if possible. We do not actively
-work on supporting older compilers and they may therefore (without prior
+GCC, i.e. 4.0.2, 3.4.5 or 3.3.6, if possible. We do not actively work 
+on supporting older compilers and they may therefore (without prior
 notice) become unsupported in future versions of IT++.
 
 In order to use all functionality provided in the IT++ library it is
 recommended that you have some external libraries compiled and installed
-on your computer. The most important are FFTW, ATLAS (or CBLAS) and LAPACK
-(optionally Intel Math Kernel Library as a replacement of these). It is
-possible to compile and use IT++ without these libraries, but the
-functionality will be reduced. We therefore recommend that you take some
-time and effort to provide these external libraries in your system. Please
-note, that some of them (FFTW, LAPACK) are usually included in the most
-modern Linux distributions.
+on your computer. The most important are FFTW, BLAS and LAPACK. To improve
+some vector based operations CBLAS is also recommened. BLAS and CBLAS are
+included in ATLAS (Automatically Tuned Linear Algebra Software), which is a
+recommended choice. Optionally, binary version of Intel Math Kernel Library
+might be used as a replacement of all of these. It is possible to compile
+and use IT++ without these libraries, but the functionality will be reduced.
+We therefore recommend that you take some time and effort to provide these
+external libraries in your system. Please note, that some of them (FFTW,
+BLAS and LAPACK) are usually included in the most modern Linux
+distributions.
 
 
 IT++ Configuration, Compilation and Installation
@@ -62,7 +66,7 @@ important are:
     Enable exceptions handling of run-time errors instead of aborting 
     the program (disabled by default) 
 
-`--disable-html-doc'
+`--enable-html-doc'
     Do not generate and install HTML documentation (enabled by default) 
 
 `--with-march=CPU'
@@ -70,33 +74,35 @@ important are:
     prescott, athlon-tbird, athlon-xp, athlon-mp, etc. This option is
     only used by GCC. See `man gcc' for more details.
 
+`--disable-shared' 
+    Prevent building the shared library (enabled by default)
+
+`--disable-static' 
+    Prevent building the static library (enabled by default)
+
 By default, the `configure' script checks for a few external libraries
-used by the IT++ library. These are: FFTW, ATLAS (CBLAS) and LAPACK. If
+used by the IT++ library. These are: FFTW, BLAS, CBLAS and LAPACK. If
 these libraries are found in your system, appropriate flags (i.e.
-HAVE_FFTW, HAVE_CBLAS and HAVE_LAPACK) will be defined, and used during
-the compilation and linking process.
+HAVE_FFTW, HAVE_BLAS, HAVE_CBLAS and HAVE_LAPACK) will be defined, and used
+during the compilation and linking process.
 
-If some of the external libraries are installed in a non-standard way in
-your system, so they can not be detected by the `configure' script
-automatically, you might use additional `--with-<LIBNAME>-dir' and
-`--with-<LIBNAME>' switches, where <LIBNAME> is one of the following:
-`fftw', `cblas' or `lapack'. For example:
-
-  `--with-fftw-dir=/home/user/lib' will add `-L/home/user/lib' to the
-    LDFLAGS environment variable, which is used during configuration and
-    linking 
-  
-  `--with-fftw=-lfftw3' will extend the default LIBS variable with
-    `-lfftw3' 
-
-Please run `./configure --help' to obtain a full list of
-`--with-<LIBNAME>-dir' and `--with-<LIBNAME>' switches available.
-
-Optionally, instead of using `--with-<LIBNAME>-dir' switches you can set
-LDFLAGS environment variable before executing `configure' command:
+If some of the external libraries are installed in a non-standard location 
+in your system, so they can not be detected by the `configure' script
+automatically, you might use `LDFLAGS' environment variable to define
+additional directories to be searched, e.g.:
 
   % export LDFLAGS="-L/home/user/lib" 
-  % ./configure --with-fftw="-lfftw3"
+
+Besides, if the external libraries have non-standard names, you might
+specify them to the configure using `--with-<LIBNAME>' switches, where 
+<LIBNAME> is one of the following: `fftw', `blas', `cblas' or `lapack'. 
+For example:
+
+`--with-fftw=-lfftw3' or `--with-fftw=fftw3' will extend the default 
+    LIBS variable with `-lfftw3'  
+
+Please run `./configure --help' to obtain a full list of `--with-<LIBNAME>'
+switches available.
 
 Although it is not recommended, you can intentionally prevent detection of
 some external libraries. To do this, you should use `--without-<LIBNAME>'
@@ -113,7 +119,7 @@ command:
 one can observe something like that:
 
 ------------------------------------------------------------------------------
-itpp-3.9.0 library configuration:
+itpp-3.9.1 library configuration:
 ------------------------------------------------------------------------------
 
 Directories:
@@ -121,39 +127,43 @@ Directories:
   - exec_prefix .. : ${prefix}
   - includedir ... : ${prefix}/include
   - libdir ....... : ${exec_prefix}/lib
-  - docdir ....... : ${prefix}/share/doc/itpp-3.9.0
+  - docdir ....... : ${prefix}/share/doc/itpp-3.9.1
 
 Switches:
-  - debug ........ : yes
+  - debug ........ : no
   - exceptions ... : no
   - html-doc ..... : yes
+  - shared ....... : yes
+  - static ....... : yes
 
 Documentation tools:
   - Doxygen ...... : yes
   - LaTeX ........ : yes
   - Dvips ........ : yes
-  - Ghostscript .. : yes
+  - GhostScript .. : yes
+
+Testing tools:
+  - Diff ......... : yes
 
 External libs:
   - MKL .......... : no
   - FFTW ......... : yes
-  - ATLAS ........ : yes
+  - BLAS ......... : yes
   - CBLAS ........ : yes
   - LAPACK ....... : yes
 
 Compiler/linker flags/libs/defs:
   - CXX .......... : g++
   - CPPFLAGS ..... : 
-  - CXXFLAGS ..... : -march=pentium3 -pipe -fomit-frame-pointer -O2 -DNDEBUG -DA
-SSERT_LEVEL=1 
+  - CXXFLAGS ..... : -march=pentium3 -pipe -fomit-frame-pointer -O2 
   - LDFLAGS ...... : 
-  - LIBS ......... : -llapack -lcblas -lblas -latlas -lfftw3 -lm   -L/usr/lib/gc
-c-lib/i686-pc-linux-gnu/3.3.6 -L/usr/lib/gcc-lib/i686-pc-linux-gnu/3.3.6/../../.
-./../i686-pc-linux-gnu/lib -L/usr/lib/gcc-lib/i686-pc-linux-gnu/3.3.6/../../.. -
-lfrtbegin -lg2c -lm -lgcc_s
+  - LIBS ......... : -llapack  -lcblas -lblas -latlas -lfftw3 -lm   -L/usr/lib/g
+cc/i686-pc-linux-gnu/3.4.4 -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../../../i6
+86-pc-linux-gnu/lib -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../.. -lfrtbegin -
+lg2c -lm -lgcc_s
 
 ------------------------------------------------------------------------------
-Now type 'make && make install' to build and install itpp-3.9.0 library
+Now type 'make && make install' to build and install itpp-3.9.1 library
 ------------------------------------------------------------------------------
 
 Now, it is time for compiling and linking the IT++ library. To do so,
@@ -165,6 +175,53 @@ IT++ should compile without any errors or warnings. If this is not the
 case, please submit a bug-report on the IT++ project page on SourceForge.
 Please include information about your OS, compiler version, external
 libraries and their versions, etc.
+
+It is recommended that you check if your library has been compiled and
+linked properly and works as expected. To do so, you should execute the
+testing process:
+
+  % make check
+
+As a result, you should obtain a similar report:
+
+------------------------------------------------------------------------------
+Test `array_test' PASSED.
+------------------------------------------------------------------------------
+Test `bch_test' PASSED.
+------------------------------------------------------------------------------
+Test `bessel_test' PASSED.
+------------------------------------------------------------------------------
+Test `cholesky_test' PASSED.
+------------------------------------------------------------------------------
+Test `circular_buffer_test' PASSED.
+------------------------------------------------------------------------------
+
+[...]
+
+------------------------------------------------------------------------------
+Test `rec_syst_conv_code_test' PASSED.
+------------------------------------------------------------------------------
+Test `sigfun_test' PASSED.
+------------------------------------------------------------------------------
+Test `source_test' PASSED.
+------------------------------------------------------------------------------
+Test `sparse_test' PASSED.
+------------------------------------------------------------------------------
+Test `stat_test' PASSED.
+------------------------------------------------------------------------------
+Test `svd_test' PASSED.
+------------------------------------------------------------------------------
+Test `timer_test' PASSED.
+------------------------------------------------------------------------------
+Test `transforms_test' PASSED.
+------------------------------------------------------------------------------
+Test `turbo_test' PASSED.
+------------------------------------------------------------------------------
+Test `vec_test' PASSED.
+------------------------------------------------------------------------------
+Test `vector_test' PASSED.
+------------------------------------------------------------------------------
+
 
 Finally, you should install the compiled and linked library, include files
 and HTML documentation (optionally) by typing:
@@ -183,248 +240,4 @@ to remove all files created during compilation process, or even
   % make distclean
 
 to remove all files generated by the `configure' script.
-
-
-
-#############################################################################
-# Note: The following sections include generic installation description of  #
-#       GNU programs                                                        #
-#############################################################################
-
-
-Installation Instructions
-*************************
-
-Copyright (C) 1994, 1995, 1996, 1999, 2000, 2001, 2002, 2004, 2005 Free
-Software Foundation, Inc.
-
-This file is free documentation; the Free Software Foundation gives
-unlimited permission to copy, distribute and modify it.
-
-Basic Installation
-==================
-
-These are generic installation instructions.
-
-   The `configure' shell script attempts to guess correct values for
-various system-dependent variables used during compilation.  It uses
-those values to create a `Makefile' in each directory of the package.
-It may also create one or more `.h' files containing system-dependent
-definitions.  Finally, it creates a shell script `config.status' that
-you can run in the future to recreate the current configuration, and a
-file `config.log' containing compiler output (useful mainly for
-debugging `configure').
-
-   It can also use an optional file (typically called `config.cache'
-and enabled with `--cache-file=config.cache' or simply `-C') that saves
-the results of its tests to speed up reconfiguring.  (Caching is
-disabled by default to prevent problems with accidental use of stale
-cache files.)
-
-   If you need to do unusual things to compile the package, please try
-to figure out how `configure' could check whether to do them, and mail
-diffs or instructions to the address given in the `README' so they can
-be considered for the next release.  If you are using the cache, and at
-some point `config.cache' contains results you don't want to keep, you
-may remove or edit it.
-
-   The file `configure.ac' (or `configure.in') is used to create
-`configure' by a program called `autoconf'.  You only need
-`configure.ac' if you want to change it or regenerate `configure' using
-a newer version of `autoconf'.
-
-The simplest way to compile this package is:
-
-  1. `cd' to the directory containing the package's source code and type
-     `./configure' to configure the package for your system.  If you're
-     using `csh' on an old version of System V, you might need to type
-     `sh ./configure' instead to prevent `csh' from trying to execute
-     `configure' itself.
-
-     Running `configure' takes awhile.  While running, it prints some
-     messages telling which features it is checking for.
-
-  2. Type `make' to compile the package.
-
-  3. Optionally, type `make check' to run any self-tests that come with
-     the package.
-
-  4. Type `make install' to install the programs and any data files and
-     documentation.
-
-  5. You can remove the program binaries and object files from the
-     source code directory by typing `make clean'.  To also remove the
-     files that `configure' created (so you can compile the package for
-     a different kind of computer), type `make distclean'.  There is
-     also a `make maintainer-clean' target, but that is intended mainly
-     for the package's developers.  If you use it, you may have to get
-     all sorts of other programs in order to regenerate files that came
-     with the distribution.
-
-Compilers and Options
-=====================
-
-Some systems require unusual options for compilation or linking that the
-`configure' script does not know about.  Run `./configure --help' for
-details on some of the pertinent environment variables.
-
-   You can give `configure' initial values for configuration parameters
-by setting variables in the command line or in the environment.  Here
-is an example:
-
-     ./configure CC=c89 CFLAGS=-O2 LIBS=-lposix
-
-   *Note Defining Variables::, for more details.
-
-Compiling For Multiple Architectures
-====================================
-
-You can compile the package for more than one kind of computer at the
-same time, by placing the object files for each architecture in their
-own directory.  To do this, you must use a version of `make' that
-supports the `VPATH' variable, such as GNU `make'.  `cd' to the
-directory where you want the object files and executables to go and run
-the `configure' script.  `configure' automatically checks for the
-source code in the directory that `configure' is in and in `..'.
-
-   If you have to use a `make' that does not support the `VPATH'
-variable, you have to compile the package for one architecture at a
-time in the source code directory.  After you have installed the
-package for one architecture, use `make distclean' before reconfiguring
-for another architecture.
-
-Installation Names
-==================
-
-By default, `make install' installs the package's commands under
-`/usr/local/bin', include files under `/usr/local/include', etc.  You
-can specify an installation prefix other than `/usr/local' by giving
-`configure' the option `--prefix=PREFIX'.
-
-   You can specify separate installation prefixes for
-architecture-specific files and architecture-independent files.  If you
-pass the option `--exec-prefix=PREFIX' to `configure', the package uses
-PREFIX as the prefix for installing programs and libraries.
-Documentation and other data files still use the regular prefix.
-
-   In addition, if you use an unusual directory layout you can give
-options like `--bindir=DIR' to specify different values for particular
-kinds of files.  Run `configure --help' for a list of the directories
-you can set and what kinds of files go in them.
-
-   If the package supports it, you can cause programs to be installed
-with an extra prefix or suffix on their names by giving `configure' the
-option `--program-prefix=PREFIX' or `--program-suffix=SUFFIX'.
-
-Optional Features
-=================
-
-Some packages pay attention to `--enable-FEATURE' options to
-`configure', where FEATURE indicates an optional part of the package.
-They may also pay attention to `--with-PACKAGE' options, where PACKAGE
-is something like `gnu-as' or `x' (for the X Window System).  The
-`README' should mention any `--enable-' and `--with-' options that the
-package recognizes.
-
-   For packages that use the X Window System, `configure' can usually
-find the X include and library files automatically, but if it doesn't,
-you can use the `configure' options `--x-includes=DIR' and
-`--x-libraries=DIR' to specify their locations.
-
-Specifying the System Type
-==========================
-
-There may be some features `configure' cannot figure out automatically,
-but needs to determine by the type of machine the package will run on.
-Usually, assuming the package is built to be run on the _same_
-architectures, `configure' can figure that out, but if it prints a
-message saying it cannot guess the machine type, give it the
-`--build=TYPE' option.  TYPE can either be a short name for the system
-type, such as `sun4', or a canonical name which has the form:
-
-     CPU-COMPANY-SYSTEM
-
-where SYSTEM can have one of these forms:
-
-     OS KERNEL-OS
-
-   See the file `config.sub' for the possible values of each field.  If
-`config.sub' isn't included in this package, then this package doesn't
-need to know the machine type.
-
-   If you are _building_ compiler tools for cross-compiling, you should
-use the option `--target=TYPE' to select the type of system they will
-produce code for.
-
-   If you want to _use_ a cross compiler, that generates code for a
-platform different from the build platform, you should specify the
-"host" platform (i.e., that on which the generated programs will
-eventually be run) with `--host=TYPE'.
-
-Sharing Defaults
-================
-
-If you want to set default values for `configure' scripts to share, you
-can create a site shell script called `config.site' that gives default
-values for variables like `CC', `cache_file', and `prefix'.
-`configure' looks for `PREFIX/share/config.site' if it exists, then
-`PREFIX/etc/config.site' if it exists.  Or, you can set the
-`CONFIG_SITE' environment variable to the location of the site script.
-A warning: not all `configure' scripts look for a site script.
-
-Defining Variables
-==================
-
-Variables not defined in a site shell script can be set in the
-environment passed to `configure'.  However, some packages may run
-configure again during the build, and the customized values of these
-variables may be lost.  In order to avoid this problem, you should set
-them in the `configure' command line, using `VAR=value'.  For example:
-
-     ./configure CC=/usr/local2/bin/gcc
-
-causes the specified `gcc' to be used as the C compiler (unless it is
-overridden in the site shell script).  Here is a another example:
-
-     /bin/bash ./configure CONFIG_SHELL=/bin/bash
-
-Here the `CONFIG_SHELL=/bin/bash' operand causes subsequent
-configuration-related scripts to be executed by `/bin/bash'.
-
-`configure' Invocation
-======================
-
-`configure' recognizes the following options to control how it operates.
-
-`--help'
-`-h'
-     Print a summary of the options to `configure', and exit.
-
-`--version'
-`-V'
-     Print the version of Autoconf used to generate the `configure'
-     script, and exit.
-
-`--cache-file=FILE'
-     Enable the cache: use and save the results of the tests in FILE,
-     traditionally `config.cache'.  FILE defaults to `/dev/null' to
-     disable caching.
-
-`--config-cache'
-`-C'
-     Alias for `--cache-file=config.cache'.
-
-`--quiet'
-`--silent'
-`-q'
-     Do not print messages saying which checks are being made.  To
-     suppress all normal output, redirect it to `/dev/null' (any error
-     messages will still be shown).
-
-`--srcdir=DIR'
-     Look for the package's source code in directory DIR.  Usually
-     `configure' can determine that directory automatically.
-
-`configure' also accepts some other, not widely useful, options.  Run
-`configure --help' for more details.
 
