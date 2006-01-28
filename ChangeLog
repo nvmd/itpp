@@ -4,6 +4,8 @@
 	multiple instances, to solve a problem with compilation errors;
 	probably a consequence of the revision of #include statements.
 
+	* itpp/comm/llr.h: Cosmetic changes
+	
 2006-01-27  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* INSTALL, doc/local/installation.doc: Updated to reflect recent

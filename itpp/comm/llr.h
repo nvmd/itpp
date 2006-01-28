@@ -234,14 +234,14 @@ namespace itpp {
 
   inline QLLR LLR_calc_unit::logexp(QLLR x)
     {
-      it_assert0(x>=0,"Ldpc_codec::logexp() is not defined for negative LLR values");
+      it_assert0(x>=0,"LLR_calc_unit::logexp() is not defined for negative LLR values");
       int ind = x>>Dint3;
       if (ind>=Dint2) {
 	return 0;
       }
 
-      it_assert0(ind>=0,"Ldpc_codec::logexp() internal error");
-      it_assert0(ind<Dint2,"Ldpc_codec::logexp() internal error");
+      it_assert0(ind>=0,"LLR_calc_unit::logexp() internal error");
+      it_assert0(ind<Dint2,"LLR_calc_unit::logexp() internal error");
 
       // With interpolation 
       // int delta=x-(ind<<Dint3);
