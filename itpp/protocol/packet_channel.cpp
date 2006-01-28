@@ -51,10 +51,10 @@ namespace itpp {
 	Packet_Channel::~Packet_Channel(){}
 
 	void Packet_Channel::set_parameters(const double Pr,  const Ttype Delay,  const double Block_rate, const int Max_slots) {
-		assert(Delay >= 0);
-		assert(Pr>=0.0 && Pr<=1.0);
-		assert(Block_rate > 0);
-		assert(Max_slots >= 0);
+		it_assert(Delay >= 0,"Packet_Channel::set_parameters(): ");
+		it_assert(Pr>=0.0 && Pr<=1.0,"Packet_Channel::set_parameters(): ");
+		it_assert(Block_rate > 0,"Packet_Channel::set_parameters(): ");
+		it_assert(Max_slots >= 0,"Packet_Channel::set_parameters(): ");
 		delay = Delay;
 		pr = Pr;
 		block_time = 1.0/Block_rate;
@@ -70,8 +70,8 @@ namespace itpp {
 	}
 
 	void Packet_Channel::handle_input(Link_Packet* M) {
-		assert(parameters_ok);
-		assert(M!=NULL);
+		it_assert(parameters_ok,"Packet_Channel::handle_input(): ");
+		it_assert(M!=NULL,"Packet_Channel::handle_input(): ");
 		if(explicit_errors){
 			if(k<L){
 				lose = lost(k)==K;
@@ -91,21 +91,21 @@ namespace itpp {
 	}
 
 	void Packet_Channel::block_rate_loop() {
-		assert(parameters_ok);
+		it_assert(parameters_ok,"Packet_Channel::block_rate_loop(): ");
 		get_nof_inputs(NULL);
 		if(keep_running)
 			Event_Queue::add(new Event<Packet_Channel>(this, &Packet_Channel::block_rate_loop, block_time));
 	}
 
 	void Packet_Channel::handle_start(const bool run) {
-		assert(parameters_ok);
+		it_assert(parameters_ok,"Packet_Channel::handle_start(): ");
 		if(run&&!keep_running)// Channel is in 'stop' state. Start it and keep running.
 			Event_Queue::add(new Event<Packet_Channel>(this, &Packet_Channel::block_rate_loop, block_time));  
 		keep_running = run;
 	}
 
 	void Packet_Channel::handle_nof_inputs(const int Nof_ready_messages) {
-		assert(Nof_ready_messages>=0);
+		it_assert(Nof_ready_messages>=0,"Packet_Channel::handle_nof_inputs(): ");
 		int L = 0;
 		if(max_slots>0)
 			L = std::min(Nof_ready_messages, round_i(randu()*max_slots));
@@ -118,7 +118,7 @@ namespace itpp {
 	void Packet_Channel::set_errors(const ivec &Lost) {
 		L = Lost.length();
 		if(L>0){
-			assert(min(Lost)>=0);
+			it_assert(min(Lost)>=0,"Packet_Channel::set_errors(): ");
 			lost = Lost;
 			sort(lost);
 			explicit_errors = true;
@@ -141,8 +141,8 @@ namespace itpp {
 	ACK_Channel::~ACK_Channel(){}
 
 	void ACK_Channel::set_parameters(const double Pr, const Ttype Delay) {
-		assert(Delay >= 0);
-		assert(Pr>=0.0 && Pr<=1.0);
+		it_assert(Delay >= 0,"ACK_Channel::set_parameters(): ");
+		it_assert(Pr>=0.0 && Pr<=1.0,"ACK_Channel::set_parameters(): ");
 		delay = Delay;
 		pr = Pr;
 		input.forward(this, &ACK_Channel::handle_input);
@@ -153,8 +153,8 @@ namespace itpp {
 	}
 
 	void ACK_Channel::handle_input(ACK* M) {
-		assert(parameters_ok);
-		assert(M!=NULL);
+		it_assert(parameters_ok,"ACK_Channel::handle_input(): ");
+		it_assert(M!=NULL,"ACK_Channel::handle_input(): ");
 		if(explicit_errors){
 			if(k<L){
 				lose = lost(k)==K;
@@ -175,7 +175,7 @@ namespace itpp {
 	void ACK_Channel::set_errors(const ivec& Lost) {
 		L = Lost.length();
 		if(L>0){
-			assert(min(Lost)>=0);
+			it_assert(min(Lost)>=0,"ACK_Channel::set_errors(): ");
 			lost = Lost;
 			sort(lost);
 			explicit_errors = true;

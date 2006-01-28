@@ -343,7 +343,7 @@ namespace itpp {
 
   inline void GF::operator/=(const GF &ingf)
 	{
-		assert(ingf.value !=-1); // no division by the zeroth element
+		it_assert(ingf.value !=-1, "GF::operator/: division by zero element"); // no division by the zeroth element
 		if (value == -1)
 			value=-1;
 		else {

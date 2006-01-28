@@ -1,3 +1,9 @@
+2006-01-28  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/**/*.{cpp,h}: Replaced "assert()" with "it_assert()",
+	multiple instances, to solve a problem with compilation errors;
+	probably a consequence of the revision of #include statements.
+
 2006-01-27  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* INSTALL, doc/local/installation.doc: Updated to reflect recent

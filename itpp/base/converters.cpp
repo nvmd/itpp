@@ -213,7 +213,7 @@ namespace itpp {
   template <class T>
   cvec to_cvec(const Vec<T> &real, const Vec<T> &imag)
   {
-    assert(real.length()==imag.length());
+    it_assert(real.length()==imag.length(),"to_cvec: real and imaginary parts must have the same length");
     cvec temp(real.length());
     for(int i=0;i<real.length();i++){
       temp(i)=std::complex<double>(real(i),imag(i));
