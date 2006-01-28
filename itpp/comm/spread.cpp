@@ -177,7 +177,8 @@ namespace itpp {
 
   void Multicode_Spread_2d::set_codes(const mat &incodesI, const mat &incodesQ)
   {
-    assert(incodesI.rows()==incodesQ.rows() && incodesI.cols()==incodesQ.cols());
+    it_assert(incodesI.rows()==incodesQ.rows() && incodesI.cols()==incodesQ.cols(),
+	      "Multicode_Spread_2d::set_codes(): dimension mismatch");
     mcspreadI.set_codes(incodesI);
     mcspreadQ.set_codes(incodesQ);
   }

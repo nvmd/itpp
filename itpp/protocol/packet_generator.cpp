@@ -46,7 +46,7 @@ namespace itpp {
   Packet_Generator::~Packet_Generator() { }
 
   void Packet_Generator::set_parameters(const int Packet_size, const unsigned long int Max_packets){
-    assert(Packet_size>0);
+    it_assert(Packet_size>0,"Packet_Generator::set_parameters(): ");
     packet_size = Packet_size;
     max_packets = Max_packets;
     id = 0;
@@ -92,7 +92,7 @@ namespace itpp {
 						const int Packet_size, 
 						const unsigned long int Max_packets){
     Packet_Generator::set_parameters(Packet_size, Max_packets);  
-    assert(Avg_bit_rate > 0.0);
+    it_assert(Avg_bit_rate > 0.0,"Packet_Generator::set_parameters(): ");
     avg_bit_rate = Avg_bit_rate;
     avg_delta_t = 8.0*get_packet_size()/avg_bit_rate;
     ee.setup(1.0);
@@ -149,7 +149,7 @@ namespace itpp {
   // ----------------------------Sink -------------------------------------------------
 
   Sink::Sink(const unsigned long int Max_packets){
-    assert(Max_packets>0);
+    it_assert(Max_packets>0,"Sink::Sink(): ");
     max_packets = Max_packets;
     Ncp = 0;
     Nbytes = 0;
@@ -165,7 +165,7 @@ namespace itpp {
 
 
   void Sink::handle_packet_input(Packet *P){
-    assert(P!=NULL);
+    it_assert(P!=NULL,"Sink::handle_packet_input(): ");
     Ncp++;
     Nbytes+=(P->bit_size()/8);
     delete P;

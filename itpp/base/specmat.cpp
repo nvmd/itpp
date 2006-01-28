@@ -40,7 +40,7 @@ namespace itpp {
 
   ivec find(const bvec &invector)
   {
-    assert(invector.size()>0);
+    it_assert(invector.size()>0,"find(): vector cannot be empty");
     ivec temp(invector.size());
     int pos=0;
     for (int i=0;i<invector.size();i++) {

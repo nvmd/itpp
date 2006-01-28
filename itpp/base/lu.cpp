@@ -132,7 +132,7 @@ namespace itpp {
 
   void interchange_permutations(vec &b, const ivec &p)
   {
-    assert(b.size() == p.size());
+    it_assert(b.size() == p.size(),"interchange_permutations(): dimension mismatch");
     double temp;
 
     for (int k=0; k<b.size(); k++) {
@@ -144,7 +144,7 @@ namespace itpp {
 
   bmat permutation_matrix(const ivec &p)
   {
-    assert (p.size() > 0);
+    it_assert (p.size() > 0, "permutation_matrix(): vector must have nonzero size");
     int n = p.size(), k;
     bmat P, identity;
     bvec row_k, row_pk;

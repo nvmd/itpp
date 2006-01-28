@@ -63,20 +63,20 @@ namespace itpp {
 
   void LFSR::set_state(const bvec &state)
   {
-    assert(state.length()==memory.size());
+    it_assert(state.length()==memory.size(),"LFSR::set_state(): dimension mismatch");
     memory=state;
   }
 
   void LFSR::set_state(const ivec &state)
   {
     bvec temp=oct2bin(state,1);
-    assert(temp.length()>=memory.size());
+    it_assert(temp.length()>=memory.size(),"LFSR::set_state(): dimension mismatch");
     memory=temp.right(memory.size());
   }
 
   bvec LFSR::shift(int no_shifts)
   {
-    assert(no_shifts>0);
+    it_assert(no_shifts>0,"LFSR::shift(): shift must be positive");
     bvec temp(no_shifts);
     for (int i=0;i<no_shifts;i++) {
       temp(i)=shift();
@@ -115,7 +115,7 @@ namespace itpp {
 
   Gold::Gold(const bvec &mseq1_connections, const bvec &mseq2_connections)
   {
-    assert(mseq1_connections.size()==mseq2_connections.size());
+    it_assert(mseq1_connections.size()==mseq2_connections.size(),"Gold::Gold(): dimension mismatch");
     mseq1.set_connections(mseq1_connections);
     mseq2.set_connections(mseq2_connections);
     N = pow2i(mseq1.get_length()) - 1;
@@ -125,7 +125,7 @@ namespace itpp {
   {
     mseq1.set_connections(mseq1_connections);
     mseq2.set_connections(mseq2_connections);
-    assert(mseq1.get_length()==mseq1.get_length());
+    it_assert(mseq1.get_length()==mseq1.get_length(),"Gold::Gold(): dimension mismatch");
     N = pow2i(mseq1.get_length()) - 1;
   }
 
@@ -143,7 +143,7 @@ namespace itpp {
 
   bvec Gold::shift(int no_shifts)
   {
-    assert(no_shifts>0);
+    it_assert(no_shifts>0,"Gold::shift(): shift must be positive");
     bvec temp(no_shifts);
     for (int i=0;i<no_shifts;i++) {
       temp(i)=shift();

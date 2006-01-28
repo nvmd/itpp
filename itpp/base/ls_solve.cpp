@@ -762,7 +762,8 @@ namespace itpp {
 
   void forward_substitution(const mat &L, const vec &b, vec &x)
   {
-    assert( L.rows() == L.cols() && L.cols() == b.size() && b.size() == x.size() );
+    it_assert( L.rows() == L.cols() && L.cols() == b.size() && b.size() == x.size(), 
+	       "forward_substitution: dimension mismatch" );
     int n = L.rows(), i, j;
     double temp;
 
@@ -792,7 +793,8 @@ namespace itpp {
 
   void forward_substitution(const mat &L, int p, const vec &b, vec &x)
   {
-    assert( L.rows() == L.cols() && L.cols() == b.size() && b.size() == x.size() && p <= L.rows()/2 );
+    it_assert( L.rows() == L.cols() && L.cols() == b.size() && b.size() == x.size() && p <= L.rows()/2,
+	       "forward_substitution: dimension mismatch");
     int n = L.rows(), i, j;
 
     x=b;
@@ -815,7 +817,8 @@ namespace itpp {
 
   void backward_substitution(const mat &U, const vec &b, vec &x)
   {
-    assert( U.rows() == U.cols() && U.cols() == b.size() && b.size() == x.size() );
+    it_assert( U.rows() == U.cols() && U.cols() == b.size() && b.size() == x.size(),
+	       "backward_substitution: dimension mismatch" );
     int n = U.rows(), i, j;
     double temp;
 
@@ -843,7 +846,8 @@ namespace itpp {
 
   void backward_substitution(const mat &U, int q, const vec &b, vec &x)
   {
-    assert( U.rows() == U.cols() && U.cols() == b.size() && b.size() == x.size() && q <= U.rows()/2);
+    it_assert( U.rows() == U.cols() && U.cols() == b.size() && b.size() == x.size() && q <= U.rows()/2,
+	       "backward_substitution: dimension mismatch" );
     int n = U.rows(), i, j;
 
     x=b;
