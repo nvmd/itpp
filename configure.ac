@@ -161,8 +161,8 @@ if test "x$mkl_ok" = xno; then
   if test "x$MKL_LIBS" != x; then
     mkl_save_LDFLAGS="$LDFLAGS"; LDFLAGS="$MKL_LDFLAGS $LDFLAGS"
     mkl_save_LIBS="$LIBS"; LIBS="$MKL_LIBS $LIBS $FLIBS"
-    AC_CHECK_FUNC($sgemm,
-      [AC_CHECK_FUNC($cheev, 
+    AC_CHECK_FUNC(sgemm_,
+      [AC_CHECK_FUNC(cheev_, 
         [AC_CHECK_FUNC(cblas_sgemm,
           [AC_CHECK_FUNC(DftiComputeForward, [mkl_ok=yes])])])])
     LIBS="$mkl_save_LIBS"
@@ -175,66 +175,34 @@ if test "x$mkl_ok" = xyes; then
   LIBS="$MKL_LIBS $LIBS $FLIBS"
   LDFLAGS="$MKL_LDFLAGS $LDFLAGS"
   CPPFLAGS="-I$MKL_DIR/include $CPPFLAGS"
-  fftw_ok=disabled
-  blas_ok=disabled
-  cblas_ok=disabled
-  lapack_ok=disabled
-fi
+  acx_fftw_ok=disabled
+  acx_blas_ok=disabled
+  acx_cblas_ok=disabled
+  acx_lapack_ok=disabled
+else
+  # Checks for FFTW library
+  ACX_FFTW
+  # Checks for BLAS
+  ACX_BLAS
+  # Checks for CBLAS
+  ACX_CBLAS
+  # Checks for LAPACK
+  ACX_LAPACK
 
-
-# Checks for FFTW library
-test "x$fftw_ok" != xdisabled && fftw_ok=no
-AC_ARG_WITH(fftw,
-            [AC_HELP_STRING([--with-fftw=<lib>], 
-                            [use FFTW library <lib>, e.g. -lfftw3])])
-case $with_fftw in
-  yes | "") ;;
-  no) fftw_ok=disabled ;;
-  -* | */* | *.a | *.so | *.so.* | *.o) FFTW_LIBS="$with_fftw" ;;
-  *) FFTW_LIBS="-l$with_fftw" ;;
-esac
-
-if test "x$fftw_ok" = xno; then
-  if test "x$FFTW_LIBS" != x; then
-    fftw_save_LIBS="$LIBS"; LIBS="$FFTW_LIBS $LIBS"
-    AC_CHECK_FUNC(fftw_plan_dft_1d, [fftw_ok=yes], [FFTW_LIBS=""])
-    LIBS="$fftw_save_LIBS"
+  # Set LIBS and HAVE_* definitions
+  if test "x$acx_fftw_ok" = xyes; then
+    LIBS="$FFTW_LIBS $LIBS"
+  fi
+  if test x"$acx_blas_ok" = xyes; then
+    LIBS="$BLAS_LIBS $LIBS $FLIBS"
+    if test "x$acx_cblas_ok" = xyes; then
+      LIBS="$CBLAS_LIBS $LIBS"
+    fi
+    if test x"$acx_lapack_ok" = xyes; then
+      LIBS="$LAPACK_LIBS $LIBS"
+    fi
   fi
 fi
-
-if test "x$fftw_ok" = xno; then
-  AC_CHECK_LIB(fftw3, fftw_plan_dft_1d, [fftw_ok=yes; FFTW_LIBS="-lfftw3"],
-    [], [-lm])
-fi
-
-# Checks for BLAS
-ACX_BLAS([blas_ok=yes], [blas_ok=no])
-
-# Checks for CBLAS
-ACX_CBLAS([cblas_ok=yes], [cblas_ok=no])
-
-# Checks for LAPACK
-ACX_LAPACK([lapack_ok=yes], [lapack_ok=no])
-
-
-# Set LIBS and HAVE_* definitions
-if test "x$fftw_ok" = xyes; then
-  AC_DEFINE([HAVE_FFTW], [1], [Define if you have FFTW library.])
-  LIBS="$FFTW_LIBS $LIBS"
-fi
-if test x"$blas_ok" = xyes; then
-  AC_DEFINE([HAVE_BLAS], [1], [Define if you have a BLAS library.])
-  LIBS="$BLAS_LIBS $LIBS $FLIBS"
-  if test "x$cblas_ok" = xyes; then
-  AC_DEFINE([HAVE_CBLAS], [1], [Define if you have CBLAS library.])
-    LIBS="$CBLAS_LIBS $LIBS"
-  fi
-  if test x"$lapack_ok" = xyes; then
-  AC_DEFINE([HAVE_LAPACK], [1], [Define if you have LAPACK library.])
-    LIBS="$LAPACK_LIBS $LIBS"
-  fi
-fi
-
 
 # Checks for header files
 AC_HEADER_STDC
@@ -306,10 +274,10 @@ Testing tools:
 
 External libs:
   - MKL .......... : ${mkl_ok}
-  - FFTW ......... : ${fftw_ok}
-  - BLAS ......... : ${blas_ok}
-  - CBLAS ........ : ${cblas_ok}
-  - LAPACK ....... : ${lapack_ok}
+  - FFTW ......... : ${acx_fftw_ok}
+  - BLAS ......... : ${acx_blas_ok}
+  - CBLAS ........ : ${acx_cblas_ok}
+  - LAPACK ....... : ${acx_lapack_ok}
 
 Compiler/linker flags/libs/defs:
   - CXX .......... : ${CXX}

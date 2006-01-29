@@ -40,7 +40,7 @@ AC_ARG_WITH(lapack,
         [AC_HELP_STRING([--with-lapack=<lib>], [use LAPACK library <lib>])])
 case $with_lapack in
         yes | "") ;;
-        no) acx_lapack_ok=disable ;;
+        no) acx_lapack_ok=disabled ;;
         -* | */* | *.a | *.so | *.so.* | *.o) LAPACK_LIBS="$with_lapack" ;;
         *) LAPACK_LIBS="-l$with_lapack" ;;
 esac
@@ -89,7 +89,8 @@ if test x"$acx_lapack_ok" = xyes; then
         ifelse([$1],,AC_DEFINE(HAVE_LAPACK,1,[Define if you have LAPACK library.]),[$1])
         :
 else
-        acx_lapack_ok=no
+#        acx_lapack_ok=no
+	:
         $2
 fi
 ])dnl ACX_LAPACK
