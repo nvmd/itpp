@@ -40,7 +40,7 @@ AC_ARG_WITH(cblas,
         [AC_HELP_STRING([--with-cblas=<lib>], [use CBLAS library <lib>])])
 case $with_cblas in
         yes | "") ;;
-        no) acx_cblas_ok=disable ;;
+        no) acx_cblas_ok=disabled ;;
         -* | */* | *.a | *.so | *.so.* | *.o) CBLAS_LIBS="$with_cblas" ;;
         *) CBLAS_LIBS="-l$with_cblas" ;;
 esac
@@ -84,7 +84,8 @@ if test x"$acx_cblas_ok" = xyes; then
         ifelse([$1],,AC_DEFINE(HAVE_CBLAS,1,[Define if you have CBLAS library.]),[$1])
         :
 else
-        acx_cblas_ok=no
+#        acx_cblas_ok=no
+	:
         $2
 fi
 ])dnl ACX_CBLAS

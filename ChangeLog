@@ -1,3 +1,14 @@
+==============================================================================
+
+2006-01-28  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* IT++ 3.9.1 released (CVS tag: release-3-9-1)
+
+	* configure.ac, config/acx_blas.m4, config/acx_cblas.m4,
+	config/acx_fftw.m4, config/acx_lapack.m4: Final bug-fixes before
+	release 3.9.1 in the configuration scripts (merged from
+	itpp-3-9-branch)
+	
 2006-01-28  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/**/*.{cpp,h}: Replaced "assert()" with "it_assert()",
