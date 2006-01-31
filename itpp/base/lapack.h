@@ -41,16 +41,11 @@
 
 #include <complex>
 
-
-#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
-
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-
 extern "C" {
 
 // Fix for MKL Windows version so that naming is consistent with the 5.x and 
 // 7.x MKL LAPACK libraries
-#ifdef HAVE_MKL
+#ifdef HAVE_MKL // Note: HAVE_MKL is hard-defined in <itpp/config_msvc.h> 
 
 #define dgetrf_ dgetrf
 #define zgetrf_ zgetrf
@@ -271,9 +266,5 @@ extern "C" {
 	      int *bwork, int *info);
   
 } // extern C
-
-#endif // #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
-#endif // #if defined(HAVE_LAPACK) || defined(HAVE_MKL)
 
 #endif // #ifndef LAPACK_H

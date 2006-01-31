@@ -36,7 +36,7 @@
 #  include <itpp/config_msvc.h>
 #endif
 
-#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#if defined(HAVE_LAPACK)
 #  include <itpp/base/lapack.h>
 #endif
 
@@ -46,7 +46,7 @@
 
 namespace itpp { 
 
-#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#if defined(HAVE_LAPACK)
 
   bool eig_sym(const mat &A, vec &d, mat &V)
   {
@@ -249,54 +249,54 @@ namespace itpp {
 
   bool eig_sym(const mat &A, vec &d, mat &V)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for eig_sym() to exist");
+    it_error("LAPACK library is needed to use eig_sym() function");
     return false;   
   }
 
   bool eig_sym(const mat &A, vec &d)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for eig_sym() to exist");
+    it_error("LAPACK library is needed to use eig_sym() function");
     return false;   
   }
 
   bool eig_sym(const cmat &A, vec &d, cmat &V)
-  {
-    it_error("You need to compile IT++ with LAPACK or MKL for eig_sym() to exist");
+  { 
+    it_error("LAPACK library is needed to use eig_sym() function");
     return false;   
   }
 
   bool eig_sym(const cmat &A, vec &d)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for eig_sym() to exist");
+    it_error("LAPACK library is needed to use eig_sym() function");
     return false;   
   }
 
 
   bool eig(const mat &A, cvec &d, cmat &V)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for eig() to exist");
+    it_error("LAPACK library is needed to use eig() function");
     return false;   
   }
 
   bool eig(const mat &A, cvec &d)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for eig() to exist");
+    it_error("LAPACK library is needed to use eig() function");
     return false;   
   }
 
   bool eig(const cmat &A, cvec &d, cmat &V)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for eig() to exist");
+    it_error("LAPACK library is needed to use eig() function");
     return false;   
   }
 
   bool eig(const cmat &A, cvec &d)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for eig() to exist");
+    it_error("LAPACK library is needed to use eig() function");
     return false;   
   }
 
-#endif // HAVE_LAPACK or HAVE_MKL
+#endif // HAVE_LAPACK
 
   vec eig_sym(const mat &A)
   {

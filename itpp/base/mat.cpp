@@ -132,7 +132,7 @@ namespace itpp {
 
   // -------- Multiplication operator -------------
 
-#if defined(HAVE_CBLAS) || defined(HAVE_MKL)
+#if defined(HAVE_CBLAS)
   template<>
   mat& mat::operator*=(const mat &m)
   {
@@ -210,7 +210,7 @@ namespace itpp {
     return r;
   }
 
-#endif // HAVE_CBLAS or HAVE_MKL
+#endif // HAVE_CBLAS
 
 
   // ---------------------- Instantiations --------------------------------
@@ -276,7 +276,7 @@ namespace itpp {
 
   //-------- Multiplication operators ---------------
 
-#if !defined(HAVE_CBLAS) && !defined(HAVE_MKL)
+#if !defined(HAVE_CBLAS)
   template const mat operator*(const mat &m1, const mat &m2);
   template const cmat operator*(const cmat &m1, const cmat &m2);
 #endif
@@ -284,7 +284,7 @@ namespace itpp {
   template const smat operator*(const smat &m1, const smat &m2);
   template const bmat operator*(const bmat &m1, const bmat &m2);
 
-#if !defined(HAVE_CBLAS) && !defined(HAVE_MKL)
+#if !defined(HAVE_CBLAS)
   template const vec operator*(const mat &m, const vec &v);
   template const cvec operator*(const cmat &m, const cvec &v);
 #endif

@@ -1242,7 +1242,7 @@ namespace itpp {
     return r;
   }
 
-#if defined(HAVE_CBLAS) || defined(HAVE_MKL)
+#if defined(HAVE_CBLAS)
   template<> mat& mat::operator*=(const mat &m);
   template<> cmat& cmat::operator*=(const cmat &m);
 #endif
@@ -1282,7 +1282,7 @@ namespace itpp {
     return *this;
   }
 
-#if defined(HAVE_CBLAS) || defined(HAVE_MKL)
+#if defined(HAVE_CBLAS)
   template<> const mat operator*(const mat &m1, const mat &m2);
   template<> const cmat operator*(const cmat &m1, const cmat &m2);
 #endif
@@ -1313,7 +1313,7 @@ namespace itpp {
     return r;
   }
 
-#if defined(HAVE_CBLAS) || defined(HAVE_MKL)
+#if defined(HAVE_CBLAS)
   template<> const vec operator*(const mat &m, const vec &v);
   template<> const cvec operator*(const cmat &m, const cvec &v);
 #endif
@@ -1647,7 +1647,7 @@ namespace itpp {
 
   //-------- Multiplication operators ---------------
 
-#if !defined(HAVE_CBLAS) && !defined(HAVE_MKL)
+#if !defined(HAVE_CBLAS)
   //! Template instantiation of operator*
   extern template const mat operator*(const mat &m1, const mat &m2);
   //! Template instantiation of operator*
@@ -1660,7 +1660,7 @@ namespace itpp {
   //! Template instantiation of operator*
   extern template const bmat operator*(const bmat &m1, const bmat &m2);
 
-#if !defined(HAVE_CBLAS) && !defined(HAVE_MKL)
+#if !defined(HAVE_CBLAS)
   //! Template instantiation of operator*
   extern template const vec operator*(const mat &m, const vec &v);
   //! Template instantiation of operator*

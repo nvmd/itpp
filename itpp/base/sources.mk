@@ -14,7 +14,6 @@ h_base_sources = \
 	$(top_srcdir)/itpp/base/factory.h \
 	$(top_srcdir)/itpp/base/fastica.h \
 	$(top_srcdir)/itpp/base/fastmath.h \
-	$(top_srcdir)/itpp/base/fftw3.h \
 	$(top_srcdir)/itpp/base/filter.h \
 	$(top_srcdir)/itpp/base/filter_design.h \
 	$(top_srcdir)/itpp/base/freq_filt.h \

@@ -36,7 +36,7 @@
 #  include <itpp/config_msvc.h>
 #endif
 
-#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#if defined(HAVE_LAPACK)
 #  include <itpp/base/lapack.h>
 #endif
 
@@ -46,7 +46,7 @@
 
 namespace itpp { 
 
-#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#if defined(HAVE_LAPACK)
 
   bool lu(const mat &X, mat &L, mat &U, ivec &p)
   {
@@ -117,17 +117,17 @@ namespace itpp {
 
   bool lu(const mat &X, mat &L, mat &U, ivec &p)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for lu() to exist");
+    it_error("LAPACK library is needed to use lu() function");
     return false;   
   }
 
   bool lu(const cmat &X, cmat &L, cmat &U, ivec &p)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for lu() to exist");
+    it_error("LAPACK library is needed to use lu() function");
     return false;   
   }
 
-#endif // HAVE_LAPACK or HAVE_MKL
+#endif // HAVE_LAPACK
 
 
   void interchange_permutations(vec &b, const ivec &p)

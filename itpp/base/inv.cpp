@@ -36,7 +36,7 @@
 #  include <itpp/config_msvc.h>
 #endif
 
-#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#if defined(HAVE_LAPACK)
 #  include <itpp/base/lapack.h>
 #endif
 
@@ -45,7 +45,7 @@
 
 namespace itpp { 
 
-#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#if defined(HAVE_LAPACK)
 
   bool inv(const mat &X, mat &Y)
   {
@@ -89,17 +89,17 @@ namespace itpp {
 
   bool inv(const mat &X, mat &Y)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for inv() to exist");
+    it_error("LAPACK library is needed to use inv() function");
     return false;
   }
 
   bool inv(const cmat &X, cmat &Y)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for inv() to exist");
+    it_error("LAPACK library is needed to use inv() function");
     return false;
   }
 
-#endif // HAVE_LAPACK or HAVE_MKL
+#endif // HAVE_LAPACK
 
   cmat inv(const cmat &X)
   {
