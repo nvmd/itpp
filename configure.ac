@@ -27,7 +27,6 @@ AC_SUBST(GENERIC_LIBRARY_VERSION)
 
 # Checks for programs
 save_CXXFLAGS="$CXXFLAGS"
-CXXFLAGS="-g"
 AC_PROG_CXX
 AC_PROG_CXXCPP
 CXXFLAGS="$save_CXXFLAGS"
@@ -134,74 +133,30 @@ AM_CONDITIONAL([HAVE_DIFF], [test "x$diff_ok" = xyes])
 # Check for standard math library
 AC_CHECK_LIB(m, sin)
 
+# Checks for BLAS (ACML, MKL, ATLAS or NETLIB)
+ACX_BLAS
 
-# Checks for Intel's MKL
-AC_ARG_WITH(mkl_dir, 
-            [AC_HELP_STRING([--with-mkl-dir=DIR], 
-                            [set MKL directory to DIR, e.g. \
-                             /opt/intel/mkl/8.0.1])], 
-            [MKL_DIR=$withval], [MKL_DIR=""])
-if test "x$MKL_DIR" != x; then
-  MKL_LDFLAGS="-L$MKL_DIR/lib/32 -L$MKL_DIR/lib/64"
-fi
+# Checks for LAPACK (ACML, MKL, ATLAS or NETLIB)
+ACX_LAPACK
 
-mkl_ok=no
-AC_ARG_WITH(mkl, 
-            [AC_HELP_STRING([--with-mkl=<lib>], 
-                            [use MKL libraries <lib>, e.g. -lmkl_p4 \
-                             -lmkl_lapack -lguide])])
-case $with_mkl in
-  yes | "") ;;
-  no) mkl_ok=disabled ;;
-  -* | */* | *.a | *.so | *.so.* | *.o) MKL_LIBS="$with_mkl" ;;
-  *) MKL_LIBS="-l$with_mkl" ;;
-esac
+# Checks for CBLAS (MKL, ATLAS or NETLIB)
+ACX_CBLAS
 
-if test "x$mkl_ok" = xno; then
-  if test "x$MKL_LIBS" != x; then
-    mkl_save_LDFLAGS="$LDFLAGS"; LDFLAGS="$MKL_LDFLAGS $LDFLAGS"
-    mkl_save_LIBS="$LIBS"; LIBS="$MKL_LIBS $LIBS $FLIBS"
-    AC_CHECK_FUNC(sgemm_,
-      [AC_CHECK_FUNC(cheev_, 
-        [AC_CHECK_FUNC(cblas_sgemm,
-          [AC_CHECK_FUNC(DftiComputeForward, [mkl_ok=yes])])])])
-    LIBS="$mkl_save_LIBS"
-    LDFLAGS="$mkl_save_LDFLAGS"
+# Checks for FFT (MKL or FFTW3)
+ACX_FFT
+
+# Set LIBS
+if test x"$acx_blas_ok" = xyes; then
+  LIBS="$BLAS_LIBS $LIBS $FLIBS"
+  if test x"$LAPACK_LIBS" != x; then
+    LIBS="$LAPACK_LIBS $LIBS"
+  fi
+  if test "x$CBLAS_LIBS" != x; then
+    LIBS="$CBLAS_LIBS $LIBS"
   fi
 fi
-
-if test "x$mkl_ok" = xyes; then
-  AC_DEFINE([HAVE_MKL], [1], [Define if you have MKL library.])
-  LIBS="$MKL_LIBS $LIBS $FLIBS"
-  LDFLAGS="$MKL_LDFLAGS $LDFLAGS"
-  CPPFLAGS="-I$MKL_DIR/include $CPPFLAGS"
-  acx_fftw_ok=disabled
-  acx_blas_ok=disabled
-  acx_cblas_ok=disabled
-  acx_lapack_ok=disabled
-else
-  # Checks for FFTW library
-  ACX_FFTW
-  # Checks for BLAS
-  ACX_BLAS
-  # Checks for CBLAS
-  ACX_CBLAS
-  # Checks for LAPACK
-  ACX_LAPACK
-
-  # Set LIBS and HAVE_* definitions
-  if test "x$acx_fftw_ok" = xyes; then
-    LIBS="$FFTW_LIBS $LIBS"
-  fi
-  if test x"$acx_blas_ok" = xyes; then
-    LIBS="$BLAS_LIBS $LIBS $FLIBS"
-    if test "x$acx_cblas_ok" = xyes; then
-      LIBS="$CBLAS_LIBS $LIBS"
-    fi
-    if test x"$acx_lapack_ok" = xyes; then
-      LIBS="$LAPACK_LIBS $LIBS"
-    fi
-  fi
+if test "x$FFT_LIBS" != x; then
+  LIBS="$FFT_LIBS $LIBS"
 fi
 
 # Checks for header files
@@ -266,23 +221,27 @@ Switches:
 Documentation tools:
   - Doxygen ...... : ${doxygen_ok}
   - LaTeX ........ : ${latex_ok}
-  - Dvips ........ : ${dvips_ok}
+  - DviPS ........ : ${dvips_ok}
   - GhostScript .. : ${gs_ok}
 
 Testing tools:
   - Diff ......... : ${diff_ok}
 
 External libs:
-  - MKL .......... : ${mkl_ok}
-  - FFTW ......... : ${acx_fftw_ok}
   - BLAS ......... : ${acx_blas_ok}
+    * ACML ....... : ${blas_acml_ok}
+    * MKL ........ : ${blas_mkl_ok}
+    * ATLAS ...... : ${blas_atlas_ok}
   - CBLAS ........ : ${acx_cblas_ok}
   - LAPACK ....... : ${acx_lapack_ok}
+  - FFT .......... : ${acx_fft_ok}
+    * MKL ........ : ${fft_mkl8_ok}
+    * FFTW ....... : ${fftw3_ok}
 
 Compiler/linker flags/libs/defs:
   - CXX .......... : ${CXX}
-  - CPPFLAGS ..... : ${CPPFLAGS}
   - CXXFLAGS ..... : ${CXXFLAGS}
+  - CPPFLAGS ..... : ${CPPFLAGS}
   - LDFLAGS ...... : ${LDFLAGS}
   - LIBS ......... : ${LIBS}
 

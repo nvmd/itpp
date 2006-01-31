@@ -36,7 +36,7 @@
 #  include <itpp/config_msvc.h>
 #endif
 
-#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#if defined(HAVE_LAPACK)
 #  include <itpp/base/lapack.h>
 #endif
 
@@ -45,7 +45,7 @@
 
 namespace itpp { 
 
-#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#if defined(HAVE_LAPACK)
 
   bool svd(const mat &A, vec &S)
   {
@@ -137,29 +137,29 @@ namespace itpp {
 
   bool svd(const mat &A, vec &S)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for svd() to exist");
+    it_error("LAPACK library is needed to use svd() function");
     return false;
   }
 
   bool svd(const cmat &A, vec &S)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for svd() to exist");
+    it_error("LAPACK library is needed to use svd() function");
     return false;
   }
 
   bool svd(const mat &A, mat &U, vec &S, mat &V)
   {   
-    it_error("You need to compile IT++ with LAPACK or MKL for svd() to exist");
+    it_error("LAPACK library is needed to use svd() function");
     return false;
   }
 
   bool svd(const cmat &A, cmat &U, vec &S, cmat &V)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for svd() to exist");
+    it_error("LAPACK library is needed to use svd() function");
     return false;   
   }
 
-#endif // HAVE_LAPACK or HAVE_MKL
+#endif // HAVE_LAPACK
 
   vec svd(const mat &A)
   {

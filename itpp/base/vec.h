@@ -796,7 +796,7 @@ namespace itpp {
     return *this;
   }
 
-#if defined(HAVE_CBLAS) || defined(HAVE_MKL)
+#if defined(HAVE_CBLAS)
   template<> const double dot(const vec &v1, const vec &v2);
   template<> const std::complex<double> dot(const cvec &v1, const cvec &v2);
 #endif
@@ -1620,7 +1620,7 @@ namespace itpp {
 
   //------------- Multiplication operator ----------
 
-#if !defined(HAVE_CBLAS) && !defined(HAVE_MKL)
+#if !defined(HAVE_CBLAS)
   //! Template instantiation of dot
   extern template const double dot(const vec &v1, const vec &v2);
   //! Template instantiation of dot

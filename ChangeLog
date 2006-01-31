@@ -1,4 +1,35 @@
+2006-01-31  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac, config/*.m4, itpp-config.in, itpp.pc.in,
+	doc/doxygen_html.cfg.in, itpp/config_msvc.h, itpp/base/*.{cpp,h},
+	tests/*.cpp: Major redesign of the configuration scripts.
+
+	The following things changed: 
+	- added support for ACML (AMD Core Math Library)
+	- checks for BLAS now detect MKL, ACML, ATLAS and reference
+	(from Netlib) BLAS implementations; if found, HAVE_BLAS is defined
+	- checks for LAPACK also detect MKL, ACML, ATLAS and reference
+	LAPACK library; if found, HAVE_LAPACK is defined
+	- checks for CBLAS detect MKL, ATLAS and reference implementation, 
+	however	CBLAS is fully optional; if found, HAVE_CBLAS is defined
+	- new checks for FFT: detects MKL or FFTW3 implementation; if
+	found, HAVE_FFT and either HAVE_FFTW3 or HAVE_FFT_MKL8 are defined
+	- new checks for <mkl_dfti.h> and <fftw3.h> header files provided
+	by external libraries; not using <itpp/base/fftw3.h> any more.
+	
+	It is now possible to mix various implementation of BLAS, LAPACK
+	and FFT routines, e.g.:
+	- use MKL for BLAS, reference Netlib's LAPACK and FFTW3,
+	- use ACML for BLAS and LAPACK, reference Netlib's CBLAS and
+	FFTW3.
+
+	This redesign has been tested using Cygwin and Gentoo Linux. The
+	latter one had MKL v8.0.1, ACML v3.0.0, ATLAS v3.6.0, FFTW v3.0.1 
+	and Netlib's BLAS, CBLAS and LAPACK v3.0 libraries installed.
+
+	TODO: Update installation instructions in the documentation. Test
+	if the changes did not cause any problems for MSVC++ .NET users.
+	
 2006-01-29  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/doc/local/installation.doc: Documentation update

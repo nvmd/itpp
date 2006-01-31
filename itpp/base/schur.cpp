@@ -36,7 +36,7 @@
 #  include <itpp/config_msvc.h>
 #endif
 
-#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#if defined(HAVE_LAPACK)
 #  include <itpp/base/lapack.h>
 #endif
 
@@ -45,7 +45,7 @@
 
 namespace itpp { 
 
-#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#if defined(HAVE_LAPACK)
 
   bool schur(const mat &A, mat &U, mat &T) {
     it_assert1(A.rows() == A.cols(), "schur(): Matrix is not square");
@@ -103,17 +103,17 @@ namespace itpp {
 #else
 
   bool schur(const mat &A, mat &U, mat &T) {
-    it_error("You need to compile IT++ with LAPACK (or MKL) to use this function");
+    it_error("LAPACK library is needed to use schur() function");
     return false;   
   }
 
 
   bool schur(const cmat &A, cmat &U, cmat &T) {
-    it_error("You need to compile IT++ with LAPACK (or MKL) to use this function");
+    it_error("LAPACK library is needed to use schur() function");
     return false;
   }
 
-#endif // HAVE_LAPACK or HAVE_MKL
+#endif // HAVE_LAPACK
 
   mat schur(const mat &A) {
     mat U, T;

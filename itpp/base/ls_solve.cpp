@@ -36,7 +36,7 @@
 #  include <itpp/config_msvc.h>
 #endif
 
-#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#if defined(HAVE_LAPACK)
 #  include <itpp/base/lapack.h>
 #endif
 
@@ -47,7 +47,7 @@ namespace itpp {
 
   // ----------- ls_solve_chol -----------------------------------------------------------
 
-#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#if defined(HAVE_LAPACK)
 
   bool ls_solve_chol(const mat &A, const vec &b, vec &x)
   {
@@ -130,29 +130,29 @@ namespace itpp {
 
   bool ls_solve_chol(const mat &A, const vec &b, vec &x)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for ls_solve_chol() to exist");
+    it_error("LAPACK library is needed to use ls_solve_chol() function");
     return false;
   }
 
   bool ls_solve_chol(const mat &A, const mat &B, mat &X)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for ls_solve_chol() to exist");
+    it_error("LAPACK library is needed to use ls_solve_chol() function");
     return false;
   }
 
   bool ls_solve_chol(const cmat &A, const cvec &b, cvec &x)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for ls_solve_chol() to exist");
+    it_error("LAPACK library is needed to use ls_solve_chol() function");
     return false;
   }
 
   bool ls_solve_chol(const cmat &A, const cmat &B, cmat &X)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for ls_solve_chol() to exist");
+    it_error("LAPACK library is needed to use ls_solve_chol() function");
     return false;
   }
 
-#endif // HAVE_LAPACK or HAVE_MKL
+#endif // HAVE_LAPACK
 
   vec ls_solve_chol(const mat &A, const vec &b)
   {
@@ -191,10 +191,8 @@ namespace itpp {
   }
 
 
-
-
   // --------- ls_solve ---------------------------------------------------------------
-#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#if defined(HAVE_LAPACK)
 
   bool ls_solve(const mat &A, const vec &b, vec &x)
   {
@@ -272,29 +270,29 @@ namespace itpp {
 
   bool ls_solve(const mat &A, const vec &b, vec &x)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for ls_solve() to exist");
+    it_error("LAPACK library is needed to use ls_solve() function");
     return false;   
   }
 
   bool ls_solve(const mat &A, const mat &B, mat &X)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for ls_solve() to exist");
+    it_error("LAPACK library is needed to use ls_solve() function");
     return false;   
   }
 
   bool ls_solve(const cmat &A, const cvec &b, cvec &x)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for ls_solve() to exist");
+    it_error("LAPACK library is needed to use ls_solve() function");
     return false;   
   }
 
   bool ls_solve(const cmat &A, const cmat &B, cmat &X)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for ls_solve() to exist");
+    it_error("LAPACK library is needed to use ls_solve() function");
     return false;   
   }
 
-#endif // HAVE_LAPACK or HAVE_MKL
+#endif // HAVE_LAPACK
 
   vec ls_solve(const mat &A, const vec &b)
   {
@@ -334,7 +332,7 @@ namespace itpp {
 
 
   // ----------------- ls_solve_od ------------------------------------------------------------------
-#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#if defined(HAVE_LAPACK)
 
   bool ls_solve_od(const mat &A, const vec &b, vec &x)
   {
@@ -425,32 +423,32 @@ namespace itpp {
   }
 
 #else
+
   bool ls_solve_od(const mat &A, const vec &b, vec &x)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for ls_solve_od() to exist");
+    it_error("LAPACK library is needed to use ls_solve_od() function");
     return false;   
   }
 
   bool ls_solve_od(const mat &A, const mat &B, mat &X)
   { 
-    it_error("You need to compile IT++ with LAPACK or MKL for ls_solve_od() to exist");
+    it_error("LAPACK library is needed to use ls_solve_od() function");
     return false;   
   }
 
   bool ls_solve_od(const cmat &A, const cvec &b, cvec &x)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for ls_solve_od() to exist");
+    it_error("LAPACK library is needed to use ls_solve_od() function");
     return false;   
   }
 
   bool ls_solve_od(const cmat &A, const cmat &B, cmat &X)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for ls_solve_od() to exist");
+    it_error("LAPACK library is needed to use ls_solve_od() function");
     return false;   
   }
 
-#endif // HAVE_LAPACK or HAVE_MKL
-
+#endif // HAVE_LAPACK
 
   vec ls_solve_od(const mat &A, const vec &b)
   {
@@ -489,7 +487,7 @@ namespace itpp {
   }
 
   // ------------------- ls_solve_ud -----------------------------------------------------------
-#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#if defined(HAVE_LAPACK)
 
   bool ls_solve_ud(const mat &A, const vec &b, vec &x)
   {
@@ -589,29 +587,29 @@ namespace itpp {
 
   bool ls_solve_ud(const mat &A, const vec &b, vec &x)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for ls_solve_ud() to exist");
+    it_error("LAPACK library is needed to use ls_solve_ud() function");
     return false;   
   }
 
   bool ls_solve_ud(const mat &A, const mat &B, mat &X)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for ls_solve_ud() to exist");
+    it_error("LAPACK library is needed to use ls_solve_ud() function");
     return false;   
   }
 
   bool ls_solve_ud(const cmat &A, const cvec &b, cvec &x)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for ls_solve_ud() to exist");
+    it_error("LAPACK library is needed to use ls_solve_ud() function");
     return false;   
   }
 
   bool ls_solve_ud(const cmat &A, const cmat &B, cmat &X)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for ls_solve_ud() to exist");
+    it_error("LAPACK library is needed to use ls_solve_ud() function");
     return false;   
   }
 
-#endif // HAVE_LAPACK or HAVE_MKL
+#endif // HAVE_LAPACK
 
 
   vec ls_solve_ud(const mat &A, const vec &b)

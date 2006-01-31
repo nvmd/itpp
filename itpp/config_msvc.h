@@ -11,14 +11,11 @@
 /* Define if F77 and FC dummy `main' functions are identical. */
 /* #undef FC_DUMMY_MAIN_EQ_F77 */
 
-/* Define to 1 if you have the <algorithm> header file. */
-#define HAVE_ALGORITHM 1
-
-/* Define to 1 if you have the <cassert> header file. */
-#define HAVE_CASSERT 1
+/* Define if you have a BLAS library. */
+#define HAVE_BLAS 1
 
 /* Define if you have CBLAS library. */
-/* #undef HAVE_CBLAS */
+#define HAVE_CBLAS 1
 
 /* Define to 1 if you have the <cmath> header file. */
 #define HAVE_CMATH 1
@@ -26,17 +23,20 @@
 /* Define to 1 if you have the <complex> header file. */
 #define HAVE_COMPLEX 1
 
-/* Define to 1 if you have the <cstring> header file. */
-#define HAVE_CSTRING 1
-
 /* Define to 1 if you have the <deque> header file. */
 #define HAVE_DEQUE 1
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #define HAVE_DLFCN_H 1
 
-/* Define if you have FFTW library. */
-/* #undef HAVE_FFTW */
+/* Define if you have FFT library. */
+#define HAVE_FFT 1
+
+/* Define if you have FFTW3 library. */
+/* #undef HAVE_FFTW3 */
+
+/* Define if you have MKL8 FFT library. */
+#define HAVE_FFT_MKL8 1
 
 /* Define to 1 if you have the <fstream> header file. */
 #define HAVE_FSTREAM 1
@@ -44,8 +44,14 @@
 /* Define to 1 if you have the <inttypes.h> header file. */
 #define HAVE_INTTYPES_H 1
 
+/* Define to 1 if you have the <iomanip> header file. */
+#define HAVE_IOMANIP 1
+
+/* Define to 1 if you have the <iostream> header file. */
+#define HAVE_IOSTREAM 1
+
 /* Define if you have LAPACK library. */
-/* #undef HAVE_LAPACK */
+#define HAVE_LAPACK 1
 
 /* Define to 1 if you have the `m' library (-lm). */
 #define HAVE_LIBM 1
@@ -65,6 +71,9 @@
 /* Define to 1 if you have the <queue> header file. */
 #define HAVE_QUEUE 1
 
+/* Define to 1 if you have the <stdexcept> header file. */
+#define HAVE_STDEXCEPT 1
+
 /* Define to 1 if you have the <stdint.h> header file. */
 #define HAVE_STDINT_H 1
 
@@ -83,14 +92,14 @@
 /* Define to 1 if you have the <sys/stat.h> header file. */
 #define HAVE_SYS_STAT_H 1
 
-/* Define to 1 if you have the <sys/time.h> header file. */
-/* #undef HAVE_SYS_TIME_H */
-
 /* Define to 1 if you have the <sys/types.h> header file. */
 #define HAVE_SYS_TYPES_H 1
 
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
+
+/* Define if you want exceptions handling */
+/* #undef ITPP_EXCEPTIONS */
 
 /* Define NDEBUG flag */
 /* #undef NDEBUG */

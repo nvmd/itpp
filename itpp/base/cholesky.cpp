@@ -36,7 +36,7 @@
 #  include <itpp/config_msvc.h>
 #endif
 
-#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#if defined(HAVE_LAPACK)
 #  include <itpp/base/lapack.h>
 #endif
 
@@ -45,7 +45,7 @@
 
 namespace itpp { 
 
-#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#if defined(HAVE_LAPACK)
 
   bool chol(const mat &X, mat &F)
   {
@@ -84,22 +84,22 @@ namespace itpp {
     return (info==0);
   }
 
-#else // HAVE_LAPACK or HAVE_MKL
+#else // HAVE_LAPACK
 
   bool chol(const mat &X, mat &F)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for chol() to exist");
+    it_error("LAPACK library is needed to use chol() function");
     return false;
   }
 
   bool chol(const cmat &X, cmat &F)
   {
 
-    it_error("You need to compile IT++ with LAPACK or MKL for chol() to exist");
+    it_error("LAPACK library is needed to use chol() function");
     return false;
   }
 
-#endif // HAVE_LAPACK or HAVE_MKL
+#endif // HAVE_LAPACK
 
   cmat chol(const cmat &X)
   {

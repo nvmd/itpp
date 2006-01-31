@@ -36,7 +36,7 @@
 #  include <itpp/config_msvc.h>
 #endif
 
-#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#if defined(HAVE_LAPACK)
 #  include <itpp/base/lapack.h>
 #endif
 
@@ -45,7 +45,7 @@
 
 namespace itpp { 
 
-#if defined(HAVE_LAPACK) || defined(HAVE_MKL)
+#if defined(HAVE_LAPACK)
 
   bool qr(const mat &A, mat &Q, mat &R)
   {
@@ -171,28 +171,28 @@ namespace itpp {
 
   bool qr(const mat &A, mat &Q, mat &R)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for qr() to exist");
+    it_error("LAPACK library is needed to use qr() function");
     return false;
   }
 
   bool qr(const mat &A, mat &Q, mat &R, bmat &P)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for qr() to exist");
+    it_error("LAPACK library is needed to use qr() function");
     return false;
   }
 
   bool qr(const cmat &A, cmat &Q, cmat &R)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for qr() to exist");
+    it_error("LAPACK library is needed to use qr() function");
     return false;
   }
 
   bool qr(const cmat &A, cmat &Q, cmat &R, bmat &P)
   {
-    it_error("You need to compile IT++ with LAPACK or MKL for qr() to exist");
+    it_error("LAPACK library is needed to use qr() function");
     return false;
   }
 
-#endif // HAVE_LAPACK or HAVE_MKL
+#endif // HAVE_LAPACK
 
 } // namespace itpp

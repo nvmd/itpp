@@ -40,10 +40,10 @@
 #  include <itpp/config_msvc.h>
 #endif
 
-#if defined(HAVE_MKL)
+#if defined(HAVE_FFT_MKL8)
 #  include <mkl_dfti.h>
-#elif defined(HAVE_FFTW)
-#  include <itpp/base/fftw3.h>
+#elif defined(HAVE_FFTW3)
+#  include <fftw3.h>
 #endif
 
 #include <itpp/base/matfunc.h>
@@ -53,7 +53,7 @@
 
 namespace itpp { 
 
-#ifdef HAVE_MKL
+#ifdef HAVE_FFT_MKL8
 
   //---------------------------------------------------------------------------
   // FFT based on MKL
@@ -159,8 +159,7 @@ namespace itpp {
 
   // y=real(fft([x fliplr(x)]).*exp(-j*pi/length(x)/2*[0:(length(x)*2-1)])/sqrt(length(x)*2));y(1)=y(1)/sqrt(2);y=y(1:length(x))
 
-
-#elif defined(HAVE_FFTW)
+#elif defined(HAVE_FFTW3)
 
   //---------------------------------------------------------------------------
   // FFT based on FFTW
@@ -311,40 +310,39 @@ namespace itpp {
     fftw_execute_r2r(p, (double *)out._data(), (double *)out._data());
   }
 
-
 #else
 
   void fft(const cvec &in, cvec &out)
   {
-    it_error("You need to compile IT++ with FFTW (or MKL) for fft() to exist");
+    it_error("FFT library is needed to use fft() function");
   }
 
   void ifft(const cvec &in, cvec &out)
   {
-    it_error("You need to compile IT++ with FFTW (or MKL) for ifft() to exist");
+    it_error("FFT library is needed to use ifft() function");
   }
 
   void fft_real(const vec &in, cvec &out)
   {
-    it_error("You need to compile IT++ with FFTW (or MKL) for fft_real() to exist");
+    it_error("FFT library is needed to use fft_real() function");
   }
 
   void ifft_real(const cvec &in, vec & out)
   {
-    it_error("You need to compile IT++ with FFTW (or MKL) for ifft_real() to exist");
+    it_error("FFT library is needed to use ifft_real() function");
   }
 
   void dct(const vec &in, vec &out)
   {
-    it_error("You need to compile IT++ with FFTW (or MKL) for dct() to exist");
+    it_error("FFT library is needed to use dct() function");
   }
 
   void idct(const vec &in, vec &out)
   {
-    it_error("You need to compile IT++ with FFTW (or MKL) for idct() to exist");
+    it_error("FFT library is needed to use idct() function");
   }
 
-#endif // HAVE_MKL or HAVE_FFTW
+#endif // HAVE_FFT_MKL8 or HAVE_FFTW3
 
 
   // ---------- FFTW end ---------------------------------------
