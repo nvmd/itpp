@@ -177,7 +177,7 @@ namespace itpp {
 	fftw_destroy_plan(p); // destroy the previous plan
       // create a new plan
       p = fftw_plan_dft_1d(N, (fftw_complex *)in._data(), (fftw_complex *)out._data(),
-			   FFTW_FORWARD, FFTW_ESTIMATE);
+			   FFTW_FORWARD, FFTW_ESTIMATE | FFTW_UNALIGNED);
     }
 
     // compute FFT using the GURU FFTW interface
@@ -198,7 +198,7 @@ namespace itpp {
 	fftw_destroy_plan(p); // destroy the previous plan
       // create a new plan
       p = fftw_plan_dft_1d(N, (fftw_complex *)in._data(), (fftw_complex *)out._data(),
-			   FFTW_BACKWARD, FFTW_ESTIMATE);
+			   FFTW_BACKWARD, FFTW_ESTIMATE | FFTW_UNALIGNED);
     }
 
     // compute IFFT using the GURU FFTW interface
@@ -221,7 +221,7 @@ namespace itpp {
 
       // create a new plan
       p = fftw_plan_dft_r2c_1d(N, (double *)in._data(), (fftw_complex *)out._data(),
-			       FFTW_ESTIMATE);
+			       FFTW_ESTIMATE | FFTW_UNALIGNED);
     }
 
     // compute FFT using the GURU FFTW interface
@@ -251,7 +251,7 @@ namespace itpp {
 
       // create a new plan
       p = fftw_plan_dft_c2r_1d(N, (fftw_complex *)in._data(), (double *)out._data(), 
-			       FFTW_ESTIMATE);
+			       FFTW_ESTIMATE | FFTW_UNALIGNED);
     }
 
     // compute IFFT using the GURU FFTW interface
@@ -274,7 +274,7 @@ namespace itpp {
 
       // create a new plan
       p = fftw_plan_r2r_1d(N, (double *)in._data(), (double *)out._data(), 
-			   FFTW_REDFT10, FFTW_ESTIMATE);
+			   FFTW_REDFT10, FFTW_ESTIMATE | FFTW_UNALIGNED);
     }
 
     // compute FFT using the GURU FFTW interface
@@ -303,7 +303,7 @@ namespace itpp {
       
       // create a new plan
       p = fftw_plan_r2r_1d(N, (double *)out._data(), (double *)out._data(),
-			   FFTW_REDFT01, FFTW_ESTIMATE);
+			   FFTW_REDFT01, FFTW_ESTIMATE | FFTW_UNALIGNED);
     }
 
     // compute FFT using the GURU FFTW interface
