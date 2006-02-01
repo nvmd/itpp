@@ -1,3 +1,14 @@
+2006-02-01  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/transforms.cpp: Fixed bug [1418707] by adding the
+	FFTW_UNALIGNED option to the plan creation flags, which allows a
+	standard memory allocation of input and output data. This
+	temporary solution reduces performance on processors that use SSE
+	and SSE2 instructions. (merged from itpp-3-9-branch)
+
+	* configure.ac, NEWS: Updated for the next bug-fix release (merged
+	from itpp-3-9-branch)
+
 2006-01-31  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac, config/*.m4, itpp-config.in, itpp.pc.in,
