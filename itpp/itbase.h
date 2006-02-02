@@ -79,5 +79,6 @@
 #include <itpp/base/window.h>
 #include <itpp/base/filter_design.h>
 #include <itpp/base/schur.h>
+#include <itpp/base/newton_search.h>
 
 #endif // #ifndef ITBASE_H
