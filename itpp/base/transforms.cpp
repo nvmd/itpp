@@ -146,8 +146,8 @@ namespace itpp {
 						  std::sin(-pi / in.size()/2));
 
     fft_real(concat(in, reverse(in)), c);
-    c = c.left(length(in));
-    for (int i = 0; i < length(c); i++) {
+    c = c.left(in.size());
+    for (int i = 0; i < c.size(); i++) {
       c(i) *= fprod;
       fprod *= f;
     }
@@ -157,9 +157,7 @@ namespace itpp {
 
   void idct(const vec &in, vec &out)
   {
-    //    out(0) *= std::sqrt(2.0);
-
-    it_error("idct(): Not implemented when MKL library is used");
+    it_warning("idct(): Not implemented yet, when MKL library is used");
   }
 
 #elif defined(HAVE_FFT_ACML)
@@ -250,12 +248,26 @@ namespace itpp {
 
   void dct(const vec &in, vec &out)
   {
-    it_error("dct() function not implemented when FFT ACML library is used");
+    cvec c;
+    std::complex<double> fprod = 1.0 / std::sqrt(in.size() * 2.0); 
+    std::complex<double> f = std::complex<double>(std::cos(-pi / in.size()/2),
+						  std::sin(-pi / in.size()/2));
+
+    fft_real(concat(in, reverse(in)), c);
+    c = c.left(in.size());
+    for (int i = 0; i < c.size(); i++) {
+      c(i) *= fprod;
+      fprod *= f;
+    }
+    out = real(c);
+    out(0) /= std::sqrt(2.0);
   }
 
   void idct(const vec &in, vec &out)
   {
-    it_error("idct() function not implemented when FFT ACML library is used");
+    //    out(0) *= std::sqrt(2.0);
+
+    it_warning("idct(): Not implemented yet, when FFT ACML library is used");
   }
 
 #elif defined(HAVE_FFTW3)
