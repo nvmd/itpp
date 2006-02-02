@@ -24,6 +24,7 @@ esac
 test x"$acx_fft_ok" != xdisabled && acx_fft_ok=no
 
 fft_mkl8_ok=no
+fft_acml_ok=no
 fftw3_ok=no
 
 # First, check FFT_LIBS environment variable
@@ -33,6 +34,14 @@ if test "x$FFT_LIBS" != x; then
   AC_TRY_LINK_FUNC(DftiComputeForward, 
     [AC_CHECK_HEADER([mkl_dfti.h], [acx_fft_ok=yes; fft_mkl8_ok=yes])])
   AC_MSG_RESULT($fft_mkl8_ok)
+  if test $acx_fft_ok = no; then
+    AC_MSG_CHECKING([for zfft1dx in $FFT_LIBS])
+    AC_TRY_LINK_FUNC(zfft1dx, 
+      [AC_CHECK_HEADER([acml.h], [acx_fft_ok=yes; fft_acml_ok=yes], 
+        [FFT_LIBS=""])],
+      [FFT_LIBS=""])
+    AC_MSG_RESULT($fft_acml_ok)
+  fi
   if test $acx_fft_ok = no; then
     AC_MSG_CHECKING([for fftw_plan_dft_1d in $FFT_LIBS])
     AC_TRY_LINK_FUNC(fftw_plan_dft_1d, 
@@ -62,6 +71,23 @@ if test "x$acx_fft_ok" = xno; then
     [], [-lguide])
 fi
 
+# FFT in BLAS (ACML) library?
+if test "x$acx_fft_ok" = xno; then
+  if test "x$blas_acml_ok" = xyes; then
+    save_LIBS="$LIBS"; LIBS="$LIBS $BLAS_LIBS $FLIBS"
+    AC_CHECK_FUNC(zfft1dx, 
+      [AC_CHECK_HEADER([acml.h], [acx_fft_ok=yes; fft_acml_ok=yes])])
+    LIBS="$save_LIBS"
+  fi
+fi
+
+# FFT in ACML library?
+if test "x$acx_fft_ok" = xno; then
+  AC_CHECK_LIB(acml, zfft1dx, 
+    [AC_CHECK_HEADER([acml.h], 
+      [acx_fft_ok=yes; fft_acml_ok=yes; FFT_LIBS="-lacml"])])
+fi
+
 # FFT in FFTW3 library?
 if test "x$acx_fft_ok" = xno; then
   AC_CHECK_LIB(fftw3, fftw_plan_dft_1d, 
@@ -84,6 +110,9 @@ if test x"$acx_fft_ok" = xyes; then
   AC_DEFINE(HAVE_FFT, 1, [Define if you have FFT library.])
   if test x"$fft_mkl8_ok" = xyes; then
     AC_DEFINE(HAVE_FFT_MKL8, 1, [Define if you have MKL8 FFT library.])
+  fi
+  if test x"$fft_acml_ok" = xyes; then
+    AC_DEFINE(HAVE_FFT_ACML, 1, [Define if you have ACML FFT library.])
   fi
   if test x"$fftw3_ok" = xyes; then
     AC_DEFINE(HAVE_FFTW3, 1, [Define if you have FFTW3 library.])

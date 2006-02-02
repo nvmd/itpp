@@ -229,13 +229,14 @@ Testing tools:
 
 External libs:
   - BLAS ......... : ${acx_blas_ok}
-    * ACML ....... : ${blas_acml_ok}
     * MKL ........ : ${blas_mkl_ok}
+    * ACML ....... : ${blas_acml_ok}
     * ATLAS ...... : ${blas_atlas_ok}
   - CBLAS ........ : ${acx_cblas_ok}
   - LAPACK ....... : ${acx_lapack_ok}
   - FFT .......... : ${acx_fft_ok}
     * MKL ........ : ${fft_mkl8_ok}
+    * ACML ....... : ${fft_acml_ok}
     * FFTW ....... : ${fftw3_ok}
 
 Compiler/linker flags/libs/defs:

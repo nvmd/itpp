@@ -42,6 +42,8 @@
 
 #if defined(HAVE_FFT_MKL8)
 #  include <mkl_dfti.h>
+#elif defined(HAVE_FFT_ACML)
+#  include <acml.h>
 #elif defined(HAVE_FFTW3)
 #  include <fftw3.h>
 #endif
@@ -49,6 +51,7 @@
 #include <itpp/base/matfunc.h>
 #include <itpp/base/transforms.h>
 #include <itpp/base/elmatfunc.h>
+#include <iostream>
 
 
 namespace itpp { 
@@ -138,9 +141,9 @@ namespace itpp {
   void dct(const vec &in, vec &out)
   {
     cvec c;
-    std::complex<double> fprod = 1 / std::sqrt(length(in)*2.0), 
-      f = std::complex<double>(std::cos(-pi / length(in) / 2), 
-			       std::sin(-pi / length(in) / 2));
+    std::complex<double> fprod = 1.0 / std::sqrt(in.size() * 2.0); 
+    std::complex<double> f = std::complex<double>(std::cos(-pi / in.size()/2),
+						  std::sin(-pi / in.size()/2));
 
     fft_real(concat(in, reverse(in)), c);
     c = c.left(length(in));
@@ -154,10 +157,106 @@ namespace itpp {
 
   void idct(const vec &in, vec &out)
   {
-    it_error("idct(): Not implemented yet");
+    //    out(0) *= std::sqrt(2.0);
+
+    it_error("idct(): Not implemented when MKL library is used");
   }
 
-  // y=real(fft([x fliplr(x)]).*exp(-j*pi/length(x)/2*[0:(length(x)*2-1)])/sqrt(length(x)*2));y(1)=y(1)/sqrt(2);y=y(1:length(x))
+#elif defined(HAVE_FFT_ACML)
+
+  void fft(const cvec &in, cvec &out) 
+  {
+    static int N = 0;
+    int info;
+    cvec temp(5 * in.size() + 100); 
+    out.set_size(in.size(), false);
+    if (N != in.size()) {
+      N = in.size();
+      zfft1dx(0, 1.0, false, N, (doublecomplex *)in._data(), 1, 
+	      (doublecomplex *)out._data(), 1, (doublecomplex *)temp._data(), 
+	      &info);
+    }
+    zfft1dx(-1, 1.0, false, N, (doublecomplex *)in._data(), 1, 
+	    (doublecomplex *)out._data(), 1, (doublecomplex *)temp._data(), 
+	    &info);
+  }
+
+  void ifft(const cvec &in, cvec &out) 
+  {
+    static int N = 0;
+    int info;
+    cvec temp(5 * in.size() + 100); 
+    out.set_size(in.size(), false);
+    if (N != in.size()) {
+      N = in.size();
+      zfft1dx(0, 1.0/N, false, N, (doublecomplex *)in._data(), 1, 
+	      (doublecomplex *)out._data(), 1, (doublecomplex *)temp._data(), 
+	      &info);
+    }
+    zfft1dx(1, 1.0/N, false, N, (doublecomplex *)in._data(), 1, 
+	    (doublecomplex *)out._data(), 1, (doublecomplex *)temp._data(),
+	    &info);
+  }
+
+  void fft_real(const vec &in, cvec &out)
+  {
+    static int N = 0;
+    static double factor = 0;
+    int info;
+    vec temp(5 * in.size() + 100); 
+    vec out_re = in;
+
+    if (N != in.size()) {
+      N = in.size();
+      factor = std::sqrt(static_cast<double>(N));
+      dzfft(0, N, out_re._data(), temp._data(), &info);
+    }
+    dzfft(2, N, out_re._data(), temp._data(), &info);
+
+    // Normalise output data
+    out_re *= factor;
+
+    // Convert the real Hermitian DZFFT's output to the Matlab's complex form
+    vec out_im(in.size()); out_im.zeros();
+    out.set_size(in.size(), false);
+    out_im.set_subvector(1, reverse(out_re(N/2 + 1, N-1)));
+    out_im.set_subvector(N/2 + 1, -out_re(N/2 + 1, N-1));
+    out_re.set_subvector(N/2 + 1, reverse(out_re(1, (N-1)/2)));
+    out = to_cvec(out_re, out_im);
+  }
+
+  void ifft_real(const cvec &in, vec &out)
+  {
+    static int N = 0;
+    static double factor = 0;
+    int info;
+    vec temp(5 * in.size() + 100); 
+
+    // Convert Matlab's complex input to the real Hermitian form
+    out.set_size(in.size());
+    out.set_subvector(0, real(in(0, in.size()/2)));
+    out.set_subvector(in.size()/2 + 1, -imag(in(in.size()/2 + 1, in.size()-1)));
+    if (N != in.size()) {
+      N = in.size();
+      factor = 1.0 / std::sqrt(static_cast<double>(N));
+      zdfft(0, N, out._data(), temp._data(), &info);
+    }
+    zdfft(1, N, out._data(), temp._data(), &info);
+    out.set_subvector(1, reverse(out(1, N-1)));
+
+    // Normalise output data
+    out *= factor;
+  }
+
+  void dct(const vec &in, vec &out)
+  {
+    it_error("dct() function not implemented when FFT ACML library is used");
+  }
+
+  void idct(const vec &in, vec &out)
+  {
+    it_error("idct() function not implemented when FFT ACML library is used");
+  }
 
 #elif defined(HAVE_FFTW3)
 
