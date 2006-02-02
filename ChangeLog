@@ -1,5 +1,8 @@
 2006-02-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/Makefile.am, tests/fft_test.cpp, tests/fft_test.ref:
+	Removed fft tests because they duplicated transform tests
+
 	* itpp/protocols/tcp.cpp: Small fix that solves MSVC++ .NET
 	compilation problem (#include <ctime>) (merged from itpp-3-9-branch)
 

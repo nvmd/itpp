@@ -14,7 +14,6 @@ check_PROGRAMS = \
 	eigen_test \
 	fastica_test \
 	fastmath_test \
-	fft_test \
 	filter_test \
 	filter_design_test \
 	fix_test \
@@ -64,7 +63,6 @@ eigen_test_SOURCES = eigen_test.cpp
 fastica_test_SOURCES = fastica_test.cpp
 fastica_test_CPPFLAGS = -DFASTICA_TEST_FILE=\"$(srcdir)/fastica_test_data.txt\" $(AM_CPPFLAGS)
 fastmath_test_SOURCES = fastmath_test.cpp
-fft_test_SOURCES = fft_test.cpp
 filter_test_SOURCES = filter_test.cpp
 filter_design_test_SOURCES = filter_design_test.cpp
 fix_test_SOURCES = fix_test.cpp
