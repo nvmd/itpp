@@ -1,3 +1,10 @@
+2006-02-02  Tony Ottosson  <tonyottosson@users.sourceforge.net>
+	
+	* itpp/base/newton_search.{h,cpp}, tests/newton_search_test.cpp:
+	Newton search optimization routines. For now the BFGS algorithm
+	and line-search. For matlab compatibility the fminunc() is
+	implemented.
+
 2006-02-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/transforms.cpp: Added DCT implementation based on the
