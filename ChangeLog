@@ -1,5 +1,10 @@
 2006-02-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac, config/acx_fft.m4, itpp/base/transforms.cpp,
+	tests/transforms_test.cpp, tests/transforms_test.ref: New FFT and
+	IFFT implementations added, based on the external ACML library.
+	DCT and IDCT are still missing.
+
 	* tests/Makefile.am, tests/fft_test.cpp, tests/fft_test.ref:
 	Removed fft tests because they duplicated transform tests
 
