@@ -1,5 +1,10 @@
 2006-02-03  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/transforms.cpp, itpp/base/transforms.h,
+	tests/transforms_test.cpp, tests/transforms_test.ref: Added IDCT
+	implementation to idct() functions based on the MKL and ACML. 
+	Test program updated as well.
+
 	* doc/local/index.doc.in: IT++ main html page updated (using CSS
 	instead of tables for layout)  
 

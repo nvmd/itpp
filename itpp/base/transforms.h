@@ -1,8 +1,8 @@
 /*!
  * \file
  * \brief Definitions of Fourier, Hadamard, Walsh-Hadamard, and 2D Hadamard 
- * transforms
- * \author Tony Ottosson, Thomas Eriksson, and Simon Wood
+ *        transforms
+ * \author Tony Ottosson, Thomas Eriksson, Simon Wood and Adam Piatyszek
  *
  * $Date$
  * $Revision$
@@ -46,7 +46,7 @@ namespace itpp {
   /*! 
     \addtogroup fft
     \brief One dimensional fast fourier transform
-    \author Tony Ottosson
+    \author Tony Ottosson and Adam Piatyszek
 
     The functions \code X = fft(x) \endcode and \code x = ifft(X) \endcode are
     the fourier and inverse fourier transforms of size \a N defined as:
@@ -61,17 +61,17 @@ namespace itpp {
     \code Y = fft(X, N) \endcode performs zero-padding up to size N and then
     performs an N-size fft.
 
-    The implementation is built upon the FFTW library (www.fftw.org) which is
-    a big set of fast and reliable fft routines used e.g. in matlab.
+    The implementation is built upon one of the following libraries: FFTW,
+    MKL, or ACML, depending on which was chosen during compilation.
 
-    The routine is fastest for powers of two. Furthermore, the second time you
-    call the routine with the same size, the calculation is much faster due to
-    many things were calculated and stored the first time the routine was called.
+    The routine is fastest for powers of two. Furthermore, the second time
+    you call the routine with the same size, the calculation is much faster
+    due to many things were calculated and stored the first time the routine
+    was called.
   */
 
   //!\addtogroup fft
   //!@{
-
   //! Fast Fourier Transform
   void fft(const cvec &in, cvec &out);
   //! Fast Fourier Transform
@@ -101,28 +101,31 @@ namespace itpp {
 
 
   /*! 
-		\addtogroup dct
+    \addtogroup dct
     \brief One dimensional Dicrete Cosine Transform
-    \author Tony Ottosson
+    \author Tony Ottosson and Adam Piatyszek
 
-    The functions \code X = dct(x) \endcode and \code x = idct(X) \endcode are
-    the dicrete cosine and inverse discrete cosine transforms of size \a N defined as:
+    The functions \code X = dct(x) \endcode and \code x = idct(X) \endcode
+    are the dicrete cosine and inverse discrete cosine transforms of size \a
+    N defined as: 
     \f[
-    X(k) = w(k) \sum_{j=0}^{N-1} x(j) \cos \left( \frac{(2j+1) k \pi}{2 N} \right)
+    X(k) = w(k) \sum_{j=0}^{N-1} x(j) \cos \left(\frac{(2j+1)k \pi}{2N} \right)
     \f]
 
     \f[
-    x(j) = \sum_{k=0}^{N-1} w(k) X(k) \cos \left( \frac{(2j+1) k \pi}{2 N} \right)
+    x(j) = \sum_{k=0}^{N-1} w(k) X(k) \cos \left(\frac{(2j+1)k \pi}{2N} \right)
     \f]
-    where \f$w(k) = 1/sqrt{N}\f$ for \f$k=0\f$ and \f$w(k) = sqrt{2/N}\f$ for \f$k\geq 1\f$.
+    where \f$w(k) = 1/sqrt{N}\f$ for \f$k=0\f$ and 
+    \f$w(k) = sqrt{2/N}\f$ for \f$k\geq 1\f$.
 
 
-    The implementation is built upon the FFTW library (www.fftw.org) which is
-    a big set of fast and reliable fft routines used e.g. in matlab.
+    The implementation is built upon one of the following libraries: FFTW,
+    MKL, or ACML, depending on which was chosen during compilation.
 
-    The routine is fastest for powers of two. Furthermore, the second time you
-    call the routine with the same size, the calculation is much faster due to
-    many things were calculated and stored the first time the routine was called.
+    The routine is fastest for powers of two. Furthermore, the second time
+    you call the routine with the same size, the calculation is much faster
+    due to many things were calculated and stored the first time the routine
+    was called.
   */
 
   //!\addtogroup dct
@@ -137,10 +140,9 @@ namespace itpp {
   vec idct(const vec &in);
   //!@}
   
-	
+
   //!\addtogroup fht
   //!@{
-
   //! Fast Hadamard Transform
   template <class T> Vec<T> dht(const Vec<T> &v);
   //! Fast Hadamard Transform
@@ -152,9 +154,9 @@ namespace itpp {
   template <class T> Vec<T> dwht(const Vec<T> &v);
   //! Fast Walsh Hadamard Transform
   template <class T> void dwht(const Vec<T> &vin, Vec<T> &vout);
-  //! Fast Walsh Hadamard Transform - memory efficient. Stores the result in \c v
+  //! Fast Walsh Hadamard Transform - memory efficient (result in \c v)
   template <class T> void self_dwht(Vec<T> &v);
-
+  
   //! Fast 2D Hadamard Transform
   template <class T> Mat<T> dht2(const Mat<T> &m);
   //! Fast 2D Walsh Hadamard Transform
