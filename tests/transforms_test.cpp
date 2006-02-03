@@ -44,15 +44,15 @@ int main()
  cout << "   Test of Transforms   " << endl;
  cout << "========================" << endl << endl;
 
- int N;
+ int N, s;
  {
    vec x, z;
    cvec y;
 
    N = 16;
    x = randn(N);
-   cout << "Test 1: FFT/IFFT; Real input vector; N = " << N 
-	<< ";  fft_real(x, y), ifft_real(y, z):" << endl << endl;
+   cout << "Test 1: FFT/IFFT; Real input vector x; N = " << N << endl
+	<< "        fft_real(x, y), ifft_real(y, z):" << endl << endl;
    
    cout << "x = " << round_to_zero(x) << endl;
    fft_real(x, y);
@@ -60,24 +60,26 @@ int main()
    ifft_real(y, z);
    cout << "z = " << round_to_zero(z) << endl << endl;
 
-   N = 11;
-   x = randn(N);
-   cout << "Test 2: FFT/IFFT; Real input vector; N = " << N 
-	<< ";  fft_real(x, y), ifft_real(y, z):" << endl << endl;
+   N = 15;
+   s = N - 4;
+   x = randn(s);
+   cout << "Test 2: FFT/IFFT; Real input vector x of size s = " << s 
+	<< "; N = " << N << endl
+	<< "        y = fft_real(x, N), z = ifft_real(y, N):" << endl << endl;
 
    cout << "x = " << round_to_zero(x) << endl;
-   fft_real(x, y);
+   y = fft_real(x, N);
    cout << "y = " << round_to_zero(y) << endl;
-   ifft_real(y, z);
-   cout << "z = " << round_to_zero(z) << endl << endl;
+   z = ifft_real(y, N);
+   cout << "z = " << round_to_zero(z.left(s)) << endl << endl;
  }
  {
    cvec x, y, z;
 
    N = 32;
    x = randn_c(N);
-   cout << "Test 3: FFT/IFFT; Complex input vector; N = " << N 
-	<< ";  fft(x, y), ifft(y, z):" << endl << endl;
+   cout << "Test 3: FFT/IFFT; Complex input vector x; N = " << N << endl
+	<< "        fft(x, y), ifft(y, z):" << endl << endl;
    
    cout << "x = " << round_to_zero(x) << endl;
    fft(x, y);
@@ -85,24 +87,26 @@ int main()
    ifft(y, z);
    cout << "z = " << round_to_zero(z) << endl << endl;
 
-   N = 7;
+   N = 17;
+   s = N - 2;
    x = randn_c(N);
-   cout << "Test 4: FFT/IFFT; Complex input vector; N = " << N 
-	<< ";  fft(x, y), ifft(y, z):" << endl << endl;
+   cout << "Test 4: FFT/IFFT; Complex input vector x of size s = " << s 
+	<< "; N = " << N << endl
+	<< "        y = fft_real(x, N), z = ifft_real(y, N):" << endl << endl;
    
    cout << "x = " << round_to_zero(x) << endl;
-   fft(x, y);
+   y = fft(x, N);
    cout << "y = " << round_to_zero(y) << endl;
-   ifft(y, z);
-   cout << "z = " << round_to_zero(z) << endl << endl;
+   z = ifft(y, N);
+   cout << "z = " << round_to_zero(z.left(s)) << endl << endl;
  }
  {
    vec x, y, z;
 
    N = 8;
    x = randn(N);
-   cout << "Test 5: DCT/IDCT; Real input vector; N = " << N 
-	<< ";  dct(x, y), idct(y, z):" << endl << endl;
+   cout << "Test 5: DCT/IDCT; Real input vector; N = " << N << endl 
+	<< "        dct(x, y), idct(y, z):" << endl << endl;
    
    cout << "x = " << round_to_zero(x) << endl;
    dct(x, y);
@@ -112,8 +116,8 @@ int main()
 
    N = 11;
    x = randn(N);
-   cout << "Test 6: DCT/IDCT; Real input vector; N = " << N 
-	<< ";  dct(x, y), idct(y, z):" << endl << endl;
+   cout << "Test 6: DCT/IDCT; Real input vector; N = " << N << endl
+	<< "        dct(x, y), idct(y, z):" << endl << endl;
    
    cout << "x = " << round_to_zero(x) << endl;
    dct(x, y);

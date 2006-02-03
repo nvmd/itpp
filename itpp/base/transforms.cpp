@@ -1,8 +1,8 @@
 /*!
  * \file
  * \brief Implementation of Fourier, Hadamard, Walsh-Hadamard, and 2D Hadamard 
- * transforms
- * \author Tony Ottosson, Thomas Eriksson, and Simon Wood
+ *        transforms
+ * \author Tony Ottosson, Thomas Eriksson, Simon Wood and Adam Piatyszek
  * 
  * $Date$
  * $Revision$
@@ -59,7 +59,7 @@ namespace itpp {
 #ifdef HAVE_FFT_MKL8
 
   //---------------------------------------------------------------------------
-  // FFT based on MKL
+  // FFT/IFFT based on MKL
   //---------------------------------------------------------------------------
 
   void fft(const cvec &in, cvec &out) 
@@ -136,31 +136,54 @@ namespace itpp {
     DftiComputeBackward(fft_handle, (void *)in._data(), out._data());
   }
 
-  // DCT
+  //---------------------------------------------------------------------------
+  // DCT/IDCT based on MKL
+  //---------------------------------------------------------------------------
 
   void dct(const vec &in, vec &out)
   {
-    cvec c;
-    std::complex<double> fprod = 1.0 / std::sqrt(in.size() * 2.0); 
-    std::complex<double> f = std::complex<double>(std::cos(-pi / in.size()/2),
-						  std::sin(-pi / in.size()/2));
-
-    fft_real(concat(in, reverse(in)), c);
-    c = c.left(in.size());
-    for (int i = 0; i < c.size(); i++) {
-      c(i) *= fprod;
-      fprod *= f;
+    int N = in.size();
+    if (N == 1)
+      out = in;
+    else {
+      cvec c = fft_real(concat(in, reverse(in)));
+      c.set_size(N, true);
+      for (int i = 0; i < N; i++) {
+	c(i) *= std::complex<double>(std::cos(pi*i/N/2), std::sin(-pi*i/N/2))
+	  / std::sqrt(2.0 * N);
+      }
+      out = real(c);
+      out(0) /= std::sqrt(2.0);
     }
-    out = real(c);
-    out(0) /= std::sqrt(2.0);
   }
 
   void idct(const vec &in, vec &out)
   {
-    it_warning("idct(): Not implemented yet, when MKL library is used");
+    int N = in.size();
+    if (N == 1)
+      out = in;
+    else {
+      cvec c = to_cvec(in);
+      c.set_size(2*N, true);
+      c(0) *= std::sqrt(2.0);
+      for (int i = 0; i < N; i++) {
+	c(i) *= std::complex<double>(std::cos(pi*i/N/2), std::sin(pi*i/N/2))
+	  * std::sqrt(2.0 * N);
+      }
+      for (int i = N - 1; i >= 1; i--) {
+	c(c.size() - i) = c(i) * std::complex<double>(std::cos(pi*i/N), 
+						      std::sin(-pi*i/N));
+      }
+      out = ifft_real(c);
+      out.set_size(N, true);
+    }
   }
 
 #elif defined(HAVE_FFT_ACML)
+
+  //---------------------------------------------------------------------------
+  // FFT/IFFT based on ACML
+  //---------------------------------------------------------------------------
 
   void fft(const cvec &in, cvec &out) 
   {
@@ -246,34 +269,53 @@ namespace itpp {
     out *= factor;
   }
 
+  //---------------------------------------------------------------------------
+  // DCT/IDCT based on ACML
+  //---------------------------------------------------------------------------
+
   void dct(const vec &in, vec &out)
   {
-    cvec c;
-    std::complex<double> fprod = 1.0 / std::sqrt(in.size() * 2.0); 
-    std::complex<double> f = std::complex<double>(std::cos(-pi / in.size()/2),
-						  std::sin(-pi / in.size()/2));
-
-    fft_real(concat(in, reverse(in)), c);
-    c = c.left(in.size());
-    for (int i = 0; i < c.size(); i++) {
-      c(i) *= fprod;
-      fprod *= f;
+    int N = in.size();
+    if (N == 1)
+      out = in;
+    else {
+      cvec c = fft_real(concat(in, reverse(in)));
+      c.set_size(N, true);
+      for (int i = 0; i < N; i++) {
+	c(i) *= std::complex<double>(std::cos(pi*i/N/2), std::sin(-pi*i/N/2))
+	  / std::sqrt(2.0 * N);
+      }
+      out = real(c);
+      out(0) /= std::sqrt(2.0);
     }
-    out = real(c);
-    out(0) /= std::sqrt(2.0);
   }
 
   void idct(const vec &in, vec &out)
   {
-    //    out(0) *= std::sqrt(2.0);
-
-    it_warning("idct(): Not implemented yet, when FFT ACML library is used");
+    int N = in.size();
+    if (N == 1)
+      out = in;
+    else {
+      cvec c = to_cvec(in);
+      c.set_size(2*N, true);
+      c(0) *= std::sqrt(2.0);
+      for (int i = 0; i < N; i++) {
+	c(i) *= std::complex<double>(std::cos(pi*i/N/2), std::sin(pi*i/N/2))
+	  * std::sqrt(2.0 * N);
+      }
+      for (int i = N - 1; i >= 1; i--) {
+	c(c.size() - i) = c(i) * std::complex<double>(std::cos(pi*i/N), 
+						      std::sin(-pi*i/N));
+      }
+      out = ifft_real(c);
+      out.set_size(N, true);
+    }
   }
 
 #elif defined(HAVE_FFTW3)
 
   //---------------------------------------------------------------------------
-  // FFT based on FFTW
+  // FFT/IFFT based on FFTW
   //---------------------------------------------------------------------------
 
   void fft(const cvec &in, cvec &out)
@@ -371,7 +413,10 @@ namespace itpp {
     out *= inv_N;
   }
 
-  // DCT
+  //---------------------------------------------------------------------------
+  // DCT/IDCT based on FFTW
+  //---------------------------------------------------------------------------
+
   void dct(const vec &in, vec &out)
   {
     static int N;
@@ -453,10 +498,7 @@ namespace itpp {
     it_error("FFT library is needed to use idct() function");
   }
 
-#endif // HAVE_FFT_MKL8 or HAVE_FFTW3
-
-
-  // ---------- FFTW end ---------------------------------------
+#endif // HAVE_FFT_MKL8 or HAVE_FFT_ACML or HAVE_FFTW3
 
   cvec fft(const cvec &in) 
   { 
@@ -467,10 +509,10 @@ namespace itpp {
 
   cvec fft(const cvec &in, const int N)  
   { 
-    cvec in2(N),out;
-    in2.clear(); 
-    in2.set_subvector(0,in); 
-    fft( in2, out); 
+    cvec in2 = in;
+    cvec out;
+    in2.set_size(N, true); 
+    fft(in2, out); 
     return out; 
   }
 
@@ -483,10 +525,10 @@ namespace itpp {
 
   cvec ifft(const cvec &in, const int N)  
   { 
-    cvec in2(N),out; 
-    in2.clear(); 
-    in2.set_subvector(0,in);
-    ifft( in2, out); 
+    cvec in2 = in;
+    cvec out;
+    in2.set_size(N, true); 
+    ifft(in2, out); 
     return out; 
   }
 
@@ -499,11 +541,9 @@ namespace itpp {
 
   cvec fft_real(const vec& in, const int N)  
   { 
-    vec in2(N);
-    in2.clear(); 
-    in2.set_subvector(0,in); 
-
+    vec in2 = in;
     cvec out;
+    in2.set_size(N, true); 
     fft_real(in2, out);
     return out; 
   }
@@ -517,9 +557,8 @@ namespace itpp {
 
   vec ifft_real(const cvec &in, const int N) 
   {
-    cvec in2(N); 
-    in2.clear(); 
-    in2.set_subvector(0,in);
+    cvec in2 = in; 
+    in2.set_size(N, true);
     vec out;
     ifft_real(in2, out);
     return out; 
@@ -538,6 +577,7 @@ namespace itpp {
     idct(in, out);
     return out; 
   }
+
 
   template <class T>
   Vec<T> dht(const Vec<T> &v)
