@@ -153,7 +153,7 @@ namespace itpp {
 
       // Previous values
       vec xp = x, gp = g;
-      double Fp = F;
+      // double Fp = F;           ### 2006-02-03 by ediap: Unused variable!
       double nx = norm(x);
 
       h = D*(-g);
@@ -239,6 +239,20 @@ namespace itpp {
     return true;
   }
 
+  bool Newton_Search::search(vec &xn) 
+  { 
+    bool state = search(); 
+    xn = get_solution(); 
+    return state; 
+  }
+
+  bool Newton_Search::search(const vec &x0, vec &xn)
+  { 
+    set_start_point(x0); 
+    bool state = search(); 
+    xn = get_solution(); 
+    return state;
+  }
 
   vec Newton_Search::get_solution()
   {
@@ -549,6 +563,22 @@ namespace itpp {
     }
 
     return true;
+  }
+
+  bool Line_Search::search(vec &xn, double &Fn, vec &gn) 
+  { 
+    bool state = search(); 
+    get_solution(xn, Fn, gn); 
+    return state;
+  }
+
+  bool Line_Search::search(const vec &x, double F, const vec &g, const vec &h, 
+			   vec &xn, double &Fn, vec &gn)
+  { 
+    set_start_point(x, F, g, h);   
+    bool state = search(); 
+    get_solution(xn, Fn, gn);
+    return state;
   }
 
 
