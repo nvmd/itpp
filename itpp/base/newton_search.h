@@ -101,11 +101,9 @@ namespace itpp {
     //! Do the line search
     bool search();
     //! Do the line search and return solution
-    bool search(vec &xn) { search(); xn = get_solution(); }
+    bool search(vec &xn);
     //! Set starting point, do the Newton search, and return the solution
-    bool search(const vec &x0, vec &xn)
-    { set_start_point(x0); search(); xn = get_solution(); }
-
+    bool search(const vec &x0, vec &xn);
 
     //! Set stop criterion values
     void set_stop_values(double epsilon_1, double epsilon_2);
@@ -249,10 +247,10 @@ namespace itpp {
     //! Do the line search
     bool search();
     //! Do the line search and return solution
-    bool search(vec &xn, double &Fn, vec &gn) { search(); get_solution(xn, Fn, gn); }
+    bool search(vec &xn, double &Fn, vec &gn);
     //! Set starting point, do the line search, and return the solution
-    bool search(const vec &x, double F, const vec &g, const vec &h, vec &xn, double &Fn, vec &gn)
-    { set_start_point(x, F, g, h); search(); get_solution(xn, Fn, gn); }
+    bool search(const vec &x, double F, const vec &g, const vec &h, vec &xn, 
+		double &Fn, vec &gn);
 
 
     //! return alpha at solution point, xn = x + alpha h
