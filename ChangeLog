@@ -1,3 +1,8 @@
+2006-02-03  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/local/index.doc.in: IT++ main html page updated (using CSS
+	instead of tables for layout)  
+
 2006-02-02  Tony Ottosson  <tonyottosson@users.sourceforge.net>
 	
 	* itpp/base/newton_search.{h,cpp}, tests/newton_search_test.cpp:
