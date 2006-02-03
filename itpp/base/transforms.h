@@ -72,6 +72,7 @@ namespace itpp {
 
   //!\addtogroup fft
   //!@{
+
   //! Fast Fourier Transform
   void fft(const cvec &in, cvec &out);
   //! Fast Fourier Transform
@@ -130,6 +131,7 @@ namespace itpp {
 
   //!\addtogroup dct
   //!@{
+
   //! Discrete Cosine Transform (DCT)
   void dct(const vec &in, vec &out);
   //! Discrete Cosine Transform (DCT)
@@ -143,6 +145,7 @@ namespace itpp {
 
   //!\addtogroup fht
   //!@{
+
   //! Fast Hadamard Transform
   template <class T> Vec<T> dht(const Vec<T> &v);
   //! Fast Hadamard Transform
