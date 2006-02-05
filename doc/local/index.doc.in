@@ -2,61 +2,58 @@
 \mainpage Welcome to IT++!
 
 \htmlonly
-
-<div style="position:relative; margin:0 245px 0 225px; text-align:justify;">
 <!-- start of center block -->
+<div style="position:relative; margin:0 245px 0 225px; text-align:justify;">
+\endhtmlonly
 
-<h3> Introduction </h3>
+\section Introduction
 
-<p> IT++ is a C++ library of mathematical, signal processing, speech
-processing, and communications classes and functions. It is being developed
-by researchers in these areas and is widely used by researchers, both in the
+IT++ is a C++ library of mathematical, signal processing, speech processing,
+and communications classes and functions. It is being developed by
+researchers in these areas and is widely used by researchers, both in the
 communications industry and universities. Since 2004, IT++ is also being
-developed as a part of the European Network of Excellence 
-<a href="http://newcom.ismb.it/">NEWCOM</a>. </p>
+developed as a part of the European Network of Excellence (<a
+href="http://newcom.ismb.it/">NEWCOM</a>).
 
-<p> The kernel of the IT++ library are templated vector and matrix classes,
-and lots of functions for vectors and matrices. Such a kernel makes IT++
-library similar to Matlab. </p>
+The kernel of the IT++ library are templated vector and matrix classes, and
+lots of functions for vectors and matrices. Such a kernel makes IT++ library
+similar to Matlab.
 
-<p> IT++ makes an extensive use of existing open-source libraries (but not
+IT++ makes an extensive use of existing open-source libraries (but not
 only) for increased functionality, speed and accuracy. In particular 
 <a href="http://www.netlib.org/blas/">BLAS</a>,
 <a href="http://www.netlib.org/blas/">CBLAS</a>, 
 <a href="http://www.netlib.org/lapack/">LAPACK</a> and 
 <a href="http://www.fftw.org/">FFTW</a> libraries might be used. 
-Instead of NetLib's reference BLAS and LAPACK, some optimized, 
-platform-specific, libraries can be used as well, i.e.: </p>
-<ul>
-<li> <a href="http://math-atlas.sourceforge.net/">ATLAS</a> 
-(<em>Automatically Tuned Linear Algebra Software</em>) - includes
-optimised BLAS, CBLAS and a limited set of LAPACK routines  </li>
-<li> <a href="http://www.intel.com/cd/software/products/asmo-na/eng/perflib/mkl/">MKL</a> 
-(<em>Intel Math Kernel Library</em>) - includes all required BLAS,
-CBLAS, LAPACK and FFT routines (FFTW not required)</li>
-<li> <a href="http://developer.amd.com/acml.aspx">ACML</a> 
-(<em>AMD Core Math Library</em>) - includes BLAS, LAPACK and FFT
-routines (FFTW not required). </li>
-</ul>
-<p> It might be possible to compile and use IT++ without any of the above
-listed libraries, but the functionality will be reduced. </p> 
+Instead of NetLib's reference BLAS and LAPACK, some optimized
+platform-specific libraries can be used as well, i.e.:
+- <a href="http://math-atlas.sourceforge.net/">ATLAS</a> (<em>Automatically
+  Tuned Linear Algebra Software</em>) - includes optimised BLAS, CBLAS and a
+  limited set of LAPACK routines
+- <a href="http://www.intel.com/cd/software/products/asmo-na/eng/perflib/mkl/">MKL</a>  
+  (<em>Intel Math Kernel Library</em>) - includes all required BLAS, CBLAS,
+  LAPACK and FFT routines (FFTW not required)
+- <a href="http://developer.amd.com/acml.aspx">ACML</a> (<em>AMD Core Math
+  Library</em>) - includes BLAS, LAPACK and FFT routines (FFTW not required) 
+.
+It might be possible to compile and use IT++ without any of the above
+listed libraries, but the functionality will be reduced. 
       
-<p> The IT++ library originates from the former department of Information
+The IT++ library originates from the former department of Information
 Theory at the Chalmers University of Technology, Gothenburg, Sweden. Because
 the library is coded in C++, the name IT++ seemed like a good idea at the
 time. While departments come and go, IT++ have developed a life of its'
 own and is now released under the terms of the Gnu Public License (GPL) for
-you to enjoy. </p> 
+you to enjoy. 
 
-<p> IT++ shold work on GNU/Linux, Sun Solaris, Microsoft Windows (with
+IT++ shold work on GNU/Linux, Sun Solaris, Microsoft Windows (with
 Cygwin or Microsoft Visual C++ .NET) and Mac OS X (more testers needed).
-</p>
 
+\htmlonly
 <!-- end of center block -->
 </div>
-
-<div style="position:absolute; left:20px; top:160px; width:200px; margin:2px; font-size:80%;">
 <!-- start of left margin -->
+<div style="position:absolute; left:20px; top:160px; width:200px; margin:2px; font-size:80%;">
 
 <b>Getting Started:</b>
 <ul>
@@ -98,9 +95,8 @@ Cygwin or Microsoft Visual C++ .NET) and Mac OS X (more testers needed).
 
 <!-- end of left margin -->
 </div>
-
-<div style="position:absolute; top:160px; right:20px; width:220px; margin:2px; font-size:80%;">
 <!-- start of right margin -->
+<div style="position:absolute; top:160px; right:20px; width:220px; margin:2px; font-size:80%;">
 
 <b>IT++ Development:</b>
 <ul>
@@ -140,6 +136,6 @@ Cygwin or Microsoft Visual C++ .NET) and Mac OS X (more testers needed).
 
 <!-- end of right margin -->
 </div>
-
 \endhtmlonly
+
 */

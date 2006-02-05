@@ -3,43 +3,55 @@
 
 \section requirements IT++ Requirements
 
-IT++ should compile without errors or warnings on most GNU/Linux systems
-and on most other UNIX like systems like Solaris, Mac OS X, or Cygwin. It
-also compiles on Windows NT/2000/XP using Microsoft's Visual C++ .NET
-2003 (MSVC++). For Linux, Unix, Cygwin and Mac OS X systems we assume
-that you have at least the following GNU software installed on your
-computer: 
+IT++ should compile without errors or warnings on most GNU/Linux systems and
+on most other UNIX like systems like Solaris SunOS or Cygwin. It can be also
+built on Windows NT/2000/XP using Microsoft's Visual C++ .NET, but the
+support for this compiler is limited. For GNU/Linux, SunOS and Cygwin we
+assume that you have at least the following GNU software installed on your
+computer:
+- <a href="http://www.gnu.org/software/make/">GNU make</a>, version 3.72.1
+or later (check version with <tt>`make --version'</tt>)
+- <a href="http://gcc.gnu.org/">GCC</a> - GNU Compilers Collection (gcc, g++
+and g77), version 3.3.x or later (check version with <tt>`gcc
+--version'</tt>)
+.
+Optionally, you might need a few additional programs, i.e. 
+<a href="http://www.doxygen.org/">Doxygen</a>, 
+<a href="http://www.latex-project.org/">LaTeX</a>,
+<a href="http://www.radicaleye.com/dvips.html">Dvips</a> and 
+<a href="http://www.cs.wisc.edu/~ghost/">Ghostscript</a>, to generate the
+HTML documentation. 
 
-<ul>
+We strongly recommend that you use the recent stable releases of the GCC,
+i.e. 4.0.2, 3.4.5 or 3.3.6, if possible. We do not actively work on
+supporting older versions of GCC, and they may therefore (without prior
+notice) become unsupported in future releases of IT++.
 
-<li> GNU make, version 3.72.1 or later (to check version run <tt>`make
---version'</tt>) </li>   
+In order to use all functionality provided by the IT++ library, it is
+recommended that you have some external libraries compiled and installed in
+your computer. The basic set of them is: 
+<a href="http://www.netlib.org/blas/">BLAS</a>,
+<a href="http://www.netlib.org/lapack/">LAPACK</a> and
+<a href="http://www.fftw.org/">FFTW</a>. To improve some vector based
+operations <a href="http://www.netlib.org/blas/">CBLAS</a> is also
+recommended.
 
-<li> GCC - GNU Compilers Collection (gcc, g++ and g77), version 3.3.x or 
-later (to check version run <tt>`gcc --version'</tt>) </li> 
+Instead of NetLib's reference BLAS and LAPACK implementations, some
+optimized platform-specific libraries can be used as well, i.e.:
+- <a href="http://math-atlas.sourceforge.net/">ATLAS</a> (<em>Automatically
+  Tuned Linear Algebra Software</em>) - includes optimised BLAS, CBLAS and a
+  limited set of LAPACK routines
+- <a href="http://www.intel.com/cd/software/products/asmo-na/eng/perflib/mkl/">MKL</a>  
+  (<em>Intel Math Kernel Library</em>) - includes all required BLAS, CBLAS,
+  LAPACK and FFT routines (FFTW not required)
+- <a href="http://developer.amd.com/acml.aspx">ACML</a> (<em>AMD Core Math
+  Library</em>) - includes BLAS, LAPACK and FFT routines (FFTW not required) 
 
-</ul>
-
-Optionally, you might need additional tools like: Doxygen, LaTeX, Dvips
-and Ghostscript to generate the HTML documentation.
-
-We strongly recommend that you use the recent stable releases of the
-GCC, i.e. 4.0.2, 3.4.5 or 3.3.6, if possible. We do not actively work 
-on supporting older compilers and they may therefore (without prior
-notice) become unsupported in future versions of IT++.
-
-In order to use all functionality provided in the IT++ library it is
-recommended that you have some external libraries compiled and installed
-on your computer. The most important are FFTW, BLAS and LAPACK. To improve
-some vector based operations CBLAS is also recommended. BLAS and CBLAS are
-included in ATLAS (Automatically Tuned Linear Algebra Software), which is a
-recommended choice. Optionally, binary version of Intel Math Kernel Library
-might be used as a replacement of all of these. It is possible to compile
-and use IT++ without these libraries, but the functionality will be reduced.
-We therefore recommend that you take some time and effort to provide these
-external libraries in your system. Please note, that some of them (FFTW,
-BLAS and LAPACK) are usually included in the most modern Linux
-distributions.
+It is possible to compile and use IT++ without these libraries, but the
+functionality will be reduced. We therefore recommend that you take some
+time and effort to provide these external libraries in your system. Please
+note, that some of them (FFTW, BLAS and LAPACK) are usually included in the
+most modern Linux distributions.
 
 
 \section download Obtaining the IT++ Source Codes
@@ -47,17 +59,15 @@ distributions.
 IT++ is released under the GNU General Public License (GPL) and hence the
 source code of the IT++ library is available for free download. To obtain
 the IT++ source code, visit the IT++ project page on SourceForge:
-
-<ul>
-<li> <a href="http://sourceforge.net/projects/itpp/">
-http://sourceforge.net/projects/itpp/ </a> </li>
-</ul>
-
+- <a href="http://sourceforge.net/projects/itpp/">
+http://sourceforge.net/projects/itpp/</a>
+.
 and download the file named \c itpp-\<VERSION\>.tar.gz, where \c
 \<VERSION\> is the latest release number, e.g. 3.9.0.
 
 
-\section compilation General IT++ Configuration, Compilation and Installation Instructions
+\section compilation General IT++ Configuration, Compilation and \
+Installation Instructions
 
 Assuming that you have already downloaded the latest IT++ sources, untar
 and gunzip the sources, and enter the unpacked directory:
@@ -79,59 +89,74 @@ resembles a standard, well-known GNU method, i.e.
 The \c `configure' command can be invoked with additional switches and
 options (run <tt>`./configure --help'</tt> to get a list of them). The
 most important are:
+- \c `--prefix=PREFIX' - set top installation directory to a certain \c
+  PREFIX value. By default it is set to \c `/usr/local', so <tt>`make
+  install'</tt> will install appropriate files into \c `/usr/local/include',
+  \c `/usr/local/lib`, etc.
+- \c `--enable-debug' - switch to DEBUG mode by setting additional debugging
+  flags used by compiler and linker (disabled by default)
+- \c `--enable-exceptions' - enable exceptions handling of run-time errors
+  instead of aborting the program (disabled by default)
+- \c `--enable-html-doc' - do not generate and install HTML documentation
+  (enabled by default)
+- \c `--with-march=CPU' - enable optimization flags for a specific CPU: \c
+  `i686', \c `pentium3', \c `pentium4', \c `prescott', \c `athlon-tbird', \c
+  `athlon-xp', \c `athlon-mp', etc. This option is only used by GCC. See
+  `man gcc' for more details.
+- \c `--disable-shared' - prevent building a shared library (enabled by
+  default)
+- \c `--disable-static' - prevent building a static library (enabled by
+  default)
 
-<ul> 
-
-<li> \c `--prefix=PREFIX' - set top installation directory to a certain \c
-PREFIX value. By default it is set to \c `/usr/local', so <tt>`make
-install'</tt> will install the package's files into \c
-`/usr/local/include', \c `/usr/local/lib`, etc. </li>
-
-<li> \c `--enable-debug' - switch to DEBUG mode by setting additional
-debugging flags used by compiler and linker (disabled by default) </li>
-
-<li> \c `--enable-exceptions' - enable exceptions handling of run-time
-errors instead of aborting the program (disabled by default) </li>
-
-<li> \c `--enable-html-doc' - do not generate and install HTML
-documentation (enabled by default) </li>
-
-<li> \c `--with-march=CPU' - enable optimization flags for a specific CPU:
-\c `i686', \c `pentium3', \c `pentium4', \c `prescott', \c `athlon-tbird', 
-\c `athlon-xp', \c `athlon-mp', etc. This option is only used by GCC. 
-See `man gcc' for more details. </li>
-
-<li> \c `--disable-shared' - prevent building a shared library (enabled by 
-default) </li>
-
-<li> \c `--disable-static' - prevent building a static library (enabled by
-default) </li>
-
-</ul> 
-
-By default, the \c `configure' script checks for a few external libraries
-used by the IT++ library. These are: FFTW, BLAS, CBLAS and LAPACK. If
-these libraries are found in your system, appropriate flags (i.e.
-HAVE_FFTW, HAVE_BLAS, HAVE_CBLAS and HAVE_LAPACK) will be defined, and used
-during the compilation and linking process.
+By default, the \c `configure' script checks for a few external libraries,
+which might be used by the IT++ library (cf. \ref requirements). The
+detection procedure is as follows:
+-# First, the presence of a BLAS library among the MKL, ACML, ATLAS and
+   Netlib's reference BLAS is checked. If one of the above mentioned can be
+   used, \c HAVE_BLAS is defined. 
+-# If the BLAS library can be found, the C interface of BLAS, namely CBLAS,
+   is detected. CBLAS is provided by default by MKL, ATLAS and Netlib's
+   reference CBLAS libraries. On success, \c HAVE_CBLAS is defined.
+-# Next, some LAPACK library is searched, but only if the BLAS library
+   is available. Full set of LAPACK routines can be found in the MKL, ACML
+   and Netlib's reference LAPACK libraries. Besides, ATLAS contains a subset
+   of optimised LAPACK routines, which can be used with Netlib's LAPACK
+   library (this is described in ATLAS documentation). If LAPACK can be
+   found, \c HAVE_LAPACK is defined.
+-# Finally, a set of separate checks for some FFT library is executed.
+   Currently three different libraries providing FFT/IFFT routines can be
+   used: MKL, ACML and FFTW. If at least one of them is found, \c HAVE_FFT
+   id defined. Besides, one of the following: \c HAVE_FFT_MKL8, \c
+   HAVE_FFT_ACML or \c HAVE_FFTW3 is defined. 
 
 If some of the external libraries are installed in a non-standard location 
-in your system, so they can not be detected by the \c `configure' script
-automatically, you might use LDFLAGS environment variable to define
-additional directories to be searched, e.g.:
+in your system, e.g. MKL in \c `/opt/intel/mkl', the \c `configure' script
+might not detect them automatically. In such case you might use LDFLAGS
+and CPPFLAGS environment variables to define additional directories to be
+searched for libraries (LDFLAGS) and include files (CPPFLAGS). For instance,
+to configure IT++ to link to the MKL 8.0.1 external library, which is
+installed in \c `/opt/intel/mkl/8.0.1' directory, you should use the
+following commands:
 
 \code
-% export LDFLAGS="-L/home/user/lib" 
+% export LDFLAGS="-L/opt/intel/mkl/8.0.1/lib/32"
+% export CPPFLAGS="-I/opt/intel/mkl/8.0.1/include"
+% ./configure
 \endcode
 
-Besides, if the external libraries have non-standard names, you might
-specify them to the configure using \c `--with-\<LIBNAME\>' switches, where 
-\c \<LIBNAME\> is one of the following: \c `fftw', \c `blas', \c `cblas' 
-or \c `lapack'. For example: \c `--with-fftw=-lfftw3' or \c 
-`--with-fftw=fftw3' will extend the default LIBS variable with \c `-lfftw3'.
+In case that external libraries have non-standard names, e.g.
+<tt>`libgslcblas.a'</tt> for CBLAS, you might specify them to the configure
+using \c `--with-\<LIBNAME\>' switches, where \c \<LIBNAME\> is one of the
+following: \c `blas', \c `cblas', \c `lapack' or \c `fft'. You might use
+more then one library names by quoting them with doublequotes, e.g.
 
-Please run <tt>`./configure --help'</tt> to obtain a full list of \c
-`--with-\<LIBNAME\>' switches available.
+\code
+% ./configure --with-blas="-latlas -lblas"
+\endcode
+
+If there is only one library specified, you can use a simplified notation
+without the preceding `-l', e.g. \c `--with-fft=fftw3' instead of \c 
+`--with-fftw=-lfftw3'.
 
 Although it is not recommended, you can intentionally prevent detection of
 some external libraries. To do this you should use \c
@@ -146,14 +171,14 @@ For instance, after having invoked the following configuration
 command:
 
 \code
-% ./configure --with-march=pentium3
+% ./configure --with-blas="-lblas" --with-march=pentium3
 \endcode
 
 one can observe something like this:
 
 \verbatim
 ------------------------------------------------------------------------------
-itpp-3.9.1 library configuration:
+itpp-3.10.0 library configuration:
 ------------------------------------------------------------------------------
 
 Directories:
@@ -161,7 +186,7 @@ Directories:
   - exec_prefix .. : ${prefix}
   - includedir ... : ${prefix}/include
   - libdir ....... : ${exec_prefix}/lib
-  - docdir ....... : ${prefix}/share/doc/itpp-3.9.1
+  - docdir ....... : ${prefix}/share/doc/itpp-3.10.0
 
 Switches:
   - debug ........ : no
@@ -171,34 +196,40 @@ Switches:
   - static ....... : yes
 
 Documentation tools:
-  - Doxygen ...... : yes
-  - LaTeX ........ : yes
-  - Dvips ........ : yes
-  - GhostScript .. : yes
+  - doxygen ...... : yes
+  - latex ........ : yes
+  - dvips ........ : yes
+  - ghostscript .. : yes
 
 Testing tools:
-  - Diff ......... : yes
+  - diff ......... : yes
 
 External libs:
-  - MKL .......... : no
-  - FFTW ......... : yes
   - BLAS ......... : yes
+    * MKL ........ : no
+    * ACML ....... : no
+    * ATLAS ...... : no
   - CBLAS ........ : yes
   - LAPACK ....... : yes
+  - FFT .......... : yes
+    * MKL ........ : no
+    * ACML ....... : no
+    * FFTW ....... : yes
 
 Compiler/linker flags/libs/defs:
   - CXX .......... : g++
-  - CPPFLAGS ..... : 
   - CXXFLAGS ..... : -march=pentium3 -pipe -fomit-frame-pointer -O2 
+  - CPPFLAGS ..... : 
   - LDFLAGS ...... : 
-  - LIBS ......... : -llapack  -lcblas -lblas -latlas -lfftw3 -lm   -L/usr/lib/g
-cc/i686-pc-linux-gnu/3.4.4 -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../../../i6
-86-pc-linux-gnu/lib -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../.. -lfrtbegin -
-lg2c -lm -lgcc_s
+  - LIBS ......... : -lfftw3 -lcblas -llapack -lblas -lm   -L/usr/lib/gcc/i686-p
+c-linux-gnu/3.4.4 -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../../../i686-pc-lin
+ux-gnu/lib -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../.. -lfrtbegin -lg2c -lm 
+-lgcc_s
 
 ------------------------------------------------------------------------------
-Now type 'make && make install' to build and install itpp-3.9.1 library
+Now type 'make && make install' to build and install itpp-3.10.0 library
 ------------------------------------------------------------------------------
+
 \endverbatim
 
 Now, it is time for compiling and linking the IT++ library. To do so,
@@ -209,7 +240,7 @@ please simply run the following command:
 \endcode
 
 IT++ should compile without any errors or warnings. If this is not the
-case, please submit a bug-report on the IT++ project page on SourceForge.
+case, please submit a bug-report on the IT++ project page at SourceForge.
 Please include information about your OS, compiler version, external
 libraries and their versions, etc.
 
@@ -239,15 +270,18 @@ Test `vector_test' PASSED.
 ------------------------------------------------------------------------------
 \endverbatim
 
+Check if all the executed tests PASSED. If not, please contact us by filling
+a bug-report.
+
 Finally, you should install the compiled and linked library, include files
-and HTML documentation (optionally) by typing:
+and (optionally) HTML documentation by typing:
 
 \code
 % make install
 \endcode
 
 Depending on the \c PREFIX settings during configuration, you might need
-the root (administrator) access to success with this step.
+the root (administrator) access to perform this step.
 
 Eventually, you might invoke the following command
 
@@ -263,31 +297,28 @@ to remove all files created during compilation process, or even
 
 to remove all files generated by the \c `configure' script.
 
-\section localinst How to set up a local, dual-config IT++ installation on Linux without being root
 
-This section presents a walkthrough of how to easily set
-up an IT++ environment in a "dual-config" fashion, so that one can
-compile programs with and without debugging. No need to be "root"; all
-files are installed locally.  <p>
+\section localinst How to set up a local, dual-config IT++ installation \
+on Linux without being root
+
+This section presents a walkthrough of how to easily set up an IT++
+environment in a "dual-config" fashion, so that one can compile programs
+with and without debugging. No need to be "root"; all files are installed
+locally.
 
 The philosophy is:
+- to locally install all external libraries (lapack, fftw, etc.) from
+  scratch; this is because we have found that not all precompiled libraries
+  which come with some Linux distributions, work properly with IT++ (e.g.
+  lapack-3.0-3 from Fedora Core 3)
+- to install two parallel IT++ libraries: one optimized and one for
+  debugging
+- to use static linking only (this gives larger executables but is much
+  easier to use in this dual-config setup as one avoids using the \c
+  LD_LIBRARY_PATH variable)
 
-<ul>
-<li>  to locally install all external libraries (lapack, fftw, etc.) from
-scratch; this is because we have found that not all precompiled
-libraries which come with some Linux distributions, work properly with
-IT++ (e.g.  lapack-3.0-3 from Fedora Core 3) </li>
-
-<li> to install two parallel IT++ libraries: one optimized and one for
-debugging </li>
-
-<li> to use static linking only (this gives larger executables but is
-much easier to use in this dual-config setup as one avoids using the
-\c LD_LIBRARY_PATH variable) </li>
-</ul>
-
-The installation procedure goes as follows (\c $HOME can be replaced by any directory
-where you have write access):
+The installation procedure goes as follows (\c $HOME can be replaced by any
+directory where you have write access):
 <ol>
 <li> Download  itpp-external-2.0.0.tar.gz and  itpp-3.10.0.tar.gz. Save
 them in your \c $HOME directory, and unpack them:
@@ -298,8 +329,7 @@ them in your \c $HOME directory, and unpack them:
 \endcode
 </li>
 
-<li>
-Compile and install the external libs
+<li> Compile and install the external libs
 \code
 % cd $HOME/itpp-external-2.0.0
 % make distclean
@@ -319,8 +349,7 @@ Compile and install the external libs
 \endcode
 </li>
 
-<li>
- Compile and install a debugging IT++ library
+<li> Compile and install a debugging IT++ library
 \code
 % export LDFLAGS=-L$HOME/it++external-2.0.0/lib
 % cd $HOME/itpp-3.10.0
@@ -330,11 +359,12 @@ Compile and install the external libs
 % make check >/tmp/chklog2
 \endcode
 </li>
-<li>
- Inspect \c /tmp/chklog1 and \c /tmp/chklog2 and verify that all tests resulted in "PASSED"
-</li>
-<li> Go to a temporary directory, and create the following 
-program \c example.cpp:
+
+<li> Inspect \c /tmp/chklog1 and \c /tmp/chklog2 and verify that all tests
+resulted in "PASSED" </li>
+
+<li> Go to a temporary directory, and create the following program \c
+example.cpp:
 \code
 #include <itpp/itbase.h>
 using namespace itpp;
@@ -356,8 +386,8 @@ int main()
   it_assert0(1==0,"Debugging was on!");
 }
 \endcode
-Also, in the same directory, create the following
-\c Makefile:
+
+Also, in the same directory, create the following \c Makefile:
 \code
 FLAGS_DEBUG   = `$(HOME)/it++3.10.0_debug/bin/itpp-config --cflags`
 LIBS_DEBUG    = `$(HOME)/it++3.10.0_debug/bin/itpp-config --libs`
@@ -368,24 +398,24 @@ example: example.cpp
 	g++ $(FLAGS_DEBUG) example.cpp -o example_debug  $(LIBS_DEBUG)
 	g++ $(FLAGS_OPT) example.cpp -o example_opt  $(LIBS_OPT)
 \endcode
-This \c Makefile produces two programs: \c example_opt and
- \c example_debug. The former is optimized for performance but offers no
- debugging or assertions. The latter includes debugging info and is
- compiled with all assertions enabled (this generally gives "safe"
- but slow code).
-<p>
-Run \c make and try the programs
-\c example_opt and \c example_debug.  If this works the library is
- ready to use. (The program \c example_debug should exit with an assertion error.)
-</li>
-<li>
- If you want to conserve disk space, clean up all temporary files:
+
+This \c Makefile produces two programs: \c example_opt and \c example_debug.
+The former is optimized for performance but offers no debugging or
+assertions. The latter includes debugging info and is compiled with all
+assertions enabled (this generally gives "safe" but slow code).
+
+Run \c make and try the programs \c example_opt and \c example_debug. If
+this works the library is ready to use. (The program \c example_debug should
+exit with an assertion error.) </li>
+
+<li> If you want to conserve disk space, clean up all temporary files:
 \code
 % cd $HOME/itpp-external-2.0.0
 % make distclean
 % cd $HOME/itpp-3.10.0
 % make distclean
 \endcode
+
 To conserve even more diskspace (remove all sources) then do
 \code
 % rm -rf $HOME/itpp-external-2.0.0
@@ -393,11 +423,11 @@ To conserve even more diskspace (remove all sources) then do
 \endcode
 </li>
 </ol>
- Note: the \c make \c distclean commands in some steps may result in an
-error message; just ignore this.  But the command is recommended
-because it guarantees that you start with a clean directory, in the
-event you would repeat the installation procedure.
 
+Note: the \c make \c distclean commands in some steps may result in an error
+message; just ignore this. But the command is recommended because it
+guarantees that you start with a clean directory, in the event you would
+repeat the installation procedure.
 
 
 \section msvc IT++ Configuration, Compilation and Installation using \
