@@ -219,13 +219,13 @@ Switches:
   - static ....... : ${enable_static}
 
 Documentation tools:
-  - Doxygen ...... : ${doxygen_ok}
-  - LaTeX ........ : ${latex_ok}
-  - DviPS ........ : ${dvips_ok}
-  - GhostScript .. : ${gs_ok}
+  - doxygen ...... : ${doxygen_ok}
+  - latex ........ : ${latex_ok}
+  - dvips ........ : ${dvips_ok}
+  - ghostscript .. : ${gs_ok}
 
 Testing tools:
-  - Diff ......... : ${diff_ok}
+  - diff ......... : ${diff_ok}
 
 External libs:
   - BLAS ......... : ${acx_blas_ok}
