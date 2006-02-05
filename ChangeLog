@@ -1,5 +1,9 @@
 2006-02-05  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/local/index.doc.in, doc/local/installation.doc:
+	Documentation updated to reflect recent changes in configuration's
+	scripts
+
 	* configure.ac: Cosmetic changes in displayed report
 
 	* README: Updated with the content from IT++ html main page
