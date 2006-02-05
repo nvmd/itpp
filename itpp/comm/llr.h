@@ -5,7 +5,7 @@
  * \author Erik G. Larsson
  *
  * $Date$
- * $Revision $
+ * $Revision$
  *
  * -------------------------------------------------------------------------
  *
@@ -44,17 +44,17 @@
 namespace itpp {
   
   /*! \relates LLR_calc_unit 
-    The quantized LLR representation, scalar form 
+    The quantized LLR (QLLR) representation, scalar form 
   */
   typedef signed int QLLR;
 
   /*!  \relates LLR_calc_unit 
-    The quantized LLR representation, vector form
+    The quantized LLR (QLLR) representation, vector form
   */
   typedef Vec<QLLR> QLLRvec;
 
   /*!  \relates LLR_calc_unit 
-    The quantized LLR representation, matrix form
+    The quantized LLR (QLLR) representation, matrix form
   */
   typedef Mat<QLLR> QLLRmat;
   
@@ -73,11 +73,11 @@ namespace itpp {
     rely on certain nonlinear operations on LLRs.
 
     An LLR for an information bit b is defined according to \f[ L =
-    log P(b=1)/P(b=0) \f] and it is in general a real number.  In the
+    \log \frac{P(b=1)}{P(b=0)} \f] and it is in general a real number.  In the
     class, LLR values are represented via the special type, "quantized
     LLR" (QLLR).  The relation between the quantized representation
-    and the real (floating-point) LLR value is \f[ QLLR =
-    (1<<Dint1)*LLR \f].  The user parameter Dint1 determines the
+    and the real (floating-point) LLR value is \f[ \mbox{QLLR} = \mbox{round}
+    ((1<<\mbox{Dint1})*\mbox{LLR}) \f]  The user parameter Dint1 determines the
     granularity of the quantization, and it can be set arbitrarily.
     The functions to_double() and to_qllr() can be used to perform
     conversions between the two representations (QLLR to
@@ -96,10 +96,11 @@ namespace itpp {
     versus accuracy (i.e., how different table resolutions would
     degrade performance) to some extent. Yet the main purpose of the
     QLLR representation is to provide a tool for writing efficient
-    simulation code. For bit-level simulations, a fixed point
-    representation of LLRs would be preferred/required.  With the
-    default setting of the table parameters, using the QLLR type is
-    practically as accurate (but much faster) as using "double" to
+    simulation code, rather than to provide for bit-level
+    (fixed-point) simulations. For bit-level simulations, a true fixed
+    point representation of LLRs would be preferred/required.  With
+    the default setting of the table parameters, using the QLLR type
+    is practically as accurate (but much faster) as using "double" to
     represent LLRs.  Decoder implementations may then provide
     functions using QLLR, fixed-point, or double (for compatibility
     reasons) representations of LLR values.
@@ -119,14 +120,18 @@ namespace itpp {
     /*! \brief Set the quantization and table parameters
 
       \param Dint1 Determines the relation between LLR represented as
-      real number and as integer.  The relation is \f[ LLR_int =
-      (1<<Dint1)*LLR_real \f]
+      real number and as integer.  The relation is \f[ \mbox{QLLR} = \mbox{round}
+      ((1<<\mbox{Dint1})*\mbox{LLR}) \f]
 
       \param Dint2 Number of entries in the table. If this is zero,
       then logmap becomes logmax.
 
       \param Dint3 Determines the table resolution. The spacing between each 
-      entry is \f[ 2^(-(Dint1-Dint3)) \f]
+      entry is \f[ 2^{-(Dint1-Dint3)} \f]
+
+      The default parameter values are chosen to give a performance
+      practically indistinguishable from that of using floating point
+      calculations.
     */
     void init_llr_tables(const short int d1=10, const short int d2=300, const short int d3=5);
 
@@ -150,20 +155,23 @@ namespace itpp {
 
     /*! \brief Jacobian logarithm. 
 
-     This function computes log(exp(a)+exp(b)).
-     Note: a version of this function taking "double" values as input
-     is deliberately omitted. */
+    This function computes \f[ \log(\exp(a)+\exp(b)) \f]
+    */
     inline QLLR jaclog(QLLR a, QLLR b);
+    // Note: a version of this function taking "double" values as input
+    // is deliberately omitted, because this is rather slow. 
 
     /*! \brief Hagenauer's "Boxplus" operator.  
 
       This function computes
-      sign(a)*sign(b)*min(abs(a),abs(b))+f(abs(a+b))-f(abs(a-b)),
-      where f(x) = log(1+exp(-x))  
+      \f[ \mbox{sign}(a)*\mbox{sign}(b)*\mbox{min}(|a|,|b|)+f(|a+b|)-f(|a-b|) \f]
+      where \f[ f(x) = \log(1+\exp(-x))  \f]
     */
-    inline QLLR Boxplus(QLLR, QLLR);
+    inline QLLR Boxplus(QLLR a, QLLR b);
 
-    /*! \brief Compute f(x) = log(1+exp(-x)) via table-lookup. */
+    /*! \brief Logexp operator.
+
+    This function computes \f[ f(x) = \log(1+\exp(-x)) \f]  */
     QLLR logexp(QLLR x);
 
     //! Retrieve the table resolution values
@@ -176,7 +184,7 @@ namespace itpp {
     friend std::ostream &operator<<(std::ostream &os, const LLR_calc_unit &lcu);
     
   private:
-    //! Compute the table for f(x) = log(1+exp(-x)) 
+    //! Compute the table for \f[ f(x) = \log(1+\exp(-x)) \f]
     ivec construct_logexp_table();
     
     //! The lookup tables for the decoder
