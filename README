@@ -5,7 +5,7 @@ IT++ is a C++ library of mathematical, signal processing, speech processing,
 and communications classes and functions. It is being developed by
 researchers in these areas and is widely used by researchers, both in the
 communications industry and universities. Since 2004, IT++ is also being
-developed as a part of the European Network of Excellence NEWCOM.
+developed as a part of the European Network of Excellence (NEWCOM).
 
 The kernel of the IT++ library are templated vector and matrix classes, and
 lots of functions for vectors and matrices. Such a kernel makes IT++ library
@@ -14,7 +14,7 @@ similar to Matlab.
 IT++ makes an extensive use of existing open-source libraries (but not only)
 for increased functionality, speed and accuracy. In particular BLAS, CBLAS,
 LAPACK and FFTW libraries might be used. Instead of NetLib's reference BLAS
-and LAPACK, some optimized, platform-specific, libraries can be used as well,
+and LAPACK, some optimized platform-specific libraries can be used as well,
 i.e.:
 
   o ATLAS (Automatically Tuned Linear Algebra Software) - includes optimised
@@ -22,7 +22,7 @@ i.e.:
   o MKL (Intel Math Kernel Library) - includes all required BLAS, CBLAS,
     LAPACK and FFT routines (FFTW not required)
   o ACML (AMD Core Math Library) - includes BLAS, LAPACK and FFT routines
-    (FFTW not required).
+    (FFTW not required)
 
 It might be possible to compile and use IT++ without any of the above listed
 libraries, but the functionality will be reduced.
@@ -31,8 +31,8 @@ The IT++ library originates from the former department of Information Theory
 at the Chalmers University of Technology, Gothenburg, Sweden. Because the
 library is coded in C++, the name IT++ seemed like a good idea at the time.
 While departments come and go, IT++ have developed a life of its' own and is
-now released under the terms of the Gnu Public License (GPL) for you to
-enjoy.
+now released under the terms of the GNU General Public License (GPL) for you
+to enjoy.
 
 IT++ shold work on GNU/Linux, Sun Solaris, Microsoft Windows (with Cygwin or
 Microsoft Visual C++ .NET) and Mac OS X (more testers needed).

@@ -43,8 +43,9 @@ The IT++ library originates from the former department of Information
 Theory at the Chalmers University of Technology, Gothenburg, Sweden. Because
 the library is coded in C++, the name IT++ seemed like a good idea at the
 time. While departments come and go, IT++ have developed a life of its'
-own and is now released under the terms of the Gnu Public License (GPL) for
-you to enjoy. 
+own and is now released under the terms of the 
+<a href="http://www.gnu.org/copyleft/gpl.html">GNU General Public License</a>
+(GPL) for you to enjoy.
 
 IT++ shold work on GNU/Linux, Sun Solaris, Microsoft Windows (with
 Cygwin or Microsoft Visual C++ .NET) and Mac OS X (more testers needed).
