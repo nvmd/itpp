@@ -2,7 +2,9 @@
 
 	* itpp/base/transforms.cpp, tests/transforms_test.cpp,
 	tests/transforms_test.ref: Bug-fixes in FFT/IFFT functions based
-	on ACML library. Now sigfun test program returns correct output.
+	on ACML library. Temporary `comm' vectors are now allocated
+	dynamically when neccessary. This fixes segmentation faults in
+	sigfun and filter_design test programs.
 
 2006-02-05  Adam Piatyszek  <ediap@users.sourceforge.net>
 
