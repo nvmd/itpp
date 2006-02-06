@@ -76,7 +76,7 @@ int main()
  {
    cvec x, y, z;
 
-   N = 32;
+   N = 16;
    x = randn_c(N);
    cout << "Test 3: FFT/IFFT; Complex input vector x; N = " << N << endl
 	<< "        fft(x, y), ifft(y, z):" << endl << endl;
@@ -87,12 +87,12 @@ int main()
    ifft(y, z);
    cout << "z = " << round_to_zero(z) << endl << endl;
 
-   N = 17;
-   s = N - 2;
-   x = randn_c(N);
+   N = 16;
+   s = N - 7;
+   x = randn_c(s);
    cout << "Test 4: FFT/IFFT; Complex input vector x of size s = " << s 
 	<< "; N = " << N << endl
-	<< "        y = fft_real(x, N), z = ifft_real(y, N):" << endl << endl;
+	<< "        y = fft(x, N), z = ifft(y, N):" << endl << endl;
    
    cout << "x = " << round_to_zero(x) << endl;
    y = fft(x, N);
@@ -132,7 +132,7 @@ int main()
 #else
 
 int main() { 
- cerr << "Error: FFTW library is needed to run this test program" << endl; 
+ cerr << "Error: FFT library is needed to run this test program" << endl; 
  return 1;
 }
 
