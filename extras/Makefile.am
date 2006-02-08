@@ -1,3 +1,3 @@
 include $(top_srcdir)/Makefile.common
 
-EXTRA_DIST = itload.m itsave.m
+dist_pkgdata_DATA = itload.m itsave.m

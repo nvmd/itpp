@@ -1,3 +1,16 @@
+2006-02-08  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/tutorial/itfile.doc, doc/tutorial/rayleigh.doc,
+	doc/tutorial/src/Makefile.am, doc/tutorial/src/rayleigh.cpp,
+	doc/tutorial/src/read_it_file.cpp, doc/tutorial/src/sources.mk,
+	doc/tutorial/src/write_it_file.cpp: Updated tutorial example
+	programs and their description. Removed unnecessary reference
+	files for the tutorial programs. (merged from itpp-3-9-branch)
+
+	* extras/Makefile.am: Matlab/Octave itload.m and itsave.m scripts
+	are now installed into $PREFIX/share/doc (merged from
+	itpp-3-9-branch)
+
 2006-02-07  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/newton_search_test.cpp, tests/newton_search_test.ref:
