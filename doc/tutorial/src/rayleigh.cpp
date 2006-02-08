@@ -2,36 +2,31 @@
 
 using namespace itpp;
 
-//These lines are needed for use of cout and endl
-using std::cout;
-using std::endl;
-
 int main()
 {
-  //Declare scalars and vectors:
-  double noise_var, norm_dopp;
-  int Nsamples;
-  Array<cvec> chan;
-
-  //Open the file rayleigh_test.it
-  it_file ff("rayleigh_test.it");
-
-  //Declare the variable my_channel as an instance of the class Rayleigh_Channel:
+  // Declare my_channel variable as an instance of the Rayleigh_Channel
+  // class
   TDL_Channel my_channel;
 
-  //The normalized Doppler frequency is set to 0.1. 
-  norm_dopp = 0.1;
+  // The normalized Doppler frequency is set to 0.1 
+  double norm_dopp = 0.1;
   my_channel.set_norm_doppler(norm_dopp);
 
-  //Generate Nsamples of the fading process:
-  Nsamples = 10000;
-  my_channel.generate(Nsamples, chan);
+  // Generate nrof_samples of the fading process and store them in ch_coeffs
+  // matrix 
+  int nrof_samples = 10000;
+  cmat ch_coeffs;
+  my_channel.generate(nrof_samples, ch_coeffs);
 
-  //Save the results to file:
-  ff << Name("chan") << chan;
+  // Open an output file "rayleigh_test.it"
+  it_file ff("rayleigh_test.it");
+
+  // Save channel coefficients to the output file
+  ff << Name("ch_coeffs") << ch_coeffs;
+
+  // Close the output file
   ff.close();
 
-  //Exit program:
+  // Exit program
   return 0;
-
 }
