@@ -69,12 +69,14 @@ if test $acx_cblas_ok = no; then
 fi
 
 # Generic CBLAS library?
-if test $acx_cblas_ok = no; then
-  save_LIBS="$LIBS"; LIBS="$BLAS_LIBS $LIBS"
-  AC_CHECK_LIB(cblas, cblas_sgemm, [acx_cblas_ok=yes; CBLAS_LIBS="-lcblas"], 
-    [], [$FLIBS])
-  LIBS="$save_LIBS"
-fi
+for cblas in cblas gslcblas; do
+  if test $acx_cblas_ok = no; then
+    save_LIBS="$LIBS"; LIBS="$BLAS_LIBS $LIBS"
+    AC_CHECK_LIB($cblas, cblas_sgemm, 
+      [acx_cblas_ok=yes; CBLAS_LIBS="-l$cblas"], [], [$FLIBS])
+    LIBS="$save_LIBS"
+  fi
+done
 
 AC_SUBST(CBLAS_LIBS)
 
