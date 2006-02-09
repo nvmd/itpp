@@ -12,8 +12,8 @@ endif
 
 SUBDIRS = itpp extras $(HTMLDOCDIR) $(TESTDIR)
 
-EXTRA_DIST = autogen.sh itpp.sln itpp.vcproj Makefile.common TODO \
-  itpp_msvc2003.sln itpp_msvc2003.vcproj
+EXTRA_DIST = autogen.sh itpp.spec Makefile.common TODO \
+	itpp.sln itpp.vcproj itpp_msvc2003.sln itpp_msvc2003.vcproj
 
 bin_SCRIPTS = @PACKAGE@-config
 

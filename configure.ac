@@ -2,11 +2,15 @@
 #-------------------------------------------------------------------
 AC_PREREQ(2.59)
 AC_COPYRIGHT([Copyright (C) 2005  Adam Piatyszek <ediap@users.sourceforge.net>])
-AC_INIT([IT++], [3.10.0-cvs], [ediap@users.sourceforge.net], [itpp])
+AC_INIT([IT++], [3.10.0], [ediap@users.sourceforge.net], [itpp])
 AC_CONFIG_HEADER([itpp/config.h])
 AC_CONFIG_SRCDIR([itpp/base/vec.cpp])
 AC_CONFIG_AUX_DIR([config])
 AM_INIT_AUTOMAKE
+
+# RPM release number
+RPM_RELEASE="1"
+AC_SUBST(RPM_RELEASE)
 
 # Shared library versioning
 GENERIC_LIBRARY_VERSION="2:0:0"
