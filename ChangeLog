@@ -1,3 +1,10 @@
+2006-02-09  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* config/acx_fft.m4: Minor fixes to the FFT detection routines.
+	Now, MKL and ACML FFT routines are searched in the default BLAS
+	library first; even if BLAS was defined explicitly using
+	`--with-blas' switch.
+
 2006-02-08  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* doc/tutorial/itfile.doc, doc/tutorial/rayleigh.doc,
