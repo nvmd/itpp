@@ -55,12 +55,11 @@ fi
 
 # FFT in BLAS (MKL) library?
 if test "x$acx_fft_ok" = xno; then
-  if test "x$blas_mkl_ok" = xyes; then
-    save_LIBS="$LIBS"; LIBS="$LIBS $BLAS_LIBS $FLIBS"
-    AC_CHECK_FUNC(DftiComputeForward, 
-      [AC_CHECK_HEADER([mkl_dfti.h], [acx_fft_ok=yes; fft_mkl8_ok=yes])])
-    LIBS="$save_LIBS"
-  fi
+  save_LIBS="$LIBS"; LIBS="$LIBS $BLAS_LIBS $FLIBS"
+  AC_CHECK_FUNC(DftiComputeForward, 
+    [AC_CHECK_HEADER([mkl_dfti.h], 
+      [acx_fft_ok=yes; fft_mkl8_ok=yes; blas_mkl_ok=yes])])
+  LIBS="$save_LIBS"
 fi
 
 # FFT in MKL library?
@@ -73,12 +72,11 @@ fi
 
 # FFT in BLAS (ACML) library?
 if test "x$acx_fft_ok" = xno; then
-  if test "x$blas_acml_ok" = xyes; then
-    save_LIBS="$LIBS"; LIBS="$LIBS $BLAS_LIBS $FLIBS"
-    AC_CHECK_FUNC(zfft1dx, 
-      [AC_CHECK_HEADER([acml.h], [acx_fft_ok=yes; fft_acml_ok=yes])])
-    LIBS="$save_LIBS"
-  fi
+  save_LIBS="$LIBS"; LIBS="$LIBS $BLAS_LIBS $FLIBS"
+  AC_CHECK_FUNC(zfft1dx, 
+    [AC_CHECK_HEADER([acml.h], 
+      [acx_fft_ok=yes; fft_acml_ok=yes; blas_acml_ok=yes])])
+  LIBS="$save_LIBS"
 fi
 
 # FFT in ACML library?
