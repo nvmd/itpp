@@ -1,5 +1,9 @@
 2006-02-09  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac, Makefile.am: Added RPM's spec file to the
+	distribution package. Added RPM_RELEASE variable to the
+	configure.ac. 
+
 	* config/acx_cblas.m4: Added support for detecting libgslcblas
 
 	* config/acx_fft.m4: Minor fixes to the FFT detection routines.
