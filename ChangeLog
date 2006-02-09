@@ -1,5 +1,9 @@
 2006-02-09  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp.spec.in: Changes in `Name', `Version' and `Release'
+	definitions. Removed distribution dependent release settings. 
+	Added DESTDIR to make install command.
+
 	* configure.ac, Makefile.am: Added RPM's spec file to the
 	distribution package. Added RPM_RELEASE variable to the
 	configure.ac. 
