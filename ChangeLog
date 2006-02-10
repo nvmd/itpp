@@ -1,5 +1,13 @@
 2006-02-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* Makefile.common: Unneccessary AM_LDFLAGS removed
+	* configure.ac: Using ITPP_LIBS instead of global LIBS due to
+	linking problems with Fortran libs under x86_64 platform
+	* itpp-config.in, itpp.pc.in: Flags updated because of the changes
+	in the configure script
+	* tests/Makefile.am: Locally defined LIBS flag to properly link
+	to external libraries
+	
 	* tests/newton_search_test.cpp: Cosmetic changes - removed
 	unneccessary variables
 
