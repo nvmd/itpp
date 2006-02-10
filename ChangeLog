@@ -1,5 +1,8 @@
 2006-02-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/newton_search_test.cpp: Cosmetic changes - removed
+	unneccessary variables
+
 	* itpp/base/filter.h, itpp/comm/channel_code.h: Added virtual
 	destructor to base classes. This prevents warnings during
 	compilation with gcc-4.0.x.

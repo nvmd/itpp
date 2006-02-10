@@ -126,8 +126,6 @@ int main(void)
     cout << endl << "    Newton_Search " << endl;
     cout << "--------------------" << endl;
     vec x0 = "-1.2 1";
-    double F0 = rosenbrock(x0);
-    vec g0 = rosenbrock_gradient(x0);
 
     Newton_Search newton;
     newton.set_functions(rosenbrock, rosenbrock_gradient);
@@ -135,7 +133,6 @@ int main(void)
 
     cout << "x0 = " << x0 << endl;
 
-    double F, ng, nh;
     vec xn, gn;
 
     if (!newton.search(x0, xn))
