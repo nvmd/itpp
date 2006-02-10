@@ -54,19 +54,20 @@ namespace itpp {
     </ul>
   */
   template <class T1, class T2, class T3>
-	class Filter {
+  class Filter {
   public:
     //! Default constructor
-    Filter();
+    Filter() {}
     //! Filter a single sample.
     virtual T3 operator()(const T1 Sample) { return filter(Sample); }
     //! Filter a vector.
     virtual Vec<T3> operator()(const Vec<T1> &v);
+    //! Virtual destructor.
+    virtual ~Filter() {}
   protected:
-    /*!  
-			\brief Pure virtual filter function. This is where the real
-			filtering is done. Implement this function to create a new
-			filter.
+    /*! 
+      \brief Pure virtual filter function. This is where the real
+      filtering is done. Implement this function to create a new filter.
     */
     virtual T3 filter(const T1 Sample)=0;
   };
@@ -296,9 +297,9 @@ namespace itpp {
 
 
   /*!  
-		\brief Design a Nth order FIR filter with cut-off frequency \c
+    \brief Design a Nth order FIR filter with cut-off frequency \c
     cutoff using the window method.  
-		\ingroup filters
+    \ingroup filters
   */
   vec fir1(long N, double cutoff);
 
@@ -309,299 +310,294 @@ namespace itpp {
   //---------------------- class Filter ----------------------------
 
   template <class T1, class T2, class T3>
-	Filter<T1,T2,T3>::Filter()
-	{
-	}
+  Vec<T3> Filter<T1,T2,T3>::operator()(const Vec<T1> &x)
+  {
+    Vec<T3> y(x.length());
 
-  template <class T1, class T2, class T3>
-	Vec<T3> Filter<T1,T2,T3>::operator()(const Vec<T1> &x)
-	{
-		Vec<T3> y(x.length());
-
-		for (long i=0;i<x.length();i++) {
-			y[i]=filter(x[i]);
-		}
-		return y;
-	}
+    for (long i=0;i<x.length();i++) {
+      y[i]=filter(x[i]);
+    }
+    return y;
+  }
 
   //-------------------------- class MA_Filter ---------------------------------
 
   template <class T1, class T2,class T3>
-	MA_Filter<T1,T2,T3>::MA_Filter() : Filter<T1,T2,T3>()
-	{
-		inptr=0;
-		init = false;
-	}
+  MA_Filter<T1,T2,T3>::MA_Filter() : Filter<T1,T2,T3>()
+  {
+    inptr=0;
+    init = false;
+  }
     
-	template <class T1, class T2,class T3>
-	MA_Filter<T1,T2,T3>::MA_Filter(const Vec<T2> &b) : Filter<T1,T2,T3>()
-	{
-		set_coeffs(b);
-	}
+  template <class T1, class T2,class T3>
+  MA_Filter<T1,T2,T3>::MA_Filter(const Vec<T2> &b) : Filter<T1,T2,T3>()
+  {
+    set_coeffs(b);
+  }
 
 
-	template <class T1, class T2, class T3>
-	void MA_Filter<T1,T2,T3>::set_coeffs(const Vec<T2> &b)
-	{
-	  it_assert(b.size() > 0, "MA_Filter: size of filter is 0!");
+  template <class T1, class T2, class T3>
+  void MA_Filter<T1,T2,T3>::set_coeffs(const Vec<T2> &b)
+  {
+    it_assert(b.size() > 0, "MA_Filter: size of filter is 0!");
 
-	  coeffs = b;
-	  NS = coeffs.size();
+    coeffs = b;
+    NS = coeffs.size();
 
-	  mem.set_size(NS, false);
-	  mem.clear();
-	  inptr=0;
-	  init = true;
-	}
+    mem.set_size(NS, false);
+    mem.clear();
+    inptr=0;
+    init = true;
+  }
 
-	template <class T1, class T2, class T3>
-	Vec<T3> MA_Filter<T1,T2,T3>::get_state() const
-	{
-	  it_assert(init == true, "MA_Filter: filter coefficients are not set!");
+  template <class T1, class T2, class T3>
+  Vec<T3> MA_Filter<T1,T2,T3>::get_state() const
+  {
+    it_assert(init == true, "MA_Filter: filter coefficients are not set!");
 
-	  int offset = inptr;
-	  Vec<T3> state(NS);
+    int offset = inptr;
+    Vec<T3> state(NS);
 
-	  for(int n = 0; n<NS; n++){
-	    state(n) = mem(offset);
-	    offset = (offset+1)%NS;
-	  }
+    for(int n = 0; n<NS; n++){
+      state(n) = mem(offset);
+      offset = (offset+1)%NS;
+    }
 
-	  return state;
-	}
+    return state;
+  }
 
-	template <class T1, class T2, class T3>
-	void MA_Filter<T1,T2,T3>::set_state(const Vec<T3> &state)
-	{
-	  it_assert(init == true, "MA_Filter: filter coefficients are not set!");
-	  it_assert(state.size() == NS, "MA_Filter: Invalid state vector!");
+  template <class T1, class T2, class T3>
+  void MA_Filter<T1,T2,T3>::set_state(const Vec<T3> &state)
+  {
+    it_assert(init == true, "MA_Filter: filter coefficients are not set!");
+    it_assert(state.size() == NS, "MA_Filter: Invalid state vector!");
 
-	  mem = state;
-	  inptr = 0;
-	}
+    mem = state;
+    inptr = 0;
+  }
 
-	template <class T1, class T2, class T3>
-	T3 MA_Filter<T1,T2,T3>::filter(const T1 Sample)
-	{
-	  it_assert(init == true, "MA_Filter: Filter coefficients are not set!");
-	  T3  s=0;
-	  long i,L;
+  template <class T1, class T2, class T3>
+  T3 MA_Filter<T1,T2,T3>::filter(const T1 Sample)
+  {
+    it_assert(init == true, "MA_Filter: Filter coefficients are not set!");
+    T3  s=0;
+    long i,L;
 
-	  mem._elem(inptr)=Sample;
-	  L=mem.length()-inptr;
+    mem._elem(inptr)=Sample;
+    L=mem.length()-inptr;
 
-	  for (i=0;i<L;i++) {
-	    s+=coeffs._elem(i)*mem._elem(inptr+i);
-	  }
-	  for (i=0;i<inptr;i++) {
-	    s+=coeffs._elem(L+i)*mem._elem(i);
-	  }
-	  inptr=inptr-1;if (inptr<0) inptr+=mem.length();
-	  return s;
-	}
+    for (i=0;i<L;i++) {
+      s+=coeffs._elem(i)*mem._elem(inptr+i);
+    }
+    for (i=0;i<inptr;i++) {
+      s+=coeffs._elem(L+i)*mem._elem(i);
+    }
+    inptr=inptr-1;if (inptr<0) inptr+=mem.length();
+    return s;
+  }
 
-	//---------------------- class AR_Filter ----------------------------------
+  //---------------------- class AR_Filter ----------------------------------
 
-	template <class T1, class T2, class T3>
-	AR_Filter<T1,T2,T3>::AR_Filter() : Filter<T1,T2,T3>()
-	{
-	  inptr = 0;
-	  init = false;
-	}
+  template <class T1, class T2, class T3>
+  AR_Filter<T1,T2,T3>::AR_Filter() : Filter<T1,T2,T3>()
+  {
+    inptr = 0;
+    init = false;
+  }
 
-	template <class T1, class T2, class T3>
-	AR_Filter<T1,T2,T3>::AR_Filter(const Vec<T2> &a) : Filter<T1,T2,T3>()
-	{
-		set_coeffs(a);
-	}
+  template <class T1, class T2, class T3>
+  AR_Filter<T1,T2,T3>::AR_Filter(const Vec<T2> &a) : Filter<T1,T2,T3>()
+  {
+    set_coeffs(a);
+  }
 
-	template <class T1, class T2, class T3>
-	void AR_Filter<T1,T2,T3>::set_coeffs(const Vec<T2> &a)
-	{
-		it_assert(a.size() > 0, "AR_Filter: size of filter is 0!");
-		it_assert(a(0) != T2(0), "AR_Filter: a(0) cannot be 0!");
+  template <class T1, class T2, class T3>
+  void AR_Filter<T1,T2,T3>::set_coeffs(const Vec<T2> &a)
+  {
+    it_assert(a.size() > 0, "AR_Filter: size of filter is 0!");
+    it_assert(a(0) != T2(0), "AR_Filter: a(0) cannot be 0!");
 
-		coeffs = a.right(length(a)-1)/a(0);
-		NS = coeffs.size();
+    coeffs = a.right(length(a)-1)/a(0);
+    NS = coeffs.size();
 
-		mem.set_size(NS, false);
-		mem.clear();
-		inptr = 0;
-		init = true;
-	}
-
-
-	template <class T1, class T2, class T3>
-	Vec<T3> AR_Filter<T1,T2,T3>::get_state() const
-	{
-		it_assert(init == true, "AR_Filter: filter coefficients are not set!");
-
-		int offset = inptr;
-		Vec<T3> state(NS);
-
-		for(int n = 0; n<NS; n++){
-			state(n) = mem(offset);
-			offset = (offset+1)%NS;
-		}
-
-		return state;
-	}
-
-	template <class T1, class T2, class T3>
-	void AR_Filter<T1,T2,T3>::set_state(const Vec<T3> &state)
-	{
-		it_assert(init == true, "AR_Filter: filter coefficients are not set!");
-		it_assert(state.size() == NS, "AR_Filter: Invalid state vector!");
-
-		mem = state;
-		inptr = 0;
-	}
-
-	template <class T1, class T2, class T3>
-	T3 AR_Filter<T1,T2,T3>::filter(const T1 Sample)
-	{
-		it_assert(init == true, "AR_Filter: Filter coefficients are not set!");
-		T3  s=0;
-		long i,L;
-
-		L=length(mem)-inptr;
-		for (i=0;i<L;i++) {
-			s+=coeffs._elem(i)*mem._elem(inptr+i);
-		}
-		for (i=0;i<inptr;i++) {
-			s+=coeffs._elem(L+i)*mem._elem(i);
-		}
-		inptr=inptr-1;if (inptr<0) inptr+=length(mem);
-
-		s=Sample-s;
-		mem._elem(inptr)=s;
-
-		return s;
-	}
+    mem.set_size(NS, false);
+    mem.clear();
+    inptr = 0;
+    init = true;
+  }
 
 
-	//---------------------- class ARMA_Filter ----------------------------------
-	template <class T1, class T2, class T3>
-	ARMA_Filter<T1,T2,T3>::ARMA_Filter() : Filter<T1,T2,T3>()
-	{
-		inptr = 0;
-		init = false;
-	}
+  template <class T1, class T2, class T3>
+  Vec<T3> AR_Filter<T1,T2,T3>::get_state() const
+  {
+    it_assert(init == true, "AR_Filter: filter coefficients are not set!");
 
-	template <class T1, class T2, class T3>
-	ARMA_Filter<T1,T2,T3>::ARMA_Filter(const Vec<T2> &b, const Vec<T2> &a) : Filter<T1,T2,T3>()
-	{
-		set_coeffs(b, a);
-	}
+    int offset = inptr;
+    Vec<T3> state(NS);
 
-	template <class T1, class T2, class T3>
-	void ARMA_Filter<T1,T2,T3>::set_coeffs(const Vec<T2> &b, const Vec<T2> &a)
-	{
-		it_assert(a.size() > 0 && b.size() > 0, "ARMA_Filter: size of filter is 0!");
-		it_assert(a(0) != T2(0), "ARMA_Filter: a(0) cannot be 0!");
+    for(int n = 0; n<NS; n++){
+      state(n) = mem(offset);
+      offset = (offset+1)%NS;
+    }
 
-		acoeffs = a/a(0);
-		bcoeffs = b/a(0);
+    return state;
+  }
 
-		inptr = 0;
-		NA = a.size();
-		NB = b.size();
-		NS = std::max(NB, NA) - 1;
-		mem.set_size(NS, false);
-		mem.clear();
-		init = true;
-	}
+  template <class T1, class T2, class T3>
+  void AR_Filter<T1,T2,T3>::set_state(const Vec<T3> &state)
+  {
+    it_assert(init == true, "AR_Filter: filter coefficients are not set!");
+    it_assert(state.size() == NS, "AR_Filter: Invalid state vector!");
 
-	template <class T1, class T2, class T3>
-	Vec<T3> ARMA_Filter<T1,T2,T3>::get_state() const
-	{
-		it_assert(init == true, "ARMA_Filter: filter coefficients are not set!");
+    mem = state;
+    inptr = 0;
+  }
 
-		int offset = inptr;
-		Vec<T3> state(NS);
+  template <class T1, class T2, class T3>
+  T3 AR_Filter<T1,T2,T3>::filter(const T1 Sample)
+  {
+    it_assert(init == true, "AR_Filter: Filter coefficients are not set!");
+    T3  s=0;
+    long i,L;
 
-		for(int n = 0; n<NS; n++){
-			state(n) = mem(offset);
-			offset = (offset+1)%NS;
-		}
+    L=length(mem)-inptr;
+    for (i=0;i<L;i++) {
+      s+=coeffs._elem(i)*mem._elem(inptr+i);
+    }
+    for (i=0;i<inptr;i++) {
+      s+=coeffs._elem(L+i)*mem._elem(i);
+    }
+    inptr=inptr-1;if (inptr<0) inptr+=length(mem);
+
+    s=Sample-s;
+    mem._elem(inptr)=s;
+
+    return s;
+  }
+
+
+  //---------------------- class ARMA_Filter ----------------------------------
+  template <class T1, class T2, class T3>
+  ARMA_Filter<T1,T2,T3>::ARMA_Filter() : Filter<T1,T2,T3>()
+  {
+    inptr = 0;
+    init = false;
+  }
+
+  template <class T1, class T2, class T3>
+  ARMA_Filter<T1,T2,T3>::ARMA_Filter(const Vec<T2> &b, const Vec<T2> &a) : Filter<T1,T2,T3>()
+  {
+    set_coeffs(b, a);
+  }
+
+  template <class T1, class T2, class T3>
+  void ARMA_Filter<T1,T2,T3>::set_coeffs(const Vec<T2> &b, const Vec<T2> &a)
+  {
+    it_assert(a.size() > 0 && b.size() > 0, "ARMA_Filter: size of filter is 0!");
+    it_assert(a(0) != T2(0), "ARMA_Filter: a(0) cannot be 0!");
+
+    acoeffs = a/a(0);
+    bcoeffs = b/a(0);
+
+    inptr = 0;
+    NA = a.size();
+    NB = b.size();
+    NS = std::max(NB, NA) - 1;
+    mem.set_size(NS, false);
+    mem.clear();
+    init = true;
+  }
+
+  template <class T1, class T2, class T3>
+  Vec<T3> ARMA_Filter<T1,T2,T3>::get_state() const
+  {
+    it_assert(init == true, "ARMA_Filter: filter coefficients are not set!");
+
+    int offset = inptr;
+    Vec<T3> state(NS);
+
+    for(int n = 0; n<NS; n++){
+      state(n) = mem(offset);
+      offset = (offset+1)%NS;
+    }
       
-		return state;
-	}
+    return state;
+  }
 
-	template <class T1, class T2, class T3>
-	void ARMA_Filter<T1,T2,T3>::set_state(const Vec<T3> &state)
-	{
-		it_assert(init == true, "ARMA_Filter: filter coefficients are not set!");
-		it_assert(state.size() == NS, "ARMA_Filter: Invalid state vector!");
+  template <class T1, class T2, class T3>
+  void ARMA_Filter<T1,T2,T3>::set_state(const Vec<T3> &state)
+  {
+    it_assert(init == true, "ARMA_Filter: filter coefficients are not set!");
+    it_assert(state.size() == NS, "ARMA_Filter: Invalid state vector!");
 
-		mem = state;
-		inptr = 0;
-	}
+    mem = state;
+    inptr = 0;
+  }
 
-	template <class T1, class T2, class T3>
-	T3 ARMA_Filter<T1,T2,T3>::filter(const T1 Sample)
-	{
-		it_assert(init == true, "ARMA_Filter: Filter coefficients are not set!");
-		const int N0 = NS-1;
-		int ia, ib;
-		T3 z = Sample;
-		T3 s;
+  template <class T1, class T2, class T3>
+  T3 ARMA_Filter<T1,T2,T3>::filter(const T1 Sample)
+  {
+    it_assert(init == true, "ARMA_Filter: Filter coefficients are not set!");
+    const int N0 = NS-1;
+    int ia, ib;
+    T3 z = Sample;
+    T3 s;
       
-		for(ia=0; ia<NA-1; ia++) // All AR-coeff except a(0).
-			z -= mem((ia+inptr)%NS) * acoeffs(ia+1);
+    for(ia=0; ia<NA-1; ia++) // All AR-coeff except a(0).
+      z -= mem((ia+inptr)%NS) * acoeffs(ia+1);
 
-		s = z*bcoeffs(0);
+    s = z*bcoeffs(0);
 
-		for(ib=0; ib<NB-1; ib++) // All MA-coeff except b(0).
-			s += mem((ib+inptr)%NS) * bcoeffs(ib+1);
+    for(ib=0; ib<NB-1; ib++) // All MA-coeff except b(0).
+      s += mem((ib+inptr)%NS) * bcoeffs(ib+1);
 
-		inptr = (inptr+N0)%NS; // Clock the state shift-register once.
-		mem(inptr) = z; // Store in the internal state.
+    inptr = (inptr+N0)%NS; // Clock the state shift-register once.
+    mem(inptr) = z; // Store in the internal state.
 
-		return s;
-	}
+    return s;
+  }
 
 
 #ifndef _MSC_VER
 
-	//-----------------------------------------------------------------------
-	//  class MA_Filter
-	//-----------------------------------------------------------------------
+  //-----------------------------------------------------------------------
+  //  class MA_Filter
+  //-----------------------------------------------------------------------
 
-	//! Template instatiation of MA_Filter
-	extern template class MA_Filter<double,double,double>;
-	//! Template instatiation of MA_Filter
-	extern template class MA_Filter<double,std::complex<double>,std::complex<double> >;
-	//! Template instatiation of MA_Filter
-	extern template class MA_Filter<std::complex<double>,double,std::complex<double> >;
-	//! Template instatiation of MA_Filter
-	extern template class MA_Filter<std::complex<double>,std::complex<double>,std::complex<double> >;
+  //! Template instatiation of MA_Filter
+  extern template class MA_Filter<double,double,double>;
+  //! Template instatiation of MA_Filter
+  extern template class MA_Filter<double,std::complex<double>,std::complex<double> >;
+  //! Template instatiation of MA_Filter
+  extern template class MA_Filter<std::complex<double>,double,std::complex<double> >;
+  //! Template instatiation of MA_Filter
+  extern template class MA_Filter<std::complex<double>,std::complex<double>,std::complex<double> >;
 
-	//-----------------------------------------------------------------------
-	//  class AR_Filter
-	//-----------------------------------------------------------------------
+  //-----------------------------------------------------------------------
+  //  class AR_Filter
+  //-----------------------------------------------------------------------
 
-	//! Template instatiation of AR_Filter
-	extern template class AR_Filter<double,double,double>;
-	//! Template instatiation of AR_Filter
-	extern template class AR_Filter<double,std::complex<double>,std::complex<double> >;
-	//! Template instatiation of AR_Filter
-	extern template class AR_Filter<std::complex<double>,double,std::complex<double> >;
-	//! Template instatiation of AR_Filter
-	extern template class AR_Filter<std::complex<double>,std::complex<double>,std::complex<double> >;
+  //! Template instatiation of AR_Filter
+  extern template class AR_Filter<double,double,double>;
+  //! Template instatiation of AR_Filter
+  extern template class AR_Filter<double,std::complex<double>,std::complex<double> >;
+  //! Template instatiation of AR_Filter
+  extern template class AR_Filter<std::complex<double>,double,std::complex<double> >;
+  //! Template instatiation of AR_Filter
+  extern template class AR_Filter<std::complex<double>,std::complex<double>,std::complex<double> >;
 
-	//-----------------------------------------------------------------------
-	//  class ARMA_Filter
-	//-----------------------------------------------------------------------
+  //-----------------------------------------------------------------------
+  //  class ARMA_Filter
+  //-----------------------------------------------------------------------
 
-	//! Template instatiation of AR_Filter
-	extern template class ARMA_Filter<double,double,double>;
-	//! Template instatiation of AR_Filter
-	extern template class ARMA_Filter<double,std::complex<double>,std::complex<double> >;
-	//! Template instatiation of AR_Filter
-	extern template class ARMA_Filter<std::complex<double>,double,std::complex<double> >;
-	//! Template instatiation of AR_Filter
-	extern template class ARMA_Filter<std::complex<double>,std::complex<double>,std::complex<double> >;
+  //! Template instatiation of AR_Filter
+  extern template class ARMA_Filter<double,double,double>;
+  //! Template instatiation of AR_Filter
+  extern template class ARMA_Filter<double,std::complex<double>,std::complex<double> >;
+  //! Template instatiation of AR_Filter
+  extern template class ARMA_Filter<std::complex<double>,double,std::complex<double> >;
+  //! Template instatiation of AR_Filter
+  extern template class ARMA_Filter<std::complex<double>,std::complex<double>,std::complex<double> >;
 
 #endif // MSC_VER
 

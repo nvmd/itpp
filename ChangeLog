@@ -1,3 +1,9 @@
+2006-02-10  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/filter.h, itpp/comm/channel_code.h: Added virtual
+	destructor to base classes. This prevents warnings during
+	compilation with gcc-4.0.x.
+
 2006-02-09  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp.spec.in: Changes in `Name', `Version' and `Release'
