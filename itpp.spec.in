@@ -8,7 +8,6 @@ License: GPL
 Packager: Adam Piatyszek <ediap@users.sourceforge.net>
 URL: http://itpp.sourceforge.net/
 BuildRoot: %{_tmppath}/%{name}-%{version}-buildroot
-Provides: %{name}-devel = %{version}-%{release}
 Prereq: /sbin/ldconfig
 Prefix: %{_prefix}
 
@@ -32,11 +31,19 @@ i.e.:
 It might be possible to compile and use IT++ without any of the above listed
 libraries, but the functionality will be reduced.
 
+%package html-doc
+Summary: HTML documentation for the @PACKAGE_NAME@ library
+Group: System Environment/Libraries
+
+%description html-doc
+This package contains the documentation in the HTML format of the IT++
+library. The documentation is the same as at the IT++ web page.
+
 %prep
 %setup -q
 
 %build
-%{configure}
+%configure --with-docdir=%{_docdir}/%{name}-html-doc
 make
 
 %install
@@ -54,7 +61,7 @@ make DESTDIR=$RPM_BUILD_ROOT install
 
 %files
 %defattr(-,root,root,-)
-%doc AUTHORS ChangeLog COPYING INSTALL NEWS README TODO
+%doc AUTHORS ChangeLog INSTALL NEWS README TODO
 %{_libdir}/*.la
 %{_libdir}/*.a
 %{_libdir}/*.so
@@ -63,18 +70,23 @@ make DESTDIR=$RPM_BUILD_ROOT install
 %{_bindir}/%{name}-config
 %{_includedir}/%{name}
 %{_datadir}/%{name}/*.m
-%{_datadir}/doc
+
+%files html-doc
+%doc %{_docdir}/%{name}-html-doc
 
 %changelog
+* Mon Feb 13 2006  Adam Piatyszek  <ediap@users.sourceforge.net>
+- Created subpackage `itpp-html-doc' with HTML documentation
+
 * Fri Feb 10 2006  Adam Piatyszek  <ediap@users.sourceforge.net>
 - Added missing *.a and *.m files
 
-* Thu Feb  9 2006  Adam Piatyszek  <ediap@users.sourceforge.net>
+* Thu Feb 09 2006  Adam Piatyszek  <ediap@users.sourceforge.net>
 - Changes in `Name', `Version' and `Release' definitions
 - Removed distribution dependent release settings
 - Added DESTDIR to make install command
 
-* Fri Dec 28 2005  Adam Piatyszek  <ediap@users.sourceforge.net>
+* Wed Dec 28 2005  Adam Piatyszek  <ediap@users.sourceforge.net>
 - Fixed `name' and `version' definitions
 - Added `itpp-config' in %files section
 
