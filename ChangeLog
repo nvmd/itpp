@@ -1,5 +1,7 @@
 2006-02-13  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp.spec.in: Created subpackage with the HTML documentation
+
 	* configure.ac, itpp-config.in, itpp.pc.in, tests/Makefile.am:
 	Reverted some receent changes in the configuration scripts,
 	bacause linking problems with Fortran libraries under x86_64
