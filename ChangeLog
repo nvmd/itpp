@@ -1,3 +1,10 @@
+2006-02-13  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac, itpp-config.in, itpp.pc.in, tests/Makefile.am:
+	Reverted some receent changes in the configuration scripts,
+	bacause linking problems with Fortran libraries under x86_64
+	platform were caused by an outdated libtool.
+
 2006-02-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp.spec.in: Added missing files in the `%files' section

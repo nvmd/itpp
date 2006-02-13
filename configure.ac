@@ -134,9 +134,6 @@ AC_CHECK_PROG([diff_ok], [diff], [yes], [no])
 AM_CONDITIONAL([HAVE_DIFF], [test "x$diff_ok" = xyes])
 
 
-# Check for standard math library
-#AC_CHECK_LIB(m, sin)
-
 # Checks for BLAS (ACML, MKL, ATLAS or NETLIB)
 ACX_BLAS
 
@@ -149,22 +146,21 @@ ACX_CBLAS
 # Checks for FFT (MKL or FFTW3)
 ACX_FFT
 
-# Set ITPP_LIBS
-ITPP_LIBS="$LIBS"
-LIBS=""
+
+# Set LIBS
 if test x"$acx_blas_ok" = xyes; then
-  ITPP_LIBS="$BLAS_LIBS $ITPP_LIBS $FLIBS"
+  LIBS="$BLAS_LIBS $LIBS $FLIBS"
   if test x"$LAPACK_LIBS" != x; then
-    ITPP_LIBS="$LAPACK_LIBS $ITPP_LIBS"
+    LIBS="$LAPACK_LIBS $LIBS"
   fi
   if test "x$CBLAS_LIBS" != x; then
-    ITPP_LIBS="$CBLAS_LIBS $ITPP_LIBS"
+    LIBS="$CBLAS_LIBS $LIBS"
   fi
 fi
 if test "x$FFT_LIBS" != x; then
-  ITPP_LIBS="$FFT_LIBS $ITPP_LIBS"
+  LIBS="$FFT_LIBS $LIBS"
 fi
-AC_SUBST(ITPP_LIBS)
+
 
 # Checks for header files
 AC_HEADER_STDC
@@ -181,6 +177,7 @@ AC_CHECK_HEADERS([cmath \
   queue \
   stdexcept \
   string])
+
 
 # Define configured files
 AC_CONFIG_FILES([Makefile \
@@ -251,7 +248,7 @@ Compiler/linker flags/libs/defs:
   - CXXFLAGS ..... : ${CXXFLAGS}
   - CPPFLAGS ..... : ${CPPFLAGS}
   - LDFLAGS ...... : ${LDFLAGS}
-  - ITPP_LIBS .... : ${ITPP_LIBS}
+  - LIBS ......... : ${LIBS}
 
 ------------------------------------------------------------------------------
 Now type 'make && make install' to build and install $PACKAGE-$VERSION library
