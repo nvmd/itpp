@@ -1,6 +1,5 @@
 include $(top_srcdir)/Makefile.common
 LDADD = $(top_builddir)/itpp/libitpp.la
-LIBS = $(ITPP_LIBS)
 
 EXTRA_DIST = fastica_test_data.txt parser_test_data.txt $(ref_sources) 
 

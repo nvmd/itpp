@@ -41,10 +41,10 @@ while test $# -gt 0; do
       echo @VERSION@
       ;;
     --cflags)
-      echo -I${includedir} @CPPFLAGS@ @CXXFLAGS@
+      echo -I${includedir}
       ;;
     --libs)
-      echo -L${libdir} @LDFLAGS@ -l@PACKAGE@ @ITPP_LIBS@
+      echo -L${libdir} -l@PACKAGE@ @LIBS@
       ;;
     *)
       echo "${usage}" 1>&2
