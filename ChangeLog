@@ -1,5 +1,8 @@
 2006-02-14  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/Makefile.am: Removed limits_test, which was only useful on
+	32-bit platforms
+
 	* Makefile.common: Fixed a bug that caused that the improper
 	<itpp/config.h> header file was used during compilation
 
