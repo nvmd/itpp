@@ -67,8 +67,9 @@ fi
 # (http://www.intel.com/cd/software/products/asmo-na/eng/perflib/mkl/index.htm)
 if test $acx_lapack_ok = no; then
   save_LIBS="$LIBS"; LIBS="$BLAS_LIBS $LIBS"
-  AC_CHECK_LIB(mkl_lapack, $cheev, 
-    [acx_lapack_ok=yes; LAPACK_LIBS="-lmkl_lapack"])
+  AC_CHECK_LIB(mkl_lapack32, $cheev, 
+    [acx_lapack_ok=yes; LAPACK_LIBS="-lmkl_lapack32 -lmkl_lapack64"],
+    [], [-lmkl_lapack64])
   LIBS="$save_LIBS"
 fi
 
