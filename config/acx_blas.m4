@@ -72,8 +72,8 @@ fi
 blas_mkl_ok=no
 if test $acx_blas_ok = no; then
   AC_CHECK_LIB(mkl, $sgemm, 
-    [acx_blas_ok=yes; blas_mkl_ok=yes; BLAS_LIBS="-lmkl -lguide"], [], 
-      [-lguide])
+    [acx_blas_ok=yes; blas_mkl_ok=yes; BLAS_LIBS="-lmkl -lguide -lpthread"], 
+      [], [-lguide -lpthread])
 fi
 
 # BLAS in ACML library? (http://developer.amd.com/acml.aspx)
