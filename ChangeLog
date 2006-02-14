@@ -1,3 +1,8 @@
+2006-02-14  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* config/acx_blas.m4: Small fix in the automatic MKL's BLAS
+	library detection (added missing -lpthread)
+
 2006-02-13  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp.spec.in: Created subpackage with the HTML documentation
