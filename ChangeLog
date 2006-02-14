@@ -1,5 +1,8 @@
 2006-02-14  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* Makefile.common: Fixed a bug that caused that the improper
+	<itpp/config.h> header file was used during compilation
+
 	* config/acx_lapack.m4: Small fix in the automatic MKL's LAPACK
 	library detection. Now using shared libraries `-lmkl_lapack32' and
 	`-lmkl_lapack64' instead of a static one by default.
