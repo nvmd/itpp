@@ -1,5 +1,9 @@
 2006-02-14  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* config/acx_lapack.m4: Small fix in the automatic MKL's LAPACK
+	library detection. Now using shared libraries `-lmkl_lapack32' and
+	`-lmkl_lapack64' instead of a static one by default.
+
 	* config/acx_blas.m4: Small fix in the automatic MKL's BLAS
 	library detection (added missing -lpthread)
 
