@@ -339,6 +339,7 @@ them in your \c $HOME directory, and unpack them:
 <li> Compile and install an optimized IT++ library
 \code
 % export LDFLAGS=-L$HOME/it++external-2.0.0/lib
+% export CPPFLAGS=-I$HOME/it++external-2.0.0/include
 % cd $HOME/itpp-3.10.0
 % make distclean
 % ./configure --disable-shared --prefix=$HOME/it++3.10.0_opt --disable-debug
@@ -350,6 +351,7 @@ them in your \c $HOME directory, and unpack them:
 <li> Compile and install a debugging IT++ library
 \code
 % export LDFLAGS=-L$HOME/it++external-2.0.0/lib
+% export CPPFLAGS=-I$HOME/it++external-2.0.0/include
 % cd $HOME/itpp-3.10.0
 % make distclean
 % ./configure --disable-shared --prefix=$HOME/it++3.10.0_debug --enable-debug
