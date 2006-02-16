@@ -9,7 +9,13 @@
 
 2006-02-16  Erik G. Larsson  <erik_g_larsson@sourceforge.net>
 
-	* doc/local/installation.doc: Minor update
+	* doc/local/installation.doc, doc/local/index.doc.in: Minor update
+
+	* itpp/comm/llr.*, tests/llr_test.ref: Minor updates
+
+	* itpp/comm/modulator_nd.*, tests/modulator_nd.*,
+	itpp/comm/sources.mk, tests/Makefile.am: First version of the
+	vector/MIMO modulator class added
 	
 2006-02-14  Adam Piatyszek  <ediap@users.sourceforge.net>
 

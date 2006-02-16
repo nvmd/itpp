@@ -35,6 +35,7 @@
 
 #include <itpp/itbase.h>
 #include <itpp/comm/modulator.h>
+#include <itpp/comm/modulator_nd.h>
 #include <itpp/comm/channel.h>
 #include <itpp/comm/interleave.h>
 #include <itpp/comm/spread.h>
