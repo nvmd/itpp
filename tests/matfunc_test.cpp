@@ -81,7 +81,7 @@ int main()
  cmat A_sqrtm = sqrtm(A);
  cout << "A = " << A << endl;
  cout << "norm(sqrtm(A) * sqrtm(A) - A) = " 
-      << round_to_zero(norm(A_sqrtm * A_sqrtm - to_cmat(A)), 1e-14) 
+      << round_to_zero(norm(A_sqrtm * A_sqrtm - to_cmat(A)), 1e-13) 
       << endl << endl;
 
  cout << "sqrtm of a complex matrix" << endl;
@@ -89,7 +89,7 @@ int main()
  cmat B_sqrtm = sqrtm(B);
  cout << "B = " << B << endl;
  cout << "norm(sqrtm(B) * sqrtm(B) - B) = " 
-      << round_to_zero(norm(B_sqrtm * B_sqrtm - B), 1e-14) << endl;
+      << round_to_zero(norm(B_sqrtm * B_sqrtm - B), 1e-13) << endl;
 
  return 0;
 }

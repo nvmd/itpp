@@ -1,5 +1,7 @@
 2006-02-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/matfunc_test.cpp: Minor fix of rounding precision.
+
 	* itpp-config.in, itpp.pc.in: Readded CXXFLAGS to the
 	configuration scripts.
 
