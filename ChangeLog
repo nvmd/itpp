@@ -1,5 +1,8 @@
 2006-02-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp-config.in, itpp.pc.in: Readded CXXFLAGS to the
+	configuration scripts.
+
 	* configure.ac, INSTALL, doc/local/installation.doc: Removed
 	`--with-march' GCC-specific optimisation switch. CXXFLAGS should
 	be used instead.

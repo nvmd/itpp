@@ -41,7 +41,7 @@ while test $# -gt 0; do
       echo @VERSION@
       ;;
     --cflags)
-      echo -I${includedir}
+      echo -I${includedir} @CXXFLAGS@
       ;;
     --libs)
       echo -L${libdir} -l@PACKAGE@ @LIBS@
