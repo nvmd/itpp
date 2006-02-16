@@ -29,6 +29,7 @@ check_PROGRAMS = \
 	matfunc_test \
 	mat_test \
 	modulator_test \
+	modulator_nd_test \
 	newton_search_test \
 	pam_test \
 	parser_test \
@@ -78,6 +79,7 @@ lu_test_SOURCES = lu_test.cpp
 matfunc_test_SOURCES = matfunc_test.cpp
 mat_test_SOURCES = mat_test.cpp
 modulator_test_SOURCES = modulator_test.cpp
+modulator_nd_test_SOURCES = modulator_nd_test.cpp
 newton_search_test_SOURCES = newton_search_test.cpp
 pam_test_SOURCES = pam_test.cpp
 parser_test_SOURCES = parser_test.cpp

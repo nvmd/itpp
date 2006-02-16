@@ -85,8 +85,6 @@ namespace itpp {
     }
     it_assert1(length(result)==Dint2,"Ldpc_codec::construct_logexp_table()");
 
-    //  cout << "logexp table: " << result << endl;
-    //  cout << "table resolution is " << pow(2.0,((double) (Dint3-Dint1))) << endl;
     return result;
   }
 
@@ -134,16 +132,14 @@ namespace itpp {
   
   std::ostream &operator<<(std::ostream &os, const LLR_calc_unit &lcu)
   {
-    os << "-------------------------------" << std::endl;
     os << "LLR_calc_unit table properties:" << std::endl;
     os << "The granularity in the LLR representation is " << pow(2.0,-lcu.Dint1) << std::endl;
     os << "The LLR scale factor is " << (1<<lcu.Dint1) << std::endl;
     os << "The largest LLR that can be represented is " << lcu.to_double(QLLR_MAX) << std::endl;
     os << "The table resolution is " << pow(2.0,((double) (lcu.Dint3-lcu.Dint1))) << std::endl;
     os << "The number of entries in the table is " << lcu.Dint2 << std::endl;
-    os << "The tables truncates at the LLR value " << 
+    os << "The tables truncates at the LLR value " <<
       pow(2.0,((double) (lcu.Dint3-lcu.Dint1)))*((double) lcu.Dint2) << std::endl;
-    os << "-------------------------------" << std::endl;
     return os;
   }
 

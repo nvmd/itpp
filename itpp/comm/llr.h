@@ -105,6 +105,12 @@ namespace itpp {
     functions using QLLR, fixed-point, or double (for compatibility
     reasons) representations of LLR values.
 
+    Note: the QLLR type does not check that the correct quantization
+    level is used. I.e., in theory it would be possible to add two
+    QLLR types with different quantization (Dint) parameters.  This is
+    intentionally implemented this way to achieve maximum runtime
+    efficiency.
+
   */
   class LLR_calc_unit {
   public:
@@ -133,10 +139,11 @@ namespace itpp {
       practically indistinguishable from that of using floating point
       calculations.
     */
-    void init_llr_tables(const short int d1=10, const short int d2=300, const short int d3=5);
+    void init_llr_tables(const short int d1=12, const short int d2=300, const short int d3=7);
+    //    void init_llr_tables(const short int d1=10, const short int d2=300, const short int d3=5);
 
     //! Convert a "real" LLR value to an LLR type
-    inline QLLR to_qllr(const double &l) { return ( (int) std::floor(0.5+(1<<Dint1)*l) ); };
+    inline QLLR to_qllr(const double &l);
 
     //! Convert a vector of "real" LLR values to an LLR type
     QLLRvec to_qllr(const vec &l);
@@ -192,6 +199,7 @@ namespace itpp {
     
     //! Decoder (lookup-table) parameters
     short int Dint1, Dint2, Dint3;
+
   };
 
   /*! \relates LLR_calc_unit
@@ -202,6 +210,13 @@ namespace itpp {
   
 
   // ================ IMPLEMENTATIONS OF SOME LIKELIHOOD ALGEBRA FUNCTIONS =========== 
+
+  inline QLLR LLR_calc_unit::to_qllr(const double &l)
+    { 
+      it_assert0(l<=to_double(QLLR_MAX),"LLR_calc_unit::to_qllr(): overflow");
+      it_assert0(l>=-to_double(QLLR_MAX),"LLR_calc_unit::to_qllr(): overflow");
+      return ( (int) std::floor(0.5+(1<<Dint1)*l) ); 
+    };
   
   inline QLLR LLR_calc_unit::Boxplus(QLLR a, QLLR b)
     {

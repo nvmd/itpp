@@ -393,6 +393,7 @@ int main()
     cout << a(5) << endl;
   }
 
+  it_assert0(1==0,"Debugging was on!");
 }
 \endcode
 
@@ -401,7 +402,7 @@ Also, in the same directory, create the following \c Makefile:
 FLAGS_DEBUG := -Wall -g
 FLAGS_DEBUG += `$(HOME)/it++3.10.0_debug/bin/itpp-config --cflags`
 
-FLAGS_OPT := -pipe -fomit-frame-pointer -O3
+FLAGS_OPT := -O3
 FLAGS_OPT += `$(HOME)/it++3.10.0_opt/bin/itpp-config --cflags`
 
 LIBS_DEBUG    = `$(HOME)/it++3.10.0_debug/bin/itpp-config --libs`
