@@ -1,4 +1,4 @@
-h_fixedpoint_sources = \
+h_fixed_sources = \
 	$(top_srcdir)/itpp/fixedpoint/cfixed.h \
 	$(top_srcdir)/itpp/fixedpoint/cfix.h \
 	$(top_srcdir)/itpp/fixedpoint/fix_base.h \
@@ -8,7 +8,7 @@ h_fixedpoint_sources = \
 	$(top_srcdir)/itpp/fixedpoint/fix.h \
 	$(top_srcdir)/itpp/fixedpoint/fix_operators.h
 
-cpp_fixedpoint_sources = \
+cpp_fixed_sources = \
 	$(top_srcdir)/itpp/fixedpoint/cfix.cpp \
 	$(top_srcdir)/itpp/fixedpoint/cfixed.cpp \
 	$(top_srcdir)/itpp/fixedpoint/fix_base.cpp \

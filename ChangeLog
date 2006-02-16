@@ -1,3 +1,15 @@
+2006-02-17  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac, **/Makefile.am, itpp-config.in, itpp.pc.in: Major
+	changes in the configuration process. Since now it is possible to
+	build and install two separate libraries: the optimised
+	`libitpp.*' and debug `libitpp_debug.*'. The latter one is only
+	build when `--enable-debug' switch is used during configuration.
+	`itpp-config' script has been extened with `--cflags-debug' and 
+	`--libs-debug' switches.
+	Besides, if CXXFLAGS is not set in the shell environment, it is
+	initialised with "-O3 -pipe" or "-O3" flags by default.
+
 2006-02-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/matfunc_test.cpp: Minor fix of rounding precision.

@@ -26,7 +26,7 @@ html/index.html: doxygen_html.cfg \
 	$(h_base_sources) $(cpp_base_sources) \
 	$(h_base_bessel_sources) $(cpp_base_bessel_sources) \
 	$(h_comm_sources) $(cpp_comm_sources) \
-	$(h_fixedpoint_sources)	$(cpp_fixedpoint_sources) \
+	$(h_fixed_sources) $(cpp_fixed_sources) \
 	$(h_protocol_sources) $(cpp_protocol_sources) \
 	$(h_srccode_sources) $(cpp_srccode_sources)
 	doxygen $<; \
