@@ -92,30 +92,33 @@ most important are:
   PREFIX value. By default it is set to \c `/usr/local', so <tt>`make
   install'</tt> will install appropriate files into \c `/usr/local/include',
   \c `/usr/local/lib`, etc.
-- \c `--enable-debug' - switch to DEBUG mode by setting additional debugging
-  flags used by compiler and linker (disabled by default)
+- \c `--enable-debug' - build an extra library named \c `libitpp_debug.*'
+  using special debugging flags for compiler and linker (disabled by default)
 - \c `--enable-exceptions' - enable exceptions handling of run-time errors
   instead of aborting the program (disabled by default)
-- \c `--enable-html-doc' - do not generate and install HTML documentation
+- \c `--enable-html-doc' - generate and install the HTML documentation
   (enabled by default)
-- \c `--disable-shared' - prevent building a shared library (enabled by
+- \c `--enable-shared' - build a shared version of the library (enabled by 
   default)
-- \c `--disable-static' - prevent building a static library (enabled by
+- \c `--enable-static' - build a static version of the library (enabled by
   default)
+.
+Plese note that each \c `--enable-\<OPTION\>' switch can be replaced
+with its opposite switch \c `--disable-\<OPTION\>'.
 
 By default, the \c `configure' script checks for a few external libraries,
 which might be used by the IT++ library (cf. \ref requirements). The
 detection procedure is as follows:
 -# First, the presence of a BLAS library among the MKL, ACML, ATLAS and
-   Netlib's reference BLAS is checked. If one of the above mentioned can be
-   used, \c HAVE_BLAS is defined. 
+   NetLib's reference BLAS is checked. If one of the above mentioned can be
+   used, \c HAVE_BLAS is defined.
 -# If the BLAS library can be found, the C interface of BLAS, namely CBLAS,
-   is detected. CBLAS is provided by default by MKL, ATLAS and Netlib's
+   is detected. CBLAS is provided by default by MKL, ATLAS and NetLib's
    reference CBLAS libraries. On success, \c HAVE_CBLAS is defined.
 -# Next, some LAPACK library is searched, but only if the BLAS library
    is available. Full set of LAPACK routines can be found in the MKL, ACML
-   and Netlib's reference LAPACK libraries. Besides, ATLAS contains a subset
-   of optimised LAPACK routines, which can be used with Netlib's LAPACK
+   and NetLib's reference LAPACK libraries. Besides, ATLAS contains a subset
+   of optimised LAPACK routines, which can be used with NetLib's LAPACK
    library (this is described in ATLAS documentation). If LAPACK can be
    found, \c HAVE_LAPACK is defined.
 -# Finally, a set of separate checks for some FFT library is executed.
@@ -126,11 +129,11 @@ detection procedure is as follows:
 
 If some of the external libraries are installed in a non-standard location 
 in your system, e.g. MKL in \c `/opt/intel/mkl', the \c `configure' script
-might not detect them automatically. In such case you might use LDFLAGS
+will not detect them automatically. In such a case you should use LDFLAGS
 and CPPFLAGS environment variables to define additional directories to be
 searched for libraries (LDFLAGS) and include files (CPPFLAGS). For instance,
 to configure IT++ to link to the MKL 8.0.1 external library, which is
-installed in \c `/opt/intel/mkl/8.0.1' directory, you should use the
+installed in <tt>`/opt/intel/mkl/8.0.1'</tt> directory, you should use the
 following commands:
 
 \code
@@ -139,7 +142,7 @@ following commands:
 % ./configure
 \endcode
 
-In case that external libraries have non-standard names, e.g.
+In the case that external libraries have non-standard names, e.g.
 <tt>`libcblas-3.a'</tt> for CBLAS, you might specify them to the configure
 using \c `--with-\<LIBNAME\>' switches, where \c \<LIBNAME\> is one of the
 following: \c `blas', \c `cblas', \c `lapack' or \c `fft'. You might use
@@ -161,19 +164,25 @@ some external libraries. To do this you should use \c
 % ./configure --without-cblas --without-lapack
 \endcode
 
-It is recommended to set the CXXFLAGS environment variable with some
-compiler- and platform-specific optimisation swiches before invoking the 
-\c `configure' command. For example, in case of Intel Pentium 4 processor
-one might use the following flags:
+It is recommended to set CXXFLAGS environment variable with some
+compiler- and platform-specific optimisation flags before invoking the 
+\c `configure' command. For example, in the case of using the Intel Pentium
+4 processor one might employ the following flags:
+
 \code
-% CXXFLAGS="-march=pentium4" ./configure
+% CXXFLAGS="-O3 -pipe -march=pentium4" ./configure
 \endcode
-In case of Sun's UltraSPARC 64-bit platform and GCC compiler, the flags
+
+In the case of Sun's UltraSPARC 64-bit platform and GCC compiler, the flags
 might be set as follows:
+
 \code
-% export CXXFLAGS="-mcpu=v9 -m64"
+% export CXXFLAGS="-O3 -pipe -mcpu=v9 -m64"
 % ./confiugre
 \endcode
+
+If CXXFLAGS is not set in the environment, it will be initialised with
+the default flags, i.e. <tt>"-O3 -pipe"</tt>.
 
 When the configuration process is finished, a status message is displayed. 
 For instance, after having invoked the following configuration
@@ -191,49 +200,50 @@ itpp-3.10.0 library configuration:
 ------------------------------------------------------------------------------
 
 Directories:
-  - prefix ....... : /usr/local
-  - exec_prefix .. : ${prefix}
-  - includedir ... : ${prefix}/include
-  - libdir ....... : ${exec_prefix}/lib
-  - docdir ....... : ${prefix}/share/doc/itpp-3.10.0
+  - prefix ......... : /usr/local
+  - exec_prefix .... : ${prefix}
+  - includedir ..... : ${prefix}/include
+  - libdir ......... : ${exec_prefix}/lib
+  - docdir ......... : ${prefix}/share/doc/itpp-3.10.0
 
 Switches:
-  - debug ........ : no
-  - exceptions ... : no
-  - html-doc ..... : yes
-  - shared ....... : yes
-  - static ....... : yes
+  - debug .......... : no
+  - exceptions ..... : no
+  - html-doc ....... : yes
+  - shared ......... : yes
+  - static ......... : yes
 
 Documentation tools:
-  - doxygen ...... : yes
-  - latex ........ : yes
-  - dvips ........ : yes
-  - ghostscript .. : yes
+  - doxygen ........ : yes
+  - latex .......... : yes
+  - dvips .......... : yes
+  - ghostscript .... : yes
 
 Testing tools:
-  - diff ......... : yes
+  - diff ........... : yes
 
 External libs:
-  - BLAS ......... : yes
-    * MKL ........ : no
-    * ACML ....... : no
-    * ATLAS ...... : no
-  - CBLAS ........ : yes
-  - LAPACK ....... : yes
-  - FFT .......... : yes
-    * MKL ........ : no
-    * ACML ....... : no
-    * FFTW ....... : yes
+  - BLAS ........... : yes
+    * MKL .......... : no
+    * ACML ......... : no
+    * ATLAS ........ : no
+  - CBLAS .......... : yes
+  - LAPACK ......... : yes
+  - FFT ............ : yes
+    * MKL .......... : no
+    * ACML ......... : no
+    * FFTW ......... : yes
 
 Compiler/linker flags/libs/defs:
-  - CXX .......... : g++
-  - CXXFLAGS ..... : -pipe -fomit-frame-pointer -O2 
-  - CPPFLAGS ..... : 
-  - LDFLAGS ...... : 
-  - LIBS ......... : -lfftw3 -lcblas -llapack -lblas  -L/usr/lib/gcc/i686-pc-lin
-ux-gnu/3.4.4 -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../../../i686-pc-linux-gn
-u/lib -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../.. -lfrtbegin -lg2c -lm -lgcc
-_s
+  - CXX ............ : g++
+  - CXXFLAGS ....... : -O3 -pipe
+  - CXXFLAGS_DEBUG . : 
+  - CPPFLAGS ....... : 
+  - LDFLAGS ........ : 
+  - LIBS ........... : -lfftw3 -lcblas -llapack -lblas   -L/usr/lib/gcc/i686-pc-
+linux-gnu/3.4.4 -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../../../i686-pc-linux
+-gnu/lib -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../.. -lfrtbegin -lg2c -lm -l
+gcc_s
 
 ------------------------------------------------------------------------------
 Now type 'make && make install' to build and install itpp-3.10.0 library
@@ -276,6 +286,8 @@ Test `bch_test' PASSED.
 Test `vec_test' PASSED.
 ------------------------------------------------------------------------------
 Test `vector_test' PASSED.
+------------------------------------------------------------------------------
+Test `window_test' PASSED.
 ------------------------------------------------------------------------------
 \endverbatim
 

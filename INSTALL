@@ -85,37 +85,40 @@ The `configure' command can be invoked with additional switches and options
     install appropriate files into `/usr/local/include', `/usr/local/lib`,
     etc.
 
-  o `--enable-debug' - switch to DEBUG mode by setting additional debugging
-    flags used by compiler and linker (disabled by default)
+  o `--enable-debug' - build an extra library named `libitpp_debug.*' using
+    special debugging flags for compiler and linker (disabled by default)
 
   o `--enable-exceptions' - enable exceptions handling of run-time errors
     instead of aborting the program (disabled by default)
 
-  o `--enable-html-doc' - do not generate and install HTML documentation
+  o `--enable-html-doc' - generate and install the HTML documentation
     (enabled by default)
 
-  o `--disable-shared' - prevent building a shared library (enabled by
+  o `--enable-shared' - build a shared version of the library (enabled by
     default)
 
-  o `--disable-static' - prevent building a static library (enabled by
+  o `--enable-static' - build a static version of the library (enabled by
     default)
+
+Plese note that each `--enable-<OPTION>' switch can be replaced with its
+opposite switch `--disable-<OPTION>'.
 
 By default, the `configure' script checks for a few external libraries, which
 might be used by the IT++ library (cf. IT++ Requirements). The detection
 procedure is as follows:
 
  1. First, the presence of a BLAS library among the MKL, ACML, ATLAS and
-    Netlib's reference BLAS is checked. If one of the above mentioned can be
+    NetLib's reference BLAS is checked. If one of the above mentioned can be
     used, HAVE_BLAS is defined.
 
  2. If the BLAS library can be found, the C interface of BLAS, namely CBLAS,
-    is detected. CBLAS is provided by default by MKL, ATLAS and Netlib's
+    is detected. CBLAS is provided by default by MKL, ATLAS and NetLib's
     reference CBLAS libraries. On success, HAVE_CBLAS is defined.
 
  3. Next, some LAPACK library is searched, but only if the BLAS library is
     available. Full set of LAPACK routines can be found in the MKL, ACML and
-    Netlib's reference LAPACK libraries. Besides, ATLAS contains a subset of
-    optimised LAPACK routines, which can be used with Netlib's LAPACK library
+    NetLib's reference LAPACK libraries. Besides, ATLAS contains a subset of
+    optimised LAPACK routines, which can be used with NetLib's LAPACK library
     (this is described in ATLAS documentation). If LAPACK can be found,
     HAVE_LAPACK is defined.
 
@@ -126,8 +129,8 @@ procedure is as follows:
     HAVE_FFTW3 is defined.
 
 If some of the external libraries are installed in a non-standard location in
-your system, e.g. MKL in `/opt/intel/mkl', the `configure' script might not
-detect them automatically. In such case you might use LDFLAGS and CPPFLAGS
+your system, e.g. MKL in `/opt/intel/mkl', the `configure' script will not
+detect them automatically. In such a case you should use LDFLAGS and CPPFLAGS
 environment variables to define additional directories to be searched for
 libraries (LDFLAGS) and include files (CPPFLAGS). For instance, to configure
 IT++ to link to the MKL 8.0.1 external library, which is installed in `/opt/
@@ -137,11 +140,11 @@ intel/mkl/8.0.1' directory, you should use the following commands:
   % export CPPFLAGS="-I/opt/intel/mkl/8.0.1/include"
   % ./configure
 
-In case that external libraries have non-standard names, e.g. `libcblas-3.a'
-for CBLAS, you might specify them to the configure using `--with-<LIBNAME>'
-switches, where <LIBNAME> is one of the following: `blas', `cblas', `lapack'
-or `fft'. You might use more then one library names by quoting them with
-doublequotes, e.g.
+In the case that external libraries have non-standard names, e.g.
+`libcblas-3.a' for CBLAS, you might specify them to the configure using
+`--with-<LIBNAME>' switches, where <LIBNAME> is one of the following: `blas',
+`cblas', `lapack' or `fft'. You might use more then one library names by
+quoting them with doublequotes, e.g.
 
   % ./configure --with-blas="-latlas -lblas"
 
@@ -155,19 +158,21 @@ some external libraries. To do this you should use `--without-<LIBNAME>' or
 
   % ./configure --without-cblas --without-lapack
 
-It is recommended to set the CXXFLAGS environment variable with some
-compiler- and platform-specific optimisation swiches before invoking the
-`configure' command. For example, in case of Intel Pentium 4 processor one
-might use the following flags:
+It is recommended to set CXXFLAGS environment variable with some compiler-
+and platform-specific optimisation flags before invoking the `configure'
+command. For example, in the case of using the Intel Pentium 4 processor one
+might employ the following flags:
 
-  % CXXFLAGS="-march=pentium4" ./configure
+  % CXXFLAGS="-O3 -pipe -march=pentium4" ./configure
 
-In case of Sun's UltraSPARC 64-bit platform and GCC compiler, the flags might
-be set as follows:
+In the case of Sun's UltraSPARC 64-bit platform and GCC compiler, the flags
+might be set as follows:
 
-  % export CXXFLAGS="-mcpu=v9 -m64"
+  % export CXXFLAGS="-O3 -pipe -mcpu=v9 -m64"
   % ./confiugre
 
+If CXXFLAGS is not set in the environment, it will be initialised with the
+default flags, i.e. "-O3 -pipe".
 
 When the configuration process is finished, a status message is displayed.
 For instance, after having invoked the following configuration command:
@@ -181,49 +186,50 @@ itpp-3.10.0 library configuration:
 ------------------------------------------------------------------------------
 
 Directories:
-  - prefix ....... : /usr/local
-  - exec_prefix .. : ${prefix}
-  - includedir ... : ${prefix}/include
-  - libdir ....... : ${exec_prefix}/lib
-  - docdir ....... : ${prefix}/share/doc/itpp-3.10.0
+  - prefix ......... : /usr/local
+  - exec_prefix .... : ${prefix}
+  - includedir ..... : ${prefix}/include
+  - libdir ......... : ${exec_prefix}/lib
+  - docdir ......... : ${prefix}/share/doc/itpp-3.10.0
 
 Switches:
-  - debug ........ : no
-  - exceptions ... : no
-  - html-doc ..... : yes
-  - shared ....... : yes
-  - static ....... : yes
+  - debug .......... : no
+  - exceptions ..... : no
+  - html-doc ....... : yes
+  - shared ......... : yes
+  - static ......... : yes
 
 Documentation tools:
-  - doxygen ...... : yes
-  - latex ........ : yes
-  - dvips ........ : yes
-  - ghostscript .. : yes
+  - doxygen ........ : yes
+  - latex .......... : yes
+  - dvips .......... : yes
+  - ghostscript .... : yes
 
 Testing tools:
-  - diff ......... : yes
+  - diff ........... : yes
 
 External libs:
-  - BLAS ......... : yes
-    * MKL ........ : no
-    * ACML ....... : no
-    * ATLAS ...... : no
-  - CBLAS ........ : yes
-  - LAPACK ....... : yes
-  - FFT .......... : yes
-    * MKL ........ : no
-    * ACML ....... : no
-    * FFTW ....... : yes
+  - BLAS ........... : yes
+    * MKL .......... : no
+    * ACML ......... : no
+    * ATLAS ........ : no
+  - CBLAS .......... : yes
+  - LAPACK ......... : yes
+  - FFT ............ : yes
+    * MKL .......... : no
+    * ACML ......... : no
+    * FFTW ......... : yes
 
 Compiler/linker flags/libs/defs:
-  - CXX .......... : g++
-  - CXXFLAGS ..... : -pipe -fomit-frame-pointer -O2
-  - CPPFLAGS ..... :
-  - LDFLAGS ...... : 
-  - LIBS ......... : -lfftw3 -lcblas -llapack -lblas  -L/usr/lib/gcc/i686-pc-lin
-ux-gnu/3.4.4 -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../../../i686-pc-linux-gn
-u/lib -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../.. -lfrtbegin -lg2c -lm -lgcc
-_s
+  - CXX ............ : g++
+  - CXXFLAGS ....... : -O3 -pipe
+  - CXXFLAGS_DEBUG . :
+  - CPPFLAGS ....... :
+  - LDFLAGS ........ :
+  - LIBS ........... : -lfftw3 -lcblas -llapack -lblas   -L/usr/lib/gcc/i686-pc-
+linux-gnu/3.4.4 -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../../../i686-pc-linux
+-gnu/lib -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../.. -lfrtbegin -lg2c -lm -l
+gcc_s
 
 ------------------------------------------------------------------------------
 Now type 'make && make install' to build and install itpp-3.10.0 library
@@ -260,6 +266,8 @@ Test `bch_test' PASSED.
 Test `vec_test' PASSED.
 ------------------------------------------------------------------------------
 Test `vector_test' PASSED.
+------------------------------------------------------------------------------
+Test `window_test' PASSED.
 ------------------------------------------------------------------------------
 
 Check if all the executed tests PASSED. If not, please contact us by filling
