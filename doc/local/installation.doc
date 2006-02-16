@@ -98,10 +98,6 @@ most important are:
   instead of aborting the program (disabled by default)
 - \c `--enable-html-doc' - do not generate and install HTML documentation
   (enabled by default)
-- \c `--with-march=CPU' - enable optimization flags for a specific CPU: \c
-  `i686', \c `pentium3', \c `pentium4', \c `prescott', \c `athlon-tbird', \c
-  `athlon-xp', \c `athlon-mp', etc. This option is only used by GCC. See
-  `man gcc' for more details.
 - \c `--disable-shared' - prevent building a shared library (enabled by
   default)
 - \c `--disable-static' - prevent building a static library (enabled by
@@ -144,7 +140,7 @@ following commands:
 \endcode
 
 In case that external libraries have non-standard names, e.g.
-<tt>`libgslcblas.a'</tt> for CBLAS, you might specify them to the configure
+<tt>`libcblas-3.a'</tt> for CBLAS, you might specify them to the configure
 using \c `--with-\<LIBNAME\>' switches, where \c \<LIBNAME\> is one of the
 following: \c `blas', \c `cblas', \c `lapack' or \c `fft'. You might use
 more then one library names by quoting them with doublequotes, e.g.
@@ -165,12 +161,26 @@ some external libraries. To do this you should use \c
 % ./configure --without-cblas --without-lapack
 \endcode
 
+It is recommended to set the CXXFLAGS environment variable with some
+compiler- and platform-specific optimisation swiches before invoking the 
+\c `configure' command. For example, in case of Intel Pentium 4 processor
+one might use the following flags:
+\code
+% CXXFLAGS="-march=pentium4" ./configure
+\endcode
+In case of Sun's UltraSPARC 64-bit platform and GCC compiler, the flags
+might be set as follows:
+\code
+% export CXXFLAGS="-mcpu=v9 -m64"
+% ./confiugre
+\endcode
+
 When the configuration process is finished, a status message is displayed. 
 For instance, after having invoked the following configuration
 command:
 
 \code
-% ./configure --with-blas="-lblas" --with-march=pentium3
+% ./configure --with-blas="-lblas"
 \endcode
 
 one can observe something like this:
@@ -217,13 +227,13 @@ External libs:
 
 Compiler/linker flags/libs/defs:
   - CXX .......... : g++
-  - CXXFLAGS ..... : -march=pentium3 -pipe -fomit-frame-pointer -O2 
+  - CXXFLAGS ..... : -pipe -fomit-frame-pointer -O2 
   - CPPFLAGS ..... : 
   - LDFLAGS ...... : 
-  - LIBS ......... : -lfftw3 -lcblas -llapack -lblas -lm   -L/usr/lib/gcc/i686-p
-c-linux-gnu/3.4.4 -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../../../i686-pc-lin
-ux-gnu/lib -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../.. -lfrtbegin -lg2c -lm 
--lgcc_s
+  - LIBS ......... : -lfftw3 -lcblas -llapack -lblas  -L/usr/lib/gcc/i686-pc-lin
+ux-gnu/3.4.4 -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../../../i686-pc-linux-gn
+u/lib -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../.. -lfrtbegin -lg2c -lm -lgcc
+_s
 
 ------------------------------------------------------------------------------
 Now type 'make && make install' to build and install itpp-3.10.0 library

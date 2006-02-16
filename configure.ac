@@ -75,12 +75,6 @@ else
 fi
 AC_SUBST(docdir)
 
-# Check for CPU option
-AC_ARG_WITH(march, 
-            [AC_HELP_STRING([--with-march=CPU], 
-                            [enable optimization for a specific CPU: \
-                             i686, pentium3, pentium4, prescott, \
-                             athlon-tbird, athlon-xp, athlon-mp])])
 
 # Set debug/optimised flags
 if test "x$enable_debug" = xyes; then
@@ -101,16 +95,6 @@ if test "x$GXX" = xyes; then
   else
     CXXFLAGS="-pipe -fomit-frame-pointer $CXXFLAGS"
   fi
-
-  # CPU optimisations
-  case $with_march in
-    i?86) CXXFLAGS="-march=$with_march $CXXFLAGS" ;;
-    pentium*) CXXFLAGS="-march=$with_march $CXXFLAGS" ;;
-    prescott) CXXFLAGS="-march=$with_march $CXXFLAGS" ;;
-    athlon*) CXXFLAGS="-march=$with_march $CXXFLAGS" ;;
-    *) ;;
-  esac
-
 fi
 
 

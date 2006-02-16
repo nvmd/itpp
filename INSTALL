@@ -94,11 +94,6 @@ The `configure' command can be invoked with additional switches and options
   o `--enable-html-doc' - do not generate and install HTML documentation
     (enabled by default)
 
-  o `--with-march=CPU' - enable optimization flags for a specific CPU:
-    `i686', `pentium3', `pentium4', `prescott', `athlon-tbird', `athlon-xp',
-    `athlon-mp', etc. This option is only used by GCC. See `man gcc' for more
-    details.
-
   o `--disable-shared' - prevent building a shared library (enabled by
     default)
 
@@ -142,7 +137,7 @@ intel/mkl/8.0.1' directory, you should use the following commands:
   % export CPPFLAGS="-I/opt/intel/mkl/8.0.1/include"
   % ./configure
 
-In case that external libraries have non-standard names, e.g. `libgslcblas.a'
+In case that external libraries have non-standard names, e.g. `libcblas-3.a'
 for CBLAS, you might specify them to the configure using `--with-<LIBNAME>'
 switches, where <LIBNAME> is one of the following: `blas', `cblas', `lapack'
 or `fft'. You might use more then one library names by quoting them with
@@ -160,10 +155,24 @@ some external libraries. To do this you should use `--without-<LIBNAME>' or
 
   % ./configure --without-cblas --without-lapack
 
+It is recommended to set the CXXFLAGS environment variable with some
+compiler- and platform-specific optimisation swiches before invoking the
+`configure' command. For example, in case of Intel Pentium 4 processor one
+might use the following flags:
+
+  % CXXFLAGS="-march=pentium4" ./configure
+
+In case of Sun's UltraSPARC 64-bit platform and GCC compiler, the flags might
+be set as follows:
+
+  % export CXXFLAGS="-mcpu=v9 -m64"
+  % ./confiugre
+
+
 When the configuration process is finished, a status message is displayed.
 For instance, after having invoked the following configuration command:
 
-  % ./configure --with-blas="-lblas" --with-march=pentium3
+  % ./configure --with-blas="-lblas"
 
 one can observe something like this:
 
@@ -208,17 +217,18 @@ External libs:
 
 Compiler/linker flags/libs/defs:
   - CXX .......... : g++
-  - CXXFLAGS ..... : -march=pentium3 -pipe -fomit-frame-pointer -O2 
+  - CXXFLAGS ..... : -pipe -fomit-frame-pointer -O2
   - CPPFLAGS ..... :
   - LDFLAGS ...... : 
-  - LIBS ......... : -lfftw3 -lcblas -llapack -lblas -lm   -L/usr/lib/gcc/i686-p
-c-linux-gnu/3.4.4 -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../../../i686-pc-lin
-ux-gnu/lib -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../.. -lfrtbegin -lg2c -lm
--lgcc_s
+  - LIBS ......... : -lfftw3 -lcblas -llapack -lblas  -L/usr/lib/gcc/i686-pc-lin
+ux-gnu/3.4.4 -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../../../i686-pc-linux-gn
+u/lib -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../.. -lfrtbegin -lg2c -lm -lgcc
+_s
 
 ------------------------------------------------------------------------------
 Now type 'make && make install' to build and install itpp-3.10.0 library
 ------------------------------------------------------------------------------
+
 
 Now, it is time for compiling and linking the IT++ library. To do so, please
 simply run the following command:
