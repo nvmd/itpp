@@ -10,12 +10,12 @@ http://pkgconfig.freedesktop.org/</a>), wheres the second one uses \c
 
 \section pkgconfig Using the pkg-config command
 
-pkg-config is a helper tool used when compiling applications and
+\c `pkg-config' is a helper tool used when compiling applications and
 libraries. It helps you insert the correct compiler and linker
 options. The syntax of the \c `pkg-config' is as follows:
 
 \code
-% pkg-config <options> <library name>  
+% pkg-config <options> <library_name>  
 \endcode
 
 For instance, assuming that you need to compile an IT++ based program
@@ -25,11 +25,10 @@ For instance, assuming that you need to compile an IT++ based program
 % g++ `pkg-config --cflags itpp` -o my_prog my_prog.cpp `pkg-config --libs itpp`
 \endcode  
 
-For more information see the `pkg-config' man pages.
+For more information see the \c `pkg-config' man pages.
 
 
 \section itconfig Using the itpp-config script
-\addindex itpp-config
 
 IT++ provides a shell script called \c `itpp-config`, which is
 installed by default in <tt>`$prefix/bin'</tt>
@@ -44,16 +43,18 @@ you can now do that with the following command:
 % g++ `itpp-config --cflags` -o my_prog my_prog.cpp `itpp-config --libs`
 \endcode
 
+If you compiled and installed the \c `libitpp_debug.*' library by using 
+\c `--enable-debug' swich to configure, you can compile and link your
+program using the following command instead:
+
+\code
+% g++ `itpp-config --cflags-debug` -o my_prog my_prog.cpp `itpp-config --libs-debug`
+\endcode
+
 A list of \c `itpp-config' options can be obtained by typing:
 
 \code
 % itpp-config --help
-\endcode
-
-which should print the following information:
-
-\code
-Usage: itpp-config [--prefix] [--exec-prefix] [--version] [--libs] [--cflags]
 \endcode
 
 
@@ -64,10 +65,10 @@ copied into your executable program. This can lead to unnecessary
 large executables. To avoid having too large executable files you may
 use dynamic linking instead. Dynamic linking means that the actual
 linking is performed when the program is executed. This requires that
-the system is able to locate the IT++ library file when your program
-is being executed. If you install the IT++ library using a non-standard
+the system is able to locate the shared IT++ library file during your
+program execution. If you install the IT++ library using a non-standard
 prefix, the \c `LD_LIBRARY_PATH' environment variable might be used to
-show the location of the library, e.g.:
+inform the linker of the dynamic library location, e.g.:
 \code
 export LD_LIBRARY_PATH=<IT++ installation prefix>/lib:$LD_LIBRARY_PATH
 \endcode
@@ -88,17 +89,3 @@ you should add the following line to your \c ~/matlab/startup.m file:
 \code
 p=path; path(p,<Path to your IT++ directory>/matlab);
 \endcode
-
-\section linking_mkl Linking IT++ with Intels' MKL
-
-If you are using Intels' MKL you can now link your programs with the
-following flags:
-
-\code
--L<ITPP_HOME>/lib -L<MKL_LIBDIR> -L<ITPP_EXTERNAL_HOME>/lib/<ARCH>/gcc<VERSION> -lit++ -lmkl_lapack -lmkl_<cpu> -lguide -lpthread -lit++external -lg2c
-\endcode
-
-Replace \c \<cpu\> above with \c `def' (without the quotes) if you
-have a Pentium, Pentium Pro and Pentium II processor, with \c `p3'
-(without the quotes) if you have a Pentium III processor, or with \c
-`p4' (without the quotes) if you have a Pentium 4 processor.

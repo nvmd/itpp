@@ -1,5 +1,9 @@
 2006-02-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* INSTALL, README, doc/local/installation.doc,
+	doc/local/linking.doc: Documentation updated to reflect recent
+	changes in the configuration process.
+	
 	* configure.ac, **/Makefile.am, itpp-config.in, itpp.pc.in: Major
 	changes in the configuration process. Since now it is possible to
 	build and install two separate libraries: the optimised

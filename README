@@ -24,7 +24,7 @@ i.e.:
   o ACML (AMD Core Math Library) - includes BLAS, LAPACK and FFT routines
     (FFTW not required)
 
-It might be possible to compile and use IT++ without any of the above listed
+It is possible to compile and use IT++ without any of the above listed
 libraries, but the functionality will be reduced.
 
 The IT++ library originates from the former department of Information Theory
@@ -34,5 +34,5 @@ While departments come and go, IT++ have developed a life of its' own and is
 now released under the terms of the GNU General Public License (GPL) for you
 to enjoy.
 
-IT++ shold work on GNU/Linux, Sun Solaris, Microsoft Windows (with Cygwin or
+IT++ should work on GNU/Linux, Sun Solaris, Microsoft Windows (with Cygwin or
 Microsoft Visual C++ .NET) and Mac OS X (more testers needed).
