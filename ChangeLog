@@ -1,3 +1,7 @@
+2006-02-16  Erik G. Larsson  <erik_g_larsson@sourceforge.net>
+
+	* doc/local/installation.doc: Minor update
+	
 2006-02-14  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/Makefile.am: Removed limits_test, which was only useful on
