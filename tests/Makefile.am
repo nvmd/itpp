@@ -1,5 +1,11 @@
 include $(top_srcdir)/Makefile.common
+if ENABLE_DEBUG
+LDADD = $(top_builddir)/itpp/libitpp_debug.la
+AM_CXXFLAGS = $(CXXFLAGS_DEBUG)
+else
 LDADD = $(top_builddir)/itpp/libitpp.la
+AM_CXXFLAGS = $(CXXFLAGS_OPT)
+endif
 
 EXTRA_DIST = fastica_test_data.txt parser_test_data.txt $(ref_sources) 
 

@@ -1,8 +1,16 @@
 include $(top_srcdir)/Makefile.common
 include $(srcdir)/sources.mk
 
-noinst_LTLIBRARIES = libfixedpoint.la
-libfixedpoint_la_SOURCES = $(h_fixedpoint_sources) $(cpp_fixedpoint_sources) 
+noinst_LTLIBRARIES = libfixed.la
+if ENABLE_DEBUG
+noinst_LTLIBRARIES += libfixed_debug.la
+endif
+
+libfixed_la_SOURCES = $(h_fixed_sources) $(cpp_fixed_sources) 
+libfixed_la_CXXFLAGS = $(CXXFLAGS_OPT)
+
+libfixed_debug_la_SOURCES = $(h_fixed_sources) $(cpp_fixed_sources) 
+libfixed_debug_la_CXXFLAGS = $(CXXFLAGS_DEBUG)
 
 pkgincludedir = $(includedir)/@PACKAGE@/fixedpoint
-pkginclude_HEADERS = $(h_fixedpoint_sources)
+pkginclude_HEADERS = $(h_fixed_sources)

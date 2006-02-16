@@ -28,7 +28,6 @@ GENERIC_LIBRARY_VERSION="2:0:0"
 #                    or changed
 AC_SUBST(GENERIC_LIBRARY_VERSION)
 
-
 # Checks for programs
 save_CXXFLAGS="$CXXFLAGS"
 AC_PROG_CXX
@@ -43,30 +42,31 @@ AC_PROG_MAKE_SET
 AC_LANG([C++])
 
 # Check for debug switch
-AC_ARG_ENABLE(debug, 
-              [AC_HELP_STRING([--enable-debug], 
-                              [enable debugging [default=no]])])
+AC_ARG_ENABLE(debug,
+              [AC_HELP_STRING([--enable-debug],
+                              [enable building debug library [default=no]])])
 test "x$enable_debug" != xyes && enable_debug=no
+AM_CONDITIONAL([ENABLE_DEBUG], [test "x$enable_debug" = xyes])
 
 # Check for exceptions switch
-AC_ARG_ENABLE(exceptions, 
-              [AC_HELP_STRING([--enable-exceptions], 
+AC_ARG_ENABLE(exceptions,
+              [AC_HELP_STRING([--enable-exceptions],
                               [enable exceptions handling [default=no]])],
-              [AC_DEFINE([ITPP_EXCEPTIONS], [1], 
+              [AC_DEFINE([ITPP_EXCEPTIONS], [1],
                          [Define if you want exceptions handling])])
 test "x$enable_exceptions" != xyes && enable_exceptions=no
 
 # Check for htmldocs switch
 AC_ARG_ENABLE(html-doc, 
-              [AC_HELP_STRING([--enable-html-doc], 
+              [AC_HELP_STRING([--enable-html-doc],
                               [enable HTML documentation [default=yes]])])
 test "x$enable_html_doc" != xno && enable_html_doc=yes
 
 # Provide --with-docdir
 AC_ARG_WITH(docdir,
-            [AC_HELP_STRING([--with-docdir=DIR], 
-                            [set documentation directory to DIR])], 
-            [DOC_DIR="$withval"], 
+            [AC_HELP_STRING([--with-docdir=DIR],
+                            [set documentation directory to DIR])],
+            [DOC_DIR="$withval"],
             [DOC_DIR=""])
 if test "x$DOC_DIR" != x; then
   docdir="$DOC_DIR"
@@ -76,26 +76,35 @@ fi
 AC_SUBST(docdir)
 
 
-# Set debug/optimised flags
+# Set debug flags
 if test "x$enable_debug" = xyes; then
   AC_DEFINE([ASSERT_LEVEL], [2], [Define ASSERT_LEVEL as 2])
-  CXXFLAGS="-g $CXXFLAGS"
+  CXXFLAGS_DEBUG="-g"
+  # Only for GCC compiler 
+  if test "x$GXX" = xyes; then
+    CXXFLAGS_DEBUG="-Wall $CXXFLAGS_DEBUG"
+  fi
 else
   AC_DEFINE([ASSERT_LEVEL], [1], [Define ASSERT_LEVEL as 1])
   AC_DEFINE([NDEBUG], [1], [Define NDEBUG flag])
-  CXXFLAGS="-O2 $CXXFLAGS"
+  CXXFLAGS_DEBUG=""
 fi
 
-
-# Only for GCC compiler 
-if test "x$GXX" = xyes; then
-  # Add gcc warnings, in debug/maintainer mode only
-  if test "x$enable_debug" = xyes; then
-    CXXFLAGS="-Wall $CXXFLAGS"
+# Set default CXXFLAGS if not set
+if test "x$CXXFLAGS" = x; then
+  # Only for GCC compiler 
+  if test "x$GXX" = xyes; then
+    CXXFLAGS_OPT="-O3 -pipe"
   else
-    CXXFLAGS="-pipe -fomit-frame-pointer $CXXFLAGS"
+    CXXFLAGS_OPT="-O3" 
   fi
+else
+  CXXFLAGS_OPT="$CXXFLAGS"
+  CXXFLAGS=""
 fi
+
+AC_SUBST(CXXFLAGS_OPT)
+AC_SUBST(CXXFLAGS_DEBUG)
 
 
 # Checks for documentation build tools
@@ -193,46 +202,47 @@ $PACKAGE-$VERSION library configuration:
 ------------------------------------------------------------------------------
 
 Directories:
-  - prefix ....... : ${prefix}
-  - exec_prefix .. : ${exec_prefix}
-  - includedir ... : ${includedir}
-  - libdir ....... : ${libdir}
-  - docdir ....... : ${docdir}
+  - prefix ......... : ${prefix}
+  - exec_prefix .... : ${exec_prefix}
+  - includedir ..... : ${includedir}
+  - libdir ......... : ${libdir}
+  - docdir ......... : ${docdir}
 
 Switches:
-  - debug ........ : ${enable_debug}
-  - exceptions ... : ${enable_exceptions}
-  - html-doc ..... : ${enable_html_doc}
-  - shared ....... : ${enable_shared}
-  - static ....... : ${enable_static}
+  - debug .......... : ${enable_debug}
+  - exceptions ..... : ${enable_exceptions}
+  - html-doc ....... : ${enable_html_doc}
+  - shared ......... : ${enable_shared}
+  - static ......... : ${enable_static}
 
 Documentation tools:
-  - doxygen ...... : ${doxygen_ok}
-  - latex ........ : ${latex_ok}
-  - dvips ........ : ${dvips_ok}
-  - ghostscript .. : ${gs_ok}
+  - doxygen ........ : ${doxygen_ok}
+  - latex .......... : ${latex_ok}
+  - dvips .......... : ${dvips_ok}
+  - ghostscript .... : ${gs_ok}
 
 Testing tools:
-  - diff ......... : ${diff_ok}
+  - diff ........... : ${diff_ok}
 
 External libs:
-  - BLAS ......... : ${acx_blas_ok}
-    * MKL ........ : ${blas_mkl_ok}
-    * ACML ....... : ${blas_acml_ok}
-    * ATLAS ...... : ${blas_atlas_ok}
-  - CBLAS ........ : ${acx_cblas_ok}
-  - LAPACK ....... : ${acx_lapack_ok}
-  - FFT .......... : ${acx_fft_ok}
-    * MKL ........ : ${fft_mkl8_ok}
-    * ACML ....... : ${fft_acml_ok}
-    * FFTW ....... : ${fftw3_ok}
+  - BLAS ........... : ${acx_blas_ok}
+    * MKL .......... : ${blas_mkl_ok}
+    * ACML ......... : ${blas_acml_ok}
+    * ATLAS ........ : ${blas_atlas_ok}
+  - CBLAS .......... : ${acx_cblas_ok}
+  - LAPACK ......... : ${acx_lapack_ok}
+  - FFT ............ : ${acx_fft_ok}
+    * MKL .......... : ${fft_mkl8_ok}
+    * ACML ......... : ${fft_acml_ok}
+    * FFTW ......... : ${fftw3_ok}
 
 Compiler/linker flags/libs/defs:
-  - CXX .......... : ${CXX}
-  - CXXFLAGS ..... : ${CXXFLAGS}
-  - CPPFLAGS ..... : ${CPPFLAGS}
-  - LDFLAGS ...... : ${LDFLAGS}
-  - LIBS ......... : ${LIBS}
+  - CXX ............ : ${CXX}
+  - CXXFLAGS ....... : ${CXXFLAGS_OPT}
+  - CXXFLAGS_DEBUG . : ${CXXFLAGS_DEBUG}
+  - CPPFLAGS ....... : ${CPPFLAGS}
+  - LDFLAGS ........ : ${LDFLAGS}
+  - LIBS ........... : ${LIBS}
 
 ------------------------------------------------------------------------------
 Now type 'make && make install' to build and install $PACKAGE-$VERSION library
