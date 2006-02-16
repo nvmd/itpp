@@ -1,3 +1,9 @@
+2006-02-16  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac, INSTALL, doc/local/installation.doc: Removed
+	`--with-march' GCC-specific optimisation switch. CXXFLAGS should
+	be used instead.
+
 2006-02-16  Erik G. Larsson  <erik_g_larsson@sourceforge.net>
 
 	* doc/local/installation.doc: Minor update
