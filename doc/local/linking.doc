@@ -43,18 +43,32 @@ you can now do that with the following command:
 % g++ `itpp-config --cflags` -o my_prog my_prog.cpp `itpp-config --libs`
 \endcode
 
-If you compiled and installed the \c `libitpp_debug.*' library by using 
-\c `--enable-debug' swich to configure, you can compile and link your
-program using the following command instead:
+If you would like to use the same optimisation flags (CXXFLAGS), as those
+used for compiling the IT++ library, you might try the following command:
 
 \code
-% g++ `itpp-config --cflags-debug` -o my_prog my_prog.cpp `itpp-config --libs-debug`
+% g++ `itpp-config --cflags-opt` -o my_prog_opt my_prog.cpp `itpp-config --libs-opt`
+\endcode
+
+Moreover, if you compiled and installed the \c `libitpp_debug.*' library by
+using \c `--enable-debug' swich to configure, you can compile and link your
+program with debugging options using the following command instead:
+
+\code
+% g++ `itpp-config --cflags-debug` -o my_prog_debug my_prog.cpp `itpp-config --libs-debug`
 \endcode
 
 A list of \c `itpp-config' options can be obtained by typing:
 
 \code
 % itpp-config --help
+\endcode
+
+If the \c `itpp-config' command is not found by your shell, you should add
+its location <tt>`$prefix/bin'</tt> to the PATH environment variable, e.g.:
+
+\code
+% export PATH=/usr/local/bin:$PATH
 \endcode
 
 
