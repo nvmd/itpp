@@ -358,32 +358,19 @@ them in your \c $HOME directory, and unpack them:
 \endcode
 </li>
 
-<li> Compile and install an optimized IT++ library
+<li> Compile and install the optimized IT++ and the debug IT++ library
 \code
 % export LDFLAGS=-L$HOME/it++external-2.0.0/lib
 % export CPPFLAGS=-I$HOME/it++external-2.0.0/include
 % cd $HOME/itpp-3.10.0
 % make distclean
-% ./configure --disable-shared --prefix=$HOME/it++3.10.0_opt --disable-debug
+% ./configure --disable-shared --prefix=$HOME/it++3.10.0 --enable-debug
 % make && make install
-% make check >/tmp/chklog1
+% make check 
 \endcode
 </li>
 
-<li> Compile and install a debugging IT++ library
-\code
-% export LDFLAGS=-L$HOME/it++external-2.0.0/lib
-% export CPPFLAGS=-I$HOME/it++external-2.0.0/include
-% cd $HOME/itpp-3.10.0
-% make distclean
-% ./configure --disable-shared --prefix=$HOME/it++3.10.0_debug --enable-debug
-% make && make install
-% make check >/tmp/chklog2
-\endcode
-</li>
-
-<li> Inspect \c /tmp/chklog1 and \c /tmp/chklog2 and verify that all tests
-resulted in "PASSED" </li>
+<li> Check that all tests resulted in "PASSED" </li>
 
 <li> Go to a temporary directory, and create the following program \c
 example.cpp:
@@ -411,14 +398,11 @@ int main()
 
 Also, in the same directory, create the following \c Makefile:
 \code
-FLAGS_DEBUG := -Wall -g
-FLAGS_DEBUG += `$(HOME)/it++3.10.0_debug/bin/itpp-config --cflags`
+FLAGS_DEBUG += `$(HOME)/it++3.10.0/bin/itpp-config --cflags-debug`
+FLAGS_OPT += `$(HOME)/it++3.10.0/bin/itpp-config --cflags-opt`
 
-FLAGS_OPT := -O3
-FLAGS_OPT += `$(HOME)/it++3.10.0_opt/bin/itpp-config --cflags`
-
-LIBS_DEBUG    = `$(HOME)/it++3.10.0_debug/bin/itpp-config --libs`
-LIBS_OPT      = `$(HOME)/it++3.10.0_opt/bin/itpp-config --libs`
+LIBS_DEBUG    = `$(HOME)/it++3.10.0/bin/itpp-config --libs-debug`
+LIBS_OPT      = `$(HOME)/it++3.10.0/bin/itpp-config --libs-opt`
 
 example: example.cpp
 	g++ $(FLAGS_DEBUG) example.cpp -o example_debug  $(LIBS_DEBUG)
