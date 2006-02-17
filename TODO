@@ -1,107 +1,85 @@
-Things to fix before releasing version 4.0.0
+Things to do before releasing version 4.0.0
 ============================================
 
-Feature enhancements:
----------------------
+* Release version 3.10.0 (beginning of March 2006?) 
+  - 3.10 branch should be the last one maintained in the 3.x.x series
 
-* Multi-dimensional arrays.
+* Switch from CVS to Subversion (this depends on SourceForge - SVN is
+  promissed to be available in February 2006)
 
-* Script for testfiles on Visual C++ .NET.
+* Split base module into two separate modules: base and signal. By the way
+  of splitting, perform some naming changes:
+  - base <-> itppbase.h
+  - signal <-> itppsignal.h
+  - comm <-> itppcomm.h
+  - fixed <-> itppfixed.h
+  - protocol <-> itppprotocol.h
+  - srccode <-> itppsrccode.h
 
-* Update random number generator. Seed initialization and license.
+* Add optional configure switches to exclude some modules from building
 
-* Add the Simulation_Admin class from Hakan Eriksson
+* Documentation improvements:
+  - updated reference documentation
+  - perform hierarchical grouping of modules
+  - revise tutorial examples; add new ones; maybe split to basics and more
+    advanced stuff
+  - tips and trics for Matlab/Octave users
+  - restructure "verification" tables into more detailed info for particular
+    platforms/distributions
 
-* Add the Simulation Manager from Fredrik Malmsten???
+* Go through our current feature requests at SourceForge. There are
+  interesting hints and patches posted by the IT++ users.
+
+
+General improvements for the future
+===================================
+
+* Spped improvements:
+  - revise the idea of shallow matrix views
+  - possibly use external libraries for random number generation
+
+* Possibly add linear programming (LP) in the form of an external library
+  "lpsolve"
+
+* Add routines for optimization
+  - Use GSL for fminbnd (brent) and fminunc (BFGS)?
+  - Add other routines from http://plato.asu.edu/guide.html and
+    http://www.mat.univie.ac.at/~neum/glopt.html - LP, SDP, SOCP...  
+
+* Support for existing wireless standards, e.g. GSM/GPRS, WCDMA, WLAN,
+  WIMAX, etc. 
+
+* IT++ interpreter
+
+
+Specific features
+=================
+
+* Multi-dimensional arrays
 
 * Add Array<T>::mid(start, nrof_elem), Array<T>::left(nrof_elem),
-  Array<T>::right(nrof_elem) (Pal Frenger)
+  Array<T>::right(nrof_elem) (Pal)
 
 * Add cout for Sparse_Vec and Sparse_Mat (Pal)
 
-* Add optimization routines: 
-  - Use GSL for fminbnd (brent) and fminunc (BFGS).  
-  - Add other routines from http://plato.asu.edu/guide.html and
-    http://www.mat.univie.ac.at/~neum/glopt.html - LP, SDP, SOCP, ...  
-  - Make a Optimize class.
-
-* Compression in it-file format??? Difficult to read in matlab???
-
-
-Bug fixes and Internal fixes:
------------------------------
-
-* Remove the function mult_trans in src/base/smat.cpp?
+* The member functions in needs to be revised. The "<<" functions does
+  not always match the ">>" functions.
 
 * Check the fastmath functions. It seems like they are not any faster
   than the ordinary math functions.
-
-* The member functions in needs to be revised. The "<<" functions does
-  not always match the ">>" functions.
 
 * Improve the functionality of the Vec::set(char*) and Mat::set(char*)
   members. The current implementation does not allow newlines, tabs,
   etc. Complex numbers should also be supported.
 
-
-
-COMPILER support
-================
-
-* SUN CC compiler?
-
-* Intel C++ compiler?
-
-
-AUDIO
-===== 
-
-* Remove audiodev and audiofile. Replace with another audiolibrary
-  that is more transparent. Use libsndfile
-  (http://www.zip.com.au/~erikd/libsndfile/)?
-
-
-IT-FILE
-=======
+* Add support for Array<Mat<T> > and Array<Vec<T> > in itload.m and itsave.m
 
 * Modify it-file so that a description field and comment fields are
   added.
-
-* Write a simple program that prints the contents of a it-file. (maybe
-  with GUI)
-
-* Add support for Array<Mat<T> > and Array<Vec<T> > in load_it.m
-
-
-RANDOM GENERATORS
-=================
 
 * Add possibility to change kernel generator.
 
 * Implement bug-fixes in seed. See the home-page of
   Mersenne-Twister. Also change to BSD license.
 
-* Speed-up in random number generator for Gaussian numbers? Some work
-  has been done for 3.8.0 (Tony Ottosson)
-
-
-GENERAL
-=======
-
-* Add support for stream versions of classes.
-
-* Add functions and classes for optimization.
-
-
-NEW MODULES
-===========
-
 * Make a m-file load/saver (similar to it-file).
-
-* WCDMA blocks
-
-* GSM/GPRS blocks
-
-* IS95 blocks
-
-* WLAN blocks
