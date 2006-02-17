@@ -398,11 +398,11 @@ int main()
 
 Also, in the same directory, create the following \c Makefile:
 \code
-FLAGS_DEBUG += `$(HOME)/it++3.10.0/bin/itpp-config --cflags-debug`
-FLAGS_OPT += `$(HOME)/it++3.10.0/bin/itpp-config --cflags-opt`
+FLAGS_DEBUG = `$(HOME)/it++3.10.0/bin/itpp-config --cflags-debug`
+FLAGS_OPT   = `$(HOME)/it++3.10.0/bin/itpp-config --cflags-opt`
 
-LIBS_DEBUG    = `$(HOME)/it++3.10.0/bin/itpp-config --libs-debug`
-LIBS_OPT      = `$(HOME)/it++3.10.0/bin/itpp-config --libs-opt`
+LIBS_DEBUG  = `$(HOME)/it++3.10.0/bin/itpp-config --libs-debug`
+LIBS_OPT    = `$(HOME)/it++3.10.0/bin/itpp-config --libs-opt`
 
 example: example.cpp
 	g++ $(FLAGS_DEBUG) example.cpp -o example_debug  $(LIBS_DEBUG)

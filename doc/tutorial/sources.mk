@@ -9,4 +9,5 @@ doc_tutorial_sources = \
 	$(top_srcdir)/doc/tutorial/spread.doc \
 	$(top_srcdir)/doc/tutorial/timer.doc \
 	$(top_srcdir)/doc/tutorial/tutorial.doc \
-	$(top_srcdir)/doc/tutorial/vector_and_matrix.doc
+	$(top_srcdir)/doc/tutorial/vector_and_matrix.doc \
+	$(top_srcdir)/doc/tutorial/matlab_itpp.doc
