@@ -13,14 +13,16 @@ Usage: itpp-config [OPTION]
 
 Known values for OPTION are:
 
-  --prefix		print libitpp installation prefix
-  --exec-prefix		print libitpp installation exec prefix
-  --libs		print library linking information
-  --libs-debug		print debug library linking information
-  --cflags		print pre-processor and compiler flags
-  --cflags-debug	print debug pre-processor and compiler flags
-  --help		display this help and exit
-  --version		output version information
+  --prefix        print libitpp installation prefix
+  --exec-prefix   print libitpp installation exec prefix
+  --libs          print library linking information
+  --libs-opt      print optimised library linking information
+  --libs-debug    print debug library linking information
+  --cflags        print pre-processor and compiler flags
+  --cflags-opt    print optimised pre-processor and compiler flags
+  --cflags-debug  print debug pre-processor and compiler flags
+  --help          display this help and exit
+  --version       output version information
 EOF
   exit $1
 }
@@ -59,12 +61,18 @@ while test $# -gt 0; do
       usage 0
       ;;
     --cflags)
+      echo -I${includedir}
+      ;;
+    --cflags-opt)
       echo -I${includedir} @CXXFLAGS_OPT@
       ;;
     --cflags-debug)
       echo -I${includedir} @CXXFLAGS_DEBUG@
       ;;
     --libs)
+      echo -L${libdir} -l@PACKAGE@ @LIBS@
+      ;;
+    --libs-opt)
       echo -L${libdir} -l@PACKAGE@ @LIBS@
       ;;
     --libs-debug)
