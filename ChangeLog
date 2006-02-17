@@ -1,5 +1,7 @@
 2006-02-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* TODO: Updated to reflect recent brainstorming among developers.
+	
 	* doc/local/linking.doc: Minor updates to reflect recent changes.
 
 	* itpp-config.in, itpp.pc.in: Added `--cflags-opt' and
@@ -15,7 +17,7 @@
 	build and install two separate libraries: the optimised
 	`libitpp.*' and debug `libitpp_debug.*'. The latter one is only
 	build when `--enable-debug' switch is used during configuration.
-	`itpp-config' script has been extened with `--cflags-debug' and 
+	`itpp-config' script has been extended with `--cflags-debug' and 
 	`--libs-debug' switches.
 	Besides, if CXXFLAGS is not set in the shell environment, it is
 	initialised with "-O3 -pipe" or "-O3" flags by default.
