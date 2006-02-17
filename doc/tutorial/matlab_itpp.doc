@@ -1,0 +1,46 @@
+/*! 
+\page matlab_itpp Conversion table between IT++ syntax and Matlab/Octave 
+
+Here we provide a conversion table between Matlab/Octave and IT++ for
+many common operations.  This table is primarily intended to help with
+the transition from Matlab/Octave programming to IT++.
+
+In what follows, capital letters (A,B,...) denote matrices, lowercase
+letters (a,b,...) denote vectors or scalars.  In the Matlab/Octave
+notation, all vectors are assumed to be column vectors. Note that
+Matlab/Octave does distinguish between column and row vectors, whereas
+IT++ does not.
+
+Note: Indexing in  IT++ starts at 0, whereas indexing in Matlab starts at 1:
+\code
+a(0)                                 // a(1)
+a(k-1)                               // a(k)
+A(k-1,l-1)                           // A(k,l)
+\endcode
+
+Some vector and matrix algebra:
+\code
+elem_mult(a,b)                       // a.*b
+a*b                                  // a.'*b
+elem_mult(conj(a),b)                 // a'.*b
+A+B;                                 // A+B;
+A-B;                                 // A-B;
+A*B;                                 // A*B;
+elem_mul(A,B)                        // A.*B
+elem_div(A,B)                        // A./B
+A\b;                                 // ls_solve_od(A,b);    (assuming the system is overdetermined)
+A.get_col(k-1)                       // A(:,k)
+A.get_row(k-1)                       // A(k,:)
+A.set(k-1,l-1,alpha);                // A(k,l)=alpha;
+A.set_col(k-1,a);                    // A(:,k)=a;
+A.set_row(k-1,a);                    // A(k,:)=a;
+A.transpose()                        // A.'
+A.hermitian_transpose()              // A'
+zeros(n,n)                           // zeros(n,n)
+zeros_c(n,n)                         // complex(zeros(n,n))
+linspace(alpha,beta,n)               // linspace(alpha,beta,n)
+\endcode
+
+More to be added later.
+
+*/

@@ -301,9 +301,9 @@ namespace itpp {
     void ins_row(int r, const Vec<Num_T> &in);
     //! Insert vector \c in at column number \c c, the matrix can be empty.
     void ins_col(int c, const Vec<Num_T> &in);
-    // ! Append vector \c to the bottom of the matrix, the matrix can be empty.
+    //! Append vector \c to the bottom of the matrix, the matrix can be empty.
     void append_row(const Vec<Num_T> &in);
-    // ! Append vector \c to the right of the matrix, the matrix can be empty.
+    //! Append vector \c to the right of the matrix, the matrix can be empty.
     void append_col(const Vec<Num_T> &in);
 
     //! Matrix transpose

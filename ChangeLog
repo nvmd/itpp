@@ -1,3 +1,10 @@
+2006-02-17  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* doc/tutorial/matlab_itpp.doc, doc/tutorial/tutorial.doc,
+	doc/tutorial/sources.mk: Added first draft of how a Matlab/IT++
+	conversion table can look like, more to be added
+	later. Restructured the tutorial page.
+	
 2006-02-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac: Fixed a problem with the same ASSERT_LEVEL
