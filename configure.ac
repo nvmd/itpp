@@ -77,34 +77,29 @@ AC_SUBST(docdir)
 
 
 # Set debug flags
+CXXFLAGS_DEBUG="-DASSERT_LEVEL=2"
 if test "x$enable_debug" = xyes; then
-  AC_DEFINE([ASSERT_LEVEL], [2], [Define ASSERT_LEVEL as 2])
-  CXXFLAGS_DEBUG="-g"
+  CXXFLAGS_DEBUG="-g $CXXFLAGS_DEBUG"
   # Only for GCC compiler 
   if test "x$GXX" = xyes; then
     CXXFLAGS_DEBUG="-Wall $CXXFLAGS_DEBUG"
   fi
-else
-  AC_DEFINE([ASSERT_LEVEL], [1], [Define ASSERT_LEVEL as 1])
-  AC_DEFINE([NDEBUG], [1], [Define NDEBUG flag])
-  CXXFLAGS_DEBUG=""
 fi
+AC_SUBST(CXXFLAGS_DEBUG)
 
-# Set default CXXFLAGS if not set
+# Set optimised flags
+CXXFLAGS_OPT="-DASSERT_LEVEL=1"
 if test "x$CXXFLAGS" = x; then
+  CXXFLAGS_OPT="-O3 $CXXFLAGS_OPT" 
   # Only for GCC compiler 
   if test "x$GXX" = xyes; then
-    CXXFLAGS_OPT="-O3 -pipe"
-  else
-    CXXFLAGS_OPT="-O3" 
+    CXXFLAGS_OPT="-pipe $CXXFLAGS_OPT"
   fi
 else
-  CXXFLAGS_OPT="$CXXFLAGS"
+  CXXFLAGS_OPT="$CXXFLAGS $CXXFLAGS_OPT"
   CXXFLAGS=""
 fi
-
 AC_SUBST(CXXFLAGS_OPT)
-AC_SUBST(CXXFLAGS_DEBUG)
 
 
 # Checks for documentation build tools
