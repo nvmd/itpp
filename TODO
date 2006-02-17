@@ -83,3 +83,17 @@ Specific features
   Mersenne-Twister. Also change to BSD license.
 
 * Make a m-file load/saver (similar to it-file).
+
+---
+
+* Soft-in soft-out turbo decoder 
+
+* Fix the decode_trunk() function of the Viterbi decoder, so it might 
+be used in a loop. Currently, the internal state of the trellis is always 
+recalculated from scratch
+
+* Class for operation on index sets?
+
+* Revision of (scalar) modulators to use fast likelihood algebra and
+to take soft inputs (for higher order constellations)
+
