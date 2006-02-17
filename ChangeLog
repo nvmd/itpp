@@ -1,5 +1,7 @@
 2006-02-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/local/linking.doc: Minor updates to reflect recent changes.
+
 	* itpp-config.in, itpp.pc.in: Added `--cflags-opt' and
 	`--debug-opt' switches to `itpp-config' script. Simple `--cflags'
 	switch does not include any optimisation flags in both script.
