@@ -1,5 +1,8 @@
 2006-02-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac: Fixed a problem with the same ASSERT_LEVEL
+	definition in both debug and standard target libraries.
+
 	* TODO: Updated to reflect recent brainstorming among developers.
 	
 	* doc/local/linking.doc: Minor updates to reflect recent changes.
