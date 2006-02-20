@@ -58,6 +58,7 @@ Cygwin or Microsoft Visual C++ .NET) and Mac OS X (more testers needed).
 
 <b>Getting Started:</b>
 <ul>
+<li><a href="features.html">Features</a></li>
 <li><a href="installation.html">Installation</a></li>
 <li><a href="linking.html">Linking with IT++</a></li>
 <li><a href="users_guide.html">Short Introduction to IT++</a></li>
