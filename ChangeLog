@@ -1,3 +1,8 @@
+2006-02-20  Tony Ottosson  <tonyottosson@users.sourceforge.net>
+	
+	* doc/local/{features.doc, index.doc, sources.mk}:
+	Added a list of features of IT++.
+
 2006-02-17  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* doc/tutorial/matlab_itpp.doc, doc/tutorial/tutorial.doc,
