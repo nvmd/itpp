@@ -1,0 +1,75 @@
+/*!
+\page features Main features of IT++
+
+A short list of the main features of IT++ is given below sorted in different categories. Many more
+features and functions exist and for these we refer to the reference documentation.
+
+\section prog_features Programming features
+\li templated array and stack container classes
+\li input and file argument parser
+\li timing functions and classes
+
+
+\section math_features Basic mathematical features
+\li templated vector and matrix classes
+\li sparse vectors and matrix classes
+\li elementary functions on vectors and matrices
+\li Matrix decompositions such as eigenvalue, Cholesky, LU, Schur, SVD, and, QR
+\li Solving linear system of equations (including over and underdetermined)
+\li random number generation (Mersenne Twister generator)
+\li Binary and Galois types (both scalar and vector and matrices) 
+\li integration of 1-dimensional functions
+\li unconditional nonlinear optimization (Quasi-Newton search)
+
+
+\section sigproc_features Signal Processing
+\li filter functions and classes
+\li frequency domain filtering
+\li fft, dft, dct, and hadamard transforms
+\li time and frequency domain windows
+\li evalute and finding roots of polynomials (and inverse operations)
+\li filter design functions
+\li fast independent component analysis (Fast ICA)
+\li statistics class
+
+
+\section comm_features Communications
+\li modulators (BPSK, PSK, PAM, QAM)
+\li vector modulators (e.g. for OFDM and MIMO)
+\li OFDM and CDMA modulators
+\li pulse shaping filters (including RC and RRC)
+\li binary symmetric (BSC) and additive white Gaussian Noise (AWGN) channels
+\li multipath fading channels (both freqency flat and frequency selective)
+\li COST 207, COST 257, and ITU channel models
+\li Hamming, Extended Golay, and CRC codes
+\li BCH and Reed-Solomon codes
+\li convolutional and punctured convolutional codes
+\li recursive convolutional codes
+\li turbo and LDPC codes
+\li interleavers
+
+
+\section protocol_features Protocol simulation
+\li event-based simulation classes
+\li signal and slots for simplified syntax
+\li TCP clients and servers
+\li Selective Repeat ARQ
+\li queue classes
+\li packet generators
+
+
+\section srccod_features Source coding
+\li Scalar Quantizer (SQ) and Vector Quantizer (VQ) classes and functions for training of these
+\li LPC, LSF, and cepstrum parameter calculation for speech processing
+\li Gaussian Mixture Modeling
+\li reading and saving several different audiofile formats
+\li reading and saving images on PNM format
+
+
+\section other_features Other features
+\li binary file format for most built in and IT++ types
+\li fixed-point scalar, vector and matrix types
+
+
+
+*/
