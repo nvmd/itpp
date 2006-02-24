@@ -340,28 +340,28 @@ The philosophy is:
 The installation procedure goes as follows (\c $HOME can be replaced by any
 directory where you have write access):
 <ol>
-<li> Download  itpp-external-2.0.0.tar.gz and  itpp-3.10.0.tar.gz. Save
+<li> Download  itpp-external-2.1.0.tar.gz and  itpp-3.10.0.tar.gz. Save
 them in your \c $HOME directory, and unpack them:
 \code
 % cd $HOME
-% tar xzf itpp-external-2.0.0.tar.gz
+% tar xzf itpp-external-2.1.0.tar.gz
 % tar xzf itpp-3.10.0.tar.gz
 \endcode
 </li>
 
 <li> Compile and install the external libs
 \code
-% cd $HOME/itpp-external-2.0.0
+% cd $HOME/itpp-external-2.1.0
 % make distclean
-% ./configure --prefix=$HOME/it++external-2.0.0
+% ./configure --prefix=$HOME/it++external-2.1.0 --disable-shared
 % make && make install
 \endcode
 </li>
 
 <li> Compile and install the optimized IT++ and the debug IT++ library
 \code
-% export LDFLAGS=-L$HOME/it++external-2.0.0/lib
-% export CPPFLAGS=-I$HOME/it++external-2.0.0/include
+% export LDFLAGS=-L$HOME/it++external-2.1.0/lib
+% export CPPFLAGS=-I$HOME/it++external-2.1.0/include
 % cd $HOME/itpp-3.10.0
 % make distclean
 % ./configure --disable-shared --prefix=$HOME/it++3.10.0 --enable-debug
@@ -420,7 +420,7 @@ exit with an assertion error.) </li>
 
 <li> If you want to conserve disk space, clean up all temporary files:
 \code
-% cd $HOME/itpp-external-2.0.0
+% cd $HOME/itpp-external-2.1.0
 % make distclean
 % cd $HOME/itpp-3.10.0
 % make distclean
@@ -428,7 +428,7 @@ exit with an assertion error.) </li>
 
 To conserve even more diskspace (remove all sources) then do
 \code
-% rm -rf $HOME/itpp-external-2.0.0
+% rm -rf $HOME/itpp-external-2.1.0
 % rm -rf $HOME/itpp-3.10.0
 \endcode
 </li>
