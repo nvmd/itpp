@@ -14,10 +14,10 @@ features and functions exist and for these we refer to the reference documentati
 \li templated vector and matrix classes
 \li sparse vectors and matrix classes
 \li elementary functions on vectors and matrices
-\li Matrix decompositions such as eigenvalue, Cholesky, LU, Schur, SVD, and, QR
-\li Solving linear system of equations (including over and underdetermined)
+\li matrix decompositions such as eigenvalue, Cholesky, LU, Schur, SVD, and QR
+\li solving linear system of equations (including over and underdetermined)
 \li random number generation (Mersenne Twister generator)
-\li Binary and Galois types (both scalar and vector and matrices) 
+\li binary and Galois types (both scalar and vector and matrices) 
 \li integration of 1-dimensional functions
 \li unconditional nonlinear optimization (Quasi-Newton search)
 
@@ -25,11 +25,11 @@ features and functions exist and for these we refer to the reference documentati
 \section sigproc_features Signal Processing
 \li filter functions and classes
 \li frequency domain filtering
-\li fft, dft, dct, and hadamard transforms
+\li FFT, DFT, DCT, and Hadamard transforms
 \li time and frequency domain windows
-\li evalute and finding roots of polynomials (and inverse operations)
+\li evaluating and finding roots of polynomials (and inverse operations)
 \li filter design functions
-\li fast independent component analysis (Fast ICA)
+\li fast independent component analysis (fast ICA)
 \li statistics class
 
 
@@ -39,13 +39,13 @@ features and functions exist and for these we refer to the reference documentati
 \li OFDM and CDMA modulators
 \li pulse shaping filters (including RC and RRC)
 \li binary symmetric (BSC) and additive white Gaussian Noise (AWGN) channels
-\li multipath fading channels (both freqency flat and frequency selective)
+\li multipath fading channels (both frequency-flat and frequency-selective)
 \li COST 207, COST 257, and ITU channel models
 \li Hamming, Extended Golay, and CRC codes
 \li BCH and Reed-Solomon codes
 \li convolutional and punctured convolutional codes
 \li recursive convolutional codes
-\li turbo and LDPC codes
+\li turbo codes
 \li interleavers
 
 
@@ -63,7 +63,7 @@ features and functions exist and for these we refer to the reference documentati
 \li LPC, LSF, and cepstrum parameter calculation for speech processing
 \li Gaussian Mixture Modeling
 \li reading and saving several different audiofile formats
-\li reading and saving images on PNM format
+\li reading and saving images in PNM format
 
 
 \section other_features Other features
