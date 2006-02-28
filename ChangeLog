@@ -1,3 +1,9 @@
+2006-02-28  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/local/verification.doc: Verification pages redesigned to
+	include more information. Added tests statuses for Gentoo Linux
+	and Cygwin operating systems.
+
 2006-02-20  Tony Ottosson  <tonyottosson@users.sourceforge.net>
 	
 	* doc/local/{features.doc, index.doc, sources.mk}:
