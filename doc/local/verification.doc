@@ -7,9 +7,11 @@
     - \ref gentoo_atlas
     - \ref gentoo_mkl
     - \ref gentoo_acml
+    - \ref suse_mkl
   - \ref windows
     - \ref cygwin
   - \ref unix
+    - \ref sunos59
 - \ref itpp_3_9_1
 - \ref itpp_3_9_0
 - \ref itpp_3_8_1
@@ -19,8 +21,8 @@
 
 It has been confirmed that this release has been compiled, installed and
 sucessfully tested on the operating systems and platforms described below.
-If you managed to compile, install and test the IT++ library on a system not
-mentioned below, please let us know so we could update this database.
+If you manage to compile, install and test the IT++ library on a system not
+mentioned below, please let us know, so we could update this database.
 
 \subsection gentoo Linux Systems
 
@@ -58,8 +60,8 @@ mentioned below, please let us know so we could update this database.
 - <b>Tests Status</b>: All tests PASSED
 - <b>Comments</b>: IT++ configured using the following commands:
 \code 
-% export LDFLAGS=-L/opt/intel/mkl/8.0.1/lib/32
-% export CPPFLAGS=-I/opt/intel/mkl/8.0.1/include
+% export LDFLAGS="-L/opt/intel/mkl/8.0.1/lib/32"
+% export CPPFLAGS="-I/opt/intel/mkl/8.0.1/include"
 % ./configure
 \endcode
 - <b>Date</b>: February 28, 2006
@@ -83,10 +85,29 @@ mentioned below, please let us know so we could update this database.
 \endcode
   IT++ configured with:
 \code
-% export CPPFLAGS=-I/usr/include/acml
+% export CPPFLAGS="-I/usr/include/acml"
 % ./configure --with-blas="-lblas"
 \endcode
 - <b>Date</b>: February 28, 2006
+- <b>Tester</b>: Adam Piatyszek (ediap)
+
+
+\subsubsection suse_mkl SUSE Linux 10.0 with MKL
+
+- <b>Platform</b>: Intel Pentium 4 CPU 3.20GHz (64-bit)
+- <b>Operating System</b>: SUSE Linux 10.0 (x86_64)
+- <b>Compiler(s)</b>: g++ (GCC) 4.0.2
+- <b>External Libraries</b>: Intel Math Kernel Library (MKL) 8.0.1
+  installed manually in the following directory: <tt>/opt/intel/mkl/8.0.1</tt>
+- <b>Tests Status</b>: All tests PASSED
+- <b>Comments</b>: IT++ configured with:
+\code
+% export CXXFLAGS="-m64 -march=nocona -O3 -pipe"
+% export LDFLAGS="-L/opt/intel/mkl/8.0.1/lib/em64t"
+% export CPPFLAGS="-I/opt/intel/mkl/8.0.1/include"
+% ./configure
+\endcode
+- <b>Date</b>: March 1, 2006
 - <b>Tester</b>: Adam Piatyszek (ediap)
 
 
@@ -111,6 +132,29 @@ mentioned below, please let us know so we could update this database.
 
 
 \subsection unix Unix Systems
+
+\subsubsection sunos59 SunOS 5.9 with IT++ External
+
+- <b>Platform</b>: SUNW, Sun-Blade-100 (SPARC)
+- <b>Operating System</b>: SunOS 5.9 Generic_112233-10
+- <b>Compiler(s)</b>: g++ (GCC) 3.4.5
+- <b>External Libraries</b>: BLAS, CBLAS, LAPACK and FFTW libraries from
+  IT++ External 2.1.1 package. The following configuration command has been
+  used:
+\code
+% export CFLAGS="-mcpu=ultrasparc -O3 -pipe -funroll-all-loops"
+% ./configure
+\endcode
+- <b>Tests Status</b>: All tests PASSED
+- <b>Comments</b>: IT++ configured with:
+\code
+% export LDFLAGS="-L/usr/local/lib"
+% export CPPFLAGS="-I/usr/local/include"
+% export CXXFLAGS="-mcpu=ultrasparc -O3 -pipe"
+% ./configure
+\endcode
+- <b>Date</b>: March 1, 2006
+- <b>Tester</b>: Adam Piatyszek (ediap)
 
 */
 
