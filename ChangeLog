@@ -1,5 +1,9 @@
 2006-03-01  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac, doc/local/index.doc.in: ITPP_EXTERNAL_VERSION
+	variable added in the configure.ac file to set IT++ External
+	package version in download links automatically.
+
 	* config/acx_cblas.m4: Fixed a bug in cblas library detection when
 	using BLAS and CBLAS from IT++ External package on Cygwin.
 

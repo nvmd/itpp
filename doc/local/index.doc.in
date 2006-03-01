@@ -72,8 +72,8 @@ Cygwin or Microsoft Visual C++ .NET) and Mac OS X (more testers needed).
 <ul>
 <li><a href="http://sourceforge.net/project/showfiles.php?group_id=37044">Files at SourceForge</a></li>
 <li><a href="http://prdownloads.sourceforge.net/itpp/itpp-@PACKAGE_VERSION@.tar.gz?download">itpp-@PACKAGE_VERSION@.tar.gz</a></li>
-<li><a href="http://itpp.sourceforge.net/doc/itpp-html-doc-@PACKAGE_VERSION@.tar.gz">itpp-html-doc-@PACKAGE_VERSION@.tar.gz</a></li>
-<li><a href="http://prdownloads.sourceforge.net/itpp/itpp-external-2.1.0.tar.gz?download">itpp-external-2.1.0.tar.gz</a></li>
+<li><a href="http://prdownloads.sourceforge.net/itpp/itpp-html-doc-@PACKAGE_VERSION@.tar.gz?download">itpp-html-doc-@PACKAGE_VERSION@.tar.gz</a></li>
+<li><a href="http://prdownloads.sourceforge.net/itpp/itpp-external-@ITPP_EXTERNAL_VERSION@.tar.gz?download">itpp-external-@ITPP_EXTERNAL_VERSION@.tar.gz</a></li>
 </ul>
 
 <b>Bugs and Forums:</b>
