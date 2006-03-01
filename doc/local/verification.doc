@@ -4,9 +4,10 @@
 \section toc Table of Contents
 - \ref itpp_3_10_0
   - \ref gentoo
+    - \ref gentoo_acml
     - \ref gentoo_atlas
     - \ref gentoo_mkl
-    - \ref gentoo_acml
+    - \ref suse_netlib
     - \ref suse_mkl
   - \ref windows
     - \ref cygwin
@@ -24,7 +25,32 @@ sucessfully tested on the operating systems and platforms described below.
 If you manage to compile, install and test the IT++ library on a system not
 mentioned below, please let us know, so we could update this database.
 
+
 \subsection gentoo Linux Systems
+
+\subsubsection gentoo_acml Gentoo Linux with ACML
+
+- <b>Platform</b>: AMD Sempron 3000+
+- <b>Operating System</b>: Gentoo Linux 2006.0 (x86 arch)
+- <b>Compiler(s)</b>: g++ (GCC) 3.4.5
+- <b>External Libraries</b>: Compiled and installed from portage tree: 
+  - <tt>sci-libs/gsl-1.4</tt>
+  - <tt>sci-libs/acml-3.0.0</tt>
+- <b>Tests Status</b>: All tests PASSED
+- <b>Comments</b>: BLAS and LAPACK libs set by using the following system 
+  commands:
+\code
+% eselect blas set ACML
+% eselect lapack set ACML
+\endcode
+  IT++ configured with:
+\code
+% export CPPFLAGS="-I/usr/include/acml"
+% ./configure --with-blas="-lblas"
+\endcode
+- <b>Date</b>: February 28, 2006
+- <b>Tester</b>: Adam Piatyszek (ediap)
+
 
 \subsubsection gentoo_atlas Gentoo Linux with ATLAS
 
@@ -68,27 +94,25 @@ mentioned below, please let us know, so we could update this database.
 - <b>Tester</b>: Adam Piatyszek (ediap)
 
 
-\subsubsection gentoo_acml Gentoo Linux with ACML
+\subsubsection suse_netlib SUSE Linux 10.0 with NetLib's BLAS and LAPACK
 
-- <b>Platform</b>: AMD Sempron 3000+
-- <b>Operating System</b>: Gentoo Linux 2006.0 (x86 arch)
-- <b>Compiler(s)</b>: g++ (GCC) 3.4.5
-- <b>External Libraries</b>: Compiled and installed from portage tree: 
-  - <tt>sci-libs/gsl-1.4</tt>
-  - <tt>sci-libs/acml-3.0.0</tt>
+- <b>Platform</b>: Intel Pentium 4 CPU 3.20GHz (64-bit)
+- <b>Operating System</b>: SUSE Linux 10.0 (x86_64)
+- <b>Compiler(s)</b>: g++ (GCC) 4.0.2
+- <b>External Libraries</b>: BLAS, LAPACK and FFTW libraries installed from 
+  OpenSuse 10.0 RPM repository:
+  - <tt>blas-3.0-926</tt>
+  - <tt>lapack-3.0-926</tt>
+  - <tt>fftw3-3.0.1-114</tt>
+  - <tt>fftw3-threads-3.0.1-114</tt>
+  - <tt>fftw3-devel-3.0.1-114</tt>
 - <b>Tests Status</b>: All tests PASSED
-- <b>Comments</b>: BLAS and LAPACK libs set by using the following system 
-  commands:
+- <b>Comments</b>: IT++ configured with:
 \code
-% eselect blas set ACML
-% eselect lapack set ACML
+% export CXXFLAGS="-m64 -march=nocona -O3 -pipe"
+% ./configure --with-lapack="/usr/lib64/liblapack.so.3"
 \endcode
-  IT++ configured with:
-\code
-% export CPPFLAGS="-I/usr/include/acml"
-% ./configure --with-blas="-lblas"
-\endcode
-- <b>Date</b>: February 28, 2006
+- <b>Date</b>: March 1, 2006
 - <b>Tester</b>: Adam Piatyszek (ediap)
 
 
