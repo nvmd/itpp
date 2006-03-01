@@ -12,6 +12,10 @@ AM_INIT_AUTOMAKE
 RPM_RELEASE="1"
 AC_SUBST(RPM_RELEASE)
 
+# IT++ External version
+ITPP_EXTERNAL_VERSION="2.1.1"
+AC_SUBST(ITPP_EXTERNAL_VERSION)
+
 # Shared library versioning
 GENERIC_LIBRARY_VERSION="2:0:0"
 #                        | | |
