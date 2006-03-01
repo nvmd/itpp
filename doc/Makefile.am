@@ -39,6 +39,8 @@ disthtml: html-local
 	cp -a $(top_builddir)/doc/html $(top_builddir)/$(html_tarname);
 	tar chof - $(top_builddir)/$(html_tarname) | \
 		gzip --best -c > $(top_builddir)/$(html_tarname).tar.gz;
+	tar chof - $(top_builddir)/$(html_tarname) | \
+		bzip2 -9 -c > $(top_builddir)/$(html_tarname).tar.bz2;
 	rm -rf $(top_builddir)/$(html_tarname)
 
 install-data-local: html-local
