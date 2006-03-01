@@ -1,5 +1,8 @@
 2006-03-01  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* config/acx_cblas.m4: Fixed a bug in cblas library detection when
+	using BLAS and CBLAS from IT++ External package on Cygwin.
+
 	* doc/local/verification.doc: Added tests for SUSE 10.0 (x86_64)
 	and SunOS 5.9 (SPARC).
 
