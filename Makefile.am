@@ -2,6 +2,8 @@ include $(top_srcdir)/Makefile.common
 
 ACLOCAL_AMFLAGS = -I config
 
+AUTOMAKE_OPTIONS = dist-bzip2
+
 if HTML_DOC
 HTMLDOCDIR = doc
 endif
