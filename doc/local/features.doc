@@ -1,75 +1,75 @@
 /*!
 \page features Main features of IT++
 
-A short list of the main features of IT++ is given below sorted in different categories. Many more
-features and functions exist and for these we refer to the reference documentation.
+A short list of the main features of IT++ is given below sorted in different
+categories. Many more features and functions exist and for these we refer to
+the reference documentation.
 
 \section prog_features Programming features
-\li templated array and stack container classes
-\li input and file argument parser
-\li timing functions and classes
+- templated array and stack container classes
+- input and file argument parser
+- timing functions and classes
 
 
 \section math_features Basic mathematical features
-\li templated vector and matrix classes
-\li sparse vectors and matrix classes
-\li elementary functions on vectors and matrices
-\li matrix decompositions such as eigenvalue, Cholesky, LU, Schur, SVD, and QR
-\li solving linear system of equations (including over and underdetermined)
-\li random number generation (Mersenne Twister generator)
-\li binary and Galois types (both scalar and vector and matrices) 
-\li integration of 1-dimensional functions
-\li unconditional nonlinear optimization (Quasi-Newton search)
+- templated vector and matrix classes
+- sparse vectors and matrix classes
+- elementary functions on vectors and matrices
+- matrix decompositions such as eigenvalue, Cholesky, LU, Schur, SVD, and QR
+- solving linear system of equations (including over and underdetermined)
+- random number generation (Mersenne Twister generator)
+- binary and Galois types (both scalar and vector and matrices) 
+- integration of 1-dimensional functions
+- unconditional nonlinear optimization (Quasi-Newton search)
 
 
-\section sigproc_features Signal Processing
-\li filter functions and classes
-\li frequency domain filtering
-\li FFT, DFT, DCT, and Hadamard transforms
-\li time and frequency domain windows
-\li evaluating and finding roots of polynomials (and inverse operations)
-\li filter design functions
-\li fast independent component analysis (fast ICA)
-\li statistics class
+\section sigproc_features Signal processing
+- filter functions and classes
+- frequency domain filtering
+- FFT, DFT, DCT, and Hadamard transforms
+- time and frequency domain windows
+- evaluating and finding roots of polynomials (and inverse operations)
+- filter design functions
+- fast independent component analysis (fast ICA)
+- statistics class
 
 
 \section comm_features Communications
-\li modulators (BPSK, PSK, PAM, QAM)
-\li vector modulators (e.g. for OFDM and MIMO)
-\li OFDM and CDMA modulators
-\li pulse shaping filters (including RC and RRC)
-\li binary symmetric (BSC) and additive white Gaussian Noise (AWGN) channels
-\li multipath fading channels (both frequency-flat and frequency-selective)
-\li COST 207, COST 257, and ITU channel models
-\li Hamming, Extended Golay, and CRC codes
-\li BCH and Reed-Solomon codes
-\li convolutional and punctured convolutional codes
-\li recursive convolutional codes
-\li turbo codes
-\li interleavers
+- modulators (BPSK, PSK, PAM, QAM)
+- vector modulators (e.g. for OFDM and MIMO)
+- OFDM and CDMA modulators
+- pulse shaping filters (including RC and RRC)
+- binary symmetric (BSC) and additive white Gaussian Noise (AWGN) channels
+- multipath fading channels (both frequency-flat and frequency-selective)
+- COST 207, COST 257, and ITU channel models
+- Hamming, Extended Golay, and CRC codes
+- BCH and Reed-Solomon codes
+- convolutional and punctured convolutional codes
+- recursive convolutional codes
+- turbo codes
+- interleavers
 
 
 \section protocol_features Protocol simulation
-\li event-based simulation classes
-\li signal and slots for simplified syntax
-\li TCP clients and servers
-\li Selective Repeat ARQ
-\li queue classes
-\li packet generators
+- event-based simulation classes
+- signal and slots for simplified syntax
+- TCP clients and servers
+- Selective Repeat ARQ
+- queue classes
+- packet generators
 
 
 \section srccod_features Source coding
-\li Scalar Quantizer (SQ) and Vector Quantizer (VQ) classes and functions for training of these
-\li LPC, LSF, and cepstrum parameter calculation for speech processing
-\li Gaussian Mixture Modeling
-\li reading and saving several different audiofile formats
-\li reading and saving images in PNM format
+- Scalar Quantizer (SQ) and Vector Quantizer (VQ) classes and functions for
+  training of these 
+- LPC, LSF, and cepstrum parameter calculation for speech processing
+- Gaussian Mixture Modeling
+- reading and saving several different audiofile formats
+- reading and saving images in PNM format
 
 
 \section other_features Other features
-\li binary file format for most built in and IT++ types
-\li fixed-point scalar, vector and matrix types
-
-
+- binary file format for most built in and IT++ types
+- fixed-point scalar, vector and matrix types
 
 */
