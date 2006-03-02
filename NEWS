@@ -1,13 +1,112 @@
 ===============================================================================
-IT++ version 3.9.2                                         Released: 2006-02-??
+IT++ version 3.10.0                                        Released: 2006-03-??
 -------------------------------------------------------------------------------
 
-This is a bug-fix release. Therefore, no new features have been added
-since release 3.9.0. Only minor modifications and bug-fixes have been done.
+This is a final release of the IT++ version 3.10.0. Here is a brief summary
+of the new features, modifications and bug fixes since IT++ version 3.9.1
+was released:
+
+
+New features:
+-------------
+
+* Documentation improvements: 
+  - added a list of features of IT++
+  - added first draft of how a Matlab/IT++ conversion table can look like;
+    more to be added later
+  - verification pages redesigned to include more information
+
+* First version of the	vector/MIMO modulator class added.
+
+* Added support for creating RPM packages using the itpp.spec file.
+
+* Added Newton search optimization routines (BFGS algorithm and
+  line-search). For matlab compatibility the fminunc() is implemented.
+
+* Added IDCT implementation based on Intel MKL library.
+
+* Added support for AMD Core Math Library (ACML): FFT/IFFT and DCT/IDCT.
+
+* New Log Likelihood Ratio (LLR) algebra class added.
+
+* New blackman() windowing function added.
+
+* Added log() funtion for complex vectors and matrices.
+
+* New modified_yulewalker(), arma_estimator() and yulewalk() filter design
+  functions added.
+
+* New polyval() functions for vec and cvec input combinations added.
+
+* Implemented sqrtm() function that calculates the matrix square root for
+  real and complex matrices. Based on Octave implementation.
+
+* Implemented Schur decomposition functions for real and complex matrices
+  using LAPACK's DGEES and ZGEES routines.
+
+
+Modifications:
+--------------
+
+* Changes in the configuration process. It is now possible to build and
+  install two separate libraries: an optimised `libitpp.*' and debug
+  `libitpp_debug.*'. The latter one is only build when `--enable-debug'
+  switch is used during configuration.
+
+* Removed `--with-march' GCC-specific optimisation switch. CXXFLAGS should
+  be used instead.
+
+* Removed limits_test, which was only useful on	32-bit platforms.
+
+* Updated tutorial example programs and their description. Removed
+  unnecessary reference files for the tutorial programs.
+
+* Matlab/Octave itload.m and itsave.m scripts are now installed in
+  $PREFIX/share/doc.
+
+* Major redesign of the configuration scripts. The following things changed: 
+  - checks for BLAS now detect MKL, ACML, ATLAS and reference (NetLib's)
+    BLAS implementations; if found, HAVE_BLAS is defined 
+  - checks for LAPACK also detect MKL, ACML, ATLAS and reference LAPACK
+    library; if found, HAVE_LAPACK is defined 
+  - checks for CBLAS detect MKL, ATLAS and reference implementation, however
+    CBLAS is fully optional; if found, HAVE_CBLAS is defined
+  - new checks for FFT: detects MKL or FFTW3 implementation; if found,
+    HAVE_FFT and either HAVE_FFTW3 or HAVE_FFT_MKL8 are defined
+  - new checks for <mkl_dfti.h> and <fftw3.h> header files provided by
+    external libraries; not using <itpp/base/fftw3.h> any more. 
+  It is now possible to mix various implementation of BLAS, LAPACK and FFT
+  routines, e.g.: 
+  - use MKL's BLAS, reference NetLib's LAPACK and FFTW3,
+  - use ACML for BLAS and LAPACK, reference NetLib's CBLAS and FFTW3.
+
+* Added support for look-up table based decoding (in LLR domain) to
+  recursive systematic convolutional codes and by the way to turbo codes.
+
+* Statistical norm() functions revised - from now the implementation is
+  similar to the one in Octave, i.e. both vector- and matrix-based functions
+  accept "fro" argument to choose the Frobenius norm.
+
+* Project files for MS Visual C++ .NET 2003/2005 updated and added.
+
+* Windowing function moved from specmat.{h,cpp} to new files window.{h,cpp}.
+  Documentation improved by the way.
+
+* Added zero-padding for fft_real() and ifft_real() functions.
 
 
 Bug-fixes:
 ---------
+
+* Fixed a bug in cblas library detection when using BLAS and CBLAS from IT++
+  External package on Cygwin.
+
+* Fixed a bug in Makefile.common that caused that an improper
+  <itpp/config.h> header file was used during compilation.
+
+* Small fix in the automatic MKL's LAPACK library detection. Now using
+  shared libraries `-lmkl_lapack32' and `-lmkl_lapack64' instead of a static
+  one by default. 
 
 * Small fix that solves MSVC++ .NET compilation problem (#include <ctime>)
 
@@ -15,6 +114,9 @@ Bug-fixes:
   creation flags, which allows a standard memory allocation of input and
   output data. This temporary solution reduces performance on processors
   that use SSE and SSE2 instructions.
+
+* A lot of other minor bug-fixes. For a full list of them, please check the
+  ChangeLog file. 
 
 
 ===============================================================================

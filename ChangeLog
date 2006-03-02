@@ -1,3 +1,7 @@
+2006-03-02  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* NEWS: Updated to include changes since IT++ 3.9.1 was released.
+
 2006-03-01  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* Makefile.am, doc/Makefile.am: Beside `*.gzip' distribution
