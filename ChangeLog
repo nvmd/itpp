@@ -1,3 +1,8 @@
+2006-03-03  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* config/acx_fft.m4: Fixed a bug in detection of FFT library when
+	explicit `--with-fft=-lfftw3' was used.
+
 2006-03-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* doc/local/features.doc, doc/local/index.doc.in: Cosmetic
