@@ -1,6 +1,6 @@
-=============================================================
-                    Test of ND (MIMO) Modulators             
-=============================================================
+========================================================
+               Test of ND (MIMO) Modulators             
+========================================================
 LLR_calc_unit table properties:
 The granularity in the LLR representation is 0.000244141
 The LLR scale factor is 4096

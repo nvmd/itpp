@@ -1,5 +1,9 @@
 2006-03-03  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/modulator_nd_test.cpp, tests/modulator_nd_test.ref: Minor
+	fixes in modulator_nd_test program (check if HAVE_LAPACK is
+	defined).
+
 	* config/acx_fft.m4: Fixed a bug in detection of FFT library when
 	explicit `--with-fft=-lfftw3' was used.
 
