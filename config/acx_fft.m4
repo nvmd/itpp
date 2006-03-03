@@ -37,9 +37,7 @@ if test "x$FFT_LIBS" != x; then
   if test $acx_fft_ok = no; then
     AC_MSG_CHECKING([for zfft1dx in $FFT_LIBS])
     AC_TRY_LINK_FUNC(zfft1dx, 
-      [AC_CHECK_HEADER([acml.h], [acx_fft_ok=yes; fft_acml_ok=yes], 
-        [FFT_LIBS=""])],
-      [FFT_LIBS=""])
+      [AC_CHECK_HEADER([acml.h], [acx_fft_ok=yes; fft_acml_ok=yes])])
     AC_MSG_RESULT($fft_acml_ok)
   fi
   if test $acx_fft_ok = no; then
@@ -56,7 +54,7 @@ fi
 # FFT in BLAS (MKL) library?
 if test "x$acx_fft_ok" = xno; then
   save_LIBS="$LIBS"; LIBS="$LIBS $BLAS_LIBS $FLIBS"
-  AC_CHECK_FUNC(DftiComputeForward, 
+  AC_CHECK_FUNC(DftiComputeForward,
     [AC_CHECK_HEADER([mkl_dfti.h], 
       [acx_fft_ok=yes; fft_mkl8_ok=yes; blas_mkl_ok=yes])])
   LIBS="$save_LIBS"
@@ -73,7 +71,7 @@ fi
 # FFT in BLAS (ACML) library?
 if test "x$acx_fft_ok" = xno; then
   save_LIBS="$LIBS"; LIBS="$LIBS $BLAS_LIBS $FLIBS"
-  AC_CHECK_FUNC(zfft1dx, 
+  AC_CHECK_FUNC(zfft1dx,
     [AC_CHECK_HEADER([acml.h], 
       [acx_fft_ok=yes; fft_acml_ok=yes; blas_acml_ok=yes])])
   LIBS="$save_LIBS"
