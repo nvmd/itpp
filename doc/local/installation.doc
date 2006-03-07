@@ -1,6 +1,14 @@
 /*!
 \page installation IT++ Installation
 
+\section toc Table of Contents
+- \ref requirements
+- \ref download
+- \ref compilation
+- \ref localinst
+- \ref msvc
+
+
 \section requirements IT++ Requirements
 
 IT++ should compile without errors or warnings on most GNU/Linux systems and
@@ -340,28 +348,28 @@ The philosophy is:
 The installation procedure goes as follows (\c $HOME can be replaced by any
 directory where you have write access):
 <ol>
-<li> Download  itpp-external-2.1.0.tar.gz and  itpp-3.10.0.tar.gz. Save
+<li> Download itpp-external-2.1.1.tar.gz and itpp-3.10.0.tar.gz. Save
 them in your \c $HOME directory, and unpack them:
 \code
 % cd $HOME
-% tar xzf itpp-external-2.1.0.tar.gz
+% tar xzf itpp-external-2.1.1.tar.gz
 % tar xzf itpp-3.10.0.tar.gz
 \endcode
 </li>
 
 <li> Compile and install the external libs
 \code
-% cd $HOME/itpp-external-2.1.0
+% cd $HOME/itpp-external-2.1.1
 % make distclean
-% ./configure --prefix=$HOME/it++external-2.1.0 --disable-shared
+% ./configure --prefix=$HOME/it++external-2.1.1 --disable-shared
 % make && make install
 \endcode
 </li>
 
 <li> Compile and install the optimized IT++ and the debug IT++ library
 \code
-% export LDFLAGS=-L$HOME/it++external-2.1.0/lib
-% export CPPFLAGS=-I$HOME/it++external-2.1.0/include
+% export LDFLAGS=-L$HOME/it++external-2.1.1/lib
+% export CPPFLAGS=-I$HOME/it++external-2.1.1/include
 % cd $HOME/itpp-3.10.0
 % make distclean
 % ./configure --disable-shared --prefix=$HOME/it++3.10.0 --enable-debug
@@ -420,7 +428,7 @@ exit with an assertion error.) </li>
 
 <li> If you want to conserve disk space, clean up all temporary files:
 \code
-% cd $HOME/itpp-external-2.1.0
+% cd $HOME/itpp-external-2.1.1
 % make distclean
 % cd $HOME/itpp-3.10.0
 % make distclean
@@ -428,7 +436,7 @@ exit with an assertion error.) </li>
 
 To conserve even more diskspace (remove all sources) then do
 \code
-% rm -rf $HOME/itpp-external-2.1.0
+% rm -rf $HOME/itpp-external-2.1.1
 % rm -rf $HOME/itpp-3.10.0
 \endcode
 </li>
@@ -501,10 +509,9 @@ both the `debug' and `release' mode.
 
 */
 
-
-=============================================
-!!! The following parts has to be revised !!!
-=============================================
+============================================
+!!! The following part has to be revised !!!
+============================================
 
 \section macosx Instructions for Mac OS X
 
@@ -517,68 +524,3 @@ which can be downloaded from Apple, IT++ has compiled successfully.
 BLAS and LAPACK support can be obtained with the \c vecLib framework, but
 you must then use Apple's GCC compiler. Hence, only FFTW is then needed to
 be installed externally.  
-
-
-\section solaris Compiling shared versions of LAPACK and ATLAS under Solaris
-
-If you work under Linux, your distribution should ship with static and
-shared version of these libraries, it is not the case for
-Solaris. When building these libraries from sources, you only get
-static \c *.a files. In order to build a shared library, two steps
-are required:
-<ul>
-<li> Compiling the code with the \c -fPIC flag </li>
-<li> Building a \c *.so file with the \c -shared flag </li>
-</ul>
-
-
-\subsection sharedlapack Shared version of LAPACK
-
-Edit the \c make.inc file and change the compilation flag to:
-\code
-OPTS = -O3 -fPIC
-\endcode
-
-We don't need a library there, the archive is enough.
-
-
-\subsection sharedatlas Shared version of ATLAS
-
-When you follow the process described above, you need to add \c -fPIC to
-all of the compilation flags:
-<ul>
-<li> Enter F77 Link Flags  [$(F77FLAGS)]: -O3 -fPIC </li>
-<li> Enter C Flags (CCFLAGS) [-dalign -fsingle -xO5 -native]: -O3 -fPIC </li>
-<li> Then you can accept the defaults and the summary should be:
-\code
-F77 & FLAGS: /usr/local/gcc-3.3/bin/g77 -O -fPIC
-FLINKER & FLAGS: g77 -O3 -fPIC
-CC & FLAGS: gcc -O3 -fPIC
-MCC & FLAGS: /usr/local/gcc-3.3/bin/gcc -O -fPIC
-CLINKER & FLAGS: $(CC) $(CCFLAGS)
-\endcode
-</li>
-</ul>
-
-One more tip is to edit the \c Make.SunOS_PLATFORM file, check every thing
-and modify the \c CDEFS variable :
-\code
-CDEFS = $(L2SIZE) $(INCLUDES) $(F2CDEFS) $(ARCHDEFS) -fPIC
-\endcode
-
-Follow the tips to build a complete \c liblapack.a. Now, we will build the
-shared version of the libraries. For each \c *.a (\c libatlas.a, \c
-libcblas.a, \c libf77blas.a, \c liblapack.a), do:
-\code
-% mkdir tmp
-% cd tmp
-% ar x ../libXYZ.a
-% gcc -shared *.o -o../libXYZ.so
-% cd ..
-% rm -r tmp
-\endcode
-
-If you get link error, try to check if the \c .o has really been compiled
-with the \c -fPIC flag.
-
-*/

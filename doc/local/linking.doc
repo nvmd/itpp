@@ -1,6 +1,15 @@
 /*! 
 \page linking Linking with IT++
 
+\section toc Table of Contents
+- \ref intro
+- \ref pkgconfig
+- \ref itppconfig
+- \ref dynamiclinking
+
+
+\section intro Introduction
+
 Since version 3.9.0, there are two convenient methods of linking your
 programs with the IT++ library. The first one employs the \c
 `pkg-config' command (see <a href="http://pkgconfig.freedesktop.org/">
@@ -28,7 +37,7 @@ For instance, assuming that you need to compile an IT++ based program
 For more information see the \c `pkg-config' man pages.
 
 
-\section itconfig Using the itpp-config script
+\section itppconfig Using the itpp-config script
 
 IT++ provides a shell script called \c `itpp-config`, which is
 installed by default in <tt>`$prefix/bin'</tt>
