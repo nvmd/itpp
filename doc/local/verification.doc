@@ -4,6 +4,7 @@
 \section toc Table of Contents
 - \ref itpp_3_10_0
   - \ref gentoo
+    - \ref fedora_atlas
     - \ref gentoo_acml
     - \ref gentoo_atlas
     - \ref gentoo_mkl
@@ -27,6 +28,28 @@ mentioned below, please let us know, so we could update this database.
 
 
 \subsection gentoo Linux Systems
+
+
+\subsubsection fedora_atlas Fedora Core 4 with ATLAS
+
+- <b>Platform</b>: Intel Pentium 4
+- <b>Operating System</b>: Fedora Core 4 (x86)
+- <b>Compiler</b>: g++ (GCC) 4.0.2 20051125
+- <b>External Libraries</b>: From FC4 distribution:
+  - <tt>fftw3.i386-3.0.1-3</tt>
+  - <tt>fftw3-devel.i386-3.0.1-3</tt>
+  - <tt>atlas-sse2.i386-3.6.0-8.fc4</tt>
+  - <tt>atlas-sse2-devel.i386-3.6.0-8.fc4</tt>
+  - <tt>blas.i386-3.0-35.fc4</tt>
+  - <tt>lapack.i386-3.0-35.fc4</tt>
+- <b>Tests Status</b>: All tests PASSED
+- <b>Comments</b>: IT++ configured with:
+\code
+% ./configure
+\endcode          
+- <b>Date</b>: March 7, 2006
+- <b>Tester</b>: Tony Ottosson
+
 
 \subsubsection gentoo_acml Gentoo Linux with ACML
 
