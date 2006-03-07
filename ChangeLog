@@ -1,5 +1,9 @@
 2006-03-07  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/local/installation.doc, doc/local/linking.doc, 
+	doc/local/users_guide.doc: Added Table of Contents and revised
+	some parts of the documentation.
+	
 	* doc/local/verification.doc: Added tests for Fedora Core 4 with
 	ATLAS and FFTW.
 
