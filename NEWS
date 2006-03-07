@@ -16,7 +16,7 @@ New features:
     more to be added later
   - verification pages redesigned to include more information
 
-* First version of the	vector/MIMO modulator class added.
+* First version of the vector/MIMO modulator class added.
 
 * Added support for creating RPM packages using the itpp.spec file.
 
@@ -27,7 +27,10 @@ New features:
 
 * Added support for AMD Core Math Library (ACML): FFT/IFFT and DCT/IDCT.
 
-* New Log Likelihood Ratio (LLR) algebra class added.
+* New Log-Likelihood Ratio (LLR) algebra class added.
+
+* The turbo decoders can use table-lookup based computation of Jacobian 
+  logarithm (set metric to "TABLE")
 
 * New blackman() windowing function added.
 

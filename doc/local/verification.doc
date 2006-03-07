@@ -5,6 +5,7 @@
 - \ref itpp_3_10_0
   - \ref gentoo
     - \ref fedora_atlas
+    - \ref rhel
     - \ref gentoo_acml
     - \ref gentoo_atlas
     - \ref gentoo_mkl
@@ -49,6 +50,17 @@ mentioned below, please let us know, so we could update this database.
 \endcode          
 - <b>Date</b>: March 7, 2006
 - <b>Tester</b>: Tony Ottosson
+
+
+\subsubsection rhel Red Hat Enterprise Linux
+
+- <b>Platform</b>: Intel Pentium 4
+- <b>Operating System</b>:  Red Hat Enterprise Linux AS release 4 (Nahant Update 2)
+- <b>Compiler</b>: g++ (GCC) 3.4.4 20050721 (Red Hat 3.4.4-2)
+- <b>External Libraries</b>: All external libraries installed locally from itpp-external-2.1.1
+- <b>Tests Status</b>: All tests PASSED
+- <b>Date</b>: March 7, 2006
+- <b>Tester</b>: Erik G. Larsson
 
 
 \subsubsection gentoo_acml Gentoo Linux with ACML
