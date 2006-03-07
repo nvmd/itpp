@@ -83,9 +83,6 @@ Modifications:
   - use MKL's BLAS, reference NetLib's LAPACK and FFTW3,
   - use ACML for BLAS and LAPACK, reference NetLib's CBLAS and FFTW3.
 
-* Added support for look-up table based decoding (in LLR domain) to
-  recursive systematic convolutional codes and by the way to turbo codes.
-
 * Statistical norm() functions revised - from now the implementation is
   similar to the one in Octave, i.e. both vector- and matrix-based functions
   accept "fro" argument to choose the Frobenius norm.
