@@ -1,3 +1,11 @@
+2006-03-12  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* NEWS, TODO, configure.ac: Final cosmetic changes before 3.10.0
+	release scheduled for March 15th.
+
+	* AUTHORS: Moved not active developers to "Retired Developers"
+	section.
+
 2006-03-07  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* doc/local/installation.doc, doc/local/linking.doc, 
