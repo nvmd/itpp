@@ -1,3 +1,10 @@
+2006-03-13  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/Makefile.am, doc/images/Makefile.am,
+	doc/images/itpp_logo.png, doc/images/newcom_logo.png,
+	doc/local/itpp_header.html: Added Newcom project logo to the IT++
+	home pages.
+	
 2006-03-12  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* NEWS, TODO, configure.ac: Final cosmetic changes before 3.10.0
