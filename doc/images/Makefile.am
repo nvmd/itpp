@@ -1,4 +1,3 @@
 include $(top_srcdir)/Makefile.common
 
-EXTRA_DIST = itpp_logga.eps itpp_logga.fig itpp_logga.jpg itpp_logga.xcf \
-  itpp_logo.png newcom_logo.png favicon.ico
+EXTRA_DIST = itpp_logo.png newcom_logo.png favicon.ico
