@@ -31,7 +31,8 @@ html/index.html: doxygen_html.cfg \
 	$(h_srccode_sources) $(cpp_srccode_sources)
 	doxygen $<; \
 	if test -d html; then \
-		cp $(srcdir)/images/itpp_logga.jpg html; \
+		cp $(srcdir)/images/itpp_logo.png html; \
+		cp $(srcdir)/images/newcom_logo.png html; \
 		cp $(srcdir)/images/favicon.ico html; \
 	fi
 
