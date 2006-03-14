@@ -1,3 +1,9 @@
+2006-03-14  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/local/installation.doc: Added installation instructions for
+	MacOS X users based on the discussion from the Help forum:
+	"3.9.1 on MacOS X doesn't compile".
+
 2006-03-13  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* doc/Makefile.am, doc/images/Makefile.am,
