@@ -223,9 +223,7 @@ namespace itpp {
   //! Template instantiation of to_bvec
   extern template bvec to_bvec(const svec &v);
   //! Template instantiation of to_bvec
-  //#ifndef _MSC_VER
   extern template bvec to_bvec(const Vec<int> &v);
-  //#endif
   //! Template instantiation of to_svec
   extern template svec to_svec(const bvec &v);
   //! Template instantiation of to_svec
@@ -233,10 +231,8 @@ namespace itpp {
   //! Template instantiation of to_svec
   extern template svec to_svec(const svec &v);
 
-  //#ifndef _MSC_VER
   //! Template instantiation of to_ivec
   extern template ivec to_ivec(const bvec &v);
-  //#endif
   //! Template instantiation of to_ivec
   extern template ivec to_ivec(const svec &v);
   //! Template instantiation of to_ivec

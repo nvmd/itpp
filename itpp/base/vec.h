@@ -521,8 +521,8 @@ namespace itpp {
     }
   }
 
-  template<> bool cvec::set(const char *values);
-  template<> bool bvec::set(const char *values);
+  template<> bool Vec<std::complex<double> >::set(const char *values);
+  template<> bool Vec<bin>::set(const char *values);
 
   template<class Num_T>
   bool Vec<Num_T>::set(const char *values)
@@ -638,7 +638,8 @@ namespace itpp {
     return temp;
   }
 
-  template<> Mat<std::complex<double> > cvec::hermitian_transpose() const;
+  template<> 
+  Mat<std::complex<double> > Vec<std::complex<double> >::hermitian_transpose() const;
 
   template<class Num_T>
   Mat<Num_T> Vec<Num_T>::hermitian_transpose() const
@@ -1323,7 +1324,8 @@ namespace itpp {
     return *this;
   }
 
-  template<> bvec cvec::operator==(const std::complex<double>) const;
+  template<> 
+  bvec Vec<std::complex<double> >::operator==(const std::complex<double>) const;
 
   template<class Num_T>
   bvec Vec<Num_T>::operator==(const Num_T value) const
@@ -1338,7 +1340,8 @@ namespace itpp {
     return temp;
   }
 
-  template<> bvec cvec::operator!=(const std::complex<double>) const;
+  template<> 
+  bvec Vec<std::complex<double> >::operator!=(const std::complex<double>) const;
 
   template<class Num_T>
   bvec Vec<Num_T>::operator!=(const Num_T value) const
@@ -1353,7 +1356,8 @@ namespace itpp {
     return temp;
   }
 
-  template<> bvec cvec::operator<(const std::complex<double>) const;
+  template<> 
+  bvec Vec<std::complex<double> >::operator<(const std::complex<double>) const;
 
   template<class Num_T>
   bvec Vec<Num_T>::operator<(const Num_T value) const
@@ -1368,7 +1372,8 @@ namespace itpp {
     return temp;
   }
 
-  template<> bvec cvec::operator<=(const std::complex<double>) const;
+  template<> 
+  bvec Vec<std::complex<double> >::operator<=(const std::complex<double>) const;
 
   template<class Num_T>
   bvec Vec<Num_T>::operator<=(const Num_T value) const
@@ -1383,7 +1388,8 @@ namespace itpp {
     return temp;
   }
 
-  template<> bvec cvec::operator>(const std::complex<double>) const;
+  template<>
+  bvec Vec<std::complex<double> >::operator>(const std::complex<double>) const;
 
   template<class Num_T>
   bvec Vec<Num_T>::operator>(const Num_T value) const
@@ -1398,7 +1404,8 @@ namespace itpp {
     return temp;
   }
 
-  template<> bvec cvec::operator>=(const std::complex<double>) const;
+  template<>
+  bvec Vec<std::complex<double> >::operator>=(const std::complex<double>) const;
 
   template<class Num_T>
   bvec Vec<Num_T>::operator>=(const Num_T value) const

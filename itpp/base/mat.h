@@ -583,8 +583,8 @@ namespace itpp {
       data[i] = Num_T(1);
   }
 
-  template<> bool cmat::set(const char *values);
-  template<> bool bmat::set(const char *values);
+  template<> bool Mat<std::complex<double> >::set(const char *values);
+  template<> bool Mat<bin>::set(const char *values);
 
   template<class Num_T>
   bool Mat<Num_T>::set(const char *values)
@@ -977,7 +977,7 @@ namespace itpp {
     return temp;
   }
 
-  template<> const cmat cmat::hermitian_transpose() const;
+  template<> const cmat Mat<std::complex<double> >::hermitian_transpose() const;
 
   template<class Num_T>
   const Mat<Num_T> Mat<Num_T>::hermitian_transpose() const
@@ -1243,8 +1243,8 @@ namespace itpp {
   }
 
 #if defined(HAVE_CBLAS)
-  template<> mat& mat::operator*=(const mat &m);
-  template<> cmat& cmat::operator*=(const cmat &m);
+  template<> mat& Mat<double>::operator*=(const mat &m);
+  template<> cmat& Mat<std::complex<double> >::operator*=(const cmat &m);
 #endif
 
   template<class Num_T> inline

@@ -36,7 +36,7 @@
 namespace itpp {
 
   template<>
-  bool cmat::set(const char *values)
+  bool Mat<std::complex<double> >::set(const char *values)
   {
     std::istringstream buffer(values);
     int rows=0, maxrows=10, cols=0, nocols=0, maxcols=10;
@@ -78,7 +78,7 @@ namespace itpp {
 
 
   template<>
-  bool bmat::set(const char *values)
+  bool Mat<bin>::set(const char *values)
   {
     std::istringstream buffer(values);
     int rows=0, maxrows=10, cols=0, nocols=0, maxcols=10;
@@ -119,7 +119,7 @@ namespace itpp {
   }
 
   template<>
-  const cmat cmat::hermitian_transpose() const
+  const cmat Mat<std::complex<double> >::hermitian_transpose() const
   {
     cmat temp(no_cols, no_rows);
     for (int i=0; i<no_rows; i++)
@@ -134,7 +134,7 @@ namespace itpp {
 
 #if defined(HAVE_CBLAS)
   template<>
-  mat& mat::operator*=(const mat &m)
+  mat& Mat<double>::operator*=(const mat &m)
   {
     it_assert1(no_cols == m.no_rows,"mat::operator*=: wrong sizes");
     mat r(no_rows, m.no_cols); // unnecessary memory??
@@ -147,7 +147,7 @@ namespace itpp {
   }
 
   template<>
-  cmat& cmat::operator*=(const cmat &m)
+  cmat& Mat<std::complex<double> >::operator*=(const cmat &m)
   {
     it_assert1(no_cols == m.no_rows,"cmat::operator*=: wrong sizes");
     std::complex<double> alpha = std::complex<double>(1.0), beta = std::complex<double>(0.0);

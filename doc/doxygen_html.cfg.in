@@ -501,8 +501,8 @@ EXCLUDE_PATTERNS       =
 # directories that contain example code fragments that are included (see 
 # the \include command).
 
-EXAMPLE_PATH           = @top_srcdir@/doc/tutorial/src
-#											   @top_srcdir@/tests
+EXAMPLE_PATH           = @top_srcdir@/doc/tutorial/src \
+											   @top_srcdir@/tests
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the 
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp 

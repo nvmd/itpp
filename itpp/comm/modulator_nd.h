@@ -171,11 +171,11 @@ namespace itpp {
     without approximations. It is assumed that H, y and
     s are real-valued. Complex-valued channels can be handled via the \c Modulator_CMIMO class. 
     
-    \param   H   channel matrix   (m*n)
-    \param   y    received vector   (m*1)
-    \param  sigma2 noise variance, per real dimension
-    \param    LLR_apriori    vector of a priori LLR values per bit
-    \param   LLR_apost   vector of a posteriori LLR values
+    \param  H                channel matrix (m*n)
+    \param  y                received vector (m*1)
+    \param  sigma2           noise variance, per real dimension
+    \param  LLR_apriori      vector of a priori LLR values per bit
+    \param  LLR_aposteriori  vector of a posteriori LLR values
     
     The function performs an exhaustive search over all possible points s in the n-dimensional constellation.  
     This is only feasible for relatively small constellations.
@@ -253,11 +253,11 @@ namespace itpp {
     without approximations. It is assumed that H, y and
     s are real-valued. Complex-valued channels can be handled via the \c Modulator_CMIMO class. 
 
-    \param   H   channel matrix   (m*n)
-    \param   y    received vector   (m*1)
-    \param  sigma2 noise variance, per complex dimension
-    \param    LLR_apriori    vector of a priori LLR values per bit
-    \param   LLR_apost   vector of a posteriori LLR values
+    \param  H                channel matrix (m*n)
+    \param  y                received vector (m*1)
+    \param  sigma2           noise variance, per real dimension
+    \param  LLR_apriori      vector of a priori LLR values per bit
+    \param  LLR_aposteriori  vector of a posteriori LLR values
 
     The function performs an exhaustive search over all possible points s in the n-dimensional constellation.  
     This is only feasible for relatively small constellations.
@@ -314,19 +314,18 @@ namespace itpp {
     starts with an initial search radius and increases it with a
     factor ("stepup") until the search succeeds.
     
-    \param y received data vector (\f$n_r\times 1\f$)
-    \param H channel matrix   (\f$n_r\times n_t\f$)
-    \param zrange matrix that determines the search range: along dimension n, the search proceeds
-    between zrange(n,0) and zrange(n,1)
-    \param rmax the maximum possible sphere radius to try
-    \param rmin the sphere radius in the first try
-    \param stepup the factor with which the sphere radius is increased if the search fails
-    \param detected_bits the result of the search (hard decisions only, QLLR for a sure "1" is set to 1000)
+    \param  y              received data vector (\f$n_r\times 1\f$)
+    \param  H              channel matrix (\f$n_r\times n_t\f$)
+    \param  rmax           maximum possible sphere radius to try
+    \param  rmin           sphere radius in the first try
+    \param  stepup         factor with which the sphere radius is increased
+                           if the search fails 
+    \param  detected_bits  result of the search (hard decisions only, QLLR
+                           for a sure "1" is set to 1000) 
     
     The function returns 0 if the search suceeds, and -1 otherwise. 
-    
     */
-    int sphere_decoding(vec &y, mat &H, double rstart, double rmax, 
+    int sphere_decoding(vec &y, mat &H, double rmin, double rmax, 
 			double stepup, QLLRvec &detected_bits);
     
     //! ZF demodulation (NOT IMPLEMENTED YET)

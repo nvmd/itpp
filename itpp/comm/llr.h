@@ -121,7 +121,7 @@ namespace itpp {
 
     See init_llr_tables() for more detail on the parameters.
      */
-    LLR_calc_unit(const short int in_Dint1, const short int in_Dint2, const short int in_Dint3);
+    LLR_calc_unit(short int Dint1, short int Dint2, short int Dint3);
 
     /*! \brief Set the quantization and table parameters
 
@@ -139,8 +139,9 @@ namespace itpp {
       practically indistinguishable from that of using floating point
       calculations.
     */
-    void init_llr_tables(const short int d1=12, const short int d2=300, const short int d3=7);
-    //    void init_llr_tables(const short int d1=10, const short int d2=300, const short int d3=5);
+    void init_llr_tables(short int Dint1 = 12, short int Dint2 = 300, 
+			 short int Dint3 = 7);
+    // void init_llr_tables(const short int d1=10, const short int d2=300, const short int d3=5);
 
     //! Convert a "real" LLR value to an LLR type
     inline QLLR to_qllr(const double &l);
