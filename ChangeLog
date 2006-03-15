@@ -1,5 +1,7 @@
 2006-03-15  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac: Cosmetic changes in CXXFLAGS settings.
+
 	* doc/doxygen_html.cfg.in, itpp/base/binary.h,
 	itpp/base/binfile.cpp, itpp/base/converters.cpp,
 	itpp/base/converters.h, itpp/base/mat.cpp, itpp/base/mat.h,
@@ -8,7 +10,6 @@
 	itpp/comm/modulator_nd.h, itpp/comm/rec_syst_conv_code.cpp,
 	itpp/comm/rec_syst_conv_code.h, itpp/srccode/audiofile.cpp:
 	Minor fixes related to Doxygen warnings.
-
 
 	* itpp/itconfig.h, itpp/base/newton_search.h, itpp/base/poly.h:
 	Documentation fixes related to Doxygen groups (modules).

@@ -81,26 +81,24 @@ AC_SUBST(docdir)
 
 
 # Set debug flags
-CXXFLAGS_DEBUG="-DASSERT_LEVEL=2"
 if test "x$enable_debug" = xyes; then
-  CXXFLAGS_DEBUG="-g $CXXFLAGS_DEBUG"
+  CXXFLAGS_DEBUG="-DASSERT_LEVEL=2 -g"
   # Only for GCC compiler 
   if test "x$GXX" = xyes; then
-    CXXFLAGS_DEBUG="-Wall $CXXFLAGS_DEBUG"
+    CXXFLAGS_DEBUG="$CXXFLAGS_DEBUG -Wall"
   fi
 fi
 AC_SUBST(CXXFLAGS_DEBUG)
 
 # Set optimised flags
-CXXFLAGS_OPT="-DASSERT_LEVEL=1"
 if test "x$CXXFLAGS" = x; then
-  CXXFLAGS_OPT="-O3 $CXXFLAGS_OPT" 
+  CXXFLAGS_OPT="-DASSERT_LEVEL=1 -O3" 
   # Only for GCC compiler 
   if test "x$GXX" = xyes; then
-    CXXFLAGS_OPT="-pipe $CXXFLAGS_OPT"
+    CXXFLAGS_OPT="$CXXFLAGS_OPT -pipe"
   fi
 else
-  CXXFLAGS_OPT="$CXXFLAGS $CXXFLAGS_OPT"
+  CXXFLAGS_OPT="$CXXFLAGS"
   CXXFLAGS=""
 fi
 AC_SUBST(CXXFLAGS_OPT)
