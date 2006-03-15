@@ -149,7 +149,7 @@ namespace itpp {
   /*! 
     \brief Covariance matrix calculation
     
-    Calculates the covariance matrix of the observations in the matrix $\fX\f$. Each
+    Calculates the covariance matrix of the observations in the matrix \f$X\f$. Each
     row is an observation and each column represents a variable.
 
     The covariance is normalized with the number of observations \f$N\f$.

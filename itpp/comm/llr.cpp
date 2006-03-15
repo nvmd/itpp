@@ -42,7 +42,7 @@ namespace itpp {
     init_llr_tables();
   }
 
-  LLR_calc_unit::LLR_calc_unit(const short int d1, const short int d2, const short int d3)
+  LLR_calc_unit::LLR_calc_unit(short int d1, short int d2, short int d3)
   {
     init_llr_tables(d1,d2,d3);
   }
@@ -66,7 +66,7 @@ namespace itpp {
     return r;
   }
 
-  void LLR_calc_unit::init_llr_tables(short d1, short d2, short d3)
+  void LLR_calc_unit::init_llr_tables(short int d1, short int d2, short int d3)
   {
     Dint1 = d1;      // 1<<Dint1 determines how integral LLRs relate to real LLRs (to_double=(1<<Dint)*int_llr)
     Dint2 = d2;      // number of entries in table for LLR operations

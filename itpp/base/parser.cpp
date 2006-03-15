@@ -37,7 +37,6 @@
 
 
 using std::cout;
-using std::string;
 using std::endl;
 
 namespace itpp { 
@@ -47,7 +46,7 @@ namespace itpp {
     VERBOSE=true;
   }
 
-  Parser::Parser(const string &filename)
+  Parser::Parser(const std::string &filename)
   {
     VERBOSE=true;
     init(filename);
@@ -59,13 +58,13 @@ namespace itpp {
     init(argc,argv);
   }
 
-  Parser::Parser(const string &filename, int argc, char *argv[])
+  Parser::Parser(const std::string &filename, int argc, char *argv[])
   {
     VERBOSE=true;
     init(filename, argc, argv);
   }
 
-  Parser::Parser(const Array<string> &setup)
+  Parser::Parser(const Array<std::string> &setup)
   {
     VERBOSE=true;
     init(setup);
@@ -77,8 +76,8 @@ namespace itpp {
     int count = 0;
     int size = SetupStrings.size();
     bool cont_line;
-    string Line, NewLine;
-    Array<string> TempSetupStrings;
+    std::string Line, NewLine;
+    Array<std::string> TempSetupStrings;
 
     // Remove lines starting with '%' or have zero length:
     for (i=0; i<size; i++) {
@@ -251,9 +250,9 @@ namespace itpp {
     SetupStrings = TempSetupStrings;
   }
 
-  void Parser::init(const string &filename)
+  void Parser::init(const std::string &filename)
   {
-    string Line;
+    std::string Line;
     SetupStrings.set_size(0,false);
     std::ifstream SetupFile(filename.c_str());
     it_assert(SetupFile.is_open(), 
@@ -279,9 +278,9 @@ namespace itpp {
     pre_parsing();
   }
 
-  void Parser::init(const string &filename, int argc, char *argv[])
+  void Parser::init(const std::string &filename, int argc, char *argv[])
   {
-    string Line;
+    std::string Line;
     int i;
     std::ifstream SetupFile(filename.c_str());
     it_assert(SetupFile.is_open(), 
@@ -303,7 +302,7 @@ namespace itpp {
     pre_parsing();
   }
 
-  void Parser::init(const Array<string> &setup)
+  void Parser::init(const Array<std::string> &setup)
   {
     SetupStrings = setup;
     pre_parsing();
@@ -317,7 +316,7 @@ namespace itpp {
   bool Parser::exist(const std::string &name)
   {
     bool error_flag, print_flag;
-    string temp = findname( name, error_flag, print_flag );
+    std::string temp = findname( name, error_flag, print_flag );
     if (error_flag) {
       return false;
     } else {
@@ -329,7 +328,7 @@ namespace itpp {
     bool Parser::get(std::string &var, const std::string &name, int num)
   {
     bool error_flag, print_flag;
-    string str = findname(name, error_flag, print_flag, num);
+    std::string str = findname(name, error_flag, print_flag, num);
     if (error_flag) {
       if (VERBOSE) {
 	cout << name << " = '" << var << "';" << endl;
@@ -345,7 +344,7 @@ namespace itpp {
     return !error_flag;
   }
 
-  bool Parser::get_bool(const string &name, int num)
+  bool Parser::get_bool(const std::string &name, int num)
   {
     bool out;
     bool error_flag, print_flag;
@@ -355,7 +354,7 @@ namespace itpp {
     return out;
   }
 
-  int Parser::get_int(const string &name, int num)
+  int Parser::get_int(const std::string &name, int num)
   {
     int out;
     bool error_flag, print_flag;
@@ -365,7 +364,7 @@ namespace itpp {
     return out;
   }
 
-  double Parser::get_double(const string &name, int num)
+  double Parser::get_double(const std::string &name, int num)
   {
     double out;
     bool error_flag, print_flag;
@@ -375,9 +374,9 @@ namespace itpp {
     return out;
   }
 
-  string Parser::get_string(const string &name, int num)
+  std::string Parser::get_string(const std::string &name, int num)
   {
-    string out;
+    std::string out;
     bool error_flag, print_flag;
     out = findname(name,error_flag,print_flag,num);
     if (error_flag) { it_error("Parser: Can not find variable: " + name); }
@@ -385,7 +384,7 @@ namespace itpp {
     return out;
   }
 
-  vec Parser::get_vec(const string &name, int num)
+  vec Parser::get_vec(const std::string &name, int num)
   {
     vec out;
     bool error_flag, print_flag;
@@ -395,7 +394,7 @@ namespace itpp {
     return out;
   }
 
-  ivec Parser::get_ivec(const string &name, int num)
+  ivec Parser::get_ivec(const std::string &name, int num)
   {
     ivec out;
     bool error_flag, print_flag;
@@ -405,7 +404,7 @@ namespace itpp {
     return out;
   }
 
-  svec Parser::get_svec(const string &name, int num)
+  svec Parser::get_svec(const std::string &name, int num)
   {
     svec out;
     bool error_flag, print_flag;
@@ -415,7 +414,7 @@ namespace itpp {
     return out;
   }
 
-  bvec Parser::get_bvec(const string &name, int num)
+  bvec Parser::get_bvec(const std::string &name, int num)
   {
     bvec out;
     bool error_flag, print_flag;
@@ -425,7 +424,7 @@ namespace itpp {
     return out;
   }
 
-  mat Parser::get_mat(const string &name, int num)
+  mat Parser::get_mat(const std::string &name, int num)
   {
     mat out;
     bool error_flag, print_flag;
@@ -435,7 +434,7 @@ namespace itpp {
     return out;
   }
 
-  imat Parser::get_imat(const string &name, int num)
+  imat Parser::get_imat(const std::string &name, int num)
   {
     imat out;
     bool error_flag, print_flag;
@@ -445,7 +444,7 @@ namespace itpp {
     return out;
   }
 
-  smat Parser::get_smat(const string &name, int num)
+  smat Parser::get_smat(const std::string &name, int num)
   {
     smat out;
     bool error_flag, print_flag;
@@ -455,7 +454,7 @@ namespace itpp {
     return out;
   }
 
-  bmat Parser::get_bmat(const string &name, int num)
+  bmat Parser::get_bmat(const std::string &name, int num)
   {
     bmat out;
     bool error_flag, print_flag;
@@ -465,9 +464,9 @@ namespace itpp {
     return out;
   }
 
-  string Parser::findname(const string &name, bool &error_flag, bool &print_flag, int num, bool keep_brackets)
+  std::string Parser::findname(const std::string &name, bool &error_flag, bool &print_flag, int num, bool keep_brackets)
   {
-    string Name, Out, Line, Temp;
+    std::string Name, Out, Line, Temp;
     int n, j=0, i=0, index=-1;
     bool found = false, vec_mat = false;
 
@@ -481,7 +480,7 @@ namespace itpp {
       Line = SetupStrings(i); i++;
 
       // Find equal sign "=", and take the left part to be the Name
-      if (Line.find_first_of("=") != string::npos) {
+      if (Line.find_first_of("=") != std::string::npos) {
 	Name = Line.substr(0, Line.find_first_of("="));
       } else {
 	Name = "";

@@ -359,17 +359,13 @@ namespace itpp {
   // ---------------------- Instantiations -----------------------------------------
 
   template bvec to_bvec(const svec &v);
-  //#ifndef _MSC_VER
   template bvec to_bvec(const Vec<int> &v);
-  //#endif
   template svec to_svec(const bvec &v);
   template svec to_svec(const ivec &v);
   template svec to_svec(const svec &v);
   template svec to_svec(const vec &v);
 
-  //#ifndef _MSC_VER
   template ivec to_ivec(const bvec &v);
-  //#endif
   template ivec to_ivec(const svec &v);
   template ivec to_ivec(const ivec &v);
   template ivec to_ivec(const vec &v);
@@ -399,7 +395,6 @@ namespace itpp {
   template imat to_imat(const bmat &m);
   template imat to_imat(const smat &m);
   template imat to_imat(const imat &m);
-  // Template instantiation of to_imat
   template imat to_imat(const mat &m);
 
   template mat to_mat(const bmat &m);

@@ -180,7 +180,7 @@ namespace itpp {
 
 namespace std{     // added 11/2005, EGL
   /*! 
-    \relates bin
+    \relates itpp::bin
     \brief absolute value of bin
   */
   inline short abs(const itpp::bin &inbin) { return inbin; }

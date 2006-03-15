@@ -599,9 +599,11 @@ namespace itpp {
 
 
 
-  void Rec_Syst_Conv_Code::log_decode_n2(const ivec &rec_systematic, const ivec &rec_parity, 
-					 const ivec &extrinsic_input, 
-					 ivec &extrinsic_output, bool in_terminated)
+  void Rec_Syst_Conv_Code::log_decode_n2(const QLLRvec &rec_systematic, 
+					 const QLLRvec &rec_parity, 
+					 const QLLRvec &extrinsic_input, 
+					 QLLRvec &extrinsic_output, 
+					 bool in_terminated)
   {
     int nom, den, exp_temp0, exp_temp1, rp;
     int k, kk, l, s, s_prim, s_prim0, s_prim1, block_length = rec_systematic.length();

@@ -147,8 +147,12 @@ namespace itpp {
       \param set_terminated Equal to \a true if the trellis was terminated by the encoder and false otherwise 
       \param metric May be "LOGMAP", "LOGMAX" (default), or "TABLE"
     */
-    virtual void log_decode_n2(const vec &rec_systematic, const vec &rec_parity, const vec &extrinsic_input, 
-															 vec &extrinsic_output, bool in_terminated = false, std::string metric = "LOGMAX");
+    virtual void log_decode_n2(const vec &rec_systematic, 
+			       const vec &rec_parity,
+			       const vec &extrinsic_input, 
+			       vec &extrinsic_output, 
+			       bool set_terminated = false, 
+			       std::string metric = "LOGMAX");
 
     // ===== EGL: ADDED FUNCTIONS NOV 2005 (THESE ARE DERIVATIVES OF EXISTING FUNCTIONS) ======
 

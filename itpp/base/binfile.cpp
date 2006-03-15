@@ -198,7 +198,7 @@ namespace itpp {
     return *this;
   }
 
-  bofstream& bofstream::operator <<(unsigned a)
+  bofstream& bofstream::operator <<(unsigned int a)
   {
     char *c=reinterpret_cast<char *>(&a);
 
@@ -213,7 +213,7 @@ namespace itpp {
     return *this;
   }
 
-  bofstream& bofstream::operator <<(long a)
+  bofstream& bofstream::operator <<(long int a)
   {
     char *c=reinterpret_cast<char *>(&a);
 
@@ -228,7 +228,7 @@ namespace itpp {
     return *this;
   }
 
-  bofstream& bofstream::operator <<(unsigned long a)
+  bofstream& bofstream::operator <<(unsigned long int a)
   {
     char *c=reinterpret_cast<char *>(&a);
 

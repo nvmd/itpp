@@ -220,7 +220,7 @@ namespace itpp {
     return 0;
   }
 
-  bool SND_Format::read_header(istream &f)
+  bool SND_Format::read_header(std::istream &f)
   {
     f.seekg(0);
     header.magic = big_endian(read_unsigned(f));
@@ -240,7 +240,7 @@ namespace itpp {
     return f.good();
   }
 
-  bool SND_Format::write_header(ostream &f)
+  bool SND_Format::write_header(std::ostream &f)
   {
     f.seekp(0);
     header.magic = SND_MAGIC;

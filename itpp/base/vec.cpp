@@ -40,7 +40,7 @@
 namespace itpp {
 
   template<>
-  bool cvec::set(const char *values)
+  bool Vec<std::complex<double> >::set(const char *values)
   {
     std::istringstream buffer(values);
     int pos=0, maxpos=10;
@@ -74,7 +74,7 @@ namespace itpp {
   }
 
   template<>
-  bool bvec::set(const char *values)
+  bool Vec<bin>::set(const char *values)
   {
     std::istringstream buffer(values);
     int pos=0, maxpos=10;
@@ -127,7 +127,7 @@ namespace itpp {
 #endif // HAVE_CBLAS
 
   template<> 
-  bvec cvec::operator==(const std::complex<double>) const
+  bvec Vec<std::complex<double> >::operator==(const std::complex<double>) const
   { 
     it_error("operator==: not implemented for complex");
     bvec temp;
@@ -135,7 +135,7 @@ namespace itpp {
   }
 
   template<> 
-  bvec cvec::operator!=(const std::complex<double>) const
+  bvec Vec<std::complex<double> >::operator!=(const std::complex<double>) const
   { 
     it_error("operator!=: not implemented for complex");
     bvec temp;
@@ -143,7 +143,7 @@ namespace itpp {
   }
 
   template<> 
-  bvec cvec::operator<=(const std::complex<double>) const
+  bvec Vec<std::complex<double> >::operator<=(const std::complex<double>) const
   { 
     it_error("operator<=: not implemented for complex");
     bvec temp;
@@ -151,7 +151,7 @@ namespace itpp {
   }
 
   template<> 
-  bvec cvec::operator>(const std::complex<double>) const
+  bvec Vec<std::complex<double> >::operator>(const std::complex<double>) const
   { 
     it_error("operator>: not implemented for complex");
     bvec temp;
@@ -159,7 +159,7 @@ namespace itpp {
   }
 
   template<> 
-  bvec cvec::operator<(const std::complex<double>) const
+  bvec Vec<std::complex<double> >::operator<(const std::complex<double>) const
   { 
     it_error("operator<: not implemented for complex");
     bvec temp;
@@ -167,7 +167,7 @@ namespace itpp {
   }
 
   template<> 
-  bvec cvec::operator>=(const std::complex<double>) const
+  bvec Vec<std::complex<double> >::operator>=(const std::complex<double>) const
   { 
     it_error("operator>=: not implemented for complex");
     bvec temp;
@@ -175,7 +175,7 @@ namespace itpp {
   }
 
   template<>
-  Mat<std::complex<double> > cvec::hermitian_transpose() const
+  Mat<std::complex<double> > Vec<std::complex<double> >::hermitian_transpose() const
   {
     Mat<std::complex<double> > temp(1, datasize);
     for (int i=0; i<datasize; i++)
