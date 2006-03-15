@@ -39,14 +39,8 @@
 namespace itpp {
 
   /*!
-    \addtogroup poly
-  */
-
-
-
-  /*!
     \brief Create a polynomial of the given roots
-    \ingroup poly
+    \addtogroup poly
     
     Create a polynomial \c p with roots \c r
   */
@@ -60,7 +54,7 @@ namespace itpp {
 
   /*!
     \brief Calculate the roots of the polynomial
-    \ingroup poly
+    \addtogroup poly
     
     Calculate the roots \c r of the polynomial \c p
   */
@@ -74,7 +68,7 @@ namespace itpp {
 
   /*!
     \brief Evaluate polynomial
-    \ingroup poly
+    \addtogroup poly
     
     Evaluate the polynomial \c p (of length \f$N+1\f$ at the points \c x
     The output is given by

@@ -42,17 +42,12 @@
 namespace itpp {
 
   /*! 
-    \defgroup optimization Numerical optimization routines
     \brief Numerical optimization routines
-
-
+    \addtogroup optimization
   */
-  
   //@{
 
-
   enum Newton_Search_Method {BFGS};
-
 
   /*!
     \brief Newton Search

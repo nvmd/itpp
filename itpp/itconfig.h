@@ -70,6 +70,8 @@ namespace itpp {
   /*! \defgroup matrixdecomp Matrix Decompositions */
   /*! \defgroup miscfunc Miscellaneous Functions */
   /*! \defgroup integration Numerical Integration */
+  /*! \defgroup optimization Numerical Optimization Routines */
+  /*! \defgroup poly Polynomial Functions */
   /*! \defgroup randgen Random Number Generation */
   /*! \defgroup reshaping Reshaping of Vectors and Matrices */
   /*! \defgroup sigproc Signal Processing Functions */
@@ -80,8 +82,7 @@ namespace itpp {
   /*! \defgroup timers Timers */
   /*! \defgroup trifunc Trigonometric Functions */
   /*! \defgroup upsample Upsampling of Vectors and Matrices */
-  /*! \defgroup windfunc Windows */
-  /*! \defgroup mexfiles Writing Matlab Mex-files Using IT++ */
+  /*! \defgroup windfunc Windowing Functions */
 
 } // namespace itpp
 
