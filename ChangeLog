@@ -1,5 +1,8 @@
 2006-03-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/modulator_nd_test.cpp: Fixed minor bug with namespace and
+	cerr (merged from itpp-3-10-branch). 
+
 	* itpp/protocol/selective_repeat.cpp: Fixed improper logical check
 	in the `it_assert' macro (merged from itpp-3-10-branch).
 
