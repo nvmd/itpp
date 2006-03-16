@@ -35,6 +35,7 @@
 
 #include <itpp/base/itassert.h>
 #include <complex>
+#include <limits>
 
 
 #if !defined(__GLIBC__) || __GLIBC__ < 2

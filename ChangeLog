@@ -1,3 +1,18 @@
+2006-03-16  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/protocol/selective_repeat.cpp: Fixed improper logical check
+	in the `it_assert' macro (merged from itpp-3-10-branch).
+
+	* itpp/base/scalfunc.h: Added `#include <limits>', which solves
+	compilation problems using MSVC++ .NET 2005 (merged from
+	itpp-3-10-branch).
+
+	* AUTHORS: Updated to reflect recent staff changes (merged from
+	itpp-3-10-branch).
+
+	* Created CVS branch `itpp-3-10-branch' for bug-fixes in this
+	release. 
+
 ==============================================================================
 
 2006-03-15  Adam Piatyszek  <ediap@users.sourceforge.net>
