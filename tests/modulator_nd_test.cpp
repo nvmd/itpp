@@ -32,8 +32,7 @@
 
 #include <itpp/itcomm.h>
 
-using std::cout;
-using std::endl;
+using namespace std;
 using namespace itpp;
 
 #if defined(HAVE_LAPACK)
