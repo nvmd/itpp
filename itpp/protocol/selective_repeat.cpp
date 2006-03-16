@@ -74,8 +74,10 @@ void Selective_Repeat_ARQ_Sender::set_parameters(const int Seq_no_size,
 			   const int Buffer_size_factor, 
 			   const int Link_packet_size, 
 			   const Ttype Time_out){
-  it_assert(0<Seq_no_size && Seq_no_size <=30,"Selective_Repeat_ARQ_Sender::set_parameters(): ");
-  it_assert(0<Buffer_size_factor<=10,"Selective_Repeat_ARQ_Sender::set_parameters(): ");
+  it_assert((0 < Seq_no_size) && (Seq_no_size <= 30),
+	    "Selective_Repeat_ARQ_Sender::set_parameters(): ");
+  it_assert((0 < Buffer_size_factor) && (Buffer_size_factor <= 10),
+	    "Selective_Repeat_ARQ_Sender::set_parameters(): ");
   it_assert(Link_packet_size > 0,"Selective_Repeat_ARQ_Sender::set_parameters(): ");
   it_assert(Time_out>0,"Selective_Repeat_ARQ_Sender::set_parameters(): ");
   seq_no_size = Seq_no_size;
