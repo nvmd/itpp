@@ -1,3 +1,7 @@
+2006-03-17  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* CVS->SVN repository conversion.
+
 2006-03-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/modulator_nd_test.cpp: Fixed minor bug with namespace and
