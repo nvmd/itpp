@@ -1,9 +1,6 @@
 Things to do before releasing version 4.0.0
 ============================================
 
-* Switch from CVS to Subversion (this depends on SourceForge - SVN is
-  promissed to be available in February 2006)
-
 * Split base module into two separate modules: base and signal. By the way
   of splitting, perform some naming changes:
   - base <-> itppbase.h
