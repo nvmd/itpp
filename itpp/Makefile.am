@@ -1,7 +1,7 @@
 include $(top_srcdir)/Makefile.common
 include $(srcdir)/sources.mk
 
-SUBDIRS = base comm fixedpoint protocol srccode
+SUBDIRS = base comm fixed protocol srccode
 
 EXTRA_DIST = config_msvc.h
 
@@ -15,7 +15,7 @@ lib@PACKAGE@_la_LDFLAGS = -version-info $(GENERIC_LIBRARY_VERSION)
 lib@PACKAGE@_la_LIBADD = \
 	$(top_builddir)/@PACKAGE@/base/libbase.la \
 	$(top_builddir)/@PACKAGE@/comm/libcomm.la \
-	$(top_builddir)/@PACKAGE@/fixedpoint/libfixed.la \
+	$(top_builddir)/@PACKAGE@/fixed/libfixed.la \
 	$(top_builddir)/@PACKAGE@/protocol/libprotocol.la \
 	$(top_builddir)/@PACKAGE@/srccode/libsrccode.la
 
@@ -24,7 +24,7 @@ lib@PACKAGE@_debug_la_LDFLAGS = -version-info $(GENERIC_LIBRARY_VERSION)
 lib@PACKAGE@_debug_la_LIBADD = \
 	$(top_builddir)/@PACKAGE@/base/libbase_debug.la \
 	$(top_builddir)/@PACKAGE@/comm/libcomm_debug.la \
-	$(top_builddir)/@PACKAGE@/fixedpoint/libfixed_debug.la \
+	$(top_builddir)/@PACKAGE@/fixed/libfixed_debug.la \
 	$(top_builddir)/@PACKAGE@/protocol/libprotocol_debug.la \
 	$(top_builddir)/@PACKAGE@/srccode/libsrccode_debug.la
 

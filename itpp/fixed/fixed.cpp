@@ -30,7 +30,7 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/fixedpoint/fixed.h>
+#include <itpp/fixed/fixed.h>
 
 
 namespace itpp {

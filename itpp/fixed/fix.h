@@ -33,8 +33,8 @@
 #ifndef FIX_H
 #define FIX_H
 
-#include <itpp/fixedpoint/fix_base.h>
-#include <itpp/fixedpoint/fix_factory.h>
+#include <itpp/fixed/fix_base.h>
+#include <itpp/fixed/fix_factory.h>
 
 
 namespace itpp {

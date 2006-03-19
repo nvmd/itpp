@@ -1,7 +1,7 @@
 /*!
  * \file 
- * \brief Include file for the IT++ fixed-point library
- * \author Tony Ottosson
+ * \brief Implementation of a complex fixed-point data type CFixed
+ * \author Johan Bergman
  *
  * $Date$
  * $Revision$
@@ -30,17 +30,12 @@
  * -------------------------------------------------------------------------
  */
 
-#ifndef ITFIXEDPOINT_H
-#define ITFIXEDPOINT_H
+#include <itpp/fixed/cfixed.h>
 
-#include <itpp/itbase.h>
-#include <itpp/fixedpoint/fix_base.h>
-#include <itpp/fixedpoint/fix.h>
-#include <itpp/fixedpoint/fixed.h>
-#include <itpp/fixedpoint/cfix.h>
-#include <itpp/fixedpoint/cfixed.h>
-#include <itpp/fixedpoint/fix_factory.h>
-#include <itpp/fixedpoint/fix_operators.h>
-#include <itpp/fixedpoint/fix_functions.h>
 
-#endif // #ifndef ITFIXEDPOINT_H
+namespace itpp {
+
+  // Template instantiations
+  template class CFixed<64, TC, WRAP>;
+
+} // namespace itpp

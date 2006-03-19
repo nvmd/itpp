@@ -86,10 +86,10 @@ namespace itpp {
     
     How to include the support for fixed-point data types in your program:
     \code
-    #include <itfixedpoint.h>
+    #include <itfixed.h>
     \endcode
     
-    \note itbase.h is automatically included by itfixedpoint.h.
+    \note itbase.h is automatically included by itfixed.h.
     
     Fixed-point data types in IT++:
     <ul>

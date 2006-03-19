@@ -11,7 +11,7 @@
 */
 
 #include <iostream>
-#include <itpp/itfixedpoint.h>
+#include <itpp/itfixed.h>
 
 using std::complex;
 using std::cout;

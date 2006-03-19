@@ -30,7 +30,7 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/fixedpoint/fix_base.h>
+#include <itpp/fixed/fix_base.h>
 #include <itpp/base/itassert.h>
 #include <iostream>
 

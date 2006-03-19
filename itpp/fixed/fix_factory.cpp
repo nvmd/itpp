@@ -31,8 +31,8 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/fixedpoint/fix_factory.h>
-#include <itpp/fixedpoint/cfix.h>
+#include <itpp/fixed/fix_factory.h>
+#include <itpp/fixed/cfix.h>
 
 
 namespace itpp {
