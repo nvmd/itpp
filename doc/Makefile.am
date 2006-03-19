@@ -5,7 +5,7 @@ include $(top_srcdir)/itpp/sources.mk
 include $(top_srcdir)/itpp/base/sources.mk
 include $(top_srcdir)/itpp/base/bessel/sources.mk
 include $(top_srcdir)/itpp/comm/sources.mk
-include $(top_srcdir)/itpp/fixedpoint/sources.mk
+include $(top_srcdir)/itpp/fixed/sources.mk
 include $(top_srcdir)/itpp/protocol/sources.mk
 include $(top_srcdir)/itpp/srccode/sources.mk
 

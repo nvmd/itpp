@@ -34,8 +34,8 @@
 #ifndef FIX_OPERATORS_H
 #define FIX_OPERATORS_H
 
-#include <itpp/fixedpoint/cfix.h>
-#include <itpp/fixedpoint/fix_functions.h>
+#include <itpp/fixed/cfix.h>
+#include <itpp/fixed/fix_functions.h>
 
 
 namespace itpp {

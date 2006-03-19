@@ -33,7 +33,7 @@
 #ifndef FIXED_H
 #define FIXED_H
 
-#include <itpp/fixedpoint/fix.h>
+#include <itpp/fixed/fix.h>
 
 
 namespace itpp {

@@ -35,7 +35,7 @@
 #define FIX_FACTORY_H
 
 #include <itpp/base/factory.h>
-#include <itpp/fixedpoint/fix_base.h>
+#include <itpp/fixed/fix_base.h>
 
 
 namespace itpp {

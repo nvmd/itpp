@@ -1,6 +1,6 @@
 /*!
  * \file 
- * \brief Implementation of a fixed-point data type Fix
+ * \brief Implementation of a complex fixed-point data type CFix
  * \author Johan Bergman
  *
  * $Date$
@@ -30,151 +30,247 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/fixedpoint/fix.h>
+#include <itpp/fixed/cfix.h>
 #include <itpp/base/itassert.h>
 #include <iostream>
 
 
 namespace itpp {
 
-  Fix& Fix::operator=(const Fix &x)
+  CFix& CFix::operator=(const CFix &x)
   {
     shift = x.shift;
     re = apply_o_mode(x.re);
+    im = apply_o_mode(x.im);
     return *this;
   }
 
-  Fix& Fix::operator=(const int x)
+  CFix& CFix::operator=(const Fix &x)
+  {
+    shift = x.shift;
+    re = apply_o_mode(x.re);
+    im = 0;
+    return *this;
+  }
+
+  CFix& CFix::operator=(const std::complex<double> &x)
+  {
+    shift = 0;
+    re = apply_o_mode(fixrep(std::real(x)));
+    im = apply_o_mode(fixrep(std::imag(x)));
+    return *this;
+  }
+
+  CFix& CFix::operator=(const int x)
   {
     shift = 0;
     re = apply_o_mode(x);
+    im = 0;
     return *this;
   }
 
-  Fix& Fix::operator+=(const Fix &x)
+  CFix& CFix::operator+=(const CFix &x)
+  {
+    shift = assert_shifts(*this, x);
+    re = apply_o_mode(re + x.re);
+    im = apply_o_mode(im + x.im);
+    return *this;
+  }
+
+  CFix& CFix::operator+=(const Fix &x)
   {
     shift = assert_shifts(*this, x);
     re = apply_o_mode(re + x.re);
     return *this;
   }
 
-  Fix& Fix::operator+=(const int x)
+  CFix& CFix::operator+=(const int x)
   {
     assert_shifts(*this, x);
     re = apply_o_mode(re + x);
     return *this;
   }
 
-  Fix& Fix::operator-=(const Fix &x)
+  CFix& CFix::operator-=(const CFix &x)
+  {
+    shift = assert_shifts(*this, x);
+    re = apply_o_mode(re - x.re);
+    im = apply_o_mode(im - x.im);
+    return *this;
+  }
+
+  CFix& CFix::operator-=(const Fix &x)
   {
     shift = assert_shifts(*this, x);
     re = apply_o_mode(re - x.re);
     return *this;
   }
 
-  Fix& Fix::operator-=(const int x)
+  CFix& CFix::operator-=(const int x)
   {
     assert_shifts(*this, x);
     re = apply_o_mode(re - x);
     return *this;
   }
 
-  Fix& Fix::operator*=(const Fix &x)
+  CFix& CFix::operator*=(const CFix &x)
+  {
+    shift += x.shift;
+    fixrep tmp_re = apply_o_mode(re*x.re - im*x.im);
+    im = apply_o_mode(re*x.im + im*x.re);
+    re = tmp_re;
+    return *this;
+  }
+
+  CFix& CFix::operator*=(const Fix &x)
   {
     shift += x.shift;
     re = apply_o_mode(re*x.re);
+    im = apply_o_mode(im*x.re);
     return *this;
   }
 
-  Fix& Fix::operator*=(const int x)
+  CFix& CFix::operator*=(const int x)
   {
     re = apply_o_mode(re*x);
+    im = apply_o_mode(im*x);
     return *this;
   }
 
-  Fix& Fix::operator/=(const Fix &x)
+  CFix& CFix::operator/=(const CFix &x)
+  {
+    shift -= x.shift;
+    fixrep denominator = x.re*x.re + x.im*x.im;
+    fixrep tmp_re = apply_o_mode((re*x.re + im*x.im)/denominator);
+    im = apply_o_mode((im*x.re - re*x.im)/denominator);
+    re = tmp_re;
+    return *this;
+  }
+
+  CFix& CFix::operator/=(const Fix &x)
   {
     shift -= x.shift;
     re = apply_o_mode(re/x.re);
+    im = apply_o_mode(im/x.re);
     return *this;
   }
 
-  Fix& Fix::operator/=(const int x)
+  CFix& CFix::operator/=(const int x)
   {
     re = apply_o_mode(re/x);
+    im = apply_o_mode(im/x);
     return *this;
   }
 
-  Fix Fix::operator-() const
+  CFix CFix::operator-() const
   {
-    return Fix(-re, shift, 0, 0);
+    return CFix(-re, -im, shift, 0, 0);
   }
 
-  Fix& Fix::operator<<=(const int n)
+  CFix& CFix::operator<<=(const int n)
   {
-    it_assert1(n >= 0, "Fix::operator<<=: n cannot be negative!");
+    it_assert1(n >= 0, "CFix::operator<<=: n cannot be negative!");
     shift += n;
     re = apply_o_mode(re << n);
+    im = apply_o_mode(im << n);
     return *this;
   }
 
-  Fix& Fix::operator>>=(const int n)
+  CFix& CFix::operator>>=(const int n)
   {
     shift -= n;
     re = rshift_and_apply_q_mode(re, n);
+    im = rshift_and_apply_q_mode(im, n);
     return *this;
   }
 
-  void Fix::set(double x, int n)
+  void CFix::set(double real, double imag, int n)
   {
     shift = n;
-    re = scale_and_apply_modes(x);
+    re = scale_and_apply_modes(real);
+    im = scale_and_apply_modes(imag);
   }
 
-  void Fix::set(double x, int n, q_mode q)
+  void CFix::set(double real, double imag, int n, q_mode q)
   {
     shift = n;
-    re = scale_and_apply_modes(x, q);
+    re = scale_and_apply_modes(real, q);
+    im = scale_and_apply_modes(imag, q);
   }
 
-  void Fix::lshift(int n)
+  void CFix::set(const std::complex<double> &x, int n)
   {
-    it_assert1(n >= 0, "Fix::lshift: n cannot be negative!");
+    shift = n;
+    re = scale_and_apply_modes(std::real(x));
+    im = scale_and_apply_modes(std::imag(x));
+  }
+
+  void CFix::set(const std::complex<double> &x, int n, q_mode q)
+  {
+    shift = n;
+    re = scale_and_apply_modes(std::real(x), q);
+    im = scale_and_apply_modes(std::imag(x), q);
+  }
+
+  void CFix::lshift(int n)
+  {
+    it_assert1(n >= 0, "CFix::lshift: n cannot be negative!");
     shift += n;
     re = apply_o_mode(re << n);
+    im = apply_o_mode(im << n);
   }
 
-  void Fix::rshift(int n)
+  void CFix::rshift(int n)
   {
     shift -= n;
     re = rshift_and_apply_q_mode(re, n);
+    im = rshift_and_apply_q_mode(im, n);
   }
 
-  void Fix::rshift(int n, q_mode q)
+  void CFix::rshift(int n, q_mode q)
   {
     shift -= n;
     re = rshift_and_apply_q_mode(re, n, q);
+    im = rshift_and_apply_q_mode(im, n, q);
   }
 
-  double Fix::unfix() const
+  std::complex<double> CFix::unfix() const
   {
-    it_assert1(shift>=-63 && shift<=64, "Fix::unfix: Illegal shift!");
-    return double(re)*DOUBLE_POW2[64 - shift];
+    it_assert1(shift>=-63 && shift<=64, "CFix::unfix: Illegal shift!");
+    return std::complex<double>(double(re)*DOUBLE_POW2[64 - shift],
+                           double(im)*DOUBLE_POW2[64 - shift]);
   }
 
-  void Fix::print() const
+  void CFix::print() const
   {
     Fix_Base::print();
     std::cout << "re = " << re << std::endl;
+    std::cout << "im = " << im << std::endl;
   }
 
-  int assert_shifts(const Fix &x, const Fix &y)
+  int assert_shifts(const CFix &x, const CFix &y)
   {
     int ret = 0;
 
     if (x.shift == y.shift)
       ret = x.shift;
-    else if (x.re == 0)
+    else if (x.re == 0 && x.im == 0)
+      ret = y.shift;
+    else if (y.re == 0 && y.im == 0)
+      ret = x.shift;
+    else
+      it_error("assert_shifts: Different shifts not allowed!");
+
+    return ret;
+  }
+
+  int assert_shifts(const CFix &x, const Fix &y)
+  {
+    int ret = 0;
+
+    if (x.shift == y.shift)
+      ret = x.shift;
+    else if (x.re == 0 && x.im == 0)
       ret = y.shift;
     else if (y.re == 0)
       ret = x.shift;
@@ -184,16 +280,16 @@ namespace itpp {
     return ret;
   }
 
-  int assert_shifts(const Fix &x, int y)
+  int assert_shifts(const CFix &x, int y)
   {
-    if ((x.shift != 0) && (x.re != 0) && (y != 0))
+    if ((x.shift != 0) && !(x.re==0 && x.im==0) && (y != 0))
       it_error("assert_shifts: Different shifts not allowed!");
     return x.shift;
   }
 
-  std::istream &operator>>(std::istream &is, Fix &x)
+  std::istream &operator>>(std::istream &is, CFix &x)
   {
-    double value;
+    std::complex<double> value;
     is >> value;
     if (!is.eof() && (is.peek() == '<')) {
       int shift;
@@ -205,30 +301,39 @@ namespace itpp {
       } else {
         is >> shift;
         is.get();  // Swallow '>' sign
-        x.set_re(fixrep(value));
+        x.set_re(fixrep(std::real(value)));
+        x.set_im(fixrep(std::imag(value)));
         x.set_shift(shift);
       }
     } else {
       // Change data representation but keep shift
-      x.set_re(fixrep(value));
+      x.set_re(fixrep(std::real(value)));
+      x.set_im(fixrep(std::imag(value)));
     }
     return is;
   }
 
-  std::ostream &operator<<(std::ostream &os, const Fix &x)
+  std::ostream &operator<<(std::ostream &os, const CFix &x)
   {
     switch (x.get_output_mode()) {
     case OUTPUT_FIX:
-      os << x.get_re();
+      if (x.get_im() < 0)
+        os << x.get_re() << x.get_im() << 'i';
+      else
+        os << x.get_re() << '+' << x.get_im() << 'i';
       break;
     case OUTPUT_FIX_SHIFT:
-      os << x.get_re() << '<' << x.get_shift() << '>';
+      if (x.get_im() < 0)
+        os << x.get_re() << x.get_im() << 'i';
+      else
+        os << x.get_re() << '+' << x.get_im() << 'i';
+      os << '<' << x.get_shift() << '>';
       break;
     case OUTPUT_FLOAT:
-      os << double(x);
+      os << std::complex<double>(x);
       break;
     case OUTPUT_FLOAT_SHIFT:
-      os << double(x) << "<<" << x.get_shift();
+      os << std::complex<double>(x) << "<<" << x.get_shift();
       break;
     default:
       it_error("operator<<: Illegal output mode!");
@@ -238,10 +343,9 @@ namespace itpp {
 
   // Specialization of template definition in vec.cpp
   template<>
-  bool fixvec::set(const char *values)
+  bool cfixvec::set(const char *values)
   {
     std::istringstream buffer(values);
-    int b, c;
     int default_shift=0, pos=0, maxpos=10;
     if (datasize > 0) {
       // Assume that all elements have the same shift
@@ -250,36 +354,8 @@ namespace itpp {
     alloc(maxpos);
     while (buffer.peek()!=EOF) {
       switch (buffer.peek()) {
-      case ':': // reads format a:b:c or a:b
-        buffer.get();
-        if (!buffer.eof()) {
-          buffer >> b;
-        }
-        if (!buffer.eof() && buffer.peek() == ':') {
-          buffer.get();
-          if (!buffer.eof()) {
-            buffer >> c;
-            while (int(double(data[pos-1]))+b-c<=0) {
-              pos++;
-              if (pos > maxpos) {
-                maxpos=maxpos*2;
-                set_size(maxpos, true);
-              }
-              data[pos-1]=data[pos-2];
-              data[pos-1]+=b;
-            }
-          }
-        } else {
-          while (int(double(data[pos-1]))<b) {
-            pos++;
-            if (pos > maxpos) {
-              maxpos=maxpos*2;
-              set_size(maxpos, true);
-            }
-            data[pos-1]=data[pos-2];
-            data[pos-1]+=1;
-          }
-        }
+      case ':':
+        it_error("set: expressions with ':' are not valid for cfixvec");
         break;
       case ',':
         buffer.get();
@@ -302,7 +378,7 @@ namespace itpp {
 
   // Specialization of template definition in mat.cpp
   template<>
-  bool fixmat::set(const char *values)
+  bool cfixmat::set(const char *values)
   {
     std::istringstream buffer(values);
     int default_shift=0, rows=0, maxrows=10, cols=0, nocols=0, maxcols=10;
@@ -342,4 +418,4 @@ namespace itpp {
     return true;
   }
 
-} //namespace itpp
+} // namespace itpp

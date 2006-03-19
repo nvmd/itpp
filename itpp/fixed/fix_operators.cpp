@@ -31,7 +31,7 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/fixedpoint/fix_operators.h>
+#include <itpp/fixed/fix_operators.h>
 
 
 namespace itpp {

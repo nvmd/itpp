@@ -1,5 +1,9 @@
 2006-03-19  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac: Version numbers updated.
+
+	* Renamed `fixedpoint' subdirectory into `fixed'. 
+
 	* doc/local/index.doc.in: Changed CVS related links to SVN ones
 	(merged rev. 361:372 from itpp-3-10 branch).
 
