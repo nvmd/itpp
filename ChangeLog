@@ -1,3 +1,8 @@
+2006-03-19  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/local/index.doc.in: Changed CVS related links to SVN ones
+	(merged rev. 361:372 from itpp-3-10 branch).
+
 2006-03-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* CVS->SVN repository conversion.

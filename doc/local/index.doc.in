@@ -87,8 +87,8 @@ Cygwin or Microsoft Visual C++ .NET) and Mac OS X (more testers needed).
 
 <b>What's New (in CVS):</b>
 <ul>
-<li><a href="http://cvs.sourceforge.net/viewcvs.py/itpp/itpp/NEWS?view=markup">NEWS</a></li>
-<li><a href="http://cvs.sourceforge.net/viewcvs.py/itpp/itpp/ChangeLog?view=markup">ChangeLog</a></li>
+<li><a href="http://svn.sourceforge.net/viewcvs.cgi/itpp/itpp/trunk/NEWS?view=markup">NEWS</a></li>
+<li><a href="http://svn.sourceforge.net/viewcvs.cgi/itpp/itpp/trunk/ChangeLog?view=markup">ChangeLog</a></li>
 </ul>
 
 <b>Previous Stable Releases:</b>
@@ -105,7 +105,7 @@ Cygwin or Microsoft Visual C++ .NET) and Mac OS X (more testers needed).
 <b>IT++ Development:</b>
 <ul>
 <li><a href="http://sourceforge.net/projects/itpp/">IT++ at SourceForge</a></li>
-<li><a href="http://sourceforge.net/cvs/?group_id=37044">IT++ CVS Repository</a></li>
+<li><a href="http://sourceforge.net/svn/?group_id=37044">IT++ SVN Repository</a></li>
 <li><a href="codingrules.html">Coding Rules</a></li>
 <li><a href="documentation.html">Documentation Rules</a></li>
 <li><a href="test.html">Test Rules</a></li>
@@ -134,7 +134,7 @@ Cygwin or Microsoft Visual C++ .NET) and Mac OS X (more testers needed).
 <b>Other Links:</b>
 <ul>
 <li><a href="http://www.doxygen.org/">Doxygen</a></li>
-<li><a href="http://cvs.nongnu.org/">CVS</a></li>
+<li><a href="http://subversion.tigris.org/">Subversion</a></li>
 <li><a href="http://sources.redhat.com/cygwin/">Cygwin</a></li>
 </ul>
 
