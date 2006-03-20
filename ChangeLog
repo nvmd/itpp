@@ -1,3 +1,10 @@
+2006-03-20  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac, doc/Makefile.am, itpp/Makefile.am,
+	itpp/signal/Makefile.am, itpp/signal/sources.mk: Added signal
+	subdirectory and modified make files for a new signal processing
+	module.
+
 2006-03-19  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac: Version numbers updated.
