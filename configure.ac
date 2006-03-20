@@ -177,6 +177,7 @@ AC_CONFIG_FILES([Makefile \
   itpp/comm/Makefile \
   itpp/fixed/Makefile \
   itpp/protocol/Makefile \
+  itpp/signal/Makefile \
   itpp/srccode/Makefile \
   doc/Makefile \
   doc/images/Makefile \
