@@ -1,3 +1,10 @@
+2006-03-21  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* Moved signal processing related sources to a separate "signal"
+	subdirectory. Test programs updated accordingly. Please note that
+	now <itpp/itbase.h> is not included automatically in "itcomm.h",
+	"itfixed.h", "itprotocol.h", "itsignal.h" and "itsrccode.h".
+
 2006-03-20  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac, doc/Makefile.am, itpp/Makefile.am,

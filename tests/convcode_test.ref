@@ -1,6 +1,6 @@
-====================================================
-convcode: Test of convolutional coders
-====================================================
+====================================
+    Test of convolutional coders    
+====================================
 code: catastrophic test:0
 code: rate:0.5
 spectrum:
@@ -15,9 +15,9 @@ bits =[0 1 0 0 0 0 1]
 outbits =[0 0 1 1 0 1 1 1 1 1 0 0 0 1 1 0 1 1 1 1 0 0 1 0 1 1]
 decoded_bits =[0 1 0 0 0 0 1]
 
-=====================================
-Punctured code
-=====================================
+====================
+   Punctured code   
+====================
 code_punct: catastrophic test:1
 code_punct: rate:1
 punct_matrix = [[0 1]

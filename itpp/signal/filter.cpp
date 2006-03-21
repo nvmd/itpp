@@ -30,8 +30,8 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/base/filter.h>
-#include <itpp/base/window.h>
+#include <itpp/signal/filter.h>
+#include <itpp/signal/window.h>
 #include <itpp/base/matfunc.h>
 
 

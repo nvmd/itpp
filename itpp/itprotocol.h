@@ -1,6 +1,6 @@
 /*!
  * \file 
- * \brief Include file for the IT++ protocols library
+ * \brief Include file for the IT++ protocols module
  * \author Tony Ottosson
  *
  * $Date$
@@ -33,21 +33,14 @@
 #ifndef ITPROTOCOL_H
 #define ITPROTOCOL_H
 
-#include <itpp/itcomm.h>
-
 #include <itpp/protocol/events.h>
-#include <itpp/protocol/signals_slots.h>
-
-#include <itpp/protocol/packet.h>
-#include <itpp/protocol/packet_generator.h>
-#include <itpp/protocol/packet_channel.h>
-
 #include <itpp/protocol/front_drop_queue.h>
-
+#include <itpp/protocol/packet.h>
+#include <itpp/protocol/packet_channel.h>
+#include <itpp/protocol/packet_generator.h>
 #include <itpp/protocol/selective_repeat.h>
-
+#include <itpp/protocol/signals_slots.h>
 #include <itpp/protocol/tcp.h>
 #include <itpp/protocol/tcp_client_server.h>
-
 
 #endif // #ifndef ITPROTOCOL_H

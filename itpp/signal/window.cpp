@@ -30,7 +30,7 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/base/window.h>
+#include <itpp/signal/window.h>
 
 
 namespace itpp { 

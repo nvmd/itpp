@@ -30,7 +30,7 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/base/poly.h>
+#include <itpp/signal/poly.h>
 #include <itpp/base/converters.h>
 #include <itpp/base/eigen.h>
 #include <itpp/base/specmat.h>

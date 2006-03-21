@@ -37,12 +37,9 @@ check_PROGRAMS = \
 	modulator_test \
 	modulator_nd_test \
 	newton_search_test \
-	pam_test \
 	parser_test \
 	poly_test \
-	psk_test \
 	pulse_shape_test \
-	qam_test \
 	qr_test \
 	rand_test \
 	rec_syst_conv_code_test \
@@ -56,7 +53,6 @@ check_PROGRAMS = \
 	transforms_test \
 	turbo_test \
 	vec_test \
-	vector_test \
 	window_test
 
 array_test_SOURCES = array_test.cpp
@@ -87,13 +83,10 @@ mat_test_SOURCES = mat_test.cpp
 modulator_test_SOURCES = modulator_test.cpp
 modulator_nd_test_SOURCES = modulator_nd_test.cpp
 newton_search_test_SOURCES = newton_search_test.cpp
-pam_test_SOURCES = pam_test.cpp
 parser_test_SOURCES = parser_test.cpp
 parser_test_CPPFLAGS = -DPARSER_TEST_FILE=\"$(srcdir)/parser_test_data.txt\" $(AM_CPPFLAGS)
 poly_test_SOURCES = poly_test.cpp
-psk_test_SOURCES = psk_test.cpp
 pulse_shape_test_SOURCES = pulse_shape_test.cpp
-qam_test_SOURCES = qam_test.cpp
 qr_test_SOURCES = qr_test.cpp
 rand_test_SOURCES = rand_test.cpp
 rec_syst_conv_code_test_SOURCES = rec_syst_conv_code_test.cpp
@@ -107,7 +100,6 @@ timer_test_SOURCES = timer_test.cpp
 transforms_test_SOURCES = transforms_test.cpp
 turbo_test_SOURCES = turbo_test.cpp
 vec_test_SOURCES = vec_test.cpp
-vector_test_SOURCES = vector_test.cpp
 window_test_SOURCES = window_test.cpp
 
 noext_tests = $(patsubst %$(EXEEXT), %, $(check_PROGRAMS))

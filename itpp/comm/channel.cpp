@@ -34,9 +34,9 @@
 #include <itpp/comm/channel.h>
 #include <itpp/base/stat.h>
 #include <itpp/base/specmat.h>
-#include <itpp/base/transforms.h>
 #include <itpp/base/bessel.h>
-#include <itpp/base/window.h>
+#include <itpp/signal/transforms.h>
+#include <itpp/signal/window.h>
 
 
 namespace itpp {

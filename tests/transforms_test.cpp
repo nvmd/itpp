@@ -31,6 +31,7 @@
 */
 
 #include <itpp/itbase.h>
+#include <itpp/itsignal.h>
 
 using namespace itpp;
 using namespace std;

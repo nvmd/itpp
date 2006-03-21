@@ -34,8 +34,8 @@
 #define PULSE_SHAPE_H
 
 #include <itpp/base/vec.h>
-#include <itpp/base/filter.h>
 #include <itpp/base/matfunc.h>
+#include <itpp/signal/filter.h>
 
 
 namespace itpp {

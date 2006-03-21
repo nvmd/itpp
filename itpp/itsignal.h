@@ -1,7 +1,7 @@
 /*!
  * \file 
- * \brief Include file for the IT++ fixed-point module
- * \author Tony Ottosson
+ * \brief Include file for the IT++ signal-processing module
+ * \author Adam Piatyszek
  *
  * $Date$
  * $Revision$
@@ -30,16 +30,16 @@
  * -------------------------------------------------------------------------
  */
 
-#ifndef ITFIXED_H
-#define ITFIXED_H
+#ifndef ITSIGNAL_H
+#define ITSIGNAL_H
 
-#include <itpp/fixed/cfix.h>
-#include <itpp/fixed/cfixed.h>
-#include <itpp/fixed/fix.h>
-#include <itpp/fixed/fix_base.h>
-#include <itpp/fixed/fix_factory.h>
-#include <itpp/fixed/fix_functions.h>
-#include <itpp/fixed/fix_operators.h>
-#include <itpp/fixed/fixed.h>
+#include <itpp/signal/fastica.h>
+#include <itpp/signal/filter.h>
+#include <itpp/signal/filter_design.h>
+#include <itpp/signal/freq_filt.h>
+#include <itpp/signal/poly.h>
+#include <itpp/signal/sigfun.h>
+#include <itpp/signal/transforms.h>
+#include <itpp/signal/window.h>
 
-#endif // #ifndef ITFIXED_H
+#endif // #ifndef ITSIGNAL_H

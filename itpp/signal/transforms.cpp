@@ -48,8 +48,8 @@
 #  include <fftw3.h>
 #endif
 
+#include <itpp/signal/transforms.h>
 #include <itpp/base/matfunc.h>
-#include <itpp/base/transforms.h>
 #include <itpp/base/elmatfunc.h>
 
 
