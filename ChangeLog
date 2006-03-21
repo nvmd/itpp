@@ -1,5 +1,9 @@
 2006-03-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/stat.h, tests/stat_test.cpp, tests/stat_test.ref:
+	Added templated Histogram class provided by Andy Panov. This closes
+	feature request [1451288].
+
 	* Moved signal processing related sources to a separate "signal"
 	subdirectory. Test programs updated accordingly. Please note that
 	now <itpp/itbase.h> is not included automatically in "itcomm.h",
