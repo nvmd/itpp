@@ -31,6 +31,7 @@
 */
 
 #include <itpp/itbase.h>
+#include <itpp/itsignal.h>
 
 using namespace itpp;
 using namespace std;
@@ -42,7 +43,7 @@ int main()
 {
 
  cout << "===================================" << endl;
- cout << "    Test of polynomial routines" << endl;
+ cout << "    Test of polynomial routines    " << endl;
  cout << "===================================" << endl;
 
  {

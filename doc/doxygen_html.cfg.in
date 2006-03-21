@@ -455,6 +455,7 @@ INPUT                  = @top_srcdir@/@PACKAGE@ \
                          @top_srcdir@/@PACKAGE@/comm \
                          @top_srcdir@/@PACKAGE@/fixed \
                          @top_srcdir@/@PACKAGE@/protocol \
+                         @top_srcdir@/@PACKAGE@/signal \
                          @top_srcdir@/@PACKAGE@/srccode \
                          @top_srcdir@/doc/local \
                          @top_builddir@/doc/local \
@@ -502,7 +503,7 @@ EXCLUDE_PATTERNS       =
 # the \include command).
 
 EXAMPLE_PATH           = @top_srcdir@/doc/tutorial/src \
-											   @top_srcdir@/tests
+                         @top_srcdir@/tests
 
 # If the value of the EXAMPLE_PATH tag contains directories, you can use the 
 # EXAMPLE_PATTERNS tag to specify one or more wildcard pattern (like *.cpp 

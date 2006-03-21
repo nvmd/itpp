@@ -352,7 +352,7 @@ namespace itpp {
   }
 
   //! The mean value
-   double mean(const vec &v);
+  double mean(const vec &v);
   //! The mean value
   std::complex<double> mean(const cvec &v);
   //! The mean value
@@ -365,15 +365,22 @@ namespace itpp {
   std::complex<double> mean(const cmat &m);
   //! The mean value
   double mean(const smat &m);
-  // The mean value
+  //! The mean value
   double mean(const imat &m);
 
-  //! The geometric mean value
+  //! The geometric mean of a vector
   template<class T>
-    double geometric_mean(const Vec<T> &v)
+  double geometric_mean(const Vec<T> &v)
   {
-    //return exp(log(static_cast<double>(product(v)))/v.length());
-    return std::exp(std::log(double(product(v)))/v.length());
+    return std::exp(std::log(static_cast<double>(prod(v))) / v.length());
+  }
+
+  //! The geometric mean of a matrix
+  template<class T>
+  double geometric_mean(const Mat<T> &m)
+  {
+    return std::exp(std::log(static_cast<double>(prod(prod(m)))) 
+		    / (m.rows() * m.cols()));
   }
 
   //! The median

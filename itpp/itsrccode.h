@@ -1,6 +1,6 @@
 /*!
  * \file 
- * \brief Include file for the IT++ source coding library
+ * \brief Include file for the IT++ source coding module
  * \author Tony Ottosson
  *
  * $Date$
@@ -33,12 +33,10 @@
 #ifndef ITSRCCODE_H
 #define ITSRCCODE_H
 
-#include <itpp/itbase.h>
-
-#include <itpp/srccode/vq.h>
-#include <itpp/srccode/vqtrain.h>
+#include <itpp/srccode/audiofile.h>
 #include <itpp/srccode/gmm.h>
 #include <itpp/srccode/lpcfunc.h>
-#include <itpp/srccode/audiofile.h>
+#include <itpp/srccode/vq.h>
+#include <itpp/srccode/vqtrain.h>
 
 #endif // #ifndef ITSRCCODE_H

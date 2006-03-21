@@ -30,14 +30,14 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/base/sigfun.h>
-#include <itpp/base/transforms.h>
+#include <itpp/signal/sigfun.h>
+#include <itpp/signal/transforms.h>
 #include <itpp/base/converters.h>
 #include <itpp/base/elmatfunc.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/base/stat.h>
 #include <itpp/base/specmat.h>
-#include <itpp/base/window.h>
+#include <itpp/signal/window.h>
 
 
 namespace itpp { 

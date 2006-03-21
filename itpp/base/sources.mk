@@ -12,11 +12,7 @@ h_base_sources = \
 	$(top_srcdir)/itpp/base/eigen.h \
 	$(top_srcdir)/itpp/base/elmatfunc.h \
 	$(top_srcdir)/itpp/base/factory.h \
-	$(top_srcdir)/itpp/base/fastica.h \
 	$(top_srcdir)/itpp/base/fastmath.h \
-	$(top_srcdir)/itpp/base/filter.h \
-	$(top_srcdir)/itpp/base/filter_design.h \
-	$(top_srcdir)/itpp/base/freq_filt.h \
 	$(top_srcdir)/itpp/base/gf2mat.h \
 	$(top_srcdir)/itpp/base/help_functions.h \
 	$(top_srcdir)/itpp/base/integration.h \
@@ -33,12 +29,10 @@ h_base_sources = \
 	$(top_srcdir)/itpp/base/operators.h \
 	$(top_srcdir)/itpp/base/newton_search.h \
 	$(top_srcdir)/itpp/base/parser.h \
-	$(top_srcdir)/itpp/base/poly.h \
 	$(top_srcdir)/itpp/base/qr.h \
 	$(top_srcdir)/itpp/base/random.h \
 	$(top_srcdir)/itpp/base/scalfunc.h \
 	$(top_srcdir)/itpp/base/schur.h \
-	$(top_srcdir)/itpp/base/sigfun.h \
 	$(top_srcdir)/itpp/base/smat.h \
 	$(top_srcdir)/itpp/base/sort.h \
 	$(top_srcdir)/itpp/base/source.h \
@@ -48,9 +42,7 @@ h_base_sources = \
 	$(top_srcdir)/itpp/base/svd.h \
 	$(top_srcdir)/itpp/base/svec.h \
 	$(top_srcdir)/itpp/base/timing.h \
-	$(top_srcdir)/itpp/base/transforms.h \
-	$(top_srcdir)/itpp/base/vec.h \
-	$(top_srcdir)/itpp/base/window.h
+	$(top_srcdir)/itpp/base/vec.h
 
 cpp_base_sources = \
 	$(top_srcdir)/itpp/base/bessel.cpp \
@@ -61,11 +53,7 @@ cpp_base_sources = \
 	$(top_srcdir)/itpp/base/det.cpp \
 	$(top_srcdir)/itpp/base/eigen.cpp \
 	$(top_srcdir)/itpp/base/elmatfunc.cpp \
-	$(top_srcdir)/itpp/base/fastica.cpp \
 	$(top_srcdir)/itpp/base/fastmath.cpp \
-	$(top_srcdir)/itpp/base/filter.cpp \
-	$(top_srcdir)/itpp/base/filter_design.cpp \
-	$(top_srcdir)/itpp/base/freq_filt.cpp \
 	$(top_srcdir)/itpp/base/gf2mat.cpp \
 	$(top_srcdir)/itpp/base/integration.cpp \
 	$(top_srcdir)/itpp/base/inv.cpp \
@@ -79,12 +67,10 @@ cpp_base_sources = \
 	$(top_srcdir)/itpp/base/operators.cpp \
 	$(top_srcdir)/itpp/base/newton_search.cpp \
 	$(top_srcdir)/itpp/base/parser.cpp \
-	$(top_srcdir)/itpp/base/poly.cpp \
 	$(top_srcdir)/itpp/base/qr.cpp \
 	$(top_srcdir)/itpp/base/random.cpp \
 	$(top_srcdir)/itpp/base/scalfunc.cpp \
 	$(top_srcdir)/itpp/base/schur.cpp \
-	$(top_srcdir)/itpp/base/sigfun.cpp \
 	$(top_srcdir)/itpp/base/smat.cpp \
 	$(top_srcdir)/itpp/base/source.cpp \
 	$(top_srcdir)/itpp/base/specmat.cpp \
@@ -92,6 +78,4 @@ cpp_base_sources = \
 	$(top_srcdir)/itpp/base/svd.cpp \
 	$(top_srcdir)/itpp/base/svec.cpp \
 	$(top_srcdir)/itpp/base/timing.cpp \
-	$(top_srcdir)/itpp/base/transforms.cpp \
-	$(top_srcdir)/itpp/base/vec.cpp \
-	$(top_srcdir)/itpp/base/window.cpp
+	$(top_srcdir)/itpp/base/vec.cpp

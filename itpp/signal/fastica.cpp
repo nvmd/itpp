@@ -63,7 +63,7 @@
  * - default approach is SYMM with non-linearity POW3
  */
 
-#include <itpp/base/fastica.h>
+#include <itpp/signal/fastica.h>
 #include <itpp/base/svec.h>
 #include <itpp/base/sigfun.h>
 #include <itpp/base/specmat.h>
