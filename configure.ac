@@ -127,11 +127,11 @@ AM_CONDITIONAL([HAVE_DIFF], [test "x$diff_ok" = xyes])
 # Checks for BLAS (ACML, MKL, ATLAS or NETLIB)
 ACX_BLAS
 
-# Checks for LAPACK (ACML, MKL, ATLAS or NETLIB)
-ACX_LAPACK
-
 # Checks for CBLAS (MKL, ATLAS or NETLIB)
 ACX_CBLAS
+
+# Checks for LAPACK (ACML, MKL, ATLAS or NETLIB)
+ACX_LAPACK
 
 # Checks for FFT (MKL or FFTW3)
 ACX_FFT
@@ -140,11 +140,11 @@ ACX_FFT
 # Set LIBS
 if test x"$acx_blas_ok" = xyes; then
   LIBS="$BLAS_LIBS $LIBS $FLIBS"
-  if test x"$LAPACK_LIBS" != x; then
-    LIBS="$LAPACK_LIBS $LIBS"
-  fi
   if test "x$CBLAS_LIBS" != x; then
     LIBS="$CBLAS_LIBS $LIBS"
+  fi
+  if test x"$LAPACK_LIBS" != x; then
+    LIBS="$LAPACK_LIBS $LIBS"
   fi
 fi
 if test "x$FFT_LIBS" != x; then

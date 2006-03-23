@@ -1,3 +1,8 @@
+2006-03-23  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac: Changed CBLAS and LAPACK library detection order
+	due to linking problems under Cygwin.
+
 2006-03-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* AUTHORS: Andy Panov included in a list of contributors.
