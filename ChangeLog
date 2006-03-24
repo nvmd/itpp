@@ -1,5 +1,8 @@
 2006-03-24  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/local/features.doc: Statistics classes and functions moved
+	from signal-processing to base math module.
+
 	* itpp/sources.mk: Added missing "itpp/itsignal.h" file.
 	
 	* itpp/srccode/lpcfunc.cpp, itpp/signal/fastica.cpp: Fixed

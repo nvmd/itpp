@@ -15,6 +15,7 @@ the reference documentation.
 - templated vector and matrix classes
 - sparse vectors and matrix classes
 - elementary functions on vectors and matrices
+- statistics classes and functions
 - matrix decompositions such as eigenvalue, Cholesky, LU, Schur, SVD, and QR
 - solving linear system of equations (including over and underdetermined)
 - random number generation (Mersenne Twister generator)
@@ -31,7 +32,6 @@ the reference documentation.
 - evaluating and finding roots of polynomials (and inverse operations)
 - filter design functions
 - fast independent component analysis (fast ICA)
-- statistics class
 
 
 \section comm_features Communications
@@ -42,7 +42,7 @@ the reference documentation.
 - binary symmetric (BSC) and additive white Gaussian Noise (AWGN) channels
 - multipath fading channels (both frequency-flat and frequency-selective)
 - COST 207, COST 257, and ITU channel models
-- Hamming, Extended Golay, and CRC codes
+- Hamming, extended Golay, and CRC codes
 - BCH and Reed-Solomon codes
 - convolutional and punctured convolutional codes
 - recursive convolutional codes
@@ -54,12 +54,12 @@ the reference documentation.
 - event-based simulation classes
 - signal and slots for simplified syntax
 - TCP clients and servers
-- Selective Repeat ARQ
+- selective repeat ARQ
 - queue classes
 - packet generators
 
 
-\section srccod_features Source coding
+\section srccode_features Source coding
 - Scalar Quantizer (SQ) and Vector Quantizer (VQ) classes and functions for
   training of these 
 - LPC, LSF, and cepstrum parameter calculation for speech processing
