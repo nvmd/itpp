@@ -1,5 +1,9 @@
 2006-03-24  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/srccode/lpcfunc.cpp, itpp/signal/fastica.cpp: Fixed
+	improper include statements after moving signal-processing related
+	classes and functions to a separate subdirectory.
+
 	* config/acx_blas.m4: Removed unnecessary check for "libblas",
 	beside "libf77blas" in ATLAS detection routines. This fixes a
 	configuration problem in the case when both the ATLAS and NetLib's
