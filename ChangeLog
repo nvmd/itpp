@@ -1,3 +1,10 @@
+2006-03-24  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* config/acx_blas.m4: Removed unnecessary check for "libblas",
+	beside "libf77blas" in ATLAS detection routines. This fixes a
+	configuration problem in the case when both the ATLAS and NetLib's
+	blas libraries are installed.
+
 2006-03-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac: Changed CBLAS and LAPACK library detection order

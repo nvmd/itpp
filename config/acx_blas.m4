@@ -87,14 +87,12 @@ fi
 blas_atlas_ok=no
 if test $acx_blas_ok = no; then
   AC_CHECK_LIB(atlas, ATL_xerbla,	
-    [for blas in f77blas blas; do 
-      AC_CHECK_LIB($blas, $sgemm, 
-        [AC_CHECK_LIB(cblas, cblas_dgemm,
-          [acx_blas_ok=yes; blas_atlas_ok=yes; 
-            BLAS_LIBS="-lcblas -l$blas -latlas"],
-          [], [-l$blas -latlas])],
-        [], [-latlas])
-    done])
+    [AC_CHECK_LIB(f77blas, $sgemm, 
+      [AC_CHECK_LIB(cblas, cblas_dgemm, 
+        [acx_blas_ok=yes; blas_atlas_ok=yes; 
+          BLAS_LIBS="-lcblas -lf77blas -latlas"],
+        [], [-lf77blas -latlas])],
+      [], [-latlas])])
 fi
 
 # BLAS in PhiPACK libraries? (requires generic BLAS lib, too)
