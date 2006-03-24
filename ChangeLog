@@ -1,5 +1,7 @@
 2006-03-24  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/sources.mk: Added missing "itpp/itsignal.h" file.
+	
 	* itpp/srccode/lpcfunc.cpp, itpp/signal/fastica.cpp: Fixed
 	improper include statements after moving signal-processing related
 	classes and functions to a separate subdirectory.
