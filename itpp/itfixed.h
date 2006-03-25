@@ -33,6 +33,11 @@
 #ifndef ITFIXED_H
 #define ITFIXED_H
 
+//! \defgroup fixed Fixed-point Module
+//@{
+//! \defgroup fixtypes Fixed-Point Data Types
+//@}
+
 #include <itpp/fixed/cfix.h>
 #include <itpp/fixed/cfixed.h>
 #include <itpp/fixed/fix.h>

@@ -33,6 +33,11 @@
 #ifndef ITPROTOCOL_H
 #define ITPROTOCOL_H
 
+//! \defgroup protocol Protocols Module
+//@{
+
+//@}
+
 #include <itpp/protocol/events.h>
 #include <itpp/protocol/front_drop_queue.h>
 #include <itpp/protocol/packet.h>

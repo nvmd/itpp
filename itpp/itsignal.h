@@ -33,6 +33,18 @@
 #ifndef ITSIGNAL_H
 #define ITSIGNAL_H
 
+//! \defgroup signal Signal Processing Module
+//@{
+//! \defgroup dct Discrete Cosine Transform (DCT)
+//! \defgroup fft Fast Fourier Transform (FFT)
+//! \defgroup fht Fast Hadamard Transform (FHT)
+//! \defgroup fastica Fast Independent Component Analysis
+//! \defgroup filters Filtering
+//! \defgroup poly Polynomial Functions
+//! \defgroup sigproc Signal Processing
+//! \defgroup windfunc Windowing
+//@}
+
 #include <itpp/signal/fastica.h>
 #include <itpp/signal/filter.h>
 #include <itpp/signal/filter_design.h>
