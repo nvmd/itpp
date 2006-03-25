@@ -33,6 +33,17 @@
 #ifndef ITCOMM_H
 #define ITCOMM_H
 
+//! \defgroup comm Communications Module
+//@{
+//! \defgroup channels Channel Modeling
+//! \defgroup modulators Digital Modulation
+//! \defgroup errorfunc Error Functions
+//! \defgroup fec Forward Error Correcting Codes
+//! \defgroup interl Interleavers
+//! \defgroup misccommfunc Miscellaneous Communications Functions
+//! \defgroup sequence Sequences
+//@}
+
 #include <itpp/comm/bch.h>
 #include <itpp/comm/channel.h>
 #include <itpp/comm/channel_code.h>

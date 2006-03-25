@@ -33,6 +33,34 @@
 #ifndef ITBASE_H
 #define ITBASE_H
 
+//! \defgroup base Base Module
+//@{
+//! \defgroup parser Argument Parser
+//! \defgroup besselfunctions Bessel Functions
+//! \defgroup convertfunc Conversion Functions
+//! \defgroup determinant Determinant
+//! \defgroup detsource Deterministic Sources
+//! \defgroup diag Diagonal Matrices and Functions
+//! \defgroup errorhandlingfunc Error and Warning Handling
+//! \defgroup matrix_functions Functions on Matrices
+//! \defgroup hypfunc Hyperbolic Functions
+//! \defgroup inverse Inverse Matrix
+//! \defgroup itfile IT++ File Format
+//! \defgroup logexpfunc Logarithmic and Exponential Functions
+//! \defgroup matrixdecomp Matrix Decompositions
+//! \defgroup miscfunc Miscellaneous Functions
+//! \defgroup integration Numerical Integration
+//! \defgroup optimization Numerical Optimization Routines
+//! \defgroup randgen Random Number Generation
+//! \defgroup reshaping Reshaping of Vectors and Matrices
+//! \defgroup linearequations Solving Linear Equation Systems
+//! \defgroup specmat Special Matrices
+//! \defgroup statistics Statistics
+//! \defgroup timers Timers
+//! \defgroup trifunc Trigonometric Functions
+//! \defgroup upsample Upsampling of Vectors and Matrices
+//@}
+
 #include <itpp/base/array.h>
 #include <itpp/base/bessel.h>
 #include <itpp/base/binary.h>

@@ -1,3 +1,11 @@
+2006-03-25  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/commfunc.h, itpp/comm/sequence.h,
+	itpp/fixed/fix_base.h, itpp/itbase.h, itpp/itcomm.h,
+	itpp/itconfig.h, itpp/itfixed.h, itpp/itprotocol.h,
+	itpp/itsignal.h, itpp/itsrccode.h: Documentation of IT++ modules
+	divided into modules. Minor fixes in various places.
+	
 2006-03-24  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* doc/local/features.doc: Statistics classes and functions moved

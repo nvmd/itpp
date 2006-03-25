@@ -41,15 +41,17 @@ namespace itpp {
 
   /*! 
     \brief Binary Linear Feedback Shift Register (LFSR)
+    \ingroup sequence
   
-    <ul>
-    <li> The LFSR is on Fibonacci form (see e.g. page 104 in Peterson, Ziemer, and Borth
-    "Introduction to Spread Spctrum communications", Prentice-Hall, 1995.)</li>
-    <li> If the connect_polynomial=1+g1*D+g2*D^2+...+gr*D^r is a primitive polynomial
-    a Maximum Length Sequence (m-seq.) of length N=2^r -1 is constructed. Use an
-    arbitrary state not equal to zero, to get a phase of the m-sequence.</li>
-    <li> For a table of primtive polynomials see e.g. page 117 in the reference above or a suitable book on coding.</li>
-    </ul>
+    - The LFSR is on Fibonacci form (see p. 104 in Peterson, Ziemer and
+    Borth, "Introduction to Spread Spctrum communications", Prentice-Hall,
+    1995)
+    - If the connect_polynomial=1+g1*D+g2*D^2+...+gr*D^r is a primitive
+    polynomial, a Maximum Length Sequence (m-sequence) of length N=2^r-1 is
+    constructed. Use an arbitrary state not equal to zero, to get a phase of
+    the m-sequence 
+    - For a table of primtive polynomials see p. 117 in the reference above
+    or a suitable book on coding
   */
   class LFSR {
   public:
@@ -81,14 +83,16 @@ namespace itpp {
 
   /*! 
     \brief Gold Sequences
+    \ingroup sequence
   */
   class Gold {
   public:
     /*! 
       \brief Class constructor
 
-      Automatic selection of preferred pair of connections. Just give the degree (N=2^degree-1).
-      degree=5,7,8,9 available. Only one pair is available for each degree.
+      Automatic selection of a preferred pair of connections. Just give the
+      degree \f$N = 2^{deg} - 1\f$ where \f$deg = \{ 5, 7, 8, 9 \}\f$.
+      Only one pair is available for each degree.
     */
     Gold(int degree);
     //! Input connect_polynomials=1+g1*D+g2*D^2+...+gr*D^r in bvec format [g0,g1,...,gr]
@@ -130,8 +134,9 @@ namespace itpp {
   // --------------- Functions ---------------------
 
   /*! 
-    \ingroup miscfunc
-    \brief Generates the OVSF (orthogonal variable spreading factor) spreading codes used in WCDMA. 
+    \brief Generates the OVSF (orthogonal variable spreading factor)
+    spreading codes used in WCDMA. 
+    \ingroup sequence
 
     The codes are written row-wise in the return matrix.
   */ 

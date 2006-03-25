@@ -33,6 +33,14 @@
 #ifndef ITSRCCODE_H
 #define ITSRCCODE_H
 
+//! \defgroup srccode Source Coding Module
+//@{
+//! \defgroup audio Audio
+//! \defgroup image Image Functions and Classes
+//! \defgroup lpc LPC-related Functions
+//! \defgroup sourcecoding Source Coding Routines
+//@}
+
 #include <itpp/srccode/audiofile.h>
 #include <itpp/srccode/gmm.h>
 #include <itpp/srccode/lpcfunc.h>
