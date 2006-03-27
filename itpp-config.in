@@ -76,7 +76,7 @@ while test $# -gt 0; do
       echo -L${libdir} -l@PACKAGE@ @LIBS@
       ;;
     --libs-debug)
-      echo -L${libdir} -l@PACKAGE@_debug @LIBS@
+      echo -L${libdir} -l@PACKAGE_DEBUG@ @LIBS@
       ;;
     *)
       echo "${usage}" 1>&2

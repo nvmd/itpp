@@ -80,8 +80,10 @@ fi
 AC_SUBST(docdir)
 
 
+PACKAGE_DEBUG="$PACKAGE"
 # Set debug flags
 if test "x$enable_debug" = xyes; then
+  PACKAGE_DEBUG="$PACKAGE"_debug
   CXXFLAGS_DEBUG="-DASSERT_LEVEL=2 -g"
   # Only for GCC compiler 
   if test "x$GXX" = xyes; then
@@ -89,6 +91,7 @@ if test "x$enable_debug" = xyes; then
   fi
 fi
 AC_SUBST(CXXFLAGS_DEBUG)
+AC_SUBST(PACKAGE_DEBUG)
 
 # Set optimised flags
 if test "x$CXXFLAGS" = x; then
