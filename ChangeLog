@@ -1,3 +1,9 @@
+2006-03-27  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac, itpp-config.in: Minor fix in the itpp-config
+	script. Now `itpp-config --libs-debug' uses `-litpp' when the
+	debug library is not available.
+
 2006-03-25  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/commfunc.h, itpp/comm/sequence.h,
