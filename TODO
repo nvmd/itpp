@@ -1,25 +1,13 @@
 Things to do before releasing version 4.0.0
 ============================================
 
-* Split base module into two separate modules: base and signal. By the way
-  of splitting, perform some naming changes:
-  - base <-> itppbase.h
-  - signal <-> itppsignal.h
-  - comm <-> itppcomm.h
-  - fixed <-> itppfixed.h
-  - protocol <-> itppprotocol.h
-  - srccode <-> itppsrccode.h
-
 * Add optional configure switches to exclude some modules from building
 
 * Documentation improvements:
   - updated reference documentation
-  - perform hierarchical grouping of modules
   - revise tutorial examples; add new ones; maybe split to basics and more
     advanced stuff
   - tips and trics for Matlab/Octave users
-  - restructure "verification" tables into more detailed info for particular
-    platforms/distributions
 
 * Go through our current feature requests at SourceForge. There are
   interesting hints and patches posted by the IT++ users.
@@ -80,12 +68,11 @@ Specific features
 
 * Soft-in soft-out turbo decoder 
 
-* Fix the decode_trunk() function of the Viterbi decoder, so it might 
-be used in a loop. Currently, the internal state of the trellis is always 
-recalculated from scratch
+* Fix the decode_trunk() function of the Viterbi decoder, so it might be
+  used in a loop. Currently, the internal state of the trellis is always
+  recalculated from scratch.
 
 * Class for operation on index sets?
 
 * Revision of (scalar) modulators to use fast likelihood algebra and
-to take soft inputs (for higher order constellations)
-
+  to take soft inputs (for higher order constellations).

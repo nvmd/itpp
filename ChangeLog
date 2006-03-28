@@ -1,3 +1,15 @@
+2006-03-28  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* TODO: Updated to reflect recent changes.
+
+	* itpp/base/itpp_version.cpp, itpp/base/itpp_version.h,
+	itpp/itconfig.h, itpp/base/array.h, itpp/base/mat.h,
+	itpp/base/newton_search.cpp, itpp/base/newton_search.h,
+	itpp/base/sources.mk, itpp/base/vec.h, itpp/sources.mk: Merged the
+	content of itpp/itconfig.h and itpp/base/itpp_version.{cpp,h}
+	files into new files itpp/base/itmisc.{cpp,h}. The new files
+	should include miscleaneous functions related to IT++ library.
+
 2006-03-27  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac, itpp-config.in: Minor fix in the itpp-config
