@@ -31,7 +31,6 @@
  */
 
 #include <itpp/base/newton_search.h>
-#include <itpp/base/vec.h>
 #include <itpp/base/stat.h>
 #include <itpp/base/specmat.h>
 

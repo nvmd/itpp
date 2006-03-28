@@ -19,7 +19,7 @@ h_base_sources = \
 	$(top_srcdir)/itpp/base/inv.h \
 	$(top_srcdir)/itpp/base/itassert.h \
 	$(top_srcdir)/itpp/base/itfile.h \
-	$(top_srcdir)/itpp/base/itpp_version.h \
+	$(top_srcdir)/itpp/base/itmisc.h \
 	$(top_srcdir)/itpp/base/lapack.h \
 	$(top_srcdir)/itpp/base/ls_solve.h \
 	$(top_srcdir)/itpp/base/lu.h \
@@ -59,7 +59,7 @@ cpp_base_sources = \
 	$(top_srcdir)/itpp/base/inv.cpp \
 	$(top_srcdir)/itpp/base/itassert.cpp \
 	$(top_srcdir)/itpp/base/itfile.cpp \
-	$(top_srcdir)/itpp/base/itpp_version.cpp \
+	$(top_srcdir)/itpp/base/itmisc.cpp \
 	$(top_srcdir)/itpp/base/ls_solve.cpp \
 	$(top_srcdir)/itpp/base/lu.cpp \
 	$(top_srcdir)/itpp/base/mat.cpp \

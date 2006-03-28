@@ -1,7 +1,7 @@
 /*!
  * \file
- * \brief Definition of IT++ version function
- * \author Tony Ottosson
+ * \brief Implementation of IT++ miscleaneous functions
+ * \author Tony Ottosson and Adam Piatyszek
  * 
  * $Date$
  * $Revision$
@@ -30,21 +30,24 @@
  * -------------------------------------------------------------------------
  */
 
-#ifndef ITPP_VERSION_H
-#define ITPP_VERSION_H
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
 
-#include <string>
+#include <itpp/base/itmisc.h>
 
 
-namespace itpp {
+namespace itpp { 
 
-  /*!
-   * \brief Return IT++ version
-   *
-   * Returns the version number of the IT++ library, e.g. "3.7.1".
-   */
-  std::string itpp_version(void);
+  std::string itpp_version(void)
+  {
+#ifdef PACKAGE_VERSION
+    return std::string(PACKAGE_VERSION);
+#else
+    return std::string("Warning: Version unknown!");
+#endif
+  }
 
 } //namespace itpp
-
-#endif // #ifndef ITPP_VERSION_H
