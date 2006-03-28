@@ -39,8 +39,8 @@
 #ifndef ARRAY_H
 #define ARRAY_H
 
-#include <itpp/itconfig.h>
 #include <itpp/base/itassert.h>
+#include <itpp/base/itmisc.h>
 #include <itpp/base/factory.h>
 #include <itpp/base/copy_vector.h>
 

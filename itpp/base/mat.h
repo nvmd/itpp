@@ -39,11 +39,8 @@
 #  include <itpp/config_msvc.h>
 #endif
 
-#include <string>
-#include <complex>
-
-#include <itpp/itconfig.h>
 #include <itpp/base/itassert.h>
+#include <itpp/base/itmisc.h>
 #include <itpp/base/factory.h>
 
 

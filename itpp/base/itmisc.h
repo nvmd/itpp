@@ -1,8 +1,8 @@
 /*!
- * \file 
- * \brief Some specific global configurations and definitions
- * \author Tony Ottosson
- *
+ * \file
+ * \brief Definition of IT++ miscleaneous functions
+ * \author Tony Ottosson and Adam Piatyszek
+ * 
  * $Date$
  * $Revision$
  *
@@ -30,14 +30,11 @@
  * -------------------------------------------------------------------------
  */
 
-#ifndef ITCONFIG_H
-#define ITCONFIG_H
+#ifndef ITMISC_H
+#define ITMISC_H
 
 #include <complex>
-
-#ifdef _MSC_VER
-#define __WIN32__
-#endif
+#include <string>
 
 
 namespace std {
@@ -93,4 +90,17 @@ namespace std {
 
 } // namespace std
 
-#endif // #ifndef ITCONFIG_H
+
+namespace itpp {
+
+  /*!
+   * \brief Return IT++ version
+   *
+   * Returns the version number of the IT++ library, e.g. "3.7.1".
+   */
+  std::string itpp_version(void);
+
+} //namespace itpp
+
+
+#endif // #ifndef ITMISC_H

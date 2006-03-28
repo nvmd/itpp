@@ -33,7 +33,6 @@
 #ifndef NEWTON_SEARCH_H
 #define NEWTON_SEARCH_H
 
-#include <itpp/itconfig.h>
 #include <itpp/base/vec.h>
 #include <itpp/base/array.h>
 #include <limits>
