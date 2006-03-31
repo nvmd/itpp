@@ -1,5 +1,8 @@
 2006-03-31  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* config/acx_fft.m4: Improvements and fixes in external FFT
+	library detection.
+
 	* config/acx_cblas.m4: Added check for acml.h header file when
 	checking for ACML's CBLAS library. 
 

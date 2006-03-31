@@ -31,22 +31,27 @@ fftw3_ok=no
 if test "x$FFT_LIBS" != x; then
   save_LIBS="$LIBS"; LIBS="$FFT_LIBS $LIBS"
   AC_MSG_CHECKING([for DftiComputeForward in $FFT_LIBS])
-  AC_TRY_LINK_FUNC(DftiComputeForward, 
-    [AC_CHECK_HEADER([mkl_dfti.h], [acx_fft_ok=yes; fft_mkl8_ok=yes])])
-  AC_MSG_RESULT($fft_mkl8_ok)
+  AC_TRY_LINK_FUNC(DftiComputeForward, [acx_fft_ok=yes])
+  AC_MSG_RESULT($acx_fft_ok)
+  if test $acx_fft_ok = yes; then
+    AC_CHECK_HEADER([mkl_dfti.h], [fft_mkl8_ok=yes; blas_mkl_ok=yes], 
+      [acx_fft_ok=no])
+  fi
   if test $acx_fft_ok = no; then
     AC_MSG_CHECKING([for zfft1dx in $FFT_LIBS])
-    AC_TRY_LINK_FUNC(zfft1dx, 
-      [AC_CHECK_HEADER([acml.h], [acx_fft_ok=yes; fft_acml_ok=yes])])
-    AC_MSG_RESULT($fft_acml_ok)
+    AC_TRY_LINK_FUNC(zfft1dx, [acx_fft_ok=yes])
+    AC_MSG_RESULT($acx_fft_ok)
+    if test $acx_fft_ok = yes; then
+      AC_CHECK_HEADER([acml.h], [fft_acml_ok=yes], [acx_fft_ok=no])
+    fi
   fi
   if test $acx_fft_ok = no; then
     AC_MSG_CHECKING([for fftw_plan_dft_1d in $FFT_LIBS])
-    AC_TRY_LINK_FUNC(fftw_plan_dft_1d, 
-      [AC_CHECK_HEADER([fftw3.h], [acx_fft_ok=yes; fftw3_ok=yes], 
-        [FFT_LIBS=""])], 
-      [FFT_LIBS=""])
-    AC_MSG_RESULT($fftw3_ok)
+    AC_TRY_LINK_FUNC(fftw_plan_dft_1d, [acx_fft_ok=yes], [FFT_LIBS=""])
+    AC_MSG_RESULT($acx_fft_ok)
+    if test $acx_fft_ok = yes; then
+      AC_CHECK_HEADER([fftw3.h], [fftw3_ok=yes], [acx_fft_ok=no; FFT_LIBS=""])
+    fi
   fi
   LIBS="$save_LIBS"
 fi
@@ -54,49 +59,65 @@ fi
 # FFT in BLAS (MKL) library?
 if test "x$acx_fft_ok" = xno; then
   save_LIBS="$LIBS"; LIBS="$LIBS $BLAS_LIBS $FLIBS"
-  AC_CHECK_FUNC(DftiComputeForward,
-    [AC_CHECK_HEADER([mkl_dfti.h], 
-      [acx_fft_ok=yes; fft_mkl8_ok=yes; blas_mkl_ok=yes])])
+  AC_CHECK_FUNC(DftiComputeForward, [acx_fft_ok=yes])
+  if test $acx_fft_ok = yes; then
+    AC_CHECK_HEADER([mkl_dfti.h], [fft_mkl8_ok=yes; blas_mkl_ok=yes], 
+      [acx_fft_ok=no])
+  fi
   LIBS="$save_LIBS"
 fi
 
 # FFT in MKL library?
 if test "x$acx_fft_ok" = xno; then
-  AC_CHECK_LIB(mkl, DftiComputeForward, 
-    [AC_CHECK_HEADER([mkl_dfti.h], 
-      [acx_fft_ok=yes; fft_mkl8_ok=yes; FFT_LIBS="-lmkl -lguide"])],
-    [], [-lguide])
+  save_LIBS="$LIBS"; LIBS="$LIBS $FLIBS"
+  AC_CHECK_LIB(mkl, DftiComputeForward, [acx_fft_ok=yes], [], [-lguide])
+  if test $acx_fft_ok = yes; then
+    AC_CHECK_HEADER([mkl_dfti.h],
+      [fft_mkl8_ok=yes; blas_mkl_ok=yes; FFT_LIBS="-lmkl -lguide"], 
+      [acx_fft_ok=no])
+  fi
+  LIBS="$save_LIBS"
 fi
 
 # FFT in BLAS (ACML) library?
 if test "x$acx_fft_ok" = xno; then
   save_LIBS="$LIBS"; LIBS="$LIBS $BLAS_LIBS $FLIBS"
-  AC_CHECK_FUNC(zfft1dx,
-    [AC_CHECK_HEADER([acml.h], 
-      [acx_fft_ok=yes; fft_acml_ok=yes; blas_acml_ok=yes])])
+  AC_CHECK_FUNC(zfft1dx, [acx_fft_ok=yes])
+  if test $acx_fft_ok = yes; then
+    AC_CHECK_HEADER([acml.h], [fft_acml_ok=yes; blas_acml_ok=yes], 
+      [acx_fft_ok=no])
+  fi
   LIBS="$save_LIBS"
 fi
 
 # FFT in ACML library?
 if test "x$acx_fft_ok" = xno; then
-  AC_CHECK_LIB(acml, zfft1dx, 
-    [AC_CHECK_HEADER([acml.h], 
-      [acx_fft_ok=yes; fft_acml_ok=yes; FFT_LIBS="-lacml"])])
+  save_LIBS="$LIBS"; LIBS="$LIBS $FLIBS"
+  AC_CHECK_LIB(acml, zfft1dx, [acx_fft_ok=yes])
+  if test $acx_fft_ok = yes; then
+    AC_CHECK_HEADER([acml.h], 
+      [fft_acml_ok=yes; blas_acml_ok=yes; FFT_LIBS="-lacml"],
+      [acx_fft_ok=no])
+  fi
+  LIBS="$save_LIBS"
 fi
 
 # FFT in FFTW3 library?
 if test "x$acx_fft_ok" = xno; then
-  AC_CHECK_LIB(fftw3, fftw_plan_dft_1d, 
-    [AC_CHECK_HEADER([fftw3.h],
-      [acx_fft_ok=yes; fftw3_ok=yes; FFT_LIBS="-lfftw3"])])
+  AC_CHECK_LIB(fftw3, fftw_plan_dft_1d, [acx_fft_ok=yes])
+  if test $acx_fft_ok = yes; then
+    AC_CHECK_HEADER([fftw3.h], [fftw3_ok=yes; FFT_LIBS="-lfftw3"], 
+      [acx_fft_ok=no])
+  fi
 fi
 
 # FFT in FFTW3 library (extra -lm)?
 if test "x$acx_fft_ok" = xno; then
-  AC_CHECK_LIB(fftw3, fftw_plan_dft_1d,
-    [AC_CHECK_HEADER([fftw3.h],
-      [acx_fft_ok=yes; fftw3_ok=yes; FFT_LIBS="-lfftw3 -lm"])], 
-    [], [-lm])
+  AC_CHECK_LIB(fftw3, fftw_plan_dft_1d, [acx_fft_ok=yes], [], [-lm])
+  if test $acx_fft_ok = yes; then
+    AC_CHECK_HEADER([fftw3.h], [fftw3_ok=yes; FFT_LIBS="-lfftw3 -lm"], 
+      [acx_fft_ok=no])
+  fi
 fi
 
 AC_SUBST(FFT_LIBS)
