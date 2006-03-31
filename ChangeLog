@@ -1,3 +1,11 @@
+2006-03-31  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/cblas.cpp, config/acx_cblas.m4, configure.ac,
+	doc/doxygen_html.cfg.in, itpp/base/sources.mk: Fixed CBLAS
+	interface when using ACML BLAS implementation. ACML C interface
+	is not the same as in other implementation, so a limited set of
+	wrapper functions has been created in `cblas.cpp' file.
+
 2006-03-28  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* TODO: Updated to reflect recent changes.
