@@ -1,5 +1,8 @@
 2006-03-31  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* config/acx_cblas.m4: Added check for acml.h header file when
+	checking for ACML's CBLAS library. 
+
 	* itpp/base/cblas.cpp, config/acx_cblas.m4, configure.ac,
 	doc/doxygen_html.cfg.in, itpp/base/sources.mk: Fixed CBLAS
 	interface when using ACML BLAS implementation. ACML C interface
