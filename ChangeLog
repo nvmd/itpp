@@ -1,5 +1,8 @@
 2006-03-31  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/local/verification.doc: Updated IT++ Supported Systems page
+	with new tests.
+
 	* config/acx_fft.m4: Improvements and fixes in external FFT
 	library detection.
 

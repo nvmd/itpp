@@ -2,17 +2,20 @@
 \page verification IT++ Supported Systems
 
 \section toc Table of Contents
-- \ref itpp_3_10_0
-  - \ref gentoo
+- \ref intro
+- \ref itpp_3_10
+  - \ref linux
     - \ref fedora_atlas
     - \ref gentoo_acml
     - \ref gentoo_atlas
     - \ref gentoo_mkl
+    - \ref gentoo_netlib
     - \ref rhel
     - \ref suse_netlib
     - \ref suse_mkl
   - \ref windows
     - \ref cygwin
+    - \ref cygwin_atlas
   - \ref unix
     - \ref sunos59
 - \ref itpp_3_9_1
@@ -20,22 +23,33 @@
 - \ref itpp_3_8_1
 
 
-\section itpp_3_10_0 IT++ 3.10.0
+\section intro Introdution
 
-It has been confirmed that this release has been compiled, installed and
-sucessfully tested on the operating systems and platforms described below.
+This page is intended to provide a list of IT++ supported systems, i.e. the
+systems on which configuration, installation and testing process of the IT++
+library has been sucessful. Results are grouped based on minor release
+number. Therefore, only the latest tests for bug-fix releases are included.
+Besides, the information on this page is divided into sections dependent on
+the operating system.
+
+Where necessary, some extra information is given for each tested
+configuration, e.g. external libraries installed, configuration commands
+used, etc.
+
 If you manage to compile, install and test the IT++ library on a system not
 mentioned below, please let us know, so we could update this database.
 
 
-\subsection gentoo Linux Systems
+\section itpp_3_10 IT++ 3.10.x
 
+\subsection linux Linux Systems
 
 \subsubsection fedora_atlas Fedora Core 4 with ATLAS
 
 - <b>Platform</b>: Intel Pentium 4
 - <b>Operating System</b>: Fedora Core 4 (x86)
 - <b>Compiler</b>: g++ (GCC) 4.0.2 20051125
+- <b>IT++ release</b>: 3.10.0
 - <b>External Libraries</b>: From FC4 distribution:
   - <tt>fftw3.i386-3.0.1-3</tt>
   - <tt>fftw3-devel.i386-3.0.1-3</tt>
@@ -57,8 +71,8 @@ mentioned below, please let us know, so we could update this database.
 - <b>Platform</b>: AMD Sempron 3000+
 - <b>Operating System</b>: Gentoo Linux 2006.0 (x86 arch)
 - <b>Compiler(s)</b>: g++ (GCC) 3.4.5
+- <b>IT++ release</b>: 3.10.1
 - <b>External Libraries</b>: Compiled and installed from portage tree: 
-  - <tt>sci-libs/gsl-1.4</tt>
   - <tt>sci-libs/acml-3.0.0</tt>
 - <b>Tests Status</b>: All tests PASSED
 - <b>Comments</b>: BLAS and LAPACK libs set by using the following system 
@@ -72,7 +86,7 @@ mentioned below, please let us know, so we could update this database.
 % export CPPFLAGS="-I/usr/include/acml"
 % ./configure --with-blas="-lblas"
 \endcode
-- <b>Date</b>: February 28, 2006
+- <b>Date</b>: March 31, 2006
 - <b>Tester</b>: Adam Piatyszek (ediap)
 
 
@@ -81,6 +95,7 @@ mentioned below, please let us know, so we could update this database.
 - <b>Platform</b>: Intel Pentium M Centrino
 - <b>Operating System</b>: Gentoo Linux 2006.0 (x86)
 - <b>Compiler</b>: g++ (GCC) 3.4.5
+- <b>IT++ release</b>: 3.10.1
 - <b>External Libraries</b>: Compiled and installed from portage tree:
   - <tt>sci-libs/fftw-3.1</tt>
   - <tt>sci-libs/blas-atlas-3.6.0-r1</tt>
@@ -96,7 +111,7 @@ mentioned below, please let us know, so we could update this database.
 \code
 % ./configure --with-blas="-lblas"
 \endcode
-- <b>Date</b>: February 28, 2006
+- <b>Date</b>: March 31, 2006
 - <b>Tester</b>: Adam Piatyszek (ediap)
 
 
@@ -105,6 +120,7 @@ mentioned below, please let us know, so we could update this database.
 - <b>Platform</b>: Intel Pentium M Centrino
 - <b>Operating System</b>: Gentoo Linux 2006.0 (x86 arch)
 - <b>Compiler</b>: g++ (GCC) 3.4.5
+- <b>IT++ release</b>: 3.10.0
 - <b>External Libraries</b>: Intel Math Kernel Library (MKL) 8.0.1
   installed manually in the following directory: <tt>/opt/intel/mkl/8.0.1</tt>
 - <b>Tests Status</b>: All tests PASSED
@@ -118,12 +134,39 @@ mentioned below, please let us know, so we could update this database.
 - <b>Tester</b>: Adam Piatyszek (ediap)
 
 
+\subsubsection gentoo_netlib Gentoo Linux with NetLib's BLAS and LAPACK
+
+- <b>Platform</b>: Intel Pentium M Centrino
+- <b>Operating System</b>: Gentoo Linux 2006.0 (x86)
+- <b>Compiler</b>: g++ (GCC) 3.4.5
+- <b>IT++ release</b>: 3.10.1
+- <b>External Libraries</b>: Compiled and installed from portage tree:
+  - <tt>sci-libs/fftw-3.1</tt>
+  - <tt>sci-libs/blas-reference-19940131-r2</tt>
+  - <tt>sci-libs/cblas-reference-20030223</tt>
+  - <tt>sci-libs/lapack-reference-3.0-r2</tt>
+- <b>Tests Status</b>: All tests PASSED
+- <b>Comments</b>: BLAS and LAPACK libs set by using the following system 
+  commands:
+\code
+% blas-config reference
+% lapack-config reference
+\endcode
+  IT++ configured with:
+\code
+% ./configure --with-blas="-lblas"
+\endcode
+- <b>Date</b>: March 31, 2006
+- <b>Tester</b>: Adam Piatyszek (ediap)
+
+
 \subsubsection rhel Red Hat Enterprise Linux with IT++ External
 
 - <b>Platform</b>: Intel Pentium 4
 - <b>Operating System</b>: Red Hat Enterprise Linux AS release 4 (Nahant
   Update 2)  
 - <b>Compiler</b>: g++ (GCC) 3.4.4 20050721 (Red Hat 3.4.4-2)
+- <b>IT++ release</b>: 3.10.0
 - <b>External Libraries</b>: BLAS, CBLAS, LAPACK and FFTW libraries from
   IT++ External 2.1.1 package
 - <b>Tests Status</b>: All tests PASSED
@@ -136,6 +179,7 @@ mentioned below, please let us know, so we could update this database.
 - <b>Platform</b>: Intel Pentium 4 CPU 3.20GHz (64-bit)
 - <b>Operating System</b>: SUSE Linux 10.0 (x86_64)
 - <b>Compiler(s)</b>: g++ (GCC) 4.0.2
+- <b>IT++ release</b>: 3.10.0
 - <b>External Libraries</b>: BLAS, LAPACK and FFTW libraries installed from 
   OpenSuse 10.0 RPM repository:
   - <tt>blas-3.0-926</tt>
@@ -158,6 +202,7 @@ mentioned below, please let us know, so we could update this database.
 - <b>Platform</b>: Intel Pentium 4 CPU 3.20GHz (64-bit)
 - <b>Operating System</b>: SUSE Linux 10.0 (x86_64)
 - <b>Compiler(s)</b>: g++ (GCC) 4.0.2
+- <b>IT++ release</b>: 3.10.0
 - <b>External Libraries</b>: Intel Math Kernel Library (MKL) 8.0.1
   installed manually in the following directory: <tt>/opt/intel/mkl/8.0.1</tt>
 - <b>Tests Status</b>: All tests PASSED
@@ -179,6 +224,7 @@ mentioned below, please let us know, so we could update this database.
 - <b>Platform</b>: AMD Sempron 3000+
 - <b>Operating System</b>: Microsoft Windows XP SP2, Cygwin 1.5.19-4
 - <b>Compiler(s)</b>: g++ (GCC) 3.4.4 (cygming special)
+- <b>IT++ release</b>: 3.10.1
 - <b>External Libraries</b>: Installed from Cygwin's repository: 
   - <tt>fftw-3.0.1-2</tt>
   - <tt>fftw-dev-3.0.1-1</tt>
@@ -188,7 +234,32 @@ mentioned below, please let us know, so we could update this database.
 \code
 % ./configure --disable-shared
 \endcode
-- <b>Date</b>: February 28, 2006
+- <b>Date</b>: March 31, 2006
+- <b>Tester</b>: Adam Piatyszek (ediap)
+
+
+\subsubsection cygwin_atlas Microsoft Windows XP with Cygwin and ATLAS
+
+- <b>Platform</b>: AMD Sempron 3000+
+- <b>Operating System</b>: Microsoft Windows XP SP2, Cygwin 1.5.19-4
+- <b>Compiler(s)</b>: g++ (GCC) 3.4.4 (cygming special)
+- <b>IT++ release</b>: 3.10.1
+- <b>External Libraries</b>: Installed from Cygwin's repository: 
+  - <tt>fftw-3.0.1-2</tt>
+  - <tt>fftw-dev-3.0.1-1</tt>
+  .
+  ATLAS BLAS and LAPACK libraries from IT++ External 2.1.1 package
+  configured using:
+\code
+% ./configure --enable-atlas --disable-fftw
+\endcode
+- <b>Tests Status</b>: All tests PASSED
+- <b>Comments</b>: Only static library can be built. IT++ configured with:
+\code
+% export LDFLAGS="-L/usr/local/lib"
+% ./configure --disable-shared
+\endcode
+- <b>Date</b>: March 31, 2006
 - <b>Tester</b>: Adam Piatyszek (ediap)
 
 
@@ -199,6 +270,7 @@ mentioned below, please let us know, so we could update this database.
 - <b>Platform</b>: SUNW, Sun-Blade-100 (SPARC)
 - <b>Operating System</b>: SunOS 5.9 Generic_112233-10
 - <b>Compiler(s)</b>: g++ (GCC) 3.4.5
+- <b>IT++ release</b>: 3.10.0
 - <b>External Libraries</b>: BLAS, CBLAS, LAPACK and FFTW libraries from
   IT++ External 2.1.1 package. The following configuration command has been
   used:
