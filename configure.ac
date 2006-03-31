@@ -130,13 +130,13 @@ AM_CONDITIONAL([HAVE_DIFF], [test "x$diff_ok" = xyes])
 # Checks for BLAS (ACML, MKL, ATLAS or NETLIB)
 ACX_BLAS
 
-# Checks for CBLAS (MKL, ATLAS or NETLIB)
+# Checks for CBLAS (ACML, MKL, ATLAS or NETLIB)
 ACX_CBLAS
 
 # Checks for LAPACK (ACML, MKL, ATLAS or NETLIB)
 ACX_LAPACK
 
-# Checks for FFT (MKL or FFTW3)
+# Checks for FFT (ACML, MKL or FFTW3)
 ACX_FFT
 
 

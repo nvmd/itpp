@@ -48,6 +48,7 @@ cpp_base_sources = \
 	$(top_srcdir)/itpp/base/bessel.cpp \
 	$(top_srcdir)/itpp/base/binary.cpp \
 	$(top_srcdir)/itpp/base/binfile.cpp \
+	$(top_srcdir)/itpp/base/cblas.cpp \
 	$(top_srcdir)/itpp/base/cholesky.cpp \
 	$(top_srcdir)/itpp/base/converters.cpp \
 	$(top_srcdir)/itpp/base/det.cpp \
