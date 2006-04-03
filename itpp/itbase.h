@@ -78,7 +78,7 @@
 #include <itpp/base/inv.h>
 #include <itpp/base/itassert.h>
 #include <itpp/base/itfile.h>
-#include <itpp/base/itpp_version.h>
+#include <itpp/base/itmisc.h>
 #include <itpp/base/ls_solve.h>
 #include <itpp/base/lu.h>
 #include <itpp/base/machdep.h>

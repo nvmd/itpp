@@ -1,3 +1,7 @@
+2006-04-03  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/itbase.h: Minor fix - including `itmisc.h' file.
+
 2006-03-31  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* doc/local/verification.doc: Updated IT++ Supported Systems page
