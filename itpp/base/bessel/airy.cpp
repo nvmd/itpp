@@ -1,20 +1,43 @@
-//
-// airy.cpp
-//
-// $Id$
-//
+/*!
+ * \file 
+ * \brief Implementation of Airy function
+ * \author Tony Ottosson
+ *
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ *
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ *
+ * -------------------------------------------------------------------------
+ *
+ * This is slightly modified routine from the Cephes library:
+ * http://www.netlib.org/cephes/ 
+ */
 
-#include <cmath>
-// #include <iostream> //This line is needed for the Sun WorkShop Compiler 5.0 (CC). Dunno why... (PF 2001-12-03)
 #include <itpp/base/bessel/bessel_internal.h>
-
-// This is slightly modified routine from the Cephes library, see http://www.netlib.org/cephes/
-//  
-// According to licence agreement this software can be used freely.
-//
+#include <cmath>
 
 /*
- *	Airy function
+ * Airy function
  *
  * double x, ai, aip, bi, bip;
  * int airy();
@@ -49,8 +72,8 @@
  */
 
 /*
-Cephes Math Library Release 2.8:  June, 2000
-Copyright 1984, 1987, 1989, 2000 by Stephen L. Moshier
+  Cephes Math Library Release 2.8:  June, 2000
+  Copyright 1984, 1987, 1989, 2000 by Stephen L. Moshier
 */
 
 static double c1 = 0.35502805388781723926;
