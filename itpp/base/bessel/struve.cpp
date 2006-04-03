@@ -1,26 +1,48 @@
-//
-// struve.cpp
-//
-// struve.cpp,v 1.3 2003/01/15 09:08:21 tonyottosson Exp
-//
+/*!
+ * \file 
+ * \brief Implementation of struve function
+ * \author Tony Ottosson
+ *
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ *
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ *
+ * -------------------------------------------------------------------------
+ *
+ * This is slightly modified routine from the Cephes library:
+ * http://www.netlib.org/cephes/ 
+ */
  
-#include <cmath>
-
-// #include <itpp/base/itassert.h>
-#include <itpp/base/scalfunc.h>
 #include <itpp/base/bessel/bessel_internal.h>
+#include <itpp/base/scalfunc.h>
+#include <cmath>
 
 #ifdef _MSC_VER
 #pragma warning(disable:4996)
 #endif
 
-// This is slightly modified routine from the Cephes library, see http://www.netlib.org/cephes/
-//  
-// According to licence agreement this software can be used freely.
-//
-
 /*
- *      Struve function
+ * Struve function
  *
  * double v, x, y, struve();
  *
@@ -41,12 +63,9 @@
  */
 
 /*
-Cephes Math Library Release 2.81:  June, 2000
-Copyright 1984, 1987, 1989, 2000 by Stephen L. Moshier
+  Cephes Math Library Release 2.81:  June, 2000
+  Copyright 1984, 1987, 1989, 2000 by Stephen L. Moshier
 */
-
-double onef2 (double, double, double, double, double * );
-double threef0 (double, double, double, double, double * );
 
 static double stop = 1.37e-17;
 
@@ -104,8 +123,6 @@ double onef2(double a, double b, double c, double x, double *err)
  xit:
   return(sum);
 }
-
-
 
 
 double threef0(double a, double b, double c, double x, double *err )
@@ -221,13 +238,13 @@ double struve(double v, double x)
 
   if( onef2err <= threef0err )
     {
-		g = itpp::gamma( v + 1.5 );
+      g = itpp::gamma( v + 1.5 );
       y = y * h * t / ( 0.5 * f * g );
       return(y);
     }
   else
     {
-		g = itpp::gamma( v + 0.5 );
+      g = itpp::gamma( v + 0.5 );
       ya = ya * h / ( f * g );
       ya = ya + yv( v, x );
       return(ya);
@@ -235,9 +252,9 @@ double struve(double v, double x)
 }
 
 
-/* Bessel function of noninteger order
+/* 
+ * Bessel function of noninteger order
  */
-
 double yv(double v, double x)
 {
   double y, t;
@@ -247,7 +264,11 @@ double yv(double v, double x)
   if( y == v )
     {
       n = int(v);
+#ifdef _MSC_VER
+      y = _yn( n, x );
+#else
       y = yn( n, x );
+#endif
       return( y );
     }
   t = PI * v;

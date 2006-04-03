@@ -1,19 +1,42 @@
-//
-// polevl.cpp
-//
-// $Id$
-//
-
+/*!
+ * \file 
+ * \brief Implementation of polynomial evaluation function
+ * \author Tony Ottosson
+ *
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ *
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ *
+ * -------------------------------------------------------------------------
+ *
+ * This is slightly modified routine from the Cephes library:
+ * http://www.netlib.org/cephes/ 
+ */
 
 #include <itpp/base/bessel/bessel_internal.h>
 
-// This is slightly modified routine from the Cephes library, see http://www.netlib.org/cephes/
-//  
-// According to licence agreement this software can be used freely.
-//
-
 /*
- *	Evaluate polynomial
+ * Evaluate polynomial
  *
  * int N;
  * double x, y, coef[N+1], polevl[];
@@ -46,11 +69,9 @@
  * program in microcode or assembly language.
  */
 
-
 /*
-Cephes Math Library Release 2.1:  December, 1988
-Copyright 1984, 1987, 1988 by Stephen L. Moshier
-Direct inquiries to 30 Frost Street, Cambridge, MA 02140
+  Cephes Math Library Release 2.1:  December, 1988
+  Copyright 1984, 1987, 1988 by Stephen L. Moshier
 */
 
 double polevl(double x, double coef[], int N)

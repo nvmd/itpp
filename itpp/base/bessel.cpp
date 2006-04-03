@@ -42,13 +42,24 @@
 namespace itpp { 
 
   // Bessel function of order nu
-  double besselj(int nu, double x) { return jn(nu, x); }
+  double besselj(int nu, double x) 
+  { 
+#ifdef _MSC_VER
+    return _jn(nu, x); 
+#else
+    return jn(nu, x); 
+#endif
+  }
 
   vec besselj(int nu, const vec &x)
   {
     vec out(x.size());
     for (int i=0; i<x.size(); i++)
+#ifdef _MSC_VER
+      out(i) = _jn(nu, x(i));
+#else
       out(i) = jn(nu, x(i));
+#endif
 
     return out;
   }
@@ -66,13 +77,24 @@ namespace itpp {
   }
 
   // Bessel function of second kind of order nu
-  double bessely(int nu, double x) { return yn(nu, x); }
+  double bessely(int nu, double x) 
+  { 
+#ifdef _MSC_VER
+    return _yn(nu, x); 
+#else
+    return yn(nu, x); 
+#endif
+  }
 
   vec bessely(int nu, const vec &x)
   {
     vec out(x.size());
     for (int i=0; i<x.size(); i++)
+#ifdef _MSC_VER
+      out(i) = _yn(nu, x(i));
+#else
       out(i) = yn(nu, x(i));
+#endif
 
     return out;
   }

@@ -1,25 +1,46 @@
-//
-// iv.cpp
-//
-// $Id$
-//
-
-#include <cmath>
-
-#include <itpp/base/itassert.h>
-#include <itpp/base/scalfunc.h>
+/*!
+ * \file 
+ * \brief Implementation of modified Bessel functions of noninteager order
+ * \author Tony Ottosson
+ *
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ *
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ *
+ * -------------------------------------------------------------------------
+ *
+ * This is slightly modified routine from the Cephes library:
+ * http://www.netlib.org/cephes/ 
+ */
 
 #include <itpp/base/bessel/bessel_internal.h>
+#include <itpp/base/scalfunc.h>
+#include <cmath>
 
 using namespace itpp;
 
-// This is slightly modified routine from the Cephes library, see http://www.netlib.org/cephes/
-//  
-// According to licence agreement this software can be used freely.
-//
-
 /* 
- *	odified Bessel function of noninteger order
+ * Modified Bessel function of noninteger order
  *
  * double v, x, y, iv();
  *
@@ -53,12 +74,12 @@ using namespace itpp;
  * See also hyperg.c.
  */
 
-/*	Modified Bessel function of noninteger order		*/
+/* Mdified Bessel function of noninteger order */
 /* If x < 0, then v must be an integer. */
 
 /*
-Cephes Math Library Release 2.8:  June, 2000
-Copyright 1984, 1987, 1988, 2000 by Stephen L. Moshier
+  Cephes Math Library Release 2.8:  June, 2000
+  Copyright 1984, 1987, 1988, 2000 by Stephen L. Moshier
 */
 
 

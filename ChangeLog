@@ -1,5 +1,15 @@
 2006-04-03  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/bessel/airy.cpp, itpp/base/bessel/chbevl.cpp,
+	itpp/base/bessel.cpp, itpp/base/bessel/hyperg.cpp,
+	itpp/base/bessel/i0.cpp, itpp/base/bessel/i1.cpp,
+	itpp/base/bessel/iv.cpp, itpp/base/bessel/jv.cpp,
+	itpp/base/bessel/k0.cpp, itpp/base/bessel/k1.cpp,
+	itpp/base/bessel/kn.cpp, itpp/base/bessel/polevl.cpp,
+	itpp/base/bessel/struve.cpp: Fixed a problem with a few Bessel
+	functions provided by <cmath> under MSVC++ (different naming
+	conventions). BTW, file headers updated.
+
 	* itpp/itbase.h: Minor fix - including `itmisc.h' file.
 
 2006-03-31  Adam Piatyszek  <ediap@users.sourceforge.net>

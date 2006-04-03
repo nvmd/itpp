@@ -1,25 +1,46 @@
-//
-// jv.cpp
-//
-// $Id$
-//
- 
-#include <cmath>
-
-#include <itpp/base/itassert.h>
-#include <itpp/base/scalfunc.h>
+/*!
+ * \file 
+ * \brief Implementation of Bessel functions of noninteager order
+ * \author Tony Ottosson
+ *
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ *
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ *
+ * -------------------------------------------------------------------------
+ *
+ * This is slightly modified routine from the Cephes library:
+ * http://www.netlib.org/cephes/ 
+ */
 
 #include <itpp/base/bessel/bessel_internal.h>
+#include <itpp/base/scalfunc.h>
+#include <cmath>
 
 using namespace itpp;
 
-// This is slightly modified routine from the Cephes library, see http://www.netlib.org/cephes/
-//  
-// According to licence agreement this software can be used freely.
-//
-
 /*
- *	Bessel function of noninteger order
+ * Bessel function of noninteger order
  *
  * double v, x, y, jv();
  *
@@ -51,8 +72,8 @@ using namespace itpp;
  */
 
 /*
-Cephes Math Library Release 2.8:  June, 2000
-Copyright 1984, 1987, 1989, 1992, 2000 by Stephen L. Moshier
+  Cephes Math Library Release 2.8:  June, 2000
+  Copyright 1984, 1987, 1989, 1992, 2000 by Stephen L. Moshier
 */
 
 #ifdef _MSC_VER
@@ -104,9 +125,17 @@ double jv(double n, double x)
 	  x = -x;
 	}
       if( n == 0.0 ) // use 0th order bessel function
-	return( j0(x) );
+#ifdef _MSC_VER
+	return _j0(x);
+#else
+	return j0(x);
+#endif
       if( n == 1.0 ) // use 1th order bessel function
-	return( sign * j1(x) );
+#ifdef _MSC_VER
+	return (sign * _j1(x));
+#else
+	return (sign * j1(x));
+#endif
     }
 
   it_error_if( (x < 0.0) && (y != an), "besselj:: negative values only allowed for integer orders.");
@@ -135,12 +164,20 @@ double jv(double n, double x)
 	  q = recur( &n, x, &k, 1 );
 	  if( k == 0.0 )
 	    {
+#ifdef _MSC_VER
+	      y = _j0(x)/q;
+#else
 	      y = j0(x)/q;
+#endif
 	      goto done;
 	    }
 	  if( k == 1.0 )
 	    {
+#ifdef _MSC_VER
+	      y = _j1(x)/q;
+#else
 	      y = j1(x)/q;
+#endif
 	      goto done;
 	    }
 	}
@@ -427,7 +464,7 @@ static double jvs(double n, double x)
       if( y < 0 )
 	{
 #ifdef _MSC_VER
-		it_error("lgamma only defined for positive values for Visual C++");
+	  it_error("lgamma only defined for positive values for Visual C++");
 #else
 	  signgam = -signgam;
 	  y = -y;
@@ -532,64 +569,64 @@ static double lambda[] = {
 };
 static double mu[] = {
   1.0,
- -1.458333333333333333333333E-1,
- -9.874131944444444444444444E-2,
- -1.433120539158950617283951E-1,
- -3.172272026784135480967078E-1,
- -9.424291479571202491373028E-1,
- -3.511203040826354261542798E+0,
- -1.572726362036804512982712E+1,
- -8.228143909718594444224656E+1,
- -4.923553705236705240352022E+2,
- -3.316218568547972508762102E+3
+  -1.458333333333333333333333E-1,
+  -9.874131944444444444444444E-2,
+  -1.433120539158950617283951E-1,
+  -3.172272026784135480967078E-1,
+  -9.424291479571202491373028E-1,
+  -3.511203040826354261542798E+0,
+  -1.572726362036804512982712E+1,
+  -8.228143909718594444224656E+1,
+  -4.923553705236705240352022E+2,
+  -3.316218568547972508762102E+3
 };
 static double P1[] = {
- -2.083333333333333333333333E-1,
+  -2.083333333333333333333333E-1,
   1.250000000000000000000000E-1
 };
 static double P2[] = {
   3.342013888888888888888889E-1,
- -4.010416666666666666666667E-1,
+  -4.010416666666666666666667E-1,
   7.031250000000000000000000E-2
 };
 static double P3[] = {
- -1.025812596450617283950617E+0,
+  -1.025812596450617283950617E+0,
   1.846462673611111111111111E+0,
- -8.912109375000000000000000E-1,
+  -8.912109375000000000000000E-1,
   7.324218750000000000000000E-2
 };
 static double P4[] = {
   4.669584423426247427983539E+0,
- -1.120700261622299382716049E+1,
+  -1.120700261622299382716049E+1,
   8.789123535156250000000000E+0,
- -2.364086914062500000000000E+0,
+  -2.364086914062500000000000E+0,
   1.121520996093750000000000E-1
 };
 static double P5[] = {
- -2.8212072558200244877E1,
+  -2.8212072558200244877E1,
   8.4636217674600734632E1,
- -9.1818241543240017361E1,
+  -9.1818241543240017361E1,
   4.2534998745388454861E1,
- -7.3687943594796316964E0,
+  -7.3687943594796316964E0,
   2.27108001708984375E-1
 };
 static double P6[] = {
   2.1257013003921712286E2,
- -7.6525246814118164230E2,
+  -7.6525246814118164230E2,
   1.0599904525279998779E3,
- -6.9957962737613254123E2,
+  -6.9957962737613254123E2,
   2.1819051174421159048E2,
- -2.6491430486951555525E1,
+  -2.6491430486951555525E1,
   5.7250142097473144531E-1
 };
 static double P7[] = {
- -1.9194576623184069963E3,
+  -1.9194576623184069963E3,
   8.0617221817373093845E3,
- -1.3586550006434137439E4,
+  -1.3586550006434137439E4,
   1.1655393336864533248E4,
- -5.3056469786134031084E3,
+  -5.3056469786134031084E3,
   1.2009029132163524628E3,
- -1.0809091978839465550E2,
+  -1.0809091978839465550E2,
   1.7277275025844573975E0
 };
 
@@ -738,32 +775,32 @@ static double jnx(double n, double x)
  */
 
 static double PF2[] = {
- -9.0000000000000000000e-2,
+  -9.0000000000000000000e-2,
   8.5714285714285714286e-2
 };
 static double PF3[] = {
   1.3671428571428571429e-1,
- -5.4920634920634920635e-2,
- -4.4444444444444444444e-3
+  -5.4920634920634920635e-2,
+  -4.4444444444444444444e-3
 };
 static double PF4[] = {
   1.3500000000000000000e-3,
- -1.6036054421768707483e-1,
+  -1.6036054421768707483e-1,
   4.2590187590187590188e-2,
   2.7330447330447330447e-3
 };
 static double PG1[] = {
- -2.4285714285714285714e-1,
+  -2.4285714285714285714e-1,
   1.4285714285714285714e-2
 };
 static double PG2[] = {
- -9.0000000000000000000e-3,
+  -9.0000000000000000000e-3,
   1.9396825396825396825e-1,
- -1.1746031746031746032e-2
+  -1.1746031746031746032e-2
 };
 static double PG3[] = {
   1.9607142857142857143e-2,
- -1.5983694083694083694e-1,
+  -1.5983694083694083694e-1,
   6.3838383838383838384e-3
 };
 
