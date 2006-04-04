@@ -48,8 +48,10 @@ double tgamma(double x)
     return exp((x + 0.5) * log(x + 5.5) - x - 5.5 + log(s));
 }
 
+// This global variable is normally declared in <cmath>, but not under MSVC++
+int signgam;
+
 // Logarithm of an absolute value of gamma function 
-// int signgam;
 double lgamma(double x)
 {
   double gam = tgamma(x);
