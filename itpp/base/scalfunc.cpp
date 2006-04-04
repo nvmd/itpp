@@ -30,43 +30,44 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/base/vec.h>
 #include <itpp/base/scalfunc.h>
-
+#include <itpp/base/vec.h>
+#include <cmath>
 
 #ifdef _MSC_VER
-double lgamma(double x)
+// "True" gamma function
+double tgamma(double x)
 {
-  it_error_if(x < 0, "lgamma(): only defined for x >= 0");
-  return ((x + 0.5) * log(x + 5.5) - x - 5.5 
-	  + log((2.50662827510730 + 190.9551718930764 / (x + 1)
-		 - 216.8366818437280 / (x + 2) + 60.19441764023333 
-		 / (x + 3) - 3.08751323928546 / (x + 4) + 0.00302963870525
-		 / (x + 5) - 0.00001352385959072596 / (x + 6)) / x));
+  double s = (2.50662827510730 + 190.9551718930764 / (x + 1)
+	      - 216.8366818437280 / (x + 2) + 60.19441764023333
+	      / (x + 3) - 3.08751323928546 / (x + 4) + 0.00302963870525
+	      / (x + 5) - 0.00001352385959072596 / (x + 6)) / x;
+  if (s < 0)
+    return -exp((x + 0.5) * log(x + 5.5) - x - 5.5 + log(-s));
+  else 
+    return exp((x + 0.5) * log(x + 5.5) - x - 5.5 + log(s));
 }
 
+// Logarithm of an absolute value of gamma function 
+// int signgam;
+double lgamma(double x)
+{
+  double gam = tgamma(x);
+  signgam = (gam < 0) ? -1 : 1;
+  return log(fabs(gam));
+}
+
+// Cubic root
 double cbrt(double x)
 {
-  it_error("cbrt() not yet implemented for MS C++");
-  return 0.0;
+  return pow(x, 1.0/3.0);
 }
 #endif
+
 
 namespace itpp { 
 
 #ifdef _MSC_VER
-  double gamma(double x)
-  {
-    double s = (2.50662827510730 + 190.9551718930764 / (x + 1)
-		- 216.8366818437280 / (x + 2) + 60.19441764023333
-		/ (x + 3) - 3.08751323928546 / (x + 4) + 0.00302963870525
-		/ (x + 5) - 0.00001352385959072596 / (x + 6)) / x;
-    if (s < 0) 
-      return (-exp((x + 0.5) * log(x + 5.5) - x - 5.5 + log(-s)));
-    else 
-      return exp((x + 0.5) * log(x + 5.5) - x - 5.5 + log(s));
-  }
-
   double erfc(double Y)
   {
     int  ISW,I;
@@ -147,15 +148,13 @@ namespace itpp {
   {
     return (1.0-erfc(x));
   }
-#else
+#endif
 
   double gamma(double x)
   {
     double lg = lgamma(x);
-    return signgam*exp(lg);
-
+    return signgam * exp(lg);
   }
-#endif
 
   double Qfunc(double x)
   {
