@@ -54,28 +54,40 @@
 #endif
 
 #ifdef _MSC_VER
-  // These functions are part of C99. But apparently not in Visual C++.
-  /*!
-    \brief Error function
-    \ingroup errorfunc
-  */
-  double erf(double x);
-  /*!
-    \brief Complementary error function
-    \ingroup errorfunc
-  */
-  double erfc(double x);
-  double lgamma(double x);
-//  extern int signgam;
-  double cbrt(double x);
-
+// These functions are part of C99. But apparently not in Visual C++.
+/*!
+  \brief Error function
+  \ingroup errorfunc
+*/
+double erf(double x);
+/*!
+  \brief Complementary error function
+  \ingroup errorfunc
+*/
+double erfc(double x);
+/*!
+  \brief True gamma function
+  \ingroup miscfunc
+*/
+double tgamma(double x);
+/*!
+  \brief Lograrithm of an absolute gamma function
+  \ingroup miscfunc
+*/
+double lgamma(double x);
+extern int signgam;
+/*
+  \brief Cubic root
+  \ingroup miscfunc
+*/
+double cbrt(double x);
 #endif
 
-#ifdef MINGW
+// #ifdef MINGW
 // Workaround due to bug in MinGW. Link to bug report:
 // https://sourceforge.net/tracker/index.php?func=detail&aid=990081&group_id=2435&atid=102435
-extern int signgam;
-#endif
+// extern int signgam;
+// #endif
 
 // Fix log2 for some platforms, that have it defined as a macro
 #if defined (log2)

@@ -463,12 +463,8 @@ static double jvs(double n, double x)
       t = n * log(0.5*x) - lgamma(n + 1.0);
       if( y < 0 )
 	{
-#ifdef _MSC_VER
-	  it_error("lgamma only defined for positive values for Visual C++");
-#else
 	  signgam = -signgam;
 	  y = -y;
-#endif
 	}
       t += log(y);
 
@@ -483,11 +479,7 @@ static double jvs(double n, double x)
 	  //mtherr( "Jv", OVERFLOW );
 	  return( MAXNUM );
 	}
-#ifdef _MSC_VER
-      y = exp( t );
-#else
       y = signgam * exp( t );
-#endif
     }
   return(y);
 }

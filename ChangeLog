@@ -1,3 +1,9 @@
+2006-04-04  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/bessel/jv.cpp, itpp/base/scalfunc.cpp,
+	itpp/base/scalfunc.h: Fixed lgamma() and gamma() functions
+	definitions for	MSVC++ .NET.
+
 2006-04-03  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/bessel/airy.cpp, itpp/base/bessel/chbevl.cpp,
