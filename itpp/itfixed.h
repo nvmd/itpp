@@ -38,6 +38,7 @@
 //! \defgroup fixtypes Fixed-Point Data Types
 //@}
 
+#include <itpp/itbase.h>
 #include <itpp/fixed/cfix.h>
 #include <itpp/fixed/cfixed.h>
 #include <itpp/fixed/fix.h>
