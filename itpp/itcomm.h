@@ -44,6 +44,7 @@
 //! \defgroup sequence Sequences
 //@}
 
+#include <itpp/itsignal.h>
 #include <itpp/comm/bch.h>
 #include <itpp/comm/channel.h>
 #include <itpp/comm/channel_code.h>

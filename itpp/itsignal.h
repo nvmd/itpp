@@ -45,6 +45,7 @@
 //! \defgroup windfunc Windowing
 //@}
 
+#include <itpp/itbase.h>
 #include <itpp/signal/fastica.h>
 #include <itpp/signal/filter.h>
 #include <itpp/signal/filter_design.h>

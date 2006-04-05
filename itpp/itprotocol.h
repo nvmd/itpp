@@ -38,6 +38,7 @@
 
 //@}
 
+#include <itpp/itbase.h>
 #include <itpp/protocol/events.h>
 #include <itpp/protocol/front_drop_queue.h>
 #include <itpp/protocol/packet.h>
