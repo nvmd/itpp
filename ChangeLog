@@ -1,3 +1,9 @@
+2006-04-05  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/itcomm.h, itpp/itfixed.h, itpp/itprotocol.h,
+	itpp/itsignal.h, itpp/itsrccode.h: Readded inclusion of dependent
+	header files (`itpp/itbase.h' or `itpp/itsignal.h').
+
 2006-04-04  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/bessel/jv.cpp, itpp/base/scalfunc.cpp,
