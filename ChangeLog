@@ -1,3 +1,8 @@
+2006-04-07  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/local/verification.doc, doc/local/installation.doc: Minor
+	documentation updates.
+
 2006-04-05  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/itcomm.h, itpp/itfixed.h, itpp/itprotocol.h,

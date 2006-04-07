@@ -21,7 +21,7 @@ computer:
 - <a href="http://www.gnu.org/software/make/">GNU make</a>, version 3.72.1
 or later (check version with <tt>`make --version'</tt>)
 - <a href="http://gcc.gnu.org/">GCC</a> - GNU Compilers Collection (gcc, g++
-and g77), version 3.3.x or later (check version with <tt>`gcc
+and g77 or gfortran), version 3.3.x or later (check version with <tt>`gcc
 --version'</tt>)
 .
 Optionally, you might need a few additional programs, i.e. 
@@ -45,7 +45,7 @@ your computer. The basic set of them is:
 operations <a href="http://www.netlib.org/blas/">CBLAS</a> is also
 recommended.
 
-Instead of NetLib's reference BLAS and LAPACK implementations, some
+Instead of NetLib's reference BLAS, CBLAS and LAPACK implementations, some
 optimized platform-specific libraries can be used as well, i.e.:
 - <a href="http://math-atlas.sourceforge.net/">ATLAS</a> (<em>Automatically
   Tuned Linear Algebra Software</em>) - includes optimised BLAS, CBLAS and a
@@ -54,7 +54,8 @@ optimized platform-specific libraries can be used as well, i.e.:
   (<em>Intel Math Kernel Library</em>) - includes all required BLAS, CBLAS,
   LAPACK and FFT routines (FFTW not required)
 - <a href="http://developer.amd.com/acml.aspx">ACML</a> (<em>AMD Core Math
-  Library</em>) - includes BLAS, LAPACK and FFT routines (FFTW not required) 
+  Library</em>) - includes BLAS, CBLAS, LAPACK and FFT routines (FFTW not
+  required)
 
 It is possible to compile and use IT++ without these libraries, but the
 functionality will be reduced. We therefore recommend that you take some
@@ -71,17 +72,24 @@ the IT++ source code, visit the IT++ project page on SourceForge:
 - <a href="http://sourceforge.net/projects/itpp/">
 http://sourceforge.net/projects/itpp/</a>
 .
-and download the file named \c itpp-\<VERSION\>.tar.gz, where \c
-\<VERSION\> is the latest release number, e.g. 3.9.0.
+and download the file named \c itpp-\<VERSION\>.tar.gz or 
+\c itpp-\<VERSION\>.tar.bz2, where \c \<VERSION\> is the latest release
+number, e.g. 3.9.0.
 
 
 \section compilation General IT++ Configuration, Compilation and Installation Instructions
 
 Assuming that you have already downloaded the latest IT++ sources, untar
-and gunzip the sources, and enter the unpacked directory:
+and unpack the sources, and enter the unpacked directory. Depending on the
+package type you have downloaded, use the following commands:
 
 \code 
-% gzip -cd itpp-<VERSION>.tar.gz | tar xvf - 
+% gzip -cd itpp-<VERSION>.tar.gz | tar xf - 
+% cd itpp-<VERSION> 
+\endcode
+
+\code 
+% bzip2 -cd itpp-<VERSION>.tar.bz2 | tar xf - 
 % cd itpp-<VERSION> 
 \endcode
 
@@ -122,14 +130,16 @@ detection procedure is as follows:
    NetLib's reference BLAS is checked. If one of the above mentioned can be
    used, \c HAVE_BLAS is defined.
 -# If the BLAS library can be found, the C interface of BLAS, namely CBLAS,
-   is detected. CBLAS is provided by default by MKL, ATLAS and NetLib's
-   reference CBLAS libraries. On success, \c HAVE_CBLAS is defined.
--# Next, some LAPACK library is searched, but only if the BLAS library
+   is detected. The CBLAS is provided by default by the MKL, ATLAS and
+   NetLib's reference CBLAS libraries. The ACML has also a C interface of
+   BLAS, which can be used, but it is not compatible with the standard
+   CBLAS. On success, \c HAVE_CBLAS is defined.
+-# Next, some LAPACK library is searched, but only if a BLAS library
    is available. Full set of LAPACK routines can be found in the MKL, ACML
-   and NetLib's reference LAPACK libraries. Besides, ATLAS contains a subset
-   of optimised LAPACK routines, which can be used with NetLib's LAPACK
-   library (this is described in ATLAS documentation). If LAPACK can be
-   found, \c HAVE_LAPACK is defined.
+   and NetLib's reference LAPACK libraries. Besides, the ATLAS contains a
+   subset of optimised LAPACK routines, which can be used with NetLib's LAPACK
+   library (this is described in the ATLAS documentation). If a LAPACK
+   library can be found, \c HAVE_LAPACK is defined.
 -# Finally, a set of separate checks for some FFT library is executed.
    Currently three different libraries providing FFT/IFFT routines can be
    used: MKL, ACML and FFTW. If at least one of them is found, \c HAVE_FFT

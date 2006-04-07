@@ -270,7 +270,7 @@ mentioned below, please let us know, so we could update this database.
 - <b>Platform</b>: SUNW, Sun-Blade-100 (SPARC)
 - <b>Operating System</b>: SunOS 5.9 Generic_112233-10
 - <b>Compiler(s)</b>: g++ (GCC) 3.4.5
-- <b>IT++ release</b>: 3.10.0
+- <b>IT++ release</b>: 3.10.1
 - <b>External Libraries</b>: BLAS, CBLAS, LAPACK and FFTW libraries from
   IT++ External 2.1.1 package. The following configuration command has been
   used:
@@ -284,9 +284,9 @@ mentioned below, please let us know, so we could update this database.
 % export LDFLAGS="-L/usr/local/lib"
 % export CPPFLAGS="-I/usr/local/include"
 % export CXXFLAGS="-mcpu=ultrasparc -O3 -pipe"
-% ./configure
+% ./configure --enable-debug
 \endcode
-- <b>Date</b>: March 1, 2006
+- <b>Date</b>: April 4, 2006
 - <b>Tester</b>: Adam Piatyszek (ediap)
 
 */
