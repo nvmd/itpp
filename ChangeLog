@@ -1,3 +1,13 @@
+2006-04-10  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/convcode.cpp, itpp/comm/convcode.h,
+	tests/convcode_test.cpp, tests/convcode_test.ref: Fixed improper
+	behaviour of the encode_trunc() and decode_trunc() functions. Now,
+	each execution of these functions does not reset the encoder and
+	decoder states, so it can be used to perform continous decoding
+	process. An additional reset() function has been added to reset
+	the encoder and decoder states.
+
 2006-04-07  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* doc/local/verification.doc, doc/local/installation.doc: Minor

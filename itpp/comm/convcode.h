@@ -1,7 +1,7 @@
 /*!
  * \file 
  * \brief Definition of a binary convolutional encoder class
- * \author Tony Ottosson
+ * \author Tony Ottosson and Adam Piatyszek
  *
  * $Date$
  * $Revision$
@@ -104,10 +104,21 @@ namespace itpp {
   */
   class Convolutional_Code : public Channel_Code {
   public:
-    //! Constructor
-    Convolutional_Code(void) { trunc_length = 0; K = 0; m = 0; set_start_state(0); set_method(Tail); }
+    //! Default constructor - sets (0133,0171) code with tail
+    Convolutional_Code(void): start_state(0), cc_method(Tail)
+    { 
+      set_code(MFD, 2, 7); 
+      init_encoder();
+    }
+    
     //! Destructor
     virtual ~Convolutional_Code(void) {}
+
+    //! Set encoding and decoding method (Trunc, Tail, or Tailbite)
+    void set_method(const CONVOLUTIONAL_CODE_METHOD method) 
+    { 
+      cc_method = method; 
+    }
 
     /*!
       \brief Set the code according to built-in tables
@@ -116,28 +127,37 @@ namespace itpp {
       free distance codes (according to Proakis) or Optimum Distance
       Spectrum Codes according to Frenger, Orten and Ottosson.
     */
-    void set_code(const CONVOLUTIONAL_CODE_TYPE type_of_code, int inverse_rate, int constraint_length);
+    void set_code(const CONVOLUTIONAL_CODE_TYPE type_of_code, int inverse_rate,
+		  int constraint_length);
 
     //! Set generator polynomials. Given in Proakis integer form
     void set_generator_polynomials(const ivec &gen, int constraint_length);
     //! Get generator polynomials
-    ivec get_generator_polynomials(void) { return gen_pol; }
+    ivec get_generator_polynomials(void) const { return gen_pol; }
 
-    //! Return rate of code (not including the rate-loss)
-    virtual double get_rate(void) { return rate; }
+    //! Reset encoder and decoder states
+    void reset();
 
-    //! Set encoding and decoding method (Trunc, Tail, or Tailbite)
-    void set_method(const CONVOLUTIONAL_CODE_METHOD method) { cc_method = method; }
 
+    //@{
     //! Encode a binary vector of inputs using specified method
     virtual void encode(const bvec &input, bvec &output); 
-    //! Encode a binary vector of inputs using specified method
-    virtual bvec encode(const bvec &input) { bvec output; encode(input, output); return output; } 
- 
-    //! Encode a binary vector of inputs starting from state set by the set_state function
+    virtual bvec encode(const bvec &input) 
+    { 
+      bvec output; encode(input, output); return output; 
+    } 
+    //@}
+
+    //@{
+    //! Encode a binary vector starting from the previous encoder state
     void encode_trunc(const bvec &input, bvec &output);
-    //! Encode a binary vector of inputs starting from state set by the set_state function
-    bvec encode_trunc(const bvec &input) { bvec output; encode_trunc(input, output); return output; }
+    bvec encode_trunc(const bvec &input) 
+    { 
+      bvec output; encode_trunc(input, output); return output; 
+    }
+    //@}
+
+    //@{
     /*!
       \brief Encoding that starts and ends in the zero state
 
@@ -146,36 +166,48 @@ namespace itpp {
       state. Well suited for packet transmission.
     */
     void encode_tail(const bvec &input, bvec &output);
-    //! Encode a binary vector of inputs starting from state set by the set_state function
-    bvec encode_tail(const bvec &input) { bvec output; encode_tail(input, output); return output; }
+    bvec encode_tail(const bvec &input) 
+    { 
+      bvec output; encode_tail(input, output); return output; 
+    }
+    //@}
 
-    //! Encode a binary vector of inputs using tailbiting.
+    //@{
+    //! Encode a binary vector of inputs using tailbiting
     void encode_tailbite(const bvec &input, bvec &output);
-    //! Encode a binary vector of inputs using tailbiting.
     bvec encode_tailbite(const bvec &input)
-      { bvec output; encode_tailbite(input, output); return output; }
+    { 
+      bvec output; encode_tailbite(input, output); return output; 
+    }
+    //@}
 
+    //@{
     /*!
-      \brief Encode a binary bit startinf from the internal encoder state.
+      \brief Encode a binary bit starting from the internal encoder state.
 
       To initialize the encoder state use set_start_state() and init_encoder()
     */
     void encode_bit(const bin &input, bvec &output);
-    //! Encode a binary bit startinf from the internal encoder state.
-    bvec encode_bit(const bin &input) { bvec output; encode_bit(input, output); return output; }
-    //! Set the encoder internal state in start_state (set by set_start_state()).
-    void init_encoder() { encoder_state = start_state; }
+    bvec encode_bit(const bin &input) 
+    { 
+      bvec output; encode_bit(input, output); return output; 
+    }
+    //@}    
 
     // ------------ Hard-decision decoding is not implemented -------------------
     virtual void decode(const bvec &coded_bits, bvec &decoded_bits);
     virtual bvec decode(const bvec &coded_bits);
 
+    //@{
     //! Decode a block of encoded data using specified method
     virtual void decode(const vec &received_signal, bvec &output); 
-    //! Decode a block of encoded data using specified method
     virtual bvec decode(const vec &received_signal) 
-      { bvec output; decode(received_signal, output); return output; } 
- 
+    { 
+      bvec output; decode(received_signal, output); return output;
+    } 
+    //@}
+    
+    //@{
     /*!
       \brief Decode a block of encoded data where encode_tail has been used.
 
@@ -183,21 +215,65 @@ namespace itpp {
       K-1 zeros has been added. No memory truncation.
     */
     virtual void decode_tail(const vec &received_signal, bvec &output);
-    //! Decode a block of encoded data where encode_tail has been used
     virtual bvec decode_tail(const vec &received_signal)
-      { bvec output; decode_tail(received_signal, output); return output; }
+    { 
+      bvec output; decode_tail(received_signal, output); return output; 
+    }
+    //@}
 
-    //! Decode a block of encoded data where encode_tailbite has been used. Tries all start states.
+    //@{
+    //! \brief Decode a block of encoded data where encode_tailbite has been
+    //!        used. Tries all start states. 
     virtual void decode_tailbite(const vec &received_signal, bvec &output);
-    //! Decode a block of encoded data where encode_tailbite has been used. Tries all start states.
     virtual bvec decode_tailbite(const vec &received_signal)
-      { bvec output; decode_tailbite(received_signal, output); return output; }
+    { 
+      bvec output; decode_tailbite(received_signal, output); return output;
+    }
+    //@}
 
+    //@{
     //! Viterbi decoding using truncation of memory (default = 5*K)
     virtual void decode_trunc(const vec &received_signal, bvec &output);
-    //! Viterbi decoding using truncation of memory (default = 5*K)
     virtual bvec decode_trunc(const vec &received_signal)
-      { bvec output; decode_trunc(received_signal, output); return output; }
+    { 
+      bvec output; decode_trunc(received_signal, output); return output; 
+    }
+    //@}
+
+
+    //! Return rate of code (not including the rate-loss)
+    virtual double get_rate(void) { return rate; }
+
+
+    //! Set encoder default start state
+    void set_start_state(int state) 
+    { 
+      it_error_if((state < 0) || ((state >= (1 << m)) && m != 0), 
+		  "Convolutional_Code::set_start_state(): Invalid start state");
+      start_state = state;
+    }
+
+    //! Initialise internal encoder state with start state
+    void init_encoder() { encoder_state = start_state; }
+
+    //!  Get the current encoder state
+    int get_encoder_state(void) const { return encoder_state; }
+
+
+    //! Set memory truncation length. Must be at least K.
+    void set_truncation_length(const int length)
+    { 
+      it_error_if(length < K, "Convolutional_Code::set_truncation_length(): Truncation length shorter than K"); 
+      trunc_length = length; 
+    }
+
+    //! Get memory truncation length
+    int get_truncation_length(void) const { return trunc_length; }
+
+
+    //! Check if catastrophic. Returns true if catastrophic
+    bool catastrophic(void);
+
 
     /*!
       \brief Calculate the inverse sequence
@@ -208,23 +284,13 @@ namespace itpp {
       forces the encoder into the zeroth state.
     */
     bool inverse_tail(const bvec coded_sequence, bvec &input);
-    //! Set encoder and decoder start state. The generator polynomials must be set first.
-    void set_start_state(const int state)
-      { it_error_if(state<0 || (state>=(1<<m) && m != 0), "Invalid start state"); start_state = state; }
-    //!  Get the current encoder state
-    int get_encoder_state(void) { return encoder_state; }
 
-    //! Set memory truncation length. Must be at least K.
-    void set_truncation_length(const int length) { it_error_if(length<K, "Truncation length shorter than K"); trunc_length = length; }
-    //! Get memory truncation length
-    int get_truncation_length(void) { return trunc_length; }
 
-    //! Check if catastrophic. Returns true if catastrophic
-    bool catastrophic(void);
-
-    //! Calculate distance profile. If reverse = true calculate for the reverse code instead.
-    void distance_profile(ivec &dist_prof, int dmax = 100000, bool reverse = false);
-    //void distance_profile(llvec &dist_prof, int dmax = 100000, bool reverse = false);
+    //! \brief Calculate distance profile. If reverse = true calculate for
+    //!        the reverse code instead. 
+    void distance_profile(ivec &dist_prof, int dmax = 100000, 
+			  bool reverse = false);
+    
     /*!
       \brief Calculate spectrum
 
@@ -241,7 +307,7 @@ namespace itpp {
       overflow if many terms are calculated in the spectrum.
     */
     void calculate_spectrum(Array<ivec> &spectrum, int dmax, int no_terms);
-    //void calculate_spectrum(Array<llvec> &spectrum, int dmax, int no_terms);
+
     /*!
       \brief Cederwall's fast algorithm
 
@@ -262,27 +328,37 @@ namespace itpp {
       Observe that there is a risk that some of the integers are
       overflow if many terms are calculated in the spectrum.
 
-			See IT No. 6, pp. 1146-1159, Nov. 1989 for details.
+      See IT No. 6, pp. 1146-1159, Nov. 1989 for details.
     */
     int fast(Array<ivec> &spectrum, const int dfree, const int no_terms,
 	     const int Cdfree = 1000000, const bool test_catastrophic = false);
-    //int fast(Array<llvec> &spectrum, const int dfree, const int no_terms,
-    //	   const int Cdfree = 1000000, const bool test_catastrophic = false);
 
   protected:
     //! Next state from instate given the input
-    int next_state(const int instate, const int input) { return ( (instate >> 1) | (input << (m-1))); }
+    int next_state(const int instate, const int input) 
+    { 
+      return ((instate >> 1) | (input << (m - 1))); 
+    }
     //! The previous state from state given the input
-    int previous_state(const int state, const int input) { return ( ((state << 1) | input) & ((1<<m)-1) ); }
+    int previous_state(const int state, const int input) 
+    { 
+      return (((state << 1) | input) & ((1 << m) - 1));
+    }
     //! The previous state from state given the input
-    void previous_state(const int state, int &S0, int &S1) { S0 = (state << 1) & (no_states-1); S1 = S0 | 1; }
+    void previous_state(const int state, int &S0, int &S1) 
+    { 
+      S0 = (state << 1) & (no_states - 1); 
+      S1 = S0 | 1; 
+    }
     //! The weight of the transition from given state with the input given
     int weight(const int state, const int input);
     //! The weight of the two paths (input 0 or 1) from given state
     void weight(const int state, int &w0, int &w1);
-    //! The weight (of the reverse code) of the transition from given state with the input given
+    //! \brief The weight (of the reverse code) of the transition from given
+    //!        state with the input given 
     int weight_reverse(const int state, const int input);
-    //! The weight (of the reverse code) of the two paths (input 0 or 1) from given state
+    //! \brief The weight (of the reverse code) of the two paths (input 0
+    //!        or 1) from given state 
     void weight_reverse(const int state, int &w0, int &w1);
     //! Output on transition (backwards) with input from state
     bvec output_reverse(const int state, const int input);
@@ -290,12 +366,13 @@ namespace itpp {
     void output_reverse(const int state, bvec &zero_output, bvec &one_output);
     //! Output on transition (backwards) with input from state
     void output_reverse(const int state, int &zero_output, int &one_output);
-    //! Calculate delta metrics for 0 and 1 input branches reaching state \ state
-    void calc_metric_reverse(const int state, const vec &rx_codeword, double &zero_metric, double &one_metric);
+    //! Calculate delta metrics for 0 and 1 input branches reaching state
+    void calc_metric_reverse(const int state, const vec &rx_codeword, 
+			     double &zero_metric, double &one_metric);
     //! Calculate delta metrics for all possible codewords
     void calc_metric(const vec &rx_codeword, vec &delta_metrics);
     //! Returns the input that results in state, that is the MSB of state
-    int get_input(const int state) { return (state >> (m-1)); }
+    int get_input(const int state) { return (state >> (m - 1)); }
 
     //! Number of generators
     int n;
@@ -319,10 +396,20 @@ namespace itpp {
     double rate;
     //! Auxilary table used by the codec
     bvec xor_int_table;
-    //! output in int format for state and input when moving backwards in the trellis
+    //! output in int format for a given state and input
     imat output_reverse_int;
     //! encoding and decoding method
     CONVOLUTIONAL_CODE_METHOD cc_method;
+    //! Path memory (trellis) 
+    imat path_memory;
+    //! Visited states
+    Array<bool> visited_state;
+    //! Metrics accumulator
+    vec sum_metric;
+    //! Truncated path memory pointer
+    int trunc_ptr;
+    //! Truncated memory fill state
+    int trunc_state;
   };
 
   // --------------- Some other functions that maybe should be moved -----------
