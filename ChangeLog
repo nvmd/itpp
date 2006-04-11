@@ -1,5 +1,8 @@
 2006-04-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/ls_solve.cpp: Fixed a bug caused by improper wrapping
+	of backslash functions using it_assert1() macro.
+
 	* itpp/signal/filter.cpp, itpp/signal/filter.h: Fixed bug
 	[1468011], so AR_Filter now works when using a single coefficient
 	value, e.g. a = "0.5". Minor cosmetic changes applied by the way.

@@ -649,7 +649,8 @@ namespace itpp {
   }
 
 
-  // ---------------------- backslash ----------------------------------------------------------
+  // ---------------------- backslash -----------------------------------------
+
   bool backslash(const mat &A, const vec &b, vec &x)
   {
     int m=A.rows(), n=A.cols();
@@ -665,10 +666,13 @@ namespace itpp {
     return info;
   }
 
+
   vec backslash(const mat &A, const vec &b)
   {
     vec x;
-    it_assert1( backslash(A, b, x), "backslash: solution was not found");
+    bool info = backslash(A, b, x);
+    
+    it_assert1(info, "backslash(): solution was not found");
 
     return x;
   }
@@ -689,14 +693,16 @@ namespace itpp {
     return info;
   }
 
+
   mat backslash(const mat &A, const mat &B)
   {
     mat X;
-    it_assert1( backslash(A, B, X), "backslash: solution was not found");
+    bool info = backslash(A, B, X);
+
+    it_assert1(info, "backslash(): solution was not found");
 
     return X;
   }
-
 
 
   bool backslash(const cmat &A, const cvec &b, cvec &x)
@@ -714,10 +720,13 @@ namespace itpp {
     return info;
   }
 
+
   cvec backslash(const cmat &A, const cvec &b)
   {
     cvec x;
-    it_assert1( backslash(A, b, x), "backslash: solution was not found");
+    bool info = backslash(A, b, x);
+
+    it_assert1(info, "backslash(): solution was not found");
 
     return x;
   }
@@ -741,13 +750,16 @@ namespace itpp {
   cmat backslash(const cmat &A, const cmat &B)
   {
     cmat X;
-    it_assert1( backslash(A, B, X), "backslash: solution was not found");
+    bool info = backslash(A, B, X);
+
+    it_assert1(info, "backslash(): solution was not found");
 
     return X;
   }
 
 
-  // ----------------------------------------------------------------------------------------------
+  // --------------------------------------------------------------------------
+
   vec forward_substitution(const mat &L, const vec &b)
   {
     int n = L.rows();
