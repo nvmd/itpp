@@ -1,3 +1,9 @@
+2006-04-11  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/signal/filter.cpp, itpp/signal/filter.h: Fixed bug
+	[1468011], so AR_Filter now works when using a single coefficient
+	value, e.g. a = "0.5". Minor cosmetic changes applied by the way.
+
 2006-04-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/convcode.cpp, itpp/comm/convcode.h,
