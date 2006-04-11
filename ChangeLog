@@ -1,4 +1,10 @@
+==============================================================================
+
 2006-04-11  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* IT++ 3.10.1 released (SVN tag: release-3-10-1)
+
+	* NEWS: Updated to reflect recent changes.
 
 	* configure.ac: Updated IT++ External package version number.
 
