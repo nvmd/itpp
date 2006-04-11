@@ -1,5 +1,7 @@
 2006-04-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac: Updated IT++ External package version number.
+
 	* itpp/base/ls_solve.cpp: Fixed a bug caused by improper wrapping
 	of backslash functions using it_assert1() macro.
 
