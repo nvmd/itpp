@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Implementation of Filter classes and functions
- * \author Hakan Eriksson, Thomas Eriksson and Tony Ottosson
+ * \author Hakan Eriksson, Thomas Eriksson, Tony Ottosson and Adam Piatyszek
  * 
  * $Date$
  * $Revision$

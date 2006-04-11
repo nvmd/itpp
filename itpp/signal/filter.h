@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Definitions of Filter classes and functions
- * \author Hakan Eriksson, Thomas Eriksson and Tony Ottosson
+ * \author Hakan Eriksson, Thomas Eriksson, Tony Ottosson and Adam Piatyszek
  * 
  * $Date$
  * $Revision$
@@ -97,7 +97,7 @@ namespace itpp {
     </ul>
   */
   template <class T1, class T2, class T3>
-	class MA_Filter : public Filter<T1,T2,T3> {
+  class MA_Filter : public Filter<T1,T2,T3> {
   public:
     //! Class default constructor
     explicit MA_Filter();
@@ -116,13 +116,12 @@ namespace itpp {
     //! Set state of filter
     void set_state(const Vec<T3> &state);
 
-    //protected:
   private:
     virtual T3 filter(const T1 Sample);
 
     Vec<T3> mem;
     Vec<T2> coeffs;
-    long inptr, NS;
+    int inptr;
     bool init;
   };
 
@@ -151,7 +150,7 @@ namespace itpp {
     </ul>
   */
   template <class T1, class T2, class T3>
-	class AR_Filter : public Filter<T1,T2,T3> {
+  class AR_Filter : public Filter<T1,T2,T3> {
   public:
     //! Class constructor
     explicit AR_Filter();
@@ -170,13 +169,13 @@ namespace itpp {
     //! Set state of filter
     void set_state(const Vec<T3> &state);
 
-    //protected:
   private:
     virtual T3 filter(const T1 Sample);
 
     Vec<T3> mem;
     Vec<T2> coeffs;
-    long inptr, NS;
+    T2 a0;
+    int inptr;
     bool init;
   };
 
@@ -188,11 +187,12 @@ namespace itpp {
     This class implements a autoregressive moving average (ARMA) filter
     according to
     \f[
-    a(0)*y(n) = b(0)*x(n) + b(1)*x(n-1) + \ldots + b(N_b)*x(n-N_b) - a(1)*y(n-1) - \ldots - a(N_a)*y(n-N_a)
+    a(0)*y(n) = b(0)*x(n) + b(1)*x(n-1) + \ldots + b(N_b)*x(n-N_b) 
+      - a(1)*y(n-1) - \ldots - a(N_a)*y(n-N_a)
     \f]
     
-		where \a a and \a b are the filter coefficients, \a x is the input
-		and \a y is the output.
+    where \a a and \a b are the filter coefficients, \a x is the input
+    and \a y is the output.
 
     When filtering a vector, the length of the output vector equals
     the length of the input vector.  Internal states are kept in a
@@ -207,7 +207,7 @@ namespace itpp {
     </ul>
   */
   template <class T1, class T2, class T3>
-	class ARMA_Filter : public Filter<T1,T2,T3> {
+  class ARMA_Filter : public Filter<T1,T2,T3> {
   public:
     //! Class constructor
     explicit ARMA_Filter();
@@ -230,13 +230,12 @@ namespace itpp {
     //! Set state of filter
     void set_state(const Vec<T3> &state);
 
-    //protected:
   private:
     virtual T3 filter(const T1 Sample);
 
     Vec<T3> mem;
     Vec<T2> acoeffs, bcoeffs;
-    long inptr, NA, NB, NS;
+    int inptr;
     bool init;
   };
 
@@ -249,7 +248,8 @@ namespace itpp {
     These functions implements a autoregressive moving average (ARMA) filter
     according to
     \f[
-    a(0)*y(n) = b(0)*x(n) + b(1)*x(n-1) + \ldots + b(N_b)*x(n-N_b) - a(1)*y(n-1) - \ldots - a(N_a)*y(n-N_a)
+    a(0)*y(n) = b(0)*x(n) + b(1)*x(n-1) + \ldots + b(N_b)*x(n-N_b) 
+      - a(1)*y(n-1) - \ldots - a(N_a)*y(n-N_a)
     \f]
 
     where \a a and \a b are the filter coefficients, \a x is the input
@@ -301,7 +301,7 @@ namespace itpp {
     cutoff using the window method.  
     \ingroup filters
   */
-  vec fir1(long N, double cutoff);
+  vec fir1(int N, double cutoff);
 
   //----------------------------------------------------------------------------
   // Implementation of templated functions starts here
@@ -314,9 +314,10 @@ namespace itpp {
   {
     Vec<T3> y(x.length());
 
-    for (long i=0;i<x.length();i++) {
-      y[i]=filter(x[i]);
+    for (int i = 0; i < x.length(); i++) {
+      y[i] = filter(x[i]);
     }
+
     return y;
   }
 
@@ -325,7 +326,7 @@ namespace itpp {
   template <class T1, class T2,class T3>
   MA_Filter<T1,T2,T3>::MA_Filter() : Filter<T1,T2,T3>()
   {
-    inptr=0;
+    inptr = 0;
     init = false;
   }
     
@@ -342,11 +343,9 @@ namespace itpp {
     it_assert(b.size() > 0, "MA_Filter: size of filter is 0!");
 
     coeffs = b;
-    NS = coeffs.size();
-
-    mem.set_size(NS, false);
+    mem.set_size(coeffs.size(), false);
     mem.clear();
-    inptr=0;
+    inptr = 0;
     init = true;
   }
 
@@ -356,13 +355,13 @@ namespace itpp {
     it_assert(init == true, "MA_Filter: filter coefficients are not set!");
 
     int offset = inptr;
-    Vec<T3> state(NS);
+    Vec<T3> state(mem.size());
 
-    for(int n = 0; n<NS; n++){
+    for(int n = 0; n < mem.size(); n++) {
       state(n) = mem(offset);
-      offset = (offset+1)%NS;
+      offset = (offset + 1) % mem.size();
     }
-
+    
     return state;
   }
 
@@ -370,7 +369,7 @@ namespace itpp {
   void MA_Filter<T1,T2,T3>::set_state(const Vec<T3> &state)
   {
     it_assert(init == true, "MA_Filter: filter coefficients are not set!");
-    it_assert(state.size() == NS, "MA_Filter: Invalid state vector!");
+    it_assert(state.size() == mem.size(), "MA_Filter: Invalid state vector!");
 
     mem = state;
     inptr = 0;
@@ -380,19 +379,22 @@ namespace itpp {
   T3 MA_Filter<T1,T2,T3>::filter(const T1 Sample)
   {
     it_assert(init == true, "MA_Filter: Filter coefficients are not set!");
-    T3  s=0;
-    long i,L;
+    T3 s = 0;
 
-    mem._elem(inptr)=Sample;
-    L=mem.length()-inptr;
+    mem(inptr) = Sample;
+    int L = mem.length() - inptr;
 
-    for (i=0;i<L;i++) {
-      s+=coeffs._elem(i)*mem._elem(inptr+i);
+    for (int i = 0; i < L; i++) {
+      s += coeffs(i) * mem(inptr + i);
     }
-    for (i=0;i<inptr;i++) {
-      s+=coeffs._elem(L+i)*mem._elem(i);
+    for (int i = 0; i < inptr; i++) {
+      s += coeffs(L + i) * mem(i);
     }
-    inptr=inptr-1;if (inptr<0) inptr+=mem.length();
+    
+    inptr--;
+    if (inptr < 0) 
+      inptr += mem.length();
+ 
     return s;
   }
 
@@ -417,10 +419,10 @@ namespace itpp {
     it_assert(a.size() > 0, "AR_Filter: size of filter is 0!");
     it_assert(a(0) != T2(0), "AR_Filter: a(0) cannot be 0!");
 
-    coeffs = a.right(length(a)-1)/a(0);
-    NS = coeffs.size();
+    a0 = a(0);
+    coeffs = a / a0;
 
-    mem.set_size(NS, false);
+    mem.set_size(coeffs.size() - 1, false);
     mem.clear();
     inptr = 0;
     init = true;
@@ -433,11 +435,11 @@ namespace itpp {
     it_assert(init == true, "AR_Filter: filter coefficients are not set!");
 
     int offset = inptr;
-    Vec<T3> state(NS);
+    Vec<T3> state(mem.size());
 
-    for(int n = 0; n<NS; n++){
+    for(int n = 0; n < mem.size(); n++) {
       state(n) = mem(offset);
-      offset = (offset+1)%NS;
+      offset = (offset + 1) % mem.size();
     }
 
     return state;
@@ -447,7 +449,7 @@ namespace itpp {
   void AR_Filter<T1,T2,T3>::set_state(const Vec<T3> &state)
   {
     it_assert(init == true, "AR_Filter: filter coefficients are not set!");
-    it_assert(state.size() == NS, "AR_Filter: Invalid state vector!");
+    it_assert(state.size() == mem.size(), "AR_Filter: Invalid state vector!");
 
     mem = state;
     inptr = 0;
@@ -457,22 +459,25 @@ namespace itpp {
   T3 AR_Filter<T1,T2,T3>::filter(const T1 Sample)
   {
     it_assert(init == true, "AR_Filter: Filter coefficients are not set!");
-    T3  s=0;
-    long i,L;
+    T3 s = Sample;
 
-    L=length(mem)-inptr;
-    for (i=0;i<L;i++) {
-      s+=coeffs._elem(i)*mem._elem(inptr+i);
+    if (mem.size() == 0)
+      return (s / a0);
+
+    int L = mem.size() - inptr;
+    for (int i = 0; i < L; i++) {
+      s -= mem(i + inptr) * coeffs(i + 1); // All coeffs except a(0)
     }
-    for (i=0;i<inptr;i++) {
-      s+=coeffs._elem(L+i)*mem._elem(i);
+    for (int i = 0; i < inptr; i++) {
+      s -= mem(i) * coeffs(L + i + 1); // All coeffs except a(0)
     }
-    inptr=inptr-1;if (inptr<0) inptr+=length(mem);
-
-    s=Sample-s;
-    mem._elem(inptr)=s;
-
-    return s;
+    
+    inptr--;
+    if (inptr < 0)
+      inptr += mem.size();
+    mem(inptr) = s;
+      
+    return (s / a0);
   }
 
 
@@ -496,15 +501,12 @@ namespace itpp {
     it_assert(a.size() > 0 && b.size() > 0, "ARMA_Filter: size of filter is 0!");
     it_assert(a(0) != T2(0), "ARMA_Filter: a(0) cannot be 0!");
 
-    acoeffs = a/a(0);
-    bcoeffs = b/a(0);
+    acoeffs = a / a(0);
+    bcoeffs = b / a(0);
 
-    inptr = 0;
-    NA = a.size();
-    NB = b.size();
-    NS = std::max(NB, NA) - 1;
-    mem.set_size(NS, false);
+    mem.set_size(std::max(a.size(), b.size()) - 1, false);
     mem.clear();
+    inptr = 0;
     init = true;
   }
 
@@ -514,11 +516,11 @@ namespace itpp {
     it_assert(init == true, "ARMA_Filter: filter coefficients are not set!");
 
     int offset = inptr;
-    Vec<T3> state(NS);
+    Vec<T3> state(mem.size());
 
-    for(int n = 0; n<NS; n++){
+    for(int n = 0; n < mem.size(); n++) {
       state(n) = mem(offset);
-      offset = (offset+1)%NS;
+      offset = (offset + 1) % mem.size();
     }
       
     return state;
@@ -528,7 +530,7 @@ namespace itpp {
   void ARMA_Filter<T1,T2,T3>::set_state(const Vec<T3> &state)
   {
     it_assert(init == true, "ARMA_Filter: filter coefficients are not set!");
-    it_assert(state.size() == NS, "ARMA_Filter: Invalid state vector!");
+    it_assert(state.size() == mem.size(), "ARMA_Filter: Invalid state vector!");
 
     mem = state;
     inptr = 0;
@@ -538,20 +540,23 @@ namespace itpp {
   T3 ARMA_Filter<T1,T2,T3>::filter(const T1 Sample)
   {
     it_assert(init == true, "ARMA_Filter: Filter coefficients are not set!");
-    const int N0 = NS-1;
-    int ia, ib;
     T3 z = Sample;
     T3 s;
-      
-    for(ia=0; ia<NA-1; ia++) // All AR-coeff except a(0).
-      z -= mem((ia+inptr)%NS) * acoeffs(ia+1);
 
-    s = z*bcoeffs(0);
+    for(int i = 0; i < acoeffs.size() - 1; i++) { // All AR-coeff except a(0).
+      z -= mem((i + inptr) % mem.size()) * acoeffs(i + 1);
+    }
+    s = z * bcoeffs(0);
 
-    for(ib=0; ib<NB-1; ib++) // All MA-coeff except b(0).
-      s += mem((ib+inptr)%NS) * bcoeffs(ib+1);
+    for(int i = 0; i < bcoeffs.size() - 1; i++) { // All MA-coeff except b(0).
+      s += mem((i + inptr) % mem.size()) * bcoeffs(i + 1);
+    }
 
-    inptr = (inptr+N0)%NS; // Clock the state shift-register once.
+    inptr--;
+    if (inptr < 0)
+      inptr += mem.size();
+    mem(inptr) = z;
+
     mem(inptr) = z; // Store in the internal state.
 
     return s;
