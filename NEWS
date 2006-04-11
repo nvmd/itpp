@@ -1,4 +1,39 @@
 ===============================================================================
+IT++ version 3.10.1                                        Released: 2006-04-11
+-------------------------------------------------------------------------------
+
+This is a bug-fix release. Therefore, no new features have been added
+since release 3.10.0. Only minor modifications and bug-fixes have been done.
+
+Bug-fixes:
+----------
+
+* Fixed a bug caused by improper wrapping of backslash functions using
+  it_assert1() macro.
+ 
+* Fixed bug [1468011], so AR_Filter now works when using a single
+  coefficient value, e.g. a = "0.5".
+
+* Fixed improper behaviour of the encode_trunc() and decode_trunc()
+  functions. Now, each execution of these functions does not reset the
+  encoder and decoder states, so it can be used to perform continous
+  decoding process. An additional reset() function has been added to reset
+  the encoder and decoder states.
+
+* Fixed lgamma() and gamma() functions definitions for MSVC++ .NET.
+
+* Fixed a problem with a few Bessel functions provided by <cmath> under
+  MSVC++ .NET (different naming conventions).
+
+* Fixed CBLAS interface when using ACML's BLAS implementation.
+
+* Fixes in configuration scripts due to linking problems uder Cygwin.
+
+* A few other minor bug-fixes. For a full list of them, please check the
+  ChangeLog file. 
+
+
+===============================================================================
 IT++ version 3.10.0                                        Released: 2006-03-15
 -------------------------------------------------------------------------------
 
