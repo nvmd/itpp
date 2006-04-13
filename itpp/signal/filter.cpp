@@ -241,11 +241,11 @@ namespace itpp {
     return output;
   }
 
-  vec fir1(long N, double cutoff)
+  vec fir1(int N, double cutoff)
   {
     vec a(N+1),h=hamming(N+1);
 
-    for (long i=0;i<length(a);i++) {
+    for (int i=0;i<length(a);i++) {
       a[i]=h[i]*sinc(cutoff*(i-N/2.0));
     }
     a/=sum(a);
