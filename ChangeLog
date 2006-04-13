@@ -1,3 +1,9 @@
+2006-04-13  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/signal/filter.cpp: Fixed bug [1469860]. Now fir1()
+	declaration matches its definition. Thanks to Jordy Potman for
+	reporting this bug.
+
 ==============================================================================
 
 2006-04-11  Adam Piatyszek  <ediap@users.sourceforge.net>
