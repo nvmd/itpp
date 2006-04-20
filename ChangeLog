@@ -4,6 +4,11 @@
 	declaration matches its definition. Thanks to Jordy Potman for
 	reporting this bug.
 
+2006-04-12  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/doxygen_html.cfg.in: Doxygen configuration changed to
+	generate detailed documentation at the top of pages.
+
 ==============================================================================
 
 2006-04-11  Adam Piatyszek  <ediap@users.sourceforge.net>
