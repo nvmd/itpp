@@ -165,6 +165,9 @@ namespace itpp {
     Histogram(Num_T from = Num_T(0), Num_T to = Num_T(99), int n_bins = 100);
     //! Default destructor
     ~Histogram() {};
+
+    //! Histogram setup
+    void setup(Num_T from, Num_T to, int n_bins);
     
     //! Histogram update
     void update(Num_T value);
@@ -218,10 +221,21 @@ namespace itpp {
   };
 
   template<class Num_T>
-  inline Histogram<Num_T>::Histogram(Num_T from, Num_T to, int n_bins): 
-    num_bins(n_bins), lo_vals(n_bins),	hi_vals(n_bins), center_vals(n_bins),
-    bins(n_bins), trials_cnt(0)
+  inline Histogram<Num_T>::Histogram(Num_T from, Num_T to, int n_bins)
+    
   {
+    setup(from, to, n_bins);
+  }
+
+  template<class Num_T>
+  inline void Histogram<Num_T>::setup(Num_T from, Num_T to, int n_bins)
+  {
+    num_bins = n_bins;
+    lo_vals.set_size(n_bins);
+    hi_vals.set_size(n_bins);
+    center_vals.set_size(n_bins);
+    bins.set_size(n_bins);
+    trials_cnt = 0;
     step = (to - from) / (num_bins - 1);
     center_vals = linspace(from, to, num_bins);
     lo_vals = center_vals - step/2; 

@@ -1,3 +1,8 @@
+2006-04-20  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/stat.h: Added Histogram class setup function provided
+	by Jordy Potman. This closes Feature Request [1473059].
+
 2006-04-13  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/signal/filter.cpp: Fixed bug [1469860]. Now fir1()
@@ -136,8 +141,8 @@
 	* AUTHORS: Andy Panov included in a list of contributors.
 
 	* itpp/base/stat.h, tests/stat_test.cpp, tests/stat_test.ref:
-	Added templated Histogram class provided by Andy Panov. This closes
-	feature request [1451288].
+	Added templated Histogram class provided by Andy Panov. This
+	closes feature request [1451288].
 
 	* Moved signal processing related sources to a separate "signal"
 	subdirectory. Test programs updated accordingly. Please note that
