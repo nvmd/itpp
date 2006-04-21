@@ -1,3 +1,9 @@
+2006-04-21  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/local/index.doc.in, doc/local/itpp_header.html,
+	/doc/local/itpp_footer.html: Added links to Feature Requests, IT++
+	at freshmeat and Newcom project (logo). 
+
 2006-04-20  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/stat.h: Added Histogram class setup function provided
