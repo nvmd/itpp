@@ -38,9 +38,8 @@
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/array.h>
+#include <itpp/base/converters.h>
 
-
-using std::complex;
 
 namespace itpp {
 
@@ -106,11 +105,11 @@ namespace itpp {
   inline void set_fix(mat &y, const mat &x, int n, q_mode q) {y = x;}
 
   //! Set <tt>y = x * pow2(n)</tt> using the quantization mode of \c y
-  inline void set_fix(CFix &y, complex<double> x, int n) {y.set(x, n);}
+  inline void set_fix(CFix &y, std::complex<double> x, int n) {y.set(x, n);}
   //! Set <tt>y = (real + i*imag) * pow2(n)</tt> using the quantization mode of \c y
   inline void set_fix(CFix &y, double real, double imag, int n) {y.set(real, imag, n);}
   //! Set <tt>y = x * pow2(n)</tt> using the specified quantization mode \c q
-  inline void set_fix(CFix &y, complex<double> x, int n, q_mode q) {y.set(x, n, q);}
+  inline void set_fix(CFix &y, std::complex<double> x, int n, q_mode q) {y.set(x, n, q);}
   //! Set <tt>y = (real + i*imag) * pow2(n)</tt> using the specified quantization mode \c q
   inline void set_fix(CFix &y, double real, double imag, int n, q_mode q) {y.set(real, imag, n, q);}
   //! Set <tt>y = x * pow2(n)</tt> using the quantization mode of \c y
@@ -166,13 +165,13 @@ namespace itpp {
     for (int i=0; i<y.size(); i++) y(i).set(real(i), imag(i), n, q);
   }
   //! Set <tt>y = x</tt>. Useful in templated code
-  inline void set_fix(complex<double> &y, const complex<double> &x, int n) {y = x;}
+  inline void set_fix(std::complex<double> &y, const std::complex<double> &x, int n) {y = x;}
   //! Set <tt>y = real + i*imag</tt>. Useful in templated code
-  inline void set_fix(complex<double> &y, double real, double imag, int n) {y = complex<double>(real, imag);}
+  inline void set_fix(std::complex<double> &y, double real, double imag, int n) {y = std::complex<double>(real, imag);}
   //! Set <tt>y = x</tt>. Useful in templated code
-  inline void set_fix(complex<double> &y, const complex<double> &x, int n, q_mode q) {y = x;}
+  inline void set_fix(std::complex<double> &y, const std::complex<double> &x, int n, q_mode q) {y = x;}
   //! Set <tt>y = real + i*imag</tt>. Useful in templated code
-  inline void set_fix(complex<double> &y, double real, double imag, int n, q_mode q) {y = complex<double>(real, imag);}
+  inline void set_fix(std::complex<double> &y, double real, double imag, int n, q_mode q) {y = std::complex<double>(real, imag);}
   //! Set <tt>y = x</tt>. Useful in templated code
   inline void set_fix(cvec &y, const cvec &x, int n) {y = x;}
   //! Set <tt>y = real + i*imag</tt>. Useful in templated code
@@ -284,11 +283,11 @@ namespace itpp {
   inline void rshift_fix(cfixmat &y, int n, q_mode q)
   {for (int i=0; i<y.size(); i++) y(i).rshift(n, q);}
   //! Dummy function useful in templated code
-  inline void lshift_fix(complex<double> &y, int n) {}
+  inline void lshift_fix(std::complex<double> &y, int n) {}
   //! Dummy function useful in templated code
-  inline void rshift_fix(complex<double> &y, int n) {}
+  inline void rshift_fix(std::complex<double> &y, int n) {}
   //! Dummy function useful in templated code
-  inline void rshift_fix(complex<double> &y, int n, q_mode q) {}
+  inline void rshift_fix(std::complex<double> &y, int n, q_mode q) {}
   //! Dummy function useful in templated code
   inline void lshift_fix(cvec &y, int n) {}
   //! Dummy function useful in templated code
@@ -314,7 +313,7 @@ namespace itpp {
   //! If x is a fixed-point variable, assert that x has the specified shift value, otherwise do nothing
   inline void assert_fixshift(const double x, const int shift) {}
   //! If x is a fixed-point variable, assert that x has the specified shift value, otherwise do nothing
-  inline void assert_fixshift(const complex<double> &x, const int shift) {}
+  inline void assert_fixshift(const std::complex<double> &x, const int shift) {}
   //! If x is a fixed-point variable, assert that x has the specified shift value, otherwise do nothing
   inline void assert_fixshift(const Fix &x, const int shift)
   {it_assert1(x.get_shift()==shift, "Shift should be " + to_str(shift) + " but it is " + to_str(x.get_shift()) + ".");}
@@ -364,8 +363,8 @@ namespace itpp {
   template<class T> inline T to(const double x) {return T(x);}
   //! Convert Fix to T
   template<class T> inline T to(const Fix &x) {return T(x);}
-  //! Convert complex<double> to T
-  template<class T> inline T to(const complex<double> &x) {return T(x);}
+  //! Convert std::complex<double> to T
+  template<class T> inline T to(const std::complex<double> &x) {return T(x);}
   //! Convert CFix to T
   template<class T> inline T to(const CFix &x) {return T(x);}
   //! Convert double (real and imaginary parts) to T
@@ -385,7 +384,7 @@ namespace itpp {
   //! Convert vec to vec
   template<> inline vec to<double>(const vec &x) {return x;}
   //! Convert cvec to cvec
-  template<> inline cvec to<complex<double> >(const cvec &x) {return x;}
+  template<> inline cvec to<std::complex<double> >(const cvec &x) {return x;}
   //! Convert fixvec to fixvec
   template<> inline fixvec to<Fix>(const fixvec &x) {return x;}
   //! Convert cfixvec to cfixvec
@@ -416,7 +415,7 @@ namespace itpp {
   //! Convert mat to mat
   template<> inline mat to<double>(const mat &x) {return x;}
   //! Convert cmat to cmat
-  template<> inline cmat to<complex<double> >(const cmat &x) {return x;}
+  template<> inline cmat to<std::complex<double> >(const cmat &x) {return x;}
   //! Convert fixmat to fixmat
   template<> inline fixmat to<Fix>(const fixmat &x) {return x;}
   //! Convert cfixmat to cfixmat
@@ -460,8 +459,8 @@ namespace itpp {
 
   //! Convert Fix to double by multiplying the bit representation with pow2(-shift)
   inline double unfix(const Fix &x) {return x.unfix();}
-  //! Convert CFix to complex<double> by multiplying the bit representation with pow2(-shift)
-  inline complex<double> unfix(const CFix &x) {return x.unfix();}
+  //! Convert CFix to std::complex<double> by multiplying the bit representation with pow2(-shift)
+  inline std::complex<double> unfix(const CFix &x) {return x.unfix();}
   //! Convert fixvec to vec by multiplying the bit representations with pow2(-shift)
   inline vec unfix(const fixvec &x) {return to_vec(x);}
   //! Convert cfixvec to cvec by multiplying the bit representations with pow2(-shift)
@@ -473,8 +472,8 @@ namespace itpp {
 
   //! Convert double to double i.e. do nothing
   inline double unfix(const double &x) {return x;}
-  //! Convert complex<double> to complex<double> i.e. do nothing
-  inline complex<double> unfix(const complex<double> &x) {return x;}
+  //! Convert std::complex<double> to std::complex<double> i.e. do nothing
+  inline std::complex<double> unfix(const std::complex<double> &x) {return x;}
   //! Convert vec to vec i.e. do nothing
   inline vec unfix(const vec &x) {return x;}
   //! Convert cvec to cvec i.e. do nothing
@@ -496,13 +495,13 @@ namespace itpp {
   template<>
   class Convert<CFix> {
   public:
-    typedef complex<double> to_double;
+    typedef std::complex<double> to_double;
   };
-  //! Template specialization for complex<T>
+  //! Template specialization for std::complex<T>
   template<class T>
-  class Convert<complex<T> > {
+  class Convert<std::complex<T> > {
   public:
-    typedef complex<double> to_double;
+    typedef std::complex<double> to_double;
   };
   //! Template specialization for Array<T>
   template<class T>

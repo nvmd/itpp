@@ -81,7 +81,8 @@ namespace itpp {
     Revisited", BIT, Vol. 40, 2000, pp. 84-101.  
 		This document is also available at http://www.inf.ethz.ch/personal/gander.
   */
-  double quad(double (*f)(double), const double a, const double b, const double tol=std::numeric_limits<double>::epsilon());
+  double quad(double (*f)(double), double a, double b, 
+	      double tol = std::numeric_limits<double>::epsilon());
 
   /*!
     1-dimensional numerical adaptive Lobatto quadrature integration
@@ -119,7 +120,8 @@ namespace itpp {
     Revisited", BIT, Vol. 40, 2000, pp. 84-101.
   	This document is also available at http:// www.inf.ethz.ch/personal/gander.
   */
-  double quadl(double (*f)(double), const double a, const double b, const double tol=std::numeric_limits<double>::epsilon());
+  double quadl(double (*f)(double), double a, double b, 
+	       double tol = std::numeric_limits<double>::epsilon());
 
   //@}
   

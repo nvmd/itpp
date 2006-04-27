@@ -33,6 +33,7 @@
 #include <itpp/base/gf2mat.h>
 #include <itpp/base/specmat.h>
 #include <itpp/base/matfunc.h>
+#include <itpp/base/converters.h>
 #include <iostream>
 
 namespace itpp {

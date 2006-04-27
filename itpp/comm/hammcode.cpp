@@ -31,6 +31,7 @@
  */
 
 #include <itpp/comm/hammcode.h>
+#include <itpp/base/logexpfunc.h>
 #include <itpp/base/converters.h>
 
 
@@ -91,7 +92,7 @@ namespace itpp {
   void Hamming_Code::encode(const bvec &uncoded_bits, bvec &coded_bits)
   {
     int length = uncoded_bits.length();
-    int Itterations = (int)floor( float(length) / k );
+    int Itterations = floor_i(static_cast<double>(length) / k);
     bmat Gt = G.T();
     int i;
     
@@ -111,7 +112,7 @@ namespace itpp {
   void Hamming_Code::decode(const bvec &coded_bits, bvec &decoded_bits)
   {
     int length = coded_bits.length();
-    int Itterations = (int)floor( float(length) / n );
+    int Itterations = floor_i(static_cast<double>(length) / n);
     svec Hindexes(n);
     bvec temp(n-k);
     bvec coded(n), syndrome(n-k);

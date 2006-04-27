@@ -55,7 +55,8 @@ namespace itpp {
 
   void BCH::encode(const bvec &uncoded_bits, bvec &coded_bits)
   {
-    int i, j, degree, itterations = (int)floor( (double)uncoded_bits.length() / k );
+    int i, j, degree, 
+      itterations = floor_i(static_cast<double>(uncoded_bits.length()) / k);
     GFX m(n+1,k);
     GFX c(n+1,n);
     coded_bits.set_size(itterations*n, false);
@@ -90,7 +91,8 @@ namespace itpp {
 
   void BCH::decode(const bvec &coded_bits, bvec &decoded_bits)
   {
-    int j, i, degree, kk, foundzeros, cisvalid, itterations = (int)floor( (double)coded_bits.length() / n );
+    int j, i, degree, kk, foundzeros, cisvalid, 
+      itterations = floor_i(static_cast<double>(coded_bits.length()) / n);
     bvec rbin(n), mbin(k);
     decoded_bits.set_size(itterations*k, false);
 

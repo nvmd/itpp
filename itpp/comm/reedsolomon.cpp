@@ -31,7 +31,7 @@
  */
 
 #include <itpp/comm/reedsolomon.h>
-
+#include <itpp/base/logexpfunc.h>
 
 namespace itpp { 
 
@@ -71,7 +71,8 @@ namespace itpp {
 
   void Reed_Solomon::encode(const bvec &uncoded_bits, bvec &coded_bits)
   {
-    int i, j, itterations = (int)floor( (double)uncoded_bits.length() / (k*m) );
+    int i, j, itterations = floor_i(static_cast<double>(uncoded_bits.length())
+				    / (k * m));
     GFX mx(q,k), cx(q,n);
     GF mpow;
     bvec mbit(k*m), cbit(m);
@@ -102,7 +103,8 @@ namespace itpp {
 
   void Reed_Solomon::decode(const bvec &coded_bits, bvec &decoded_bits)
   {
-    int j, i, kk, l, L, foundzeros, itterations = (int)floor( (double)coded_bits.length() / (n*m) ), decoderfailure;
+    int j, i, kk, l, L, foundzeros, decoderfailure,
+      itterations = floor_i(static_cast<double>(coded_bits.length()) / (n * m));
     bvec mbit(m*k);
     decoded_bits.set_size(itterations*k*m, false);
 

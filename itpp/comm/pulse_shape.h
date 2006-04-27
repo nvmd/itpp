@@ -35,6 +35,7 @@
 
 #include <itpp/base/vec.h>
 #include <itpp/base/matfunc.h>
+#include <itpp/base/trihypfunc.h>
 #include <itpp/signal/filter.h>
 
 

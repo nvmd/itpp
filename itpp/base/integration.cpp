@@ -32,6 +32,7 @@
 
 #include <itpp/base/integration.h>
 #include <itpp/base/vec.h>
+#include <itpp/base/elmatfunc.h>
 #include <itpp/base/specmat.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/base/help_functions.h>
@@ -39,14 +40,15 @@
 
 namespace itpp {
 
-  double quadstep(double (*f)(double), const double a, const double b, const double fa, const double fm, const double fb, const double is)
+  double quadstep(double (*f)(double), double a, double b, 
+		  double fa, double fm, double fb, double is)
   {
     double Q, m, h, fml, fmr, i1, i2;
     vec x(2), y(2);
 
     m = (a+b)/2; h = (b-a)/4;
     x = vec_2(a+h, b-h);
-    y = vec_function(f, x);
+    y = apply_function<double>(f, x);
     fml = y(0); fmr = y(1);
 
     i1 = h/1.5 * (fa + 4*fm + fb);
@@ -66,15 +68,16 @@ namespace itpp {
   }
 
 
-  double quad(double (*f)(double), const double a, const double b, const double tol)
+  double quad(double (*f)(double), double a, double b, double tol)
   {
     vec x(3), y(3), yy(5);
     double Q, fa, fm, fb, is;
 
     x = vec_3(a, (a+b)/2, b);
-    y = vec_function(f, x);
+    y = apply_function<double>(f, x);
     fa = y(0); fm = y(1); fb = y(2);
-    yy = vec_function(f, a + vec(".9501 .2311 .6068 .4860 .8913")*(b-a));
+    yy = apply_function<double>(f, a + vec(".9501 .2311 .6068 .4860 .8913") 
+				* (b - a));
     is = (b-a)/8*(sum(y)+sum(yy));
 
     if (is == 0.0)
@@ -89,17 +92,19 @@ namespace itpp {
 
   //--------------------- quadl() ----------------------------------------
 
-  double quadlstep(double (*f)(double), const double a, const double b, const double fa, const double fb, const double is)
+  double quadlstep(double (*f)(double), double a, double b, 
+		   double fa, double fb, double is)
   {
-    double Q, h, m, alpha, beta, mll, ml, mr, mrr, fmll, fml, fm, fmr, fmrr, i1, i2;
+    double Q, h, m, alpha, beta, mll, ml, mr, mrr, fmll, fml, fm, fmr, fmrr, 
+      i1, i2;
     vec x(5), y(5);
 
     h=(b-a)/2; m=(a+b)/2;
-    alpha=sqrt(2.0/3); beta=1.0/sqrt(5.0);
+    alpha = std::sqrt(2.0/3); beta = 1.0/std::sqrt(5.0);
     mll=m-alpha*h; ml=m-beta*h; mr=m+beta*h; mrr=m+alpha*h;
     x(0)=mll; x(1) = ml; x(2) = m; x(3) = mr; x(4) = mrr;
 
-    y=vec_function(f, x);
+    y = apply_function<double>(f, x);
     
     fmll=y(0); fml=y(1); fm=y(2); fmr=y(3); fmrr=y(4);
     
@@ -119,7 +124,7 @@ namespace itpp {
     return Q;
   }
 
-  double quadl(double (*f)(double), const double a, const double b, const double tol)
+  double quadl(double (*f)(double), double a, double b, double tol)
   {
     double Q, m, h, alpha, beta, x1, x2, x3, fa, fb, i1, i2, is, s, erri1, erri2, R;
     vec x(13), y(13);
@@ -127,7 +132,7 @@ namespace itpp {
 
     m=(a+b)/2; h=(b-a)/2;
     
-    alpha=std::sqrt(2.0/3); beta=1/sqrt(5.0);
+    alpha = std::sqrt(2.0/3); beta = 1.0/std::sqrt(5.0);
 
     x1=.942882415695480; x2=.641853342345781; x3=.236383199662150;
     x(0)=a; x(1)=m-x1*h; x(2)=m-alpha*h; x(3)=m-x2*h;
@@ -135,7 +140,7 @@ namespace itpp {
     x(8)=m+beta*h; x(9)=m+x2*h; x(10)=m+alpha*h; 
     x(11)=m+x1*h; x(12)=b;
 
-    y=vec_function(f, x);
+    y = apply_function<double>(f, x);
 
     fa=y(0); fb=y(12);
     i2=(h/6)*(y(0)+y(12)+5*(y(4)+y(8)));
@@ -144,7 +149,7 @@ namespace itpp {
     is=h*(.0158271919734802*(y(0)+y(12))+.0942738402188500*(y(1)+y(11))+.155071987336585*(y(2)+y(10))+ 
 	  .188821573960182*(y(3)+y(9))+.199773405226859 *(y(4)+y(8))+.224926465333340*(y(5)+y(7))+.242611071901408*y(6));
 
-    s=sign(is);
+    s = sign(is);
     if (s == 0.0)
       s = 1;
     

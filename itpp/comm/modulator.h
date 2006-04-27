@@ -562,7 +562,8 @@ namespace itpp {
 
     //cvec modulate(const svec &symbolnumbers);
     //svec demodulate(const cvec &signal);
-
+  private:
+    static const double m_sqrt1_2 = 0.70710678118654752440;
   };
 
   /*! 

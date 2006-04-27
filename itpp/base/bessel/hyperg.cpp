@@ -34,8 +34,8 @@
  */
 
 #include <itpp/base/bessel/bessel_internal.h>
-#include <itpp/base/scalfunc.h>
-#include <cmath>
+#include <itpp/base/elmatfunc.h>
+
 
 using namespace itpp;
 
@@ -249,14 +249,14 @@ static double hy1f1a(double a, double b, double x, double *err)
 
   h1 = hyp2f0( a, a-b+1, -1.0/x, 1, &err1 );
 
-  temp = exp(u) / ::gamma(b-a);
+  temp = exp(u) / itpp::gamma(b-a);
   h1 *= temp;
   err1 *= temp;
 
   h2 = hyp2f0( b-a, 1.0-a, 1.0/x, 2, &err2 );
 
   if( a < 0 )
-    temp = exp(t) / ::gamma(a);
+    temp = exp(t) / itpp::gamma(a);
   else
     temp = exp( t - lgamma(a) );
 
@@ -273,7 +273,7 @@ static double hy1f1a(double a, double b, double x, double *err)
 
   if( b < 0 )
     {
-      temp = ::gamma(b);
+      temp = itpp::gamma(b);
       asum *= temp;
       acanc *= fabs(temp);
     }

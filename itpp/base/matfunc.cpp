@@ -78,6 +78,20 @@ namespace itpp {
   }
 
 
+  bool all(const bvec &testvec)
+  {
+    for (int i=0; i<testvec.length(); i++) 
+      if (!testvec(i)) return false;
+    return true;
+  }
+  
+  bool any(const bvec &testvec)
+  {
+    for (int i=0; i<testvec.length(); i++) 
+      if (testvec(i)) return true;
+    return false;
+  } 
+
   // ---------------------- Instantiations ------------------------------------
 
   template int length(const vec &v);
@@ -85,7 +99,6 @@ namespace itpp {
   template int length(const svec &v);
   template int length(const ivec &v);
   template int length(const bvec &v);
-
 
   template double sum(const vec &v);
   template std::complex<double> sum(const cvec &v);
@@ -127,14 +140,6 @@ namespace itpp {
   template ivec repeat(const ivec &v, int norepeats);
   template bvec repeat(const bvec &v, int norepeats);
 
-  template vec apply_function(float (*f)(float), const vec &data);
-  template vec apply_function(double (*f)(double), const vec &data);
-  template cvec apply_function(std::complex<double> (*f)(std::complex<double>), const cvec &data);
-  template svec apply_function(short (*f)(short), const svec &data);
-  template ivec apply_function(int (*f)(int), const ivec &data);
-  template bvec apply_function(bin (*f)(bin), const bvec &data);
-
-
   template ivec zero_pad(const ivec &v, int n);
   template vec zero_pad(const vec &v, int n);
   template cvec zero_pad(const cvec &v, int n);
@@ -169,7 +174,6 @@ namespace itpp {
   template bmat cumsum(const bmat &m, int dim);
 
   template vec prod(const mat &m, int dim);
-  // Template instantiation of product
   template cvec prod(const cmat &v, int dim);
   template svec prod(const smat &m, int dim);
   template ivec prod(const imat &m, int dim);
@@ -219,7 +223,6 @@ namespace itpp {
   template imat transpose(const imat &m);
   template bmat transpose(const bmat &m);
 
-
   template void hermitian_transpose(const mat &m, mat &out);
   template void hermitian_transpose(const cmat &m, cmat &out);
   template void hermitian_transpose(const smat &m, smat &out);
@@ -237,13 +240,6 @@ namespace itpp {
   template smat repeat(const smat &m, int norepeats);
   template imat repeat(const imat &m, int norepeats);
   template bmat repeat(const bmat &m, int norepeats);
-
-  template mat apply_function(float (*f)(float), const mat &data);
-  template mat apply_function(double (*f)(double), const mat &data);
-  template cmat apply_function(std::complex<double> (*f)(std::complex<double>), const cmat &data);
-  template smat apply_function(short (*f)(short), const smat &data);
-  template imat apply_function(int (*f)(int), const imat &data);
-  template bmat apply_function(bin (*f)(bin), const bmat &data);
 
   template  vec rvectorize(const  mat &m);
   template cvec rvectorize(const cmat &m);

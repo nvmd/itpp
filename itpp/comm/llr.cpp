@@ -80,8 +80,8 @@ namespace itpp {
   {
     ivec result(Dint2);
     for (int i=0; i<Dint2; i++) {
-      double x= pow(2.0,((double) (Dint3-Dint1)))*((double) i);
-      result(i) = to_qllr(log(1+exp(-x)));
+      double x = pow2(static_cast<double>(Dint3 - Dint1)) * i;
+      result(i) = to_qllr(std::log(1 + std::exp(-x)));
     }
     it_assert1(length(result)==Dint2,"Ldpc_codec::construct_logexp_table()");
 
@@ -133,13 +133,17 @@ namespace itpp {
   std::ostream &operator<<(std::ostream &os, const LLR_calc_unit &lcu)
   {
     os << "LLR_calc_unit table properties:" << std::endl;
-    os << "The granularity in the LLR representation is " << pow(2.0,-lcu.Dint1) << std::endl;
-    os << "The LLR scale factor is " << (1<<lcu.Dint1) << std::endl;
-    os << "The largest LLR that can be represented is " << lcu.to_double(QLLR_MAX) << std::endl;
-    os << "The table resolution is " << pow(2.0,((double) (lcu.Dint3-lcu.Dint1))) << std::endl;
+    os << "The granularity in the LLR representation is " 
+       << pow2(static_cast<double>(-lcu.Dint1)) << std::endl;
+    os << "The LLR scale factor is " << (1 << lcu.Dint1) << std::endl;
+    os << "The largest LLR that can be represented is " 
+       << lcu.to_double(QLLR_MAX) << std::endl;
+    os << "The table resolution is " 
+       << pow2(static_cast<double>(lcu.Dint3 - lcu.Dint1)) << std::endl;
     os << "The number of entries in the table is " << lcu.Dint2 << std::endl;
-    os << "The tables truncates at the LLR value " <<
-      pow(2.0,((double) (lcu.Dint3-lcu.Dint1)))*((double) lcu.Dint2) << std::endl;
+    os << "The tables truncates at the LLR value "
+       << pow2(static_cast<double>(lcu.Dint3 - lcu.Dint1)) * lcu.Dint2 
+       << std::endl;
     return os;
   }
 

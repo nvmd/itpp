@@ -33,8 +33,9 @@
 #ifndef MATFUNC_H
 #define MATFUNC_H
 
-#include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
+#include <itpp/base/logexpfunc.h>
+#include <itpp/base/elmatfunc.h>
 
 
 namespace itpp {
@@ -52,7 +53,6 @@ namespace itpp {
   //! Length of vector
   template<class T>
   int size(const Vec<T> &v) { return v.length(); }
-
 
   //! Sum of all elements in the vector 
   template<class T>
@@ -235,33 +235,6 @@ namespace itpp {
   }
 
 
-  //! Apply arbitrary function to a vector
-  template<class T, class fT>
-  Vec<T> apply_function(fT (*f)(fT), const Vec<T> &data)
-  {
-    Vec<T> out(data.length());
-
-    for (int i=0;i<data.length();i++)
-      out[i]=T(f(fT(data[i])));
-    return out;
-  }
-
-
-  //! Apply arbitrary functions to a matrix
-  template<class T, class fT>
-  Mat<T> apply_function(fT (*f)(fT), const Mat<T> &data)
-  {
-    Mat<T> out(data.rows(),data.cols());
-
-    for (int i=0;i<out.rows();i++)
-      for (int j=0;j<out.cols();j++)
-	//out(i,j)=static_cast<T>(f(static_cast<fT>(data(i,j))));
-	out(i,j)=T(f(fT(data(i,j))));
-
-    return out;
-  }
-
-
   //! Zero-pad a vector to size n
   template<class T>
   Vec<T> zero_pad(const Vec<T> &v, int n)
@@ -279,7 +252,7 @@ namespace itpp {
   template<class T>
   Vec<T> zero_pad(const Vec<T> &v)
   {
-    int n = pow2(needed_bits(v.size()));
+    int n = pow2i(needed_bits(v.size()));
 
     return (n == v.size()) ? v : zero_pad(v, n);
   }
@@ -426,19 +399,17 @@ namespace itpp {
 
 
 
-  // -------------------- Diagonal matrix functions ---------------------------------------
+  // -------------------- Diagonal matrix functions -------------------------
 
-  /*! 
-    \addtogroup diag
-    
-  */
-
+  //! \addtogroup diag
   //!@{
 
   /*! 
-    \brief Returns a diagonal matrix whith the elements of the vector \c v on the diagonal and zeros elsewhere.
+    \brief Returns a diagonal matrix whith the elements of the vector \c v
+    on the diagonal and zeros elsewhere. 
 
-    The size of the return matrix will be \f$n \times n\f$, where \f$n\f$ is the length of the input vector \c v.
+    The size of the return matrix will be \f$n \times n\f$, where \f$n\f$ is
+    the length of the input vector \c v. 
   */
   template<class T>
   Mat<T> diag(const Vec<T> &v, const int K = 0)
@@ -456,10 +427,11 @@ namespace itpp {
   }
 
   /*! 
-    \brief Returns in the output wariable \c m a diagonal matrix whith the elements of the vector \c v on the 
-    diagonal and zeros elsewhere.
+    \brief Returns in the output wariable \c m a diagonal matrix whith the
+    elements of the vector \c v on the diagonal and zeros elsewhere. 
   
-    The size of the output matrix \c m will be \f$n \times n\f$, where \f$n\f$ is the length of the input vector \c v.
+    The size of the output matrix \c m will be \f$n \times n\f$, where
+    \f$n\f$ is the length of the input vector \c v. 
   */
   template<class T>
   void diag(const Vec<T> &v, Mat<T> &m)
@@ -473,7 +445,8 @@ namespace itpp {
   /*! 
     \brief Returns the diagonal elements of the input matrix \c m.
 
-    The input matrix \c m must be a square \f$n \times n\f$ matrix. The size of the output vector will be \f$n\f$.
+    The input matrix \c m must be a square \f$n \times n\f$ matrix. The size
+    of the output vector will be \f$n\f$. 
   */
   template<class T>
   Vec<T> diag(const Mat<T> &m)
@@ -488,11 +461,13 @@ namespace itpp {
 
   // 
   /*!
-    \brief Returns a matrix with the elements of the input vector \c main on the diagonal and the elements of 
-    the input vector \c sup on the diagonal row above.
+    \brief Returns a matrix with the elements of the input vector \c main on
+    the diagonal and the elements of the input vector \c sup on the diagonal
+    row above. 
 
-    If the number of elements in the vector \c main is \f$n\f$, then the number of elements in the input vector 
-    \c sup must be \f$n-1\f$. The size of the return matrix will be \f$n \times n\f$.
+    If the number of elements in the vector \c main is \f$n\f$, then the
+    number of elements in the input vector \c sup must be \f$n-1\f$. The
+    size of the return matrix will be \f$n \times n\f$. 
   */
   template<class T>
   Mat<T> bidiag(const Vec<T> &main, const Vec<T> &sup)
@@ -512,11 +487,13 @@ namespace itpp {
   }
 
   /*!
-    \brief Returns in the output variable \c m a matrix with the elements of the input vector \c main on the diagonal 
-    and the elements of the input vector \c sup on the diagonal row above.
+    \brief Returns in the output variable \c m a matrix with the elements of
+    the input vector \c main on the diagonal and the elements of the input
+    vector \c sup on the diagonal row above. 
 
-    If the number of elements in the vector \c main is \f$n\f$, then the number of elements in the input vector 
-    \c sup must be \f$n-1\f$. The size of the output matrix \c m will be \f$n \times n\f$.
+    If the number of elements in the vector \c main is \f$n\f$, then the
+    number of elements in the input vector \c sup must be \f$n-1\f$. The
+    size of the output matrix \c m will be \f$n \times n\f$. 
   */
   template<class T>
   void bidiag(const Vec<T> &main, const Vec<T> &sup, Mat<T> &m)
@@ -534,10 +511,12 @@ namespace itpp {
   }
 
   /*!
-    \brief Returns the main diagonal and the diagonal row above in the two output vectors \c main and \c sup.
+    \brief Returns the main diagonal and the diagonal row above in the two
+    output vectors \c main and \c sup. 
 
-    The input matrix \c in must be a square \f$n \times n\f$ matrix. The length of the output vector \c main will be \f$n\f$ 
-    and the length of the output vector \c sup will be \f$n-1\f$.
+    The input matrix \c in must be a square \f$n \times n\f$ matrix. The
+    length of the output vector \c main will be \f$n\f$ and the length of
+    the output vector \c sup will be \f$n-1\f$. 
   */
   template<class T>
   void bidiag(const Mat<T> &m, Vec<T> &main, Vec<T> &sup)
@@ -555,11 +534,13 @@ namespace itpp {
   }
 
   /*!
-    \brief Returns a matrix with the elements of \c main on the diagonal, the elements of \c sup on the diagonal row above, 
-    and the elements of \c sub on the diagonal row below.
+    \brief Returns a matrix with the elements of \c main on the diagonal,
+    the elements of \c sup on the diagonal row above, and the elements of \c
+    sub on the diagonal row below. 
 
-    If the length of the input vector \c main is \f$n\f$ then the lengths of the vectors \c sup and \c sub 
-    must equal \f$n-1\f$. The size of the return matrix will be \f$n \times n\f$.
+    If the length of the input vector \c main is \f$n\f$ then the lengths of
+    the vectors \c sup and \c sub must equal \f$n-1\f$. The size of the
+    return matrix will be \f$n \times n\f$. 
   */
   template<class T>
   Mat<T> tridiag(const Vec<T> &main, const Vec<T> &sup, const Vec<T> &sub)
@@ -580,11 +561,13 @@ namespace itpp {
   }
 
   /*!
-    \brief Returns in the output matrix \c m a matrix with the elements of \c main on the diagonal, the elements of \c sup on the
-    diagonal row above, and the elements of \c sub on the diagonal row below.
+    \brief Returns in the output matrix \c m a matrix with the elements of
+    \c main on the diagonal, the elements of \c sup on the diagonal row
+    above, and the elements of \c sub on the diagonal row below. 
   
-    If the length of the input vector \c main is \f$n\f$ then the lengths of the vectors \c sup and \c sub 
-    must equal \f$n-1\f$. The size of the output matrix \c m will be \f$n \times n\f$.
+    If the length of the input vector \c main is \f$n\f$ then the lengths of
+    the vectors \c sup and \c sub must equal \f$n-1\f$. The size of the
+    output matrix \c m will be \f$n \times n\f$. 
   */
   template<class T>
   void tridiag(const Vec<T> &main, const Vec<T> &sup, const Vec<T> &sub, Mat<T> &m)
@@ -603,10 +586,12 @@ namespace itpp {
   }
 
   /*!
-    \brief Returns the main diagonal, the diagonal row above, and the diagonal row below int the output vectors \c main, \c sup, and \c sub.
+    \brief Returns the main diagonal, the diagonal row above, and the
+    diagonal row below int the output vectors \c main, \c sup, and \c sub. 
 
-    The input matrix \c m must be a square \f$n \times n\f$ matrix. The length of the output vector \c main will be \f$n\f$ 
-    and the length of the output vectors \c sup and \c sup will be \f$n-1\f$.
+    The input matrix \c m must be a square \f$n \times n\f$ matrix. The
+    length of the output vector \c main will be \f$n\f$ and the length of
+    the output vectors \c sup and \c sup will be \f$n-1\f$. 
   */
   template<class T>
   void tridiag(const Mat<T> &m, Vec<T> &main, Vec<T> &sup, Vec<T> &sub)
@@ -626,7 +611,6 @@ namespace itpp {
   }
 
 
-
   /*! 
     \brief The trace of the matrix \c m, i.e. the sum of the diagonal elements.
   */
@@ -639,12 +623,9 @@ namespace itpp {
   //!@}
 
 
-  // ----------------- reshaping vectors and matrices ---------------------------
-  /*! 
-    \addtogroup reshaping
-    
-  */
+  // ----------------- reshaping vectors and matrices ------------------------
 
+  //! \addtogroup reshaping
   //!@{
 
   //! Reverse the input vector
@@ -690,7 +671,8 @@ namespace itpp {
   /*!
     \brief Reshape the matrix into an rows*cols matrix
 
-    The data is taken columnwise from the original matrix and written columnwise into the new matrix.
+    The data is taken columnwise from the original matrix and written
+    columnwise into the new matrix. 
   */
   template<class T>
   Mat<T> reshape(const Mat<T> &m, int rows, int cols)
@@ -712,7 +694,8 @@ namespace itpp {
   /*!
     \brief Reshape the vector into an rows*cols matrix
 
-    The data is element by element from the vector and written columnwise into the new matrix.
+    The data is element by element from the vector and written columnwise
+    into the new matrix. 
   */
   template<class T>
   Mat<T> reshape(const Vec<T> &v, int rows, int cols)
@@ -731,10 +714,9 @@ namespace itpp {
   //!@}
 
 
-  /*! 
-    \addtogroup upsample
-  */
+  // --------------------- upsampling functions ---------------------------
 
+  //! \addtogroup upsample
   //!@{
 
   //! Repeat each element in the vector norepeats times in sequence
@@ -930,7 +912,13 @@ namespace itpp {
 
   //!@}
 
-  // ---------------------- Instantiations -----------------------------------------
+  //! Returns \a true if all elements are ones and \a false otherwise
+  bool all(const bvec &testvec);
+  //! Returns \a true if any element is one and \a false otherwise
+  bool any(const bvec &testvec);
+
+
+  // ---------------------- Instantiations -----------------------------------
 #ifndef _MSC_VER
 
   //! Extern Template instantiation of length
@@ -1016,19 +1004,6 @@ namespace itpp {
   extern template ivec repeat(const ivec &v, int norepeats);
   //! Extern Template instantiation of repeat
   extern template bvec repeat(const bvec &v, int norepeats);
-
-  //! Extern Template instantiation of apply_function
-  extern template vec apply_function(float (*f)(float), const vec &data);
-  //! Extern Template instantiation of apply_function
-  extern template vec apply_function(double (*f)(double), const vec &data);
-  //! Extern Template instantiation of apply_function
-  extern template cvec apply_function(std::complex<double> (*f)(std::complex<double>), const cvec &data);
-  //! Extern Template instantiation of apply_function
-  extern template svec apply_function(short (*f)(short), const svec &data);
-  //! Extern Template instantiation of apply_function
-  extern template ivec apply_function(int (*f)(int), const ivec &data);
-  //! Extern Template instantiation of apply_function
-  extern template bvec apply_function(bin (*f)(bin), const bvec &data);
 
   //! Extern Template instantiation of zero_pad
   extern template ivec zero_pad(const ivec &v, int n);
@@ -1177,7 +1152,6 @@ namespace itpp {
   //! Extern Template instantiation of transpose
   extern template bmat transpose(const bmat &m);
 
-
   //! Extern Template instantiation of hermitian transpose
   extern template void hermitian_transpose(const mat &m, mat &out);
   //! Extern Template instantiation of hermitian transpose
@@ -1200,7 +1174,6 @@ namespace itpp {
   //! Extern Template instantiation of hermitian transpose
   extern template bmat hermitian_transpose(const bmat &m);
 
-
   //! Extern Template instantiation of is_hermitian
   extern template bool is_hermitian(const mat &X);
   //! Extern Template instantiation of is_hermitian
@@ -1221,19 +1194,6 @@ namespace itpp {
   extern template imat repeat(const imat &m, int norepeats);
   //! Extern Template instantiation of repeat
   extern template bmat repeat(const bmat &m, int norepeats);
-
-  //! Extern Template instantiation of apply_function
-  extern template mat apply_function(float (*f)(float), const mat &data);
-  //! Extern Template instantiation of apply_function
-  extern template mat apply_function(double (*f)(double), const mat &data);
-  //! Extern Template instantiation of apply_function
-  extern template cmat apply_function(std::complex<double> (*f)(std::complex<double>), const cmat &data);
-  //! Extern Template instantiation of apply_function
-  extern template smat apply_function(short (*f)(short), const smat &data);
-  //! Extern Template instantiation of apply_function
-  extern template imat apply_function(int (*f)(int), const imat &data);
-  //! Extern Template instantiation of apply_function
-  extern template bmat apply_function(bin (*f)(bin), const bmat &data);
 
   //! Extern Template instantiation of rvectorize
   extern template  vec rvectorize(const  mat &m);

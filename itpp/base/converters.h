@@ -33,14 +33,13 @@
 #ifndef CONVERTERS_H
 #define CONVERTERS_H
 
-#include <itpp/base/vec.h>
-#include <itpp/base/mat.h>
+#include <itpp/base/help_functions.h>
+#include <itpp/base/itmisc.h>
 
 
 namespace itpp {
 
-  /*! \addtogroup convertfunc
-   */
+  //! \addtogroup convertfunc
   //!@{
 
   /*!
@@ -145,6 +144,7 @@ namespace itpp {
   template <class T>
     cmat to_cmat(const Mat<T> &real, const Mat<T> &imag);
 
+
   /*!
     \brief Convert a decimal int \a index to bvec using \a length bits in the representation
   */
@@ -189,6 +189,89 @@ namespace itpp {
   //! Convert binary polar ivec to bvec
   bvec pol2bin(const ivec &inpol);
 
+  //! Convert radians to degrees
+  inline double rad_to_deg(double x) { return (180.0 / itpp::pi * x); }
+  //! Convert degrees to radians
+  inline double deg_to_rad(double x) { return (itpp::pi / 180.0 * x); }
+
+
+#ifdef _MSC_VER
+  //! Round to nearest integer, return result in double
+  inline double rint(double x) { return floor(x + 0.5); }
+#endif
+  //! Round to nearest integer, return result in double
+  inline double round(double x) { return rint(x); }
+  //! Round to nearest integer
+  inline vec round(const vec &x) { return apply_function<double>(round, x); }
+  //! Round to nearest integer
+  inline mat round(const mat &x) { return apply_function<double>(round, x); }
+  //! Round to nearest integer
+  inline int round_i(double x) { return static_cast<int>(rint(x)); }
+  //! Round to nearest integer and return ivec
+  ivec round_i(const vec &x);
+  //! Round to nearest integer and return imat
+  imat round_i(const mat &x);
+
+  //! Round to nearest upper integer
+  inline vec ceil(const vec &x) { return apply_function<double>(std::ceil, x); }
+  //! Round to nearest upper integer
+  inline mat ceil(const mat &x) { return apply_function<double>(std::ceil, x); }
+  //! The nearest larger integer
+  inline int ceil_i(double x) { return static_cast<int>(std::ceil(x)); }
+  //! Round to nearest upper integer
+  ivec ceil_i(const vec &x);
+  //! Round to nearest upper integer
+  imat ceil_i(const mat &x);
+
+  //! Round to nearest lower integer
+  inline vec floor(const vec &x) { return apply_function<double>(std::floor, x); }
+  //! Round to nearest lower integer
+  inline mat floor(const mat &x) { return apply_function<double>(std::floor, x); }
+  //! The nearest smaller integer
+  inline int floor_i(double x) { return static_cast<int>(std::floor(x)); }
+  //! Round to nearest lower integer
+  ivec floor_i(const vec &x);
+  //! Round to nearest lower integer
+  imat floor_i(const mat &x);
+
+
+  //! Round \a x to zero if \a abs(x) is smaller than \a threshold
+  inline double round_to_zero(double x, double threshold = 1e-14) 
+  {
+    return ((std::fabs(x) < threshold) ? 0.0 : x);
+  }
+  
+  //! Round each part of \a x smaller than \a threshold to zero  
+  inline std::complex<double> round_to_zero(const std::complex<double>& x,
+					    double threshold = 1e-14) 
+  {
+    return std::complex<double>(round_to_zero(x.real(), threshold), 
+				round_to_zero(x.imag(), threshold));
+  }
+
+  //! Round each element to zero if element < threshold
+  inline vec round_to_zero(const vec &x, double threshold = 1e-14) 
+  {
+    return apply_function<double>(round_to_zero, x, threshold);
+  }
+
+  //! Round each element to zero if element < threshold
+  inline mat round_to_zero(const mat &x, double threshold = 1e-14)
+  {
+    return apply_function<double>(round_to_zero, x, threshold);
+  }
+
+  //! Round each element to zero if element < threshold
+  cvec round_to_zero(const cvec &x, double threshold = 1e-14);
+
+  //! Round each element to zero if element < threshold
+  cmat round_to_zero(const cmat &x, double threshold = 1e-14);
+
+
+  //! Convert to Gray Code
+  inline int gray_code(int x) { return x^(x >> 1); }
+
+
   /*! 
     \brief Convert anything to string
     
@@ -200,24 +283,26 @@ namespace itpp {
   /*! 
     \brief Convert double to string
     
-    \param i (Input) The value to be converted to a string
-    \param precision (Input) The number of digits used to represent the fractional part
+    \param[in]  i          The value to be converted to a string
+    \param[in]  precision  The number of digits used to represent the
+                           fractional part
   */
   std::string to_str(const double &i, const int precision);
 
   //!@}
 
   template <typename T>
-    std::string to_str(const T &i)
-    {
-      std::ostringstream ss;
-	  ss.precision(8);
-	  ss.setf(std::ostringstream::scientific,std::ostringstream::floatfield);
-      ss << i;
-      return ss.str();
-    }
+  std::string to_str(const T &i)
+  {
+    std::ostringstream ss;
+    ss.precision(8);
+    ss.setf(std::ostringstream::scientific,std::ostringstream::floatfield);
+    ss << i;
+    return ss.str();
+  }
 
-  // ---------------------- Instantiations -----------------------------------------
+
+  // ---------------------- Instantiations -----------------------------------
 #ifndef _MSC_VER
 
   //! Template instantiation of to_bvec

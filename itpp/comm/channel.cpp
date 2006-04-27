@@ -32,6 +32,7 @@
  */
 
 #include <itpp/comm/channel.h>
+#include <itpp/base/trihypfunc.h>
 #include <itpp/base/stat.h>
 #include <itpp/base/specmat.h>
 #include <itpp/base/bessel.h>

@@ -31,6 +31,7 @@
  */
 
 #include <itpp/base/specmat.h>
+#include <itpp/base/logexpfunc.h>
 #include <itpp/base/elmatfunc.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/base/stat.h>
@@ -133,7 +134,7 @@ namespace itpp {
   imat hadamard(int size) {	
     int i,k,l,pow2,logsize;
     imat H(size,size);
-    logsize=round_i(log2(double(size)));
+    logsize = needed_bits(size);
 
     it_assert1(pow2i(logsize)==size,"hadamard size not a power of 2");
     H(0,0)=1;H(0,1)=1;H(1,0)=1;H(1,1)=-1;
