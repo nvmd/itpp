@@ -1,5 +1,8 @@
 2006-04-27  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/sourceforge/howto_release_itpp.html: Updated due to CVS to
+	SVN repository migration.
+
 	* Redesign, separation and regrouping of some functions from the
 	base module.
 
