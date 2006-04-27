@@ -1,5 +1,8 @@
 2006-04-27  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/comm/galois.cpp: Added missing include file with log2()
+	function declaration.
+
 	* doc/sourceforge/howto_release_itpp.html: Updated due to CVS to
 	SVN repository migration.
 
