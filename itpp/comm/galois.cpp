@@ -31,6 +31,7 @@
  */
 
 #include <itpp/comm/galois.h>
+#include <itpp/base/logexpfunc.h>
 #include <iostream>
 
 
