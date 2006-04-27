@@ -34,8 +34,8 @@
  */
  
 #include <itpp/base/bessel/bessel_internal.h>
-#include <itpp/base/scalfunc.h>
-#include <cmath>
+#include <itpp/base/elmatfunc.h>
+
 
 #ifdef _MSC_VER
 #pragma warning(disable:4996)

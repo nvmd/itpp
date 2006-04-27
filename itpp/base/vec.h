@@ -41,9 +41,8 @@
 
 #include <itpp/base/itassert.h>
 #include <itpp/base/itmisc.h>
-#include <itpp/base/scalfunc.h>
-#include <itpp/base/factory.h>
 #include <itpp/base/copy_vector.h>
+#include <itpp/base/factory.h>
 
 
 namespace itpp {
@@ -545,8 +544,9 @@ namespace itpp {
 	  buffer.get();
 	  if (!buffer.eof()) {
 	    buffer >> c;
-
-	    while (sign(b)*(data[pos-1]+b-c)<=0) {
+	    // replaced sign(b) with the following:
+	    while (((b == 0.0 ? 0.0 : (b < 0.0 ? -1.0 : 1.0)) 
+		    * (data[pos-1]+b-c)) <= 0) {
 	      pos++;
 	      if (pos > maxpos) {
 		maxpos=maxpos*2;

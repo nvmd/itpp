@@ -73,9 +73,9 @@
 #include <itpp/base/svd.h>
 #include <itpp/base/random.h>
 #include <itpp/base/sort.h>
+#include <itpp/base/trihypfunc.h>
 
 
-// This is needed for the local functions
 using namespace itpp;
 
 // Local functions for FastICA

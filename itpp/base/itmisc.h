@@ -35,6 +35,7 @@
 
 #include <complex>
 #include <string>
+#include <limits>
 
 
 namespace std {
@@ -93,12 +94,59 @@ namespace std {
 
 namespace itpp {
 
+  //! Constant pi
+  const double pi = 3.14159265358979323846;
+
+  //! Constant eps
+  const double eps = std::numeric_limits<double>::epsilon();
+
+  //! \addtogroup miscfunc
+  //!@{
+
+  //! Return true if x is an integer
+  inline bool is_int(double x) 
+  { 
+    double dummy; 
+    return (modf(x, &dummy) == 0.0); 
+  }
+
+  //! Return true if x is an even integer
+  inline bool is_even(int x) { return ((x&1) == 0); }
+
+
+  //! Compute the binomial coefficient "n over k" as a float.
+  double binom(int n, int k);
+
+  //! Compute the binomial coefficient "n over k" as an integer.
+  int binom_i(int n, int k);
+
+  //! Compute the base 10 logarithm of the binomial coefficient "n over k".
+  double log_binom(int n, int k);
+
+
+  //double sigmoid(double x) { return 1.0/(1.0+exp(-x)); }
+
+  //! Calculates factorial coefficient for index <= 170.
+  double fact(int index);
+
+  /*!
+    \brief Returns the greatest common divisor (GCD) \a g of the elements \a
+           a and \a b. 
+
+    \a a and \a b must be non-negative integers. \a gdc(0,0) is 0 by
+    convention; all other GCDs are positive integers.
+  */
+  long gcd(long a, long b);
+
+
   /*!
    * \brief Return IT++ version
    *
    * Returns the version number of the IT++ library, e.g. "3.7.1".
    */
   std::string itpp_version(void);
+
+  //!@}
 
 } //namespace itpp
 

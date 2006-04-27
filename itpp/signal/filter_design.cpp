@@ -32,12 +32,14 @@
 
 #include <itpp/signal/filter_design.h>
 #include <itpp/signal/poly.h>
-#include <itpp/base/elmatfunc.h>
+#include <itpp/signal/filter.h>
 #include <itpp/signal/transforms.h>
+#include <itpp/base/elmatfunc.h>
 #include <itpp/base/ls_solve.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/base/specmat.h>
-#include <itpp/signal/filter.h>
+#include <itpp/base/trihypfunc.h>
+#include <itpp/base/converters.h>
 
 
 namespace itpp {

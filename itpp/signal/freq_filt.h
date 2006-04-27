@@ -37,6 +37,7 @@
 #include <itpp/base/specmat.h>
 #include <itpp/base/elmatfunc.h>
 #include <itpp/base/stat.h>
+#include <itpp/base/converters.h>
 
 
 namespace itpp {

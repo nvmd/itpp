@@ -32,6 +32,7 @@
 
 #include <itpp/base/converters.h>
 #include <itpp/base/matfunc.h>
+#include <itpp/base/logexpfunc.h>
 
 
 namespace itpp {
@@ -316,7 +317,7 @@ namespace itpp {
 
   ivec bin2oct(const bvec &inbits)
   {
-    int start, Itterations = (int)ceil(float(inbits.length())/3.0);
+    int start, Itterations = ceil_i(inbits.length() / 3.0);
     ivec out(Itterations);
     for (int i=Itterations-1; i>0; i--) {
       start = 3*i - ( 3*Itterations - inbits.length() );
@@ -335,6 +336,45 @@ namespace itpp {
   {
     return to_bvec((1-inpol)/2);
   }
+
+
+  // Round to nearest integer and return ivec
+  ivec round_i(const vec &x) { return to_ivec(round(x)); }
+  // Round to nearest integer and return imat
+  imat round_i(const mat &x) { return to_imat(round(x)); }
+
+  // Round to nearest upper integer
+  ivec ceil_i(const vec &x) { return to_ivec(ceil(x)); }
+  // Round to nearest upper integer
+  imat ceil_i(const mat &x) { return to_imat(ceil(x)); }
+
+  //! Round to nearest lower integer
+  ivec floor_i(const vec &x) { return to_ivec(floor(x)); }
+  //! Round to nearest lower integer
+  imat floor_i(const mat &x) { return to_imat(floor(x)); }
+
+
+  cvec round_to_zero(const cvec &x, double threshold) {
+    cvec temp(x.length());
+
+    for (int i = 0; i < x.length(); i++)
+      temp(i) = round_to_zero(x(i), threshold);
+
+    return temp;
+  }
+
+  cmat round_to_zero(const cmat &x, double threshold) {
+    cmat temp(x.rows(), x.cols());
+
+    for (int i = 0; i < x.rows(); i++) {
+      for (int j = 0; j < x.cols(); j++) {
+	temp(i, j) = round_to_zero(x(i, j), threshold);
+      }
+    }
+
+    return temp;
+  }
+
 
   /*
   template <>

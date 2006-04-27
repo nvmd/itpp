@@ -141,7 +141,7 @@ namespace itpp {
   {
     Ec = in_Ec;
     N0 = in_N0;
-    Lc = 4.0*sqrt(Ec)/N0;
+    Lc = 4.0 * std::sqrt(Ec)/N0;
   }
 
   void Turbo_Codec::set_scaling_factor(double in_Lc)

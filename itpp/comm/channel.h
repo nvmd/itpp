@@ -38,6 +38,7 @@
 #include <itpp/base/mat.h>
 #include <itpp/base/array.h>
 #include <itpp/base/random.h>
+#include <itpp/base/elmatfunc.h>
 #include <itpp/signal/filter.h>
 
 

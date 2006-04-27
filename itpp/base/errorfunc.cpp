@@ -30,46 +30,12 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/base/scalfunc.h>
-#include <itpp/base/vec.h>
-#include <cmath>
+#include <itpp/base/errorfunc.h>
+#include <itpp/base/elmatfunc.h>
+
 
 #ifdef _MSC_VER
-// "True" gamma function
-double tgamma(double x)
-{
-  double s = (2.50662827510730 + 190.9551718930764 / (x + 1)
-	      - 216.8366818437280 / (x + 2) + 60.19441764023333
-	      / (x + 3) - 3.08751323928546 / (x + 4) + 0.00302963870525
-	      / (x + 5) - 0.00001352385959072596 / (x + 6)) / x;
-  if (s < 0)
-    return -exp((x + 0.5) * log(x + 5.5) - x - 5.5 + log(-s));
-  else 
-    return exp((x + 0.5) * log(x + 5.5) - x - 5.5 + log(s));
-}
 
-// This global variable is normally declared in <cmath>, but not under MSVC++
-int signgam;
-
-// Logarithm of an absolute value of gamma function 
-double lgamma(double x)
-{
-  double gam = tgamma(x);
-  signgam = (gam < 0) ? -1 : 1;
-  return log(fabs(gam));
-}
-
-// Cubic root
-double cbrt(double x)
-{
-  return pow(x, 1.0/3.0);
-}
-#endif
-
-
-namespace itpp { 
-
-#ifdef _MSC_VER
   double erfc(double Y)
   {
     int  ISW,I;
@@ -148,66 +114,11 @@ namespace itpp {
 
   double erf(double x)
   {
-    return (1.0-erfc(x));
+    return (1.0 - erfc(x));
   }
 #endif
 
-  double gamma(double x)
-  {
-    double lg = lgamma(x);
-    return signgam * exp(lg);
-  }
-
-  double Qfunc(double x)
-  {
-    return 0.5*erfc(x/1.41421356237310);
-  }
-
-  double erfinv(double P)
-  {
-    double	Y,A,B,X,Z,W,WI,SN,SD,F,Z2,SIGMA;
-    double	A1=-.5751703,A2=-1.896513,A3=-.5496261E-1;
-    double	B0=-.1137730,B1=-3.293474,B2=-2.374996,B3=-1.187515;
-    double	C0=-.1146666,C1=-.1314774,C2=-.2368201,C3=.5073975e-1;
-    double	D0=-44.27977,D1=21.98546,D2=-7.586103;
-    double	E0=-.5668422E-1,E1=.3937021,E2=-.3166501,E3=.6208963E-1;
-    double	F0=-6.266786,F1=4.666263,F2=-2.962883;
-    double	G0=.1851159E-3,G1=-.2028152E-2,G2=-.1498384,G3=.1078639E-1;
-    double	H0=.9952975E-1,H1=.5211733,H2=-.6888301E-1;
-    //	double	RINFM=1.7014E+38;
-
-    X=P;
-    SIGMA=sgn(X);
-    it_error_if(X<-1 || X>1,"erfinv : argument out of bounds");
-    Z=fabs(X);
-    if (Z>.85) {
-      A=1-Z;
-      B=Z;
-      W=sqrt(-log(A+A*B));
-      if (W>=2.5) {
-	if (W>=4.) {
-	  WI=1./W;
-	  SN=((G3*WI+G2)*WI+G1)*WI;
-	  SD=((WI+H2)*WI+H1)*WI+H0;
-	  F=W+W*(G0+SN/SD);
-	} else {
-	  SN=((E3*W+E2)*W+E1)*W;
-	  SD=((W+F2)*W+F1)*W+F0;
-	  F=W+W*(E0+SN/SD);
-	}
-      } else {
-	SN=((C3*W+C2)*W+C1)*W;
-	SD=((W+D2)*W+D1)*W+D0;
-	F=W+W*(C0+SN/SD);
-      }
-    } else {
-      Z2=Z*Z;
-      F=Z+Z*(B0+A1*Z2/(B1+Z2+A2/(B2+Z2+A3/(B3+Z2))));
-    }
-    Y=SIGMA*F;
-    return Y;
-  }
-
+namespace itpp { 
 
   /*
    * Abramowitz and Stegun: Eq. (7.1.14) gives this continued fraction
@@ -253,7 +164,7 @@ namespace itpp {
     f = 1.0 / f;
 
     // and do the final scaling
-	f = f * exp(-z * z) / sqrt(pi);
+    f = f * exp(-z * z) / std::sqrt(pi);
 
     return f;
   }
@@ -282,7 +193,7 @@ namespace itpp {
       term *= -z2 / static_cast<double>(n + 1);
     }
 
-    return sum * 2.0 / sqrt(pi);
+    return sum * 2.0 / std::sqrt(pi);
   }
 
   /*
@@ -323,7 +234,7 @@ namespace itpp {
    * This function calculates a well known error function erf(z) for
    * complex z. Three methods are implemented. Which one is used
    * depends on z. 
-	 */
+   */
   std::complex<double> erf(const std::complex<double>& z)
   {
     // Use the method appropriate to size of z - 
@@ -339,123 +250,54 @@ namespace itpp {
   }
 
 
-#if !defined(__GLIBC__) || __GLIBC__ < 2
-  double asinh(double x)
+  double erfinv(double P)
   {
-    return ((x>=0) ? log(x+sqrt(x*x+1)):-log(-x+sqrt(x*x+1)));
-  }
+    double	Y,A,B,X,Z,W,WI,SN,SD,F,Z2,SIGMA;
+    double	A1=-.5751703,A2=-1.896513,A3=-.5496261E-1;
+    double	B0=-.1137730,B1=-3.293474,B2=-2.374996,B3=-1.187515;
+    double	C0=-.1146666,C1=-.1314774,C2=-.2368201,C3=.5073975e-1;
+    double	D0=-44.27977,D1=21.98546,D2=-7.586103;
+    double	E0=-.5668422E-1,E1=.3937021,E2=-.3166501,E3=.6208963E-1;
+    double	F0=-6.266786,F1=4.666263,F2=-2.962883;
+    double	G0=.1851159E-3,G1=-.2028152E-2,G2=-.1498384,G3=.1078639E-1;
+    double	H0=.9952975E-1,H1=.5211733,H2=-.6888301E-1;
+    //	double	RINFM=1.7014E+38;
 
-  double acosh(double x)
-  {
-    it_error_if(x<1,"acosh(x): x<1");
-    return log(x+sqrt(x*x-1));
-  }
-
-  double atanh(double x)
-  {
-    it_error_if(fabs(x)>=1,"atanh(x): abs(x)>=1");
-    return 0.5*log((x+1)/(x-1));
-  }
-
-#endif
-
-  //Calculates factorial coefficient for index <= 170.
-  double fact(int index)
-  {
-    it_error_if(index > 170,"\nThe function double factfp(int index) overflows if index > 170. \nUse your head instead!");
-    it_error_if(index <  0,"\nThe function double factfp(int index) cannot evaluate if index. < 0");
-    double prod = 1;
-    for (int i=1; i<=index; i++)
-      prod *= double(i);
-    return prod;
-  }
-
-  long mod(long k, long n)
-  {
-    if (n==0) {
-      return k;
+    X=P;
+    SIGMA = sign(X);
+    it_error_if(X<-1 || X>1,"erfinv : argument out of bounds");
+    Z=fabs(X);
+    if (Z>.85) {
+      A=1-Z;
+      B=Z;
+      W = std::sqrt(-log(A+A*B));
+      if (W>=2.5) {
+	if (W>=4.) {
+	  WI=1./W;
+	  SN=((G3*WI+G2)*WI+G1)*WI;
+	  SD=((WI+H2)*WI+H1)*WI+H0;
+	  F=W+W*(G0+SN/SD);
+	} else {
+	  SN=((E3*W+E2)*W+E1)*W;
+	  SD=((W+F2)*W+F1)*W+F0;
+	  F=W+W*(E0+SN/SD);
+	}
+      } else {
+	SN=((C3*W+C2)*W+C1)*W;
+	SD=((W+D2)*W+D1)*W+D0;
+	F=W+W*(C0+SN/SD);
+      }
     } else {
-      return (k - n * long(floor(double(k)/double(n))) );
+      Z2=Z*Z;
+      F=Z+Z*(B0+A1*Z2/(B1+Z2+A2/(B2+Z2+A3/(B3+Z2))));
     }
+    Y=SIGMA*F;
+    return Y;
   }
 
-  long gcd(long a, long b)
+  double Qfunc(double x)
   {
-    long v, u, t, q;
-
-    it_assert(a>=0,"long gcd(long a, long b): a and b must be non-negative integers");
-    it_assert(b>=0,"long gcd(long a, long b): a and b must be non-negative integers");
-
-    u = std::abs(a);
-    v = std::abs(b);
-    while (v>0) {
-      q = u / v;
-      t = u - v*q;
-      u = v;
-      v = t;
-    }
-    return(u);
-  }
-
-
-  // Calculates binomial coefficient "n over k".
-  double binom(int n, int k) {
-    it_error_if(k>n,"Error in double binom(int n, int k).\nn must be larger than k.");
-    k = n-k<k ? n-k : k;
-
-    vec talj(k), namn(k);
-    int i;
-    double out = 1.0;
-    for (i=0; i<k; i++)
-      namn(i) = double(i+1);
-
-    int pos = 0;
-    for (i=n; i>=(n-k+1); i--) {
-      talj(pos) = double(i);
-      pos++;
-    }
-
-    for (i=0; i<k; i++) {
-      out *= talj(i) / namn(k-1-i);
-    }
-    return ( out );
-  }
-
-  int binom_i(int n, int k)
-  {
-    ivec v(n);
-    int i, j;
-
-    if (n > (k+1)/2)
-      n = k+1-n;
-
-    v = 0;
-    v(0) = 1;
-
-    for (i=0; i<k-n; i++)
-      for (j=1; j<n; j++)
-	v(j) += v(j-1);
-
-    return v(n-1);
-  }
-
-  // Calculates the base 10-logarithm of the binomial coefficient "n over k".
-  double log_binom(int n, int k) {
-    it_error_if(k>n,"Error in double log_binom(int n, int k).\nn must be larger than k.");
-    k = n-k<k ? n-k : k;
-
-    int i;
-    double out = 0.0;
-    for (i=0; i<k; i++)
-      out += log10((double)(n-i)) - log10((double)(i+1));
-
-    return out;
-  }
-
-  std::complex<double> round_to_zero(const std::complex<double>& x,
-				     double threshold) {
-    return std::complex<double>(round_to_zero(x.real(), threshold), 
-				round_to_zero(x.imag(), threshold));
+    return (0.5 * ::erfc(x / 1.41421356237310));
   }
 
 } // namespace itpp

@@ -11,6 +11,7 @@ h_base_sources = \
 	$(top_srcdir)/itpp/base/det.h \
 	$(top_srcdir)/itpp/base/eigen.h \
 	$(top_srcdir)/itpp/base/elmatfunc.h \
+	$(top_srcdir)/itpp/base/errorfunc.h \
 	$(top_srcdir)/itpp/base/factory.h \
 	$(top_srcdir)/itpp/base/fastmath.h \
 	$(top_srcdir)/itpp/base/gf2mat.h \
@@ -21,6 +22,7 @@ h_base_sources = \
 	$(top_srcdir)/itpp/base/itfile.h \
 	$(top_srcdir)/itpp/base/itmisc.h \
 	$(top_srcdir)/itpp/base/lapack.h \
+	$(top_srcdir)/itpp/base/logexpfunc.h \
 	$(top_srcdir)/itpp/base/ls_solve.h \
 	$(top_srcdir)/itpp/base/lu.h \
 	$(top_srcdir)/itpp/base/machdep.h \
@@ -31,7 +33,6 @@ h_base_sources = \
 	$(top_srcdir)/itpp/base/parser.h \
 	$(top_srcdir)/itpp/base/qr.h \
 	$(top_srcdir)/itpp/base/random.h \
-	$(top_srcdir)/itpp/base/scalfunc.h \
 	$(top_srcdir)/itpp/base/schur.h \
 	$(top_srcdir)/itpp/base/smat.h \
 	$(top_srcdir)/itpp/base/sort.h \
@@ -41,6 +42,7 @@ h_base_sources = \
 	$(top_srcdir)/itpp/base/stat.h \
 	$(top_srcdir)/itpp/base/svd.h \
 	$(top_srcdir)/itpp/base/svec.h \
+	$(top_srcdir)/itpp/base/trihypfunc.h \
 	$(top_srcdir)/itpp/base/timing.h \
 	$(top_srcdir)/itpp/base/vec.h
 
@@ -54,8 +56,10 @@ cpp_base_sources = \
 	$(top_srcdir)/itpp/base/det.cpp \
 	$(top_srcdir)/itpp/base/eigen.cpp \
 	$(top_srcdir)/itpp/base/elmatfunc.cpp \
+	$(top_srcdir)/itpp/base/errorfunc.cpp \
 	$(top_srcdir)/itpp/base/fastmath.cpp \
 	$(top_srcdir)/itpp/base/gf2mat.cpp \
+	$(top_srcdir)/itpp/base/help_functions.cpp \
 	$(top_srcdir)/itpp/base/integration.cpp \
 	$(top_srcdir)/itpp/base/inv.cpp \
 	$(top_srcdir)/itpp/base/itassert.cpp \
@@ -70,7 +74,6 @@ cpp_base_sources = \
 	$(top_srcdir)/itpp/base/parser.cpp \
 	$(top_srcdir)/itpp/base/qr.cpp \
 	$(top_srcdir)/itpp/base/random.cpp \
-	$(top_srcdir)/itpp/base/scalfunc.cpp \
 	$(top_srcdir)/itpp/base/schur.cpp \
 	$(top_srcdir)/itpp/base/smat.cpp \
 	$(top_srcdir)/itpp/base/source.cpp \

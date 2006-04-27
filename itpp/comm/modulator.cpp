@@ -31,15 +31,16 @@
  */
 
 #include <itpp/comm/modulator.h>
-#include <itpp/base/converters.h>
 #include <itpp/comm/commfunc.h>
+#include <itpp/base/converters.h>
+#include <itpp/base/logexpfunc.h>
+#include <itpp/base/elmatfunc.h>
 
+#ifndef M_SQRT1_2
+#define M_SQRT1_2 0.70710678118654752440
+#endif
 
 namespace itpp {
-
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-#define M_1_DIV_SQRT2 0.70710678118654752440
-#endif //DOXYGEN_SHOULD_SKIP_THIS
 
   //------------- class: Modulator_1d ----------------
 
@@ -52,7 +53,7 @@ namespace itpp {
   {
     it_assert(insymbols.size() == inbitmap.size(), "Modulator_1d: number of symbols and bitmap does not match");
     M = inbitmap.size();
-    k = round_i(log2(double(M)));
+    k = needed_bits(M);
     symbols = insymbols;
     bitmap = inbitmap; 
   }
@@ -90,8 +91,8 @@ namespace itpp {
       mindist = std::abs(double(symbols(0)) - signal(i));
       closest = 0;
       for (j=1; j<M; j++) {
-				dist = std::abs(double(symbols(j)) - signal(i));
-				if (dist<mindist) { mindist = dist; closest = j; }
+	dist = std::abs(double(symbols(j)) - signal(i));
+	if (dist<mindist) { mindist = dist; closest = j; }
       }
       output(i) = closest;
     }
@@ -109,8 +110,8 @@ namespace itpp {
       mindist = std::abs(double(symbols(0)) - signal(i));
       closest = 0;
       for (j=1; j<M; j++) {
-				dist = std::abs(double(symbols(j)) - signal(i));
-				if (dist<mindist){ mindist = dist; closest = j; }
+	dist = std::abs(double(symbols(j)) - signal(i));
+	if (dist<mindist){ mindist = dist; closest = j; }
       }
       output.replace_mid(i*k,dec2bin(k,bitmap(closest)));
     }
@@ -302,7 +303,7 @@ namespace itpp {
     int l, i, j;
     double P0, P1;
     double d0min, d0min2, d1min, d1min2;
-    double treshhold = -log(eps)*N0; // To be sure that any precision is left in the calculatation
+    double treshhold = -std::log(eps) * N0; // To be sure that any precision is left in the calculatation
     double inv_N0 = 1/N0;
     vec d(M), expd(M);
 
@@ -311,27 +312,27 @@ namespace itpp {
     for (l=0; l<rx_symbols.size(); l++) {
 
       for (j=0; j<M; j++) {
-				d(j) = sqr(std::real(rx_symbols(l)-symbols(j)));
-				expd(j) = exp((-d(j))*inv_N0);
+	d(j) = sqr(std::real(rx_symbols(l)-symbols(j)));
+	expd(j) = std::exp((-d(j))*inv_N0);
       }
 
       for (i=0; i<k; i++) {
-				P0 = P1 = 0;
-				d0min = d0min2 = d1min = d1min2 = 1e100;
-				for (j=0; j<(M/2); j++) {
-					if (d(S0(i,j)) < d0min) { d0min2 = d0min; d0min = d(S0(i,j)); }
-					if (d(S1(i,j)) < d1min) { d1min2 = d1min; d1min = d(S1(i,j)); }
-					P0 += expd(S0(i,j));
-					P1 += expd(S1(i,j)); 
-				}
-				if ( (d0min2-d0min) > treshhold && (d1min2-d1min) > treshhold )
-					soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
-				else if ( (d0min2-d0min) > treshhold )
-					soft_bits(l*k+i) = -d0min*inv_N0-log(P1);
-				else if ( (d1min2-d1min) > treshhold )
-					soft_bits(l*k+i) = log(P0) + d1min*inv_N0;
-				else
-					soft_bits(l*k+i) = log(P0/P1);
+	P0 = P1 = 0;
+	d0min = d0min2 = d1min = d1min2 = 1e100;
+	for (j=0; j<(M/2); j++) {
+	  if (d(S0(i,j)) < d0min) { d0min2 = d0min; d0min = d(S0(i,j)); }
+	  if (d(S1(i,j)) < d1min) { d1min2 = d1min; d1min = d(S1(i,j)); }
+	  P0 += expd(S0(i,j));
+	  P1 += expd(S1(i,j)); 
+	}
+	if ( (d0min2-d0min) > treshhold && (d1min2-d1min) > treshhold )
+	  soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
+	else if ( (d0min2-d0min) > treshhold )
+	  soft_bits(l*k+i) = -d0min*inv_N0-std::log(P1);
+	else if ( (d1min2-d1min) > treshhold )
+	  soft_bits(l*k+i) = std::log(P0) + d1min*inv_N0;
+	else
+	  soft_bits(l*k+i) = std::log(P0/P1);
       }
     }
   }
@@ -348,15 +349,15 @@ namespace itpp {
     for (l=0; l<rx_symbols.size(); l++) {
 
       for (j=0; j<M; j++)
-				d(j) = sqr(std::real(rx_symbols(l)-symbols(j)));
+	d(j) = sqr(std::real(rx_symbols(l)-symbols(j)));
 
       for (i=0; i<k; i++) {
-				d0min = d1min = 1e100;
-				for (j=0; j<(M/2); j++) {
-					if (d(S0(i,j)) < d0min) { d0min = d(S0(i,j)); }
-					if (d(S1(i,j)) < d1min) { d1min = d(S1(i,j)); }
-				}
-				soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
+	d0min = d1min = 1e100;
+	for (j=0; j<(M/2); j++) {
+	  if (d(S0(i,j)) < d0min) { d0min = d(S0(i,j)); }
+	  if (d(S1(i,j)) < d1min) { d1min = d(S1(i,j)); }
+	}
+	soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
       }
     }
   }
@@ -366,7 +367,7 @@ namespace itpp {
     int l, i, j;
     double P0, P1;
     double d0min, d0min2, d1min, d1min2;
-    double treshhold = -log(eps)*N0; // To be sure that any precision is left in the calculatation
+    double treshhold = -std::log(eps)*N0; // To be sure that any precision is left in the calculatation
     double inv_N0 = 1/N0;
     vec d(M), expd(M);
 
@@ -374,27 +375,27 @@ namespace itpp {
 
     for (l=0; l<rx_symbols.size(); l++) {
       for (j=0; j<M; j++) {
-				d(j) = sqr(std::real(rx_symbols(l)-channel(l)*symbols(j)));
-				expd(j) = exp((-d(j))*inv_N0);
+	d(j) = sqr(std::real(rx_symbols(l)-channel(l)*symbols(j)));
+	expd(j) = std::exp((-d(j))*inv_N0);
       }
 
       for (i=0; i<k; i++) {
-				P0 = P1 = 0;
-				d0min = d0min2 = d1min = d1min2 = 1e100;
-				for (j=0; j<(M/2); j++) {
-					if (d(S0(i,j)) < d0min) { d0min2 = d0min; d0min = d(S0(i,j)); }
-					if (d(S1(i,j)) < d1min) { d1min2 = d1min; d1min = d(S1(i,j)); }
-					P0 += expd(S0(i,j));
-					P1 += expd(S1(i,j)); 
-				}
-				if ( (d0min2-d0min) > treshhold && (d1min2-d1min) > treshhold )
-					soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
-				else if ( (d0min2-d0min) > treshhold )
-					soft_bits(l*k+i) = -d0min*inv_N0-log(P1);
-				else if ( (d1min2-d1min) > treshhold )
-					soft_bits(l*k+i) = log(P0) + d1min*inv_N0;
-				else
-					soft_bits(l*k+i) = log(P0/P1);
+	P0 = P1 = 0;
+	d0min = d0min2 = d1min = d1min2 = 1e100;
+	for (j=0; j<(M/2); j++) {
+	  if (d(S0(i,j)) < d0min) { d0min2 = d0min; d0min = d(S0(i,j)); }
+	  if (d(S1(i,j)) < d1min) { d1min2 = d1min; d1min = d(S1(i,j)); }
+	  P0 += expd(S0(i,j));
+	  P1 += expd(S1(i,j)); 
+	}
+	if ( (d0min2-d0min) > treshhold && (d1min2-d1min) > treshhold )
+	  soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
+	else if ( (d0min2-d0min) > treshhold )
+	  soft_bits(l*k+i) = -d0min*inv_N0-std::log(P1);
+	else if ( (d1min2-d1min) > treshhold )
+	  soft_bits(l*k+i) = std::log(P0) + d1min*inv_N0;
+	else
+	  soft_bits(l*k+i) = std::log(P0/P1);
       }
     }
   }
@@ -411,15 +412,15 @@ namespace itpp {
     for (l=0; l<rx_symbols.size(); l++) {
 
       for (j=0; j<M; j++)
-				d(j) = sqr(std::real(rx_symbols(l)-channel(l)*symbols(j)));
+	d(j) = sqr(std::real(rx_symbols(l)-channel(l)*symbols(j)));
 
       for (i=0; i<k; i++) {
-				d0min = d1min = 1e100;
-				for (j=0; j<(M/2); j++) {
-					if (d(S0(i,j)) < d0min) { d0min = d(S0(i,j)); }
-					if (d(S1(i,j)) < d1min) { d1min = d(S1(i,j)); }
-				}
-				soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
+	d0min = d1min = 1e100;
+	for (j=0; j<(M/2); j++) {
+	  if (d(S0(i,j)) < d0min) { d0min = d(S0(i,j)); }
+	  if (d(S1(i,j)) < d1min) { d1min = d(S1(i,j)); }
+	}
+	soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
       }
     }
   }
@@ -427,9 +428,9 @@ namespace itpp {
   void PAM::set_M(int Mary)
   {
     M = Mary;
-    k = round_i(log2(double(M)));
+    k = needed_bits(M);
 
-    it_error_if(abs(pow2i(k)-Mary)>0.0,"M-ary PAM: M is not a power of 2");
+    it_error_if(abs(pow2i(k) - Mary) > 0.0,"M-ary PAM: M is not a power of 2");
 
     int i, kk, m, count0, count1;
     bvec bits;
@@ -438,7 +439,7 @@ namespace itpp {
     bits2symbols.set_size(M, false);
     bitmap = graycode(k);
     average_energy = double(M*M-1)/3.0;
-    scaling_factor = sqrt(average_energy);
+    scaling_factor = std::sqrt(average_energy);
 
     for (i=0; i<M; i++) {
       symbols(i) = double((M-1)-i*2) / scaling_factor;
@@ -453,14 +454,14 @@ namespace itpp {
       count0 = 0; 
       count1 = 0;
       for (m=0; m<M; m++) {
-				bits = bitmap.get_row(m);
-				if (bits(kk)==bin(0)) {
-					S0(kk,count0) = m;
-					count0++; 
-				} else {
-					S1(kk,count1) = m;
-					count1++;
-				}
+	bits = bitmap.get_row(m);
+	if (bits(kk)==bin(0)) {
+	  S0(kk,count0) = m;
+	  count0++; 
+	} else {
+	  S1(kk,count1) = m;
+	  count1++;
+	}
       }
     }
   }
@@ -477,7 +478,7 @@ namespace itpp {
     symbols = insymbols;
     bitmap = inbitmap; 
     M = bitmap.size();
-    k = round_i(log2(double(M)));
+    k = needed_bits(M);
     soft_bit_mapping_matrices_calculated = false;
   }
 
@@ -514,8 +515,8 @@ namespace itpp {
       mindist = std::abs( symbols(0) - signal(i) );
       closest = 0;
       for (j=1; j<M; j++) {
-				dist = std::abs( symbols(j) - signal(i) );
-				if (dist<mindist){ mindist = dist; closest = j; }
+	dist = std::abs( symbols(j) - signal(i) );
+	if (dist<mindist){ mindist = dist; closest = j; }
       }
       output(i) = closest;
     }
@@ -533,8 +534,8 @@ namespace itpp {
       mindist = std::abs( symbols(0) - signal(i) );
       closest = 0;
       for (j=1; j<M; j++) {
-				dist = std::abs( symbols(j) - signal(i) );
-				if (dist<mindist){ mindist = dist; closest = j; }
+	dist = std::abs( symbols(j) - signal(i) );
+	if (dist<mindist){ mindist = dist; closest = j; }
       }
       output.replace_mid(i*k,dec2bin(k,bitmap(closest))); 
     }
@@ -572,16 +573,16 @@ namespace itpp {
       //For each bit position i do:
       for (i=0; i<k; i++) {
 
-				for (j=0; j<(M/2); j++) {
-					s0 = symbols( S0(i,j) );
-					s1 = symbols( S1(i,j) );
-					p_z_s0 = (1.0/(pi*N0)) * exp(-(pow(std::abs(z-s0),2.0))/N0);
-					p_z_s1 = (1.0/(pi*N0)) * exp(-(pow(std::abs(z-s1),2.0))/N0);
-					P0(i) += p_z_s0;
-					P1(i) += p_z_s1;
-				}
-				//The soft bits for the l-th received symbol:
-				soft_word(i) = log( P0(i) / P1(i) );
+	for (j=0; j<(M/2); j++) {
+	  s0 = symbols( S0(i,j) );
+	  s1 = symbols( S1(i,j) );
+	  p_z_s0 = (1.0/(pi*N0)) * std::exp(-sqr(std::abs(z - s0)) / N0);
+	  p_z_s1 = (1.0/(pi*N0)) * std::exp(-sqr(std::abs(z - s1)) / N0);
+	  P0(i) += p_z_s0;
+	  P1(i) += p_z_s1;
+	}
+	//The soft bits for the l-th received symbol:
+	soft_word(i) = std::log( P0(i) / P1(i) );
       }
       //Put the results in the result vector:
       soft_bits.replace_mid(l*k,soft_word);
@@ -612,21 +613,21 @@ namespace itpp {
       P0.clear();
       P1.clear();
       z = rx_symbols(l);
-      a2 = pow(std::abs(chan(l)),2.0);
+      a2 = sqr(std::abs(chan(l)));
 
       //For each bit position i do:
       for (i=0; i<k; i++) {
 
-				for (j=0; j<(M/2); j++) {
-					s0 = symbols( S0(i,j) );
-					s1 = symbols( S1(i,j) );
-					p_z_s0 = (1.0/(pi*N0*a2)) * exp(-(pow(std::abs(z-a2*s0),2.0))/(N0*a2));
-					p_z_s1 = (1.0/(pi*N0*a2)) * exp(-(pow(std::abs(z-a2*s1),2.0))/(N0*a2));
-					P0(i) += p_z_s0;
-					P1(i) += p_z_s1;
-				}
-				//The soft bits for the l-th received symbol:
-				soft_word(i) = log( P0(i) / P1(i) );
+	for (j=0; j<(M/2); j++) {
+	  s0 = symbols( S0(i,j) );
+	  s1 = symbols( S1(i,j) );
+	  p_z_s0 = (1.0/(pi*N0*a2)) * std::exp(-sqr(std::abs(z-a2*s0)) / (N0*a2));
+	  p_z_s1 = (1.0/(pi*N0*a2)) * std::exp(-sqr(std::abs(z-a2*s1)) / (N0*a2));
+	  P0(i) += p_z_s0;
+	  P1(i) += p_z_s1;
+	}
+	//The soft bits for the l-th received symbol:
+	soft_word(i) = std::log( P0(i) / P1(i) );
       }
       //Put the results in the result vector:
       soft_bits.replace_mid(l*k,soft_word);
@@ -660,16 +661,16 @@ namespace itpp {
       //For each of the k bits do:
       for (i=0; i<k; i++) {
 
-				//Find the closest 0-point and the closest 1-point:
-				d_0 = d( S0(i,0) );
-				d_1 = d( S1(i,0) );
-				for (j=1; j<(M/2); j++) {
-					if ( d( S0(i,j) ) < d_0) { d_0 = d( S0(i,j) ); }
-					if ( d( S1(i,j) ) < d_1) { d_1 = d( S1(i,j) ); }
-				}
+	//Find the closest 0-point and the closest 1-point:
+	d_0 = d( S0(i,0) );
+	d_1 = d( S1(i,0) );
+	for (j=1; j<(M/2); j++) {
+	  if ( d( S0(i,j) ) < d_0) { d_0 = d( S0(i,j) ); }
+	  if ( d( S1(i,j) ) < d_1) { d_1 = d( S1(i,j) ); }
+	}
 
-				//calculate the approximative metric:
-				soft_bits(l*k+i) = Kf * ( pow(d_1,2.0) - pow(d_0,2.0) );
+	//calculate the approximative metric:
+	soft_bits(l*k+i) = Kf * (sqr(d_1) - sqr(d_0));
 
       }
 
@@ -697,7 +698,7 @@ namespace itpp {
     //for each symbol l do:
     for (l=0; l<no_symbols; l++) {
 
-      c2 = pow(std::abs(chan(l)),2.0); 
+      c2 = sqr(std::abs(chan(l))); 
       Kf = 1.0 / ( c2 * N0 );   
 
       //Calculate all distances:
@@ -706,16 +707,16 @@ namespace itpp {
       //For each of the k bits do:
       for (i=0; i<k; i++) {
 
-				//Find the closest 0-point and the closest 1-point:
-				d_0 = d( S0(i,0) );
-				d_1 = d( S1(i,0) );
-				for (j=1; j<(M/2); j++) {
-					if ( d( S0(i,j) ) < d_0) { d_0 = d( S0(i,j) ); }
-					if ( d( S1(i,j) ) < d_1) { d_1 = d( S1(i,j) ); }
-				}
+	//Find the closest 0-point and the closest 1-point:
+	d_0 = d( S0(i,0) );
+	d_1 = d( S1(i,0) );
+	for (j=1; j<(M/2); j++) {
+	  if ( d( S0(i,j) ) < d_0) { d_0 = d( S0(i,j) ); }
+	  if ( d( S1(i,j) ) < d_1) { d_1 = d( S1(i,j) ); }
+	}
 
-				//calculate the approximative metric:
-				soft_bits(l*k+i) = Kf * ( pow(d_1,2.0) - pow(d_0,2.0) );
+	//calculate the approximative metric:
+	soft_bits(l*k+i) = Kf * (sqr(d_1) - sqr(d_0));
 
       }
 
@@ -737,14 +738,14 @@ namespace itpp {
       count0 = 0; 
       count1 = 0;
       for (m=0; m<M; m++) {
-				bits = dec2bin(k,inbitmap(m));
-				if (bits(kk)==bin(0)) {
-					S0(kk,count0) = m;
-					count0++; 
-				} else {
-					S1(kk,count1) = m;
-					count1++;
-				}
+	bits = dec2bin(k,inbitmap(m));
+	if (bits(kk)==bin(0)) {
+	  S0(kk,count0) = m;
+	  count0++; 
+	} else {
+	  S1(kk,count1) = m;
+	  count1++;
+	}
       }
     }
 
@@ -768,8 +769,8 @@ namespace itpp {
 
     out.set_size(no_symbols, false);
     for (i=0; i<no_symbols; i++) {
-      real_part = (bits(2*i)==0) ? M_1_DIV_SQRT2 : -M_1_DIV_SQRT2;
-      imag_part = (bits(2*i+1)==0) ? M_1_DIV_SQRT2 : -M_1_DIV_SQRT2;
+      real_part = (bits(2*i)==0) ? M_SQRT1_2 : -M_SQRT1_2;
+      imag_part = (bits(2*i+1)==0) ? M_SQRT1_2 : -M_SQRT1_2;
       out(i) = std::complex<double>(real_part, imag_part);
     }
   }
@@ -803,7 +804,7 @@ namespace itpp {
   void QPSK::demodulate_soft_bits(const cvec &rx_symbols, const double N0, vec &soft_bits) const
   {
     soft_bits.set_size(2*rx_symbols.size(), false);
-    double factor = 2*sqrt(2.0)/N0;
+    double factor = 2 * std::sqrt(2.0)/N0;
     for (int i=0; i<rx_symbols.size(); i++) {
       soft_bits(2*i) = std::real(rx_symbols(i))*factor;
       soft_bits(2*i+1) = std::imag(rx_symbols(i))*factor;
@@ -815,7 +816,7 @@ namespace itpp {
   {
     soft_bits.set_size(2*rx_symbols.size(), false);
     std::complex<double> temp;
-    double factor = 2*sqrt(2.0)/N0;
+    double factor = 2*std::sqrt(2.0)/N0;
     
     for (int i=0; i<rx_symbols.size(); i++) {
       temp = rx_symbols(i)*std::conj(channel(i));
@@ -891,7 +892,7 @@ namespace itpp {
     int l, i, j;
     double P0, P1;
     double d0min, d0min2, d1min, d1min2;
-    double treshhold = -log(eps)*N0; // To be sure that any precision is left in the calculatation
+    double treshhold = -std::log(eps)*N0; // To be sure that any precision is left in the calculatation
     vec d(M), expd(M);
     double inv_N0 = 1/N0;
 
@@ -900,27 +901,27 @@ namespace itpp {
     for (l=0; l<rx_symbols.size(); l++) {
 
       for (j=0; j<M; j++) {
-				d(j) = sqr(rx_symbols(l)-symbols(j));
-				expd(j) = exp((-d(j))*inv_N0);
+	d(j) = sqr(rx_symbols(l)-symbols(j));
+	expd(j) = std::exp((-d(j))*inv_N0);
       }
 
       for (i=0; i<k; i++) {
-				P0 = P1 = 0;
-				d0min = d0min2 = d1min = d1min2 = 1e100;
-				for (j=0; j<(M/2); j++) {
-					if (d(S0(i,j)) < d0min) { d0min2 = d0min; d0min = d(S0(i,j)); }
-					if (d(S1(i,j)) < d1min) { d1min2 = d1min; d1min = d(S1(i,j)); }
-					P0 += expd(S0(i,j));
-					P1 += expd(S1(i,j));  
-				}
-				if ( (d0min2-d0min) > treshhold && (d1min2-d1min) > treshhold )
-					soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
-				else if ( (d0min2-d0min) > treshhold )
-					soft_bits(l*k+i) = -d0min*inv_N0-log(P1);
-				else if ( (d1min2-d1min) > treshhold )
-					soft_bits(l*k+i) = log(P0) + d1min*inv_N0;
-				else
-					soft_bits(l*k+i) = log(P0/P1);
+	P0 = P1 = 0;
+	d0min = d0min2 = d1min = d1min2 = 1e100;
+	for (j=0; j<(M/2); j++) {
+	  if (d(S0(i,j)) < d0min) { d0min2 = d0min; d0min = d(S0(i,j)); }
+	  if (d(S1(i,j)) < d1min) { d1min2 = d1min; d1min = d(S1(i,j)); }
+	  P0 += expd(S0(i,j));
+	  P1 += expd(S1(i,j));  
+	}
+	if ( (d0min2-d0min) > treshhold && (d1min2-d1min) > treshhold )
+	  soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
+	else if ( (d0min2-d0min) > treshhold )
+	  soft_bits(l*k+i) = -d0min*inv_N0-std::log(P1);
+	else if ( (d1min2-d1min) > treshhold )
+	  soft_bits(l*k+i) = std::log(P0) + d1min*inv_N0;
+	else
+	  soft_bits(l*k+i) = std::log(P0/P1);
       }
     }
   }
@@ -937,25 +938,25 @@ namespace itpp {
     for (l=0; l<rx_symbols.size(); l++) {
 
       for (j=0; j<M; j++)
-				d(j) = sqr(rx_symbols(l)-symbols(j));
+	d(j) = sqr(rx_symbols(l)-symbols(j));
 
       for (i=0; i<k; i++) {
-				d0min = d1min = 1e100;
-				for (j=0; j<(M/2); j++) {
-					if (d(S0(i,j)) < d0min) { d0min = d(S0(i,j)); }
-					if (d(S1(i,j)) < d1min) { d1min = d(S1(i,j)); }
-				}
-				soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
+	d0min = d1min = 1e100;
+	for (j=0; j<(M/2); j++) {
+	  if (d(S0(i,j)) < d0min) { d0min = d(S0(i,j)); }
+	  if (d(S1(i,j)) < d1min) { d1min = d(S1(i,j)); }
+	}
+	soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
       }
     }
-	}
+  }
 
   void PSK::demodulate_soft_bits(const cvec &rx_symbols, const cvec &channel, const double N0, vec &soft_bits) const
   {
     int l, i, j;
     double P0, P1;
     double d0min, d0min2, d1min, d1min2;
-    double treshhold = -log(eps)*N0; // To be sure that any precision is left in the calculatation
+    double treshhold = -std::log(eps)*N0; // To be sure that any precision is left in the calculatation
     double inv_N0 = 1/N0;
     vec d(M), expd(M);
 
@@ -964,27 +965,27 @@ namespace itpp {
     for (l=0; l<rx_symbols.size(); l++) {
 
       for (j=0; j<M; j++) {
-				d(j) = sqr(rx_symbols(l)-channel(l)*symbols(j));
-				expd(j) = exp((-d(j))*inv_N0);
+	d(j) = sqr(rx_symbols(l)-channel(l)*symbols(j));
+	expd(j) = std::exp((-d(j))*inv_N0);
       }
 
       for (i=0; i<k; i++) {
-				P0 = P1 = 0;
-				d0min = d0min2 = d1min = d1min2 = 1e100;
-				for (j=0; j<(M/2); j++) {
-					if (d(S0(i,j)) < d0min) { d0min2 = d0min; d0min = d(S0(i,j)); }
-					if (d(S1(i,j)) < d1min) { d1min2 = d1min; d1min = d(S1(i,j)); }
-					P0 += expd(S0(i,j));
-					P1 += expd(S1(i,j)); 
-				}
-				if ( (d0min2-d0min) > treshhold && (d1min2-d1min) > treshhold )
-					soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
-				else if ( (d0min2-d0min) > treshhold )
-					soft_bits(l*k+i) = -d0min*inv_N0-log(P1);
-				else if ( (d1min2-d1min) > treshhold )
-					soft_bits(l*k+i) = log(P0) + d1min*inv_N0;
-				else
-					soft_bits(l*k+i) = log(P0/P1);
+	P0 = P1 = 0;
+	d0min = d0min2 = d1min = d1min2 = 1e100;
+	for (j=0; j<(M/2); j++) {
+	  if (d(S0(i,j)) < d0min) { d0min2 = d0min; d0min = d(S0(i,j)); }
+	  if (d(S1(i,j)) < d1min) { d1min2 = d1min; d1min = d(S1(i,j)); }
+	  P0 += expd(S0(i,j));
+	  P1 += expd(S1(i,j)); 
+	}
+	if ( (d0min2-d0min) > treshhold && (d1min2-d1min) > treshhold )
+	  soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
+	else if ( (d0min2-d0min) > treshhold )
+	  soft_bits(l*k+i) = -d0min*inv_N0-std::log(P1);
+	else if ( (d1min2-d1min) > treshhold )
+	  soft_bits(l*k+i) = std::log(P0) + d1min*inv_N0;
+	else
+	  soft_bits(l*k+i) = std::log(P0/P1);
       }
     }
   }
@@ -1001,24 +1002,24 @@ namespace itpp {
     for (l=0; l<rx_symbols.size(); l++) {
 
       for (j=0; j<M; j++)
-				d(j) = sqr(rx_symbols(l)-channel(l)*symbols(j));
+	d(j) = sqr(rx_symbols(l)-channel(l)*symbols(j));
 
       for (i=0; i<k; i++) {
-				d0min = d1min = 1e100;
-				for (j=0; j<(M/2); j++) {
-					if (d(S0(i,j)) < d0min) { d0min = d(S0(i,j)); }
-					if (d(S1(i,j)) < d1min) { d1min = d(S1(i,j)); }
-				}
-				soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
+	d0min = d1min = 1e100;
+	for (j=0; j<(M/2); j++) {
+	  if (d(S0(i,j)) < d0min) { d0min = d(S0(i,j)); }
+	  if (d(S1(i,j)) < d1min) { d1min = d(S1(i,j)); }
+	}
+	soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
       }
     }
   }
 
   void PSK::set_M(int Mary)
   {
-    k = round_i(log2(double(Mary)));
+    k = needed_bits(Mary);
     M = Mary;
-    it_error_if(abs(pow2i(k)-Mary)>0.0,"M-ary PSK: M is not a power of 2");
+    it_error_if(abs(pow2i(k) - Mary) > 0.0,"M-ary PSK: M is not a power of 2");
     symbols.set_size(M, false);
     bits2symbols.set_size(M, false);
     bitmap = graycode(k);
@@ -1045,14 +1046,14 @@ namespace itpp {
       count0 = 0; 
       count1 = 0;
       for (m=0; m<M; m++) {
-				bits = bitmap.get_row(m);
-				if (bits(kk)==bin(0)) {
-					S0(kk,count0) = m;
-					count0++; 
-				} else {
-					S1(kk,count1) = m;
-					count1++;
-				}
+	bits = bitmap.get_row(m);
+	if (bits(kk)==bin(0)) {
+	  S0(kk,count0) = m;
+	  count0++; 
+	} else {
+	  S1(kk,count1) = m;
+	  count1++;
+	}
       }
     }
   }
@@ -1115,7 +1116,7 @@ namespace itpp {
     double P0, P1;
     double d0min, d0min2, d1min, d1min2;
     double inv_N0 = 1/N0;
-    double treshhold = -log(eps)*N0; // To be sure that any precision is left in the calculatation
+    double treshhold = -std::log(eps)*N0; // To be sure that any precision is left in the calculatation
     vec d(M), expd(M);
 
     soft_bits.set_size(k*rx_symbols.size(), false);
@@ -1123,27 +1124,27 @@ namespace itpp {
     for (l=0; l<rx_symbols.size(); l++) {
 
       for (j=0; j<M; j++) {
-				d(j) = sqr(rx_symbols(l)-symbols(j));
-				expd(j) = exp((-d(j))*inv_N0);
+	d(j) = sqr(rx_symbols(l)-symbols(j));
+	expd(j) = std::exp((-d(j))*inv_N0);
       }
 
       for (i=0; i<k; i++) {
-				P0 = P1 = 0;
-				d0min = d0min2 = d1min = d1min2 = 1e100;
-				for (j=0; j<(M/2); j++) {
-					if (d(S0(i,j)) < d0min) { d0min2 = d0min; d0min = d(S0(i,j)); }
-					if (d(S1(i,j)) < d1min) { d1min2 = d1min; d1min = d(S1(i,j)); }
-					P0 += expd(S0(i,j));
-					P1 += expd(S1(i,j));  
-				}
-				if ( (d0min2-d0min) > treshhold && (d1min2-d1min) > treshhold )
-					soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
-				else if ( (d0min2-d0min) > treshhold )
-					soft_bits(l*k+i) = -d0min*inv_N0-log(P1);
-				else if ( (d1min2-d1min) > treshhold )
-					soft_bits(l*k+i) = log(P0) + d1min*inv_N0;
-				else
-					soft_bits(l*k+i) = log(P0/P1);
+	P0 = P1 = 0;
+	d0min = d0min2 = d1min = d1min2 = 1e100;
+	for (j=0; j<(M/2); j++) {
+	  if (d(S0(i,j)) < d0min) { d0min2 = d0min; d0min = d(S0(i,j)); }
+	  if (d(S1(i,j)) < d1min) { d1min2 = d1min; d1min = d(S1(i,j)); }
+	  P0 += expd(S0(i,j));
+	  P1 += expd(S1(i,j));  
+	}
+	if ( (d0min2-d0min) > treshhold && (d1min2-d1min) > treshhold )
+	  soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
+	else if ( (d0min2-d0min) > treshhold )
+	  soft_bits(l*k+i) = -d0min*inv_N0-std::log(P1);
+	else if ( (d1min2-d1min) > treshhold )
+	  soft_bits(l*k+i) = std::log(P0) + d1min*inv_N0;
+	else
+	  soft_bits(l*k+i) = std::log(P0/P1);
       }
     }
   }
@@ -1161,15 +1162,15 @@ namespace itpp {
     for (l=0; l<rx_symbols.size(); l++) {
 
       for (j=0; j<M; j++)
-				d(j) = sqr(rx_symbols(l)-symbols(j));
+	d(j) = sqr(rx_symbols(l)-symbols(j));
 
       for (i=0; i<k; i++) {
-				d0min = d1min = 1e100;
-				for (j=0; j<(M/2); j++) {
-					if (d(S0(i,j)) < d0min) { d0min = d(S0(i,j)); }
-					if (d(S1(i,j)) < d1min) { d1min = d(S1(i,j)); }
-				}
-				soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
+	d0min = d1min = 1e100;
+	for (j=0; j<(M/2); j++) {
+	  if (d(S0(i,j)) < d0min) { d0min = d(S0(i,j)); }
+	  if (d(S1(i,j)) < d1min) { d1min = d(S1(i,j)); }
+	}
+	soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
       }
     }
   }
@@ -1179,7 +1180,7 @@ namespace itpp {
     int l, i, j;
     double P0, P1;
     double d0min, d0min2, d1min, d1min2;
-    double treshhold = -log(eps)*N0; // To be sure that any precision is left in the calculatation
+    double treshhold = -std::log(eps)*N0; // To be sure that any precision is left in the calculatation
     double inv_N0 = 1/N0;
     vec d(M), expd(M);
 
@@ -1188,27 +1189,27 @@ namespace itpp {
     for (l=0; l<rx_symbols.size(); l++) {
 
       for (j=0; j<M; j++) {
-				d(j) = sqr(rx_symbols(l)-channel(l)*symbols(j));
-				expd(j) = exp((-d(j))*inv_N0);
+	d(j) = sqr(rx_symbols(l)-channel(l)*symbols(j));
+	expd(j) = std::exp((-d(j))*inv_N0);
       }
 
       for (i=0; i<k; i++) {
-				P0 = P1 = 0;
-				d0min = d0min2 = d1min = d1min2 = 1e100;
-				for (j=0; j<(M/2); j++) {
-					if (d(S0(i,j)) < d0min) { d0min2 = d0min; d0min = d(S0(i,j)); }
-					if (d(S1(i,j)) < d1min) { d1min2 = d1min; d1min = d(S1(i,j)); }
-					P0 += expd(S0(i,j));
-					P1 += expd(S1(i,j)); 
-				}
-				if ( (d0min2-d0min) > treshhold && (d1min2-d1min) > treshhold )
-					soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
-				else if ( (d0min2-d0min) > treshhold )
-					soft_bits(l*k+i) = -d0min*inv_N0-log(P1);
-				else if ( (d1min2-d1min) > treshhold )
-					soft_bits(l*k+i) = log(P0) + d1min*inv_N0;
-				else
-					soft_bits(l*k+i) = log(P0/P1);
+	P0 = P1 = 0;
+	d0min = d0min2 = d1min = d1min2 = 1e100;
+	for (j=0; j<(M/2); j++) {
+	  if (d(S0(i,j)) < d0min) { d0min2 = d0min; d0min = d(S0(i,j)); }
+	  if (d(S1(i,j)) < d1min) { d1min2 = d1min; d1min = d(S1(i,j)); }
+	  P0 += expd(S0(i,j));
+	  P1 += expd(S1(i,j)); 
+	}
+	if ( (d0min2-d0min) > treshhold && (d1min2-d1min) > treshhold )
+	  soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
+	else if ( (d0min2-d0min) > treshhold )
+	  soft_bits(l*k+i) = -d0min*inv_N0-std::log(P1);
+	else if ( (d1min2-d1min) > treshhold )
+	  soft_bits(l*k+i) = std::log(P0) + d1min*inv_N0;
+	else
+	  soft_bits(l*k+i) = std::log(P0/P1);
       }
     }
   }
@@ -1226,15 +1227,15 @@ namespace itpp {
     for (l=0; l<rx_symbols.size(); l++) {
 
       for (j=0; j<M; j++)
-				d(j) = sqr(rx_symbols(l)-channel(l)*symbols(j));
+	d(j) = sqr(rx_symbols(l)-channel(l)*symbols(j));
 
       for (i=0; i<k; i++) {
-				d0min = d1min = 1e100;
-				for (j=0; j<(M/2); j++) {
-					if (d(S0(i,j)) < d0min) { d0min = d(S0(i,j)); }
-					if (d(S1(i,j)) < d1min) { d1min = d(S1(i,j)); }
-				}
-				soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
+	d0min = d1min = 1e100;
+	for (j=0; j<(M/2); j++) {
+	  if (d(S0(i,j)) < d0min) { d0min = d(S0(i,j)); }
+	  if (d(S1(i,j)) < d1min) { d1min = d(S1(i,j)); }
+	}
+	soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
       }
     }
   }
@@ -1242,10 +1243,10 @@ namespace itpp {
 
   void QAM::set_M(int Mary)
   {
-    k = round_i(log2(double(Mary)));
+    k = needed_bits(Mary);
     M = Mary;
-    L = round_i(sqrt((double)M));
-    it_error_if(abs(pow2i(k)-Mary)>0.01,"M-ary QAM: M is not a power of 2");
+    L = round_i(std::sqrt((double)M));
+    it_error_if(abs(pow2i(k) - Mary) > 0.01,"M-ary QAM: M is not a power of 2");
 
     int i, j, kk, m, count0, count1;
     bvec bits;
@@ -1253,15 +1254,16 @@ namespace itpp {
     symbols.set_size(M, false);
     bitmap.set_size(M, k, false);
     bits2symbols.set_size(M, false);
-    bmat gray_code=graycode(round_i(log2(double(L))));
+    bmat gray_code = graycode(needed_bits(L));
     average_energy = double(M-1)*2.0/3.0;
-    scaling_factor = sqrt(average_energy);
+    scaling_factor = std::sqrt(average_energy);
 
     for (i=0; i<L; i++) {
       for (j=0; j<L; j++) {
-				symbols(i*L+j) = std::complex<double>( ((L-1)-j*2)/scaling_factor ,((L-1)-i*2)/scaling_factor);
-				bitmap.set_row( i*L+j, concat(gray_code.get_row(i), gray_code.get_row(j)) );
-				bits2symbols( bin2dec(bitmap.get_row(i*L+j)) ) = i*L+j;
+	symbols(i*L+j) = std::complex<double>(((L-1)-j*2)/scaling_factor,
+					      ((L-1)-i*2)/scaling_factor);
+	bitmap.set_row(i*L+j, concat(gray_code.get_row(i), gray_code.get_row(j)));
+	bits2symbols( bin2dec(bitmap.get_row(i*L+j)) ) = i*L+j;
       }
     }
 
@@ -1273,14 +1275,14 @@ namespace itpp {
       count0 = 0; 
       count1 = 0;
       for (m=0; m<M; m++) {
-				bits = bitmap.get_row(m);
-				if (bits(kk)==bin(0)) {
-					S0(kk,count0) = m;
-					count0++; 
-				} else {
-					S1(kk,count1) = m;
-					count1++;
-				}
+	bits = bitmap.get_row(m);
+	if (bits(kk)==bin(0)) {
+	  S0(kk,count0) = m;
+	  count0++; 
+	} else {
+	  S1(kk,count1) = m;
+	  count1++;
+	}
       }
     }
   }

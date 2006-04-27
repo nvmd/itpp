@@ -32,6 +32,7 @@
 
 #include <itpp/comm/sequence.h>
 #include <itpp/base/converters.h>
+#include <itpp/base/logexpfunc.h>
 
 
 namespace itpp { 

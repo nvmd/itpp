@@ -42,9 +42,9 @@ namespace itpp {
   double com_logmap(double x, double y)
   {
     if (x>y) {
-      return ( x + log( 1.0 + exp( -std::fabs(y-x) ) ) );
+      return (x + std::log(1.0 + std::exp(-std::fabs(y - x))));
     } else {
-      return ( y + log( 1.0 + exp( -std::fabs(y-x) ) ) );
+      return (y + std::log(1.0 + std::exp(-std::fabs(y - x))));
     }
   }
 
@@ -123,7 +123,7 @@ namespace itpp {
       }
     }
 
-    ln2 = log(2.0);
+    ln2 = std::log(2.0);
 
     //The default value of Lc is 1:
     Lc = 1.0;
@@ -131,7 +131,7 @@ namespace itpp {
 
   void Rec_Syst_Conv_Code::set_awgn_channel_parameters(double Ec, double N0) 
   {
-    Lc = 4.0*sqrt(Ec)/N0;
+    Lc = 4.0 * std::sqrt(Ec)/N0;
   }
 
   void Rec_Syst_Conv_Code::set_scaling_factor(double in_Lc) 
@@ -205,8 +205,8 @@ namespace itpp {
 	  exp_temp0 += 0.5*Lc*rec_parity(kk,j)*double(1-2*output_parity(s_prim,2*j+0)); /* Is this OK? */
 	  exp_temp1 += 0.5*Lc*rec_parity(kk,j)*double(1-2*output_parity(s_prim,2*j+1));
 	}
-	gamma(2*s_prim+0,k) = exp( 0.5*(extrinsic_input(kk) + Lc*rec_systematic(kk))) * exp( exp_temp0 );
-	gamma(2*s_prim+1,k) = exp(-0.5*(extrinsic_input(kk) + Lc*rec_systematic(kk))) * exp( exp_temp1 );
+	gamma(2*s_prim+0,k) = std::exp( 0.5*(extrinsic_input(kk) + Lc*rec_systematic(kk))) * std::exp( exp_temp0 );
+	gamma(2*s_prim+1,k) = std::exp(-0.5*(extrinsic_input(kk) + Lc*rec_systematic(kk))) * std::exp( exp_temp1 );
       }
     }
 
@@ -259,13 +259,13 @@ namespace itpp {
 	  exp_temp0 += 0.5*Lc*rec_parity(kk,j)*double(1-2*output_parity(s_prim,2*j+0));
 	  exp_temp1 += 0.5*Lc*rec_parity(kk,j)*double(1-2*output_parity(s_prim,2*j+1));
 	}
-	gamma_k_e = exp( exp_temp0 );
+	gamma_k_e = std::exp( exp_temp0 );
 	nom += alpha(s_prim,k-1) * gamma_k_e * beta(s0,k);
       
-	gamma_k_e = exp( exp_temp1 );
+	gamma_k_e = std::exp( exp_temp1 );
 	den += alpha(s_prim,k-1) * gamma_k_e * beta(s1,k);
       }
-      extrinsic_output(kk) = log(nom/den);
+      extrinsic_output(kk) = std::log(nom/den);
     }
 
   }

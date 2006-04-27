@@ -71,6 +71,7 @@
 #include <itpp/base/det.h>
 #include <itpp/base/eigen.h>
 #include <itpp/base/elmatfunc.h>
+#include <itpp/base/errorfunc.h>
 #include <itpp/base/factory.h>
 #include <itpp/base/fastmath.h>
 #include <itpp/base/gf2mat.h>
@@ -79,6 +80,7 @@
 #include <itpp/base/itassert.h>
 #include <itpp/base/itfile.h>
 #include <itpp/base/itmisc.h>
+#include <itpp/base/logexpfunc.h>
 #include <itpp/base/ls_solve.h>
 #include <itpp/base/lu.h>
 #include <itpp/base/machdep.h>
@@ -89,7 +91,6 @@
 #include <itpp/base/parser.h>
 #include <itpp/base/qr.h>
 #include <itpp/base/random.h>
-#include <itpp/base/scalfunc.h>
 #include <itpp/base/schur.h>
 #include <itpp/base/smat.h>
 #include <itpp/base/sort.h>
@@ -99,6 +100,7 @@
 #include <itpp/base/stat.h>
 #include <itpp/base/svd.h>
 #include <itpp/base/timing.h>
+#include <itpp/base/trihypfunc.h>
 #include <itpp/base/vec.h>
 
 #endif // #ifndef ITBASE_H

@@ -125,7 +125,7 @@ namespace itpp {
   // next higher value of a certain granularity (e.g. timer granularity).
   inline double round (const double value, const double granularity)
   {
-    return ceil(value / granularity) * granularity;
+    return (std::ceil(value / granularity) * granularity);
   }
 
   // -------------------- TCP_Segment ----------------------------------------

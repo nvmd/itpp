@@ -1,7 +1,7 @@
 /*!
  * \file
- * \brief Implementation of elementary functions on vectors and matrices
- * \author Tony Ottosson
+ * \brief Elementary mathematical functions
+ * \author Tony Ottosson and Adam Piatyszek
  * 
  * $Date$
  * $Revision$
@@ -32,51 +32,53 @@
 
 #include <itpp/base/elmatfunc.h>
 
+#ifdef _MSC_VER
+// "True" gamma function
+double tgamma(double x)
+{
+  double s = (2.50662827510730 + 190.9551718930764 / (x + 1)
+	      - 216.8366818437280 / (x + 2) + 60.19441764023333
+	      / (x + 3) - 3.08751323928546 / (x + 4) + 0.00302963870525
+	      / (x + 5) - 0.00001352385959072596 / (x + 6)) / x;
+  if (s < 0)
+    return -exp((x + 0.5) * log(x + 5.5) - x - 5.5 + log(-s));
+  else 
+    return exp((x + 0.5) * log(x + 5.5) - x - 5.5 + log(s));
+}
+
+// This global variable is normally declared in <cmath>, but not under MSVC++
+int signgam;
+
+// Logarithm of an absolute value of gamma function 
+double lgamma(double x)
+{
+  double gam = tgamma(x);
+  signgam = (gam < 0) ? -1 : 1;
+  return log(fabs(gam));
+}
+
+// Cubic root
+double cbrt(double x) { return std::pow(x, 1.0/3.0); }
+#endif
 
 namespace itpp { 
 
-  vec sqr(const cvec &x)
+  vec sqr(const cvec &data)
   {
-    vec temp(x.length());
-    for (int i=0; i<temp.length(); i++)
-      temp(i) = sqr(x(i));
-
+    vec	temp(data.length());
+    for (int i = 0; i < data.length(); i++)
+      temp(i) = sqr(data(i));
     return temp;
   }
 
-  mat sqr(const cmat &x)
+  mat sqr(const cmat &data)
   {
-    mat temp(x.rows(), x.cols());
-    for (int i=0; i<temp.rows(); i++) {
-      for (int j=0; j<temp.cols(); j++) {
-	temp(i,j) = sqr(x(i,j));
+    mat	temp(data.rows(), data.cols());
+    for (int i = 0; i < temp.rows(); i++) {
+      for (int j = 0; j < temp.cols(); j++) {
+	temp(i, j) = sqr(data(i, j));
       }
     }
-
-    return temp;
-  }
-
-
-  ivec abs(const ivec &data)
-  {
-    ivec temp(data.length());
-
-    for (int i=0;i<data.length();i++)
-      temp[i]=std::abs(data[i]);
-
-    return temp;
-  }
-
-  imat abs(const imat &data)
-  {
-    imat temp(data.rows(),data.cols());
-
-    for (int i=0;i<temp.rows();i++) {
-      for (int j=0;j<temp.cols();j++) {
-	temp(i,j)=std::abs(data(i,j));
-      }
-    }
-
     return temp;
   }
 
@@ -153,7 +155,7 @@ namespace itpp {
     vec	temp(data.length());
 
     for (int i=0;i<data.length();i++)
-		temp[i]=std::arg(data[i]);
+      temp[i]=std::arg(data[i]);
 	
     return temp;
   }
@@ -164,65 +166,7 @@ namespace itpp {
   
     for (int i=0;i<temp.rows();i++) {
       for (int j=0;j<temp.cols();j++) {
-		  temp(i,j)=std::arg(data(i,j));
-      }
-    }
-
-    return temp;
-  }
-
-  cvec conj(const cvec &data)
-  {
-    cvec	temp(data);
-
-    for (int i=0;i<data.length();i++)
-		temp(i)=std::conj(temp[i]);
-
-    return temp;
-  }
-
-  cmat conj(const cmat &data)
-  {
-    cmat	temp(data);
-
-    for (int i=0;i<temp.rows();i++) {
-      for (int j=0;j<temp.cols();j++) {
-		  temp(i,j)=std::conj(data(i,j));
-      }
-    }
-
-    return temp;
-  }
-
-  bool all(const Vec<bin> &testvec)
-  {
-    for (int i=0; i<testvec.length(); i++) 
-      if (!testvec(i)) return false;
-    return true;
-  }
-  
-  bool any(const Vec<bin> &testvec)
-  {
-    for (int i=0; i<testvec.length(); i++) 
-      if (testvec(i)) return true;
-    return false;
-  } 
-
-  cvec round_to_zero(const cvec &x, double threshold) {
-    cvec temp(x.length());
-
-    for (int i = 0; i < x.length(); i++)
-      temp(i) = round_to_zero(x(i), threshold);
-
-    return temp;
-  }
-
-  cmat round_to_zero(const cmat &x, double threshold) {
-    cmat temp(x.rows(), x.cols());
-
-    for (int i = 0; i < x.rows(); i++) {
-      for (int j = 0; j < x.cols(); j++) {
-	temp(i, j) = round_to_zero(x(i, j), threshold);
+	temp(i,j)=std::arg(data(i,j));
       }
     }
 

@@ -1,3 +1,26 @@
+2006-04-27  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* Redesign, separation and regrouping of some functions from the
+	base module.
+
+	The following changes have been applied:
+	- Now using one overloaded and templated "apply_function" instead
+	  of a set of various "vec_function" and "mat_function" in
+	  "help_functions.*". Such a templated "apply_function", with the
+	  same functionality, was implemented in "matfunc.*". Thus,
+	  removed. 
+        - Moved trigonometric and hyperbolic functions (all inline, and
+	  both ones for scalars and vectors) to a separate header file
+	  "trihypfunc.h".
+        - Moved logarithmic and exponential functions to a separate header
+	  file "logexpfunc.h".
+        - Moved error functions to separate files "errorfunc.*".
+        - Merged elementary mathematics functions from "scalfunc.*" with
+	  the content of elmatfunct.*".	The rest of scalfunc.* content
+	  moved to "itmisc.*". "scalfunc.*" removed.
+        - A lot of minor changes that should improve the readability of
+	  the base module.
+
 2006-04-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* doc/local/index.doc.in, doc/local/itpp_header.html,

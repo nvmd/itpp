@@ -32,7 +32,7 @@
 
 #include <itpp/comm/spread.h>
 #include <itpp/base/stat.h>
-
+#include <itpp/base/converters.h>
 
 namespace itpp {
 
@@ -99,7 +99,7 @@ namespace itpp {
 
   void Spread_2d::spread(const cvec &symbols, cvec &out)
   {
-    out = to_cvec(spreadI.spread(real(symbols)),spreadQ.spread(imag(symbols)));
+    out = to_cvec(spreadI.spread(real(symbols)), spreadQ.spread(imag(symbols)));
   }
 
   void Spread_2d::despread(const cvec &rec_signal, cvec &out, int timing)
