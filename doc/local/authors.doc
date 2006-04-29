@@ -1,0 +1,52 @@
+/*!
+\page authors The IT++ Development Team         
+
+
+\section admins Project Admins
+
+- Tony Ottosson <tonyottosson@users.sourceforge.net>
+- Adam Piątyszek <ediap@users.sourceforge.net> 
+  [<a href="http://ediap.prv.pl/">www</a>]
+  - author and maintainer of the configuration and installation scripts
+    based on GNU autoconf, automake and libtool packages
+  - release manager, forums and news admin, and HTML pages maintainer at
+    SourceForge site
+  - all contributions since July 2004 done within the 
+    <a href="http://newcom.ismb.it/">Newcom</a> project
+
+
+\section developers Developers
+
+- Johan Bergman <emwjohb@users.sourceforge.net> 
+- Håkan Eriksson <hakanbe@users.sourceforge.net>
+- Thomas Eriksson <thomases2@users.sourceforge.net>
+- Pål Frenger <frenger@users.sourceforge.net>
+- Fredrik Huss <frehu@users.sourceforge.net>
+- Erik G. Larsson <erik_g_larsson@users.sourceforge.net>
+- Thomas Lemaire <thomas_lemaire@users.sourceforge.net>
+- Anders Persson <andersats2@users.sourceforge.net>
+- Simon Wood <sgwoodjr@users.sourceforge.net>
+
+
+\section retired Retired Developers
+
+- Tobias Ringstrom
+- Jonas Samuelsson
+
+
+\section contributors Contributors
+
+- Francois Cayre
+- Zbigniew Długaszewski - (<a href="http://newcom.ismb.it/">Newcom</a> 
+  contributions)
+- Teddy Furon
+- Bjorn Furugard
+- Kenneth Hilmersson
+- Peter Klotz
+- Krister Norlund
+- Andy Panov
+- Svante Signell
+- Erik Stoy
+- Tobias Tynderfeldt
+ 
+*/
