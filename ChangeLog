@@ -1,3 +1,10 @@
+2006-04-29  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/local/authors.doc, doc/local/index.doc.in,
+	doc/local/sources.mk: Added AUTHORS page.
+
+	* doc/local/help_wanted.doc: Cosmetic changes.
+	
 2006-04-27  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/galois.cpp: Added missing include file with log2()

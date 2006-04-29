@@ -1,4 +1,5 @@
 doc_local_sources = \
+	$(top_srcdir)/doc/local/authors.doc \
 	$(top_srcdir)/doc/local/codingrules.doc \
 	$(top_srcdir)/doc/local/copyright.doc \
 	$(top_srcdir)/doc/local/documentation.doc \
