@@ -252,7 +252,7 @@ namespace itpp {
   template<class T>
   Vec<T> zero_pad(const Vec<T> &v)
   {
-    int n = pow2i(needed_bits(v.size()));
+    int n = pow2i(needed_bits(v.size() - 1));
 
     return (n == v.size()) ? v : zero_pad(v, n);
   }

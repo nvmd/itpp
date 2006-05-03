@@ -53,7 +53,7 @@ namespace itpp {
   {
     it_assert(insymbols.size() == inbitmap.size(), "Modulator_1d: number of symbols and bitmap does not match");
     M = inbitmap.size();
-    k = needed_bits(M);
+    k = needed_bits(M - 1);
     symbols = insymbols;
     bitmap = inbitmap; 
   }
@@ -428,7 +428,7 @@ namespace itpp {
   void PAM::set_M(int Mary)
   {
     M = Mary;
-    k = needed_bits(M);
+    k = needed_bits(M - 1);
 
     it_error_if(abs(pow2i(k) - Mary) > 0.0,"M-ary PAM: M is not a power of 2");
 
@@ -478,7 +478,7 @@ namespace itpp {
     symbols = insymbols;
     bitmap = inbitmap; 
     M = bitmap.size();
-    k = needed_bits(M);
+    k = needed_bits(M - 1);
     soft_bit_mapping_matrices_calculated = false;
   }
 
@@ -1017,7 +1017,7 @@ namespace itpp {
 
   void PSK::set_M(int Mary)
   {
-    k = needed_bits(Mary);
+    k = needed_bits(Mary - 1);
     M = Mary;
     it_error_if(abs(pow2i(k) - Mary) > 0.0,"M-ary PSK: M is not a power of 2");
     symbols.set_size(M, false);
@@ -1243,7 +1243,7 @@ namespace itpp {
 
   void QAM::set_M(int Mary)
   {
-    k = needed_bits(Mary);
+    k = needed_bits(Mary - 1);
     M = Mary;
     L = round_i(std::sqrt((double)M));
     it_error_if(abs(pow2i(k) - Mary) > 0.01,"M-ary QAM: M is not a power of 2");
@@ -1254,7 +1254,7 @@ namespace itpp {
     symbols.set_size(M, false);
     bitmap.set_size(M, k, false);
     bits2symbols.set_size(M, false);
-    bmat gray_code = graycode(needed_bits(L));
+    bmat gray_code = graycode(needed_bits(L - 1));
     average_energy = double(M-1)*2.0/3.0;
     scaling_factor = std::sqrt(average_energy);
 
