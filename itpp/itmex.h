@@ -33,43 +33,10 @@
 #ifndef ITMEX_H
 #define ITMEX_H
 
-#include <mex.h>
 #include <itpp/itbase.h>
+#include <mex.h>
+#include <complex>
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-
-#ifndef VERSION
-
-#ifdef V4_COMPAT
-#define VERSION "MATLAB 4 compatible"
-#else
-#define VERSION "MATLAB R11 native"
-#endif /* V4_COMPAT */
-
-#endif /* VERSION */
-
-#ifdef ARRAY_ACCESS_INLINING
-#define INLINE " (inlined)"
-#else
-#define INLINE
-#endif /* ARRAY_ACCESS_INLINING */
-
-static const char *version = VERSION INLINE;
-
-// #ifdef __cplusplus
-// extern "C" {
-// #endif
-
-//   const char *mexVersion () {
-//     /* mex version information */
-//     return version;
-//   }
-
-// #endif //DOXYGEN_SHOULD_SKIP_THIS
-
-// #ifdef __cplusplus
-// }
-// #endif
 
 namespace itpp {
 
@@ -118,6 +85,10 @@ namespace itpp {
   //!\addtogroup mexfiles
   //!@{
 
+  // --------------------------------------------------------
+  // mex -> IT++
+  // --------------------------------------------------------
+
   //! Convert the matlab-format mxArray to bin
   bin mxArray2bin(const mxArray *in);
   //! Convert the matlab-format mxArray to short
@@ -152,9 +123,10 @@ namespace itpp {
   //! Convert the matlab-format mxArray to cmat
   cmat mxArray2cmat(const mxArray *in);
 
-  //--------------------------------------------------------
-  // it++ -> mex
-  //--------------------------------------------------------
+  // --------------------------------------------------------
+  // IT++ -> mex
+  // --------------------------------------------------------
+
   //! Convert bin to the matlab-format mxArray
   void bin2mxArray(const bin &in, mxArray *out);
   //! Convert short to the matlab-format mxArray
@@ -189,9 +161,10 @@ namespace itpp {
   //! Convert cmat to the matlab-format mxArray
   void cmat2mxArray(const cmat &in, mxArray *out);
 
-  //--------------------------------------------------------
+  // --------------------------------------------------------
   // mex -> C
-  //--------------------------------------------------------
+  // --------------------------------------------------------
+
   //! Convert the matlab-format mxArray to C-format pointer to short
   void mxArray2Csvec(const mxArray *in, short *out);
   //! Convert the matlab-format mxArray to C-format pointer to int
@@ -210,9 +183,10 @@ namespace itpp {
   //! Convert the matlab-format mxArray to C-format pointer to pointer to double (real and imaginary parts)
   void mxArray2Ccmat(const mxArray *in, double **out_real, double **out_imag);
 
-  //--------------------------------------------------------
+  // --------------------------------------------------------
   // C -> mex
-  //--------------------------------------------------------
+  // --------------------------------------------------------
+
   //! Convert C-format pointer to short to matlab-format mxArray
   void Csvec2mxArray(short *in, mxArray *out);
   //! Convert C-format pointer to int to matlab-format mxArray
@@ -233,663 +207,663 @@ namespace itpp {
 
   //!@}
 
-  //---------------------------------------------------------------
-  bin mxArray2bin(const mxArray *in)
-	{
-		int size;
-		double* temp = (double*) mxGetPr(in);
-		if (temp==0) mexErrMsgTxt("mxArray2bin: Pointer to data is NULL");
-		size = mxGetNumberOfElements(in);
-		if (size!=1) mexErrMsgTxt("mxArray2bin: Size of data is not equal to one");
 
-		return ( ( (*temp) > 0.0 ) ? bin(1) : bin(0) );
-	}
+  bin mxArray2bin(const mxArray *in)
+  {
+    int size;
+    double* temp = (double*) mxGetPr(in);
+    if (temp==0) mexErrMsgTxt("mxArray2bin: Pointer to data is NULL");
+    size = mxGetNumberOfElements(in);
+    if (size!=1) mexErrMsgTxt("mxArray2bin: Size of data is not equal to one");
+
+    return ( ( (*temp) > 0.0 ) ? bin(1) : bin(0) );
+  }
 
   short mxArray2short(const mxArray *in)
-	{
-		int size;
-		double* temp = (double*) mxGetPr(in);
-		if (temp==0) mexErrMsgTxt("mxArray2short: Pointer to data is NULL");
-		size = mxGetNumberOfElements(in);
-		if (size!=1) mexErrMsgTxt("mxArray2short: Size of data is not equal to one");
+  {
+    int size;
+    double* temp = (double*) mxGetPr(in);
+    if (temp==0) mexErrMsgTxt("mxArray2short: Pointer to data is NULL");
+    size = mxGetNumberOfElements(in);
+    if (size!=1) mexErrMsgTxt("mxArray2short: Size of data is not equal to one");
 
-		return (short) (*temp);
-	}
+    return (short) (*temp);
+  }
 
   int mxArray2int(const mxArray *in)
-	{
-		int size;
-		double* temp = (double*) mxGetPr(in);
-		if (temp==0) mexErrMsgTxt("mxArray2int: Pointer to data is NULL");
-		size = mxGetNumberOfElements(in);
-		if (size!=1) mexErrMsgTxt("mxArray2int: Size of data is not equal to one");
+  {
+    int size;
+    double* temp = (double*) mxGetPr(in);
+    if (temp==0) mexErrMsgTxt("mxArray2int: Pointer to data is NULL");
+    size = mxGetNumberOfElements(in);
+    if (size!=1) mexErrMsgTxt("mxArray2int: Size of data is not equal to one");
 
-		return (int) (*temp);
-	}
+    return (int) (*temp);
+  }
 
   double mxArray2double(const mxArray *in)
-	{
-		int size;
-		double* temp = (double*) mxGetPr(in);
-		if (temp==0) mexErrMsgTxt("mxArray2double: Pointer to data is NULL");
-		size = mxGetNumberOfElements(in);
-		if (size!=1) mexErrMsgTxt("mxArray2double: Size of data is not equal to one");
+  {
+    int size;
+    double* temp = (double*) mxGetPr(in);
+    if (temp==0) mexErrMsgTxt("mxArray2double: Pointer to data is NULL");
+    size = mxGetNumberOfElements(in);
+    if (size!=1) mexErrMsgTxt("mxArray2double: Size of data is not equal to one");
 
-		return (*temp);
-	}
+    return (*temp);
+  }
 
   complex<double> mxArray2double_complex(const mxArray *in)
-	{
-		int size;
-		double* tempR = (double*) mxGetPr(in);
-		double* tempI = (double*) mxGetPi(in);
+  {
+    int size;
+    double* tempR = (double*) mxGetPr(in);
+    double* tempI = (double*) mxGetPi(in);
 
-		if ((tempR==0)&&(tempI==0)) mexErrMsgTxt("mxArray2double_complex: Pointer to data is NULL");
+    if ((tempR==0)&&(tempI==0)) mexErrMsgTxt("mxArray2double_complex: Pointer to data is NULL");
 
-		size = mxGetNumberOfElements(in);
-		if (size!=1) mexErrMsgTxt("mxArray2double_complex: Size of data is not equal to one");
+    size = mxGetNumberOfElements(in);
+    if (size!=1) mexErrMsgTxt("mxArray2double_complex: Size of data is not equal to one");
 
-		if (tempR==0) {
-			return complex<double>( 0.0 , (*tempI) );
-		} else if (tempI==0) {
-			return complex<double>( (*tempR), 0.0 );
-		} else {
-			return complex<double>( (*tempR), (*tempI) );
-		}
+    if (tempR==0) {
+      return complex<double>( 0.0 , (*tempI) );
+    } else if (tempI==0) {
+      return complex<double>( (*tempR), 0.0 );
+    } else {
+      return complex<double>( (*tempR), (*tempI) );
+    }
 
-	}
+  }
 
   bvec mxArray2bvec(const mxArray *in)
-	{
-		bvec out;
-		int i, size;
-		double* temp = (double*) mxGetPr(in);
-		if (temp==0) mexErrMsgTxt("mxArray2bvec: Pointer to data is NULL");
+  {
+    bvec out;
+    int i, size;
+    double* temp = (double*) mxGetPr(in);
+    if (temp==0) mexErrMsgTxt("mxArray2bvec: Pointer to data is NULL");
 
-		size = mxGetNumberOfElements(in);
-		if (size==0) mexErrMsgTxt("mxArray2bvec: Size of data is zero");
+    size = mxGetNumberOfElements(in);
+    if (size==0) mexErrMsgTxt("mxArray2bvec: Size of data is zero");
 
-		out.set_size(size,false);
+    out.set_size(size,false);
 
-		for (i=0; i<size; i++) {
-			out(i) = ( ((*temp++)>1e-5) ? bin(1) : bin(0) );
-		}
+    for (i=0; i<size; i++) {
+      out(i) = ( ((*temp++)>1e-5) ? bin(1) : bin(0) );
+    }
 
-		return out;
+    return out;
 
-	}
+  }
 
   svec mxArray2svec(const mxArray *in)
-	{
-		svec out;
-		int i, size;
-		double* temp = (double*) mxGetPr(in);
-		if (temp==0) mexErrMsgTxt("mxArray2svec: Pointer to data is NULL");
+  {
+    svec out;
+    int i, size;
+    double* temp = (double*) mxGetPr(in);
+    if (temp==0) mexErrMsgTxt("mxArray2svec: Pointer to data is NULL");
 
-		size = mxGetNumberOfElements(in);
-		if (size==0) mexErrMsgTxt("mxArray2svec: Size of data is zero");
+    size = mxGetNumberOfElements(in);
+    if (size==0) mexErrMsgTxt("mxArray2svec: Size of data is zero");
 
-		out.set_size(size,false);
+    out.set_size(size,false);
 
-		for (i=0; i<size; i++) {
-			out(i) = (short) (*temp++);    
-		}
+    for (i=0; i<size; i++) {
+      out(i) = (short) (*temp++);    
+    }
 
-		return out;
+    return out;
 
-	}
+  }
 
   ivec mxArray2ivec(const mxArray *in)
-	{
-		ivec out;
-		int i, size;
-		double* temp = (double*) mxGetPr(in);
-		if (temp==0) mexErrMsgTxt("mxArray2ivec: Pointer to data is NULL");
+  {
+    ivec out;
+    int i, size;
+    double* temp = (double*) mxGetPr(in);
+    if (temp==0) mexErrMsgTxt("mxArray2ivec: Pointer to data is NULL");
 
-		size = mxGetNumberOfElements(in);
-		if (size==0) mexErrMsgTxt("mxArray2ivec: Size of data is zero");
+    size = mxGetNumberOfElements(in);
+    if (size==0) mexErrMsgTxt("mxArray2ivec: Size of data is zero");
 
-		out.set_size(size,false);
+    out.set_size(size,false);
 
-		for (i=0; i<size; i++) {
-			out(i) = (int) (*temp++);    
-		}
+    for (i=0; i<size; i++) {
+      out(i) = (int) (*temp++);    
+    }
 
-		return out;
+    return out;
 
-	}
+  }
 
   vec mxArray2vec(const mxArray *in)
-	{
-		vec out;
-		int i, size;
-		double* temp = (double*) mxGetPr(in);
-		if (temp==0) mexErrMsgTxt("mxArray2vec: Pointer to data is NULL");
+  {
+    vec out;
+    int i, size;
+    double* temp = (double*) mxGetPr(in);
+    if (temp==0) mexErrMsgTxt("mxArray2vec: Pointer to data is NULL");
 
-		size = mxGetNumberOfElements(in);
-		if (size==0) mexErrMsgTxt("mxArray2vec: Size of data is zero");
+    size = mxGetNumberOfElements(in);
+    if (size==0) mexErrMsgTxt("mxArray2vec: Size of data is zero");
 
-		out.set_size(size,false);
+    out.set_size(size,false);
 
-		for (i=0; i<size; i++) {
-			out(i) = (*temp++);    
-		}
+    for (i=0; i<size; i++) {
+      out(i) = (*temp++);    
+    }
 
-		return out;
+    return out;
 
-	}
+  }
 
   cvec mxArray2cvec(const mxArray *in)
-	{
-		cvec out;
-		int i, size;
-		double* tempR = (double*) mxGetPr(in);
-		double* tempI = (double*) mxGetPi(in);
+  {
+    cvec out;
+    int i, size;
+    double* tempR = (double*) mxGetPr(in);
+    double* tempI = (double*) mxGetPi(in);
 
-		if ((tempR==0)&&(tempI==0)) mexErrMsgTxt("mxArray2cvec: Pointer data is NULL");
+    if ((tempR==0)&&(tempI==0)) mexErrMsgTxt("mxArray2cvec: Pointer data is NULL");
 
-		size = mxGetNumberOfElements(in);
-		if (size==0) mexErrMsgTxt("mxArray2cvec: Size of data is zero");
+    size = mxGetNumberOfElements(in);
+    if (size==0) mexErrMsgTxt("mxArray2cvec: Size of data is zero");
 
-		out.set_size(size,false);
+    out.set_size(size,false);
 
-		if (tempR==0) {
-			for (i=0; i<size; i++) { out(i) = complex<double>( 0.0, (*tempI++)); }
-		} else if (tempI==0) {
-			for (i=0; i<size; i++) { out(i) = complex<double>((*tempR++), 0.0 ); }
-		} else {
-			for (i=0; i<size; i++) { out(i) = complex<double>((*tempR++), (*tempI++)); }
-		}
+    if (tempR==0) {
+      for (i=0; i<size; i++) { out(i) = complex<double>( 0.0, (*tempI++)); }
+    } else if (tempI==0) {
+      for (i=0; i<size; i++) { out(i) = complex<double>((*tempR++), 0.0 ); }
+    } else {
+      for (i=0; i<size; i++) { out(i) = complex<double>((*tempR++), (*tempI++)); }
+    }
 
-		return out;
+    return out;
 
-	}
+  }
 
   bmat mxArray2bmat(const mxArray *in)
-	{
-		bmat out;
-		int r, c, rows, cols;
-		double* temp = (double*) mxGetPr(in);
-		if (temp==0) mexErrMsgTxt("mxArray2bmat: Pointer to data is NULL");
+  {
+    bmat out;
+    int r, c, rows, cols;
+    double* temp = (double*) mxGetPr(in);
+    if (temp==0) mexErrMsgTxt("mxArray2bmat: Pointer to data is NULL");
 
-		rows = mxGetM(in);
-		if (rows==0) mexErrMsgTxt("mxArray2bmat: Data has zero rows");
-		cols = mxGetN(in);
-		if (cols==0) mexErrMsgTxt("mxArray2bmat: Data has zero columns");
+    rows = mxGetM(in);
+    if (rows==0) mexErrMsgTxt("mxArray2bmat: Data has zero rows");
+    cols = mxGetN(in);
+    if (cols==0) mexErrMsgTxt("mxArray2bmat: Data has zero columns");
 
-		out.set_size(rows,cols,false);
+    out.set_size(rows,cols,false);
 
-		for (c=0; c<cols; c++) {
-			for (r=0; r<rows; r++) {
-				out(r,c) = ( ((*temp++) > 0.0) ? bin(1) : bin(0) );
-			}
-		}
+    for (c=0; c<cols; c++) {
+      for (r=0; r<rows; r++) {
+	out(r,c) = ( ((*temp++) > 0.0) ? bin(1) : bin(0) );
+      }
+    }
 
-		return out;
+    return out;
 
-	}
+  }
 
   smat mxArray2smat(const mxArray *in)
-	{
-		smat out;
-		int r, c, rows, cols;
-		double* temp = (double*) mxGetPr(in);
-		if (temp==0) mexErrMsgTxt("mxArray2smat: Pointer to data is NULL");
+  {
+    smat out;
+    int r, c, rows, cols;
+    double* temp = (double*) mxGetPr(in);
+    if (temp==0) mexErrMsgTxt("mxArray2smat: Pointer to data is NULL");
 
-		rows = mxGetM(in);
-		if (rows==0) mexErrMsgTxt("mxArray2smat: Data has zero rows");
-		cols = mxGetN(in);
-		if (cols==0) mexErrMsgTxt("mxArray2smat: Data has zero columns");
+    rows = mxGetM(in);
+    if (rows==0) mexErrMsgTxt("mxArray2smat: Data has zero rows");
+    cols = mxGetN(in);
+    if (cols==0) mexErrMsgTxt("mxArray2smat: Data has zero columns");
 
-		out.set_size(rows,cols,false);
+    out.set_size(rows,cols,false);
 
-		for (c=0; c<cols; c++) {
-			for (r=0; r<rows; r++) {
-				out(r,c) = (short) (*temp++);    
-			}
-		}
+    for (c=0; c<cols; c++) {
+      for (r=0; r<rows; r++) {
+	out(r,c) = (short) (*temp++);    
+      }
+    }
 
-		return out;
+    return out;
 
-	}
+  }
 
   imat mxArray2imat(const mxArray *in)
-	{
-		imat out;
-		int r, c, rows, cols;
-		double* temp = (double*) mxGetPr(in);
-		if (temp==0) mexErrMsgTxt("mxArray2imat: Pointer to data is NULL");
+  {
+    imat out;
+    int r, c, rows, cols;
+    double* temp = (double*) mxGetPr(in);
+    if (temp==0) mexErrMsgTxt("mxArray2imat: Pointer to data is NULL");
 
-		rows = mxGetM(in);
-		if (rows==0) mexErrMsgTxt("mxArray2imat: Data has zero rows");
-		cols = mxGetN(in);
-		if (cols==0) mexErrMsgTxt("mxArray2imat: Data has zero columns");
-		out.set_size(rows,cols,false);
+    rows = mxGetM(in);
+    if (rows==0) mexErrMsgTxt("mxArray2imat: Data has zero rows");
+    cols = mxGetN(in);
+    if (cols==0) mexErrMsgTxt("mxArray2imat: Data has zero columns");
+    out.set_size(rows,cols,false);
 
-		for (c=0; c<cols; c++) {
-			for (r=0; r<rows; r++) {
-				out(r,c) = (int) (*temp++);    
-			}
-		}
+    for (c=0; c<cols; c++) {
+      for (r=0; r<rows; r++) {
+	out(r,c) = (int) (*temp++);    
+      }
+    }
 
-		return out;
+    return out;
 
-	}
+  }
 
   mat mxArray2mat(const mxArray *in)
-	{
-		mat out;
-		int r, c, rows, cols;
-		double* temp = (double*) mxGetPr(in);
-		if (temp==0) mexErrMsgTxt("mxArray2mat: Pointer to data is NULL");
+  {
+    mat out;
+    int r, c, rows, cols;
+    double* temp = (double*) mxGetPr(in);
+    if (temp==0) mexErrMsgTxt("mxArray2mat: Pointer to data is NULL");
 
-		rows = mxGetM(in);
-		if (rows==0) mexErrMsgTxt("mxArray2mat: Data has zero rows");
-		cols = mxGetN(in);
-		if (cols==0) mexErrMsgTxt("mxArray2mat: Data has zero columns");
-		out.set_size(rows,cols,false);
+    rows = mxGetM(in);
+    if (rows==0) mexErrMsgTxt("mxArray2mat: Data has zero rows");
+    cols = mxGetN(in);
+    if (cols==0) mexErrMsgTxt("mxArray2mat: Data has zero columns");
+    out.set_size(rows,cols,false);
 
-		for (c=0; c<cols; c++) {
-			for (r=0; r<rows; r++) {
-				out(r,c) = (*temp++);    
-			}
-		}
+    for (c=0; c<cols; c++) {
+      for (r=0; r<rows; r++) {
+	out(r,c) = (*temp++);    
+      }
+    }
 
-		return out;
+    return out;
 
-	}
+  }
 
   cmat mxArray2cmat(const mxArray *in)
-	{
-		cmat out;
-		int r, c, rows, cols;
-		double* tempR = (double*) mxGetPr(in);
-		double* tempI = (double*) mxGetPi(in);
+  {
+    cmat out;
+    int r, c, rows, cols;
+    double* tempR = (double*) mxGetPr(in);
+    double* tempI = (double*) mxGetPi(in);
 
-		if ((tempR==0)&&(tempI==0)) mexErrMsgTxt("mxArray2cmat: Pointer to data is NULL");
+    if ((tempR==0)&&(tempI==0)) mexErrMsgTxt("mxArray2cmat: Pointer to data is NULL");
 
-		rows = mxGetM(in);
-		if (rows==0) mexErrMsgTxt("mxArray2cmat: Data has zero rows");
-		cols = mxGetN(in);
-		if (cols==0) mexErrMsgTxt("mxArray2cmat: Data has zero columns");
-		out.set_size(rows,cols,false);
+    rows = mxGetM(in);
+    if (rows==0) mexErrMsgTxt("mxArray2cmat: Data has zero rows");
+    cols = mxGetN(in);
+    if (cols==0) mexErrMsgTxt("mxArray2cmat: Data has zero columns");
+    out.set_size(rows,cols,false);
 
-		if (tempR==0) {
-			for (c=0; c<cols; c++) { for (r=0; r<rows; r++) { out(r,c) = complex<double>( 0.0 ,(*tempI++) ); } }
-		} else if (tempI==0) {
-			for (c=0; c<cols; c++) { for (r=0; r<rows; r++) { out(r,c) = complex<double>( (*tempR++), 0.0 ); } }
-		} else {
-			for (c=0; c<cols; c++) { for (r=0; r<rows; r++) { out(r,c) = complex<double>( (*tempR++),(*tempI++) ); } }
-		}
+    if (tempR==0) {
+      for (c=0; c<cols; c++) { for (r=0; r<rows; r++) { out(r,c) = complex<double>( 0.0 ,(*tempI++) ); } }
+    } else if (tempI==0) {
+      for (c=0; c<cols; c++) { for (r=0; r<rows; r++) { out(r,c) = complex<double>( (*tempR++), 0.0 ); } }
+    } else {
+      for (c=0; c<cols; c++) { for (r=0; r<rows; r++) { out(r,c) = complex<double>( (*tempR++),(*tempI++) ); } }
+    }
 
-		return out;
+    return out;
 
-	}
+  }
 
   void bvec2mxArray(const bvec &in, mxArray *out)
-	{
-		double* temp = (double *) mxGetPr(out);
-		if (temp==0) mexErrMsgTxt("bvec2mxArray: Pointer to data is NULL");
-		if (in.size()==0) mexErrMsgTxt("bvec2mxArray: Size of data is zero");
-		for(int i=0; i<in.size(); i++) {
-			if(in(i))
-				*temp++= 1.0;
-			else
-				*temp++= 0.0;
-		}
-	}
+  {
+    double* temp = (double *) mxGetPr(out);
+    if (temp==0) mexErrMsgTxt("bvec2mxArray: Pointer to data is NULL");
+    if (in.size()==0) mexErrMsgTxt("bvec2mxArray: Size of data is zero");
+    for(int i=0; i<in.size(); i++) {
+      if(in(i))
+	*temp++= 1.0;
+      else
+	*temp++= 0.0;
+    }
+  }
 
   void ivec2mxArray(const ivec &in, mxArray *out)
-	{
-		double* temp = (double *) mxGetPr(out);
-		if (temp==0) mexErrMsgTxt("ivec2mxArray: Pointer to data is NULL");
-		if (in.size()==0) mexErrMsgTxt("ivec2mxArray: Size of data is zero");
+  {
+    double* temp = (double *) mxGetPr(out);
+    if (temp==0) mexErrMsgTxt("ivec2mxArray: Pointer to data is NULL");
+    if (in.size()==0) mexErrMsgTxt("ivec2mxArray: Size of data is zero");
 
-		for(int i=0; i<in.size(); i++) {
-			*temp++= (double) in(i);
-		}
-	}
+    for(int i=0; i<in.size(); i++) {
+      *temp++= (double) in(i);
+    }
+  }
 
   void vec2mxArray(const vec &in, mxArray *out)
-	{
-		double* temp = (double *) mxGetPr(out);
-		if (temp==0) mexErrMsgTxt("vec2mxArray: Pointer to data is NULL");
-		if (in.size()==0) mexErrMsgTxt("vec2mxArray: Size of data is zero");
+  {
+    double* temp = (double *) mxGetPr(out);
+    if (temp==0) mexErrMsgTxt("vec2mxArray: Pointer to data is NULL");
+    if (in.size()==0) mexErrMsgTxt("vec2mxArray: Size of data is zero");
 
-		for(int i=0; i<in.size(); i++) {
-			*temp++= (double) in(i);
-		}
-	}
+    for(int i=0; i<in.size(); i++) {
+      *temp++= (double) in(i);
+    }
+  }
 
   void cvec2mxArray(const cvec &in, mxArray *out)
-	{
-		double* tempR = (double *) mxGetPr(out);
-		double* tempI = (double *) mxGetPi(out);
-		if (tempR==0) mexErrMsgTxt("cvec2mxArray: Pointer to real valued part is NULL");
-		if (tempI==0) mexErrMsgTxt("cvec2mxArray: Pointer to imaginary valued part is NULL");
-		if (in.size()==0) mexErrMsgTxt("cvec2mxArray: Size of data is zero");
+  {
+    double* tempR = (double *) mxGetPr(out);
+    double* tempI = (double *) mxGetPi(out);
+    if (tempR==0) mexErrMsgTxt("cvec2mxArray: Pointer to real valued part is NULL");
+    if (tempI==0) mexErrMsgTxt("cvec2mxArray: Pointer to imaginary valued part is NULL");
+    if (in.size()==0) mexErrMsgTxt("cvec2mxArray: Size of data is zero");
 
-		for(int i=0; i<in.size(); i++) {
-			*tempR++= (double) in(i).real();
-			*tempI++= (double) in(i).imag();
-		}
-	}
+    for(int i=0; i<in.size(); i++) {
+      *tempR++= (double) in(i).real();
+      *tempI++= (double) in(i).imag();
+    }
+  }
 
   void bmat2mxArray(const bmat &in, mxArray *out)
-	{
-		int rows, cols, r, c;
+  {
+    int rows, cols, r, c;
 
-		double* temp = (double *) mxGetPr(out);
-		if (temp==0) mexErrMsgTxt("bmat2mxArray: Pointer to data is NULL");
+    double* temp = (double *) mxGetPr(out);
+    if (temp==0) mexErrMsgTxt("bmat2mxArray: Pointer to data is NULL");
 
-		rows = in.rows();
-		cols = in.cols();
-		if (rows==0) mexErrMsgTxt("bmat2mxArray: Data has zero rows");
-		if (cols==0) mexErrMsgTxt("bmat2mxArray: Data has zero columns");
+    rows = in.rows();
+    cols = in.cols();
+    if (rows==0) mexErrMsgTxt("bmat2mxArray: Data has zero rows");
+    if (cols==0) mexErrMsgTxt("bmat2mxArray: Data has zero columns");
 
-		for(c=0; c<cols; c++) {
-			for(r=0; r<rows; r++) {
-				if(in(r,c))
-					*temp++= 1.0;
-				else
-					*temp++= 0.0;    
-			}
-		}
+    for(c=0; c<cols; c++) {
+      for(r=0; r<rows; r++) {
+	if(in(r,c))
+	  *temp++= 1.0;
+	else
+	  *temp++= 0.0;    
+      }
+    }
 
-	}
+  }
 
   void smat2mxArray(const smat &in, mxArray *out)
-	{
-		int rows, cols, r, c;
+  {
+    int rows, cols, r, c;
 
-		double* temp = (double *) mxGetPr(out);
-		if (temp==0) mexErrMsgTxt("smat2mxArray: Pointer to data is NULL");
+    double* temp = (double *) mxGetPr(out);
+    if (temp==0) mexErrMsgTxt("smat2mxArray: Pointer to data is NULL");
 
-		rows = in.rows();
-		cols = in.cols();
-		if (rows==0) mexErrMsgTxt("smat2mxArray: Data has zero rows");
-		if (cols==0) mexErrMsgTxt("smat2mxArray: Data has zero columns");
+    rows = in.rows();
+    cols = in.cols();
+    if (rows==0) mexErrMsgTxt("smat2mxArray: Data has zero rows");
+    if (cols==0) mexErrMsgTxt("smat2mxArray: Data has zero columns");
 
-		for(c=0; c<cols; c++) {
-			for(r=0; r<rows; r++) {
-				*temp++= (double) in(r,c);
-			}
-		}
+    for(c=0; c<cols; c++) {
+      for(r=0; r<rows; r++) {
+	*temp++= (double) in(r,c);
+      }
+    }
 
-	}
+  }
 
   void imat2mxArray(const imat &in, mxArray *out)
-	{
-		int rows, cols, r, c;
+  {
+    int rows, cols, r, c;
 
-		double* temp = (double *) mxGetPr(out);
-		if (temp==0) mexErrMsgTxt("imat2mxArray: Pointer to data is NULL");
+    double* temp = (double *) mxGetPr(out);
+    if (temp==0) mexErrMsgTxt("imat2mxArray: Pointer to data is NULL");
 
-		rows = in.rows();
-		cols = in.cols();
-		if (rows==0) mexErrMsgTxt("imat2mxArray: Data has zero rows");
-		if (cols==0) mexErrMsgTxt("imat2mxArray: Data has zero columns");
+    rows = in.rows();
+    cols = in.cols();
+    if (rows==0) mexErrMsgTxt("imat2mxArray: Data has zero rows");
+    if (cols==0) mexErrMsgTxt("imat2mxArray: Data has zero columns");
 
-		for(c=0; c<cols; c++) {
-			for(r=0; r<rows; r++) {
-				*temp++= (double) in(r,c);
-			}
-		}
+    for(c=0; c<cols; c++) {
+      for(r=0; r<rows; r++) {
+	*temp++= (double) in(r,c);
+      }
+    }
 
-	}
+  }
 
   void mat2mxArray(const mat &in, mxArray *out)
-	{
-		int rows, cols, r, c;
+  {
+    int rows, cols, r, c;
 
-		double* temp = (double *) mxGetPr(out);
-		if (temp==0) mexErrMsgTxt("mat2mxArray: Pointer to data is NULL");
+    double* temp = (double *) mxGetPr(out);
+    if (temp==0) mexErrMsgTxt("mat2mxArray: Pointer to data is NULL");
 
-		rows = in.rows();
-		cols = in.cols();
-		if (rows==0) mexErrMsgTxt("mat2mxArray: Data has zero rows");
-		if (cols==0) mexErrMsgTxt("mat2mxArray: Data has zero columns");
+    rows = in.rows();
+    cols = in.cols();
+    if (rows==0) mexErrMsgTxt("mat2mxArray: Data has zero rows");
+    if (cols==0) mexErrMsgTxt("mat2mxArray: Data has zero columns");
 
-		for(c=0; c<cols; c++) {
-			for(r=0; r<rows; r++) {
-				*temp++= in(r,c);
-			}
-		}
+    for(c=0; c<cols; c++) {
+      for(r=0; r<rows; r++) {
+	*temp++= in(r,c);
+      }
+    }
 
-	}
+  }
 
   void cmat2mxArray(const cmat &in, mxArray *out)
-	{
-		int rows, cols, r, c;
+  {
+    int rows, cols, r, c;
 
-		double* tempR = (double *) mxGetPr(out);
-		double* tempI = (double *) mxGetPi(out);
-		if (tempR==0) mexErrMsgTxt("cvec2mxArray: Pointer to real valued part is NULL");
-		if (tempI==0) mexErrMsgTxt("cvec2mxArray: Pointer to imaginary valued part is NULL");
+    double* tempR = (double *) mxGetPr(out);
+    double* tempI = (double *) mxGetPi(out);
+    if (tempR==0) mexErrMsgTxt("cvec2mxArray: Pointer to real valued part is NULL");
+    if (tempI==0) mexErrMsgTxt("cvec2mxArray: Pointer to imaginary valued part is NULL");
 
-		rows = in.rows();
-		cols = in.cols();
-		if (rows==0) mexErrMsgTxt("cvec2mxArray: Data has zero rows");
-		if (cols==0) mexErrMsgTxt("cvec2mxArray: Data has zero columns");
+    rows = in.rows();
+    cols = in.cols();
+    if (rows==0) mexErrMsgTxt("cvec2mxArray: Data has zero rows");
+    if (cols==0) mexErrMsgTxt("cvec2mxArray: Data has zero columns");
 
-		for(c=0; c<cols; c++) {
-			for(r=0; r<rows; r++) {
-				*tempR++= (double) in(r,c).real();
-				*tempI++= (double) in(r,c).imag();
-			}
-		}
+    for(c=0; c<cols; c++) {
+      for(r=0; r<rows; r++) {
+	*tempR++= (double) in(r,c).real();
+	*tempI++= (double) in(r,c).imag();
+      }
+    }
 
-	}
+  }
 
   void mxArray2Csvec(const mxArray *in, short *out)
-	{
-		double* temp = (double*) mxGetPr(in);
-		if (temp==0) mexErrMsgTxt("mxArray2Csvec: Pointer to data is NULL");
-		int size = mxGetNumberOfElements(in);
-		if (size==0) mexErrMsgTxt("mxArray2Csvec: Size of data is zero");
-		for (int i=0; i<size; i++) { out[i] = (short) (*temp++); }
-	}
+  {
+    double* temp = (double*) mxGetPr(in);
+    if (temp==0) mexErrMsgTxt("mxArray2Csvec: Pointer to data is NULL");
+    int size = mxGetNumberOfElements(in);
+    if (size==0) mexErrMsgTxt("mxArray2Csvec: Size of data is zero");
+    for (int i=0; i<size; i++) { out[i] = (short) (*temp++); }
+  }
 
   void mxArray2Civec(const mxArray *in, int *out)
-	{
-		double* temp = (double*) mxGetPr(in);
-		if (temp==0) mexErrMsgTxt("mxArray2Civec: Pointer to data is NULL");
-		int size = mxGetNumberOfElements(in);
-		if (size==0) mexErrMsgTxt("mxArray2Civec: Size of data is zero");
-		for (int i=0; i<size; i++) { out[i] = (int) (*temp++); }
-	}
+  {
+    double* temp = (double*) mxGetPr(in);
+    if (temp==0) mexErrMsgTxt("mxArray2Civec: Pointer to data is NULL");
+    int size = mxGetNumberOfElements(in);
+    if (size==0) mexErrMsgTxt("mxArray2Civec: Size of data is zero");
+    for (int i=0; i<size; i++) { out[i] = (int) (*temp++); }
+  }
 
   void mxArray2Cvec(const mxArray *in, double *out)
-	{
-		double* temp = (double*) mxGetPr(in);
-		if (temp==0) mexErrMsgTxt("mxArray2Cvec: Pointer to data is NULL");
-		int size = mxGetNumberOfElements(in);
-		if (size==0) mexErrMsgTxt("mxArray2Cvec: Size of data is zero");
-		for (int i=0; i<size; i++) { out[i] = (*temp++); }
-	}
+  {
+    double* temp = (double*) mxGetPr(in);
+    if (temp==0) mexErrMsgTxt("mxArray2Cvec: Pointer to data is NULL");
+    int size = mxGetNumberOfElements(in);
+    if (size==0) mexErrMsgTxt("mxArray2Cvec: Size of data is zero");
+    for (int i=0; i<size; i++) { out[i] = (*temp++); }
+  }
 
   void mxArray2Ccvec(const mxArray *in, double *out_real, double *out_imag)
-	{
-		double* tempR = (double*) mxGetPr(in);
-		double* tempI = (double*) mxGetPi(in);
-		if (tempR==0) mexErrMsgTxt("mxArray2Ccvec: Pointer to real valued part is NULL");
-		if (tempI==0) mexErrMsgTxt("mxArray2Ccvec: Pointer to imaginary valued part is NULL");
-		int size = mxGetNumberOfElements(in);
-		if (size==0) mexErrMsgTxt("mxArray2Ccvec: Size of data is zero");
-		for (int i=0; i<size; i++) { out_real[i] = (*tempR++); out_imag[i] = (*tempI++); }
-	}
+  {
+    double* tempR = (double*) mxGetPr(in);
+    double* tempI = (double*) mxGetPi(in);
+    if (tempR==0) mexErrMsgTxt("mxArray2Ccvec: Pointer to real valued part is NULL");
+    if (tempI==0) mexErrMsgTxt("mxArray2Ccvec: Pointer to imaginary valued part is NULL");
+    int size = mxGetNumberOfElements(in);
+    if (size==0) mexErrMsgTxt("mxArray2Ccvec: Size of data is zero");
+    for (int i=0; i<size; i++) { out_real[i] = (*tempR++); out_imag[i] = (*tempI++); }
+  }
 
   void mxArray2Csmat(const mxArray *in, short **out)
-	{
-		int r, c;
-		double* temp = (double*) mxGetPr(in);
-		if (temp==0) mexErrMsgTxt("mxArray2Csmat: Pointer to data is NULL");
-		int rows = mxGetM(in);
-		if (rows==0) mexErrMsgTxt("mxArray2Csmat: Data has zero rows");
-		int cols = mxGetN(in);
-		if (cols==0) mexErrMsgTxt("mxArray2Csmat: Data has zero columns");
-		for (c=0; c<cols; c++) {
-			for (r=0; r<rows; r++) {
-				out[r][c] = (short) (*temp++);    
-			}
-		}
-	}
+  {
+    int r, c;
+    double* temp = (double*) mxGetPr(in);
+    if (temp==0) mexErrMsgTxt("mxArray2Csmat: Pointer to data is NULL");
+    int rows = mxGetM(in);
+    if (rows==0) mexErrMsgTxt("mxArray2Csmat: Data has zero rows");
+    int cols = mxGetN(in);
+    if (cols==0) mexErrMsgTxt("mxArray2Csmat: Data has zero columns");
+    for (c=0; c<cols; c++) {
+      for (r=0; r<rows; r++) {
+	out[r][c] = (short) (*temp++);    
+      }
+    }
+  }
 
   void mxArray2Cimat(const mxArray *in, int **out)
-	{
-		int r, c;
-		double* temp = (double*) mxGetPr(in);
-		if (temp==0) mexErrMsgTxt("mxArray2Cimat: Pointer to data is NULL");
-		int rows = mxGetM(in);
-		if (rows==0) mexErrMsgTxt("mxArray2Cimat: Data has zero rows");
-		int cols = mxGetN(in);
-		if (cols==0) mexErrMsgTxt("mxArray2Cimat: Data has zero columns");
-		for (c=0; c<cols; c++) {
-			for (r=0; r<rows; r++) {
-				out[r][c] = (int) (*temp++);    
-			}
-		}
-	}
+  {
+    int r, c;
+    double* temp = (double*) mxGetPr(in);
+    if (temp==0) mexErrMsgTxt("mxArray2Cimat: Pointer to data is NULL");
+    int rows = mxGetM(in);
+    if (rows==0) mexErrMsgTxt("mxArray2Cimat: Data has zero rows");
+    int cols = mxGetN(in);
+    if (cols==0) mexErrMsgTxt("mxArray2Cimat: Data has zero columns");
+    for (c=0; c<cols; c++) {
+      for (r=0; r<rows; r++) {
+	out[r][c] = (int) (*temp++);    
+      }
+    }
+  }
 
   void mxArray2Cmat(const mxArray *in, double **out)
-	{
-		int r, c;
-		double* temp = (double*) mxGetPr(in);
-		if (temp==0) mexErrMsgTxt("mxArray2Cmat: Pointer to data is NULL");
-		int rows = mxGetM(in);
-		if (rows==0) mexErrMsgTxt("mxArray2Cmat: Data has zero rows");
-		int cols = mxGetN(in);
-		if (cols==0) mexErrMsgTxt("mxArray2Cmat: Data has zero columns");
-		for (c=0; c<cols; c++) {
-			for (r=0; r<rows; r++) {
-				out[r][c] = (*temp++);    
-			}
-		}
-	}
+  {
+    int r, c;
+    double* temp = (double*) mxGetPr(in);
+    if (temp==0) mexErrMsgTxt("mxArray2Cmat: Pointer to data is NULL");
+    int rows = mxGetM(in);
+    if (rows==0) mexErrMsgTxt("mxArray2Cmat: Data has zero rows");
+    int cols = mxGetN(in);
+    if (cols==0) mexErrMsgTxt("mxArray2Cmat: Data has zero columns");
+    for (c=0; c<cols; c++) {
+      for (r=0; r<rows; r++) {
+	out[r][c] = (*temp++);    
+      }
+    }
+  }
 
   void mxArray2Ccmat(const mxArray *in, double **out_real, double **out_imag)
-	{
-		int r, c;
-		double* tempR = (double*) mxGetPr(in);
-		double* tempI = (double*) mxGetPi(in);
-		if (tempR==0) mexErrMsgTxt("mxArray2Cmat: Pointer to real valued part is NULL");
-		if (tempI==0) mexErrMsgTxt("mxArray2Cmat: Pointer to imaginary valued part is NULL");
-		int rows = mxGetM(in);
-		if (rows==0) mexErrMsgTxt("mxArray2Cmat: Data has zero rows");
-		int cols = mxGetN(in);
-		if (cols==0) mexErrMsgTxt("mxArray2Cmat: Data has zero columns");
-		for (c=0; c<cols; c++) {
-			for (r=0; r<rows; r++) {
-				out_real[r][c] = (*tempR++);    
-				out_imag[r][c] = (*tempI++);    
-			}
-		}
-	}
+  {
+    int r, c;
+    double* tempR = (double*) mxGetPr(in);
+    double* tempI = (double*) mxGetPi(in);
+    if (tempR==0) mexErrMsgTxt("mxArray2Cmat: Pointer to real valued part is NULL");
+    if (tempI==0) mexErrMsgTxt("mxArray2Cmat: Pointer to imaginary valued part is NULL");
+    int rows = mxGetM(in);
+    if (rows==0) mexErrMsgTxt("mxArray2Cmat: Data has zero rows");
+    int cols = mxGetN(in);
+    if (cols==0) mexErrMsgTxt("mxArray2Cmat: Data has zero columns");
+    for (c=0; c<cols; c++) {
+      for (r=0; r<rows; r++) {
+	out_real[r][c] = (*tempR++);    
+	out_imag[r][c] = (*tempI++);    
+      }
+    }
+  }
 
   void Csvec2mxArray(short *in, mxArray *out)
-	{
-		double* temp = (double *) mxGetPr(out);
-		if (temp==0) mexErrMsgTxt("Csvec2mxArray: Pointer to data is NULL");
-		int size = mxGetNumberOfElements(out);
-		if (size==0) mexErrMsgTxt("Csvec2mxArray: Size of data is zero");
-		for(int i=0; i<size; i++) { *temp++= (double) in[i]; }
-	}
+  {
+    double* temp = (double *) mxGetPr(out);
+    if (temp==0) mexErrMsgTxt("Csvec2mxArray: Pointer to data is NULL");
+    int size = mxGetNumberOfElements(out);
+    if (size==0) mexErrMsgTxt("Csvec2mxArray: Size of data is zero");
+    for(int i=0; i<size; i++) { *temp++= (double) in[i]; }
+  }
 
   void Civec2mxArray(int *in, mxArray *out)
-	{
-		double* temp = (double *) mxGetPr(out);
-		if (temp==0) mexErrMsgTxt("Civec2mxArray: Pointer to data is NULL");
-		int size = mxGetNumberOfElements(out);
-		if (size==0) mexErrMsgTxt("Civec2mxArray: Size of data is zero");
-		for(int i=0; i<size; i++) { *temp++= (double) in[i]; }
-	}
+  {
+    double* temp = (double *) mxGetPr(out);
+    if (temp==0) mexErrMsgTxt("Civec2mxArray: Pointer to data is NULL");
+    int size = mxGetNumberOfElements(out);
+    if (size==0) mexErrMsgTxt("Civec2mxArray: Size of data is zero");
+    for(int i=0; i<size; i++) { *temp++= (double) in[i]; }
+  }
 
   void Cvec2mxArray(double *in, mxArray *out)
-	{
-		double* temp = (double *) mxGetPr(out);
-		if (temp==0) mexErrMsgTxt("Cvec2mxArray: Pointer to data is NULL");
-		int size = mxGetNumberOfElements(out);
-		if (size==0) mexErrMsgTxt("Cvec2mxArray: Size of data is zero");
-		for(int i=0; i<size; i++) { *temp++= in[i]; }
-	}
+  {
+    double* temp = (double *) mxGetPr(out);
+    if (temp==0) mexErrMsgTxt("Cvec2mxArray: Pointer to data is NULL");
+    int size = mxGetNumberOfElements(out);
+    if (size==0) mexErrMsgTxt("Cvec2mxArray: Size of data is zero");
+    for(int i=0; i<size; i++) { *temp++= in[i]; }
+  }
 
   void Ccvec2mxArray(double *in_real, double *in_imag, mxArray *out)
-	{
-		double* tempR = (double *) mxGetPr(out);
-		double* tempI = (double *) mxGetPi(out);
-		if (tempR==0) mexErrMsgTxt("Ccvec2mxArray: Pointer to real valued part is NULL");
-		if (tempI==0) mexErrMsgTxt("Ccvec2mxArray: Pointer to imaginary valued part is NULL");
-		int size = mxGetNumberOfElements(out);
-		if (size==0) mexErrMsgTxt("Ccvec2mxArray: Size of data is zero");
-		for(int i=0; i<size; i++) { *tempR++= in_real[i]; *tempI++= in_imag[i]; }
-	}
+  {
+    double* tempR = (double *) mxGetPr(out);
+    double* tempI = (double *) mxGetPi(out);
+    if (tempR==0) mexErrMsgTxt("Ccvec2mxArray: Pointer to real valued part is NULL");
+    if (tempI==0) mexErrMsgTxt("Ccvec2mxArray: Pointer to imaginary valued part is NULL");
+    int size = mxGetNumberOfElements(out);
+    if (size==0) mexErrMsgTxt("Ccvec2mxArray: Size of data is zero");
+    for(int i=0; i<size; i++) { *tempR++= in_real[i]; *tempI++= in_imag[i]; }
+  }
 
   void Csmat2mxArray(short **in, mxArray *out)
-	{
-		int r, c;
-		double* temp = (double *) mxGetPr(out);
-		if (temp==0) mexErrMsgTxt("Csmat2mxArray: Pointer to data is NULL");
-		int rows = mxGetM(out);
-		if (rows==0) mexErrMsgTxt("Csmat2mxArray: Data has zero rows");
-		int cols = mxGetN(out);
-		if (cols==0) mexErrMsgTxt("Csmat2mxArray: Data has zero columns");
-		for(c=0; c<cols; c++) {
-			for(r=0; r<rows; r++) {
-				*temp++= (short) in[r][c];
-			}
-		}
-	}
+  {
+    int r, c;
+    double* temp = (double *) mxGetPr(out);
+    if (temp==0) mexErrMsgTxt("Csmat2mxArray: Pointer to data is NULL");
+    int rows = mxGetM(out);
+    if (rows==0) mexErrMsgTxt("Csmat2mxArray: Data has zero rows");
+    int cols = mxGetN(out);
+    if (cols==0) mexErrMsgTxt("Csmat2mxArray: Data has zero columns");
+    for(c=0; c<cols; c++) {
+      for(r=0; r<rows; r++) {
+	*temp++= (short) in[r][c];
+      }
+    }
+  }
 
   void Cimat2mxArray(int **in, mxArray *out)
-	{
-		int r, c;
-		double* temp = (double *) mxGetPr(out);
-		if (temp==0) mexErrMsgTxt("Cimat2mxArray: Pointer to data is NULL");
-		int rows = mxGetM(out);
-		if (rows==0) mexErrMsgTxt("Cimat2mxArray: Data has zero rows");
-		int cols = mxGetN(out);
-		if (cols==0) mexErrMsgTxt("Cimat2mxArray: Data has zero columns");
-		for(c=0; c<cols; c++) {
-			for(r=0; r<rows; r++) {
-				*temp++= (int) in[r][c];
-			}
-		}
-	}
+  {
+    int r, c;
+    double* temp = (double *) mxGetPr(out);
+    if (temp==0) mexErrMsgTxt("Cimat2mxArray: Pointer to data is NULL");
+    int rows = mxGetM(out);
+    if (rows==0) mexErrMsgTxt("Cimat2mxArray: Data has zero rows");
+    int cols = mxGetN(out);
+    if (cols==0) mexErrMsgTxt("Cimat2mxArray: Data has zero columns");
+    for(c=0; c<cols; c++) {
+      for(r=0; r<rows; r++) {
+	*temp++= (int) in[r][c];
+      }
+    }
+  }
 
   void Cmat2mxArray(double **in, mxArray *out)
-	{
-		int r, c;
-		double* temp = (double *) mxGetPr(out);
-		if (temp==0) mexErrMsgTxt("Cmat2mxArray: Pointer to data is NULL");
-		int rows = mxGetM(out);
-		if (rows==0) mexErrMsgTxt("Cmat2mxArray: Data has zero rows");
-		int cols = mxGetN(out);
-		if (cols==0) mexErrMsgTxt("Cmat2mxArray: Data has zero columns");
-		for(c=0; c<cols; c++) {
-			for(r=0; r<rows; r++) {
-				*temp++= in[r][c];
-			}
-		}
-	}
+  {
+    int r, c;
+    double* temp = (double *) mxGetPr(out);
+    if (temp==0) mexErrMsgTxt("Cmat2mxArray: Pointer to data is NULL");
+    int rows = mxGetM(out);
+    if (rows==0) mexErrMsgTxt("Cmat2mxArray: Data has zero rows");
+    int cols = mxGetN(out);
+    if (cols==0) mexErrMsgTxt("Cmat2mxArray: Data has zero columns");
+    for(c=0; c<cols; c++) {
+      for(r=0; r<rows; r++) {
+	*temp++= in[r][c];
+      }
+    }
+  }
 
   void Ccmat2mxArray(double **in_real, double **in_imag, mxArray *out)
-	{
-		int r, c;
-		double* tempR = (double *) mxGetPr(out);
-		double* tempI = (double *) mxGetPi(out);
-		if (tempR==0) mexErrMsgTxt("Ccmat2mxArray: Pointer to real valued part is NULL");
-		if (tempI==0) mexErrMsgTxt("Ccmat2mxArray: Pointer to imaginary valued part is NULL");
-		int rows = mxGetM(out);
-		if (rows==0) mexErrMsgTxt("Ccmat2mxArray: Data has zero rows");
-		int cols = mxGetN(out);
-		if (cols==0) mexErrMsgTxt("Ccmat2mxArray: Data has zero columns");
-		for(c=0; c<cols; c++) {
-			for(r=0; r<rows; r++) {
-				*tempR++= in_real[r][c];
-				*tempI++= in_imag[r][c];
-			}
-		}
-	}
+  {
+    int r, c;
+    double* tempR = (double *) mxGetPr(out);
+    double* tempI = (double *) mxGetPi(out);
+    if (tempR==0) mexErrMsgTxt("Ccmat2mxArray: Pointer to real valued part is NULL");
+    if (tempI==0) mexErrMsgTxt("Ccmat2mxArray: Pointer to imaginary valued part is NULL");
+    int rows = mxGetM(out);
+    if (rows==0) mexErrMsgTxt("Ccmat2mxArray: Data has zero rows");
+    int cols = mxGetN(out);
+    if (cols==0) mexErrMsgTxt("Ccmat2mxArray: Data has zero columns");
+    for(c=0; c<cols; c++) {
+      for(r=0; r<rows; r++) {
+	*tempR++= in_real[r][c];
+	*tempI++= in_imag[r][c];
+      }
+    }
+  }
 
 } // namespace itpp
 
