@@ -1,5 +1,13 @@
 2006-05-03  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/logexpfunc.h, itpp/base/matfunc.h,
+	itpp/base/specmat.cpp, itpp/comm/channel.cpp,
+	itpp/comm/modulator.cpp, itpp/signal/sigfun.cpp,
+	itpp/signal/transforms.cpp, itpp/srccode/vq.h: 
+	Fixed bug [1480535]. Now needed_bits() returns a proper number of
+	bits required to represent integer `n', e.g. "needed_bits(0) = 1", 
+	"needed_bits(7) = 3" and "needed_bits(8) = 4".
+
 	* itpp/itmex.h: Fixed a small bug related to missing #include
 	statement and cleaned up the code.
 

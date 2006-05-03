@@ -78,9 +78,12 @@ namespace itpp {
   //! Calculate how many bits are needed to represent the integer n
   inline int needed_bits(int n)
   {
+    it_assert(n >= 0, "needed_bits(): Improper argument value");
+
+    if (n == 0)
+      return 1;
+
     int b = 0;
-    it_assert(n > 0, "needed_bits(): n must be greater than zero!");
-    n--; 
     while (n) { 
       n >>= 1; 
       b++; 

@@ -406,7 +406,7 @@ namespace itpp {
 
   void IFFT_Fading_Generator::generate_Jakes(const int no_samples, cvec &output)
   {
-    int Nfft = pow2i(needed_bits(no_samples));
+    int Nfft = pow2i(needed_bits(no_samples - 1));
     double df = 1.0/Nfft;
     int noisesamp = (int)std::ceil(n_dopp/df);
     int no_upsample = 1;
