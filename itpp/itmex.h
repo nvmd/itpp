@@ -35,7 +35,6 @@
 
 #include <itpp/itbase.h>
 #include <mex.h>
-#include <complex>
 
 
 namespace itpp {
@@ -98,7 +97,7 @@ namespace itpp {
   //! Convert the matlab-format mxArray to double
   double mxArray2double(const mxArray *in);
   //! Convert the matlab-format mxArray to complex<double>
-  complex<double> mxArray2double_complex(const mxArray *in);
+  std::complex<double> mxArray2double_complex(const mxArray *in);
   //string mxArray2string(const mxArray *in);
 
   //! Convert the matlab-format mxArray to bvec
@@ -136,7 +135,7 @@ namespace itpp {
   //! Convert double to the matlab-format mxArray
   void double2mxArray(const double &in, mxArray *out);
   //! Convert complex<double> to the matlab-format mxArray
-  void double_complex2mxArray(const complex<double> &in, mxArray *out);
+  void double_complex2mxArray(const std::complex<double> &in, mxArray *out);
   //void string2mxArray(const string &in, mxArray *out);
 
   //! Convert bvec to the matlab-format mxArray
@@ -252,7 +251,7 @@ namespace itpp {
     return (*temp);
   }
 
-  complex<double> mxArray2double_complex(const mxArray *in)
+  std::complex<double> mxArray2double_complex(const mxArray *in)
   {
     int size;
     double* tempR = (double*) mxGetPr(in);
@@ -264,11 +263,11 @@ namespace itpp {
     if (size!=1) mexErrMsgTxt("mxArray2double_complex: Size of data is not equal to one");
 
     if (tempR==0) {
-      return complex<double>( 0.0 , (*tempI) );
+      return std::complex<double>( 0.0 , (*tempI) );
     } else if (tempI==0) {
-      return complex<double>( (*tempR), 0.0 );
+      return std::complex<double>( (*tempR), 0.0 );
     } else {
-      return complex<double>( (*tempR), (*tempI) );
+      return std::complex<double>( (*tempR), (*tempI) );
     }
 
   }
@@ -368,11 +367,11 @@ namespace itpp {
     out.set_size(size,false);
 
     if (tempR==0) {
-      for (i=0; i<size; i++) { out(i) = complex<double>( 0.0, (*tempI++)); }
+      for (i=0; i<size; i++) { out(i) = std::complex<double>( 0.0, (*tempI++)); }
     } else if (tempI==0) {
-      for (i=0; i<size; i++) { out(i) = complex<double>((*tempR++), 0.0 ); }
+      for (i=0; i<size; i++) { out(i) = std::complex<double>((*tempR++), 0.0 ); }
     } else {
-      for (i=0; i<size; i++) { out(i) = complex<double>((*tempR++), (*tempI++)); }
+      for (i=0; i<size; i++) { out(i) = std::complex<double>((*tempR++), (*tempI++)); }
     }
 
     return out;
@@ -489,11 +488,11 @@ namespace itpp {
     out.set_size(rows,cols,false);
 
     if (tempR==0) {
-      for (c=0; c<cols; c++) { for (r=0; r<rows; r++) { out(r,c) = complex<double>( 0.0 ,(*tempI++) ); } }
+      for (c=0; c<cols; c++) { for (r=0; r<rows; r++) { out(r,c) = std::complex<double>( 0.0 ,(*tempI++) ); } }
     } else if (tempI==0) {
-      for (c=0; c<cols; c++) { for (r=0; r<rows; r++) { out(r,c) = complex<double>( (*tempR++), 0.0 ); } }
+      for (c=0; c<cols; c++) { for (r=0; r<rows; r++) { out(r,c) = std::complex<double>( (*tempR++), 0.0 ); } }
     } else {
-      for (c=0; c<cols; c++) { for (r=0; r<rows; r++) { out(r,c) = complex<double>( (*tempR++),(*tempI++) ); } }
+      for (c=0; c<cols; c++) { for (r=0; r<rows; r++) { out(r,c) = std::complex<double>( (*tempR++),(*tempI++) ); } }
     }
 
     return out;
