@@ -80,7 +80,8 @@ extern "C" {
   {
     doublecomplex r;
     r = zdotu(N, (doublecomplex*)(X), incX, (doublecomplex*)(Y), incY);
-    dotu = &r;
+    *((double*)(dotu)) = r.real;
+    *((double*)(dotu) + 1) = r.imag;
   }
 
   void cblas_dgemm(const enum CBLAS_ORDER Order, 
