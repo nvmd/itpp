@@ -1,3 +1,9 @@
+2006-05-09  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac, Makefile.am, tests/Makefile.am: Fixed a problem
+	with different line endings on Windows based platforms. Now,
+	sed program is necessary for performing tests.
+
 2006-05-08  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/cblas.cpp: Fixed bug [1483125]. Now a complex dot
