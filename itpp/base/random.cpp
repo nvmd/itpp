@@ -39,6 +39,7 @@
 #endif
 
 #include <itpp/base/random.h>
+#include <itpp/base/elmatfunc.h>
 
 
 namespace itpp { 

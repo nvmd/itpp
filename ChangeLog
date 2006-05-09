@@ -1,5 +1,8 @@
 2006-05-09  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/random.cpp: Added missing include file (undefined
+	gamma function).
+
 	* configure.ac, Makefile.am, tests/Makefile.am: Fixed a problem
 	with different line endings on Windows based platforms. Now,
 	sed program is necessary for performing tests.
