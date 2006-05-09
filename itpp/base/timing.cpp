@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Implementation of Timing classes
- * \author Thomas Eriksson, Tony Ottosson and Tobias Ringstrom
+ * \author Thomas Eriksson, Tony Ottosson, Tobias Ringstrom and Adam Piatyszek
  * 
  * $Date$
  * $Revision$
@@ -50,6 +50,33 @@
 #include <itpp/base/timing.h>
 #include <iostream>
 #include <cmath>
+
+
+#ifndef HAVE_SYS_TIME_H
+struct timeval {
+  long tv_sec;
+  long tv_usec;
+}
+#endif
+
+
+#if defined(_WIN32) && !defined(__CYGWIN__)
+#include <windows.h>
+
+int gettimeofday(struct timeval* p, void* tz)
+{
+  union {
+    long long ns100; /* time since 1 Jan 1601 in 100ns units */
+    FILETIME ft;
+  } _now;
+
+  GetSystemTimeAsFileTime(&(_now.ft));
+  p->tv_usec = (long)((_now.ns100 / 10LL) % 1000000LL);
+  /* time since 1 Jan 1970 */
+  p->tv_sec= (long)((_now.ns100 - 116444736000000000LL) / 10000000LL);
+  return 0;
+}
+#endif
 
 
 namespace itpp { 
@@ -123,48 +150,14 @@ namespace itpp {
     return static_cast<double>(clock()) / CLOCKS_PER_SEC;
   }
 
-#ifdef _MSC_VER
-#include <windows.h>
-
-  /*
-    struct timeval {
-    time_t         tv_sec;
-    long           tv_usec; 
-    };
-    typedef struct _FILETIME {
-    unsigned long dwLowDateTime;
-    unsigned long dwHighDateTime;
-    } FILETIME;
-    void __stdcall GetSystemTimeAsFileTime(FILETIME*);
-  */
-
-  int gettimeofday(struct timeval* p, void* tz)
-  {
-    union {
-      long long ns100; /* time since 1 Jan 1601 in 100ns units */
-      FILETIME ft;
-    } _now;
-
-    GetSystemTimeAsFileTime( &(_now.ft) );
-    p->tv_usec=(long)((_now.ns100 / 10LL) % 1000000LL );
-    p->tv_sec= (long)((_now.ns100-(116444736000000000LL))/10000000LL); /* time since 1 Jan 1970 */
-    return 0;
-  }
-#endif
   //----------------------------------------------------------------------------
   //	class Real_Timer
   //----------------------------------------------------------------------------
   double Real_Timer::get_current_time() const
   {
-#ifdef MINGW
-    // gettimeofday() is not defined in sys/time.h when compiling with MinGW.
-    // time() only gives 1-sec accuracy instead of 1-microsec accuracy.
-    return time(0);
-#else
     struct timeval t;
     gettimeofday(&t, 0);
     return t.tv_sec + t.tv_usec * 1.0e-6;
-#endif
   }
 
 

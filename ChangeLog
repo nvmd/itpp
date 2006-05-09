@@ -1,5 +1,9 @@
 2006-05-09  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/timing.cpp: Fixed gettimeofday() function definition
+	for Windows based platforms (MinGW, MSVC++). No need for MINGW
+	definition any more.
+
 	* configure.ac, itpp/base/elmatfunc.cpp, itpp/base/elmatfunc.h:
 	Added checks for `lgamma' and `tgamma' functions, and `signgam'
 	declaration. This solves problems on some platforms where these
