@@ -33,14 +33,18 @@
 #ifndef ELMATFUNC_H
 #define ELMATFUNC_H
 
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
+
 #include <itpp/base/help_functions.h>
 #include <itpp/base/converters.h>
 #include <cmath>
 
 
-#ifdef _MSC_VER
-
-// These functions are part of C99. But apparently not in Visual C++.
+// These functions are part of C99.
 
 //!\addtogroup miscfunc
 //!@{
@@ -49,14 +53,13 @@
 double tgamma(double x);
 
 //! Lograrithm of an absolute gamma function
-extern int signgam;
 double lgamma(double x);
+extern int signgam;
 
 //! Cubic root
 double cbrt(double x);
 //!@}
 
-#endif
 
 namespace itpp {
 
@@ -139,9 +142,13 @@ namespace itpp {
   //! Gamma function
   inline double gamma(double x) 
   { 
+#if !defined(HAVE_TGAMMA) && defined(HAVE_LGAMMA)
     // lgamma() needs to be executed before, since it sets signgam
     double lg = lgamma(x);
     return signgam * std::exp(lg);
+#else
+    return tgamma(x);
+#endif
   }
   //! The gamma function
   inline vec gamma(const vec &x) { return apply_function<double>(gamma, x); }

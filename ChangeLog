@@ -1,5 +1,10 @@
 2006-05-09  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac, itpp/base/elmatfunc.cpp, itpp/base/elmatfunc.h:
+	Added checks for `lgamma' and `tgamma' functions, and `signgam'
+	declaration. This solves problems on some platforms where these
+	declaration and/or functions are not available.
+
 	* itpp/base/random.cpp: Added missing include file (undefined
 	gamma function).
 
