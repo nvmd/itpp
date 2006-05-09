@@ -32,7 +32,13 @@
 
 #include <itpp/base/elmatfunc.h>
 
-#ifdef _MSC_VER
+
+// This global variable is normally declared in <cmath>, but not always
+#if (HAVE_DECL_SIGNGAM != 1)
+int signgam;
+#endif
+
+#ifndef HAVE_TGAMMA
 // "True" gamma function
 double tgamma(double x)
 {
@@ -45,10 +51,9 @@ double tgamma(double x)
   else 
     return exp((x + 0.5) * log(x + 5.5) - x - 5.5 + log(s));
 }
+#endif
 
-// This global variable is normally declared in <cmath>, but not under MSVC++
-int signgam;
-
+#ifndef HAVE_LGAMMA
 // Logarithm of an absolute value of gamma function 
 double lgamma(double x)
 {
@@ -56,10 +61,13 @@ double lgamma(double x)
   signgam = (gam < 0) ? -1 : 1;
   return log(fabs(gam));
 }
+#endif
 
+#ifndef HAVE_CBRT
 // Cubic root
 double cbrt(double x) { return std::pow(x, 1.0/3.0); }
 #endif
+
 
 namespace itpp { 
 
