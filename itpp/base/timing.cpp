@@ -52,14 +52,6 @@
 #include <cmath>
 
 
-#ifndef HAVE_SYS_TIME_H
-struct timeval {
-  long tv_sec;
-  long tv_usec;
-}
-#endif
-
-
 #if defined(_WIN32) && !defined(__CYGWIN__)
 #include <windows.h>
 
