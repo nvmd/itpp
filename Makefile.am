@@ -8,7 +8,7 @@ if HTML_DOC
 HTMLDOCDIR = doc
 endif
 
-if HAVE_DIFF
+if RUN_TESTS
 TESTDIR = tests
 endif
 

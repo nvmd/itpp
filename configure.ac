@@ -124,7 +124,11 @@ AM_CONDITIONAL([HTML_DOC], [test "x$enable_html_doc" = xyes])
 
 # Check for diff program used for tests
 AC_CHECK_PROG([diff_ok], [diff], [yes], [no])
-AM_CONDITIONAL([HAVE_DIFF], [test "x$diff_ok" = xyes])
+AC_CHECK_PROG([sed_ok], [sed], [yes], [no])
+enable_tests=yes
+test "x$diff_ok" != xyes && enable_tests=no
+test "x$sed_ok" != xyes && enable_tests=no
+AM_CONDITIONAL([RUN_TESTS], [test "x$enable_tests" = xyes])
 
 
 # Checks for BLAS (ACML, MKL, ATLAS or NETLIB)
@@ -153,6 +157,16 @@ fi
 if test "x$FFT_LIBS" != x; then
   LIBS="$FFT_LIBS $LIBS"
 fi
+
+
+# Checks for functions
+AC_CHECK_FUNCS([cbrt \
+  lgamma \
+  tgamma])
+
+
+# Checks for global declarations
+AC_CHECK_DECLS(signgam, , , [#include <cmath>])
 
 
 # Checks for header files
@@ -224,6 +238,7 @@ Documentation tools:
 
 Testing tools:
   - diff ........... : ${diff_ok}
+  - sed ............ : ${sed_ok}
 
 External libs:
   - BLAS ........... : ${acx_blas_ok}
