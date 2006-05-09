@@ -1,5 +1,8 @@
 2006-05-09  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/config_msvc.h: Manually updated the config header for
+	MSVC++ .NET with MKL.
+
 	* itpp/base/timing.cpp: Fixed gettimeofday() function definition
 	for Windows based platforms (MinGW, MSVC++). No need for MINGW
 	definition any more.
