@@ -1,5 +1,9 @@
 2006-05-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/source_test.cpp, tests/source_test.ref,
+	tests/window_test.cpp, tests/window_test.ref: Minor fixes in test
+	programs due to different formatting under MinGW environment.
+
 	* test/Makefile.am: Added a dirty hack using sed regular expresion
 	that ensures floating point output in the form of `e-06' instead
 	of `e-006', which is default for the MinGW compiler.
