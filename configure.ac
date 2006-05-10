@@ -32,6 +32,14 @@ GENERIC_LIBRARY_VERSION="3:0:0"
 #                    or changed
 AC_SUBST(GENERIC_LIBRARY_VERSION)
 
+# Check for host and disable building a shared library in Windows
+AC_CANONICAL_HOST
+case $host in
+  *-*-msdos* | *-*-go32* | *-*-mingw32* | *-*-cygwin* | *-*-windows*)
+    enable_shared=no;
+    ;;
+esac
+
 # Checks for programs
 save_CXXFLAGS="$CXXFLAGS"
 AC_PROG_CXX
