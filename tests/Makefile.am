@@ -108,7 +108,7 @@ ref_sources = $(patsubst %$(EXEEXT), %.ref, $(check_PROGRAMS))
 check-local: $(check_PROGRAMS) $(ref_sources)
 	@for i in $(noext_tests); do \
 		echo ------------------------------------------------------------------------------; \
-		./$$i$(EXEEXT) | sed 's/^M$$//'> $$i.tmp; \
+		./$$i$(EXEEXT) | sed 's/^M$$//' | sed 's/\(-\?[0-9]\+\.\?[0-9]*e[+-]\)0\([0-9][0-9]\)/\1\2/g' > $$i.tmp; \
 		diff $$i.tmp $(srcdir)/$$i.ref > /dev/null; \
 		if test "x$$?" = "x0"; then \
 			echo "Test \`$$i' PASSED."; \
