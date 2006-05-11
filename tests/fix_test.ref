@@ -1,29 +1,29 @@
 Testing declaration, initialization and conversion
 ==================================================
 For double and complex<double>:
-  real_value = 3.14159
-  complex_value = 33.3333+66.6667i
+  real_value = 3.1415927
+  complex_value = 33.333333+66.666667i
 For Fix and CFix:
-  the_fix = 3.14062
-  the_cfix = 33.333+66.666i
+  the_fix = 3.140625
+  the_cfix = 33.333008+66.666016i
 For Fixed and CFixed:
-  the_fixed = 3.14062
-  the_cfixed = 33.333+66.666i
+  the_fixed = 3.140625
+  the_cfixed = 33.333008+66.666016i
 For Fixed and CFixed declared using a typedef:
-  the_fixed20 = 3.14062
-  the_cfixed20 = 33.333+66.666i
+  the_fixed20 = 3.140625
+  the_cfixed20 = 33.333008+66.666016i
 For Fix and CFix declared using a factory:
-  the_fix20 = 3.14062
-  the_cfix20 = 33.333+66.666i
+  the_fix20 = 3.140625
+  the_cfix20 = 33.333008+66.666016i
 
 Testing Array/Vec/Mat declarations and operations
 =================================================
 For Vec<Fix> and Vec<CFix>:
-  the_fixvec = [3.14062 3.14062]
-  the_cfixvec = [33.333+66.666i 33.333+66.666i]
-  the_cfixvec + the_fixvec = [36.4736+66.666i 36.4736+66.666i]
-  the_cfixvec - the_fixvec = [30.1924+66.666i 30.1924+66.666i]
-  the_cfixvec * the_fixvec = 209.373+418.746i
+  the_fixvec = [3.140625 3.140625]
+  the_cfixvec = [33.333008+66.666016i 33.333008+66.666016i]
+  the_cfixvec + the_fixvec = [36.473633+66.666016i 36.473633+66.666016i]
+  the_cfixvec - the_fixvec = [30.192383+66.666016i 30.192383+66.666016i]
+  the_cfixvec * the_fixvec = 209.37296+418.74591i
   the_cfixvec / the_fix = [10+21i 10+21i]
 
 Testing functions

@@ -1,5 +1,10 @@
 2006-05-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/fix_test.cpp, tests/fix_test.ref, tests/llr_test.cpp,
+	tests/llr_test.ref, tests/window_test.cpp, tests/window_test.ref:
+	More "dirty" hacks added due to a floating-point rounding error
+	under MinGW compiler.
+
 	* doc/local/installation.doc, INSTALL: Updated documentation
 	according to the recent changes.
 
