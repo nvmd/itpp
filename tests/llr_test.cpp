@@ -30,8 +30,8 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/itbase.h>
 #include <itpp/itcomm.h>
+#include <iomanip>
 
 using namespace itpp;
 using namespace std;
@@ -39,6 +39,9 @@ using namespace std;
 
 int main()
 {
+  // This is a hack for improper rounding under MinGW
+  cout.precision(13);
+
   LLR_calc_unit lcu1; // standard table resolution
   LLR_calc_unit lcu2(10,7,9);  // low table resolution
   LLR_calc_unit lcu3(2,15,0);  // low table resolution and low LLR granuality 
@@ -49,7 +52,7 @@ int main()
   cout << lcu4 << endl;
 
   cout << "Testing Jacobian logarithm with four different resolutions." << endl;
-  for (double x=0.0; x<10; x+=0.1) {
+  for (double x = 0.0; x < 10; x += 0.1) {
     cout << "JacLog(" << x << ") = " 
 	 << lcu1.to_double(lcu1.logexp(lcu1.to_qllr(x))) << " ; " 
 	 << lcu2.to_double(lcu2.logexp(lcu2.to_qllr(x))) << " ; " 
@@ -60,20 +63,33 @@ int main()
 
   cout << "-------------------" << endl;
   cout << "Some special cases:" << endl;
-  cout << lcu1.to_double(lcu1.Boxplus(lcu1.to_qllr(100.0),lcu1.to_qllr(0.75))) << endl;
-  cout << lcu1.to_double(lcu1.Boxplus(lcu1.to_qllr(100.0),lcu1.to_qllr(-0.75))) << endl;
-  cout << lcu1.to_double(lcu1.Boxplus(lcu1.to_qllr(-100.0),lcu1.to_qllr(0.75))) << endl;
-  cout << lcu1.to_double(lcu1.Boxplus(lcu1.to_qllr(-100.0),lcu1.to_qllr(-0.75))) << endl;
+  cout << lcu1.to_double(lcu1.Boxplus(lcu1.to_qllr(100.0), lcu1.to_qllr(0.75))) 
+       << endl;
+  cout << lcu1.to_double(lcu1.Boxplus(lcu1.to_qllr(100.0), lcu1.to_qllr(-0.75)))
+       << endl;
+  cout << lcu1.to_double(lcu1.Boxplus(lcu1.to_qllr(-100.0), lcu1.to_qllr(0.75)))
+       << endl;
+  cout << lcu1.to_double(lcu1.Boxplus(lcu1.to_qllr(-100.0), lcu1.to_qllr(-0.75)))
+       << endl;
 
-  cout << lcu1.to_double(lcu1.Boxplus(lcu1.to_qllr(0.0),lcu1.to_qllr(0.75))) << endl;
-  cout << lcu1.to_double(lcu1.Boxplus(lcu1.to_qllr(0.0),lcu1.to_qllr(-0.75))) << endl;
+  cout << lcu1.to_double(lcu1.Boxplus(lcu1.to_qllr(0.0), lcu1.to_qllr(0.75)))
+       << endl;
+  cout << lcu1.to_double(lcu1.Boxplus(lcu1.to_qllr(0.0), lcu1.to_qllr(-0.75)))
+       << endl;
 
-  cout << lcu1.to_double(lcu1.Boxplus(lcu1.to_qllr(3.75),lcu1.to_qllr(-1.25))) << endl;
-  cout << lcu1.to_double(lcu1.Boxplus(lcu1.to_qllr(-1.25),lcu1.to_qllr(3.75))) << endl;
-  cout << lcu1.to_double(lcu1.Boxplus(lcu1.to_qllr(-3.75),lcu1.to_qllr(1.25))) << endl;
-  cout << lcu1.to_double(lcu1.Boxplus(lcu1.to_qllr(1.25),lcu1.to_qllr(-3.75))) << endl;
-  cout << lcu1.to_double(lcu1.Boxplus(lcu1.to_qllr(3.75),lcu1.to_qllr(1.25))) << endl;
-  cout << lcu1.to_double(lcu1.Boxplus(lcu1.to_qllr(1.25),lcu1.to_qllr(3.75))) << endl;
+  cout << lcu1.to_double(lcu1.Boxplus(lcu1.to_qllr(3.75), lcu1.to_qllr(-1.25)))
+       << endl;
+  cout << lcu1.to_double(lcu1.Boxplus(lcu1.to_qllr(-1.25), lcu1.to_qllr(3.75)))
+       << endl;
+  cout << lcu1.to_double(lcu1.Boxplus(lcu1.to_qllr(-3.75), lcu1.to_qllr(1.25)))
+       << endl;
+  cout << lcu1.to_double(lcu1.Boxplus(lcu1.to_qllr(1.25), lcu1.to_qllr(-3.75)))
+       << endl;
+  cout << lcu1.to_double(lcu1.Boxplus(lcu1.to_qllr(3.75), lcu1.to_qllr(1.25)))
+       << endl;
+  cout << lcu1.to_double(lcu1.Boxplus(lcu1.to_qllr(1.25), lcu1.to_qllr(3.75)))
+       << endl;
  
+  return 0;
 }
 
