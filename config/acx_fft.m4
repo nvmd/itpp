@@ -1,6 +1,6 @@
 dnl @synopsis ACX_FFT
 dnl @author Adam Piatyszek <ediap@users.sourceforge.net>
-dnl @version 2006-01-31
+dnl @version 2006-05-11
 dnl @license GPLWithACException
 dnl
 dnl This macro looks for some FFT implementation, e.g. FFTW3, MKL, ACML,
@@ -67,36 +67,12 @@ if test "x$acx_fft_ok" = xno; then
   LIBS="$save_LIBS"
 fi
 
-# FFT in MKL library?
-if test "x$acx_fft_ok" = xno; then
-  save_LIBS="$LIBS"; LIBS="$LIBS $FLIBS"
-  AC_CHECK_LIB(mkl, DftiComputeForward, [acx_fft_ok=yes], [], [-lguide])
-  if test $acx_fft_ok = yes; then
-    AC_CHECK_HEADER([mkl_dfti.h],
-      [fft_mkl8_ok=yes; blas_mkl_ok=yes; FFT_LIBS="-lmkl -lguide"], 
-      [acx_fft_ok=no])
-  fi
-  LIBS="$save_LIBS"
-fi
-
 # FFT in BLAS (ACML) library?
 if test "x$acx_fft_ok" = xno; then
   save_LIBS="$LIBS"; LIBS="$LIBS $BLAS_LIBS $FLIBS"
   AC_CHECK_FUNC(zfft1dx, [acx_fft_ok=yes])
   if test $acx_fft_ok = yes; then
     AC_CHECK_HEADER([acml.h], [fft_acml_ok=yes; blas_acml_ok=yes], 
-      [acx_fft_ok=no])
-  fi
-  LIBS="$save_LIBS"
-fi
-
-# FFT in ACML library?
-if test "x$acx_fft_ok" = xno; then
-  save_LIBS="$LIBS"; LIBS="$LIBS $FLIBS"
-  AC_CHECK_LIB(acml, zfft1dx, [acx_fft_ok=yes])
-  if test $acx_fft_ok = yes; then
-    AC_CHECK_HEADER([acml.h], 
-      [fft_acml_ok=yes; blas_acml_ok=yes; FFT_LIBS="-lacml"],
       [acx_fft_ok=no])
   fi
   LIBS="$save_LIBS"
@@ -118,6 +94,30 @@ if test "x$acx_fft_ok" = xno; then
     AC_CHECK_HEADER([fftw3.h], [fftw3_ok=yes; FFT_LIBS="-lfftw3 -lm"], 
       [acx_fft_ok=no])
   fi
+fi
+
+# FFT in MKL library?
+if test "x$acx_fft_ok" = xno; then
+  save_LIBS="$LIBS"; LIBS="$LIBS $FLIBS"
+  AC_CHECK_LIB(mkl, DftiComputeForward, [acx_fft_ok=yes], [], [-lguide])
+  if test $acx_fft_ok = yes; then
+    AC_CHECK_HEADER([mkl_dfti.h],
+      [fft_mkl8_ok=yes; blas_mkl_ok=yes; FFT_LIBS="-lmkl -lguide"], 
+      [acx_fft_ok=no])
+  fi
+  LIBS="$save_LIBS"
+fi
+
+# FFT in ACML library?
+if test "x$acx_fft_ok" = xno; then
+  save_LIBS="$LIBS"; LIBS="$LIBS $FLIBS"
+  AC_CHECK_LIB(acml, zfft1dx, [acx_fft_ok=yes])
+  if test $acx_fft_ok = yes; then
+    AC_CHECK_HEADER([acml.h], 
+      [fft_acml_ok=yes; blas_acml_ok=yes; FFT_LIBS="-lacml"],
+      [acx_fft_ok=no])
+  fi
+  LIBS="$save_LIBS"
 fi
 
 AC_SUBST(FFT_LIBS)

@@ -1,3 +1,8 @@
+2006-05-11  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* config/acx_fft.m4: Changed the order of checking for FFT
+	libraries.
+
 2006-05-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/source_test.cpp, tests/source_test.ref,
