@@ -9,37 +9,35 @@ on most other UNIX like systems like Solaris SunOS or Cygwin. It can be also
 built on Windows NT/2000/XP using Microsoft's Visual C++ .NET, but the
 support for this compiler is limited. For GNU/Linux, SunOS and Cygwin we
 assume that you have at least the following GNU software installed on your
-computer: 
+computer:
 
   o GNU make, version 3.72.1 or later (check version with `make --version')
-
-  o GCC - GNU Compilers Collection (gcc, g++ and g77), version 3.3.x or later
-    (check version with `gcc --version')
+  o GCC - GNU Compilers Collection (gcc, g++ and g77 or gfortran), version
+    3.3.x or later (check version with `gcc --version')
 
 Optionally, you might need a few additional programs, i.e. Doxygen, LaTeX,
 Dvips and Ghostscript, to generate the HTML documentation.
 
-We strongly recommend that you use the recent stable releases of the GCC,
-i.e. 4.0.2, 3.4.5 or 3.3.6, if possible. We do not actively work on
-supporting older versions of GCC, and they may therefore (without prior
-notice) become unsupported in future releases of IT++.
+We strongly recommend that you use recent stable releases of the GCC, if
+possible. We do not actively work on supporting older versions of the GCC,
+and they may therefore (without prior notice) become unsupported in future
+releases of IT++.
 
 In order to use all functionality provided by the IT++ library, it is
 recommended that you have some external libraries compiled and installed in
-your computer. The basic set of them is: BLAS, LAPACK and FFTW. To improve
-some vector based operations CBLAS is also recommended.
+your computer. The basic set of them is: BLAS, LAPACK and FFTW (version 3.0.0
+or later). To improve some vector based operations a C interface of BLAS,
+namely CBLAS, is also recommended.
 
-Instead of NetLib's reference BLAS and LAPACK implementations, some optimized
-platform-specific libraries can be used as well, i.e.:
+Instead of NetLib's reference BLAS, CBLAS and LAPACK implementations, some
+optimized platform-specific libraries can be used as well, i.e.:
 
   o ATLAS (Automatically Tuned Linear Algebra Software) - includes optimised
-    BLAS, CBLAS and a limited set of LAPACK routines
-
+    BLAS, CBLAS and a limited set of LAPACK routines (version 3.6.0 or later)
   o MKL (Intel Math Kernel Library) - includes all required BLAS, CBLAS,
-    LAPACK and FFT routines (FFTW not required)
-
-  o ACML (AMD Core Math Library) - includes BLAS, LAPACK and FFT routines
-    (FFTW not required)
+    LAPACK and FFT routines (version 8.0.0 or later; FFTW not required)
+  o ACML (AMD Core Math Library) - includes BLAS, CBLAS, LAPACK and FFT
+    routines (version 2.5.3 or later; FFTW not required)
 
 It is possible to compile and use IT++ without these libraries, but the
 functionality will be reduced. We therefore recommend that you take some time
@@ -55,20 +53,24 @@ IT++ is released under the GNU General Public License (GPL) and hence the
 source code of the IT++ library is available for free download. To obtain the
 IT++ source code, visit the IT++ project page on SourceForge:
 
-  o http://sourceforge.net/projects/itpp/
+  o http://itpp.sourceforge.net/
 
-and download the file named itpp-<VERSION>.tar.gz, where <VERSION> is the
-latest release number, e.g. 3.9.0.
+and download the file named itpp-<VERSION>.tar.gz or itpp-<VERSION>.tar.bz2,
+where <VERSION> is the latest release number, e.g. 3.9.0.
 
 
 IT++ Configuration, Compilation and Installation
 ================================================
 
 Assuming that you have already downloaded the latest IT++ sources, untar and
-gunzip the sources, and enter the unpacked directory:
+unpack the sources, and enter the unpacked directory. Depending on the
+package type you have downloaded, use the following commands:
 
-% gzip -cd itpp-<VERSION>.tar.gz | tar xvf -
-% cd itpp-<VERSION>
+  % gzip -cd itpp-<VERSION>.tar.gz | tar xf -
+  % cd itpp-<VERSION>
+
+  % bzip2 -cd itpp-<VERSION>.tar.bz2 | tar xf -
+  % cd itpp-<VERSION>
 
 Since version 3.9.0, the IT++ library uses Autoconf/Automake tools for
 configuration and Makefiles creation, so the compilation procedure resembles
@@ -84,19 +86,14 @@ The `configure' command can be invoked with additional switches and options
     value. By default it is set to `/usr/local', so `make install' will
     install appropriate files into `/usr/local/include', `/usr/local/lib`,
     etc.
-
   o `--enable-debug' - build an extra library named `libitpp_debug.*' using
     special debugging flags for compiler and linker (disabled by default)
-
   o `--enable-exceptions' - enable exceptions handling of run-time errors
     instead of aborting the program (disabled by default)
-
   o `--enable-html-doc' - generate and install the HTML documentation
     (enabled by default)
-
   o `--enable-shared' - build a shared version of the library (enabled by
-    default)
-
+    default for non Windows based platforms)
   o `--enable-static' - build a static version of the library (enabled by
     default)
 
@@ -110,18 +107,17 @@ procedure is as follows:
  1. First, the presence of a BLAS library among the MKL, ACML, ATLAS and
     NetLib's reference BLAS is checked. If one of the above mentioned can be
     used, HAVE_BLAS is defined.
-
  2. If the BLAS library can be found, the C interface of BLAS, namely CBLAS,
-    is detected. CBLAS is provided by default by MKL, ATLAS and NetLib's
-    reference CBLAS libraries. On success, HAVE_CBLAS is defined.
-
- 3. Next, some LAPACK library is searched, but only if the BLAS library is
+    is detected. The CBLAS is provided by default by the MKL, ATLAS and
+    NetLib's reference CBLAS libraries. The ACML has also a C interface of
+    BLAS, which can be used, but it is not compatible with the standard
+    CBLAS. On success, HAVE_CBLAS is defined.
+ 3. Next, some LAPACK library is searched, but only if a BLAS library is
     available. Full set of LAPACK routines can be found in the MKL, ACML and
-    NetLib's reference LAPACK libraries. Besides, ATLAS contains a subset of
-    optimised LAPACK routines, which can be used with NetLib's LAPACK library
-    (this is described in ATLAS documentation). If LAPACK can be found,
-    HAVE_LAPACK is defined.
-
+    NetLib's reference LAPACK libraries. Besides, the ATLAS contains a subset
+    of optimised LAPACK routines, which can be used with NetLib's LAPACK
+    library (this is described in the ATLAS documentation). If a LAPACK
+    library can be found, HAVE_LAPACK is defined.
  4. Finally, a set of separate checks for some FFT library is executed.
     Currently three different libraries providing FFT/IFFT routines can be
     used: MKL, ACML and FFTW. If at least one of them is found, HAVE_FFT id
@@ -207,6 +203,7 @@ Documentation tools:
 
 Testing tools:
   - diff ........... : yes
+  - sed ............ : yes
 
 External libs:
   - BLAS ........... : yes

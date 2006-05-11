@@ -1,5 +1,8 @@
 2006-05-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/local/installation.doc, INSTALL: Updated documentation
+	according to the recent changes.
+
 	* config/acx_fft.m4: Changed the order of checking for FFT
 	libraries.
 

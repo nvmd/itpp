@@ -31,31 +31,31 @@ Optionally, you might need a few additional programs, i.e.
 <a href="http://www.cs.wisc.edu/~ghost/">Ghostscript</a>, to generate the
 HTML documentation. 
 
-We strongly recommend that you use the recent stable releases of the GCC,
-i.e. 4.0.2, 3.4.5 or 3.3.6, if possible. We do not actively work on
-supporting older versions of GCC, and they may therefore (without prior
-notice) become unsupported in future releases of IT++.
+We strongly recommend that you use recent stable releases of the GCC, if
+possible. We do not actively work on supporting older versions of the GCC,
+and they may therefore (without prior notice) become unsupported in future
+releases of IT++.
 
 In order to use all functionality provided by the IT++ library, it is
 recommended that you have some external libraries compiled and installed in
 your computer. The basic set of them is: 
 <a href="http://www.netlib.org/blas/">BLAS</a>,
 <a href="http://www.netlib.org/lapack/">LAPACK</a> and
-<a href="http://www.fftw.org/">FFTW</a>. To improve some vector based
-operations <a href="http://www.netlib.org/blas/">CBLAS</a> is also
-recommended.
+<a href="http://www.fftw.org/">FFTW</a> (version 3.0.0 or later). To improve
+some vector based operations a C interface of BLAS, namely
+<a href="http://www.netlib.org/blas/">CBLAS</a>, is also recommended.
 
 Instead of NetLib's reference BLAS, CBLAS and LAPACK implementations, some
 optimized platform-specific libraries can be used as well, i.e.:
 - <a href="http://math-atlas.sourceforge.net/">ATLAS</a> (<em>Automatically
   Tuned Linear Algebra Software</em>) - includes optimised BLAS, CBLAS and a
-  limited set of LAPACK routines
+  limited set of LAPACK routines (version 3.6.0 or later)
 - <a href="http://www.intel.com/cd/software/products/asmo-na/eng/perflib/mkl/">MKL</a>  
   (<em>Intel Math Kernel Library</em>) - includes all required BLAS, CBLAS,
-  LAPACK and FFT routines (FFTW not required)
+  LAPACK and FFT routines (version 8.0.0 or later; FFTW not required)
 - <a href="http://developer.amd.com/acml.aspx">ACML</a> (<em>AMD Core Math
-  Library</em>) - includes BLAS, CBLAS, LAPACK and FFT routines (FFTW not
-  required)
+  Library</em>) - includes BLAS, CBLAS, LAPACK and FFT routines (version
+  2.5.3 or later; FFTW not required)
 
 It is possible to compile and use IT++ without these libraries, but the
 functionality will be reduced. We therefore recommend that you take some
@@ -69,8 +69,7 @@ most modern Linux distributions.
 IT++ is released under the GNU General Public License (GPL) and hence the
 source code of the IT++ library is available for free download. To obtain
 the IT++ source code, visit the IT++ project page on SourceForge:
-- <a href="http://sourceforge.net/projects/itpp/">
-http://sourceforge.net/projects/itpp/</a>
+- <a href="http://itpp.sourceforge.net/">http://itpp.sourceforge.net/</a>
 .
 and download the file named \c itpp-\<VERSION\>.tar.gz or 
 \c itpp-\<VERSION\>.tar.bz2, where \c \<VERSION\> is the latest release
@@ -116,7 +115,7 @@ most important are:
 - \c `--enable-html-doc' - generate and install the HTML documentation
   (enabled by default)
 - \c `--enable-shared' - build a shared version of the library (enabled by 
-  default)
+  default for non Windows based platforms)
 - \c `--enable-static' - build a static version of the library (enabled by
   default)
 .
@@ -240,6 +239,7 @@ Documentation tools:
 
 Testing tools:
   - diff ........... : yes
+  - sed ............ : yes
 
 External libs:
   - BLAS ........... : yes
