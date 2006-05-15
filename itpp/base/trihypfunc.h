@@ -33,6 +33,12 @@
 #ifndef TRIHYPFUNC_H
 #define TRIHYPFUNC_H
 
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
+
 #include <itpp/base/help_functions.h>
 
 
