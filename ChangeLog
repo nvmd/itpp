@@ -1,4 +1,10 @@
+==============================================================================
+
 2006-05-15  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* IT++ 3.10.2 released (SVN tag: release-3-10-2)
+
+	* NEWS: Updated to reflect recent changes.
 
 	* doc/local/index.doc.in, doc/local/installation.doc, INSTALL:
 	Updated according to the recent changes.
