@@ -36,33 +36,36 @@
 #include <itpp/base/help_functions.h>
 
 
-#if !defined(__GLIBC__) || __GLIBC__ < 2
-
 //! \addtogroup hypfunc
 //!@{
 
+#ifndef HAVE_ASINH
 //! Arcus sinhyp
 inline double asinh(double x) 
 {
   return ((x >= 0) ? log(x + sqrt(x * x + 1)) : -log( -x + sqrt(x * x + 1)));
 }
+#endif
 
+#ifndef HAVE_ACOSH
 //! Arcus coshyp
 inline double acosh(double x)
 {
   it_error_if(x < 1, "acosh(): Argument must be greater then 1.");
   return log(x + sqrt(x * x - 1.0));
 }
+#endif
 
+#ifndef HAVE_ATANH
 //! Arcus tanhyp
 inline double atanh(double x)
 {
   it_error_if(fabs(x) >= 1,"atanh(): Argument out of range.");
   return 0.5 * log((x + 1) / (x - 1));
 }
-//!@}
-
 #endif
+
+//!@}
 
 
 namespace itpp {

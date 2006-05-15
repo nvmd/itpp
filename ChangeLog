@@ -1,5 +1,8 @@
 2006-05-15  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac, itpp/base/trihypfunc.h: Added checks for acosh(),
+	asinh() and atanh() functions.
+
 	* itpp/base/elmatfunc.cpp, itpp/base/elmatfunc.h: Finally fixed
 	the declaration of `signgam' and definition and lgamma() function.
 	This should solve problems on systems where lgamma() does not set
