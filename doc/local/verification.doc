@@ -16,6 +16,8 @@
   - \ref windows
     - \ref cygwin
     - \ref cygwin_atlas
+    - \ref cygwin_acml
+    - \ref mingw_acml
   - \ref unix
     - \ref sunos59
 - \ref itpp_3_9_1
@@ -232,7 +234,7 @@ mentioned below, please let us know, so we could update this database.
 - <b>Tests Status</b>: All tests PASSED
 - <b>Comments</b>: Only static library can be built. IT++ configured with:
 \code
-% ./configure --disable-shared
+% ./configure
 \endcode
 - <b>Date</b>: March 31, 2006
 - <b>Tester</b>: Adam Piatyszek (ediap)
@@ -257,9 +259,49 @@ mentioned below, please let us know, so we could update this database.
 - <b>Comments</b>: Only static library can be built. IT++ configured with:
 \code
 % export LDFLAGS="-L/usr/local/lib"
-% ./configure --disable-shared
+% ./configure
 \endcode
 - <b>Date</b>: March 31, 2006
+- <b>Tester</b>: Adam Piatyszek (ediap)
+
+
+\subsubsection cygwin_acml Microsoft Windows XP with Cygwin and ACML
+
+- <b>Platform</b>: AMD Sempron 3000+
+- <b>Operating System</b>: Microsoft Windows XP SP2, Cygwin 1.5.19-4
+- <b>Compiler(s)</b>: g++ (GCC) 3.4.4 (cygming special)
+- <b>IT++ release</b>: 3.10.2
+- <b>External Libraries</b>:  ACML version 3.1.0 
+  (<tt>acml3.1.0-32-win32-g77.exe</tt>) installed into a default directory, 
+  i.e. <tt>"c:\Program Files\AMD\acml3.1.0"</tt>
+- <b>Tests Status</b>: All tests PASSED
+- <b>Comments</b>: Only static library can be built. IT++ configured with:
+\code
+% export LDFLAGS="-L/cygdrive/c/Progra~1/AMD/acml3.1.0/gnu32/lib"
+% export CPPFLAGS="-I/cygdrive/c/Progra~1/AMD/acml3.1.0/gnu32/include"
+% ./configure --enable-debug
+\endcode
+- <b>Date</b>: May 15, 2006
+- <b>Tester</b>: Adam Piatyszek (ediap)
+
+
+\subsubsection mingw_acml Microsoft Windows XP with MinGW, MSYS and ACML
+
+- <b>Platform</b>: AMD Sempron 3000+
+- <b>Operating System</b>: Microsoft Windows XP SP2, MinGW 5.0.2, MSYS 1.0.10
+- <b>Compiler(s)</b>: g++ (GCC) 3.4.4 (mingw special)
+- <b>IT++ release</b>: 3.10.2
+- <b>External Libraries</b>: ACML version 3.1.0 
+  (<tt>acml3.1.0-32-win32-g77.exe</tt>) installed into a default directory, 
+  i.e. <tt>"c:\Program Files\AMD\acml3.1.0"</tt>
+- <b>Tests Status</b>: All tests PASSED
+- <b>Comments</b>: Only static library can be built. IT++ configured with:
+\code
+% export LDFLAGS="-L/c/Progra~1/AMD/acml3.1.0/gnu32/lib"
+% export CPPFLAGS="-I/c/Progra~1/AMD/acml3.1.0/gnu32/include"
+% ./configure --enable-debug
+\endcode
+- <b>Date</b>: May 15, 2006
 - <b>Tester</b>: Adam Piatyszek (ediap)
 
 
@@ -270,12 +312,12 @@ mentioned below, please let us know, so we could update this database.
 - <b>Platform</b>: SUNW, Sun-Blade-100 (SPARC)
 - <b>Operating System</b>: SunOS 5.9 Generic_112233-10
 - <b>Compiler(s)</b>: g++ (GCC) 3.4.5
-- <b>IT++ release</b>: 3.10.1
+- <b>IT++ release</b>: 3.10.2
 - <b>External Libraries</b>: BLAS, CBLAS, LAPACK and FFTW libraries from
   IT++ External 2.1.1 package. The following configuration command has been
   used:
 \code
-% export CFLAGS="-mcpu=ultrasparc -O3 -pipe -funroll-all-loops"
+% export CFLAGS="-mcpu=ultrasparc -O2 -pipe -funroll-all-loops"
 % ./configure
 \endcode
 - <b>Tests Status</b>: All tests PASSED
@@ -283,13 +325,14 @@ mentioned below, please let us know, so we could update this database.
 \code
 % export LDFLAGS="-L/usr/local/lib"
 % export CPPFLAGS="-I/usr/local/include"
-% export CXXFLAGS="-mcpu=ultrasparc -O3 -pipe"
+% export CXXFLAGS="-mcpu=ultrasparc -O2 -pipe"
 % ./configure --enable-debug
 \endcode
-- <b>Date</b>: April 4, 2006
+- <b>Date</b>: May 15, 2006
 - <b>Tester</b>: Adam Piatyszek (ediap)
 
 */
+
 
 /*!
 \page verification_old IT++ Supported Systems (Previous Releases)
