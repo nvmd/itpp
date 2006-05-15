@@ -1,5 +1,10 @@
 2006-05-15  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/local/authors.doc: Cosmetic changes.
+
+	* doc/local/verification.doc: Updated to reflect recent tests
+	under Windows (Cygwin and MinGW with ACML).
+
 	* configure.ac, itpp/base/trihypfunc.h: Added checks for acosh(),
 	asinh() and atanh() functions.
 

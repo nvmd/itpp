@@ -5,8 +5,8 @@
 \section admins Project Admins
 
 - Tony Ottosson <tonyottosson@users.sourceforge.net>
-- Adam Piątyszek <ediap@users.sourceforge.net> 
-  [<a href="http://ediap.prv.pl/">www</a>]
+- <a href="http://ediap.prv.pl/">Adam Piątyszek</a>
+  <ediap@users.sourceforge.net> 
   - author and maintainer of the configuration and installation scripts
     based on GNU autoconf, automake and libtool packages
   - release manager, forums and news admin, and HTML pages maintainer at
