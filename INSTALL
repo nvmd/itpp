@@ -4,17 +4,19 @@ IT++ Installation
 IT++ Requirements
 =================
 
-IT++ should compile without errors or warnings on most GNU/Linux systems and
-on most other UNIX like systems like Solaris SunOS or Cygwin. It can be also
-built on Windows NT/2000/XP using Microsoft's Visual C++ .NET, but the
-support for this compiler is limited. For GNU/Linux, SunOS and Cygwin we
-assume that you have at least the following GNU software installed on your
+IT++ should compile without errors or warnings on most GNU/Linux systems, on
+UNIX systems like Solaris SunOS, and on POSIX based environments for
+Microsoft Windows like Cygwin or MinGW with MSYS. It can be also built on
+Microsoft Windows NT/2000/XP using Microsoft's Visual C++ .NET, but our
+support for this compiler is limited. For GNU/Linux, SunOS, Cygwin and MinGW
+we assume that you have at least the following GNU software installed on your
 computer:
 
   o GNU make, version 3.72.1 or later (check version with `make --version')
   o GCC - GNU Compilers Collection (gcc, g++ and g77 or gfortran), version
     3.3.x or later (check version with `gcc --version')
 
+To perform tests, two command line programs: sed and diff are required.
 Optionally, you might need a few additional programs, i.e. Doxygen, LaTeX,
 Dvips and Ghostscript, to generate the HTML documentation.
 
