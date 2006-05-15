@@ -1,4 +1,45 @@
 ===============================================================================
+IT++ version 3.10.2                                        Released: 2006-05-15
+-------------------------------------------------------------------------------
+
+This is a bug-fix release. Therefore, no new features have been added
+since release 3.10.1. Only minor modifications and bug-fixes have been done.
+
+Bug-fixes:
+----------
+
+* Fixed gettimeofday() function definition for Windows based platforms
+  (MinGW, MSVC++). No need for MINGW definition any more.
+
+* Added checks for `acosh', `asinh', `atanh', `lgamma' and `tgamma'
+  functions, and `signgam' declaration. This solves problems on some
+  platforms where these declaration and/or functions are not available.
+
+* Fixed a problem with different line endings on Windows based platforms.
+  Now, sed program is necessary for performing tests.
+  
+* Fixed bug [1483125]. Now a complex dot product is properly returned by a
+  `dot' function when using ACML blas libraries. Thanks to Danilo Zanatta
+  for reporting this bug.
+
+* Fixed bug [1480535]. Now needed_bits() returns a proper number of bits
+  required to represent integer `n', e.g. "needed_bits(0) = 1",
+  "needed_bits(7) = 3", "needed_bits(8) = 4".
+
+* Fixed a small bug related to missing #include statement and cleaned up the
+  code of `itpp/itmex.h'.
+
+* Fixed a bug in the `==' operator in `itpp/base/svec.h'. Thanks to Mattias
+  Andersson for discovering the bug.
+
+* Fixed bug [1469860]. Now fir1() declaration matches its definition. Thanks
+  to Jordy Potman for reporting this bug.
+
+* A few other minor bug-fixes. For a full list of them, please check the
+  ChangeLog file. 
+
+
+===============================================================================
 IT++ version 3.10.1                                        Released: 2006-04-11
 -------------------------------------------------------------------------------
 
