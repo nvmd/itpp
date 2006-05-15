@@ -168,7 +168,10 @@ fi
 
 
 # Checks for functions
-AC_CHECK_FUNCS([cbrt \
+AC_CHECK_FUNCS([asinh \
+  acosh \
+  atanh \
+  cbrt \
   lgamma \
   tgamma])
 
