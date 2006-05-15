@@ -33,18 +33,10 @@
 #ifndef ELMATFUNC_H
 #define ELMATFUNC_H
 
-#ifndef _MSC_VER
-#  include <itpp/config.h>
-#else
-#  include <itpp/config_msvc.h>
-#endif
-
 #include <itpp/base/help_functions.h>
 #include <itpp/base/converters.h>
 #include <cmath>
 
-
-// These functions are part of C99.
 
 //!\addtogroup miscfunc
 //!@{
@@ -87,8 +79,6 @@ namespace itpp {
 
   // -------------------- abs function --------------------
 
-//  //! Absolute value
-//  inline signed char abs(signed char x) { return (x >= 0 ? x : -x); }
   //! Absolute value
   inline short abs(short x) { return (x >= 0 ? x : -x); }
   //! Absolute value
@@ -140,16 +130,7 @@ namespace itpp {
   // -------------------- gamma function --------------------
 
   //! Gamma function
-  inline double gamma(double x) 
-  { 
-#if !defined(HAVE_TGAMMA) && defined(HAVE_LGAMMA)
-    // lgamma() needs to be executed before, since it sets signgam
-    double lg = lgamma(x);
-    return signgam * std::exp(lg);
-#else
-    return tgamma(x);
-#endif
-  }
+  inline double gamma(double x) { return tgamma(x); }
   //! The gamma function
   inline vec gamma(const vec &x) { return apply_function<double>(gamma, x); }
   //! The gamma function

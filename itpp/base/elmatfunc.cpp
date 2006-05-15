@@ -32,10 +32,10 @@
 
 #include <itpp/base/elmatfunc.h>
 
-
-// This global variable is normally declared in <cmath>, but not always
-#if (HAVE_DECL_SIGNGAM != 1)
-int signgam;
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
 #endif
 
 #ifndef HAVE_TGAMMA
@@ -53,7 +53,12 @@ double tgamma(double x)
 }
 #endif
 
-#ifndef HAVE_LGAMMA
+#if !defined(HAVE_LGAMMA) || (HAVE_DECL_SIGNGAM != 1)
+// The sign of the Gamma function is returned in the external integer
+// signgam declared in <math.h>. It is 1 when the Gamma function is positive
+// or zero, -1 when it is negative. However, MinGW definition of lgamma()
+// function does not use the global signgam variable.
+int signgam;
 // Logarithm of an absolute value of gamma function 
 double lgamma(double x)
 {
