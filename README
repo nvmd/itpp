@@ -34,5 +34,6 @@ While departments come and go, IT++ have developed a life of its' own and is
 now released under the terms of the GNU General Public License (GPL) for you
 to enjoy.
 
-IT++ should work on GNU/Linux, Sun Solaris, Microsoft Windows (with Cygwin or
-Microsoft Visual C++ .NET) and Mac OS X (more testers needed).
+IT++ should work on GNU/Linux, Sun Solaris, Microsoft Windows (with Cygwin,
+MinGW/MSYS, or Microsoft Visual C++ .NET) and Mac OS X (more testers needed)
+operating systems.
