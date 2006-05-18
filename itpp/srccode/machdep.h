@@ -79,20 +79,20 @@ namespace itpp {
   inline void  little_endian(it_s8 x, it_s8 &y) { y = x; }
   inline void  little_endian(it_u8 x, it_u8 &y) { y = x; }
 
-  //Determine the endianity (Little or Big):
-#if defined(sparc)
-#define __LITTLE_ENDIAN__
-#elif defined(i386) || defined(_M_IX86) || defined(__x86_64__) || defined(alpha) || defined(vms)
-#define __BIG_ENDIAN__
+  // Determine the endianity (Little or Big):
+#if defined(__sparc__)
+#  define __BIG_ENDIAN__
+#elif defined(__i386__) || defined(_M_IX86) || defined(__x86_64__) || defined(__alpha__)
+#  define __LITTLE_ENDIAN__
+#else
+#  error "Could not determine endianity!!!"
 #endif
 
-#if defined(__LITTLE_ENDIAN__)
+#if defined(__BIG_ENDIAN__)
 
   //------------------------------------------------------
-  // Little Endian
+  // big-endian system
   //------------------------------------------------------
-
-#define IT_ENDIANITY 1234
 
   inline it_s16 big_endian(it_s16 x) { return x; }
   inline it_u16 big_endian(it_u16 x) { return x; }
@@ -122,8 +122,8 @@ namespace itpp {
   inline void little_endian(it_f32 x, it_f32 &y) { REV_4(&x,&y); }
   inline void little_endian(it_f64 x, it_f64 &y) { REV_8(&x,&y); }
 
-  //Additions for some 64 bit architechtures
-#if defined(sparc)
+  // Additions for some 64 bit architechtures
+#if defined(__arch64__) || defined(__sparcv9)
   typedef signed long        it_s64;
   typedef unsigned long      it_u64;
   inline it_s64 big_endian(it_s64 x) { return x; }
@@ -136,13 +136,11 @@ namespace itpp {
   inline void little_endian(it_u64 x, it_u64 &y) { REV_4(&x,&y); }
 #endif
 
-#elif defined(__BIG_ENDIAN__)
+#elif defined(__LITTLE_ENDIAN__)
 
   //------------------------------------------------------
   // Big Endian
   //------------------------------------------------------
-
-#define IT_ENDIANITY 4321
 
   //32 bit architechures (default)
   inline it_s16 big_endian(it_s16 x) { it_s16 y; REV_2(&x,&y); return y; }
@@ -173,8 +171,8 @@ namespace itpp {
   inline void little_endian(it_f32 x, it_f32 &y) { y = x; }
   inline void little_endian(it_f64 x, it_f64 &y) { y = x; }
 
-  //Additions for some 64 bit architechtures
-#if defined(alpha) || defined(__x86_64__)
+  // Additions for some 64 bit architechtures
+#if defined(__x86_64__) || defined(__alpha__)
   typedef signed long        it_s64;
   typedef unsigned long      it_u64;
   inline it_s64 big_endian(it_s64 x) { it_s64 y; REV_4(&x,&y); return y; }
@@ -187,19 +185,14 @@ namespace itpp {
   inline void little_endian(it_u64 x, it_u64 &y) { y = x; }
 #endif
 
-#else
-
-#error "Could not determine endianity!!!"
-
-#endif 
+#endif // #if defined(__BIG_ENDIAN__)
 
 #undef REV_2
 #undef REV_4
 #undef REV_8
 
-#endif //DOXYGEN_SHOULD_SKIP_THIS
+#endif // DOXYGEN_SHOULD_SKIP_THIS
 
 } // namespace itpp
 
 #endif // #ifndef MACHDEP_H
-
