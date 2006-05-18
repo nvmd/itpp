@@ -18,6 +18,7 @@
     - \ref cygwin_atlas
     - \ref cygwin_acml
     - \ref mingw_acml
+    - \ref mingw_netlib
   - \ref unix
     - \ref sunos59
 - \ref itpp_3_9_1
@@ -302,6 +303,25 @@ mentioned below, please let us know, so we could update this database.
 % ./configure --enable-debug
 \endcode
 - <b>Date</b>: May 15, 2006
+- <b>Tester</b>: Adam Piatyszek (ediap)
+
+
+\subsubsection mingw_netlib Microsoft Windows XP with MinGW, MSYS and IT++ External
+
+- <b>Platform</b>: AMD Sempron 3000+
+- <b>Operating System</b>: Microsoft Windows XP SP2, MinGW 5.0.2, MSYS 1.0.10
+- <b>Compiler(s)</b>: g++ (GCC) 3.4.4 (mingw special)
+- <b>IT++ release</b>: 3.10.2
+- <b>External Libraries</b>: BLAS, CBLAS, LAPACK and FFTW libraries from
+  IT++ External 2.2.0 package.
+- <b>Tests Status</b>: All tests PASSED
+- <b>Comments</b>: Only static library can be built. IT++ configured with:
+\code
+% export LDFLAGS="-L/usr/local/lib"
+% export CPPFLAGS="-I/usr/local/include"
+% ./configure --enable-debug
+\endcode
+- <b>Date</b>: May 16, 2006
 - <b>Tester</b>: Adam Piatyszek (ediap)
 
 
