@@ -1,11 +1,11 @@
 2006-05-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/sources.mk, itpp/srccode/audiofile.cpp,
-	itpp/srccode/machdep.h, itpp/srccode/sources.mk: Moved `machdep.h'
-	into `itpp/srccode', since it is only included in `audiofile.cpp'.
-	Cleaned up the `machdep.h' code, by the way.
+	itpp/srccode/machdep.h, itpp/srccode/sources.mk:
+	Moved `machdep.h' into `itpp/srccode', since it is only included
+	in `audiofile.cpp'. Cleaned up the `machdep.h' code, by the way.
 
-	*  itpp/base/binfile.cpp, itpp/base/binfile.h,
+	* itpp/base/binfile.cpp, itpp/base/binfile.h,
 	itpp/base/itfile.cpp, itpp/base/itfile.h, itpp/base/itmisc.cpp,
 	itpp/base/itmisc.h, itpp/itbase.h: 
 	Changed the method of detecting the endianness of a system -
