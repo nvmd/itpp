@@ -41,8 +41,8 @@
 #endif
 
 #include <itpp/srccode/audiofile.h>
-#include <itpp/base/machdep.h>
 #include <itpp/base/converters.h>
+#include <itpp/srccode/machdep.h>
 #include <iostream>
 
 

@@ -25,7 +25,6 @@ h_base_sources = \
 	$(top_srcdir)/itpp/base/logexpfunc.h \
 	$(top_srcdir)/itpp/base/ls_solve.h \
 	$(top_srcdir)/itpp/base/lu.h \
-	$(top_srcdir)/itpp/base/machdep.h \
 	$(top_srcdir)/itpp/base/matfunc.h \
 	$(top_srcdir)/itpp/base/mat.h \
 	$(top_srcdir)/itpp/base/operators.h \
