@@ -1,5 +1,11 @@
 2006-05-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	*  itpp/base/binfile.cpp, itpp/base/binfile.h,
+	itpp/base/itfile.cpp, itpp/base/itfile.h, itpp/base/itmisc.cpp,
+	itpp/base/itmisc.h, itpp/itbase.h: 
+	Changed the method of detecting the endianness of a system -
+	`itpp/base/machdep.h' is not used any more in the base module.
+
 	* doc/local/verification.doc: Updated to reflect recent tests
 	under Windows (MinGW with IT++ External).
 

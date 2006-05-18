@@ -139,12 +139,12 @@ namespace itpp {
   long gcd(long a, long b);
 
 
-  /*!
-   * \brief Return IT++ version
-   *
-   * Returns the version number of the IT++ library, e.g. "3.7.1".
-   */
+  //! Returns IT++ library version number, e.g. "3.7.1".
   std::string itpp_version(void);
+
+
+  //! Returns machine endianness: big-endian = true; little-endian = false
+  bool check_big_endianness();
 
   //!@}
 

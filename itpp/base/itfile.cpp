@@ -517,7 +517,7 @@ namespace itpp {
     s << file_version;
   }
 
-  void it_file::write_data_header(const std::string &type, it_u32 size)
+  void it_file::write_data_header(const std::string &type, unsigned int size)
   {
     if (next_name == "")
       it_error("Try to write without a name");
@@ -525,7 +525,8 @@ namespace itpp {
     next_name = "";
   }
 
-  void it_file::write_data_header(const std::string &type, const std::string &name, it_u32 size)
+  void it_file::write_data_header(const std::string &type, 
+				  const std::string &name, unsigned int size)
   {
     data_header h1, h2;
     std::streampos p;

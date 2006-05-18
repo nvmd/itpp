@@ -36,7 +36,6 @@
 #include <itpp/base/vec.h>
 #include <itpp/base/array.h>
 #include <itpp/base/binfile.h>
-#include <itpp/base/machdep.h>
 
 
 namespace itpp {
@@ -87,7 +86,7 @@ namespace itpp {
       //! 0=little, 1=big
       char endianity;
       //! size variables
-      it_u32 hdr_bytes, data_bytes, block_bytes;
+      unsigned int hdr_bytes, data_bytes, block_bytes;
       //! type=="" means deleted
       std::string name, type;
     };
@@ -263,9 +262,10 @@ namespace itpp {
     //!Write the header for the \c it_file
     void write_file_header();
     //!Write the data header for a variable, specifying the type and size of the data to follow.
-    void write_data_header(const std::string &type, it_u32 size);
+    void write_data_header(const std::string &type, unsigned int size);
     //!Write the data header for a variable, specifying the type, name, and size of the data to follow.
-    void write_data_header(const std::string &type, const std::string &name, it_u32 size);
+    void write_data_header(const std::string &type, const std::string &name,
+			   unsigned int size);
     //!Write a binary value at the current file pointer position
     void low_level_write(bin x);
     //!Write a short value at the current file pointer position
