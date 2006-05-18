@@ -83,7 +83,6 @@
 #include <itpp/base/logexpfunc.h>
 #include <itpp/base/ls_solve.h>
 #include <itpp/base/lu.h>
-#include <itpp/base/machdep.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/base/newton_search.h>

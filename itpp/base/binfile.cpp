@@ -27,6 +27,7 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  *
+ * -------------------------------------------------------------------------
  */
 
 #ifndef _MSC_VER
@@ -40,7 +41,7 @@
 #endif
 
 #include <itpp/base/binfile.h>
-#include <itpp/base/machdep.h>
+#include <itpp/base/itmisc.h>
 
 
 using std::string;
@@ -65,8 +66,9 @@ namespace itpp {
   bfstream_base::bfstream_base(endian e)
   {
     endianity = e;
-    native_endianity = (big_endian((short)0x1234) == (short)0x1234)
-      ? b_endian : l_endian;
+    native_endianity = (check_big_endianness() ? b_endian : l_endian);
+    //      (big_endian((short)0x1234) == (short)0x1234)
+    //      ? b_endian : l_endian;
   }
 
   //-----------------------------------------------------------------------
