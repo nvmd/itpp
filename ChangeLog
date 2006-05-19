@@ -1,5 +1,7 @@
 2006-05-19  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/timer_test.cpp: Minor fix to avoid a hazard in timing test.
+
 	* configure.ac, itpp/base/binfile.cpp, itpp/config_msvc.h:
 	Removed checks for <sys/stat.h>. Now using iostream based method
 	for checking if a file exists.
