@@ -1,3 +1,11 @@
+2006-05-19  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/srccode/audiofile.cpp, itpp/srccode/audiofile.h,
+	itpp/srccode/sources.mk:
+	Added templated read_endian and write_endian functions, which
+	replaced the old macro based read/write ones. Finally removed
+	`machdep.h', because endianness is now handled run-time.
+
 2006-05-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/sources.mk, itpp/srccode/audiofile.cpp,

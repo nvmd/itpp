@@ -1,7 +1,7 @@
 /*!
  * \file 
  * \brief Implementation of audio Audio classes and functions
- * \author Tobias Ringstrom
+ * \author Tobias Ringstrom and Adam Piatyszek
  *
  * $Date$
  * $Revision$
@@ -13,7 +13,7 @@
  *
  * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
  *
- * This program is free software; you can redistribute it and/or modify
+ * This program is free software; you can redistribute it and/or modfy
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation; either version 2 of the License, or
  * (at your option) any later version.
@@ -30,19 +30,8 @@
  * -------------------------------------------------------------------------
  */
 
-#ifndef _MSC_VER
-#  include <itpp/config.h>
-#else
-#  include <itpp/config_msvc.h>
-#endif
-
-#ifdef HAVE_SYS_STAT_H
-#  include <sys/stat.h>
-#endif
-
 #include <itpp/srccode/audiofile.h>
 #include <itpp/base/converters.h>
-#include <itpp/srccode/machdep.h>
 #include <iostream>
 
 
@@ -57,6 +46,8 @@ namespace itpp {
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
 #define SND_MAGIC    0x2e736e64
+
+#endif // #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   inline static short double_to_short(double x)
   {
@@ -78,54 +69,38 @@ namespace itpp {
       return round_i(x);
   }
 
-#define MK_RW_FUNS(type,namestub)					\
-  inline static type read_##namestub(istream &s)			\
-  { type v; s.read(reinterpret_cast<char *>(&v), sizeof(type)); return v; } \
-    inline static void write_##namestub(ostream &s, type v)		\
-    { s.write(reinterpret_cast<char *>(&v), sizeof(type)); }
-
-#endif /* DOXYGEN_SHOULD_SKIP_THIS */
-
-  MK_RW_FUNS(signed char,char)
-    MK_RW_FUNS(short,short)
-    MK_RW_FUNS(int,int)
-    MK_RW_FUNS(unsigned,unsigned)
-    MK_RW_FUNS(float,float)
-    MK_RW_FUNS(double,double)
-
-    bool raw16le_read(const char *fname, vec &v)
+  bool raw16le_read(const char *fname, vec &v)
   {
     ifstream file(fname, ios::in | ios::binary);
-    int n, i;
-
-#ifdef HAVE_SYS_STAT_H
-    struct stat st;
-    if (stat(fname, &st) == -1)
-      return false;
-#endif
-
-    n = st.st_size / 2; // short vs. byte
-    v.set_size(n, false);
-    for (i=0; i<n; i++)
-      v(i) = little_endian(read_short(file)) / 32768.0;
     if (!file)
       return false;
-	
+
+    // Check size of a file
+    file.seekg(0, ios::end);
+    int size = file.tellg();
+    file.seekg(0, ios::beg);
+
+    bool switch_endian = check_big_endianness(); // if BIG_ENDIAN than switch
+    int n = size / 2; // short vs. byte
+    v.set_size(n, false);
+    for (int i = 0; i < n; i++)
+      v(i) = read_endian<short>(file, switch_endian) / 32768.0;
+    
     return true;
   }
 
   bool raw16le_read(const char *fname, vec &v, int beg, int len)
   {
+    it_assert1(len >= 0, "raw16le_read()");
     ifstream file(fname, ios::in | ios::binary);
-    int i;
-
-    it_assert1(len >= 0, "raw16_read()");
-    v.set_size(len, false);
-    file.seekg(2 * beg);
-    for (i=0; i<len; i++)
-      v(i) = little_endian(read_short(file)) / 32768.0;
     if (!file)
       return false;
+
+    bool switch_endian = check_big_endianness(); // if BIG_ENDIAN than switch
+    v.set_size(len, false);
+    file.seekg(2 * beg);
+    for (int i = 0; i < len; i++)
+      v(i) = read_endian<short>(file, switch_endian) / 32768.0;
 	
     return true;
   }
@@ -133,47 +108,48 @@ namespace itpp {
   bool raw16le_write(const char *fname, const vec &v, bool append)
   {
     ofstream file(fname, (append ? ios::app | ios::ate : ios::out | ios::trunc) | ios::binary);
-    int i;
-
-    for (i=0; i<v.size(); i++)
-      write_short(file, little_endian(double_to_short(v(i) * 32768.0)));
     if (!file)
       return false;
-	
+
+    bool switch_endian = check_big_endianness(); // if BIG_ENDIAN than switch
+    for (int i = 0; i < v.size(); i++)
+      write_endian<short>(file, double_to_short(v(i) * 32768.0), switch_endian);
+    
     return true;
   }
 
   bool raw16be_read(const char *fname, vec &v)
   {
     ifstream file(fname, ios::in | ios::binary);
-    struct stat st;
-    int n, i;
-
-    if (stat(fname, &st) == -1)
-      return false;
-
-    n = st.st_size / 2; // short vs. byte
-    v.set_size(n, false);
-    for (i=0; i<n; i++)
-      v(i) = big_endian(read_short(file)) / 32768.0;
     if (!file)
       return false;
-	
+
+    // Check size of a file
+    file.seekg(0, ios::end);
+    int size = file.tellg();
+    file.seekg(0, ios::beg);
+
+    bool switch_endian = !check_big_endianness(); // if LITTLE_ENDIAN than switch
+    int n = size / 2; // short vs. byte
+    v.set_size(n, false);
+    for (int i = 0; i < n; i++)
+      v(i) = read_endian<short>(file, switch_endian) / 32768.0;
+    
     return true;
   }
 
   bool raw16be_read(const char *fname, vec &v, int beg, int len)
   {
+    it_assert1(len >= 0, "raw16le_read()");
     ifstream file(fname, ios::in | ios::binary);
-    int i;
-
-    it_assert1(len >= 0, "raw16_read()");
-    v.set_size(len, false);
-    file.seekg(2 * beg);
-    for (i=0; i<len; i++)
-      v(i) = big_endian(read_short(file)) / 32768.0;
     if (!file)
       return false;
+
+    bool switch_endian = !check_big_endianness(); // if LITTLE_ENDIAN than switch
+    v.set_size(len, false);
+    file.seekg(2 * beg);
+    for (int i = 0; i < len; i++)
+      v(i) = read_endian<short>(file, switch_endian) / 32768.0;
 	
     return true;
   }
@@ -181,12 +157,12 @@ namespace itpp {
   bool raw16be_write(const char *fname, const vec &v, bool append)
   {
     ofstream file(fname, (append ? ios::app | ios::ate : ios::out | ios::trunc) | ios::binary);
-    int i;
-
-    for (i=0; i<v.size(); i++)
-      write_short(file, big_endian(double_to_short(v(i) * 32768.0)));
     if (!file)
       return false;
+
+    bool switch_endian = !check_big_endianness(); // if LITTLE_ENDIAN than switch
+    for (int i = 0; i < v.size(); i++)
+      write_endian<short>(file, double_to_short(v(i) * 32768.0), switch_endian);
 	
     return true;
   }
@@ -223,13 +199,14 @@ namespace itpp {
 
   bool SND_Format::read_header(std::istream &f)
   {
+    bool switch_endian = !check_big_endianness(); // if LITTLE_ENDIAN than switch
     f.seekg(0);
-    header.magic = big_endian(read_unsigned(f));
-    header.hdr_size = big_endian(read_unsigned(f));
-    header.data_size = big_endian(read_unsigned(f));
-    header.encoding = big_endian(read_unsigned(f));
-    header.sample_rate = big_endian(read_unsigned(f));
-    header.channels = big_endian(read_unsigned(f));
+    header.magic = read_endian<unsigned int>(f, switch_endian);
+    header.hdr_size = read_endian<unsigned int>(f, switch_endian);
+    header.data_size = read_endian<unsigned int>(f, switch_endian);
+    header.encoding = read_endian<unsigned int>(f, switch_endian);
+    header.sample_rate = read_endian<unsigned int>(f, switch_endian);
+    header.channels = read_endian<unsigned int>(f, switch_endian);
     f.read(header.info, SND_INFO_LEN);
     if (!f || header.magic != SND_MAGIC) {
       std::cerr << header.magic << " != " << SND_MAGIC << std::endl;
@@ -248,12 +225,13 @@ namespace itpp {
     header.hdr_size = sizeof(header);
     memset(header.info, 0, SND_INFO_LEN);
 
-    write_unsigned(f, big_endian(header.magic));
-    write_unsigned(f, big_endian(header.hdr_size));
-    write_unsigned(f, big_endian(header.data_size));
-    write_unsigned(f, big_endian(header.encoding));
-    write_unsigned(f, big_endian(header.sample_rate));
-    write_unsigned(f, big_endian(header.channels));
+    bool switch_endian = !check_big_endianness(); // if LITTLE_ENDIAN than switch
+    write_endian<unsigned int>(f, header.magic, switch_endian);
+    write_endian<unsigned int>(f, header.hdr_size, switch_endian);
+    write_endian<unsigned int>(f, header.data_size, switch_endian);
+    write_endian<unsigned int>(f, header.encoding, switch_endian);
+    write_endian<unsigned int>(f, header.sample_rate, switch_endian);
+    write_endian<unsigned int>(f, header.channels, switch_endian);
     f.write(reinterpret_cast<char *>(&header.info), SND_INFO_LEN);
 
     return f.good();
@@ -312,7 +290,8 @@ namespace itpp {
     if (!good())
       return -1;
     
-    return ( static_cast<int>(file.tellg()) - sizeof(header) ) / ( header.channels * sample_size() );
+    return ((static_cast<int>(file.tellg()) - sizeof(header)) 
+	    / (header.channels * sample_size()));
   }
 
   bool SND_In_File::read(vec &v)
@@ -326,22 +305,23 @@ namespace itpp {
     v.set_size(n, false);
     seek_read(0);
     
+    bool switch_endian = !check_big_endianness(); // if LITTLE_ENDIAN than switch
     switch (header.encoding) {
     case enc_linear8 :
       for (i=0; i<n; i++)
-	v(i) = read_char(file) / 128.0;
+	v(i) = read_endian<char>(file, switch_endian) / 128.0;
       break;
     case enc_linear16 :
       for (i=0; i<n; i++)
-	v(i) = big_endian(read_short(file)) / 32768.0;
+	v(i) = read_endian<short>(file, switch_endian) / 32768.0;
       break;
     case enc_float :
       for (i=0; i<n; i++)
-	v(i) = big_endian(read_float(file));
+	v(i) = read_endian<float>(file, switch_endian);
       break;
     case enc_double :
       for (i=0; i<n; i++)
-	v(i) = big_endian(read_double(file));
+	v(i) = read_endian<double>(file, switch_endian);
       break;
     default :
       it_warning("SND_In_File::read(): Unsupported encoding!");
@@ -357,23 +337,24 @@ namespace itpp {
 
     int i;
     
+    bool switch_endian = !check_big_endianness(); // if LITTLE_ENDIAN than switch
     v.set_size(n, false);
     switch (header.encoding) {
     case enc_linear8 :
       for (i=0; i<n; i++)
-	v(i) = read_char(file) / 128.0;
+	v(i) = read_endian<char>(file, switch_endian) / 128.0;
       break;
     case enc_linear16 :
       for (i=0; i<n; i++)
-	v(i) = big_endian(read_short(file)) / 32768.0;
+	v(i) = read_endian<short>(file, switch_endian) / 32768.0;
       break;
     case enc_float :
       for (i=0; i<n; i++)
-	v(i) = big_endian(read_float(file));
+	v(i) = read_endian<float>(file, switch_endian);
       break;
     case enc_double :
       for (i=0; i<n; i++)
-	v(i) = big_endian(read_double(file));
+	v(i) = read_endian<double>(file, switch_endian);
       break;
     default :
       it_warning("SND_In_File::read(): Unsupported encoding!");
@@ -407,7 +388,7 @@ namespace itpp {
       return false;
     
     header.data_size = 0;
-    header.encoding = (unsigned)e;
+    header.encoding = static_cast<unsigned int>(e);
     header.sample_rate = rate;
     header.channels = 1;
     
@@ -444,7 +425,8 @@ namespace itpp {
     if (!good())
       return -1;
 
-    return ( static_cast<int>(file.tellp()) - sizeof(header) ) / ( header.channels * sample_size() );
+    return ((static_cast<int>(file.tellp()) - sizeof(header)) 
+	    / (header.channels * sample_size()));
   }
 
   bool SND_Out_File::write(const vec &v)
@@ -454,22 +436,24 @@ namespace itpp {
 
     int i;
     
+    bool switch_endian = !check_big_endianness(); // if LITTLE_ENDIAN than switch
     switch (header.encoding) {
     case enc_linear8 :
       for (i=0; i<v.size(); i++)
-	write_char(file, double_to_char(v(i) * 128.0));
+	write_endian<char>(file, double_to_char(v(i) * 128.0), switch_endian);
       break;
     case enc_linear16 :
       for (i=0; i<v.size(); i++)
-	write_short(file, big_endian(double_to_short(v(i) * 32768.0)));
+	write_endian<short>(file, double_to_short(v(i) * 32768.0), 
+			    switch_endian);
       break;
     case enc_float :
       for (i=0; i<v.size(); i++)
-	write_float(file, big_endian((float)v(i)));
+	write_endian<float>(file, static_cast<float>(v(i)), switch_endian);
       break;
     case enc_double :
       for (i=0; i<v.size(); i++)
-	write_double(file, big_endian((double)v(i)));
+	write_endian<double>(file, static_cast<double>(v(i)), switch_endian);
       break;
     default :
       it_warning("SND_Out_File::write(): Unsupported encoding!");
