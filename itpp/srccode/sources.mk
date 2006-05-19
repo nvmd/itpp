@@ -2,7 +2,6 @@ h_srccode_sources = \
 	$(top_srcdir)/itpp/srccode/audiofile.h \
 	$(top_srcdir)/itpp/srccode/gmm.h \
 	$(top_srcdir)/itpp/srccode/lpcfunc.h \
-	$(top_srcdir)/itpp/srccode/machdep.h \
 	$(top_srcdir)/itpp/srccode/pnm.h \
 	$(top_srcdir)/itpp/srccode/vq.h \
 	$(top_srcdir)/itpp/srccode/vqtrain.h
