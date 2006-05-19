@@ -182,7 +182,6 @@ AC_CHECK_DECLS(signgam, , , [#include <cmath>])
 
 # Checks for header files
 AC_HEADER_STDC
-AC_HEADER_STAT
 AC_HEADER_TIME
 AC_CHECK_HEADERS([cmath \
   complex \

@@ -30,16 +30,6 @@
  * -------------------------------------------------------------------------
  */
 
-#ifndef _MSC_VER
-#  include <itpp/config.h>
-#else
-#  include <itpp/config_msvc.h>
-#endif
-
-#ifdef HAVE_SYS_STAT_H
-#  include <sys/stat.h>
-#endif
-
 #include <itpp/base/binfile.h>
 #include <itpp/base/itmisc.h>
 
@@ -54,21 +44,19 @@ namespace itpp {
 
   bool exist(const std::string &name)
   {
-#ifdef HAVE_SYS_STAT_H
-    struct stat st;
-    return stat(name.c_str(), &st) == 0;
-#else
-    // since <sys/stat.h> is not available, assume that file exists
-    return true;
-#endif
+    bool file_exists = false;
+    ifstream file(name.c_str(), ios::in);
+    if (file.is_open()) {
+      file_exists = true;
+    }
+    file.close();
+    return file_exists;
   }
 
   bfstream_base::bfstream_base(endian e)
   {
     endianity = e;
     native_endianity = (check_big_endianness() ? b_endian : l_endian);
-    //      (big_endian((short)0x1234) == (short)0x1234)
-    //      ? b_endian : l_endian;
   }
 
   //-----------------------------------------------------------------------

@@ -1,5 +1,9 @@
 2006-05-19  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac, itpp/base/binfile.cpp, itpp/config_msvc.h:
+	Removed checks for <sys/stat.h>. Now using iostream based method
+	for checking if a file exists.
+
 	* itpp/srccode/audiofile.cpp, itpp/srccode/audiofile.h,
 	itpp/srccode/sources.mk:
 	Added templated read_endian and write_endian functions, which
