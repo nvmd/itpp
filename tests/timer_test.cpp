@@ -54,7 +54,8 @@ int main()
    if (t2.get_time() >= 4.0)
      cout << "Real_Timer is OK" << endl;
 
-   if (t1.get_time() <= t2.get_time())
+   // Check against 1 ms margin
+   if (t1.get_time() - t2.get_time() <= 1e-3)
      cout << "CPU_Timer is OK" << endl;
 
    if (t3 >= t2.get_time())
