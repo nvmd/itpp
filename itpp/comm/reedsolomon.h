@@ -54,7 +54,7 @@ namespace itpp {
   class Reed_Solomon : public Channel_Code {
   public:
     //! Class constructor for the \f$2^m\f$ - ary, \f$t\f$ error correcting RS-code.
-    Reed_Solomon(int in_m, int in_t);
+    Reed_Solomon(int in_m, int in_t, bool sys = false);
     //! Destructor
     virtual ~Reed_Solomon(){ }
 
@@ -80,6 +80,8 @@ namespace itpp {
     int m, t, k, n, q;
     //! The generator polynomial of the RS code
     GFX g;
+    //! Whether or not the code is systematic
+    const bool systematic;
   };
 
 } // namespace itpp
