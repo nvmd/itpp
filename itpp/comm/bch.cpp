@@ -1,7 +1,7 @@
 /*!
  * \file 
  * \brief Implementation of a BCH encoder/decoder class
- * \author Pal Frenger and Adam Piatyszek
+ * \author Pal Frenger, Steve Peters and Adam Piatyszek
  *
  * $Date$
  * $Revision$

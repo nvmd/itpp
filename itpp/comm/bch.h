@@ -1,7 +1,7 @@
 /*!
  * \file 
  * \brief Definition of a BCH encoder/decoder class
- * \author Pal Frenger
+ * \author Pal Frenger, Steve Peters and Adam Piatyszek
  *
  * $Date$
  * $Revision$
