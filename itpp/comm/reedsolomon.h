@@ -1,7 +1,7 @@
 /*!
  * \file 
  * \brief Definitions of a Reed-Solomon codec class
- * \author Pal Frenger
+ * \author Pal Frenger, Steve Peters and Adam Piatyszek
  *
  * $Date$
  * $Revision$

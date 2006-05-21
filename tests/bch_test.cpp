@@ -1,7 +1,7 @@
 /*!
  * \file 
  * \brief BCH encoder/decoder class test program
- * \author Pal Frenger and Adam Piatyszek
+ * \author Pal Frenger, Steve Peters and Adam Piatyszek
  *
  * $Date$
  * $Revision$

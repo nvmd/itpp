@@ -1,7 +1,7 @@
 /*!
  * \file 
  * \brief Reed-Solomon encoder/decoder class test program
- * \author Adam Piatyszek
+ * \author Steve Peters and Adam Piatyszek
  *
  * $Date$
  * $Revision$

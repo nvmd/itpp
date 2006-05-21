@@ -1,5 +1,12 @@
 2006-05-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* AUTHORS, doc/local/authors.doc, itpp/comm/bch.cpp,
+	itpp/comm/bch.h, itpp/comm/reedsolomon.cpp,
+	itpp/comm/reedsolomon.h, tests/bch_test.cpp,
+	tests/reedsolomon_test.cpp:
+	Added Steve Peters as a co-author of the BCH and Reed_Solomon
+	classes. BTW, updated IT++ authors list.
+	
 	* tests/reedsolomon_test.cpp, tests/reedsolomon_test.ref,
 	itpp/comm/reedsolomon.cpp, itpp/comm/reedsolomon.h,
 	tests/Makefile.am:
