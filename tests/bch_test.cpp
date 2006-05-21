@@ -30,7 +30,6 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/itbase.h>
 #include <itpp/itcomm.h>
 
 using namespace itpp;
@@ -48,33 +47,72 @@ bvec set_errors(const bvec &input, const ivec errpos)
 
 int main() 
 {
-  BCH bch(31, 21, 2, "3 5 5 1");
-
   cout << "===================================" << endl;
   cout << "    Test of BCH encoder/decoder    " << endl;
   cout << "===================================" << endl;
 
-  cout << "A two error case (should be corrected)" << endl;
-  bvec input = randb(21);
-  bvec encoded = bch.encode(input);
-  bvec err = set_errors(encoded, (ivec) "1 2"); // error positions
-  bvec decoded = bch.decode(err);
+  {
+    BCH bch(31, 21, 2, "3 5 5 1");
 
-  cout << "input =   " << input << endl ;
-  cout << "encoded = " << encoded << endl ;
-  cout << "err =     " << err <<  endl ;
-  cout << "decoded = " << decoded << endl ;
+    bvec input = randb(21);
+    bvec encoded = bch.encode(input);
+    bvec err = set_errors(encoded, (ivec) "1 2"); // error positions
+    bvec decoded = bch.decode(err);
+
+    cout << "A two error case (should be corrected)" << endl;
+    cout << "input =   " << input << endl ;
+    cout << "encoded = " << encoded << endl ;
+    cout << "err =     " << err <<  endl ;
+    cout << "decoded = " << decoded << endl ;
  
-  input = randb(21);
-  encoded = bch.encode(input);
-  err = set_errors(encoded, (ivec) "1 2 27"); // error positions
-  decoded = bch.decode(err);
+    input = randb(21);
+    encoded = bch.encode(input);
+    err = set_errors(encoded, (ivec) "1 2 27"); // error positions
+    decoded = bch.decode(err);
 
-  cout << "A three error case (will cause decoding errors)" << endl;
-  cout << "input =   " << input << endl;
-  cout << "encoded = " << encoded << endl;
-  cout << "err =     " << err <<  endl;
-  cout << "decoded = " << decoded << endl;
+    cout << "A three error case (will cause decoding errors)" << endl;
+    cout << "input =   " << input << endl;
+    cout << "encoded = " << encoded << endl;
+    cout << "err =     " << err <<  endl;
+    cout << "decoded = " << decoded << endl << endl;
+  }
+
+  cout << "========================================" << endl;
+  cout << "   Systematic vs. non-systematic test   " << endl;
+  cout << "========================================" << endl;
+
+  {
+    bmat u = "0 0 0 0; 0 0 0 1; 0 0 1 0; 0 0 1 1; 0 1 0 0; 0 1 0 1; 0 1 1 0";
+    bmat c(u.rows(), 7);
+    bmat y(u.rows(), 7);
+    bmat decoded(u.rows(), u.cols());
+    BCH bch_nsys(7, 4, 1, "1 3");
+    BCH bch_sys(7, 4, 1, "1 3", true);
+
+    bmat f = "1 0 0 0 0 0 0; 0 1 0 0 0 0 0; 0 0 1 0 0 0 0; 0 0 0 1 0 0 0; 0 0 0 0 1 0 0; 0 0 0 0 0 1 0; 0 0 0 0 0 0 1";
+
+    cout << "Non-systematic case" << endl;
+    cout << "-------------------" << endl;
+    for (int i = 0; i < u.rows(); i++) {
+      c.set_row(i, bch_nsys.encode(u.get_row(i)));
+      cout << "Encoded " << u.get_row(i) << " to " << c.get_row(i) << endl;
+      y.set_row(i, f.get_row(i) + c.get_row(i));
+      cout << "One error added: " << y.get_row(i) << endl;
+      decoded.set_row(i, bch_nsys.decode(y.get_row(i))); 
+      cout << "Decoded to:" << decoded.get_row(i) << endl << endl;
+    }
+
+    cout << "Systematic case" << endl;
+    cout << "---------------" << endl;
+    for (int i = 0; i < u.rows(); i++) {
+      c.set_row(i, bch_sys.encode(u.get_row(i)));
+      cout << "Encoded " << u.get_row(i) << " to " << c.get_row(i) << endl;
+      y.set_row(i, f.get_row(i) + c.get_row(i));
+      cout << "One error added: " << y.get_row(i) << endl;
+      decoded.set_row(i, bch_sys.decode(y.get_row(i))); 
+      cout << "Decoded to:" << decoded.get_row(i) << endl << endl;
+    }
+  }
  
   return 0;
 }

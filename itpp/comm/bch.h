@@ -62,7 +62,7 @@ namespace itpp {
   class BCH : public Channel_Code {
   public:
     //! Initialize a (n,k)-code that can correct t errors
-    BCH(int in_n, int in_k, int in_t, ivec genpolynom);
+    BCH(int in_n, int in_k, int in_t, ivec genpolynom, bool sys = false);
 
     //! Destructor
     virtual ~BCH(){ }
@@ -88,6 +88,7 @@ namespace itpp {
   private:
     int n, k, t;
     GFX g;
+    const bool systematic;
   };
 
 } // namespace itpp
