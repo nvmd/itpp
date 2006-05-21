@@ -53,19 +53,18 @@ namespace itpp {
   //-------------------- Reed-Solomon ----------------------------
   //A Reed-Solomon code is a q^m-ary BCH code of length n = pow(q,m)-1. 
   //k = pow(q,m)-1-t. This class works for q==2.
-  Reed_Solomon::Reed_Solomon(int in_m, int in_t) {
-    m = in_m;
-    t = in_t;
+  Reed_Solomon::Reed_Solomon(int in_m, int in_t, bool sys): 
+    m(in_m), t(in_t), systematic(sys) 
+  {
     n = pow2i(m) - 1;
     k = pow2i(m) - 1 - 2*t;
     q = pow2i(m);
-    int i;
-    GFX x(q,(char *)"-1 0");
+    GFX x(q, (char *)"-1 0");
     ivec alphapow(1);
-    g.set(q,(char *)"0");
-    for(i=1; i<=2*t; i++) {
+    g.set(q, (char *)"0");
+    for(int i = 1; i <= 2*t; i++) {
       alphapow(0) = i;
-      g *= (x-GFX(q,alphapow));
+      g *= (x - GFX(q, alphapow));
     }
   }
 
@@ -74,20 +73,37 @@ namespace itpp {
     int i, j, itterations = floor_i(static_cast<double>(uncoded_bits.length())
 				    / (k * m));
     GFX mx(q,k), cx(q,n);
+    GFX r(n+1, n-k);
+    GFX uncoded_shifted(n+1, n);
     GF mpow;
     bvec mbit(k*m), cbit(m);
 
     coded_bits.set_size(itterations*n*m, false);
 
-    for (i=0; i<itterations; i++) {
+    if (systematic)
+      for (i = 0; i < n-k; i++)
+	uncoded_shifted[i] = GF(n+1, -1);
+
+    for (i = 0; i < itterations; i++) {
       //Fix the message polynom m(x).
-      for (j=0; j<k; j++) {
+      for (j = 0; j < k; j++) {
 	mpow.set(q,uncoded_bits.mid((i*m*k)+(j*m),m));
 	mx[j] = mpow;
+	if (systematic) {
+	  cx[j] = mx[j];
+	  uncoded_shifted[j+n-k] = mx[j];
+	}
       }  
       //Fix the outputbits cbit.
-      cx = g*mx;
-      for (j=0; j<n; j++) {
+      if (systematic) {
+	r = modgfx(uncoded_shifted, g);
+	for (j = k; j < n; j++) { 
+	  cx[j] = r[j-k];
+        }
+      } else { 
+	cx = g*mx; 
+      }
+      for (j = 0; j < n; j++) {
 	cbit = cx[j].get_vectorspace();
 	coded_bits.replace_mid((i*n*m)+(j*m), cbit);
       }
@@ -108,75 +124,112 @@ namespace itpp {
     bvec mbit(m*k);
     decoded_bits.set_size(itterations*k*m, false);
 
-    GFX rx(q,n-1), cx(q,n-1), mx(q,k-1), ex(q,n-1), S(q,2*t), Lambda(q), Lambdaprim(q), OldLambda(q), T(q), Ohmega(q);
+    GFX rx(q,n-1), cx(q,n-1), mx(q,k-1), ex(q,n-1), S(q,2*t), Lambda(q), 
+      Lambdaprim(q), OldLambda(q), T(q), Ohmega(q);
     GFX dummy(q), One(q,(char*)"0"), Ohmegatemp(q);
     GF delta(q), tempsum(q), rtemp(q), temp(q), Xk(q), Xkinv(q);
     ivec errorpos;
 
-    for (i=0; i<itterations; i++) {
+    for (i = 0; i < itterations; i++) {
       decoderfailure = false;
       //Fix the received polynomial r(x)
-      for (j=0; j<n; j++) {  rtemp.set(q,coded_bits.mid(i*n*m + j*m, m)); rx[j] = rtemp; }
+      for (j = 0; j < n; j++) { 
+	rtemp.set(q,coded_bits.mid(i*n*m + j*m, m)); 
+	rx[j] = rtemp; 
+      }
       //Fix the syndrome polynomial S(x).
       S.clear();
-      for (j=1; j<=2*t; j++) { S[j] =  rx(GF(q,j)); }
-      if (S.get_true_degree() == 0) {cx = rx; decoderfailure = false; }
+      for (j = 1; j <= 2*t; j++) { 
+	S[j] = rx(GF(q, j)); 
+      }
+      if (S.get_true_degree() == 0) {
+	cx = rx; 
+	decoderfailure = false; 
+      }
       else {//Errors in the received word
 	    //Itterate to find Lambda(x).
-	kk = 0; Lambda = GFX(q,(char*)"0"); L = 0; T = GFX(q,(char*)"-1 0");   
-	while (kk<2*t) {
+	kk = 0; 
+	Lambda = GFX(q, (char*)"0"); 
+	L = 0; 
+	T = GFX(q, (char*)"-1 0");   
+	while (kk < 2*t) {
 	  kk = kk + 1;
-	  tempsum = GF(q,-1);
-	  for (l=1; l<=L; l++) { tempsum += Lambda[l] * S[kk-l]; }
+	  tempsum = GF(q, -1);
+	  for (l = 1; l <= L; l++) { 
+	    tempsum += Lambda[l] * S[kk-l]; 
+	  }
 	  delta = S[kk] - tempsum;
 	  if (delta != GF(q,-1)) {
 	    OldLambda = Lambda;
 	    Lambda -= delta*T;
-	    if (2*L<kk) { L = kk - L; T = OldLambda/delta;}
+	    if (2*L < kk) { 
+	      L = kk - L; 
+	      T = OldLambda / delta;
+	    }
 	  } 
-	  T = GFX(q,(char*)"-1 0") * T;
+	  T = GFX(q, (char*)"-1 0") * T;
 	}
 	//Find the zeros to Lambda(x).
 	errorpos.set_size(Lambda.get_true_degree(), false);
 	errorpos.clear();
 	foundzeros = 0;
-	for (j=q-2; j>=0; j--) {
-	  temp = Lambda( GF(q,j) );
-	  if  (Lambda( GF(q,j) ) == GF(q,-1) ) {
-	    errorpos( foundzeros ) = (n-j) % n;
-	    foundzeros +=1;
-	    if (foundzeros >= Lambda.get_true_degree()) { break; }
+	for (j = q-2; j >= 0; j--) {
+	  temp = Lambda(GF(q, j));
+	  if (Lambda(GF(q, j)) == GF(q, -1)) {
+	    errorpos(foundzeros) = (n-j) % n;
+	    foundzeros += 1;
+	    if (foundzeros >= Lambda.get_true_degree()) { 
+	      break; 
+	    }
 	  }
 	}
-	if (foundzeros != Lambda.get_true_degree()) { decoderfailure = false; } 
+	if (foundzeros != Lambda.get_true_degree()) { 
+	  decoderfailure = false; 
+	} 
 	else {
 	  //Compute Ohmega(x) using the key equation for RS-decoding
 	  Ohmega.set_degree(2*t);
 	  Ohmegatemp = Lambda * (One +S);
-	  for (j=0; j<=2*t; j++) { Ohmega[j] = Ohmegatemp[j]; }
+	  for (j = 0; j <= 2*t; j++) { 
+	    Ohmega[j] = Ohmegatemp[j];
+	  }
 	  Lambdaprim = formal_derivate(Lambda);
 	  //Find the error polynomial
 	  ex.clear();
-	  for (j=0; j<foundzeros; j++) {
-	    Xk = GF(q,errorpos(j)); Xkinv = GF(q,0) / Xk;
+	  for (j = 0; j < foundzeros; j++) {
+	    Xk = GF(q,errorpos(j)); 
+	    Xkinv = GF(q,0) / Xk;
 	    ex[errorpos(j)] = (Xk * Ohmega(Xkinv)) / Lambdaprim(Xkinv);
 	  }
 	  //Reconstruct the corrected codeword.
 	  cx = rx + ex;
 	  //Code word validation
-	  S.clear(); for (j=1; j<=2*t; j++) { S[j] =  rx(GF(q,j)); }
-	  if (S.get_true_degree() >= 1) { decoderfailure=false; }
+	  S.clear(); 
+	  for (j = 1; j <= 2*t; j++) { 
+	    S[j] = rx(GF(q, j)); 
+	  }
+	  if (S.get_true_degree() >= 1) { 
+	    decoderfailure=false; 
+	  }
 	}
       }
       //Find the message polynomial
       mbit.clear();
       if (decoderfailure == false) {
 	if (cx.get_true_degree() >= 1) {// A nonzero codeword was transmitted
-	  mx = divgfx(cx,g);
-	  for (j=0; j<=mx.get_true_degree(); j++) { mbit.replace_mid(j*m,mx[j].get_vectorspace()); }
+          if (systematic) {
+	    for (j = 0; j < k; j++) {
+              mx[j] = cx[j];
+	    }
+          } else { 
+	    mx = divgfx(cx,g);
+	  }
+	  for (j = 0; j <= mx.get_true_degree(); j++) { 
+	    mbit.replace_mid(j*m, mx[j].get_vectorspace());
+	  }
 	}
       } 
-      decoded_bits.replace_mid(i*m*k,mbit);
+      decoded_bits.replace_mid(i*m*k, mbit);
     }
   }
 
@@ -187,17 +240,17 @@ namespace itpp {
     return decoded_bits;
   }
 
-  // --------------- Soft-decision decoding is not implemented --------------------------------
+  // --- Soft-decision decoding is not implemented ---
+
   void Reed_Solomon::decode(const vec &received_signal, bvec &output)
   {
-    it_error("Reed_Solomon::decode(vec, bvec); soft-decision decoding is not implemented");
+    it_error("Reed_Solomon::decode(): Soft-decision decoding not implemented");
   }
 
   bvec Reed_Solomon::decode(const vec &received_signal)
   {
-    it_error("Reed_Solomon::decode(vec, bvec); soft-decision decoding is not implemented");
+    it_error("Reed_Solomon::decode(): Soft-decision decoding not implemented");
     return bvec();
   }
-
 
 } // namespace itpp

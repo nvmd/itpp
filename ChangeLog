@@ -1,5 +1,13 @@
 2006-05-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/reedsolomon_test.cpp, tests/reedsolomon_test.ref,
+	itpp/comm/reedsolomon.cpp, itpp/comm/reedsolomon.h,
+	tests/Makefile.am:
+	Added systematic option to the Reed_Solomon class, which produces
+	codewords in a systematic form. BTW, added a missing test program.
+	Thanks to Steve, aka "michboy",	for providing patches and en
+	example test file.
+
 	* itpp/comm/bch.cpp, itpp/comm/bch.h, tests/bch_test.cpp,
 	tests/bch_test.ref:
 	BCH related patches from Feature Request [1418250] applied. Now,
