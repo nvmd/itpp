@@ -1,3 +1,12 @@
+2006-05-21  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/bch.cpp, itpp/comm/bch.h, tests/bch_test.cpp,
+	tests/bch_test.ref:
+	BCH related patches from Feature Request [1418250] applied. Now,
+	BCH encoder/decoder class can be set to produce codewords in a
+	systematic order. Thanks to Steve, aka "michboy", for providing
+	patches and a simple test file.
+
 2006-05-19  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/timer_test.cpp: Minor fix to avoid a hazard in timing test.
