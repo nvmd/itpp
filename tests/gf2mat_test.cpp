@@ -73,6 +73,7 @@ int main()
  bvec v(3);
  v(0)=1;
  v(1)=1;
+ v(2)=0;
  cout << "v=" << v << endl;
  cout << "A*v=" << A*v << endl;
 
