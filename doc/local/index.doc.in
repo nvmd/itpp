@@ -3,7 +3,7 @@
 
 \htmlonly
 <!-- start of center block -->
-<div style="position:relative; margin:0 245px 0 225px; text-align:justify;">
+<div style="position:relative; margin:0 280px 0 225px; text-align:justify;">
 \endhtmlonly
 
 \section Introduction
@@ -55,7 +55,7 @@ needed) operating systems.
 <!-- end of center block -->
 </div>
 <!-- start of left margin -->
-<div style="position:absolute; left:20px; top:160px; width:200px; margin:2px; font-size:80%;">
+<div style="position:absolute; left:20px; top:130px; width:200px; margin:2px; font-size:80%;">
 
 <b>Getting Started:</b>
 <ul>
@@ -103,7 +103,7 @@ needed) operating systems.
 <!-- end of left margin -->
 </div>
 <!-- start of right margin -->
-<div style="position:absolute; top:160px; right:20px; width:220px; margin:2px; font-size:80%;">
+<div style="position:absolute; top:130px; right:20px; width:250px; margin:2px; font-size:80%;">
 
 <b>IT++ Project Sites:</b>
 <ul>
