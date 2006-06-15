@@ -568,7 +568,6 @@ namespace itpp {
       }
     }
 
-    K = constraint_length;
     trunc_length = 5 * K;
     m = K - 1;
     no_states = pow2i(m);
