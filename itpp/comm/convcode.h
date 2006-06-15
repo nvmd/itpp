@@ -105,7 +105,7 @@ namespace itpp {
   class Convolutional_Code : public Channel_Code {
   public:
     //! Default constructor - sets (0133,0171) code with tail
-    Convolutional_Code(void): start_state(0), cc_method(Tail)
+    Convolutional_Code(void): K(0), start_state(0), cc_method(Tail)
     { 
       set_code(MFD, 2, 7); 
       init_encoder();
