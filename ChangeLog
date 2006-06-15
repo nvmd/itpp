@@ -1,8 +1,9 @@
 2006-06-15  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* itpp/comm/convcode.h: Fixed bug [1506524]. The `K' variable is
-	now initialised in the Convolutional_Code default constructor.
-	Thanks to Hakan Eriksson for finding this bug.
+	* itpp/comm/convcode.h, itpp/comm/convcode.cpp: Fixed bug
+	[1506524]. The `K' variable is now initialised in the
+	Convolutional_Code default constructor. Thanks to Hakan Eriksson
+	for finding this bug.
 
 2006-06-01  Adam Piatyszek  <ediap@users.sourceforge.net>
 
