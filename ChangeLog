@@ -1,3 +1,12 @@
+2006-06-18  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac, Makefile.am, itpp/Makefile.am, itpp/sources.mk,
+	tests/Makefile.am, doc/local/installation.doc, INSTALL, TODO:
+	Modularisation of the IT++ library implemented. It is now possible
+	to skip the building of various modules using a set of
+	`--disable-*' switches with the configure script. The
+	documentation has been updated accordingly.
+
 2006-06-15  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/convcode.h, itpp/comm/convcode.cpp: Fixed bug
