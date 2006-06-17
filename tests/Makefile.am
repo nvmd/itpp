@@ -9,52 +9,65 @@ endif
 
 EXTRA_DIST = fastica_test_data.txt parser_test_data.txt $(ref_sources) 
 
-check_PROGRAMS = \
+BASE_TESTS = \
 	array_test \
-	bch_test \
 	bessel_test \
 	cholesky_test \
 	circular_buffer_test \
-	convcode_test \
 	det_test \
 	eigen_test \
-	fastica_test \
 	fastmath_test \
-	filter_test \
-	filter_design_test \
-	fix_test \
-	freq_filt_test \
-	galois_test \
 	gf2mat_test \
 	integration_test \
-	interleaver_test \
 	inv_test \
-	llr_test \
 	ls_solve_test \
 	lu_test \
 	matfunc_test \
 	mat_test \
-	modulator_test \
-	modulator_nd_test \
 	newton_search_test \
 	parser_test \
-	poly_test \
-	pulse_shape_test \
 	qr_test \
 	rand_test \
-	rec_syst_conv_code_test \
-	reedsolomon_test \
 	schur_test \
-	sigfun_test \
 	source_test \
 	sparse_test \
 	stat_test \
 	svd_test \
 	timer_test \
+	vec_test
+
+if ENABLE_COMM
+  COMM_TESTS = \
+	bch_test \
+	convcode_test \
+	galois_test \
+	interleaver_test \
+	llr_test \
+	modulator_test \
+	modulator_nd_test \
+	pulse_shape_test \
+	rec_syst_conv_code_test \
+	reedsolomon_test \
+	turbo_test
+endif
+
+if ENABLE_FIXED
+  FIXED_TESTS = fix_test
+endif
+
+if ENABLE_SIGNAL
+  SIGNAL_TESTS = \
+	fastica_test \
+	filter_test \
+	filter_design_test \
+	freq_filt_test \
+	poly_test \
+	sigfun_test \
 	transforms_test \
-	turbo_test \
-	vec_test \
 	window_test
+endif
+
+check_PROGRAMS = $(BASE_TESTS) $(SIGNAL_TESTS) $(COMM_TESTS) $(FIXED_TESTS)
 
 array_test_SOURCES = array_test.cpp
 bch_test_SOURCES = bch_test.cpp

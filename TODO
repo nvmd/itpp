@@ -1,8 +1,6 @@
 Things to do before releasing version 4.0.0
 ============================================
 
-* Add optional configure switches to exclude some modules from building
-
 * Documentation improvements:
   - updated reference documentation
   - revise tutorial examples; add new ones; maybe split to basics and more

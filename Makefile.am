@@ -5,14 +5,14 @@ ACLOCAL_AMFLAGS = -I config
 AUTOMAKE_OPTIONS = dist-bzip2
 
 if HTML_DOC
-HTMLDOCDIR = doc
+  HTML_DOC_DIR = doc
 endif
 
 if RUN_TESTS
-TESTDIR = tests
+  TEST_DIR = tests
 endif
 
-SUBDIRS = itpp extras $(HTMLDOCDIR) $(TESTDIR)
+SUBDIRS = itpp extras $(HTML_DOC_DIR) $(TEST_DIR)
 
 EXTRA_DIST = autogen.sh itpp.spec Makefile.common TODO \
 	itpp.sln itpp.vcproj itpp_msvc2003.sln itpp_msvc2003.vcproj

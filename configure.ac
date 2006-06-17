@@ -36,7 +36,7 @@ AC_SUBST(GENERIC_LIBRARY_VERSION)
 AC_CANONICAL_HOST
 case $host in
   *-*-msdos* | *-*-go32* | *-*-mingw32* | *-*-cygwin* | *-*-windows*)
-    enable_shared=no;
+    AC_DISABLE_SHARED
     ;;
 esac
 
@@ -56,23 +56,59 @@ AC_LANG([C++])
 # Check for debug switch
 AC_ARG_ENABLE(debug,
               [AC_HELP_STRING([--enable-debug],
-                              [enable building debug library [default=no]])])
+                              [build additional debugging library])])
 test "x$enable_debug" != xyes && enable_debug=no
 AM_CONDITIONAL([ENABLE_DEBUG], [test "x$enable_debug" = xyes])
 
 # Check for exceptions switch
 AC_ARG_ENABLE(exceptions,
               [AC_HELP_STRING([--enable-exceptions],
-                              [enable exceptions handling [default=no]])],
+                              [enable exceptions handling mechanizm])],
               [AC_DEFINE([ITPP_EXCEPTIONS], [1],
                          [Define if you want exceptions handling])])
 test "x$enable_exceptions" != xyes && enable_exceptions=no
 
-# Check for htmldocs switch
+# Check for html-doc switch
 AC_ARG_ENABLE(html-doc, 
-              [AC_HELP_STRING([--enable-html-doc],
-                              [enable HTML documentation [default=yes]])])
+              [AC_HELP_STRING([--disable-html-doc],
+                              [do not generate HTML documentation])])
 test "x$enable_html_doc" != xno && enable_html_doc=yes
+
+
+# Check for optional modules
+AC_ARG_ENABLE(comm,
+              [AC_HELP_STRING([--disable-comm],
+                              [do not include communications module])])
+AC_ARG_ENABLE(fixed,
+              [AC_HELP_STRING([--disable-fixed],
+                              [do not include fixed-point module])])
+AC_ARG_ENABLE(protocol,
+              [AC_HELP_STRING([--disable-protocol],
+                              [do not include protocol module])])
+AC_ARG_ENABLE(signal,
+              [AC_HELP_STRING([--disable-signal],
+                              [do not include signal processing module])])
+AC_ARG_ENABLE(srccode,
+              [AC_HELP_STRING([--disable-srccode],
+                              [do not include source coding module])])
+
+test "x$enable_fixed" != xno && enable_fixed=yes
+test "x$enable_protocol" != xno && enable_protocol=yes
+if test "x$enable_signal" != xno; then
+  enable_signal=yes
+  test "x$enable_comm" != xno && enable_comm=yes
+  test "x$enable_srccode" != xno && enable_srccode=yes
+else
+  test "x$enable_comm" != xno && enable_comm=nosignal
+  test "x$enable_srccode" != xno && enable_srccode=nosignal
+fi
+
+AM_CONDITIONAL([ENABLE_COMM], [test "x$enable_comm" = xyes])
+AM_CONDITIONAL([ENABLE_FIXED], [test "x$enable_fixed" = xyes])
+AM_CONDITIONAL([ENABLE_PROTOCOL], [test "x$enable_protocol" = xyes])
+AM_CONDITIONAL([ENABLE_SIGNAL], [test "x$enable_signal" = xyes])
+AM_CONDITIONAL([ENABLE_SRCCODE], [test "x$enable_srccode" = xyes])
+
 
 # Provide --with-docdir
 AC_ARG_WITH(docdir,
@@ -249,6 +285,13 @@ Documentation tools:
 Testing tools:
   - diff ........... : ${diff_ok}
   - sed ............ : ${sed_ok}
+
+Optional modules:
+  - comm ........... : ${enable_comm}
+  - fixed .......... : ${enable_fixed}
+  - protocol ....... : ${enable_protocol}
+  - signal ......... : ${enable_signal}
+  - srccode ........ : ${enable_srccode}
 
 External libs:
   - BLAS ........... : ${acx_blas_ok}

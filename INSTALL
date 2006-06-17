@@ -44,16 +44,15 @@ optimized platform-specific libraries can be used as well, i.e.:
 It is possible to compile and use IT++ without these libraries, but the
 functionality will be reduced. We therefore recommend that you take some time
 and effort to provide these external libraries in your system. Please note,
-that some of them (FFTW, BLAS and LAPACK) are usually included in the most
-modern Linux distributions.
-
+that some of them (FFTW, BLAS and LAPACK) are usually included in most modern
+Linux distributions.
 
 Obtaining the IT++ Source Codes
 ===============================
 
 IT++ is released under the GNU General Public License (GPL) and hence the
 source code of the IT++ library is available for free download. To obtain the
-IT++ source code, visit the IT++ project page on SourceForge:
+IT++ source code, visit the project pages on SourceForge:
 
   o http://itpp.sourceforge.net/
 
@@ -74,9 +73,9 @@ package type you have downloaded, use the following commands:
   % bzip2 -cd itpp-<VERSION>.tar.bz2 | tar xf -
   % cd itpp-<VERSION>
 
-Since version 3.9.0, the IT++ library uses Autoconf/Automake tools for
-configuration and Makefiles creation, so the compilation procedure resembles
-a standard, well-known GNU method, i.e.
+Since version 3.9.0, the IT++ library uses autoconf, automake and libtool for
+preparing Makefiles and configuration script, so the compilation procedure
+resembles a standard, well-known GNU method, i.e.
 
   % ./configure
   % make
@@ -92,15 +91,26 @@ The `configure' command can be invoked with additional switches and options
     special debugging flags for compiler and linker (disabled by default)
   o `--enable-exceptions' - enable exceptions handling of run-time errors
     instead of aborting the program (disabled by default)
-  o `--enable-html-doc' - generate and install the HTML documentation
+  o `--disable-html-doc' - do not generate and install the HTML documentation
     (enabled by default)
-  o `--enable-shared' - build a shared version of the library (enabled by
-    default for non Windows based platforms)
-  o `--enable-static' - build a static version of the library (enabled by
-    default)
+  o `--disable-shared' - do not build the shared version of the library
+    (enabled by default for non Windows based platforms)
+  o `--disable-static' - do not build the static version of the library
+    (enabled by default)
 
 Plese note that each `--enable-<OPTION>' switch can be replaced with its
 opposite switch `--disable-<OPTION>'.
+
+Since version 4.0.0, a modularization of the library has been introduced.
+Therefore, several additional switches have been added to the configure
+script, which can be used to disable building some of the library components.
+Here is a list of them:
+
+  o `--disable-comm' - do not build the `Communications' module
+  o `--disable-fixed' - do not build the `Fixed-point' module
+  o `--disable-protocol' - do not include the `Protocols' module
+  o `--disable-signal' - do not build the `Signal processing' module
+  o `--disable-srccode' - do not build the `Source coding' module
 
 By default, the `configure' script checks for a few external libraries, which
 might be used by the IT++ library (cf. IT++ Requirements). The detection
@@ -126,13 +136,14 @@ procedure is as follows:
     defined. Besides, one of the following: HAVE_FFT_MKL8, HAVE_FFT_ACML or
     HAVE_FFTW3 is defined.
 
-If some of the external libraries are installed in a non-standard location in
-your system, e.g. MKL in `/opt/intel/mkl', the `configure' script will not
-detect them automatically. In such a case you should use LDFLAGS and CPPFLAGS
-environment variables to define additional directories to be searched for
-libraries (LDFLAGS) and include files (CPPFLAGS). For instance, to configure
-IT++ to link to the MKL 8.0.1 external library, which is installed in `/opt/
-intel/mkl/8.0.1' directory, you should use the following commands:
+If some external libraries are installed in a non-standard location in your
+system, e.g. MKL in `/opt/intel/mkl/8.0.1', the `configure' script will not
+detect them automatically. In such a case, you should use LDFLAGS and
+CPPFLAGS environment variables to define additional directories to be
+searched for libraries (LDFLAGS) and include files (CPPFLAGS). For instance,
+to configure IT++ to link to the MKL 8.0.1 external library, which is
+installed in `/opt/intel/mkl/8.0.1' directory, you should use the following
+commands:
 
   % export LDFLAGS="-L/opt/intel/mkl/8.0.1/lib/32"
   % export CPPFLAGS="-I/opt/intel/mkl/8.0.1/include"
@@ -170,7 +181,7 @@ might be set as follows:
   % ./confiugre
 
 If CXXFLAGS is not set in the environment, it will be initialised with the
-default flags, i.e. "-O3 -pipe".
+default flags, i.e. "-DASSERT_LEVEL=1 -O3 -pipe".
 
 When the configuration process is finished, a status message is displayed.
 For instance, after having invoked the following configuration command:
@@ -180,7 +191,7 @@ For instance, after having invoked the following configuration command:
 one can observe something like this:
 
 ------------------------------------------------------------------------------
-itpp-3.10.0 library configuration:
+itpp-4.0.0 library configuration:
 ------------------------------------------------------------------------------
 
 Directories:
@@ -188,7 +199,7 @@ Directories:
   - exec_prefix .... : ${prefix}
   - includedir ..... : ${prefix}/include
   - libdir ......... : ${exec_prefix}/lib
-  - docdir ......... : ${prefix}/share/doc/itpp-3.10.0
+  - docdir ......... : ${prefix}/share/doc/itpp-4.0.0
 
 Switches:
   - debug .......... : no
@@ -207,6 +218,13 @@ Testing tools:
   - diff ........... : yes
   - sed ............ : yes
 
+Optional modules:
+  - comm ........... : yes
+  - fixed .......... : yes
+  - protocol ....... : yes
+  - signal ......... : yes
+  - srccode ........ : yes
+
 External libs:
   - BLAS ........... : yes
     * MKL .......... : no
@@ -221,17 +239,17 @@ External libs:
 
 Compiler/linker flags/libs/defs:
   - CXX ............ : g++
-  - CXXFLAGS ....... : -O3 -pipe
+  - CXXFLAGS ....... : -DASSERT_LEVEL=1 -O3 -pipe
   - CXXFLAGS_DEBUG . :
   - CPPFLAGS ....... :
   - LDFLAGS ........ :
-  - LIBS ........... : -lfftw3 -lcblas -llapack -lblas   -L/usr/lib/gcc/i686-pc-
-linux-gnu/3.4.4 -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../../../i686-pc-linux
--gnu/lib -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.4/../../.. -lfrtbegin -lg2c -lm -l
+  - LIBS ........... : -lfftw3 -llapack -lcblas -lblas   -L/usr/lib/gcc/i686-pc-
+linux-gnu/3.4.6 -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.6/../../../../i686-pc-linux
+-gnu/lib -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.6/../../.. -lfrtbegin -lg2c -lm -l
 gcc_s
 
 ------------------------------------------------------------------------------
-Now type 'make && make install' to build and install itpp-3.10.0 library
+Now type 'make && make install' to build and install itpp-4.0.0 library
 ------------------------------------------------------------------------------
 
 
