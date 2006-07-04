@@ -1,3 +1,9 @@
+2006-07-04  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* tests/eigen_test.cpp: Fixed bug [1516976] by setting the
+	threshold of round_to_zero() function to 1e-13. Thanks to Rosario
+	for reporting this bug.
+
 2006-06-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac, Makefile.am, itpp/Makefile.am, itpp/sources.mk,
