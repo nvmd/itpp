@@ -1,3 +1,7 @@
+2006-07-11  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac: Increased itpp-external version number to 2.3.0.
+
 2006-07-04  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/eigen_test.cpp: Fixed bug [1516976] by setting the
