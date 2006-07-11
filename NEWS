@@ -1,4 +1,24 @@
 ===============================================================================
+IT++ version 3.10.3                                        Released: 2006-07-11
+-------------------------------------------------------------------------------
+
+This is a bug-fix release. Therefore, no new features have been added
+since release 3.10.2. Only minor modifications and bug-fixes have been done.
+
+Bug-fixes:
+----------
+
+* Fixed bug [1516976] by setting the threshold of round_to_zero() function
+  to 1e-13. Thanks to Rosario for reporting this bug.
+
+* Fixed bug [1506524]. The `K' variable is now initialised in the
+  Convolutional_Code default constructor. Thanks to Hakan Eriksson for
+  finding this bug.
+
+* Fixed a small problem with possible hazard in timing test.
+
+
+===============================================================================
 IT++ version 3.10.2                                        Released: 2006-05-15
 -------------------------------------------------------------------------------
 
