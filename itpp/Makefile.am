@@ -49,7 +49,6 @@ lib@PACKAGE@_la_LIBADD = $(top_builddir)/@PACKAGE@/base/libbase.la \
 lib@PACKAGE@_debug_la_SOURCES = 
 lib@PACKAGE@_debug_la_LDFLAGS = -version-info $(GENERIC_LIBRARY_VERSION)
 lib@PACKAGE@_debug_la_LIBADD = $(top_builddir)/@PACKAGE@/base/libbase_debug.la \
-	$(top_builddir)/@PACKAGE@/signal/libsignal_debug.la \
 	$(COMM_D_LIB) $(FIXED_D_LIB) $(PROTOCOL_D_LIB) $(SIGNAL_D_LIB) \
 	$(SRCCODE_D_LIB)
 
