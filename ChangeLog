@@ -1,5 +1,7 @@
 2006-07-12  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* **/*.{h,cpp}: Copyright date updated to `1995-2006'.
+
 	* configure.ac: Version numbers and Copyright date updated.
 
 ==============================================================================
