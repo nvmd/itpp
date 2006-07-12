@@ -1,5 +1,8 @@
 2006-07-12  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/Makefile.am: Fixed a bug that caused multiple definition
+	errors during linking the IT++ debugging library. 
+
 	* configure.ac: Fixed a minor problem with using AC_DISABLE_SHARED
 	macro for Windows environments. 
 
