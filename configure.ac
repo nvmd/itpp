@@ -35,9 +35,10 @@ AC_SUBST(GENERIC_LIBRARY_VERSION)
 # Check for host and disable building a shared library in Windows
 AC_CANONICAL_HOST
 case $host in
-  *-*-msdos* | *-*-go32* | *-*-mingw32* | *-*-cygwin* | *-*-windows*)
-    AC_DISABLE_SHARED
-    ;;
+  *-*-msdos* | *-*-go32* | *-*-mingw32* | *-*-cygwin* | *-*-windows*) 
+    AC_DISABLE_SHARED ;;
+  *)  
+    AC_ENABLE_SHARED ;;
 esac
 
 # Checks for programs
