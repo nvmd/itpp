@@ -32,11 +32,6 @@
 
 #include <itpp/base/elmatfunc.h>
 
-#ifndef _MSC_VER
-#  include <itpp/config.h>
-#else
-#  include <itpp/config_msvc.h>
-#endif
 
 #ifndef HAVE_TGAMMA
 // "True" gamma function

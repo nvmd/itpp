@@ -1,3 +1,9 @@
+2006-07-16  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/elmatfunc.cpp, itpp/base/elmatfunc.h: Fixed a minor
+	problem with duplicated declaration of tgamma(), lgamma() and
+	cbrt() functions.
+
 2006-07-12  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/Makefile.am: Fixed a bug that caused multiple definition
