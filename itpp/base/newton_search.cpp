@@ -487,9 +487,12 @@ namespace itpp {
 
 
 
-    if  (stop)  // OK so far.  Check stopping criteria
-      stop = (no_feval >= max_iterations) | (b >= max_stepsize && dFb < slopethr) | 
-	(a > 0 && dFb >= slopethr) | ( (method == Soft) && (a > 0 & dFb >= slopethr) );  // OK
+    if (stop)  // OK so far.  Check stopping criteria
+      stop = (no_feval >= max_iterations) 
+	|| (b >= max_stepsize && dFb < slopethr)
+	|| (a > 0 && dFb >= slopethr);
+    // Commented by ediap 2006-07-17: redundant check
+    // 	|| ( (method == Soft) && (a > 0 & dFb >= slopethr) );  // OK
 
 
     if (stop && trace) {
