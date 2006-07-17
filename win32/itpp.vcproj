@@ -194,7 +194,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\fastica.cpp"
+					RelativePath="..\itpp\base\errorfunc.cpp"
 					>
 				</File>
 				<File
@@ -202,19 +202,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\filter.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\filter_design.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\freq_filt.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\itpp\base\gf2mat.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\base\help_functions.cpp"
 					>
 				</File>
 				<File
@@ -234,7 +226,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\itpp_version.cpp"
+					RelativePath="..\itpp\base\itmisc.cpp"
 					>
 				</File>
 				<File
@@ -266,10 +258,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\poly.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\itpp\base\qr.cpp"
 					>
 				</File>
@@ -278,15 +266,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\scalfunc.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\itpp\base\schur.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\sigfun.cpp"
 					>
 				</File>
 				<File
@@ -318,15 +298,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\transforms.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\itpp\base\vec.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\window.cpp"
 					>
 				</File>
 				<Filter
@@ -502,35 +474,35 @@
 				Name="fixedpoint"
 				>
 				<File
-					RelativePath="..\itpp\fixedpoint\cfix.cpp"
+					RelativePath="..\itpp\fixed\cfix.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\fixedpoint\cfixed.cpp"
+					RelativePath="..\itpp\fixed\cfixed.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\fixedpoint\fix.cpp"
+					RelativePath="..\itpp\fixed\fix.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\fixedpoint\fix_base.cpp"
+					RelativePath="..\itpp\fixed\fix_base.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\fixedpoint\fix_factory.cpp"
+					RelativePath="..\itpp\fixed\fix_factory.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\fixedpoint\fix_functions.cpp"
+					RelativePath="..\itpp\fixed\fix_functions.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\fixedpoint\fix_operators.cpp"
+					RelativePath="..\itpp\fixed\fix_operators.cpp"
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\fixedpoint\fixed.cpp"
+					RelativePath="..\itpp\fixed\fixed.cpp"
 					>
 				</File>
 			</Filter>
@@ -559,6 +531,42 @@
 				</File>
 				<File
 					RelativePath="..\itpp\protocol\tcp.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="signal"
+				>
+				<File
+					RelativePath="..\itpp\signal\fastica.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\signal\filter.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\signal\filter_design.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\signal\freq_filt.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\signal\poly.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\signal\sigfun.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\signal\transforms.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\signal\window.cpp"
 					>
 				</File>
 			</Filter>
@@ -620,27 +628,15 @@
 					>
 				</File>
 				<File
+					RelativePath="..\itpp\base\errorfunc.h"
+					>
+				</File>
+				<File
 					RelativePath="..\itpp\base\factory.h"
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\fastica.h"
-					>
-				</File>
-				<File
 					RelativePath="..\itpp\base\fastmath.h"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\filter.h"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\filter_design.h"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\freq_filt.h"
 					>
 				</File>
 				<File
@@ -668,11 +664,15 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\itpp_version.h"
+					RelativePath="..\itpp\base\itmisc.h"
 					>
 				</File>
 				<File
 					RelativePath="..\itpp\base\lapack.h"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\base\logexpfunc.h"
 					>
 				</File>
 				<File
@@ -681,10 +681,6 @@
 				</File>
 				<File
 					RelativePath="..\itpp\base\lu.h"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\machdep.h"
 					>
 				</File>
 				<File
@@ -708,10 +704,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\poly.h"
-					>
-				</File>
-				<File
 					RelativePath="..\itpp\base\qr.h"
 					>
 				</File>
@@ -720,15 +712,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\scalfunc.h"
-					>
-				</File>
-				<File
 					RelativePath="..\itpp\base\schur.h"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\sigfun.h"
 					>
 				</File>
 				<File
@@ -768,15 +752,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\transforms.h"
+					RelativePath="..\itpp\base\trihypfunc.h"
 					>
 				</File>
 				<File
 					RelativePath="..\itpp\base\vec.h"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\window.h"
 					>
 				</File>
 				<Filter
@@ -912,35 +892,35 @@
 				Name="fixedpoint"
 				>
 				<File
-					RelativePath="..\itpp\fixedpoint\cfix.h"
+					RelativePath="..\itpp\fixed\cfix.h"
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\fixedpoint\cfixed.h"
+					RelativePath="..\itpp\fixed\cfixed.h"
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\fixedpoint\fix.h"
+					RelativePath="..\itpp\fixed\fix.h"
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\fixedpoint\fix_base.h"
+					RelativePath="..\itpp\fixed\fix_base.h"
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\fixedpoint\fix_factory.h"
+					RelativePath="..\itpp\fixed\fix_factory.h"
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\fixedpoint\fix_functions.h"
+					RelativePath="..\itpp\fixed\fix_functions.h"
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\fixedpoint\fix_operators.h"
+					RelativePath="..\itpp\fixed\fix_operators.h"
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\fixedpoint\fixed.h"
+					RelativePath="..\itpp\fixed\fixed.h"
 					>
 				</File>
 			</Filter>
@@ -981,6 +961,42 @@
 				</File>
 				<File
 					RelativePath="..\itpp\protocol\tcp_client_server.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="signal"
+				>
+				<File
+					RelativePath="..\itpp\signal\fastica.h"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\signal\filter.h"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\signal\filter_design.h"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\signal\freq_filt.h"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\signal\poly.h"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\signal\sigfun.h"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\signal\transforms.h"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\signal\window.h"
 					>
 				</File>
 			</Filter>
