@@ -1,5 +1,8 @@
 2006-07-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* win32/itpp.vcproj: Updated source and header file lists in the
+	project.
+
 	* win32/Makefile.am, Makefile.am, configure.ac: Added and updated
 	Makefiles and configuration script (merged rev. 539:541 from
 	itpp-3-10 branch).
