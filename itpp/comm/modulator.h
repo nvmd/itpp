@@ -559,12 +559,8 @@ namespace itpp {
       \brief Soft demodulation. Same as exact soft demodulation give above
     */
     virtual void demodulate_soft_bits_approx(const cvec &rx_symbols, const cvec &channel, const double N0, vec &soft_bits) const;
-
-    //cvec modulate(const svec &symbolnumbers);
-    //svec demodulate(const cvec &signal);
-  private:
-    static const double m_sqrt1_2 = 0.70710678118654752440;
   };
+
 
   /*! 
     \ingroup modulators

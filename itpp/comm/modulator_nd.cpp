@@ -423,7 +423,7 @@ namespace itpp {
     for (int i=0; i<nt; i++) {
       k(i) = round_i(log2(double(M(i))));
       
-      it_assert(fabs(pow2i(k(i))-M(i))<1.0e-10,"ND_UPAM::set_Gray_PAM(): M is not a power of 2.");
+      it_assert(abs(pow2i(k(i))-M(i))<1.0e-10,"ND_UPAM::set_Gray_PAM(): M is not a power of 2.");
        
       symbols(i).set_size(M(i)+1);
       bits2symbols(i).set_size(M(i));
@@ -629,7 +629,7 @@ namespace itpp {
 
     for (int i=0; i<nt; i++) {
       k(i) = round_i(log2(double(M(i))));      
-      it_assert(fabs(pow2i(k(i))-M(i))<1.0e-10,"ND_UQAM::set_Gray_QAM(): M is not a power of 2.");
+      it_assert(abs(pow2i(k(i))-M(i))<1.0e-10,"ND_UQAM::set_Gray_QAM(): M is not a power of 2.");
       L(i) = round_i(std::sqrt((double)M(i)));
       it_assert(L(i)*L(i)== M(i),"ND_UQAM: constellation M must be square");
       
@@ -687,7 +687,7 @@ namespace itpp {
     for (int i=0; i<nt; i++) {
       k(i) = round_i(log2(double(M(i))));
       
-      it_assert(fabs(pow2i(k(i))-M(i))<1.0e-10,"ND_UPSK::set_Gray_PSK(): M is not a power of 2.");
+      it_assert(abs(pow2i(k(i))-M(i))<1.0e-10,"ND_UPSK::set_Gray_PSK(): M is not a power of 2.");
        
       symbols(i).set_size(M(i)+1);
       bits2symbols(i).set_size(M(i));

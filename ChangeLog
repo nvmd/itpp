@@ -1,3 +1,9 @@
+2006-07-17  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/modulator_nd.cpp, itpp/comm/modulator.h,
+	itpp/base/newton_search.cpp: Minor cleanup fixes of warnings
+	detected under MSVC++ .NET compiler.
+
 2006-07-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/newton_search.cpp: Logical variables initialised with
