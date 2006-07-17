@@ -38,6 +38,7 @@
 
 #include <itpp/base/itassert.h>
 #include <iostream>
+#include <sstream>
 #include <string>
 #include <stdexcept>
 
@@ -58,13 +59,13 @@ namespace itpp {
 
   void it_assert_f(std::string ass, std::string msg, std::string file, int line)
   {
-    char line_str[100];
+    std::ostringstream line_str;
+    line_str << line << std::flush;
 
     std::string error = "*** Assertation failed in ";
     error += file;
     error += " on line ";
-    sprintf(line_str, "%d", line);
-    error += line_str;
+    error += line_str.str();
     error += ":\n";
     error += msg;
     error += " (";
@@ -79,13 +80,13 @@ namespace itpp {
 
   void it_error_f(std::string msg, std::string file, int line)
   {
-    char line_str[100];
+    std::ostringstream line_str;
+    line_str << line << std::flush;
 
     std::string error = "*** Error in ";
     error += file;
     error += " on line ";
-    sprintf(line_str, "%d", line);
-    error += line_str;
+    error += line_str.str();
     error += ":";
     error += msg;
     std::cerr << error << std::endl << std::flush;

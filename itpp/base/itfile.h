@@ -120,7 +120,7 @@ namespace itpp {
     //!Destructor.
     virtual ~it_ifile() { }
     //!Open a file.  The file must exist.
-    virtual void open(const std::string &name);
+    void open(const std::string &name);
     //!Close a file.
     virtual void close();
     //!Returns pointer to the underlying \c bfstream used
