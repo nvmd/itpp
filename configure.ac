@@ -252,6 +252,7 @@ AC_CONFIG_FILES([Makefile \
   doc/doxygen_html.cfg \
   extras/Makefile \
   tests/Makefile \
+  win32/Makefile \
   itpp.pc \
   itpp-config \
   itpp.spec])

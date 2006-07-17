@@ -12,10 +12,9 @@ if RUN_TESTS
   TEST_DIR = tests
 endif
 
-SUBDIRS = itpp extras $(HTML_DOC_DIR) $(TEST_DIR)
+SUBDIRS = itpp extras win32 $(HTML_DOC_DIR) $(TEST_DIR)
 
-EXTRA_DIST = autogen.sh itpp.spec Makefile.common TODO \
-	itpp.sln itpp.vcproj itpp_msvc2003.sln itpp_msvc2003.vcproj
+EXTRA_DIST = autogen.sh itpp.spec Makefile.common TODO
 
 bin_SCRIPTS = @PACKAGE@-config
 
