@@ -1,5 +1,9 @@
 2006-07-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/vec.cpp, itpp/base/vec.h: Minor fixes of a few
+	wrong template declarations, which caused warnings and errors
+	under MSVC++ .NET compiler.
+
 	* doc/local/installation.doc: Updated installation document - the
 	section about using MSVC++ .NET compiler and Intel MKL external
 	library.

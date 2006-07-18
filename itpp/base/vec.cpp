@@ -103,7 +103,7 @@ namespace itpp {
 
 #if defined(HAVE_CBLAS)
   template<>
-  const double dot(const vec &v1, const vec &v2)
+  double dot(const vec &v1, const vec &v2)
   {
     it_assert1(v1.datasize == v2.datasize, "vec::dot: wrong sizes");
     double r=0.0;
@@ -114,7 +114,7 @@ namespace itpp {
   }
  
   template<>
-  const std::complex<double> dot(const cvec &v1, const cvec &v2)
+  std::complex<double> dot(const cvec &v1, const cvec &v2)
   {
     it_assert1(v1.datasize == v2.datasize, "cvec::dot: wrong sizes");
     std::complex<double> r=0.0;
@@ -248,16 +248,16 @@ namespace itpp {
   //------------- Multiplication operator ----------
 
 #if !defined(HAVE_CBLAS)
-  template const double dot(const vec &v1, const vec &v2);
-  template const std::complex<double> dot(const cvec &v1, const cvec &v2);
+  template double dot(const vec &v1, const vec &v2);
+  template std::complex<double> dot(const cvec &v1, const cvec &v2);
 #endif
-  template const int dot(const ivec &v1, const ivec &v2);
-  template const short dot(const svec &v1, const svec &v2);
-  template const bin dot(const bvec &v1, const bvec &v2);
+  template int dot(const ivec &v1, const ivec &v2);
+  template short dot(const svec &v1, const svec &v2);
+  template bin dot(const bvec &v1, const bvec &v2);
 
-  template const int operator*(const ivec &v1, const ivec &v2);
-  template const short operator*(const svec &v1, const svec &v2);
-  template const bin operator*(const bvec &v1, const bvec &v2);
+  template int operator*(const ivec &v1, const ivec &v2);
+  template short operator*(const svec &v1, const svec &v2);
+  template bin operator*(const bvec &v1, const bvec &v2);
 
   template const mat outer_product(const vec &v1, const vec &v2);
   template const cmat outer_product(const cvec &v1, const cvec &v2);

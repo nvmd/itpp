@@ -75,9 +75,9 @@ namespace itpp {
   template<class Num_T> const Vec<Num_T> operator-(const Vec<Num_T> &v);
 
   //! Inner (dot) product of two vectors v1 and v2
-  template<class Num_T> const Num_T dot(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
+  template<class Num_T> Num_T dot(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
   //! Inner (dot) product of two vectors v1 and v2
-  template<class Num_T> const Num_T operator*(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
+  template<class Num_T> Num_T operator*(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
   { return dot(v1, v2); }
   //! Outer product of two vectors v1 and v2
   template<class Num_T> const Mat<Num_T> outer_product(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
@@ -279,9 +279,9 @@ namespace itpp {
     //! Multiply with a scalar
     Vec<Num_T>& operator*=(const Num_T t);
     //! Inner (dot) product
-    friend const Num_T operator*<>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
+    friend Num_T operator*<>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
     //! Inner (dot) product
-    friend const Num_T dot <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
+    friend Num_T dot <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
     //! Outer product of two vectors v1 and v2
     friend const Mat<Num_T> outer_product <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
     //! Elementwise multiplication of vector and scalar
@@ -798,12 +798,12 @@ namespace itpp {
   }
 
 #if defined(HAVE_CBLAS)
-  template<> const double dot(const vec &v1, const vec &v2);
-  template<> const std::complex<double> dot(const cvec &v1, const cvec &v2);
+  template<> double dot(const vec &v1, const vec &v2);
+  template<> std::complex<double> dot(const cvec &v1, const cvec &v2);
 #endif
 
   template<class Num_T> inline
-  const Num_T dot(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
+  Num_T dot(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
   {
     int i;
     Num_T r=Num_T(0);
@@ -1629,23 +1629,23 @@ namespace itpp {
 
 #if !defined(HAVE_CBLAS)
   //! Template instantiation of dot
-  extern template const double dot(const vec &v1, const vec &v2);
+  extern template double dot(const vec &v1, const vec &v2);
   //! Template instantiation of dot
-  extern template const std::complex<double> dot(const cvec &v1, const cvec &v2);
+  extern template std::complex<double> dot(const cvec &v1, const cvec &v2);
 #endif
   //! Template instantiation of dot
-  extern template const int dot(const ivec &v1, const ivec &v2);
+  extern template int dot(const ivec &v1, const ivec &v2);
   //! Template instantiation of dot
-  extern template const short dot(const svec &v1, const svec &v2);
+  extern template short dot(const svec &v1, const svec &v2);
   //! Template instantiation of dot
-  extern template const bin dot(const bvec &v1, const bvec &v2);
+  extern template bin dot(const bvec &v1, const bvec &v2);
 
   //! Template instantiation of operator*
-  extern template const int operator*(const ivec &v1, const ivec &v2);
+  extern template int operator*(const ivec &v1, const ivec &v2);
   //! Template instantiation of operator*
-  extern template const short operator*(const svec &v1, const svec &v2);
+  extern template short operator*(const svec &v1, const svec &v2);
   //! Template instantiation of operator*
-  extern template const bin operator*(const bvec &v1, const bvec &v2);
+  extern template bin operator*(const bvec &v1, const bvec &v2);
 
   //! Template instantiation of outer_product
   extern template const mat outer_product(const vec &v1, const vec &v2);
