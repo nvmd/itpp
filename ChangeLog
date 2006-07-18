@@ -1,3 +1,9 @@
+2006-07-18  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/elmatfunc.cpp, itpp/base/elmatfunc.h: Added a dirty
+	hack for MSVC++ .NET compilation problems of vector and matrix
+	based conj() function. MSVC++ .NET crashed without this hack.
+
 2006-07-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* win32/itpp.vcproj: Updated source and header file lists in the
