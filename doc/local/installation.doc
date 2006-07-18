@@ -522,63 +522,62 @@ guarantees that you start with a clean directory, in the event you would
 repeat the installation procedure.
 
 
-\section msvc IT++ Configuration, Compilation and Installation using Microsoft Visual C++ .NET 2003 and Intel MKL
+\section msvc IT++ Compilation and Installation using Microsoft Visual C++ .NET and Intel MKL
 
-You need to perform the following tasks in order to compile IT++ with
-Microsoft Visual C++ .NET 2003 together with Intel Math Kernel Library
-(MKL): 
+It is possible to compile and link the IT++ library using the 
+<a href="http://msdn.microsoft.com/visualc/">Microsoft Visual C++ .NET</a>
+compiler and
+<a href="http://www.intel.com/cd/software/products/asmo-na/eng/perflib/mkl/">Intel
+Math Kernel Library (MKL)</a>.
 
-<ul>
+First of all you need to install the MKL libraries into your system. This
+documentation assumes that you have already downloaded an installer with
+Intel MKL 8.1 for Windows. Please follow the default steps of the MKL
+installer, which should install files into 
+<tt>"C:\Program Files\Intel\MKL\8.1"</tt> location on your disk. During the
+installation procedure, the MKL installer ask if PATH, LIB and INCLUDE
+environment variables should be set appropriately. Check this option, since
+this step is required for for Windows to find the MKL dll files. After
+waiting a few dozens of seconds you should have the MKL libraries installed
+on your computer.
 
-<li> Install MKL </li>
+The next step is to compile and link the IT++ library. Assuming that you
+have already downloaded and unpacked the IT++ package, you should find a
+MSVC++ .NET project file <tt>itpp.vcproj</tt> in the <tt>win32</tt>
+sub-directory. Open this project file in the MSVC++ .NET environment. There
+are two default targets prepared for compilation and linking: <tt>Debug</tt>
+and <tt>Release</tt>. The former can be used to compile a non-optimised
+version of the library for debugging purposes, named
+<tt>itpp_debug.lib</tt>, whereas the latter one should produce an optimised
+library named <tt>itpp.lib</tt>. Both libraries are static ones and they
+should be created in <tt>win32/libs</tt> sub-directory.
 
-<li> Ensure that the Windows' \c PATH variable includes
-<tt>"C:\Program Files\Intel\MKL\ia32\bin"</tt> (or the folder where
-you have installed MKL). This is required for Windows to find the MKL
-dll files. Setting the \c PATH variable can be done via the settings
-in <tt>"Control Panel -&gt; System properties -&gt; Advanced -&gt;
-Environment Variables"</tt>. Note that there are \c PATH variables for
-both the user and the system, and at least the system \c PATH should
-contain the MKL path. Alternatively you can copy all MKL dll files
-from <tt>"C:\Program Files\Intel\MKL\ia32\bin"</tt> to
-<tt>"C:\windows\system32"</tt> where Windows also will find
-them. Restart the computer to make the PATH change valid. </li>
+Finally, you can start using the IT++ library with your own programs and
+link them with IT++ and MKL. Observe that several things need to be
+correctly set up:
+- The IT++ include directory must be defined. Settings for this can be found
+in the menu <tt>"Tools -&gt; Options -&gt; Projects and Solutions -&gt; VC++
+Directories -&gt; Include files"</tt>. Add a path to 
+<tt>"<IT++ source directory>"</tt>, e.g. <tt>"C:\itpp-3.10.4"</tt>.
+- The IT++ library directory must be defined. Settings for this can be found
+in the menu <tt>"Tools -&gt; Options -&gt; Projects and Solutions -&gt; VC++
+Directories -&gt; Library files"</tt>. Add a path to 
+<tt>"<IT++ source directory>\win32\libs"</tt>, e.g.
+<tt>"C:\itpp-3.10.4\win32\libs"</tt>.
+- The MKL library directory must be defined. Add another library path with
+<tt>"C:\Program Files\Intel\MKL\8.1\ia32\lib"</tt>.
+- Linking with IT++ and MKL must be set up. Do this by marking your project
+and go to the menu <tt>"Project -&gt; Properties -&gt; Configuration
+Properties -&gt; Linker -&gt; Input -&gt; Additional Dependencies"</tt>.
+There you need to add <tt>itpp_debug.lib</tt> or <tt>itpp.lib</tt> depending
+on whether Debug or Release mode are being used. Furthermore, you need to
+add <tt>mkl_c_dll.lib</tt>.
+- The runtime library for linking needs to be set to <tt>Multi-threaded
+Debug</tt> or <tt>Multi-threaded</tt>. This option can be set in the menu
+<tt>"Project -&gt; Properties -&gt; Configuration Properties -&gt; C/C++
+-&gt; Code Generation -&gt; Runtime Library"</tt>.
 
-<li> Compile IT++.</li>
-
-</ul>
-
-The next step is to compile your program and link it with IT++ and MKL.
-Observe that several things need to be correctly set up:
-
-<ul>
-
-<li> The IT++ include directory must be found. The settings for this
-are found in the menu <tt>"Tools -&gt; Options -&gt; Projects -&gt;
-VC++ Directories -&gt; Include Files"</tt>. Add a path to
-<tt>"<IT++ source directory>\itpp"</tt>. </li>
-
-<li> The IT++ library directory must be found. The settings for this
-are found in the menu <tt>"Tools -&gt; Options -&gt; Projects -&gt;
-VC++ Directories -&gt; Library Files"</tt>. Add a path to
-<tt>"<IT++ source directory>\lib"</tt>. </li>
-
-<li> The MKL library directory must be found. The settings for this are
-found in the menu <tt>"Tools -&gt; Options -&gt; Projects -&gt; VC++
-Directories -&gt; Library Files"</tt>. Add a path to 
-<tt>"C:\Program Files\Intel\MKL\ia32\lib"</tt>. </li>
-
-<li> Linking with IT++ and MKL must be set up. Do this by marking your
-project and go to the menu <tt>"Project -&gt; Properties -&gt;
-Configuration Properties -&gt; CC++ -&gt; Linker -&gt; Input -&gt;
-Additional Dependencies"</tt>. There you need to add
-<tt>itpp_debug.lib</tt> or <tt>itpp.lib</tt> depending on whether
-debug or release mode are being used. Furthermore, you need to 
-add <tt>mkl_c_dll.lib</tt>. </li>
-
-</ul>
-
-Please note that the project settings for your program must be made for
-both the `debug' and `release' mode.
+Please note that Project settings for your program must be made for both the
+Debug and Release modes.
 
 */
