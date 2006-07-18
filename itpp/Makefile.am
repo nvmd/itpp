@@ -52,5 +52,6 @@ lib@PACKAGE@_debug_la_LIBADD = $(top_builddir)/@PACKAGE@/base/libbase_debug.la \
 	$(COMM_D_LIB) $(FIXED_D_LIB) $(PROTOCOL_D_LIB) $(SIGNAL_D_LIB) \
 	$(SRCCODE_D_LIB)
 
-pkgincludedir = $(includedir)/@PACKAGE@
+#pkgincludedir = $(includedir)/@PACKAGE@
 nobase_pkginclude_HEADERS = $(h_sources)
+nobase_nodist_pkginclude_HEADERS = $(top_builddir)/@PACKAGE@/config.h

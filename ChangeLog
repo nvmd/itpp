@@ -1,5 +1,8 @@
 2006-07-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/Makefile.am, itpp/sources.mk: Fixed Makefiles so the
+	generated `config.h' file is not distributed.
+
 	* itpp/base/elmatfunc.cpp, itpp/base/elmatfunc.h: Added a dirty
 	hack for MSVC++ .NET compilation problems of vector and matrix
 	based conj() function. MSVC++ .NET crashed without this hack.
