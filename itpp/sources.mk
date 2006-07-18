@@ -1,6 +1,6 @@
-h_sources = $(top_builddir)/itpp/config.h \
-	$(top_srcdir)/itpp/itbase.h \
+h_sources = $(top_srcdir)/itpp/itbase.h \
 	$(top_srcdir)/itpp/itmex.h
+#$(top_builddir)/itpp/config.h
 
 if ENABLE_COMM
   h_sources += $(top_srcdir)/itpp/itcomm.h
