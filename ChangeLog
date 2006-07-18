@@ -1,5 +1,9 @@
 2006-07-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/local/installation.doc: Updated installation document - the
+	section about using MSVC++ .NET compiler and Intel MKL external
+	library.
+
 	* itpp/Makefile.am, itpp/sources.mk: Fixed Makefiles so the
 	generated `config.h' file is not distributed.
 
