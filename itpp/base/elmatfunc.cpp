@@ -181,4 +181,28 @@ namespace itpp {
     return temp;
   }
 
+#ifdef _MSC_VER
+  cvec conj(const cvec &x) {
+    cvec temp(x.size());
+    
+    for (int i = 0; i < x.size(); i++) {
+      temp(i) = std::conj(x(i));
+    }
+
+    return temp;
+  }
+
+  cmat conj(const cmat &x) {
+    cmat temp(x.rows(), x.cols());
+    
+    for (int i = 0; i < x.rows(); i++) {
+      for (int j = 0; j < x.cols(); j++) {
+	temp(i, j) = std::conj(x(i, j));
+      }
+    }
+
+    return temp;
+  }
+#endif
+
 } // namespace itpp

@@ -203,6 +203,9 @@ namespace itpp {
   //! Angle
   inline mat angle(const cmat &x) { return arg(x); }
 
+  // Added due to a failure in MSVC++ .NET 2005, which crashes on this
+  // code.
+#ifndef _MSC_VER
   //! Conjugate of complex value
   inline cvec conj(const cvec &x)
   { 
@@ -213,6 +216,13 @@ namespace itpp {
   { 
     return apply_function<std::complex<double> >(std::conj, x); 
   }
+#else
+  //! Conjugate of complex value
+  cvec conj(const cvec &x);
+
+  //! Conjugate of complex value
+  cmat conj(const cmat &x);
+#endif
 
   //!@}
 
