@@ -1,3 +1,9 @@
+2006-07-19  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac: Added explicit check for a fortran compiler. If
+	not found, BLAS, CBLAS and LAPACK are not checked. BTW, obsolete
+	AC_HELP_STRING macros replaced with AS_HELP_STRING.
+
 2006-07-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/vec.cpp, itpp/base/vec.h: Minor fixes of a few
