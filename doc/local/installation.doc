@@ -135,8 +135,10 @@ components. Here is a list of them:
 - \c `--disable-srccode' - do not build the `Source coding' module
 
 By default, the \c `configure' script checks for a few external libraries,
-which might be used by the IT++ library (cf. \ref requirements). The
-detection procedure is as follows:
+which might be used by the IT++ library (cf. \ref requirements). BLAS and
+LAPACK libraries require a fortran compiler for linking. Therefore, if no
+fortran compiler can be found, only some FFT library is searched.
+Otherwise, the detection procedure is as follows:
 -# First, the presence of a BLAS library among the MKL, ACML, ATLAS and
    NetLib's reference BLAS is checked. If one of the above mentioned can be
    used, \c HAVE_BLAS is defined.
@@ -274,7 +276,8 @@ External libs:
 
 Compiler/linker flags/libs/defs:
   - CXX ............ : g++
-  - CXXFLAGS ....... : -DASSERT_LEVEL=1 -O3 -pipe
+  - F77 ............ : g77
+  - CXXFLAGS ....... : -O3 -Wall -pipe
   - CXXFLAGS_DEBUG . : 
   - CPPFLAGS ....... : 
   - LDFLAGS ........ : 
@@ -315,17 +318,17 @@ As a result, you should obtain a similar report:
 ------------------------------------------------------------------------------
 Test `array_test' PASSED.
 ------------------------------------------------------------------------------
-Test `bch_test' PASSED.
+Test `bessel_test' PASSED.
 ------------------------------------------------------------------------------
 
 [...]
 
 ------------------------------------------------------------------------------
-Test `vec_test' PASSED.
+Test `reedsolomon_test' PASSED.
 ------------------------------------------------------------------------------
-Test `vector_test' PASSED.
+Test `turbo_test' PASSED.
 ------------------------------------------------------------------------------
-Test `window_test' PASSED.
+Test `fix_test' PASSED.
 ------------------------------------------------------------------------------
 \endverbatim
 
