@@ -1,5 +1,7 @@
 2006-07-19  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* INSTALL: Updated to reflect recent changes in installation.doc.
+
 	* doc/local/installation.doc: Installation documentation updted
 	according to the recent changes in fortran compiler detection.
 
