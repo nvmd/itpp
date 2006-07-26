@@ -49,7 +49,9 @@ int main()
 
   BPSK bpsk;
   Rec_Syst_Conv_Code rscc;
-  rscc.set_generator_polynomials("031 027",5);
+  // Fixed by ediap: ivec("string") constructor uses only decimal notation
+  // rscc.set_generator_polynomials("031 027",5);
+  rscc.set_generator_polynomials("25 23", 5);
   rscc.set_awgn_channel_parameters(Ec, N0);
 
   rscc.encode_tail(uncoded_bits,tail_bits,parity_bits);

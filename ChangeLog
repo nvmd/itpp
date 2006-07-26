@@ -1,3 +1,11 @@
+2006-07-26  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* tests/rec_syst_conv_code_test.cpp,
+	tests/rec_syst_conv_code_test.ref: Fixed a minor bug in the RSC
+	code test program. The generator polynomials were initialised with
+	a string using octal notation, which is not supported by Vec<>
+	parser yet.
+
 2006-07-19  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* INSTALL: Updated to reflect recent changes in installation.doc.
