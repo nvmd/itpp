@@ -1,3 +1,9 @@
+2006-08-03  Erik G. Larsson <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/signal/transforms.*: Documentation update to comment on the
+	the issues with memory alignment for FFTW (cf. bug/feature request
+	[1418707]).
+
 2006-08-03  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/vec.cpp: Changed the way "a:b:c" format is parsed when

@@ -167,7 +167,6 @@ namespace itpp {
       \param extrinsic_output For all systematic bits
       \param set_terminated Equal to \a true if the trellis was terminated by the encoder and false otherwise 
 
-      \relates LLR_calc_unit
     */
     virtual void log_decode(const QLLRvec &rec_systematic, 
 			    const QLLRmat &rec_parity, 
@@ -186,7 +185,6 @@ namespace itpp {
       \param extrinsic_output For all systematic bits
       \param set_terminated Equal to \a true if the trellis was terminated by the encoder and false otherwise 
 
-      \relates LLR_calc_unit
      */
     virtual void log_decode_n2(const QLLRvec &rec_systematic, 
 			       const QLLRvec &rec_parity, 

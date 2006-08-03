@@ -64,10 +64,23 @@ namespace itpp {
     The implementation is built upon one of the following libraries: FFTW,
     MKL, or ACML, depending on which was chosen during compilation.
 
+
     The routine is fastest for powers of two. Furthermore, the second time
     you call the routine with the same size, the calculation is much faster
     due to many things were calculated and stored the first time the routine
     was called.
+
+    <b>Note to FFTW users:</b> Achieving maximum runtime efficiency
+    with the FFTW library on some computer architectures requires that
+    data are stored in the memory with a special alignment (to 16-byte
+    boundaries).  The IT++ memory management functions and container
+    classes do not generally allocate memory aligned this way, and as
+    a result calling FFTW via the IT++ interface (i.e. the fft()
+    function) may be slower than using the FFTW library directly.
+    Therefore, FFTW users concerned about maximum possible performance
+    may want to consider the possibility of calling the FFTW library
+    and its memory management/allocation routines directly, bypassing
+    the IT++ storage classes and the fft() interface to FFTW.
   */
 
   //!\addtogroup fft
