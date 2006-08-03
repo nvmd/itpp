@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Matrix Class Definitions
- * \author Tony Ottosson and Tobias Ringstrom
+ * \author Tony Ottosson, Tobias Ringstrom and Adam Piatyszek
  * 
  * $Date$
  * $Revision$
@@ -108,11 +108,11 @@ namespace itpp {
     prepared for \c bin, \c short, \c int, \c double, and \c complex<double>
     vectors and these are predefined as: \c bmat, \c smat, \c imat, \c mat,
     and \c cmat. \c double and \c complex<double> are usually \c double and
-    \c complex<double> respectively. However, this can be changed when 
-    compiling the it++ (see installation notes for more details). (Note: for 
-    binary matrices, an alternative to the bmat class is \c GF2mat and \c GF2mat_dense, 
-    which offer a more memory efficient representation and additional functions for 
-    linear algebra.) 
+    \c complex<double> respectively. However, this can be changed when
+    compiling the it++ (see installation notes for more details). (Note: for
+    binary matrices, an alternative to the bmat class is \c GF2mat and 
+    \c GF2mat_dense, which offer a more memory efficient representation and
+    additional functions for linear algebra.)
 
     Examples:
 
@@ -579,45 +579,65 @@ namespace itpp {
     for(int i=0; i<datasize; i++)
       data[i] = Num_T(1);
   }
-
-  template<> bool Mat<std::complex<double> >::set(const char *values);
-  template<> bool Mat<bin>::set(const char *values);
+  
+  template<> bool Mat<int>::set(const char *values);
+  template<> bool Mat<short int>::set(const char *values);
 
   template<class Num_T>
   bool Mat<Num_T>::set(const char *values)
   {
     std::istringstream buffer(values);
-    int rows=0, maxrows=10, cols=0, nocols=0, maxcols=10;
-
+    int rows = 0, maxrows = 10, cols = 0, nocols = 0, maxcols = 10;
+    bool comma = true;
+    
     alloc(maxrows, maxcols);
-
-    while (buffer.peek()!=EOF) {
-      rows++;
-      if (rows > maxrows) {
-	maxrows=maxrows*2;
+    
+    while (buffer.peek() != EOF) {
+      if (++rows > maxrows) {
+	maxrows <<= 1;
 	set_size(maxrows, maxcols, true);
       }
 
-      cols=0;
-      while ( (buffer.peek() != ';') && (buffer.peek() != EOF) ) {
-	if (buffer.peek()==',') {
-	  buffer.get();
-	} else {
-	  cols++;
-	  if (cols > nocols) {
-	    nocols=cols;
+      cols = 0;
+      while ((buffer.peek() != ';') && (buffer.peek() != EOF)) {
+	switch (buffer.peek()) {
+	  // first remove value separators
+	case ',':
+	  it_assert(!comma, "Mat<Num_T>::set(): Improper matrix string");
+	  buffer.seekg(1, std::ios_base::cur);
+	  comma = true;
+	  break;
+	case ' ': case '\t':
+	  buffer.seekg(1, std::ios_base::cur);
+	  break;
+
+	default:
+	  if (++cols > nocols) {
+	    nocols = cols;
 	    if (cols > maxcols) {
-	      maxcols=maxcols*2;
+	      maxcols <<= 1;
 	      set_size(maxrows, maxcols, true);
 	    }
 	  }
-	  buffer >> this->operator()(rows-1,cols-1);
-	  while (buffer.peek()==' ') { buffer.get(); }
+	  buffer >> this->operator()(rows-1, cols-1);
+	  it_assert(!buffer.fail(), "Mat<Num_T>::set(): Stream operation failed (buffer >> data)");
+	  comma = false;
 	}
       }
 
-      if (!buffer.eof())
-	buffer.get();
+      if (buffer.peek() == ';') {
+	// remove row separator...
+	buffer.seekg(1, std::ios_base::cur);
+	// ... but also check if it was at the end of buffer
+	while (buffer.peek() == ' ' || buffer.peek() == '\t') {
+	  buffer.seekg(1, std::ios_base::cur);
+	}
+	comma = false;
+	// it_assert(buffer.peek() != EOF, "Mat<double>::set(): Improper data string");
+      }
+
+      it_assert(!comma, "Mat<Num_T>::set(): Improper matrix string");
+
     }
     set_size(rows, nocols, true);
 

@@ -14,6 +14,11 @@ int main(void)
 
  mat E = randn(1,3);
 
+ mat M;
+ imat iM;
+ smat sM;
+ cmat cM;
+ bmat bM;
  mat D;
  vec s;
 
@@ -23,7 +28,7 @@ int main(void)
  cout << "A = " << A << endl;
  cout << "B = " << B << endl;
  cout << "C = " << C << endl;
- cout << "E = " << E << endl;
+ cout << "E = " << E << endl << endl;
 
  cout << "Testing indexing" << endl;
  cout << "================" << endl;
@@ -34,8 +39,20 @@ int main(void)
  cout << "A.get_row(1) = " << A.get_row(1) << endl;
  cout << "A.get_rows(1,2) = " << A.get_rows(1,2) << endl;
  cout << "A.get_col(2) = " << A.get_col(2) << endl;
- cout << "A.get_cols(2,3) = " << A.get_cols(2,3) << endl;
+ cout << "A.get_cols(2,3) = " << A.get_cols(2,3) << endl << endl;
 
+ cout << "Testing initialisation with string" << endl;
+ cout << "==================================" << endl;
+ cout << "sM = \"0xFF, -021 ,   100; 0,-0x01; 0xA, 10 012;  \"" << endl;
+ sM = "0xFF, -021 ,   100; 0,-0x01; 0xA, 10 012;  ";
+ cout << "sM = " << sM << endl;
+ cout << "cM = \" 1+3i, (.33,1) ;  (333,-1) 2-0.2E6i\"" << endl;
+ cM = " 1+3i, (.33,1) ;  (333,-1) 2-0.2E6i";
+ cout << "cM = " << cM << endl;
+ cout << "bM = \" 1 1 0; 0 1; 1 1 ,1,   1; ; 0 1\"" << endl;
+ bM = " 1 1 0; 0 1; 1 1 ,1,   1; ; 0 1";
+ cout << "bM = " << bM << endl << endl;
+   
  cout << "Testing setting/copying/swapping" << endl;
  cout << "================================" << endl;
  cout << "v = " << v << endl;
@@ -75,7 +92,7 @@ int main(void)
  cout << "D = " << D << endl;
  D = concat_vertical(A,B);
  cout << "D = concat_vertical(A,B):" << endl;
- cout << "D = " << D << endl;
+ cout << "D = " << D << endl << endl;
 
  cout << "Testing operators (=, +, - *, /)" << endl;
  cout << "================================" << endl;

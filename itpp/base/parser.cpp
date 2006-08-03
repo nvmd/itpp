@@ -564,10 +564,10 @@ namespace itpp {
 	  //Insert Separator:
 	  if (j<n) {
 	    if (Temp[j]==';') { Out += ';'; j++; }
-	    else if (Temp[j]==',') { Out += Temp[j]; j++; }
-	    else if (Temp[j]=='+') { Out += ','; Out += Temp[j]; j++; }
-	    else if (Temp[j]=='-') { Out += ','; Out += Temp[j]; j++; }
-	    else { Out += ','; }
+	    else if (Temp[j]==',') { Out += ' '; j++; }
+	    else if (Temp[j]=='+') { Out += ' '; Out += Temp[j]; j++; }
+	    else if (Temp[j]=='-') { Out += ' '; Out += Temp[j]; j++; }
+	    else { Out += ' '; }
 	  }
 	  //Remove spaces after separator:
 	  while (((Temp[j]==' ')||(Temp[j]=='\t')||(Temp[j]=='\n'))&&(j<n)) { j++; }

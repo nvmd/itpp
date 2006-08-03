@@ -1,6 +1,14 @@
+2006-08-03  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/vec.cpp: Changed the way "a:b:c" format is parsed when
+	(b = 0) and (a = c). Now it returns "a". Thanks to Erik for
+	finding this bug (merged rev. 556:566 from a temporary sandbox
+	branch).
+
 2006-08-03  Erik G. Larsson <erik_g_larsson@users.sourceforge.net>
 
-	* itpp/comm/rec_syst_conv_code.h: Documentation update (fixes bug 1532371)
+	* itpp/comm/rec_syst_conv_code.h: Documentation update (fixes bug
+	[1532371]).
 
 2006-07-26  Adam Piatyszek  <ediap@users.sourceforge.net>
 
@@ -9,6 +17,47 @@
 	code test program. The generator polynomials were initialised with
 	a string using octal notation, which is not supported by Vec<>
 	parser yet.
+
+	* itpp/base/parser.cpp: Minor change in findname() function to
+	adapt the parser to recent changes in Vec and Mat classes. Now
+	fields in a temporary parsed string are separated with spaces
+	instead of commas (merged rev. 556:566 from a temporary sandbox
+	branch).
+
+	* tests/mat_test.cpp, tests/mat_test.ref, tests/vec_test.cpp,
+	tests/vec_test.ref: Added vector and matrix initialisation tests
+	with strings (merged rev. 556:566 from a temporary sandbox
+	branch).
+
+2006-07-25  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/mat.cpp, itpp/base/mat.h, itpp/base/vec.cpp,
+	itpp/base/vec.h (merged rev. 556:566 from a temporary sandbox
+	branch):
+
+	New functions for initialising vectors and matrices from strings
+	implemented. Main features of the improved parser are as follows:
+
+	- Decimal, octal and hexadecimal notation support according to
+	C/C++ conventions, i.e. octal number starts with `0' (e.g. `0133',
+	`077'), decimal number starts with `1-9' or is a single `0' digit,
+	hexadecimal number starts with `0x' or `0X' prefix and has at
+	least one `0-9', `a-f'or `A-F' digit after (e.g. 0xFF, 0x0,
+	0x070). Various representations can be mixed in one string.
+
+	- Signed numbers supported, i.e. with `+', `-' or nothing in
+	front, e.g. `-1000', `+0133', `-0x1'
+   
+	- Vector values can be separated with spaces ` ', tabs `\t' or
+	comma `,', e.g. " -1 22, 47 0x5, 077"
+   
+	- Matlab's "a:b" or "a:b:c" notation for both increasing and
+	decreasing values supported, e.g. "0:2:10", "-9:-18", "4:-1:0",
+	"0x0:0x8:0xFF"
+   
+	- Matrix rows separated with a single semicolon `;'
+	
+	- Detection of syntax errors during parsing
 
 2006-07-19  Adam Piatyszek  <ediap@users.sourceforge.net>
 
