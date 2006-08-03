@@ -1,34 +1,34 @@
 /*!
-* \file 
-* \brief Statistical routines test program
-* \author Tony Ottosson and Adam Piatyszek
-*
-* $Date$
-* $Revision$
-*
-* -------------------------------------------------------------------------
-*
-* IT++ - C++ library of mathematical, signal processing, speech processing,
-*        and communications classes and functions
-*
-* Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
-*
-* This program is free software; you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation; either version 2 of the License, or
-* (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program; if not, write to the Free Software
-* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
-*
-* -------------------------------------------------------------------------
-*/
+ * \file 
+ * \brief Statistical routines test program
+ * \author Tony Ottosson and Adam Piatyszek
+ *
+ * $Date$
+ * $Revision$
+ *
+ * -------------------------------------------------------------------------
+ *
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ *
+ * -------------------------------------------------------------------------
+ */
 
 #include <itpp/itbase.h>
 
@@ -39,6 +39,10 @@ int main()
 {
   int N = 33;
   vec a = randn(N), b = randn(N), r, v;
+  ivec iv;
+  svec sv;
+  cvec cv;
+  bvec bv;
   double c = randn(), s , y;
   mat M;
 
@@ -103,9 +107,6 @@ int main()
   r = concat(a,b,a);
   cout << "r = concat(a,b,a) = " << r << endl;
 
-  r="23.3 1232.7 0.111 1.525 0.333";
-  cout << "Testing to set vector by string: r = " << r << endl;
-
   s = a.size();
   cout << "Testing Vec<T>.size(): s = " << s << endl;
 
@@ -117,6 +118,31 @@ int main()
 
   r.ones();
   cout << "Testing Vec<T>.ones(): r = " << r << endl << endl;
+
+  // Test vectror initialisation with string
+  v = "23.3 1232.7 0.111 1.525 0.333";
+  cout << "Testing double vector initialisation with: \"23.3 1232.7 0.111 1.525 0.333\":" 
+       << endl << "v = " << v << endl;
+
+  v = "-10.000 :.5:-4.5";
+  cout << "Testing double vector initialisation with: \"-10.000 :.5:-4.5\":" 
+       << endl << "v = " << v << endl;
+
+  iv = "0xA : -010";
+  cout << "Testing int vector initialisation with: \"0xA : -010\":" 
+       << endl << "iv = " << iv << endl;
+
+  sv = "3 0xF -10, 0133 0177, 0x0 ";
+  cout << "Testing short int vector initialisation with: \"3 0xF -10, 0133 0177, 0x0 \":" 
+       << endl << "sv = " << sv << endl;
+
+  cv = " (0.3, 0.4)  .2-.01i, 1e-3+0.25i";
+  cout << "Testing complex vector initialisation with: \" (0.3, 0.4)  .2-.01i, 1e-3+0.25i\":" 
+       << endl << "cv = " << cv << endl;
+
+  bv = "1 1 0,1  1  ,  0 ,1  ";
+  cout << "Testing bit vector initialisation with: \"1 1 0,1  1  ,  0 ,1  \":" 
+       << endl << "bv = " << bv << endl << endl;
 
   // Test of shifts
   v = ones(5);

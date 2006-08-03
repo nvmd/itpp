@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Matrix Class Implementation
- * \author Tony Ottosson and Tobias Ringstrom
+ * \author Tony Ottosson, Tobias Ringstrom and Adam Piatyszek
  * 
  * $Date$
  * $Revision$
@@ -36,87 +36,423 @@
 namespace itpp {
 
   template<>
-  bool Mat<std::complex<double> >::set(const char *values)
+  bool Mat<int>::set(const char *values)
   {
     std::istringstream buffer(values);
-    int rows=0, maxrows=10, cols=0, nocols=0, maxcols=10;
+    int rows = 0, maxrows = 10, cols = 0, nocols = 0, maxcols = 10;
+    bool comma = true;
+    std::streamoff offset = 0;
 
     alloc(maxrows, maxcols);
 
-    while (buffer.peek()!=EOF) {
-      rows++;
-      if (rows > maxrows) {
-	maxrows=maxrows*2;
+    // go through the whole buffer
+    while (buffer.peek() != EOF) {
+      if (++rows > maxrows) {
+	maxrows <<= 1;
 	set_size(maxrows, maxcols, true);
       }
 
-      cols=0;
-      while ( (buffer.peek() != ';') && (buffer.peek() != EOF) ) {
-	if (buffer.peek()==',') {
-	  buffer.get();
-	} else {
-	  cols++;
-	  if (cols > nocols) {
-	    nocols=cols;
-	    if (cols > maxcols) {
-	      maxcols=maxcols*2;
-	      set_size(maxrows, maxcols, true);
+      cols = 0;
+      // parsing of each row starts here
+      while (buffer.peek() != ';' && buffer.peek() != EOF) {
+	switch (buffer.peek()) {
+	  // first remove value separators
+	case ',':
+	  it_assert(!comma, "Mat<Num_T>::set(): Improper matrix string");
+	  buffer.seekg(1, std::ios_base::cur);
+	  comma = true;
+	  break;
+	case ' ': case '\t':
+	  buffer.seekg(1, std::ios_base::cur);
+	  break;
+
+	  // then check for a possible sign 
+	case '+': case '-':
+	  buffer.seekg(1, std::ios_base::cur);
+	  offset--;
+	  break;
+
+	  // check for hexadecimal, octal or zero number
+	case '0':
+	  buffer.seekg(1, std::ios_base::cur);
+	  offset--;
+	  if (buffer.peek() != EOF && buffer.peek() != ';') {
+	    switch (buffer.peek()) {
+	      // hexadecimal number
+	    case 'x': case 'X':
+	      buffer.seekg(1, std::ios_base::cur);
+	      offset--;
+	      do {
+		switch (buffer.peek()) {
+		case '0': case '1': case '2': case '3': case '4': case '5':
+		case '6': case '7': case '8': case '9': case 'a': case 'A':
+		case 'b': case 'B': case 'c': case 'C': case 'd': case 'D':
+		case 'e': case 'E': case 'f': case 'F':
+		  buffer.seekg(1, std::ios_base::cur);
+		  offset--;
+		  break;
+		default:
+		  it_error("Mat<int>::set(): Improper data string (hex)");
+		}
+	      } while (buffer.peek() != EOF && buffer.peek() != ';' &&
+		       buffer.peek() != ' ' && buffer.peek() != '\t' && 
+		       buffer.peek() != ',');
+	    
+	      buffer.clear();
+	      buffer.seekg(offset, std::ios_base::cur);
+	      offset = 0;
+	      if (++cols > nocols) {
+		// it_assert(rows == 1, "Mat<int>::set(): Improper number of columns in matrix string");
+		nocols = cols;
+		if (cols > maxcols) {
+		  maxcols <<= 1;
+		  set_size(maxrows, maxcols, true);
+		}
+	      }
+	      buffer >> std::hex >> this->operator()(rows-1, cols-1);
+	      comma = false;
+	      break; // end of hexadeximal part
+
+	      // octal number
+	    case '1': case '2': case '3': case '4':
+	    case '5': case '6': case '7':
+	      buffer.seekg(1, std::ios_base::cur);
+	      offset--;
+	      while (buffer.peek() != EOF && buffer.peek() != ';' &&
+		     buffer.peek() != ' ' && buffer.peek() != '\t' &&
+		     buffer.peek() != ',') {
+		switch (buffer.peek()) {
+		case '0': case '1': case '2': case '3':
+		case '4': case '5': case '6': case '7':
+		  buffer.seekg(1, std::ios_base::cur);
+		  offset--;
+		  break;
+		default:
+		  it_error("Mat<int>::set(): Improper data string (oct)");
+		}
+	      }
+	      buffer.clear();
+	      buffer.seekg(offset, std::ios_base::cur);
+	      offset = 0;
+	      if (++cols > nocols) {
+		// it_assert(rows == 1, "Mat<int>::set(): Improper number of columns in matrix string");
+		nocols = cols;
+		if (cols > maxcols) {
+		  maxcols <<= 1;
+		  set_size(maxrows, maxcols, true);
+		}
+	      }
+	      buffer >> std::oct >> this->operator()(rows-1, cols-1);
+	      comma = false;
+	      break; // end of octal part
+
+	      // zero
+	    case ' ': case '\t': case ',': case ';':
+	      buffer.clear();
+	      buffer.seekg(offset, std::ios_base::cur);
+	      offset = 0;
+	      if (++cols > nocols) {
+		// it_assert(rows == 1, "Mat<int>::set(): Improper number of columns in matrix string");
+		nocols = cols;
+		if (cols > maxcols) {
+		  maxcols <<= 1;
+		  set_size(maxrows, maxcols, true);
+		}
+	      }
+	      buffer >> std::dec >> this->operator()(rows-1, cols-1);
+	      comma = false;
+	      break; // end of zero part
+
+	    default:
+	      it_error("Mat<int>::set(): Improper data string");
+	    }
+	  } // if (buffer.peek() != EOF && buffer.peek() != ';')
+	  else { // parse zero at the end of buffer/row
+	    buffer.clear();
+	    buffer.seekg(offset, std::ios_base::cur);
+	    offset = 0;
+	    if (++cols > nocols) {
+	      // it_assert(rows == 1, "Mat<int>::set(): Improper number of columns in matrix string");
+	      nocols = cols;
+		if (cols > maxcols) {
+		  maxcols <<= 1;
+		  set_size(maxrows, maxcols, true);
+		}
+	    }
+	    buffer >> std::dec >> this->operator()(rows-1, cols-1);
+	    comma = false;
+	  }
+	  break; // end of check for hex, oct or zero number
+
+	  // decimal number
+	case '1': case '2': case '3': case '4': case '5':
+	case '6': case '7': case '8': case '9':
+	  buffer.seekg(1, std::ios_base::cur);
+	  offset--;
+	  while (buffer.peek() != EOF && buffer.peek() != ';' &&
+		 buffer.peek() != ' ' && buffer.peek() != '\t' &&
+		 buffer.peek() != ',') {
+	    switch (buffer.peek()) {
+	    case '0': case '1': case '2': case '3': case '4':
+	    case '5': case '6': case '7': case '8': case '9':
+	      buffer.seekg(1, std::ios_base::cur);
+	      offset--;
+	      break;
+	    default:
+	      it_error("Mat<int>::set(): Improper data string (dec)");
 	    }
 	  }
-	  buffer >> this->operator()(rows-1,cols-1);
-	  while (buffer.peek()==' ') { buffer.get(); }
+	  buffer.clear();
+	  buffer.seekg(offset, std::ios_base::cur);
+	  offset = 0;
+	  if (++cols > nocols) {
+	    // it_assert(rows == 1, "Mat<int>::set(): Improper number of columns in matrix string");
+	    nocols = cols;
+		if (cols > maxcols) {
+		  maxcols <<= 1;
+		  set_size(maxrows, maxcols, true);
+		}
+	  }
+	  buffer >> std::dec >> this->operator()(rows-1, cols-1);
+	  comma = false;
+	  break; // end of decimal part
+      
+	default:
+	  it_error("Mat<int>::set(): Improper data string");
 	}
+      } // while (buffer.peek() != ';' && buffer.peek() != EOF)
+
+      // check if the current row has the same number of cols as the first row
+      // it_assert(cols == nocols, "Mat<int>::set(): Improper number of cols in matrix string");
+
+      if (buffer.peek() == ';') {
+	// remove row separator...
+	buffer.seekg(1, std::ios_base::cur);
+	// ... but also check if it was at the end of buffer
+	while (buffer.peek() == ' ' || buffer.peek() == '\t') {
+	  buffer.seekg(1, std::ios_base::cur);
+	}
+	comma = false;
+	// it_assert(buffer.peek() != EOF, "Mat<int>::set(): Improper data string");
       }
+      
+      it_assert(!comma, "Mat<int>::set(): Improper matrix string");
 
-      if (!buffer.eof())
-	buffer.get();
-    }
+    } // while (buffer.peek() != EOF)
+
     set_size(rows, nocols, true);
-
+  
     return true;
   }
 
-
-  template<>
-  bool Mat<bin>::set(const char *values)
-  {
+  template<> 
+  bool Mat<short int>::set(const char *values) {
     std::istringstream buffer(values);
-    int rows=0, maxrows=10, cols=0, nocols=0, maxcols=10;
-    short intemp;
+    int rows = 0, maxrows = 10, cols = 0, nocols = 0, maxcols = 10;
+    bool comma = true;
+    std::streamoff offset = 0;
 
     alloc(maxrows, maxcols);
 
-    while (buffer.peek()!=EOF) {
-      rows++;
-      if (rows > maxrows) {
-	maxrows *= 2;
+    // go through the whole buffer
+    while (buffer.peek() != EOF) {
+      if (++rows > maxrows) {
+	maxrows <<= 1;
 	set_size(maxrows, maxcols, true);
       }
-      cols=0;
-      while ( (buffer.peek() != ';') && (buffer.peek() != EOF) ) {
-	if (buffer.peek()==',') {
-	  buffer.get();
-	} else {
-	  cols++;
-	  if (cols > nocols) {
-	    nocols=cols;
-	    if (cols > maxcols) {
-	      maxcols=maxcols*2;
-	      set_size(maxrows, maxcols, true);
+
+      cols = 0;
+      // parsing of each row starts here
+      while (buffer.peek() != ';' && buffer.peek() != EOF) {
+	switch (buffer.peek()) {
+	  // first remove value separators
+	case ',':
+	  it_assert(!comma, "Mat<short>::set(): Improper matrix string");
+	  buffer.seekg(1, std::ios_base::cur);
+	  comma = true;
+	  break;
+	case ' ': case '\t':
+	  buffer.seekg(1, std::ios_base::cur);
+	  break;
+
+	  // then check for a possible sign 
+	case '+': case '-':
+	  buffer.seekg(1, std::ios_base::cur);
+	  offset--;
+	  break;
+
+	  // check for hexadecimal, octal or zero number
+	case '0':
+	  buffer.seekg(1, std::ios_base::cur);
+	  offset--;
+	  if (buffer.peek() != EOF && buffer.peek() != ';') {
+	    switch (buffer.peek()) {
+	      // hexadecimal number
+	    case 'x': case 'X':
+	      buffer.seekg(1, std::ios_base::cur);
+	      offset--;
+	      do {
+		switch (buffer.peek()) {
+		case '0': case '1': case '2': case '3': case '4': case '5':
+		case '6': case '7': case '8': case '9': case 'a': case 'A':
+		case 'b': case 'B': case 'c': case 'C': case 'd': case 'D':
+		case 'e': case 'E': case 'f': case 'F':
+		  buffer.seekg(1, std::ios_base::cur);
+		  offset--;
+		  break;
+		default:
+		  it_error("Mat<short int>::set(): Improper data string (hex)");
+		}
+	      } while (buffer.peek() != EOF && buffer.peek() != ';' &&
+		       buffer.peek() != ' ' && buffer.peek() != '\t' && 
+		       buffer.peek() != ',');
+	    
+	      buffer.clear();
+	      buffer.seekg(offset, std::ios_base::cur);
+	      offset = 0;
+	      if (++cols > nocols) {
+		// it_assert(rows == 1, "Mat<short int>::set(): Improper number of columns in matrix string");
+		nocols = cols;
+		if (cols > maxcols) {
+		  maxcols <<= 1;
+		  set_size(maxrows, maxcols, true);
+		}
+	      }
+	      buffer >> std::hex >> this->operator()(rows-1, cols-1);
+	      comma = false;
+	      break; // end of hexadeximal part
+
+	      // octal number
+	    case '1': case '2': case '3': case '4':
+	    case '5': case '6': case '7':
+	      buffer.seekg(1, std::ios_base::cur);
+	      offset--;
+	      while (buffer.peek() != EOF && buffer.peek() != ';' &&
+		     buffer.peek() != ' ' && buffer.peek() != '\t' &&
+		     buffer.peek() != ',') {
+		switch (buffer.peek()) {
+		case '0': case '1': case '2': case '3':
+		case '4': case '5': case '6': case '7':
+		  buffer.seekg(1, std::ios_base::cur);
+		  offset--;
+		  break;
+		default:
+		  it_error("Mat<short int>::set(): Improper data string (oct)");
+		}
+	      }
+	      buffer.clear();
+	      buffer.seekg(offset, std::ios_base::cur);
+	      offset = 0;
+	      if (++cols > nocols) {
+		// it_assert(rows == 1, "Mat<short int>::set(): Improper number of columns in matrix string");
+		nocols = cols;
+		if (cols > maxcols) {
+		  maxcols <<= 1;
+		  set_size(maxrows, maxcols, true);
+		}
+	      }
+	      buffer >> std::oct >> this->operator()(rows-1, cols-1);
+	      comma = false;
+	      break; // end of octal part
+
+	      // zero
+	    case ' ': case '\t': case ',': case ';':
+	      buffer.clear();
+	      buffer.seekg(offset, std::ios_base::cur);
+	      offset = 0;
+	      if (++cols > nocols) {
+		// it_assert(rows == 1, "Mat<short int>::set(): Improper number of columns in matrix string");
+		nocols = cols;
+		if (cols > maxcols) {
+		  maxcols <<= 1;
+		  set_size(maxrows, maxcols, true);
+		}
+	      }
+	      buffer >> std::dec >> this->operator()(rows-1, cols-1);
+	      comma = false;
+	      break; // end of zero part
+
+	    default:
+	      it_error("Mat<short int>::set(): Improper data string");
+	    }
+	  } // if (buffer.peek() != EOF && buffer.peek() != ';')
+	  else { // parse zero at the end of buffer/row
+	    buffer.clear();
+	    buffer.seekg(offset, std::ios_base::cur);
+	    offset = 0;
+	    if (++cols > nocols) {
+	      // it_assert(rows == 1, "Mat<short int>::set(): Improper number of columns in matrix string");
+	      nocols = cols;
+		if (cols > maxcols) {
+		  maxcols <<= 1;
+		  set_size(maxrows, maxcols, true);
+		}
+	    }
+	    buffer >> std::dec >> this->operator()(rows-1, cols-1);
+	    comma = false;
+	  }
+	  break; // end of check for hex, oct or zero number
+
+	  // decimal number
+	case '1': case '2': case '3': case '4': case '5':
+	case '6': case '7': case '8': case '9':
+	  buffer.seekg(1, std::ios_base::cur);
+	  offset--;
+	  while (buffer.peek() != EOF && buffer.peek() != ';' &&
+		 buffer.peek() != ' ' && buffer.peek() != '\t' &&
+		 buffer.peek() != ',') {
+	    switch (buffer.peek()) {
+	    case '0': case '1': case '2': case '3': case '4':
+	    case '5': case '6': case '7': case '8': case '9':
+	      buffer.seekg(1, std::ios_base::cur);
+	      offset--;
+	      break;
+	    default:
+	      it_error("Mat<short int>::set(): Improper data string (dec)");
 	    }
 	  }
-	  buffer >> intemp;
-	  this->operator()(rows-1,cols-1)=intemp;
-	  while (buffer.peek()==' ') { buffer.get(); }
+	  buffer.clear();
+	  buffer.seekg(offset, std::ios_base::cur);
+	  offset = 0;
+	  if (++cols > nocols) {
+	    // it_assert(rows == 1, "Mat<short int>::set(): Improper number of columns in matrix string");
+	    nocols = cols;
+		if (cols > maxcols) {
+		  maxcols <<= 1;
+		  set_size(maxrows, maxcols, true);
+		}
+	  }
+	  buffer >> std::dec >> this->operator()(rows-1, cols-1);
+	  comma = false;
+	  break; // end of decimal part
+      
+	default:
+	  it_error("Mat<short int>::set(): Improper data string");
 	}
-      }
-      if (!buffer.eof())
-	buffer.get();
-    }
-    set_size(rows, nocols, true);
+      } // while (buffer.peek() != ';' && buffer.peek() != EOF)
 
+      // check if the current row has the same number of cols as the first row
+      // it_assert(cols == nocols, "Mat<short int>::set(): Improper number of cols in matrix string");
+
+      if (buffer.peek() == ';') {
+	// remove row separator...
+	buffer.seekg(1, std::ios_base::cur);
+	// ... but also check if it was at the end of buffer
+	while (buffer.peek() == ' ' || buffer.peek() == '\t') {
+	  buffer.seekg(1, std::ios_base::cur);
+	}
+	comma = false;
+	// it_assert(buffer.peek() != EOF, "Mat<short int>::set(): Improper data string");
+      }
+      it_assert(!comma, "Mat<short>::set(): Improper matrix string");
+
+    } // while (buffer.peek() != EOF)
+
+    set_size(rows, nocols, true);
+  
     return true;
   }
+
 
   template<>
   const cmat Mat<std::complex<double> >::hermitian_transpose() const

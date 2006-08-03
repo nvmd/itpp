@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Templated Vector Class Definitions
- * \author Tony Ottosson and Tobias Ringstrom
+ * \author Tony Ottosson, Tobias Ringstrom and Adam Piatyszek
  *
  * $Date$
  * $Revision$
@@ -520,71 +520,16 @@ namespace itpp {
     }
   }
 
+  template<> bool Vec<double>::set(const char *values);
   template<> bool Vec<std::complex<double> >::set(const char *values);
   template<> bool Vec<bin>::set(const char *values);
+  template<> bool Vec<int>::set(const char *values);
+  template<> bool Vec<short int>::set(const char *values);
 
   template<class Num_T>
   bool Vec<Num_T>::set(const char *values)
   {
-    std::istringstream buffer(values);
-    Num_T b, c;
-    int pos=0, maxpos=10;
-    
-    alloc(maxpos);
-    
-    while (buffer.peek()!=EOF) {
-
-      switch (buffer.peek()) {
-      case ':': // reads format a:b:c or a:b
-	buffer.get();
-	if (!buffer.eof()) {
-	  buffer >> b;
-	}
-	if (!buffer.eof() && buffer.peek() == ':') {
-	  buffer.get();
-	  if (!buffer.eof()) {
-	    buffer >> c;
-	    // replaced sign(b) with the following:
-	    while (((b == 0.0 ? 0.0 : (b < 0.0 ? -1.0 : 1.0)) 
-		    * (data[pos-1]+b-c)) <= 0) {
-	      pos++;
-	      if (pos > maxpos) {
-		maxpos=maxpos*2;
-		set_size(maxpos, true);
-	      }
-	      data[pos-1]=data[pos-2]+b;
-	    }
-	  }
-	} else {
-	  while (data[pos-1]<b) {
-	    pos++;
-	    if (pos > maxpos) {
-	      maxpos=maxpos*2;
-	      set_size(maxpos, true);
-	    }
-	    data[pos-1]=data[pos-2]+1;
-	  }
-	}
-	break;
-
-      case ',':
-	buffer.get();
-	break;
-
-      default:
-	pos++;
-	if (pos > maxpos) {
-	  maxpos *= 2;
-	  set_size(maxpos, true);
-	}
-	buffer >> data[pos-1];
-	while (buffer.peek()==' ') { buffer.get(); }
-	break;
-      }
-
-    }
-    set_size(pos, true);
-
+    it_error("Vec<Num_T>::set(): Only `double', `complex<double>', `int', `short int' and `bin' types supported");
     return true;
   }
 
