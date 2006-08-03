@@ -1,3 +1,7 @@
+2006-08-03  Erik G. Larsson <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/comm/rec_syst_conv_code.h: Documentation update (fixes bug 1532371)
+
 2006-07-26  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/rec_syst_conv_code_test.cpp,

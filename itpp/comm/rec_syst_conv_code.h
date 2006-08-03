@@ -109,7 +109,7 @@ namespace itpp {
 
       The extrinsic_input is the a priori information on each systematic bit. If no a priori information is available, this vector should
       contain only zeros. The extrinsic_output term may be passed to a subsequent decoder in a Turbo
-      scheme. The decision variable is \code L = Lc*rec_systematic + extrinsic_output \endcode where \code Lc = 4*sqrt(Ec)/N0 \endcode 
+      scheme. The decision variable is \code L = Lc*rec_systematic + extrinsic_output + extrinsic_input \endcode where \code Lc = 4*sqrt(Ec)/N0 \endcode 
 
       \param rec_systematic Including both systematic bits and tail bits (if any)
       \param rec_parity Matrix including all parity bits from all polynomials as well as parity bits from the tail (if terminated)
@@ -125,7 +125,7 @@ namespace itpp {
 
       The extrinsic_input is the a priori information on each systematic bit. If no a priori information is available, this vector should
       contain only zeros. The extrinsic_output term may be passed to a subsequent decoder in a Turbo
-      scheme. The decision variable is \code L = Lc*rec_systematic + extrinsic_output \endcode where \code Lc = 4*sqrt(Ec)/N0 \endcode 
+      scheme. The decision variable is \code L = Lc*rec_systematic + extrinsic_output + extrinsic_input \endcode where \code Lc = 4*sqrt(Ec)/N0 \endcode 
 
       \param rec_systematic Including both systematic bits and tail bits (if any)
       \param rec_parity Matrix including all parity bits from all polynomials as well as parity bits from the tail (if terminated)
