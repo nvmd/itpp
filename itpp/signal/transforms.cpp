@@ -333,6 +333,24 @@ namespace itpp {
   // FFT/IFFT based on FFTW
   //---------------------------------------------------------------------------
 
+  /* Note: The FFTW_UNALIGNED flag is set when calling the FFTW
+     library, as memory alignment may change between calls (this was
+     done to fix bug 1418707).
+
+     Setting the FFTW_UNALIGNED flag fixes bug 1418707 for the time
+     being but it does not result in maximum possible performance in
+     all cases. It appears that a solution that achieves maximum
+     performance from FFTW in IT++ would require either to (i)
+     redefine IT++ memory management functions to use the type of
+     memory alignment required by FFTW, (ii) implement a memory
+     re-allocation and data copying mechanism in the IT++/FFTW
+     interface function to ensure FFTW is called with properly aligned
+     data, or (iii) force the IT++/FFTW interface function to recreate
+     the FFT plan whenever memory alignment has changed.  None of
+     these solutions was found attractive.
+     
+  */
+
   void fft(const cvec &in, cvec &out)
   {
     static int N = 0;
