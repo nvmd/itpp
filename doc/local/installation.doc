@@ -579,6 +579,11 @@ add <tt>mkl_c_dll.lib</tt>.
 Debug</tt> or <tt>Multi-threaded</tt>. This option can be set in the menu
 <tt>"Project -&gt; Properties -&gt; Configuration Properties -&gt; C/C++
 -&gt; Code Generation -&gt; Runtime Library"</tt>.
+- Two additional definitions: <tt>_CRT_SECURE_NO_DEPRECATE</tt> and
+<tt>_CRT_NONSTDC_NO_DEPRECATE</tt>, which disable warnings on C Standard
+Library and POSIX-compilant function names, might be also added in
+<tt>"Project -&gt; Properties -&gt; Configuration Properties -&gt; C/C++
+-&gt; Preprocessor -&gt; Preprocessor Definitions"</tt>.
 
 Please note that Project settings for your program must be made for both the
 Debug and Release modes.
