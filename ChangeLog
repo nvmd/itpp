@@ -1,3 +1,11 @@
+2006-08-04  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/parser.cpp, itpp/base/parser.h, tests/parser_test.cpp,
+	tests/parser_test_data.txt: Added support for decimal, hexadecimal
+	and octal notation in get_int() and get(int) parser functions.
+	Also support added for "true" and "false" strings in get_bool()
+	and get(bool) functions.
+	
 2006-08-03  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* doc/local/installation.doc: Updated installation manual using

@@ -325,7 +325,7 @@ namespace itpp {
   }
 
   template<>
-    bool Parser::get(std::string &var, const std::string &name, int num)
+  bool Parser::get(std::string &var, const std::string &name, int num)
   {
     bool error_flag, print_flag;
     std::string str = findname(name, error_flag, print_flag, num);
@@ -344,24 +344,90 @@ namespace itpp {
     return !error_flag;
   }
 
+  template<>
+  bool Parser::get(int &var, const std::string &name, int num)
+  {
+    ivec out;
+    bool error_flag, print_flag;
+    out = ivec(findname(name, error_flag, print_flag, num));
+    it_assert(out.size() == 1, "Parser::get(int): Improper variable string: "
+	      + name);
+    if (error_flag) {
+      if (VERBOSE) {
+	cout << name << " = " << out << ";" << endl;
+      }
+    } else {
+      var = out(0);
+      if (print_flag) {
+	cout << name << " = " << var << endl;
+      } else if (VERBOSE) {
+	cout << name << " = " << var << ";" << endl;
+      }
+    }
+    return !error_flag;
+  }
+
+  template<>
+  bool Parser::get(bool &var, const std::string &name, int num)
+  {
+    std::string ss;
+    bool error_flag, print_flag;
+    ss = findname(name, error_flag, print_flag, num);
+    if (error_flag) {
+      if (VERBOSE) {
+	cout << name << " = " << ss << ";" << endl;
+      }
+    } else {
+      if ((ss == "true") || (ss == "1")) {
+	var = true;
+      }
+      else if ((ss == "false") || (ss == "0")) {
+	var = false;
+      }
+      else {
+	it_error("Parser::get(bool): Improper variable string: " + name);
+      }
+      if (print_flag) {
+	cout << name << " = " << var << endl;
+      } else if (VERBOSE) {
+	cout << name << " = " << var << ";" << endl;
+      }
+    }
+    return !error_flag;
+  }
+
   bool Parser::get_bool(const std::string &name, int num)
   {
+    std::string ss;
     bool out;
     bool error_flag, print_flag;
-    out = atof(findname(name,error_flag,print_flag,num).c_str())==1;
-    if (error_flag) { it_error("Parser: Can not find variable: " + name); }
+    ss = findname(name,error_flag,print_flag,num);
+    it_assert(!error_flag, "Parser::get_bool(): Can not find variable: " + name);
+    if ((ss == "true") || (ss == "1")) {
+      out = true;
+    }
+    else if ((ss == "false") || (ss == "0")) {
+      out = false;
+    }
+    else {
+      it_error("Parser::get_bool(): Improper variable string: " + name);
+    }
     if (print_flag) { cout << "Parsing bool   : " << name << " = " << out << endl; }
     return out;
   }
 
   int Parser::get_int(const std::string &name, int num)
   {
-    int out;
+    ivec out;
     bool error_flag, print_flag;
-    out = int(atof(findname(name,error_flag,print_flag,num).c_str()));
-    if (error_flag) { it_error("Parser: Can not find variable: " + name); }
-    if (print_flag) { cout << "Parsing int   : " << name << " = " << out << endl; }
-    return out;
+    out = ivec(findname(name,error_flag,print_flag,num));
+    it_assert(!error_flag, "Parser::get_int(): Can not find variable: " + name);
+    it_assert(out.size() == 1, "Parser::get_int(): Improper variable string: "
+	      + name);
+    if (print_flag) { 
+      cout << "Parsing int   : " << name << " = " << out(0) << endl; 
+    }
+    return out(0);
   }
 
   double Parser::get_double(const std::string &name, int num)
