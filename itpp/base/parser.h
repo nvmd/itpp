@@ -221,8 +221,14 @@ namespace itpp {
 
   // Specialization for std::string
   template<>
-    bool Parser::get(std::string &var, const std::string &name, int num);
-
+  bool Parser::get(std::string &var, const std::string &name, int num);
+  // Specialization for int
+  template<>
+  bool Parser::get(int &var, const std::string &name, int num);
+  // Specialization for bool
+  template<>
+  bool Parser::get(bool &var, const std::string &name, int num);
+  
 } // namespace itpp
 
 #endif // #ifndef PARSER_H
