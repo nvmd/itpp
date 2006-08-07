@@ -1,4 +1,11 @@
+==============================================================================
+
 2006-08-07  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* IT++ 3.10.4 released (SVN tag: release-3-10-4)
+
+	* NEWS: Updated to reflect recent changes (merged rev. 579:581
+	from itpp-3-10 branch).
 
 	* itpp/base/bessel.cpp, itpp/base/bessel/jv.cpp,
 	itpp/base/bessel/struve.cpp, itpp/base/random.h,
