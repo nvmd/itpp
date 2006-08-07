@@ -1,4 +1,38 @@
 ===============================================================================
+IT++ version 3.10.4                                        Released: 2006-08-07
+-------------------------------------------------------------------------------
+
+This is a bug-fix release. Therefore, no new features have been added
+since release 3.10.3. Only minor modifications and bug-fixes have been done.
+
+Bug-fixes:
+----------
+
+* A set of changes in the MSVC++ .NET project file, which is now located in
+  a separate `win32' subdirectory. Now IT++ should compile and link without
+  any warnings under MSVC++ compiler. Installation manual updated
+  accordingly.
+
+* Fixed a minor bug in the RSC code test program. The generator polynomials
+  were initialised with a string using octal notation, which is not
+  supported by Vec<> parser yet.
+
+* Added explicit check for a fortran compiler. If not found, BLAS, CBLAS and
+  LAPACK are not checked.
+
+* Fixed a bug that caused unresolved erfc() function under MSVC++ .NET
+  compiler. The function definition is now outside namespace itpp.
+
+* Fixed a minor problem with overloaded virtual	function open() (itfile.h).
+
+* Conversion from integer to std::string implemented in pure C++ by using
+  std::stringstream class (itassert.cpp).
+
+* Fixed a minor problem with duplicated declaration of tgamma(), lgamma()
+  and cbrt() functions.
+
+
+===============================================================================
 IT++ version 3.10.3                                        Released: 2006-07-11
 -------------------------------------------------------------------------------
 
