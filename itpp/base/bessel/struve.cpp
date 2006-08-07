@@ -37,10 +37,6 @@
 #include <itpp/base/elmatfunc.h>
 
 
-#ifdef _MSC_VER
-#pragma warning(disable:4996)
-#endif
-
 /*
  * Struve function
  *
@@ -291,7 +287,3 @@ double yv(double v, double x)
  *	30	32.31
  *	40	40.0
  */
-
-#ifdef _MSC_VER
-#pragma warning(default:4996)
-#endif

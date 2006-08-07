@@ -76,18 +76,13 @@ using namespace itpp;
   Copyright 1984, 1987, 1989, 1992, 2000 by Stephen L. Moshier
 */
 
-#ifdef _MSC_VER
-#pragma warning(disable:4996)
-#endif
-#define MAXGAM 171.624376956302725
-
-
 static double recur(double *, double, double *, int);
 static double jvs(double, double);
 static double hankel(double, double);
 static double jnx(double, double);
 static double jnt(double, double);
 
+#define MAXGAM 171.624376956302725
 #define MAXNUM 1.79769313486231570815E308    /* 2**1024*(1-MACHEP) */
 #define MACHEP 1.11022302462515654042E-16   /* 2**-53 */
 #define MAXLOG 7.08396418532264106224E2     /* log 2**1022 */
@@ -848,6 +843,3 @@ static double jnt(double n, double x)
   fk = cbtwo * ai * pp/cbn  +  cbrt(4.0) * aip * qq/n;
   return(fk);
 }
-#ifdef _MSC_VER
-#pragma warning(default:4996)
-#endif
