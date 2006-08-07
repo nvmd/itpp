@@ -1,3 +1,16 @@
+2006-08-07  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/bessel.cpp, itpp/base/bessel/jv.cpp,
+	itpp/base/bessel/struve.cpp, itpp/base/random.h,
+	itpp/protocol/tcp.cpp: Removed most of the "#pragma warning"
+	statements needed by MSVC++ .NET compiler (merged rev. 577:578
+	from itpp-3-10 branch).
+	
+	* win32/itpp.vcproj: Added _CRT_SECURE_NO_DEPRECATE and
+	_CRT_NONSTDC_NO_DEPRECATE definitions that disable warnings on
+	some deprecated C standard library and POSIX-compilant functions
+	(merged rev. 577:578 from itpp-3-10 branch).
+
 2006-08-04  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/parser.cpp, itpp/base/parser.h, tests/parser_test.cpp,

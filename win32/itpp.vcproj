@@ -41,7 +41,7 @@
 				Name="VCCLCompilerTool"
 				Optimization="0"
 				AdditionalIncludeDirectories="..;&quot;C:\Program Files\Intel\MKL\8.1\include&quot;"
-				PreprocessorDefinitions="_WIN32;_DEBUG;ASSERT_LEVEL=2"
+				PreprocessorDefinitions="_WIN32;_DEBUG;ASSERT_LEVEL=2;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
 				RuntimeLibrary="1"
@@ -107,7 +107,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..;&quot;C:\Program Files\Intel\MKL\8.1\include&quot;"
-				PreprocessorDefinitions="_WIN32;NDEBUG"
+				PreprocessorDefinitions="_WIN32;NDEBUG;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE"
 				RuntimeLibrary="0"
 				RuntimeTypeInfo="true"
 				UsePrecompiledHeader="0"
