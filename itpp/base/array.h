@@ -1,7 +1,7 @@
 /*!
  * \file 
  * \brief Definition of Array class (container)
- * \author Tobias Ringstrom
+ * \author Tobias Ringstrom and Adam Piatyszek
  *
  * $Date$
  * $Revision$
@@ -28,12 +28,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  *
  * -------------------------------------------------------------------------
- *
- * This file is not separated into .h and .cpp files. The reason is to
- * avoid problems with template initializations of this class. 
- * An \c Array<type> can contain any type and it is not possible to
- * initialize and pre-compile all types that might be put into an 
- * \c Array.
  */
 
 #ifndef ARRAY_H
@@ -51,14 +45,18 @@ namespace itpp {
   template<class T> class Array;
   template<class T> const Array<T> concat(const Array<T> &a, const T e);
   template<class T> const Array<T> concat(const T e, const Array<T> &a);
-  template<class T> const Array<T> concat(const Array<T> &a1, const Array<T> &a2);
-  template<class T> const Array<T> concat(const Array<T> &a1, const Array<T> &a2, const Array<T> &a3);
+  template<class T> const Array<T> concat(const Array<T> &a1,
+					  const Array<T> &a2);
+  template<class T> const Array<T> concat(const Array<T> &a1, 
+					  const Array<T> &a2,
+					  const Array<T> &a3);
 
   /*! 
     \brief General array class
 
-    This class is a general linear array class for arbitrary types. The operations
-    and functions are the same as for the vector Vec class (except for the arithmetics).
+    This class is a general linear array class for arbitrary types. The
+    operations and functions are the same as for the vector Vec class
+    (except for the arithmetics).
   
     For rarely used types you will need to instantiate the class by
     \code
@@ -76,10 +74,15 @@ namespace itpp {
     my_array(2) = c;
     \endcode
 
-    For types T with istream operator>> defined, the set_array functions (see
-    Related Functions) can be used to  assign a string literal to an Array, with
-    the same format that is used by the istream/ostream operators:
+    For types T with istream operator>> defined special constructor or
+    operator `=' or \c set_array functions (see Related Functions) can be
+    used to assign a string literal to an Array. The string literal has the
+    same format that is used by the istream/ostream operators:
+
     \code
+    // Initialise an array with three bit vectors
+    Array<bvec> B = {[1 0 1] [0 0 1] [1 0 0]};
+
     // Declare an Array of Arrays of vectors
     Array<Array<ivec> > an_array;
     
@@ -89,33 +92,40 @@ namespace itpp {
     set_array(an_array, "{{[1 2]} {[3 4 5] [6 7]}}");
     \endcode
 
-    By default, the Array elements are created using the default constructor for
-    the element type. This can be changed by specifying a suitable Factory in the
-    Array constructor call; see Detailed Description for Factory.
+    By default, Array elements are created using the default constructor
+    for the element type. This can be changed by specifying a suitable
+    Factory in the Array constructor call (see Detailed Description for
+    Factory).
   */
   template<class T>
   class Array {
   public:
-    //! Default constructor. An element factory \c f can be specified
+    //! Default constructor. An element factory \c f can be specified.
     explicit Array(const Factory &f = DEFAULT_FACTORY);
-    //! Create an Array of size \c n. An element factory \c f can be specified
-    Array(const int n, const Factory &f = DEFAULT_FACTORY);
-    //! Copy constructor
-    Array(const Array<T> &a);
-    //! Constructor, similar to the copy constructor, but also takes an element factory \c f as argument
-    Array(const Array<T> &a, const Factory &f);
+    //! Create an Array of size \c n. An element factory \c f can be specified.
+    Array(int n, const Factory &f = DEFAULT_FACTORY);
+    //! Copy constructor. An element factory \c f can be specified.
+    Array(const Array<T> &a, const Factory &f = DEFAULT_FACTORY);
+    //! Create an Array from string. An element factory \c f can be specified.
+    Array(const std::string& values, const Factory &f = DEFAULT_FACTORY);
+    //! Create an Array from char*. An element factory \c f can be specified.
+    Array(const char* values, const Factory &f = DEFAULT_FACTORY);
 
     //! Destructor
     virtual ~Array();
 
     //! Get the \c i element
-    T &operator()(const int i) {
-      it_assert0(i>=0&&i<ndata,"Array::operator()"); return data[i]; }
+    T &operator()(int i) {
+      it_assert0((i >= 0) && (i < ndata), "Array::operator(): Improper index");
+      return data[i];
+    }
     //! Get the \c i element
-    const T &operator()(const int i) const {
-      it_assert0(i>=0&&i<ndata,"Array::operator()"); return data[i]; }
+    const T &operator()(int i) const {
+      it_assert0((i >= 0) && (i < ndata), "Array::operator(): Improper index");
+      return data[i];
+    }
     //! Sub-array from element \c i1 to element \c i2
-    const Array<T> operator()(const int i1, const int i2) const;
+    const Array<T> operator()(int i1, int i2) const;
     //! Sub-array with the elements given by the integer Array
     const Array<T> operator()(const Array<int> &indices) const;
 
@@ -123,6 +133,8 @@ namespace itpp {
     Array<T>& operator=(const T &e);
     //! Assignment operator
     Array<T>& operator=(const Array<T> &a);
+    //! Assignment operator
+    Array<T>& operator=(const char* values);
 
     //! Append element \c e to the end of the Array \c a
     friend const Array<T> concat <>(const Array<T> &a1, const T e);
@@ -131,17 +143,18 @@ namespace itpp {
     //! Concat Arrays \c a1 and \c a2
     friend const Array<T> concat <>(const Array<T> &a1,const Array<T> &a2);
     //! Concat Arrays \c a1, \c a2 and \c a3
-    friend const Array<T> concat <>(const Array<T> &a1, const Array<T> &a2, const Array<T> &a3);
+    friend const Array<T> concat <>(const Array<T> &a1, const Array<T> &a2,
+				    const Array<T> &a3);
 
     //! Returns the number of data elements in the array object
     int size() const { return ndata; }
     //! Returns the number of data elements in the array object
     int length() const { return ndata; }
     //! Resizing an Array<T>.
-    void set_size(const int n, const bool copy=false);
+    void set_size(int n, bool copy = false);
     //! Resizing an Array<T>.
-    void set_length(const int n, const bool copy=false) { set_size(n, copy); }
-
+    void set_length(int n, bool copy = false) { set_size(n, copy); }
+    
     //! Shift in data at position 0. return data at last position.
     T shift_right(const T e);
     //! Shift in array at position 0. return data at last position.
@@ -151,7 +164,7 @@ namespace itpp {
     //! Shift in array at position Ndata()-1. return data at last position.
     const Array<T> shift_left(const Array<T> &a);
     //! Swap elements i and j.
-    void swap(const int i, const int j);
+    void swap(int i, int j);
 
     //! Set the subarray defined by indicies i1 to i2 to Array<T> a.
     void set_subarray(int i1, int i2, const Array<T> &a);
@@ -160,12 +173,12 @@ namespace itpp {
 
   protected:
     //! Check whether index \c i is in the allowed range
-    bool in_range(const int i) { return ((i<ndata) && (i>=0)); }
+    bool in_range(int i) { return ((i < ndata) && (i >= 0)); }
     //! The current number of elements in the Array
     int ndata;
     //! A pointer to the data area
     T *data;
-    //! Element factory (set to DEFAULT_FACTORY to use T default constructors only)
+    //! Element factory (by default set to DEFAULT_FACTORY)
     const Factory &factory;
 
   private:
@@ -173,369 +186,374 @@ namespace itpp {
     void free();
   };
 
-  // --------------------------- Implementation starts here ----------------------------------
+  // -------------------- Implementation starts here --------------------
 
   template<class T>
-	Array<T>::Array(const Factory &f) : factory(f)
-	{
-		data=NULL;
-		ndata=0;
-	}
+  Array<T>::Array(const Factory &f) : ndata(0), data(0), factory(f) {}
 
   template<class T>
-	Array<T>::Array(const int n, const Factory &f) : factory(f)
-	{
-		alloc(n);
-	}
+  Array<T>::Array(const int n, const Factory &f) : ndata(0), data(0), factory(f)
+  {
+    alloc(n);
+  }
 
   template<class T>
-	Array<T>::Array(const Array<T> &a) : factory(a.factory)
-	{
-		alloc(a.ndata);
-		for (int i=0; i<a.ndata; i++)
-			data[i] = a.data[i];
-	}
+  Array<T>::Array(const Array<T> &a, const Factory &f) 
+    : ndata(0), data(0), factory(f)
+  {
+    alloc(a.ndata);
+    for (int i = 0; i < a.ndata; i++)
+      data[i] = a.data[i];
+  }
 
   template<class T>
-	Array<T>::Array(const Array<T> &a, const Factory &f) : factory(f)
-	{
-		alloc(a.ndata);
-		for (int i=0; i<a.ndata; i++)
-			data[i] = a.data[i];
-	}
+  Array<T>::Array(const std::string& values, const Factory &f) 
+    : ndata(0), data(0), factory(f)
+  {
+    std::istringstream buffer(values);
+    buffer >> *this;
+  }
 
   template<class T>
-	Array<T>::~Array()
-	{
-		free();
-	}
+  Array<T>::Array(const char* values, const Factory &f) 
+    : ndata(0), data(0), factory(f)
+  {
+    std::istringstream buffer(values);
+    buffer >> *this;
+  }
 
   template<class T>
-	void Array<T>::alloc(const int n)
-	{
-		if (n == 0) {
-			data = NULL;
-			ndata = 0;
-		}
-		else {
-			create_elements(data, n, factory);
-			it_assert1(data!=0, "Out of memory in Array::alloc");
-		}
-		ndata = n;
-	}
+  Array<T>::~Array()
+  {
+    free();
+  }
 
   template<class T>
-	void Array<T>::free()
-	{
-		delete [] data;
+  void Array<T>::alloc(int n)
+  {
+    if (n == 0) {
+      data = 0;
+      ndata = 0;
+    }
+    else {
+      create_elements(data, n, factory);
+      it_assert1(data != 0, "Array::alloc(): Out of memory!");
+    }
+    ndata = n;
+  }
+
+  template<class T>
+  void Array<T>::free()
+  {
+    delete [] data;
 	
-		data = 0;
-		ndata = 0;
-	}
+    data = 0;
+    ndata = 0;
+  }
 
   template<class T>
-	const Array<T> Array<T>::operator()(const int i1, const int i2) const
-	{
-		it_assert0(i1>=0 && i2>=0 && i1<ndata && i2<ndata && i2>=i1,
-							 "Array::operator()(i1,i2)");
-		Array<T> s(i2-i1+1);
-		int i;
+  const Array<T> Array<T>::operator()(int i1, int i2) const
+  {
+    it_assert0((i1 >= 0) && (i2 >= 0) && (i1 < ndata) && (i2 < ndata) 
+	       && (i2 >= i1), "Array::operator()(i1, i2): Improper indexes.");
+    Array<T> s(i2-i1+1);
+    for (int i = 0; i < s.ndata; i++)
+      s.data[i] = data[i1+i];
+    return s;
+  }
+
+  template<class T>
+  const Array<T> Array<T>::operator()(const Array<int> &indices) const
+  {
+    Array<T> a(indices.size());
+    for (int i = 0; i < a.size(); i++) {
+      it_assert0((indices(i) >= 0) && (indices(i) < ndata),
+		 "Array::operator()(indices): Improper indices.");
+      a(i) = data[indices(i)];
+    }
+    return a;
+  }
+
+  template<class T>
+  Array<T>& Array<T>::operator=(const Array<T> &a)
+  {
+    if (this != &a) {
+      set_size(a.ndata);
+      for (int i=0; i<ndata; i++)
+	data[i] = a.data[i];
+    }
+    return *this;
+  }
+
+  template<class T>
+  Array<T>& Array<T>::operator=(const T &e)
+  {
+    if (ndata == 0) 
+      set_size(1);
+    for (int i = 0; i < ndata; i++)
+      data[i] = e;
+    return *this;
+  }
+
+  template<class T>
+  Array<T>& Array<T>::operator=(const char* values)
+  {
+    std::istringstream buffer(values);
+    buffer >> *this;
+    return *this;
+  }
+
+  template<class T>
+  void Array<T>::set_size(int sz, bool copy)
+  {
+    int min;
+    T *tmp;
+
+    if (ndata == sz)
+      return;
+
+    if (copy) {
+      tmp = data;
+      min = ndata < sz ? ndata : sz;
+      alloc(sz);
+      for (int i = 0; i < min; i++)
+	data[i] = tmp[i];
+      delete [] tmp;
+    } else {
+      free();
+      alloc(sz);
+    }
+    ndata = sz;
+  }
+
+  template<class T>
+  T Array<T>::shift_right(const T x)
+  {
+    it_assert1(ndata > 0, "Array::shift_right(x): Array empty!");
+    T ret;
+
+    ret = data[ndata-1];
+    for (int i = ndata-1; i > 0; i--)
+      data[i] = data[i-1];
+    data[0] = x;
 	
-		for (i=0; i<s.ndata; i++)
-			s.data[i] = data[i1+i];
+    return ret;
+  }
+
+
+  template<class T>
+  const Array<T> Array<T>::shift_right(const Array<T> &a)
+  {
+    it_assert1(a.ndata <= ndata, "Array::shift_right(): Shift Array too large");
+    Array<T> out(a.ndata);
+
+    for (int i = 0; i < a.ndata; i++)
+      out.data[i] = data[ndata-a.ndata+i];
+    for (int i = ndata-1; i >= a.ndata; i--)
+      data[i] = data[i-a.ndata];
+    for (int i = 0; i < a.ndata; i++)
+      data[i] = a.data[i];
 	
-		return s;
-	}
+    return out;
+  }
 
   template<class T>
-	const Array<T> Array<T>::operator()(const Array<int> &indices) const
-	{
-		Array<T> a(indices.size());
-
-		for (int i=0; i<a.size(); i++) {
-			it_assert0(indices(i)>=0&&indices(i)<ndata,"Array::operator()(indicies)");
-			a(i) = data[indices(i)];
-		}
-
-		return a;
-	}
-
-  template<class T>
-	Array<T>& Array<T>::operator=(const Array<T> &a)
-	{
-		if (this != &a) {
-			set_size(a.ndata);
-			for (int i=0; i<ndata; i++)
-				data[i] = a.data[i];
-		}
-		return *this;
-	}
-
-  template<class T>
-	Array<T>& Array<T>::operator=(const T &e)
-	{
-		if (ndata==0) 
-			set_size(1);
-
-		for (int i=0; i<ndata; i++)
-			data[i] = e;
-		return *this;
-	}
-
-  template<class T>
-	void Array<T>::set_size(const int sz, const bool copy)
-	{
-		int i, min;
-		T *tmp;
-
-		if (ndata == sz)
-			return;
-
-		if (copy) {
-			tmp = data;
-			min = ndata < sz ? ndata : sz;
-			alloc(sz);
-			for (i=0; i<min; i++)
-				data[i] = tmp[i];
-			delete [] tmp;
-		} else {
-			free();
-			alloc(sz);
-		}
-		ndata = sz;
-	}
-
-  template<class T>
-	T Array<T>::shift_right(const T x)
-	{
-		T ret;
-
-		it_assert1(ndata>0, "shift_right");
-		ret = data[ndata-1];
-		for (int i=ndata-1; i>0; i--)
-			data[i] = data[i-1];
-		data[0] = x;
+  T Array<T>::shift_left(const T x)
+  {
+    T temp = data[0];
 	
-		return ret;
-	}
-
+    for (int i = 0; i < ndata-1; i++)
+      data[i] = data[i+1];
+    data[ndata-1] = x;
+	
+    return temp;
+  }
 
   template<class T>
-	const Array<T> Array<T>::shift_right(const Array<T> &a)
-	{
-		int	i;
-		Array<T> out(a.ndata);
+  const Array<T> Array<T>::shift_left(const Array<T> &a)
+  {
+    it_assert1(a.ndata <= ndata, "Array::shift_left(): Shift Array too large");
+    Array<T> out(a.ndata);
 
-		it_assert1(a.ndata<=ndata, "Shift Array too large");
-		for (i=0; i<a.ndata; i++)
-			out.data[i] = data[ndata-a.ndata+i];
-		for (i=ndata-1; i>=a.ndata; i--)
-			data[i] = data[i-a.ndata];
-		for (i=0; i<a.ndata; i++)
-			data[i] = a.data[i];
+    for (int i = 0; i < a.ndata; i++)
+      out.data[i] = data[i];
+    for (int i = 0; i < ndata-a.ndata; i++)
+      data[i] = data[i+a.ndata];
+    for (int i = ndata-a.ndata; i < ndata; i++)
+      data[i] = a.data[i-ndata+a.ndata];
 	
-		return out;
-	}
+    return out;
+  }
 
   template<class T>
-	T Array<T>::shift_left(const T x)
-	{
-		T temp = data[0];
-	
-		for (int i=0; i<ndata-1; i++)
-			data[i]=data[i+1];
-		data[ndata-1] = x;
-	
-		return temp;
-	}
-
-  template<class T>
-	const Array<T> Array<T>::shift_left(const Array<T> &a)
-	{
-		int	i;
-		Array<T> out(a.ndata);
-
-		it_assert1(a.ndata<=ndata, "Shift Array too large");
-		for (i=0; i<a.ndata; i++)
-			out.data[i] = data[i];
-		for (i=0; i<ndata-a.ndata; i++) {
-			// out.data[i] = data[i]; removed. Is not necessary
-			data[i] = data[i+a.ndata];
-		}
-		for (i=ndata-a.ndata; i<ndata; i++)
-			data[i] = a.data[i-ndata+a.ndata];
-	
-		return out;
-	}
-
-  template<class T>
-	void Array<T>::swap(const int i, const int j)
-	{
-		it_assert1(in_range(i) && in_range(j) , "Shift Array too large");
+  void Array<T>::swap(int i, int j)
+  {
+    it_assert1(in_range(i) && in_range(j),
+	       "Array::swap(): Indices out of range.");
     
-		T temp = data[i];
-		data[i] = data[j];
-		data[j] = temp;
-	}
+    T temp = data[i];
+    data[i] = data[j];
+    data[j] = temp;
+  }
 
   template<class T>
-	void Array<T>::set_subarray(int i1, int i2, const Array<T> &a)
-	{
-		if (i1 == -1) i1 = ndata-1;
-		if (i2 == -1) i2 = ndata-1;
+  void Array<T>::set_subarray(int i1, int i2, const Array<T> &a)
+  {
+    if (i1 == -1) i1 = ndata-1;
+    if (i2 == -1) i2 = ndata-1;
   
-		it_assert1(in_range(i1) && in_range(i2), "Array<T>::set_subarray(): indicies out of range");
-		it_assert1(i2>=i1, "Array<T>::set_subarray(): i2 >= i1 necessary");
-		it_assert1(i2-i1+1 == a.ndata, "Array<T>::set_subarray(): wrong sizes");
+    it_assert1(in_range(i1) && in_range(i2), 
+	       "Array<T>::set_subarray(): Indices out of range.");
+    it_assert1(i2 >= i1, "Array<T>::set_subarray(): i2 >= i1 necessary.");
+    it_assert1(i2-i1+1 == a.ndata, "Array<T>::set_subarray(): Wrong sizes.");
 
-		copy_vector(a.ndata, a.data, data+i1);
-	}
+    copy_vector(a.ndata, a.data, data+i1);
+  }
 
   template<class T>
-	void Array<T>::set_subarray(int i1, int i2, const T t)
-	{
-		if (i1 == -1) i1 = ndata-1;
-		if (i2 == -1) i2 = ndata-1;
+  void Array<T>::set_subarray(int i1, int i2, const T t)
+  {
+    if (i1 == -1) i1 = ndata-1;
+    if (i2 == -1) i2 = ndata-1;
   
-		it_assert1(in_range(i1) && in_range(i2), "Array<T>::set_subarray(): indicies out of range");
-		it_assert1(i2>=i1, "Array<T>::set_subarray(): i2 >= i1 necessary");
+    it_assert1(in_range(i1) && in_range(i2), 
+	       "Array<T>::set_subarray(): Indices out of range");
+    it_assert1(i2 >= i1, "Array<T>::set_subarray(): i2 >= i1 necessary");
 
-		for (int i=i1;i<=i2;i++)
-			data[i] = t;
-	}
-
-  template<class T>
-	const Array<T> concat(const Array<T> &a, const T e)
-	{
-		Array<T> temp(a.size()+1);
-
-		for (int i=0; i<a.size(); i++)
-			temp(i) = a(i);
-		temp(a.size()) = e;
-
-		return temp;
-	}
+    for (int i = i1; i <= i2; i++)
+      data[i] = t;
+  }
 
   template<class T>
-	const Array<T> concat(const T e, const Array<T> &a)
-	{
-		Array<T> temp(a.size()+1);
+  const Array<T> concat(const Array<T> &a, const T e)
+  {
+    Array<T> temp(a.size()+1);
 
-		temp(0) = e;
+    for (int i = 0; i < a.size(); i++)
+      temp(i) = a(i);
+    temp(a.size()) = e;
 
-		for (int i=0; i<a.size(); i++)
-			temp(i+1) = a(i);
-
-		return temp;
-	}
-
-  template<class T>
-	const Array<T> concat(const Array<T> &a1, const Array<T> &a2)
-	{
-		int i;
-		Array<T> temp(a1.size()+a2.size());
-
-		for (i=0;i<a1.size();i++) {
-			temp(i) = a1(i);
-		}
-		for (i=0;i<a2.size();i++) {
-			temp(a1.size()+i) = a2(i);
-		}
-		return temp;
-	}
+    return temp;
+  }
 
   template<class T>
-	const Array<T> concat(const Array<T> &a1, const Array<T> &a2, const Array<T> &a3)
-	{
-		// There should be some error control?
-		int i;
-		Array<T> temp(a1.size()+a2.size()+a3.size());
+  const Array<T> concat(const T e, const Array<T> &a)
+  {
+    Array<T> temp(a.size()+1);
 
-		for (i=0;i<a1.size();i++) {
-			temp(i) = a1(i);
-		}
-		for (i=0;i<a2.size();i++) {
-			temp(a1.size()+i) = a2(i);
-		}
-		for (i=0;i<a3.size();i++) {
-			temp(a1.size()+a2.size()+i) = a3(i);
-		}
-		return temp;
-	}
+    temp(0) = e;
+
+    for (int i = 0; i < a.size(); i++)
+      temp(i+1) = a(i);
+
+    return temp;
+  }
+
+  template<class T>
+  const Array<T> concat(const Array<T> &a1, const Array<T> &a2)
+  {
+    Array<T> temp(a1.size()+a2.size());
+
+    for (int i = 0; i < a1.size(); i++)
+      temp(i) = a1(i);
+    for (int i = 0; i < a2.size(); i++)
+      temp(a1.size()+i) = a2(i);
+
+    return temp;
+  }
+
+  template<class T>
+  const Array<T> concat(const Array<T> &a1, const Array<T> &a2,
+			const Array<T> &a3)
+  {
+    // There should be some error control?
+    Array<T> temp(a1.size()+a2.size()+a3.size());
+
+    for (int i = 0; i < a1.size(); i++)
+      temp(i) = a1(i);
+    for (int i = 0; i < a2.size(); i++)
+      temp(a1.size()+i) = a2(i);
+    for (int i = 0; i < a3.size(); i++)
+      temp(a1.size()+a2.size()+i) = a3(i);
+
+    return temp;
+  }
 
   /*! 
     \relates Array
     \brief Output stream for Array<T>. T must have ostream operator<< defined.
   */
   template<class T>
-	std::ostream &operator<<(std::ostream &os, const Array<T> &a)
-	{
-		os << "{";
-		for (int i=0; i<a.size()-1; i++)
-			os << a(i) << " ";
-		if (a.size() > 0)
-			os << a(a.size()-1);
-		os << "}";
+  std::ostream &operator<<(std::ostream &os, const Array<T> &a)
+  {
+    os << "{";
+    for (int i = 0; i < a.size()-1; i++)
+      os << a(i) << " ";
+    if (a.size() > 0)
+      os << a(a.size()-1);
+    os << "}";
 
-		return os;
-	}
+    return os;
+  }
 
   /*! 
     \relates Array
     \brief Input stream for Array<T>. T must have istream operator>> defined.
   */
   template<class T>
-	std::istream &operator>>(std::istream &is, Array<T> &a)
-	{
-		int nrof_elements = 0;
-		char c;
-		is >> c;
-		if (c == '{') {
-			is >> c;
-			while (c != '}') {
-				if (is.eof()) {
-					is.setstate(std::ios_base::failbit);
-					break;
-				}
-				if (c != ',') {  // Discard comma signs between elements
-					is.putback(c);
-				}
-				if (++nrof_elements > a.size()) {
-					a.set_size(nrof_elements, true);  // Too slow?
-				}
-				is >> a(nrof_elements-1);
-				is >> c;
-			}
-			if (a.size() > nrof_elements) {
-				a.set_size(nrof_elements, true);
-			}
-		} else {
-			is.setstate(std::ios_base::failbit);
-		}
-
-		return is;
+  std::istream &operator>>(std::istream &is, Array<T> &a)
+  {
+    int nrof_elements = 0;
+    char c;
+    is >> c;
+    if (c == '{') {
+      is >> c;
+      while (c != '}') {
+	if (is.eof()) {
+	  is.setstate(std::ios_base::failbit);
+	  break;
 	}
-
-  /*! 
-    \relates Array
-    \brief Assign a C-style string to an Array<T>. T must have istream operator>> defined.
-  */
-  template<class T>
-	void set_array(Array<T> &a, const char *values)
-	{
-		std::istringstream buffer(values);
-		buffer >> a;
+	if (c != ',') {  // Discard comma signs between elements
+	  is.putback(c);
 	}
+	if (++nrof_elements > a.size()) {
+	  a.set_size(nrof_elements, true);  // Too slow?
+	}
+	is >> a(nrof_elements-1);
+	is >> c;
+      }
+      if (a.size() > nrof_elements) {
+	a.set_size(nrof_elements, true);
+      }
+    } else {
+      is.setstate(std::ios_base::failbit);
+    }
+
+    return is;
+  }
 
   /*! 
     \relates Array
-    \brief Assign a string to an Array<T>. T must have istream operator>> defined.
+    \brief Assign a C-style string to an Array<T>. T must have istream
+    operator>> defined.
   */
   template<class T>
-	void set_array(Array<T> &a, const std::string &str)
-	{
-		set_array(a, str.c_str());
-	}
+  void set_array(Array<T> &a, const char *values)
+  {
+    std::istringstream buffer(values);
+    buffer >> a;
+  }
+
+  /*! 
+    \relates Array
+    \brief Assign a string to an Array<T>. T must have istream operator>> 
+    defined.
+  */
+  template<class T>
+  void set_array(Array<T> &a, const std::string &str)
+  {
+    set_array(a, str.c_str());
+  }
 
 } // namespace itpp
 
