@@ -62,7 +62,7 @@ int main(int argc, char *argv[])
   Array<Array<cvec> > o, q;
 
   cout << "Use the Parser class on a parameter file:" << endl;
-  p.init(PARSER_TEST_FILE);
+  p.init(string(PARSER_TEST_FILE));
   a  = p.get_int("a");      cout << "a  = " << a  << endl;
   b0 = p.get_double("b");   //The default value of b
   b1 = p.get_double("b",1); //The first alternative value of b
@@ -112,9 +112,9 @@ int main(int argc, char *argv[])
   argv2[0] = "a=345";
   argv2[1] = "d=[1,-2,3,-4,5,-6,7,-8]";
   if (argc==0) {
-    p.init(PARSER_TEST_FILE,argc2,argv2);
+    p.init(string(PARSER_TEST_FILE), argc2, argv2);
   } else {
-    p.init(PARSER_TEST_FILE,argc,argv);
+    p.init(string(PARSER_TEST_FILE), argc, argv);
   }
   a = p.get_int("a");    cout << "a = " << a << endl;
   b = p.get_double("b"); cout << "b = " << b << endl;
@@ -136,7 +136,7 @@ int main(int argc, char *argv[])
   cout << "------------------------------------------------------------" << endl;
 
   cout << "Use the Parser::get() method on a parameter file:" << endl;
-  p.init(PARSER_TEST_FILE);
+  p.init(string(PARSER_TEST_FILE));
   p.get(a, "a");
   p.get(b, "b");
   p.get(b, "b", 1);
