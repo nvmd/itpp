@@ -169,7 +169,7 @@ namespace itpp {
 	break;
       }
     }
-    it_assert(!comma, "Vec<double>::set(): Improper data string");
+    it_assert(!comma || (pos == 0), "Vec<double>::set(): Improper data string");
 
     set_size(pos, true);
 
@@ -209,7 +209,7 @@ namespace itpp {
 	comma = false;
       }
     }
-    it_assert(!comma, "Vec<complex>::set(): Improper data string");
+    it_assert(!comma || (pos == 0), "Vec<complex>::set(): Improper data string");
     set_size(pos, true);
 		
     return true;
@@ -248,7 +248,7 @@ namespace itpp {
 	comma = false;
       }
     }
-    it_assert(!comma, "Vec<bin>::set(): Improper data string");
+    it_assert(!comma || (pos == 0), "Vec<bin>::set(): Improper data string");
 
     set_size(pos, true);
 
@@ -730,7 +730,7 @@ namespace itpp {
 	it_error("Vec<int>::set(): Improper data string");
       }
     }
-    it_assert(!comma, "Vec<int>::set(): Improper data string");
+    it_assert(!comma || (pos == 0), "Vec<int>::set(): Improper data string");
 
     // resize the parsed vector to its final length
     set_size(pos, true);
@@ -1212,7 +1212,7 @@ namespace itpp {
 	it_error("Vec<short>::set(): Improper data string");
       }
     }
-    it_assert(!comma, "Vec<short>::set(): Improper data string");
+    it_assert(!comma || (pos == 0), "Vec<short>::set(): Improper data string");
 
     // resize the parsed vector to its final length
     set_size(pos, true);

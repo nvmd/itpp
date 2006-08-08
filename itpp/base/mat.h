@@ -636,7 +636,7 @@ namespace itpp {
 	// it_assert(buffer.peek() != EOF, "Mat<double>::set(): Improper data string");
       }
 
-      it_assert(!comma, "Mat<Num_T>::set(): Improper matrix string");
+      it_assert(!comma || (nocols == 0), "Mat<Num_T>::set(): Improper matrix string");
 
     }
     set_size(rows, nocols, true);

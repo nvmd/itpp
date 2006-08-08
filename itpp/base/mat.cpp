@@ -236,7 +236,7 @@ namespace itpp {
 	// it_assert(buffer.peek() != EOF, "Mat<int>::set(): Improper data string");
       }
       
-      it_assert(!comma, "Mat<int>::set(): Improper matrix string");
+      it_assert(!comma || (nocols == 0), "Mat<int>::set(): Improper matrix string");
 
     } // while (buffer.peek() != EOF)
 
@@ -444,7 +444,7 @@ namespace itpp {
 	comma = false;
 	// it_assert(buffer.peek() != EOF, "Mat<short int>::set(): Improper data string");
       }
-      it_assert(!comma, "Mat<short>::set(): Improper matrix string");
+      it_assert(!comma || (nocols == 0), "Mat<short>::set(): Improper matrix string");
 
     } // while (buffer.peek() != EOF)
 
