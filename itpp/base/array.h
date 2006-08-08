@@ -55,7 +55,7 @@ namespace itpp {
     \brief General array class
 
     This class is a general linear array class for arbitrary types. The
-    operations and functions are the same as for the vector Vec class
+    operations and functions are the same as for the vector \c Vec class
     (except for the arithmetics).
   
     For rarely used types you will need to instantiate the class by
@@ -74,14 +74,14 @@ namespace itpp {
     my_array(2) = c;
     \endcode
 
-    For types T with istream operator>> defined special constructor or
-    operator `=' or \c set_array functions (see Related Functions) can be
+    For types T with istream \c operator>> defined special constructor or
+    \c operator= or \c set_array functions (see Related Functions) can be
     used to assign a string literal to an Array. The string literal has the
     same format that is used by the istream/ostream operators:
 
     \code
     // Initialise an array with three bit vectors
-    Array<bvec> B = {[1 0 1] [0 0 1] [1 0 0]};
+    Array<bvec> B = "{[1 0 1] [0 0 1] [1 0 0 0 1]}";
 
     // Declare an Array of Arrays of vectors
     Array<Array<ivec> > an_array;
