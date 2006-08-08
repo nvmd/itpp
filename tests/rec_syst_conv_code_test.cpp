@@ -44,7 +44,7 @@ int main()
   vec received_systematic(11), extrinsic_output(11), L(11), symbols;
   mat received_parity(11,1);
 
-  double Ec = 1.0, N0 = 0.1, Lc = 4.0*sqrt(Ec)/N0;
+  double Ec = 1.0, N0 = 0.00000000000000000000000000000000000000001, Lc = 4.0*sqrt(Ec)/N0;
   Normal_RNG noise(0.0,N0/2.0);
 
   BPSK bpsk;

@@ -32,6 +32,45 @@
 
 #include <itpp/comm/rec_syst_conv_code.h>
 
+/* == These two functions were added to address bug 1088420 which
+   described a numerical instability problem in map_decode() at high
+   SNR. This should be regarded as a temporary fix and it is not
+   necessarily a waterproof one: multiplication of probabilities still
+   can result in values out of range. (Range checking for the
+   multiplication operator was not implemented as it was felt that
+   this would sacrifice too much runtime efficiency.  Some margin was
+   added to the "INF" values below to reflect this.)
+
+   It is suggested to use the QLLR based log-domain() decoders instead
+   of map_decode() as they are much faster and more numerically
+   stable. 
+
+   EGL 8/06. == */
+
+#define INF (1e30)
+#define eINF (69.078)
+#define ZERO (1e-30)
+#define lZERO (-69.078)
+
+double trunc_exp(double x)   // truncated exponential function 
+{
+  if (x>=eINF) { 
+    return INF; 
+  } else {
+    return std::exp(x);
+  }
+};
+
+double trunc_log(double x)  // truncated logarithm function
+{
+  if (x<=ZERO) {
+    return lZERO;
+  } else {
+    return std::log(x);
+  }
+}
+
+/* ======= */
 
 namespace itpp { 
 
@@ -205,8 +244,10 @@ namespace itpp {
 	  exp_temp0 += 0.5*Lc*rec_parity(kk,j)*double(1-2*output_parity(s_prim,2*j+0)); /* Is this OK? */
 	  exp_temp1 += 0.5*Lc*rec_parity(kk,j)*double(1-2*output_parity(s_prim,2*j+1));
 	}
-	gamma(2*s_prim+0,k) = std::exp( 0.5*(extrinsic_input(kk) + Lc*rec_systematic(kk))) * std::exp( exp_temp0 );
-	gamma(2*s_prim+1,k) = std::exp(-0.5*(extrinsic_input(kk) + Lc*rec_systematic(kk))) * std::exp( exp_temp1 );
+	//	gamma(2*s_prim+0,k) = std::exp( 0.5*(extrinsic_input(kk) + Lc*rec_systematic(kk))) * std::exp( exp_temp0 );
+	//	gamma(2*s_prim+1,k) = std::exp(-0.5*(extrinsic_input(kk) + Lc*rec_systematic(kk))) * std::exp( exp_temp1 );
+	gamma(2*s_prim+0,k) = trunc_exp( 0.5*(extrinsic_input(kk) + Lc*rec_systematic(kk)) + exp_temp0 );
+	gamma(2*s_prim+1,k) = trunc_exp(-0.5*(extrinsic_input(kk) + Lc*rec_systematic(kk)) + exp_temp1 );
       }
     }
 
@@ -259,13 +300,16 @@ namespace itpp {
 	  exp_temp0 += 0.5*Lc*rec_parity(kk,j)*double(1-2*output_parity(s_prim,2*j+0));
 	  exp_temp1 += 0.5*Lc*rec_parity(kk,j)*double(1-2*output_parity(s_prim,2*j+1));
 	}
-	gamma_k_e = std::exp( exp_temp0 );
+	//	gamma_k_e = std::exp( exp_temp0 );
+	gamma_k_e = trunc_exp( exp_temp0 );
 	nom += alpha(s_prim,k-1) * gamma_k_e * beta(s0,k);
       
-	gamma_k_e = std::exp( exp_temp1 );
+	// gamma_k_e = std::exp( exp_temp1 );
+	gamma_k_e = trunc_exp( exp_temp1 );
 	den += alpha(s_prim,k-1) * gamma_k_e * beta(s1,k);
       }
-      extrinsic_output(kk) = std::log(nom/den);
+      //      extrinsic_output(kk) = std::log(nom/den);
+      extrinsic_output(kk) = trunc_log(nom/den);
     }
 
   }
@@ -287,7 +331,6 @@ namespace itpp {
       return;
     }
 
-    const double INF = 10e300;
     double nom, den, exp_temp0, exp_temp1, rp, temp0, temp1;
     int i, j, s0, s1, k, kk, l, s, s_prim, s_prim0, s_prim1, block_length = rec_systematic.length();
     ivec p0, p1; 
@@ -401,7 +444,7 @@ namespace itpp {
       return;
     }
 
-    const double INF = 10e300;
+    //    const double INF = 10e300;  // replaced by DEFINE to be file-wide in scope
     double nom, den, exp_temp0, exp_temp1, rp;
     int k, kk, l, s, s_prim, s_prim0, s_prim1, block_length = rec_systematic.length();
     int ext_info_length = extrinsic_input.length();

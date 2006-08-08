@@ -1,3 +1,11 @@
+2006-08-08  Erik G. Larsson <erik_g_larsson@users.sourceforge.net>
+	* itpp/comm/rec_syst_conv_code.*: Added floating point range tests
+	when using exponential and logarithm functions to avoid numerical
+	errors at high SNR in map_decode(), to address bug
+	1088420. Updated documentation to suggest that the QLLR based
+	decoders are used instead for maximum runtime efficiency and
+	numerical stability.
+
 2006-08-08  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/array.h, tests/array_test.cpp, tests/array_test.ref:

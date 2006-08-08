@@ -116,6 +116,8 @@ namespace itpp {
       \param extrinsic_input For all systematic bits
       \param extrinsic_output For all systematic bits
       \param set_terminated Equal to \a true if the trellis was terminated by the encoder and false otherwise 
+
+      <b>Note:</b> It is recommended to use the log_decode() decoder instead, as it is much faster and more numerically stable.
     */
     virtual void map_decode(const vec &rec_systematic, const mat &rec_parity, const vec &extrinsic_input, vec &extrinsic_output, 
 			    bool set_terminated = false);
@@ -133,6 +135,10 @@ namespace itpp {
       \param extrinsic_output For all systematic bits
       \param set_terminated Equal to \a true if the trellis was terminated by the encoder and false otherwise 
       \param metric May be "LOGMAP", "LOGMAX" (default), or "TABLE"
+
+      <b>Note:</b> Unless LOGMAX decoding is desired, it is
+      recommended to use the TABLE metric instead of LOGMAP as the
+      table-based decoder is much faster and numerically stable.
     */
     virtual void log_decode(const vec &rec_systematic, const mat &rec_parity, const vec &extrinsic_input, 
 			    vec &extrinsic_output, bool set_terminated = false, std::string metric = "LOGMAX");
@@ -146,6 +152,10 @@ namespace itpp {
       \param extrinsic_output For all systematic bits
       \param set_terminated Equal to \a true if the trellis was terminated by the encoder and false otherwise 
       \param metric May be "LOGMAP", "LOGMAX" (default), or "TABLE"
+
+      <b>Note:</b> Unless LOGMAX decoding is desired, it is
+      recommended to use the TABLE metric instead of LOGMAP as the
+      table-based decoder is much faster and numerically stable.
     */
     virtual void log_decode_n2(const vec &rec_systematic, 
 			       const vec &rec_parity,
