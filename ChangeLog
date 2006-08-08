@@ -1,5 +1,11 @@
 2006-08-08  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/array.h, tests/array_test.cpp, tests/array_test.ref:
+	Added new constructors and operator `=' which use string literals
+	for Array initialisation. There is no need to use `set_array()'
+	function any more. Test program improved as well. Source code of
+	"array.h" beautified by the way.
+
 	* tests/vec_test.cpp: Fixed improper file description.
 
 	* tests/parser_test.cpp: Fixed minor compilation problem caused by
