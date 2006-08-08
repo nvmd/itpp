@@ -350,13 +350,13 @@ namespace itpp {
     ivec out;
     bool error_flag, print_flag;
     out = ivec(findname(name, error_flag, print_flag, num));
-    it_assert(out.size() == 1, "Parser::get(int): Improper variable string: "
-	      + name);
     if (error_flag) {
       if (VERBOSE) {
 	cout << name << " = " << out << ";" << endl;
       }
     } else {
+      it_assert(out.size() == 1, "Parser::get(int): Improper variable string: "
+		+ name);
       var = out(0);
       if (print_flag) {
 	cout << name << " = " << var << endl;

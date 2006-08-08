@@ -1,5 +1,8 @@
 2006-08-08  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/parser.cpp: Fixed a minor bug in get<int>() function
+	caused by too early execution of it_assert() check function.
+
 	* itpp/base/mat.cpp, itpp/base/mat.h, itpp/base/vec.cpp: Fixed a
 	minor bug in string parsing functions that prevented
 	initialisation of a vector/matrix with an empty string "".
