@@ -1,3 +1,9 @@
+2006-08-08  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* tests/parser_test.cpp: Fixed minor compilation problem caused by
+	passing C-style string as an argument of init(std::string)
+	function.
+
 ==============================================================================
 
 2006-08-07  Adam Piatyszek  <ediap@users.sourceforge.net>
