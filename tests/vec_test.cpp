@@ -1,6 +1,6 @@
 /*!
  * \file 
- * \brief Statistical routines test program
+ * \brief Vector class test program
  * \author Tony Ottosson and Adam Piatyszek
  *
  * $Date$
