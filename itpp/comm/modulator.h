@@ -167,6 +167,11 @@ namespace itpp {
       \param rx_symbols The received noisy constellation symbols
       \param N0 The single sided spectral density of the AWGN noise
       \param soft_bits The soft bits calculated using the expression above
+
+      <b>Note:</b> For soft demodulation it is suggested to use the
+      N-dimensional modulator (\c Modulator_ND) class instead which is
+      based on QLLR arithmetics and therefore faster and more
+      numerically stable.
     */
     void demodulate_soft_bits(const cvec &rx_symbols, double N0, vec &soft_bits);
   
@@ -185,6 +190,11 @@ namespace itpp {
       \param chan The complex valued channel values
       \param N0 The single sided spectral density of the AWGN noise
       \param soft_bits The soft bits calculated using the expression above
+
+      <b>Note:</b> For soft demodulation it is suggested to use the
+      N-dimensional modulator (\c Modulator_ND) class instead which is
+      based on QLLR arithmetics and therefore faster and more
+      numerically stable.
     */
     void demodulate_soft_bits(const cvec &rx_symbols, const cvec &chan, const double N0, vec &soft_bits);
   
@@ -303,6 +313,11 @@ namespace itpp {
       \param rx_symbols The received noisy constellation symbols, \f$r\f$ (real)
       \param N0 The single sided spectral density of the AWGN noise, \f$n\f$
       \param soft_bits The soft bits calculated using the expression above
+
+      <b>Note:</b> For soft demodulation it is suggested to use the
+      N-dimensional modulator (\c Modulator_ND) class instead which is
+      based on QLLR arithmetics and therefore faster and more
+      numerically stable.
     */
     void demodulate_soft_bits(const vec &rx_symbols, const double N0, vec &soft_bits) const;
 
@@ -318,6 +333,11 @@ namespace itpp {
       \param rx_symbols The received noisy constellation symbols, \f$r\f$ (complex but symbols in real part)
       \param N0 The single sided spectral density of the AWGN noise, \f$n\f$
       \param soft_bits The soft bits calculated using the expression above
+
+      <b>Note:</b> For soft demodulation it is suggested to use the
+      N-dimensional modulator (\c Modulator_ND) class instead which is
+      based on QLLR arithmetics and therefore faster and more
+      numerically stable.
     */
     virtual void demodulate_soft_bits(const cvec &rx_symbols, const double N0, vec &soft_bits) const;
 
@@ -333,6 +353,11 @@ namespace itpp {
       \param channel The channel coefficients, \f$c\f$ (complex)
       \param N0 The single sided spectral density of the AWGN noise, \f$n\f$
       \param soft_bits The soft bits calculated using the expression above
+
+      <b>Note:</b> For soft demodulation it is suggested to use the
+      N-dimensional modulator (\c Modulator_ND) class instead which is
+      based on QLLR arithmetics and therefore faster and more
+      numerically stable.
     */
     virtual void demodulate_soft_bits(const cvec &rx_symbols, const cvec &channel, const double N0, vec &soft_bits) const;
 
@@ -395,6 +420,11 @@ namespace itpp {
       \param rx_symbols The received noisy constellation symbols, \f$r\f$ (complex, but symbols are real)
       \param N0 The single sided spectral density of the AWGN noise
       \param soft_bits The soft bits calculated using the expression above
+
+      <b>Note:</b> For soft demodulation it is suggested to use the
+      N-dimensional modulator (\c Modulator_ND) class instead which is
+      based on QLLR arithmetics and therefore faster and more
+      numerically stable.
     */
     virtual void demodulate_soft_bits(const cvec &rx_symbols, const double N0, vec &soft_bits) const;
 
@@ -425,6 +455,11 @@ namespace itpp {
       \param channel The channel coefficients (complex), \f$c\f$
       \param N0 The single sided spectral density of the AWGN noise
       \param soft_bits The soft bits calculated using the expression above
+
+      <b>Note:</b> For soft demodulation it is suggested to use the
+      N-dimensional modulator (\c Modulator_ND) class instead which is
+      based on QLLR arithmetics and therefore faster and more
+      numerically stable.
     */
     virtual void demodulate_soft_bits(const cvec &rx_symbols, const cvec &channel, const double N0, vec &soft_bits) const;
 
@@ -527,6 +562,11 @@ namespace itpp {
       \param rx_symbols The received noisy constellation symbols, \f$r\f$ (real)
       \param N0 The single sided spectral density of the AWGN noise, \f$n\f$
       \param soft_bits The soft bits calculated using the expression above
+
+      <b>Note:</b> For soft demodulation it is suggested to use the
+      N-dimensional modulator (\c Modulator_ND) class instead which is
+      based on QLLR arithmetics and therefore faster and more
+      numerically stable.
     */
     virtual void demodulate_soft_bits(const cvec &rx_symbols, const double N0, vec &soft_bits) const;
 
@@ -547,6 +587,11 @@ namespace itpp {
       \param channel The channel coefficients, \f$c\f$ (complex)
       \param N0 The single sided spectral density of the AWGN noise, \f$n\f$
       \param soft_bits The soft bits calculated using the expression above
+
+      <b>Note:</b> For soft demodulation it is suggested to use the
+      N-dimensional modulator (\c Modulator_ND) class instead which is
+      based on QLLR arithmetics and therefore faster and more
+      numerically stable.
     */
     virtual void demodulate_soft_bits(const cvec &rx_symbols, const cvec &channel, const double N0, vec &soft_bits) const;
   
@@ -619,6 +664,11 @@ namespace itpp {
       \param rx_symbols The received noisy constellation symbols, \f$r\f$
       \param N0 The single sided spectral density of the AWGN noise
       \param soft_bits The soft bits calculated using the expression above
+
+      <b>Note:</b> For soft demodulation it is suggested to use the
+      N-dimensional modulator (\c Modulator_ND) class instead which is
+      based on QLLR arithmetics and therefore faster and more
+      numerically stable.
     */
     virtual void demodulate_soft_bits(const cvec &rx_symbols, const double N0, vec &soft_bits) const;
 
@@ -648,6 +698,11 @@ namespace itpp {
       \param channel The channel coefficients (complex), \f$c\f$
       \param N0 The single sided spectral density of the AWGN noise
       \param soft_bits The soft bits calculated using the expression above
+
+      <b>Note:</b> For soft demodulation it is suggested to use the
+      N-dimensional modulator (\c Modulator_ND) class instead which is
+      based on QLLR arithmetics and therefore faster and more
+      numerically stable.
     */
     virtual void demodulate_soft_bits(const cvec &rx_symbols, const cvec &channel, const double N0, vec &soft_bits) const;
 
@@ -752,6 +807,11 @@ namespace itpp {
       \param rx_symbols The received noisy constellation symbols, \f$r\f$
       \param N0 The single sided spectral density of the AWGN noise
       \param soft_bits The soft bits calculated using the expression above
+
+      <b>Note:</b> For soft demodulation it is suggested to use the
+      N-dimensional modulator (\c Modulator_ND) class instead which is
+      based on QLLR arithmetics and therefore faster and more
+      numerically stable.
     */
     virtual void demodulate_soft_bits(const cvec &rx_symbols, const double N0, vec &soft_bits) const;
 
@@ -781,6 +841,11 @@ namespace itpp {
       \param channel The channel coefficients (complex), \f$c\f$
       \param N0 The single sided spectral density of the AWGN noise
       \param soft_bits The soft bits calculated using the expression above
+
+      <b>Note:</b> For soft demodulation it is suggested to use the
+      N-dimensional modulator (\c Modulator_ND) class instead which is
+      based on QLLR arithmetics and therefore faster and more
+      numerically stable.
     */
     virtual void demodulate_soft_bits(const cvec &rx_symbols, const cvec &channel, const double N0, vec &soft_bits) const;
 

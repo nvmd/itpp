@@ -1,3 +1,10 @@
+2006-08-09  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+	* itpp/comm/rec_syst_conv_code.cpp: Changed function to macro to
+	handle truncation of argument to exp() and log().
+
+	* itpp/comm/modulator.*: Documentation updates and polishing of
+	code.
+
 2006-08-09  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac, doc/Makefile.am, Makefile.am: Added `upload',
