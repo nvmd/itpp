@@ -32,14 +32,18 @@
 
 #include <itpp/comm/rec_syst_conv_code.h>
 
-/* == These two functions were added to address bug 1088420 which
+/* == These two macros were added to address bug 1088420 which
    described a numerical instability problem in map_decode() at high
    SNR. This should be regarded as a temporary fix and it is not
    necessarily a waterproof one: multiplication of probabilities still
    can result in values out of range. (Range checking for the
    multiplication operator was not implemented as it was felt that
    this would sacrifice too much runtime efficiency.  Some margin was
-   added to the "INF" values below to reflect this.)
+   added to the numerical hardlimits below to reflect this. The
+   hardlimit values below were taken as the minimum range that a
+   "double" should support reduced by a few orders of magnitude to
+   make sure multiplication of several values does not exceed the
+   limits.)
 
    It is suggested to use the QLLR based log-domain() decoders instead
    of map_decode() as they are much faster and more numerically
@@ -47,30 +51,12 @@
 
    EGL 8/06. == */
 
-#define INF (1e30)
-#define eINF (69.078)
-#define ZERO (1e-30)
-#define lZERO (-69.078)
-
-double trunc_exp(double x)   // truncated exponential function 
-{
-  if (x>=eINF) { 
-    return INF; 
-  } else {
-    return std::exp(x);
-  }
-};
-
-double trunc_log(double x)  // truncated logarithm function
-{
-  if (x<=ZERO) {
-    return lZERO;
-  } else {
-    return std::log(x);
-  }
-}
+#define TRUNC_EXP(x) (((x) >= 69.078) ? (1e30) : (std::exp(x)))
+#define TRUNC_LOG(x) (((x) <= 1e-30) ? (-69.078) : (std::log(x)))
 
 /* ======= */
+
+#define INF (1e30)
 
 namespace itpp { 
 
@@ -246,8 +232,8 @@ namespace itpp {
 	}
 	//	gamma(2*s_prim+0,k) = std::exp( 0.5*(extrinsic_input(kk) + Lc*rec_systematic(kk))) * std::exp( exp_temp0 );
 	//	gamma(2*s_prim+1,k) = std::exp(-0.5*(extrinsic_input(kk) + Lc*rec_systematic(kk))) * std::exp( exp_temp1 );
-	gamma(2*s_prim+0,k) = trunc_exp( 0.5*(extrinsic_input(kk) + Lc*rec_systematic(kk)) + exp_temp0 );
-	gamma(2*s_prim+1,k) = trunc_exp(-0.5*(extrinsic_input(kk) + Lc*rec_systematic(kk)) + exp_temp1 );
+	gamma(2*s_prim+0,k) = TRUNC_EXP( 0.5*(extrinsic_input(kk) + Lc*rec_systematic(kk)) + exp_temp0 );
+	gamma(2*s_prim+1,k) = TRUNC_EXP(-0.5*(extrinsic_input(kk) + Lc*rec_systematic(kk)) + exp_temp1 );
       }
     }
 
@@ -301,15 +287,15 @@ namespace itpp {
 	  exp_temp1 += 0.5*Lc*rec_parity(kk,j)*double(1-2*output_parity(s_prim,2*j+1));
 	}
 	//	gamma_k_e = std::exp( exp_temp0 );
-	gamma_k_e = trunc_exp( exp_temp0 );
+	gamma_k_e = TRUNC_EXP( exp_temp0 );
 	nom += alpha(s_prim,k-1) * gamma_k_e * beta(s0,k);
       
 	// gamma_k_e = std::exp( exp_temp1 );
-	gamma_k_e = trunc_exp( exp_temp1 );
+	gamma_k_e = TRUNC_EXP( exp_temp1 );
 	den += alpha(s_prim,k-1) * gamma_k_e * beta(s1,k);
       }
       //      extrinsic_output(kk) = std::log(nom/den);
-      extrinsic_output(kk) = trunc_log(nom/den);
+      extrinsic_output(kk) = TRUNC_LOG(nom/den);
     }
 
   }

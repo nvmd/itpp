@@ -303,7 +303,7 @@ namespace itpp {
     int l, i, j;
     double P0, P1;
     double d0min, d0min2, d1min, d1min2;
-    double treshhold = -std::log(eps) * N0; // To be sure that any precision is left in the calculatation
+    double threshold = -std::log(eps) * N0; // To be sure that any precision is left in the calculatation
     double inv_N0 = 1/N0;
     vec d(M), expd(M);
 
@@ -325,11 +325,11 @@ namespace itpp {
 	  P0 += expd(S0(i,j));
 	  P1 += expd(S1(i,j)); 
 	}
-	if ( (d0min2-d0min) > treshhold && (d1min2-d1min) > treshhold )
+	if ( (d0min2-d0min) > threshold && (d1min2-d1min) > threshold )
 	  soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
-	else if ( (d0min2-d0min) > treshhold )
+	else if ( (d0min2-d0min) > threshold )
 	  soft_bits(l*k+i) = -d0min*inv_N0-std::log(P1);
-	else if ( (d1min2-d1min) > treshhold )
+	else if ( (d1min2-d1min) > threshold )
 	  soft_bits(l*k+i) = std::log(P0) + d1min*inv_N0;
 	else
 	  soft_bits(l*k+i) = std::log(P0/P1);
@@ -367,7 +367,7 @@ namespace itpp {
     int l, i, j;
     double P0, P1;
     double d0min, d0min2, d1min, d1min2;
-    double treshhold = -std::log(eps)*N0; // To be sure that any precision is left in the calculatation
+    double threshold = -std::log(eps)*N0; // To be sure that any precision is left in the calculatation
     double inv_N0 = 1/N0;
     vec d(M), expd(M);
 
@@ -388,11 +388,11 @@ namespace itpp {
 	  P0 += expd(S0(i,j));
 	  P1 += expd(S1(i,j)); 
 	}
-	if ( (d0min2-d0min) > treshhold && (d1min2-d1min) > treshhold )
+	if ( (d0min2-d0min) > threshold && (d1min2-d1min) > threshold )
 	  soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
-	else if ( (d0min2-d0min) > treshhold )
+	else if ( (d0min2-d0min) > threshold )
 	  soft_bits(l*k+i) = -d0min*inv_N0-std::log(P1);
-	else if ( (d1min2-d1min) > treshhold )
+	else if ( (d1min2-d1min) > threshold )
 	  soft_bits(l*k+i) = std::log(P0) + d1min*inv_N0;
 	else
 	  soft_bits(l*k+i) = std::log(P0/P1);
@@ -892,7 +892,7 @@ namespace itpp {
     int l, i, j;
     double P0, P1;
     double d0min, d0min2, d1min, d1min2;
-    double treshhold = -std::log(eps)*N0; // To be sure that any precision is left in the calculatation
+    double threshold = -std::log(eps)*N0; // To be sure that any precision is left in the calculatation
     vec d(M), expd(M);
     double inv_N0 = 1/N0;
 
@@ -914,11 +914,11 @@ namespace itpp {
 	  P0 += expd(S0(i,j));
 	  P1 += expd(S1(i,j));  
 	}
-	if ( (d0min2-d0min) > treshhold && (d1min2-d1min) > treshhold )
+	if ( (d0min2-d0min) > threshold && (d1min2-d1min) > threshold )
 	  soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
-	else if ( (d0min2-d0min) > treshhold )
+	else if ( (d0min2-d0min) > threshold )
 	  soft_bits(l*k+i) = -d0min*inv_N0-std::log(P1);
-	else if ( (d1min2-d1min) > treshhold )
+	else if ( (d1min2-d1min) > threshold )
 	  soft_bits(l*k+i) = std::log(P0) + d1min*inv_N0;
 	else
 	  soft_bits(l*k+i) = std::log(P0/P1);
@@ -956,7 +956,7 @@ namespace itpp {
     int l, i, j;
     double P0, P1;
     double d0min, d0min2, d1min, d1min2;
-    double treshhold = -std::log(eps)*N0; // To be sure that any precision is left in the calculatation
+    double threshold = -std::log(eps)*N0; // To be sure that any precision is left in the calculatation
     double inv_N0 = 1/N0;
     vec d(M), expd(M);
 
@@ -978,11 +978,11 @@ namespace itpp {
 	  P0 += expd(S0(i,j));
 	  P1 += expd(S1(i,j)); 
 	}
-	if ( (d0min2-d0min) > treshhold && (d1min2-d1min) > treshhold )
+	if ( (d0min2-d0min) > threshold && (d1min2-d1min) > threshold )
 	  soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
-	else if ( (d0min2-d0min) > treshhold )
+	else if ( (d0min2-d0min) > threshold )
 	  soft_bits(l*k+i) = -d0min*inv_N0-std::log(P1);
-	else if ( (d1min2-d1min) > treshhold )
+	else if ( (d1min2-d1min) > threshold )
 	  soft_bits(l*k+i) = std::log(P0) + d1min*inv_N0;
 	else
 	  soft_bits(l*k+i) = std::log(P0/P1);
@@ -1116,7 +1116,7 @@ namespace itpp {
     double P0, P1;
     double d0min, d0min2, d1min, d1min2;
     double inv_N0 = 1/N0;
-    double treshhold = -std::log(eps)*N0; // To be sure that any precision is left in the calculatation
+    double threshold = -std::log(eps)*N0; // To be sure that any precision is left in the calculatation
     vec d(M), expd(M);
 
     soft_bits.set_size(k*rx_symbols.size(), false);
@@ -1137,11 +1137,11 @@ namespace itpp {
 	  P0 += expd(S0(i,j));
 	  P1 += expd(S1(i,j));  
 	}
-	if ( (d0min2-d0min) > treshhold && (d1min2-d1min) > treshhold )
+	if ( (d0min2-d0min) > threshold && (d1min2-d1min) > threshold )
 	  soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
-	else if ( (d0min2-d0min) > treshhold )
+	else if ( (d0min2-d0min) > threshold )
 	  soft_bits(l*k+i) = -d0min*inv_N0-std::log(P1);
-	else if ( (d1min2-d1min) > treshhold )
+	else if ( (d1min2-d1min) > threshold )
 	  soft_bits(l*k+i) = std::log(P0) + d1min*inv_N0;
 	else
 	  soft_bits(l*k+i) = std::log(P0/P1);
@@ -1180,7 +1180,7 @@ namespace itpp {
     int l, i, j;
     double P0, P1;
     double d0min, d0min2, d1min, d1min2;
-    double treshhold = -std::log(eps)*N0; // To be sure that any precision is left in the calculatation
+    double threshold = -std::log(eps)*N0; // To be sure that any precision is left in the calculatation
     double inv_N0 = 1/N0;
     vec d(M), expd(M);
 
@@ -1202,11 +1202,11 @@ namespace itpp {
 	  P0 += expd(S0(i,j));
 	  P1 += expd(S1(i,j)); 
 	}
-	if ( (d0min2-d0min) > treshhold && (d1min2-d1min) > treshhold )
+	if ( (d0min2-d0min) > threshold && (d1min2-d1min) > threshold )
 	  soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
-	else if ( (d0min2-d0min) > treshhold )
+	else if ( (d0min2-d0min) > threshold )
 	  soft_bits(l*k+i) = -d0min*inv_N0-std::log(P1);
-	else if ( (d1min2-d1min) > treshhold )
+	else if ( (d1min2-d1min) > threshold )
 	  soft_bits(l*k+i) = std::log(P0) + d1min*inv_N0;
 	else
 	  soft_bits(l*k+i) = std::log(P0/P1);
