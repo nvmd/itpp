@@ -1,3 +1,9 @@
+2006-08-09  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac, doc/Makefile.am, Makefile.am: Added `upload',
+	`upload-src' and `upload-html' targets for automatic upload
+	tarballs into SourceForge ftp server.
+
 2006-08-08  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/parser.cpp: Fixed a minor bug in get<int>() function

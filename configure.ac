@@ -32,6 +32,10 @@ GENERIC_LIBRARY_VERSION="4:0:0"
 #                    or changed
 AC_SUBST(GENERIC_LIBRARY_VERSION)
 
+# Upload command for SourceForge
+UPLOAD_COMMAND="ncftpput -v upload.sourceforge.net /incoming"
+AC_SUBST(UPLOAD_COMMAND)
+
 # Check for host and disable building a shared library in Windows
 AC_CANONICAL_HOST
 case $host in
