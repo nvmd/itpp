@@ -24,5 +24,15 @@ pkgconfig_DATA = @PACKAGE@.pc
 uninstall-local:
 	rm -rf $(DESTDIR)$(includedir)/@PACKAGE@
 
-disthtml:
-	$(MAKE) -C doc disthtml
+dist-html:
+	$(MAKE) -C doc dist-html
+
+upload: upload-src upload-html
+
+upload-src: dist
+	@UPLOAD_COMMAND@ @PACKAGE_TARNAME@-@VERSION@.tar.gz \
+		@PACKAGE_TARNAME@-@VERSION@.tar.bz2
+
+upload-html: dist-html
+	@UPLOAD_COMMAND@ @PACKAGE_TARNAME@-html-doc-@VERSION@.tar.gz \
+		@PACKAGE_TARNAME@-html-doc-@VERSION@.tar.bz2
