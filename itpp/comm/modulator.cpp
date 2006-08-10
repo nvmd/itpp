@@ -222,17 +222,18 @@ namespace itpp {
   {
     // Definitions of local variables
     long no_symbols = rx_symbols.length();
-    vec soft_word(k), P0(k), P1(k);
+    double P0, P1;
+    vec soft_word(k);
 
     // Allocate storage space for the result vector:
     soft_bits.set_size(k*no_symbols, false);
 
     // For each symbol l do:
     for (int l = 0; l < no_symbols; l++) {
-      P0.clear();
-      P1.clear();
       // For each bit position i do:
       for (int i = 0; i < k; i++) {
+	P0 = 0;
+	P1 = 0;
 	for (int j = 0; j < (M >> 1); j++) {
 // 	  s0 = symbols( S0(i,j) );
 // 	  s1 = symbols( S1(i,j) );
@@ -240,13 +241,11 @@ namespace itpp {
 // 	  p_z_s1 = (1.0/(pi*N0)) * std::exp(-sqr(std::abs(z - s1)) / N0);
 // 	  P0(i) += p_z_s0;
 // 	  P1(i) += p_z_s1;
-	  P0(i) += std::exp(-sqr(std::abs(rx_symbols(l) - symbols(S0(i, j))))
-			    / N0);
-	  P1(i) += std::exp(-sqr(std::abs(rx_symbols(l) - symbols(S1(i, j))))
-			    / N0);
+	  P0 += std::exp(-sqr(std::abs(rx_symbols(l) - symbols(S0(i, j)))) / N0);
+	  P1 += std::exp(-sqr(std::abs(rx_symbols(l) - symbols(S1(i, j)))) / N0);
 	}
 	// The soft bits for the l-th received symbol:
-	soft_word(i) = trunc_log(P0(i)) - trunc_log(P1(i));
+	soft_word(i) = trunc_log(P0) - trunc_log(P1);
       }
       // Put the results in the result vector:
       soft_bits.replace_mid(l*k, soft_word);
@@ -260,19 +259,19 @@ namespace itpp {
   {
     // Definitions of local variables
     long no_symbols = rx_symbols.length();
-    double a2;
-    vec soft_word(k), P0(k), P1(k);
+    double a2, P0, P1;
+    vec soft_word(k);
 
     //Allocate storage space for the result vector:
     soft_bits.set_size(k*no_symbols,false);
 
     // For each symbol l do:
     for (int l = 0; l < no_symbols; l++) {
-      P0.clear();
-      P1.clear();
       a2 = sqr(std::abs(chan(l)));
       // For each bit position i do:
       for (int i = 0; i < k; i++) {
+	P0 = 0;
+	P1 = 0;
 	for (int j = 0; j < (M >> 1); j++) {
 // 	  s0 = symbols( S0(i,j) );
 // 	  s1 = symbols( S1(i,j) );
@@ -280,13 +279,13 @@ namespace itpp {
 // 	  p_z_s1 = (1.0/(pi*N0*a2)) * std::exp(-sqr(std::abs(z-a2*s1)) / (N0*a2));
 // 	  P0(i) += p_z_s0;
 // 	  P1(i) += p_z_s1;
-	  P0(i) += std::exp(-sqr(std::abs(rx_symbols(l) - a2*symbols(S0(i, j))))
-			    / (N0*a2));
-	  P1(i) += std::exp(-sqr(std::abs(rx_symbols(l) - a2*symbols(S1(i, j))))
-			    / (N0*a2));
+	  P0 += std::exp(-sqr(std::abs(rx_symbols(l) - a2*symbols(S0(i, j))))
+			 / (N0*a2));
+	  P1 += std::exp(-sqr(std::abs(rx_symbols(l) - a2*symbols(S1(i, j))))
+			 / (N0*a2));
 	}
 	// The soft bits for the l-th received symbol:
-	soft_word(i) = trunc_log(P0(i)) - trunc_log(P1(i));
+	soft_word(i) = trunc_log(P0) - trunc_log(P1);
       }
       // Put the results in the result vector:
       soft_bits.replace_mid(l*k, soft_word);
@@ -393,14 +392,18 @@ namespace itpp {
   void BPSK::modulate_bits(const bvec &bits, vec &out) const
   {
     out.set_size(bits.size(), false);
-    for (int i=0;i<bits.size();i++) { out(i) = bits(i) == 0 ? 1.0 : -1.0;}
+    for (int i = 0; i < bits.size(); i++) { 
+      out(i) = (bits(i) == 0 ? 1.0 : -1.0);
+    }
   }
 
   // output is complex but symbols in real part only
   void BPSK::modulate_bits(const bvec &bits, cvec &out) const
   {
     out.set_size(bits.size(), false);
-    for (int i=0;i<bits.size();i++) { out(i) = bits(i) == 0 ? 1.0 : -1.0;}
+    for (int i = 0; i < bits.size(); i++) { 
+      out(i) = (bits(i) == 0 ? 1.0 : -1.0);
+    }
   }
 
   cvec BPSK::modulate_bits(const bvec &bits) const
@@ -413,7 +416,9 @@ namespace itpp {
   void BPSK::demodulate_bits(const vec &signal, bvec &out) const
   {
     out.set_size(signal.size(), false);
-    for (int i=0; i<signal.length(); i++) { out(i) = (signal(i)>0) ? bin(0) : bin(1); }
+    for (int i = 0; i < signal.length(); i++) { 
+      out(i) = (signal(i) > 0) ? bin(0) : bin(1); 
+    }
   }
 
   bvec BPSK::demodulate_bits(const vec &signal) const
@@ -423,11 +428,14 @@ namespace itpp {
     return temp;
   }
 
-  // Symbols are in real part. That is channel estimation is already applied to the signal
+  // Symbols are in real part. Channel estimation already applied to the
+  // signal
   void BPSK::demodulate_bits(const cvec &signal, bvec &out) const
   {
     out.set_size(signal.size(), false);
-    for (int i=0; i<signal.length(); i++) { out(i) = (std::real(signal(i))>0) ? bin(0) : bin(1); }
+    for (int i = 0; i < signal.length(); i++) { 
+      out(i) = (std::real(signal(i)) > 0) ? bin(0) : bin(1); 
+    }
   }
 
   bvec BPSK::demodulate_bits(const cvec &signal) const
@@ -437,88 +445,91 @@ namespace itpp {
     return temp;
   }
 
-  // Outputs log-likelihood ratio of log (Pr(bit = 0|rx_symbols)/Pr(bit = 1|rx_symbols))
-  void BPSK::demodulate_soft_bits(const vec &rx_symbols, const double N0, vec &soft_bits) const
+  // Outputs log-likelihood ratio of log(Pr(b=0|rx_symbols)/Pr(b=1|rx_symbols))
+  void BPSK::demodulate_soft_bits(const vec &rx_symbols, double N0,
+				  vec &soft_bits) const
   {
-    double factor = 4/N0;
+    double factor = 4 / N0;
     soft_bits.set_size(rx_symbols.size(), false);
 
-    for (int i=0; i<rx_symbols.size(); i++) {
-      soft_bits(i) = factor*rx_symbols(i);
+    for (int i = 0; i < rx_symbols.size(); i++) {
+      soft_bits(i) = factor * rx_symbols(i);
     }
   }
 
-  // Outputs log-likelihood ratio of log (Pr(bit = 0|rx_symbols)/Pr(bit = 1|rx_symbols))
-  void BPSK::demodulate_soft_bits(const cvec &rx_symbols, const double N0, vec &soft_bits) const
+  // Outputs log-likelihood ratio of log(Pr(b=0|rx_symbols)/Pr(b=1|rx_symbols))
+  void BPSK::demodulate_soft_bits(const cvec &rx_symbols, double N0,
+				  vec &soft_bits) const
   {
-    double factor = 4/N0;
+    double factor = 4 / N0;
     soft_bits.set_size(rx_symbols.size(), false);
 
-    for (int i=0; i<rx_symbols.size(); i++) {
-      soft_bits(i) = factor*std::real(rx_symbols(i));
+    for (int i = 0; i < rx_symbols.size(); i++) {
+      soft_bits(i) = factor * std::real(rx_symbols(i));
     }
   }
 
   // Outputs log-likelihood ratio for fading channels
-  void BPSK::demodulate_soft_bits(const cvec &rx_symbols, const cvec &channel, const double N0, vec &soft_bits) const
+  void BPSK::demodulate_soft_bits(const cvec &rx_symbols, const cvec &channel,
+				  double N0, vec &soft_bits) const
   {
-    double factor = 4/N0;
+    double factor = 4 / N0;
     soft_bits.set_size(rx_symbols.size(), false);
 
-    for (int i=0; i<rx_symbols.size(); i++) {
-      soft_bits(i) = factor*std::real(rx_symbols(i)*std::conj(channel(i)));
+    for (int i = 0; i < rx_symbols.size(); i++) {
+      soft_bits(i) = factor * std::real(rx_symbols(i) * std::conj(channel(i)));
     }
   }
 
-  void BPSK::demodulate_soft_bits_approx(const cvec &rx_symbols, const double N0, vec &soft_bits) const
+  void BPSK::demodulate_soft_bits_approx(const cvec &rx_symbols, double N0,
+					 vec &soft_bits) const
   {
     demodulate_soft_bits(rx_symbols, N0, soft_bits);
   }
 
-  void BPSK::demodulate_soft_bits_approx(const cvec &rx_symbols, const cvec &channel, const double N0, vec &soft_bits) const
+  void BPSK::demodulate_soft_bits_approx(const cvec &rx_symbols, 
+					 const cvec &channel, double N0,
+					 vec &soft_bits) const
   {
     demodulate_soft_bits(rx_symbols, channel, N0, soft_bits);
   }
+
 
 
   //------------- class: PAM ----------------
 
   void PAM::modulate_bits(const bvec &bits, vec &out) const
   {
-    int no_symbols, i, symb;
-    int bits_len = bits.length();
-
     // Check if some bits have to be cut and print warning message in
     // such case.
-    if (bits_len % k) {
-      it_warning("PAM::modulate_bits(): The number of input bits is not a multiple of log2(M),\nwhere M is a constellation size. Remainder bits are not modulated.");
+    if (bits.length() % k) {
+      it_warning("PAM::modulate_bits(): The number of input bits is not a multiple of log2(M), where M is a constellation size. Remainder bits are not modulated.");
     }
-    no_symbols = floor_i(double(bits_len) / double(k));
+    int symb;
+    int no_symbols = floor_i(static_cast<double>(bits.length()) / k);
 
     out.set_size(no_symbols, false);
 
-    for (i=0; i<no_symbols; i++) {
-      symb = bin2dec(bits.mid(i*k,k));
+    for (int i = 0; i < no_symbols; i++) {
+      symb = bin2dec(bits.mid(i*k, k));
       out(i) = symbols(bits2symbols(symb));
     }
   }
 
   void PAM::modulate_bits(const bvec &bits, cvec &out) const
   {
-    int no_symbols, i, symb;
-    int bits_len = bits.length();
-
     // Check if some bits have to be cut and print warning message in
     // such case.
-    if (bits_len % k) {
-      it_warning("PAM::modulate_bits(): The number of input bits is not a multiple of log2(M),\nwhere M is a constellation size. Remainder bits are not modulated.");
+    if (bits.length() % k) {
+      it_warning("PAM::modulate_bits(): The number of input bits is not a multiple of log2(M), where M is a constellation size. Remainder bits are not modulated.");
     }
-    no_symbols = floor_i(double(bits_len) / double(k));
+    int symb;
+    int no_symbols = floor_i(static_cast<double>(bits.length()) / k);
 
     out.set_size(no_symbols, false);
 
-    for (i=0; i<no_symbols; i++) {
-      symb = bin2dec(bits.mid(i*k,k));
+    for (int i = 0; i < no_symbols; i++) {
+      symb = bin2dec(bits.mid(i*k, k));
       out(i) = symbols(bits2symbols(symb));
     }
   }
@@ -532,27 +543,32 @@ namespace itpp {
 
   void PAM::demodulate_bits(const vec &signal, bvec &out) const
   {
-    int i, est_symbol;
+    int est_symbol;
     out.set_size(k*signal.size(), false);
 
-    for (i=0; i<signal.size(); i++) {
-      est_symbol = round_i((M-1)-(signal(i)*scaling_factor+(M-1))/2.0);
-      if (est_symbol<0) est_symbol = 0;
-      else if (est_symbol>(M-1)) est_symbol = (M-1);
-      out.replace_mid(i*k,bitmap.get_row(est_symbol));
+    for (int i = 0; i < signal.size(); i++) {
+      est_symbol = round_i((M-1) - (signal(i) * scaling_factor + (M-1)) / 2);
+      if (est_symbol < 0) 
+	est_symbol = 0;
+      else if (est_symbol > (M-1)) 
+	est_symbol = M-1;
+      out.replace_mid(i*k, bitmap.get_row(est_symbol));
     }
   }
 
   void PAM::demodulate_bits(const cvec &signal, bvec &out) const
   {
-    int i, est_symbol;
+    int est_symbol;
     out.set_size(k*signal.size(), false);
 
-    for (i=0; i<signal.size(); i++) {
-      est_symbol = round_i((M-1)-(std::real(signal(i))*scaling_factor+(M-1))/2.0);
-      if (est_symbol<0) est_symbol = 0;
-      else if (est_symbol>(M-1)) est_symbol = (M-1);
-      out.replace_mid(i*k,bitmap.get_row(est_symbol));
+    for (int i = 0; i < signal.size(); i++) {
+      est_symbol = round_i((M-1) - (std::real(signal(i)) * scaling_factor 
+				    + (M-1)) / 2);
+      if (est_symbol < 0)
+	est_symbol = 0;
+      else if (est_symbol > (M-1))
+	est_symbol = M-1;
+      out.replace_mid(i*k, bitmap.get_row(est_symbol));
     }
   }
 
@@ -564,129 +580,108 @@ namespace itpp {
   }
 
 
-  void PAM::demodulate_soft_bits(const cvec &rx_symbols, const double N0, vec &soft_bits) const
+  void PAM::demodulate_soft_bits(const cvec &rx_symbols, double N0,
+				 vec &soft_bits) const
   {
-    int l, i, j;
     double P0, P1;
-    double d0min, d0min2, d1min, d1min2;
-    double threshold = -std::log(eps) * N0; // To be sure that any precision is left in the calculatation
-    double inv_N0 = 1/N0;
-    vec d(M), expd(M);
+    vec expd(M);
 
     soft_bits.set_size(k*rx_symbols.size(), false);
 
-    for (l=0; l<rx_symbols.size(); l++) {
-
-      for (j=0; j<M; j++) {
-	d(j) = sqr(std::real(rx_symbols(l)-symbols(j)));
-	expd(j) = std::exp((-d(j))*inv_N0);
+    for (int l = 0; l < rx_symbols.size(); l++) {
+      // calculate exponent of metric for each constellation point
+      for (int j = 0; j < M; j++) {
+	expd(j) = std::exp(-sqr(std::real(rx_symbols(l) - symbols(j))) / N0);
       }
 
-      for (i=0; i<k; i++) {
-	P0 = P1 = 0;
-	d0min = d0min2 = d1min = d1min2 = 1e100;
-	for (j=0; j<(M/2); j++) {
-	  if (d(S0(i,j)) < d0min) { d0min2 = d0min; d0min = d(S0(i,j)); }
-	  if (d(S1(i,j)) < d1min) { d1min2 = d1min; d1min = d(S1(i,j)); }
-	  P0 += expd(S0(i,j));
-	  P1 += expd(S1(i,j)); 
+      for (int i = 0; i < k; i++) {
+	P0 = 0;
+	P1 = 0;
+	for (int j = 0; j < (M >> 1); j++) {
+	  P0 += expd(S0(i, j));
+	  P1 += expd(S1(i, j)); 
 	}
-	if ( (d0min2-d0min) > threshold && (d1min2-d1min) > threshold )
-	  soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
-	else if ( (d0min2-d0min) > threshold )
-	  soft_bits(l*k+i) = -d0min*inv_N0-std::log(P1);
-	else if ( (d1min2-d1min) > threshold )
-	  soft_bits(l*k+i) = std::log(P0) + d1min*inv_N0;
-	else
-	  soft_bits(l*k+i) = std::log(P0/P1);
+	soft_bits(l*k+i) = trunc_log(P0) - trunc_log(P1);
       }
     }
   }
 
-  void PAM::demodulate_soft_bits_approx(const cvec &rx_symbols, const double N0, vec &soft_bits) const
+  void PAM::demodulate_soft_bits_approx(const cvec &rx_symbols, double N0,
+					vec &soft_bits) const
   {
-    int l, i, j;
     double d0min, d1min;
-    double inv_N0 = 1/N0;
     vec d(M);
 
     soft_bits.set_size(k*rx_symbols.size(), false);
 
-    for (l=0; l<rx_symbols.size(); l++) {
+    for (int l = 0; l < rx_symbols.size(); l++) {
+      // calculate exponent of metric for each constellation point
+      for (int j = 0; j < M; j++) {
+	d(j) = sqr(std::real(rx_symbols(l) - symbols(j)));
+      }
 
-      for (j=0; j<M; j++)
-	d(j) = sqr(std::real(rx_symbols(l)-symbols(j)));
-
-      for (i=0; i<k; i++) {
-	d0min = d1min = 1e100;
-	for (j=0; j<(M/2); j++) {
-	  if (d(S0(i,j)) < d0min) { d0min = d(S0(i,j)); }
-	  if (d(S1(i,j)) < d1min) { d1min = d(S1(i,j)); }
+      for (int i = 0; i < k; i++) {
+	d0min = std::numeric_limits<double>::max();
+	d1min = std::numeric_limits<double>::max();
+	for (int j = 0; j < (M >> 1); j++) {
+	  if (d(S0(i, j)) < d0min) { d0min = d(S0(i, j)); }
+	  if (d(S1(i, j)) < d1min) { d1min = d(S1(i, j)); }
 	}
-	soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
+	soft_bits(l*k+i) = (-d0min + d1min) / N0;
       }
     }
   }
 
-  void PAM::demodulate_soft_bits(const cvec &rx_symbols, const cvec &channel, const double N0, vec &soft_bits) const
+  void PAM::demodulate_soft_bits(const cvec &rx_symbols, const cvec &channel,
+				 double N0, vec &soft_bits) const
   {
-    int l, i, j;
     double P0, P1;
-    double d0min, d0min2, d1min, d1min2;
-    double threshold = -std::log(eps)*N0; // To be sure that any precision is left in the calculatation
-    double inv_N0 = 1/N0;
-    vec d(M), expd(M);
+    vec expd(M);
 
     soft_bits.set_size(k*rx_symbols.size(), false);
 
-    for (l=0; l<rx_symbols.size(); l++) {
-      for (j=0; j<M; j++) {
-	d(j) = sqr(std::real(rx_symbols(l)-channel(l)*symbols(j)));
-	expd(j) = std::exp((-d(j))*inv_N0);
+    for (int l = 0; l < rx_symbols.size(); l++) {
+      // calculate exponent of metric for each constellation point
+      for (int j = 0; j < M; j++) {
+	expd(j) = std::exp(-sqr(std::real(rx_symbols(l) 
+					  - channel(l) * symbols(j))) / N0);
       }
 
-      for (i=0; i<k; i++) {
-	P0 = P1 = 0;
-	d0min = d0min2 = d1min = d1min2 = 1e100;
-	for (j=0; j<(M/2); j++) {
-	  if (d(S0(i,j)) < d0min) { d0min2 = d0min; d0min = d(S0(i,j)); }
-	  if (d(S1(i,j)) < d1min) { d1min2 = d1min; d1min = d(S1(i,j)); }
-	  P0 += expd(S0(i,j));
-	  P1 += expd(S1(i,j)); 
+      for (int i = 0; i < k; i++) {
+	P0 = 0;
+	P1 = 0;
+	for (int j = 0; j < (M >> 1); j++) {
+	  P0 += expd(S0(i, j));
+	  P1 += expd(S1(i, j)); 
 	}
-	if ( (d0min2-d0min) > threshold && (d1min2-d1min) > threshold )
-	  soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
-	else if ( (d0min2-d0min) > threshold )
-	  soft_bits(l*k+i) = -d0min*inv_N0-std::log(P1);
-	else if ( (d1min2-d1min) > threshold )
-	  soft_bits(l*k+i) = std::log(P0) + d1min*inv_N0;
-	else
-	  soft_bits(l*k+i) = std::log(P0/P1);
+	soft_bits(l*k+i) = trunc_log(P0) - trunc_log(P1);
       }
     }
   }
 
-  void PAM::demodulate_soft_bits_approx(const cvec &rx_symbols, const cvec &channel, const double N0, vec &soft_bits) const
+  void PAM::demodulate_soft_bits_approx(const cvec &rx_symbols, 
+					const cvec &channel, double N0,
+					vec &soft_bits) const
   {
-    int l, i, j;
     double d0min, d1min;
-    double inv_N0 = 1/N0;
     vec d(M);
 
     soft_bits.set_size(k*rx_symbols.size(), false);
 
-    for (l=0; l<rx_symbols.size(); l++) {
+    for (int l = 0; l < rx_symbols.size(); l++) {
+      // calculate exponent of metric for each constellation point
+      for (int j = 0; j < M; j++) {
+	d(j) = sqr(std::real(rx_symbols(l) - channel(l) * symbols(j)));
+      }
 
-      for (j=0; j<M; j++)
-	d(j) = sqr(std::real(rx_symbols(l)-channel(l)*symbols(j)));
-
-      for (i=0; i<k; i++) {
-	d0min = d1min = 1e100;
-	for (j=0; j<(M/2); j++) {
-	  if (d(S0(i,j)) < d0min) { d0min = d(S0(i,j)); }
-	  if (d(S1(i,j)) < d1min) { d1min = d(S1(i,j)); }
+      for (int i = 0; i < k; i++) {
+	d0min = std::numeric_limits<double>::max();
+	d1min = std::numeric_limits<double>::max();
+	for (int j = 0; j < (M >> 1); j++) {
+	  if (d(S0(i, j)) < d0min) { d0min = d(S0(i, j)); }
+	  if (d(S1(i, j)) < d1min) { d1min = d(S1(i, j)); }
 	}
-	soft_bits(l*k+i) = (-d0min + d1min)*inv_N0;
+	soft_bits(l*k+i) = (-d0min + d1min) / N0;
       }
     }
   }
@@ -696,36 +691,36 @@ namespace itpp {
     M = Mary;
     k = needed_bits(M - 1);
 
-    it_error_if(abs(pow2i(k) - Mary) > 0.0,"M-ary PAM: M is not a power of 2");
+    it_assert(pow2i(k) == Mary, "PAM::set_M(): M is not a power of 2");
 
-    int i, kk, m, count0, count1;
+    int count0, count1;
     bvec bits;
 
     symbols.set_size(M, false);
     bits2symbols.set_size(M, false);
     bitmap = graycode(k);
-    average_energy = double(M*M-1)/3.0;
+    average_energy = (sqr(M) - 1) / 3.0;
     scaling_factor = std::sqrt(average_energy);
 
-    for (i=0; i<M; i++) {
-      symbols(i) = double((M-1)-i*2) / scaling_factor;
+    for (int i = 0; i < M; i++) {
+      symbols(i) = ((M-1) - i*2) / scaling_factor;
       bits2symbols(bin2dec(bitmap.get_row(i))) = i;
     }
 
-    //Calculate the soft bit mapping matrices S0 and S1
-    S0.set_size(k,M/2,false);
-    S1.set_size(k,M/2,false);
+    // Calculate the soft bit mapping matrices S0 and S1
+    S0.set_size(k, M/2, false);
+    S1.set_size(k, M/2, false);
   
-    for (kk=0; kk<k; kk++) {
+    for (int kk = 0; kk < k; kk++) {
       count0 = 0; 
       count1 = 0;
-      for (m=0; m<M; m++) {
+      for (int m = 0; m < M; m++) {
 	bits = bitmap.get_row(m);
-	if (bits(kk)==bin(0)) {
-	  S0(kk,count0) = m;
+	if (bits(kk) == bin(0)) {
+	  S0(kk, count0) = m;
 	  count0++; 
 	} else {
-	  S1(kk,count1) = m;
+	  S1(kk, count1) = m;
 	  count1++;
 	}
       }
