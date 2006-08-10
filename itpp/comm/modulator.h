@@ -550,9 +550,9 @@ namespace itpp {
     \ingroup modulators
     \brief QPSK-modulator class.
 
-    Symbol numbering is counter clockwise starting with  \f$(1,1)/\sqrt{2}\f$ as symbol 0.
-    The bits are Gray coded onto symbols.
-    The energy is normalized to one.
+    Symbol numbering is counter clockwise starting with \f$(1,1)/\sqrt{2}\f$
+    as symbol 0. The bits are Gray coded onto symbols. The energy is
+    normalized to one.
 
     Example of use:
     \code
@@ -561,29 +561,33 @@ namespace itpp {
     cvec symbols = qpsk.modulate_bits(bits);
     \endcode
 
-    This class can also perform soft demodulation, calculating the log-MAP estimate of the individual bits.
-    To use the soft demodulate member functions the
-    received symbols shall equal
+    This class can also perform soft demodulation, calculating the log-MAP
+    estimate of the individual bits. To use the soft demodulate member
+    functions the received symbols shall equal
     \f[ r_k = c_k \times s_k + n_k, \f]
-    where \f$c_k\f$  is the complex channel
-    gain, \f$s_k\f$ is the transmitted QPSK symbols, and \f$n_k\f$ is the AWGN of the channel (with 
-    variance \f$N_0/2\f$ in both the real and the imaginary valued components).
+    where \f$c_k\f$  is the complex channel gain, \f$s_k\f$ is the
+    transmitted QPSK symbols, and \f$n_k\f$ is the AWGN of the channel (with
+    variance \f$N_0/2\f$ in both the real and the imaginary valued
+    components).
   
-    The input samples to the soft demodulate functions should be \f$r_k\f$. It is also assumed that the
-    channel estimates are perfect when calculating the soft bits.
+    The input samples to the soft demodulate functions should be \f$r_k\f$.
+    It is also assumed that the channel estimates are perfect when
+    calculating the soft bits. 
   
-    When these member functions are used together with MAP-based turbo decoding algoritms then the channel
-    reliability factor \f$L_c\f$ of the turbo decoder shall be set to 1. The output from these member
-    functions can also be used by a Viterbi decoder. 
+    When these member functions are used together with MAP-based turbo
+    decoding algoritms then the channel reliability factor \f$L_c\f$ of the
+    turbo decoder shall be set to 1. The output from these member functions
+    can also be used by a Viterbi decoder.
   */
-  class QPSK : virtual public Modulator {
+  class QPSK : public Modulator {
   public:
     //! Class Constructor
     QPSK() {}
     //! Destructor
     virtual ~QPSK() {}
-    //! Returns number of bits per symbol (2 for QPSK)
-    virtual double bits_per_symbol() const {return 2;}
+    //! Returns number of bits per symbol
+    virtual double bits_per_symbol() const { return 2; }
+
     //! Modulation of bits
     virtual void modulate_bits(const bvec &bits, cvec &out) const;
     //! Modulation of bits
@@ -595,7 +599,8 @@ namespace itpp {
     /*! 
       \brief Soft demodulator for AWGN channels
     
-      This function calculates the log-MAP estimates assuming equally likely bits transmitted
+      This function calculates the log-MAP estimates assuming equally likely
+      bits transmitted 
       \f[
       \log \left( \frac{\Pr(b_0=0|r)}{\Pr(b_0=1|r)} \right)
       = \frac{4 \Re \{r\} }{N_0}
@@ -604,23 +609,25 @@ namespace itpp {
       \log \left( \frac{\Pr(b_1=0|r)}{\Pr(b_1=1|r)} \right)
       = \frac{4 \Im \{r\} }{N_0}
       \f]
-      It is assumed that what is received is \f$r = s + n\f$. \f$s\f$ is the QPSK symbol
-      and the mapping between symbols and bits is Gray-coded.
-      \param rx_symbols The received noisy constellation symbols, \f$r\f$ (real)
+      It is assumed that what is received is \f$r = s + n\f$. \f$s\f$ is the
+      QPSK symbol and the mapping between symbols and bits is Gray-coded.
+      \param rx_symbols The received noisy constellation symbols, \f$r\f$
+      (real)
       \param N0 The single sided spectral density of the AWGN noise, \f$n\f$
       \param soft_bits The soft bits calculated using the expression above
 
       <b>Note:</b> For soft demodulation it is suggested to use the
-      N-dimensional modulator (\c Modulator_ND) class instead which is
-      based on QLLR arithmetics and therefore faster and more
-      numerically stable.
+      N-dimensional modulator (\c Modulator_ND) class instead which is based
+      on QLLR arithmetics and therefore faster and more numerically stable.
     */
-    virtual void demodulate_soft_bits(const cvec &rx_symbols, const double N0, vec &soft_bits) const;
+    virtual void demodulate_soft_bits(const cvec &rx_symbols, double N0,
+				      vec &soft_bits) const;
 
     /*! 
       \brief Soft demodulator for a known channel in AWGN
     
-      This function calculates the log-MAP estimate assuming equally likely bits transmitted
+      This function calculates the log-MAP estimate assuming equally likely
+      bits transmitted 
       \f[
       \log \left( \frac{\Pr(b_0=0|r)}{\Pr(b_0=1|r)} \right)
       = \frac{4 \Re \{r c^{*} \} }{N_0}
@@ -629,62 +636,74 @@ namespace itpp {
       \log \left( \frac{\Pr(b_1=0|r)}{\Pr(b_1=1|r)} \right)
       = \frac{4 \Im \{r c^{*} \} }{N_0}
       \f]
-      It is assumed that what is received is the complex-valued model: \f$r = c s + n\f$.
-      \param rx_symbols The received noisy constellation symbols, \f$r\f$ (complex)
+      It is assumed that what is received is the complex-valued model:
+      \f$ r = c s + n\f$. 
+      \param rx_symbols The received noisy constellation symbols, \f$r\f$
+      (complex)
       \param channel The channel coefficients, \f$c\f$ (complex)
       \param N0 The single sided spectral density of the AWGN noise, \f$n\f$
       \param soft_bits The soft bits calculated using the expression above
 
       <b>Note:</b> For soft demodulation it is suggested to use the
-      N-dimensional modulator (\c Modulator_ND) class instead which is
-      based on QLLR arithmetics and therefore faster and more
-      numerically stable.
+      N-dimensional modulator (\c Modulator_ND) class instead which is based
+      on QLLR arithmetics and therefore faster and more numerically stable.
     */
-    virtual void demodulate_soft_bits(const cvec &rx_symbols, const cvec &channel, const double N0, vec &soft_bits) const;
+    virtual void demodulate_soft_bits(const cvec &rx_symbols,
+				      const cvec &channel, double N0,
+				      vec &soft_bits) const;
   
     /*!
       \brief Soft demodulation. Same as exact soft demodulation give above
     */
-    virtual void demodulate_soft_bits_approx(const cvec &rx_symbols, const double N0, vec &soft_bits) const;
+    virtual void demodulate_soft_bits_approx(const cvec &rx_symbols, double N0,
+					     vec &soft_bits) const;
 
     /*!
       \brief Soft demodulation. Same as exact soft demodulation give above
     */
-    virtual void demodulate_soft_bits_approx(const cvec &rx_symbols, const cvec &channel, const double N0, vec &soft_bits) const;
+    virtual void demodulate_soft_bits_approx(const cvec &rx_symbols,
+					     const cvec &channel, double N0,
+					     vec &soft_bits) const;
   };
 
 
   /*! 
     \ingroup modulators
-    \brief Mary-PSK modulator.
+    \brief M-ary PSK modulator.
 
-    M-ary PSK modulator with \f$M = 2^k, \_ k = 1, 2, \ldots \f$.
-    Symbol numbering counter clockwise starting from the real axis.
-    The bit map is Gray encoded. The symbol energy is 1.
+    M-ary PSK modulator with \f$M = 2^k, \_ k = 1, 2, \ldots \f$. Symbol
+    numbering counter clockwise starting from the real axis. The bit map is
+    Gray encoded. The symbol energy is 1.
 
-    This class can also perform soft demodulation, calculating the log-MAP estimate of the individual bits.
-    To use the soft demodulate member functions the
-    received symbols shall equal
+    This class can also perform soft demodulation, calculating the log-MAP
+    estimate of the individual bits. To use the soft demodulate member
+    functions the received symbols shall equal
     \f[ r_k = c_k \times s_k + n_k, \f]
-    where \f$c_k\f$  is the complex channel
-    gain, \f$s_k\f$ is the transmitted M-PSK symbols, and \f$n_k\f$ is the AWGN of the channel (with 
-    variance \f$N_0/2\f$ in both the real and the imaginary valued components).
+    where \f$c_k\f$  is the complex channel gain, \f$s_k\f$ is the
+    transmitted M-PSK symbols, and \f$n_k\f$ is the AWGN of the channel
+    (with variance \f$N_0/2\f$ in both the real and the imaginary valued
+    components).
   
-    The input samples to the soft demodulate functions should be \f$r_k\f$. It is also assumed that the
-    channel estimates are perfect when calculating the soft bits.
+    The input samples to the soft demodulate functions should be \f$r_k\f$.
+    It is also assumed that the channel estimates are perfect when
+    calculating the soft bits.
   
-    When these member functions are used together with MAP-based turbo decoding algoritms then the channel
-    reliability factor \f$L_c\f$ of the turbo decoder shall be set to 1. The output from these member
-    functions can also be used by a Viterbi decoder. 
+    When these member functions are used together with MAP-based turbo
+    decoding algoritms then the channel reliability factor \f$L_c\f$ of the
+    turbo decoder shall be set to 1. The output from these member functions
+    can also be used by a Viterbi decoder.
   */
-  class PSK : virtual public Modulator {
+  class PSK : public Modulator {
   public:
     //! Class constructor
     PSK(int Mary) { set_M(Mary); }
     //! Destructor
     virtual ~PSK() { }
-    //! Returns number of bits per symbol (1 for BPSK)
-    virtual double bits_per_symbol() const {return k;}
+    //! Change the size of the signal constellation
+    void set_M(int Mary);
+
+    //! Returns number of bits per symbol
+    virtual double bits_per_symbol() const { return k; }
     //! Modulation of bits
     virtual void modulate_bits(const bvec &bits, cvec &out) const;
     //! Modulation of bits
@@ -705,28 +724,31 @@ namespace itpp {
       \sum_{s_i \in S_1} \exp \left( -\frac{ |r - s_i|^2 }{N_0} \right) }
       \right)
       \f]
-      where \f$s_i \in S_0\f$ denotes a constellation symbol with the i-th bit equal to zero.
-      This function can be used on channels where the channel gain is \f$c = 1\f$.
+      where \f$s_i \in S_0\f$ denotes a constellation symbol with the i-th
+      bit equal to zero. This function can be used on channels where the
+      channel gain is \f$c = 1\f$.
     
       \param rx_symbols The received noisy constellation symbols, \f$r\f$
       \param N0 The single sided spectral density of the AWGN noise
       \param soft_bits The soft bits calculated using the expression above
 
       <b>Note:</b> For soft demodulation it is suggested to use the
-      N-dimensional modulator (\c Modulator_ND) class instead which is
-      based on QLLR arithmetics and therefore faster and more
-      numerically stable.
+      N-dimensional modulator (\c Modulator_ND) class instead which is based
+      on QLLR arithmetics and therefore faster and more numerically stable.
     */
-    virtual void demodulate_soft_bits(const cvec &rx_symbols, const double N0, vec &soft_bits) const;
+    virtual void demodulate_soft_bits(const cvec &rx_symbols, double N0,
+				      vec &soft_bits) const;
 
     /*!
       \brief Approximative soft demodulator for AWGN channel
     
-      This function is faster and gives almost no performance degradation compared to the 
-      demodulate_soft_bits() function. Only include the largest term in nominator and denominator when calculating
-      the log-likelihood function.
+      This function is faster and gives almost no performance degradation
+      compared to the demodulate_soft_bits() function. Only include the
+      largest term in nominator and denominator when calculating the
+      log-likelihood function.
     */
-    virtual void demodulate_soft_bits_approx(const cvec &rx_symbols, const double N0, vec &soft_bits) const;
+    virtual void demodulate_soft_bits_approx(const cvec &rx_symbols, double N0,
+					     vec &soft_bits) const;
 
     /*! 
       \brief Soft demodulator for a known channel in AWGN
@@ -739,7 +761,8 @@ namespace itpp {
       \sum_{s_i \in S_1} \exp \left( -\frac{ |r - c s_i|^2 }{N_0} \right) }
       \right)
       \f]
-      where \f$s_i \in S_0\f$ denotes a constellation symbol with the i-th bit equal to zero.
+      where \f$s_i \in S_0\f$ denotes a constellation symbol with the i-th
+      bit equal to zero.
     
       \param rx_symbols The received noisy constellation symbols, \f$r\f$
       \param channel The channel coefficients (complex), \f$c\f$
@@ -747,27 +770,24 @@ namespace itpp {
       \param soft_bits The soft bits calculated using the expression above
 
       <b>Note:</b> For soft demodulation it is suggested to use the
-      N-dimensional modulator (\c Modulator_ND) class instead which is
-      based on QLLR arithmetics and therefore faster and more
-      numerically stable.
+      N-dimensional modulator (\c Modulator_ND) class instead which is based
+      on QLLR arithmetics and therefore faster and more numerically stable.
     */
-    virtual void demodulate_soft_bits(const cvec &rx_symbols, const cvec &channel, const double N0, vec &soft_bits) const;
+    virtual void demodulate_soft_bits(const cvec &rx_symbols, 
+				      const cvec &channel, double N0,
+				      vec &soft_bits) const;
 
     /*!
       \brief Approximative soft demodulator for a known channel in AWGN
     
-      This function is faster and gives almost no performance degradation compared to the 
-      demodulate_soft_bits() function. Only include the largest term in nominator and denominator when calculating
-      the log-likelihood function.
+      This function is faster and gives almost no performance degradation
+      compared to the demodulate_soft_bits() function. Only include the
+      largest term in nominator and denominator when calculating the
+      log-likelihood function.
     */
-    virtual void demodulate_soft_bits_approx(const cvec &rx_symbols, const cvec &channel, const double N0, vec &soft_bits) const;
-
-
-    //! Change the size of the signal constellation
-    void set_M(int Mary);
-
-    //cvec modulate(const svec &symbolnumbers);
-    //svec demodulate(const cvec &signal);
+    virtual void demodulate_soft_bits_approx(const cvec &rx_symbols,
+					     const cvec &channel, double N0,
+					     vec &soft_bits) const;
 
   protected:
     //! Number of bits per modulation symbol
@@ -782,52 +802,66 @@ namespace itpp {
     cvec symbols;
     //! The average signal energy of the constallation
     double average_energy;
-    //! Matrix where row k contains the constellation symbol numbers where bit k is 0
+    //! \brief Matrix where row k contains the constellation symbol numbers
+    //! where bit k is 0
     imat S0; 
-    //! Matrix where row k contains the constellation symbol numbers where bit k is 1
+    //! \brief Matrix where row k contains the constellation symbol numbers
+    //! where bit k is 1
     imat S1; 
   };
 
+
   /*! 
     \ingroup modulators
-    \brief Modulator class for square lattice Mary-QAM signals.
+    \brief Modulator class for square lattice M-ary QAM signals.
   
-    The size of the signal constellation is \f$M = 2^k,\_ k = 2, 3, \ldots \f$
-    The symbol values in each dimension is: \f$ \{ \sqrt{M}-1, \ldots, 3, 1, -1, -3, \ldots,-(\sqrt{M}-1) \} \f$
+    The size of the constellation is \f$M = 2^k,\_ k = 2, 3, \ldots \f$. 
+    The symbol values in each dimension is: 
+    \f$\{ \sqrt{M}-1, \ldots, 3, 1, -1, -3, \ldots,-(\sqrt{M}-1) \} \f$
 
-    <h3>Symbol numbering:</h3>
-    <ul>
-    <li>Symbol     0: \f$(\sqrt{M}-1)+j(\sqrt{M}-1)\f$</li>
-    <li>Symbol     1: \f$(\sqrt{M}-3)+j(\sqrt{M}-1)\f$</li>
-    <li>...</li>
-    <li>Symbol (M-1): \f$-(\sqrt{M}-1)-j(\sqrt{M}-1)\f$.</li>
-    </ul>
+    Symbol numbering:
+    - symbol 0: \f$(\sqrt{M}-1)+j(\sqrt{M}-1)\f$
+    - symbol 1: \f$(\sqrt{M}-3)+j(\sqrt{M}-1)\f$
+    - ...
+    - symbol (M-1): \f$-(\sqrt{M}-1)-j(\sqrt{M}-1)\f$.
   
-    The symbols are normalized so that the average energy is 1. That is, normalized with \f$ \sqrt{2*(M-1)/3}\f$.
+    The symbols are normalized so that the average energy is 1. That is,
+    normalized with \f$ \sqrt{2*(M-1)/3}\f$.
 
-    This class can also perform soft demodulation, calculating the log-MAP estimate of the individual bits.
-    To use the soft demodulate member functions the
-    received symbols shall equal
+    This class can also perform soft demodulation, calculating the log-MAP
+    estimate of the individual bits. To use the soft demodulate member
+    functions the received symbols shall equal
     \f[ r_k = c_k \times s_k + n_k, \f]
-    where \f$c_k\f$  is the complex channel
-    gain, \f$s_k\f$ is the transmitted QAM symbols, and \f$n_k\f$ is the AWGN of the channel (with 
-    variance \f$N_0/2\f$ in both the real and the imaginary valued components).
+    where \f$c_k\f$  is the complex channel gain, \f$s_k\f$ is the
+    transmitted QAM symbols, and \f$n_k\f$ is the AWGN of the channel (with
+    variance \f$N_0/2\f$ in both the real and the imaginary valued
+    components).
   
-    The input samples to the soft demodulate functions should be \f$r_k\f$. It is also assumed that the
-    channel estimates are perfect when calculating the soft bits.
+    The input samples to the soft demodulate functions should be \f$r_k\f$.
+    It is also assumed that the channel estimates are perfect when
+    calculating the soft bits.
   
-    When these member functions are used together with MAP-based turbo decoding algoritms then the channel
-    reliability factor \f$L_c\f$ of the turbo decoder shall be set to 1. The output from these member
-    functions can also be used by a Viterbi decoder. 
+    When these member functions are used together with MAP-based turbo
+    decoding algoritms then the channel reliability factor \f$L_c\f$ of the
+    turbo decoder shall be set to 1. The output from these member functions
+    can also be used by a Viterbi decoder.
   */
-  class QAM : virtual public Modulator {
+  class QAM : public Modulator {
   public:
     //! Class Constructor
     QAM(int Mary) { set_M(Mary); }
     //! Destructor
     virtual ~QAM() { }
-    //! Returns number of bits per symbol (1 for BPSK)
-    virtual double bits_per_symbol() const {return k;}
+    //! Change the size of the signal constellation
+    void set_M(int Mary);
+
+    //! Returns number of bits per symbol
+    virtual double bits_per_symbol() const { return k; }
+    //! Return the constellation symbols used
+    cvec get_symbols() const { return symbols; }
+    //! Return the bit mapping used in decimal form
+    ivec get_bitmap() const { return bits2symbols; }
+
     //! Modulation of bits
     virtual void modulate_bits(const bvec &bits, cvec &out) const;
     //! Modulation of bits
@@ -848,28 +882,31 @@ namespace itpp {
       \sum_{s_i \in S_1} \exp \left( -\frac{ |r - s_i|^2 }{N_0} \right) }
       \right)
       \f]
-      where \f$s_i \in S_0\f$ denotes a constellation symbol with the i-th bit equal to zero.
-      This function can be used on channels where the channel gain is \f$c = 1\f$.
+      where \f$s_i \in S_0\f$ denotes a constellation symbol with the i-th
+      bit equal to zero. This function can be used on channels where the
+      channel gain is \f$c = 1\f$. 
     
       \param rx_symbols The received noisy constellation symbols, \f$r\f$
       \param N0 The single sided spectral density of the AWGN noise
       \param soft_bits The soft bits calculated using the expression above
 
       <b>Note:</b> For soft demodulation it is suggested to use the
-      N-dimensional modulator (\c Modulator_ND) class instead which is
-      based on QLLR arithmetics and therefore faster and more
-      numerically stable.
+      N-dimensional modulator (\c Modulator_ND) class instead which is based
+      on QLLR arithmetics and therefore faster and more numerically stable.
     */
-    virtual void demodulate_soft_bits(const cvec &rx_symbols, const double N0, vec &soft_bits) const;
+    virtual void demodulate_soft_bits(const cvec &rx_symbols, double N0,
+				      vec &soft_bits) const;
 
     /*!
       \brief Approximative soft demodulator for AWGN channel
     
-      This function is faster and gives almost no performance degradation compared to the 
-      demodulate_soft_bits() function. Only include the largest term in nominator and denominator when calculating
-      the log-likelihood function.
+      This function is faster and gives almost no performance degradation
+      compared to the demodulate_soft_bits() function. Only include the
+      largest term in nominator and denominator when calculating the
+      log-likelihood function.
     */
-    virtual void demodulate_soft_bits_approx(const cvec &rx_symbols, const double N0, vec &soft_bits) const;
+    virtual void demodulate_soft_bits_approx(const cvec &rx_symbols, double N0,
+					     vec &soft_bits) const;
 
     /*! 
       \brief Soft demodulator for a known channel in AWGN
@@ -882,7 +919,8 @@ namespace itpp {
       \sum_{s_i \in S_1} \exp \left( -\frac{ |r - c s_i|^2 }{N_0} \right) }
       \right)
       \f]
-      where \f$s_i \in S_0\f$ denotes a constellation symbol with the i-th bit equal to zero.
+      where \f$s_i \in S_0\f$ denotes a constellation symbol with the i-th
+      bit equal to zero. 
     
       \param rx_symbols The received noisy constellation symbols, \f$r\f$
       \param channel The channel coefficients (complex), \f$c\f$
@@ -890,30 +928,24 @@ namespace itpp {
       \param soft_bits The soft bits calculated using the expression above
 
       <b>Note:</b> For soft demodulation it is suggested to use the
-      N-dimensional modulator (\c Modulator_ND) class instead which is
-      based on QLLR arithmetics and therefore faster and more
-      numerically stable.
+      N-dimensional modulator (\c Modulator_ND) class instead which is based
+      on QLLR arithmetics and therefore faster and more numerically stable.
     */
-    virtual void demodulate_soft_bits(const cvec &rx_symbols, const cvec &channel, const double N0, vec &soft_bits) const;
+    virtual void demodulate_soft_bits(const cvec &rx_symbols, 
+				      const cvec &channel, double N0,
+				      vec &soft_bits) const;
 
     /*!
       \brief Approximative soft demodulator for a known channel in AWGN
     
-      This function is faster and gives almost no performance degradation compared to the 
-      demodulate_soft_bits() function. Only include the largest term in nominator and denominator when calculating
-      the log-likelihood function.
+      This function is faster and gives almost no performance degradation
+      compared to the demodulate_soft_bits() function. Only include the
+      largest term in nominator and denominator when calculating the
+      log-likelihood function.
     */
-    virtual void demodulate_soft_bits_approx(const cvec &rx_symbols, const cvec &channel, const double N0, vec &soft_bits) const;
-
-    //! Change the size of the signal constellation
-    void set_M(int Mary);
-    //! Return the constellation symbols used
-    cvec get_symbols() const { return symbols; }
-    //! Return the bit mapping used in decimal form
-    ivec get_bitmap() const { return bits2symbols; }
-
-    //cvec modulate(const svec &symbolnumbers);
-    //svec demodulate(const cvec &signal);
+    virtual void demodulate_soft_bits_approx(const cvec &rx_symbols,
+					     const cvec &channel, double N0,
+					     vec &soft_bits) const;
 
   protected:
     //! Number of bits per modulation symbol
@@ -932,13 +964,14 @@ namespace itpp {
     double average_energy;
     //! Scaling factor used to normalize the average energy to 1
     double scaling_factor;
-    //! Matrix where row k contains the constellation symbol numbers where bit k is 0/1
+    //! \brief Matrix where row k contains the constellation symbol numbers
+    //! where bit k is 0/1
     imat S0; 
-    //! Matrix where row k contains the constellation symbol numbers where bit k is 0/1
+    //! \brief Matrix where row k contains the constellation symbol numbers
+    //! where bit k is 0/1
     imat S1; 
   };
 
 } // namespace itpp
 
 #endif // #ifndef MODULATOR_H
-

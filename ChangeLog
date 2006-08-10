@@ -1,3 +1,11 @@
+2006-08-11  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/modulator.cpp, itpp/comm/modulator.h,
+	tests/modulator_test.ref: Further cosmetic changes and minor fixes
+	in QPSK, PSK and QAM modulator classes. Use the new trunc_log()
+	function when calculating log-likelihood ratio. Reference data for
+	test program updated accordingly.
+
 2006-08-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/modulator.cpp, itpp/comm/modulator.h: Minor fixes in
