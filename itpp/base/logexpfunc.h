@@ -34,6 +34,7 @@
 #define LOGEXPFUNC_H
 
 #include <itpp/base/help_functions.h>
+#include <limits>
 
 // Undefine log2 macro - IT++ has its own inline function 
 #if defined (log2)
@@ -91,6 +92,51 @@ namespace itpp {
     return b;
   }
 
+  /*!
+    \brief Truncated natural logarithm function
+
+    This truncated function provides a solution in the cases when the
+    logarithm argument is less or equal to zero or infinity. The function
+    checks for such extreme values and use some kind of truncation
+    (saturation) before calculating the logarithm.
+
+    The truncated logarithm function can be used for calculation of
+    log-likelihood in soft demodulators, when numerical instability problem
+    might occur.
+  */
+  inline double trunc_log(double x)
+  {
+    std::numeric_limits<double> dl;
+    it_assert0(dl.is_iec559, "trunc_log(): Inf and NaN can not be detected!");
+    if (x == dl.infinity())
+      return std::log(dl.max());
+    if (x <= 0)
+      return std::log(dl.min());
+// it_error_if(x == -dl.infinity(), "trunc_log(): -Inf can not be handled!");
+// it_error_if(x == dl.quiet_NaN(), "trunc_log(): NaN can not be handled!");
+// it_error_if(x == dl.signaling_NaN(), "trunc_log(): NaN can not be handled!");
+    return std::log(x);
+  }
+
+  /*!
+    \brief Truncated exponential function
+
+    This truncated function provides a solution in the case when the
+    exponent function results in infinity. The function checks for an
+    extreme value and use truncation (saturation) before calculating 
+    the result.
+
+    The truncated exponential function can be used  when numerical
+    instability problem occurs for a standard exp function.
+  */
+  inline double trunc_exp(double x)
+  {
+    std::numeric_limits<double> dl;
+    it_assert0(dl.is_iec559, "trunc_log(): Inf and NaN can not be detected!");
+    if (x >= std::log(dl.max()))
+      return dl.max();
+    return std::exp(x);
+  }
 
   // ----------------------------------------------------------------------
   // functions on vectors and matrices
