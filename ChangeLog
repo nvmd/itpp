@@ -3,7 +3,9 @@
 	* itpp/base/logexpfunc.h: Added special truncated versions of
 	log() and exp() functions, which might be used instead of the
 	macros in modulator.cpp and rec_syst_conv_code.cpp (more stable
-	and portable solution).
+	and portable solution). These functions check if floating-point
+	arithmetic is conforming to IEC 559 standard. If not, standard
+	log()/exp() functions are used. 
 
 2006-08-09  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 

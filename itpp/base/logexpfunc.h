@@ -92,6 +92,11 @@ namespace itpp {
     return b;
   }
 
+  //! Constant definition to speed up trunc_log and trunc_exp functions
+  const double log_double_max = std::log(std::numeric_limits<double>::max());
+  //! Constant definition to speed up trunc_log and trunc_exp functions
+  const double log_double_min = std::log(std::numeric_limits<double>::min());
+
   /*!
     \brief Truncated natural logarithm function
 
@@ -106,15 +111,12 @@ namespace itpp {
   */
   inline double trunc_log(double x)
   {
-    std::numeric_limits<double> dl;
-    it_assert0(dl.is_iec559, "trunc_log(): Inf and NaN can not be detected!");
-    if (x == dl.infinity())
-      return std::log(dl.max());
-    if (x <= 0)
-      return std::log(dl.min());
-// it_error_if(x == -dl.infinity(), "trunc_log(): -Inf can not be handled!");
-// it_error_if(x == dl.quiet_NaN(), "trunc_log(): NaN can not be handled!");
-// it_error_if(x == dl.signaling_NaN(), "trunc_log(): NaN can not be handled!");
+    if (std::numeric_limits<double>::is_iec559) {
+      if (x == std::numeric_limits<double>::infinity())
+	return log_double_max;
+      if (x <= 0)
+	return log_double_min;
+    }
     return std::log(x);
   }
 
@@ -131,10 +133,9 @@ namespace itpp {
   */
   inline double trunc_exp(double x)
   {
-    std::numeric_limits<double> dl;
-    it_assert0(dl.is_iec559, "trunc_log(): Inf and NaN can not be detected!");
-    if (x >= std::log(dl.max()))
-      return dl.max();
+    if (std::numeric_limits<double>::is_iec559
+	&& (x >= log_double_max))
+      return std::numeric_limits<double>::max();
     return std::exp(x);
   }
 
