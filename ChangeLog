@@ -1,3 +1,8 @@
+2006-08-10  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/comm/rec_syst_conv_code.cpp: Now use the new trunc_exp()
+	and trunc_log() functions instead of macros.
+
 2006-08-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/modulator.cpp, itpp/comm/modulator.h: Modulator_1d and
