@@ -44,37 +44,38 @@ namespace itpp {
 
   //------------- class: Modulator_1d ----------------
 
-  Modulator_1d::Modulator_1d(const vec &insymbols, const ivec &inbitmap)
+  Modulator_1d::Modulator_1d(const vec &symbols, const ivec &bitmap)
   {
-    set(insymbols, inbitmap);
+    set(symbols, bitmap);
   }
 
-  void Modulator_1d::set(const vec &insymbols, const ivec &inbitmap)
+  void Modulator_1d::set(const vec &in_symbols, const ivec &in_bitmap)
   {
-    it_assert(insymbols.size() == inbitmap.size(), "Modulator_1d: number of symbols and bitmap does not match");
-    M = inbitmap.size();
+    it_assert(in_symbols.size() == in_bitmap.size(), "Modulator_1d::set(): Number of symbols and bitmap does not match");
+    M = in_bitmap.size();
     k = needed_bits(M - 1);
-    symbols = insymbols;
-    bitmap = inbitmap; 
+    symbols = in_symbols;
+    bitmap = in_bitmap; 
   }
 
   vec Modulator_1d::modulate(const ivec &symbolnumbers) const
   {
     vec temp(symbolnumbers.size());
-    for (int i=0; i<symbolnumbers.size(); i++)
+    for (int i = 0; i < symbolnumbers.size(); i++)
       temp(i) = symbols(symbolnumbers(i));
     return temp;
   }
 
   vec Modulator_1d::modulate_bits(const bvec &bits) const
   {
-    int no_symbols = floor_i(double(bits.length())/double(k)), i, pos, symb;
+    int no_symbols = floor_i(static_cast<double>(bits.length()) / k);
+    int pos, symb;
     vec output = zeros(no_symbols);
 
-    for (i=0; i<no_symbols; i++) {
+    for (int i = 0; i < no_symbols; i++) {
       pos = 0;
-      symb = bin2dec(bits.mid(i*k,k));
-      while (bitmap(pos)!=symb) { pos++; }
+      symb = bin2dec(bits.mid(i*k, k));
+      while (bitmap(pos) != symb) { pos++; }
       output(i) = symbols(pos);
     }
     return output;
@@ -82,17 +83,19 @@ namespace itpp {
 
   ivec Modulator_1d::demodulate(const vec &signal) const
   {
-    int i, j;
     double dist, mindist;
     int closest;
     ivec output(signal.size());
 
-    for (i=0; i<signal.size(); i++) {
-      mindist = std::abs(double(symbols(0)) - signal(i));
+    for (int i = 0; i < signal.size(); i++) {
+      mindist = std::fabs(symbols(0) - signal(i));
       closest = 0;
-      for (j=1; j<M; j++) {
-	dist = std::abs(double(symbols(j)) - signal(i));
-	if (dist<mindist) { mindist = dist; closest = j; }
+      for (int j = 1; j < M; j++) {
+	dist = std::fabs(symbols(j) - signal(i));
+	if (dist < mindist) {
+	  mindist = dist;
+	  closest = j;
+	}
       }
       output(i) = closest;
     }
@@ -101,26 +104,289 @@ namespace itpp {
 
   bvec Modulator_1d::demodulate_bits(const vec &signal) const
   {
-    int i, j;
     double dist, mindist;
     int closest;
     bvec output(k*signal.size());
 
-    for (i=0; i<signal.size(); i++) {
-      mindist = std::abs(double(symbols(0)) - signal(i));
+    for (int i = 0; i < signal.size(); i++) {
+      mindist = std::fabs(symbols(0) - signal(i));
       closest = 0;
-      for (j=1; j<M; j++) {
-	dist = std::abs(double(symbols(j)) - signal(i));
-	if (dist<mindist){ mindist = dist; closest = j; }
+      for (int j = 1; j < M; j++) {
+	dist = std::fabs(symbols(j) - signal(i));
+	if (dist < mindist) { 
+	  mindist = dist;
+	  closest = j;
+	}
       }
-      output.replace_mid(i*k,dec2bin(k,bitmap(closest)));
+      output.replace_mid(i*k, dec2bin(k, bitmap(closest)));
     }
     return output;
   }
 
-  vec Modulator_1d::get_symbols(void) const { return symbols; }
 
-  ivec Modulator_1d::get_bitmap(void) const { return bitmap; }
+  //------------- class: Modulator_2d ----------------
+  Modulator_2d::Modulator_2d(const cvec &symbols, const ivec &bitmap)
+  {
+    set(symbols, bitmap);
+  }
+
+  void Modulator_2d::set(const cvec &in_symbols, const ivec &in_bitmap)
+  {
+    it_assert(in_symbols.size() == in_bitmap.size(), "Modulator_2d::set() Number of symbols and bitmap does not match");
+    symbols = in_symbols;
+    bitmap = in_bitmap; 
+    M = bitmap.size();
+    k = needed_bits(M - 1);
+    calculate_softbit_matricies(bitmap);
+  }
+
+  cvec Modulator_2d::modulate(const ivec &symbolnumbers) const
+  {
+    cvec temp(symbolnumbers.length());
+    for(int i = 0; i < symbolnumbers.length(); i++)
+      temp(i) = symbols(symbolnumbers(i));
+    return temp;
+  }
+
+  void Modulator_2d::modulate_bits(const bvec &bits, cvec &output) const
+  {
+    int no_symbols = floor_i(static_cast<double>(bits.length()) / k);
+    int pos, symb;
+    output.set_size(no_symbols);
+
+    for (int i = 0; i < no_symbols; i++) {
+      pos = 0;
+      symb = bin2dec(bits.mid(i*k, k));
+      while (bitmap(pos) != symb) { pos++; }
+      output(i) = symbols(pos);
+    }
+  }
+
+  cvec Modulator_2d::modulate_bits(const bvec &bits) const
+  {
+    cvec output;
+    modulate_bits(bits, output);
+    return output;
+  }
+
+  ivec Modulator_2d::demodulate(const cvec &signal) const
+  {
+    double dist, mindist;
+    int closest;
+    ivec output(signal.size());
+
+    for (int i = 0; i < signal.size(); i++) {
+      mindist = std::abs(symbols(0) - signal(i));
+      closest = 0;
+      for (int j = 1; j < M; j++) {
+	dist = std::abs(symbols(j) - signal(i));
+	if (dist < mindist) {
+	  mindist = dist;
+	  closest = j;
+	}
+      }
+      output(i) = closest;
+    }
+    return output;
+  }
+
+  void Modulator_2d::demodulate_bits(const cvec &signal, bvec &bits) const
+  {
+    double dist, mindist;
+    int closest;
+    bits.set_size(k*signal.size());
+
+    for (int i = 0; i < signal.size(); i++) {
+      mindist = std::abs(symbols(0) - signal(i));
+      closest = 0;
+      for (int j = 1; j < M; j++) {
+	dist = std::abs(symbols(j) - signal(i));
+	if (dist < mindist) {
+	  mindist = dist;
+	  closest = j;
+	}
+      }
+      bits.replace_mid(i*k, dec2bin(k, bitmap(closest)));
+    }
+  }
+
+  bvec Modulator_2d::demodulate_bits(const cvec &signal) const
+  {
+    bvec bits;
+    demodulate_bits(signal, bits);
+    return bits;
+  }
+
+  void Modulator_2d::demodulate_soft_bits(const cvec &rx_symbols, double N0,
+					  vec &soft_bits) const
+  {
+    // Definitions of local variables
+    long no_symbols = rx_symbols.length();
+    vec soft_word(k), P0(k), P1(k);
+
+    // Allocate storage space for the result vector:
+    soft_bits.set_size(k*no_symbols, false);
+
+    // For each symbol l do:
+    for (int l = 0; l < no_symbols; l++) {
+      P0.clear();
+      P1.clear();
+      // For each bit position i do:
+      for (int i = 0; i < k; i++) {
+	for (int j = 0; j < (M >> 1); j++) {
+// 	  s0 = symbols( S0(i,j) );
+// 	  s1 = symbols( S1(i,j) );
+// 	  p_z_s0 = (1.0/(pi*N0)) * std::exp(-sqr(std::abs(z - s0)) / N0);
+// 	  p_z_s1 = (1.0/(pi*N0)) * std::exp(-sqr(std::abs(z - s1)) / N0);
+// 	  P0(i) += p_z_s0;
+// 	  P1(i) += p_z_s1;
+	  P0(i) += std::exp(-sqr(std::abs(rx_symbols(l) - symbols(S0(i, j))))
+			    / N0);
+	  P1(i) += std::exp(-sqr(std::abs(rx_symbols(l) - symbols(S1(i, j))))
+			    / N0);
+	}
+	// The soft bits for the l-th received symbol:
+	soft_word(i) = trunc_log(P0(i)) - trunc_log(P1(i));
+      }
+      // Put the results in the result vector:
+      soft_bits.replace_mid(l*k, soft_word);
+    }
+
+  }
+
+  void Modulator_2d::demodulate_soft_bits(const cvec &rx_symbols, 
+					  const cvec &chan, double N0, 
+					  vec &soft_bits) const
+  {
+    // Definitions of local variables
+    long no_symbols = rx_symbols.length();
+    double a2;
+    vec soft_word(k), P0(k), P1(k);
+
+    //Allocate storage space for the result vector:
+    soft_bits.set_size(k*no_symbols,false);
+
+    // For each symbol l do:
+    for (int l = 0; l < no_symbols; l++) {
+      P0.clear();
+      P1.clear();
+      a2 = sqr(std::abs(chan(l)));
+      // For each bit position i do:
+      for (int i = 0; i < k; i++) {
+	for (int j = 0; j < (M >> 1); j++) {
+// 	  s0 = symbols( S0(i,j) );
+// 	  s1 = symbols( S1(i,j) );
+// 	  p_z_s0 = (1.0/(pi*N0*a2)) * std::exp(-sqr(std::abs(z-a2*s0)) / (N0*a2));
+// 	  p_z_s1 = (1.0/(pi*N0*a2)) * std::exp(-sqr(std::abs(z-a2*s1)) / (N0*a2));
+// 	  P0(i) += p_z_s0;
+// 	  P1(i) += p_z_s1;
+	  P0(i) += std::exp(-sqr(std::abs(rx_symbols(l) - a2*symbols(S0(i, j))))
+			    / (N0*a2));
+	  P1(i) += std::exp(-sqr(std::abs(rx_symbols(l) - a2*symbols(S1(i, j))))
+			    / (N0*a2));
+	}
+	// The soft bits for the l-th received symbol:
+	soft_word(i) = trunc_log(P0(i)) - trunc_log(P1(i));
+      }
+      // Put the results in the result vector:
+      soft_bits.replace_mid(l*k, soft_word);
+    }
+  }
+
+  void Modulator_2d::demodulate_soft_bits_approx(const cvec &rx_symbols, 
+						 double N0, 
+						 vec &soft_bits) const
+  {
+    // Definitions of local variables
+    long no_symbols = rx_symbols.length();
+    double d_0, d_1;
+    vec d(M);
+
+    // Allocate storage space for the result vector:
+    soft_bits.set_size(k*no_symbols, false);
+
+    // For each symbol l do:
+    for (int l = 0; l < no_symbols; l++) {
+      // Calculate all distances:
+      for (int i = 0; i < M; i++) { 
+	d(i) = std::abs(rx_symbols(l) - symbols(i));
+      }
+      //For each of the k bits do:
+      for (int i = 0; i < k; i++) {
+	// Find the closest 0-point and the closest 1-point:
+	d_0 = d(S0(i, 0));
+	d_1 = d(S1(i, 0));
+	for (int j = 1; j < (M >> 1); j++) {
+	  if (d(S0(i, j)) < d_0) { d_0 = d(S0(i, j)); }
+	  if (d(S1(i, j)) < d_1) { d_1 = d(S1(i, j)); }
+	}
+	//calculate the approximative metric:
+	soft_bits(l*k+i) = (sqr(d_1) - sqr(d_0)) / N0;
+      }
+    }
+  }
+
+  void Modulator_2d::demodulate_soft_bits_approx(const cvec &rx_symbols,
+						 const cvec &chan, double N0,
+						 vec &soft_bits) const
+  {
+    // Definitions of local variables
+    long no_symbols = rx_symbols.length();
+    double d_0, d_1, Kf, c2;
+    vec d(M);
+
+    // Allocate storage space for the result vector:
+    soft_bits.set_size(k*no_symbols, false);
+
+    // For each symbol l do:
+    for (int l = 0; l < no_symbols; l++) {
+      c2 = sqr(std::abs(chan(l))); 
+      Kf = 1.0 / ( c2 * N0 );   
+      // Calculate all distances:
+      for (int i = 0; i < M; i++) {
+	d(i) = std::abs(rx_symbols(l) - c2 * symbols(i));
+      }
+      // For each of the k bits do:
+      for (int i = 0; i < k; i++) {
+	//Find the closest 0-point and the closest 1-point:
+	d_0 = d(S0(i, 0));
+	d_1 = d(S1(i, 0));
+	for (int j = 1; j < (M >> 1); j++) {
+	  if (d(S0(i, j)) < d_0) { d_0 = d(S0(i, j)); }
+	  if (d(S1(i, j)) < d_1) { d_1 = d(S1(i, j)); }
+	}
+	//calculate the approximative metric:
+	soft_bits(l*k+i) = Kf * (sqr(d_1) - sqr(d_0));
+      }
+    }
+  }
+
+  void Modulator_2d::calculate_softbit_matricies(ivec inbitmap)
+  {
+    // Definitions of local variables
+    int count0, count1;
+    bvec bits(k);
+
+    // Allocate storage space for the result matricies:
+    S0.set_size(k, M/2, false);
+    S1.set_size(k, M/2, false);
+
+    for (int kk = 0; kk < k; kk++) {
+      count0 = 0; 
+      count1 = 0;
+      for (int m = 0; m < M; m++) {
+	bits = dec2bin(k, inbitmap(m));
+	if (bits(kk) == bin(0)) {
+	  S0(kk, count0) = m;
+	  count0++; 
+	} else {
+	  S1(kk, count1) = m;
+	  count1++;
+	}
+      }
+    }
+  }
+
 
   //------------- class: BPSK ----------------
 
@@ -464,291 +730,6 @@ namespace itpp {
 	}
       }
     }
-  }
-
-  //------------- class: Modulator_2d ----------------
-  Modulator_2d::Modulator_2d(const cvec &insymbols, const ivec &inbitmap)
-  {
-    set(insymbols, inbitmap);
-  }
-
-  void Modulator_2d::set(const cvec &insymbols, const ivec &inbitmap)
-  {
-    it_assert(insymbols.size() == inbitmap.size(), "Modulator_2d: number of symbols and bitmap does not match");
-    symbols = insymbols;
-    bitmap = inbitmap; 
-    M = bitmap.size();
-    k = needed_bits(M - 1);
-    soft_bit_mapping_matrices_calculated = false;
-  }
-
-  cvec Modulator_2d::modulate(const ivec &symbolnumbers) const
-  {
-    cvec temp(symbolnumbers.length());
-    for(int i=0;i<symbolnumbers.length();i++)
-      temp(i)=symbols(symbolnumbers(i));
-    return temp;
-  }
-
-  cvec Modulator_2d::modulate_bits(const bvec &bits) const
-  {
-    int no_symbols = floor_i(double(bits.length())/double(k)), i, pos, symb;
-    cvec output = zeros_c(no_symbols);
-
-    for (i=0; i<no_symbols; i++) {
-      pos = 0;
-      symb = bin2dec(bits.mid(i*k,k));
-      while (bitmap(pos)!=symb) { pos++; }
-      output(i) = symbols(pos);
-    }
-    return output;
-  }
-
-  ivec Modulator_2d::demodulate(const cvec &signal) const
-  {
-    int i, j;
-    double dist, mindist;
-    int closest;
-    ivec output(signal.size());
-
-    for (i=0; i<signal.size(); i++) {
-      mindist = std::abs( symbols(0) - signal(i) );
-      closest = 0;
-      for (j=1; j<M; j++) {
-	dist = std::abs( symbols(j) - signal(i) );
-	if (dist<mindist){ mindist = dist; closest = j; }
-      }
-      output(i) = closest;
-    }
-    return output;
-  }
-
-  bvec Modulator_2d::demodulate_bits(const cvec &signal) const
-  {
-    int i, j;
-    double dist, mindist;
-    int closest;
-    bvec output(k*signal.size());
-
-    for (i=0; i<signal.size(); i++) {
-      mindist = std::abs( symbols(0) - signal(i) );
-      closest = 0;
-      for (j=1; j<M; j++) {
-	dist = std::abs( symbols(j) - signal(i) );
-	if (dist<mindist){ mindist = dist; closest = j; }
-      }
-      output.replace_mid(i*k,dec2bin(k,bitmap(closest))); 
-    }
-    return output;
-  }
-
-  cvec Modulator_2d::get_symbols() const { return symbols; }
-
-  ivec Modulator_2d::get_bitmap(void) const { return bitmap; }
-
-  void Modulator_2d::demodulate_soft_bits(const cvec &rx_symbols, const double N0, vec &soft_bits)
-  {
-    //Definitions of local variables
-    long no_symbols = rx_symbols.length();
-    long l, i, j;
-    double p_z_s0, p_z_s1;
-    std::complex<double> z, s0, s1;
-    vec soft_word(k), P0(k), P1(k);
-
-    //Check if the soft bit mapping matrices S0 and S1 needs to be calculated
-    if (soft_bit_mapping_matrices_calculated==false) {
-      calculate_softbit_matricies(bitmap);
-    }
-
-    //Allocate storage space for the result vector:
-    soft_bits.set_size(k*no_symbols,false);
-
-    //For each symbol l do:
-    for (l=0; l<no_symbols; l++) {
-
-      P0.clear();
-      P1.clear();
-      z = rx_symbols(l);
-
-      //For each bit position i do:
-      for (i=0; i<k; i++) {
-
-	for (j=0; j<(M/2); j++) {
-	  s0 = symbols( S0(i,j) );
-	  s1 = symbols( S1(i,j) );
-	  p_z_s0 = (1.0/(pi*N0)) * std::exp(-sqr(std::abs(z - s0)) / N0);
-	  p_z_s1 = (1.0/(pi*N0)) * std::exp(-sqr(std::abs(z - s1)) / N0);
-	  P0(i) += p_z_s0;
-	  P1(i) += p_z_s1;
-	}
-	//The soft bits for the l-th received symbol:
-	soft_word(i) = std::log( P0(i) / P1(i) );
-      }
-      //Put the results in the result vector:
-      soft_bits.replace_mid(l*k,soft_word);
-    }
-
-  }
-
-  void Modulator_2d::demodulate_soft_bits(const cvec &rx_symbols, const cvec &chan, const double N0, vec &soft_bits)
-  {
-    //Definitions of local variables
-    long no_symbols = rx_symbols.length();
-    long l, i, j;
-    double p_z_s0, p_z_s1, a2;
-    std::complex<double> z, s0, s1;
-    vec soft_word(k), P0(k), P1(k);
-
-    //Check if the soft bit mapping matrices S0 and S1 needs to be calculated
-    if (soft_bit_mapping_matrices_calculated==false) {
-      calculate_softbit_matricies(bitmap);
-    }
-
-    //Allocate storage space for the result vector:
-    soft_bits.set_size(k*no_symbols,false);
-
-    //For each symbol do:
-    for (l=0; l<no_symbols; l++) {
-
-      P0.clear();
-      P1.clear();
-      z = rx_symbols(l);
-      a2 = sqr(std::abs(chan(l)));
-
-      //For each bit position i do:
-      for (i=0; i<k; i++) {
-
-	for (j=0; j<(M/2); j++) {
-	  s0 = symbols( S0(i,j) );
-	  s1 = symbols( S1(i,j) );
-	  p_z_s0 = (1.0/(pi*N0*a2)) * std::exp(-sqr(std::abs(z-a2*s0)) / (N0*a2));
-	  p_z_s1 = (1.0/(pi*N0*a2)) * std::exp(-sqr(std::abs(z-a2*s1)) / (N0*a2));
-	  P0(i) += p_z_s0;
-	  P1(i) += p_z_s1;
-	}
-	//The soft bits for the l-th received symbol:
-	soft_word(i) = std::log( P0(i) / P1(i) );
-      }
-      //Put the results in the result vector:
-      soft_bits.replace_mid(l*k,soft_word);
-    }
-
-  }
-
-  void Modulator_2d::demodulate_soft_bits_approx(const cvec &rx_symbols, const double N0, vec &soft_bits)
-  {
-    //Definitions of local variables
-    long no_symbols = rx_symbols.length();
-    long l, i, j;
-    double d_0, d_1, Kf;
-    vec d(M);
-    Kf = (1.0/N0);
-
-    //Check if the soft bit mapping matrices S0 and S1 needs to be calculated
-    if (soft_bit_mapping_matrices_calculated==false) {
-      calculate_softbit_matricies(bitmap);
-    }
-
-    //Allocate storage space for the result vector:
-    soft_bits.set_size(k*no_symbols,false);
-
-    //for each symbol l do:
-    for (l=0; l<no_symbols; l++) {
-
-      //Calculate all distances:
-      for (i=0; i<M; i++) { d(i) = std::abs( rx_symbols(l) - symbols(i) ); }
-
-      //For each of the k bits do:
-      for (i=0; i<k; i++) {
-
-	//Find the closest 0-point and the closest 1-point:
-	d_0 = d( S0(i,0) );
-	d_1 = d( S1(i,0) );
-	for (j=1; j<(M/2); j++) {
-	  if ( d( S0(i,j) ) < d_0) { d_0 = d( S0(i,j) ); }
-	  if ( d( S1(i,j) ) < d_1) { d_1 = d( S1(i,j) ); }
-	}
-
-	//calculate the approximative metric:
-	soft_bits(l*k+i) = Kf * (sqr(d_1) - sqr(d_0));
-
-      }
-
-    }
-
-  }
-
-  void Modulator_2d::demodulate_soft_bits_approx(const cvec &rx_symbols, const cvec &chan, const double N0, vec &soft_bits)
-  {
-
-    //Definitions of local variables
-    long no_symbols = rx_symbols.length();
-    long l, i, j;
-    double d_0, d_1, Kf, c2;
-    vec d(M);
-
-    //Check if the soft bit mapping matrices S0 and S1 needs to be calculated
-    if (soft_bit_mapping_matrices_calculated==false) {
-      calculate_softbit_matricies(bitmap);
-    }
-
-    //Allocate storage space for the result vector:
-    soft_bits.set_size(k*no_symbols,false);
-
-    //for each symbol l do:
-    for (l=0; l<no_symbols; l++) {
-
-      c2 = sqr(std::abs(chan(l))); 
-      Kf = 1.0 / ( c2 * N0 );   
-
-      //Calculate all distances:
-      for (i=0; i<M; i++) { d(i) = std::abs( rx_symbols(l) - c2*symbols(i) ); }
-
-      //For each of the k bits do:
-      for (i=0; i<k; i++) {
-
-	//Find the closest 0-point and the closest 1-point:
-	d_0 = d( S0(i,0) );
-	d_1 = d( S1(i,0) );
-	for (j=1; j<(M/2); j++) {
-	  if ( d( S0(i,j) ) < d_0) { d_0 = d( S0(i,j) ); }
-	  if ( d( S1(i,j) ) < d_1) { d_1 = d( S1(i,j) ); }
-	}
-
-	//calculate the approximative metric:
-	soft_bits(l*k+i) = Kf * (sqr(d_1) - sqr(d_0));
-
-      }
-
-    }
-
-  }
-
-  void Modulator_2d::calculate_softbit_matricies(ivec inbitmap)
-  {
-    //Definitions of local variables
-    int kk, m, count0, count1;
-    bvec bits(k);
-
-    //Allocate storage space for the result matricies:
-    S0.set_size(k,M/2,false);
-    S1.set_size(k,M/2,false);
-
-    for (kk=0; kk<k; kk++) {
-      count0 = 0; 
-      count1 = 0;
-      for (m=0; m<M; m++) {
-	bits = dec2bin(k,inbitmap(m));
-	if (bits(kk)==bin(0)) {
-	  S0(kk,count0) = m;
-	  count0++; 
-	} else {
-	  S1(kk,count1) = m;
-	  count1++;
-	}
-      }
-    }
-
   }
 
 

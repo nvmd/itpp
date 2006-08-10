@@ -39,12 +39,11 @@
 
 namespace itpp {
 
-  /*! \addtogroup modulators
-   */
+  //! \addtogroup modulators
 
   /*! 
     \ingroup modulators
-    \brief Abstract base class for modulators
+    \brief Abstract base class for 2D modulators
   */
   class Modulator {
   public:
@@ -52,7 +51,7 @@ namespace itpp {
     Modulator() {}
     //! Destructor
     virtual ~Modulator() {}
-    //! Returns number of bits per symbol for the modulator. Can be noninteger.
+    //! Returns the number of bits per symbol (can be non integral)
     virtual double bits_per_symbol() const = 0;
     //! Modulation of bits
     virtual void modulate_bits(const bvec &bits, cvec &out) const = 0;
@@ -63,28 +62,43 @@ namespace itpp {
     //! Demodulation of bits
     virtual bvec demodulate_bits(const cvec &signal) const = 0;
     //! Soft demodulator for AWGN channel
-    virtual void demodulate_soft_bits(const cvec &rx_symbols, const double N0, vec &soft_bits) const = 0;
+    virtual void demodulate_soft_bits(const cvec &rx_symbols, double N0, 
+				      vec &soft_bits) const = 0;
     //! Soft demodulator for a known channel in AWGN
-    virtual void demodulate_soft_bits(const cvec &rx_symbols, const cvec &channel, const double N0, vec &soft_bits) const = 0;
+    virtual void demodulate_soft_bits(const cvec &rx_symbols, 
+				      const cvec &channel, double N0, 
+				      vec &soft_bits) const = 0;
     //! Approximate soft demodulator for AWGN channel
-    virtual void demodulate_soft_bits_approx(const cvec &rx_symbols, const double N0, vec &soft_bits) const = 0;
+    virtual void demodulate_soft_bits_approx(const cvec &rx_symbols, double N0,
+					     vec &soft_bits) const = 0;
     //! Approximate soft demodulator for a known channel in AWGN
-    virtual void demodulate_soft_bits_approx(const cvec &rx_symbols, const cvec &channel, const double N0, vec &soft_bits) const = 0;
+    virtual void demodulate_soft_bits_approx(const cvec &rx_symbols, 
+					     const cvec &channel, double N0,
+					     vec &soft_bits) const = 0;
   };
 
   
   /*! 
     \ingroup modulators
-    \brief A general modulator class for 1-dimensional signal consellations.
+    \brief General modulator for one dimensional (1D) signal consellations.
   */
   class Modulator_1d {
   public:
     //! Constructor
-    Modulator_1d(const vec &insymbols = "0", const ivec &inbitmap = "0");
+    Modulator_1d(const vec &symbols = "0", const ivec &bitmap = "0");
     //! Destructor
     virtual ~Modulator_1d() { }
-    //! Returns number of bits per symbol for the modulator. Can be noninteger.
-    virtual double bits_per_symbol() const {return k;}
+
+    //! Set the symbol constellation and the corresponding bitmap
+    void set(const vec &symbols, const ivec &bitmap);
+
+    //! Returns the number of bits per symbol (can be non integral)
+    virtual double bits_per_symbol() const { return k;}
+    //! Get the symbol constellation
+    vec get_symbols() const { return symbols; }
+    //! Get the bitmap
+    ivec get_bitmap() const { return bitmap; }
+
     //! Modulate function for symbols
     virtual vec modulate(const ivec &symbolnumbers) const;
     //! Demodulate function for symbols
@@ -95,13 +109,6 @@ namespace itpp {
     //! Demodulate function for bits
     virtual bvec demodulate_bits(const vec &signal) const;
 
-    //! Set the symbol constellation and the corresponding bitmap
-    void set(const vec &insymbols, const ivec &inbitmap);
-
-    //! Get the symbol constellation
-    vec get_symbols(void) const;
-    //! Get the bitmap
-    ivec get_bitmap(void) const;
   protected:
     //! Number of bits per modulation symbol
     int k;
@@ -113,41 +120,59 @@ namespace itpp {
     vec symbols;
   };
 
+
   /*! 
     \ingroup modulators
-    \brief General modulator for 2-dimensional signal constellations.
+    \brief General modulator for two-dimensional (2D) signal constellations.
 
-    This class can also perform soft demodulation. To use the soft demodulate member functions the
-    received symbols shall equal
+    This class can also perform soft demodulation. To use the soft
+    demodulate member functions the received symbols shall be equal to
     \f[ r_k = c_k \times s_k + n_k, \f]
-    where \f$c_k\f$  is the complex channel
-    gain, \f$s_k\f$ is the transmitted QAM symbols, and \f$n_k\f$ is the AWGN of the channel (with 
-    variance \f$N_0/2\f$ in both the real and the imaginary valued components).
+    where \f$c_k\f$  is the complex channel gain, \f$s_k\f$ is the
+    transmitted constelation symbol, and \f$n_k\f$ is the AWGN of the
+    channel (with variance \f$N_0/2\f$ in both the real and imaginary valued
+    components).
   
-    The input samples to the soft demodulate functions shall equal 
+    The input samples to the soft demodulate functions shall be equal to
     \f[ z_k = \hat{c}_k^{*} \times r_k, \f]
-    where \f$\hat{c}_k^{*}\f$ is the conjugate of the channel estimate. This class assumes that the
-    channel estimates are perfect when calculating the soft bits.
+    where \f$\hat{c}_k^{*}\f$ is the conjugate of the channel estimate. This
+    class assumes that the channel estimates are perfect when calculating
+    the soft bits.
   
-    When these member functions are used together with MAP-based turbo decoding algoritms then the channel
-    reliability factor \f$L_c\f$ of the turbo decoder shall be set to 1. The output from these member functions
-    can also be used by a Viterbi decoder using an AWGN based metric calculation function. 
+    When these member functions are used together with MAP-based turbo
+    decoding algoritms then the channel reliability factor \f$L_c\f$ of the
+    turbo decoder shall be set to 1. The output from these member functions 
+    can also be used by a Viterbi decoder using an AWGN based metric
+    calculation function.
   */
-  class Modulator_2d {
+  class Modulator_2d : public Modulator {
   public:
     //! Constructor
-    Modulator_2d(const cvec &insymbols = zeros_c(1), const ivec &inbitmap = "0");
+    Modulator_2d(const cvec &symbols = "0+0i", const ivec &bitmap = "0");
     //! Destructor
     virtual ~Modulator_2d() {}
+
+    //! Set the symbol values to use in the modulator.
+    void set(const cvec &symbols, const ivec &bitmap);
+  
     //! Returns number of bits per symbol for the modulator. Can be noninteger.
-    virtual double bits_per_symbol() const {return k;}
+    virtual double bits_per_symbol() const { return k; }
+    //! Get the symbol values used in the modulator.
+    cvec get_symbols() const { return symbols; }
+    //! Get the bitmap
+    ivec get_bitmap() const { return bitmap; }
+
     //! Modulation of symbols
     virtual cvec modulate(const ivec &symbolnumbers) const;
     //! Demodulation of symbols
     virtual ivec demodulate(const cvec &signal) const;
   
     //! Modulation of bits
+    virtual void modulate_bits(const bvec &bits, cvec &out) const;
+    //! Modulation of bits
     virtual cvec modulate_bits(const bvec &bits) const;
+    //! Demodulation of bits
+    virtual void demodulate_bits(const cvec &signal, bvec &bits) const;
     //! Demodulation of bits
     virtual bvec demodulate_bits(const cvec &signal) const;
   
@@ -155,92 +180,91 @@ namespace itpp {
       \brief Soft demodulator for AWGN channels
     
       This function calculates
-      \f[ 
-      \log \left( \frac{
-      \sum_{s_i \in S_0} \frac{1}{\pi N_0} \exp \left( -\frac{ |z_k - s_i|^2 }{N_0} \right) } {
-      \sum_{s_i \in S_1} \frac{1}{\pi N_0} \exp \left( -\frac{ |z_k - s_i|^2 }{N_0} \right) }
-      \right)
-      \f]
-      where \f$s_i \in S_0\f$ denotes a constellation symbol with the i-th bit equal to zero. This function can be used on channels
-      where the channel gain \f$c_k = 1\f$.
+      \f[ \log \left( \frac{\sum_{s_i \in S_0} \frac{1}{\pi N_0} \exp 
+      \left( -\frac{ |z_k - s_i|^2 }{N_0} \right)}{\sum_{s_i \in S_1}
+      \frac{1}{\pi N_0} \exp \left( -\frac{ |z_k - s_i|^2 }{N_0} \right)}
+      \right) \f]
+      where \f$s_i \in S_0\f$ denotes a constellation symbol with the i-th
+      bit equal to zero. This function can be used on channels where the
+      channel gain \f$c_k = 1\f$. 
     
       \param rx_symbols The received noisy constellation symbols
       \param N0 The single sided spectral density of the AWGN noise
       \param soft_bits The soft bits calculated using the expression above
 
       <b>Note:</b> For soft demodulation it is suggested to use the
-      N-dimensional modulator (\c Modulator_ND) class instead which is
-      based on QLLR arithmetics and therefore faster and more
-      numerically stable.
+      N-dimensional modulator (\c Modulator_ND) class instead, which is
+      based on QLLR arithmetics and therefore faster and more numerically
+      stable.
     */
-    void demodulate_soft_bits(const cvec &rx_symbols, double N0, vec &soft_bits);
+    virtual void demodulate_soft_bits(const cvec &rx_symbols, double N0, 
+				      vec &soft_bits) const;
   
     /*! 
       \brief Soft demodulator for fading channels
     
       This function calculates
-      \f[ 
-      \log \left( \frac{
-      \sum_{s_i \in S_0} \frac{1}{\pi N_0 |c_k|^2} \exp \left( -\frac{ |z_k - |c_k|^2 s_i|^2 }{N_0 |c_k|^2} \right) } {
-      \sum_{s_i \in S_1} \frac{1}{\pi N_0 |c_k|^2} \exp \left( -\frac{ |z_k - |c_k|^2 s_i|^2 }{N_0 |c_k|^2} \right) }
-      \right)
+      \f[ \log \left( \frac{\sum_{s_i \in S_0} \frac{1}{\pi N_0 |c_k|^2}
+      \exp \left( -\frac{ |z_k - |c_k|^2 s_i|^2 }{N_0 |c_k|^2} \right)}
+      {\sum_{s_i \in S_1} \frac{1}{\pi N_0 |c_k|^2} \exp 
+      \left( -\frac{ |z_k - |c_k|^2 s_i|^2 }{N_0 |c_k|^2} \right)} \right)
       \f]
-    
-      \param rx_symbols The received noisy constellation symbols \f$z_k\f$ (remember that \f$z_k = \hat{c}_k^{*} \times r_k\f$)
+
+      \param rx_symbols The received noisy constellation symbols \f$z_k\f$
+      (remember that \f$z_k = \hat{c}_k^{*} \times r_k\f$) 
       \param chan The complex valued channel values
       \param N0 The single sided spectral density of the AWGN noise
       \param soft_bits The soft bits calculated using the expression above
 
       <b>Note:</b> For soft demodulation it is suggested to use the
-      N-dimensional modulator (\c Modulator_ND) class instead which is
-      based on QLLR arithmetics and therefore faster and more
-      numerically stable.
+      N-dimensional modulator (\c Modulator_ND) class instead which is based
+      on QLLR arithmetics and therefore faster and more numerically stable.
     */
-    void demodulate_soft_bits(const cvec &rx_symbols, const cvec &chan, const double N0, vec &soft_bits);
+    virtual void demodulate_soft_bits(const cvec &rx_symbols, const cvec &chan, 
+				      double N0, vec &soft_bits) const;
   
     /*!
       \brief Approximative soft demodulator for AWGN channels. 
     
-      This function is faster and gives allmost no performance degradation compared to the 
-      demodulate_soft_bits(const cvec &symbols, vec &soft_bits) function. This function finds for each bit 
-      the closest constellation point that have a zero and a one in the corresponding position. Let \f$d_0\f$
-      denote the distance to the closest zero point and \f$d_1\f$ denote the distance to the closest one point
-      for the corresponding bit respectively. This algorithm then computes
+      This function is faster and gives allmost no performance degradation
+      compared to the demodulate_soft_bits(const cvec &symbols, vec
+      &soft_bits) function. This function finds for each bit the closest
+      constellation point that have a zero and a one in the corresponding
+      position. Let \f$d_0\f$ denote the distance to the closest zero point
+      and \f$d_1\f$ denote the distance to the closest one point for the
+      corresponding bit respectively. This algorithm then computes
       \f[ \frac{1}{N_0} ( d_1^2 - d_0^2 ) \f]
     
       \param rx_symbols The received noisy constellation symbols
       \param N0 The single sided spectral density of the AWGN noise
       \param soft_bits The soft bits calculated using the expression above
     */
-    void demodulate_soft_bits_approx(const cvec &rx_symbols, const double N0, vec &soft_bits);
+    virtual void demodulate_soft_bits_approx(const cvec &rx_symbols, double N0,
+					     vec &soft_bits) const;
   
     /*! 
       \brief Approximative soft demodulator for fading channels. 
     
-      This function is faster and gives allmost no performance degradation compared to the 
-      demodulate_soft_bits(const cvec &symbols, const cvec &chan, vec &soft_bits) function.
-      Let \f$d_0 = | z_k - |c_k|^2 s_0 |\f$  and \f$d_1 = | z_k - |c_k|^2 s_1 |\f$, with 
-      \f$s_0\f$ and \f$s_0\f$ denoting the closest constellation points with zero and one in the 
-      corresponding bit position respectively. This algorithm then computes
-      \f[ \frac{1}{N_0 |c_k|^2} ( d_1^2 - d_0^2 ) \f]
+      This function is faster and gives allmost no performance degradation
+      compared to the demodulate_soft_bits(const cvec &symbols, const cvec
+      &chan, vec &soft_bits) function. Let
+      \f$d_0 = | z_k - |c_k|^2 s_0 |\f$ and \f$d_1 = |z_k - |c_k|^2 s_1|\f$,
+      with \f$s_0\f$ and \f$s_0\f$ denoting the closest constellation points
+      with zero and one in the corresponding bit position respectively. This
+      algorithm then computes \f[\frac{1}{N_0 |c_k|^2} (d_1^2 - d_0^2) \f].
     
-      \param rx_symbols The received noisy constellation symbols \f$z_k\f$ (remember that \f$z_k = \hat{c}_k^{*} \times r_k\f$)
+      \param rx_symbols The received noisy constellation symbols \f$z_k\f$
+      (remember that \f$z_k = \hat{c}_k^{*} \times r_k\f$)
       \param chan The complex valued channel values
       \param N0 The single sided spectral density of the AWGN noise
       \param soft_bits The soft bits calculated using the expression above
     */
-    void demodulate_soft_bits_approx(const cvec &rx_symbols, const cvec &chan, const double N0, vec &soft_bits);
+    virtual void demodulate_soft_bits_approx(const cvec &rx_symbols,
+					     const cvec &chan,
+					     double N0, vec &soft_bits) const;
   
-    //! Set the symbol values to use in the modulator.
-    void set(const cvec &insymbols, const ivec &inbitmap);
-  
-    //! Get the symbol values used in the modulator.
-    cvec get_symbols() const;
-    //! Get the bitmap used in the modulator.
-    ivec get_bitmap() const;
 
   protected:
-
     //! Number of bits per modulation symbol
     int k;
     //! Number of modulation symbols
@@ -252,14 +276,14 @@ namespace itpp {
   
     //! This function calculates the soft bit mapping matrices S0 and S1
     void calculate_softbit_matricies(ivec inbitmap);
-  
-    //! Used by the soft demodulator functions: Matrix where row k contains the constellation points with a zero in bit position k
+    //! \brief Used by the soft demodulator functions: Matrix where row k
+    //! contains the constellation points with a zero in bit position k
     imat S0;   
-    //! Used by the soft demodulator functions: Matrix where row k contains the constellation points with a one in bit position k
+    //! \brief Used by the soft demodulator functions: Matrix where row k
+    //! contains the constellation points with a one in bit position k
     imat S1;   
-    //! Internal protected state variable
-    bool soft_bit_mapping_matrices_calculated;
   };
+
 
   /*! 
     \ingroup modulators
