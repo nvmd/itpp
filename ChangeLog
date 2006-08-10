@@ -1,5 +1,12 @@
 2006-08-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/comm/modulator.cpp, itpp/comm/modulator.h: Modulator_1d and
+	Modulator_2d classes revised with respect to bug [1456235]. The
+	precision problems for high SNR have been solved by using the
+	trunc_log() function recently defined in "logexpfunc.h" file.
+	Thanks to Erik for his help in solving this problem. This fix
+	closes the bug report [1456235].
+
 	* itpp/base/logexpfunc.h: Added special truncated versions of
 	log() and exp() functions, which might be used instead of the
 	macros in modulator.cpp and rec_syst_conv_code.cpp (more stable
