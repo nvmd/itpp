@@ -1,5 +1,7 @@
 2006-08-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/parser.cpp: Minor fix of uninitialised bool variable.
+
 	* itpp/base/itmisc.h, itpp/base/random.h: Replaced deprecated
 	hypot(x, y) function with std::sqrt(x*x + y*y) calculation. BTW,
 	macro definition M_2PI replaced with a global constant m_2pi.
