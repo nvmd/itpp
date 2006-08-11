@@ -591,7 +591,8 @@ namespace itpp {
     bool comma = true;
     
     alloc(maxrows, maxcols);
-    
+    zeros();
+
     while (buffer.peek() != EOF) {
       if (++rows > maxrows) {
 	maxrows <<= 1;
