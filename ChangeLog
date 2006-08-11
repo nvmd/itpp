@@ -1,5 +1,9 @@
 2006-08-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/itmisc.h, itpp/base/random.h: Replaced deprecated
+	hypot(x, y) function with std::sqrt(x*x + y*y) calculation. BTW,
+	macro definition M_2PI replaced with a global constant m_2pi.
+
 	* itpp/base/mat.cpp, itpp/base/mat.h: Fixed a minor problem of
 	uninitialised matrix elements, when parsing values from a string
 	literal.
