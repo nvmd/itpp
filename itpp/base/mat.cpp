@@ -44,6 +44,7 @@ namespace itpp {
     std::streamoff offset = 0;
 
     alloc(maxrows, maxcols);
+    zeros();
 
     // go through the whole buffer
     while (buffer.peek() != EOF) {
@@ -253,6 +254,7 @@ namespace itpp {
     std::streamoff offset = 0;
 
     alloc(maxrows, maxcols);
+    zeros();
 
     // go through the whole buffer
     while (buffer.peek() != EOF) {
