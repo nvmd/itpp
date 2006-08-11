@@ -19,6 +19,7 @@
     - \ref cygwin_acml
     - \ref mingw_acml
     - \ref mingw_netlib
+    - \ref msvc_mkl
   - \ref unix
     - \ref sunos59
 - \ref itpp_3_9_1
@@ -311,17 +312,36 @@ mentioned below, please let us know, so we could update this database.
 - <b>Platform</b>: AMD Sempron 3000+
 - <b>Operating System</b>: Microsoft Windows XP SP2, MinGW 5.0.2, MSYS 1.0.10
 - <b>Compiler(s)</b>: g++ (GCC) 3.4.4 (mingw special)
-- <b>IT++ release</b>: 3.10.2
+- <b>IT++ release</b>: 3.10.5
 - <b>External Libraries</b>: BLAS, CBLAS, LAPACK and FFTW libraries from
-  IT++ External 2.2.0 package.
+  IT++ External 2.2.0 package
 - <b>Tests Status</b>: All tests PASSED
 - <b>Comments</b>: Only static library can be built. IT++ configured with:
 \code
 % export LDFLAGS="-L/usr/local/lib"
 % export CPPFLAGS="-I/usr/local/include"
-% ./configure --enable-debug
+% export CXXFLAGS="-Wall -O3 -march=athlon-tbird -pipe"
+% ./configure --disable-html-doc
 \endcode
-- <b>Date</b>: May 16, 2006
+- <b>Date</b>: August 11, 2006
+- <b>Tester</b>: Adam Piatyszek (ediap)
+
+
+\subsubsection msvc_mkl Microsoft Windows XP with MS Visual C++ and Intel MKL
+
+- <b>Platform</b>: AMD Sempron 3000+
+- <b>Operating System</b>: Microsoft Windows XP SP2
+- <b>Compiler(s)</b>: Microsoft Visual C++ 2005 .NET
+- <b>IT++ release</b>: 3.10.5
+- <b>External Libraries</b>: Intel Math Kernel Library (MKL) 8.1 installed
+  manually in the following directory:
+  <tt>"C:\Program Files\Intel\MKL\8.1"</tt>
+- <b>Tests Status</b>: Not fully tested. Some IT++ based programs compiled
+  and run with success.
+- <b>Comments</b>: Only static library can be built. IT++ built by opening 
+  the <tt>"win32\itpp.vcproj"</tt> project file in MSVC++ and executing
+  <tt>"Build -> Build Solution"</tt> command from menu.
+- <b>Date</b>: August 11, 2006
 - <b>Tester</b>: Adam Piatyszek (ediap)
 
 
