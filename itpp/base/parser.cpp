@@ -399,7 +399,7 @@ namespace itpp {
   bool Parser::get_bool(const std::string &name, int num)
   {
     std::string ss;
-    bool out;
+    bool out = false;
     bool error_flag, print_flag;
     ss = findname(name,error_flag,print_flag,num);
     it_assert(!error_flag, "Parser::get_bool(): Can not find variable: " + name);
