@@ -1,5 +1,9 @@
 2006-08-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/signal/sigfun.cpp: Fixed bug [1538210], caused by
+	uninitialised variable `m2' used for covariance calculation.
+	Thanks to Max Moorkamp for reporting this bug.
+
 	* itpp/comm/modulator.cpp, itpp/comm/modulator.h,
 	tests/modulator_test.ref: Further cosmetic changes and minor fixes
 	in QPSK, PSK and QAM modulator classes. Use the new trunc_log()

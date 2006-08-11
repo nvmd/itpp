@@ -231,26 +231,40 @@ namespace itpp {
 
   mat cov(const mat &X, bool is_zero_mean)
   {
-    int d = X.cols(), n = X.rows(), i, j, k;
+    int d = X.cols(), n = X.rows();
     mat R(d, d), m2(n, d);
     vec tmp;
 
+    R = 0.0;
+
     if (!is_zero_mean) {
       // Compute and remove mean
-      for (i=0; i<d; i++) {
+      for (int i = 0; i < d; i++) {
 	tmp = X.get_col(i);
 	m2.set_col(i, tmp - mean(tmp));
       }
-    }
 
-    // Calc corr matrix
-    R = 0.0;
-    for (i=0; i<d; i++)
-      for (j=0; j<=i; j++) {
-	for (k=0; k<n; k++)
-	  R(i,j) += m2(k,i) * m2(k,j);
-	R(j,i) = R(i,j); // When i=j this is unnecassary work 
+      // Calc corr matrix
+      for (int i = 0; i < d; i++) {
+	for (int j = 0; j <= i; j++) {
+	  for (int k = 0; k < n; k++) {
+	    R(i,j) += m2(k,i) * m2(k,j);
+	  }
+	  R(j,i) = R(i,j); // When i=j this is unnecassary work 
+	}
       }
+    }
+    else {
+      // Calc corr matrix
+      for (int i = 0; i < d; i++) {
+	for (int j = 0; j <= i; j++) {
+	  for (int k = 0; k < n; k++) {
+	    R(i,j) += X(k,i) * X(k,j);
+	  }
+	  R(j,i) = R(i,j); // When i=j this is unnecassary work 
+	}
+      }
+    }
     R /= n;
 
     return R;
