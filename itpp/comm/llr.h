@@ -44,17 +44,17 @@
 namespace itpp {
   
   /*! \relates LLR_calc_unit 
-    The quantized LLR (QLLR) representation, scalar form 
+    The quantized log-likelihood ratio (QLLR) representation, scalar form. See \c LLR_calc_unit.
   */
   typedef signed int QLLR;
 
   /*!  \relates LLR_calc_unit 
-    The quantized LLR (QLLR) representation, vector form
+    The quantized log-likelihood ratio (QLLR) representation, vector form. See \c LLR_calc_unit.
   */
   typedef Vec<QLLR> QLLRvec;
 
   /*!  \relates LLR_calc_unit 
-    The quantized LLR (QLLR) representation, matrix form
+    The quantized log-likelihood ratio (QLLR) representation, matrix form. See \c LLR_calc_unit.
   */
   typedef Mat<QLLR> QLLRmat;
   
@@ -73,8 +73,11 @@ namespace itpp {
     rely on certain nonlinear operations on LLRs.
 
     An LLR for an information bit b is defined according to \f[ L =
-    \log \frac{P(b=1)}{P(b=0)} \f] and it is in general a real number.  In the
-    class, LLR values are represented via the special type, "quantized
+    \log \frac{P(b=1)}{P(b=0)} \f] and it is in general a real number.
+    <b>Note: </b>the definition of LLR has the opposite sign of that
+    used in the \c Modulator_1d and \c Modulator_2d classes.
+    
+    LLR values are represented via the special type, "quantized
     LLR" (QLLR).  The relation between the quantized representation
     and the real (floating-point) LLR value is \f[ \mbox{QLLR} = \mbox{round}
     ((1<<\mbox{Dint1})*\mbox{LLR}) \f]  The user parameter Dint1 determines the

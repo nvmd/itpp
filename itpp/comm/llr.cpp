@@ -132,6 +132,7 @@ namespace itpp {
   
   std::ostream &operator<<(std::ostream &os, const LLR_calc_unit &lcu)
   {
+    os << "---------- LLR calculation unit -----------------" << std::endl;
     os << "LLR_calc_unit table properties:" << std::endl;
     os << "The granularity in the LLR representation is " 
        << pow2(static_cast<double>(-lcu.Dint1)) << std::endl;
@@ -144,6 +145,7 @@ namespace itpp {
     os << "The tables truncates at the LLR value "
        << pow2(static_cast<double>(lcu.Dint3 - lcu.Dint1)) * lcu.Dint2 
        << std::endl;
+    os << "-------------------------------------------------" << std::endl;
     return os;
   }
 

@@ -44,7 +44,7 @@ namespace itpp {
   // ------------------------- N-dimensional ("MIMO") MODULATOR CLASSES ---------------------------------
 
   /*! \ingroup modulators
-    \brief Base class for an N-dimensional (ND) vector ("MIMO") modulator
+    \brief Base class for an N-dimensional (ND) vector ("MIMO") modulator. See \c ND_UPAM for examples.
   */
   class Modulator_ND {
   public:
@@ -57,7 +57,7 @@ namespace itpp {
     int get_dim() { return nt; }
     
     //! Get LLR calculation unit
-    LLR_calc_unit get_llrcalc() { return llrcalc; }
+    LLR_calc_unit get_llrcalc() const { return llrcalc; }
     
     //! Get number of bits per modulation symbol
     ivec get_k() { return k; }
@@ -98,6 +98,8 @@ namespace itpp {
     \param numerator the logarithm of the numerator in the above expression
     \param denominator the logarithm of the denominator in the above expression
     \param s the symbol vector
+
+    <b>Please note</b> that the LLR definition has the opposite sign of that used in the \c Modulator_1d and \c Modulator_2d classes.
     */
     void update_LLR(Vec<QLLRvec> &logP_apriori, QLLRvec &numerator, QLLRvec &denominator, ivec &s, QLLR x);
     
@@ -114,6 +116,8 @@ namespace itpp {
     \param numerator the logarithm of the numerator in the above expression
     \param denominator the logarithm of the denominator in the above expression
     \param s the symbol vector
+
+    <b>Please note</b> that the LLR definition has the opposite sign of that used in the \c Modulator_1d and \c Modulator_2d classes.
     */
     void update_LLR(Vec<QLLRvec> &logP_apriori, QLLRvec &numerator, QLLRvec &denominator, 
 		    int s, QLLR scaled_norm, int j);
@@ -139,6 +143,7 @@ namespace itpp {
     I/Q then the complex channel can be first transformed to a real
     channel \f[ G=[H_r, -H_i; H_i, H_r] \f]
 
+    See \c ND_UPAM for examples.
   */
   class Modulator_NRD : public Modulator_ND {
   public:
@@ -158,7 +163,8 @@ namespace itpp {
     */
     vec modulate_bits(const bvec &bits) const;
     
-    /*! \brief Soft MAP demodulation by "brute-force" enumeration of all constellation points.
+    /*! \brief Soft MAP demodulation for multidimensional channel, by
+      "brute-force" enumeration of all constellation points.
       
     This function computes the LLR values 
     
@@ -169,7 +175,7 @@ namespace itpp {
     \f]
     
     without approximations. It is assumed that H, y and
-    s are real-valued. Complex-valued channels can be handled via the \c Modulator_CMIMO class. 
+    s are real-valued. Complex-valued channels can be handled via the \c Modulator_NCD class. 
     
     \param  H                channel matrix (m*n)
     \param  y                received vector (m*1)
@@ -181,17 +187,19 @@ namespace itpp {
     This is only feasible for relatively small constellations.
     The Jacobian logarithm is used to compute
     the sum-exp expression. 
+
+    <b>Please note</b> that the LLR definition has the opposite sign of that used in the \c Modulator_1d and \c Modulator_2d classes.
     */
     void map_demod(QLLRvec &LLR_apriori,  QLLRvec &LLR_aposteriori,  double sigma2,  mat &H, vec &y);
     
     /*! \brief Soft MAP demodulation for parallel  channels without crosstalk.
       
     This function is equivalent to \c map_demod with \f$H=\mbox{diag}(h)\f$. However, it is
-    much faster (the complexity is linear in the number of subchannels).
-    
+    much faster (the complexity is linear in the number of subchannels).    
     */
     void map_demod(QLLRvec &LLR_apriori,  QLLRvec &LLR_aposteriori, double sigma2, vec &h, vec &y);
-    
+
+   
     //! Print some properties of the MIMO modulator in plain text (mainly to aid debugging)
     friend std::ostream &operator<<(std::ostream &os, const Modulator_NRD &mod);
     
@@ -221,11 +229,12 @@ namespace itpp {
   std::ostream &operator<<(std::ostream &os, const Modulator_NRD &mod);
 
 
-  /*! 
-    \ingroup modulators
-    \brief Base class for vector ("MIMO") channel modulator/demodulators with complex valued components.
+  /*!  \ingroup modulators 
+    \brief Base class for vector ("MIMO")
+    channel modulator/demodulators with complex valued components.
     
-    This class is equivalent to \c Modulator_RND except for that all quantities are complex-valued.
+    This class is equivalent to \c Modulator_NRD except for that all
+    quantities are complex-valued.  See \c ND_UPAM for examples.
   */
   class Modulator_NCD : public Modulator_ND {
   public:
@@ -240,7 +249,8 @@ namespace itpp {
     //! Modulation of bits
     cvec modulate_bits(const bvec &bits) const;
 
-    /*! \brief Soft MAP demodulation by "brute-force" enumeration of all constellation points.
+    /*! \brief Soft MAP demodulation for multidimensional channel, by
+      "brute-force" enumeration of all constellation points.
 
     This function computes the LLR values 
 
@@ -251,7 +261,7 @@ namespace itpp {
     \f]
 
     without approximations. It is assumed that H, y and
-    s are real-valued. Complex-valued channels can be handled via the \c Modulator_CMIMO class. 
+    s are real-valued. Complex-valued channels can be handled via the \c Modulator_NCD class. 
 
     \param  H                channel matrix (m*n)
     \param  y                received vector (m*1)
@@ -259,10 +269,12 @@ namespace itpp {
     \param  LLR_apriori      vector of a priori LLR values per bit
     \param  LLR_aposteriori  vector of a posteriori LLR values
 
-    The function performs an exhaustive search over all possible points s in the n-dimensional constellation.  
-    This is only feasible for relatively small constellations.
-    The Jacobian logarithm is used to compute
-    the sum-exp expression. 
+    The function performs an exhaustive search over all possible
+    points s in the n-dimensional constellation.  This is only
+    feasible for relatively small constellations.  The Jacobian
+    logarithm is used to compute the sum-exp expression.
+
+    <b>Please note</b> that the LLR definition has the opposite sign of that used in the \c Modulator_1d and \c Modulator_2d classes.
     */
     void map_demod(QLLRvec &LLR_apriori,  QLLRvec &LLR_aposteriori,  double sigma2,  cmat &H, cvec &y) ;
 
@@ -288,10 +300,43 @@ namespace itpp {
     \brief Print some properties of the MIMO modulator in plain text (mainly to aid debugging)
   */
   std::ostream &operator<<(std::ostream &os, const Modulator_NCD &mod);
+    
+  /*! \brief Multidimensional channel with uniform PAM along each dimension.
+    
+  <b>Example: (4*3 matrix channel with 4-PAM)</b>    
+  \code 
+  ND_UPAM chan;            // Multidimensional channel with uniform PAM 
+  chan.set_Gray_PAM(3,4);  // 3-dimensional matrix channel, 4-PAM (2 bits) per dimension
+  cout << chan << endl;   
+  bvec b=randb(3*2);  // 3*2 bits in total    
+  vec x=chan.modulate_bits(b); 
+  QLLRvec llr = zeros_i(3*2);
+  QLLRvec llr_ap = zeros_i(3*2);  // apriori equiprobable bits
+  mat H = randn(4,3);      // 4*3 matrix channel
+  double sigma2=0.01; // noise variance
+  vec y= H*x + sqrt(sigma2)*randn(4); // add noise
+  chan.map_demod(llr_ap, llr, sigma2, H, y);
+  cout << "True bits:" << b << endl;
+  cout << "LLRs:" << chan.get_llrcalc().to_double(llr) << endl;
+  \endcode
   
-  
-  
-  //! Multidimensional channel with uniform PAM along each dimension.
+  <b>Example: (scalar channel with 8-PAM)</b>
+  \code
+  ND_UPAM chan;            
+  chan.set_Gray_PAM(1,8);  // scalar channel, 8-PAM (3 bits)
+  cout << chan << endl;   
+  bvec b=randb(3);
+  vec x=chan.modulate_bits(b);     
+  QLLRvec llr = zeros_i(3);
+  QLLRvec llr_ap = zeros_i(3);
+  mat H = "1.0";      // scalar channel
+  double sigma2=0.01; 
+  vec y= H*x + sqrt(sigma2)*randn(1); // add noise
+  chan.map_demod(llr_ap, llr, sigma2, H, y);
+  cout << "True bits:" << b << endl;
+  cout << "LLRs:" << chan.get_llrcalc().to_double(llr) << endl;    
+  \endcode
+  */
   class ND_UPAM : public Modulator_NRD {
   public:
     //! Constructor
