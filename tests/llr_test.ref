@@ -1,3 +1,4 @@
+---------- LLR calculation unit -----------------
 LLR_calc_unit table properties:
 The granularity in the LLR representation is 0.000244140625
 The LLR scale factor is 4096
@@ -5,7 +6,9 @@ The largest LLR that can be represented is 131071.9997559
 The table resolution is 0.03125
 The number of entries in the table is 300
 The tables truncates at the LLR value 9.375
+-------------------------------------------------
 
+---------- LLR calculation unit -----------------
 LLR_calc_unit table properties:
 The granularity in the LLR representation is 0.0009765625
 The LLR scale factor is 1024
@@ -13,7 +16,9 @@ The largest LLR that can be represented is 524287.9990234
 The table resolution is 0.5
 The number of entries in the table is 7
 The tables truncates at the LLR value 3.5
+-------------------------------------------------
 
+---------- LLR calculation unit -----------------
 LLR_calc_unit table properties:
 The granularity in the LLR representation is 0.25
 The LLR scale factor is 4
@@ -21,7 +26,9 @@ The largest LLR that can be represented is 134217727.75
 The table resolution is 0.25
 The number of entries in the table is 15
 The tables truncates at the LLR value 3.75
+-------------------------------------------------
 
+---------- LLR calculation unit -----------------
 LLR_calc_unit table properties:
 The granularity in the LLR representation is 0.0009765625
 The LLR scale factor is 1024
@@ -29,6 +36,7 @@ The largest LLR that can be represented is 524287.9990234
 The table resolution is 0.0009765625
 The number of entries in the table is 0
 The tables truncates at the LLR value 0
+-------------------------------------------------
 
 Testing Jacobian logarithm with four different resolutions.
 JacLog(0) = 0.693115234375 ; 0.693359375 ; 0.75 ; 0

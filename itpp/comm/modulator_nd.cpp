@@ -361,34 +361,31 @@ namespace itpp {
 
   std::ostream &operator<<(std::ostream &os, const Modulator_NRD &mod)
   {
-    os << "--- REAL MIMO CHANNEL ---------------------" << std::endl;
-    os << "MIMO channel properties:" << std::endl;
-    os << "dimension (nt)=" << mod.nt << std::endl;
-    os << "k=" << mod.k << std::endl;
-    os << "M=" << mod.M << std::endl;
+    os << "--- REAL MIMO (NRD) CHANNEL ---------" << std::endl;
+    os << "Dimension (nt):           " << mod.nt << std::endl;
+    os << "Bits per dimension (k):   " << mod.k << std::endl;
+    os << "Symbols per dimension (M):" << mod.M << std::endl;
     for (int i=0; i<mod.nt; i++) { 
-      os << mod.bitmap(i) << std::endl;
-      os << mod.symbols(i) << std::endl;
+      os << "Bitmap for dimension " << i << ": " << mod.bitmap(i) << std::endl;
+      // skip printing the trailing zero
+      os << "Symbol coordinates for dimension " << i << ": " << mod.symbols(i).left(mod.M(i)) << std::endl;
     }
-    os << "-------------------------------" << std::endl;
+    os << mod.get_llrcalc() << std::endl;
     return os;
-
   };
   
   std::ostream &operator<<(std::ostream &os, const Modulator_NCD &mod)
   {
-    os << "--- COMPLEX MIMO CHANNEL ---------------------" << std::endl;
-    os << "MIMO channel properties:" << std::endl;
-    os << "dimension (nt)=" << mod.nt << std::endl;
-    os << "k=" << mod.k << std::endl;
-    os << "M=" << mod.M << std::endl;
+    os << "--- COMPLEX MIMO (NCD) CHANNEL --------" << std::endl;
+    os << "Dimension (nt):           " << mod.nt << std::endl;
+    os << "Bits per dimension (k):   " << mod.k << std::endl;
+    os << "Symbols per dimension (M):" << mod.M << std::endl;
     for (int i=0; i<mod.nt; i++) { 
-      os << mod.bitmap(i) << std::endl;
-      os << mod.symbols(i) << std::endl;
+      os << "Bitmap for dimension " << i << ": " << mod.bitmap(i) << std::endl;
+      os << "Symbol coordinates for dimension " << i << ": " << mod.symbols(i).left(mod.M(i)) << std::endl;
     }
-    os << "-------------------------------" << std::endl;
+    os << mod.get_llrcalc() << std::endl;
     return os;
-
   };
 
   // ------------------------- MIMO with uniform PAM ----------------------------
