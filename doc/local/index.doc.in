@@ -1,5 +1,5 @@
 /*!
-\mainpage Welcome to IT++!
+\mainpage IT++ Documentation
 
 \htmlonly
 <!-- start of center block -->
@@ -12,8 +12,8 @@ IT++ is a C++ library of mathematical, signal processing, speech processing,
 and communications classes and functions. It is being developed by
 researchers in these areas and is widely used by researchers, both in the
 communications industry and universities. Since 2004, IT++ is also being
-developed as a part of the European Network of Excellence 
-(<a href="http://newcom.ismb.it/">NEWCOM</a>).
+developed as a part of the European Network of Excellence in Wireless
+Communications (<a href="http://newcom.ismb.it/">NEWCOM</a>).
 
 The kernel of the IT++ library are templated vector and matrix classes, and
 lots of functions for vectors and matrices. Such a kernel makes IT++ library
@@ -40,16 +40,20 @@ It is possible to compile and use IT++ without any of the above
 listed libraries, but the functionality will be reduced. 
       
 The IT++ library originates from the former department of Information
-Theory at the Chalmers University of Technology, Gothenburg, Sweden. Because
-the library is coded in C++, the name IT++ seemed like a good idea at the
-time. While departments come and go, IT++ have developed a life of its'
-own and is now released under the terms of the 
-<a href="http://www.gnu.org/copyleft/gpl.html">GNU General Public License</a>
-(GPL) for you to enjoy.
+Theory at the <a href="http://www.chalmers.se/en/">Chalmers University of
+Technology</a>, Gothenburg, Sweden. Because the library is coded in C++, the
+name IT++ seemed like a good idea at the time. While departments come and
+go, IT++ have developed a life of its' own and is now released under the
+terms of the <a href="http://www.gnu.org/copyleft/gpl.html">GNU General
+Public License</a> (GPL) for you to enjoy.
 
-IT++ should work on GNU/Linux, Sun Solaris, Microsoft Windows (with Cygwin,
-MinGW/MSYS, or Microsoft Visual C++ .NET) and Mac OS X (more testers
-needed) operating systems.
+IT++ should work on 
+<a href="http://en.wikipedia.org/wiki/GNU/Linux">GNU/Linux</a>, 
+<a href="http://www.sun.com/software/solaris/">Sun Solaris</a>,
+Microsoft Windows (with <a href="http://www.cygwin.com/">Cygwin</a>, 
+<a href="http://www.mingw.org/">MinGW/MSYS</a>, or
+<a href="http://msdn.microsoft.com/visualc/">Microsoft Visual C++ .NET</a>) 
+and <a href="http://www.apple.com/macosx/">Mac OS X</a> operating systems.
 
 \htmlonly
 <!-- end of center block -->
@@ -92,12 +96,6 @@ needed) operating systems.
 <ul>
 <li><a href="http://svn.sourceforge.net/viewcvs.cgi/itpp/itpp/trunk/NEWS?view=markup">NEWS</a></li>
 <li><a href="http://svn.sourceforge.net/viewcvs.cgi/itpp/itpp/trunk/ChangeLog?view=markup">ChangeLog</a></li>
-</ul>
-
-<b>Previous Stable Releases:</b>
-<ul>
-<li><b><a href="http://itpp.sourceforge.net/3.9.1/">3.9.1</a></b></li>
-<li><b><a href="http://itpp.sourceforge.net/3.8.1/">3.8.1</a></b></li>
 </ul>
 
 <!-- end of left margin -->
