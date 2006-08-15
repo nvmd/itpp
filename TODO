@@ -2,10 +2,9 @@ Things to do before releasing version 4.0.0
 ============================================
 
 * Documentation improvements:
-  - updated reference documentation
+  - update reference documentation
   - revise tutorial examples; add new ones; maybe split to basics and more
     advanced stuff
-  - tips and trics for Matlab/Octave users
 
 * Go through our current feature requests at SourceForge. There are
   interesting hints and patches posted by the IT++ users.
@@ -47,10 +46,6 @@ Specific features
 
 * Check the fastmath functions. It seems like they are not any faster
   than the ordinary math functions.
-
-* Improve the functionality of the Vec::set(char*) and Mat::set(char*)
-  members. The current implementation does not allow newlines, tabs,
-  etc. Complex numbers should also be supported.
 
 * Add support for Array<Mat<T> > and Array<Vec<T> > in itload.m and itsave.m
 
