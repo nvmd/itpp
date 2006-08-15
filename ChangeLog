@@ -1,6 +1,18 @@
+==============================================================================
+
+2006-08-15  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* IT++ 3.10.5 released (SVN tag: release-3-10-5)
+
+	* doc/local/index.doc.in, README: Updated reference documentation
+	index page (merged rev. 617:621 from itpp-3-10 branch).
+
+	* NEWS: Updated to reflect recent changes (merged rev. 617:621
+	from itpp-3-10 branch).
+
 2006-08-12  Erik G. Larsson <erik_g_larsson@users.sourceforge.net>
 
-	* itpp/comm/modulator_nd.*, itpp/comm/llr.*,
+	* itpp/comm/modulator_nd.{cpp,h}, itpp/comm/llr.{cpp,h},
 	tests/modulator_nd_test.ref, tests/llr_test.ref: Documentation
 	updates and cosmetic changes.
 

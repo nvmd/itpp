@@ -5,7 +5,8 @@ IT++ is a C++ library of mathematical, signal processing, speech processing,
 and communications classes and functions. It is being developed by
 researchers in these areas and is widely used by researchers, both in the
 communications industry and universities. Since 2004, IT++ is also being
-developed as a part of the European Network of Excellence (NEWCOM).
+developed as a part of the European Network of Excellence in Wireless
+Communications (NEWCOM).
 
 The kernel of the IT++ library are templated vector and matrix classes, and
 lots of functions for vectors and matrices. Such a kernel makes IT++ library
@@ -35,5 +36,4 @@ now released under the terms of the GNU General Public License (GPL) for you
 to enjoy.
 
 IT++ should work on GNU/Linux, Sun Solaris, Microsoft Windows (with Cygwin,
-MinGW/MSYS, or Microsoft Visual C++ .NET) and Mac OS X (more testers needed)
-operating systems.
+MinGW/MSYS, or Microsoft Visual C++ .NET) and Mac OS X operating systems.

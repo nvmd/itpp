@@ -1,4 +1,36 @@
 ===============================================================================
+IT++ version 3.10.5                                        Released: 2006-08-15
+-------------------------------------------------------------------------------
+
+This is a bug-fix release. Therefore, no new features have been added since
+release 3.10.4. Only minor modifications and bug-fixes have been done.
+
+Bug-fixes:
+----------
+
+* Documentation improvements in modulator_nd.{cpp,h}, llr.{cpp,h} and
+  verification.doc.
+
+* Replaced deprecated hypot(x, y) function with std::sqrt(x*x + y*y)
+  calculation. BTW, macro definition `M_2PI' replaced with a global constant
+  `m_2pi'. This prevents compilation warnings under MSVC++ .NET compiler.
+
+* Fixed bug [1538210], caused by an uninitialised variable `m2' used for
+  covariance calculation. Thanks to Max Moorkamp for reporting this bug.
+
+* Fixed bugs [1088420] and [1456235]. The problems reported in these bug
+  reports were caused by calculation of the log() or exp() function using
+  `Inf', `NaN' or `zero' argument, which came from previous calculation. Two
+  special functions `trunc_log()' and `trunc_exp()' have been implemented,
+  which performs some checks of their argument and eventually truncate or
+  saturate the result. This fixes all problems in MAP-decode function of the
+  RSC decoder and soft demodulate functions in various modulators.
+
+* Fixed a problem in Parser initialisation caused by passing a C-style
+  string as the argument of init(std::string) function.
+
+
+===============================================================================
 IT++ version 3.10.4                                        Released: 2006-08-07
 -------------------------------------------------------------------------------
 
