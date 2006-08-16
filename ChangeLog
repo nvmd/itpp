@@ -1,5 +1,8 @@
 2006-08-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/local/index.doc.in: Minor fix ("CVS" -> "SVN") (merged rev.
+	633:634 from itpp-3-10 branch).
+
 	* doc/doxygen_html.cfg.in: Include files and file list now contain
 	a relative path.
 
