@@ -32,7 +32,7 @@
 
 #include <itpp/comm/bch.h>
 #include <itpp/base/binary.h>
-
+#include <itpp/base/specmat.h>
 
 namespace itpp { 
 

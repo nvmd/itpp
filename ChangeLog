@@ -1,5 +1,18 @@
 2006-08-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/comm/modulator.cpp, itpp/comm/modulator.h,
+	tests/modulator_test.cpp, tests/modulator_test.ref,
+	tests/pulse_shape_test.ref: Major redesign of one- and
+	two-dimensional modulator classes. Modulator_2D is now a base
+	class for QAM, PSK and PAM modulators. Moreover, QPSK and PSK
+	inherits from the PSK class. Please note that input signal for
+	Modulator_2D has now slightly different meaning. BTW, improper
+	definition of QPSK constellation is fixed (it was in fact 4-QAM
+	modulator previously).
+
+	* itpp/comm/bch.cpp, itpp/comm/egolay.cpp: Added missing include
+	files.
+
 	* doc/doxygen_html.cfg.in, doc/local/itpp_header.html: Minor fixes
 	in Doxygen config file.
 
