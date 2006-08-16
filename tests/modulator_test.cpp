@@ -1,6 +1,6 @@
 /*!
  * \file 
- * \brief Modulator/demodulator classes test program
+ * \brief 1D and 2D modulators test program
  * \author Tony Ottosson and Adam Piatyszek
  *
  * $Date$
@@ -44,112 +44,262 @@ int main()
   cout << "                    Test of Modulators                     " << endl;
   cout << "===========================================================" << endl;
    
-  int no_bits = 5;
+  const int no_symbols = 5;
+  const double N0 = 0.1;
 
   {
-    cout << endl << "BPSK" << endl;
-    BPSK mod;
+    cout << endl << "Modulator_1D (configured as BPSK)" << endl;
+    Modulator_1D  mod("1.0 -1.0", "0 1");
+    int bps = round_i(mod.bits_per_symbol());
    
-    bvec tx_bits = randb(no_bits);
-    cvec tx_symbols = mod.modulate_bits(tx_bits);
-    double N0 = 0.1;
-    cvec noise = sqrt(N0/2.0) * randn_c(tx_symbols.size());
-    cvec rx_symbols = tx_symbols + noise;
-   
-    bvec decbits;
-    vec softbits;
-    mod.demodulate_bits(rx_symbols,decbits);
-    mod.demodulate_soft_bits(rx_symbols,N0,softbits);
-   
-    cout << "tx_bits         = " << tx_bits << endl;
-    cout << "tx_symbols      = " << tx_symbols << endl;
-    cout << "rx_symbols      = " << rx_symbols << endl;
-    cout << "decbits         = " << decbits << endl;
-    cout << "softbits        = " << softbits << endl;
+    bvec tx_bits = randb(no_symbols * bps);
+    ivec tx_sym_numbers = randi(no_symbols, 0, pow2i(bps) - 1);
+    vec noise = sqrt(N0) * randn(no_symbols);
+
+    vec tx_symbols = mod.modulate_bits(tx_bits);
+    vec rx_symbols = tx_symbols + noise;
+    bvec decbits = mod.demodulate_bits(rx_symbols);
+    
+    cout << "* modulating bits:" << endl;
+    cout << "  tx_bits         = " << tx_bits << endl;
+    cout << "  tx_symbols      = " << tx_symbols << endl;
+    cout << "  rx_symbols      = " << rx_symbols << endl;
+    cout << "  decbits         = " << decbits << endl;
+
+    tx_symbols = mod.modulate(tx_sym_numbers);
+    rx_symbols = tx_symbols + noise;
+    ivec dec_sym_numbers = mod.demodulate(rx_symbols);
+
+    cout << "* modulating symbol numbers:" << endl;
+    cout << "  tx_sym_numbers  = " << tx_sym_numbers << endl;
+    cout << "  tx_symbols      = " << tx_symbols << endl;
+    cout << "  rx_symbols      = " << rx_symbols << endl;
+    cout << "  dec_sym_numbers = " << dec_sym_numbers << endl;
+
+    cout << endl << "BPSK (real signal)" << endl;
+    BPSK bpsk;
+
+    bpsk.modulate_bits(tx_bits, tx_symbols);
+    rx_symbols = tx_symbols + noise;
+    bpsk.demodulate_bits(rx_symbols, decbits);
+    
+    cout << "* modulating bits:" << endl;
+    cout << "  tx_bits         = " << tx_bits << endl;
+    cout << "  tx_symbols      = " << tx_symbols << endl;
+    cout << "  rx_symbols      = " << rx_symbols << endl;
+    cout << "  decbits         = " << decbits << endl;
+
+    cout << endl << "BPSK (complex signal)" << endl;
+
+    cvec tx_csymbols = bpsk.modulate_bits(tx_bits);
+    cvec rx_csymbols = tx_csymbols + to_cvec(noise, -noise);
+    decbits = bpsk.demodulate_bits(rx_csymbols);
+    vec softbits = bpsk.demodulate_soft_bits(rx_csymbols, N0);
+    vec softbits_approx = bpsk.demodulate_soft_bits_approx(rx_csymbols, N0);
+    
+    cout << "* modulating bits:" << endl;
+    cout << "  tx_bits         = " << tx_bits << endl;
+    cout << "  tx_csymbols     = " << tx_csymbols << endl;
+    cout << "  rx_csymbols     = " << rx_csymbols << endl;
+    cout << "  decbits         = " << decbits << endl;
+    cout << "  softbits        = " << softbits << endl;
+    cout << "  softbits_approx = " << softbits_approx << endl << endl;
   }
+
+  cout << "===========================================================" << endl;
+
   {
-    cout << endl << "QPSK" << endl;
-    QPSK mod;
-   
-    bvec tx_bits = randb(no_bits*2);
-    cvec tx_symbols = mod.modulate_bits(tx_bits);
-    double N0 = 0.1;
-    cvec noise = sqrt(N0/2.0) * randn_c(tx_symbols.size());
-    cvec rx_symbols = tx_symbols + noise;
-   
-    bvec decbits;
-    vec softbits;
-    mod.demodulate_bits(rx_symbols,decbits);
-    mod.demodulate_soft_bits(rx_symbols,N0,softbits);
-   
-    cout << "tx_bits         = " << tx_bits << endl;
-    cout << "tx_symbols      = " << tx_symbols << endl;
-    cout << "rx_symbols      = " << rx_symbols << endl;
-    cout << "decbits         = " << decbits << endl;
-    cout << "softbits        = " << softbits << endl;
+    cout << endl << "Modulator_1D (configured as 4-PAM)" << endl;
+    Modulator_1D mod("-3.0 -1.0 1.0 3.0", "0 1 3 2");
+    int bps = round_i(mod.bits_per_symbol());
+
+    bvec tx_bits = randb(no_symbols * bps);
+    ivec tx_sym_numbers = randi(no_symbols, 0, pow2i(bps) - 1);
+    vec noise = sqrt(N0) * randn(no_symbols);
+
+    vec tx_symbols = mod.modulate_bits(tx_bits);
+    vec rx_symbols = tx_symbols + noise;
+    bvec decbits = mod.demodulate_bits(rx_symbols);
+    
+    cout << "* modulating bits:" << endl;
+    cout << "  tx_bits         = " << tx_bits << endl;
+    cout << "  tx_symbols      = " << tx_symbols << endl;
+    cout << "  rx_symbols      = " << rx_symbols << endl;
+    cout << "  decbits         = " << decbits << endl;
+
+    tx_symbols = mod.modulate(tx_sym_numbers);
+    rx_symbols = tx_symbols + noise;
+    ivec dec_sym_numbers = mod.demodulate(rx_symbols);
+
+    cout << "* modulating symbol numbers:" << endl;
+    cout << "  tx_sym_numbers  = " << tx_sym_numbers << endl;
+    cout << "  tx_symbols      = " << tx_symbols << endl;
+    cout << "  rx_symbols      = " << rx_symbols << endl;
+    cout << "  dec_sym_numbers = " << dec_sym_numbers << endl;
+    
+    cout << endl << "4-PAM (real signal)" << endl;
+    PAM pam(4);
+
+    pam.modulate_bits(tx_bits, tx_symbols);
+    rx_symbols = tx_symbols + noise;
+    pam.demodulate_bits(rx_symbols, decbits);
+    
+    cout << "* modulating bits:" << endl;
+    cout << "  tx_bits         = " << tx_bits << endl;
+    cout << "  tx_symbols      = " << tx_symbols << endl;
+    cout << "  rx_symbols      = " << rx_symbols << endl;
+    cout << "  decbits         = " << decbits << endl;
+
+    cout << endl << "4-PAM (complex signal)" << endl;
+
+    cvec tx_csymbols = pam.modulate_bits(tx_bits);
+    cvec rx_csymbols = tx_csymbols + to_cvec(noise, -noise);
+    decbits = pam.demodulate_bits(rx_csymbols);
+    vec softbits = pam.demodulate_soft_bits(rx_csymbols, N0);
+    vec softbits_approx = pam.demodulate_soft_bits_approx(rx_csymbols, N0);
+    
+    cout << "* modulating bits:" << endl;
+    cout << "  tx_bits         = " << tx_bits << endl;
+    cout << "  tx_csymbols     = " << tx_csymbols << endl;
+    cout << "  rx_csymbols     = " << rx_csymbols << endl;
+    cout << "  decbits         = " << decbits << endl;
+    cout << "  softbits        = " << softbits << endl;
+    cout << "  softbits_approx = " << softbits_approx << endl << endl;
   }
+
+  cout << "===========================================================" << endl;
+
+  {
+    cout << endl << "Modulator_2D (configured as QPSK)" << endl;
+    Modulator_2D mod("1+0i 0+1i -1+0i 0-1i", "0 1 3 2");
+    int bps = round_i(mod.bits_per_symbol());
+
+    bvec tx_bits = randb(no_symbols * bps);
+    ivec tx_sym_numbers = randi(no_symbols, 0, pow2i(bps) - 1);
+    cvec noise = sqrt(N0) * randn_c(no_symbols);
+
+    cvec tx_symbols = mod.modulate(tx_sym_numbers);
+    cvec rx_symbols = tx_symbols + noise;
+    ivec dec_sym_numbers = mod.demodulate(rx_symbols);
+
+    cout << "* modulating symbol numbers:" << endl;
+    cout << "  tx_sym_numbers  = " << tx_sym_numbers << endl;
+    cout << "  tx_symbols      = " << tx_symbols << endl;
+    cout << "  rx_symbols      = " << rx_symbols << endl;
+    cout << "  dec_sym_numbers = " << dec_sym_numbers << endl;
+
+    tx_symbols = mod.modulate_bits(tx_bits);
+    rx_symbols = tx_symbols + noise;
+    bvec decbits = mod.demodulate_bits(rx_symbols);
+    vec softbits = mod.demodulate_soft_bits(rx_symbols, N0);
+    vec softbits_approx = mod.demodulate_soft_bits_approx(rx_symbols, N0);
+
+    cout << "* modulating bits:" << endl;
+    cout << "  tx_bits         = " << tx_bits << endl;
+    cout << "  tx_symbols      = " << tx_symbols << endl;
+    cout << "  rx_symbols      = " << rx_symbols << endl;
+    cout << "  decbits         = " << decbits << endl;
+    cout << "  softbits        = " << softbits << endl;
+    cout << "  softbits_approx = " << softbits_approx << endl;
+
+    cout << endl << "QPSK" << endl;
+    QPSK qpsk;
+
+    tx_symbols = qpsk.modulate(tx_sym_numbers);
+    rx_symbols = tx_symbols + noise;
+    dec_sym_numbers = qpsk.demodulate(rx_symbols);
+
+    cout << "* modulating symbol numbers:" << endl;
+    cout << "  tx_sym_numbers  = " << tx_sym_numbers << endl;
+    cout << "  tx_symbols      = " << tx_symbols << endl;
+    cout << "  rx_symbols      = " << rx_symbols << endl;
+    cout << "  dec_sym_numbers = " << dec_sym_numbers << endl;
+
+    tx_symbols = qpsk.modulate_bits(tx_bits);
+    rx_symbols = tx_symbols + noise;
+    decbits = qpsk.demodulate_bits(rx_symbols);
+    softbits = qpsk.demodulate_soft_bits(rx_symbols, N0);
+    softbits_approx = qpsk.demodulate_soft_bits_approx(rx_symbols, N0);
+
+    cout << "* modulating bits:" << endl;
+    cout << "  tx_bits         = " << tx_bits << endl;
+    cout << "  tx_symbols      = " << tx_symbols << endl;
+    cout << "  rx_symbols      = " << rx_symbols << endl;
+    cout << "  decbits         = " << decbits << endl;
+    cout << "  softbits        = " << softbits << endl;
+    cout << "  softbits_approx = " << softbits_approx << endl << endl;
+  }
+
+  cout << "===========================================================" << endl;
+
   {
     cout << endl << "8-PSK" << endl;
-    PSK mod(8);
-   
-    bvec tx_bits = randb(no_bits*3);
-    cvec tx_symbols = mod.modulate_bits(tx_bits);
-    double N0 = 0.1;
-    cvec noise = sqrt(N0/2.0) * randn_c(tx_symbols.size());
+    PSK psk(8);
+    int bps = round_i(psk.bits_per_symbol());
+
+    bvec tx_bits = randb(no_symbols * bps);
+    ivec tx_sym_numbers = randi(no_symbols, 0, pow2i(bps) - 1);
+    cvec noise = sqrt(N0) * randn_c(no_symbols);
+
+    cvec tx_symbols = psk.modulate(tx_sym_numbers);
     cvec rx_symbols = tx_symbols + noise;
-   
-    bvec decbits;
-    vec softbits;
-    mod.demodulate_bits(rx_symbols,decbits);
-    mod.demodulate_soft_bits(rx_symbols,N0,softbits);
-   
-    cout << "tx_bits         = " << tx_bits << endl;
-    cout << "tx_symbols      = " << tx_symbols << endl;
-    cout << "rx_symbols      = " << rx_symbols << endl;
-    cout << "decbits         = " << decbits << endl;
-    cout << "softbits        = " << softbits << endl;
+    ivec dec_sym_numbers = psk.demodulate(rx_symbols);
+
+    cout << "* modulating symbol numbers:" << endl;
+    cout << "  tx_sym_numbers  = " << tx_sym_numbers << endl;
+    cout << "  tx_symbols      = " << tx_symbols << endl;
+    cout << "  rx_symbols      = " << rx_symbols << endl;
+    cout << "  dec_sym_numbers = " << dec_sym_numbers << endl;
+
+    tx_symbols = psk.modulate_bits(tx_bits);
+    rx_symbols = tx_symbols + noise;
+    bvec decbits = psk.demodulate_bits(rx_symbols);
+    vec softbits = psk.demodulate_soft_bits(rx_symbols, N0);
+    vec softbits_approx = psk.demodulate_soft_bits_approx(rx_symbols, N0);
+
+    cout << "* modulating bits:" << endl;
+    cout << "  tx_bits         = " << tx_bits << endl;
+    cout << "  tx_symbols      = " << tx_symbols << endl;
+    cout << "  rx_symbols      = " << rx_symbols << endl;
+    cout << "  decbits         = " << decbits << endl;
+    cout << "  softbits        = " << softbits << endl;
+    cout << "  softbits_approx = " << softbits_approx << endl << endl;
   }
-  {
-    cout << endl << "8-PAM" << endl;
-    PAM mod(8);
-   
-    bvec tx_bits = randb(no_bits*3);
-    cvec tx_symbols = mod.modulate_bits(tx_bits);
-    double N0 = 0.1;
-    cvec noise = sqrt(N0/2.0) * randn_c(tx_symbols.size());
-    cvec rx_symbols = tx_symbols + noise;
-   
-    bvec decbits;
-    vec softbits;
-    mod.demodulate_bits(rx_symbols,decbits);
-    mod.demodulate_soft_bits(rx_symbols,N0,softbits);
-   
-    cout << "tx_bits         = " << tx_bits << endl;
-    cout << "tx_symbols      = " << tx_symbols << endl;
-    cout << "rx_symbols      = " << rx_symbols << endl;
-    cout << "decbits         = " << decbits << endl;
-    cout << "softbits        = " << softbits << endl;
-  }
+
+  cout << "===========================================================" << endl;
+
   {
     cout << endl << "16-QAM" << endl;
-    QAM mod(16);
-   
-    bvec tx_bits = randb(no_bits*4);
-    cvec tx_symbols = mod.modulate_bits(tx_bits);
-    double N0 = 0.1;
-    cvec noise = sqrt(N0/2.0) * randn_c(tx_symbols.size());
+    QAM qam(16);
+    int bps = round_i(qam.bits_per_symbol());
+
+    bvec tx_bits = randb(no_symbols * bps);
+    ivec tx_sym_numbers = randi(no_symbols, 0, pow2i(bps) - 1);
+    cvec noise = sqrt(N0) * randn_c(no_symbols);
+
+    cvec tx_symbols = qam.modulate(tx_sym_numbers);
     cvec rx_symbols = tx_symbols + noise;
-   
-    bvec decbits;
-    vec softbits;
-    mod.demodulate_bits(rx_symbols,decbits);
-    mod.demodulate_soft_bits(rx_symbols,N0,softbits);
-   
-    cout << "tx_bits         = " << tx_bits << endl;
-    cout << "tx_symbols      = " << tx_symbols << endl;
-    cout << "rx_symbols      = " << rx_symbols << endl;
-    cout << "decbits         = " << decbits << endl;
-    cout << "softbits        = " << softbits << endl;
+    ivec dec_sym_numbers = qam.demodulate(rx_symbols);
+
+    cout << "* modulating symbol numbers:" << endl;
+    cout << "  tx_sym_numbers  = " << tx_sym_numbers << endl;
+    cout << "  tx_symbols      = " << tx_symbols << endl;
+    cout << "  rx_symbols      = " << rx_symbols << endl;
+    cout << "  dec_sym_numbers = " << dec_sym_numbers << endl;
+
+    tx_symbols = qam.modulate_bits(tx_bits);
+    rx_symbols = tx_symbols + noise;
+    bvec decbits = qam.demodulate_bits(rx_symbols);
+    vec softbits = qam.demodulate_soft_bits(rx_symbols, N0);
+    vec softbits_approx = qam.demodulate_soft_bits_approx(rx_symbols, N0);
+
+    cout << "* modulating bits:" << endl;
+    cout << "  tx_bits         = " << tx_bits << endl;
+    cout << "  tx_symbols      = " << tx_symbols << endl;
+    cout << "  rx_symbols      = " << rx_symbols << endl;
+    cout << "  decbits         = " << decbits << endl;
+    cout << "  softbits        = " << softbits << endl;
+    cout << "  softbits_approx = " << softbits_approx << endl << endl;
   }
 }
 
