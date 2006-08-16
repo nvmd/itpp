@@ -1,3 +1,8 @@
+2006-08-16  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/doxygen_html.cfg.in, doc/local/itpp_header.html: Minor fixes
+	in Doxygen config file.
+
 2006-08-15  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* TODO: Updated to reflect recent changes.
