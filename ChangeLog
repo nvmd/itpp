@@ -1,5 +1,8 @@
 2006-08-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/doxygen_html.cfg.in: Include files and file list now contain
+	a relative path.
+
 	* itpp/comm/modulator.cpp, itpp/comm/modulator.h,
 	tests/modulator_test.cpp, tests/modulator_test.ref,
 	tests/pulse_shape_test.ref: Major redesign of one- and
