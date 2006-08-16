@@ -1,5 +1,9 @@
 2006-08-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/modulator_test.cpp, tests/modulator_test.ref: Updated
+	tests of 1D and 2D modulators due to the recent redesign of these
+	classes.
+
 	* doc/local/index.doc.in: Minor fix ("CVS" -> "SVN") (merged rev.
 	633:634 from itpp-3-10 branch).
 
