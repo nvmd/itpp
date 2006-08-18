@@ -183,6 +183,34 @@ namespace itpp {
   }
 
 
+  // -------------------- factorial coefficient function --------------------
+
+  //! Calculates factorial coefficient for index <= 170.
+  double fact(int index);
+
+
+  // -------------------- binomial coefficient function --------------------
+
+  //! Compute the binomial coefficient "n over k".
+  int binom(int n, int k);
+
+  //! Compute the base 10 logarithm of the binomial coefficient "n over k".
+  double log_binom(int n, int k);
+
+
+  // -------------------- greatest common divisor function --------------------
+
+  /*!
+   * \brief Compute the greatest common divisor (GCD) \a g of the elements
+   * \a a and \a b.
+   *
+   * \a a and \a b must be non-negative integers. \a gdc(0, 0) is 0 by
+   * convention; all other GCDs are positive integers.
+   */
+  long gcd(long a, long b);
+
+
+
   // -------------------- complex related functions --------------------
 
   //! Real part of complex values
