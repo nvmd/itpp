@@ -113,6 +113,64 @@ namespace itpp {
     return temp;
   }
 
+  // Calculates factorial coefficient for index <= 170.
+  double fact(int index)
+  {
+    it_error_if(index > 170, "fact(int index): Function overflows if index > 170.");
+    it_error_if(index < 0, "fact(int index): index must be non-negative integer");
+    double prod = 1;
+    for (int i = 1; i <= index; i++)
+      prod *= static_cast<double>(i);
+    return prod;
+  }
+
+  // Calculates binomial coefficient "n over k".
+  int binom(int n, int k)
+  {
+    it_assert(k <= n, "binom(n, k): k can not be larger than n");
+    it_assert((n >= 0) && (k >= 0), "binom(n, k): n and k must be non-negative integers");
+    k = ((n - k) < k) ? n - k : k;
+
+    int out = n - k + 1;
+    for (int i = 2; i <= k; i++) {
+      out *= (i + n - k);
+      out /= i;
+    }
+    return out;
+  }
+
+  // Calculates the base 10-logarithm of the binomial coefficient "n over k".
+  double log_binom(int n, int k) {
+    it_assert(k <= n, "log_binom(n, k): k can not be larger than n");
+    it_assert((n >= 0) && (k >= 0), "log_binom(n, k): n and k must be non-negative integers");
+    k = ((n - k) < k) ? n - k : k;
+
+    double out = 0.0;
+    for (int i = 1; i <= k; i++)
+      out += log10(static_cast<double>(i + n - k)) 
+	- log10(static_cast<double>(i));
+
+    return out;
+  }
+
+  // Calculates the greatest common divisor
+  long gcd(long a, long b)
+  {
+    it_assert((a >= 0) && (b >= 0),"gcd(a, b): a and b must be non-negative integers");
+    long v, u, t, q;
+
+    u = a;
+    v = b;
+    while (v > 0) {
+      q = u / v;
+      t = u - v*q;
+      u = v;
+      v = t;
+    }
+    return u;
+  }
+
+
   vec real(const cvec &data)
   {
     vec	temp(data.length());
