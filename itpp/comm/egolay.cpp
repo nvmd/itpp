@@ -33,7 +33,7 @@
 #include <itpp/comm/egolay.h>
 #include <itpp/comm/commfunc.h>
 #include <itpp/base/specmat.h>
-
+#include <itpp/base/converters.h>
 
 namespace itpp { 
 
