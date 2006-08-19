@@ -1,5 +1,16 @@
 2006-08-19  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/comm/modulator.cpp, itpp/comm/modulator.h,
+	tests/modulator_test.cpp: Further redesign of 1D and 2D modulator
+	classes. From now, there is only one templated base class
+	Modulator, which can handle 1D (real) and 2D (complex)
+	constellations. BPSK and PAM modulators are split into:
+	BPSK_c/PAM_c classes which use complex valued interface but only
+	real part of the signal is used, and BPSK/PAM classes that have
+	real valued interface. Besides, demodulate_soft_bits() functions
+	use additional parameter "method" to switch between Log-MAP or
+	approximate demodulation algorithm.
+
 	* itpp/base/elmatfunc.cpp, itpp/base/elmatfunc.h: Reverted the
 	previous interface of binomial functions. "double binom()" defined
 	for higher range of calculated results. 
