@@ -1,6 +1,12 @@
+2006-08-19  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/elmatfunc.cpp, itpp/base/elmatfunc.h: Reverted the
+	previous interface of binomial functions. "double binom()" defined
+	for higher range of calculated results. 
+
 2006-08-19  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
-	* itpp/comm/egolay.cpp: Included "converters.h"
+	* itpp/comm/egolay.cpp: Included "converters.h".
 
 2006-08-19  Adam Piatyszek  <ediap@users.sourceforge.net>
 
