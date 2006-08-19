@@ -1,5 +1,13 @@
 2006-08-19  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/comm/channel.cpp: Fixed bug [1542064]. The problem was that
+	the index in the tap_doppler_spectrum array in the
+	TDL_Channel::init() function could go out of bounds, if the
+	TDL_Channel class was used with two different channel profile
+	lengths. Thanks to Jordy Potman for reporting this bug and
+	providing a patch with a solution (merged rev. 645:646 from
+	itpp-3-10 branch).
+
 	* itpp/comm/modulator.cpp, itpp/comm/modulator.h,
 	tests/modulator_test.cpp: Further redesign of 1D and 2D modulator
 	classes. From now, there is only one templated base class

@@ -979,7 +979,7 @@ namespace itpp {
 
     fading_gen.set_size(N_taps, false);
 
-    if (tap_doppler_spectrum.size() == 0) { // doppler-spectrum is not set. Assume Jakes
+    if (tap_doppler_spectrum.size() != N_taps) { // doppler-spectrum is not set. Assume Jakes
       tap_doppler_spectrum.set_size(N_taps);
       for(int i=0; i<N_taps; i++)
 	tap_doppler_spectrum(i) = Jakes;
