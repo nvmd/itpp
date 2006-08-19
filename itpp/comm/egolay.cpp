@@ -47,7 +47,7 @@ namespace itpp {
   void Extended_Golay::encode(const bvec &uncoded_bits, bvec &coded_bits)
   {
     int no_bits = uncoded_bits.length();
-    int no_blocks = (int)floor((double)no_bits/12);
+    int no_blocks = floor_i(no_bits / 12.0);
     
     coded_bits.set_size(24*no_blocks, false);
     bmat Gt = G.T();
@@ -67,7 +67,7 @@ namespace itpp {
   void Extended_Golay::decode(const bvec &coded_bits, bvec &decoded_bits)
   {
     int no_bits = coded_bits.length();
-    int no_blocks = (int)floor((double)no_bits/24);
+    int no_blocks = floor_i(no_bits / 24.0);
     
     decoded_bits.set_size(12*no_blocks, false);
     int i, j;

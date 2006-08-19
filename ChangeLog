@@ -1,3 +1,8 @@
+2006-08-19  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/egolay.cpp: Minor fix - "(int)floor()" replaced with
+	"floor_i()".
+
 2006-08-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/elmatfunc.cpp, itpp/base/elmatfunc.h,
