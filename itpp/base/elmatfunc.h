@@ -192,7 +192,10 @@ namespace itpp {
   // -------------------- binomial coefficient function --------------------
 
   //! Compute the binomial coefficient "n over k".
-  int binom(int n, int k);
+  double binom(int n, int k);
+
+  //! Compute the binomial coefficient "n over k".
+  int binom_i(int n, int k);
 
   //! Compute the base 10 logarithm of the binomial coefficient "n over k".
   double log_binom(int n, int k);
