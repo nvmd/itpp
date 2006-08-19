@@ -90,12 +90,13 @@ int main()
     cout << "  decbits         = " << decbits << endl;
 
     cout << endl << "BPSK (complex signal)" << endl;
+    BPSK_c bpsk_c;
 
-    cvec tx_csymbols = bpsk.modulate_bits(tx_bits);
+    cvec tx_csymbols = bpsk_c.modulate_bits(tx_bits);
     cvec rx_csymbols = tx_csymbols + to_cvec(noise, -noise);
-    decbits = bpsk.demodulate_bits(rx_csymbols);
-    vec softbits = bpsk.demodulate_soft_bits(rx_csymbols, N0);
-    vec softbits_approx = bpsk.demodulate_soft_bits_approx(rx_csymbols, N0);
+    decbits = bpsk_c.demodulate_bits(rx_csymbols);
+    vec softbits_approx = bpsk_c.demodulate_soft_bits(rx_csymbols, N0);
+    vec softbits = bpsk_c.demodulate_soft_bits(rx_csymbols, N0, LOGMAP);
     
     cout << "* modulating bits:" << endl;
     cout << "  tx_bits         = " << tx_bits << endl;
@@ -151,12 +152,13 @@ int main()
     cout << "  decbits         = " << decbits << endl;
 
     cout << endl << "4-PAM (complex signal)" << endl;
+    PAM_c pam_c(4);
 
-    cvec tx_csymbols = pam.modulate_bits(tx_bits);
+    cvec tx_csymbols = pam_c.modulate_bits(tx_bits);
     cvec rx_csymbols = tx_csymbols + to_cvec(noise, -noise);
-    decbits = pam.demodulate_bits(rx_csymbols);
-    vec softbits = pam.demodulate_soft_bits(rx_csymbols, N0);
-    vec softbits_approx = pam.demodulate_soft_bits_approx(rx_csymbols, N0);
+    decbits = pam_c.demodulate_bits(rx_csymbols);
+    vec softbits_approx = pam_c.demodulate_soft_bits(rx_csymbols, N0);
+    vec softbits = pam_c.demodulate_soft_bits(rx_csymbols, N0, LOGMAP);
     
     cout << "* modulating bits:" << endl;
     cout << "  tx_bits         = " << tx_bits << endl;
@@ -191,8 +193,8 @@ int main()
     tx_symbols = mod.modulate_bits(tx_bits);
     rx_symbols = tx_symbols + noise;
     bvec decbits = mod.demodulate_bits(rx_symbols);
-    vec softbits = mod.demodulate_soft_bits(rx_symbols, N0);
-    vec softbits_approx = mod.demodulate_soft_bits_approx(rx_symbols, N0);
+    vec softbits_approx = mod.demodulate_soft_bits(rx_symbols, N0);
+    vec softbits = mod.demodulate_soft_bits(rx_symbols, N0, LOGMAP);
 
     cout << "* modulating bits:" << endl;
     cout << "  tx_bits         = " << tx_bits << endl;
@@ -218,8 +220,8 @@ int main()
     tx_symbols = qpsk.modulate_bits(tx_bits);
     rx_symbols = tx_symbols + noise;
     decbits = qpsk.demodulate_bits(rx_symbols);
-    softbits = qpsk.demodulate_soft_bits(rx_symbols, N0);
-    softbits_approx = qpsk.demodulate_soft_bits_approx(rx_symbols, N0);
+    softbits_approx = qpsk.demodulate_soft_bits(rx_symbols, N0);
+    softbits = qpsk.demodulate_soft_bits(rx_symbols, N0, LOGMAP);
 
     cout << "* modulating bits:" << endl;
     cout << "  tx_bits         = " << tx_bits << endl;
@@ -254,8 +256,8 @@ int main()
     tx_symbols = psk.modulate_bits(tx_bits);
     rx_symbols = tx_symbols + noise;
     bvec decbits = psk.demodulate_bits(rx_symbols);
-    vec softbits = psk.demodulate_soft_bits(rx_symbols, N0);
-    vec softbits_approx = psk.demodulate_soft_bits_approx(rx_symbols, N0);
+    vec softbits_approx = psk.demodulate_soft_bits(rx_symbols, N0);
+    vec softbits = psk.demodulate_soft_bits(rx_symbols, N0, LOGMAP);
 
     cout << "* modulating bits:" << endl;
     cout << "  tx_bits         = " << tx_bits << endl;
@@ -290,8 +292,8 @@ int main()
     tx_symbols = qam.modulate_bits(tx_bits);
     rx_symbols = tx_symbols + noise;
     bvec decbits = qam.demodulate_bits(rx_symbols);
-    vec softbits = qam.demodulate_soft_bits(rx_symbols, N0);
-    vec softbits_approx = qam.demodulate_soft_bits_approx(rx_symbols, N0);
+    vec softbits_approx = qam.demodulate_soft_bits(rx_symbols, N0);
+    vec softbits = qam.demodulate_soft_bits(rx_symbols, N0, LOGMAP);
 
     cout << "* modulating bits:" << endl;
     cout << "  tx_bits         = " << tx_bits << endl;
@@ -302,9 +304,3 @@ int main()
     cout << "  softbits_approx = " << softbits_approx << endl << endl;
   }
 }
-
-
-
-
-
-
