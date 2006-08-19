@@ -195,7 +195,7 @@ namespace itpp {
   double binom(int n, int k);
 
   //! Compute the binomial coefficient "n over k".
-  int binom_i(int n, int k);
+  long binom_i(int n, int k);
 
   //! Compute the base 10 logarithm of the binomial coefficient "n over k".
   double log_binom(int n, int k);
