@@ -173,33 +173,53 @@ namespace itpp {
   // QPSK
   // ----------------------------------------------------------------------
 
-  // These two specialised functions are defined for 4-QAM, not QPSK
-  // modulator!!! 
+  void QPSK::demodulate_soft_bits(const cvec &rx_symbols, double N0,
+				  vec &soft_bits, Soft_Method method) const
+  {
+    soft_bits.set_size(k * rx_symbols.size());
+    std::complex<double> temp;
+    double factor = 2 * std::sqrt(2.0) / N0;
+    std::complex<double> exp_pi4 = std::complex<double>(std::cos(pi/4), 
+							std::sin(pi/4));
+    for (int i = 0; i < rx_symbols.size(); i++) {
+      temp = rx_symbols(i) * exp_pi4;
+      soft_bits((i<<1)+1) = std::real(temp) * factor;
+      soft_bits(i<<1) = std::imag(temp) * factor;
+    }
+  }
 
-//   void QPSK::demodulate_soft_bits(const cvec &rx_symbols, double N0,
-// 				  vec &soft_bits) const
-//   {
-//     soft_bits.set_size(2*rx_symbols.size(), false);
-//     double factor = 2 * std::sqrt(2.0) / N0;
-//     for (int i = 0; i < rx_symbols.size(); i++) {
-//       soft_bits(2*i) = std::real(rx_symbols(i)) * factor;
-//       soft_bits(2*i+1) = std::imag(rx_symbols(i)) * factor;
-//     }
-//   }
+  vec QPSK::demodulate_soft_bits(const cvec &rx_symbols, double N0,
+				 Soft_Method method) const
+  {
+    vec out;
+    demodulate_soft_bits(rx_symbols, N0, out, method);
+    return out;
+  }
 
-//   void QPSK::demodulate_soft_bits(const cvec &rx_symbols, const cvec &channel,
-// 				  double N0, vec &soft_bits) const
-//   {
-//     soft_bits.set_size(2*rx_symbols.size(), false);
-//     std::complex<double> temp;
-//     double factor = 2 * std::sqrt(2.0) / N0;
-    
-//     for (int i = 0; i < rx_symbols.size(); i++) {
-//       temp = rx_symbols(i) * std::conj(channel(i));
-//       soft_bits(2*i) = std::real(temp) * factor;
-//       soft_bits(2*i+1) = std::imag(temp) * factor;
-//     }
-//   }
+
+  void QPSK::demodulate_soft_bits(const cvec &rx_symbols, const cvec &channel,
+				  double N0, vec &soft_bits,
+				  Soft_Method method) const
+  {
+    soft_bits.set_size(2*rx_symbols.size(), false);
+    std::complex<double> temp;
+    double factor = 2 * std::sqrt(2.0) / N0;
+    std::complex<double> exp_pi4 = std::complex<double>(std::cos(pi/4),
+							std::sin(pi/4));
+    for (int i = 0; i < rx_symbols.size(); i++) {
+      temp = rx_symbols(i) * std::conj(channel(i)) * exp_pi4;
+      soft_bits((i<<1)+1) = std::real(temp) * factor;
+      soft_bits(i<<1) = std::imag(temp) * factor;
+    }
+  }
+
+  vec QPSK::demodulate_soft_bits(const cvec &rx_symbols, const cvec &channel,
+				 double N0, Soft_Method method) const
+  {
+    vec out;
+    demodulate_soft_bits(rx_symbols, channel, N0, out, method);
+    return out;
+  }
 
 
   // ----------------------------------------------------------------------
