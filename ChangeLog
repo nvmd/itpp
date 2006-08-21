@@ -1,3 +1,11 @@
+2006-08-21  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/modulator.h, tests/modulator_test.cpp: Added
+	deprecated demodulate_soft_bits_approx() functions with a warning
+	message for backward compatibility reasons. Besides, the default
+	soft demodulation method of demodulate_soft_bits() functions is
+	now log-MAP.
+	
 2006-08-19  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/channel.cpp: Fixed bug [1542064]. The problem was that

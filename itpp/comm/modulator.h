@@ -118,8 +118,8 @@ namespace itpp {
 
       This function calculates the log-likelihood ratio (LLR) of the
       received signal from AWGN channels. Depending on the soft demodulation
-      method chosen, either full log-MAP calculation is performed, according
-      to the following equation: \f[\log \left(
+      method chosen, either full log-MAP calculation is performed (default
+      method), according to the following equation: \f[\log \left(
       \frac{P(b_i=0|r)}{P(b_i=1|r)} \right) = \log \left( \frac{\sum_{s_i
       \in S_0} \exp \left( -\frac{|r_k - s_i|^2}{N_0} \right)} {\sum_{s_i
       \in S_1} \exp \left( -\frac{|r_k - s_i|^2}{N_0} \right)} \right) \f]
@@ -152,9 +152,20 @@ namespace itpp {
     */
     virtual void demodulate_soft_bits(const Vec<T>& rx_symbols, double N0, 
 				      vec& soft_bits,
-				      Soft_Method method = APPROX) const;
+				      Soft_Method method = LOGMAP) const;
     virtual vec demodulate_soft_bits(const Vec<T>& rx_symbols, double N0,
-				     Soft_Method method = APPROX) const;
+				     Soft_Method method = LOGMAP) const;
+    //@}
+
+    //@{
+    /*! 
+      \brief Deprecated soft demodulator for AWGN channels. Please use
+      demodulate_soft_bits() with method = APPROX instead. 
+    */
+    virtual void demodulate_soft_bits_approx(const Vec<T>& rx_symbols,
+					     double N0, vec& soft_bits) const;
+    virtual vec demodulate_soft_bits_approx(const Vec<T>& rx_symbols,
+					    double N0) const;
     //@}
 
     //@{
@@ -164,12 +175,12 @@ namespace itpp {
       This function calculates the log-likelihood ratio (LLR) of the
       received signal from fading channels. Depending on the soft
       demodulation method chosen, either full log-MAP calculation is
-      performed, according to the following equation: \f[ \log \left(
-      \frac{P(b_i=0|r)}{P(b_i=1|r)} \right) = \log \left( \frac{\sum_{s_i
-      \in S_0} \exp \left( -\frac{|r_k - c_k s_i|^2}{N_0} \right)}
-      {\sum_{s_i \in S_1} \exp \left( -\frac{|r_k - c_k s_i|^2}{N_0}
-      \right)} \right) \f] or approximate, but faster calculation is
-      performed.
+      performed (default method), according to the following equation:
+      \f[\log \left( \frac{P(b_i=0|r)}{P(b_i=1|r)} \right) = \log \left(
+      \frac{\sum_{s_i \in S_0} \exp \left( -\frac{|r_k - c_k s_i|^2}{N_0}
+      \right)} {\sum_{s_i \in S_1} \exp \left( -\frac{|r_k - c_k
+      s_i|^2}{N_0} \right)} \right) \f] or approximate, but faster
+      calculation is performed.
 
       The approximate method finds for each bit the closest constellation
       points that have zero and one in the corresponding position. Let
@@ -197,13 +208,26 @@ namespace itpp {
     virtual void demodulate_soft_bits(const Vec<T>& rx_symbols,
 				      const Vec<T>& channel, 
 				      double N0, vec& soft_bits,
-				      Soft_Method method = APPROX) const;
+				      Soft_Method method = LOGMAP) const;
     virtual vec demodulate_soft_bits(const Vec<T>& rx_symbols, 
 				     const Vec<T>& channel,
 				     double N0,
-				     Soft_Method method = APPROX) const;
+				     Soft_Method method = LOGMAP) const;
     //@}
 
+    //@{
+    /*! 
+      \brief Deprecated soft demodulator for AWGN channels. Please use
+      demodulate_soft_bits() with method = APPROX instead. 
+    */
+    virtual void demodulate_soft_bits_approx(const Vec<T>& rx_symbols,
+					     const Vec<T>& channel, 
+					     double N0, vec& soft_bits) const;
+    virtual vec demodulate_soft_bits_approx(const Vec<T>& rx_symbols, 
+					    const Vec<T>& channel,
+					    double N0) const;
+    //@}
+    
   protected:
     //! Setup indicator
     bool setup_done;
@@ -440,6 +464,25 @@ namespace itpp {
     return output;
   }
 
+  template<typename T>
+  void Modulator<T>::demodulate_soft_bits_approx(const Vec<T> &rx_symbols, 
+						 double N0, 
+						 vec &soft_bits) const
+  {
+    it_warning("Modulator<T>::demodulate_soft_bits_approx(): This function is deprecated. Please use demodulate_soft_bits() with method=APPROX instead.");
+    demodulate_soft_bits(rx_symbols, N0, soft_bits, APPROX);
+  }
+
+  template<typename T>
+  vec Modulator<T>::demodulate_soft_bits_approx(const Vec<T> &rx_symbols, 
+						double N0) const
+  {
+    it_warning("Modulator<T>::demodulate_soft_bits_approx(): This function is deprecated. Please use demodulate_soft_bits() with method=APPROX instead.");
+    vec output;
+    demodulate_soft_bits(rx_symbols, N0, output, APPROX);
+    return output;
+  }
+
 
   template<typename T>
   void Modulator<T>::demodulate_soft_bits(const Vec<T> &rx_symbols, 
@@ -496,6 +539,27 @@ namespace itpp {
   {
     vec output;
     demodulate_soft_bits(rx_symbols, channel, N0, method);
+    return output;
+  }
+
+  template<typename T>
+  void Modulator<T>::demodulate_soft_bits_approx(const Vec<T> &rx_symbols,
+						 const Vec<T> &channel, 
+						 double N0, 
+						 vec &soft_bits) const
+  {
+    it_warning("Modulator<T>::demodulate_soft_bits_approx(): This function is deprecated. Please use demodulate_soft_bits() with method=APPROX instead.");
+    demodulate_soft_bits(rx_symbols, channel, N0, soft_bits, APPROX);
+  }
+
+  template<typename T>
+  vec Modulator<T>::demodulate_soft_bits_approx(const Vec<T> &rx_symbols,
+						const Vec<T> &channel, 
+						double N0) const
+  {
+    it_warning("Modulator<T>::demodulate_soft_bits_approx(): This function is deprecated. Please use demodulate_soft_bits() with method=APPROX instead.");
+    vec output;
+    demodulate_soft_bits(rx_symbols, channel, N0, output, APPROX);
     return output;
   }
 
@@ -708,9 +772,9 @@ namespace itpp {
     */
     virtual void demodulate_soft_bits(const cvec& rx_symbols, double N0,
 				      vec& soft_bits,
-				      Soft_Method method = APPROX) const;
+				      Soft_Method method = LOGMAP) const;
     vec demodulate_soft_bits(const cvec& rx_symbols, double N0,
-			     Soft_Method method = APPROX) const;
+			     Soft_Method method = LOGMAP) const;
     //@}
 
     //@{
@@ -735,9 +799,9 @@ namespace itpp {
     virtual void demodulate_soft_bits(const cvec& rx_symbols,
 				      const cvec& channel, double N0,
 				      vec& soft_bits,
-				      Soft_Method method = APPROX) const;
+				      Soft_Method method = LOGMAP) const;
     vec demodulate_soft_bits(const cvec& rx_symbols, const cvec& channel,
-			     double N0, Soft_Method method = APPROX) const;
+			     double N0, Soft_Method method = LOGMAP) const;
     //@}
   };
 
@@ -805,9 +869,9 @@ namespace itpp {
     */
     virtual void demodulate_soft_bits(const vec& rx_symbols, double N0,
 				      vec& soft_bits,
-				      Soft_Method method = APPROX) const;
+				      Soft_Method method = LOGMAP) const;
     vec demodulate_soft_bits(const vec& rx_symbols, double N0,
-			     Soft_Method method = APPROX) const;
+			     Soft_Method method = LOGMAP) const;
     //@}
 
     //@{
@@ -832,9 +896,9 @@ namespace itpp {
     virtual void demodulate_soft_bits(const vec& rx_symbols,
 				      const vec& channel, double N0,
 				      vec& soft_bits,
-				      Soft_Method method = APPROX) const;
+				      Soft_Method method = LOGMAP) const;
     vec demodulate_soft_bits(const vec& rx_symbols, const vec& channel,
-			     double N0, Soft_Method method = APPROX) const;
+			     double N0, Soft_Method method = LOGMAP) const;
     //@}
   };
 
@@ -881,8 +945,8 @@ namespace itpp {
 
       This function calculates the log-likelihood ratio (LLR) of the
       received signal from AWGN channels. Depending on the soft demodulation
-      method chosen, either full log-MAP calculation is performed, according
-      to the following equation: \f[\log \left(
+      method chosen, either full log-MAP calculation is performed (default
+      method), according to the following equation: \f[\log \left(
       \frac{P(b_i=0|r)}{P(b_i=1|r)} \right) = \log \left( \frac{\sum_{s_i
       \in S_0} \exp \left( -\frac{|r_k - s_i|^2}{N_0} \right)} {\sum_{s_i
       \in S_1} \exp \left( -\frac{|r_k - s_i|^2}{N_0} \right)} \right) \f]
@@ -916,9 +980,9 @@ namespace itpp {
     */
     virtual void demodulate_soft_bits(const cvec& rx_symbols, double N0,
 				      vec& soft_bits,
-				      Soft_Method method = APPROX) const;
+				      Soft_Method method = LOGMAP) const;
     virtual vec demodulate_soft_bits(const cvec& rx_symbols, double N0,
-				     Soft_Method method = APPROX) const;
+				     Soft_Method method = LOGMAP) const;
     //@}
 
     //@{
@@ -928,12 +992,12 @@ namespace itpp {
       This function calculates the log-likelihood ratio (LLR) of the
       received signal from fading channels. Depending on the soft
       demodulation method chosen, either full log-MAP calculation is
-      performed, according to the following equation: \f[ \log \left(
-      \frac{P(b_i=0|r)}{P(b_i=1|r)} \right) = \log \left( \frac{\sum_{s_i
-      \in S_0} \exp \left( -\frac{|r_k - c_k s_i|^2}{N_0} \right)}
-      {\sum_{s_i \in S_1} \exp \left( -\frac{|r_k - c_k s_i|^2}{N_0}
-      \right)} \right) \f] or approximate, but faster calculation is
-      performed.
+      performed (default method), according to the following equation:
+      \f[\log \left( \frac{P(b_i=0|r)}{P(b_i=1|r)} \right) = \log \left(
+      \frac{\sum_{s_i \in S_0} \exp \left( -\frac{|r_k - c_k s_i|^2}{N_0}
+      \right)} {\sum_{s_i \in S_1} \exp \left( -\frac{|r_k - c_k
+      s_i|^2}{N_0} \right)} \right) \f] or approximate, but faster
+      calculation is performed.
 
       The approximate method finds for each bit the closest constellation
       points that have zero and one in the corresponding position. Let
@@ -962,10 +1026,10 @@ namespace itpp {
     virtual void demodulate_soft_bits(const cvec& rx_symbols,
 				      const cvec& channel, double N0,
 				      vec& soft_bits,
-				      Soft_Method method = APPROX) const;
+				      Soft_Method method = LOGMAP) const;
     virtual vec demodulate_soft_bits(const cvec& rx_symbols, 
 				     const cvec& channel, double N0,
-				     Soft_Method method = APPROX) const;
+				     Soft_Method method = LOGMAP) const;
     //@}
 
   protected:
