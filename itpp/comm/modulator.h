@@ -704,6 +704,62 @@ namespace itpp {
     QPSK(): PSK(4) {}
     //! Destructor
     virtual ~QPSK() {}
+
+    //@{
+    /*! 
+      \brief Soft demodulator for AWGN channel
+    
+      This function calculates the log-MAP estimate assuming equally likely
+      bits transmitted: \f[\log \left( \frac{P(b=0|r)}{P(b=1|r)} \right) =
+      \frac{2 \sqrt{2}}{N_0} \Im\{r_k \exp \left(j \frac{\Pi}{4} \right)
+      \}\f] and \f[\log \left( \frac{P(b=0|r)}{P(b=1|r)} \right) = \frac{2
+      \sqrt{2}}{N_0} \Re\{r_k \exp \left(j \frac{\Pi}{4} \right) \}\f]
+      depending on the bit positon in the QPSK symbol.
+
+      \param rx_symbols The received noisy constellation symbols, \f$r\f$
+      \param N0 The spectral density of the AWGN noise, \f$n\f$
+      \param soft_bits The soft bits calculated using the expression above
+      \param method The method used for demodulation (LOGMAP or APPROX)
+
+      \note For soft demodulation it is suggested to use the N-dimensional
+      modulator (Modulator_ND) instead, which is based on the QLLR
+      (quantized) arithmetic and therefore is faster.
+    */
+    virtual void demodulate_soft_bits(const cvec& rx_symbols, double N0,
+				      vec& soft_bits,
+				      Soft_Method method = LOGMAP) const;
+    vec demodulate_soft_bits(const cvec& rx_symbols, double N0,
+			     Soft_Method method = LOGMAP) const;
+    //@}
+
+    //@{
+    /*! 
+      \brief Soft demodulator for a known channel in AWGN      
+
+      This function calculates the log-MAP estimate assuming equally likely
+      bits transmitted: \f[\log \left( \frac{P(b=0|r)}{P(b=1|r)} \right) =
+      \frac{2 \sqrt{2}}{N_0} \Im\{r_k c_k \exp \left(j \frac{\Pi}{4} \right)
+      \}\f] and \f[\log \left( \frac{P(b=0|r)}{P(b=1|r)} \right) = \frac{2
+      \sqrt{2}}{N_0} \Re\{r_k c_k \exp \left(j \frac{\Pi}{4} \right) \}\f]
+      depending on the bit positon in the QPSK symbol.
+
+      \param rx_symbols The received noisy constellation symbols, \f$r\f$
+      \param channel The channel coefficients, \f$c\f$
+      \param N0 The spectral density of the AWGN noise, \f$n\f$
+      \param soft_bits The soft bits calculated using the expression above
+      \param method The method used for demodulation (LOGMAP or APPROX)
+
+      \note For soft demodulation it is suggested to use the N-dimensional
+      modulator (Modulator_ND) instead, which is based on the QLLR
+      (quantized) arithmetic and therefore is faster.
+    */
+    virtual void demodulate_soft_bits(const cvec& rx_symbols,
+				      const cvec& channel, double N0,
+				      vec& soft_bits,
+				      Soft_Method method = LOGMAP) const;
+    vec demodulate_soft_bits(const cvec& rx_symbols, const cvec& channel,
+			     double N0, Soft_Method method = LOGMAP) const;
+    //@}
   };
 
 
@@ -762,7 +818,7 @@ namespace itpp {
 
       \param rx_symbols The received noisy constellation symbols, \f$r\f$
       (complex but symbols in real part) 
-      \param N0 The single sided spectral density of the AWGN noise, \f$n\f$
+      \param N0 The spectral density of the AWGN noise, \f$n\f$
       \param soft_bits The soft bits calculated using the expression above
       \param method The method used for demodulation (LOGMAP or APPROX)
 
@@ -788,7 +844,7 @@ namespace itpp {
       \param rx_symbols The received noisy constellation symbols, \f$r\f$
       (complex but symbols in real part) 
       \param channel The channel coefficients, \f$c\f$ (complex)
-      \param N0 The single sided spectral density of the AWGN noise, \f$n\f$
+      \param N0 The spectral density of the AWGN noise, \f$n\f$
       \param soft_bits The soft bits calculated using the expression above
       \param method The method used for demodulation (LOGMAP or APPROX)
 
@@ -885,7 +941,7 @@ namespace itpp {
       \param rx_symbols The received noisy constellation symbols, \f$r\f$
       (complex but symbols in real part) 
       \param channel The channel coefficients, \f$c\f$ (complex)
-      \param N0 The single sided spectral density of the AWGN noise, \f$n\f$
+      \param N0 The spectral density of the AWGN noise, \f$n\f$
       \param soft_bits The soft bits calculated using the expression above
       \param method The method used for demodulation (LOGMAP or APPROX)
 

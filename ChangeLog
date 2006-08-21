@@ -1,3 +1,10 @@
+2006-08-22  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/modulator.cpp, itpp/comm/modulator.h: Added simplified
+	versions of demodulate_soft_bits() functions to the QPSK modulator
+	class. This gave about 40% improvement in the demodulation
+	performance.
+
 2006-08-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/modulator.h, tests/modulator_test.cpp: Added
