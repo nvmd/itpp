@@ -538,7 +538,7 @@ namespace itpp {
 					 Soft_Method method) const
   {
     vec output;
-    demodulate_soft_bits(rx_symbols, channel, N0, method);
+    demodulate_soft_bits(rx_symbols, channel, N0, output, method);
     return output;
   }
 
