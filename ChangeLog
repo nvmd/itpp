@@ -1,3 +1,9 @@
+2006-08-24  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/svec.h: Fixed bug [1545798]. Sparse vectors are now
+	correctly compared using `==' operator. Thanks to Timo for
+	reporting this bug.
+
 2006-08-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/modulator.cpp, itpp/comm/modulator.h: Added simplified
