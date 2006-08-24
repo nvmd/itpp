@@ -882,7 +882,7 @@ namespace itpp {
       } else {
 	for(p=0;p<used_size;p++) {
 	  for(q=0;q<v.used_size;q++) {
-	    if (index[q] == index[p]) {    // Changed May 2006, EGL
+	    if (index[p] == v.index[q]) {
 	      found = true;
 	      break;
 	    }
