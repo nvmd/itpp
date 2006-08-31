@@ -1,3 +1,8 @@
+2006-08-31  Tony Ottosson  <tonyottosson@users.sourceforge.net>
+
+	* doc/tutorial/itfile.doc: Fixed small documentation bug.
+
+
 2006-08-24  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/svec.h: Fixed bug [1545798]. Sparse vectors are now
