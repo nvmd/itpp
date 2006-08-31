@@ -11,7 +11,7 @@ in your current directory. You can read the file into Matlab/Octave to view
 the data by using the following commands:
 
 \code
-itload("it_file_test.it")
+itload('it_file_test.it')
 figure(1); clf;
 plot(a)
 \endcode
