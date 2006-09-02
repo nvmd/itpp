@@ -43,8 +43,11 @@ namespace itpp {
 
   // ------------------------- N-dimensional ("MIMO") MODULATOR CLASSES ---------------------------------
 
-  /*! \ingroup modulators
-    \brief Base class for an N-dimensional (ND) vector ("MIMO") modulator. See \c ND_UPAM for examples.
+  /*! \ingroup modulators \brief Base class for an N-dimensional (ND)
+    vector ("MIMO") modulator. See \c ND_UPAM for examples. Can also
+    be used for scalar modulation/demodulation as an alternative to \c
+    Modulator_1D or \c Modulator_2D. Mixed use of \c Modulator_1D/\c
+    Modulator_2D and \c Modulator_ND is <b>not advised</b>.
   */
   class Modulator_ND {
   public:
@@ -136,7 +139,7 @@ namespace itpp {
     vector of length \f$n_t\f$ and \f$e\f$ is noise.
 
     The class supports soft-input soft-output demodulation.  It can also be used 
-    for scalar modulation to take advantage of this feature.
+    for scalar modulation to take advantage of this feature. 
 
     Complex MIMO channels can be handled by using the \c Modulator_NCD
     class. Alternatively, if the signal constellation is separable in
