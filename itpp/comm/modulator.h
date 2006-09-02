@@ -146,9 +146,11 @@ namespace itpp {
       \param soft_bits The soft bits calculated using the expression above
       \param method The method used for demodulation (LOGMAP or APPROX)
 
-      \note For soft demodulation it is suggested to use the N-dimensional
-      modulator (Modulator_ND) instead, which is based on the QLLR
-      (quantized) arithmetic and therefore is faster.
+      \note For soft demodulation it is suggested to use the
+      N-dimensional modulator (\c Modulator_ND) instead, which is
+      based on the QLLR (quantized) arithmetic and therefore is
+      faster. Please note, however, that mixed use of \c
+      Modulator_1D/\c Modulator_2D and \c Modulator_ND is not advised.
     */
     virtual void demodulate_soft_bits(const Vec<T>& rx_symbols, double N0, 
 				      vec& soft_bits,
@@ -201,9 +203,11 @@ namespace itpp {
       \param soft_bits The soft bits calculated using the expression above
       \param method The method used for demodulation (LOGMAP or APPROX)
 
-      \note For soft demodulation it is suggested to use the N-dimensional
-      modulator (Modulator_ND) instead, which is based on the QLLR
-      (quantized) arithmetic and therefore is faster.
+      \note For soft demodulation it is suggested to use the
+      N-dimensional modulator (Modulator_ND) instead, which is based
+      on the QLLR (quantized) arithmetic and therefore is
+      faster. Please note, however, that mixed use of \c
+      Modulator_1D/\c Modulator_2D and \c Modulator_ND is not advised.
     */
     virtual void demodulate_soft_bits(const Vec<T>& rx_symbols,
 				      const Vec<T>& channel, 
@@ -721,9 +725,11 @@ namespace itpp {
       \param soft_bits The soft bits calculated using the expression above
       \param method The method used for demodulation (LOGMAP or APPROX)
 
-      \note For soft demodulation it is suggested to use the N-dimensional
-      modulator (Modulator_ND) instead, which is based on the QLLR
-      (quantized) arithmetic and therefore is faster.
+      \note For soft demodulation it is suggested to use the
+      N-dimensional modulator (Modulator_ND) instead, which is based
+      on the QLLR (quantized) arithmetic and therefore is
+      faster. Please note, however, that mixed use of \c
+      Modulator_1D/\c Modulator_2D and \c Modulator_ND is not advised.
     */
     virtual void demodulate_soft_bits(const cvec& rx_symbols, double N0,
 				      vec& soft_bits,
@@ -749,9 +755,11 @@ namespace itpp {
       \param soft_bits The soft bits calculated using the expression above
       \param method The method used for demodulation (LOGMAP or APPROX)
 
-      \note For soft demodulation it is suggested to use the N-dimensional
-      modulator (Modulator_ND) instead, which is based on the QLLR
-      (quantized) arithmetic and therefore is faster.
+      \note For soft demodulation it is suggested to use the
+      N-dimensional modulator (Modulator_ND) instead, which is based
+      on the QLLR (quantized) arithmetic and therefore is
+      faster. Please note, however, that mixed use of \c
+      Modulator_1D/\c Modulator_2D and \c Modulator_ND is not advised.
     */
     virtual void demodulate_soft_bits(const cvec& rx_symbols,
 				      const cvec& channel, double N0,
@@ -822,9 +830,11 @@ namespace itpp {
       \param soft_bits The soft bits calculated using the expression above
       \param method The method used for demodulation (LOGMAP or APPROX)
 
-      \note For soft demodulation it is suggested to use the N-dimensional
-      modulator (Modulator_ND) instead, which is based on the QLLR
-      (quantized) arithmetic and therefore is faster.
+      \note For soft demodulation it is suggested to use the
+      N-dimensional modulator (Modulator_ND) instead, which is based
+      on the QLLR (quantized) arithmetic and therefore is
+      faster. Please note, however, that mixed use of \c
+      Modulator_1D/\c Modulator_2D and \c Modulator_ND is not advised.
     */
     virtual void demodulate_soft_bits(const cvec& rx_symbols, double N0,
 				      vec& soft_bits,
@@ -848,9 +858,11 @@ namespace itpp {
       \param soft_bits The soft bits calculated using the expression above
       \param method The method used for demodulation (LOGMAP or APPROX)
 
-      \note For soft demodulation it is suggested to use the N-dimensional
-      modulator (Modulator_ND) instead, which is based on the QLLR
-      (quantized) arithmetic and therefore is faster.
+      \note For soft demodulation it is suggested to use the
+      N-dimensional modulator (Modulator_ND) instead, which is based
+      on the QLLR (quantized) arithmetic and therefore is
+      faster. Please note, however, that mixed use of \c
+      Modulator_1D/\c Modulator_2D and \c Modulator_ND is not advised.
     */
     virtual void demodulate_soft_bits(const cvec& rx_symbols,
 				      const cvec& channel, double N0,
@@ -921,7 +933,8 @@ namespace itpp {
 
       \note For soft demodulation it is suggested to use the N-dimensional
       modulator (Modulator_ND) instead, which is based on the QLLR
-      (quantized) arithmetic and therefore is faster.
+      (quantized) arithmetic and therefore is faster. Please note, however, that mixed use of \c
+      Modulator_1D/\c Modulator_2D and \c Modulator_ND is not advised.
     */
     virtual void demodulate_soft_bits(const vec& rx_symbols, double N0,
 				      vec& soft_bits,
@@ -947,7 +960,8 @@ namespace itpp {
 
       \note For soft demodulation it is suggested to use the N-dimensional
       modulator (Modulator_ND) instead, which is based on the QLLR
-      (quantized) arithmetic and therefore is faster.
+      (quantized) arithmetic and therefore is faster. Please note, however, that mixed use of \c
+      Modulator_1D/\c Modulator_2D and \c Modulator_ND is not advised.
     */
     virtual void demodulate_soft_bits(const vec& rx_symbols,
 				      const vec& channel, double N0,
@@ -1032,7 +1046,8 @@ namespace itpp {
 
       \note For soft demodulation it is suggested to use the N-dimensional
       modulator (Modulator_ND) instead, which is based on the QLLR
-      (quantized) arithmetic and therefore is faster.
+      (quantized) arithmetic and therefore is faster. Please note, however, that mixed use of \c
+      Modulator_1D/\c Modulator_2D and \c Modulator_ND is not advised.
     */
     virtual void demodulate_soft_bits(const cvec& rx_symbols, double N0,
 				      vec& soft_bits,
@@ -1077,7 +1092,8 @@ namespace itpp {
 
       \note For soft demodulation it is suggested to use the N-dimensional
       modulator (Modulator_ND) instead, which is based on the QLLR
-      (quantized) arithmetic and therefore is faster.
+      (quantized) arithmetic and therefore is faster. Please note, however, that mixed use of \c
+      Modulator_1D/\c Modulator_2D and \c Modulator_ND is not advised.
     */
     virtual void demodulate_soft_bits(const cvec& rx_symbols,
 				      const cvec& channel, double N0,

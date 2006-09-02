@@ -1,3 +1,9 @@
+2006-09-02  Erik G. Larsson  <erik_g_larsson@users.sourceforget.net>
+
+	* itpp/comm/modulator.h, modulator_nd.h, modulator_nd.cpp:
+	Documentation update and improvement of range checking in
+	interface.
+
 2006-09-01  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* Makefile.am: Added new `snapshot', `snapshot-src' and
