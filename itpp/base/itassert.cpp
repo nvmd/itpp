@@ -38,8 +38,6 @@
 
 #include <itpp/base/itassert.h>
 #include <iostream>
-#include <sstream>
-#include <string>
 #include <stdexcept>
 
 
@@ -87,7 +85,7 @@ namespace itpp {
     error += file;
     error += " on line ";
     error += line_str.str();
-    error += ":";
+    error += ":\n";
     error += msg;
     std::cerr << error << std::endl << std::flush;
     if (it_using_exceptions)

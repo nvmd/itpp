@@ -1,3 +1,12 @@
+2006-10-06  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/itassert.cpp, itpp/base/itassert.h: Implemented 
+	feature request [1569867]. Now, it_assert(), it_warning() and
+	it_error() functions can use stream operators like `<<' or
+	`std::endl' in a concatenation with strings, e.g. 
+	`it_error("Wrong value x = " << oct << x)'. Thanks to George
+	Jongren for submitting a patch.
+
 2006-09-03  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* doc/tutorial/matlab_itpp.doc: Expanded the Matlab/IT++
