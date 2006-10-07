@@ -89,13 +89,13 @@ if(!(t)) { \
   m_sout << s; \
   itpp::it_assert_f(#t,m_sout.str(),__FILE__,__LINE__); \
 } else \
-  void(0)
+  (void)0
 
 #if ASSERT_LEVEL==0 // No tests
-#  define it_assert0(t,s) void(0)
-#  define it_assert1(t,s) void(0)
+#  define it_assert0(t,s) (void)0
+#  define it_assert1(t,s) (void)0
 #elif ASSERT_LEVEL==1 // Only some tests
-#  define it_assert0(t,s) void(0)
+#  define it_assert0(t,s) (void)0
 #  define it_assert1(t,s) it_assert_base(t,s)
 #else // Full tests
   //! Abort if \c t is not true and IT++ is compiled with \c -DASSERT_LEVEL=2
@@ -116,7 +116,7 @@ if((t)) { \
   m_sout << s; \
   itpp::it_error_f(m_sout.str(),__FILE__,__LINE__); \
 } else \
-  void(0)
+  (void)0
 
   //! Abort and output \c s
 #define it_error(s) \
@@ -125,7 +125,7 @@ if (true) { \
   m_sout << s; \
   itpp::it_error_f(m_sout.str(),__FILE__,__LINE__); \
 } else \
-  void(0)
+  (void)0
 
   //! Output the warning \c s
 #define it_warning(s) \
@@ -134,7 +134,7 @@ if (true) { \
   m_sout << s; \
   itpp::it_warning_f(m_sout.str(),__FILE__,__LINE__); \
 } else \
-  void(0)
+  (void)0
 
   //!@}
 
