@@ -1,3 +1,9 @@
+2006-10-08  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/modulator.h: Additional check added to prevent
+	improper initialisation of symbols and bit2symbols in the
+	Modulator class. This fix is related to bug [1572807].
+
 2006-10-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/itassert.cpp, itpp/base/itassert.h: Implemented 
