@@ -294,6 +294,8 @@ namespace itpp {
   {
     it_assert(in_symbols.size() == in_bits2symbols.size(),
 	      "Modulator<T>::set(): Number of symbols and bits2symbols does not match");
+    it_assert(is_even(in_symbols.size()) && (in_symbols.size() > 0), 
+	      "Modulator<T>::set(): Number of symbols needs to be even and non-zero");
     it_assert((max(in_bits2symbols) == in_bits2symbols.size() - 1)
 	      && (min(in_bits2symbols) == 0), "Modulator<T>::set(): Improper bits2symbol vector");
     symbols = in_symbols;
