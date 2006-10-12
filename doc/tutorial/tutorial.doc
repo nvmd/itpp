@@ -24,6 +24,10 @@ Examples of communications related functions:
 <li> \ref spread </li>
 <li> \ref rayleigh </li>
 </ul>
+More specialized examples:
+<ul>
+<li> \ref mimoconv </li>
+</ul>
 <br>
 Other:
 <ul>

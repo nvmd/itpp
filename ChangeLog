@@ -1,3 +1,15 @@
+2006-10-12  Erik G. Larsson  <erik_g_larsson@sourceforge.net>
+
+	* itpp/comm/llr.h, itpp/comm/modulator_nd.*: Changed the
+	definition of LLRs from log(P(b=1)/P(b=0)) to log(P(b=0)/P(b=1))
+	in the LLR and Modulator_ND classes. This was done to conform to
+	the conventions in the scalar modulator class. (Note the interface
+	change.)
+
+	* doc/tutorial/tutorial.doc, doc/tutorial/mimoconv.doc,
+	doc/tutorial/src/mimoconv.cpp: Added first version of new MIMO
+	tutorial.
+
 2006-10-08  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/modulator.h: Additional check added to prevent
