@@ -73,9 +73,7 @@ namespace itpp {
     rely on certain nonlinear operations on LLRs.
 
     An LLR for an information bit b is defined according to \f[ L =
-    \log \frac{P(b=1)}{P(b=0)} \f] and it is in general a real number.
-    <b>Note: </b>the definition of LLR has the opposite sign of that
-    used in the \c Modulator_1d and \c Modulator_2d classes.
+    \log \frac{P(b=0)}{P(b=1)} \f] and it is in general a real number.
     
     LLR values are represented via the special type, "quantized
     LLR" (QLLR).  The relation between the quantized representation

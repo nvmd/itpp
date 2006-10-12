@@ -9,6 +9,7 @@ cpp_tutorial_sources = \
 	$(top_srcdir)/doc/tutorial/src/spread.cpp \
 	$(top_srcdir)/doc/tutorial/src/timer.cpp \
 	$(top_srcdir)/doc/tutorial/src/vector_and_matrix.cpp \
+	$(top_srcdir)/doc/tutorial/src/mimoconv.cpp \
 	$(top_srcdir)/doc/tutorial/src/write_it_file.cpp
 
 ref_tutorial_sources = \

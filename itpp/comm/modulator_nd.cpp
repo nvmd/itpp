@@ -69,13 +69,13 @@ namespace itpp {
     QLLR log_apriori_prob_const_point = 0;
     short b=0;
     for (short i=0; i<k(j); i++) {
-      log_apriori_prob_const_point += ((bitmap(j)(s,i)==1) ? logP_apriori(b)(1) : logP_apriori(b)(0));
+      log_apriori_prob_const_point += ((bitmap(j)(s,i)==0) ? logP_apriori(b)(1) : logP_apriori(b)(0));
       b++;
     }
     
     b=0;
     for (short i=0; i<k(j); i++) {
-      if (bitmap(j)(s,i)==1) {
+      if (bitmap(j)(s,i)==0) {
 	p1(b) =  llrcalc.jaclog(p1(b), scaled_norm + log_apriori_prob_const_point );
       }  else {
 	p0(b) = llrcalc.jaclog(p0(b),  scaled_norm + log_apriori_prob_const_point );
@@ -90,7 +90,7 @@ namespace itpp {
     short b=0;
     for (short j=0; j<nt; j++) {
       for (short i=0; i<k(j); i++) {
-	log_apriori_prob_const_point += ((bitmap(j)(s[j],i)==1) ? logP_apriori(b)(1) : logP_apriori(b)(0));
+	log_apriori_prob_const_point += ((bitmap(j)(s[j],i)==0) ? logP_apriori(b)(1) : logP_apriori(b)(0));
 	b++;
       }
     }
@@ -98,7 +98,7 @@ namespace itpp {
     b=0;
     for (short j=0; j<nt; j++) {
       for (short i=0; i<k(j); i++) {
-	if (bitmap(j)(s[j],i)==1) {
+	if (bitmap(j)(s[j],i)==0) {
 	  p1(b) =  llrcalc.jaclog(p1(b), scaled_norm + log_apriori_prob_const_point );
 	}  else {
 	  p0(b) = llrcalc.jaclog(p0(b),  scaled_norm + log_apriori_prob_const_point );
@@ -573,7 +573,7 @@ namespace itpp {
 	int b=0;
 	for (short j=0; j<nt; j++) {
 	  for (short i=0; i<k(j); i++) {
-	    if (bitmap(j)((M(j)-1-s[j]),i)==1) {
+	    if (bitmap(j)((M(j)-1-s[j]),i)==0) {
 	      detected_bits(b) = 1000;
 	    }  else {
 	      detected_bits(b) = -1000;
