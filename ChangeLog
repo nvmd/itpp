@@ -1,3 +1,8 @@
+2006-10-13  Erik G. Larsson  <erik_g_larsson@sourceforge.net>
+
+	* doc/tutorial/src/mimoconv.doc: Update to reflect the change in
+	LLR convention.
+
 2006-10-12  Erik G. Larsson  <erik_g_larsson@sourceforge.net>
 
 	* itpp/comm/llr.h, itpp/comm/modulator_nd.*: Changed the

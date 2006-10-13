@@ -167,7 +167,7 @@ extern int main(int argc, char **argv)
 	  // QLLR values must be converted to real numbers since decoder wants this
 	  vec llr=chan.get_llrcalc().to_double(LLRin(i).left(Nc));
 	  bercu(i).count(txbits(0,Nc-1),llr(0,Nc-1)>0);
-	  code.decode_tail(-llr,decoded_bits);
+	  code.decode_tail(llr,decoded_bits);
 	  berc(i).count(inputbits(0,Nu-1),decoded_bits(0,Nu-1));
 	  ferc(i).count(inputbits(0,Nu-1),decoded_bits(0,Nu-1));
 	}
