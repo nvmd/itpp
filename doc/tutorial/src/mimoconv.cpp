@@ -6,13 +6,20 @@ using std::endl;
 using namespace itpp;
 using namespace std;
 
-// ---- Zero-forcing detector with soft information --------
+/* Zero-forcing detector with ad hoc soft information. This function
+   applies the ZF (pseudoinverse) linear filter to the received
+   data. This results in effective noise with covariance matrix
+   inv(H'H)*sigma2.  The diagonal elements of this noise covariance
+   matrix are taken as noise variances per component in the processed
+   received data but the noise correlation is ignored.
+
+ */
 
 void ZF_demod(ND_UPAM &channel, ivec &LLR_apr,  ivec &LLR_apost, double sigma2, mat &H, vec &y)
 {
   it_assert(H.rows()>=H.cols(),"ZF_demod() - underdetermined systems not tolerated");
-  vec shat=ls_solve_od(H,y);
-  vec Sigma2=diag(inv(H.transpose()*H))*sigma2;
+  vec shat=ls_solve_od(H,y);                     // the ZF solution
+  vec Sigma2=diag(inv(H.transpose()*H))*sigma2;  // noise covariance of shat
   vec h(length(shat));
   for (int i=0; i<length(shat); i++) {
     shat(i) = shat(i)/sqrt(Sigma2(i));
@@ -24,7 +31,7 @@ void ZF_demod(ND_UPAM &channel, ivec &LLR_apr,  ivec &LLR_apost, double sigma2, 
 
 extern int main(int argc, char **argv)
 { 
-  // -- modulation and channel parameters --
+  // -- modulation and channel parameters (taken from command line input) --
   int nC;                    // type of constellation  (1=QPSK, 2=16-QAM, 3=64-QAM)
   int nRx;                   // number of receive antennas
   int nTx;                   // number of transmit antennas 
@@ -44,20 +51,21 @@ extern int main(int argc, char **argv)
        << (1<<nC) << "-PAM per dimension, coherence time " << Tc << endl;
 
   // -- simulation control parameters --
-  const vec EbN0db = "-5:2:50";
-  const int Nmethods =2;               // number of demodulators to try
-  const long int Nbitsmax=500*1000*1000;     // maximum number of bits to ever simulate per SNR point
+  const vec EbN0db = "-5:0.5:50";          // SNR range
+  const int Nmethods =2;                 // number of demodulators to try
+  const long int Nbitsmax=50*1000*1000;  // maximum number of bits to ever simulate per SNR point
+  const int Nu = 100;                    // length of data packet (before applying channel coding)
 
   int Nbers, Nfers;              // target number of bit/frame errors per SNR point
   double BERmin, FERmin;         // BER/FER at which to terminate simulation
-  if (Tc==1) {           // Fast fading channel, BER is of primary interest here
-    BERmin = 0.001;     // stop simulating a given method if BER<this value
+  if (Tc==1) {           // Fast fading channel, BER is of primary interest 
+    BERmin = 0.001;      // stop simulating a given method if BER<this value
     FERmin = 1.0e-10;    // stop simulating a given method if FER<this value
     Nbers = 1000;        // move to next SNR point after counting 1000 bit errors
-    Nfers = 100000;      // move to next SNR point after counting 100000 frame errors (in practice never)
+    Nfers = -1;          // do not stop on this condition
   } else {               // Slow fading channel, FER is of primary interest here
     BERmin = 1.0e-15;    // stop simulating a given method if BER<this value
-    FERmin = 0.01;      // stop simulating a given method if FER<this value
+    FERmin = 0.01;       // stop simulating a given method if FER<this value
     Nbers = -1;          // do not stop on this condition
     Nfers = 200;         // move to next SNR point after counting 200 frame errors
   }
@@ -65,36 +73,42 @@ extern int main(int argc, char **argv)
   // -- Channel code parameters --
   Convolutional_Code code;
   ivec generator(3);
-  double rate=1.0/3.0;
-  generator(0)=0133;
+  generator(0)=0133;  // use rate 1/3 code
   generator(1)=0165;
   generator(2)=0171;
+  double rate=1.0/3.0;
   code.set_generator_polynomials(generator, 7);
-  const int Nu = 100;  // block length before coding
   bvec dummy;
   code.encode_tail(randb(Nu),dummy);
-  const int Nc = length(dummy);
+  const int Nc = length(dummy);      // find out how long the coded blocks are
 
   // ============= Initialize ====================================
 
   const int Nctx = (int) (2*nC*nTx*ceil(double(Nc)/double(2*nC*nTx)));   // Total number of bits to transmit   
-  const int Nvec = Nctx/(2*nC*nTx);                         // Number of TX vectors
-  const int Nbitspvec = 2*nC*nTx;                            // Number of bits per TX vector
+  const int Nvec = Nctx/(2*nC*nTx);          // Number of channel vectors to transmit
+  const int Nbitspvec = 2*nC*nTx;            // Number of bits per channel vector
 
-  // initialize MIMO channel
+  // initialize MIMO channel with uniform PAM per real dimension and Gray coding
   ND_UPAM chan;
   chan.set_Gray_PAM(2*nTx,1<<nC);  
   cout << chan << endl;
 
+  // initialize interleaver
+  Sequence_Interleaver<bin> sequence_interleaver_b(Nctx);
+  Sequence_Interleaver<int> sequence_interleaver_i(Nctx);
+  sequence_interleaver_b.randomize_interleaver_sequence();
+  sequence_interleaver_i.set_interleaver_sequence(sequence_interleaver_b.get_interleaver_sequence());
+
   //  RNG_randomize();
 
-  Array<vec> Y(Nvec);
-  Array<mat> H(Nvec/Tc+1);
+  Array<vec> Y(Nvec);        // received data
+  Array<mat> H(Nvec/Tc+1);   // channel matrix (new matrix for each coherence interval)
 
-  ivec Contflag = ones_i(Nmethods);
-  if (pow(2.0,nC*2.0*nTx)>256) {   // ML decoder too complex..
+  ivec Contflag = ones_i(Nmethods);   // flag to determine whether to run a given demodulator
+  if (pow(2.0,nC*2.0*nTx)>256) {      // ML decoder too complex..
     Contflag(1)=0;  
   }
+  cout << "Running methods: " << Contflag << endl;
   
   // ================== Run simulation =======================
   for (int nsnr=0; nsnr<length(EbN0db); nsnr++) {
@@ -112,14 +126,21 @@ extern int main(int argc, char **argv)
       nbits += Nu;
 
       // generate and encode random data
-      bvec inputbits = randb(Nu);                
+      bvec inputbits = randb(Nu);
       bvec txbits;
       code.encode_tail(inputbits, txbits);
-      txbits=concat(txbits,zeros_b(Nctx-Nc));
+      txbits=concat(txbits,randb(Nctx-Nc));    // coded block length is not always a multiple of the number of bits per channel vector
+      txbits = sequence_interleaver_b.interleave(txbits);
 
       // -- generate channel and data ----
       for (int k=0; k<Nvec; k++) {
-	if (k%Tc==0) {       // generate a new channel realization
+	if (k%Tc==0) {       // generate a new channel realization every Tc intervals
+	  /* A real channel matrix is used here to illustrate how I/Q
+	     modulation can be simulated by using twice as many real
+	     dimensions.  Note that the channel matrix is
+	     structured. An alternative (with equivalent result) would
+	     be to use a complex valued MIMO channel (ND_UQAM).
+	  */
 	  mat Hr = 1/sqrt(2.0)*randn(nRx,nTx);
 	  mat Hi = 1/sqrt(2.0)*randn(nRx,nTx);
 	  H(k/Tc).set_size(2*nRx,2*nTx);
@@ -132,21 +153,19 @@ extern int main(int argc, char **argv)
 	// modulate and transmit bits
 	bvec bitstmp = txbits(k*2*nTx*nC,(k+1)*2*nTx*nC-1);
 	vec x=chan.modulate_bits(bitstmp);
-	vec e=sqrt(N0/2.0)*randn(2*nRx);
+	vec e=sqrt(N0/2.0)*randn(2*nRx);  // noise with variance N0/2 per dimension
 	Y(k) = H(k/Tc)*x+e;
       }
 
-      // -- run decoder loop ---     
-
+      // -- demodulate --
       Array<QLLRvec> LLRin(Nmethods);     
       for (int i=0; i<Nmethods; i++) {
 	LLRin(i) = zeros_i(Nctx);
       }
 
-      for (int k=0; k<Nvec; k++) {           // RX data vectors
-	QLLRvec llr_apr =zeros_i(nC*2*nTx);
-	QLLRvec llr_apost =zeros_i(nC*2*nTx);
-	     
+      QLLRvec llr_apr =zeros_i(nC*2*nTx);  // no a priori input to demodulator
+      QLLRvec llr_apost=zeros_i(nC*2*nTx);
+      for (int k=0; k<Nvec; k++) {                
 	// zero forcing demodulation
 	if (Contflag(0)) {
 	  ZF_demod(chan,llr_apr,llr_apost,N0/2.0,H(k/Tc),Y(k));
@@ -160,22 +179,23 @@ extern int main(int argc, char **argv)
 	}	  
       }
             
-      // Run decoder and count errors
+      // -- decode and count errors --
       for (int i=0; i<Nmethods; i++) {
 	bvec decoded_bits;
 	if (Contflag(i)) {
-	  // QLLR values must be converted to real numbers since decoder wants this
-	  vec llr=chan.get_llrcalc().to_double(LLRin(i).left(Nc));
-	  bercu(i).count(txbits(0,Nc-1),llr(0,Nc-1)>0);
+	  LLRin(i) = sequence_interleaver_i.deinterleave(LLRin(i),0);
+	  // QLLR values must be converted to real numbers since the convolutional decoder wants this
+	  vec llr=chan.get_llrcalc().to_double(LLRin(i).left(Nc)); 
+	  bercu(i).count(txbits(0,Nc-1),llr(0,Nc-1)>0);  // uncoded BER
 	  code.decode_tail(llr,decoded_bits);
-	  berc(i).count(inputbits(0,Nu-1),decoded_bits(0,Nu-1));
-	  ferc(i).count(inputbits(0,Nu-1),decoded_bits(0,Nu-1));
+	  berc(i).count(inputbits(0,Nu-1),decoded_bits(0,Nu-1));  // coded BER
+	  ferc(i).count(inputbits(0,Nu-1),decoded_bits(0,Nu-1));  // coded FER
 	}
       }	
       
-      // check whether it is time to terminate the simulation
-      // (terminate when all methods still running have counted at
-      // least Nbers or Nfers bit resp. frame errors)
+      /* Check whether it is time to terminate the simulation.
+       Terminate when all demodulators that are still running have
+       counted at least Nbers or Nfers bit/frame errors. */
       int minber=1000000;
       int minfer=1000000;
       for (int i=0; i<Nmethods; i++) {
@@ -186,18 +206,17 @@ extern int main(int argc, char **argv)
       }
       if (Nbers>0 && minber>Nbers) { break;}
       if (Nfers>0 && minfer>Nfers) { break;}
-
     }
     
-    cout << "----------------------" << endl;
+    cout << "-----------------------------------------------------" << endl;
     cout << "Eb/N0: " << EbN0db(nsnr) << " simulated " << nbits << " bits." << endl;
     cout << " Uncoded BER: " << bercu(0).get_errorrate() << " (ZF);     " << bercu(1).get_errorrate() << " (ML)" << endl;
-    cout << " Coded BER: " << berc(0).get_errorrate() << " (ZF);     " << berc(1).get_errorrate() << " (ML)" << endl;
-    cout << " FER: " << ferc(0).get_errorrate() << " (ZF);     " << ferc(1).get_errorrate() << " (ML)" << endl;
+    cout << " Coded BER:   " << berc(0).get_errorrate()  << " (ZF);     " << berc(1).get_errorrate()  << " (ML)" << endl;
+    cout << " Coded FER:   " << ferc(0).get_errorrate()  << " (ZF);     " << ferc(1).get_errorrate()  << " (ML)" << endl;
     cout.flush();
 
-    // check wheter it is time to stop simulating (stop when all
-    // methods have reached the min BER/FER of interest)
+    /* Check wheter it is time to terminate simulation. Stop when all
+    methods have reached the min BER/FER of interest. */
     int contflag=0;
     for (int i=0; i<Nmethods; i++) {
       if (Contflag(i)) {
@@ -206,7 +225,6 @@ extern int main(int argc, char **argv)
       }
     }
     if (contflag) { continue; } else {break; }
-
   }
   
   return 0;
