@@ -407,49 +407,59 @@ be installed externally.
 \section localinst How To Set Up a Local, Dual-config IT++ Installation without Being Root
 
 This section presents a walkthrough of how to easily set up an IT++
-environment in a "dual-config" fashion, so that one can compile programs
-with and without debugging. No need to be "root"; all files are installed
-locally.
+environment without being root (all files are installed locally). The
+installation results in two parallel versions of the IT++ library, one
+version with debugging features enabled (this is slow in general but
+can be valuable during the development phase) and one version which is
+complied with maximum optimization.  When compiling executables, one
+can then easily generate two versions of a program: one for debugging
+and one for maximum runtime efficiency. See the Makefile below for an
+example.
 
-The philosophy is:
-- to locally install all external libraries (lapack, fftw, etc.) from
-  scratch; this is because we have found that not all precompiled libraries
-  which come with some Linux distributions, work properly with IT++ (e.g.
-  lapack-3.0-3 from Fedora Core 3)
+The philosophy behind this installation is:
+- to locally compile and install all external libraries (lapack, fftw, etc.) from
+  source; this is because we have found that not all precompiled
+  libraries which come with some Linux distributions, work properly
+  with IT++ (e.g. lapack-3.0-3 from Fedora Core 3)
 - to install two parallel IT++ libraries: one optimized and one for
   debugging
 - to use static linking only (this gives larger executables but is much
   easier to use in this dual-config setup as one avoids using the \c
-  LD_LIBRARY_PATH variable)
+  LD_LIBRARY_PATH variable when switching between the library compiled
+  with debugging options enabled and that optimized for speed)
+
+The source code will reside in the directories itpp-external-2.3.0 and
+itpp-3.10.5. The libraries will be created in the directories
+it++external-2.3.0 and it++3.10.5.
 
 The installation procedure goes as follows (\c $HOME can be replaced by any
 directory where you have write access):
 <ol>
-<li> Download itpp-external-2.1.1.tar.gz and itpp-3.10.0.tar.gz. Save
+<li> Download itpp-external-2.3.0.tar.gz and itpp-3.10.5.tar.gz. Save
 them in your \c $HOME directory, and unpack them:
 \code
 % cd $HOME
-% tar xzf itpp-external-2.1.1.tar.gz
-% tar xzf itpp-3.10.0.tar.gz
+% tar xzf itpp-external-2.3.0.tar.gz
+% tar xzf itpp-3.10.5.tar.gz
 \endcode
 </li>
 
 <li> Compile and install the external libs
 \code
-% cd $HOME/itpp-external-2.1.1
+% cd $HOME/itpp-external-2.3.0
 % make distclean
-% ./configure --prefix=$HOME/it++external-2.1.1 --disable-shared
+% ./configure --prefix=$HOME/it++external-2.3.0 --disable-shared [--enable-atlas]
 % make && make install
 \endcode
 </li>
 
 <li> Compile and install the optimized IT++ and the debug IT++ library
 \code
-% export LDFLAGS=-L$HOME/it++external-2.1.1/lib
-% export CPPFLAGS=-I$HOME/it++external-2.1.1/include
-% cd $HOME/itpp-3.10.0
+% export LDFLAGS=-L$HOME/it++external-2.3.0/lib
+% export CPPFLAGS=-I$HOME/it++external-2.3.0/include
+% cd $HOME/itpp-3.10.5
 % make distclean
-% ./configure --disable-shared --prefix=$HOME/it++3.10.0 --enable-debug
+% ./configure --disable-shared --prefix=$HOME/it++3.10.5 --enable-debug
 % make && make install
 % make check 
 \endcode
@@ -483,11 +493,11 @@ int main()
 
 Also, in the same directory, create the following \c Makefile:
 \code
-FLAGS_DEBUG = `$(HOME)/it++3.10.0/bin/itpp-config --cflags-debug`
-FLAGS_OPT   = `$(HOME)/it++3.10.0/bin/itpp-config --cflags-opt`
+FLAGS_DEBUG = `$(HOME)/it++3.10.5/bin/itpp-config --cflags-debug`
+FLAGS_OPT   = `$(HOME)/it++3.10.5/bin/itpp-config --cflags-opt`
 
-LIBS_DEBUG  = `$(HOME)/it++3.10.0/bin/itpp-config --libs-debug`
-LIBS_OPT    = `$(HOME)/it++3.10.0/bin/itpp-config --libs-opt`
+LIBS_DEBUG  = `$(HOME)/it++3.10.5/bin/itpp-config --libs-debug`
+LIBS_OPT    = `$(HOME)/it++3.10.5/bin/itpp-config --libs-opt`
 
 example: example.cpp
 	g++ $(FLAGS_DEBUG) example.cpp -o example_debug  $(LIBS_DEBUG)
@@ -505,16 +515,16 @@ exit with an assertion error.) </li>
 
 <li> If you want to conserve disk space, clean up all temporary files:
 \code
-% cd $HOME/itpp-external-2.1.1
+% cd $HOME/itpp-external-2.3.0
 % make distclean
-% cd $HOME/itpp-3.10.0
+% cd $HOME/itpp-3.10.5
 % make distclean
 \endcode
 
 To conserve even more diskspace (remove all sources) then do
 \code
-% rm -rf $HOME/itpp-external-2.1.1
-% rm -rf $HOME/itpp-3.10.0
+% rm -rf $HOME/itpp-external-2.3.0
+% rm -rf $HOME/itpp-3.10.5
 \endcode
 </li>
 </ol>

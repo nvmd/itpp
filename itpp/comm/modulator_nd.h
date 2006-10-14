@@ -260,12 +260,12 @@ namespace itpp {
     \sum_{s: b_k=1}  \exp \left( -\frac{ |y - Hs|^2 }{\sigma^2} \right) P(s)}  \right) 
     \f]
 
-    without approximations. It is assumed that H, y and
-    s are real-valued. Complex-valued channels can be handled via the \c Modulator_NCD class. 
+    without approximations. It is assumed that H, y and s are
+    complex-valued.
 
     \param  H                channel matrix (m*n)
     \param  y                received vector (m*1)
-    \param  sigma2           noise variance, per real dimension
+    \param  sigma2           noise variance, per complex dimension
     \param  LLR_apriori      vector of a priori LLR values per bit
     \param  LLR_aposteriori  vector of a posteriori LLR values
 

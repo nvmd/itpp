@@ -15,12 +15,12 @@ using namespace std;
 
  */
 
-void ZF_demod(ND_UPAM &channel, ivec &LLR_apr,  ivec &LLR_apost, double sigma2, mat &H, vec &y)
+void ZF_demod(ND_UQAM &channel, ivec &LLR_apr,  ivec &LLR_apost, double sigma2, cmat &H, cvec &y)
 {
   it_assert(H.rows()>=H.cols(),"ZF_demod() - underdetermined systems not tolerated");
-  vec shat=ls_solve_od(H,y);                     // the ZF solution
-  vec Sigma2=diag(inv(H.transpose()*H))*sigma2;  // noise covariance of shat
-  vec h(length(shat));
+  cvec shat=ls_solve_od(H,y);                     // the ZF solution
+  vec Sigma2=real(diag(inv(H.hermitian_transpose()*H)))*sigma2;  // noise covariance of shat
+  cvec h(length(shat));
   for (int i=0; i<length(shat); i++) {
     shat(i) = shat(i)/sqrt(Sigma2(i));
     h(i) = 1.0/sqrt(Sigma2(i));
@@ -62,7 +62,7 @@ extern int main(int argc, char **argv)
     BERmin = 0.001;      // stop simulating a given method if BER<this value
     FERmin = 1.0e-10;    // stop simulating a given method if FER<this value
     Nbers = 1000;        // move to next SNR point after counting 1000 bit errors
-    Nfers = -1;          // do not stop on this condition
+    Nfers = 200;         // do not stop on this condition
   } else {               // Slow fading channel, FER is of primary interest here
     BERmin = 1.0e-15;    // stop simulating a given method if BER<this value
     FERmin = 0.01;       // stop simulating a given method if FER<this value
@@ -88,9 +88,9 @@ extern int main(int argc, char **argv)
   const int Nvec = Nctx/(2*nC*nTx);          // Number of channel vectors to transmit
   const int Nbitspvec = 2*nC*nTx;            // Number of bits per channel vector
 
-  // initialize MIMO channel with uniform PAM per real dimension and Gray coding
-  ND_UPAM chan;
-  chan.set_Gray_PAM(2*nTx,1<<nC);  
+  // initialize MIMO channel with uniform QAM per complex dimension and Gray coding
+  ND_UQAM chan;
+  chan.set_Gray_QAM(nTx,2<<nC);  
   cout << chan << endl;
 
   // initialize interleaver
@@ -101,8 +101,8 @@ extern int main(int argc, char **argv)
 
   //  RNG_randomize();
 
-  Array<vec> Y(Nvec);        // received data
-  Array<mat> H(Nvec/Tc+1);   // channel matrix (new matrix for each coherence interval)
+  Array<cvec> Y(Nvec);        // received data
+  Array<cmat> H(Nvec/Tc+1);   // channel matrix (new matrix for each coherence interval)
 
   ivec Contflag = ones_i(Nmethods);   // flag to determine whether to run a given demodulator
   if (pow(2.0,nC*2.0*nTx)>256) {      // ML decoder too complex..
@@ -113,6 +113,7 @@ extern int main(int argc, char **argv)
   // ================== Run simulation =======================
   for (int nsnr=0; nsnr<length(EbN0db); nsnr++) {
     double N0 = pow(10.0,-EbN0db(nsnr)/10.0) / rate;
+    double sigma2=N0/2.0;  // the transmit constellations has unit energy per complex symbol
     Array<BERC> berc(Nmethods);  // counter for coded BER
     Array<BERC> bercu(Nmethods); // counter for uncoded BER
     Array<BLERC> ferc(Nmethods); // counter for coded FER
@@ -134,26 +135,19 @@ extern int main(int argc, char **argv)
 
       // -- generate channel and data ----
       for (int k=0; k<Nvec; k++) {
+	/* A complex valued channel matrix is used here. An
+	   alternative (with equivalent result) would be to use a
+	   real-valued (structured) channel matrix of twice the
+	   dimension.
+	*/
 	if (k%Tc==0) {       // generate a new channel realization every Tc intervals
-	  /* A real channel matrix is used here to illustrate how I/Q
-	     modulation can be simulated by using twice as many real
-	     dimensions.  Note that the channel matrix is
-	     structured. An alternative (with equivalent result) would
-	     be to use a complex valued MIMO channel (ND_UQAM).
-	  */
-	  mat Hr = 1/sqrt(2.0)*randn(nRx,nTx);
-	  mat Hi = 1/sqrt(2.0)*randn(nRx,nTx);
-	  H(k/Tc).set_size(2*nRx,2*nTx);
-	  H(k/Tc).set_submatrix(0,nRx-1,0,nTx-1,Hr);
-	  H(k/Tc).set_submatrix(nRx,2*nRx-1,0,nTx-1,Hi);
-	  H(k/Tc).set_submatrix(0,nRx-1,nTx,2*nTx-1,-Hi);
-	  H(k/Tc).set_submatrix(nRx,2*nRx-1,nTx,2*nTx-1,Hr);
+	  H(k/Tc) = randn_c(nRx,nTx);
 	}
 	
 	// modulate and transmit bits
 	bvec bitstmp = txbits(k*2*nTx*nC,(k+1)*2*nTx*nC-1);
-	vec x=chan.modulate_bits(bitstmp);
-	vec e=sqrt(N0/2.0)*randn(2*nRx);  // noise with variance N0/2 per dimension
+	cvec x=chan.modulate_bits(bitstmp);
+	cvec e=sqrt(sigma2)*randn_c(nRx);  
 	Y(k) = H(k/Tc)*x+e;
       }
 
@@ -168,13 +162,13 @@ extern int main(int argc, char **argv)
       for (int k=0; k<Nvec; k++) {                
 	// zero forcing demodulation
 	if (Contflag(0)) {
-	  ZF_demod(chan,llr_apr,llr_apost,N0/2.0,H(k/Tc),Y(k));
+	  ZF_demod(chan,llr_apr,llr_apost,sigma2,H(k/Tc),Y(k));
 	  LLRin(0).set_subvector(k*Nbitspvec,(k+1)*Nbitspvec-1,llr_apost);
 	}
 	  
 	// ML demodulation
 	if (Contflag(1)) { 
-	  chan.map_demod(llr_apr, llr_apost, N0/2.0, H(k/Tc), Y(k));
+	  chan.map_demod(llr_apr, llr_apost, sigma2, H(k/Tc), Y(k));
 	  LLRin(1).set_subvector(k*Nbitspvec,(k+1)*Nbitspvec-1,llr_apost);
 	}	  
       }
@@ -183,10 +177,11 @@ extern int main(int argc, char **argv)
       for (int i=0; i<Nmethods; i++) {
 	bvec decoded_bits;
 	if (Contflag(i)) {
+	  bercu(i).count(txbits(0,Nc-1),LLRin(i)(0,Nc-1)<0);  // uncoded BER
 	  LLRin(i) = sequence_interleaver_i.deinterleave(LLRin(i),0);
 	  // QLLR values must be converted to real numbers since the convolutional decoder wants this
 	  vec llr=chan.get_llrcalc().to_double(LLRin(i).left(Nc)); 
-	  bercu(i).count(txbits(0,Nc-1),llr(0,Nc-1)>0);  // uncoded BER
+	  //	  llr=-llr; // UNCOMMENT THIS LINE IF COMPILING WITH THE 3.10 BRANCH (BEFORE HARMONIZING LLR CONVENTIONS)
 	  code.decode_tail(llr,decoded_bits);
 	  berc(i).count(inputbits(0,Nu-1),decoded_bits(0,Nu-1));  // coded BER
 	  ferc(i).count(inputbits(0,Nu-1),decoded_bits(0,Nu-1));  // coded FER
@@ -209,7 +204,7 @@ extern int main(int argc, char **argv)
     }
     
     cout << "-----------------------------------------------------" << endl;
-    cout << "Eb/N0: " << EbN0db(nsnr) << " simulated " << nbits << " bits." << endl;
+    cout << "Eb/N0: " << EbN0db(nsnr) << " dB. Simulated " << nbits << " bits." << endl;
     cout << " Uncoded BER: " << bercu(0).get_errorrate() << " (ZF);     " << bercu(1).get_errorrate() << " (ML)" << endl;
     cout << " Coded BER:   " << berc(0).get_errorrate()  << " (ZF);     " << berc(1).get_errorrate()  << " (ML)" << endl;
     cout << " Coded FER:   " << ferc(0).get_errorrate()  << " (ZF);     " << ferc(1).get_errorrate()  << " (ML)" << endl;

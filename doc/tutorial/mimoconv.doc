@@ -8,9 +8,6 @@ with maximum-likelihood, alternatively zero-forcing, demodulation and
 soft Viterbi decoding, but no iteration between the demodulator and
 the decoder. 
 
-
-The program illustrates how one can use the UPAM_ND class to simulate a complex-valued channel.
-
 \include mimoconv.cpp
 
 To run the program,
