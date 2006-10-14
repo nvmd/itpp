@@ -57,6 +57,7 @@ int main()
 	   << endl;
 
       chan.set_Gray_PAM(nt,1<<np);   
+      cout << chan << endl;
       bvec b=randb(nt*np);
       QLLRvec LLR_ap = zeros_i(nt*np);
       //       LLR_ap(3)=chan.get_llrcalc().to_qllr(100);
@@ -105,6 +106,7 @@ int main()
 	   << endl;
 
       chan.set_Gray_QAM(nt,(1<<(2*np)));   
+      cout << chan << endl;
       bvec b=randb(nt*np*2);
       cout << b << endl;
       cvec x=chan.modulate_bits(b);
@@ -132,6 +134,7 @@ int main()
 	   << endl;
 
       chan.set_Gray_PSK(nt,(1<<(2*np)));   
+      cout << chan << endl;
       bvec b=randb(nt*np*2);
       cout << b << endl;
       cvec x=chan.modulate_bits(b);
