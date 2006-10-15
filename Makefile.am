@@ -14,7 +14,7 @@ endif
 
 SUBDIRS = itpp extras win32 $(HTML_DOC_DIR) $(TEST_DIR)
 
-EXTRA_DIST = autogen.sh itpp.spec Makefile.common TODO
+EXTRA_DIST = autogen.sh ChangeLog-2005 itpp.spec Makefile.common NEWS-3.9 TODO
 
 bin_SCRIPTS = @PACKAGE@-config
 
