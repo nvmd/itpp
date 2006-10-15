@@ -1,4 +1,11 @@
+==============================================================================
+
 2006-10-15  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* IT++ 3.10.6 released (SVN tag: release-3-10-6)
+
+	* NEWS: Updated to reflect recent changes (merged rev. 679:681
+	from itpp-3-10 branch).
 
 	* itpp/Makefile.am: Fixed bug [1576333]. The problem with
 	undefined non-weak symbols has been solved according to the

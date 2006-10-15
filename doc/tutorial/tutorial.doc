@@ -13,7 +13,7 @@ Examples of basic functionality:
 <li> \ref itfile </li>
 <li> \ref timer </li>
 </ul>
-<br>
+
 Examples of communications related functions:
 <ul>
 <li> \ref bpsk </li>
@@ -24,15 +24,15 @@ Examples of communications related functions:
 <li> \ref spread </li>
 <li> \ref rayleigh </li>
 </ul>
+
 More specialized examples:
 <ul>
 <li> \ref mimoconv </li>
 </ul>
-<br>
+
 Other:
 <ul>
 <li> \ref matlab_itpp </li>
 </ul>
-
 
 */
