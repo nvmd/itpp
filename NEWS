@@ -1,4 +1,46 @@
 ===============================================================================
+IT++ version 3.10.6                                        Released: 2006-10-15
+-------------------------------------------------------------------------------
+
+This is a bug-fix release. Therefore, no new features have been added since
+release 3.10.5. Only minor modifications and bug-fixes have been done.
+
+Bug-fixes:
+----------
+
+* Fixed bug [1576333]. The problem with undefined non-weak symbols has been
+  solved according to the solution from Section 7.3.5 "Libtool Convenience
+  Libraries" of automake manual. Thanks to Ed Hill for reporting this bug
+  and his work on RPM package for Fedora Core.
+
+* Fixed an error in ND_UQAM class.
+
+* Changed the definition of LLRs from log(P(b=1)/P(b=0)) to
+  log(P(b=0)/P(b=1)) in the LLR and Modulator_ND classes. This was done to
+  conform to the conventions in the scalar modulator class.
+
+* Fixed bug [1572807]. Modulator_2d can not be initialised with non-even
+  number of symbols. Therefore, additional checks have been added to the
+  set() function. Thanks to George Jongren for reporting this bug.
+
+* Added a check for undersampled PDP in Channel_Specification::discretize()
+  function. Non default Doppler spectrum can not be used when sampling
+  frequency is too low.
+
+* Fixed bug [1545798]. Sparse vectors are now correctly compared using `=='
+  operator. Thanks to Timo for reporting this bug.
+
+* Fixed bug [1542064]. The problem was that the index in the
+  tap_doppler_spectrum array in the TDL_Channel::init() function could go
+  out of bounds, if the TDL_Channel class was used with two different channel
+  profile lengths. Thanks to Jordy Potman for reporting this bug and
+  providing a patch with a solution.
+
+* Fixed bug [1542482]. Now binom_i(n, k) works properly and gives the same
+  results as binom(n, k).
+
+
+===============================================================================
 IT++ version 3.10.5                                        Released: 2006-08-15
 -------------------------------------------------------------------------------
 
