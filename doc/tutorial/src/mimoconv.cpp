@@ -90,7 +90,7 @@ extern int main(int argc, char **argv)
 
   // initialize MIMO channel with uniform QAM per complex dimension and Gray coding
   ND_UQAM chan;
-  chan.set_Gray_QAM(nTx,2<<nC);  
+  chan.set_Gray_QAM(nTx,1<<(2*nC));  
   cout << chan << endl;
 
   // initialize interleaver
@@ -181,7 +181,7 @@ extern int main(int argc, char **argv)
 	  LLRin(i) = sequence_interleaver_i.deinterleave(LLRin(i),0);
 	  // QLLR values must be converted to real numbers since the convolutional decoder wants this
 	  vec llr=chan.get_llrcalc().to_double(LLRin(i).left(Nc)); 
-	  //	  llr=-llr; // UNCOMMENT THIS LINE IF COMPILING WITH THE 3.10 BRANCH (BEFORE HARMONIZING LLR CONVENTIONS)
+	  //	  llr=-llr; // UNCOMMENT THIS LINE IF COMPILING WITH 3.10.5 OR EARLIER (BEFORE HARMONIZING LLR CONVENTIONS)
 	  code.decode_tail(llr,decoded_bits);
 	  berc(i).count(inputbits(0,Nu-1),decoded_bits(0,Nu-1));  // coded BER
 	  ferc(i).count(inputbits(0,Nu-1),decoded_bits(0,Nu-1));  // coded FER
