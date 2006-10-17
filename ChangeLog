@@ -1,3 +1,7 @@
+2006-10-17  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* doc/tutorial/src/mimoconv.cpp: Fixed minor bug in tutorial
+
 2006-10-15  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* ChangeLog, ChangeLog-2005, NEWS, NEWS-3.9, Makefile.am:
