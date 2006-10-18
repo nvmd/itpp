@@ -70,13 +70,13 @@ while test $# -gt 0; do
       echo -I${includedir} @CXXFLAGS_DEBUG@
       ;;
     --libs)
-      echo -L${libdir} -l@PACKAGE@ @LIBS@
+      echo -L${libdir} -l@PACKAGE@ @LDFLAGS@ @LIBS@
       ;;
     --libs-opt)
-      echo -L${libdir} -l@PACKAGE@ @LIBS@
+      echo -L${libdir} -l@PACKAGE@ @LDFLAGS@ @LIBS@
       ;;
     --libs-debug)
-      echo -L${libdir} -l@PACKAGE_DEBUG@ @LIBS@
+      echo -L${libdir} -l@PACKAGE_DEBUG@ @LDFLAGS@ @LIBS@
       ;;
     *)
       echo "${usage}" 1>&2
