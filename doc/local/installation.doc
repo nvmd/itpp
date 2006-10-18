@@ -84,24 +84,24 @@ Assuming that you have already downloaded the latest IT++ sources, untar
 and unpack the sources, and enter the unpacked directory. Depending on the
 package type you have downloaded, use the following commands:
 
-\code 
+\verbatim 
 % gzip -cd itpp-<VERSION>.tar.gz | tar xf - 
 % cd itpp-<VERSION> 
-\endcode
+\endverbatim
 
-\code 
+\verbatim 
 % bzip2 -cd itpp-<VERSION>.tar.bz2 | tar xf - 
 % cd itpp-<VERSION> 
-\endcode
+\endverbatim
 
 Since version 3.9.0, the IT++ library uses autoconf, automake and libtool
 for preparing Makefiles and configuration script, so the compilation
 procedure resembles a standard, well-known GNU method, i.e. 
 
-\code 
+\verbatim 
 % ./configure
 % make
-\endcode
+\endverbatim
 
 The \c `configure' command can be invoked with additional switches and
 options (run <tt>`./configure --help'</tt> to get a list of them). The
@@ -119,12 +119,12 @@ most important are:
 - \c `--disable-shared' - do not build the shared version of the library
   (enabled by  default for non Windows based platforms)
 - \c `--disable-static' - do not build the static version of the library
-  (enabled by default)
+  (enabled by default for Windows based platforms)
 .
 Plese note that each \c `--enable-\<OPTION\>' switch can be replaced
 with its opposite switch \c `--disable-\<OPTION\>'.
 
-Since version 4.0.0, a modularization of the library has been introduced.
+Since version 3.99.0, a modularization of the library has been introduced.
 Therefore, several additional switches have been added to the configure
 script, which can be used to disable building some of the library
 components. Here is a list of them:
@@ -160,7 +160,7 @@ Otherwise, the detection procedure is as follows:
    HAVE_FFT_ACML or \c HAVE_FFTW3 is defined. 
 
 If some external libraries are installed in a non-standard location in your
-system, e.g. MKL in \c `/opt/intel/mkl/8.0.1', the \c `configure' script 
+system, e.g. MKL in <tt>`/opt/intel/mkl/8.0.1'</tt>, the \c `configure' script 
 will not detect them automatically. In such a case, you should use LDFLAGS
 and CPPFLAGS environment variables to define additional directories to be
 searched for libraries (LDFLAGS) and include files (CPPFLAGS). For instance,
@@ -168,11 +168,11 @@ to configure IT++ to link to the MKL 8.0.1 external library, which is
 installed in <tt>`/opt/intel/mkl/8.0.1'</tt> directory, you should use the
 following commands:
 
-\code
+\verbatim
 % export LDFLAGS="-L/opt/intel/mkl/8.0.1/lib/32"
 % export CPPFLAGS="-I/opt/intel/mkl/8.0.1/include"
 % ./configure
-\endcode
+\endverbatim
 
 In the case that external libraries have non-standard names, e.g.
 <tt>`libcblas-3.a'</tt> for CBLAS, you might specify them to the configure
@@ -180,9 +180,9 @@ using \c `--with-\<LIBNAME\>' switches, where \c \<LIBNAME\> is one of the
 following: \c `blas', \c `cblas', \c `lapack' or \c `fft'. You might use
 more then one library names by quoting them with doublequotes, e.g.
 
-\code
+\verbatim
 % ./configure --with-blas="-latlas -lblas"
-\endcode
+\endverbatim
 
 If there is only one library specified, you can use a simplified notation
 without the preceding `-l', e.g. \c `--with-fft=fftw3' instead of \c 
@@ -192,43 +192,43 @@ Although it is not recommended, you can intentionally prevent detection of
 some external libraries. To do this you should use \c
 `--without-\<LIBNAME\>' or \c `--with-\<LIBNAME\>=no', e.g.:
 
-\code
+\verbatim
 % ./configure --without-cblas --without-lapack
-\endcode
+\endverbatim
 
 It is recommended to set CXXFLAGS environment variable with some
 compiler- and platform-specific optimisation flags before invoking the 
 \c `configure' command. For example, in the case of using the Intel Pentium
 4 processor one might employ the following flags:
 
-\code
+\verbatim
 % CXXFLAGS="-O3 -pipe -march=pentium4" ./configure
-\endcode
+\endverbatim
 
 In the case of Sun's UltraSPARC 64-bit platform and GCC compiler, the flags
 might be set as follows:
 
-\code
+\verbatim
 % export CXXFLAGS="-O3 -pipe -mcpu=v9 -m64"
 % ./confiugre
-\endcode
+\endverbatim
 
 If CXXFLAGS is not set in the environment, it will be initialised with
 the default flags, i.e. <tt>"-DASSERT_LEVEL=1 -O3 -pipe"</tt>.
 
 When the configuration process is finished, a status message is displayed. 
 For instance, after having invoked the following configuration
-command:
+command on a recent Gentoo Linux system:
 
-\code
+\verbatim
 % ./configure --with-blas="-lblas"
-\endcode
+\endverbatim
 
 one can observe something like this:
 
 \verbatim
 ------------------------------------------------------------------------------
-itpp-4.0.0 library configuration:
+itpp-3.99.0 library configuration:
 ------------------------------------------------------------------------------
 
 Directories:
@@ -236,14 +236,14 @@ Directories:
   - exec_prefix .... : ${prefix}
   - includedir ..... : ${prefix}/include
   - libdir ......... : ${exec_prefix}/lib
-  - docdir ......... : ${prefix}/share/doc/itpp-4.0.0
+  - docdir ......... : ${prefix}/share/doc/itpp-3.99.0
 
 Switches:
   - debug .......... : no
   - exceptions ..... : no
   - html-doc ....... : yes
   - shared ......... : yes
-  - static ......... : yes
+  - static ......... : no
 
 Documentation tools:
   - doxygen ........ : yes
@@ -276,18 +276,15 @@ External libs:
 
 Compiler/linker flags/libs/defs:
   - CXX ............ : g++
-  - F77 ............ : g77
-  - CXXFLAGS ....... : -O3 -Wall -pipe
+  - F77 ............ : gfortran
+  - CXXFLAGS ....... : -DASSERT_LEVEL=1 -O3 -pipe
   - CXXFLAGS_DEBUG . : 
   - CPPFLAGS ....... : 
   - LDFLAGS ........ : 
-  - LIBS ........... : -lfftw3 -llapack -lcblas -lblas   -L/usr/lib/gcc/i686-pc-
-linux-gnu/3.4.6 -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.6/../../../../i686-pc-linux
--gnu/lib -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.6/../../.. -lfrtbegin -lg2c -lm -l
-gcc_s
+  - LIBS ........... : -lfftw3 -llapack -lcblas -lblas -lgfortran
 
 ------------------------------------------------------------------------------
-Now type 'make && make install' to build and install itpp-4.0.0 library
+Now type 'make && make install' to build and install itpp-3.99.0 library
 ------------------------------------------------------------------------------
 
 \endverbatim
@@ -295,9 +292,9 @@ Now type 'make && make install' to build and install itpp-4.0.0 library
 Now, it is time for compiling and linking the IT++ library. To do so,
 please simply run the following command:
 
-\code
+\verbatim
 % make
-\endcode
+\endverbatim
 
 IT++ should compile without any errors or warnings. If this is not the
 case, please submit a bug-report on the IT++ project page at SourceForge.
@@ -308,9 +305,9 @@ It is recommended that you check if your library has been compiled and
 linked properly and works as expected. To do so, you should execute the
 testing process:
 
-\code
+\verbatim
 % make check
-\endcode
+\endverbatim
 
 As a result, you should obtain a similar report:
 
@@ -338,24 +335,24 @@ a bug-report.
 Finally, you should install the compiled and linked library, include files
 and (optionally) HTML documentation by typing:
 
-\code
+\verbatim
 % make install
-\endcode
+\endverbatim
 
 Depending on the \c PREFIX settings during configuration, you might need
 the root (administrator) access to perform this step.
 
 Eventually, you might invoke the following command
 
-\code
+\verbatim
 % make clean
-\endcode
+\endverbatim
 
 to remove all files created during compilation process, or even
 
-\code
+\verbatim
 % make distclean
-\endcode
+\endverbatim
 
 to remove all files generated by the \c `configure' script.
 
@@ -370,7 +367,7 @@ the one described above.
 There is one known problem with configuration on MacOS X. Here is the error
 message that might occur:
 
-\code
+\verbatim
 checking for Fortran libraries of g77... -lcrt2.o -L/sw/lib/gcc/powerpc-apple-da
 rwin8.4.0/3.4.3 -L/sw/lib/gcc/powerpc-apple-darwin8.4.0/3.4.3/../../.. -lm -lfrt
 begin -lg2c -lSystemStubs -lSystem -lmx /usr/lib/gcc/powerpc-apple-darwin8/4.0.1
@@ -378,26 +375,26 @@ begin -lg2c -lSystemStubs -lSystem -lmx /usr/lib/gcc/powerpc-apple-darwin8/4.0.1
 checking for dummy main to link with Fortran libraries... unknown 
 configure: error: linking to Fortran libraries from C fails 
 See `config.log' for more details. 
-\endcode
+\endverbatim
 
 We have found out that this error is caused by a possible bug in an autoconf
 macro, which is responsible for setting FLIBS used for linking with fortran
 libraries. The problem is with "-lcrt2.o", which shouldn't be there.
- 
-The know solution is to set FLIBS by hand, e.g.:
 
-\code
+The known solution is to set FLIBS by hand, e.g.:
+
+\verbatim
 % FLIBS="-L/sw/lib -lg2c" ./configure 
-\endcode
+\endverbatim
 
-or if it does not work, the one detected by autoconf omitting "-lcrt2.o": 
+or if it does not work, use the FLIBS detected by the autoconf omitting "-lcrt2.o":
 
-\code
+\verbatim
 % FLIBS="-L/sw/lib/gcc/powerpc-apple-darwin8.4.0/3.4.3 -L/sw/lib -lm -lfrtbegin 
 -lg2c -lSystemStubs -lSystem -lmx /usr/lib/gcc/powerpc-apple-darwin8/4.0.1/libg
-cc.a" 
+cc.a"
 % ./configure 
-\endcode
+\endverbatim
 
 BLAS and LAPACK support can be obtained with the \c vecLib framework, but
 you must then use Apple's GCC compiler. Hence, only FFTW is then needed to
@@ -411,22 +408,19 @@ environment without being root (all files are installed locally). The
 installation results in two parallel versions of the IT++ library, one
 version with debugging features enabled (this is slow in general but
 can be valuable during the development phase) and one version which is
-complied with maximum optimization.  When compiling executables, one
+complied with maximum optimization. When compiling executables, one
 can then easily generate two versions of a program: one for debugging
 and one for maximum runtime efficiency. See the Makefile below for an
 example.
 
 The philosophy behind this installation is:
-- to locally compile and install all external libraries (lapack, fftw, etc.) from
-  source; this is because we have found that not all precompiled
-  libraries which come with some Linux distributions, work properly
-  with IT++ (e.g. lapack-3.0-3 from Fedora Core 3)
+- to locally compile and install all required external libraries (lapack,
+  cblas, blas and fftw) from sources; this is because not all systems
+  provide these libraries as ready to use binaries
 - to install two parallel IT++ libraries: one optimized and one for
   debugging
-- to use static linking only (this gives larger executables but is much
-  easier to use in this dual-config setup as one avoids using the \c
-  LD_LIBRARY_PATH variable when switching between the library compiled
-  with debugging options enabled and that optimized for speed)
+- to use static linking only (this gives larger executables but is sometimes
+  useful for debugging purposes)
 
 The source code will reside in the directories itpp-external-2.3.0 and
 itpp-3.10.5. The libraries will be created in the directories
@@ -437,32 +431,32 @@ directory where you have write access):
 <ol>
 <li> Download itpp-external-2.3.0.tar.gz and itpp-3.10.5.tar.gz. Save
 them in your \c $HOME directory, and unpack them:
-\code
+\verbatim
 % cd $HOME
 % tar xzf itpp-external-2.3.0.tar.gz
 % tar xzf itpp-3.10.5.tar.gz
-\endcode
+\endverbatim
 </li>
 
 <li> Compile and install the external libs
-\code
+\verbatim
 % cd $HOME/itpp-external-2.3.0
 % make distclean
 % ./configure --prefix=$HOME/it++external-2.3.0 --disable-shared [--enable-atlas]
 % make && make install
-\endcode
+\endverbatim
 </li>
 
-<li> Compile and install the optimized IT++ and the debug IT++ library
-\code
+<li> Compile and install the optimized and debugging IT++ libraries:
+\verbatim
 % export LDFLAGS=-L$HOME/it++external-2.3.0/lib
 % export CPPFLAGS=-I$HOME/it++external-2.3.0/include
 % cd $HOME/itpp-3.10.5
 % make distclean
-% ./configure --disable-shared --prefix=$HOME/it++3.10.5 --enable-debug
+% ./configure --disable-shared --enable-static --enable-debug --prefix=$HOME/it++3.10.5
 % make && make install
-% make check 
-\endcode
+% make check
+\endverbatim
 </li>
 
 <li> Check that all tests resulted in "PASSED" </li>
@@ -492,7 +486,7 @@ int main()
 \endcode
 
 Also, in the same directory, create the following \c Makefile:
-\code
+\verbatim
 FLAGS_DEBUG = `$(HOME)/it++3.10.5/bin/itpp-config --cflags-debug`
 FLAGS_OPT   = `$(HOME)/it++3.10.5/bin/itpp-config --cflags-opt`
 
@@ -502,7 +496,7 @@ LIBS_OPT    = `$(HOME)/it++3.10.5/bin/itpp-config --libs-opt`
 example: example.cpp
 	g++ $(FLAGS_DEBUG) example.cpp -o example_debug  $(LIBS_DEBUG)
 	g++ $(FLAGS_OPT) example.cpp -o example_opt  $(LIBS_OPT)
-\endcode
+\endverbatim
 
 This \c Makefile produces two programs: \c example_opt and \c example_debug.
 The former is optimized for performance but offers no debugging or
@@ -514,18 +508,18 @@ this works the library is ready to use. (The program \c example_debug should
 exit with an assertion error.) </li>
 
 <li> If you want to conserve disk space, clean up all temporary files:
-\code
+\verbatim
 % cd $HOME/itpp-external-2.3.0
 % make distclean
 % cd $HOME/itpp-3.10.5
 % make distclean
-\endcode
+\endverbatim
 
 To conserve even more diskspace (remove all sources) then do
-\code
+\verbatim
 % rm -rf $HOME/itpp-external-2.3.0
 % rm -rf $HOME/itpp-3.10.5
-\endcode
+\endverbatim
 </li>
 </ol>
 

@@ -1,15 +1,13 @@
-The IT++ Development Team
-=========================
+IT++ People
+===========
 
 Project Admins
 --------------
-
-  o Tony Ottosson <tonyottosson@users.sourceforge.net>
-  o Adam Piatyszek <ediap@users.sourceforge.net>
+  o Tony Ottosson <tonyottosson@users.sourceforge.net> (N)
+  o Adam Piatyszek <ediap@users.sourceforge.net> (N)
 
 Developers
 ----------
-
   o Johan Bergman <emwjohb@users.sourceforge.net>
   o Hakan Eriksson <hakanbe@users.sourceforge.net>
   o Thomas Eriksson <thomases2@users.sourceforge.net>
@@ -22,15 +20,13 @@ Developers
 
 Retired Developers
 ------------------
-
   o Tobias Ringstrom
   o Jonas Samuelsson
 
 Contributors
 ------------
-
   o Francois Cayre
-  o Zbigniew Dlugaszewski - (Newcom contributor)
+  o Zbigniew Dlugaszewski (N)
   o Teddy Furon
   o Bjorn Furugard
   o Kenneth Hilmersson
@@ -41,3 +37,12 @@ Contributors
   o Svante Signell
   o Erik Stoy
   o Tobias Tynderfeldt
+
+Distribution Maintainers
+------------------------
+  o Markus Dittrich <markusle@gentoo.org> (Gentoo Linux)
+  o Ed Hill <edhill@users.sourceforge.net> (Fedora Extras)
+
+
+-------------------
+(N) - Newcom member 
