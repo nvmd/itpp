@@ -40,9 +40,13 @@ AC_SUBST(UPLOAD_COMMAND)
 AC_CANONICAL_HOST
 case $host in
   *-*-msdos* | *-*-go32* | *-*-mingw32* | *-*-cygwin* | *-*-windows*) 
-    AC_DISABLE_SHARED ;;
+    AC_DISABLE_SHARED
+    AC_ENABLE_STATIC
+    ;;
   *)  
-    AC_ENABLE_SHARED ;;
+    AC_ENABLE_SHARED
+    AC_DISABLE_STATIC
+    ;;
 esac
 
 # Checks for programs
