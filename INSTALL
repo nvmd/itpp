@@ -97,12 +97,12 @@ The `configure' command can be invoked with additional switches and options
   o `--disable-shared' - do not build the shared version of the library
     (enabled by default for non Windows based platforms)
   o `--disable-static' - do not build the static version of the library
-    (enabled by default)
+    (enabled by default for Windows based platforms)
 
 Plese note that each `--enable-<OPTION>' switch can be replaced with its
 opposite switch `--disable-<OPTION>'.
 
-Since version 4.0.0, a modularization of the library has been introduced.
+Since version 3.99.0, a modularization of the library has been introduced.
 Therefore, several additional switches have been added to the configure
 script, which can be used to disable building some of the library components.
 Here is a list of them:
@@ -187,14 +187,15 @@ If CXXFLAGS is not set in the environment, it will be initialised with the
 default flags, i.e. "-DASSERT_LEVEL=1 -O3 -pipe".
 
 When the configuration process is finished, a status message is displayed.
-For instance, after having invoked the following configuration command:
+For instance, after having invoked the following configuration command on a
+recent Gentoo Linux system:
 
   % ./configure --with-blas="-lblas"
 
 one can observe something like this:
 
 ------------------------------------------------------------------------------
-itpp-4.0.0 library configuration:
+itpp-3.99.0 library configuration:
 ------------------------------------------------------------------------------
 
 Directories:
@@ -202,14 +203,14 @@ Directories:
   - exec_prefix .... : ${prefix}
   - includedir ..... : ${prefix}/include
   - libdir ......... : ${exec_prefix}/lib
-  - docdir ......... : ${prefix}/share/doc/itpp-4.0.0
+  - docdir ......... : ${prefix}/share/doc/itpp-3.99.0
 
 Switches:
   - debug .......... : no
   - exceptions ..... : no
   - html-doc ....... : yes
   - shared ......... : yes
-  - static ......... : yes
+  - static ......... : no
 
 Documentation tools:
   - doxygen ........ : yes
@@ -242,18 +243,15 @@ External libs:
 
 Compiler/linker flags/libs/defs:
   - CXX ............ : g++
-  - F77 ............ : g77
-  - CXXFLAGS ....... : -O3 -Wall -pipe
+  - F77 ............ : gfortran
+  - CXXFLAGS ....... : -DASSERT_LEVEL=1 -O3 -pipe
   - CXXFLAGS_DEBUG . :
   - CPPFLAGS ....... :
   - LDFLAGS ........ :
-  - LIBS ........... : -lfftw3 -llapack -lcblas -lblas   -L/usr/lib/gcc/i686-pc-
-linux-gnu/3.4.6 -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.6/../../../../i686-pc-linux
--gnu/lib -L/usr/lib/gcc/i686-pc-linux-gnu/3.4.6/../../.. -lfrtbegin -lg2c -lm -l
-gcc_s
+  - LIBS ........... : -lfftw3 -llapack -lcblas -lblas -lgfortran
 
 ------------------------------------------------------------------------------
-Now type 'make && make install' to build and install itpp-4.0.0 library
+Now type 'make && make install' to build and install itpp-3.99.0 library
 ------------------------------------------------------------------------------
 
 

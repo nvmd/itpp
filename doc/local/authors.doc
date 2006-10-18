@@ -1,18 +1,11 @@
 /*!
-\page authors The IT++ Development Team         
+\page authors IT++ People
 
 
 \section admins Project Admins
 
-- Tony Ottosson <tonyottosson@users.sourceforge.net>
-- <a href="http://ediap.prv.pl/">Adam Piątyszek</a>
-  <ediap@users.sourceforge.net> 
-  - author and maintainer of the configuration and installation scripts
-    based on GNU autoconf, automake and libtool packages
-  - release manager, forums and news admin, and HTML pages maintainer at
-    SourceForge site
-  - all contributions since July 2004 done within the 
-    <a href="http://newcom.ismb.it/">Newcom</a> project
+- Tony Ottosson <tonyottosson@users.sourceforge.net> (\ref N)
+- Adam Piątyszek <ediap@users.sourceforge.net> (\ref N)
 
 
 \section developers Developers
@@ -37,8 +30,7 @@
 \section contributors Contributors
 
 - Francois Cayre
-- Zbigniew Długaszewski - (<a href="http://newcom.ismb.it/">Newcom</a> 
-  contributor)
+- Zbigniew Długaszewski (\ref N)
 - Teddy Furon
 - Bjorn Furugard
 - Kenneth Hilmersson
@@ -49,5 +41,17 @@
 - Svante Signell
 - Erik Stoy
 - Tobias Tynderfeldt
+
+
+\section distributors Distribution Maintainers
+
+- Markus Dittrich <markusle@gentoo.org> 
+  (<a href="http://www.gentoo.org/">Gentoo Linux</a>)
+- Ed Hill <edhill@users.sourceforge.net> 
+  (<a href="http://fedoraproject.org/wiki/Extras/">Fedora Extras</a>)
+
+\note
+\anchor N
+(N) - <a href="http://newcom.ismb.it/">Newcom</a> member
  
 */
