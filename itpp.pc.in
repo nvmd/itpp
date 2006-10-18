@@ -7,5 +7,5 @@ Name: @PACKAGE_NAME@
 Description: @PACKAGE_NAME@ is a C++ library of mathematical, signal processing, speech processing, and communications classes and functions
 Version: @PACKAGE_VERSION@
 URL: http://itpp.sourceforge.net/
-Libs: -L${libdir} -l@PACKAGE@ @LIBS@
+Libs: -L${libdir} -l@PACKAGE@ @LDFLAGS@ @LIBS@
 Cflags: -I${includedir}

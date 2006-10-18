@@ -193,7 +193,14 @@ if test "x$F77" != x; then
 
   # Set LIBS
   if test x"$acx_blas_ok" = xyes; then
-    LIBS="$BLAS_LIBS $LIBS $FLIBS"
+    if test x"$F77" = xgfortran; then
+      MY_FLIBS="-lgfortran"
+    else 
+      if test x"$F77" = xg77; then
+        MY_FLIBS="-lg2c"
+      fi 
+    fi 
+    LIBS="$BLAS_LIBS $LIBS$MY_FLIBS"
     if test "x$CBLAS_LIBS" != x; then
       LIBS="$CBLAS_LIBS $LIBS"
     fi
