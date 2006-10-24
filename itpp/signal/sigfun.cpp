@@ -272,7 +272,7 @@ namespace itpp {
 
   vec spectrum(const vec &v, int nfft, int noverlap)
   {
-    it_assert1(pow2i(needed_bits(nfft - 1)) == nfft,
+    it_assert1(pow2i(levels2bits(nfft)) == nfft,
 	       "nfft must be a power of two in spectrum()!");
     
     vec P(nfft/2+1), w(nfft), wd(nfft);
@@ -302,7 +302,7 @@ namespace itpp {
   vec spectrum(const vec &v, const vec &w, int noverlap)
   {
     int nfft = w.size();
-    it_assert1(pow2i(needed_bits(nfft - 1)) == nfft,
+    it_assert1(pow2i(levels2bits(nfft)) == nfft,
 	       "The window size must be a power of two in spectrum()!");
     
     vec P(nfft/2+1), wd(nfft);

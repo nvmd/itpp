@@ -45,7 +45,7 @@ namespace itpp {
 
   void QAM::set_M(int Mary)
   {
-    k = needed_bits(Mary - 1);
+    k = levels2bits(Mary);
     M = Mary;
     it_assert(pow2i(k) == M, "QAM::set_M(): M is not a power of 2");
     L = round_i(std::sqrt(static_cast<double>(M)));
@@ -57,7 +57,7 @@ namespace itpp {
     bitmap.set_size(M, k);
     bits2symbols.set_size(M);
 
-    bmat gray_code = graycode(needed_bits(L - 1));
+    bmat gray_code = graycode(levels2bits(L));
 
     for (int i = 0; i < L; i++) {
       for (int j = 0; j < L; j++) {
@@ -113,7 +113,7 @@ namespace itpp {
 
   void PSK::set_M(int Mary)
   {
-    k = needed_bits(Mary - 1);
+    k = levels2bits(Mary);
     M = Mary;
     it_assert(pow2i(k) == M, "PSK::set_M(): M is not a power of 2");
 
@@ -384,7 +384,7 @@ namespace itpp {
   void PAM_c::set_M(int Mary)
   {
     M = Mary;
-    k = needed_bits(M - 1);
+    k = levels2bits(M);
     it_assert(pow2i(k) == M, "PAM_c::set_M(): M is not a power of 2");
 
     symbols.set_size(M, false);
@@ -544,7 +544,7 @@ namespace itpp {
   void PAM::set_M(int Mary)
   {
     M = Mary;
-    k = needed_bits(M - 1);
+    k = levels2bits(M);
     it_assert(pow2i(k) == M, "PAM::set_M(): M is not a power of 2");
 
     symbols.set_size(M, false);

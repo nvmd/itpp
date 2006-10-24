@@ -635,7 +635,7 @@ namespace itpp {
       bits2symbols(i).set_size(M(i));
       double average_energy = double(M(i)-1)*2.0/3.0;
       double scaling_factor = std::sqrt(average_energy);
-      bmat gray_code = graycode(needed_bits(L(i) - 1));
+      bmat gray_code = graycode(levels2bits(L(i)));
       
       for (int j1=0; j1<L(i); j1++) {
 	for (int j2=0; j2<L(i); j2++) {
