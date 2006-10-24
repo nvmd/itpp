@@ -65,7 +65,7 @@ int main()
   ivec G(2); 
   G(0) = 0133; 
   G(1) = 0171;
-  int L = max(needed_bits(G(0)), needed_bits(G(1))); // L = 7
+  int L = max(int2bits(G(0)), int2bits(G(1))); // L = 7
   
   code.set_generator_polynomials(G, L);
   code_punct.set_generator_polynomials(G, L);

@@ -124,7 +124,7 @@ protected:
 // INLINE FUNCTIONS
 
 inline int Vector_Quantizer::size() const { return Size; }
-inline int Vector_Quantizer::nobits() const { return needed_bits(Size - 1); }
+inline int Vector_Quantizer::nobits() const { return levels2bits(Size); }
 inline int Vector_Quantizer::dim() const { return Dim; }
 inline double Vector_Quantizer::latest_distortion()	{ return LatestDist; }
 inline vec Vector_Quantizer::decode(int Index) const { return get_codevector(Index); }

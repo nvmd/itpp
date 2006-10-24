@@ -134,7 +134,7 @@ namespace itpp {
   imat hadamard(int size) {	
     int i,k,l,pow2,logsize;
     imat H(size,size);
-    logsize = needed_bits(size - 1);
+    logsize = levels2bits(size);
 
     it_assert1(pow2i(logsize)==size,"hadamard size not a power of 2");
     H(0,0)=1;H(0,1)=1;H(1,0)=1;H(1,1)=-1;

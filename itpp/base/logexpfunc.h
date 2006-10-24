@@ -76,10 +76,10 @@ namespace itpp {
   //! Inverse of decibel of x
   inline double inv_dB(double x) { return pow(10.0, 0.1 * x); }
 
-  //! Calculate how many bits are needed to represent the integer n
-  inline int needed_bits(int n)
+  //! Calculate the number of bits needed to represent an inteager \c n
+  inline int int2bits(int n)
   {
-    it_assert(n >= 0, "needed_bits(): Improper argument value");
+    it_assert(n >= 0, "int2bits(): Improper argument value");
 
     if (n == 0)
       return 1;
@@ -87,9 +87,23 @@ namespace itpp {
     int b = 0;
     while (n) { 
       n >>= 1; 
-      b++; 
+      ++b; 
     }
     return b;
+  }
+  
+  //! Calculate the number of bits needed to represent \c n different values (levels).
+  inline int levels2bits(int n)
+  {
+    it_assert(n > 0,"levels2bits(): Improper argument value");
+    return int2bits(--n);
+  }
+
+  //! Deprecated function. Please use int2bits() or levels2bits() instead.
+  inline int needed_bits(int n)
+  {
+    it_warning("needed_bits(): This function is depreceted. Depending on your needs, please use int2bits() or levels2bits() instead.");
+    return int2bits(n);
   }
 
   //! Constant definition to speed up trunc_log and trunc_exp functions
@@ -283,10 +297,23 @@ namespace itpp {
     return apply_function<double>(inv_dB, x);
   }
 
-  //! Calculate the numbers of bits needed for each symbol in a vector
+  //! Deprecated function. Please use int2bits() or levels2bits() instead.
   inline ivec needed_bits(const ivec& v) 
   {
-    return apply_function<int>(needed_bits, v);
+    it_warning("needed_bits(): This function is depreceted. Depending on your needs, please use int2bits() or levels2bits() instead.");
+    return apply_function<int>(int2bits, v);
+  }
+
+  //! Calculate the number of bits needed to represent each inteager in a vector
+  inline ivec int2bits(const ivec& v) 
+  {
+    return apply_function<int>(int2bits, v);
+  }
+
+  //! Calculate the number of bits needed to represent a numer of levels saved in a vector
+  inline ivec levels2bits(const ivec& v) 
+  {
+    return apply_function<int>(levels2bits, v);
   }
 
   //!@}

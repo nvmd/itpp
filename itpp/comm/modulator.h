@@ -301,7 +301,7 @@ namespace itpp {
     symbols = in_symbols;
     bits2symbols = in_bits2symbols;
     M = bits2symbols.size();
-    k = needed_bits(M - 1);
+    k = levels2bits(M);
     bitmap.set_size(M, k);
     for (int m = 0; m < M; m++) {
       bitmap.set_row(m, dec2bin(k, bits2symbols(m)));
