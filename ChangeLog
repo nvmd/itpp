@@ -1,3 +1,7 @@
+2006-10-31  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* AUTHORS, doc/local/authors.doc: Developer Thomas Lemaire retired.
+
 2006-10-24  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/converters.cpp, itpp/base/logexpfunc.h,
