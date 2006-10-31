@@ -2,11 +2,56 @@
 \mainpage IT++ Documentation
 
 \htmlonly
-<!-- start of center block -->
-<div style="position:relative; margin:0 280px 0 225px; text-align:justify;">
+<!-- start of main block -->
+<div style="width: 100%;">
+<!-- start of left margin -->
+<div style="float:right; width:200px; background-color: #eeeeff; border: 1px solid #b0b0b0; margin: 0 0 10px 20px; padding: 10px; font-size: 90%;">
+
+<b>Getting Started:</b>
+<ul>
+<li><a href="features.html">Features</a></li>
+<li><a href="installation.html">Installation</a></li>
+<li><a href="linking.html">Linking with IT++</a></li>
+<li><a href="users_guide.html">Short Introduction to IT++</a></li>
+<li><a href="tutorial.html">Some Tutorial Examples</a></li>
+<li><a href="verification.html">IT++ Verification</a></li>
+<li><a href="copyright.html">Copyright and License</a></li>
+<li><a href="help_wanted.html">Make a Difference</a></li>
+<li><a href="authors.html">Authors</a></li>
+</ul>
+
+<a href="http://sourceforge.net/projects/itpp/"><b>IT++ at SourceForge:</b></a>
+<ul>
+<li><a href="http://sourceforge.net/project/showfiles.php?group_id=37044">Download IT++</a></li>
+<li><a href="http://sourceforge.net/tracker/?atid=418758&amp;group_id=37044&amp;func=browse">Bug Reports</a></li>
+<li><a href="http://sourceforge.net/tracker/?group_id=37044&atid=418761">Feature Requests</a></li>
+<li><a href="http://sourceforge.net/forum/forum.php?forum_id=115656">Ask for Help</a></li>
+<li><a href="http://sourceforge.net/forum/forum.php?forum_id=115655">Discuss IT++</a></li>
+</ul>
+
+<b>IT++ Development:</b>
+<ul>
+<li><a href="http://svn.sourceforge.net/itpp">SVN Repository</a></li>
+<li><a href="codingrules.html">Coding Rules</a></li>
+<li><a href="documentation.html">Documentation Rules</a></li>
+<li><a href="test.html">Test Rules</a></li>
+</ul>
+
+<b>External Libraries:</b>
+<ul>
+<li><a href="http://www.netlib.org/blas/">BLAS and CBLAS (NetLib)</a></li>
+<li><a href="http://www.netlib.org/lapack/">LAPACK (NetLib)</a></li>
+<li><a href="http://www.fftw.org/">FFTW</a></li>
+<li><a href="http://math-atlas.sourceforge.net/">ATLAS</a></li>
+<li><a href="http://developer.amd.com/acml.aspx">ACML (AMD)</a></li>
+<li><a href="http://www.intel.com/cd/software/products/asmo-na/eng/perflib/mkl/">MKL (Intel)</a></li>
+</ul>
+
+</div>
+<!-- end of left margin -->
 \endhtmlonly
 
-\section Introduction
+\section about About IT++
 
 IT++ is a C++ library of mathematical, signal processing, speech processing,
 and communications classes and functions. It is being developed by
@@ -56,96 +101,8 @@ Microsoft Windows (with <a href="http://www.cygwin.com/">Cygwin</a>,
 and <a href="http://www.apple.com/macosx/">Mac OS X</a> operating systems.
 
 \htmlonly
-<!-- end of center block -->
 </div>
-<!-- start of left margin -->
-<div style="position:absolute; left:20px; top:130px; width:200px; margin:2px; font-size:80%;">
-
-<b>Getting Started:</b>
-<ul>
-<li><a href="features.html">Features</a></li>
-<li><a href="installation.html">Installation</a></li>
-<li><a href="linking.html">Linking with IT++</a></li>
-<li><a href="users_guide.html">Short Introduction to IT++</a></li>
-<li><a href="tutorial.html">Some Tutorial Examples</a></li>
-<li><a href="verification.html">IT++ Verification</a></li>
-<li><a href="copyright.html">Copyright and License</a></li>
-<li><a href="help_wanted.html">Make a Difference</a></li>
-<li><a href="authors.html">Authors</a></li>
-</ul>
-
-<b>Download IT++:</b>
-<ul>
-<li><a href="http://sourceforge.net/project/showfiles.php?group_id=37044">Files at SourceForge</a></li>
-<li><a href="http://prdownloads.sourceforge.net/itpp/itpp-@PACKAGE_VERSION@.tar.bz2?download">itpp-@PACKAGE_VERSION@.tar.bz2</a></li>
-<li><a href="http://prdownloads.sourceforge.net/itpp/itpp-@PACKAGE_VERSION@.tar.gz?download">itpp-@PACKAGE_VERSION@.tar.gz</a></li>
-<li><a href="http://prdownloads.sourceforge.net/itpp/itpp-html-doc-@PACKAGE_VERSION@.tar.bz2?download">itpp-html-doc-@PACKAGE_VERSION@.tar.bz2</a></li>
-<li><a href="http://prdownloads.sourceforge.net/itpp/itpp-html-doc-@PACKAGE_VERSION@.tar.gz?download">itpp-html-doc-@PACKAGE_VERSION@.tar.gz</a></li>
-<li><a href="http://prdownloads.sourceforge.net/itpp/itpp-external-@ITPP_EXTERNAL_VERSION@.tar.gz?download">itpp-external-@ITPP_EXTERNAL_VERSION@.tar.gz</a></li>
-</ul>
-
-<b>Bugs and Forums:</b>
-<ul>
-<li><a href="http://sourceforge.net/tracker/?atid=418758&amp;group_id=37044&amp;func=browse">Bug Reports</a></li>
-<li><a href="http://sourceforge.net/tracker/?group_id=37044&atid=418761">Feature Requests</a></li>
-<li><a href="http://sourceforge.net/forum/forum.php?forum_id=115656">Ask for Help</a></li>
-<li><a href="http://sourceforge.net/forum/forum.php?forum_id=115655">Discuss IT++</a></li>
-</ul>
-
-<b>What's New (in SVN):</b>
-<ul>
-<li><a href="http://svn.sourceforge.net/viewcvs.cgi/itpp/itpp/trunk/NEWS?view=markup">NEWS</a></li>
-<li><a href="http://svn.sourceforge.net/viewcvs.cgi/itpp/itpp/trunk/ChangeLog?view=markup">ChangeLog</a></li>
-</ul>
-
-<!-- end of left margin -->
-</div>
-<!-- start of right margin -->
-<div style="position:absolute; top:130px; right:20px; width:250px; margin:2px; font-size:80%;">
-
-<b>IT++ Project Sites:</b>
-<ul>
-<li><a href="http://sourceforge.net/projects/itpp/">IT++ at SourceForge</a></li>
-<li><a href="http://freshmeat.net/projects/itpp/">IT++ at freshmeat</a></li>
-</ul>
-
-<b>IT++ Development:</b>
-<ul>
-<li><a href="http://svn.sourceforge.net/itpp">IT++ SVN Repository</a></li>
-<li><a href="codingrules.html">Coding Rules</a></li>
-<li><a href="documentation.html">Documentation Rules</a></li>
-<li><a href="test.html">Test Rules</a></li>
-</ul>
-
-<b>External Libraries:</b>
-<ul>
-<li><a href="http://www.netlib.org/blas/">BLAS (Basic Linear Algebra Subprograms) and CBLAS</a></li>
-<li><a href="http://www.netlib.org/lapack/">LAPACK (Linear Algebra PACKage)</a></li>
-<li><a href="http://www.fftw.org/">FFTW (Fastest Fourier Transform in the West)</a></li>
-<li><a href="http://math-atlas.sourceforge.net/">ATLAS (Automatically Tuned Linear Algebra Software)</a></li>
-<li><a href="http://developer.amd.com/acml.aspx">ACML (AMD Core Math Library)</a></li>
-<li><a href="http://www.intel.com/cd/software/products/asmo-na/eng/perflib/mkl/">MKL (Intel Math Kernel Library)</a></li>
-</ul>
-
-<b>GNU Tools:</b>
-<ul>
-<li><a href="http://gcc.gnu.org/">GNU GCC</a></li>
-<li><a href="http://www.gnu.org/software/make/">GNU Make</a></li>
-<li><a href="http://www.gnu.org/software/autoconf/">GNU Autoconf</a></li>
-<li><a href="http://www.gnu.org/software/automake/">GNU Automake</a></li>
-<li><a href="http://www.gnu.org/software/libtool/">GNU Libtool</a></li>
-<li><a href="http://www.gnu.org/software/gdb/gdb.html">GNU GDB</a></li>
-</ul>
-
-<b>Other Links:</b>
-<ul>
-<li><a href="http://www.doxygen.org/">Doxygen</a></li>
-<li><a href="http://subversion.tigris.org/">Subversion</a></li>
-<li><a href="http://sources.redhat.com/cygwin/">Cygwin</a></li>
-</ul>
-
-<!-- end of right margin -->
-</div>
+<!-- end of main block -->
 \endhtmlonly
 
 */
