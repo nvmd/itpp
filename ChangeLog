@@ -1,5 +1,9 @@
 2006-10-31  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/local/index.doc.in, doc/local/itpp_footer.html,
+	doc/local/itpp_header.html: Main documentation page layout
+	redesigned (should look better in higher resolutions).
+
 	* AUTHORS, doc/local/authors.doc: Developer Thomas Lemaire retired.
 
 2006-10-24  Adam Piatyszek  <ediap@users.sourceforge.net>
