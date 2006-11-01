@@ -236,6 +236,7 @@ AC_CHECK_FUNCS([asinh \
   atanh \
   cbrt \
   lgamma \
+  log1p \
   tgamma])
 
 

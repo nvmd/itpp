@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Logarithmic and exponenential functions - header file
- * \author Tony Ottosson and Adam Piatyszek
+ * \author Tony Ottosson, Adam Piatyszek and Conrad Sanderson
  * 
  * $Date$
  * $Revision$
@@ -33,12 +33,28 @@
 #ifndef LOGEXPFUNC_H
 #define LOGEXPFUNC_H
 
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
+
 #include <itpp/base/help_functions.h>
 #include <limits>
+
 
 // Undefine log2 macro - IT++ has its own inline function 
 #if defined (log2)
 #undef log2
+#endif
+
+
+#ifndef HAVE_LOG1P
+//!\addtogroup miscfunc
+//!@{
+//! Lograrithm of an argument \c x plus one
+inline double log1p(double x) { return std::log(1.0 + x); }
+//!@}
 #endif
 
 
@@ -106,9 +122,9 @@ namespace itpp {
     return int2bits(n);
   }
 
-  //! Constant definition to speed up trunc_log and trunc_exp functions
+  //! Constant definition to speed up trunc_log() and trunc_exp()
   const double log_double_max = std::log(std::numeric_limits<double>::max());
-  //! Constant definition to speed up trunc_log and trunc_exp functions
+  //! Constant definition to speed up trunc_log(), trunc_exp() and log_add()
   const double log_double_min = std::log(std::numeric_limits<double>::min());
 
   /*!
@@ -152,6 +168,23 @@ namespace itpp {
       return std::numeric_limits<double>::max();
     return std::exp(x);
   }
+
+
+  //! Safe substitute for <tt>log(exp(log_a) + exp(log_b))</tt>
+  inline double log_add(double log_a, double log_b)
+  {
+    if (log_a < log_b) { 
+      double tmp = log_a;
+      log_a = log_b;
+      log_b = tmp;
+    }
+    double negdelta = log_b - log_a;
+    if (negdelta < log_double_min)
+      return log_a;
+    else
+      return (log_a + log1p(std::exp(negdelta)));
+  }
+
 
   // ----------------------------------------------------------------------
   // functions on vectors and matrices

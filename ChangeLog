@@ -1,3 +1,11 @@
+2006-11-01  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* AUTHORS, configure.ac, doc/local/authors.doc,
+	itpp/base/logexpfunc.h, itpp/config_msvc.h: New `log_add()'
+	function implemented, which calculates safely the following
+	expression: log(exp(log_a) + exp(log_b)). Thanks to Conrad
+	Sanderson for his patches.
+
 2006-10-31  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* AUTHORS, doc/local/authors.doc: Developers Thomas Lemaire and
