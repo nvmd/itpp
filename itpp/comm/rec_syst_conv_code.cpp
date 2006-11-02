@@ -415,8 +415,8 @@ namespace itpp {
     double ex, norm;
 
     //Set the internal metric:
-    if (metric=="LOGMAX") { com_log = com_logmax; } 
-    else if (metric=="LOGMAP") { com_log = com_logmap; }
+    if (metric=="LOGMAX") { com_log = max; } 
+    else if (metric=="LOGMAP") { com_log = log_add; }
     else {
       it_error("Rec_Syst_Conv_Code::log_decode_n2: Illegal metric parameter");
     }
