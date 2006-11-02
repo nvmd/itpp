@@ -1,3 +1,10 @@
+2006-11-02  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/rec_syst_conv_code.cpp: To avoid code duplication, the
+	local `com_logmap()' function replaced with its safer
+	implementation `log_add()' from "itpp/base/logexpfunc.h". Thanks
+	to Erik G. Larsson for pointing this out.
+
 2006-11-01  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* AUTHORS, configure.ac, doc/local/authors.doc,

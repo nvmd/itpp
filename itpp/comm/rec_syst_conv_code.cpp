@@ -38,26 +38,8 @@ namespace itpp {
 
   //! Pointer to logarithmic branch metric function
   double (*com_log) (double, double) = NULL;
-
-  //! Branc metric calculation function for MAP decoding in the log-domain
-  double com_logmap(double x, double y)
-  {
-    if (x>y) {
-      return (x + std::log(1.0 + std::exp(-std::fabs(y - x))));
-    } else {
-      return (y + std::log(1.0 + std::exp(-std::fabs(y - x))));
-    }
-  }
-
-  //! Branc metric calculation function for MAP decoding in the log-domain using a MAX approximation (default)
-  double com_logmax(double x, double y)
-  {
-    if (x>y) {
-      return x;
-    } else {
-      return y;
-    }
-  }
+  // This wrapper is because "com_log = std::max;" below caused an error
+  inline double max(double x, double y) { return std::max(x, y); }
 
   // ----------------- Protected functions -----------------------------
 
@@ -317,8 +299,8 @@ namespace itpp {
     ivec p0, p1; 
 
     //Set the internal metric:
-    if (metric=="LOGMAX") { com_log = com_logmax; } 
-    else if (metric=="LOGMAP") { com_log = com_logmap; }
+    if (metric=="LOGMAX") { com_log = max; } 
+    else if (metric=="LOGMAP") { com_log = log_add; }
     else {
       it_error("Rec_Syst_Conv_Code::log_decode: Illegal metric parameter");
     }
