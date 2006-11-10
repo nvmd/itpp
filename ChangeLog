@@ -1,3 +1,10 @@
+2006-11-10  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/srccode/gmm.h: Fixed bug [1570388] by adding a warning
+	message to `get_no_mixtures()' function saying that it is
+	deprecated and that `get_no_gaussians()' should be used instead
+	(merged rev. 713:714 from itpp-3-10 branch).
+
 2006-11-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/rec_syst_conv_code.cpp: To avoid code duplication, the
