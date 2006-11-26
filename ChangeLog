@@ -1,3 +1,8 @@
+2006-11-26  Erik G. Larsson <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/comm/modulator_nd.*: Minor code readability and
+	efficiency improvements
+	
 2006-11-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/srccode/gmm.h: Fixed bug [1570388] by adding a warning
