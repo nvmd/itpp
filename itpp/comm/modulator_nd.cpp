@@ -64,7 +64,7 @@ namespace itpp {
     return result;
   }
 
-  void Modulator_ND::update_LLR(Vec<QLLRvec> &logP_apriori, QLLRvec &p1, QLLRvec &p0, int s, QLLR scaled_norm, int j)
+  void Modulator_ND::update_LLR(Vec<QLLRvec> &logP_apriori, QLLRvec &p1, QLLRvec &p0, short s, QLLR scaled_norm, short j)
   {
     QLLR log_apriori_prob_const_point = 0;
     short b=0;
@@ -84,7 +84,7 @@ namespace itpp {
     }
   }
 
-  void Modulator_ND::update_LLR(Vec<QLLRvec> &logP_apriori, QLLRvec &p1, QLLRvec &p0, ivec &s, QLLR scaled_norm)
+  void Modulator_ND::update_LLR(Vec<QLLRvec> &logP_apriori, QLLRvec &p1, QLLRvec &p0, svec &s, QLLR scaled_norm)
   {
     QLLR log_apriori_prob_const_point = 0;
     short b=0;
@@ -108,29 +108,30 @@ namespace itpp {
     }	    
   }
 
-  void Modulator_NRD::update_norm(double &norm, int k, int sold, int snew, vec &ytH, mat &HtH, ivec &s)
+  void Modulator_NRD::update_norm(double &norm, short k, short sold, short snew, vec &ytH, mat &HtH, svec &s)
   {
    
-    int m = length(s);
+    short m = length(s);
     double cdiff = symbols(k)[snew]-symbols(k)[sold];
     
-    norm -= 2.0*cdiff*ytH[k];
-    norm += cdiff*cdiff*HtH(k,k);
-     for (int i=0; i<m; i++) {
-      norm += 2.0*cdiff*HtH(i,k)*symbols(k)[s[i]];
+    norm += sqr(cdiff)*HtH(k,k);
+    cdiff = 2.0*cdiff;
+    norm -= cdiff*ytH[k];
+     for (short i=0; i<m; i++) {
+      norm += cdiff*HtH(i,k)*symbols(k)[s[i]];
      }
   }
 
-  void Modulator_NCD::update_norm(double &norm, int k, int sold, int snew, cvec &ytH, cmat &HtH, ivec &s)
+  void Modulator_NCD::update_norm(double &norm, short k, short sold, short snew, cvec &ytH, cmat &HtH, svec &s)
   {
-    int m = length(s);
+    short m = length(s);
     std::complex<double> cdiff = symbols(k)[snew]-symbols(k)[sold];
     
-    norm -= 2.0*(cdiff*ytH[k]).real();
-    double cdiff_abs2 = cdiff.real()*cdiff.real()+cdiff.imag()*cdiff.imag();
-    norm += cdiff_abs2*HtH(k,k).real();
-    for (int i=0; i<m; i++) {
-      norm += 2.0*(cdiff*HtH(i,k)*conj(symbols(k)[s[i]])).real();
+    norm += sqr(cdiff)*(HtH(k,k).real());
+    cdiff = 2.0*cdiff;
+    norm -= (cdiff.real()*ytH[k].real() - cdiff.imag()*ytH[k].imag());
+    for (short i=0; i<m; i++) {
+      norm += (cdiff*HtH(i,k)*conj(symbols(k)[s[i]])).real();
     }
   }
 
@@ -143,14 +144,17 @@ namespace itpp {
     it_assert(length(h)==nt,"Modulator_NRD:map_demod()");
 
     int b=0;
-    for (int i=0; i<nt; i++) {
-      QLLRvec temp=LLR_apriori(b,b+k(i)-1);
+    double oo_2s2 = 1.0/(2.0*sigma2);
+    double norm2;
+    QLLRvec temp, bnum, bdenom;
+    for (short i=0; i<nt; i++) {
+      temp=LLR_apriori(b,b+k(i)-1);
+      bnum = (-QLLR_MAX)*ones_i(k(i));
+      bdenom = (-QLLR_MAX)*ones_i(k(i));    
       Vec<QLLRvec> logP_apriori = probabilities(temp);
-      QLLRvec bnum = (-QLLR_MAX)*ones_i(k(i));
-      QLLRvec bdenom = (-QLLR_MAX)*ones_i(k(i));    
-      for (int j=0; j<M(i); j++) {
-	double norm2 = (y(i)-h(i)*symbols(i)(j))*(y(i)-h(i)*symbols(i)(j));
-	QLLR scaled_norm = llrcalc.to_qllr(-norm2/(2.0*sigma2));
+      for (short j=0; j<M(i); j++) {
+	norm2 = sqr(y(i)-h(i)*symbols(i)(j));
+	QLLR scaled_norm = llrcalc.to_qllr(-norm2*oo_2s2);
 	update_LLR(logP_apriori, bnum, bdenom, j, scaled_norm,i);
       }
       LLR_aposteriori.set_subvector(b,bnum-bdenom);
@@ -167,14 +171,17 @@ namespace itpp {
     it_assert(length(h)==nt,"Modulator_NCD:map_demod()");
 
     int b=0;
-    for (int i=0; i<nt; i++) {
-      QLLRvec temp=LLR_apriori(b,b+k(i)-1);
+    double oo_s2 = 1.0/sigma2;
+    double norm2;
+    QLLRvec temp, bnum, bdenom;
+    for (short i=0; i<nt; i++) {
+      temp=LLR_apriori(b,b+k(i)-1);
+      bnum = (-QLLR_MAX)*ones_i(k(i));
+      bdenom = (-QLLR_MAX)*ones_i(k(i));    
       Vec<QLLRvec> logP_apriori = probabilities(temp);
-      QLLRvec bnum = (-QLLR_MAX)*ones_i(k(i));
-      QLLRvec bdenom = (-QLLR_MAX)*ones_i(k(i));    
-      for (int j=0; j<M(i); j++) {
-	double norm2 = real((y(i)-h(i)*symbols(i)(j))*conj(y(i)-h(i)*symbols(i)(j)));
-	QLLR scaled_norm = llrcalc.to_qllr(-norm2/sigma2);
+      for (short j=0; j<M(i); j++) {
+	norm2 = sqr(y(i)-h(i)*symbols(i)(j)); 
+	QLLR scaled_norm = llrcalc.to_qllr(-norm2*oo_s2);
 	update_LLR(logP_apriori, bnum, bdenom, j, scaled_norm,i);
       }
       LLR_aposteriori.set_subvector(b,bnum-bdenom);
@@ -204,8 +211,10 @@ namespace itpp {
     
     QLLRvec bnum = (-QLLR_MAX)*ones_i(np);
     QLLRvec bdenom = (-QLLR_MAX)*ones_i(np);    
-    ivec s = zeros_i(nt);    
+    svec s(nt);
+    s.clear();
     double norm = 0.0;
+    double oo_2s2 = 1.0/(2.0*sigma2);
     
     // Go over all constellation points  (r=dimension, s=vector of symbols)
     short r = nt-1;
@@ -230,10 +239,10 @@ namespace itpp {
 		for (short i=0; i<nt; i++) {
 		  d -= H(p,i)*symbols(i)[s[i]];
 		}
-		norm += d*d;
+		norm += sqr(d);
 	      }
 	    }
-	    QLLR scaled_norm = llrcalc.to_qllr(-norm/(2.0*sigma2));
+	    QLLR scaled_norm = llrcalc.to_qllr(-norm*oo_2s2);
 	    update_LLR(logP_apriori, bnum, bdenom, s, scaled_norm);
 	  } else {
 	    r--;
@@ -274,9 +283,12 @@ namespace itpp {
     
     QLLRvec bnum = (-QLLR_MAX)*ones_i(np);
     QLLRvec bdenom = (-QLLR_MAX)*ones_i(np);   
-    ivec s = zeros_i(nt);    
+    svec s(nt);
+    s.clear();
     double norm = 0.0;
-    
+    double oo_s2 = 1.0/sigma2;
+    std::complex<double> d;
+
     // Go over all constellation points  (r=dimension, s=vector of symbols)
     short r = nt-1;
     while (1==1) {
@@ -296,14 +308,14 @@ namespace itpp {
 	    if (mode==0) {
 	      norm = 0.0;
 	      for (short p=0; p<nr; p++) {
-		std::complex<double> d = y[p];
+		d = y[p];
 		for (short i=0; i<nt; i++) {
 		  d -= H(p,i)*symbols(i)[s[i]];
 		}
-		norm += (d.real()*d.real() + d.imag()*d.imag());
+		norm += sqr(d);
 	      }
 	    }
-    	    QLLR scaled_norm = llrcalc.to_qllr(-norm/sigma2);
+    	    QLLR scaled_norm = llrcalc.to_qllr(-norm*oo_s2);
 	    update_LLR(logP_apriori, bnum, bdenom, s, scaled_norm);
 	  } else {
 	    r--;
@@ -330,8 +342,8 @@ namespace itpp {
     it_assert(length(bits)==sum(k),"Modulator_NRD::modulate_bits(): The number of input bits does not match.");
 
     int b=0;
-    for (int i=0; i<nt; i++) {
-      int symb = bin2dec(bits.mid(b,k(i)));
+    for (short i=0; i<nt; i++) {
+      short symb = bin2dec(bits.mid(b,k(i)));
       result(i) = symbols(i)(bits2symbols(i)(symb));
       b+=k(i);
     }
@@ -347,8 +359,8 @@ namespace itpp {
     it_assert(length(bits)==sum(k),"Modulator_NCD::modulate_bits(): The number of input bits does not match.");
 
     int b=0;
-    for (int i=0; i<nt; i++) {
-      int symb = bin2dec(bits.mid(b,k(i)));
+    for (short i=0; i<nt; i++) {
+      short symb = bin2dec(bits.mid(b,k(i)));
       result(i) = symbols(i)(bits2symbols(i)(symb));
       b+=k(i);
     }
@@ -411,7 +423,7 @@ namespace itpp {
     nt=nt_in;
     it_assert(length(Mary)==nt,"ND_UPAM::set_Gray_PAM() Mary has wrong length");
     k.set_size(nt);
-    M=Mary;
+    M=to_svec(Mary);
     bitmap.set_size(nt);
     symbols.set_size(nt);
     bits2symbols.set_size(nt);    
@@ -443,7 +455,7 @@ namespace itpp {
 #define min(a,b) (((a)<(b))?(a):(b))
 #define sign(a)  (((a)>0)?(1):(-1))
 
-  int ND_UPAM::sphere_search_SE(vec &y_in, mat &H, imat &zrange, double r, ivec &zhat)
+  int ND_UPAM::sphere_search_SE(vec &y_in, mat &H, imat &zrange, double r, svec &zhat)
   {
     // The implementation of this function basically follows the
     // Schnorr-Eucner algorithm described in Agrell et al. (IEEE
@@ -460,43 +472,43 @@ namespace itpp {
     vec y=Q.transpose()*y_in;
     mat Vi=Ri.transpose();
 
-    int n=H.cols();
+    short n=H.cols();
     vec dist(n);
     dist[n-1] = 0;
     double bestdist = r*r;
-    int status = -1; // search failed 
+    short status = -1; // search failed 
     
     mat E=zeros(n,n);
-    for (int i=0; i<n; i++) {   // E(k,:) = y*Vi; 
-      for (int j=0; j<n; j++) {
+    for (short i=0; i<n; i++) {   // E(k,:) = y*Vi; 
+      for (short j=0; j<n; j++) {
 	E(i*n+n-1) += y(j)*Vi(j+n*i);
       }
     }
     
-    ivec z(n);
+    svec z(n);
     zhat.set_size(n);
-    z(n-1) = (int) std::floor(0.5 + E(n*n-1));
+    z(n-1) = (short) std::floor(0.5 + E(n*n-1));
     z(n-1) = max(z(n-1),zrange(n-1,0));
     z(n-1) = min(z(n-1),zrange(n-1,1));
     double p = (E(n*n-1)-z(n-1))/Vi(n*n-1);
-    ivec step(n);
+    svec step(n);
     step(n-1) = sign(p);
     
     // Run search loop 
-    int k=n-1;  // k uses natural indexing, goes from 0 to n-1 
+    short k=n-1;  // k uses natural indexing, goes from 0 to n-1 
     
     while (1==1) {
       double newdist = dist(k) + p*p;
       
       if ((newdist<bestdist) && (k!=0)) {
 	
-	for (int i=0; i<k; i++) {
+	for (short i=0; i<k; i++) {
 	  E(k-1+i*n) = E(k+i*n) - p*Vi(k+i*n);
 	}
 	
 	k--;
 	dist(k) = newdist;
-	z(k) = (int) std::floor(0.5+E(k+k*n));
+	z(k) = (short) std::floor(0.5+E(k+k*n));
 	z(k) = max(z(k),zrange(k,0));
 	z(k) = min(z(k),zrange(k,1));
 	p = (E(k+k*n)-z(k))/Vi(k+k*n);
@@ -505,7 +517,7 @@ namespace itpp {
       } else {
 	while (1==1) {
 	  if (newdist<bestdist) {
-	    for (int j=0; j<n; j++) { zhat(j) = z(j); }
+	    for (short j=0; j<n; j++) { zhat(j) = z(j); }
 	    bestdist = newdist; 
 	    status = 0;
 	  }
@@ -549,20 +561,20 @@ namespace itpp {
 
     vec ytemp=y;
     mat Htemp(H.rows(),H.cols());
-    for (int i=0; i<H.cols(); i++) {
+    for (short i=0; i<H.cols(); i++) {
       Htemp.set_col(i,H.get_col(i)*spacing(i));
       ytemp+=Htemp.get_col(i)*0.5*(M(i)-1.0);
     }
 
     imat crange(nt,2);
-    for (int i=0; i<nt; i++) {
+    for (short i=0; i<nt; i++) {
       crange(i,0) = 0;
       crange(i,1) = M(i)-1;
     }
 
-    int status;  
+    short status;  
     double r = rstart;
-    ivec s(sum(M));
+    svec s(sum(M));
     while (r<=rmax) {
       status = sphere_search_SE(ytemp,Htemp,crange,r,s);
       
@@ -617,7 +629,7 @@ namespace itpp {
     nt=nt_in;
     it_assert(length(Mary)==nt,"ND_UQAM::set_Gray_QAM() Mary has wrong length");
     k.set_size(nt);
-    M=Mary;
+    M=to_svec(Mary);
     L.set_size(nt);
     bitmap.set_size(nt);
     symbols.set_size(nt);
@@ -678,7 +690,7 @@ namespace itpp {
     nt=nt_in;
     it_assert(length(Mary)==nt,"ND_UPSK::set_Gray_PSK() Mary has wrong length");
     k.set_size(nt);
-    M=Mary;
+    M=to_svec(Mary);
     bitmap.set_size(nt);
     symbols.set_size(nt);
     bits2symbols.set_size(nt);    

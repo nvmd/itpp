@@ -65,3 +65,5 @@ Specific features
 
 * Revision of (scalar) modulators to use fast likelihood algebra and
   to take soft inputs (for higher order constellations).
+
+* LLR class should use short int instead of int
