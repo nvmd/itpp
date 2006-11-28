@@ -1,6 +1,5 @@
 h_sources = $(top_srcdir)/itpp/itbase.h \
 	$(top_srcdir)/itpp/itmex.h
-#$(top_builddir)/itpp/config.h
 
 if ENABLE_COMM
   h_sources += $(top_srcdir)/itpp/itcomm.h
@@ -16,4 +15,7 @@ if ENABLE_SIGNAL
 endif
 if ENABLE_SRCCODE
   h_sources += $(top_srcdir)/itpp/itsrccode.h
+endif
+if ENABLE_STAT
+  h_sources += $(top_srcdir)/itpp/itstat.h
 endif

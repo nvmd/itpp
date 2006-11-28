@@ -1,3 +1,17 @@
+2006-11-28  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac, doc/tutorial/mog.doc, doc/tutorial/src/sources.mk,
+	doc/tutorial/src/mog.cpp, doc/tutorial/sources.mk,
+	doc/tutorial/tutorial.doc, doc/doxygen_html.cfg.in,
+	doc/Makefile.am, itpp/sources.mk, itpp/itstat.h, itpp/Makefile.am,
+	itpp/stat, itpp/stat/mog_generic.cpp, itpp/stat/mog_generic.h,
+	itpp/stat/mog_diag_kmeans.cpp, itpp/stat/mog_diag.cpp,
+	itpp/stat/mog_diag_em.cpp, itpp/stat/Makefile.am,
+	itpp/stat/sources.mk, itpp/stat/mog_diag_kmeans.h,
+	itpp/stat/mog_diag.h, itpp/stat/mog_diag_em.h: Created a new
+	"Statistics" module, which contains an initial set of Mixture of
+	Gaussians (MOG) classes written by Conrad Sanderson.
+
 2006-11-26  Erik G. Larsson <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/comm/modulator_nd.*: Minor code readability and

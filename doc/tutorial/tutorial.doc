@@ -8,31 +8,24 @@ communication system simulations. The source codes and Makefile to compile
 these examples can be found in \c {ITPP_HOME}/doc/tutorial/src
 
 Examples of basic functionality:
-<ul>
-<li> \ref vector_and_matrix </li>
-<li> \ref itfile </li>
-<li> \ref timer </li>
-</ul>
+- \ref vector_and_matrix
+- \ref itfile
+- \ref timer
 
 Examples of communications related functions:
-<ul>
-<li> \ref bpsk </li>
-<li> \ref interleaver </li>
-<li> \ref qpsk_simulation </li>
-<li> \ref reedsolomon </li>
-<li> \ref convcode </li>
-<li> \ref spread </li>
-<li> \ref rayleigh </li>
-</ul>
+- \ref bpsk
+- \ref interleaver
+- \ref qpsk_simulation
+- \ref reedsolomon
+- \ref convcode
+- \ref spread
+- \ref rayleigh
 
 More specialized examples:
-<ul>
-<li> \ref mimoconv </li>
-</ul>
+- \ref mimoconv
+- \ref mog
 
 Other:
-<ul>
-<li> \ref matlab_itpp </li>
-</ul>
+- \ref matlab_itpp
 
 */
