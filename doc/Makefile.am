@@ -9,6 +9,7 @@ include $(top_srcdir)/itpp/fixed/sources.mk
 include $(top_srcdir)/itpp/protocol/sources.mk
 include $(top_srcdir)/itpp/signal/sources.mk
 include $(top_srcdir)/itpp/srccode/sources.mk
+include $(top_srcdir)/itpp/stat/sources.mk
 
 SUBDIRS = images tutorial local
 
@@ -30,7 +31,8 @@ html/index.html: doxygen_html.cfg \
 	$(h_fixed_sources) $(cpp_fixed_sources) \
 	$(h_protocol_sources) $(cpp_protocol_sources) \
 	$(h_signal_sources) $(cpp_signal_sources) \
-	$(h_srccode_sources) $(cpp_srccode_sources)
+	$(h_srccode_sources) $(cpp_srccode_sources) \
+	$(h_stat_sources) $(cpp_stat_sources)
 	doxygen $<; \
 	if test -d html; then \
 		cp $(srcdir)/images/itpp_logo.png html; \

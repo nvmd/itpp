@@ -457,6 +457,7 @@ INPUT                  = @top_srcdir@/@PACKAGE@ \
                          @top_srcdir@/@PACKAGE@/protocol \
                          @top_srcdir@/@PACKAGE@/signal \
                          @top_srcdir@/@PACKAGE@/srccode \
+                         @top_srcdir@/@PACKAGE@/stat \
                          @top_srcdir@/doc/local \
                          @top_builddir@/doc/local \
                          @top_srcdir@/doc/tutorial

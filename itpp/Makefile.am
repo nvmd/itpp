@@ -31,8 +31,14 @@ if ENABLE_SRCCODE
   SRCCODE_D_LIB = $(top_builddir)/@PACKAGE@/srccode/libsrccode_debug.la
 endif
 
-SUBDIRS = base \
-	$(COMM_DIR) $(FIXED_DIR) $(PROTOCOL_DIR) $(SIGNAL_DIR) $(SRCCODE_DIR)
+if ENABLE_STAT
+  STAT_DIR = stat
+  STAT_LIB = $(top_builddir)/@PACKAGE@/stat/libstat.la
+  STAT_D_LIB = $(top_builddir)/@PACKAGE@/stat/libstat_debug.la
+endif
+
+SUBDIRS = base $(COMM_DIR) $(FIXED_DIR) $(PROTOCOL_DIR) $(SIGNAL_DIR) \
+	$(SRCCODE_DIR) $(STAT_DIR)
 
 EXTRA_DIST = config_msvc.h
 
@@ -46,7 +52,8 @@ nodist_EXTRA_lib@PACKAGE@_la_SOURCES = dummy.cxx
 lib@PACKAGE@_la_SOURCES = 
 lib@PACKAGE@_la_LDFLAGS = -version-info $(GENERIC_LIBRARY_VERSION)
 lib@PACKAGE@_la_LIBADD = $(top_builddir)/@PACKAGE@/base/libbase.la \
-	$(COMM_LIB) $(FIXED_LIB) $(PROTOCOL_LIB) $(SIGNAL_LIB) $(SRCCODE_LIB)
+	$(COMM_LIB) $(FIXED_LIB) $(PROTOCOL_LIB) $(SIGNAL_LIB) $(SRCCODE_LIB) \
+	$(STAT_LIB)
 
 # Dummy C++ source to cause C++ linking
 nodist_EXTRA_lib@PACKAGE@_debug_la_SOURCES = dummy.cxx
@@ -54,7 +61,7 @@ lib@PACKAGE@_debug_la_SOURCES =
 lib@PACKAGE@_debug_la_LDFLAGS = -version-info $(GENERIC_LIBRARY_VERSION)
 lib@PACKAGE@_debug_la_LIBADD = $(top_builddir)/@PACKAGE@/base/libbase_debug.la \
 	$(COMM_D_LIB) $(FIXED_D_LIB) $(PROTOCOL_D_LIB) $(SIGNAL_D_LIB) \
-	$(SRCCODE_D_LIB)
+	$(SRCCODE_D_LIB) $(STAT_D_LIB)
 
 nobase_pkginclude_HEADERS = $(h_sources)
 nobase_nodist_pkginclude_HEADERS = $(top_builddir)/@PACKAGE@/config.h
