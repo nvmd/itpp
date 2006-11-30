@@ -1,3 +1,11 @@
+2006-11-30  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* tests/stat_test.ref, tests/histogram_test.cpp,
+	tests/stat_test.cpp, tests/histogram_test.ref, tests/Makefile.am,
+	itpp/itstat.h, itpp/base/stat.h, itpp/stat/histogram.h,
+	itpp/stat/sources.mk: Histogram class moved to the statistics
+	module.
+
 2006-11-28  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac, doc/tutorial/mog.doc, doc/tutorial/src/sources.mk,
