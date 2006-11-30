@@ -40,7 +40,7 @@
 
 namespace itpp {
 
-  //! \addtogroup fixtypes
+  //! \addtogroup fixed
   //!@{
 
   /////////////////////////////////

@@ -41,6 +41,9 @@
 
 namespace itpp {
 
+  //! \addtogroup protocol
+  //@{
+
   /*!
 
   */
@@ -147,6 +150,7 @@ private:
   bool parameters_ok;
 };
 
+  //@}
 
 } // namespace itpp
 

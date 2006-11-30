@@ -39,6 +39,10 @@
 
 
 namespace itpp {
+
+  //! \addtogroup protocol
+  //@{
+
   //typedef long double Ttype; // 128-bit floating point time.
   typedef double Ttype; // 64-bit floating point time.
   //typedef long unsigned int Ttype; // 64-bit unsigned integer time.
@@ -190,6 +194,8 @@ namespace itpp {
       ObjectType* po; // Pointer to object who's member function is to be executed on event expire.
       DataType u; // User data.
   };
+
+  //@}
 
 } // namespace itpp
 

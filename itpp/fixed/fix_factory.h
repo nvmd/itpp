@@ -44,7 +44,7 @@ namespace itpp {
   class Fix;
   class CFix;
 
-  //! \addtogroup fixtypes
+  //! \addtogroup fixed
   //!@{
 
   /*!
@@ -52,7 +52,7 @@ namespace itpp {
   
     For an introduction to factories, see the Detailed Description for Factory.
     For more information on the fixed-point data types, see the Detailed
-    Description in the \ref fixtypes module.
+    Description in the \ref fixed module.
   
     This example shows how to declare a Fix_Factory:
     \code

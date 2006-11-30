@@ -44,6 +44,8 @@
 
 namespace itpp {
 
+  //! \addtogroup protocol
+  //@{
 
   /*!
     TSequenceNumber represents a sequence number in a byte stream. As
@@ -650,6 +652,7 @@ namespace itpp {
 		return seq_end - seq_begin;
 	}
 
+  //@}
 
 
 } // namespace itpp

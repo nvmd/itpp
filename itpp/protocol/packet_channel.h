@@ -39,6 +39,9 @@
 
 namespace itpp {
 
+  //! \addtogroup protocol
+  //@{
+
   /*!
 
   */
@@ -113,6 +116,8 @@ namespace itpp {
     ivec lost;
     int k, K, L;
   };
+
+  //@}
 
 } // namespace itpp
 

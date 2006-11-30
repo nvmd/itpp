@@ -35,6 +35,9 @@
 
 namespace itpp {
 
+  //! \addtogroup protocol
+  //@{
+
 	/*!
 
 	*/
@@ -139,5 +142,7 @@ namespace itpp {
 		}
 	
 	};
+
+  //@}
 	
 } // namespace itpp

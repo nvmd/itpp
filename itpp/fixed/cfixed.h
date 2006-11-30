@@ -38,13 +38,13 @@
 
 namespace itpp {
 
-  //! \addtogroup fixtypes
+  //! \addtogroup fixed
   //!@{
 
   /*!
     \brief Templated complex fixed-point data type
   
-    See the Detailed Description in the \ref fixtypes module.
+    See the Detailed Description in the \ref fixed module.
   */
   template<int w, e_mode e=TC, o_mode o=WRAP, q_mode q=TRN>
   class CFixed : public CFix {

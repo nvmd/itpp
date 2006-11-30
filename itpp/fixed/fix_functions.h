@@ -43,7 +43,7 @@
 
 namespace itpp {
 
-  //! \addtogroup fixtypes
+  //! \addtogroup fixed
   //!@{
 
   //! Return true only if argument is of type Fix or CFix (or an Array/Vec/Mat of Fix or CFix)

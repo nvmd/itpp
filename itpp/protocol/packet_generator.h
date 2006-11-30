@@ -39,6 +39,9 @@
 
 namespace itpp {
 
+  //! \addtogroup protocol
+  //@{
+
   /*!
 
   */
@@ -122,6 +125,8 @@ namespace itpp {
     unsigned long int max_packets;
     Ttype start_time;
   };
+
+  //@}
 
 } // namespace itpp
 

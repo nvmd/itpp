@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2005  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -37,6 +37,9 @@
 
 
 namespace itpp {
+
+  //! \addtogroup protocol
+  //@{
 
   /*! \brief Packet
 
@@ -101,6 +104,7 @@ namespace itpp {
     int seq_no;
   };
 
+  //@}
 
 } // namespace itpp
 

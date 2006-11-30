@@ -39,6 +39,9 @@
 
 namespace itpp {
 
+  //! \addtogroup protocol
+  //@{
+
 #define DEFAULT_MAX_BYTES_IN_QUEUE 24000
 
 class Front_Drop_Queue : public virtual std::queue<Packet*> {
@@ -69,7 +72,7 @@ class Front_Drop_Queue : public virtual std::queue<Packet*> {
   int debug;
 };
 
-
+  //@}
 
 } // namespace itpp
 
