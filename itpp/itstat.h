@@ -39,6 +39,7 @@
 //@}
 
 #include <itpp/itbase.h>
+#include <itpp/stat/histogram.h>
 #include <itpp/stat/mog_generic.h>
 #include <itpp/stat/mog_diag.h>
 #include <itpp/stat/mog_diag_kmeans.h>

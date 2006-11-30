@@ -67,7 +67,13 @@ if ENABLE_SIGNAL
 	window_test
 endif
 
-check_PROGRAMS = $(BASE_TESTS) $(SIGNAL_TESTS) $(COMM_TESTS) $(FIXED_TESTS)
+if ENABLE_STAT
+  STAT_TESTS = \
+	histogram_test
+endif
+
+check_PROGRAMS = $(BASE_TESTS) $(COMM_TESTS) $(FIXED_TESTS) $(SIGNAL_TESTS) \
+	$(STAT_TESTS)
 
 array_test_SOURCES = array_test.cpp
 bch_test_SOURCES = bch_test.cpp
@@ -86,6 +92,7 @@ fix_test_SOURCES = fix_test.cpp
 freq_filt_test_SOURCES = freq_filt_test.cpp
 galois_test_SOURCES = galois_test.cpp
 gf2mat_test_SOURCES = gf2mat_test.cpp
+histogram_test_SOURCES = histogram_test.cpp
 integration_test_SOURCES = integration_test.cpp
 interleaver_test_SOURCES = interleaver_test.cpp
 inv_test_SOURCES = inv_test.cpp
