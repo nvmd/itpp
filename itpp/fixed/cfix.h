@@ -42,13 +42,13 @@ namespace itpp {
   template<class Num_T> class Vec;
   template<class Num_T> class Mat;
 
-  //! \addtogroup fixtypes
+  //! \addtogroup fixed
   //!@{
 
   /*!
     \brief Complex fixed-point data type.
   
-    See the Detailed Description in the \ref fixtypes module.
+    See the Detailed Description in the \ref fixed module.
   */
   class CFix : public Fix_Base {
     template<int, e_mode, o_mode, q_mode> friend class CFixed;

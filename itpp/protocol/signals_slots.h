@@ -40,6 +40,9 @@
 
 namespace itpp {
 
+  //! \addtogroup protocol
+  //@{
+
   class Base_Signal;
   template<class DataType> class Signal;
   template<class DataType> class Base_Slot;
@@ -575,6 +578,8 @@ namespace itpp {
 	  if(pm&&po) 
 	    (*po.*pm)(signal);
 	}
+
+  //@}
 
 } // namespace itpp
 

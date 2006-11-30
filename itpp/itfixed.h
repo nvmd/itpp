@@ -35,7 +35,7 @@
 
 //! \defgroup fixed Fixed-point Module
 //@{
-//! \defgroup fixtypes Fixed-Point Data Types
+
 //@}
 
 #include <itpp/itbase.h>

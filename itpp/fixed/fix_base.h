@@ -39,7 +39,7 @@
 namespace itpp {
 
   /*!
-    \addtogroup fixtypes
+    \addtogroup fixed
     \brief Fixed-Point Data Types
     \author Johan Bergman
   
@@ -989,7 +989,7 @@ namespace itpp {
   /*!
     \brief Base class for fixed-point data types
   
-    See the Detailed Description in the \ref fixtypes module.
+    See the Detailed Description in the \ref fixed module.
   */
   class Fix_Base {
   public:
