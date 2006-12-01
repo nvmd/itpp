@@ -44,7 +44,70 @@
 	deprecated and that `get_no_gaussians()' should be used instead
 	(merged rev. 713:714 from itpp-3-10 branch).
 
+	* itpp/comm/channel.cpp: Fixed default initialisations and checks
+	in particular fading related methods (set_no_frequencies(),
+	set_filter_length(), etc.).
+	(merged rev. 657:716 from the channel-update branch)
+
+2006-11-09  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/channel.cpp: Removed wrong and unnecessary checks for
+	positive time offsets.
+	(merged rev. 657:716 from the channel-update branch)
+
+2006-11-07  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/channel.h: Minor documentation changes.
+	(merged rev. 657:716 from the channel-update branch)
+
+	* itpp/comm/channel.cpp, itpp/comm/channel.h: The channel
+	discretization function improved and moved to the TDL_Channel
+	class. An additional parameter `sampling_time' is required when
+	setting the channel profile using the Channel_Specification
+	object.
+	(merged rev. 657:716 from the channel-update branch)
+
+	* itpp/comm/channel.cpp: Simplified GaussI and GaussII Doppler
+	spectra calculations.
+	(merged rev. 657:716 from the channel-update branch)
+
+2006-11-06  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/channel.cpp, itpp/comm/channel.h: Improved interface
+	for setting various fading parameters in Channel_Specification and
+	TDL_Channel classes. Relative Doppler is set to 0.7 by default,
+	when only relative power (Rice factors) is specified. BTW, the
+	documentation was revised.
+	(merged rev. 657:716 from the channel-update branch)
+
+	* itpp/comm/channel.cpp, tests/channel_test.ref: Fixed a bug in
+	LOS process generation in the Independent and Static fading
+	generators.
+	(merged rev. 657:716 from the channel-update branch)
+	
+	* tests/channel_test.cpp, tests/channel_test.ref,
+	itpp/comm/channel.cpp, itpp/comm/channel.h, tests/Makefile.am:
+	Fading generators inheritance model redesigned. Now there are
+	three types of fading: Independent, Static and Correlated. The
+	Correlated fading can be generated using Rice (MEDS), FIR or IFFT
+	methods. A basic test program of channel classes added.
+	(merged rev. 657:716 from the channel-update branch)
+	
 2006-11-02  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/channel.cpp, itpp/comm/channel.h: A set of new
+	features and improvements added:
+	- `Rice' keyword removed from the DOPPLER_SPECTRUM enum; `Jakes'
+	  or `Classic' should be used instead.
+	- Explicit selection of a fading type implemented. When fading_type
+	  is equal to `Correlated', non-zero normalised Doppler needs to be
+	  specified. The default fading type is set to `Independent'.
+	- Better implementation of independent fading generator.
+	- Added missing initialisations of time_offset in FIR and IFFT
+	  fading generators.
+	- Removed the `decimation_factor' parameter, since its use was bad
+	  in a few places.
+	(merged rev. 657:716 from the channel-update branch)
 
 	* itpp/comm/rec_syst_conv_code.cpp: To avoid code duplication, the
 	local `com_logmap()' function replaced with its safer
@@ -98,6 +161,12 @@
 2006-10-17  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* doc/tutorial/src/mimoconv.cpp: Fixed minor bug in tutorial
+	
+2006-10-17  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/channel.cpp: Readded init_flag resets, which have been
+	removed by mistake.
+	(merged rev. 657:716 from the channel-update branch)
 
 2006-10-15  Adam Piatyszek  <ediap@users.sourceforge.net>
 
@@ -160,6 +229,60 @@
 	`std::endl' in a concatenation with strings, e.g. 
 	`it_error("Wrong value x = " << oct << x)'. Thanks to George
 	Jongren for submitting a patch.
+
+2006-09-18  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/channel.cpp: Removed redundant concat() functions in
+	Gauss Doppler spectra's initialisation.
+	(merged rev. 657:716 from the channel-update branch)
+
+	* itpp/comm/channel.cpp, itpp/comm/channel.h: Implemented missing
+	"Gauss I" and "Gauss II" Doppler spectra required by a few COST207
+	channel models. These Gaussian spectra are only available in the
+	Rice_Fading_Generator class
+	(merged rev. 657:716 from the channel-update branch)
+
+2006-09-05  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/channel.cpp, itpp/comm/channel.h: Added additional
+	assertion checks for undersampled cases in Channel_Specification's
+	discretize() function. It is now possible to discretize the
+	channel with too low sampling frequency, but only if all taps
+	except the first one use the default Jakes Doppler spectrum and
+	has no LOS (Rice) parameters.
+	(merged rev. 657:716 from the channel-update branch)
+
+	* itpp/comm/channel.cpp, itpp/comm/channel.h: Fixed improper
+	initialisation of los_power and los_dopp variables in TDL_Channel
+	class.
+	(merged rev. 657:716 from the channel-update branch)
+
+2006-09-04  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/channel.cpp, itpp/comm/channel.h: Implemented
+	exponential channel profile generation function. Cleaned up the
+	interface of various fading generator classes:
+	- only one generate() function with additional default parameter
+	decimation_factor (instead of misleading name upsampling_factor)
+	- implemented add_LOS() function in the base class, which is
+	reused by the child classes
+	- global jake_filter() function moved into FIR_Fading_Generator
+	class
+	- all get_*() functions changed to the const ones
+	- base class `init_flag' is now set in the initialisation list of
+	the constructor.
+	(merged rev. 657:716 from the channel-update branch)
+	
+2006-09-03  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/channel.cpp, itpp/comm/channel.h:
+	Channel_Specification and TDL_Channel classes extended with
+	support of LOS (Rice) fading for any tap. Doppler spectrum of type
+	`Rice' is now merged with `Jakes' or `Classic', since the
+	generation method is the same. To obtain `Rice' spectrum
+	relative_power and relative_doppler needs to be defined for a
+	certain tap(s).
+	(merged rev. 657:716 from the channel-update branch)
 
 2006-09-03  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
