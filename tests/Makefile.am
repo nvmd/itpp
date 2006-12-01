@@ -39,6 +39,7 @@ BASE_TESTS = \
 if ENABLE_COMM
   COMM_TESTS = \
 	bch_test \
+	channel_test \
 	convcode_test \
 	galois_test \
 	interleaver_test \
@@ -78,6 +79,7 @@ check_PROGRAMS = $(BASE_TESTS) $(COMM_TESTS) $(FIXED_TESTS) $(SIGNAL_TESTS) \
 array_test_SOURCES = array_test.cpp
 bch_test_SOURCES = bch_test.cpp
 bessel_test_SOURCES = bessel_test.cpp
+channel_test_SOURCES = channel_test.cpp
 cholesky_test_SOURCES = cholesky_test.cpp
 circular_buffer_test_SOURCES = circular_buffer_test.cpp
 convcode_test_SOURCES = convcode_test.cpp
