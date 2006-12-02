@@ -87,17 +87,17 @@ namespace itpp {
   void Modulator_ND::update_LLR(Vec<QLLRvec> &logP_apriori, QLLRvec &p1, QLLRvec &p0, ivec &s, QLLR scaled_norm)
   {
     QLLR log_apriori_prob_const_point = 0;
-    short b=0;
-    for (short j=0; j<nt; j++) {
-      for (short i=0; i<k(j); i++) {
+    int b=0;
+    for (int j=0; j<nt; j++) {
+      for (int i=0; i<k(j); i++) {
 	log_apriori_prob_const_point += ((bitmap(j)(s[j],i)==0) ? logP_apriori(b)(1) : logP_apriori(b)(0));
 	b++;
       }
     }
     
     b=0;
-    for (short j=0; j<nt; j++) {
-      for (short i=0; i<k(j); i++) {
+    for (int j=0; j<nt; j++) {
+      for (int i=0; i<k(j); i++) {
 	if (bitmap(j)(s[j],i)==0) {
 	  p1(b) =  llrcalc.jaclog(p1(b), scaled_norm + log_apriori_prob_const_point );
 	}  else {
@@ -111,26 +111,26 @@ namespace itpp {
   void Modulator_NRD::update_norm(double &norm, int k, int sold, int snew, vec &ytH, mat &HtH, ivec &s)
   {
    
-    short m = length(s);
+    int m = length(s);
     double cdiff = symbols(k)[snew]-symbols(k)[sold];
     
     norm += sqr(cdiff)*HtH(k,k);
     cdiff = 2.0*cdiff;
     norm -= cdiff*ytH[k];
-     for (short i=0; i<m; i++) {
+     for (int i=0; i<m; i++) {
       norm += cdiff*HtH(i,k)*symbols(k)[s[i]];
      }
   }
 
   void Modulator_NCD::update_norm(double &norm, int k, int sold, int snew, cvec &ytH, cmat &HtH, ivec &s)
   {
-    short m = length(s);
+    int m = length(s);
     std::complex<double> cdiff = symbols(k)[snew]-symbols(k)[sold];
     
     norm += sqr(cdiff)*(HtH(k,k).real());
     cdiff = 2.0*cdiff;
     norm -= (cdiff.real()*ytH[k].real() - cdiff.imag()*ytH[k].imag());
-    for (short i=0; i<m; i++) {
+    for (int i=0; i<m; i++) {
       norm += (cdiff*HtH(i,k)*conj(symbols(k)[s[i]])).real();
     }
   }
@@ -147,12 +147,12 @@ namespace itpp {
     double oo_2s2 = 1.0/(2.0*sigma2);
     double norm2;
     QLLRvec temp, bnum, bdenom;
-    for (short i=0; i<nt; i++) {
+    for (int i=0; i<nt; i++) {
       temp=LLR_apriori(b,b+k(i)-1);
       bnum = (-QLLR_MAX)*ones_i(k(i));
       bdenom = (-QLLR_MAX)*ones_i(k(i));    
       Vec<QLLRvec> logP_apriori = probabilities(temp);
-      for (short j=0; j<M(i); j++) {
+      for (int j=0; j<M(i); j++) {
 	norm2 = sqr(y(i)-h(i)*symbols(i)(j));
 	QLLR scaled_norm = llrcalc.to_qllr(-norm2*oo_2s2);
 	update_LLR(logP_apriori, bnum, bdenom, j, scaled_norm,i);
@@ -174,12 +174,12 @@ namespace itpp {
     double oo_s2 = 1.0/sigma2;
     double norm2;
     QLLRvec temp, bnum, bdenom;
-    for (short i=0; i<nt; i++) {
+    for (int i=0; i<nt; i++) {
       temp=LLR_apriori(b,b+k(i)-1);
       bnum = (-QLLR_MAX)*ones_i(k(i));
       bdenom = (-QLLR_MAX)*ones_i(k(i));    
       Vec<QLLRvec> logP_apriori = probabilities(temp);
-      for (short j=0; j<M(i); j++) {
+      for (int j=0; j<M(i); j++) {
 	norm2 = sqr(y(i)-h(i)*symbols(i)(j)); 
 	QLLR scaled_norm = llrcalc.to_qllr(-norm2*oo_s2);
 	update_LLR(logP_apriori, bnum, bdenom, j, scaled_norm,i);
@@ -199,8 +199,8 @@ namespace itpp {
     it_assert(H.rows()==length(y),"Modulator_NRD::map_demod()");
     it_assert(H.cols()==nt,"Modulator_NRD:map_demod()");
     
-    short mode=0;
-     for (short i=0; i<length(M); i++) {
+    int mode=0;
+     for (int i=0; i<length(M); i++) {
        if (nt*M(i)>4) { mode = 1; }    // differential update only pays off for larger dimensions
      }
     
@@ -234,9 +234,9 @@ namespace itpp {
 	  if (r==0) {
 	    if (mode==0) {
 	      norm = 0.0;
-	      for (short p=0; p<nr; p++) {
+	      for (int p=0; p<nr; p++) {
 		double d = y[p];
-		for (short i=0; i<nt; i++) {
+		for (int i=0; i<nt; i++) {
 		  d -= H(p,i)*symbols(i)[s[i]];
 		}
 		norm += sqr(d);
@@ -271,8 +271,8 @@ namespace itpp {
     it_assert(H.rows()==length(y),"Modulator_NCD::map_demod()");
     it_assert(H.cols()==nt,"Modulator_NCD:map_demod()");
     
-    short mode=0;  
-    for (short i=0; i<length(M); i++) {
+    int mode=0;  
+    for (int i=0; i<length(M); i++) {
       if (nt*M(i)>4) { mode = 1; }    // differential update only pays off for larger dimensions
     }
     
@@ -290,7 +290,7 @@ namespace itpp {
     std::complex<double> d;
 
     // Go over all constellation points  (r=dimension, s=vector of symbols)
-    short r = nt-1;
+    int r = nt-1;
     while (1==1) {
       
       if (mode==1) {
@@ -307,9 +307,9 @@ namespace itpp {
 	  if (r==0) {
 	    if (mode==0) {
 	      norm = 0.0;
-	      for (short p=0; p<nr; p++) {
+	      for (int p=0; p<nr; p++) {
 		d = y[p];
-		for (short i=0; i<nt; i++) {
+		for (int i=0; i<nt; i++) {
 		  d -= H(p,i)*symbols(i)[s[i]];
 		}
 		norm += sqr(d);
@@ -342,8 +342,8 @@ namespace itpp {
     it_assert(length(bits)==sum(k),"Modulator_NRD::modulate_bits(): The number of input bits does not match.");
 
     int b=0;
-    for (short i=0; i<nt; i++) {
-      short symb = bin2dec(bits.mid(b,k(i)));
+    for (int i=0; i<nt; i++) {
+      int symb = bin2dec(bits.mid(b,k(i)));
       result(i) = symbols(i)(bits2symbols(i)(symb));
       b+=k(i);
     }
@@ -359,8 +359,8 @@ namespace itpp {
     it_assert(length(bits)==sum(k),"Modulator_NCD::modulate_bits(): The number of input bits does not match.");
 
     int b=0;
-    for (short i=0; i<nt; i++) {
-      short symb = bin2dec(bits.mid(b,k(i)));
+    for (int i=0; i<nt; i++) {
+      int symb = bin2dec(bits.mid(b,k(i)));
       result(i) = symbols(i)(bits2symbols(i)(symb));
       b+=k(i);
     }
@@ -423,7 +423,7 @@ namespace itpp {
     nt=nt_in;
     it_assert(length(Mary)==nt,"ND_UPAM::set_Gray_PAM() Mary has wrong length");
     k.set_size(nt);
-    M=Mary; 
+    M=Mary;
     bitmap.set_size(nt);
     symbols.set_size(nt);
     bits2symbols.set_size(nt);    
@@ -479,8 +479,8 @@ namespace itpp {
     int status = -1; // search failed 
     
     mat E=zeros(n,n);
-    for (short i=0; i<n; i++) {   // E(k,:) = y*Vi; 
-      for (short j=0; j<n; j++) {
+    for (int i=0; i<n; i++) {   // E(k,:) = y*Vi; 
+      for (int j=0; j<n; j++) {
 	E(i*n+n-1) += y(j)*Vi(j+n*i);
       }
     }
@@ -502,7 +502,7 @@ namespace itpp {
       
       if ((newdist<bestdist) && (k!=0)) {
 	
-	for (short i=0; i<k; i++) {
+	for (int i=0; i<k; i++) {
 	  E(k-1+i*n) = E(k+i*n) - p*Vi(k+i*n);
 	}
 	
@@ -517,7 +517,7 @@ namespace itpp {
       } else {
 	while (1==1) {
 	  if (newdist<bestdist) {
-	    for (short j=0; j<n; j++) { zhat(j) = z(j); }
+	    for (int j=0; j<n; j++) { zhat(j) = z(j); }
 	    bestdist = newdist; 
 	    status = 0;
 	  }
@@ -561,13 +561,13 @@ namespace itpp {
 
     vec ytemp=y;
     mat Htemp(H.rows(),H.cols());
-    for (short i=0; i<H.cols(); i++) {
+    for (int i=0; i<H.cols(); i++) {
       Htemp.set_col(i,H.get_col(i)*spacing(i));
       ytemp+=Htemp.get_col(i)*0.5*(M(i)-1.0);
     }
 
     imat crange(nt,2);
-    for (short i=0; i<nt; i++) {
+    for (int i=0; i<nt; i++) {
       crange(i,0) = 0;
       crange(i,1) = M(i)-1;
     }
@@ -581,8 +581,8 @@ namespace itpp {
       if (status==0) { // search successful
 	detected_bits.set_size(sum(k));
 	int b=0;
-	for (short j=0; j<nt; j++) {
-	  for (short i=0; i<k(j); i++) {
+	for (int j=0; j<nt; j++) {
+	  for (int i=0; i<k(j); i++) {
 	    if (bitmap(j)((M(j)-1-s[j]),i)==0) {
 	      detected_bits(b) = 1000;
 	    }  else {
@@ -722,11 +722,7 @@ namespace itpp {
       
       symbols(i)(M(i))=0.0;  // must end with a zero; only for a trick exploited in update_norm()
     }
-
-
   };
   
-  
-
 
 } // namespace itpp
