@@ -1,3 +1,7 @@
+2006-12-02  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/comm/modulator_nd.*: changed short -> int 
+
 2006-11-30  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/itfixed.h, itpp/fixed/cfix.h, itpp/fixed/fixed.h,

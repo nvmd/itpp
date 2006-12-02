@@ -63,24 +63,24 @@ namespace itpp {
     LLR_calc_unit get_llrcalc() const { return llrcalc; }
     
     //! Get number of bits per modulation symbol
-    svec get_k() { return k; }
+    ivec get_k() { return k; }
     
     //! Get number of modulation symbols per dimension
-    svec get_M() { return M; }
+    ivec get_M() { return M; }
 
   protected:    
     //! Number of dimensions
-    short nt;
+    int nt;
     //! LLR calculation unit
     LLR_calc_unit llrcalc;
     //! Number of bits per modulation symbol
-    svec k;
+    ivec k;
     //! Number of modulation symbols along each dimension
-    svec M;
+    ivec M;
     //! Bit mapping table (one table per dimension)
     Vec<bmat> bitmap;
     //! Bit pattern in decimal form ordered and the corresponding symbols (one pattern per dimension)
-    Vec<svec> bits2symbols;
+    Vec<ivec> bits2symbols;
 
     //! Convert LLR to log-probabilities 
     QLLRvec probabilities(QLLR l); // some abuse of what QLLR stands for...
@@ -103,7 +103,7 @@ namespace itpp {
     \param s the symbol vector
 
     */
-    void update_LLR(Vec<QLLRvec> &logP_apriori, QLLRvec &numerator, QLLRvec &denominator, svec &s, QLLR x);
+    void update_LLR(Vec<QLLRvec> &logP_apriori, QLLRvec &numerator, QLLRvec &denominator, ivec &s, QLLR x);
     
     /*! \brief Update LLR, for scalar channel (for internal use)
 
@@ -121,7 +121,7 @@ namespace itpp {
 
     */
     void update_LLR(Vec<QLLRvec> &logP_apriori, QLLRvec &numerator, QLLRvec &denominator, 
-		    short s, QLLR scaled_norm, short j);
+		    int s, QLLR scaled_norm, int j);
 
   };
 
@@ -220,7 +220,7 @@ namespace itpp {
     \param HtH The Grammian matrix H'H
     \param s The s-vector
     */
-    void update_norm(double &norm, short k, short sold, short snew, vec &ytH, mat &HtH, svec &s);
+    void update_norm(double &norm, int k, int sold, int snew, vec &ytH, mat &HtH, ivec &s);
   };
 
   /*! \relates Modulator_NRD
@@ -292,7 +292,7 @@ namespace itpp {
     //! Vector of modulation symbols (along each dimension)
     Vec<cvec> symbols;
 
-    void update_norm(double &norm, short k, short sold, short snew, cvec &ytH, cmat &HtH, svec &s);
+    void update_norm(double &norm, int k, int sold, int snew, cvec &ytH, cmat &HtH, ivec &s);
   };
   
   /*! \relates Modulator_NCD
@@ -381,7 +381,7 @@ namespace itpp {
 
   private:
     // Sphere decoding search with Schnorr Eucner strategy. 
-    int sphere_search_SE(vec &y_in, mat &H, imat &zrange, double r, svec &zhat);
+    int sphere_search_SE(vec &y_in, mat &H, imat &zrange, double r, ivec &zhat);
 
     vec spacing;  // spacing between the constellation points
     
@@ -404,7 +404,7 @@ namespace itpp {
 
   
   protected:
-    svec L;  // the square root of M
+    ivec L;  // the square root of M
 
   };
 

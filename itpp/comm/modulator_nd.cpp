@@ -64,17 +64,17 @@ namespace itpp {
     return result;
   }
 
-  void Modulator_ND::update_LLR(Vec<QLLRvec> &logP_apriori, QLLRvec &p1, QLLRvec &p0, short s, QLLR scaled_norm, short j)
+  void Modulator_ND::update_LLR(Vec<QLLRvec> &logP_apriori, QLLRvec &p1, QLLRvec &p0, int s, QLLR scaled_norm, int j)
   {
     QLLR log_apriori_prob_const_point = 0;
-    short b=0;
-    for (short i=0; i<k(j); i++) {
+    int b=0;
+    for (int i=0; i<k(j); i++) {
       log_apriori_prob_const_point += ((bitmap(j)(s,i)==0) ? logP_apriori(b)(1) : logP_apriori(b)(0));
       b++;
     }
     
     b=0;
-    for (short i=0; i<k(j); i++) {
+    for (int i=0; i<k(j); i++) {
       if (bitmap(j)(s,i)==0) {
 	p1(b) =  llrcalc.jaclog(p1(b), scaled_norm + log_apriori_prob_const_point );
       }  else {
@@ -84,7 +84,7 @@ namespace itpp {
     }
   }
 
-  void Modulator_ND::update_LLR(Vec<QLLRvec> &logP_apriori, QLLRvec &p1, QLLRvec &p0, svec &s, QLLR scaled_norm)
+  void Modulator_ND::update_LLR(Vec<QLLRvec> &logP_apriori, QLLRvec &p1, QLLRvec &p0, ivec &s, QLLR scaled_norm)
   {
     QLLR log_apriori_prob_const_point = 0;
     short b=0;
@@ -108,7 +108,7 @@ namespace itpp {
     }	    
   }
 
-  void Modulator_NRD::update_norm(double &norm, short k, short sold, short snew, vec &ytH, mat &HtH, svec &s)
+  void Modulator_NRD::update_norm(double &norm, int k, int sold, int snew, vec &ytH, mat &HtH, ivec &s)
   {
    
     short m = length(s);
@@ -122,7 +122,7 @@ namespace itpp {
      }
   }
 
-  void Modulator_NCD::update_norm(double &norm, short k, short sold, short snew, cvec &ytH, cmat &HtH, svec &s)
+  void Modulator_NCD::update_norm(double &norm, int k, int sold, int snew, cvec &ytH, cmat &HtH, ivec &s)
   {
     short m = length(s);
     std::complex<double> cdiff = symbols(k)[snew]-symbols(k)[sold];
@@ -192,8 +192,8 @@ namespace itpp {
   void Modulator_NRD::map_demod(QLLRvec &LLR_apriori,  QLLRvec &LLR_aposteriori,  
 			   double sigma2,  mat &H, vec &y)
   {
-    short nr = H.rows();
-    short np=sum(k); // number of bits in total
+    int nr = H.rows();
+    int np=sum(k); // number of bits in total
     it_assert(length(LLR_apriori)==np,"Modulator_NRD::map_demod()");
     it_assert(length(LLR_apriori)==length(LLR_aposteriori),"Modulator_NRD::map_demod()");
     it_assert(H.rows()==length(y),"Modulator_NRD::map_demod()");
@@ -211,13 +211,13 @@ namespace itpp {
     
     QLLRvec bnum = (-QLLR_MAX)*ones_i(np);
     QLLRvec bdenom = (-QLLR_MAX)*ones_i(np);    
-    svec s(nt);
+    ivec s(nt);
     s.clear();
     double norm = 0.0;
     double oo_2s2 = 1.0/(2.0*sigma2);
     
     // Go over all constellation points  (r=dimension, s=vector of symbols)
-    short r = nt-1;
+    int r = nt-1;
     while (1==1) {
       
       if (mode==1) {
@@ -264,8 +264,8 @@ namespace itpp {
   void Modulator_NCD::map_demod(QLLRvec &LLR_apriori,  QLLRvec &LLR_aposteriori,  double sigma2,  
 				cmat &H, cvec &y)
   {
-    short nr = H.rows();
-    short np=sum(k); // number of bits in total
+    int nr = H.rows();
+    int np=sum(k); // number of bits in total
     it_assert(length(LLR_apriori)==np,"Modulator_NCD::map_demod()");
     it_assert(length(LLR_apriori)==length(LLR_aposteriori),"Modulator_NCD::map_demod()");
     it_assert(H.rows()==length(y),"Modulator_NCD::map_demod()");
@@ -283,7 +283,7 @@ namespace itpp {
     
     QLLRvec bnum = (-QLLR_MAX)*ones_i(np);
     QLLRvec bdenom = (-QLLR_MAX)*ones_i(np);   
-    svec s(nt);
+    ivec s(nt);
     s.clear();
     double norm = 0.0;
     double oo_s2 = 1.0/sigma2;
@@ -423,7 +423,7 @@ namespace itpp {
     nt=nt_in;
     it_assert(length(Mary)==nt,"ND_UPAM::set_Gray_PAM() Mary has wrong length");
     k.set_size(nt);
-    M=to_svec(Mary);
+    M=Mary; 
     bitmap.set_size(nt);
     symbols.set_size(nt);
     bits2symbols.set_size(nt);    
@@ -455,7 +455,7 @@ namespace itpp {
 #define min(a,b) (((a)<(b))?(a):(b))
 #define sign(a)  (((a)>0)?(1):(-1))
 
-  int ND_UPAM::sphere_search_SE(vec &y_in, mat &H, imat &zrange, double r, svec &zhat)
+  int ND_UPAM::sphere_search_SE(vec &y_in, mat &H, imat &zrange, double r, ivec &zhat)
   {
     // The implementation of this function basically follows the
     // Schnorr-Eucner algorithm described in Agrell et al. (IEEE
@@ -472,11 +472,11 @@ namespace itpp {
     vec y=Q.transpose()*y_in;
     mat Vi=Ri.transpose();
 
-    short n=H.cols();
+    int n=H.cols();
     vec dist(n);
     dist[n-1] = 0;
     double bestdist = r*r;
-    short status = -1; // search failed 
+    int status = -1; // search failed 
     
     mat E=zeros(n,n);
     for (short i=0; i<n; i++) {   // E(k,:) = y*Vi; 
@@ -485,17 +485,17 @@ namespace itpp {
       }
     }
     
-    svec z(n);
+    ivec z(n);
     zhat.set_size(n);
-    z(n-1) = (short) std::floor(0.5 + E(n*n-1));
+    z(n-1) = (int) std::floor(0.5 + E(n*n-1));
     z(n-1) = max(z(n-1),zrange(n-1,0));
     z(n-1) = min(z(n-1),zrange(n-1,1));
     double p = (E(n*n-1)-z(n-1))/Vi(n*n-1);
-    svec step(n);
+    ivec step(n);
     step(n-1) = sign(p);
     
     // Run search loop 
-    short k=n-1;  // k uses natural indexing, goes from 0 to n-1 
+    int k=n-1;  // k uses natural indexing, goes from 0 to n-1 
     
     while (1==1) {
       double newdist = dist(k) + p*p;
@@ -508,7 +508,7 @@ namespace itpp {
 	
 	k--;
 	dist(k) = newdist;
-	z(k) = (short) std::floor(0.5+E(k+k*n));
+	z(k) = (int) std::floor(0.5+E(k+k*n));
 	z(k) = max(z(k),zrange(k,0));
 	z(k) = min(z(k),zrange(k,1));
 	p = (E(k+k*n)-z(k))/Vi(k+k*n);
@@ -572,9 +572,9 @@ namespace itpp {
       crange(i,1) = M(i)-1;
     }
 
-    short status;  
+    int status;  
     double r = rstart;
-    svec s(sum(M));
+    ivec s(sum(M));
     while (r<=rmax) {
       status = sphere_search_SE(ytemp,Htemp,crange,r,s);
       
@@ -629,7 +629,7 @@ namespace itpp {
     nt=nt_in;
     it_assert(length(Mary)==nt,"ND_UQAM::set_Gray_QAM() Mary has wrong length");
     k.set_size(nt);
-    M=to_svec(Mary);
+    M=Mary;
     L.set_size(nt);
     bitmap.set_size(nt);
     symbols.set_size(nt);
@@ -690,7 +690,7 @@ namespace itpp {
     nt=nt_in;
     it_assert(length(Mary)==nt,"ND_UPSK::set_Gray_PSK() Mary has wrong length");
     k.set_size(nt);
-    M=to_svec(Mary);
+    M=Mary;
     bitmap.set_size(nt);
     symbols.set_size(nt);
     bits2symbols.set_size(nt);    
