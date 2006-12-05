@@ -15,6 +15,26 @@
 	* win32/itpp.vcproj: Include recently created statistics module
 	sources.
 	
+==============================================================================
+
+2006-12-04  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* IT++ 3.10.7 released (SVN tag: release-3-10-7)
+	(merged rev. 725:729 from the itpp-3-10 branch)
+
+	* NEWS, TODO: Updated to reflect recent changes.
+	(merged rev. 725:729 from the itpp-3-10 branch)
+
+	* config/acx_blas.m4: Fixed a problem with detection of the ACML
+	library on 64-bit platforms.
+	(merged rev. 725:729 from the itpp-3-10 branch)
+
+2006-12-02  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/local/index.doc.in: Updated SVN repository and bug tracker
+	links.
+	(merged rev. 725:729 from the itpp-3-10 branch)
+
 2006-12-02  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/comm/modulator_nd.*: changed short -> int 

@@ -23,7 +23,7 @@
 <a href="http://sourceforge.net/projects/itpp/"><b>IT++ at SourceForge:</b></a>
 <ul>
 <li><a href="http://sourceforge.net/project/showfiles.php?group_id=37044">Download IT++</a></li>
-<li><a href="http://sourceforge.net/tracker/?atid=418758&amp;group_id=37044&amp;func=browse">Bug Reports</a></li>
+<li><a href="http://sourceforge.net/tracker/?group_id=37044&atid=418758">Bug Reports</a></li>
 <li><a href="http://sourceforge.net/tracker/?group_id=37044&atid=418761">Feature Requests</a></li>
 <li><a href="http://sourceforge.net/forum/forum.php?forum_id=115656">Ask for Help</a></li>
 <li><a href="http://sourceforge.net/forum/forum.php?forum_id=115655">Discuss IT++</a></li>
@@ -31,7 +31,7 @@
 
 <b>IT++ Development:</b>
 <ul>
-<li><a href="http://svn.sourceforge.net/itpp">SVN Repository</a></li>
+<li><a href="http://itpp.svn.sourceforge.net/viewvc/itpp/">SVN Repository</a></li>
 <li><a href="codingrules.html">Coding Rules</a></li>
 <li><a href="documentation.html">Documentation Rules</a></li>
 <li><a href="test.html">Test Rules</a></li>

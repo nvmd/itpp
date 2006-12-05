@@ -42,6 +42,10 @@ esac
 
 test x"$acx_blas_ok" != xdisabled && acx_blas_ok=no
 
+blas_mkl_ok=no
+blas_acml_ok=no
+blas_atlas_ok=no
+
 # Get fortran linker names of BLAS functions to check for.
 AC_F77_FUNC(sgemm)
 AC_F77_FUNC(dgemm)
@@ -56,6 +60,12 @@ if test $acx_blas_ok = no; then
     AC_MSG_CHECKING([for $sgemm in $BLAS_LIBS])
     AC_TRY_LINK_FUNC($sgemm, [acx_blas_ok=yes], [BLAS_LIBS=""])
     AC_MSG_RESULT($acx_blas_ok)
+    # if BLAS is found check for ATLAS
+    if test $acx_blas_ok = yes; then
+      AC_MSG_CHECKING([for ATL_xerbla in $BLAS_LIBS])
+      AC_TRY_LINK_FUNC(ATL_xerbla, [blas_atlas_ok=yes])
+      AC_MSG_RESULT($blas_atlas_ok)
+    fi
     LIBS="$save_LIBS"
   fi
 fi
@@ -69,7 +79,6 @@ fi
 
 # BLAS in MKL library? 
 # (http://www.intel.com/cd/software/products/asmo-na/eng/perflib/mkl/index.htm)
-blas_mkl_ok=no
 if test $acx_blas_ok = no; then
   AC_CHECK_LIB(mkl, $sgemm, 
     [acx_blas_ok=yes; blas_mkl_ok=yes; BLAS_LIBS="-lmkl -lguide -lpthread"], 
@@ -77,14 +86,16 @@ if test $acx_blas_ok = no; then
 fi
 
 # BLAS in ACML library? (http://developer.amd.com/acml.aspx)
-blas_acml_ok=no
 if test $acx_blas_ok = no; then
   AC_CHECK_LIB(acml, $sgemm, 
-    [acx_blas_ok=yes; blas_acml_ok=yes; BLAS_LIBS="-lacml"])
+    [acx_blas_ok=yes; blas_acml_ok=yes; BLAS_LIBS="-lacml"],
+    [AC_CHECK_LIB(acml, $dgemm,
+      [acx_blas_ok=yes; blas_acml_ok=yes; BLAS_LIBS="-lacml -lacml_mv"],
+      [], [-lacml_mv])],
+    [])
 fi
 
 # BLAS in ATLAS library? (http://math-atlas.sourceforge.net/)
-blas_atlas_ok=no
 if test $acx_blas_ok = no; then
   AC_CHECK_LIB(atlas, ATL_xerbla,	
     [AC_CHECK_LIB(f77blas, $sgemm, 

@@ -1,4 +1,36 @@
 ===============================================================================
+IT++ version 3.10.7                                        Released: 2006-12-04
+-------------------------------------------------------------------------------
+
+This is the next bug-fix release of a stable IT++ library. Therefore, no new
+features have been added since 3.10.6 release. Only minor modifications and
+bug-fixes have been done.
+
+Bug-fixes:
+----------
+
+* Fixed a problem with detection of the ACML library on 64-bit platforms.
+
+* Minor code readability and efficiency improvements in modulator_nd.cpp
+  file.
+
+* Fixed bug [1570388] by adding a warning message to `get_no_mixtures()'
+  function saying that it is deprecated and that `get_no_gaussians()' should
+  be used instead.
+
+* Function `needed_bits()' marked as deprecated, because its name was
+  misleading (see bug [1480535]). The following two functions were added
+  instead: `int2bits()' and `levels2bits()'. The first one returns the
+  number of bits required for representing an unsigned integer, e.g.
+  "int2bits(0) = 1", "int2bits(2) = 2". The latter one returns the number of
+  bits to code a certain, positive number of values (levels). For example:
+  "levels2bits(1) = 1", "levels2bits(2) = 1".
+
+* Fixed auto-detected library flags, which are required for linking with a
+  static IT++ library.
+
+
+===============================================================================
 IT++ version 3.10.6                                        Released: 2006-10-15
 -------------------------------------------------------------------------------
 
