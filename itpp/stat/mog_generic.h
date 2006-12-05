@@ -42,8 +42,7 @@ namespace itpp {
 
   /*! 
     \ingroup MOG
-    \brief Generic Mixture of Gaussians (MOG) class. Used as a base 
-		for other MOG classes. 
+    \brief Generic Mixture of Gaussians (MOG) class. Used as a base for other MOG classes. 
     \author Conrad Sanderson
     
     Used for representing a statistical distribution as a 
@@ -69,41 +68,41 @@ namespace itpp {
     MOG_generic() { init(); }
     
     /*! \brief Construct the MOG_generic object by loading the parameters from a model file
-        \param _name The model's filename
+        \param name_in The model's filename
     */ 
-    MOG_generic(const std::string &_name) { load(_name); }
+    MOG_generic(const std::string &name_in) { load(name_in); }
 
     /*! \brief construct a default model (all Gaussians have zero mean and unit variance for all dimensions)
-        \param _K Number of Gaussians
-        \param _D Dimensionality
-        \param _full If true, use full covariance matrices; if false, use diagonal covariance matrices. Default = false. 
+        \param K_in Number of Gaussians
+        \param D_in Dimensionality
+        \param full_in If true, use full covariance matrices; if false, use diagonal covariance matrices. Default = false. 
     */
-    MOG_generic(int _K, int _D, bool _full=false) { init(_K, _D, _full); }
+    MOG_generic(int K_in, int D_in, bool full_in=false) { init(K_in, D_in, full_in); }
 
     /*! \brief Construct a model using user supplied mean vectors
-        \param _means Array of mean vectors
-        \param _full If true, use full covariance matrices; if false, use diagonal covariance matrices. Default = false.
+        \param means_in Array of mean vectors
+        \param full_in If true, use full covariance matrices; if false, use diagonal covariance matrices. Default = false.
         \note  The number of mean vectors specifies the number of Gaussians.
         The covariance matrices are set to the identity matrix.
         The weights for all Gaussians are the same, equal to 1/K, where K is the number of Gaussians
     */
-    MOG_generic(Array<vec> &_means, bool _full=false) { init(_means, _full); }
+    MOG_generic(Array<vec> &means_in, bool full_in=false) { init(means_in, full_in); }
 
     /*! \brief Construct a model using user supplied parameters (diagonal covariance version) 
-        \param _means Array of mean vectors
-        \param _diag_covs Array of vectors representing diagonal covariances
-        \param _weights vector of weights
+        \param means_in Array of mean vectors
+        \param diag_covs_in Array of vectors representing diagonal covariances
+        \param weights_in vector of weights
         \note  The number of mean vectors, covariance vectors and weights must be the same
     */
-    MOG_generic(Array<vec> &_means, Array<vec> &_diag_covs, vec &_weights) { init(_means, _diag_covs, _weights); }
+    MOG_generic(Array<vec> &means_in, Array<vec> &diag_covs_in, vec &weights_in) { init(means_in, diag_covs_in, weights_in); }
 
     /*! \brief Construct a model using user supplied parameters (full covariance version) 
-        \param _means Array of mean vectors
-        \param _diag_covs Array of full covariance matrices
-        \param _weights vector of weights
+        \param means_in Array of mean vectors
+        \param diag_covs_in Array of full covariance matrices
+        \param weights_in vector of weights
         \note  The number of mean vectors, covariance matrices and weights must be the same
     */
-    MOG_generic(Array<vec> &_means, Array<mat> &_full_covs, vec &_weights) { init(_means, _full_covs, _weights); }
+    MOG_generic(Array<vec> &means_in, Array<mat> &full_covs_in, vec &weights_in) { init(means_in, full_covs_in, weights_in); }
 
     //! Default destructor
     virtual ~MOG_generic() { cleanup(); }
@@ -115,36 +114,36 @@ namespace itpp {
     void init();
 
     /*! \brief initialise the model so that all Gaussians have zero mean and unit variance for all dimensions  
-        \param _K Number of Gaussians
-        \param _D Dimensionality
-        \param _full If true, use full covariance matrices; if false, use diagonal covariance matrices. Default = false. 
+        \param K_in Number of Gaussians
+        \param D_in Dimensionality
+        \param full_in If true, use full covariance matrices; if false, use diagonal covariance matrices. Default = false. 
     */
-    void init(int _K, int _D, bool _full);
+    void init(int K_in, int D_in, bool full_in);
 
     /*! \brief Initialise the model using user supplied mean vectors
-        \param _means Array of mean vectors
-        \param _full If true, use full covariance matrices; if false, use diagonal covariance matrices. Default = false.
+        \param means_in Array of mean vectors
+        \param full_in If true, use full covariance matrices; if false, use diagonal covariance matrices. Default = false.
         \note  The number of mean vectors specifies the number of Gaussians.
         The covariance matrices are set to the identity matrix.
         The weights for all Gaussians are the same, equal to 1/K, where K is the number of Gaussians
     */
-    void init(Array<vec> &_means, bool _full);
+    void init(Array<vec> &means_in, bool full_in);
 
     /*! \brief Initialise the model using user supplied parameters (diagonal covariance version) 
-        \param _means Array of mean vectors
-        \param _diag_covs Array of vectors representing diagonal covariances
-        \param _weights vector of weights
+        \param means_in Array of mean vectors
+        \param diag_covs_in Array of vectors representing diagonal covariances
+        \param weights_in vector of weights
         \note  The number of mean vectors, covariance vectors and weights must be the same
       */
-    void init(Array<vec> &_means, Array<vec> &_diag_covs, vec &_weights);
+    void init(Array<vec> &means_in, Array<vec> &diag_covs_in, vec &weights_in);
 
     /*! \brief Initialise the model using user supplied parameters (full covariance version) 
-        \param _means Array of mean vectors
-        \param _diag_covs Array of covariance matrices
-        \param _weights vector of weights
+        \param means_in Array of mean vectors
+        \param diag_covs_in Array of covariance matrices
+        \param weights_in vector of weights
         \note  The number of mean vectors, covariance matrices and weights must be the same
     */
-    void init(Array<vec> &_means, Array<mat> &_full_covs, vec &_weights);
+    void init(Array<vec> &means_in, Array<mat> &full_covs_in, vec &weights_in);
 
     /*! \brief Release memory used by the model. The model will be empty.
         \note The likelihood functions are not useable
@@ -179,22 +178,22 @@ namespace itpp {
     /*! \brief Set the means of the model
         \note The number of means must match the number of Gaussians in the model
     */ 
-    void set_means(Array<vec> &_means);
+    void set_means(Array<vec> &means_in);
 
     /*! \brief Set the diagonal covariance vectors of the model
         \note  The number of diagonal covariance vectors must match the number of Gaussians in the model
     */
-    void set_diag_covs(Array<vec> &_diag_covs);
+    void set_diag_covs(Array<vec> &diag_covs_in);
 
     /*! \brief Set the full covariance matrices of the model
         \note  The number of covariance matrices must match the number of Gaussians in the model
     */
-    void set_full_covs(Array<mat> &_full_covs);
+    void set_full_covs(Array<mat> &full_covs_in);
 
     /*! \brief Set the weight vector of the model
         \note  The number of elements in the weight vector must match the number of Gaussians in the model
     */
-    void set_weights(vec &_weights);
+    void set_weights(vec &weights_in);
   
     //! Set the means in the model to be zero
     void set_means_zero();
@@ -209,29 +208,29 @@ namespace itpp {
     void set_weights_uniform();
   
     /*! \brief Enable/disable internal checks for likelihood functions
-        \param _do_checks If true, checks are enabled; if false, checks are disabled
+        \param do_checks_in If true, checks are enabled; if false, checks are disabled
         \note Disabling checks will provide a speedup in the likelihood functions.
               Disable them only when you're happy that everything is working correctly.
     */
-    void set_checks(bool _do_checks) { do_checks = _do_checks; }
+    void set_checks(bool do_checks_in) { do_checks = do_checks_in; }
   
     /*! \brief Enable/disable paranoia about numerical stability
         \param _paranoid If true, calculate likelihoods using a safer, but slower method.
     */
-    void set_paranoid(bool _paranoid) { paranoid = _paranoid; }
+    void set_paranoid(bool paranoid_in) { paranoid = paranoid_in; }
     
     /*! \brief Initialise the model by loading the parameters from a model file
-        \param _name The model's filename
+        \param name_in The model's filename
     */
-    virtual void load(const std::string &_name);
+    virtual void load(const std::string &name_in);
 
     /*! \brief Save the model's parameters to a model file
-        \param _name The model's filename
+        \param name_in The model's filename
     */
-    virtual void save(const std::string &_name) const;
+    virtual void save(const std::string &name_in) const;
 
     /*! \brief Mathematically join the model with a user supplied model
-        \param _B user supplied model
+        \param B_in user supplied model
         \note The Arrays of mean vectors and covariance vectors/matrices from the two models
               are simply concatenated, while the weights of the resultant model are a function 
               of the original weights and numbers of Gaussians from both models.
@@ -239,14 +238,14 @@ namespace itpp {
               \f$ w_{new} = [ \alpha \cdot w_{A} ~~~ \beta \cdot w_{B} ]^T \f$,
               where \f$ w_{new} \f$ is the new weight vector,
               \f$ w_{A} \f$ and \f$ w_{B} \f$ are the weight vectors from model A and B,
-              while \f$ \alpha = K_A / (K_A + K_B) \f$
+              while \f$ \alpha = K_A / (K_A + KB_in) \f$
               and \f$ \beta = 1-\alpha \f$.
-              In turn, \f$ K_A \f$ and \f$ K_B \f$ are the numbers of Gaussians in model A and B, respectively.   
+              In turn, \f$ K_A \f$ and \f$ KB_in \f$ are the numbers of Gaussians in model A and B, respectively.   
                 
               See <a href="http://dx.doi.org/10.1016/j.patcog.2005.07.001">On transforming statistical models...</a>
               for more information.
     */
-    virtual void join(const MOG_generic &_B);
+    virtual void join(const MOG_generic &B_in);
   
     /*! \brief Convert the model to use diagonal covariances
                 
@@ -264,17 +263,17 @@ namespace itpp {
     */
     virtual void convert_to_full();
   
-    //! calculate the log likelihood of vector \c _x using only Gaussian \c k 
-    virtual inline double log_lhood_single_gaus(const vec &_x, const int k);
+    //! calculate the log likelihood of vector \c x_in using only Gaussian \c k 
+    virtual inline double log_lhood_single_gaus(const vec &x_in, const int k);
     
-    //! calculate the log likelihood of vector \c _x 
-    virtual inline double log_lhood(const vec &_x);
+    //! calculate the log likelihood of vector \c x_in 
+    virtual inline double log_lhood(const vec &x_in);
 
-    //! calculate the likelihood of vector \c _x 
-    virtual inline double lhood(const vec &_x);
+    //! calculate the likelihood of vector \c x_in 
+    virtual inline double lhood(const vec &x_in);
     
-    //! calculate the average log likelihood of an array of vectors \c _X
-    virtual inline double avg_log_lhood(const Array<vec> &_X);
+    //! calculate the average log likelihood of an array of vectors \c X_in
+    virtual inline double avg_log_lhood(const Array<vec> &X_in);
 
   protected:
     
@@ -327,18 +326,18 @@ namespace itpp {
     //! Pre-calcuated inverted version of each diagonal covariance vector, where the covariance elements are first multiplied by two 
     Array<vec> diag_covs_inv_etc;
     
-    //! Check if vector \c _x has the same dimensionality as the model
-    bool check_size(const vec &_x) const;
+    //! Check if vector \c x_in has the same dimensionality as the model
+    bool check_size(const vec &x_in) const;
 
-    //! Check if all vectors in Array \c _X have the same dimensionality as the model
-    bool check_size(const Array<vec> &_X) const;
+    //! Check if all vectors in Array \c X_in have the same dimensionality as the model
+    bool check_size(const Array<vec> &X_in) const;
     
-    //! Check if all vectors in Array \c _X have the same dimensionality
+    //! Check if all vectors in Array \c X_in have the same dimensionality
     bool check_array_uniformity(const Array<vec> & A) const;
 
-    void set_means_internal(Array<vec> &_means);
-    void set_diag_covs_internal(Array<vec> &_diag_covs);
-    void set_full_covs_internal(Array<mat> &_full_covs);
+    void set_means_internal(Array<vec> &means_in);
+    void set_diag_covs_internal(Array<vec> &diag_covs_in);
+    void set_full_covs_internal(Array<mat> &full_covs_in);
     void set_weights_internal(vec &_weigths);
   
     void set_means_zero_internal();
@@ -361,9 +360,9 @@ namespace itpp {
     //! additional processing of miscellaneous parameters, done as the last step of overall initialisation
     virtual void setup_misc();
   
-    virtual inline double log_lhood_single_gaus_internal(const vec &_x, const int k);
-    virtual inline double log_lhood_internal(const vec &_x);
-    virtual inline double lhood_internal(const vec &_x);
+    virtual inline double log_lhood_single_gaus_internal(const vec &x_in, const int k);
+    virtual inline double log_lhood_internal(const vec &x_in);
+    virtual inline double lhood_internal(const vec &x_in);
   
   private:
     vec tmpvecD;
@@ -379,12 +378,12 @@ namespace itpp {
 
 namespace itpp {
 
-  inline double MOG_generic::log_lhood_single_gaus_internal(const vec &_x, const int k) {
+  inline double MOG_generic::log_lhood_single_gaus_internal(const vec &x_in, const int k) {
    
     const vec & mean = means(k);
    
     if(full) {
-      for(int d=0;d<D;d++)  tmpvecD[d] = _x[d] - mean[d];
+      for(int d=0;d<D;d++)  tmpvecD[d] = x_in[d] - mean[d];
       double tmpval = tmpvecD*(full_covs_inv(k)*tmpvecD);
       return(log_det_etc[k] - 0.5*tmpval);
     }
@@ -394,7 +393,7 @@ namespace itpp {
       double acc = 0.0;
     
       for(int d=0; d<D; d++) {
-        double tmpval = _x[d] - mean[d];
+        double tmpval = x_in[d] - mean[d];
         acc += (tmpval*tmpval) * diag_cov_inv_etc[d];
       }
       return(log_det_etc[k] - acc);
@@ -402,22 +401,22 @@ namespace itpp {
   
   }
   
-  inline double MOG_generic::log_lhood_single_gaus(const vec &_x, const int k) {
+  inline double MOG_generic::log_lhood_single_gaus(const vec &x_in, const int k) {
     if(do_checks) {
       it_assert(valid, "MOG_generic::log_lhood_single_gaus(): model not valid");
-      it_assert(check_size(_x), "MOG_generic::log_lhood_single_gaus(): x has wrong dimensionality");
+      it_assert(check_size(x_in), "MOG_generic::log_lhood_single_gaus(): x has wrong dimensionality");
       it_assert( ( (k>=0) && (k<K) ), "MOG_generic::log_lhood_single_gaus(): k specifies a non-existant Gaussian");
     }
-    return log_lhood_single_gaus_internal(_x,k);
+    return log_lhood_single_gaus_internal(x_in,k);
   }
 
   
-  inline double MOG_generic::log_lhood_internal(const vec &_x) {
+  inline double MOG_generic::log_lhood_internal(const vec &x_in) {
     
     bool danger = paranoid;
     
     for(int k=0;k<K;k++)  {
-      double tmp = log_weights[k] + log_lhood_single_gaus_internal(_x,k); 
+      double tmp = log_weights[k] + log_lhood_single_gaus_internal(x_in,k); 
       tmpvecK[k] = tmp;
       
       if(tmp >= log_max_K)  danger = true;
@@ -434,21 +433,21 @@ namespace itpp {
   }
   
   
-  inline double MOG_generic::log_lhood(const vec &_x) {
+  inline double MOG_generic::log_lhood(const vec &x_in) {
     if(do_checks) {
       it_assert(valid, "MOG_generic::log_lhood(): model not valid");
-      it_assert(check_size(_x), "MOG_generic::log_lhood(): x has wrong dimensionality");
+      it_assert(check_size(x_in), "MOG_generic::log_lhood(): x has wrong dimensionality");
     }
-    return log_lhood_internal(_x);
+    return log_lhood_internal(x_in);
   }
 
         
-  inline double MOG_generic::lhood_internal(const vec &_x) {
+  inline double MOG_generic::lhood_internal(const vec &x_in) {
     
     bool danger = paranoid;
     
     for(int k=0;k<K;k++)  {
-      double tmp = log_weights[k] + log_lhood_single_gaus_internal(_x,k); 
+      double tmp = log_weights[k] + log_lhood_single_gaus_internal(x_in,k); 
       tmpvecK[k] = tmp;
       
       if(tmp >= log_max_K)  danger = true;
@@ -465,25 +464,25 @@ namespace itpp {
   }
         
         
-  inline double MOG_generic::lhood(const vec &_x) {
+  inline double MOG_generic::lhood(const vec &x_in) {
     
     if(do_checks) {
       it_assert(valid, "MOG_generic::lhood(): model not valid");
-      it_assert(check_size(_x), "MOG_generic::lhood(): x has wrong dimensionality");
+      it_assert(check_size(x_in), "MOG_generic::lhood(): x has wrong dimensionality");
     }
-    return lhood_internal(_x);
+    return lhood_internal(x_in);
   }
   
 
-  inline double MOG_generic::avg_log_lhood(const Array<vec> &_X) {
+  inline double MOG_generic::avg_log_lhood(const Array<vec> &X_in) {
     if(do_checks) {
       it_assert(valid, "MOG_generic::avg_log_lhood(): model not valid");
-      it_assert(check_size(_X), "MOG_generic::avg_log_lhood(): X is empty or at least one vector has the wrong dimensionality");
+      it_assert(check_size(X_in), "MOG_generic::avg_log_lhood(): X is empty or at least one vector has the wrong dimensionality");
     }
   
-    const int N = _X.size();
+    const int N = X_in.size();
     double acc = 0.0;
-    for(int n=0;n<N;n++)  acc += log_lhood_internal(_X(n));
+    for(int n=0;n<N;n++)  acc += log_lhood_internal(X_in(n));
     return(acc/N);
   }
 

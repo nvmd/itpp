@@ -35,6 +35,7 @@
 #include <itpp/base/det.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/base/itfile.h>
+#include <itpp/base/itmisc.h>
 
 
 namespace itpp {
@@ -43,15 +44,15 @@ namespace itpp {
   void MOG_generic::init() { cleanup(); }
 
 
-  void MOG_generic::init(int _K, int _D, bool _full=false) {
+  void MOG_generic::init(int K_in, int D_in, bool full_in=false) {
     valid = false;
   
-    it_assert(_K >= 0, "MOG_generic::init(): number of Gaussians must be greater than zero");
-    it_assert(_D >= 0, "MOG_generic::init(): dimensionality must be greater than zero");
+    it_assert(K_in >= 0, "MOG_generic::init(): number of Gaussians must be greater than zero");
+    it_assert(D_in >= 0, "MOG_generic::init(): dimensionality must be greater than zero");
   
-    K = _K;
-    D = _D;
-    full = _full;
+    K = K_in;
+    D = D_in;
+    full = full_in;
   
     set_means_zero_internal();
     full ? set_full_covs_unity_internal() : set_diag_covs_unity_internal();
@@ -65,15 +66,15 @@ namespace itpp {
   }
 
 
-  void MOG_generic::init(Array<vec> &_means, bool _full=false) {
+  void MOG_generic::init(Array<vec> &means_in, bool full_in=false) {
     valid = false;
   
-    K = _means.size();
-    D = _means(0).size();
-    full = _full;
+    K = means_in.size();
+    D = means_in(0).size();
+    full = full_in;
   
-    it_assert( check_array_uniformity(_means), "MOG_generic::init(): 'means' is empty or contains vectors of varying dimensionality" );
-    set_means(_means);
+    it_assert( check_array_uniformity(means_in), "MOG_generic::init(): 'means' is empty or contains vectors of varying dimensionality" );
+    set_means(means_in);
     full ? set_full_covs_unity_internal() : set_diag_covs_unity_internal();
     set_weights_uniform_internal();
     setup_misc();
@@ -84,18 +85,18 @@ namespace itpp {
   }
 
 
-  void MOG_generic::init(Array<vec> &_means, Array<vec> &_diag_covs, vec &_weights) {
+  void MOG_generic::init(Array<vec> &means_in, Array<vec> &diag_covs_in, vec &weights_in) {
     valid = false;
   
-    K = _means.size();
-    D = _means(0).size();
+    K = means_in.size();
+    D = means_in(0).size();
     full = false;
   
-    it_assert( check_array_uniformity(_means), "MOG_generic::init(): 'means' is empty or contains vectors of varying dimensionality" );
+    it_assert( check_array_uniformity(means_in), "MOG_generic::init(): 'means' is empty or contains vectors of varying dimensionality" );
   
-    set_means_internal(_means);
-    set_diag_covs_internal(_diag_covs);
-    set_weights_internal(_weights);
+    set_means_internal(means_in);
+    set_diag_covs_internal(diag_covs_in);
+    set_weights_internal(weights_in);
     setup_misc();  
   
     valid = true;
@@ -104,17 +105,17 @@ namespace itpp {
   }
 
 
-  void MOG_generic::init(Array<vec> &_means, Array<mat> &_full_covs, vec &_weights) {
+  void MOG_generic::init(Array<vec> &means_in, Array<mat> &full_covs_in, vec &weights_in) {
     valid = false;
   
-    K = _means.size();
-    D = _means(0).size();
+    K = means_in.size();
+    D = means_in(0).size();
     full = true;
   
-    it_assert( check_array_uniformity(_means), "MOG_generic::init(): 'means' is empty or contains vectors of varying dimensionality" );
-    set_means_internal(_means);
-    set_full_covs_internal(_full_covs);
-    set_weights_internal(_weights);
+    it_assert( check_array_uniformity(means_in), "MOG_generic::init(): 'means' is empty or contains vectors of varying dimensionality" );
+    set_means_internal(means_in);
+    set_full_covs_internal(full_covs_in);
+    set_weights_internal(weights_in);
     setup_misc();  
   
     valid = true;
@@ -123,14 +124,14 @@ namespace itpp {
   }
 
   
-  bool MOG_generic::check_size(const vec &_x) const {
-    if(_x.size() == D) return true;
+  bool MOG_generic::check_size(const vec &x_in) const {
+    if(x_in.size() == D) return true;
     return false;
   }
   
   
-  bool MOG_generic::check_size(const Array<vec> &_X) const {
-    if(check_array_uniformity(_X)) return check_size(_X(0));
+  bool MOG_generic::check_size(const Array<vec> &X_in) const {
+    if(check_array_uniformity(X_in)) return check_size(X_in(0));
     return false;
   }
 
@@ -153,69 +154,69 @@ namespace itpp {
     }
 
 
-  void MOG_generic::set_means_internal(Array<vec> &_means) {
-    it_assert( (_means.size() == K), "MOG_generic::set_means_internal(): number of vectors in 'means' is not equivalent to number of Gaussians" );
+  void MOG_generic::set_means_internal(Array<vec> &means_in) {
+    it_assert( (means_in.size() == K), "MOG_generic::set_means_internal(): number of vectors in 'means' is not equivalent to number of Gaussians" );
   
     for(int k=0; k<K; k++)
-      it_assert( (_means(k).size() == D), "MOG_generic::set_means_internal(): dimensionality mismatch between model and one or more vectors in 'means'" );
+      it_assert( (means_in(k).size() == D), "MOG_generic::set_means_internal(): dimensionality mismatch between model and one or more vectors in 'means'" );
   
     for(int k=0; k<K; k++)
       for(int d=0; d<D; d++)
-	      it_assert( finite(_means(k)(d)), "MOG_generic::set_means_internal(): 'means' has a non-finite value" );
+	      it_assert( finite(means_in(k)(d)), "MOG_generic::set_means_internal(): 'means' has a non-finite value" );
 
-    means = _means;
+    means = means_in;
     setup_means();
   }
 
 
-  void MOG_generic::set_diag_covs_internal(Array<vec> &_diag_covs) {
-    it_assert( (_diag_covs.size() == K ), "MOG_generic::set_diag_covs_internal(): number of vectors in 'diag_covs' does not match number of Gaussians" );
+  void MOG_generic::set_diag_covs_internal(Array<vec> &diag_covs_in) {
+    it_assert( (diag_covs_in.size() == K ), "MOG_generic::set_diag_covs_internal(): number of vectors in 'diag_covs' does not match number of Gaussians" );
   
     for(int k=0; k<K; k++)
-      it_assert( (_diag_covs(k).size() == D), "MOG_generic::set_diag_covs_internal(): dimensionality mismatch between model and one or more vectors in 'diag_covs'" );
+      it_assert( (diag_covs_in(k).size() == D), "MOG_generic::set_diag_covs_internal(): dimensionality mismatch between model and one or more vectors in 'diag_covs'" );
   
     for(int k=0; k<K; k++)
       for(int d=0; d<D; d++) {
-	      it_assert( (_diag_covs(k)(d) > 0.0), "MOG_generic::set_diag_covs_internal(): 'diag_covs' has a zero or negative value" );
-	      it_assert( finite(_diag_covs(k)(d)), "MOG_generic::set_diag_covs_internal(): 'diag_covs' has a non-finite value" );
+	      it_assert( (diag_covs_in(k)(d) > 0.0), "MOG_generic::set_diag_covs_internal(): 'diag_covs' has a zero or negative value" );
+	      it_assert( finite(diag_covs_in(k)(d)), "MOG_generic::set_diag_covs_internal(): 'diag_covs' has a non-finite value" );
       }
       
     full_covs.set_size(0);
-    diag_covs = _diag_covs;
+    diag_covs = diag_covs_in;
     full = false;
     setup_covs();
   }
 
 
-  void MOG_generic::set_full_covs_internal(Array<mat> &_full_covs) {
-    it_assert( (_full_covs.size() == K ), "MOG_generic::set_full_covs_internal(): number of matrices in 'full_covs' does not match number of Gaussians" );
+  void MOG_generic::set_full_covs_internal(Array<mat> &full_covs_in) {
+    it_assert( (full_covs_in.size() == K ), "MOG_generic::set_full_covs_internal(): number of matrices in 'full_covs' does not match number of Gaussians" );
   
     for(int k=0; k<K; k++)
-      it_assert( ( (_full_covs(k).rows() == D) && (_full_covs(k).cols() == D) ), "MOG_generic::set_full_covs_internal(): dimensionality mismatch between model and one or more matrices in 'full_covs'" );
+      it_assert( ( (full_covs_in(k).rows() == D) && (full_covs_in(k).cols() == D) ), "MOG_generic::set_full_covs_internal(): dimensionality mismatch between model and one or more matrices in 'full_covs'" );
   
     for(int k=0; k<K; k++)
       for(int i=0; i<D; i++) for(int j=0; j<D; j++) {
-	      it_assert( finite(_full_covs(k)(i,j)), "MOG_generic::set_full_covs_internal(): 'full_covs' has a non-finite value" );
-	      if(i==j) it_assert( (_full_covs(k)(i,j) > 0.0), "MOG_generic::set_full_covs_internal(): 'full_covs' has a zero or negative value on a diagonal" );
+	      it_assert( finite(full_covs_in(k)(i,j)), "MOG_generic::set_full_covs_internal(): 'full_covs' has a non-finite value" );
+	      if(i==j) it_assert( (full_covs_in(k)(i,j) > 0.0), "MOG_generic::set_full_covs_internal(): 'full_covs' has a zero or negative value on a diagonal" );
 	    }
 
-    full_covs = _full_covs;
+    full_covs = full_covs_in;
     diag_covs.set_size(0);
     full = true;
     setup_covs();
   }
 
 
-  void MOG_generic::set_weights_internal(vec &_weights) {
+  void MOG_generic::set_weights_internal(vec &weights_in) {
   
-    it_assert( (_weights.size() == K ), "MOG_generic::set_weights_internal(): number of elements in 'weights' does not match number of Gaussians" );
+    it_assert( (weights_in.size() == K ), "MOG_generic::set_weights_internal(): number of elements in 'weights' does not match number of Gaussians" );
   
     for(int k=0; k<K; k++) {
-      it_assert( (_weights(k) >= 0), "MOG_generic::set_weights_internal(): 'weights' has a negative value" );
-      it_assert( finite(_weights(k)), "MOG_generic::set_weights_internal(): 'weights' has a non-finite value" );
+      it_assert( (weights_in(k) >= 0), "MOG_generic::set_weights_internal(): 'weights' has a negative value" );
+      it_assert( finite(weights_in(k)), "MOG_generic::set_weights_internal(): 'weights' has a non-finite value" );
       }
     
-    weights = _weights;
+    weights = weights_in;
     setup_weights();
   
   }
@@ -258,7 +259,7 @@ namespace itpp {
   
   void MOG_generic::setup_covs() {
 
-    double Ddiv2_log_2pi = D/2.0 * std::log(2.0*M_PI);
+    double Ddiv2_log_2pi = D/2.0 * std::log(m_2pi);
     log_det_etc.set_size(K);
   
     if(full) {
@@ -323,9 +324,9 @@ namespace itpp {
   }
   
   
-  void MOG_generic::set_means(Array<vec> &_means) {
+  void MOG_generic::set_means(Array<vec> &means_in) {
     if(!valid) return;
-    set_means_internal(_means);
+    set_means_internal(means_in);
   }
 
   
@@ -335,21 +336,21 @@ namespace itpp {
   }
 
 
-  void MOG_generic::set_diag_covs(Array<vec> &_diag_covs) {
+  void MOG_generic::set_diag_covs(Array<vec> &diag_covs_in) {
     if(!valid) return;
-    set_diag_covs_internal(_diag_covs);
+    set_diag_covs_internal(diag_covs_in);
   }
 
 
-  void MOG_generic::set_full_covs(Array<mat> &_full_covs) {
+  void MOG_generic::set_full_covs(Array<mat> &full_covs_in) {
     if(!valid) return;
-    set_full_covs_internal(_full_covs);
+    set_full_covs_internal(full_covs_in);
   }
 
 
-  void MOG_generic::set_weights(vec &_weights) {
+  void MOG_generic::set_weights(vec &weights_in) {
     if(!valid) return;
-    set_weights_internal(_weights);
+    set_weights_internal(weights_in);
   }
 
 
@@ -371,25 +372,25 @@ namespace itpp {
   }
 
 
-  void MOG_generic::load(const std::string &_name) {
+  void MOG_generic::load(const std::string &name_in) {
     valid = false;
   
-    it_assert(exist(_name), "MOG_generic::load(): couldn't access file '"+_name+"'");
-    it_file ff(_name);
+    it_assert(exist(name_in), "MOG_generic::load(): couldn't access file '"+name_in+"'");
+    it_file ff(name_in);
   
     bool contents = ff.exists("means") && ( ff.exists("diag_covs") || ff.exists("full_covs") ) && ff.exists("weights");
-    it_assert(contents,"MOG_generic::load(): file '"+_name+"' doesn't appear to be a model file");
+    it_assert(contents,"MOG_generic::load(): file '"+name_in+"' doesn't appear to be a model file");
   
-    Array<vec> _means;  ff >> Name("means") >> _means;
-    vec _weights; ff >> Name("weights") >> _weights;
+    Array<vec> means_in;  ff >> Name("means") >> means_in;
+    vec weights_in; ff >> Name("weights") >> weights_in;
   
     if( ff.exists("full_covs") ) {
-      Array<mat> _full_covs; ff >> Name("full_covs") >> _full_covs;
-      init(_means,_full_covs,_weights);
+      Array<mat> full_covs_in; ff >> Name("full_covs") >> full_covs_in;
+      init(means_in,full_covs_in,weights_in);
     }
     else {
-      Array<vec> _diag_covs; ff >> Name("diag_covs") >> _diag_covs;
-      init(_means,_diag_covs,_weights);
+      Array<vec> diag_covs_in; ff >> Name("diag_covs") >> diag_covs_in;
+      init(means_in,diag_covs_in,weights_in);
     }
   
     ff.close();
@@ -397,10 +398,10 @@ namespace itpp {
   }
 
 
-  void MOG_generic::save(const std::string &_name) const {
+  void MOG_generic::save(const std::string &name_in) const {
     if(!valid) return;
   
-    it_file ff(_name);
+    it_file ff(name_in);
   
     ff << Name("means") << means;
     if(full) ff << Name("full_covs") << full_covs;
@@ -411,33 +412,33 @@ namespace itpp {
   
   }
 
-  void MOG_generic::join(const MOG_generic &_B) {
+  void MOG_generic::join(const MOG_generic &B_in) {
   
     if(!valid) return;
-    if(!_B.is_valid()) return;
+    if(!B_in.is_valid()) return;
     
-    it_assert( (full == _B.is_full()), "MOG_generic::join(): given model must be of the same type" );   
-    it_assert( (_B.get_D() == D), "MOG_generic::join(): given model has different dimensionality" );
-    it_assert( (_B.get_K() > 0),  "MOG_generic::join(): given model has no components" );
+    it_assert( (full == B_in.is_full()), "MOG_generic::join(): given model must be of the same type" );   
+    it_assert( (B_in.get_D() == D), "MOG_generic::join(): given model has different dimensionality" );
+    it_assert( (B_in.get_K() > 0),  "MOG_generic::join(): given model has no components" );
     
-    int new_K = K + _B.get_K();
+    int new_K = K + B_in.get_K();
     vec new_weights(new_K);
-    vec _B_weights = _B.get_weights();
+    vec B_in_weights = B_in.get_weights();
         
     double alpha = double(K) / double(new_K);
-    double beta = double(_B.get_K()) / double(new_K);
+    double beta = double(B_in.get_K()) / double(new_K);
     
     for(int k=0;k<K;k++)  new_weights(k) = alpha * weights(k);
-    for(int k=K;k<new_K;k++)  new_weights(k) = beta * _B_weights(k);
+    for(int k=K;k<new_K;k++)  new_weights(k) = beta * B_in_weights(k);
         
-    Array<vec> new_means = concat( means, _B.get_means() );
+    Array<vec> new_means = concat( means, B_in.get_means() );
     
     if(full) {
-      Array<mat> new_full_covs = concat(full_covs, _B.get_full_covs());
+      Array<mat> new_full_covs = concat(full_covs, B_in.get_full_covs());
       init(new_means, new_full_covs, new_weights);
     }
     else {
-      Array<vec> new_diag_covs = concat(diag_covs, _B.get_diag_covs());
+      Array<vec> new_diag_covs = concat(diag_covs, B_in.get_diag_covs());
       init(new_means, new_diag_covs, new_weights);
     }
   }
