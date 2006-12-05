@@ -36,6 +36,11 @@
 #include <itpp/base/bessel/bessel_internal.h>
 #include <itpp/base/elmatfunc.h>
 
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
 
 /*
  * Struve function
@@ -260,11 +265,7 @@ double yv(double v, double x)
   if( y == v )
     {
       n = int(v);
-#ifdef _MSC_VER
-      y = _yn( n, x );
-#else
       y = yn( n, x );
-#endif
       return( y );
     }
   t = PI * v;

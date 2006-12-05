@@ -235,20 +235,6 @@ if test "x$FFT_LIBS" != x; then
 fi
 
 
-# Checks for functions
-AC_CHECK_FUNCS([asinh \
-  acosh \
-  atanh \
-  cbrt \
-  lgamma \
-  log1p \
-  tgamma])
-
-
-# Checks for global declarations
-AC_CHECK_DECLS(signgam, , , [#include <cmath>])
-
-
 # Checks for header files
 AC_HEADER_STDC
 AC_HEADER_TIME
@@ -256,6 +242,7 @@ AC_CHECK_HEADERS([cmath \
   complex \
   deque \
   fstream \
+  ieeefp.h \
   iomanip \
   iostream \
   limits \
@@ -263,6 +250,81 @@ AC_CHECK_HEADERS([cmath \
   queue \
   stdexcept \
   string])
+
+
+# Checks for global declarations
+AC_CHECK_DECLS(signgam, , , [#include <cmath>])
+
+
+# Checks for functions
+AC_CHECK_FUNCS([asinh \
+  acosh \
+  atanh \
+  cbrt \
+  finite \
+  fpclass \
+  isfinite \
+  isinf \
+  isnan \
+  lgamma \
+  log1p \
+  tgamma])
+
+
+# Check for finite and fpclass on Solaris
+AC_CHECK_FUNC(finite, ,
+  [AC_CHECK_FUNC(isfinite, ,
+    [AC_TRY_LINK([[#include <ieeefp.h>]], [[float f = 0.0; isfinite(f);]],
+      [AC_DEFINE(HAVE_ISFINITE)])])])
+AC_CHECK_FUNC(fpclass, ,
+  [AC_TRY_LINK([[#include <ieeefp.h>]], [[float f = 0.0; fpclass(f);]],
+    [AC_DEFINE(HAVE_FPCLASS)])])
+
+
+AH_BOTTOM([
+#if HAVE_CMATH
+#  include <cmath>
+#endif
+
+/* Solaris uses <ieeefp.h> for declaring isnan() and finite() functions */
+#if HAVE_IEEEFP_H
+#  include <ieeefp.h>
+#endif
+
+/* Microsoft Visual C++ .NET underscore prefixed functions */
+#if _MSC_VER
+#  include <cfloat>
+#  define HAVE_FINITE 1
+#  define finite(x) _finite(x)
+#  define HAVE_ISNAN 1
+#  define isnan(x) _isnan(x)
+#  define HAVE_FPCLASS 1
+#  define fpclass(x) _fpclass(x)
+#  define HAVE_JN 1
+#  define jn(a, b) _jn(a, b)
+#  define HAVE_YN 1
+#  define yn(a, b) _yn(a, b)
+#  define HAVE_J0 1
+#  define j0(a) _j0(a)
+#  define HAVE_J1 1
+#  define j1(a) _j1(a)
+#endif
+
+#if (! defined(HAVE_ISINF) && defined(HAVE_FPCLASS))
+#  define HAVE_ISINF 1
+#  define isinf(a) (fpclass(a) == FP_NINF || fpclass(a) == FP_PINF)
+#endif
+
+#if (! defined (HAVE_FINITE) && defined (HAVE_ISFINITE))
+#  define HAVE_FINITE 1
+#  define finite(a) isfinite(a)
+#endif
+
+#if (! defined(HAVE_FINITE) && defined(HAVE_ISNAN) && defined(HAVE_ISINF))
+#  define HAVE_FINITE 1
+#  define finite(a) (! isnan(a) && ! isinf(a))
+#endif
+])
 
 
 # Define configured files
