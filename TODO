@@ -50,9 +50,9 @@ Specific features
 * Add support for Array<Mat<T> > and Array<Vec<T> > in itload.m and itsave.m
 
 * Modify it-file so that a description field and comment fields are
-  added.
+  added
 
-* Add possibility to change kernel generator.
+* Add possibility to change kernel generator
 
 * Implement bug-fixes in seed. See the home-page of
   Mersenne-Twister. Also change to BSD license.
@@ -64,6 +64,4 @@ Specific features
 * Class for operation on index sets?
 
 * Revision of (scalar) modulators to use fast likelihood algebra and
-  to take soft inputs (for higher order constellations).
-
-* LLR class should use short int instead of int
+  to take soft inputs (for higher order constellations)
