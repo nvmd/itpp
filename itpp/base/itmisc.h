@@ -1,7 +1,7 @@
 /*!
  * \file
- * \brief Definition of IT++ miscleaneous functions
- * \author Tony Ottosson and Adam Piatyszek
+ * \brief Definition of IT++ miscellaneous functions
+ * \author Tony Ottosson, Adam Piatyszek and Conrad Sanderson
  * 
  * $Date$
  * $Revision$
@@ -36,6 +36,12 @@
 #include <complex>
 #include <string>
 #include <limits>
+
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
 
 
 namespace std {
@@ -127,6 +133,60 @@ namespace itpp {
   //!@}
 
 } //namespace itpp
+
+
+//!\addtogroup miscfunc
+//!@{
+
+#ifndef HAVE_ISNAN
+/*!
+ * \brief Check if \c x is NaN (Not a Number)
+ * \note Emulation of a C99 function via the IEEE 754 standard 
+ */
+inline int isnan(double x)
+{ 
+  if (x != x) return 1;
+  else return 0;
+}
+#endif
+
+#ifndef HAVE_ISINF
+/*!
+ * \brief Check if \c x is either -Inf or +Inf
+ *
+ * Returns -1 if \c x is -Inf or +1 if \c x is +Inf. Otherwise returns 0.
+ * 
+ * \note Emulation of a C99 function via the IEEE 754 standard 
+ */
+inline int isinf(double x) 
+{ 
+  if ((x == x) && ((x - x) != 0.0)) 
+    return (x < 0.0 ? -1 : 1);
+  else return 0;
+}
+#endif
+
+#ifndef HAVE_FINITE
+/*!
+ * \brief Check if \c x is a finite floating point number
+ * \note Emulation of a C99 function via the IEEE 754 standard 
+ */
+inline int finite(double x) 
+{ 
+  if (!isnan(x) && !isinf(x)) return 1;
+  else return 0;
+}
+#endif
+
+#ifndef HAVE_ISFINITE
+/*!
+ * \brief Check if \c x is a finite floating point number
+ * \note Emulation of a C99 function via the IEEE 754 standard 
+ */
+inline int isfinite(double x) { return finite(x); }
+#endif
+
+//!@}
 
 
 #endif // #ifndef ITMISC_H

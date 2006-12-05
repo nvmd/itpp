@@ -61,11 +61,11 @@ namespace itpp {
     /*!
       \brief Run the k-means algorithm
       
-      \param _model The model to optimise (MOG_diag)
-      \param _X The training data (array of vectors)
-      \param _max_iter Maximum number of iterations. Default is 10.
-      \param _trust The trust factor, where 0 <= \c _trust <= 1.  Default is 0.5.
-      \param _normalise Use normalised distance measure (in effect). Default is true.
+      \param model_in The model to optimise (MOG_diag)
+      \param X_in The training data (array of vectors)
+      \param max_iter_in Maximum number of iterations. Default is 10.
+      \param trust_in The trust factor, where 0 <= \c _trust <= 1.  Default is 0.5.
+      \param normalise_in Use normalised distance measure (in effect). Default is true.
       
       \note The higher the trust factor, the more we trust 
       the estimates of covariance matrices and weights.
@@ -77,7 +77,7 @@ namespace itpp {
       (used in the MOG_diag_em class) from getting stuck
       in a local minimum.
     
-      \note Setting \c _normalise to true causes the the training 
+      \note Setting \c normalise_in to true causes the the training 
       data to be normalised to zero mean and unit variance prior
       to running the k-means algorithm.  The data is unnormalised
       before returning.  The normalisation helps clustering when 
@@ -87,12 +87,12 @@ namespace itpp {
       Without normalisation, the distance between vectors is
       dominated by dimension 2. 
     */
-    void run(MOG_diag &_model, Array<vec> &_X, int _max_iter, double _trust, bool _normalise);
+    void run(MOG_diag &model_in, Array<vec> &X_in, int max_iter_in, double trust_in, bool normalise_in);
     
     /*! \brief Enable or disable printing of progress
-        \param _verbose If true, print progress.
+        \param verbose_in If true, print progress.
     */
-    void set_verbose(bool _verbose) { verbose = _verbose; }
+    void set_verbose(bool verbose_in) { verbose = verbose_in; }
 
     protected:
     

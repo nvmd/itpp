@@ -40,8 +40,7 @@ namespace itpp {
 
   /*! 
     \ingroup MOG
-    \brief Expectation Maximisation (EM) based optimisers for Mixtures 
-		of Gaussians
+    \brief Expectation Maximisation (EM) based optimisers for Mixtures of Gaussians
     \author Conrad Sanderson
     
 		This class is an optimiser (trainer) for the parameters of an instance of
@@ -69,40 +68,40 @@ namespace itpp {
     /*!
       \brief Run the Maximum Likelihood (ML) version of the EM algorithm
       
-      \param _model The model to optimise (MOG_diag)
-      \param _X The training data (array of vectors)
-      \param _max_iter Maximum number of iterations. Default is 10.
-      \param _var_floor Variance floor (lowest allowable variance).  Default is 0.0 (but see the note below)
-      \param _weight_floor  Weight floor (lowest allowable weight).  Default is 0.0 (but see the note below)
+      \param model_in The model to optimise (MOG_diag)
+      \param X_in The training data (array of vectors)
+      \param max_iter_in Maximum number of iterations. Default is 10.
+      \param var_floor_in Variance floor (lowest allowable variance).  Default is 0.0 (but see the note below)
+      \param weight_floor_in  Weight floor (lowest allowable weight).  Default is 0.0 (but see the note below)
       
       \note The variance and weight floors are set to std::numeric_limits<double>::min()
             if they are below that value. As such, they are machine dependant.
             The largest allowable weight floor is 1/K, where K is the number of Gaussians.       
     */
-    void ml(MOG_diag &_model, Array<vec> &_X, int _max_iter, double _var_floor, double _weight_floor);
+    void ml(MOG_diag &model_in, Array<vec> &X_in, int max_iter_in, double var_floor_in, double weight_floor_in);
 
     /*!
       \brief NOT YET IMPLEMENTED. Run the Maximum a Posteriori (MAP) version of the EM algorithm.
       
-      \param _model The model to optimise (MOG_diag)
-      \param _model The model representing the prior
-      \param _X The training data (array of vectors)
-      \param _max_iter Maximum number of iterations
-      \param _alpha Coefficient for combining the parameters with the prior.  0 <= _alpha <= 1.
-      \param _var_floor Variance floor (lowest allowable variance).  Set to 0.0 to use the default.
-      \param _weight_floor  Weight floor (lowest allowable weight).  Set to 0.0 to use the default.
+      \param model_in The model to optimise (MOG_diag)
+      \param prior_model_in The model representing the prior
+      \param X_in The training data (array of vectors)
+      \param max_iter_in Maximum number of iterations
+      \param alpha_in Coefficient for combining the parameters with the prior.  0 <= _alpha <= 1.
+      \param var_floor_in Variance floor (lowest allowable variance).  Set to 0.0 to use the default.
+      \param weight_floor_in  Weight floor (lowest allowable weight).  Set to 0.0 to use the default.
       
       \note NOT YET IMPLEMENTED. 
       \note The variance and weight floors are set to std::numeric_limits<double>::min()
             if they are below that value.
             The largest allowable weight floor is 1/K, where K is the number of Gaussians.       
     */
-    void map(MOG_diag &_out_model, MOG_diag &_prior_model, Array<vec> &_X, int _max_iter, double _alpha, double _var_floor, double _weight_floor);
+    void map(MOG_diag &model_in, MOG_diag &prior_model, Array<vec> &X_in, int max_iter_in, double alpha_in, double var_floor_in, double weight_floor_in);
 
     /*! \brief Enable or disable printing of progress
-        \param _verbose If true, print progress.
+        \param verbose_in If true, print progress.
     */
-    void set_verbose(bool _verbose) { verbose = _verbose; }
+    void set_verbose(bool verbose_in) { verbose = verbose_in; }
 
     protected:
   

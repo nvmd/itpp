@@ -245,26 +245,30 @@ namespace itpp {
   }
 
 
-  void MOG_diag_kmeans::run(MOG_diag &_model, Array<vec> &_X, int _max_iter=10, double _trust=0.5, bool _normalise=true) {
+  void MOG_diag_kmeans::run(MOG_diag &model_in, Array<vec> &X_in, int max_iter_in=10, double trust_in=0.5, bool normalise_in=true) {
   
-    it_assert( _model.is_valid(), "MOG_diag_kmeans::run(): given model is not valid" );
-    it_assert( (_max_iter > 0), "MOG_diag_kmeans::run(): _max_iter needs to be greater than zero" );
-    it_assert( ((_trust >= 0.0) && (_trust <= 1.0) ), "MOG_diag_kmeans::run(): _trust must be between 0 and 1 (inclusive)" );
+    it_assert( model_in.is_valid(), "MOG_diag_kmeans::run(): given model is not valid" );
+    it_assert( (max_iter_in > 0), "MOG_diag_kmeans::run(): 'max_iter' needs to be greater than zero" );
+    it_assert( ((trust_in >= 0.0) && (trust_in <= 1.0) ), "MOG_diag_kmeans::run(): 'trust' must be between 0 and 1 (inclusive)" );
   
-    Array<vec> _means = _model.get_means(); Array<vec> _diag_covs = _model.get_diag_covs(); vec _weights = _model.get_weights();
-    init( _means, _diag_covs, _weights );
-    _means.set_size(0); _diag_covs.set_size(0); _weights.set_size(0);
+    Array<vec> means_in = model_in.get_means();
+    Array<vec> diag_covs_in = model_in.get_diag_covs();
+    vec weights_in = model_in.get_weights();
+
+    init( means_in, diag_covs_in, weights_in );
+
+    means_in.set_size(0); diag_covs_in.set_size(0); weights_in.set_size(0);
   
-    it_assert(check_size(_X), "MOG_diag_kmeans::run(): X is empty or contains vectors of wrong dimensionality" );
+    it_assert(check_size(X_in), "MOG_diag_kmeans::run(): 'X' is empty or contains vectors of wrong dimensionality" );
   
-    N = _X.size();
+    N = X_in.size();
   
     if(K > N)    it_warning("MOG_diag_kmeans::run(): K > N");
     else
     if(K > N/10) it_warning("MOG_diag_kmeans::run(): K > N/10");
 
-    max_iter = _max_iter;
-    trust = _trust;
+    max_iter = max_iter_in;
+    trust = trust_in;
   
     means_old.set_size(K);  for(int k=0;k<K;k++) means_old(k).set_size(D);
     partitions.set_size(K);  for(int k=0;k<K;k++) partitions(k).set_size(N);
@@ -273,7 +277,7 @@ namespace itpp {
     norm_mu.set_size(D);
     norm_sd.set_size(D);
   
-    c_X = enable_c_access(_X);
+    c_X = enable_c_access(X_in);
     c_means_old = enable_c_access(means_old);
     c_partitions = enable_c_access(partitions);
     c_count = enable_c_access(count);
@@ -281,13 +285,13 @@ namespace itpp {
     c_norm_mu = enable_c_access(norm_mu);
     c_norm_sd = enable_c_access(norm_sd);
       
-    if(_normalise)  normalise_vectors();
+    if(normalise_in)  normalise_vectors();
   
-    calc_means();  if(_normalise) { unnormalise_vectors(); unnormalise_means(); }  
+    calc_means();  if(normalise_in) { unnormalise_vectors(); unnormalise_means(); }  
     calc_covs();
     calc_weights();
   
-    _model.init(means, diag_covs, weights);
+    model_in.init(means, diag_covs, weights);
   
     disable_c_access(c_X);
     disable_c_access(c_means_old);

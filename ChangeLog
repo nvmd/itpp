@@ -1,5 +1,13 @@
 2006-12-05  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/itmisc.h, itpp/stat/mog_generic.cpp,
+	itpp/stat/mog_generic.h, itpp/stat/mog_diag_kmeans.cpp,
+	itpp/stat/mog_diag.cpp, itpp/stat/mog_diag_em.cpp,
+	itpp/stat/mog_diag_kmeans.h, itpp/stat/mog_diag.h,
+	itpp/stat/mog_diag_em.h: Fixes in MOG classes related to
+	compilation errors under Cygwin, Solaris and MSVC++ .NET. Thanks
+	to Conrad Sanderson for providing patches.
+
 	* configure.ac, itpp/config_msvc.h, itpp/base/bessel.cpp,
 	itpp/base/bessel/jv.cpp, itpp/base/bessel/struve.cpp:
 	Configuration changes related to MSVC++ .NET differences.

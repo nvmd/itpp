@@ -99,33 +99,33 @@ namespace itpp {
   }
 
 
-  void MOG_diag::load(const std::string &_name) {
-    MOG_generic::load(_name);
+  void MOG_diag::load(const std::string &name_in) {
+    MOG_generic::load(name_in);
     if(full) convert_to_diag();
   }
 
 
-  double ** MOG_diag::enable_c_access(Array<vec> & _A) {
-    int rows = _A.size();
+  double ** MOG_diag::enable_c_access(Array<vec> & A_in) {
+    int rows = A_in.size();
     double ** A = (double **)std::malloc(rows*sizeof(double *));
-    if(A)  for(int row=0;row<rows;row++)  A[row] = _A(row)._data();
+    if(A)  for(int row=0;row<rows;row++)  A[row] = A_in(row)._data();
     return(A);
   }
 
-  int ** MOG_diag::enable_c_access(Array<ivec> & _A) {
-    int rows = _A.size();
+  int ** MOG_diag::enable_c_access(Array<ivec> & A_in) {
+    int rows = A_in.size();
     int ** A = (int **)std::malloc(rows*sizeof(int *));
-    if(A)  for(int row=0;row<rows;row++)  A[row] = _A(row)._data();
+    if(A)  for(int row=0;row<rows;row++)  A[row] = A_in(row)._data();
     return(A);
   }
 
-  double ** MOG_diag::disable_c_access(double ** A) { if(A) std::free(A); return(0); }
-  int ** MOG_diag::disable_c_access(int ** A) { if(A) std::free(A); return(0); }
+  double ** MOG_diag::disable_c_access(double ** A_in) { if(A_in) std::free(A_in); return(0); }
+  int ** MOG_diag::disable_c_access(int ** A_in) { if(A_in) std::free(A_in); return(0); }
 
-  double * MOG_diag::enable_c_access(vec & _v) { return _v._data(); }
-  int * MOG_diag::enable_c_access(ivec & _v) { return _v._data(); }
+  double * MOG_diag::enable_c_access(vec & v_in) { return v_in._data(); }
+  int * MOG_diag::enable_c_access(ivec & v_in) { return v_in._data(); }
 
-  double * MOG_diag::disable_c_access(double * v) { return(0); }
-  int * MOG_diag::disable_c_access(int * v) { return(0); }
+  double * MOG_diag::disable_c_access(double * v_in) { return(0); }
+  int * MOG_diag::disable_c_access(int * v_in) { return(0); }
 
 }

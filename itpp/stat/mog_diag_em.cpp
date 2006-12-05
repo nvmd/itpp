@@ -32,6 +32,7 @@
 
 #include <itpp/stat/mog_diag_em.h>
 #include <itpp/base/timing.h>
+#include <itpp/base/itmisc.h> 
 
 #include <iostream>
 #include <iomanip>
@@ -42,7 +43,7 @@ namespace itpp {
   //! update log versions of parameters and any necessary constants
   void inline MOG_diag_EM::update_internals() {
     
-    double Ddiv2_log_2pi = D/2.0 * std::log(2.0*M_PI);
+    double Ddiv2_log_2pi = D/2.0 * std::log(m_2pi);
     
     for(int k=0;k<K;k++)  c_log_weights[k] = std::log(c_weights[k]);
 
@@ -221,31 +222,35 @@ namespace itpp {
   }
 
 
-  void MOG_diag_EM::ml(MOG_diag &_model, Array<vec> &_X, int _max_iter=10, double _var_floor=0.0, double _weight_floor=0.0) {
+  void MOG_diag_EM::ml(MOG_diag &model_in, Array<vec> &X_in, int max_iter_in=10, double var_floor_in=0.0, double weight_floor_in=0.0) {
   
-    it_assert(_model.is_valid(), "MOG_diag_EM::ml(): initial model not valid" );
-    it_assert(check_array_uniformity(_X), "MOG_diag_EM::ml(): X is empty or contains vectors of varying dimensionality" );
-    it_assert( (_max_iter > 0), "MOG_diag_EM::ml(): max_iter needs to be greater than zero" );
+    it_assert(model_in.is_valid(), "MOG_diag_EM::ml(): initial model not valid" );
+    it_assert(check_array_uniformity(X_in), "MOG_diag_EM::ml(): 'X' is empty or contains vectors of varying dimensionality" );
+    it_assert( (max_iter_in > 0), "MOG_diag_EM::ml(): 'max_iter' needs to be greater than zero" );
   
-    N = _X.size();
+    N = X_in.size();
   
-    Array<vec> _means = _model.get_means(); Array<vec> _diag_covs = _model.get_diag_covs(); vec _weights = _model.get_weights();
-    init( _means, _diag_covs, _weights );
-    _means.set_size(0); _diag_covs.set_size(0); _weights.set_size(0);
+    Array<vec> means_in = model_in.get_means();
+    Array<vec> diag_covs_in = model_in.get_diag_covs();
+    vec weights_in = model_in.get_weights();
+
+    init(means_in, diag_covs_in, weights_in);
+
+    means_in.set_size(0); diag_covs_in.set_size(0); weights_in.set_size(0);
   
     if(K > N)    it_warning("MOG_diag_EM::ml(): WARNING: K > N");
     else
     if(K > N/10) it_warning("MOG_diag_EM::ml(): WARNING: K > N/10");
 
-    var_floor = _var_floor;
-    weight_floor = _weight_floor;
+    var_floor = var_floor_in;
+    weight_floor = weight_floor_in;
   
     const double tiny = std::numeric_limits<double>::min();
     if(var_floor < tiny) var_floor = tiny;
     if(weight_floor < tiny) weight_floor = tiny;
     if(weight_floor > 1.0/K ) weight_floor = 1.0/K;
   
-    max_iter = _max_iter;
+    max_iter = max_iter_in;
   
     tmpvecK.set_size(K);
     tmpvecD.set_size(D);  
@@ -254,7 +259,7 @@ namespace itpp {
     acc_means.set_size(K); for(int k=0;k<K;k++) acc_means(k).set_size(D);  
     acc_covs.set_size(K);  for(int k=0;k<K;k++) acc_covs(k).set_size(D); 
    
-    c_X = enable_c_access(_X);
+    c_X = enable_c_access(X_in);
     c_tmpvecK = enable_c_access(tmpvecK);
     c_tmpvecD = enable_c_access(tmpvecD);
     c_acc_loglhood_K = enable_c_access(acc_loglhood_K);
@@ -263,7 +268,7 @@ namespace itpp {
    
     ml_iterate();
    
-    _model.init(means,diag_covs,weights);
+    model_in.init(means, diag_covs, weights);
    
     disable_c_access(c_X);
     disable_c_access(c_tmpvecK);
@@ -283,7 +288,7 @@ namespace itpp {
    
   }
 
-  void MOG_diag_EM::map(MOG_diag &_out_model, MOG_diag &_prior_model, Array<vec> &_X, int _max_iter=10, double _alpha=0.5, double _var_floor=0.0, double _weight_floor=0.0) {
+  void MOG_diag_EM::map(MOG_diag &model_in, MOG_diag &prior_model_in, Array<vec> &X_in, int max_iter_in=10, double alpha_in=0.5, double var_floor_in=0.0, double weight_floor_in=0.0) {
     it_assert(false, "MOG_diag_EM::map(): not implemented yet");
   }
 
