@@ -1,3 +1,8 @@
+2006-12-05  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* win32/itpp.vcproj: Include recently created statistics module
+	sources.
+	
 2006-12-02  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/comm/modulator_nd.*: changed short -> int 

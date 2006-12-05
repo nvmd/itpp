@@ -570,6 +570,26 @@
 					>
 				</File>
 			</Filter>
+			<Filter
+				Name="stat"
+				>
+				<File
+					RelativePath="..\itpp\stat\mog_diag.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\stat\mog_diag_em.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\stat\mog_diag_kmeans.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\stat\mog_generic.cpp"
+					>
+				</File>
+			</Filter>
 		</Filter>
 		<Filter
 			Name="Header Files"
@@ -997,6 +1017,30 @@
 				</File>
 				<File
 					RelativePath="..\itpp\signal\window.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="stat"
+				>
+				<File
+					RelativePath="..\itpp\stat\histogram.h"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\stat\mog_diag.h"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\stat\mog_diag_em.h"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\stat\mog_diag_kmeans.h"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\stat\mog_generic.h"
 					>
 				</File>
 			</Filter>
