@@ -36,6 +36,11 @@
 #include <itpp/base/bessel/bessel_internal.h>
 #include <itpp/base/elmatfunc.h>
 
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
 
 using namespace itpp;
 
@@ -120,17 +125,9 @@ double jv(double n, double x)
 	  x = -x;
 	}
       if( n == 0.0 ) // use 0th order bessel function
-#ifdef _MSC_VER
-	return _j0(x);
-#else
 	return j0(x);
-#endif
       if( n == 1.0 ) // use 1th order bessel function
-#ifdef _MSC_VER
-	return (sign * _j1(x));
-#else
 	return (sign * j1(x));
-#endif
     }
 
   it_error_if( (x < 0.0) && (y != an), "besselj:: negative values only allowed for integer orders.");
@@ -159,20 +156,12 @@ double jv(double n, double x)
 	  q = recur( &n, x, &k, 1 );
 	  if( k == 0.0 )
 	    {
-#ifdef _MSC_VER
-	      y = _j0(x)/q;
-#else
 	      y = j0(x)/q;
-#endif
 	      goto done;
 	    }
 	  if( k == 1.0 )
 	    {
-#ifdef _MSC_VER
-	      y = _j1(x)/q;
-#else
 	      y = j1(x)/q;
-#endif
 	      goto done;
 	    }
 	}
