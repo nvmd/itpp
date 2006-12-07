@@ -1,7 +1,7 @@
 /*!
  * \file 
  * \brief Implementation of converters between different vector and matrix types
- * \author Tony Ottosson, Tobias Ringstrom and Pal Frenger
+ * \author Tony Ottosson, Tobias Ringstrom, Pal Frenger and Adam Piatyszek
  *
  * $Date$
  * $Revision$

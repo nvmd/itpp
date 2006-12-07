@@ -1,5 +1,12 @@
 2006-12-07  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac, itpp/base/converters.cpp, itpp/base/converters.h,
+	itpp/base/elmatfunc.cpp, itpp/base/elmatfunc.h,
+	itpp/base/errorfunc.cpp, itpp/base/errorfunc.h,
+	itpp/base/itmisc.h, itpp/base/operators.h, itpp/config_msvc.h:
+	Added some missing function checks to configure.ac, which should
+	improve the portability of the library on various platforms.
+
 	* itpp/comm/channel.cpp, tests/channel_test.ref: Fixed a bug that
 	resulted in different output samples of the IFFT fading generator
 	on SPARC Solaris using GCC 3.4.5, than the ones obtained in other

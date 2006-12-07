@@ -1,6 +1,6 @@
 /*!
  * \file
- * \brief Implementation of scalar functions
+ * \brief Error functions - source file
  * \author Tony Ottosson, Pal Frenger and Adam Piatyszek
  * 
  * $Date$
@@ -34,89 +34,91 @@
 #include <itpp/base/elmatfunc.h>
 
 
-#ifdef _MSC_VER
-
-  double erfc(double Y)
-  {
-    int  ISW,I;
-    double P[4],Q[3],P1[6],Q1[5],P2[4],Q2[3];
-    double XMIN,XLARGE,SQRPI;
-    double X,RES,XSQ,XNUM,XDEN,XI,XBIG,ERFCret;
-    P[1]=0.3166529;
-    P[2]=1.722276;
-    P[3]=21.38533;
-    Q[1]=7.843746;
-    Q[2]=18.95226;
-    P1[1]=0.5631696;
-    P1[2]=3.031799;
-    P1[3]=6.865018;
-    P1[4]=7.373888;
-    P1[5]=4.318779e-5;
-    Q1[1]=5.354217;
-    Q1[2]=12.79553;
-    Q1[3]=15.18491;
-    Q1[4]=7.373961;
-    P2[1]=5.168823e-2;
-    P2[2]=0.1960690;
-    P2[3]=4.257996e-2;
-    Q2[1]=0.9214524;
-    Q2[2]=0.1509421;
-    XMIN=1.0E-5;
-    XLARGE=4.1875E0;
-    XBIG=9.0;
-    SQRPI=0.5641896;
-    X=Y;
-    ISW=1;
-    if (X<0) {
-      ISW=-1;
-      X=-X;
+#ifndef HAVE_ERFC
+double erfc(double Y)
+{
+  int  ISW,I;
+  double P[4],Q[3],P1[6],Q1[5],P2[4],Q2[3];
+  double XMIN,XLARGE,SQRPI;
+  double X,RES,XSQ,XNUM,XDEN,XI,XBIG,ERFCret;
+  P[1]=0.3166529;
+  P[2]=1.722276;
+  P[3]=21.38533;
+  Q[1]=7.843746;
+  Q[2]=18.95226;
+  P1[1]=0.5631696;
+  P1[2]=3.031799;
+  P1[3]=6.865018;
+  P1[4]=7.373888;
+  P1[5]=4.318779e-5;
+  Q1[1]=5.354217;
+  Q1[2]=12.79553;
+  Q1[3]=15.18491;
+  Q1[4]=7.373961;
+  P2[1]=5.168823e-2;
+  P2[2]=0.1960690;
+  P2[3]=4.257996e-2;
+  Q2[1]=0.9214524;
+  Q2[2]=0.1509421;
+  XMIN=1.0E-5;
+  XLARGE=4.1875E0;
+  XBIG=9.0;
+  SQRPI=0.5641896;
+  X=Y;
+  ISW=1;
+  if (X<0) {
+    ISW=-1;
+    X=-X;
+  }
+  if (X<0.477) {
+    if (X>=XMIN) {
+      XSQ=X*X;
+      XNUM=(P[1]*XSQ+P[2])*XSQ+P[3];
+      XDEN=(XSQ+Q[1])*XSQ+Q[2];
+      RES=X*XNUM/XDEN;
     }
-    if (X<0.477) {
-      if (X>=XMIN) {
-	XSQ=X*X;
-	XNUM=(P[1]*XSQ+P[2])*XSQ+P[3];
-	XDEN=(XSQ+Q[1])*XSQ+Q[2];
-	RES=X*XNUM/XDEN;
-      }
-      else RES=X*P[3]/Q[2];
-      if (ISW==-1) RES=-RES;
-      RES=1.0-RES;
-      goto slut;
-    }
-    if (X>4.0) {
-      if (ISW>0) goto ulf;
-      if (X<XLARGE) goto eva;
-      RES=2.0;
-      goto slut;
-    }
-    XSQ=X*X;
-    XNUM=P1[5]*X+P1[1];
-    XDEN=X+Q1[1];
-    for(I=2;I<=4;I++) {
-      XNUM=XNUM*X+P1[I];
-      XDEN=XDEN*X+Q1[I];
-    }
-    RES=XNUM/XDEN;
-    goto elin;
-  ulf:  	if (X>XBIG) goto fred;
-  eva:  	XSQ=X*X;
-    XI=1.0/XSQ;
-    XNUM=(P2[1]*XI+P2[2])*XI+P2[3];
-    XDEN=XI+Q2[1]*XI+Q2[2];
-    RES=(SQRPI+XI*XNUM/XDEN)/X;
-  elin:	RES=RES*exp(-XSQ);
-    if (ISW==-1) RES=2.0-RES;
+    else RES=X*P[3]/Q[2];
+    if (ISW==-1) RES=-RES;
+    RES=1.0-RES;
     goto slut;
-  fred:	RES=0.0;
-  slut:	ERFCret=RES;
-    return  ERFCret;
   }
-
-  double erf(double x)
-  {
-    return (1.0 - erfc(x));
+  if (X>4.0) {
+    if (ISW>0) goto ulf;
+    if (X<XLARGE) goto eva;
+    RES=2.0;
+    goto slut;
   }
+  XSQ=X*X;
+  XNUM=P1[5]*X+P1[1];
+  XDEN=X+Q1[1];
+  for(I=2;I<=4;I++) {
+    XNUM=XNUM*X+P1[I];
+    XDEN=XDEN*X+Q1[I];
+  }
+  RES=XNUM/XDEN;
+  goto elin;
+ ulf:  	if (X>XBIG) goto fred;
+ eva:  	XSQ=X*X;
+  XI=1.0/XSQ;
+  XNUM=(P2[1]*XI+P2[2])*XI+P2[3];
+  XDEN=XI+Q2[1]*XI+Q2[2];
+  RES=(SQRPI+XI*XNUM/XDEN)/X;
+ elin:	RES=RES*exp(-XSQ);
+  if (ISW==-1) RES=2.0-RES;
+  goto slut;
+ fred:	RES=0.0;
+ slut:	ERFCret=RES;
+  return  ERFCret;
+}
 #endif
+
+#ifndef HAVE_ERF
+double erf(double x)
+{
+  return (1.0 - ::erfc(x));
+}
+#endif
+
 
 namespace itpp { 
 

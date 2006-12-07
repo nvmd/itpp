@@ -1,6 +1,6 @@
 /*!
  * \file
- * \brief Elementary mathematical functions
+ * \brief Elementary mathematical functions - header file
  * \author Tony Ottosson and Adam Piatyszek
  * 
  * $Date$
@@ -33,15 +33,14 @@
 #ifndef ELMATFUNC_H
 #define ELMATFUNC_H
 
-#include <itpp/base/help_functions.h>
-#include <itpp/base/converters.h>
-#include <cmath>
-
 #ifndef _MSC_VER
 #  include <itpp/config.h>
 #else
 #  include <itpp/config_msvc.h>
 #endif
+
+#include <itpp/base/help_functions.h>
+#include <itpp/base/converters.h>
 
 
 //!\addtogroup miscfunc

@@ -261,6 +261,8 @@ AC_CHECK_FUNCS([asinh \
   acosh \
   atanh \
   cbrt \
+  erf \
+  erfc \
   finite \
   fpclass \
   isfinite \
@@ -268,6 +270,7 @@ AC_CHECK_FUNCS([asinh \
   isnan \
   lgamma \
   log1p \
+  rint \
   tgamma])
 
 
@@ -280,6 +283,12 @@ AC_CHECK_FUNC(fpclass, ,
   [AC_TRY_LINK([[#include <ieeefp.h>]], [[float f = 0.0; fpclass(f);]],
     [AC_DEFINE(HAVE_FPCLASS)])])
 
+
+# config.h top and bottom
+AH_TOP([
+#ifndef CONFIG_H
+#define CONFIG_H
+])
 
 AH_BOTTOM([
 #if HAVE_CMATH
@@ -324,6 +333,8 @@ AH_BOTTOM([
 #  define HAVE_FINITE 1
 #  define finite(a) (! isnan(a) && ! isinf(a))
 #endif
+
+#endif /* #ifndef CONFIG_H */
 ])
 
 
