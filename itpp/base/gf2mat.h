@@ -249,6 +249,10 @@ namespace itpp {
 
       The function returns the row rank of X.  (If X is full row rank,
       then the number of rows is returned.)
+
+      The function uses Gaussian elimination combined with
+      permutations.  The computational complexity is O(m*m*n) for an
+      m*n matrix.
     */
     int T_fact(GF2mat &T, GF2mat &U, ivec &P);
   
@@ -268,29 +272,31 @@ namespace itpp {
       be correct one. This is not checked by the function (for reasons
       of efficiency).
 
-      This function was primarily written specifically for use by
-      certain optimization algorithms in the LDPC codec class.
+      The function works by performing permutations to bring the
+      matrix to a form where the Gaussian eliminated can be restarted
+      from the point (rank-1,rank-1). The function is very fast for
+      matrices with close to full rank but it is generally slower for
+      non-full rank matrices.
     */
     int T_fact_update_bitflip(GF2mat &T, GF2mat &U, ivec &P, int rank, int r, int c);
 
     /*!  \brief TXP factorization update, when column is added
 
     Update upper triangular factor U in the T-factorization (U=TXP)
-      when a column (newcol) is appended at the right side of the
-      matrix.  The purpose of this function is to avoid re-running a
-      complete T-factorization when a column is added. The function
-      ONLY adds the column if it improves the rank of the matrix
-      (nothing is done otherwise).  The function returns 1 if the
-      column was added, and 0 otherwise.
-
-      Note: T, U, P and the rank value supplied to the function must
-      be correct one. This is not checked by the function (for reasons
-      of efficiency). Also, the matrix operating on must have full
-      column rank (this is assumed by the function, but not checked
-      for reasons of efficiency).
-
-      This function was written primarily intended for use by the LDPC
-      codec class.
+    when a column (newcol) is appended at the right side of the
+    matrix.  The purpose of this function is to avoid re-running a
+    complete T-factorization when a column is added. The function ONLY
+    adds the column if it improves the rank of the matrix (nothing is
+    done otherwise).  The function returns 1 if the column was added,
+    and 0 otherwise.
+    
+    Note: T, U, P and the rank value supplied to the function must be
+    correct one. This is not checked by the function (for reasons of
+    efficiency). Also, the matrix operating on must have full column
+    rank (this is assumed by the function, but not checked for reasons
+    of efficiency).
+    
+    The complexity is O(m^2) for an m*n matrix.
     */
     int T_fact_update_addcol(GF2mat &T, GF2mat &U, ivec &P, bvec newcol);
 

@@ -97,8 +97,14 @@ namespace itpp {
     \brief Templated Sparse Matrix Class
     \author Tony Ottosson and Tobias Ringstrom
 
-    A sparse matrix is a matrix where most elements are zero. The maximum number of
-    non-zero elements in each column is a parameter to the constructor.
+    A sparse matrix is a matrix where most elements are zero. The
+    maximum number of non-zero elements in each column is a parameter
+    to the constructor.  
+
+    The implementation is based on representing all columns as sparse
+    vectors. Thus, column access generally is much faster than row
+    access. The elements in each vector are stored in random order,
+    i.e. they are not sorted.
   */
   template <class T>
     class Sparse_Mat {
@@ -213,13 +219,22 @@ namespace itpp {
     //! Set column \c c of the Sparse_Mat 
     void set_col(int c, const Sparse_Vec<T> &v);
   
-    //! Transpose the sparse matrix, return the result in \c m
+    /*! Transpose the sparse matrix, return the result in \c m 
+
+    Note: this function can be slow for large matrices.
+     */
     void transpose(Sparse_Mat<T> &m) const;
 
-    //! Returns the transpose of the sparse matrix
+    /*! Returns the transpose of the sparse matrix
+
+    Note: this function can be slow for large matrices.
+    */
     Sparse_Mat<T> transpose() const;
 
-    //! Returns the transpose of the sparse matrix
+    /*! Returns the transpose of the sparse matrix
+
+    Note: this function can be slow for large matrices.
+    */
     // Sparse_Mat<T> T() const { return this->transpose(); };
   
     //! Assign sparse matrix the value and dimensions of the sparse matrix \c m
