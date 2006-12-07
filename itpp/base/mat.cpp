@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Matrix Class Implementation
- * \author Tony Ottosson, Tobias Ringstrom and Adam Piatyszek
+ * \author Tony Ottosson, Tobias Ringstrom, Adam Piatyszek and Conrad Sanderson
  * 
  * $Date$
  * $Revision$
@@ -650,11 +650,41 @@ namespace itpp {
 
   // ------------ Elementwise multiplication -----------
 
-  template const mat elem_mult(const mat &m1, const mat &m2);
-  template const cmat elem_mult(const cmat &m1, const cmat &m2);
-  template const imat elem_mult(const imat &m1, const imat &m2);
-  template const smat elem_mult(const smat &m1, const smat &m2);
-  template const bmat elem_mult(const bmat &m1, const bmat &m2);
+  template const mat elem_mult(const mat &A, const mat &B);
+  template const cmat elem_mult(const cmat &A, const cmat &B);
+  template const imat elem_mult(const imat &A, const imat &B);
+  template const smat elem_mult(const smat &A, const smat &B);
+  template const bmat elem_mult(const bmat &A, const bmat &B);
+
+  template void elem_mult_out(const mat &A, const mat &B, mat &out);
+  template void elem_mult_out(const cmat &A, const cmat &B, cmat &out);
+  template void elem_mult_out(const imat &A, const imat &B, imat &out);
+  template void elem_mult_out(const smat &A, const smat &B, smat &out);
+  template void elem_mult_out(const bmat &A, const bmat &B, bmat &out);
+  
+  template void elem_mult_out(const mat &A, const mat &B, const mat &C, mat &out);
+  template void elem_mult_out(const cmat &A, const cmat &B, const cmat &C, cmat &out);
+  template void elem_mult_out(const imat &A, const imat &B, const imat &C, imat &out);
+  template void elem_mult_out(const smat &A, const smat &B, const smat &C, smat &out);
+  template void elem_mult_out(const bmat &A, const bmat &B, const bmat &C, bmat &out);
+  
+  template void elem_mult_out(const mat &A, const mat &B, const mat &C, const mat &D, mat &out);
+  template void elem_mult_out(const cmat &A, const cmat &B, const cmat &C, const cmat &D, cmat &out);
+  template void elem_mult_out(const imat &A, const imat &B, const imat &C, const imat &D, imat &out);
+  template void elem_mult_out(const smat &A, const smat &B, const smat &C, const smat &D, smat &out);
+  template void elem_mult_out(const bmat &A, const bmat &B, const bmat &C, const bmat &D, bmat &out);
+  
+  template void elem_mult_inplace(const mat &A, mat &B);
+  template void elem_mult_inplace(const cmat &A, cmat &B);
+  template void elem_mult_inplace(const imat &A, imat &B);
+  template void elem_mult_inplace(const smat &A, smat &B);
+  template void elem_mult_inplace(const bmat &A, bmat &B);
+  
+  template double elem_mult_sum(const mat &A, const mat &B);
+  template std::complex<double> elem_mult_sum(const cmat &A, const cmat &B);
+  template int elem_mult_sum(const imat &A, const imat &B);
+  template short elem_mult_sum(const smat &A, const smat &B);
+  template bin elem_mult_sum(const bmat &A, const bmat &B);
 
   // ------------ Division operator -----------
 
@@ -666,12 +696,24 @@ namespace itpp {
 
   // ------------ Elementwise division -----------
 
-  template const mat elem_div(const mat &m1, const mat &m2);
-  template const cmat elem_div(const cmat &m1, const cmat &m2);
-  template const imat elem_div(const imat &m1, const imat &m2);
-  template const smat elem_div(const smat &m1, const smat &m2);
-  template const bmat elem_div(const bmat &m1, const bmat &m2);
+  template const mat elem_div(const mat &A, const mat &B);
+  template const cmat elem_div(const cmat &A, const cmat &B);
+  template const imat elem_div(const imat &A, const imat &B);
+  template const smat elem_div(const smat &A, const smat &B);
+  template const bmat elem_div(const bmat &A, const bmat &B);
 
+  template void elem_div_out(const mat &A, const mat &B, mat &out);
+  template void elem_div_out(const cmat &A, const cmat &B, cmat &out);
+  template void elem_div_out(const imat &A, const imat &B, imat &out);
+  template void elem_div_out(const smat &A, const smat &B, smat &out);
+  template void elem_div_out(const bmat &A, const bmat &B, bmat &out);
+  
+  template double elem_div_sum(const mat &A, const mat &B);
+  template std::complex<double> elem_div_sum(const cmat &A, const cmat &B);
+  template int elem_div_sum(const imat &A, const imat &B);
+  template short elem_div_sum(const smat &A, const smat &B);
+  template bin elem_div_sum(const bmat &A, const bmat &B);
+  
   // ------------- Concatenations -----------------
 
   template const mat concat_horizontal(const mat &m1, const mat &m2);
@@ -701,5 +743,6 @@ namespace itpp {
   template std::istream &operator>>(std::istream &is, imat  &m);
   template std::istream &operator>>(std::istream &is, smat  &m);
   template std::istream &operator>>(std::istream &is, bmat  &m);
+
 
 } // namespace itpp

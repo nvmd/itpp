@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Matrix Class Definitions
- * \author Tony Ottosson, Tobias Ringstrom and Adam Piatyszek
+ * \author Tony Ottosson, Tobias Ringstrom, Adam Piatyszek and Conrad Sanderson
  * 
  * $Date$
  * $Revision$
@@ -53,10 +53,6 @@ namespace itpp {
   // Declaration of bin
   class bin;
 
-  // -------------------------------------------------------------------------------------
-  // Declaration of Mat Friends
-  // -------------------------------------------------------------------------------------
-
   //! Horizontal concatenation of two matrices
   template<class Num_T> const Mat<Num_T> concat_horizontal(const Mat<Num_T> &m1, const Mat<Num_T> &m2);
   //! Vertical concatenation of two matrices
@@ -88,13 +84,30 @@ namespace itpp {
   template<class Num_T> const Mat<Num_T> operator*(const Mat<Num_T> &m, Num_T t);
   //! Multiplication of scalar and matrix
   template<class Num_T> const Mat<Num_T> operator*(Num_T t, const Mat<Num_T> &m);
-  //! Element wise multiplication of two matricies
-  template<class Num_T> const Mat<Num_T> elem_mult(const Mat<Num_T> &m1, const Mat<Num_T> &m2);
+  
+  //! Element wise multiplication of two matrices. Same functionality as Matlab/Octave expression A .* B 
+  template<class Num_T> const Mat<Num_T> elem_mult(const Mat<Num_T> &A, const Mat<Num_T> &B);
+  //! Element wise multiplication of two matrices, storing the result in matrix \c out (which is re-sized if necessary)
+  template<class Num_T> void elem_mult_out(const Mat<Num_T> &A, const Mat<Num_T> &B, Mat<Num_T> &out);
+  //! Element wise multiplication of three matrices, storing the result in matrix \c out (which is re-sized if necessary)
+  template<class Num_T> void elem_mult_out(const Mat<Num_T> &A, const Mat<Num_T> &B, const Mat<Num_T> &C, Mat<Num_T> &out);
+  //! Element wise multiplication of four matrices, storing the result in matrix \c out (which is re-sized if necessary)
+  template<class Num_T> void elem_mult_out(const Mat<Num_T> &A, const Mat<Num_T> &B, const Mat<Num_T> &C, const Mat<Num_T> &D, Mat<Num_T> &out);
+  //! In-place element wise multiplication of two matrices. Fast version of B = elem_mult(A,B)
+  template<class Num_T> void elem_mult_inplace(const Mat<Num_T> &A, Mat<Num_T> &B);
+  //! Element wise multiplication of two matrices, followed by summation of the resultant elements. Fast version of sumsum(elem_mult(A,B))  
+  template<class Num_T> Num_T elem_mult_sum(const Mat<Num_T> &A, const Mat<Num_T> &B);
 
   //! Division of matrix and scalar
   template<class Num_T> const Mat<Num_T> operator/(const Mat<Num_T> &m, Num_T t);
-  //! Element wise division of two matricies
-  template<class Num_T> const Mat<Num_T> elem_div(const Mat<Num_T> &m1, const Mat<Num_T> &m2);
+  
+  //! Element wise division of two matrices. Same functionality as Matlab/Octave expression A ./ B
+  template<class Num_T> const Mat<Num_T> elem_div(const Mat<Num_T> &A, const Mat<Num_T> &B);
+  //! Element wise division of two matrices, storing the result in matrix \c out (which is re-sized if necessary) 
+  template<class Num_T> void elem_div_out(const Mat<Num_T> &A, const Mat<Num_T> &B, Mat<Num_T> &out);
+  //! Element wise division of two matrices, followed by summation of the resultant elements. Fast version of sumsum(elem_div(A,B))
+  template<class Num_T> Num_T elem_div_sum(const Mat<Num_T> &A, const Mat<Num_T> &B);
+
 
   // -------------------------------------------------------------------------------------
   // Declaration of Mat
@@ -102,7 +115,7 @@ namespace itpp {
 
   /*!
     \brief Templated Matrix Class
-    \author Tony Ottosson and Tobias Ringstrom
+    \author Tony Ottosson, Tobias Ringstrom, Adam Piatyszek and Conrad Sanderson
 
     Matrices can be of arbitrarily types, but conversions and functions are
     prepared for \c bin, \c short, \c int, \c double, and \c complex<double>
@@ -364,8 +377,19 @@ namespace itpp {
     friend const Mat<Num_T> operator*<>(const Mat<Num_T> &m, Num_T t);
     //! Multiplication of scalar and matrix
     friend const Mat<Num_T> operator*<>(Num_T t, const Mat<Num_T> &m);
-    //! Elementwise multiplication of two matrices
-    friend const Mat<Num_T> elem_mult <>(const Mat<Num_T> &m1, const Mat<Num_T> &m2);
+    
+    //! Element wise multiplication of two matrices. Same functionality as Matlab expression A .* B 
+    friend const Mat<Num_T> elem_mult <>(const Mat<Num_T> &A, const Mat<Num_T> &B);
+    //! Element wise multiplication of two matrices, storing the result in matrix \c out (which is re-sized if necessary)
+    friend void elem_mult_out <>(const Mat<Num_T> &A, const Mat<Num_T> &B, Mat<Num_T> &out);
+    //! Element wise multiplication of three matrices, storing the result in matrix \c out (which is re-sized if necessary)
+    friend void elem_mult_out <>(const Mat<Num_T> &A, const Mat<Num_T> &B, const Mat<Num_T> &C, Mat<Num_T> &out);
+    //! Element wise multiplication of four matrices, storing the result in matrix \c out (which is re-sized if necessary)
+    friend void elem_mult_out <>(const Mat<Num_T> &A, const Mat<Num_T> &B, const Mat<Num_T> &C, const Mat<Num_T> &D, Mat<Num_T> &out);
+    //! In-place element wise multiplication of two matrices. Fast version of B = elem_mult(A,B)
+    friend void elem_mult_inplace <>(const Mat<Num_T> &A, Mat<Num_T> &B);
+    //! Element wise multiplication of two matrices, followed by summation of the resultant elements. Fast version of sumsum(elem_mult(A,B))  
+    friend Num_T elem_mult_sum <>(const Mat<Num_T> &A, const Mat<Num_T> &B);
 
     //! Division by a scalar
     Mat<Num_T>& operator/=(Num_T t);
@@ -373,8 +397,13 @@ namespace itpp {
     friend const Mat<Num_T> operator/<>(const Mat<Num_T> &m, Num_T t);
     //! Elementwise division with the current matrix
     Mat<Num_T>& operator/=(const Mat<Num_T> &m);
-    //! Elementwise division of matrix \c m1 with matrix \c m2
-    friend const Mat<Num_T> elem_div <>(const Mat<Num_T> &m1, const Mat<Num_T> &m2);
+    
+    //! Element wise division of two matrices. Same functionality as Matlab expression A ./ B
+    friend const Mat<Num_T> elem_div <>(const Mat<Num_T> &A, const Mat<Num_T> &B);
+    //! Element wise division of two matrices, storing the result in matrix \c out (which is re-sized if necessary) 
+    friend void elem_div_out <>(const Mat<Num_T> &A, const Mat<Num_T> &B, Mat<Num_T> &out);
+    //! Element wise division of two matrices, followed by summation of the resultant elements. Fast version of sumsum(elem_div(A,B))
+    friend Num_T elem_div_sum <>(const Mat<Num_T> &A, const Mat<Num_T> &B);
 
     //! Compare two matrices. False if wrong sizes or different values
     bool operator==(const Mat<Num_T> &m) const;
@@ -435,7 +464,7 @@ namespace itpp {
       datasize = no_rows = no_cols = 0;
     }
   };
-
+  
   // -------------------------------------------------------------------------------------
   // Type definitions of mat, cmat, imat, smat, and bmat
   // -------------------------------------------------------------------------------------
@@ -1364,7 +1393,7 @@ namespace itpp {
 
     for (i=0; i<m.no_cols; i++)
       for (j=0; j<m.no_cols; j++)
-	r(i,j) = v(i)*m.data[j];
+	      r(i,j) = v(i)*m.data[j];
 
     return r;
   }
@@ -1392,17 +1421,75 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-  const Mat<Num_T> elem_mult(const Mat<Num_T> &m1, const Mat<Num_T> &m2)
+  const Mat<Num_T> elem_mult(const Mat<Num_T> &A, const Mat<Num_T> &B)
   {
-    it_assert1(m1.no_rows==m2.no_rows && m1.no_cols == m2.no_cols, "Mat<Num_T>::elem_mult: wrong sizes");
-    Mat<Num_T> r(m1.no_rows, m1.no_cols);
-
-    for (int i=0; i<r.datasize; i++)
-      r.data[i] = m1.data[i] * m2.data[i];
-
-    return r;
+    Mat<Num_T> out;
+    elem_mult_out(A,B,out);
+    return out;
   }
 
+  template<class Num_T> inline
+  void elem_mult_out(const Mat<Num_T> &A, const Mat<Num_T> &B, Mat<Num_T> &out)
+  {
+    it_assert1( (A.no_rows==B.no_rows) && (A.no_cols==B.no_cols), "Mat<Num_T>::elem_mult_out: wrong sizes");
+    
+    if( (out.no_rows != A.no_rows) || (out.no_cols != A.no_cols) )
+      out.set_size(A.no_rows, A.no_cols);
+
+    for(int i=0; i<out.datasize; i++)
+      out.data[i] = A.data[i] * B.data[i];
+  }
+  
+  template<class Num_T> inline
+  void elem_mult_out(const Mat<Num_T> &A, const Mat<Num_T> &B, const Mat<Num_T> &C, Mat<Num_T> &out)
+  {
+    it_assert1( (A.no_rows==B.no_rows==C.no_rows) \
+                && (A.no_cols==B.no_cols==C.no_cols), \
+                "Mat<Num_T>::elem_mult_out: wrong sizes" );
+    
+    if( (out.no_rows != A.no_rows) || (out.no_cols != A.no_cols) )
+      out.set_size(A.no_rows, A.no_cols);
+
+    for(int i=0; i<out.datasize; i++)
+      out.data[i] = A.data[i] * B.data[i] * C.data[i];
+  }
+  
+  template<class Num_T> inline
+  void elem_mult_out(const Mat<Num_T> &A, const Mat<Num_T> &B, const Mat<Num_T> &C, const Mat<Num_T> &D, Mat<Num_T> &out)
+  {
+    it_assert1( (A.no_rows==B.no_rows==C.no_rows==D.no_rows) \
+                && (A.no_cols==B.no_cols==C.no_cols==D.no_cols), \
+                "Mat<Num_T>::elem_mult_out: wrong sizes" );
+    if( (out.no_rows != A.no_rows) || (out.no_cols != A.no_cols) )
+      out.set_size(A.no_rows, A.no_cols);
+
+    for(int i=0; i<out.datasize; i++)
+      out.data[i] = A.data[i] * B.data[i] * C.data[i] * D.data[i];
+  }
+  
+  template<class Num_T> inline
+  void elem_mult_inplace(const Mat<Num_T> &A, Mat<Num_T> &B)
+  {
+    it_assert1( (A.no_rows==B.no_rows) && (A.no_cols==B.no_cols), \
+                "Mat<Num_T>::elem_mult_inplace: wrong sizes" );
+
+    for(int i=0; i<B.datasize; i++)
+      B.data[i] *= A.data[i];
+  }
+  
+  template<class Num_T> inline
+  Num_T elem_mult_sum(const Mat<Num_T> &A, const Mat<Num_T> &B)
+  {
+    it_assert1( (A.no_rows==B.no_rows) && (A.no_cols==B.no_cols), "Mat<Num_T>::elem_mult_sum: wrong sizes" );
+
+    Num_T acc = 0;
+    
+    for(int i=0; i<A.datasize; i++)
+      acc += A.data[i] * B.data[i];
+    
+    return acc;
+  }
+  
   template<class Num_T> inline
   Mat<Num_T>& Mat<Num_T>::operator/=(Num_T t)
   {
@@ -1433,17 +1520,38 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-  const Mat<Num_T> elem_div(const Mat<Num_T> &m1, const Mat<Num_T> &m2)
+  const Mat<Num_T> elem_div(const Mat<Num_T> &A, const Mat<Num_T> &B)
   {
-    it_assert1(m1.no_rows==m2.no_rows && m1.no_cols == m2.no_cols, "Mat<Num_T>::elem_div: worng sizes");
-    Mat<Num_T> r(m1.no_rows, m1.no_cols);
-
-    for (int i=0; i<r.datasize; i++)
-      r.data[i] = m1.data[i] / m2.data[i];
-
-    return r;
+    Mat<Num_T> out;
+    elem_div_out(A,B,out);
+    return out;
   }
 
+  template<class Num_T> inline
+  void elem_div_out(const Mat<Num_T> &A, const Mat<Num_T> &B, Mat<Num_T> &out)
+  {
+    it_assert1( (A.no_rows==B.no_rows) && (A.no_cols==B.no_cols), "Mat<Num_T>::elem_div_out: wrong sizes");
+    
+    if( (out.no_rows != A.no_rows) || (out.no_cols != A.no_cols) )
+      out.set_size(A.no_rows, A.no_cols);
+
+    for(int i=0; i<out.datasize; i++)
+      out.data[i] = A.data[i] / B.data[i];
+  }
+  
+  template<class Num_T> inline
+  Num_T elem_div_sum(const Mat<Num_T> &A, const Mat<Num_T> &B)
+  {
+    it_assert1( (A.no_rows==B.no_rows) && (A.no_cols==B.no_cols), "Mat<Num_T>::elem_div_sum: wrong sizes" );
+
+    Num_T acc = 0;
+    
+    for(int i=0; i<A.datasize; i++)
+      acc += A.data[i] / B.data[i];
+    
+    return acc;
+  }
+  
   template<class Num_T>
   bool Mat<Num_T>::operator==(const Mat<Num_T> &m) const
   {
@@ -1479,7 +1587,7 @@ namespace itpp {
     default:
       os << '[' << m.get_row(0) << std::endl;
       for (i=1; i<m.rows()-1; i++)
-	os << ' ' << m.get_row(i) << std::endl;
+	      os << ' ' << m.get_row(i) << std::endl;
       os << ' ' << m.get_row(m.rows()-1) << ']';
     }
 
@@ -1727,17 +1835,72 @@ namespace itpp {
   // ------------ Elementwise multiplication -----------
 
   //! Template instantiation of elem_mult
-  extern template const mat elem_mult(const mat &m1, const mat &m2);
+  extern template const mat elem_mult(const mat &A, const mat &B);
   //! Template instantiation of elem_mult
-  extern template const cmat elem_mult(const cmat &m1, const cmat &m2);
+  extern template const cmat elem_mult(const cmat &A, const cmat &B);
   //! Template instantiation of elem_mult
-  extern template const imat elem_mult(const imat &m1, const imat &m2);
+  extern template const imat elem_mult(const imat &A, const imat &B);
   // Extern Template Const instantiation of elem_mult
-  //extern template const llmat elem_mult(const llmat &m1, const llmat &m2);
+  //extern template const llmat elem_mult(const llmat &A, const llmat &B);
   //! Template instantiation of elem_mult
-  extern template const smat elem_mult(const smat &m1, const smat &m2);
+  extern template const smat elem_mult(const smat &A, const smat &B);
   //! Template instantiation of elem_mult
-  extern template const bmat elem_mult(const bmat &m1, const bmat &m2);
+  extern template const bmat elem_mult(const bmat &A, const bmat &B);
+
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const mat &A, const mat &B, mat &out);
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const cmat &A, const cmat &B, cmat &out);
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const imat &A, const imat &B, imat &out);
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const smat &A, const smat &B, smat &out);
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const bmat &A, const bmat &B, bmat &out);
+  
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const mat &A, const mat &B, const mat &C, mat &out);
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const cmat &A, const cmat &B, const cmat &C, cmat &out);
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const imat &A, const imat &B, const imat &C, imat &out);
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const smat &A, const smat &B, const smat &C, smat &out);
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const bmat &A, const bmat &B, const bmat &C, bmat &out);
+  
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const mat &A, const mat &B, const mat &C, const mat &D, mat &out);
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const cmat &A, const cmat &B, const cmat &C, const cmat &D, cmat &out);
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const imat &A, const imat &B, const imat &C, const imat &D, imat &out);
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const smat &A, const smat &B, const smat &C, const smat &D, smat &out);
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const bmat &A, const bmat &B, const bmat &C, const bmat &D, bmat &out);
+  
+  //! Template instantiation of elem_mult_inplace
+  extern template void elem_mult_inplace(const mat &A, mat &B);
+  //! Template instantiation of elem_mult_inplace
+  extern template void elem_mult_inplace(const cmat &A, cmat &B);
+  //! Template instantiation of elem_mult_inplace
+  extern template void elem_mult_inplace(const imat &A, imat &B);
+  //! Template instantiation of elem_mult_inplace
+  extern template void elem_mult_inplace(const smat &A, smat &B);
+  //! Template instantiation of elem_mult_inplace
+  extern template void elem_mult_inplace(const bmat &A, bmat &B);
+  
+  //! Template instantiation of elem_mult_sum
+  extern template double elem_mult_sum(const mat &A, const mat &B);
+  //! Template instantiation of elem_mult_sum
+  extern template std::complex<double> elem_mult_sum(const cmat &A, const cmat &B);
+  //! Template instantiation of elem_mult_sum
+  extern template int elem_mult_sum(const imat &A, const imat &B);
+  //! Template instantiation of elem_mult_sum
+  extern template short elem_mult_sum(const smat &A, const smat &B);
+  //! Template instantiation of elem_mult_sum
+  extern template bin elem_mult_sum(const bmat &A, const bmat &B);
 
   // ------------ Division operator -----------
 
@@ -1755,16 +1918,38 @@ namespace itpp {
   // ------------ Elementwise division -----------
 
   //! Template instantiation of elem_div
-  extern template const mat elem_div(const mat &m1, const mat &m2);
+  extern template const mat elem_div(const mat &A, const mat &B);
   //! Template instantiation of elem_div
-  extern template const cmat elem_div(const cmat &m1, const cmat &m2);
+  extern template const cmat elem_div(const cmat &A, const cmat &B);
   //! Template instantiation of elem_div
-  extern template const imat elem_div(const imat &m1, const imat &m2);
+  extern template const imat elem_div(const imat &A, const imat &B);
   //! Template instantiation of elem_div
-  extern template const smat elem_div(const smat &m1, const smat &m2);
+  extern template const smat elem_div(const smat &A, const smat &B);
   //! Template instantiation of elem_div
-  extern template const bmat elem_div(const bmat &m1, const bmat &m2);
+  extern template const bmat elem_div(const bmat &A, const bmat &B);
 
+  //! Template instantiation of elem_div_out
+  extern template void elem_div_out(const mat &A, const mat &B, mat &out);
+  //! Template instantiation of elem_div_out
+  extern template void elem_div_out(const cmat &A, const cmat &B, cmat &out);
+  //! Template instantiation of elem_div_out
+  extern template void elem_div_out(const imat &A, const imat &B, imat &out);
+  //! Template instantiation of elem_div_out
+  extern template void elem_div_out(const smat &A, const smat &B, smat &out);
+  //! Template instantiation of elem_div_out
+  extern template void elem_div_out(const bmat &A, const bmat &B, bmat &out);
+  
+  //! Template instantiation of elem_div_sum
+  extern template double elem_div_sum(const mat &A, const mat &B);
+  //! Template instantiation of elem_div_sum
+  extern template std::complex<double> elem_div_sum(const cmat &A, const cmat &B);
+  //! Template instantiation of elem_div_sum
+  extern template int elem_div_sum(const imat &A, const imat &B);
+  //! Template instantiation of elem_div_sum
+  extern template short elem_div_sum(const smat &A, const smat &B);
+  //! Template instantiation of elem_div_sum
+  extern template bin elem_div_sum(const bmat &A, const bmat &B);
+  
   // ------------- Concatenations -----------------
 
   //! Template instantiation of concat_horizontal
