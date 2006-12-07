@@ -4,6 +4,7 @@
 
   * itpp/base/mat.h, itpp/base/mat.cpp: added elem_mult_out() etc
 
+  * itpp/base/matfunc.h, itpp/base/matfunc.cpp: added sumsum() 
 
 2006-12-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 

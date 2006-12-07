@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Implementation of functions on vectors and matrices
- * \author Tony Ottosson and Adam Piatyszek
+ * \author Tony Ottosson, Adam Piatyszek and Conrad Sanderson
  * 
  * $Date$
  * $Revision$
@@ -160,6 +160,12 @@ namespace itpp {
   template svec sum(const smat &m, int dim);
   template ivec sum(const imat &m, int dim);
   template bvec sum(const bmat &m, int dim);
+
+  template double sumsum(const mat &X);
+  template std::complex<double> sumsum(const cmat &X);
+  template short sumsum(const smat &X);
+  template int sumsum(const imat &X);
+  template bin sumsum(const bmat &X);
 
   template vec sum_sqr(const mat & m, int dim);
   template cvec sum_sqr(const cmat &m, int dim);

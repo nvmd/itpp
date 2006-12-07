@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Definitions of functions on vectors and matrices
- * \author Tony Ottosson and Adam Piatyszek
+ * \author Tony Ottosson, Adam Piatyszek and Conrad Sanderson
  * 
  * $Date$
  * $Revision$
@@ -67,11 +67,11 @@ namespace itpp {
   }
 
   /*! 
-   * \brief Sum of elements in the matrix \c m
+   * \brief Sum of elements in the matrix \c m, either along columns or rows 
    *
    * <tt>sum(m) = sum(m, 1)</tt> returns a vector where the elements are sum
    * over each column, whereas <tt>sum(m, 2)</tt> returns a vector where the
-   * elements are sum over each row
+   * elements are sum over each row.
    */
   template<class T>
   Vec<T> sum(const Mat<T> &m, int dim=1)
@@ -83,17 +83,33 @@ namespace itpp {
       out.set_size(m.cols(), false);
 
       for (int i=0; i<m.cols(); i++)
-	out(i) = sum(m.get_col(i));
+	      out(i) = sum(m.get_col(i));
     } 
     else {
       out.set_size(m.rows(), false);
 
       for (int i=0; i<m.rows(); i++)
-	out(i) = sum(m.get_row(i));
+	      out(i) = sum(m.get_row(i));
     }
       
     return out;
   }
+
+
+  //! Sum of all elements in the given matrix. Fast version of sum(sum(X))   
+  template<class T>
+  T sumsum(const Mat<T> &X)
+  {
+    const T * X_data = X._data();
+    const int X_datasize = X._datasize();
+    T acc = 0;
+
+    for(int i=0;i<X_datasize;i++)
+      acc += X_data[i];
+
+    return acc;
+  }
+
 
   //! Sum of square of the elements in a vector
   template<class T>
@@ -1042,6 +1058,17 @@ namespace itpp {
   extern template ivec sum(const imat &m, int dim);
   //! Extern Template instantiation of sum
   extern template bvec sum(const bmat &m, int dim);
+
+  //! Extern Template instantiation of sumsum
+  extern template double sumsum(const mat &X);
+  //! Extern Template instantiation of sumsum
+  extern template std::complex<double> sumsum(const cmat &X);
+  //! Extern Template instantiation of sumsum
+  extern template short sumsum(const smat &X);
+  //! Extern Template instantiation of sumsum
+  extern template int sumsum(const imat &X);
+  //! Extern Template instantiation of sumsum
+  extern template bin sumsum(const bmat &X);
 
   //! Extern Template instantiation of sum_sqr
   extern template vec sum_sqr(const mat & m, int dim);
