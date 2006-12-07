@@ -120,7 +120,7 @@ namespace itpp {
     void load(const std::string &name_in);
     
     //! Do nothing.  Present for compatability with the MOG_generic class.
-    void convert_tofull_in() {};
+    void convert_to_full() {};
 
     //! calculate the log likelihood of C vector \c c_x_in using only Gaussian \c k 
     inline double log_lhood_single_gaus(const double * c_x_in, const int k) const;
