@@ -65,3 +65,7 @@ Specific features
 
 * Revision of (scalar) modulators to use fast likelihood algebra and
   to take soft inputs (for higher order constellations)
+
+* Sparse matrix class: (1) Should choose the transposed matrix also?
+(For fast row access.) (2) Is there any gain by using maintaining the
+index vector sorted?

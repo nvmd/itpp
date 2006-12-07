@@ -86,8 +86,10 @@ namespace itpp {
     \brief Templated sparse vector class
     \author Tony Ottosson and Tobias Ringstrom
 
-    A sparse vector is a vector where most elements are zero. The maximum number of
-    none-zero elements is a parameter to the constructor.
+    A sparse vector is a vector where most elements are zero. The
+    maximum number of none-zero elements is a parameter to the
+    constructor. The elements are stored in random order, i.e. they
+    are not sorted.
     
   */
   template <class T>
@@ -1137,7 +1139,7 @@ namespace itpp {
 	  r.index[r.used_size] = v2.index[p2];
 	  r.used_size++;
 	}
-      }
+      }  
       r.compact();
   
       return r;
@@ -1164,6 +1166,7 @@ namespace itpp {
 	else
 	  r.data[pos[v2.index[p2]]] += v2.data[p2];
       }
+      r.check_small_elems_flag = true;  // added dec 7, 2006
       r.compact();
   
       return r;
