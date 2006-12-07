@@ -509,13 +509,15 @@ namespace itpp {
     S /= norm(S, 2); 
     S *= Nfft;
 
-    cvec x(Nfft);
+    cvec x = zeros_c(Nfft);
 
-    // lots of zeros. Not necessary to do the multiplication for all elements!!!
-    // S is converted. Not necessary???
-    x = ifft(elem_mult(to_cvec(S), concat(randn_c(noisesamp), 
-					  zeros_c(Nfft - 2*noisesamp),
-					  randn_c(noisesamp)))); 
+    for (int i = 0; i < noisesamp; ++i) {
+      x(i) = S(i) * randn_c();
+      x(Nfft - 1 - i) = S(Nfft - 1 - i) * randn_c();
+    }
+    
+    x = ifft(x);
+
     output = x.mid(0, no_samples);
   }
 
