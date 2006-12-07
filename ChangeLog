@@ -1,10 +1,10 @@
 2006-12-07  Conrad Sanderson  <conrad_s@users.sourceforge.net>
 
-  * itpp/stat/mog_diag.h: fixed small typo
+	* itpp/stat/mog_diag.h: Fixed small typo.
 
-  * itpp/base/mat.h, itpp/base/mat.cpp: added elem_mult_out() etc
+	* itpp/base/mat.h, itpp/base/mat.cpp: Added elem_mult_out(), etc.
 
-  * itpp/base/matfunc.h, itpp/base/matfunc.cpp: added sumsum() 
+	* itpp/base/matfunc.h, itpp/base/matfunc.cpp: Added sumsum().
 
 2006-12-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 
