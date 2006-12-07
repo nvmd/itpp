@@ -33,25 +33,30 @@
 #ifndef ERRORFUNC_H
 #define ERRORFUNC_H
 
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
+
 #include <itpp/base/help_functions.h>
-//#include <cmath>
 
-
-#ifdef _MSC_VER
-
-// These functions are part of C99. But apparently not in Visual C++.
 
 //!\addtogroup errorfunc
 //!@{
 
+#ifndef HAVE_ERF
 //! \brief Error function
 double erf(double x);
+#endif
 
+#ifndef HAVE_ERFC
 //! Complementary error function
 double erfc(double x);
+#endif
+
 //!@}
 
-#endif
 
 namespace itpp {
 

@@ -1,6 +1,6 @@
 /*!
  * \file
- * \brief Elementary mathematical functions
+ * \brief Elementary mathematical functions - source file
  * \author Tony Ottosson and Adam Piatyszek
  * 
  * $Date$

@@ -1,7 +1,7 @@
 /*!
  * \file 
  * \brief Definitions of converters between different vector and matrix types
- * \author Tony Ottosson, Tobias Ringstrom and Pal Frenger
+ * \author Tony Ottosson, Tobias Ringstrom, Pal Frenger and Adam Piatyszek
  *
  * $Date$
  * $Revision$
@@ -32,6 +32,12 @@
 
 #ifndef CONVERTERS_H
 #define CONVERTERS_H
+
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
 
 #include <itpp/base/help_functions.h>
 #include <itpp/base/itmisc.h>
@@ -195,7 +201,7 @@ namespace itpp {
   inline double deg_to_rad(double x) { return (itpp::pi / 180.0 * x); }
 
 
-#ifdef _MSC_VER
+#ifndef HAVE_RINT
   //! Round to nearest integer, return result in double
   inline double rint(double x) { return floor(x + 0.5); }
 #endif

@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Definitions of operators for vectors and matricies of different 
- * types
+ *        types
  * \author Tony Ottosson
  * 
  * $Date$
@@ -658,11 +658,6 @@ namespace itpp {
 
   //---------------------- between vec and vectors --------------------
 
-  //#ifdef _MSC_VER
-  // These operators are uncommented when using the Microsoft Developer Studio compiler due
-  // to internal compiling error. Hopefully this compiler-bug will be fixed in the near future.
-  //#else
-
   /*!
     \relates Vec
     \brief Addition operator for bvec and vec
@@ -1100,8 +1095,6 @@ namespace itpp {
     \brief Multiplication operator for cmat and imat
   */
   inline cmat operator*(const cmat &a, const imat &b) {return a*to_cmat(b);}
-
-  //#endif // _MSC_VER ifdef
 
 } // namespace itpp
 

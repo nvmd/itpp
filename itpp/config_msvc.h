@@ -1,6 +1,11 @@
 /* itpp/config.h.  Generated from config.h.in by configure.  */
 /* itpp/config.h.in.  Generated from configure.ac by autoheader.  */
 
+
+#ifndef CONFIG_H
+#define CONFIG_H
+
+
 /* Define to dummy `main' function (if any) required to link to the Fortran
    libraries. */
 /* #undef F77_DUMMY_MAIN */
@@ -44,6 +49,12 @@
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #define HAVE_DLFCN_H 1
+
+/* Define to 1 if you have the `erf' function. */
+/* #undef HAVE_ERF */
+
+/* Define to 1 if you have the `erfc' function. */
+/* #undef HAVE_ERFC */
 
 /* Define if you have FFT library. */
 #define HAVE_FFT 1
@@ -107,6 +118,9 @@
 
 /* Define to 1 if you have the <queue> header file. */
 #define HAVE_QUEUE 1
+
+/* Define to 1 if you have the `rint' function. */
+/* #undef HAVE_RINT */
 
 /* Define to 1 if you have the <stdexcept> header file. */
 #define HAVE_STDEXCEPT 1
@@ -211,4 +225,6 @@
 #  define HAVE_FINITE 1
 #  define finite(a) (! isnan(a) && ! isinf(a))
 #endif
+
+#endif /* #ifndef CONFIG_H */
 

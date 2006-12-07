@@ -33,15 +33,15 @@
 #ifndef ITMISC_H
 #define ITMISC_H
 
-#include <complex>
-#include <string>
-#include <limits>
-
 #ifndef _MSC_VER
 #  include <itpp/config.h>
 #else
 #  include <itpp/config_msvc.h>
 #endif
+
+#include <complex>
+#include <string>
+#include <limits>
 
 
 namespace std {
