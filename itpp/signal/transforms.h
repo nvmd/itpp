@@ -1,7 +1,7 @@
 /*!
  * \file
- * \brief Definitions of Fourier, Hadamard, Walsh-Hadamard, and 2D Hadamard 
- *        transforms
+ * \brief Fourier, Hadamard, Walsh-Hadamard, and 2D Hadamard transforms -
+ *        header file 
  * \author Tony Ottosson, Thomas Eriksson, Simon Wood and Adam Piatyszek
  *
  * $Date$
@@ -29,9 +29,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  *
  * -------------------------------------------------------------------------
- * 
- * This file uses the FFTW package version 3.0.x that is distributed under 
- * the GNU GPL licence. For details see http://www.fftw.org/.
  */
 
 #ifndef TRANSFORMS_H
@@ -61,26 +58,26 @@ namespace itpp {
     \code Y = fft(X, N) \endcode performs zero-padding up to size N and then
     performs an N-size fft.
 
-    The implementation is built upon one of the following libraries: FFTW,
-    MKL, or ACML, depending on which was chosen during compilation.
+    The implementation is built upon one of the following libraries: 
+    - FFTW (version 3.0.0 or higher)
+    - MKL (version 8.0.0 or higher) 
+    - ACML (version 2.5.3 or higher).
+    
+    \note FFTW-based implementation is the fastest for powers of two.
+    Furthermore, the second time you call the routine with the same size,
+    the calculation is much faster due to many things were calculated and
+    stored the first time the routine was called.
 
-
-    The routine is fastest for powers of two. Furthermore, the second time
-    you call the routine with the same size, the calculation is much faster
-    due to many things were calculated and stored the first time the routine
-    was called.
-
-    <b>Note to FFTW users:</b> Achieving maximum runtime efficiency
-    with the FFTW library on some computer architectures requires that
-    data are stored in the memory with a special alignment (to 16-byte
-    boundaries).  The IT++ memory management functions and container
-    classes do not generally allocate memory aligned this way, and as
-    a result calling FFTW via the IT++ interface (i.e. the fft()
-    function) may be slower than using the FFTW library directly.
-    Therefore, FFTW users concerned about maximum possible performance
-    may want to consider the possibility of calling the FFTW library
-    and its memory management/allocation routines directly, bypassing
-    the IT++ storage classes and the fft() interface to FFTW.
+    \note Achieving maximum runtime efficiency with the FFTW library on some
+    computer architectures requires that data are stored in the memory with
+    a special alignment (to 16-byte boundaries). The IT++ memory management
+    functions and container classes do not generally allocate memory aligned
+    this way, and as a result calling FFTW via the IT++ interface (i.e. the
+    fft() function) may be slower than using the FFTW library directly.
+    Therefore, FFTW users concerned about maximum possible performance may
+    want to consider the possibility of calling the FFTW library and its
+    memory management/allocation routines directly, bypassing the IT++
+    storage classes and the fft() interface to FFTW.
   */
 
   //!\addtogroup fft
@@ -132,14 +129,27 @@ namespace itpp {
     where \f$w(k) = 1/sqrt{N}\f$ for \f$k=0\f$ and 
     \f$w(k) = sqrt{2/N}\f$ for \f$k\geq 1\f$.
 
+    The implementation is built upon one of the following libraries: 
+    - FFTW (version 3.0.0 or higher)
+    - MKL (version 8.0.0 or higher) 
+    - ACML (version 2.5.3 or higher).
 
-    The implementation is built upon one of the following libraries: FFTW,
-    MKL, or ACML, depending on which was chosen during compilation.
+    \note FFTW-based implementation is the fastest for powers of two.
+    Furthermore, the second time you call the routine with the same size,
+    the calculation is much faster due to many things were calculated and
+    stored the first time the routine was called.
 
-    The routine is fastest for powers of two. Furthermore, the second time
-    you call the routine with the same size, the calculation is much faster
-    due to many things were calculated and stored the first time the routine
-    was called.
+    \note Achieving maximum runtime efficiency with the FFTW library on some
+    computer architectures requires that data are stored in the memory with
+    a special alignment (to 16-byte boundaries). The IT++ memory management
+    functions and container classes do not generally allocate memory aligned
+    this way, and as a result calling FFTW via the IT++ interface (i.e. the
+    dct()/idct() function) may be slower than using the FFTW library
+    directly. Therefore, FFTW users concerned about maximum possible
+    performance may want to consider the possibility of calling the FFTW
+    library and its memory management/allocation routines directly,
+    bypassing the IT++ storage classes and the dct()/idct() interface to
+    FFTW.
   */
 
   //!\addtogroup dct
