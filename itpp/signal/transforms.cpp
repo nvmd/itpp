@@ -1,7 +1,7 @@
 /*!
  * \file
- * \brief Implementation of Fourier, Hadamard, Walsh-Hadamard, and 2D Hadamard 
- *        transforms
+ * \brief Fourier, Cosine, Hadamard, Walsh-Hadamard, and 2D Hadamard
+ *        transforms - source file 
  * \author Tony Ottosson, Thomas Eriksson, Simon Wood and Adam Piatyszek
  * 
  * $Date$
@@ -29,9 +29,6 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  *
  * -------------------------------------------------------------------------
- *
- * This file uses the FFTW package version 3.0.x that is distributed under 
- * the GNU GPL licence. For details see http://www.fftw.org/.
  */
 
 #ifndef _MSC_VER
