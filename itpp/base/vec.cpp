@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Templated Vector Class Implementation
- * \author Tony Ottosson, Tobias Ringstrom and Adam Piatyszek
+ * \author Tony Ottosson, Tobias Ringstrom, Adam Piatyszek and Conrad Sanderson
  *
  * $Date$
  * $Revision$
@@ -1399,27 +1399,45 @@ namespace itpp {
 
   //------------- Elementwise Multiplication operator (two vectors) ----------
 
-  template const vec elem_mult(const vec &v1, const vec &v2);
-  template const cvec elem_mult(const cvec &v1, const cvec &v2);
-  template const ivec elem_mult(const ivec &v1, const ivec &v2);
-  template const svec elem_mult(const svec &v1, const svec &v2);
-  template const bvec elem_mult(const bvec &v1, const bvec &v2);
+  template const vec elem_mult(const vec &a, const vec &b);
+  template const cvec elem_mult(const cvec &a, const cvec &b);
+  template const ivec elem_mult(const ivec &a, const ivec &b);
+  template const svec elem_mult(const svec &a, const svec &b);
+  template const bvec elem_mult(const bvec &a, const bvec &b);
+
+  template void elem_mult_out(const vec &a, const vec &b, vec &out);
+  template void elem_mult_out(const cvec &a, const cvec &b, cvec &out);
+  template void elem_mult_out(const ivec &a, const ivec &b, ivec &out);
+  template void elem_mult_out(const svec &a, const svec &b, svec &out);
+  template void elem_mult_out(const bvec &a, const bvec &b, bvec &out);
 
   //------------- Elementwise Multiplication operator (three vectors) ----------
 
-  template const vec elem_mult(const vec &v1, const vec &v2, const vec &v3);
-  template const cvec elem_mult(const cvec &v1, const cvec &v2, const cvec &v3);
-  template const ivec elem_mult(const ivec &v1, const ivec &v2, const ivec &v3);
-  template const svec elem_mult(const svec &v1, const svec &v2, const svec &v3);
-  template const bvec elem_mult(const bvec &v1, const bvec &v2, const bvec &v3);
+  template const vec elem_mult(const vec &a, const vec &b, const vec &c);
+  template const cvec elem_mult(const cvec &a, const cvec &b, const cvec &c);
+  template const ivec elem_mult(const ivec &a, const ivec &b, const ivec &c);
+  template const svec elem_mult(const svec &a, const svec &b, const svec &c);
+  template const bvec elem_mult(const bvec &a, const bvec &b, const bvec &c);
+
+  template void elem_mult_out(const vec &a, const vec &b, const vec &c, vec &out);
+  template void elem_mult_out(const cvec &a, const cvec &b, const cvec &c, cvec &out);
+  template void elem_mult_out(const ivec &a, const ivec &b, const ivec &c, ivec &out);
+  template void elem_mult_out(const svec &a, const svec &b, const svec &c, svec &out);
+  template void elem_mult_out(const bvec &a, const bvec &b, const bvec &c, bvec &out);
 
   //------------- Elementwise Multiplication operator (four vectors) ----------
 
-  template const vec elem_mult(const vec &v1, const vec &v2, const vec &v3, const vec &v4);
-  template const cvec elem_mult(const cvec &v1, const cvec &v2, const cvec &v3, const cvec &v4);
-  template const ivec elem_mult(const ivec &v1, const ivec &v2, const ivec &v3, const ivec &v4);
-  template const svec elem_mult(const svec &v1, const svec &v2, const svec &v3, const svec &v4);
-  template const bvec elem_mult(const bvec &v1, const bvec &v2, const bvec &v3, const bvec &v4);
+  template const vec elem_mult(const vec &a, const vec &b, const vec &c, const vec &d);
+  template const cvec elem_mult(const cvec &a, const cvec &b, const cvec &c, const cvec &d);
+  template const ivec elem_mult(const ivec &a, const ivec &b, const ivec &c, const ivec &d);
+  template const svec elem_mult(const svec &a, const svec &b, const svec &c, const svec &d);
+  template const bvec elem_mult(const bvec &a, const bvec &b, const bvec &c, const bvec &d);
+
+  template void elem_mult_out(const vec &a, const vec &b, const vec &c, const vec &d, vec &out);
+  template void elem_mult_out(const cvec &a, const cvec &b, const cvec &c, const cvec &d, cvec &out);
+  template void elem_mult_out(const ivec &a, const ivec &b, const ivec &c, const ivec &d, ivec &out);
+  template void elem_mult_out(const svec &a, const svec &b, const svec &c, const svec &d, svec &out);
+  template void elem_mult_out(const bvec &a, const bvec &b, const bvec &c, const bvec &d, bvec &out);
 
   //------------- Division operator ----------
 
@@ -1437,17 +1455,39 @@ namespace itpp {
 
   //------------- Elementwise Division operator ----------
 
-  template const vec elem_div(const vec &v1, const vec &v2);
-  template const cvec elem_div(const cvec &v1, const cvec &v2);
-  template const ivec elem_div(const ivec &v1, const ivec &v2);
-  template const svec elem_div(const svec &v1, const svec &v2);
-  template const bvec elem_div(const bvec &v1, const bvec &v2);
+  template const vec elem_div(const vec &a, const vec &b);
+  template const cvec elem_div(const cvec &a, const cvec &b);
+  template const ivec elem_div(const ivec &a, const ivec &b);
+  template const svec elem_div(const svec &a, const svec &b);
+  template const bvec elem_div(const bvec &a, const bvec &b);
+
+  template void elem_div_out(const vec &a, const vec &b, vec &out);
+  template void elem_div_out(const cvec &a, const cvec &b, cvec &out);
+  template void elem_div_out(const ivec &a, const ivec &b, ivec &out);
+  template void elem_div_out(const svec &a, const svec &b, svec &out);
+  template void elem_div_out(const bvec &a, const bvec &b, bvec &out);
 
   template const vec elem_div(const double t, const vec &v);
   template const cvec elem_div(const std::complex<double> t, const cvec &v);
   template const ivec elem_div(const int t, const ivec &v);
   template const svec elem_div(const short t, const svec &v);
   template const bvec elem_div(const bin t, const bvec &v);
+
+  //------------- In-place element-wise multiplication  ----------
+
+  template void elem_mult_inplace(const vec &a, vec &b);
+  template void elem_mult_inplace(const cvec &a, cvec &b);
+  template void elem_mult_inplace(const ivec &a, ivec &b);
+  template void elem_mult_inplace(const svec &a, svec &b);
+  template void elem_mult_inplace(const bvec &a, bvec &b);
+
+  //------------- In-place element-wise multiplication followed by summation ----------
+
+  template double elem_mult_sum(const vec &a, const vec &b);
+  template std::complex<double> elem_mult_sum(const cvec &a, const cvec &b);
+  template int elem_mult_sum(const ivec &a, const ivec &b);
+  template short elem_mult_sum(const svec &a, const svec &b);
+  template bin elem_mult_sum(const bvec &a, const bvec &b);
 
   //--------------------- concat operator -----------------
 
