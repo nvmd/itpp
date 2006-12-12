@@ -112,10 +112,12 @@ namespace itpp {
 
   //! Elementwise division of two vectors. Same functionality as Matlab/Octave expression a ./ b
   template<class Num_T> const Vec<Num_T> elem_div(const Vec<Num_T> &a, const Vec<Num_T> &b);
-  //! Elementwise division of two vectors, storing the result in vector \c out (which is re-sized if necessary)
-  template<class Num_T> void elem_div_out(const Vec<Num_T> &a, const Vec<Num_T> &b, Vec<Num_T> &out);
   //! Elementwise division of scalar \c t and vector \c v
   template<class Num_T> const Vec<Num_T> elem_div(const Num_T t, const Vec<Num_T> &v);
+  //! Elementwise division of two vectors, storing the result in vector \c out (which is re-sized if necessary)
+  template<class Num_T> void elem_div_out(const Vec<Num_T> &a, const Vec<Num_T> &b, Vec<Num_T> &out);
+  //! Elementwise division of two vectors, followed by summation of the resultant elements. Fast version of sum(elem_div(a,b))  
+  template<class Num_T> Num_T elem_div_sum(const Vec<Num_T> &a, const Vec<Num_T> &b);
 
   //! Append element \c a to the end of the vector \c v
   template<class Num_T> const Vec<Num_T> concat(const Vec<Num_T> &v, const Num_T a);
@@ -337,9 +339,11 @@ namespace itpp {
     //! Elementwise division
     friend const Vec<Num_T> elem_div <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
     //! Elementwise division
-    friend void elem_div_out <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2, Vec<Num_T> &out);
-    //! Elementwise division
     friend const Vec<Num_T> elem_div <>(const Num_T t, const Vec<Num_T> &v);
+    //! Elementwise division
+    friend void elem_div_out <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2, Vec<Num_T> &out);
+    //! Elementwise division, followed by summation of the resultant elements. Fast version of sum(elem_mult(a,b))  
+    friend Num_T elem_div_sum <>(const Vec<Num_T> &a, const Vec<Num_T> &b);
 
     //! Get the elements in the vector where \c binlist is \c 1
     Vec<Num_T> get(const Vec<bin> &binlist) const;
@@ -969,18 +973,6 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-  void elem_div_out(const Vec<Num_T> &a, const Vec<Num_T> &b, Vec<Num_T> &out)
-  {
-    it_assert1(a.datasize==b.datasize, "Vec<Num_T>elem_div_out: wrong sizes");
-    
-    if(out.datasize != a.datasize)
-      out.set_size(a.size());
-
-    for(int i=0; i<a.datasize; i++)
-      out.data[i] = a.data[i] / b.data[i];
-  }
-
-  template<class Num_T> inline
   const Vec<Num_T> elem_div(const Num_T t, const Vec<Num_T> &v)
   {
     int i;
@@ -992,6 +984,31 @@ namespace itpp {
     return r;
   }
 
+  template<class Num_T> inline
+  void elem_div_out(const Vec<Num_T> &a, const Vec<Num_T> &b, Vec<Num_T> &out)
+  {
+    it_assert1(a.datasize==b.datasize, "Vec<Num_T>elem_div_out: wrong sizes");
+    
+    if(out.datasize != a.datasize)
+      out.set_size(a.size());
+
+    for(int i=0; i<a.datasize; i++)
+      out.data[i] = a.data[i] / b.data[i];
+  }
+  
+  template<class Num_T> inline
+  Num_T elem_div_sum(const Vec<Num_T> &a, const Vec<Num_T> &b)
+  {
+    it_assert1(a.datasize==b.datasize, "Vec<Num_T>::elem_div_sum: wrong sizes");
+   
+    Num_T acc = 0;
+   
+    for(int i=0; i<a.datasize; i++)
+      acc += a.data[i] / b.data[i];
+    
+    return acc;
+  }
+  
   template<class Num_T>
   Vec<Num_T> Vec<Num_T>::get(const Vec<bin> &binlist) const
   {
@@ -1789,7 +1806,7 @@ namespace itpp {
   //! Template instantiation of elem_mult_inplace
   extern template void elem_mult_inplace(const bvec &a, bvec &b);
 
-  //------------- In-place element-wise multiplication followed by summation ----------
+  //------------- Element-wise multiplication followed by summation ----------
 
   //! Template instantiation of elem_mult_sum
   extern template double elem_mult_sum(const vec &a, const vec &b);
@@ -1839,17 +1856,6 @@ namespace itpp {
   //! Template instantiation of elem_div
   extern template const bvec elem_div(const bvec &a, const bvec &b);
 
-  //! Template instantiation of elem_div_out
-  extern template void elem_div_out(const vec &a, const vec &b, vec &out);
-  //! Template instantiation of elem_div_out
-  extern template void elem_div_out(const cvec &a, const cvec &b, cvec &out);
-  //! Template instantiation of elem_div_out
-  extern template void elem_div_out(const ivec &a, const ivec &b, ivec &out);
-  //! Template instantiation of elem_div_out
-  extern template void elem_div_out(const svec &a, const svec &b, svec &out);
-  //! Template instantiation of elem_div_out
-  extern template void elem_div_out(const bvec &a, const bvec &b, bvec &out);
-
   //! Template instantiation of elem_div
   extern template const vec elem_div(const double t, const vec &v);
   //! Template instantiation of elem_div
@@ -1861,6 +1867,30 @@ namespace itpp {
   //! Template instantiation of elem_div
   extern template const bvec elem_div(const bin t, const bvec &v);
 
+  //! Template instantiation of elem_div_out
+  extern template void elem_div_out(const vec &a, const vec &b, vec &out);
+  //! Template instantiation of elem_div_out
+  extern template void elem_div_out(const cvec &a, const cvec &b, cvec &out);
+  //! Template instantiation of elem_div_out
+  extern template void elem_div_out(const ivec &a, const ivec &b, ivec &out);
+  //! Template instantiation of elem_div_out
+  extern template void elem_div_out(const svec &a, const svec &b, svec &out);
+  //! Template instantiation of elem_div_out
+  extern template void elem_div_out(const bvec &a, const bvec &b, bvec &out);
+
+  //------------- Element-wise division followed by summation ----------
+
+  //! Template instantiation of elem_div_sum
+  extern template double elem_div_sum(const vec &a, const vec &b);
+  //! Template instantiation of elem_div_sum
+  extern template std::complex<double> elem_div_sum(const cvec &a, const cvec &b);
+  //! Template instantiation of elem_div_sum
+  extern template int elem_div_sum(const ivec &a, const ivec &b);
+  //! Template instantiation of elem_div_sum
+  extern template short elem_div_sum(const svec &a, const svec &b);
+  //! Template instantiation of elem_div_sum
+  extern template bin elem_div_sum(const bvec &a, const bvec &b);
+  
   //--------------------- concat operator -----------------
 
   //! Template instantiation of concat

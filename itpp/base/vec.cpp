@@ -1439,6 +1439,22 @@ namespace itpp {
   template void elem_mult_out(const svec &a, const svec &b, const svec &c, const svec &d, svec &out);
   template void elem_mult_out(const bvec &a, const bvec &b, const bvec &c, const bvec &d, bvec &out);
 
+  //------------- In-place element-wise multiplication  ----------
+
+  template void elem_mult_inplace(const vec &a, vec &b);
+  template void elem_mult_inplace(const cvec &a, cvec &b);
+  template void elem_mult_inplace(const ivec &a, ivec &b);
+  template void elem_mult_inplace(const svec &a, svec &b);
+  template void elem_mult_inplace(const bvec &a, bvec &b);
+
+  //------------- Element-wise multiplication followed by summation ----------
+
+  template double elem_mult_sum(const vec &a, const vec &b);
+  template std::complex<double> elem_mult_sum(const cvec &a, const cvec &b);
+  template int elem_mult_sum(const ivec &a, const ivec &b);
+  template short elem_mult_sum(const svec &a, const svec &b);
+  template bin elem_mult_sum(const bvec &a, const bvec &b);
+  
   //------------- Division operator ----------
 
   template const vec operator/(const vec &v, double t);
@@ -1461,33 +1477,25 @@ namespace itpp {
   template const svec elem_div(const svec &a, const svec &b);
   template const bvec elem_div(const bvec &a, const bvec &b);
 
-  template void elem_div_out(const vec &a, const vec &b, vec &out);
-  template void elem_div_out(const cvec &a, const cvec &b, cvec &out);
-  template void elem_div_out(const ivec &a, const ivec &b, ivec &out);
-  template void elem_div_out(const svec &a, const svec &b, svec &out);
-  template void elem_div_out(const bvec &a, const bvec &b, bvec &out);
-
   template const vec elem_div(const double t, const vec &v);
   template const cvec elem_div(const std::complex<double> t, const cvec &v);
   template const ivec elem_div(const int t, const ivec &v);
   template const svec elem_div(const short t, const svec &v);
   template const bvec elem_div(const bin t, const bvec &v);
 
-  //------------- In-place element-wise multiplication  ----------
+  template void elem_div_out(const vec &a, const vec &b, vec &out);
+  template void elem_div_out(const cvec &a, const cvec &b, cvec &out);
+  template void elem_div_out(const ivec &a, const ivec &b, ivec &out);
+  template void elem_div_out(const svec &a, const svec &b, svec &out);
+  template void elem_div_out(const bvec &a, const bvec &b, bvec &out);
 
-  template void elem_mult_inplace(const vec &a, vec &b);
-  template void elem_mult_inplace(const cvec &a, cvec &b);
-  template void elem_mult_inplace(const ivec &a, ivec &b);
-  template void elem_mult_inplace(const svec &a, svec &b);
-  template void elem_mult_inplace(const bvec &a, bvec &b);
+  //------------- Elementwise division followed by summation ----------
 
-  //------------- In-place element-wise multiplication followed by summation ----------
-
-  template double elem_mult_sum(const vec &a, const vec &b);
-  template std::complex<double> elem_mult_sum(const cvec &a, const cvec &b);
-  template int elem_mult_sum(const ivec &a, const ivec &b);
-  template short elem_mult_sum(const svec &a, const svec &b);
-  template bin elem_mult_sum(const bvec &a, const bvec &b);
+  template double elem_div_sum(const vec &a, const vec &b);
+  template std::complex<double> elem_div_sum(const cvec &a, const cvec &b);
+  template int elem_div_sum(const ivec &a, const ivec &b);
+  template short elem_div_sum(const svec &a, const svec &b);
+  template bin elem_div_sum(const bvec &a, const bvec &b);
 
   //--------------------- concat operator -----------------
 
