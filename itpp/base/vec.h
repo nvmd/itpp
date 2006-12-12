@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Templated Vector Class Definitions
- * \author Tony Ottosson, Tobias Ringstrom and Adam Piatyszek
+ * \author Tony Ottosson, Tobias Ringstrom, Adam Piatyszek and Conrad Sanderson
  *
  * $Date$
  * $Revision$
@@ -85,19 +85,35 @@ namespace itpp {
   template<class Num_T> const Vec<Num_T> operator*(const Vec<Num_T> &v, const Num_T t);
   //! Multiplication of a scalar and a vector. Results in a vector
   template<class Num_T> const Vec<Num_T> operator*(const Num_T t, const Vec<Num_T> &v);
-  //! Elementwise multiplication of the two vectors
-  template<class Num_T> const Vec<Num_T> elem_mult(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
-  //! Elementwise multiplication of the three vectors
-  template<class Num_T> const Vec<Num_T> elem_mult(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3);
-  //! Elementwise multiplication of the four vectors
-  template<class Num_T> const Vec<Num_T> elem_mult(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3, const Vec<Num_T> &v4);
+
+  //! Element-wise multiplication of the two vectors.  Same functionality as Matlab/Octave expression a .* b
+  template<class Num_T> const Vec<Num_T> elem_mult(const Vec<Num_T> &a, const Vec<Num_T> &b);
+  //! Element-wise multiplication of the three vectors
+  template<class Num_T> const Vec<Num_T> elem_mult(const Vec<Num_T> &a, const Vec<Num_T> &b, const Vec<Num_T> &c);
+  //! Element-wise multiplication of the four vectors
+  template<class Num_T> const Vec<Num_T> elem_mult(const Vec<Num_T> &a, const Vec<Num_T> &b, const Vec<Num_T> &c, const Vec<Num_T> &d);
+
+  //! Element-wise multiplication of the two vectors, storing the result in vector \c out (which is re-sized if necessary)
+  template<class Num_T> void elem_mult_out(const Vec<Num_T> &a, const Vec<Num_T> &b, Vec<Num_T> &out);
+  //! Element-wise multiplication of the three vectors, storing the result in vector \c out (which is re-sized if necessary)
+  template<class Num_T> void elem_mult_out(const Vec<Num_T> &a, const Vec<Num_T> &b, const Vec<Num_T> &c, Vec<Num_T> &out);
+  //! Element-wise multiplication of the four vectors, storing the result in vector \c out (which is re-sized if necessary)
+  template<class Num_T> void elem_mult_out(const Vec<Num_T> &a, const Vec<Num_T> &b, const Vec<Num_T> &c, const Vec<Num_T> &d, Vec<Num_T> &out);
+
+  //! In-place element-wise multiplication of two vectors. Fast version of b = elem_mult(a,b)
+  template<class Num_T> void elem_mult_inplace(const Vec<Num_T> &a, Vec<Num_T> &b);
+  //! Element-wise multiplication of two vectors, followed by summation of the resultant elements. Fast version of sum(elem_mult(a,b))  
+  template<class Num_T> Num_T elem_mult_sum(const Vec<Num_T> &a, const Vec<Num_T> &b);
 
   //! Division of all elements in \c v with \c t
   template<class Num_T> const Vec<Num_T> operator/(const Vec<Num_T> &v, const Num_T t);
   //! Division of \c t with all elements in \c v
   template<class Num_T> const Vec<Num_T> operator/(const Num_T t, const Vec<Num_T> &v);
-  //! Elementwise division
-  template<class Num_T> const Vec<Num_T> elem_div(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
+
+  //! Elementwise division of two vectors. Same functionality as Matlab/Octave expression a ./ b
+  template<class Num_T> const Vec<Num_T> elem_div(const Vec<Num_T> &a, const Vec<Num_T> &b);
+  //! Elementwise division of two vectors, storing the result in vector \c out (which is re-sized if necessary)
+  template<class Num_T> void elem_div_out(const Vec<Num_T> &a, const Vec<Num_T> &b, Vec<Num_T> &out);
   //! Elementwise division of scalar \c t and vector \c v
   template<class Num_T> const Vec<Num_T> elem_div(const Num_T t, const Vec<Num_T> &v);
 
@@ -288,23 +304,40 @@ namespace itpp {
     friend const Vec<Num_T> operator*<>(const Vec<Num_T> &v, const Num_T t);
     //! Elementwise multiplication of vector and scalar
     friend const Vec<Num_T> operator*<>(const Num_T t, const Vec<Num_T> &v);
+
     //! Elementwise multiplication
-    friend const Vec<Num_T> elem_mult <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
+    friend const Vec<Num_T> elem_mult <>(const Vec<Num_T> &a, const Vec<Num_T> &b);
     //! Elementwise multiplication of three vectors
-    friend const Vec<Num_T> elem_mult <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3);
+    friend const Vec<Num_T> elem_mult <>(const Vec<Num_T> &a, const Vec<Num_T> &b, const Vec<Num_T> &c);
     //! Elementwise multiplication of four vectors
-    friend const Vec<Num_T> elem_mult <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3, const Vec<Num_T> &v4);
+    friend const Vec<Num_T> elem_mult <>(const Vec<Num_T> &a, const Vec<Num_T> &b, const Vec<Num_T> &c, const Vec<Num_T> &d);
+
+    //! Elementwise multiplication, storing the result in vector \c out (which is re-sized if necessary)
+    friend void elem_mult_out <>(const Vec<Num_T> &a, const Vec<Num_T> &b, Vec<Num_T> &out);
+    //! Elementwise multiplication of three vectors, storing the result in vector \c out (which is re-sized if necessary)
+    friend void elem_mult_out <>(const Vec<Num_T> &a, const Vec<Num_T> &b, const Vec<Num_T> &c, Vec<Num_T> &out);
+    //! Elementwise multiplication of four vectors, storing the result in vector \c out (which is re-sized if necessary)
+    friend void elem_mult_out <>(const Vec<Num_T> &a, const Vec<Num_T> &b, const Vec<Num_T> &c, const Vec<Num_T> &d, Vec<Num_T> &out);
+
+    //! In-place element-wise multiplication of two vectors. Fast version of b = elem_mult(a,b)
+    friend void elem_mult_inplace <>(const Vec<Num_T> &a, Vec<Num_T> &b);
+    //! Element-wise multiplication of two vectors, followed by summation of the resultant elements. Fast version of sum(elem_mult(a,b))  
+    friend Num_T elem_mult_sum <>(const Vec<Num_T> &a, const Vec<Num_T> &b);
 
     //! Elementwise division
     Vec<Num_T>& operator/=(const Num_T t);
     //! Elementwise division
     Vec<Num_T>& operator/=(const Vec<Num_T> &v);
+
     //! Elementwise division
     friend const Vec<Num_T> operator/<>(const Vec<Num_T> &v, const Num_T t);
     //! Elementwise division
     friend const Vec<Num_T> operator/<>(const Num_T t, const Vec<Num_T> &v);
+
     //! Elementwise division
     friend const Vec<Num_T> elem_div <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
+    //! Elementwise division
+    friend void elem_div_out <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2, Vec<Num_T> &out);
     //! Elementwise division
     friend const Vec<Num_T> elem_div <>(const Num_T t, const Vec<Num_T> &v);
 
@@ -771,7 +804,7 @@ namespace itpp {
 
     for (i=0; i<v1.datasize; i++) {
       for (j=0; j<v2.datasize; j++) {
-	r(i,j) = v1.data[i] * v2.data[j];
+	      r(i,j) = v1.data[i] * v2.data[j];
       }
     }
 
@@ -803,45 +836,85 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-  const Vec<Num_T> elem_mult(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
+  const Vec<Num_T> elem_mult(const Vec<Num_T> &a, const Vec<Num_T> &b)
   {
-    int i;
-    Vec<Num_T> r(v1.datasize);
-
-    it_assert1(v1.datasize==v2.datasize, "Vec<Num_T>::elem_mult: wrong sizes");
-    for (i=0; i<v1.datasize; i++)
-      r.data[i] = v1.data[i] * v2.data[i];
-
-    return r;
+    Vec<Num_T> out;
+    elem_mult_out(a,b,out);
+    return out;
   }
 
   template<class Num_T> inline
-  const Vec<Num_T> elem_mult(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3)
+  const Vec<Num_T> elem_mult(const Vec<Num_T> &a, const Vec<Num_T> &b, const Vec<Num_T> &c)
   {
-    int i;
-    Vec<Num_T> r(v1.datasize);
-
-    it_assert1(v1.datasize==v2.datasize, "Vec<Num_T>::elem_mult: wrong sizes");
-    it_assert1(v2.datasize==v3.datasize, "Vec<Num_T>::elem_mult: wrong sizes");
-    for (i=0; i<v1.datasize; i++)
-      r.data[i] = v1.data[i] * v2.data[i] * v3.data[i];
-
-    return r;
+    Vec<Num_T> out;
+    elem_mult_out(a,b,c,out);
+    return out;
   }
 
   template<class Num_T> inline
-  const Vec<Num_T> elem_mult(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3, const Vec<Num_T> &v4)
+  const Vec<Num_T> elem_mult(const Vec<Num_T> &a, const Vec<Num_T> &b, const Vec<Num_T> &c, const Vec<Num_T> &d)
   {
-    int i;
-    Vec<Num_T> r(v1.datasize);
+    Vec<Num_T> out;
+    elem_mult_out(a,b,c,d,out);
+    return out;
+  }
 
-    it_assert1(v1.datasize==v2.datasize, "Vec<Num_T>::elem_mult: wrong sizes");
-    it_assert1(v2.datasize==v3.datasize, "Vec<Num_T>::elem_mult: wrong sizes");
-    it_assert1(v3.datasize==v4.datasize, "Vec<Num_T>::elem_mult: wrong sizes");
-    for (i=0; i<v1.datasize; i++)
-      r.data[i] = v1.data[i] * v2.data[i] * v3.data[i] * v4.data[i];
+  template<class Num_T> inline
+  void elem_mult_out(const Vec<Num_T> &a, const Vec<Num_T> &b, Vec<Num_T> &out)
+  {
+    it_assert1(a.datasize==b.datasize, "Vec<Num_T>::elem_mult_out: wrong sizes");
+   
+    if(out.datasize != a.datasize)
+      out.set_size(a.size());
+   
+    for(int i=0; i<a.datasize; i++)
+      out.data[i] = a.data[i] * b.data[i];
+  }
 
-    return r;
+  template<class Num_T> inline
+  void elem_mult_out(const Vec<Num_T> &a, const Vec<Num_T> &b, const Vec<Num_T> &c, Vec<Num_T> &out)
+  {
+    it_assert1(a.datasize==b.datasize==c.datasize, "Vec<Num_T>::elem_mult_out: wrong sizes");
+   
+    if(out.datasize != a.datasize)
+      out.set_size(a.size());
+   
+    for(int i=0; i<a.datasize; i++)
+      out.data[i] = a.data[i] * b.data[i] * c.data[i];
+  }
+
+  template<class Num_T> inline
+  void elem_mult_out(const Vec<Num_T> &a, const Vec<Num_T> &b, const Vec<Num_T> &c, const Vec<Num_T> &d, Vec<Num_T> &out)
+  {
+    it_assert1(a.datasize==b.datasize==c.datasize==d.datasize, "Vec<Num_T>::elem_mult_out: wrong sizes");
+   
+    if(out.datasize != a.datasize)
+      out.set_size(a.size());
+   
+    for(int i=0; i<a.datasize; i++)
+      out.data[i] = a.data[i] * b.data[i] * c.data[i] * d.data[i];
+  }
+
+  template<class Num_T> inline
+  void elem_mult_inplace(const Vec<Num_T> &a, Vec<Num_T> &b)
+  {
+    it_assert1(a.datasize==b.datasize, "Vec<Num_T>::elem_mult_inplace: wrong sizes");
+   
+    for(int i=0; i<a.datasize; i++)
+      b.data[i] *= a.data[i];
+  }
+
+  template<class Num_T> inline
+  Num_T elem_mult_sum(const Vec<Num_T> &a, const Vec<Num_T> &b)
+  {
+    it_assert1(a.datasize==b.datasize, "Vec<Num_T>::elem_mult_sum: wrong sizes");
+   
+    Num_T acc = 0;
+   
+    for(int i=0; i<a.datasize; i++)
+      acc += a.data[i] * b.data[i];
+    
+    return acc;
   }
 
   template<class Num_T> inline
@@ -880,25 +953,31 @@ namespace itpp {
   Vec<Num_T>& Vec<Num_T>::operator/=(const Vec<Num_T> &v)
   {
     if (this != &v) {
-      int i;
       it_assert1(datasize==v.datasize, "Vec<Num_T>::operator/=: wrong sizes");
-      for (i=0; i<datasize; i++)
-	data[i] /= v.data[i];
+      for (int i=0; i<datasize; i++)
+	      data[i] /= v.data[i];
     }
     return *this;
   }
 
   template<class Num_T> inline
-  const Vec<Num_T> elem_div(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
+  const Vec<Num_T> elem_div(const Vec<Num_T> &a, const Vec<Num_T> &b)
   {
-    int i;
-    Vec<Num_T> r(v1.datasize);
+    Vec<Num_T> out;
+    elem_div_out(a,b,out);
+    return out;
+  }
 
-    it_assert1(v1.datasize==v2.datasize, "Vec<Num_T>elem_div: wrong sizes");
-    for (i=0; i<v1.datasize; i++)
-      r.data[i] = v1.data[i] / v2.data[i];
+  template<class Num_T> inline
+  void elem_div_out(const Vec<Num_T> &a, const Vec<Num_T> &b, Vec<Num_T> &out)
+  {
+    it_assert1(a.datasize==b.datasize, "Vec<Num_T>elem_div_out: wrong sizes");
+    
+    if(out.datasize != a.datasize)
+      out.set_size(a.size());
 
-    return r;
+    for(int i=0; i<a.datasize; i++)
+      out.data[i] = a.data[i] / b.data[i];
   }
 
   template<class Num_T> inline
@@ -1628,41 +1707,100 @@ namespace itpp {
   //------------- Elementwise Multiplication operator (two vectors) ----------
 
   //! Template instantiation of elem_mult
-  extern template const vec elem_mult(const vec &v1, const vec &v2);
+  extern template const vec elem_mult(const vec &a, const vec &b);
   //! Template instantiation of elem_mult
-  extern template const cvec elem_mult(const cvec &v1, const cvec &v2);
+  extern template const cvec elem_mult(const cvec &a, const cvec &b);
   //! Template instantiation of elem_mult
-  extern template const ivec elem_mult(const ivec &v1, const ivec &v2);
+  extern template const ivec elem_mult(const ivec &a, const ivec &b);
   //! Template instantiation of elem_mult
-  extern template const svec elem_mult(const svec &v1, const svec &v2);
+  extern template const svec elem_mult(const svec &a, const svec &b);
   //! Template instantiation of elem_mult
-  extern template const bvec elem_mult(const bvec &v1, const bvec &v2);
+  extern template const bvec elem_mult(const bvec &a, const bvec &b);
+
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const vec &a, const vec &b, vec &out);
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const cvec &a, const cvec &b, cvec &out);
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const ivec &a, const ivec &b, ivec &out);
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const svec &a, const svec &b, svec &out);
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const bvec &a, const bvec &b, bvec &out);
 
   //------------- Elementwise Multiplication operator (three vectors) ----------
 
   //! Template instantiation of elem_mult
-  extern template const vec elem_mult(const vec &v1, const vec &v2, const vec &v3);
+  extern template const vec elem_mult(const vec &a, const vec &b, const vec &c);
   //! Template instantiation of elem_mult
-  extern template const cvec elem_mult(const cvec &v1, const cvec &v2, const cvec &v3);
+  extern template const cvec elem_mult(const cvec &a, const cvec &b, const cvec &c);
   //! Template instantiation of elem_mult
-  extern template const ivec elem_mult(const ivec &v1, const ivec &v2, const ivec &v3);
+  extern template const ivec elem_mult(const ivec &a, const ivec &b, const ivec &c);
   //! Template instantiation of elem_mult
-  extern template const svec elem_mult(const svec &v1, const svec &v2, const svec &v3);
+  extern template const svec elem_mult(const svec &a, const svec &b, const svec &c);
   //! Template instantiation of elem_mult
-  extern template const bvec elem_mult(const bvec &v1, const bvec &v2, const bvec &v3);
+  extern template const bvec elem_mult(const bvec &a, const bvec &b, const bvec &c);
+
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const vec &a, const vec &b, const vec &c, vec &out);
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const cvec &a, const cvec &b, const cvec &c, cvec &out);
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const ivec &a, const ivec &b, const ivec &c, ivec &out);
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const svec &a, const svec &b, const svec &c, svec &out);
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const bvec &a, const bvec &b, const bvec &c, bvec &out);
 
   //------------- Elementwise Multiplication operator (four vectors) ----------
 
   //! Template instantiation of elem_mult
-  extern template const vec elem_mult(const vec &v1, const vec &v2, const vec &v3, const vec &v4);
+  extern template const vec elem_mult(const vec &a, const vec &b, const vec &c, const vec &d);
   //! Template instantiation of elem_mult
-  extern template const cvec elem_mult(const cvec &v1, const cvec &v2, const cvec &v3, const cvec &v4);
+  extern template const cvec elem_mult(const cvec &a, const cvec &b, const cvec &c, const cvec &d);
   //! Template instantiation of elem_mult
-  extern template const ivec elem_mult(const ivec &v1, const ivec &v2, const ivec &v3, const ivec &v4);
+  extern template const ivec elem_mult(const ivec &a, const ivec &b, const ivec &c, const ivec &d);
   //! Template instantiation of elem_mult
-  extern template const svec elem_mult(const svec &v1, const svec &v2, const svec &v3, const svec &v4);
+  extern template const svec elem_mult(const svec &a, const svec &b, const svec &c, const svec &d);
   //! Template instantiation of elem_mult
-  extern template const bvec elem_mult(const bvec &v1, const bvec &v2, const bvec &v3, const bvec &v4);
+  extern template const bvec elem_mult(const bvec &a, const bvec &b, const bvec &c, const bvec &d);
+
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const vec &a, const vec &b, const vec &c, const vec &d, vec &out);
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const cvec &a, const cvec &b, const cvec &c, const cvec &d, cvec &out);
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const ivec &a, const ivec &b, const ivec &c, const ivec &d, ivec &out);
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const svec &a, const svec &b, const svec &c, const svec &d, svec &out);
+  //! Template instantiation of elem_mult_out
+  extern template void elem_mult_out(const bvec &a, const bvec &b, const bvec &c, const bvec &d, bvec &out);
+
+  //------------- In-place element-wise multiplication  ----------
+
+  //! Template instantiation of elem_mult_inplace
+  extern template void elem_mult_inplace(const vec &a, vec &b);
+  //! Template instantiation of elem_mult_inplace
+  extern template void elem_mult_inplace(const cvec &a, cvec &b);
+  //! Template instantiation of elem_mult_inplace
+  extern template void elem_mult_inplace(const ivec &a, ivec &b);
+  //! Template instantiation of elem_mult_inplace
+  extern template void elem_mult_inplace(const svec &a, svec &b);
+  //! Template instantiation of elem_mult_inplace
+  extern template void elem_mult_inplace(const bvec &a, bvec &b);
+
+  //------------- In-place element-wise multiplication followed by summation ----------
+
+  //! Template instantiation of elem_mult_sum
+  extern template double elem_mult_sum(const vec &a, const vec &b);
+  //! Template instantiation of elem_mult_sum
+  extern template std::complex<double> elem_mult_sum(const cvec &a, const cvec &b);
+  //! Template instantiation of elem_mult_sum
+  extern template int elem_mult_sum(const ivec &a, const ivec &b);
+  //! Template instantiation of elem_mult_sum
+  extern template short elem_mult_sum(const svec &a, const svec &b);
+  //! Template instantiation of elem_mult_sum
+  extern template bin elem_mult_sum(const bvec &a, const bvec &b);
 
   //------------- Division operator ----------
 
@@ -1691,15 +1829,26 @@ namespace itpp {
   //------------- Elementwise Division operator ----------
 
   //! Template instantiation of elem_div
-  extern template const vec elem_div(const vec &v1, const vec &v2);
+  extern template const vec elem_div(const vec &a, const vec &b);
   //! Template instantiation of elem_div
-  extern template const cvec elem_div(const cvec &v1, const cvec &v2);
+  extern template const cvec elem_div(const cvec &a, const cvec &b);
   //! Template instantiation of elem_div
-  extern template const ivec elem_div(const ivec &v1, const ivec &v2);
+  extern template const ivec elem_div(const ivec &a, const ivec &b);
   //! Template instantiation of elem_div
-  extern template const svec elem_div(const svec &v1, const svec &v2);
+  extern template const svec elem_div(const svec &a, const svec &b);
   //! Template instantiation of elem_div
-  extern template const bvec elem_div(const bvec &v1, const bvec &v2);
+  extern template const bvec elem_div(const bvec &a, const bvec &b);
+
+  //! Template instantiation of elem_div_out
+  extern template void elem_div_out(const vec &a, const vec &b, vec &out);
+  //! Template instantiation of elem_div_out
+  extern template void elem_div_out(const cvec &a, const cvec &b, cvec &out);
+  //! Template instantiation of elem_div_out
+  extern template void elem_div_out(const ivec &a, const ivec &b, ivec &out);
+  //! Template instantiation of elem_div_out
+  extern template void elem_div_out(const svec &a, const svec &b, svec &out);
+  //! Template instantiation of elem_div_out
+  extern template void elem_div_out(const bvec &a, const bvec &b, bvec &out);
 
   //! Template instantiation of elem_div
   extern template const vec elem_div(const double t, const vec &v);
