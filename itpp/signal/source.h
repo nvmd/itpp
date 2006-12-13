@@ -1,6 +1,6 @@
 /*!
  * \file
- * \brief Definitions of deterministic sources
+ * \brief Deterministic sources - header file
  * \author Tobias Ringstrom and Tony Ottosson
  * 
  * $Date$
@@ -38,12 +38,10 @@
 
 namespace itpp {
 
-  /*! 
-    \addtogroup detsource
-  */
+  //! \addtogroup detsource
 
   /*! 
-    \brief A sine-wave source
+    \brief Sine-wave source
     \ingroup detsource
   */
   class Sine_Source {
@@ -63,7 +61,7 @@ namespace itpp {
   };
 
   /*! 
-    \brief A square-wave source
+    \brief Square-wave source
     \ingroup detsource
   */
   class Square_Source {
@@ -83,7 +81,7 @@ namespace itpp {
   };
 
   /*! 
-    \brief A triangle-wave source
+    \brief Triangle-wave source
     \ingroup detsource
   */
   class Triangle_Source {
@@ -103,7 +101,7 @@ namespace itpp {
   };
 
   /*! 
-    \brief A sawtooth-wave source
+    \brief Sawtooth-wave source
     \ingroup detsource
   */
   class Sawtooth_Source {
@@ -123,7 +121,7 @@ namespace itpp {
   };
 
   /*! 
-    \brief An impulse source
+    \brief Impulse source
     \ingroup detsource
   */
   class Impulse_Source {
@@ -143,7 +141,7 @@ namespace itpp {
   };
 
   /*! 
-    \brief An pattern source
+    \brief Pattern source
     \ingroup detsource
   */
   class Pattern_Source {

@@ -1,5 +1,11 @@
 2006-12-13  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/source.cpp, itpp/base/source.h, itpp/base/sources.mk,
+	itpp/itbase.h, itpp/itsignal.h, itpp/signal/source.cpp,
+	itpp/signal/source.h, itpp/signal/sources.mk, tests/Makefile.am,
+	tests/source_test.cpp: Moved deterministic sources classes from
+	the "Base" module into the "Signal Processing" module.
+
 	* configure.ac, doc/doxygen_html.cfg.in, doc/Makefile.am,
 	itpp/base/newton_search.cpp, itpp/base/newton_search.h,
 	itpp/base/sources.mk, itpp/itbase.h, itpp/itoptim.h,
