@@ -59,6 +59,7 @@
 //! \defgroup timers Timers
 //! \defgroup trifunc Trigonometric Functions
 //! \defgroup upsample Upsampling of Vectors and Matrices
+//! \defgroup vec_mat Vector and Matrix Classes
 //@}
 
 #include <itpp/base/array.h>

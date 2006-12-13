@@ -1,3 +1,10 @@
+2006-12-13  Conrad Sanderson  <conrad_s@users.sourceforge.net>
+
+	* itpp/itbase.h, itpp/base/mat.h, itpp/base/vec.h:
+	Small changes to the documentation to allow the
+	vector and matrix classes to be visible from the
+	Modules section (helps new users)
+
 2006-12-12  Conrad Sanderson  <conrad_s@users.sourceforge.net>
 
 	* itpp/base/vec.h, itpp/base/vec.cpp: Added vector versions
