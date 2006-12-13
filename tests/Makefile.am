@@ -24,7 +24,6 @@ BASE_TESTS = \
 	lu_test \
 	matfunc_test \
 	mat_test \
-	newton_search_test \
 	parser_test \
 	qr_test \
 	rand_test \
@@ -53,7 +52,13 @@ if ENABLE_COMM
 endif
 
 if ENABLE_FIXED
-  FIXED_TESTS = fix_test
+  FIXED_TESTS = \
+	fix_test
+endif
+
+if ENABLE_OPTIM
+  OPTIM_TESTS = \
+	newton_search_test
 endif
 
 if ENABLE_SIGNAL
@@ -73,8 +78,8 @@ if ENABLE_STAT
 	histogram_test
 endif
 
-check_PROGRAMS = $(BASE_TESTS) $(COMM_TESTS) $(FIXED_TESTS) $(SIGNAL_TESTS) \
-	$(STAT_TESTS)
+check_PROGRAMS = $(BASE_TESTS) $(COMM_TESTS) $(FIXED_TESTS) $(OPTIM_TESTS) \
+	$(SIGNAL_TESTS) $(STAT_TESTS)
 
 array_test_SOURCES = array_test.cpp
 bch_test_SOURCES = bch_test.cpp

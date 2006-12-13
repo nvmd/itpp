@@ -1,6 +1,6 @@
 /*!
  * \file
- * \brief Definition of Newton Search optimization algorithms
+ * \brief Newton Search optimization algorithms - header file
  * \author Tony Ottosson
  * 
  * $Date$

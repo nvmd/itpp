@@ -50,7 +50,6 @@
 //! \defgroup matrixdecomp Matrix Decompositions
 //! \defgroup miscfunc Miscellaneous Functions
 //! \defgroup integration Numerical Integration
-//! \defgroup optimization Numerical Optimization Routines
 //! \defgroup randgen Random Number Generation
 //! \defgroup reshaping Reshaping of Vectors and Matrices
 //! \defgroup linearequations Solving Linear Equation Systems
@@ -86,7 +85,6 @@
 #include <itpp/base/lu.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/matfunc.h>
-#include <itpp/base/newton_search.h>
 #include <itpp/base/operators.h>
 #include <itpp/base/parser.h>
 #include <itpp/base/qr.h>

@@ -6,6 +6,7 @@ include $(top_srcdir)/itpp/base/sources.mk
 include $(top_srcdir)/itpp/base/bessel/sources.mk
 include $(top_srcdir)/itpp/comm/sources.mk
 include $(top_srcdir)/itpp/fixed/sources.mk
+include $(top_srcdir)/itpp/optim/sources.mk
 include $(top_srcdir)/itpp/protocol/sources.mk
 include $(top_srcdir)/itpp/signal/sources.mk
 include $(top_srcdir)/itpp/srccode/sources.mk
@@ -29,6 +30,7 @@ html/index.html: doxygen_html.cfg \
 	$(h_base_bessel_sources) $(cpp_base_bessel_sources) \
 	$(h_comm_sources) $(cpp_comm_sources) \
 	$(h_fixed_sources) $(cpp_fixed_sources) \
+	$(h_optim_sources) $(cpp_optim_sources) \
 	$(h_protocol_sources) $(cpp_protocol_sources) \
 	$(h_signal_sources) $(cpp_signal_sources) \
 	$(h_srccode_sources) $(cpp_srccode_sources) \

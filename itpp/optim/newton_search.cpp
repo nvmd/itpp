@@ -1,6 +1,6 @@
 /*!
  * \file
- * \brief Implementation of Newton search optimization
+ * \brief Newton Search optimization algorithms - source file
  * \author Tony Ottosson
  * 
  * $Date$
@@ -30,7 +30,7 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/base/newton_search.h>
+#include <itpp/optim/newton_search.h>
 #include <itpp/base/stat.h>
 #include <itpp/base/specmat.h>
 

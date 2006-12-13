@@ -7,6 +7,9 @@ endif
 if ENABLE_FIXED
   h_sources += $(top_srcdir)/itpp/itfixed.h
 endif
+if ENABLE_OPTIM
+  h_sources += $(top_srcdir)/itpp/itoptim.h
+endif
 if ENABLE_PROTOCOL
   h_sources += $(top_srcdir)/itpp/itprotocol.h
 endif

@@ -28,7 +28,6 @@ h_base_sources = \
 	$(top_srcdir)/itpp/base/matfunc.h \
 	$(top_srcdir)/itpp/base/mat.h \
 	$(top_srcdir)/itpp/base/operators.h \
-	$(top_srcdir)/itpp/base/newton_search.h \
 	$(top_srcdir)/itpp/base/parser.h \
 	$(top_srcdir)/itpp/base/qr.h \
 	$(top_srcdir)/itpp/base/random.h \
@@ -69,7 +68,6 @@ cpp_base_sources = \
 	$(top_srcdir)/itpp/base/mat.cpp \
 	$(top_srcdir)/itpp/base/matfunc.cpp \
 	$(top_srcdir)/itpp/base/operators.cpp \
-	$(top_srcdir)/itpp/base/newton_search.cpp \
 	$(top_srcdir)/itpp/base/parser.cpp \
 	$(top_srcdir)/itpp/base/qr.cpp \
 	$(top_srcdir)/itpp/base/random.cpp \
