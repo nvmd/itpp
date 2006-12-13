@@ -137,8 +137,9 @@ namespace itpp {
   //-----------------------------------------------------------------------------------
 
   /*!
-    \brief Templated vectors
-    \author Tony Ottosson and Tobias Ringstrom
+    \ingroup vec_mat
+    \brief Vector Class (Templated)
+    \author Tony Ottosson, Tobias Ringstrom, Adam Piatyszek and Conrad Sanderson
 
     Vectors can be of arbitrarily types, but conversions and functions are
     prepared for \c bin, \c short, \c int, \c double, and \c complex<double>

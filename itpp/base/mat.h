@@ -108,13 +108,13 @@ namespace itpp {
   //! Element wise division of two matrices, followed by summation of the resultant elements. Fast version of sumsum(elem_div(A,B))
   template<class Num_T> Num_T elem_div_sum(const Mat<Num_T> &A, const Mat<Num_T> &B);
 
-
   // -------------------------------------------------------------------------------------
   // Declaration of Mat
   // -------------------------------------------------------------------------------------
 
   /*!
-    \brief Templated Matrix Class
+    \ingroup vec_mat
+    \brief Matrix Class (Templated)
     \author Tony Ottosson, Tobias Ringstrom, Adam Piatyszek and Conrad Sanderson
 
     Matrices can be of arbitrarily types, but conversions and functions are
@@ -130,7 +130,7 @@ namespace itpp {
     Examples:
 
     Matrix Constructors:
-    When constructing a matrix without a dimensions (memory) use
+    When constructing a matrix without dimensions (memory) use
     \code mat temp; \endcode
     For construction of a matrix of a given size use
     \code mat temp(rows, cols); \endcode
@@ -464,7 +464,7 @@ namespace itpp {
       datasize = no_rows = no_cols = 0;
     }
   };
-  
+
   // -------------------------------------------------------------------------------------
   // Type definitions of mat, cmat, imat, smat, and bmat
   // -------------------------------------------------------------------------------------
@@ -502,6 +502,7 @@ namespace itpp {
   typedef Mat<bin> bmat;
 
 } //namespace itpp
+
 
 #include <itpp/base/vec.h>
 
