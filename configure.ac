@@ -92,6 +92,9 @@ AC_ARG_ENABLE(comm,
 AC_ARG_ENABLE(fixed,
               [AS_HELP_STRING([--disable-fixed],
                               [do not include fixed-point module])])
+AC_ARG_ENABLE(optim,
+              [AS_HELP_STRING([--disable-optim],
+                              [do not include optimization module])])
 AC_ARG_ENABLE(protocol,
               [AS_HELP_STRING([--disable-protocol],
                               [do not include protocol module])])
@@ -106,6 +109,7 @@ AC_ARG_ENABLE(stat,
                               [do not include statistics module])])
 
 test "x$enable_fixed" != xno && enable_fixed=yes
+test "x$enable_optim" != xno && enable_optim=yes
 test "x$enable_protocol" != xno && enable_protocol=yes
 test "x$enable_stat" != xno && enable_stat=yes
 if test "x$enable_signal" != xno; then
@@ -119,6 +123,7 @@ fi
 
 AM_CONDITIONAL([ENABLE_COMM], [test "x$enable_comm" = xyes])
 AM_CONDITIONAL([ENABLE_FIXED], [test "x$enable_fixed" = xyes])
+AM_CONDITIONAL([ENABLE_OPTIM], [test "x$enable_optim" = xyes])
 AM_CONDITIONAL([ENABLE_PROTOCOL], [test "x$enable_protocol" = xyes])
 AM_CONDITIONAL([ENABLE_SIGNAL], [test "x$enable_signal" = xyes])
 AM_CONDITIONAL([ENABLE_SRCCODE], [test "x$enable_srccode" = xyes])
@@ -345,6 +350,7 @@ AC_CONFIG_FILES([Makefile \
   itpp/base/bessel/Makefile \
   itpp/comm/Makefile \
   itpp/fixed/Makefile \
+  itpp/optim/Makefile \
   itpp/protocol/Makefile \
   itpp/signal/Makefile \
   itpp/srccode/Makefile \
@@ -397,6 +403,7 @@ Testing tools:
 Optional modules:
   - comm ........... : ${enable_comm}
   - fixed .......... : ${enable_fixed}
+  - optim .......... : ${enable_optim}
   - protocol ....... : ${enable_protocol}
   - signal ......... : ${enable_signal}
   - srccode ........ : ${enable_srccode}

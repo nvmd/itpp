@@ -1,3 +1,15 @@
+2006-12-13  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac, doc/doxygen_html.cfg.in, doc/Makefile.am,
+	itpp/base/newton_search.cpp, itpp/base/newton_search.h,
+	itpp/base/sources.mk, itpp/itbase.h, itpp/itoptim.h,
+	itpp/Makefile.am, itpp/optim, itpp/optim/Makefile.am,
+	itpp/optim/newton_search.cpp, itpp/optim/newton_search.h,
+	itpp/optim/sources.mk, itpp/sources.mk, tests/Makefile.am,
+	tests/newton_search_test.cpp: Created a new "Numerical
+	Optimizations" module ("optim") and moved there the Newton Search
+	algorithm sources from the base module.
+
 2006-12-13  Conrad Sanderson  <conrad_s@users.sourceforge.net>
 
 	* itpp/itbase.h, itpp/base/mat.h, itpp/base/vec.h:
