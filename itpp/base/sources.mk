@@ -34,7 +34,6 @@ h_base_sources = \
 	$(top_srcdir)/itpp/base/schur.h \
 	$(top_srcdir)/itpp/base/smat.h \
 	$(top_srcdir)/itpp/base/sort.h \
-	$(top_srcdir)/itpp/base/source.h \
 	$(top_srcdir)/itpp/base/specmat.h \
 	$(top_srcdir)/itpp/base/stack.h \
 	$(top_srcdir)/itpp/base/stat.h \
@@ -73,7 +72,6 @@ cpp_base_sources = \
 	$(top_srcdir)/itpp/base/random.cpp \
 	$(top_srcdir)/itpp/base/schur.cpp \
 	$(top_srcdir)/itpp/base/smat.cpp \
-	$(top_srcdir)/itpp/base/source.cpp \
 	$(top_srcdir)/itpp/base/specmat.cpp \
 	$(top_srcdir)/itpp/base/stat.cpp \
 	$(top_srcdir)/itpp/base/svd.cpp \

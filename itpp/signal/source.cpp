@@ -1,6 +1,6 @@
 /*!
  * \file
- * \brief Implementation of deterministic sources
+ * \brief Deterministic sources - source file
  * \author Tobias Ringstrom and Tony Ottosson
  * 
  * $Date$
@@ -30,7 +30,7 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/base/source.h>
+#include <itpp/signal/source.h>
 
 
 namespace itpp { 

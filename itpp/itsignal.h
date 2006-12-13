@@ -36,6 +36,7 @@
 //! \defgroup signal Signal Processing Module
 //@{
 //! \defgroup dct Discrete Cosine Transform (DCT)
+//! \defgroup detsource Deterministic Sources
 //! \defgroup fft Fast Fourier Transform (FFT)
 //! \defgroup fht Fast Hadamard Transform (FHT)
 //! \defgroup fastica Fast Independent Component Analysis
@@ -51,6 +52,7 @@
 #include <itpp/signal/filter_design.h>
 #include <itpp/signal/freq_filt.h>
 #include <itpp/signal/poly.h>
+#include <itpp/signal/source.h>
 #include <itpp/signal/sigfun.h>
 #include <itpp/signal/transforms.h>
 #include <itpp/signal/window.h>

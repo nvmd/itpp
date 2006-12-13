@@ -30,8 +30,8 @@
  * -------------------------------------------------------------------------
  */
 
+#include <itpp/itsignal.h>
 #include <iomanip>
-#include <itpp/itbase.h>
 
 using namespace itpp;
 using namespace std;

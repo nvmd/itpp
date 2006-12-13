@@ -28,7 +28,6 @@ BASE_TESTS = \
 	qr_test \
 	rand_test \
 	schur_test \
-	source_test \
 	sparse_test \
 	stat_test \
 	svd_test \
@@ -69,6 +68,7 @@ if ENABLE_SIGNAL
 	freq_filt_test \
 	poly_test \
 	sigfun_test \
+	source_test \
 	transforms_test \
 	window_test
 endif

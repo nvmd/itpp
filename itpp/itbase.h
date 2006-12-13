@@ -39,7 +39,6 @@
 //! \defgroup besselfunctions Bessel Functions
 //! \defgroup convertfunc Conversion Functions
 //! \defgroup determinant Determinant
-//! \defgroup detsource Deterministic Sources
 //! \defgroup diag Diagonal Matrices and Functions
 //! \defgroup errorhandlingfunc Error and Warning Handling
 //! \defgroup matrix_functions Functions on Matrices
@@ -92,7 +91,6 @@
 #include <itpp/base/schur.h>
 #include <itpp/base/smat.h>
 #include <itpp/base/sort.h>
-#include <itpp/base/source.h>
 #include <itpp/base/specmat.h>
 #include <itpp/base/stack.h>
 #include <itpp/base/stat.h>
