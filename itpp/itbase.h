@@ -33,15 +33,11 @@
 #ifndef ITBASE_H
 #define ITBASE_H
 
-//! \defgroup base Base Module
-//@{
-//! \defgroup algebra Linear Algebra
-//@{
-//! \defgroup determinant Determinant
-//! \defgroup inverse Inverse Matrix
-//! \defgroup matrixdecomp Matrix Decompositions
-//! \defgroup linearequations Solving Linear Equation Systems
-//@}
+/*!
+ * \defgroup base Base Module
+ * @{
+ */
+
 //! \defgroup parser Argument Parser
 //! \defgroup besselfunctions Bessel Functions
 //! \defgroup convertfunc Conversion Functions
@@ -50,6 +46,21 @@
 //! \defgroup matrix_functions Functions on Matrices
 //! \defgroup hypfunc Hyperbolic Functions
 //! \defgroup itfile IT++ File Format
+
+/*!
+ * \defgroup algebra Linear Algebra
+ * @{ 
+ */
+
+//! \defgroup determinant Determinant
+//! \defgroup inverse Inverse Matrix
+//! \defgroup matrixdecomp Matrix Decompositions
+//! \defgroup linearequations Solving Linear Equation Systems
+
+/*!
+ * @} end of algebra group
+ */
+
 //! \defgroup logexpfunc Logarithmic and Exponential Functions
 //! \defgroup miscfunc Miscellaneous Functions
 //! \defgroup integration Numerical Integration
@@ -61,7 +72,11 @@
 //! \defgroup trifunc Trigonometric Functions
 //! \defgroup upsample Upsampling of Vectors and Matrices
 //! \defgroup vec_mat Vector and Matrix Classes
-//@}
+
+/*!
+ * @} end of base group
+ */
+
 
 #include <itpp/base/algebra/cholesky.h>
 #include <itpp/base/algebra/det.h>

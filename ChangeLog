@@ -1,5 +1,10 @@
 2006-12-14  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/itbase.h, itpp/itcomm.h, itpp/itfixed.h, itpp/itmex.h,
+	itpp/itoptim.h, itpp/itprotocol.h, itpp/itsignal.h,
+	itpp/itsrccode.h, itpp/itstat.h: Fixed Doxygen's grouping problems
+	of hierarchical modules.
+
 	* configure.ac, doc/doxygen_html.cfg.in, doc/Makefile.am,
 	itpp/base/algebra/cholesky.cpp, itpp/base/algebra/cholesky.h,
 	itpp/base/algebra/det.cpp, itpp/base/algebra/det.h,

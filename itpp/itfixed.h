@@ -33,10 +33,14 @@
 #ifndef ITFIXED_H
 #define ITFIXED_H
 
-//! \defgroup fixed Fixed-point Module
-//@{
+/*!
+ * \defgroup fixed Fixed-point Module
+ * @{
+ */
 
-//@}
+/*!
+ * @}
+ */
 
 #include <itpp/itbase.h>
 #include <itpp/fixed/cfix.h>

@@ -33,10 +33,17 @@
 #ifndef ITSTAT_H
 #define ITSTAT_H
 
-//! \defgroup stat Statistics Module
-//@{
+/*!
+ * \defgroup stat Statistics Module
+ * @{
+ */
+
 //! \defgroup MOG Mixture of Gaussians (MOG)
-//@}
+
+/*!
+ * @}
+ */
+
 
 #include <itpp/itbase.h>
 #include <itpp/stat/histogram.h>
