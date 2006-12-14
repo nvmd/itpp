@@ -33,7 +33,6 @@
 #ifndef SVD_H
 #define SVD_H
 
-#include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
 
 

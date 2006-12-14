@@ -30,8 +30,8 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/base/det.h>
-#include <itpp/base/lu.h>
+#include <itpp/base/algebra/det.h>
+#include <itpp/base/algebra/lu.h>
 
 
 namespace itpp {

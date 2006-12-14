@@ -39,10 +39,6 @@
 namespace itpp {
 
   /*!
-    \addtogroup inverse
-  */
-
-  /*!
     \brief Inverse of real square matrix.
     \ingroup inverse
 

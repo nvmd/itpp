@@ -1,3 +1,21 @@
+2006-12-14  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac, doc/doxygen_html.cfg.in, doc/Makefile.am,
+	itpp/base/algebra/cholesky.cpp, itpp/base/algebra/cholesky.h,
+	itpp/base/algebra/det.cpp, itpp/base/algebra/det.h,
+	itpp/base/algebra/eigen.cpp, itpp/base/algebra/eigen.h,
+	itpp/base/algebra/inv.cpp, itpp/base/algebra/inv.h,
+	itpp/base/algebra/lapack.h, itpp/base/algebra/ls_solve.cpp,
+	itpp/base/algebra/ls_solve.h, itpp/base/algebra/lu.cpp,
+	itpp/base/algebra/lu.h, itpp/base/algebra/Makefile.am,
+	itpp/base/algebra/qr.cpp, itpp/base/algebra/qr.h,
+	itpp/base/algebra/schur.cpp, itpp/base/algebra/schur.h,
+	itpp/base/algebra/sources.mk, itpp/base/algebra/svd.cpp,
+	itpp/base/algebra/svd.h, itpp/base/Makefile.am,
+	itpp/base/sources.mk, itpp/itbase.h: Linear algebra related
+	functions (LAPACK dependent) grouped in a new "algebra"
+	subdirectory in the "base" module.
+
 2006-12-13  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/source.cpp, itpp/base/source.h, itpp/base/sources.mk,

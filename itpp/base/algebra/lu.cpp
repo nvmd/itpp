@@ -37,10 +37,10 @@
 #endif
 
 #if defined(HAVE_LAPACK)
-#  include <itpp/base/lapack.h>
+#  include <itpp/base/algebra/lapack.h>
 #endif
 
-#include <itpp/base/lu.h>
+#include <itpp/base/algebra/lu.h>
 #include <itpp/base/specmat.h>
 
 

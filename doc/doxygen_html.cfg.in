@@ -452,6 +452,7 @@ WARN_LOGFILE           = doxygen_html.log
 
 INPUT                  = @top_srcdir@/@PACKAGE@ \
                          @top_srcdir@/@PACKAGE@/base \
+                         @top_srcdir@/@PACKAGE@/base/algebra \
                          @top_srcdir@/@PACKAGE@/comm \
                          @top_srcdir@/@PACKAGE@/fixed \
                          @top_srcdir@/@PACKAGE@/optim \
@@ -487,7 +488,7 @@ EXCLUDE                = @top_builddir@/@PACKAGE@/config.h \
                          @top_srcdir@/@PACKAGE@/config_msvc.h \
                          @top_srcdir@/@PACKAGE@/base/cblas.h \
                          @top_srcdir@/@PACKAGE@/base/cblas.cpp \
-                         @top_srcdir@/@PACKAGE@/base/lapack.h
+                         @top_srcdir@/@PACKAGE@/base/algebra/lapack.h
 
 # The EXCLUDE_SYMLINKS tag can be used select whether or not files or 
 # directories that are symbolic links (a Unix filesystem feature) are excluded 
@@ -1005,11 +1006,8 @@ INCLUDE_FILE_PATTERNS  =
 # instead of the = operator.
 
 PREDEFINED             = DOXYGEN_SHOULD_SKIP_THIS \
-												 HAVE_FFTW \
-                         HAVE_LAPACK \
-                         HAVE_CBLAS \
-												 HAVE_MKL \
-                         ASSERT_LEVEL=2
+                         ASSERT_LEVEL=2 \
+                         ASSERT_LEVEL=1
 
 # If the MACRO_EXPANSION and EXPAND_ONLY_PREDEF tags are set to YES then 
 # this tag can be used to specify a list of macro names that should be expanded. 

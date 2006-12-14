@@ -33,7 +33,6 @@
 #ifndef EIGEN_H
 #define EIGEN_H
 
-#include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
 
 

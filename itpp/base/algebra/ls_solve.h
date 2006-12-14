@@ -33,7 +33,6 @@
 #ifndef LS_SOLVE_H
 #define LS_SOLVE_H
 
-#include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
 
 
