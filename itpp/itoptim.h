@@ -33,10 +33,14 @@
 #ifndef ITOPTIM_H
 #define ITOPTIM_H
 
-//! \defgroup optimization Numerical Optimization Module
-//@{
+/*!
+ * \defgroup optimization Numerical Optimization Module
+ * @{
+ */
 
-//@}
+/*!
+ * @}
+ */
 
 #include <itpp/itbase.h>
 #include <itpp/optim/newton_search.h>

@@ -33,10 +33,14 @@
 #ifndef ITPROTOCOL_H
 #define ITPROTOCOL_H
 
-//! \defgroup protocol Protocols Module
-//@{
+/*!
+ * \defgroup protocol Protocols Module
+ * @{
+ */
 
-//@}
+/*!
+ * @}
+ */
 
 #include <itpp/itbase.h>
 #include <itpp/protocol/events.h>

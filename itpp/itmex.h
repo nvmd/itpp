@@ -53,8 +53,10 @@ namespace itpp {
     A simple mex-file that performs QPSK modulation is given below.
 
     \code
-    #include <itcomm.h>
-    #include <itmex.h>
+    #include <itpp/itcomm.h>
+    #include <itpp/itmex.h>
+
+    using namespace itpp;
 
     void mexFunction(int n_output, mxArray *output[], int n_input, const mxArray *input[])
     {
@@ -67,7 +69,7 @@ namespace itpp {
     
     // ------------------ Start of routine ---------------------------
     cvec output_symbols;
-    QPSK_45 qpsk;
+    QPSK qpsk;
 
     output_symbols = qpsk.modulate_bits(input_bits);
     // ------------------ End of routine -----------------------------
@@ -81,8 +83,10 @@ namespace itpp {
     \endcode
   */
 
-  //!\addtogroup mexfiles
-  //!@{
+  /*!
+   * \addtogroup mexfiles
+   * @{
+   */
 
   // --------------------------------------------------------
   // mex -> IT++
@@ -204,7 +208,9 @@ namespace itpp {
   //! Convert C-format pointer to pointer to double (real and imaginary parts) to matlab-format mxArray
   void Ccmat2mxArray(double **in_real, double **in_imag, mxArray *out);
 
-  //!@}
+  /*!
+   * @}
+   */
 
 
   bin mxArray2bin(const mxArray *in)
