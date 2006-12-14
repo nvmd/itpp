@@ -347,6 +347,7 @@ AH_BOTTOM([
 AC_CONFIG_FILES([Makefile \
   itpp/Makefile \
   itpp/base/Makefile \
+  itpp/base/algebra/Makefile \
   itpp/base/bessel/Makefile \
   itpp/comm/Makefile \
   itpp/fixed/Makefile \

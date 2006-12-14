@@ -37,10 +37,10 @@
 #endif
 
 #if defined(HAVE_LAPACK)
-#  include <itpp/base/lapack.h>
+#  include <itpp/base/algebra/lapack.h>
 #endif
 
-#include <itpp/base/ls_solve.h>
+#include <itpp/base/algebra/ls_solve.h>
 
 
 namespace itpp { 

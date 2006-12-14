@@ -38,11 +38,6 @@
 
 namespace itpp {
 
-
-  /*!
-    \addtogroup determinant
-  */
-
   /*!
     \brief Determinant of real square matrix.
     \ingroup determinant
@@ -76,4 +71,3 @@ namespace itpp {
 } // namespace itpp
 
 #endif // #ifndef DET_H
-
