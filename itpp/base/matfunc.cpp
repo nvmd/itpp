@@ -31,7 +31,7 @@
  */
 
 #include <itpp/base/matfunc.h>
-#include <itpp/base/schur.h>
+#include <itpp/base/algebra/schur.h>
 #include <itpp/base/converters.h>
 #include <limits>
 
