@@ -1,7 +1,7 @@
 2006-12-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* itpp/base/matfunc.cpp: Fixed a minor bug related to a wrong
-	"#include" target.
+	* itpp/base/matfunc.cpp, itpp/base/stat.cpp: Fixed minor bugs
+	related to a wrong "#include" target.
 
 2006-12-14  Adam Piatyszek  <ediap@users.sourceforge.net>
 

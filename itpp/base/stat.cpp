@@ -31,7 +31,7 @@
  */
 
 #include <itpp/base/stat.h>
-#include <itpp/base/svd.h>
+#include <itpp/base/algebra/svd.h>
 
 
 namespace itpp {
