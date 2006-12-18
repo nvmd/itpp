@@ -77,7 +77,7 @@ namespace itpp {
         \param D_in Dimensionality
         \param full_in If true, use full covariance matrices; if false, use diagonal covariance matrices. Default = false. 
     */
-    MOG_generic(int K_in, int D_in, bool full_in=false) { init(K_in, D_in, full_in); }
+    MOG_generic(const int &K_in, const int &D_in, bool full_in=false) { init(K_in, D_in, full_in); }
 
     /*! \brief Construct a model using user supplied mean vectors
         \param means_in Array of mean vectors
@@ -118,7 +118,7 @@ namespace itpp {
         \param D_in Dimensionality
         \param full_in If true, use full covariance matrices; if false, use diagonal covariance matrices. Default = false. 
     */
-    void init(int K_in, int D_in, bool full_in);
+    void init(const int &K_in, const int &D_in, bool full_in=false);
 
     /*! \brief Initialise the model using user supplied mean vectors
         \param means_in Array of mean vectors
@@ -127,7 +127,7 @@ namespace itpp {
         The covariance matrices are set to the identity matrix.
         The weights for all Gaussians are the same, equal to 1/K, where K is the number of Gaussians
     */
-    void init(Array<vec> &means_in, bool full_in);
+    void init(Array<vec> &means_in, bool full_in=false);
 
     /*! \brief Initialise the model using user supplied parameters (diagonal covariance version) 
         \param means_in Array of mean vectors

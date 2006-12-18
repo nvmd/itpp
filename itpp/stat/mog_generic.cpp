@@ -44,7 +44,7 @@ namespace itpp {
   void MOG_generic::init() { cleanup(); }
 
 
-  void MOG_generic::init(int K_in, int D_in, bool full_in=false) {
+  void MOG_generic::init(const int &K_in, const int &D_in, bool full_in) {
     valid = false;
   
     it_assert(K_in >= 0, "MOG_generic::init(): number of Gaussians must be greater than zero");
@@ -66,7 +66,7 @@ namespace itpp {
   }
 
 
-  void MOG_generic::init(Array<vec> &means_in, bool full_in=false) {
+  void MOG_generic::init(Array<vec> &means_in, bool full_in) {
     valid = false;
   
     K = means_in.size();
