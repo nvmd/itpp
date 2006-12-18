@@ -137,7 +137,7 @@ namespace itpp {
   //-----------------------------------------------------------------------------------
 
   /*!
-    \ingroup vec_mat
+    \ingroup arr_vec_mat
     \brief Vector Class (Templated)
     \author Tony Ottosson, Tobias Ringstrom, Adam Piatyszek and Conrad Sanderson
 

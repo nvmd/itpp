@@ -38,6 +38,7 @@
  * @{
  */
 
+//! \defgroup arr_vec_mat Array, Vector and Matrix Classes
 //! \defgroup parser Argument Parser
 //! \defgroup besselfunctions Bessel Functions
 //! \defgroup convertfunc Conversion Functions
@@ -71,7 +72,6 @@
 //! \defgroup timers Timers
 //! \defgroup trifunc Trigonometric Functions
 //! \defgroup upsample Upsampling of Vectors and Matrices
-//! \defgroup vec_mat Vector and Matrix Classes
 
 /*!
  * @} end of base group
