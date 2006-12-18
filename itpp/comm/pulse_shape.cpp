@@ -1,6 +1,6 @@
 /*!
  * \file 
- * \brief Implementations of pulse shaping classes
+ * \brief Pulse shaping classes - source file
  * \author Tony Ottosson, Hakan Eriksson and Adam Piatyszek
  *
  * $Date$

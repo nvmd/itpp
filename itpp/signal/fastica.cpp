@@ -65,9 +65,9 @@
 
 #include <itpp/signal/fastica.h>
 #include <itpp/signal/sigfun.h>
+#include <itpp/signal/resampling.h>
 #include <itpp/base/svec.h>
 #include <itpp/base/specmat.h>
-#include <itpp/base/matfunc.h>
 #include <itpp/base/stat.h>
 #include <itpp/base/eigen.h>
 #include <itpp/base/svd.h>

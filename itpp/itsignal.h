@@ -34,7 +34,7 @@
 #define ITSIGNAL_H
 
 /*!
- * \defgroup signal Signal Processing Module
+ * \defgroup signal Signal Processing (SP) Module
  * @{
  */
 
@@ -42,7 +42,8 @@
 //! \defgroup fastica Fast Independent Component Analysis
 //! \defgroup filters Filtering
 //! \defgroup poly Polynomial Functions
-//! \defgroup sigproc Signal Processing
+//! \defgroup resampling Resampling Functions
+//! \defgroup sigproc Miscellaneous SP Functions
 
 /*!
  * \defgroup transforms Transforms
@@ -69,6 +70,7 @@
 #include <itpp/signal/filter_design.h>
 #include <itpp/signal/freq_filt.h>
 #include <itpp/signal/poly.h>
+#include <itpp/signal/resampling.h>
 #include <itpp/signal/source.h>
 #include <itpp/signal/sigfun.h>
 #include <itpp/signal/transforms.h>

@@ -1,8 +1,8 @@
 /*!
  * \file 
- * \brief Implementation of Communication Channel classes and functions
- * \author Tony Ottosson, Pal Frenger, Zbigniew Dlugaszewski 
- *         and Adam Piatyszek 
+ * \brief Communication Channels' classes - source file
+ * \author Tony Ottosson, Pal Frenger, Adam Piatyszek and Zbigniew Dlugaszewski 
+ *          
  *
  * $Date$
  * $Revision$
@@ -37,6 +37,7 @@
 #include <itpp/base/specmat.h>
 #include <itpp/base/bessel.h>
 #include <itpp/base/errorfunc.h>
+#include <itpp/signal/resampling.h>
 #include <itpp/signal/transforms.h>
 #include <itpp/signal/window.h>
 
