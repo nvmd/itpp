@@ -1,6 +1,6 @@
 /*!
  * \file 
- * \brief Definition of Communication Channel classes and functions
+ * \brief Communication channels' classes - header file
  * \author Tony Ottosson, Pal Frenger, Adam Piatyszek and Zbigniew Dlugaszewski 
  *
  * $Date$
@@ -33,7 +33,6 @@
 #ifndef CHANNEL_H
 #define CHANNEL_H
 
-#include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/array.h>
 #include <itpp/base/random.h>
@@ -41,7 +40,7 @@
 #include <itpp/signal/filter.h>
 
   /*!
-   * \addtogroup channels 
+   * \addtogroup channels
    * \brief Communication Channel Models
    * \author Tony Ottosson, Pal Frenger, Adam Piatyszek and Zbigniew Dlugaszewski
    *

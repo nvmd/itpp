@@ -67,7 +67,6 @@
 #define FASTICA_H
 
 #include <itpp/base/mat.h>
-#include <itpp/base/vec.h>
 
 
 //! Use deflation approach : compute IC one-by-one in a Gram-Schmidt-like fashion

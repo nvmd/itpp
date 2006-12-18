@@ -1,6 +1,6 @@
 /*!
  * \file 
- * \brief Definitions of pulse shaping classes
+ * \brief Pulse shaping classes - header file
  * \author Tony Ottosson, Hakan Eriksson and Adam Piatyszek
  *
  * $Date$
@@ -37,6 +37,7 @@
 #include <itpp/base/matfunc.h>
 #include <itpp/base/trihypfunc.h>
 #include <itpp/signal/filter.h>
+#include <itpp/signal/resampling.h>
 
 
 namespace itpp {

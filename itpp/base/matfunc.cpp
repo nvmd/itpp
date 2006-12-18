@@ -1,6 +1,6 @@
 /*!
  * \file
- * \brief Implementation of functions on vectors and matrices
+ * \brief Various functions on vectors and matrices - source file
  * \author Tony Ottosson, Adam Piatyszek and Conrad Sanderson
  * 
  * $Date$
@@ -92,7 +92,9 @@ namespace itpp {
     return false;
   } 
 
-  // ---------------------- Instantiations ------------------------------------
+  // ----------------------------------------------------------------------
+  // Instantiations
+  // ----------------------------------------------------------------------
 
   template int length(const vec &v);
   template int length(const cvec &v);
@@ -133,12 +135,6 @@ namespace itpp {
   template svec reverse(const svec &in);
   template ivec reverse(const ivec &in);
   template bvec reverse(const bvec &in);
-
-  template vec repeat(const vec &v, int norepeats);
-  template cvec repeat(const cvec &v, int norepeats);
-  template svec repeat(const svec &v, int norepeats);
-  template ivec repeat(const ivec &v, int norepeats);
-  template bvec repeat(const bvec &v, int norepeats);
 
   template ivec zero_pad(const ivec &v, int n);
   template vec zero_pad(const vec &v, int n);
@@ -241,12 +237,6 @@ namespace itpp {
   template imat hermitian_transpose(const imat &m);
   template bmat hermitian_transpose(const bmat &m);
 
-  template mat repeat(const mat &m, int norepeats);
-  template cmat repeat(const cmat &m, int norepeats);
-  template smat repeat(const smat &m, int norepeats);
-  template imat repeat(const imat &m, int norepeats);
-  template bmat repeat(const bmat &m, int norepeats);
-
   template  vec rvectorize(const  mat &m);
   template cvec rvectorize(const cmat &m);
   template  ivec rvectorize(const  imat &m);
@@ -266,47 +256,5 @@ namespace itpp {
   template cmat reshape(const cvec &m, int rows, int cols);
   template  imat reshape(const  ivec &m, int rows, int cols);
   template  bmat reshape(const  bvec &m, int rows, int cols);
-
-  template vec upsample(const vec &v, int usf);
-  template cvec upsample(const cvec &v, int usf);
-  template svec upsample(const svec &v, int usf);
-  template ivec upsample(const ivec &v, int usf);
-  template bvec upsample(const bvec &v, int usf);
-
-  template mat upsample(const mat &v, int usf);
-  template cmat upsample(const cmat &v, int usf);
-  template smat upsample(const smat &v, int usf);
-  template imat upsample(const imat &v, int usf);
-  template bmat upsample(const bmat &v, int usf);
-
-  template void upsample(const vec &v, int usf,  vec & u);
-  template void upsample(const cvec &v, int usf,  cvec & u);
-  template void upsample(const svec &v, int usf,  svec & u);
-  template void upsample(const ivec &v, int usf,  ivec & u);
-  template void upsample(const bvec &v, int usf,  bvec & u);
-
-  template void upsample(const mat &v, int usf,  mat & u);
-  template void upsample(const cmat &v, int usf,  cmat & u);
-  template void upsample(const smat &v, int usf,  smat & u);
-  template void upsample(const imat &v, int usf,  imat & u);
-  template void upsample(const bmat &v, int usf,  bmat & u);
- 
-  template vec lininterp(const vec &v, int usf);
-  template cvec lininterp(const cvec &v, int usf);
-
-  template mat lininterp(const mat &v, int usf);
-  template cmat lininterp(const cmat &v, int usf);
-
-  template void lininterp(const vec &v, int usf,  vec & u);
-  template void lininterp(const cvec &v, int usf,  cvec & u);
-
-  template void lininterp(const mat &v, int usf,  mat & u);
-  template void lininterp(const cmat &v, int usf,  cmat & u);
-
-  template mat lininterp(const mat &m, const double f_base, const double f_ups, const int nrof_samples, const double t_start);
-  template cmat lininterp(const cmat &m, const double f_base, const double f_ups, const int nrof_samples, const double t_start);
-
-  template vec lininterp(const vec &v, const double f_base, const double f_ups, const int nrof_samples, const double t_start);
-  template cvec lininterp(const cvec &v, const double f_base, const double f_ups, const int nrof_samples, const double t_start);
 
 } // namespace itpp

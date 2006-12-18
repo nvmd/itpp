@@ -71,7 +71,6 @@
 //! \defgroup statistics Statistics
 //! \defgroup timers Timers
 //! \defgroup trifunc Trigonometric Functions
-//! \defgroup upsample Upsampling of Vectors and Matrices
 
 /*!
  * @} end of base group
