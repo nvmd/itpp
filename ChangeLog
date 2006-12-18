@@ -1,3 +1,9 @@
+2006-12-18  Conrad Sanderson  <conrad_s@users.sourceforge.net>
+
+	* itpp/base/itbase.h, itpp/base/array.h, itpp/base/vec.h,
+	itpp/base/mat.h: Minor documentation changes to allow 
+	the array class to be visible from the Modules section.
+
 2006-12-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/matfunc.cpp, itpp/base/stat.cpp: Fixed minor bugs

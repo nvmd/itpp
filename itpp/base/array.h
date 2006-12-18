@@ -52,7 +52,9 @@ namespace itpp {
 					  const Array<T> &a3);
 
   /*! 
+    \ingroup arr_vec_mat
     \brief General array class
+    \author Tobias Ringstrom and Adam Piatyszek
 
     This class is a general linear array class for arbitrary types. The
     operations and functions are the same as for the vector \c Vec class
