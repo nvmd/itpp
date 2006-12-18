@@ -4,6 +4,10 @@
 	itpp/base/mat.h: Minor documentation changes to allow 
 	the array class to be visible from the Modules section.
 
+	* itpp/stat/mog_generic.h, itpp/stat/mog_generic.cpp,
+	itpp/stat/mog_diag.h: Minor changes to allow default values
+	in initialisation functions.
+
 2006-12-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/matfunc.cpp, itpp/base/stat.cpp: Fixed minor bugs

@@ -75,7 +75,7 @@ namespace itpp {
         \param D_in Dimensionality
         \param full_in Ignored.  Present for compatability with the MOG_generic class 
     */
-    MOG_diag(int K_in, int D_in, bool full_in=false) { zero_all_ptrs(); init(K_in,D_in,false); }
+    MOG_diag(const int &K_in, const int &D_in, bool full_in=false) { zero_all_ptrs(); init(K_in,D_in,false); }
 
     /*! \brief Construct a model using user supplied mean vectors
         \param means_in Array of mean vectors
