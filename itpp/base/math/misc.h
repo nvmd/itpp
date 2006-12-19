@@ -1,6 +1,6 @@
 /*!
  * \file
- * \brief Definition of IT++ miscellaneous functions
+ * \brief Miscellaneous functions - header file
  * \author Tony Ottosson, Adam Piatyszek and Conrad Sanderson
  * 
  * $Date$
@@ -30,8 +30,8 @@
  * -------------------------------------------------------------------------
  */
 
-#ifndef ITMISC_H
-#define ITMISC_H
+#ifndef MISC_H
+#define MISC_H
 
 #ifndef _MSC_VER
 #  include <itpp/config.h>
@@ -189,4 +189,4 @@ inline int isfinite(double x) { return finite(x); }
 //!@}
 
 
-#endif // #ifndef ITMISC_H
+#endif // #ifndef MISC_H

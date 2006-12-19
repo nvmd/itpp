@@ -35,7 +35,7 @@
 
 #include <itpp/base/mat.h>
 #include <itpp/base/stat.h>
-#include <itpp/base/logexpfunc.h>
+#include <itpp/base/math/log_exp.h>
 #include <itpp/base/converters.h>
 
 

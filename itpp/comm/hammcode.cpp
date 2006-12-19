@@ -31,7 +31,7 @@
  */
 
 #include <itpp/comm/hammcode.h>
-#include <itpp/base/logexpfunc.h>
+#include <itpp/base/math/log_exp.h>
 #include <itpp/base/converters.h>
 
 

@@ -40,7 +40,7 @@
 #endif
 
 #include <itpp/base/itassert.h>
-#include <itpp/base/itmisc.h>
+#include <itpp/base/math/misc.h>
 #include <itpp/base/copy_vector.h>
 #include <itpp/base/factory.h>
 

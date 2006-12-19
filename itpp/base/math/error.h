@@ -30,8 +30,8 @@
  * -------------------------------------------------------------------------
  */
 
-#ifndef ERRORFUNC_H
-#define ERRORFUNC_H
+#ifndef ERROR_H
+#define ERROR_H
 
 #ifndef _MSC_VER
 #  include <itpp/config.h>
@@ -153,7 +153,7 @@ namespace itpp {
 
 } // namespace itpp
 
-#endif // #ifndef ERRORFUNC_H
+#endif // #ifndef ERROR_H
 
 
 

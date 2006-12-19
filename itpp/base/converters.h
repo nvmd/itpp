@@ -40,7 +40,7 @@
 #endif
 
 #include <itpp/base/help_functions.h>
-#include <itpp/base/itmisc.h>
+#include <itpp/base/math/misc.h>
 
 
 namespace itpp {

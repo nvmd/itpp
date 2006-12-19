@@ -34,7 +34,7 @@
 #define AUDIOFILE_H
 
 #include <itpp/base/vec.h>
-#include <itpp/base/itmisc.h>
+#include <itpp/base/math/misc.h>
 #include <fstream>
 
 

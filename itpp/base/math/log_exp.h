@@ -30,8 +30,8 @@
  * -------------------------------------------------------------------------
  */
 
-#ifndef LOGEXPFUNC_H
-#define LOGEXPFUNC_H
+#ifndef LOG_EXP_H
+#define LOG_EXP_H
 
 #ifndef _MSC_VER
 #  include <itpp/config.h>
@@ -50,11 +50,15 @@
 
 
 #ifndef HAVE_LOG1P
-//!\addtogroup miscfunc
-//!@{
+/*!
+ * \addtogroup logexpfunc
+ * @{
+ */
 //! Lograrithm of an argument \c x plus one
 inline double log1p(double x) { return std::log(1.0 + x); }
-//!@}
+/*!
+ * @}
+ */
 #endif
 
 
@@ -353,7 +357,7 @@ namespace itpp {
 
 } // namespace itpp
 
-#endif // #ifndef LOGEXPFUNC_H
+#endif // #ifndef LOG_EXP_H
 
 
 

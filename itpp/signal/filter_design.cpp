@@ -38,7 +38,7 @@
 #include <itpp/base/ls_solve.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/base/specmat.h>
-#include <itpp/base/trihypfunc.h>
+#include <itpp/base/math/trig_hyp.h>
 #include <itpp/base/converters.h>
 
 
