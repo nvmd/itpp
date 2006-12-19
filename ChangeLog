@@ -1,3 +1,9 @@
+2006-12-19  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/base/math/integration.cpp, itpp/comm/modulator_nd.cpp,
+	itpp/signal/fastica.cpp, itpp/signal/filter_design.cpp, poly.cpp,
+	itpp/stat/mog_generic.cpp: Fixed include statement
+
 2006-12-19  Adam Piatyszek  <ediap@users.sourceforge.net>
 2006-12-19  Conrad Sanderson  <conrad_s@users.sourceforge.net>
 

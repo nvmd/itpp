@@ -30,7 +30,7 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/base/integration.h>
+#include <itpp/base/math/integration.h>
 #include <itpp/base/vec.h>
 #include <itpp/base/elmatfunc.h>
 #include <itpp/base/specmat.h>
