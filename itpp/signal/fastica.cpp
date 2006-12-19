@@ -69,8 +69,8 @@
 #include <itpp/base/svec.h>
 #include <itpp/base/specmat.h>
 #include <itpp/base/stat.h>
-#include <itpp/base/eigen.h>
-#include <itpp/base/svd.h>
+#include <itpp/base/algebra/eigen.h>
+#include <itpp/base/algebra/svd.h>
 #include <itpp/base/random.h>
 #include <itpp/base/sort.h>
 #include <itpp/base/math/trig_hyp.h>

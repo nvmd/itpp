@@ -35,7 +35,7 @@
 #include <itpp/signal/filter.h>
 #include <itpp/signal/transforms.h>
 #include <itpp/base/elmatfunc.h>
-#include <itpp/base/ls_solve.h>
+#include <itpp/base/algebra/ls_solve.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/base/specmat.h>
 #include <itpp/base/math/trig_hyp.h>

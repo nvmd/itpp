@@ -34,8 +34,8 @@
 #include <itpp/base/converters.h>
 #include <itpp/comm/commfunc.h>
 #include <itpp/base/elmatfunc.h>
-#include <itpp/base/cholesky.h>
-#include <itpp/base/inv.h>
+#include <itpp/base/algebra/cholesky.h>
+#include <itpp/base/algebra/inv.h>
 
 namespace itpp {
 

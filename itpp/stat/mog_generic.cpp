@@ -31,8 +31,8 @@
  */
 
 #include <itpp/stat/mog_generic.h>
-#include <itpp/base/inv.h>
-#include <itpp/base/det.h>
+#include <itpp/base/algebra/inv.h>
+#include <itpp/base/algebra/det.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/base/itfile.h>
 #include <itpp/base/math/misc.h>
