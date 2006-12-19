@@ -30,7 +30,7 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/base/errorfunc.h>
+#include <itpp/base/math/error.h>
 #include <itpp/base/elmatfunc.h>
 
 

@@ -1,6 +1,6 @@
 /*!
  * \file
- * \brief Implementation of IT++ miscleaneous functions
+ * \brief Miscellaneous functions - source file
  * \author Tony Ottosson and Adam Piatyszek
  * 
  * $Date$
@@ -30,13 +30,7 @@
  * -------------------------------------------------------------------------
  */
 
-#ifndef _MSC_VER
-#  include <itpp/config.h>
-#else
-#  include <itpp/config_msvc.h>
-#endif
-
-#include <itpp/base/itmisc.h>
+#include <itpp/base/math/misc.h>
 
 
 namespace itpp { 

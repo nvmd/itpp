@@ -32,7 +32,7 @@
 
 #include <itpp/stat/mog_diag_em.h>
 #include <itpp/base/timing.h>
-#include <itpp/base/itmisc.h> 
+#include <itpp/base/math/misc.h> 
 
 #include <iostream>
 #include <iomanip>

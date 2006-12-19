@@ -33,7 +33,7 @@
 #include <itpp/signal/filter.h>
 #include <itpp/signal/window.h>
 #include <itpp/base/matfunc.h>
-#include <itpp/base/trihypfunc.h>
+#include <itpp/base/math/trig_hyp.h>
 
 
 namespace itpp {

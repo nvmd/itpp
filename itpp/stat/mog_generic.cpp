@@ -35,7 +35,7 @@
 #include <itpp/base/det.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/base/itfile.h>
-#include <itpp/base/itmisc.h>
+#include <itpp/base/math/misc.h>
 
 
 namespace itpp {

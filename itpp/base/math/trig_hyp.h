@@ -1,6 +1,6 @@
 /*!
  * \file
- * \brief Trigonometric and hyperbolic functions
+ * \brief Trigonometric and hyperbolic functions - header file
  * \author Tony Ottosson and Adam Piatyszek
  * 
  * $Date$
@@ -30,8 +30,8 @@
  * -------------------------------------------------------------------------
  */
 
-#ifndef TRIHYPFUNC_H
-#define TRIHYPFUNC_H
+#ifndef TRIG_HYP_H
+#define TRIG_HYP_H
 
 #ifndef _MSC_VER
 #  include <itpp/config.h>
@@ -149,4 +149,4 @@ namespace itpp {
 
 } // namespace itpp
 
-#endif // #ifndef TRIHYPFUNC_H
+#endif // #ifndef TRIG_HYP_H

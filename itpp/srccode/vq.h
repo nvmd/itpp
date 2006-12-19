@@ -35,7 +35,7 @@
 
 #include <itpp/base/vec.h>
 #include <itpp/base/sort.h>
-#include <itpp/base/logexpfunc.h>
+#include <itpp/base/math/log_exp.h>
 
 namespace itpp {
 

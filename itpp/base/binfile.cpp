@@ -31,7 +31,7 @@
  */
 
 #include <itpp/base/binfile.h>
-#include <itpp/base/itmisc.h>
+#include <itpp/base/math/misc.h>
 
 
 using std::string;

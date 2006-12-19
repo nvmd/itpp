@@ -40,7 +40,6 @@
 
 //! \defgroup channels Channel Modeling
 //! \defgroup modulators Digital Modulation
-//! \defgroup errorfunc Error Functions
 //! \defgroup fec Forward Error Correcting Codes
 //! \defgroup interl Interleavers
 //! \defgroup misccommfunc Miscellaneous Communications Functions
