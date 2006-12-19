@@ -453,6 +453,7 @@ WARN_LOGFILE           = doxygen_html.log
 INPUT                  = @top_srcdir@/@PACKAGE@ \
                          @top_srcdir@/@PACKAGE@/base \
                          @top_srcdir@/@PACKAGE@/base/algebra \
+                         @top_srcdir@/@PACKAGE@/base/math \
                          @top_srcdir@/@PACKAGE@/comm \
                          @top_srcdir@/@PACKAGE@/fixed \
                          @top_srcdir@/@PACKAGE@/optim \
