@@ -13,11 +13,8 @@ h_base_sources = \
 	$(top_srcdir)/itpp/base/fastmath.h \
 	$(top_srcdir)/itpp/base/gf2mat.h \
 	$(top_srcdir)/itpp/base/help_functions.h \
-	$(top_srcdir)/itpp/base/integration.h \
 	$(top_srcdir)/itpp/base/itassert.h \
 	$(top_srcdir)/itpp/base/itfile.h \
-	$(top_srcdir)/itpp/base/itmisc.h \
-	$(top_srcdir)/itpp/base/logexpfunc.h \
 	$(top_srcdir)/itpp/base/matfunc.h \
 	$(top_srcdir)/itpp/base/mat.h \
 	$(top_srcdir)/itpp/base/operators.h \
@@ -29,7 +26,6 @@ h_base_sources = \
 	$(top_srcdir)/itpp/base/stack.h \
 	$(top_srcdir)/itpp/base/stat.h \
 	$(top_srcdir)/itpp/base/svec.h \
-	$(top_srcdir)/itpp/base/trihypfunc.h \
 	$(top_srcdir)/itpp/base/timing.h \
 	$(top_srcdir)/itpp/base/vec.h
 
@@ -44,10 +40,8 @@ cpp_base_sources = \
 	$(top_srcdir)/itpp/base/fastmath.cpp \
 	$(top_srcdir)/itpp/base/gf2mat.cpp \
 	$(top_srcdir)/itpp/base/help_functions.cpp \
-	$(top_srcdir)/itpp/base/integration.cpp \
 	$(top_srcdir)/itpp/base/itassert.cpp \
 	$(top_srcdir)/itpp/base/itfile.cpp \
-	$(top_srcdir)/itpp/base/itmisc.cpp \
 	$(top_srcdir)/itpp/base/mat.cpp \
 	$(top_srcdir)/itpp/base/matfunc.cpp \
 	$(top_srcdir)/itpp/base/operators.cpp \
