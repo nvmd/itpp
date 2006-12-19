@@ -349,7 +349,6 @@ AC_CONFIG_FILES([Makefile \
   itpp/base/Makefile \
   itpp/base/algebra/Makefile \
   itpp/base/bessel/Makefile \
-  itpp/base/math/Makefile \
   itpp/comm/Makefile \
   itpp/fixed/Makefile \
   itpp/optim/Makefile \

@@ -45,12 +45,8 @@
 //! \defgroup diag Diagonal Matrices and Functions
 //! \defgroup errorhandlingfunc Error and Warning Handling
 //! \defgroup matrix_functions Functions on Matrices
+//! \defgroup hypfunc Hyperbolic Functions
 //! \defgroup itfile IT++ File Format
-//! \defgroup randgen Random Number Generation
-//! \defgroup reshaping Reshaping of Vectors and Matrices
-//! \defgroup specmat Special Matrices
-//! \defgroup statistics Statistics
-//! \defgroup timers Timers
 
 /*!
  * \defgroup algebra Linear Algebra
@@ -66,20 +62,15 @@
  * @} end of algebra group
  */
 
-/*!
- * \defgroup math Basic and Miscellaneous Math Functions
- * @{ 
- */
-
-//! \defgroup integration Numerical Integration
-//! \defgroup miscfunc Miscellaneous Functions
 //! \defgroup logexpfunc Logarithmic and Exponential Functions
+//! \defgroup miscfunc Miscellaneous Functions
+//! \defgroup integration Numerical Integration
+//! \defgroup randgen Random Number Generation
+//! \defgroup reshaping Reshaping of Vectors and Matrices
+//! \defgroup specmat Special Matrices
+//! \defgroup statistics Statistics
+//! \defgroup timers Timers
 //! \defgroup trifunc Trigonometric Functions
-//! \defgroup hypfunc Hyperbolic Functions
-
-/*!
- * @} end of math group
- */
 
 /*!
  * @} end of base group
@@ -96,11 +87,6 @@
 #include <itpp/base/algebra/schur.h>
 #include <itpp/base/algebra/svd.h>
 
-#include <itpp/base/math/integration.h>
-#include <itpp/base/math/itmisc.h>
-#include <itpp/base/math/logexpfunc.h>
-#include <itpp/base/math/trihypfunc.h>
-
 #include <itpp/base/array.h>
 #include <itpp/base/bessel.h>
 #include <itpp/base/binary.h>
@@ -112,8 +98,11 @@
 #include <itpp/base/factory.h>
 #include <itpp/base/fastmath.h>
 #include <itpp/base/gf2mat.h>
+#include <itpp/base/integration.h>
 #include <itpp/base/itassert.h>
 #include <itpp/base/itfile.h>
+#include <itpp/base/itmisc.h>
+#include <itpp/base/logexpfunc.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/base/operators.h>
@@ -125,6 +114,7 @@
 #include <itpp/base/stack.h>
 #include <itpp/base/stat.h>
 #include <itpp/base/timing.h>
+#include <itpp/base/trihypfunc.h>
 #include <itpp/base/vec.h>
 
 #endif // #ifndef ITBASE_H
