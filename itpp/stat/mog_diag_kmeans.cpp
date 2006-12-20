@@ -31,9 +31,8 @@
  */
 
 
-#include <iostream>
-
 #include <itpp/stat/mog_diag_kmeans.h>
+#include <iostream>
 
 namespace itpp {
 
@@ -317,6 +316,15 @@ namespace itpp {
     cleanup();
   
   }
+
+  //
+  // convenience functions
+
+  void MOG_diag_kmeans(MOG_diag &model_in, Array<vec> &X_in, int max_iter_in, double trust_in, bool normalise_in, bool verbose_in) {
+    MOG_diag_kmeans_sup km;
+    km.run(model_in, X_in, max_iter_in, trust_in, normalise_in, verbose_in);
+  }
+
 
 }
 

@@ -119,6 +119,8 @@ namespace itpp {
   
   };
 
+  //
+  // convenience functions
 
   /*! 
     \ingroup MOG
@@ -153,10 +155,7 @@ namespace itpp {
     Without normalisation, the distance between vectors is
     dominated by dimension 2. 
   */
-  void MOG_diag_kmeans(MOG_diag &model_in, Array<vec> &X_in, int max_iter_in=10, double trust_in=0.5, bool normalise_in=true, bool verbose_in=false) {
-    MOG_diag_kmeans_sup km;
-    km.run(model_in, X_in, max_iter_in, trust_in, normalise_in, verbose_in);
-  }
+  void MOG_diag_kmeans(MOG_diag &model_in, Array<vec> &X_in, int max_iter_in=10, double trust_in=0.5, bool normalise_in=true, bool verbose_in=false);
 
 }
 

@@ -30,13 +30,13 @@
  * -------------------------------------------------------------------------
  */
 
+
+#include <itpp/stat/mog_diag_em.h>
+#include <itpp/base/math/log_exp.h> 
+#include <itpp/base/timing.h>
+
 #include <iostream>
 #include <iomanip>
-
-#include <itpp/base/timing.h>
-#include <itpp/base/math/log_exp.h> 
-#include <itpp/stat/mog_diag_em.h>
-
 
 namespace itpp {
 
@@ -292,6 +292,19 @@ namespace itpp {
 
   void MOG_diag_EM_sup::map(MOG_diag &model_in, MOG_diag &prior_model_in, Array<vec> &X_in, int max_iter_in, double alpha_in, double var_floor_in, double weight_floor_in, bool verbose_in) {
     it_assert(false, "MOG_diag_EM_sup::map(): not implemented yet");
+  }
+
+
+  //
+  // convenience functions
+
+  void MOG_diag_ML(MOG_diag &model_in, Array<vec> &X_in, int max_iter_in, double var_floor_in, double weight_floor_in, bool verbose_in) {
+    MOG_diag_EM_sup EM;
+    EM.ml(model_in, X_in, max_iter_in, var_floor_in, weight_floor_in, verbose_in);
+  }
+
+  void MOG_diag_MAP(MOG_diag &model_in, MOG_diag &prior_model_in, Array<vec> &X_in, int max_iter_in, double alpha_in, double var_floor_in, double weight_floor_in, bool verbose_in) {
+    it_assert(false, "MOG_diag_MAP(): not implemented yet");
   }
 
 }
