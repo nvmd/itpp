@@ -113,7 +113,7 @@ int main() {
   cout << endl << endl;
   cout << "running kmeans optimiser" << endl << endl;
   
-  MOG_diag_kmeans km;  km.set_verbose(print_progress);  km.run(mog, X, 10, 0.5, true);
+  MOG_diag_kmeans(mog, X, 10, 0.5, true, print_progress);
   
   cout << fixed << setprecision(3);
   cout << "mog.get_means() = " << endl << mog.get_means() << endl; 
@@ -128,9 +128,9 @@ int main() {
   // EM ML based optimisation
 
   cout << endl << endl;
-  cout << "running EM ML optimiser" << endl << endl;
+  cout << "running ML optimiser" << endl << endl;
   
-  MOG_diag_EM em;  em.set_verbose(print_progress);  em.ml(mog, X, 10, 0.0, 0.0);
+  MOG_diag_ML(mog, X, 10, 0.0, 0.0, print_progress);
 
   cout << fixed << setprecision(3);
   cout << "mog.get_means() = " << endl << mog.get_means() << endl;

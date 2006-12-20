@@ -1,7 +1,7 @@
 /*!
  * \file 
  * \brief Include file for the IT++ statistics module
- * \author Adam Piatyszek
+ * \author Adam Piatyszek and Conrad Sanderson
  *
  * $Date$
  * $Revision$
@@ -38,7 +38,25 @@
  * @{
  */
 
-//! \defgroup MOG Mixture of Gaussians (MOG)
+/*! \defgroup MOG Mixture of Gaussians (MOG)
+    \brief Classes and functions for modelling multivariate data as a Mixture of Gaussians
+    \author Conrad Sanderson
+
+    The following example shows how to model data:
+    \code
+
+    Array<vec> X;
+    // ... fill X with vectors ...
+    int K = 3;     // specify the number of Gaussians
+    int D = 10;    // specify the dimensionality of vectors    
+    MOG_diag model(K,D);
+    MOG_diag_kmeans(model, X, 10, 0.5, true, true); // initial optimisation using 10 iterations of k-means 
+    MOG_diag_ML(model, X, 10, 0.0, 0.0, true);      // final optimisation using 10 iterations of ML version of EM  
+    double avg = model.avg_log_lhood(X);            // find the average log likelihood of X
+    \endcode
+
+    See also the tutorial section for a more elaborate example
+*/
 
 /*!
  * @}

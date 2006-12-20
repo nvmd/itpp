@@ -30,18 +30,18 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/stat/mog_diag_em.h>
-#include <itpp/base/timing.h>
-#include <itpp/base/math/misc.h> 
-
 #include <iostream>
 #include <iomanip>
+
+#include <itpp/base/timing.h>
+#include <itpp/base/math/log_exp.h> 
+#include <itpp/stat/mog_diag_em.h>
 
 
 namespace itpp {
 
   //! update log versions of parameters and any necessary constants
-  void inline MOG_diag_EM::update_internals() {
+  void inline MOG_diag_EM_sup::update_internals() {
     
     double Ddiv2_log_2pi = D/2.0 * std::log(m_2pi);
     
@@ -65,7 +65,7 @@ namespace itpp {
 
 
   //! for helping to avoid numerical instability
-  void inline MOG_diag_EM::sanitise_params() {
+  void inline MOG_diag_EM_sup::sanitise_params() {
     
     double acc = 0.0;
     for(int k=0;k<K;k++) {
@@ -82,7 +82,7 @@ namespace itpp {
   }
 
   //! update parameters using the Maximum Likelihood version of the EM algorithm
-  double MOG_diag_EM::ml_update_params() {
+  double MOG_diag_EM_sup::ml_update_params() {
     
     double acc_loglhood = 0.0;
     
@@ -171,7 +171,7 @@ namespace itpp {
   }
 
 
-  void MOG_diag_EM::ml_iterate() {
+  void MOG_diag_EM_sup::ml_iterate() {
     using std::cout;
     using std::endl;
     using std::setw;
@@ -187,7 +187,7 @@ namespace itpp {
     Real_Timer tt;
   
     if(verbose) {
-      cout << "MOG_diag_EM::ml_iterate()" << endl;
+      cout << "MOG_diag_EM_sup::ml_iterate()" << endl;
       cout << setw(14) << "iteration";
       cout << setw(14) << "avg_loglhood";
       cout << setw(14) << "delta";
@@ -222,11 +222,13 @@ namespace itpp {
   }
 
 
-  void MOG_diag_EM::ml(MOG_diag &model_in, Array<vec> &X_in, int max_iter_in=10, double var_floor_in=0.0, double weight_floor_in=0.0) {
+  void MOG_diag_EM_sup::ml(MOG_diag &model_in, Array<vec> &X_in, int max_iter_in, double var_floor_in, double weight_floor_in, bool verbose_in) {
   
-    it_assert(model_in.is_valid(), "MOG_diag_EM::ml(): initial model not valid" );
-    it_assert(check_array_uniformity(X_in), "MOG_diag_EM::ml(): 'X' is empty or contains vectors of varying dimensionality" );
-    it_assert( (max_iter_in > 0), "MOG_diag_EM::ml(): 'max_iter' needs to be greater than zero" );
+    it_assert(model_in.is_valid(), "MOG_diag_EM_sup::ml(): initial model not valid" );
+    it_assert(check_array_uniformity(X_in), "MOG_diag_EM_sup::ml(): 'X' is empty or contains vectors of varying dimensionality" );
+    it_assert( (max_iter_in > 0), "MOG_diag_EM_sup::ml(): 'max_iter' needs to be greater than zero" );
+
+    verbose = verbose_in;
   
     N = X_in.size();
   
@@ -238,9 +240,9 @@ namespace itpp {
 
     means_in.set_size(0); diag_covs_in.set_size(0); weights_in.set_size(0);
   
-    if(K > N)    it_warning("MOG_diag_EM::ml(): WARNING: K > N");
+    if(K > N)    it_warning("MOG_diag_EM_sup::ml(): WARNING: K > N");
     else
-    if(K > N/10) it_warning("MOG_diag_EM::ml(): WARNING: K > N/10");
+    if(K > N/10) it_warning("MOG_diag_EM_sup::ml(): WARNING: K > N/10");
 
     var_floor = var_floor_in;
     weight_floor = weight_floor_in;
@@ -288,8 +290,8 @@ namespace itpp {
    
   }
 
-  void MOG_diag_EM::map(MOG_diag &model_in, MOG_diag &prior_model_in, Array<vec> &X_in, int max_iter_in=10, double alpha_in=0.5, double var_floor_in=0.0, double weight_floor_in=0.0) {
-    it_assert(false, "MOG_diag_EM::map(): not implemented yet");
+  void MOG_diag_EM_sup::map(MOG_diag &model_in, MOG_diag &prior_model_in, Array<vec> &X_in, int max_iter_in, double alpha_in, double var_floor_in, double weight_floor_in, bool verbose_in) {
+    it_assert(false, "MOG_diag_EM_sup::map(): not implemented yet");
   }
 
 }

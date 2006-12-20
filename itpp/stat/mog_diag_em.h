@@ -39,69 +39,22 @@
 namespace itpp {
 
   /*! 
-    \ingroup MOG
-    \brief Expectation Maximisation (EM) based optimisers for Mixtures of Gaussians
+    \brief support class for MOG_diag_ML() and MOG_diag_MAP() 
     \author Conrad Sanderson
-    
-		This class is an optimiser (trainer) for the parameters of an instance of
-		the MOG_diag class. The seed values (starting points) are typically
-		obtained via the MOG_diag_kmeans class.  See 
-		<a href="http://ieeexplore.ieee.org/xpl/abs_free.jsp?arNumber=1561601">
-		[CSB06]</a> and the references therein for detailed mathematical
-		descriptions.
-
-		- [CSB06] F. Cardinaux, C. Sanderson and S. Bengio, "User authentication
-		via adapted statistical models of face images", IEEE Transactions on
-		Signal Processing, Vol 54, pp. 361- 373, January 2006
   */
-  class MOG_diag_EM : public MOG_diag {
+  class MOG_diag_EM_sup : public MOG_diag {
 
     public:
 
     //! Default constructor
-    MOG_diag_EM() { verbose=false; }
+    MOG_diag_EM_sup() { verbose=false; }
 
     //! Default destructor
-    ~MOG_diag_EM() { }
+    ~MOG_diag_EM_sup() { }
   
    
-    /*!
-      \brief Run the Maximum Likelihood (ML) version of the EM algorithm
-      
-      \param model_in The model to optimise (MOG_diag)
-      \param X_in The training data (array of vectors)
-      \param max_iter_in Maximum number of iterations. Default is 10.
-      \param var_floor_in Variance floor (lowest allowable variance).  Default is 0.0 (but see the note below)
-      \param weight_floor_in  Weight floor (lowest allowable weight).  Default is 0.0 (but see the note below)
-      
-      \note The variance and weight floors are set to std::numeric_limits<double>::min()
-            if they are below that value. As such, they are machine dependant.
-            The largest allowable weight floor is 1/K, where K is the number of Gaussians.       
-    */
-    void ml(MOG_diag &model_in, Array<vec> &X_in, int max_iter_in, double var_floor_in, double weight_floor_in);
-
-    /*!
-      \brief NOT YET IMPLEMENTED. Run the Maximum a Posteriori (MAP) version of the EM algorithm.
-      
-      \param model_in The model to optimise (MOG_diag)
-      \param prior_model_in The model representing the prior
-      \param X_in The training data (array of vectors)
-      \param max_iter_in Maximum number of iterations
-      \param alpha_in Coefficient for combining the parameters with the prior.  0 <= _alpha <= 1.
-      \param var_floor_in Variance floor (lowest allowable variance).  Set to 0.0 to use the default.
-      \param weight_floor_in  Weight floor (lowest allowable weight).  Set to 0.0 to use the default.
-      
-      \note NOT YET IMPLEMENTED. 
-      \note The variance and weight floors are set to std::numeric_limits<double>::min()
-            if they are below that value.
-            The largest allowable weight floor is 1/K, where K is the number of Gaussians.       
-    */
-    void map(MOG_diag &model_in, MOG_diag &prior_model, Array<vec> &X_in, int max_iter_in, double alpha_in, double var_floor_in, double weight_floor_in);
-
-    /*! \brief Enable or disable printing of progress
-        \param verbose_in If true, print progress.
-    */
-    void set_verbose(bool verbose_in) { verbose = verbose_in; }
+    void ml(MOG_diag &model_in, Array<vec> &X_in, int max_iter_in=10, double var_floor_in=0.0, double weight_floor_in=0.0, bool verbose_in=false);
+    void map(MOG_diag &model_in, MOG_diag &prior_model, Array<vec> &X_in, int max_iter_in=10, double alpha_in=0.5, double var_floor_in=0.0, double weight_floor_in=0.0, bool verbose_in=false);
 
     protected:
   
@@ -143,6 +96,62 @@ namespace itpp {
   
     
   };
+
+  /*! 
+    \ingroup MOG
+    \author Conrad Sanderson
+    
+    Maximum Likelihood Expectation Maximisation based optimisation of the
+    parameters of an instance of the MOG_diag class. The seed values 
+    (starting points) are typically first obtained via MOG_diag_kmeans().
+    See [CSB06] and the references therein for detailed mathematical descriptions.
+
+    - [CSB06]
+      <a href="http://ieeexplore.ieee.org/xpl/abs_free.jsp?arNumber=1561601">
+      F. Cardinaux, C. Sanderson and S. Bengio,
+      "User authentication via adapted statistical models of face images",
+      IEEE Transactions on Signal Processing, Vol 54, No. 1, 2006, pp. 361-373. 
+      </a>
+     
+    \param model_in The model to optimise (MOG_diag)
+    \param X_in The training data (array of vectors)
+    \param max_iter_in Maximum number of iterations. Default is 10.
+    \param var_floor_in Variance floor (lowest allowable variance).  Default is 0.0 (but see the note below)
+    \param weight_floor_in  Weight floor (lowest allowable weight).  Default is 0.0 (but see the note below)
+    \param verbose_in  Whether progress in printed.  Default is false.
+      
+    \note The variance and weight floors are set to std::numeric_limits<double>::min()
+          if they are below that value. As such, they are machine dependant.
+          The largest allowable weight floor is 1/K, where K is the number of Gaussians.       
+  */
+  bool MOG_diag_ML(MOG_diag &model_in, Array<vec> &X_in, int max_iter_in=10, double var_floor_in=0.0, double weight_floor_in=0.0, bool verbose_in=false) {
+    MOG_diag_EM_sup EM;
+    EM.ml(model_in, X_in, max_iter_in, var_floor_in, weight_floor_in, verbose_in);
+  }
+
+
+  /*!
+    NOT YET IMPLEMENTED.
+    Maximum a Posteriori (MAP) Expectation Maximisation optimiser for Mixtures of Gaussians.
+    
+    \param model_in The model to optimise (MOG_diag)
+    \param prior_model_in The model representing the prior
+    \param X_in The training data (array of vectors)
+    \param max_iter_in Maximum number of iterations
+    \param alpha_in Coefficient for combining the parameters with the prior.  0 <= _alpha <= 1.
+    \param var_floor_in Variance floor (lowest allowable variance).  Set to 0.0 to use the default.
+    \param weight_floor_in  Weight floor (lowest allowable weight).  Set to 0.0 to use the default.
+      
+    \note NOT YET IMPLEMENTED. 
+    \note The variance and weight floors are set to std::numeric_limits<double>::min()
+          if they are below that value.
+          The largest allowable weight floor is 1/K, where K is the number of Gaussians.       
+  */
+  void MOG_diag_MAP(MOG_diag &model_in, MOG_diag &prior_model_in, Array<vec> &X_in, int max_iter_in=10, double alpha_in=0.5, double var_floor_in=0.0, double weight_floor_in=0.0, bool verbose_in=false) {
+    it_assert(false, "MOG_diag_MAP(): not implemented yet");
+  }
+
+
 
 }
 
