@@ -31,15 +31,19 @@
  */
 
 
-#include <itpp/stat/mog_diag_kmeans.h>
-
 #include <iostream>
 
+#include <itpp/stat/mog_diag_kmeans.h>
 
 namespace itpp {
 
+  inline double MOG_diag_kmeans_sup::dist(const double * x, const double * y) const {
+    double acc = 0.0;
+    for(int d=0;d<D;d++) { double tmp = x[d]-y[d]; acc += tmp*tmp; }
+    return(acc);
+  }
 
-  void MOG_diag_kmeans::assign_to_means() {
+  void MOG_diag_kmeans_sup::assign_to_means() {
 
     for(int k=0;k<K;k++) c_count[k] = 0;
   
@@ -60,7 +64,7 @@ namespace itpp {
   }
 
 
-  void MOG_diag_kmeans::recalculate_means() {
+  void MOG_diag_kmeans_sup::recalculate_means() {
 
     for(int k=0;k<K;k++) {
 
@@ -82,7 +86,7 @@ namespace itpp {
   }
   
 
-  bool MOG_diag_kmeans::dezombify_means() {
+  bool MOG_diag_kmeans_sup::dezombify_means() {
 
     static int counter = 0;
 
@@ -98,10 +102,10 @@ namespace itpp {
       if( c_count[k] == 0 ) {
       
         zombie_mean = true;
-        if(verbose)  it_warning("MOG_diag_kmeans::dezombify_means(): detected zombie mean");
+        if(verbose)  it_warning("MOG_diag_kmeans_sup::dezombify_means(): detected zombie mean");
       
         if(k_hog == k) {
-          it_warning("MOG_diag_kmeans::dezombify_means(): weirdness: k_hog == k");
+          it_warning("MOG_diag_kmeans_sup::dezombify_means(): weirdness: k_hog == k");
           return(false);
         }
       
@@ -122,7 +126,7 @@ namespace itpp {
   }
 
 
-  double MOG_diag_kmeans::measure_change() const {
+  double MOG_diag_kmeans_sup::measure_change() const {
   
     double tmp_dist = 0.0;
     for(int k=0;k<K;k++)   tmp_dist += dist( c_means[k], c_means_old[k] );
@@ -130,7 +134,7 @@ namespace itpp {
   }
 
 
-  void MOG_diag_kmeans::initial_means() {
+  void MOG_diag_kmeans_sup::initial_means() {
   
     for(int d=0;d<D;d++) c_tmpvec[d] = 0.0;
   
@@ -151,7 +155,7 @@ namespace itpp {
   }
 
 
-  void MOG_diag_kmeans::iterate() {
+  void MOG_diag_kmeans_sup::iterate() {
   
     for(int k=0;k<K;k++)  for(int d=0;d<D;d++)  c_means_old[k][d] = c_means[k][d];
 
@@ -163,7 +167,7 @@ namespace itpp {
 
       double change = measure_change();
 
-      if(verbose) std::cout << "MOG_diag_kmeans::iterate(): iteration = " << i << "  change = " << change << std::endl;
+      if(verbose) std::cout << "MOG_diag_kmeans_sup::iterate(): iteration = " << i << "  change = " << change << std::endl;
       if(change == 0) break;
   
       for(int k=0;k<K;k++)  for(int d=0;d<D;d++)   c_means_old[k][d] = c_means[k][d];
@@ -172,13 +176,13 @@ namespace itpp {
   }
    
    
-  void MOG_diag_kmeans::calc_means() {
+  void MOG_diag_kmeans_sup::calc_means() {
     initial_means();
     iterate();
   }
    
 
-  void MOG_diag_kmeans::calc_covs() {
+  void MOG_diag_kmeans_sup::calc_covs() {
 
     for(int k=0;k<K;k++) {
       int Nk = c_count[k];
@@ -203,12 +207,12 @@ namespace itpp {
   }
 
 
-  void MOG_diag_kmeans::calc_weights() {
+  void MOG_diag_kmeans_sup::calc_weights() {
     for(int k=0;k<K;k++)  c_weights[k] = trust*(c_count[k] / double(N)) + (1.0-trust)*(1.0/K); 
     }
 
 
-  void MOG_diag_kmeans::normalise_vectors() {
+  void MOG_diag_kmeans_sup::normalise_vectors() {
 
     for(int d=0;d<D;d++) {
       double acc = 0.0;  for(int n=0;n<N;n++)  acc += c_X[n][d];
@@ -227,7 +231,7 @@ namespace itpp {
   }
 
 
-  void MOG_diag_kmeans::unnormalise_vectors() {
+  void MOG_diag_kmeans_sup::unnormalise_vectors() {
   
     for(int n=0;n<N;n++)  for(int d=0;d<D;d++) {
       if(c_norm_sd[d] > 0.0)  c_X[n][d] *= c_norm_sd[d];
@@ -236,7 +240,7 @@ namespace itpp {
   }
 
 
-  void MOG_diag_kmeans::unnormalise_means() {
+  void MOG_diag_kmeans_sup::unnormalise_means() {
   
     for(int k=0;k<K;k++) for(int d=0;d<D;d++) {
       if(norm_sd[d] > 0.0) c_means[k][d] *= c_norm_sd[d];
@@ -245,12 +249,14 @@ namespace itpp {
   }
 
 
-  void MOG_diag_kmeans::run(MOG_diag &model_in, Array<vec> &X_in, int max_iter_in=10, double trust_in=0.5, bool normalise_in=true) {
+  void MOG_diag_kmeans_sup::run(MOG_diag &model_in, Array<vec> &X_in, int max_iter_in, double trust_in, bool normalise_in, bool verbose_in) {
   
-    it_assert( model_in.is_valid(), "MOG_diag_kmeans::run(): given model is not valid" );
-    it_assert( (max_iter_in > 0), "MOG_diag_kmeans::run(): 'max_iter' needs to be greater than zero" );
-    it_assert( ((trust_in >= 0.0) && (trust_in <= 1.0) ), "MOG_diag_kmeans::run(): 'trust' must be between 0 and 1 (inclusive)" );
+    it_assert( model_in.is_valid(), "MOG_diag_kmeans_sup::run(): given model is not valid" );
+    it_assert( (max_iter_in > 0), "MOG_diag_kmeans_sup::run(): 'max_iter' needs to be greater than zero" );
+    it_assert( ((trust_in >= 0.0) && (trust_in <= 1.0) ), "MOG_diag_kmeans_sup::run(): 'trust' must be between 0 and 1 (inclusive)" );
   
+    verbose = verbose_in;
+
     Array<vec> means_in = model_in.get_means();
     Array<vec> diag_covs_in = model_in.get_diag_covs();
     vec weights_in = model_in.get_weights();
@@ -259,13 +265,13 @@ namespace itpp {
 
     means_in.set_size(0); diag_covs_in.set_size(0); weights_in.set_size(0);
   
-    it_assert(check_size(X_in), "MOG_diag_kmeans::run(): 'X' is empty or contains vectors of wrong dimensionality" );
+    it_assert(check_size(X_in), "MOG_diag_kmeans_sup::run(): 'X' is empty or contains vectors of wrong dimensionality" );
   
     N = X_in.size();
   
-    if(K > N)    it_warning("MOG_diag_kmeans::run(): K > N");
+    if(K > N)    it_warning("MOG_diag_kmeans_sup::run(): K > N");
     else
-    if(K > N/10) it_warning("MOG_diag_kmeans::run(): K > N/10");
+    if(K > N/10) it_warning("MOG_diag_kmeans_sup::run(): K > N/10");
 
     max_iter = max_iter_in;
     trust = trust_in;

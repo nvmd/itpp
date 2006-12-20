@@ -36,6 +36,7 @@
 #include <itpp/base/matfunc.h>
 #include <itpp/base/itfile.h>
 #include <itpp/base/math/misc.h>
+#include <itpp/base/math/log_exp.h>
 
 
 namespace itpp {
@@ -477,5 +478,117 @@ namespace itpp {
     if(!valid) return;
     convert_to_full_internal();
   }
+
+
+
+  double MOG_generic::log_lhood_single_gaus_internal(const vec &x_in, const int k) {
+   
+    const vec & mean = means(k);
+   
+    if(full) {
+      for(int d=0;d<D;d++)  tmpvecD[d] = x_in[d] - mean[d];
+      double tmpval = tmpvecD*(full_covs_inv(k)*tmpvecD);
+      return(log_det_etc[k] - 0.5*tmpval);
+    }
+    else {
+      const vec & diag_cov_inv_etc = diag_covs_inv_etc(k);
+    
+      double acc = 0.0;
+    
+      for(int d=0; d<D; d++) {
+        double tmpval = x_in[d] - mean[d];
+        acc += (tmpval*tmpval) * diag_cov_inv_etc[d];
+      }
+      return(log_det_etc[k] - acc);
+    }
+  
+  }
+  
+  double MOG_generic::log_lhood_single_gaus(const vec &x_in, const int k) {
+    if(do_checks) {
+      it_assert(valid, "MOG_generic::log_lhood_single_gaus(): model not valid");
+      it_assert(check_size(x_in), "MOG_generic::log_lhood_single_gaus(): x has wrong dimensionality");
+      it_assert( ( (k>=0) && (k<K) ), "MOG_generic::log_lhood_single_gaus(): k specifies a non-existant Gaussian");
+    }
+    return log_lhood_single_gaus_internal(x_in,k);
+  }
+
+  
+  double MOG_generic::log_lhood_internal(const vec &x_in) {
+    
+    bool danger = paranoid;
+    
+    for(int k=0;k<K;k++)  {
+      double tmp = log_weights[k] + log_lhood_single_gaus_internal(x_in,k); 
+      tmpvecK[k] = tmp;
+      
+      if(tmp >= log_max_K)  danger = true;
+    }
+    
+    if(danger) {
+      double log_sum = tmpvecK[0];  for(int k=1; k<K; k++)  log_sum = log_add( log_sum, tmpvecK[k] );
+      return(log_sum);
+    }
+    else {
+      double sum = 0.0; for(int k=0;k<K;k++) sum += std::exp(tmpvecK[k]);
+      return(std::log(sum));
+    }
+  }
+  
+  
+  double MOG_generic::log_lhood(const vec &x_in) {
+    if(do_checks) {
+      it_assert(valid, "MOG_generic::log_lhood(): model not valid");
+      it_assert(check_size(x_in), "MOG_generic::log_lhood(): x has wrong dimensionality");
+    }
+    return log_lhood_internal(x_in);
+  }
+
+        
+  double MOG_generic::lhood_internal(const vec &x_in) {
+    
+    bool danger = paranoid;
+    
+    for(int k=0;k<K;k++)  {
+      double tmp = log_weights[k] + log_lhood_single_gaus_internal(x_in,k); 
+      tmpvecK[k] = tmp;
+      
+      if(tmp >= log_max_K)  danger = true;
+    }
+    
+    if(danger) {
+      double log_sum = tmpvecK[0];  for(int k=1; k<K; k++)  log_sum = log_add( log_sum, tmpvecK[k] );
+      return(trunc_exp(log_sum));
+    }
+    else {
+      double sum = 0.0; for(int k=0;k<K;k++) sum += std::exp(tmpvecK[k]);
+      return(sum);
+    }
+  }
+        
+        
+  double MOG_generic::lhood(const vec &x_in) {
+    
+    if(do_checks) {
+      it_assert(valid, "MOG_generic::lhood(): model not valid");
+      it_assert(check_size(x_in), "MOG_generic::lhood(): x has wrong dimensionality");
+    }
+    return lhood_internal(x_in);
+  }
+  
+
+  double MOG_generic::avg_log_lhood(const Array<vec> &X_in) {
+    if(do_checks) {
+      it_assert(valid, "MOG_generic::avg_log_lhood(): model not valid");
+      it_assert(check_size(X_in), "MOG_generic::avg_log_lhood(): X is empty or at least one vector has the wrong dimensionality");
+    }
+  
+    const int N = X_in.size();
+    double acc = 0.0;
+    for(int n=0;n<N;n++)  acc += log_lhood_internal(X_in(n));
+    return(acc/N);
+  }
+
+
   
 } // namespace itpp
