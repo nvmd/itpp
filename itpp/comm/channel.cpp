@@ -1468,7 +1468,7 @@ namespace itpp {
     los_doppler(0) = los_dopp(0);
     tap_spectrum(0) = tap_doppler_spectrum(0);
 
-    // Taps within ((j-0.5)Ts,(j+0.5)Ts] are included in the j-th tap
+    // taps within ((j-0.5)Ts,(j+0.5)Ts] are included in the j-th tap
     int j = 0, j_delay = 0;
     for (int i = 1; i < N_taps; i++) {
       if (delay_profile(i) > (j_delay + 0.5)*discrete_Ts) {
@@ -1490,25 +1490,24 @@ namespace itpp {
 	spower = p_prof(i)/(1 + los_power(i));
 	scattered(j) += spower;
 	direct(j) += los_power(i) * spower;
-	los_doppler(j) = 0.7;
-	it_assert(tap_doppler_spectrum(i) == tap_doppler_spectrum(i-1), 
-		  "TDL_Channel::discretize(): Sampling frequency too low. Can not discretize channel with different Doppler spectrum.");
-
-	it_assert(tap_doppler_spectrum(i) == Jakes, 
-		  "TDL_Channel::discretize(): Sampling frequency too low. Can not discretize channel with non default Doppler spectrum.");
-	//	it_warning("TDL_Channel::discretize(): LOS Doppler value on tap " << j << " reset to 0.7.");
+	it_assert(tap_spectrum(j) == tap_doppler_spectrum(i), 
+		  "TDL_Channel::discretize(): Sampling frequency too low. Can not discretize the channel with different Doppler spectra on merged taps.");
+	it_warning("TDL_Channel::discretize(): Sampling frequency too low. Merging original tap " << i << " with new tap " << j << ".");
+	if (los_doppler(j) != los_dopp(i)) {
+	  los_doppler(j) = 0.7;
+	  it_warning("TDL_Channel::discretize(): LOS Doppler value reset to 0.7 for tap " << j << " due to the merging process.");
+	}
       }
     }
 
     int no_taps = j+1; // number of taps found
     if (no_taps < N_taps) {
-      it_warning("TDL_Channel::discretize(): Sampling frequency too low. The discretized channel profile will have less taps than expected.");
       delay_prof.set_size(no_taps, true);
       power.set_size(no_taps, true);
       direct.set_size(no_taps, true);
       scattered.set_size(no_taps, true);
       los_doppler.set_size(no_taps, true);
-      tap_doppler_spectrum.set_size(no_taps, true);     
+      tap_spectrum.set_size(no_taps, true);     
       
       // write over the existing channel profile with its new version
       N_taps = no_taps;
