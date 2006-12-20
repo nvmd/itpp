@@ -97,6 +97,9 @@ namespace itpp {
     
   };
 
+  //
+  // convenience functions
+
   /*! 
     \ingroup MOG
     \author Conrad Sanderson
@@ -124,11 +127,7 @@ namespace itpp {
           if they are below that value. As such, they are machine dependant.
           The largest allowable weight floor is 1/K, where K is the number of Gaussians.       
   */
-  void MOG_diag_ML(MOG_diag &model_in, Array<vec> &X_in, int max_iter_in=10, double var_floor_in=0.0, double weight_floor_in=0.0, bool verbose_in=false) {
-    MOG_diag_EM_sup EM;
-    EM.ml(model_in, X_in, max_iter_in, var_floor_in, weight_floor_in, verbose_in);
-  }
-
+  void MOG_diag_ML(MOG_diag &model_in, Array<vec> &X_in, int max_iter_in=10, double var_floor_in=0.0, double weight_floor_in=0.0, bool verbose_in=false);
 
   /*!
     NOT YET IMPLEMENTED.
@@ -147,11 +146,7 @@ namespace itpp {
           if they are below that value.
           The largest allowable weight floor is 1/K, where K is the number of Gaussians.       
   */
-  void MOG_diag_MAP(MOG_diag &model_in, MOG_diag &prior_model_in, Array<vec> &X_in, int max_iter_in=10, double alpha_in=0.5, double var_floor_in=0.0, double weight_floor_in=0.0, bool verbose_in=false) {
-    it_assert(false, "MOG_diag_MAP(): not implemented yet");
-  }
-
-
+  void MOG_diag_MAP(MOG_diag &model_in, MOG_diag &prior_model_in, Array<vec> &X_in, int max_iter_in=10, double alpha_in=0.5, double var_floor_in=0.0, double weight_floor_in=0.0, bool verbose_in=false);
 
 }
 
