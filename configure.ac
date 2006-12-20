@@ -13,11 +13,11 @@ RPM_RELEASE="1"
 AC_SUBST(RPM_RELEASE)
 
 # IT++ External version
-ITPP_EXTERNAL_VERSION="2.3.0"
+ITPP_EXTERNAL_VERSION="2.99.1"
 AC_SUBST(ITPP_EXTERNAL_VERSION)
 
 # Shared library versioning
-GENERIC_LIBRARY_VERSION="4:0:0"
+GENERIC_LIBRARY_VERSION="6:0:0"
 #                        | | |
 #                 +------+ | +---+
 #                 |        |     |

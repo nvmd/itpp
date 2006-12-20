@@ -1,3 +1,7 @@
+2006-12-20  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac: Updated version numbers.
+
 2006-12-20  Conrad Sanderson  <conrad_s@users.sourceforge.net>
 
 	* doc/tutorial/src/mog.cpp, itpp/itstat.h,
