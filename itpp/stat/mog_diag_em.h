@@ -124,7 +124,7 @@ namespace itpp {
           if they are below that value. As such, they are machine dependant.
           The largest allowable weight floor is 1/K, where K is the number of Gaussians.       
   */
-  bool MOG_diag_ML(MOG_diag &model_in, Array<vec> &X_in, int max_iter_in=10, double var_floor_in=0.0, double weight_floor_in=0.0, bool verbose_in=false) {
+  void MOG_diag_ML(MOG_diag &model_in, Array<vec> &X_in, int max_iter_in=10, double var_floor_in=0.0, double weight_floor_in=0.0, bool verbose_in=false) {
     MOG_diag_EM_sup EM;
     EM.ml(model_in, X_in, max_iter_in, var_floor_in, weight_floor_in, verbose_in);
   }
