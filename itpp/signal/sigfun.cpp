@@ -32,12 +32,12 @@
 
 #include <itpp/signal/sigfun.h>
 #include <itpp/signal/transforms.h>
+#include <itpp/signal/window.h>
 #include <itpp/base/converters.h>
 #include <itpp/base/elmatfunc.h>
 #include <itpp/base/matfunc.h>
-#include <itpp/base/stat.h>
 #include <itpp/base/specmat.h>
-#include <itpp/signal/window.h>
+#include <itpp/stat/misc_stat.h>
 
 
 namespace itpp { 

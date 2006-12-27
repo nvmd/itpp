@@ -31,8 +31,8 @@
  */
 
 #include <itpp/optim/newton_search.h>
-#include <itpp/base/stat.h>
 #include <itpp/base/specmat.h>
+#include <itpp/stat/misc_stat.h>
 
 
 namespace itpp {

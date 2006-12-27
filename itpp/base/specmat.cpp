@@ -34,7 +34,6 @@
 #include <itpp/base/math/log_exp.h>
 #include <itpp/base/elmatfunc.h>
 #include <itpp/base/matfunc.h>
-#include <itpp/base/stat.h>
 
 
 namespace itpp { 
@@ -296,7 +295,7 @@ namespace itpp {
       beta = 0.0;
       return;
     }
-    sigma = energy(x(1, n-1));
+    sigma = sum(sqr(x(1, n-1)));
     v(0) = 1.0;
     if (sigma == 0.0)
       beta = 0.0;

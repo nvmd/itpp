@@ -81,7 +81,6 @@
 //! \defgroup randgen Random Number Generation
 //! \defgroup reshaping Reshaping of Vectors and Matrices
 //! \defgroup specmat Special Matrices
-//! \defgroup statistics Statistics
 //! \defgroup timers Timers
 
 /*!
@@ -126,7 +125,6 @@
 #include <itpp/base/sort.h>
 #include <itpp/base/specmat.h>
 #include <itpp/base/stack.h>
-#include <itpp/base/stat.h>
 #include <itpp/base/timing.h>
 #include <itpp/base/vec.h>
 
