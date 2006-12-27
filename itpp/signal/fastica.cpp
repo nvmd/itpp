@@ -66,14 +66,16 @@
 #include <itpp/signal/fastica.h>
 #include <itpp/signal/sigfun.h>
 #include <itpp/signal/resampling.h>
-#include <itpp/base/svec.h>
-#include <itpp/base/specmat.h>
-#include <itpp/base/stat.h>
 #include <itpp/base/algebra/eigen.h>
 #include <itpp/base/algebra/svd.h>
+#include <itpp/base/math/trig_hyp.h>
+#include <itpp/base/matfunc.h>
 #include <itpp/base/random.h>
 #include <itpp/base/sort.h>
-#include <itpp/base/math/trig_hyp.h>
+#include <itpp/base/specmat.h>
+#include <itpp/base/svec.h>
+#include <itpp/stat/min_max.h>
+#include <itpp/stat/misc_stat.h>
 
 
 using namespace itpp;

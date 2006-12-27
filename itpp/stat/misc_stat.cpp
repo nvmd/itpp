@@ -1,6 +1,6 @@
 /*!
  * \file
- * \brief Implementation of statistics functions and classes
+ * \brief Miscellaneous statistics functions and classes - source file
  * \author Tony Ottosson, Johan Bergman and Adam Piatyszek
  * 
  * $Date$
@@ -30,8 +30,8 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/base/stat.h>
 #include <itpp/base/algebra/svd.h>
+#include <itpp/stat/misc_stat.h>
 
 
 namespace itpp {

@@ -32,7 +32,6 @@
 
 #include <itpp/comm/convcode.h>
 #include <itpp/base/binary.h>
-#include <itpp/base/stat.h>
 #include <itpp/base/matfunc.h>
 #include <limits>
 

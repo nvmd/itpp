@@ -30,7 +30,7 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/itbase.h>
+#include <itpp/itstat.h>
 
 using namespace itpp;
 using namespace std;

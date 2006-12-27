@@ -34,13 +34,11 @@
 #define HISTOGRAM_H
 
 #include <itpp/base/mat.h>
-// #include <itpp/base/elmatfunc.h>
-// #include <itpp/base/matfunc.h>
 
 
 namespace itpp {
 
-  //! \addtogroup stat
+  //! \addtogroup histogram
   //!@{
 
   /*! 

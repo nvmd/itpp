@@ -29,7 +29,6 @@ BASE_TESTS = \
 	rand_test \
 	schur_test \
 	sparse_test \
-	stat_test \
 	svd_test \
 	timer_test \
 	vec_test
@@ -73,10 +72,9 @@ if ENABLE_SIGNAL
 	window_test
 endif
 
-if ENABLE_STAT
-  STAT_TESTS = \
-	histogram_test
-endif
+STAT_TESTS = \
+	histogram_test \
+	stat_test
 
 check_PROGRAMS = $(BASE_TESTS) $(COMM_TESTS) $(FIXED_TESTS) $(OPTIM_TESTS) \
 	$(SIGNAL_TESTS) $(STAT_TESTS)

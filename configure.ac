@@ -104,21 +104,18 @@ AC_ARG_ENABLE(signal,
 AC_ARG_ENABLE(srccode,
               [AS_HELP_STRING([--disable-srccode],
                               [do not include source coding module])])
-AC_ARG_ENABLE(stat,
-              [AS_HELP_STRING([--disable-stat],
-                              [do not include statistics module])])
 
 test "x$enable_fixed" != xno && enable_fixed=yes
 test "x$enable_optim" != xno && enable_optim=yes
 test "x$enable_protocol" != xno && enable_protocol=yes
-test "x$enable_stat" != xno && enable_stat=yes
-if test "x$enable_signal" != xno; then
+test "x$enable_signal" != xno && enable_signal=yes
+if test "x$enable_comm" != xno; then
   enable_signal=yes
-  test "x$enable_comm" != xno && enable_comm=yes
-  test "x$enable_srccode" != xno && enable_srccode=yes
-else
-  test "x$enable_comm" != xno && enable_comm=nosignal
-  test "x$enable_srccode" != xno && enable_srccode=nosignal
+  enable_comm=yes
+fi
+if test "x$enable_srccode" != xno; then
+  enable_signal=yes
+  enable_srccode=yes
 fi
 
 AM_CONDITIONAL([ENABLE_COMM], [test "x$enable_comm" = xyes])
@@ -127,8 +124,6 @@ AM_CONDITIONAL([ENABLE_OPTIM], [test "x$enable_optim" = xyes])
 AM_CONDITIONAL([ENABLE_PROTOCOL], [test "x$enable_protocol" = xyes])
 AM_CONDITIONAL([ENABLE_SIGNAL], [test "x$enable_signal" = xyes])
 AM_CONDITIONAL([ENABLE_SRCCODE], [test "x$enable_srccode" = xyes])
-AM_CONDITIONAL([ENABLE_STAT], [test "x$enable_stat" = xyes])
-
 
 # Provide --with-docdir
 AC_ARG_WITH(docdir,
@@ -409,7 +404,6 @@ Optional modules:
   - protocol ....... : ${enable_protocol}
   - signal ......... : ${enable_signal}
   - srccode ........ : ${enable_srccode}
-  - stat ........... : ${enable_stat}
 
 External libs:
   - BLAS ........... : ${acx_blas_ok}

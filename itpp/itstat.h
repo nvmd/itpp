@@ -38,13 +38,15 @@
  * @{
  */
 
+//! \defgroup histogram Histogram
+//! \defgroup statistics Miscellaneous Statistics Functions
+
 /*! \defgroup MOG Mixture of Gaussians (MOG)
     \brief Classes and functions for modelling multivariate data as a Mixture of Gaussians
     \author Conrad Sanderson
 
     The following example shows how to model data:
     \code
-
     Array<vec> X;
     // ... fill X with vectors ...
     int K = 3;     // specify the number of Gaussians
@@ -55,7 +57,7 @@
     double avg = model.avg_log_lhood(X);            // find the average log likelihood of X
     \endcode
 
-    See also the tutorial section for a more elaborate example
+    See also the tutorial section for a more elaborate example.
 */
 
 /*!
@@ -65,6 +67,8 @@
 
 #include <itpp/itbase.h>
 #include <itpp/stat/histogram.h>
+#include <itpp/stat/min_max.h>
+#include <itpp/stat/misc_stat.h>
 #include <itpp/stat/mog_generic.h>
 #include <itpp/stat/mog_diag.h>
 #include <itpp/stat/mog_diag_kmeans.h>

@@ -1,6 +1,6 @@
 /*!
  * \file 
- * \brief Basic statistical routines test program
+ * \brief Miscellaneous statistical routines test program
  * \author Tony Ottosson and Adam Piatyszek
  *
  * $Date$
@@ -30,7 +30,7 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/itbase.h>
+#include <itpp/itstat.h>
 #include <iomanip>
 
 using namespace itpp;
@@ -50,7 +50,7 @@ int main()
   cout << "max(a) = " << max(a) << endl;
   cout << "min(a) = " << min(a) << endl;
   cout << "mean(a) = " << mean(a) << endl;
-	cout << "geometric_mean(abs(a)) = " << geometric_mean(abs(a)) << endl;
+  cout << "geometric_mean(abs(a)) = " << geometric_mean(abs(a)) << endl;
   cout << "norm(a) = " << norm(a) << endl;
   cout << "norm(a, 2) = " << norm(a,2) << endl;
   cout << "norm(a, 1) = " << norm(a,1) << endl;
@@ -74,7 +74,7 @@ int main()
   cout << "min(A, 1) = " << min(A,1) << endl;
   cout << "min(A, 2) = " << min(A,2) << endl;
   cout << "mean(A) = " << mean(A) << endl;
-	cout << "geometric_mean(abs(A)) = " << geometric_mean(abs(A)) << endl;
+  cout << "geometric_mean(abs(A)) = " << geometric_mean(abs(A)) << endl;
   cout << "norm(A) = " << norm(A) << endl;
   cout << "norm(A, 2) = " << norm(A,2) << endl;
   cout << "norm(A, 1) = " << norm(A,1) << endl;

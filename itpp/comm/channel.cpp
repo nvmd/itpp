@@ -32,14 +32,16 @@
  */
 
 #include <itpp/comm/channel.h>
-#include <itpp/base/stat.h>
-#include <itpp/base/specmat.h>
-#include <itpp/base/bessel.h>
 #include <itpp/base/math/error.h>
 #include <itpp/base/math/trig_hyp.h>
+#include <itpp/base/bessel.h>
+#include <itpp/base/matfunc.h>
+#include <itpp/base/specmat.h>
 #include <itpp/signal/resampling.h>
 #include <itpp/signal/transforms.h>
 #include <itpp/signal/window.h>
+#include <itpp/stat/min_max.h>
+#include <itpp/stat/misc_stat.h>
 
 
 namespace itpp {

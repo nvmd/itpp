@@ -32,8 +32,9 @@
  */
 
 #include <itpp/srccode/lpcfunc.h>
+#include <itpp/base/matfunc.h>
 #include <itpp/signal/sigfun.h>
-#include <itpp/base/stat.h>
+#include <itpp/stat/misc_stat.h>
 #include <iostream>
 
 

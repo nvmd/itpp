@@ -34,10 +34,11 @@
 #define FREQ_FILT_H
 
 #include <itpp/base/vec.h>
-#include <itpp/base/specmat.h>
-#include <itpp/base/elmatfunc.h>
-#include <itpp/base/stat.h>
 #include <itpp/base/converters.h>
+#include <itpp/base/elmatfunc.h>
+#include <itpp/base/matfunc.h>
+#include <itpp/base/specmat.h>
+#include <itpp/stat/min_max.h>
 
 
 namespace itpp {

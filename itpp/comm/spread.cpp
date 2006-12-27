@@ -31,8 +31,9 @@
  */
 
 #include <itpp/comm/spread.h>
-#include <itpp/base/stat.h>
 #include <itpp/base/converters.h>
+#include <itpp/stat/misc_stat.h>
+
 
 namespace itpp {
 

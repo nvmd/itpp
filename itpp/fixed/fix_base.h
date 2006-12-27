@@ -33,7 +33,7 @@
 #ifndef FIX_BASE_H
 #define FIX_BASE_H
 
-#include <itpp/base/stat.h>
+#include <itpp/stat/misc_stat.h>
 
 
 namespace itpp {

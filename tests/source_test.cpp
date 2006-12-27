@@ -31,6 +31,7 @@
  */
 
 #include <itpp/itsignal.h>
+#include <itpp/itstat.h>
 #include <iomanip>
 
 using namespace itpp;
