@@ -1,8 +1,8 @@
 2006-12-27  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* configure.ac: Added GCC specific "-fno-exceptions" flag to
-	CXXFLAGS_OPT and CXXFLAGS_DEBUG when "--enable-exceptions" is not
-	used.
+	* configure.ac, itpp/base/itassert.cpp: Added GCC specific
+	"-fno-exceptions" flag to CXXFLAGS_OPT and CXXFLAGS_DEBUG when
+	"--enable-exceptions" is not used.
 
 	* configure.ac, itpp/base/sources.mk, itpp/base/specmat.cpp,
 	itpp/base/svec.h, itpp/comm/channel.cpp, itpp/comm/convcode.cpp,

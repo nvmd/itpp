@@ -44,15 +44,8 @@
 namespace itpp {
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
   static bool warnings_enabled = true;
   static std::ostream *warn = &std::cerr;
-#ifdef ITPP_EXCEPTIONS
-  static bool it_using_exceptions = true;
-#else
-  static bool it_using_exceptions = false;
-#endif
-
 #endif //DOXYGEN_SHOULD_SKIP_THIS
 
   void it_assert_f(std::string ass, std::string msg, std::string file, int line)
@@ -70,10 +63,11 @@ namespace itpp {
     error += ass;
     error += ")";
     std::cerr << error << std::endl << std::flush;
-    if (it_using_exceptions)
-      throw std::runtime_error(error);
-    else
-      abort();
+#ifdef ITPP_EXCEPTIONS
+    throw std::runtime_error(error);
+#else
+    abort();
+#endif
   }
 
   void it_error_f(std::string msg, std::string file, int line)
@@ -88,10 +82,11 @@ namespace itpp {
     error += ":\n";
     error += msg;
     std::cerr << error << std::endl << std::flush;
-    if (it_using_exceptions)
-      throw std::runtime_error(error);
-    else
-      abort();
+#ifdef ITPP_EXCEPTIONS
+    throw std::runtime_error(error);
+#else
+    abort();
+#endif
   }
 
   void it_warning_f(std::string msg, std::string file, int line)
@@ -99,11 +94,6 @@ namespace itpp {
     if (warnings_enabled)
       (*warn) << "*** Warning in " << file << " on line " << line << ":" 
 	      << std::endl << msg << std::endl << std::flush;
-  }
-
-  void it_enable_exceptions(bool on)
-  {
-    it_using_exceptions = on;
   }
 
   void it_enable_warnings()
