@@ -32,8 +32,8 @@
 
 #include <itpp/comm/modulator.h>
 #include <itpp/comm/commfunc.h>
+#include <itpp/base/math/elem_math.h>
 #include <itpp/base/specmat.h>
-#include <itpp/base/elmatfunc.h>
 
 
 namespace itpp {

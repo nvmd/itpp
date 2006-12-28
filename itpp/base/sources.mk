@@ -7,7 +7,6 @@ h_base_sources = \
 	$(top_srcdir)/itpp/base/circular_buffer.h \
 	$(top_srcdir)/itpp/base/converters.h \
 	$(top_srcdir)/itpp/base/copy_vector.h \
-	$(top_srcdir)/itpp/base/elmatfunc.h \
 	$(top_srcdir)/itpp/base/factory.h \
 	$(top_srcdir)/itpp/base/fastmath.h \
 	$(top_srcdir)/itpp/base/gf2mat.h \
@@ -33,7 +32,6 @@ cpp_base_sources = \
 	$(top_srcdir)/itpp/base/binfile.cpp \
 	$(top_srcdir)/itpp/base/cblas.cpp \
 	$(top_srcdir)/itpp/base/converters.cpp \
-	$(top_srcdir)/itpp/base/elmatfunc.cpp \
 	$(top_srcdir)/itpp/base/fastmath.cpp \
 	$(top_srcdir)/itpp/base/gf2mat.cpp \
 	$(top_srcdir)/itpp/base/help_functions.cpp \

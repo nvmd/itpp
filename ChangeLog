@@ -1,5 +1,19 @@
 2006-12-27  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/bessel/hyperg.cpp, itpp/base/bessel/iv.cpp,
+	itpp/base/bessel/jv.cpp, itpp/base/bessel/struve.cpp,
+	itpp/base/matfunc.h, itpp/base/math/elem_math.cpp,
+	itpp/base/math/elem_math.h, itpp/base/math/error.cpp,
+	itpp/base/math/integration.cpp, itpp/base/math/sources.mk,
+	itpp/base/random.cpp, itpp/base/sources.mk, itpp/base/specmat.cpp,
+	itpp/comm/channel.h, itpp/comm/modulator.cpp,
+	itpp/comm/modulator.h, itpp/comm/modulator_nd.cpp, itpp/itbase.h,
+	itpp/signal/filter_design.cpp, itpp/signal/freq_filt.cpp,
+	itpp/signal/freq_filt.h, itpp/signal/sigfun.cpp,
+	itpp/signal/transforms.cpp, itpp/srccode/gmm.cpp,
+	itpp/stat/misc_stat.h: Moved elementary mathematical functions
+	into the "math" group under the "base" module.
+
 	* itpp/srccode/pnm.cpp, itpp/srccode/pnm.h: Exception handling
 	commands replaced with "it_error()" macros.
 

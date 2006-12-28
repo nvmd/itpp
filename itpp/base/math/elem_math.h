@@ -30,8 +30,8 @@
  * -------------------------------------------------------------------------
  */
 
-#ifndef ELMATFUNC_H
-#define ELMATFUNC_H
+#ifndef ELEM_MATH_H
+#define ELEM_MATH_H
 
 #ifndef _MSC_VER
 #  include <itpp/config.h>
@@ -258,7 +258,7 @@ namespace itpp {
 
 } // namespace itpp
 
-#endif // #ifndef ELMATFUNC_H
+#endif // #ifndef ELEM_MATH_H
 
 
 

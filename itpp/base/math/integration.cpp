@@ -31,11 +31,10 @@
  */
 
 #include <itpp/base/math/integration.h>
-#include <itpp/base/vec.h>
-#include <itpp/base/elmatfunc.h>
-#include <itpp/base/specmat.h>
-#include <itpp/base/matfunc.h>
+#include <itpp/base/math/elem_math.h>
 #include <itpp/base/help_functions.h>
+#include <itpp/base/matfunc.h>
+#include <itpp/base/specmat.h>
 
 
 namespace itpp {

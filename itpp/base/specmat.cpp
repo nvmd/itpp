@@ -31,8 +31,8 @@
  */
 
 #include <itpp/base/specmat.h>
+#include <itpp/base/math/elem_math.h>
 #include <itpp/base/math/log_exp.h>
-#include <itpp/base/elmatfunc.h>
 #include <itpp/base/matfunc.h>
 
 

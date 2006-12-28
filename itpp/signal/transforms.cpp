@@ -47,7 +47,7 @@
 
 #include <itpp/signal/transforms.h>
 #include <itpp/base/matfunc.h>
-#include <itpp/base/elmatfunc.h>
+#include <itpp/base/math/elem_math.h>
 #include <itpp/base/converters.h>
 
 

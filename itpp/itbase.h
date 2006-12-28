@@ -98,6 +98,7 @@
 #include <itpp/base/algebra/schur.h>
 #include <itpp/base/algebra/svd.h>
 
+#include <itpp/base/math/elem_math.h>
 #include <itpp/base/math/error.h>
 #include <itpp/base/math/integration.h>
 #include <itpp/base/math/log_exp.h>
@@ -110,7 +111,6 @@
 #include <itpp/base/binfile.h>
 #include <itpp/base/circular_buffer.h>
 #include <itpp/base/converters.h>
-#include <itpp/base/elmatfunc.h>
 #include <itpp/base/factory.h>
 #include <itpp/base/fastmath.h>
 #include <itpp/base/gf2mat.h>

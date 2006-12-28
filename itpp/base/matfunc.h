@@ -35,7 +35,7 @@
 
 #include <itpp/base/mat.h>
 #include <itpp/base/math/log_exp.h>
-#include <itpp/base/elmatfunc.h>
+#include <itpp/base/math/elem_math.h>
 
 
 namespace itpp {

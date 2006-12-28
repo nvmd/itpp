@@ -34,9 +34,9 @@
 #define MODULATOR_H
 
 #include <itpp/base/mat.h>
+#include <itpp/base/math/elem_math.h>
 #include <itpp/base/math/log_exp.h>
 #include <itpp/base/converters.h>
-#include <itpp/base/elmatfunc.h>
 #include <itpp/stat/min_max.h>
 
 
