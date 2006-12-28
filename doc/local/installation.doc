@@ -117,7 +117,7 @@ most important are:
 - \c `--disable-html-doc' - do not generate and install the HTML
   documentation (enabled by default)
 - \c `--disable-shared' - do not build the shared version of the library
-  (enabled by  default for non Windows based platforms)
+  (enabled by default for non Windows based platforms)
 - \c `--disable-static' - do not build the static version of the library
   (enabled by default for Windows based platforms)
 .
@@ -130,6 +130,7 @@ script, which can be used to disable building some of the library
 components. Here is a list of them:
 - \c `--disable-comm' - do not build the `Communications' module
 - \c `--disable-fixed' - do not build the `Fixed-point' module
+- \c `--disable-optim' - do not build the `Numerical optimisations' module
 - \c `--disable-protocol' - do not include the `Protocols' module
 - \c `--disable-signal' - do not build the `Signal processing' module
 - \c `--disable-srccode' - do not build the `Source coding' module
@@ -258,6 +259,7 @@ Testing tools:
 Optional modules:
   - comm ........... : yes
   - fixed .......... : yes
+  - optim .......... : yes
   - protocol ....... : yes
   - signal ......... : yes
   - srccode ........ : yes
@@ -266,7 +268,7 @@ External libs:
   - BLAS ........... : yes
     * MKL .......... : no
     * ACML ......... : no
-    * ATLAS ........ : no
+    * ATLAS ........ : yes
   - CBLAS .......... : yes
   - LAPACK ......... : yes
   - FFT ............ : yes
@@ -277,7 +279,7 @@ External libs:
 Compiler/linker flags/libs/defs:
   - CXX ............ : g++
   - F77 ............ : gfortran
-  - CXXFLAGS ....... : -DASSERT_LEVEL=1 -O3 -pipe
+  - CXXFLAGS ....... : -DASSERT_LEVEL=1 -O3 -fno-exceptions -pipe
   - CXXFLAGS_DEBUG . : 
   - CPPFLAGS ....... : 
   - LDFLAGS ........ : 
@@ -321,11 +323,11 @@ Test `bessel_test' PASSED.
 [...]
 
 ------------------------------------------------------------------------------
-Test `reedsolomon_test' PASSED.
+Test `window_test' PASSED.
 ------------------------------------------------------------------------------
-Test `turbo_test' PASSED.
+Test `histogram_test' PASSED.
 ------------------------------------------------------------------------------
-Test `fix_test' PASSED.
+Test `stat_test' PASSED.
 ------------------------------------------------------------------------------
 \endverbatim
 
