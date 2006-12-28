@@ -109,6 +109,7 @@ Here is a list of them:
 
   o `--disable-comm' - do not build the `Communications' module
   o `--disable-fixed' - do not build the `Fixed-point' module
+  o `--disable-optim' - do not build the `Numerical optimisations' module
   o `--disable-protocol' - do not include the `Protocols' module
   o `--disable-signal' - do not build the `Signal processing' module
   o `--disable-srccode' - do not build the `Source coding' module
@@ -225,6 +226,7 @@ Testing tools:
 Optional modules:
   - comm ........... : yes
   - fixed .......... : yes
+  - optim .......... : yes
   - protocol ....... : yes
   - signal ......... : yes
   - srccode ........ : yes
@@ -233,7 +235,7 @@ External libs:
   - BLAS ........... : yes
     * MKL .......... : no
     * ACML ......... : no
-    * ATLAS ........ : no
+    * ATLAS ........ : yes
   - CBLAS .......... : yes
   - LAPACK ......... : yes
   - FFT ............ : yes
@@ -244,7 +246,7 @@ External libs:
 Compiler/linker flags/libs/defs:
   - CXX ............ : g++
   - F77 ............ : gfortran
-  - CXXFLAGS ....... : -DASSERT_LEVEL=1 -O3 -pipe
+  - CXXFLAGS ....... : -DASSERT_LEVEL=1 -O3 -fno-exceptions -pipe
   - CXXFLAGS_DEBUG . :
   - CPPFLAGS ....... :
   - LDFLAGS ........ :
@@ -282,11 +284,11 @@ Test `bessel_test' PASSED.
 [...]
 
 ------------------------------------------------------------------------------
-Test `reedsolomon_test' PASSED.
+Test `window_test' PASSED.
 ------------------------------------------------------------------------------
-Test `turbo_test' PASSED.
+Test `histogram_test' PASSED.
 ------------------------------------------------------------------------------
-Test `fix_test' PASSED.
+Test `stat_test' PASSED.
 ------------------------------------------------------------------------------
 
 Check if all the executed tests PASSED. If not, please contact us by filling
