@@ -1,3 +1,13 @@
+2006-12-28  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/math/min_max.h, itpp/base/math/sources.mk,
+	itpp/base/svec.h, itpp/comm/channel.cpp, itpp/comm/modulator.h,
+	itpp/itbase.h, itpp/itstat.h, itpp/protocol/packet_channel.cpp,
+	itpp/signal/fastica.cpp, itpp/signal/freq_filt.h,
+	itpp/srccode/vqtrain.cpp, itpp/stat/misc_stat.h,
+	itpp/stat/sources.mk: Minimum and maximum functions moved back to
+	the "base" module, because they are widely used in all modules.
+
 2006-12-27  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/bessel/hyperg.cpp, itpp/base/bessel/iv.cpp,

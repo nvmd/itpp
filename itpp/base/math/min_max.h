@@ -39,7 +39,7 @@
 namespace itpp {
 
   /*!
-   * \addtogroup statistics
+   * \addtogroup miscfunc
    * @{
    */
 

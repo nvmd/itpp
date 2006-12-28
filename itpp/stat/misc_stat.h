@@ -33,7 +33,7 @@
 #ifndef MISC_STAT_H
 #define MISC_STAT_H
 
-#include <itpp/stat/min_max.h>
+#include <itpp/base/math/min_max.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/math/elem_math.h>
 #include <itpp/base/matfunc.h>

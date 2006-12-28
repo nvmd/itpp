@@ -74,7 +74,7 @@
 #include <itpp/base/sort.h>
 #include <itpp/base/specmat.h>
 #include <itpp/base/svec.h>
-#include <itpp/stat/min_max.h>
+#include <itpp/base/math/min_max.h>
 #include <itpp/stat/misc_stat.h>
 
 

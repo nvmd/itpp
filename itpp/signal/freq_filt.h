@@ -38,7 +38,7 @@
 #include <itpp/base/math/elem_math.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/base/specmat.h>
-#include <itpp/stat/min_max.h>
+#include <itpp/base/math/min_max.h>
 
 
 namespace itpp {

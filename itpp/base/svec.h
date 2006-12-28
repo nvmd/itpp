@@ -34,7 +34,7 @@
 #define SVEC_H
 
 #include <itpp/base/vec.h>
-#include <itpp/stat/min_max.h>
+#include <itpp/base/math/min_max.h>
 
 
 namespace itpp {

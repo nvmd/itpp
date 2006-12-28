@@ -35,7 +35,7 @@
 #include <itpp/base/random.h>
 #include <itpp/base/sort.h>
 #include <itpp/base/specmat.h>
-#include <itpp/stat/min_max.h>
+#include <itpp/base/math/min_max.h>
 #include <itpp/stat/misc_stat.h>
 #include <iostream>
 

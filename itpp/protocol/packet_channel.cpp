@@ -33,7 +33,7 @@
 #include <itpp/protocol/packet_channel.h>
 #include <itpp/base/random.h>
 #include <itpp/base/sort.h>
-#include <itpp/stat/min_max.h>
+#include <itpp/base/math/min_max.h>
 
 
 namespace itpp {
