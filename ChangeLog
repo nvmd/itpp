@@ -1,5 +1,24 @@
 2006-12-28  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/random.cpp, itpp/base/random.h, tests/bch_test.ref,
+	tests/channel_test.ref, tests/cholesky_test.ref,
+	tests/circular_buffer_test.ref, tests/convcode_test.ref,
+	tests/det_test.ref, tests/eigen_test.ref, tests/fastica_test.ref,
+	tests/filter_design_test.ref, tests/filter_test.ref,
+	tests/histogram_test.ref, tests/interleaver_test.ref,
+	tests/inv_test.ref, tests/ls_solve_test.ref, tests/lu_test.ref,
+	tests/matfunc_test.ref, tests/mat_test.ref,
+	tests/modulator_nd_test.ref, tests/modulator_test.ref,
+	tests/poly_test.ref, tests/pulse_shape_test.ref,
+	tests/qr_test.ref, tests/rand_test.ref,
+	tests/reedsolomon_test.ref, tests/schur_test.ref,
+	tests/sigfun_test.ref, tests/source_test.ref,
+	tests/sparse_test.ref, tests/stat_test.ref, tests/svd_test.ref,
+	tests/transforms_test.ref, tests/turbo_test.ref,
+	tests/vec_test.ref, TODO: Updated Mersenne Twister random number
+	generator sources to the latest version 1.0 published by Richard
+	J. Wagner on 15th May, 2003. 
+
 	* configure.ac: Minor fix in CXXFLAGS_DEBUG settings.
 
 	* doc/local/installation.doc, INSTALL: Minor documentation update.

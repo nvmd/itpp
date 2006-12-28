@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Definition of classes for random number generators
- * \author Tony Ottosson
+ * \author Tony Ottosson and Adam Piatyszek
  * 
  * $Date$
  * $Revision$
@@ -28,40 +28,13 @@
  * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
  *
  * -------------------------------------------------------------------------
- *
- * The Random_Generator class is built on the MersenneTwister MTRand
- * class code by Richard J. Wagner. See
- * http://www-personal.engin.umich.edu/~wagnerr/MersenneTwister.html
- * for details. The code is distributed under the GPL license.
- * 
- * The Mersenne Twister is an algorithm for generating random numbers.
- * It was designed with consideration of the flaws in various other
- * generators. The period, 2^19937-1, and the order of
- * equidistribution, 623 dimensions, are far greater. The generator is
- * also fast; it avoids multiplication and division, and it benefits
- * from caches and pipelines. For more information see the inventors'
- * web page at http://www.math.keio.ac.jp/~matumoto/emt.html
- * 
- * Reference: 
- * M. Matsumoto and T. Nishimura, "Mersenne Twister: A
- * 623-Dimensionally Equidistributed Uniform Pseudo-Random Number
- * Generator", ACM Transactions on Modeling and Computer Simulation,
- * Vol. 8, No. 1, January 1998, pp 3-30.
- * 
- * The original code included the following notice:
- * 
- * Copyright (C) 1997, 1999 Makoto Matsumoto and Takuji Nishimura.
- * When you use this, send an email to: matumoto@math.keio.ac.jp
- * with an appropriate reference to your work.
- * 
- * It would be nice to CC: rjwagner@writeme.com and Cokus@math.washington.edu
- * when you write.
  */
 
 #ifndef RANDOM_H
 #define RANDOM_H
 
 #include <itpp/base/operators.h>
+#include <ctime>
 
 
 namespace itpp {
@@ -69,21 +42,86 @@ namespace itpp {
   //! \addtogroup randgen
 
   /*! 
-    \brief Base class for random (stochastic) sources.
-    \ingroup randgen
-  
-    Uses Marsienne Twister random generator.
-  */
+   * \brief Base class for random (stochastic) sources.
+   * \ingroup randgen
+   *
+   * The Random_Generator class is based on the MersenneTwister MTRand
+   * class code in version 1.0 (15 May 2003) by Richard J. Wagner. See
+   * http://www-personal.engin.umich.edu/~wagnerr/MersenneTwister.html
+   * for details.
+   *
+   * Here are the original release notes copied from the
+   * \c MersenneTwister.h file:
+   *
+   * \verbatim
+   * Mersenne Twister random number generator -- a C++ class MTRand Based on
+   * code by Makoto Matsumoto, Takuji Nishimura, and Shawn Cokus Richard J.
+   * Wagner v1.0 15 May 2003 rjwagner@writeme.com
+   *
+   * The Mersenne Twister is an algorithm for generating random numbers. It
+   * was designed with consideration of the flaws in various other generators.
+   * The period, 2^19937-1, and the order of equidistribution, 623 dimensions,
+   * are far greater. The generator is also fast; it avoids multiplication and
+   * division, and it benefits from caches and pipelines. For more information
+   * see the inventors' web page at
+   * http://www.math.keio.ac.jp/~matumoto/emt.html
+
+   * Reference:
+   * M. Matsumoto and T. Nishimura, "Mersenne Twister: A 623-Dimensionally
+   * Equidistributed Uniform Pseudo-Random Number Generator", ACM Transactions
+   * on Modeling and Computer Simulation, Vol. 8, No. 1, January 1998, pp. 
+   * 3-30.
+   *
+   * Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura,
+   * Copyright (C) 2000 - 2003, Richard J. Wagner
+   * All rights reserved.                          
+   *
+   * Redistribution and use in source and binary forms, with or without
+   * modification, are permitted provided that the following conditions
+   * are met:
+   *
+   *   1. Redistributions of source code must retain the above copyright
+   *      notice, this list of conditions and the following disclaimer.
+   *
+   *   2. Redistributions in binary form must reproduce the above copyright
+   *      notice, this list of conditions and the following disclaimer in the
+   *      documentation and/or other materials provided with the distribution.
+   *
+   *   3. The names of its contributors may not be used to endorse or promote
+   *      products derived from this software without specific prior written
+   *      permission.
+   *
+   * THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+   * IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+   * THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+   * PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+   * CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+   * EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+   * PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+   * PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+   * LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+   * NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+   * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+   *
+   * The original code included the following notice:
+   *
+   *     When you use this, send an email to: matumoto@math.keio.ac.jp with an
+   *     appropriate reference to your work.
+   *
+   * It would be nice to CC: rjwagner@writeme.com and
+   * Cokus@math.washington.edu when you write.
+   * \endverbatim
+   */
   class Random_Generator {
   public:
     //! Construct a new Random_Generator.    
     Random_Generator();
-    //! Set the seed to a semi-random value (based on time and process id).
-    void randomize();  
-    //! Reset the source.  The same sequance will be generated as the last time.
-    void reset();
+    //! Set the seed to a semi-random value (based on hashed time and clock).
+    void randomize();
+    //! Reset the source. The same sequance will be generated as the last time.
+    void reset() { initialize(lastSeed); reload(); }
     //! Reset the source after setting the seed to seed.
-    void reset(unsigned int seed);
+    void reset(unsigned int seed) { lastSeed = seed; initialize(lastSeed); reload(); }
     //! Return a uniformly distributed [0,2^32-1] integer.
     unsigned int random_int()
     {
@@ -98,33 +136,44 @@ namespace itpp {
       return ( s1 ^ (s1 >> 18) );
     }
 
-    //! Return a uniformly distributed (0,1) value. [2^33,1-2^-33] in steps of 2^-32.
-    double random_01() { return ( (double(random_int()) + 0.5) * 2.3283064365386963e-10 ); } //*2^-32+2^-33
+    //! Return a uniformly distributed (0,1) value.
+    double random_01() { return (double(random_int()) + 0.5) * (1.0/4294967296.0); }
+    //! Return a uniformly distributed [0,1) value.
+    double random_01_lclosed() { return double(random_int()) * (1.0/4294967296.0); }
     //! Return a uniformly distributed [0,1] value.
-    double random_01_closed() { return ( double(random_int()) * 2.3283064370807974e-10 ); } // * 1/(2^32-1)
+    double random_01_closed() { return double(random_int()) * (1.0/4294967295.0); }
     //! Save current full state of generator in memory
     void get_state(ivec &out_state);
     //! Resume the state saved in memory. Clears memory.
     void set_state(ivec &new_state);
   protected:
   private:
+    //! seed used for initialisation
+    unsigned int lastSeed;
+    //! internal state
+    static unsigned int state[624];
+    //! next value to get from state
+    static unsigned int *pNext;
+    //! number of values left before reload needed
+    static int left;
+
     //!
-    unsigned long lastSeed;
-    //!
-    static const unsigned int MAXINT;   // largest value from randInt()
-    //!
-    static const unsigned int MAGIC;    // magic constant
-  
-    //!
-    static unsigned int state[624];     // internal state
-    //!
-    static unsigned int *pNext;         // next value to get from state
-    //!
-    static int left;                    // number of values left before reload needed
-    //!
-    void set_seed( unsigned int oneSeed );
-    //!
-    void set_seed( unsigned int *const bigSeed );
+    void initialize( unsigned int seed )
+    {
+      // Initialize generator state with seed
+      // See Knuth TAOCP Vol 2, 3rd Ed, p.106 for multiplier.
+      // In previous versions, most significant bits (MSBs) of the seed affect
+      // only MSBs of the state array.  Modified 9 Jan 2002 by Makoto Matsumoto.
+      register unsigned int *s = state;
+      register unsigned int *r = state;
+      register int i = 1;
+      *s++ = seed & 0xffffffffU;
+      for( ; i < 624; ++i ) 
+	{
+	  *s++ = ( 1812433253U * ( *r ^ (*r >> 30) ) + i ) & 0xffffffffU;
+	  r++;
+	}
+    }
     //!
     void reload()
     {
@@ -150,10 +199,13 @@ namespace itpp {
     unsigned int mixBits( const unsigned int& u, const unsigned int& v ) const
     { return hiBit(u) | loBits(v); }
     //!
-    unsigned int twist( const unsigned int& m, const unsigned int& s0, const unsigned int& s1 ) const
-    { return m ^ (mixBits(s0,s1)>>1) ^ (loBit(s1) ? MAGIC : 0U); }
-    //  static unsigned int hash( time_t t, clock_t c );
+    unsigned int twist( const unsigned int& m, const unsigned int& s0,
+			const unsigned int& s1 ) const
+    { return m ^ (mixBits(s0,s1)>>1) ^ (-loBit(s1) & 0x9908b0dfU); }
+    //!
+    unsigned int hash( time_t t, clock_t c );
   };
+
 
   //! \addtogroup randgen
   //!@{
@@ -676,43 +728,6 @@ namespace itpp {
   //!@}
 
   // -------------------- INLINES ----------------------------------------------
-
-  inline void Random_Generator::reset()
-  {
-    set_seed(lastSeed);
-  }
-
-  inline void Random_Generator::reset(unsigned int seed)
-  {
-    lastSeed = seed;
-    set_seed(lastSeed);
-  }
-
-  inline void Random_Generator::set_seed( unsigned int oneSeed )
-  {
-    // Seed the generator with a simple uint32
-    register unsigned int *s;
-    register int i;
-    for( i = 624, s = state;
-	 i--;
-	 *s    = oneSeed & 0xffff0000,
-	   *s++ |= ( (oneSeed *= 69069U)++ & 0xffff0000 ) >> 16,
-	   (oneSeed *= 69069U)++ ) {}  // hard to read, but fast
-    reload();
-  }
-
-  inline void Random_Generator::set_seed( unsigned int *const bigSeed )
-  {
-    // Seed the generator with an array of 624 uint32's
-    // There are 2^19937-1 possible initial states.  This function
-    // allows any one of those to be chosen by providing 19937 bits.
-    // Theoretically, the array can contain any values except all zeroes.
-    // Just call seed() if you want to get array from /dev/urandom
-    register unsigned int *s = state, *b = bigSeed;
-    register int i = 624;
-    for( ; i--; *s++ = *b++ & 0xffffffff ) {}
-    reload();
-  }
 
   inline double AR1_Normal_RNG::sample()
   {
