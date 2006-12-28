@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Implementation of classes for random number generators
- * \author Tony Ottosson
+ * \author Tony Ottosson and Adam Piatyszek
  * 
  * $Date$
  * $Revision$
@@ -30,24 +30,14 @@
  * -------------------------------------------------------------------------
  */
 
-#include <ctime>
-#ifdef _MSC_VER
-#  include <process.h>
-#  define getpid _getpid
-#else
-#  include <unistd.h>
-#endif
-
 #include <itpp/base/random.h>
 #include <itpp/base/math/elem_math.h>
+#include <limits>
 
 
 namespace itpp { 
 
   int Random_Generator::left = 0;
-  const unsigned int Random_Generator::MAXINT = 0xffffffff;   // largest value from randInt()
-  const unsigned int Random_Generator::MAGIC  = 0x9908b0dfU;  // magic constant
-
   unsigned int Random_Generator::state[624];
   unsigned int *Random_Generator::pNext;
 
@@ -66,9 +56,33 @@ namespace itpp {
     }
   }
 
+  unsigned int Random_Generator::hash( time_t t, clock_t c )
+  {
+    // Get a unsigned int from t and c
+    // Better than uint(x) in case x is floating point in [0,1]
+    // Based on code by Lawrence Kirby (fred@genesis.demon.co.uk)
+    static unsigned int differ = 0; // guarantee time-based seeds will change
+
+    unsigned int h1 = 0;
+    unsigned char *p = (unsigned char *) &t;
+    for( size_t i = 0; i < sizeof(t); ++i )
+      {
+	h1 *= std::numeric_limits<unsigned char>::max() + 2U;
+	h1 += p[i];
+      }
+    unsigned int h2 = 0;
+    p = (unsigned char *) &c;
+    for( size_t j = 0; j < sizeof(c); ++j )
+      {
+	h2 *= std::numeric_limits<unsigned char>::max() + 2U;
+	h2 += p[j];
+      }
+    return ( h1 + differ++ ) ^ h2;
+  }
+
   void Random_Generator::randomize()
   {
-    lastSeed = static_cast<unsigned long>(time(0)) * getpid(); // not good enough if randomize is used within a short time-interval
+    lastSeed = hash(time(0), clock());
     reset();
   }
 
@@ -79,7 +93,6 @@ namespace itpp {
       out_state(i) = state[i];
 
     out_state(624) = left; // the number of elements left in state before reload
-    //saved_pNext = pNext;
   }
 
   void Random_Generator::set_state(ivec &new_state)
@@ -92,6 +105,7 @@ namespace itpp {
     left = new_state(624);
     pNext = &state[624-left];
   }
+
 
   // Set the seed of the Global Random Number Generator
   void RNG_reset(unsigned long seed)

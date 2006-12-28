@@ -17,21 +17,21 @@ Spectrum, fast:
 Distance profile  = [2 3 3 4 4 4 4]
 
 Tail method test. Printing 30 bits starting from bit 1400:
-* Input bits    = [0 0 1 0 0 1 1 1 0 0 0 0 1 0 1 0 0 1 1 0 1 1 1 0 0 0 0 0 1 1]
-* Coded bits    = [0 1 0 1 0 1 0 1 0 0 0 1 1 0 1 1 1 0 0 1 0 0 1 0 0 0 1 0 0 0]
-* Decoded bits  = [0 0 1 0 0 1 1 1 0 0 0 0 1 0 1 0 0 1 1 0 1 1 1 0 0 0 0 0 1 1]
+* Input bits    = [1 1 0 0 0 1 1 0 0 1 1 1 0 0 1 1 0 1 0 1 0 1 1 0 1 1 0 1 0 1]
+* Coded bits    = [0 1 0 1 0 1 1 1 1 0 0 0 0 1 0 1 0 1 0 0 0 1 1 1 0 0 0 1 1 0]
+* Decoded bits  = [1 1 0 0 0 1 1 0 0 1 1 1 0 0 1 1 0 1 0 1 0 1 1 0 1 1 0 1 0 1]
 BER = 0
 
 Tailbite method test. Printing 30 bits starting from bit 1400:
-* Input bits    = [0 0 1 0 0 1 1 1 0 0 0 0 1 0 1 0 0 1 1 0 1 1 1 0 0 0 0 0 1 1]
-* Coded bits    = [0 1 0 1 0 1 0 1 0 0 0 1 1 0 1 1 1 0 0 1 0 0 1 0 0 0 1 0 0 0]
-* Decoded bits  = [0 0 1 0 0 1 1 1 0 0 0 0 1 0 1 0 0 1 1 0 1 1 1 0 0 0 0 0 1 1]
+* Input bits    = [1 1 0 0 0 1 1 0 0 1 1 1 0 0 1 1 0 1 0 1 0 1 1 0 1 1 0 1 0 1]
+* Coded bits    = [0 1 0 1 0 1 1 1 1 0 0 0 0 1 0 1 0 1 0 0 0 1 1 1 0 0 0 1 1 0]
+* Decoded bits  = [1 1 0 0 0 1 1 0 0 1 1 1 0 0 1 1 0 1 0 1 0 1 1 0 1 1 0 1 0 1]
 BER = 0
 
 Trunc method test. Printing 30 bits starting from bit 1400:
-* Input bits    = [0 0 1 0 0 1 1 1 0 0 0 0 1 0 1 0 0 1 1 0 1 1 1 0 0 0 0 0 1 1]
-* Coded bits    = [0 1 0 1 0 1 0 1 0 0 0 1 1 0 1 1 1 0 0 1 0 0 1 0 0 0 1 0 0 0]
-* Decoded bits  = [0 0 1 0 0 1 1 1 0 0 0 0 1 0 1 0 0 1 1 0 1 1 1 0 0 0 0 0 1 1]
+* Input bits    = [1 1 0 0 0 1 1 0 0 1 1 1 0 0 1 1 0 1 0 1 0 1 1 0 1 1 0 1 0 1]
+* Coded bits    = [0 1 0 1 0 1 1 1 1 0 0 0 0 1 0 1 0 1 0 0 0 1 1 1 0 0 0 1 1 0]
+* Decoded bits  = [1 1 0 0 0 1 1 0 0 1 1 1 0 0 1 1 0 1 0 1 0 1 1 0 1 1 0 1 0 1]
 BER = 0
 
 ------------------------------------------------------------------------------
@@ -43,20 +43,20 @@ Puncture matrix   = [[1 0 1]
  [1 1 0]]
 
 Tail method test. Printing 30 bits starting from bit 1400:
-* Input bits    = [1 1 1 0 0 1 0 0 0 1 0 1 0 1 1 0 0 0 1 0 1 0 1 1 1 1 0 0 0 1]
-* Coded bits    = [1 1 1 0 1 1 1 1 1 0 1 0 0 0 1 1 1 0 1 0 1 1 0 1 0 1 1 0 0 0]
-* Decoded bits  = [1 1 1 0 0 1 0 0 0 1 0 1 0 1 1 0 0 0 1 0 1 0 1 1 1 1 0 0 0 1]
+* Input bits    = [0 0 0 0 1 1 0 1 1 1 0 0 0 0 1 1 0 0 0 0 0 1 1 1 1 0 1 0 1 0]
+* Coded bits    = [0 0 0 1 1 1 0 1 0 0 1 0 1 1 1 0 1 1 1 0 1 1 1 0 0 0 1 1 1 0]
+* Decoded bits  = [0 0 0 0 1 1 0 1 1 1 0 0 0 0 1 1 0 0 0 0 0 1 1 1 1 0 1 0 1 0]
 BER = 0
 
 Tailbite method test. Printing 30 bits starting from bit 1400:
-* Input bits    = [1 1 1 0 0 1 0 0 0 1 0 1 0 1 1 0 0 0 1 0 1 0 1 1 1 1 0 0 0 1]
-* Coded bits    = [1 1 1 0 1 1 1 1 1 0 1 0 0 0 1 1 1 0 1 0 1 1 0 1 0 1 1 0 0 0]
-* Decoded bits  = [1 1 1 0 0 1 0 0 0 1 0 1 0 1 1 0 0 0 1 0 1 0 1 1 1 1 0 0 0 1]
+* Input bits    = [0 0 0 0 1 1 0 1 1 1 0 0 0 0 1 1 0 0 0 0 0 1 1 1 1 0 1 0 1 0]
+* Coded bits    = [0 0 0 1 1 1 0 1 0 0 1 0 1 1 1 0 1 1 1 0 1 1 1 0 0 0 1 1 1 0]
+* Decoded bits  = [0 0 0 0 1 1 0 1 1 1 0 0 0 0 1 1 0 0 0 0 0 1 1 1 1 0 1 0 1 0]
 BER = 0
 
 Trunc method test. Printing 30 bits starting from bit 1400:
-* Input bits    = [1 1 1 0 0 1 0 0 0 1 0 1 0 1 1 0 0 0 1 0 1 0 1 1 1 1 0 0 0 1]
-* Coded bits    = [1 1 0 1 1 1 0 1 1 1 1 1 0 0 1 1 0 1 1 1 1 1 0 0 1 0 0 1 1 0]
-* Decoded bits  = [1 1 1 0 0 1 0 0 0 1 0 1 0 1 1 0 0 0 1 0 1 0 1 1 1 1 0 0 0 1]
+* Input bits    = [0 0 0 0 1 1 0 1 1 1 0 0 0 0 1 1 0 0 0 0 0 1 1 1 1 0 1 0 1 0]
+* Coded bits    = [1 0 1 0 1 1 1 0 0 0 1 1 1 1 0 1 0 1 0 1 0 1 0 1 1 0 0 1 1 1]
+* Decoded bits  = [0 0 0 0 1 1 0 1 1 1 0 0 0 0 1 1 0 0 0 0 0 1 1 1 1 0 1 0 1 0]
 BER = 0
 
