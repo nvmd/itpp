@@ -102,6 +102,7 @@
 #include <itpp/base/math/error.h>
 #include <itpp/base/math/integration.h>
 #include <itpp/base/math/log_exp.h>
+#include <itpp/base/math/min_max.h>
 #include <itpp/base/math/misc.h>
 #include <itpp/base/math/trig_hyp.h>
 

@@ -40,7 +40,7 @@
 #include <itpp/signal/resampling.h>
 #include <itpp/signal/transforms.h>
 #include <itpp/signal/window.h>
-#include <itpp/stat/min_max.h>
+#include <itpp/base/math/min_max.h>
 #include <itpp/stat/misc_stat.h>
 
 

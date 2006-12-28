@@ -67,7 +67,6 @@
 
 #include <itpp/itbase.h>
 #include <itpp/stat/histogram.h>
-#include <itpp/stat/min_max.h>
 #include <itpp/stat/misc_stat.h>
 #include <itpp/stat/mog_generic.h>
 #include <itpp/stat/mog_diag.h>

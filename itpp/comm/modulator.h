@@ -37,7 +37,7 @@
 #include <itpp/base/math/elem_math.h>
 #include <itpp/base/math/log_exp.h>
 #include <itpp/base/converters.h>
-#include <itpp/stat/min_max.h>
+#include <itpp/base/math/min_max.h>
 
 
 namespace itpp {
