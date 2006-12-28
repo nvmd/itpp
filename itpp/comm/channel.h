@@ -33,10 +33,10 @@
 #ifndef CHANNEL_H
 #define CHANNEL_H
 
+#include <itpp/base/math/elem_math.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/array.h>
 #include <itpp/base/random.h>
-#include <itpp/base/elmatfunc.h>
 #include <itpp/signal/filter.h>
 
   /*!

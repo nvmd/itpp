@@ -34,7 +34,7 @@
  */
 
 #include <itpp/base/bessel/bessel_internal.h>
-#include <itpp/base/elmatfunc.h>
+#include <itpp/base/math/elem_math.h>
 
 
 using namespace itpp;

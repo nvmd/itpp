@@ -32,7 +32,7 @@
 
 #include <itpp/signal/freq_filt.h>
 #include <itpp/signal/transforms.h>
-#include <itpp/base/elmatfunc.h>
+#include <itpp/base/math/elem_math.h>
 
 
 namespace itpp {

@@ -35,7 +35,7 @@
 
 #include <itpp/stat/min_max.h>
 #include <itpp/base/mat.h>
-#include <itpp/base/elmatfunc.h>
+#include <itpp/base/math/elem_math.h>
 #include <itpp/base/matfunc.h>
 
 
