@@ -147,7 +147,7 @@ if test "x$enable_debug" = xyes; then
   # Only for GCC compiler 
   if test "x$GXX" = xyes; then
     if test "x$enable_exceptions" = xno; then
-      CXXFLAGS_OPT="$CXXFLAGS_DEBUG -fno-exceptions"
+      CXXFLAGS_DEBUG="$CXXFLAGS_DEBUG -fno-exceptions"
     fi
     CXXFLAGS_DEBUG="$CXXFLAGS_DEBUG -Wall -pipe"
   fi
