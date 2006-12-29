@@ -182,13 +182,11 @@ namespace itpp {
   public:
     //! The type of the matrix values
     typedef Num_T value_type;
+
     //! Default constructor. An element factory \c f can be specified
-    explicit Mat(const Factory &f = DEFAULT_FACTORY) : factory(f) { init(); }
+    explicit Mat(const Factory &f = DEFAULT_FACTORY);
     //! Create a matrix of size (inrow, incol). An element factory \c f can be specified
-    Mat(int inrow, int incol, const Factory &f = DEFAULT_FACTORY) : factory(f) {
-      init();
-      it_assert1(inrow>=0 && incol>=0, "The rows and columns must be >= 0");
-      alloc(inrow, incol); }
+    Mat(int inrow, int incol, const Factory &f = DEFAULT_FACTORY);
     //! Copy constructor
     Mat(const Mat<Num_T> &m);
     //! Constructor, similar to the copy constructor, but also takes an element factory \c f as argument
@@ -196,9 +194,9 @@ namespace itpp {
     //! Create a copy of the vector \c invector treated as a column vector. An element factory \c f can be specified
     Mat(const Vec<Num_T> &invector, const Factory &f = DEFAULT_FACTORY);
     //! Set matrix equal to values in string. An element factory \c f can be specified
-    Mat(const std::string &str, const Factory &f = DEFAULT_FACTORY) : factory(f) { init(); set(str); }
+    Mat(const std::string &str, const Factory &f = DEFAULT_FACTORY);
     //! Set matrix equal to values in string. An element factory \c f can be specified
-    Mat(const char *str, const Factory &f = DEFAULT_FACTORY) : factory(f) { init(); set(str); }
+    Mat(const char *str, const Factory &f = DEFAULT_FACTORY);
     /*!
       \brief Constructor taking a C-array as input. Copies all data. An element factory \c f can be specified
 
@@ -208,7 +206,7 @@ namespace itpp {
     Mat(Num_T *c_array, int rows, int cols, bool RowMajor = true, const Factory &f = DEFAULT_FACTORY);
 
     //! Destructor
-    ~Mat() { free(); }
+    ~Mat();
 
     //! The number of columns
     int cols() const { return no_cols; }
@@ -217,7 +215,7 @@ namespace itpp {
     //! The number of elements
     int size() const { return datasize; }
     //! Set size of matrix. If copy = true then keep the data before resizing.
-    void set_size(int inrow, int incol, bool copy=false);
+    void set_size(int inrow, int incol, bool copy = false);
     //! Set matrix equal to the all zero matrix
     void zeros();
     //! Set matrix equal to the all zero matrix
@@ -230,29 +228,17 @@ namespace itpp {
     bool set(const std::string &str);
 
     //! Get element (R,C) from matrix
-    const Num_T &operator()(int R,int C) const
-    { it_assert0(R>=0 && R<no_rows && C>=0 && C<no_cols,
-		 "Mat<Num_T>::operator(): index out of range"); return data[R+C*no_rows]; }
+    const Num_T &operator()(int R, int C) const;
     //! Get element (R,C) from matrix
-    Num_T &operator()(int R,int C)
-    { it_assert0(R>=0 && R<no_rows && C>=0 && C<no_cols,
-		 "Mat<Num_T>::operator(): index out of range"); return data[R+C*no_rows]; }
+    Num_T &operator()(int R, int C);
     //! Get element \c index using linear addressing (by rows)
-    Num_T &operator()(int index)
-    { it_assert0(index<no_rows*no_cols && index>=0,"Mat<Num_T>::operator(): index out of range");
-      return data[index]; }
+    const Num_T &operator()(int index) const;
     //! Get element \c index using linear addressing (by rows)
-    const Num_T &operator()(int index) const
-    { it_assert0(index<no_rows*no_cols && index>=0,"Mat<Num_T>::operator(): index out of range");
-      return data[index]; }
+    Num_T &operator()(int index);
     //! Get element (R,C) from matrix
-    const Num_T &get(int R,int C) const
-    { it_assert0(R>=0 && R<no_rows && C>=0 && C<no_cols,
-		 "Mat<Num_T>::get(): index out of range"); return data[R+C*no_rows]; }
+    const Num_T &get(int R,int C) const;
     //! Set element (R,C) of matrix
-    void set(int R,int C, const Num_T &v)
-    { it_assert0(R>=0 && R<no_rows && C>=0 && C<no_cols,
-		 "Mat<Num_T>::set(): index out of range"); data[R+C*no_rows] = v; }
+    void set(int R,int C, const Num_T &v);
 
     /*!
       \brief Sub-matrix from row \c r1 to row \c r2 and columns \c c1 to \c c2.
@@ -411,9 +397,9 @@ namespace itpp {
     bool operator!=(const Mat<Num_T> &m) const;
 
     //! Get element (R,C) from matrix without boundary check (Not recommended to use).
-    Num_T &_elem(int R,int C) {  return data[R+C*no_rows]; }
+    Num_T &_elem(int R,int C) { return data[R+C*no_rows]; }
     //! Get element (R,C) from matrix without boundary check (Not recommended to use).
-    const Num_T &_elem(int R,int C) const {  return data[R+C*no_rows]; }
+    const Num_T &_elem(int R,int C) const { return data[R+C*no_rows]; }
     //! Get element \c index using linear addressing (by rows) without boundary check (Not recommended to use).
     Num_T &_elem(int index) { return data[index]; }
     //! Get element \c index using linear addressing (by rows) without boundary check (Not recommended to use).
@@ -428,41 +414,16 @@ namespace itpp {
 
   protected:
     //! Allocate memory for the matrix
-    void alloc(int rows, int cols)
-    {
-      if ( datasize == rows * cols ) { // Reuse the memory
-	no_rows = rows; no_cols = cols;
-	return;
-      }
-      free();  // Free memory (if any allocated)
-      if (rows == 0 || cols == 0)
-	return;
-
-      datasize = rows * cols;
-      create_elements(data, datasize, factory);
-      no_rows = rows; no_cols = cols;
-
-      it_assert1(data, "Mat<Num_T>::alloc: Out of memory");
-    }
-
+    void alloc(int rows, int cols);
     //! Free the memory space of the matrix
-    void free() { delete [] data; init(); }
+    void free();
 
     //! Protected integer variables
     int datasize, no_rows, no_cols;
-
     //! Protected data pointer
     Num_T *data;
-
     //! Element factory (set to DEFAULT_FACTORY to use Num_T default constructors only)
     const Factory &factory;
-
-  private:
-    void init()
-    {
-      data = 0;
-      datasize = no_rows = no_cols = 0;
-    }
   };
 
   // -------------------------------------------------------------------------------------
@@ -508,9 +469,9 @@ namespace itpp {
 
 namespace itpp {
 
-  // -------------------------------------------------------------------------------------
+  // ----------------------------------------------------------------------
   // Declaration of input and output streams for Mat
-  // -------------------------------------------------------------------------------------
+  // ----------------------------------------------------------------------
 
   /*!
     \relates Mat
@@ -533,38 +494,88 @@ namespace itpp {
   template <class Num_T>
   std::istream &operator>>(std::istream &is, Mat<Num_T> &m);
 
-  // -------------------------------------------------------------------------------------
+  // ----------------------------------------------------------------------
   // Implementation of templated Mat members and friends
-  // -------------------------------------------------------------------------------------
+  // ----------------------------------------------------------------------
 
   template<class Num_T> inline
-  Mat<Num_T>::Mat(const Mat<Num_T> &m) : factory(m.factory)
+  void Mat<Num_T>::alloc(int rows, int cols)
   {
-    init();
+    if (datasize == rows * cols) { // Reuse the memory
+      no_rows = rows; no_cols = cols;
+      return;
+    }
+    free();  // Free memory (if any allocated)
+    if (rows == 0 || cols == 0) return;
+    datasize = rows * cols;
+    create_elements(data, datasize, factory);
+    no_rows = rows; no_cols = cols;
+    it_assert1(data, "Mat<Num_T>::alloc: Out of memory");
+  }
+
+  template<class Num_T> inline
+  void Mat<Num_T>::free() 
+  { 
+    delete [] data; 
+    data = 0;
+    datasize = no_rows = no_cols = 0;
+  }
+
+
+  template<class Num_T> inline
+  Mat<Num_T>::Mat(const Factory &f) : 
+    datasize(0), no_rows(0), no_cols(0), data(0), factory(f) {}
+
+  template<class Num_T> inline
+  Mat<Num_T>::Mat(int inrow, int incol, const Factory &f) : 
+    datasize(0), no_rows(0), no_cols(0), data(0), factory(f)
+  {
+    it_assert1((inrow >= 0) && (incol >= 0), "The rows and columns must be >= 0");
+    alloc(inrow, incol); 
+  }
+
+  template<class Num_T> inline
+  Mat<Num_T>::Mat(const Mat<Num_T> &m) : 
+    datasize(0), no_rows(0), no_cols(0), data(0), factory(m.factory)
+  {
     alloc(m.no_rows, m.no_cols);
     copy_vector(m.datasize, m.data, data);
   }
 
   template<class Num_T> inline
-  Mat<Num_T>::Mat(const Mat<Num_T> &m, const Factory &f) : factory(f)
+  Mat<Num_T>::Mat(const Mat<Num_T> &m, const Factory &f) : 
+    datasize(0), no_rows(0), no_cols(0), data(0), factory(f)
   {
-    init();
     alloc(m.no_rows, m.no_cols);
     copy_vector(m.datasize, m.data, data);
   }
 
   template<class Num_T> inline
-  Mat<Num_T>::Mat(const Vec<Num_T> &invector, const Factory &f) : factory(f)
+  Mat<Num_T>::Mat(const Vec<Num_T> &invector, const Factory &f) :
+    datasize(0), no_rows(0), no_cols(0), data(0), factory(f)
   {
-    init();
     set_size(invector.length(), 1, false);
     set_col(0,invector);
   }
 
   template<class Num_T> inline
-  Mat<Num_T>::Mat(Num_T *c_array, int rows, int cols, bool RowMajor, const Factory &f) : factory(f)
+  Mat<Num_T>::Mat(const std::string &str, const Factory &f) :
+    datasize(0), no_rows(0), no_cols(0), data(0), factory(f)
   {
-    init();
+    set(str);
+  }
+
+  template<class Num_T> inline
+  Mat<Num_T>::Mat(const char *str, const Factory &f) :
+    datasize(0), no_rows(0), no_cols(0), data(0), factory(f)
+  {
+    set(str);
+  }
+
+  template<class Num_T> inline
+  Mat<Num_T>::Mat(Num_T *c_array, int rows, int cols, bool RowMajor, const Factory &f) :
+    datasize(0), no_rows(0), no_cols(0), data(0), factory(f)
+  {
     alloc(rows, cols);
 
     if (!RowMajor)
@@ -577,6 +588,13 @@ namespace itpp {
       }
     }
   }
+
+  template<class Num_T> inline
+  Mat<Num_T>::~Mat()
+  {
+    free();
+  }
+
 
   template<class Num_T> inline
   void Mat<Num_T>::set_size(int inrow, int incol, bool copy)
@@ -609,6 +627,55 @@ namespace itpp {
     for(int i=0; i<datasize; i++)
       data[i] = Num_T(1);
   }
+
+  template<class Num_T> inline
+  const Num_T& Mat<Num_T>::operator()(int R,int C) const
+  { 
+    it_assert0((R >= 0) && (R < no_rows) && (C >= 0) && (C < no_cols),
+	       "Mat<Num_T>::operator(): index out of range");
+    return data[R+C*no_rows];
+  }
+
+  template<class Num_T> inline
+  Num_T& Mat<Num_T>::operator()(int R,int C)
+  { 
+    it_assert0((R >= 0) && (R < no_rows) && (C >= 0) && (C < no_cols),
+	       "Mat<Num_T>::operator(): index out of range");
+    return data[R+C*no_rows];
+  }
+
+  template<class Num_T> inline
+  Num_T& Mat<Num_T>::operator()(int index)
+  { 
+    it_assert0((index < no_rows*no_cols) && (index >= 0),
+	       "Mat<Num_T>::operator(): index out of range");
+    return data[index];
+  }
+
+  template<class Num_T> inline
+  const Num_T& Mat<Num_T>::operator()(int index) const
+  {
+    it_assert0((index < no_rows*no_cols) && (index >= 0),
+	       "Mat<Num_T>::operator(): index out of range");
+    return data[index];
+  }
+
+  template<class Num_T> inline
+  const Num_T& Mat<Num_T>::get(int R,int C) const
+  { 
+    it_assert0((R >= 0) && (R < no_rows) && (C >= 0) && (C < no_cols),
+	       "Mat<Num_T>::get(): index out of range"); 
+    return data[R+C*no_rows];
+  }
+
+  template<class Num_T> inline
+  void Mat<Num_T>::set(int R,int C, const Num_T &v)
+  {
+    it_assert0((R >= 0) && (R < no_rows) && (C >= 0) && (C < no_cols),
+	       "Mat<Num_T>::set(): index out of range"); 
+    data[R+C*no_rows] = v;
+  }
+
   
   template<> bool Mat<int>::set(const char *values);
   template<> bool Mat<short int>::set(const char *values);

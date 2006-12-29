@@ -1,5 +1,10 @@
 2006-12-29  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/mat.cpp, itpp/base/mat.h, itpp/base/vec.cpp,
+	itpp/base/vec.h: Cosmetic changes in order to separate class
+	interfaces from implementation. BTW, private init() function
+	replaced with initialisation list.
+
 	* doc/Makefile.am, itpp/base/algebra/Makefile.am,
 	itpp/base/algebra/sources.mk, itpp/base/bessel/Makefile.am,
 	itpp/base/bessel/sources.mk: Removed "lapack.h" and
