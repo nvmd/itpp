@@ -39,6 +39,10 @@
 #  include <itpp/config_msvc.h>
 #endif
 
+#if defined (HAVE_CBLAS)
+#  include <itpp/base/cblas.h>
+#endif
+
 #include <itpp/base/itassert.h>
 #include <itpp/base/math/misc.h>
 #include <itpp/base/copy_vector.h>
@@ -204,23 +208,24 @@ namespace itpp {
   public:
     //! The type of the vector values
     typedef Num_T value_type;
-    //! Default constructor. An element factory \c f can be specified
-    explicit Vec(const Factory &f = DEFAULT_FACTORY) : factory(f) { init(); }
-    //! Constructor. An element factory \c f can be specified
-    explicit Vec(const int size, const Factory &f = DEFAULT_FACTORY) : factory(f) { it_assert1(size>=0, "Negative size in Vec::Vec(int)"); init(); alloc(size); }
+
+    //! Default constructor. An element factory \c f can be specified.
+    explicit Vec(const Factory &f = DEFAULT_FACTORY);
+    //! Constructor with size parameter. An element factory \c f can be specified.
+    explicit Vec(const int size, const Factory &f = DEFAULT_FACTORY);
     //! Copy constructor
     Vec(const Vec<Num_T> &v);
-    //! Constructor, similar to the copy constructor, but also takes an element factory \c f as argument
+    //! Copy constructor, which takes an element factory \c f as an additional argument.
     Vec(const Vec<Num_T> &v, const Factory &f);
-    //! Constructor. An element factory \c f can be specified
-    Vec(const char *values, const Factory &f = DEFAULT_FACTORY) : factory(f) { init(); set(values); }
-    //! Constructor. An element factory \c f can be specified
-    Vec(const std::string &values, const Factory &f = DEFAULT_FACTORY) : factory(f) { init(); set(values); }
-    //! Constructor taking a C-array as input. Copies all data. An element factory \c f can be specified
-    Vec(Num_T *c_array, const int size, const Factory &f = DEFAULT_FACTORY) : factory(f) { init(); alloc(size); copy_vector(size, c_array, data); }
+    //! Constructor taking a char string as input. An element factory \c f can be specified.
+    Vec(const char *values, const Factory &f = DEFAULT_FACTORY);
+    //! Constructor taking a string as input. An element factory \c f can be specified.
+    Vec(const std::string &values, const Factory &f = DEFAULT_FACTORY);
+    //! Constructor taking a C-array as input. Copies all data. An element factory \c f can be specified.
+    Vec(Num_T *c_array, const int size, const Factory &f = DEFAULT_FACTORY);
 
     //! Destructor
-    ~Vec() { free(); }
+    ~Vec();
 
     //! The size of the vector
     int length() const { return datasize; }
@@ -228,39 +233,39 @@ namespace itpp {
     int size() const { return datasize; }
 
     //! Set length of vector. if copy = true then keeping the old values
-    void set_length(const int size, const bool copy=false) { set_size(size,copy); }
-    //! Set length of vector. if copy = true then keeping the old values
     void set_size(const int size, const bool copy=false);
+    //! Set length of vector. if copy = true then keeping the old values
+    void set_length(const int size, const bool copy=false) { set_size(size, copy); }
     //! Set the vector to the all zero vector
-    void zeros() { for (int i=0; i<datasize; i++) {data[i]=Num_T(0);} }
+    void zeros();
     //! Set the vector to the all zero vector
     void clear() { zeros(); }
     //! Set the vector to the all one vector
-    void ones() { for (int i=0; i<datasize; i++) {data[i]=Num_T(1);} }
+    void ones();
     //! Set the vector equal to the values in the \c str string
     bool set(const char *str);
     //! Set the vector equal to the values in the \c str string
     bool set(const std::string &str);
 
     //! C-style index operator. First element is 0
-    const Num_T &operator[](const int i) const { it_assert0(i>=0&&i<datasize, "operator[]"); return data[i]; }
+    const Num_T &operator[](const int i) const;
     //! Index operator. First element is 0
-    const Num_T &operator()(const int i) const { it_assert0(i>=0&&i<datasize, "operator()"); return data[i]; }
+    const Num_T &operator()(const int i) const;
     //! C-style index operator. First element is 0
-    Num_T &operator[](const int i) { it_assert0(i>=0&&i<datasize, "operator[]"); return data[i]; }
+    Num_T &operator[](const int i);
     //! Index operator. First element is 0
-    Num_T &operator()(const int i) { it_assert0(i>=0&&i<datasize, "operator()"); return data[i]; }
+    Num_T &operator()(const int i);
     //! Sub-vector with elements from \c i1 to \c i2. Index -1 indicates the last element.
     const Vec<Num_T> operator()(const int i1, const int i2) const;
     //! Sub-vector where the elements are given by the list \c indexlist
     const Vec<Num_T> operator()(const Vec<int> &indexlist) const;
 
     //! Accessor-style method. First element is 0
-    const Num_T &get(const int i) const { it_assert0(i>=0&&i<datasize, "method get()"); return data[i]; }
+    const Num_T &get(const int i) const;
     //! Sub-vector with elements from \c i1 to \c i2. Index -1 indicates the last element.
     const Vec<Num_T> get(const int i1, const int i2) const;
     //! Modifier-style method. First element is 0
-    void set(const int i, const Num_T &v) { it_assert0(i>=0&&i<datasize, "method set()"); data[i]=v; }
+    void set(const int i, const Num_T &v);
 
     //! Matrix transpose. Converts to a matrix with the vector in the first row
     Mat<Num_T> transpose() const;
@@ -425,26 +430,14 @@ namespace itpp {
 
     //! Get the pointer to the internal structure. Not recommended to use.
     Num_T *_data() { return data; }
-
     //! Get the pointer to the internal structure. Not recommended to use.
     const Num_T *_data() const { return data; }
 
   protected:
     //! Allocate storage for a vector of length \c size.
-    void alloc(const int size)
-    {
-      if ( datasize == size ) return;
-
-      free();  // Free memory (if any allocated)
-      if (size == 0) return;
-
-      create_elements(data, size, factory);
-      datasize=size;
-      it_assert1(data, "Vec<Num_T>::alloc(): Out of memory");
-    }
-
+    void alloc(int size);
     //! Free the storage space allocated by the vector
-    void free() { delete [] data;  init(); }
+    void free();
 
     //! The current number of elements in the vector
     int datasize;
@@ -452,9 +445,6 @@ namespace itpp {
     Num_T *data;
     //! Element factory (set to DEFAULT_FACTORY to use Num_T default constructors only)
     const Factory &factory;
-
-  private:
-    void init() { data = 0; datasize = 0; }
   };
 
   //-----------------------------------------------------------------------------------
@@ -493,6 +483,7 @@ namespace itpp {
 
 } //namespace itpp
 
+
 #include <itpp/base/mat.h>
 
 namespace itpp {
@@ -505,7 +496,7 @@ namespace itpp {
     \relates Vec
     \brief Stream output of vector
   */
-  template <class Num_T>
+  template<class Num_T>
   std::ostream &operator<<(std::ostream &os, const Vec<Num_T> &v);
 
   /*!
@@ -519,7 +510,7 @@ namespace itpp {
     means "1 2 3 4". "1:3:10" means every third integer from 1 to 10, i.e.
     "1 4 7 10".
   */
-  template <class Num_T>
+  template<class Num_T>
   std::istream &operator>>(std::istream &is, Vec<Num_T> &v);
 
   //-----------------------------------------------------------------------------------
@@ -527,19 +518,72 @@ namespace itpp {
   //-----------------------------------------------------------------------------------
 
   template<class Num_T> inline
-  Vec<Num_T>::Vec(const Vec<Num_T> &v) : factory(v.factory)
+  void Vec<Num_T>::alloc(int size)
   {
-    init();
+    if (datasize == size) return;
+    free(); // Free memory (if any allocated)
+    if (size == 0) return;
+    create_elements(data, size, factory);
+    datasize = size;
+    it_assert1(data, "Vec<Num_T>::alloc(): Out of memory");
+  }
+
+  template<class Num_T> inline
+  void Vec<Num_T>::free()
+  { 
+    delete [] data;
+    data = 0;
+    datasize = 0;
+  }
+
+
+  template<class Num_T> inline
+  Vec<Num_T>::Vec(const Factory &f) : datasize(0), data(0), factory(f) {}
+
+  template<class Num_T> inline
+  Vec<Num_T>::Vec(const int size, const Factory &f) : datasize(0), data(0), factory(f)
+  { 
+    it_assert1(size>=0, "Negative size in Vec::Vec(int)"); 
+    alloc(size); 
+  }
+
+  template<class Num_T> inline
+  Vec<Num_T>::Vec(const Vec<Num_T> &v) : datasize(0), data(0), factory(v.factory)
+  {
     alloc(v.datasize);
     copy_vector(datasize, v.data, data);
   }
 
   template<class Num_T> inline
-  Vec<Num_T>::Vec(const Vec<Num_T> &v, const Factory &f) : factory(f)
+  Vec<Num_T>::Vec(const Vec<Num_T> &v, const Factory &f) : datasize(0), data(0), factory(f)
   {
-    init();
     alloc(v.datasize);
     copy_vector(datasize, v.data, data);
+  }
+
+  template<class Num_T> inline
+  Vec<Num_T>::Vec(const char *values, const Factory &f) : datasize(0), data(0), factory(f)
+  { 
+    set(values);
+  }
+
+  template<class Num_T> inline
+  Vec<Num_T>::Vec(const std::string &values, const Factory &f) : datasize(0), data(0), factory(f) 
+  { 
+    set(values); 
+  }
+
+  template<class Num_T> inline
+  Vec<Num_T>::Vec(Num_T *c_array, const int size, const Factory &f) : datasize(0), data(0), factory(f)
+  { 
+    alloc(size);
+    copy_vector(size, c_array, data);
+  }
+
+  template<class Num_T> inline
+  Vec<Num_T>::~Vec()
+  { 
+    free();
   }
 
   template<class Num_T>
@@ -556,6 +600,98 @@ namespace itpp {
       } else
 	alloc(size);
     }
+  }
+
+  template<class Num_T> inline
+  const Num_T& Vec<Num_T>::operator[](const int i) const
+  { 
+    it_assert0((i >= 0) && (i < datasize), "operator[]"); 
+    return data[i];
+  }
+
+  template<class Num_T> inline
+  const Num_T& Vec<Num_T>::operator()(const int i) const
+  { 
+    it_assert0((i >= 0) && (i < datasize), "operator()"); 
+    return data[i];
+  }
+
+  template<class Num_T> inline
+  Num_T& Vec<Num_T>::operator[](const int i)
+  { 
+    it_assert0((i >= 0) && (i < datasize), "operator[]"); 
+    return data[i];
+  }
+
+  template<class Num_T> inline
+  Num_T& Vec<Num_T>::operator()(const int i)
+  { 
+    it_assert0((i >= 0) && (i < datasize), "operator()"); 
+    return data[i];
+  }
+
+  template<class Num_T> inline
+  const Vec<Num_T> Vec<Num_T>::operator()(const int i1, const int i2) const
+  {
+    int ii1=i1, ii2=i2;
+
+    if (ii1 == -1) ii1 = datasize-1;
+    if (ii2 == -1) ii2 = datasize-1;
+
+    it_assert1(ii1>=0 && ii2>=0 && ii1<datasize && ii2<datasize, "Vec<Num_T>::operator()(i1,i2): indicies out of range");
+    it_assert1(ii2>=ii1, "Vec<Num_T>::op(i1,i2): i2 >= i1 necessary");
+
+    Vec<Num_T> s(ii2-ii1+1);
+    copy_vector(s.datasize, data+ii1, s.data);
+
+    return s;
+  }
+
+  template<class Num_T>
+  const Vec<Num_T> Vec<Num_T>::operator()(const Vec<int> &indexlist) const
+  {
+    Vec<Num_T> temp(indexlist.length());
+    for (int i=0;i<indexlist.length();i++) {
+      it_assert((indexlist(i)>=0) && (indexlist(i) < datasize), "Vec<Num_T>::operator()(ivec &): index outside range");
+      temp(i)=data[indexlist(i)];
+    }
+    return temp;
+  }
+
+
+  template<class Num_T> inline
+  const Num_T& Vec<Num_T>::get(const int i) const
+  {
+    it_assert0((i >= 0) && (i < datasize), "method get()");
+    return data[i];
+  }
+
+  template<class Num_T> inline
+  const Vec<Num_T> Vec<Num_T>::get(const int i1, const int i2) const
+  {
+    return (*this)(i1, i2);
+  }
+
+
+  template<class Num_T> inline
+  void Vec<Num_T>::zeros() 
+  { 
+    for (int i = 0; i < datasize; i++) 
+      data[i] = Num_T(0);
+  }
+
+  template<class Num_T> inline
+  void Vec<Num_T>::ones()
+  {
+    for (int i = 0; i < datasize; i++)
+      data[i] = Num_T(1);
+  }
+
+  template<class Num_T> inline
+  void Vec<Num_T>::set(const int i, const Num_T &v)
+  { 
+    it_assert0((i >= 0) && (i < datasize), "method set()");
+    data[i] = v;
   }
 
   template<> bool Vec<double>::set(const char *values);
@@ -577,39 +713,6 @@ namespace itpp {
     return set(str.c_str());
   }
 
-  template<class Num_T> inline
-  const Vec<Num_T> Vec<Num_T>::operator()(const int i1, const int i2) const
-  {
-    int ii1=i1, ii2=i2;
-
-    if (ii1 == -1) ii1 = datasize-1;
-    if (ii2 == -1) ii2 = datasize-1;
-
-    it_assert1(ii1>=0 && ii2>=0 && ii1<datasize && ii2<datasize, "Vec<Num_T>::operator()(i1,i2): indicies out of range");
-    it_assert1(ii2>=ii1, "Vec<Num_T>::op(i1,i2): i2 >= i1 necessary");
-
-    Vec<Num_T> s(ii2-ii1+1);
-    copy_vector(s.datasize, data+ii1, s.data);
-
-    return s;
-  }
-
-  template<class Num_T> inline
-  const Vec<Num_T> Vec<Num_T>::get(const int i1, const int i2) const
-  {
-    return (*this)(i1, i2);
-  }
-
-  template<class Num_T>
-  const Vec<Num_T> Vec<Num_T>::operator()(const Vec<int> &indexlist) const
-  {
-    Vec<Num_T> temp(indexlist.length());
-    for (int i=0;i<indexlist.length();i++) {
-      it_assert((indexlist(i)>=0) && (indexlist(i) < datasize), "Vec<Num_T>::operator()(ivec &): index outside range");
-      temp(i)=data[indexlist(i)];
-    }
-    return temp;
-  }
 
   template<class Num_T>
   Mat<Num_T> Vec<Num_T>::transpose() const
@@ -781,9 +884,23 @@ namespace itpp {
   }
 
 #if defined(HAVE_CBLAS)
-  template<> double dot(const vec &v1, const vec &v2);
-  template<> std::complex<double> dot(const cvec &v1, const cvec &v2);
-#endif
+  template<> inline
+  double dot(const vec &v1, const vec &v2)
+  {
+    it_assert1(v1.datasize == v2.datasize, "vec::dot: wrong sizes");
+    return cblas_ddot(v1.datasize, v1.data, 1, v2.data, 1);;
+  }
+ 
+  template<> inline
+  std::complex<double> dot(const cvec &v1, const cvec &v2)
+  {
+    it_assert1(v1.datasize == v2.datasize, "cvec::dot: wrong sizes");
+    std::complex<double> r = 0.0;
+    cblas_zdotu_sub(v1.datasize, v1.data, 1, v2.data, 1, &r);
+
+    return r;
+  }
+#endif // HAVE_CBLAS
 
   template<class Num_T> inline
   Num_T dot(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
@@ -1483,7 +1600,7 @@ namespace itpp {
     return false;
   }
 
-  template <class Num_T>
+  template<class Num_T>
   std::ostream &operator<<(std::ostream &os, const Vec<Num_T> &v)
   {
     int i, sz=v.length();
@@ -1499,7 +1616,7 @@ namespace itpp {
     return os;
   }
 
-  template <class Num_T>
+  template<class Num_T>
   std::istream &operator>>(std::istream &is, Vec<Num_T> &v)
   {
     std::ostringstream buffer;

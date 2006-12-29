@@ -32,6 +32,10 @@
 
 #include <itpp/base/mat.h>
 
+#if defined (HAVE_CBLAS)
+#  include <itpp/base/cblas.h>
+#endif
+
 
 namespace itpp {
 

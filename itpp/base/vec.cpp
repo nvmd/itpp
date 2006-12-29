@@ -32,10 +32,6 @@
 
 #include <itpp/base/vec.h>
 
-#if defined (HAVE_CBLAS)
-#  include <itpp/base/cblas.h>
-#endif
-
 
 namespace itpp {
 
@@ -1220,31 +1216,6 @@ namespace itpp {
     return true;
   }
 
-
-#if defined(HAVE_CBLAS)
-  template<>
-  double dot(const vec &v1, const vec &v2)
-  {
-    it_assert1(v1.datasize == v2.datasize, "vec::dot: wrong sizes");
-    double r=0.0;
-
-    r= cblas_ddot(v1.datasize, v1.data, 1, v2.data, 1);
-
-    return r;
-  }
- 
-  template<>
-  std::complex<double> dot(const cvec &v1, const cvec &v2)
-  {
-    it_assert1(v1.datasize == v2.datasize, "cvec::dot: wrong sizes");
-    std::complex<double> r=0.0;
-		
-    cblas_zdotu_sub(v1.datasize, v1.data, 1, v2.data, 1, &r);
-
-    return r;
-  }
-
-#endif // HAVE_CBLAS
 
   template<> 
   bvec Vec<std::complex<double> >::operator==(const std::complex<double>) const
