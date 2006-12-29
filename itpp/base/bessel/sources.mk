@@ -1,4 +1,4 @@
-h_base_bessel_sources = \
+noinst_h_base_bessel_sources = \
 	$(top_srcdir)/itpp/base/bessel/bessel_internal.h
 
 cpp_base_bessel_sources = \

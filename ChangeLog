@@ -1,3 +1,11 @@
+2006-12-29  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/Makefile.am, itpp/base/algebra/Makefile.am,
+	itpp/base/algebra/sources.mk, itpp/base/bessel/Makefile.am,
+	itpp/base/bessel/sources.mk: Removed "lapack.h" and
+	"bessel_internal.h" from the list of installed headers. BTW,
+	cleaned up the dependency list in the documentation Makefile.
+
 2006-12-28  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/random.cpp, itpp/base/random.h, tests/bch_test.ref,
