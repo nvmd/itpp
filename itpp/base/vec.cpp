@@ -45,6 +45,7 @@ namespace itpp {
     bool comma = true;
     int pos = 0, maxpos = 10;
     
+    free();
     alloc(maxpos);
     
     while (buffer.peek()!=EOF) {
@@ -180,6 +181,7 @@ namespace itpp {
     int pos = 0, maxpos = 10;
     bool comma = true;
 
+    free();
     alloc(maxpos);
     
     while (buffer.peek() != EOF) {
@@ -219,6 +221,7 @@ namespace itpp {
     int pos = 0, maxpos = 10;
     bool comma = true;
 
+    free();
     alloc(maxpos);
 
     while (buffer.peek() != EOF) {
@@ -264,6 +267,7 @@ namespace itpp {
     int maxpos = 10;
     std::streamoff offset = 0;
  
+    free();
     alloc(maxpos);
 
     while (buffer.peek() != EOF) {
@@ -746,6 +750,7 @@ namespace itpp {
     int maxpos = 10;
     std::streamoff offset = 0;
  
+    free();
     alloc(maxpos);
 
     while (buffer.peek() != EOF) {

@@ -117,15 +117,9 @@ namespace itpp {
     virtual ~Array();
 
     //! Get the \c i element
-    T &operator()(int i) {
-      it_assert0((i >= 0) && (i < ndata), "Array::operator(): Improper index");
-      return data[i];
-    }
+    T &operator()(int i);
     //! Get the \c i element
-    const T &operator()(int i) const {
-      it_assert0((i >= 0) && (i < ndata), "Array::operator(): Improper index");
-      return data[i];
-    }
+    const T &operator()(int i) const;
     //! Sub-array from element \c i1 to element \c i2
     const Array<T> operator()(int i1, int i2) const;
     //! Sub-array with the elements given by the integer Array
@@ -157,13 +151,13 @@ namespace itpp {
     //! Resizing an Array<T>.
     void set_length(int n, bool copy = false) { set_size(n, copy); }
     
-    //! Shift in data at position 0. return data at last position.
-    T shift_right(const T e);
-    //! Shift in array at position 0. return data at last position.
+    //! Shift in data at position 0. Return data from the last position.
+    T shift_right(const T& e);
+    //! Shift in array at position 0. Return data from the last position.
     const Array<T> shift_right(const Array<T> &a);
-    //! Shift in data at position Ndata()-1. return data at last position.
-    T shift_left(const T e);
-    //! Shift in array at position Ndata()-1. return data at last position.
+    //! Shift in data at the last position. Return data from position 0.
+    T shift_left(const T& e);
+    //! Shift in array at the last position. Return data from position 0.
     const Array<T> shift_left(const Array<T> &a);
     //! Swap elements i and j.
     void swap(int i, int j);
@@ -174,6 +168,10 @@ namespace itpp {
     void set_subarray(int i1, int i2, const T t);
 
   protected:
+    //! Allocate storage for an array of length \c n
+    void alloc(int n);
+    //! Free the storage space allocated by the array
+    void free();
     //! Check whether index \c i is in the allowed range
     bool in_range(int i) { return ((i < ndata) && (i >= 0)); }
     //! The current number of elements in the Array
@@ -182,24 +180,41 @@ namespace itpp {
     T *data;
     //! Element factory (by default set to DEFAULT_FACTORY)
     const Factory &factory;
-
-  private:
-    void alloc(int n);
-    void free();
   };
 
   // -------------------- Implementation starts here --------------------
 
-  template<class T>
+  template<class T> inline
+  void Array<T>::alloc(int n)
+  {
+    if (n == 0) {
+      data = 0;
+      ndata = 0;
+    }
+    else {
+      create_elements(data, n, factory);
+      ndata = n;
+    }
+  }
+
+  template<class T> inline
+  void Array<T>::free()
+  {
+    delete[] data;
+    data = 0;
+    ndata = 0;
+  }
+
+  template<class T> inline
   Array<T>::Array(const Factory &f) : ndata(0), data(0), factory(f) {}
 
-  template<class T>
+  template<class T> inline
   Array<T>::Array(const int n, const Factory &f) : ndata(0), data(0), factory(f)
   {
     alloc(n);
   }
 
-  template<class T>
+  template<class T> inline
   Array<T>::Array(const Array<T> &a, const Factory &f) 
     : ndata(0), data(0), factory(f)
   {
@@ -208,7 +223,7 @@ namespace itpp {
       data[i] = a.data[i];
   }
 
-  template<class T>
+  template<class T> inline
   Array<T>::Array(const std::string& values, const Factory &f) 
     : ndata(0), data(0), factory(f)
   {
@@ -216,7 +231,7 @@ namespace itpp {
     buffer >> *this;
   }
 
-  template<class T>
+  template<class T> inline
   Array<T>::Array(const char* values, const Factory &f) 
     : ndata(0), data(0), factory(f)
   {
@@ -230,53 +245,65 @@ namespace itpp {
     free();
   }
 
-  template<class T>
-  void Array<T>::alloc(int n)
+  template<class T> inline
+  void Array<T>::set_size(int size, bool copy)
   {
-    if (n == 0) {
-      data = 0;
-      ndata = 0;
-    }
+    it_assert1(size >= 0, "Array::set_size(): New size must not be negative");
+    if (ndata == size) 
+      return;
+    if (copy) {
+      T* tmp = data;
+      int min = (ndata < size) ? ndata : size;
+      alloc(size);
+      for (int i = 0; i < min; ++i)
+	data[i] = tmp[i];
+      delete[] tmp;
+    } 
     else {
-      create_elements(data, n, factory);
-      it_assert1(data != 0, "Array::alloc(): Out of memory!");
+      free();
+      alloc(size);
     }
-    ndata = n;
   }
 
-  template<class T>
-  void Array<T>::free()
+
+  template<class T> inline
+  T& Array<T>::operator()(int i) 
   {
-    delete [] data;
-	
-    data = 0;
-    ndata = 0;
+    it_assert1(in_range(i), "Array::operator(): Improper index");
+    return data[i];
   }
 
-  template<class T>
+  template<class T> inline
+  const T& Array<T>::operator()(int i) const
+  {
+    it_assert1((i >= 0) && (i < ndata), "Array::operator(): Improper index");
+    return data[i];
+  }
+
+  template<class T> inline
   const Array<T> Array<T>::operator()(int i1, int i2) const
   {
-    it_assert0((i1 >= 0) && (i2 >= 0) && (i1 < ndata) && (i2 < ndata) 
-	       && (i2 >= i1), "Array::operator()(i1, i2): Improper indexes.");
+    it_assert1(in_range(i1) && in_range(i2) && (i2 >= i1), 
+	       "Array::operator()(i1, i2): Improper indexes.");
     Array<T> s(i2-i1+1);
     for (int i = 0; i < s.ndata; i++)
       s.data[i] = data[i1+i];
     return s;
   }
 
-  template<class T>
+  template<class T> inline
   const Array<T> Array<T>::operator()(const Array<int> &indices) const
   {
     Array<T> a(indices.size());
     for (int i = 0; i < a.size(); i++) {
-      it_assert0((indices(i) >= 0) && (indices(i) < ndata),
+      it_assert1(in_range(indices(i)),
 		 "Array::operator()(indices): Improper indices.");
       a(i) = data[indices(i)];
     }
     return a;
   }
 
-  template<class T>
+  template<class T> inline
   Array<T>& Array<T>::operator=(const Array<T> &a)
   {
     if (this != &a) {
@@ -287,7 +314,7 @@ namespace itpp {
     return *this;
   }
 
-  template<class T>
+  template<class T> inline
   Array<T>& Array<T>::operator=(const T &e)
   {
     if (ndata == 0) 
@@ -306,30 +333,7 @@ namespace itpp {
   }
 
   template<class T>
-  void Array<T>::set_size(int sz, bool copy)
-  {
-    int min;
-    T *tmp;
-
-    if (ndata == sz)
-      return;
-
-    if (copy) {
-      tmp = data;
-      min = ndata < sz ? ndata : sz;
-      alloc(sz);
-      for (int i = 0; i < min; i++)
-	data[i] = tmp[i];
-      delete [] tmp;
-    } else {
-      free();
-      alloc(sz);
-    }
-    ndata = sz;
-  }
-
-  template<class T>
-  T Array<T>::shift_right(const T x)
+  T Array<T>::shift_right(const T& x)
   {
     it_assert1(ndata > 0, "Array::shift_right(x): Array empty!");
     T ret;
@@ -360,7 +364,7 @@ namespace itpp {
   }
 
   template<class T>
-  T Array<T>::shift_left(const T x)
+  T Array<T>::shift_left(const T& x)
   {
     T temp = data[0];
 	
