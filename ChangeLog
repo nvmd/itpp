@@ -1,3 +1,11 @@
+2006-12-30  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/array.h, itpp/base/mat.cpp, itpp/base/mat.h,
+	itpp/base/vec.cpp, itpp/base/vec.h: Improved the consistency of
+	alloc(), free() and set_size() methods in Array, Mat and Vec
+	classes. Further cosmetic changes of separating class interfaces
+	from their implementation in these base classes.
+
 2006-12-29  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/mat.cpp, itpp/base/mat.h, itpp/base/vec.cpp,

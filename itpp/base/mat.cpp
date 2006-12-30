@@ -47,6 +47,7 @@ namespace itpp {
     bool comma = true;
     std::streamoff offset = 0;
 
+    free();
     alloc(maxrows, maxcols);
     zeros();
 
@@ -257,6 +258,7 @@ namespace itpp {
     bool comma = true;
     std::streamoff offset = 0;
 
+    free();
     alloc(maxrows, maxcols);
     zeros();
 

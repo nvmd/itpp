@@ -501,24 +501,33 @@ namespace itpp {
   template<class Num_T> inline
   void Mat<Num_T>::alloc(int rows, int cols)
   {
-    if (datasize == rows * cols) { // Reuse the memory
-      no_rows = rows; no_cols = cols;
-      return;
+//     if (datasize == rows * cols) { // Reuse the memory
+//       no_rows = rows; no_cols = cols;
+//       return;
+//     }
+//     free();  // Free memory (if any allocated)
+    if (rows == 0 || cols == 0) {
+      data = 0;
+      datasize = 0;
+      no_rows = 0;
+      no_cols = 0;
+    } 
+    else {
+      datasize = rows * cols;
+      create_elements(data, datasize, factory);
+      no_rows = rows;
+      no_cols = cols;
     }
-    free();  // Free memory (if any allocated)
-    if (rows == 0 || cols == 0) return;
-    datasize = rows * cols;
-    create_elements(data, datasize, factory);
-    no_rows = rows; no_cols = cols;
-    it_assert1(data, "Mat<Num_T>::alloc: Out of memory");
   }
 
   template<class Num_T> inline
   void Mat<Num_T>::free() 
   { 
-    delete [] data; 
+    delete[] data; 
     data = 0;
-    datasize = no_rows = no_cols = 0;
+    datasize = 0;
+    no_rows = 0;
+    no_cols = 0;
   }
 
 
@@ -599,18 +608,31 @@ namespace itpp {
   template<class Num_T> inline
   void Mat<Num_T>::set_size(int inrow, int incol, bool copy)
   {
-    it_assert1(inrow>=0 && incol>=0, "Mat<Num_T>::set_size: The rows and columns must be >= 0");
-    if (no_rows!=inrow || no_cols!=incol) {
-      if (copy) {
-	Mat<Num_T> temp(*this);
-	int i, j;
-
-	alloc(inrow, incol);
-	for (i=0;i<inrow;i++)
-	  for (j=0;j<incol;j++)
-	    data[i+j*inrow] = (i<temp.no_rows && j<temp.no_cols) ? temp(i,j) : Num_T(0);
-      } else
-	alloc(inrow, incol);
+    it_assert1((inrow >= 0) && (incol >= 0), "Mat<Num_T>::set_size: The rows and columns must be >= 0");
+    if ((no_rows == inrow) && (no_cols == incol))
+      return;
+    if (copy) {
+      // backup information about previous data
+      Num_T* tmp = data;
+      int tmp_rows = no_rows;
+      int min_r = (no_rows < inrow) ? no_rows : inrow;
+      int min_c = (no_cols < incol) ? no_cols : incol;
+      // allocate new memory
+      alloc(inrow, incol);
+      // copy the previous data into the allocated memory
+      for (int i = 0; i < min_r; ++i)
+	for (int j = 0; j < min_c; ++j)
+	  data[i+j*inrow] = tmp[i+j*tmp_rows];
+      // fill-in the rest of matrix with zeros
+      for (int i = min_r; i < inrow; ++i)
+	for (int j = min_c; j < incol; ++j)
+	  data[i+j*inrow] = Num_T(0);
+      // free the previous data memory
+      delete[] tmp;
+    } 
+    else {
+      free();
+      alloc(inrow, incol);
     }
   }
 
@@ -669,7 +691,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-  void Mat<Num_T>::set(int R,int C, const Num_T &v)
+  void Mat<Num_T>::set(int R, int C, const Num_T &v)
   {
     it_assert0((R >= 0) && (R < no_rows) && (C >= 0) && (C < no_cols),
 	       "Mat<Num_T>::set(): index out of range"); 
@@ -687,7 +709,8 @@ namespace itpp {
     int rows = 0, maxrows = 10, cols = 0, nocols = 0, maxcols = 10;
     bool comma = true;
     
-    alloc(maxrows, maxcols);
+    free();
+    alloc(maxrows, maxcols); 
     zeros();
 
     while (buffer.peek() != EOF) {
