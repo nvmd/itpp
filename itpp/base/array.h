@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -124,6 +124,13 @@ namespace itpp {
     const Array<T> operator()(int i1, int i2) const;
     //! Sub-array with the elements given by the integer Array
     const Array<T> operator()(const Array<int> &indices) const;
+
+    //! Get \c n left elements of the array
+    Array<T> left(int n) const;
+    //! Get \c n right elements of the array
+    Array<T> right(int n) const;
+    //! Get \c n elements of the array starting from \c pos
+    Array<T> mid(int pos, int n) const;
 
     //! Assignment operator
     Array<T>& operator=(const T &e);
@@ -331,6 +338,38 @@ namespace itpp {
     buffer >> *this;
     return *this;
   }
+
+
+  template<class T>
+  Array<T> Array<T>::left(int n) const
+  {
+    it_assert1(in_range(n), "Array::left(): Index out of range");
+    Array<T> tmp(n);
+    for (int i = 0; i < n; ++i)
+      tmp.data[i] = data[i];
+    return tmp;
+  }
+
+  template<class T>
+  Array<T> Array<T>::right(int n) const
+  {
+    it_assert1(in_range(n), "Array::right(): Index out of range");
+    Array<T> tmp(n);
+    for (int i = 0; i < n; ++i)
+      tmp.data[i] = data[ndata-n+i];
+    return tmp;
+  }
+
+  template<class T>
+  Array<T> Array<T>::mid(int pos, int n) const
+  {
+    it_assert1((pos >= 0) && (n > 0) && (pos + n <= ndata), "Array::mid(): Indexing out of range");
+    Array<T> tmp(n);
+    for (int i = 0; i < n; ++i)
+      tmp.data[i] = data[pos+i];
+    return tmp;
+  }
+
 
   template<class T>
   T Array<T>::shift_right(const T& x)

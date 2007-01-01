@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -60,6 +60,12 @@ int main()
   cout << "Testing Array::operator():" << endl
        << "A4(1) = " << A4(1) << endl
        << "A4(0)(1) = " << A4(0)(1) << endl << endl; 
+
+  // Test of left(), right() and mid() methods:
+  cout << "Testing Array::left(), Array::right() and Array::mid():" << endl
+       << "A1.left(4) = " << A1.left(4) << endl
+       << "A1.right(5) = " << A1.right(5) << endl
+       << "A1.mid(2, 3) = " << A1.mid(2, 3) << endl << endl;
 	
   // Test of swap function
   A4.swap(0, 1);

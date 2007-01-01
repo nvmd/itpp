@@ -17,6 +17,11 @@ A4(1) = {[[0 -3]
 A4(0)(1) = [[1 0]
  [3 9]]
 
+Testing Array::left(), Array::right() and Array::mid():
+A1.left(4) = {1 1 42 1}
+A1.right(5) = {1 1 1 1 1}
+A1.mid(2, 3) = {42 1 1}
+
 Testing A4.swap(0, 1):
 {{[[0 -3]
  [1 10]]} {[[5 3]
