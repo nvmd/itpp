@@ -180,7 +180,7 @@ namespace itpp {
     //! Free the storage space allocated by the array
     void free();
     //! Check whether index \c i is in the allowed range
-    bool in_range(int i) { return ((i < ndata) && (i >= 0)); }
+    bool in_range(int i) const { return ((i < ndata) && (i >= 0)); }
     //! The current number of elements in the Array
     int ndata;
     //! A pointer to the data area
@@ -283,7 +283,7 @@ namespace itpp {
   template<class T> inline
   const T& Array<T>::operator()(int i) const
   {
-    it_assert1((i >= 0) && (i < ndata), "Array::operator(): Improper index");
+    it_assert1(in_range(i), "Array::operator(): Improper index");
     return data[i];
   }
 
