@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1478,13 +1478,12 @@ namespace itpp {
   template<class Num_T> inline
   const Mat<Num_T> operator*(const Vec<Num_T> &v, const Mat<Num_T> &m)
   {
-    it_assert1(m.no_rows == 1 && m.no_cols == v.size(),"Mat<Num_T>::operator*: wrong sizes");
-    Mat<Num_T> r(m.no_cols, m.no_cols);
-    int i, j;
+    it_assert1(m.no_rows == 1,"Mat<Num_T>::operator*: wrong sizes");
+    Mat<Num_T> r(v.size(), m.no_cols);
 
-    for (i=0; i<m.no_cols; i++)
-      for (j=0; j<m.no_cols; j++)
-	      r(i,j) = v(i)*m.data[j];
+    for (int i = 0; i < v.size(); ++i)
+      for (int j = 0; j < m.no_cols; ++j)
+	r(i,j) = v(i) * m.data[j];
 
     return r;
   }
