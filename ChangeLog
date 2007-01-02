@@ -1,5 +1,10 @@
 2007-01-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/mat.h: Implemented feature request [1216416]. Multiply
+	operator `*' of a vector `v' and single-row matrix `m' now works
+	for any size of vector `v'. This change is backward compatible
+	with the previous implementation.
+
 	* itpp/base/array.h: Fixed a small bug caused by a missing "const"
 	keyword in in_range() inline function.
 
