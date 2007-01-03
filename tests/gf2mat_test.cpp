@@ -86,6 +86,14 @@ int main()
  cout << "C=" << C << endl;
  cout << "D=" << D << endl;
  cout << "p=" << p << endl;
+
+ // Test Alist functionality
+ char *file = "test.alist";
+ GF2mat_sparse_alist alist;
+ alist.from_sparse(A.sparsify());
+ alist.write(file);
+ GF2mat_sparse_alist alist2(file);
+ it_assert(GF2mat(alist2.to_sparse())==A,"Alist test failed");
  
  /*            // to run the extensive tests, remove this comment   
     

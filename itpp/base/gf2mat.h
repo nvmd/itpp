@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Definition of a class for algebra on GF(2) (binary) matrices
- * \author Erik G. Larsson
+ * \author Erik G. Larsson and Adam Piatyszek
  *
  * $Date$
  * $Revision$
@@ -95,6 +95,60 @@ namespace itpp {
   //! Sparse GF(2) matrix
   typedef Sparse_Mat<bin> GF2mat_sparse;
 
+  /*! \brief Parameterized ("alist") representation of sparse GF(2) matrix
+
+  This class is used to provide a parameterized representation of a \c
+  GF2mat_sparse class. The format is compatible with the "alist"
+  format defined by D. MacKay in his rather extensive database over
+  sparse-graph codes (
+  http://www.inference.phy.cam.ac.uk/mackay/codes/data.html ).
+
+  \relates GF2mat_sparse
+  */
+  class GF2mat_sparse_alist 
+    {
+    public:
+      //! Default constructor
+      GF2mat_sparse_alist() : data_ok(false) {}
+      //! Constructor - read from file
+      GF2mat_sparse_alist(const std::string &fname);
+    
+      //! Read alist data from a file named \c fname
+      void read(const std::string &fname);
+      //! Write alist data to a file named \c fname
+      void write(const std::string &fname) const;
+    
+      /*! \brief Convert to \c GF2mat_sparse
+
+      \param transposed indicates whether matrix is stored in transposed form
+      */
+      GF2mat_sparse to_sparse(bool transposed=false) const;
+    
+      /*! \brief Import from \c GF2mat sparse
+	
+      \param mat matrix to import
+      \param transposed indicates whether matrix is stored in transposed form
+      */
+      void from_sparse(const GF2mat_sparse &mat, bool transposed=false);
+    
+    private:
+      bool data_ok;
+      //! Size of the matrix: \c M rows x \c N columns
+      int M, N;
+      //! List of integer coordinates in the m direction with non-zero entries
+      imat mlist;
+      //! List of integer coordinates in the n direction with non-zero entries
+      imat nlist;
+      //! Weight of each row m
+      ivec num_mlist;
+      //! Weight of each column n
+      ivec num_nlist;
+      //! Maximum weight of rows
+      int max_num_m;
+      //! Maximum weight of columns
+      int max_num_n; 
+    };
+
   /*! 
     \brief Class for dense GF(2) matrices
 
@@ -130,14 +184,17 @@ namespace itpp {
     //! Construct a dense GF(2) matrix from a subset (m1,n1) to (m2,n2) of sparse GF(2) matrix 
     GF2mat(const GF2mat_sparse &X, int m1, int n1, int m2, int n2);  
 
-    //! Construct a dense GF(2) matrix from a subset of columns in sparse GF(2) matrix 
-    GF2mat(const GF2mat_sparse &X, ivec &columns);
+    /*! \brief Construct a dense GF(2) matrix from a subset of columns in sparse GF(2) matrix
+      
+    \param sparse matrix to copy from
+    \param ivec subset of columns to copy    
+    */ 
+    GF2mat(const GF2mat_sparse &X, const ivec &columns);
 
     /*!  
       \brief Create a dense GF(2) matrix from a single vector. 
 
       \param x The input vector
-
       \param rc A parameter that  indicates whether the result should be a row vector (rc=0),
       or a column vector (rc=1, default)
     */
@@ -184,7 +241,6 @@ namespace itpp {
     /*! \brief Multiply from left with permutation matrix (permute rows).
 
     \param perm Permutation vector
-
     \param I Parameter that determines permutation.   I=0: apply permutation, I=1: apply inverse permutation
     */
     void permute_rows(ivec &perm, bool I);
@@ -192,6 +248,7 @@ namespace itpp {
     /*! \brief Multiply a matrix from right with a permutation matrix (i.e.,
       permute the columns).  
 
+    \param perm Permutation vector
     \param I Parameter that determines permutation.   I=0: apply permutation, I=1: apply inverse permutation
     */
     void permute_cols(ivec &perm, bool I); 
@@ -223,7 +280,13 @@ namespace itpp {
     //! Get number of columns
     inline int cols() { return ncols; }
 
-    //! Add (or equivalently, subtract) row j to row i
+    /*! \brief Add (or equivalently, subtract) rows
+
+    This function updates row i according to row_i = row_i+row_j
+    
+    \param i Row to add to. This row will be modified
+    \param j Row to add. This row will <b>not</b> be modified.
+    */
     void add_rows(int i, int j);
 
     // ---------- Linear algebra --------------
@@ -233,7 +296,7 @@ namespace itpp {
     The matrix must be invertible, otherwise the
       function will terminate with an error.  
     */ 
-    GF2mat inverse();
+    GF2mat inverse() const;
 
     //! Returns the number of linearly independent rows 
     int row_rank();
@@ -254,7 +317,7 @@ namespace itpp {
       permutations.  The computational complexity is O(m*m*n) for an
       m*n matrix.
     */
-    int T_fact(GF2mat &T, GF2mat &U, ivec &P);
+    int T_fact(GF2mat &T, GF2mat &U, ivec &P) const;
   
     /*! \brief TXP factorization update, when bit is flipped.
 
@@ -278,7 +341,7 @@ namespace itpp {
       matrices with close to full rank but it is generally slower for
       non-full rank matrices.
     */
-    int T_fact_update_bitflip(GF2mat &T, GF2mat &U, ivec &P, int rank, int r, int c);
+    int T_fact_update_bitflip(GF2mat &T, GF2mat &U, ivec &P, int rank, int r, int c) const;
 
     /*!  \brief TXP factorization update, when column is added
 
@@ -298,7 +361,7 @@ namespace itpp {
     
     The complexity is O(m^2) for an m*n matrix.
     */
-    int T_fact_update_addcol(GF2mat &T, GF2mat &U, ivec &P, bvec newcol);
+    int T_fact_update_addcol(GF2mat &T, GF2mat &U, ivec &P, bvec newcol) const;
 
     // ----- Operators -----------
 
