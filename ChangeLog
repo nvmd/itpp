@@ -1,5 +1,10 @@
 2007-01-03  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
+	* itpp/base/gf2mat.h, itpp/base/gf2mat.cpp, tests/gf2mat_test.cpp,
+	tests/gf2mat_test.ref: Added support for "alist" representation
+	(based on code provided by Adam P) of sparse GF(2)
+	matrices. Implemented minor improvements.
+	
 	* doc/tutorial/src/mimoconv.cpp: Minor improvements
 
 	* itpp/base/random.h: Minor documentation improvement
