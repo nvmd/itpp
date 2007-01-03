@@ -51,10 +51,10 @@ extern int main(int argc, char **argv)
        << (1<<nC) << "-PAM per dimension, coherence time " << Tc << endl;
 
   // -- simulation control parameters --
-  const vec EbN0db = "-5:0.5:50";          // SNR range
+  const vec EbN0db = "-5:0.5:50";        // SNR range
   const int Nmethods =2;                 // number of demodulators to try
   const long int Nbitsmax=50*1000*1000;  // maximum number of bits to ever simulate per SNR point
-  const int Nu = 100;                    // length of data packet (before applying channel coding)
+  const int Nu = 1000;                   // length of data packet (before applying channel coding)
 
   int Nbers, Nfers;              // target number of bit/frame errors per SNR point
   double BERmin, FERmin;         // BER/FER at which to terminate simulation
@@ -108,12 +108,25 @@ extern int main(int argc, char **argv)
   if (pow(2.0,nC*2.0*nTx)>256) {      // ML decoder too complex..
     Contflag(1)=0;  
   }
+  if (nTx>nRx) {
+    Contflag(0)=0;                    // ZF not for underdetermined systems
+  }
   cout << "Running methods: " << Contflag << endl;
+
+  cout.setf(ios::fixed, ios::floatfield); 
+  cout.setf(ios::showpoint); 
+  cout.precision(5);    
   
   // ================== Run simulation =======================
   for (int nsnr=0; nsnr<length(EbN0db); nsnr++) {
-    double N0 = pow(10.0,-EbN0db(nsnr)/10.0) / rate;
-    double sigma2=N0/2.0;  // the transmit constellations has unit energy per complex symbol
+    const double Eb=1.0; // transmitted energy per information bit
+    const double N0 = pow(10.0,-EbN0db(nsnr)/10.0);
+    const double sigma2=N0;   // Variance of each scalar complex noise sample
+    const double Es=rate*2*nC*Eb; // Energy per complex scalar symbol
+    // (Each transmitted scalar complex symbol contains rate*2*nC
+    // information bits.)
+    const double Ess=sqrt(Es);
+
     Array<BERC> berc(Nmethods);  // counter for coded BER
     Array<BERC> bercu(Nmethods); // counter for uncoded BER
     Array<BLERC> ferc(Nmethods); // counter for coded FER
@@ -130,7 +143,9 @@ extern int main(int argc, char **argv)
       bvec inputbits = randb(Nu);
       bvec txbits;
       code.encode_tail(inputbits, txbits);
-      txbits=concat(txbits,randb(Nctx-Nc));    // coded block length is not always a multiple of the number of bits per channel vector
+      // coded block length is not always a multiple of the number of
+      // bits per channel vector
+      txbits=concat(txbits,randb(Nctx-Nc));   
       txbits = sequence_interleaver_b.interleave(txbits);
 
       // -- generate channel and data ----
@@ -141,7 +156,7 @@ extern int main(int argc, char **argv)
 	   dimension.
 	*/
 	if (k%Tc==0) {       // generate a new channel realization every Tc intervals
-	  H(k/Tc) = randn_c(nRx,nTx);
+	  H(k/Tc) = Ess*randn_c(nRx,nTx);
 	}
 	
 	// modulate and transmit bits
