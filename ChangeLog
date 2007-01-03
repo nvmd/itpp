@@ -1,3 +1,9 @@
+2007-01-03  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* doc/tutorial/src/mimoconv.cpp: Minor improvements
+
+	* itpp/base/random.h: Minor documentation improvement
+	
 2007-01-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/mat.h: Implemented feature request [1216416]. Multiply

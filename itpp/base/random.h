@@ -714,7 +714,10 @@ namespace itpp {
   //! Generates a random Gaussian (0,1) matrix
   inline mat randn(int rows, int cols){ mat temp; randn(rows, cols, temp); return temp; }
 
-  //! Generates a random complex Gaussian (0,1) variable
+  /*! \brief Generates a random complex Gaussian (0,1) variable
+    
+  The real and imaginary parts are independent and have variances equal to 0.5
+  */
   inline std::complex<double> randn_c(void) { Complex_Normal_RNG src; return src.sample(); }
   //! Generates a random complex Gaussian (0,1) vector
   inline void randn_c(int size, cvec &out)  { Complex_Normal_RNG src; src.sample_vector(size, out); }
