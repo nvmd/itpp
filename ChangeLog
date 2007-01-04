@@ -1,3 +1,8 @@
+2007-01-04  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/base/gf2mat.h, itpp/base/gf2mat.cpp: Code readability and
+	documentation improvements
+
 2007-01-03  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/base/gf2mat.h, itpp/base/gf2mat.cpp, tests/gf2mat_test.cpp,
