@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -52,6 +52,7 @@
 #include <itpp/base/smat.h>
 #include <itpp/base/itfile.h>
 
+
 namespace itpp {
 
   // ============================================================
@@ -64,83 +65,80 @@ namespace itpp {
   //! Sparse GF(2) matrix
   typedef Sparse_Mat<bin> GF2mat_sparse;
 
+
   // ============================================================
   // ===== ALIST PARAMETERIZATION OF SPARSE GF(2) MATRIX CLASS ==
   // ============================================================
 
-  /*! \brief Parameterized ("alist") representation of sparse GF(2)
-    matrix
+  /*!
+    \relates GF2mat_sparse
+    \brief Parameterized "alist" representation of sparse GF(2) matrix
+    \author Adam Piatyszek and Erik G. Larsson 
 
-  This class is used to provide a parameterized representation of a \c
-  GF2mat_sparse class. The format is compatible with the "alist"
-  format defined by D. MacKay in his rather extensive database over
-  sparse-graph codes (
-  http://www.inference.phy.cam.ac.uk/mackay/codes/data.html ).
+    This class is used to provide a parameterized representation of a \c
+    GF2mat_sparse class. The format is compatible with the "alist" format
+    defined by David MacKay, Matthew Davey and John Lafferty:
+    - http://www.inference.phy.cam.ac.uk/mackay/codes/alist.html
 
-  \relates GF2mat_sparse
-
-  \author Adam Piatyszek. Minor changes by Erik G. Larsson 
+    For examples of "alist" representation visit David MacKay's Encyclopedia
+    of Sparse Graph Codes:
+    - http://www.inference.phy.cam.ac.uk/mackay/codes/data.html
   */
   class GF2mat_sparse_alist 
-    {
-    public:
-      //! Default constructor
-      GF2mat_sparse_alist() : data_ok(false) {}
-      //! Constructor - read from file
-      GF2mat_sparse_alist(const std::string &fname);
+  {
+  public:
+    //! Default constructor
+    GF2mat_sparse_alist() : data_ok(false) {}
+    //! Constructor, which reads alist data from a file named \c fname
+    GF2mat_sparse_alist(const std::string &fname);
     
-      //! Read alist data from a file named \c fname
-      void read(const std::string &fname);
-      //! Write alist data to a file named \c fname
-      void write(const std::string &fname) const;
+    //! Read alist data from a file named \c fname
+    void read(const std::string &fname);
+    //! Write alist data to a file named \c fname
+    void write(const std::string &fname) const;
     
-      /*! \brief Convert to \c GF2mat_sparse
+    /*! 
+      \brief Convert "alist" representation to \c GF2mat_sparse
 
-      \param transposed indicates whether matrix is stored in
-      transposed form
-      */
-      GF2mat_sparse to_sparse(bool transposed=false) const;
+      \param transpose Indicates whether a matrix should be transposed
+      during the conversion process
+    */
+    GF2mat_sparse to_sparse(bool transpose = false) const;
     
-      /*! \brief Import from \c GF2mat sparse
+    /*! 
+      \brief Import "alist" representation from \c GF2mat_sparse
 	
-      \param mat matrix to import 
-      \param transposed indicates whether
-      matrix is stored in transposed form
-      */
-      void from_sparse(const GF2mat_sparse &mat, bool transposed=false);
+      \param mat Matrix to import
+      \param transpose Indicates whether a matrix should be transposed
+      during the conversion process
+    */
+    void from_sparse(const GF2mat_sparse &mat, bool transpose = false);
     
-    private:
-      bool data_ok;
-      //! Size of the matrix: \c M rows x \c N columns
-      int M, N;
-      //! List of integer coords in the m direction with non-zero entries
-      imat mlist;
-      //! List of integer coords in the n direction with non-zero entries
-      imat nlist;
-      //! Weight of each row m
-      ivec num_mlist;
-      //! Weight of each column n
-      ivec num_nlist;
-      //! Maximum weight of rows
-      int max_num_m;
-      //! Maximum weight of columns
-      int max_num_n; 
-    };
+  protected:
+    //! Flag indicating that "alist" matrix data are properly set
+    bool data_ok;
+    //! Size of the matrix: \c M rows x \c N columns
+    int M, N;
+    //! List of integer coordinates in the m direction with non-zero entries
+    imat mlist;
+    //! List of integer coordinates in the n direction with non-zero entries
+    imat nlist;
+    //! Weight of each row m
+    ivec num_mlist;
+    //! Weight of each column n
+    ivec num_nlist;
+    //! Maximum weight of rows
+    int max_num_m;
+    //! Maximum weight of columns
+    int max_num_n; 
+  };
+
 
   // ============================================================
   // ================== DENSE GF(2) MATRIX CLASS ================
   // ============================================================
   
   /* 
-     An "unsigned short int" is used to represent the data
-     structure. Note that, an unsigned short int has at least 16 bits,
-     possibly more depending on the implementation.  Here 16 bits is
-     assumed.
-     
-     Note: the data structure is implemented as unsigned int because
-     some operations rely on right shifting (for signed integers the
-     right shift operator is implementation defined).
-
      TODO:
   
      - There is probably potential for improving the efficiency of some
@@ -157,7 +155,9 @@ namespace itpp {
   */
   
   /*! 
+    \relates bmat
     \brief Class for dense GF(2) matrices
+    \author Erik G. Larsson 
 
     This class can be used as an alternative to \bmat to represent
     GF(2) matrices.  It extends the functionality of \bmat in two ways:
@@ -173,9 +173,13 @@ namespace itpp {
     of sparse GF(2) matrices, and \c GF2mat_sparse_alist for a
     parameterized representation of sparse GF(2) matrices.
 
-    \relates bmat
+    \note An "unsigned short int" is used to represent the data structure.
+    Note that, an "unsigned short int" has at least 16 bits, possibly more
+    depending on the platform. Here 16 bits are assumed.
 
-    \author Erik G. Larsson 
+    \note The data structure is implemented as unsigned because some
+    operations rely on right shifting (for signed integers the right shift
+    operator is implementation dependent).
   */
   class GF2mat {
   public:
@@ -422,13 +426,13 @@ namespace itpp {
     int nrows, ncols;            // number of rows and columns of matrix
     Mat<unsigned short int> data;     // data structure
 
-    // log2(number of bits in one "short int"). This is used to perform
-    // division. 
-    static const unsigned char lImax=4;
+    // This value is used to perform division ans is equal to
+    // log2(number of bits in "short int"). WARNING: non portable! 
+    static const unsigned char lImax = 4;
 
-    // (1 << (lImax - 1)). This is used as mask for (1 << lImax), when
-    // computing remainder  
-    static const unsigned char mImax=15;
+    // This value is used as a mask for (1 << lImax), when computing
+    // remainder  
+    static const unsigned char mImax = (1 << lImax) - 1;
   };
 
 

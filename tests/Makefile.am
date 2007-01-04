@@ -147,3 +147,4 @@ check-local: $(check_PROGRAMS) $(ref_sources)
 
 clean-local:
 	rm -f *.tmp
+	rm -f gf2mat_test.alist 
