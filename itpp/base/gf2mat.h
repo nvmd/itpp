@@ -43,22 +43,6 @@
  * per element).
  */
 
-/*
-  TODO:
-
-  - There is probably potential for improving the efficiency of some
-  of the matrix/vector multiplication operators.  (See specific
-  comments in the code.)
-
-  - Make the data representation dynamic to account for the
-  possibility (?) that a short integer can store more than 16 bits.
-  Or use "int" or "long int"?
-
-  - Implement a general GF(2)-matrix class which offers the user a
-  transparent interface (user does not need to know whether the
-  sparse or the dense representation is used)?
-*/
-
 #ifndef GF2MAT_H
 #define GF2MAT_H
 
@@ -68,26 +52,11 @@
 #include <itpp/base/smat.h>
 #include <itpp/base/itfile.h>
 
-
-/* 
-   An "unsigned short int" is used to represent the data
-   structure. Note that, an unsigned short int has at least 16 bits,
-   possibly more depending on the implementation.  Here 16 bits is
-   assumed.
-
-   Note: the data structure is implemented as unsigned int because
-   some operations rely on right shifting (for signed integers the
-   right shift operator is implementation defined).
-*/
-
-// log2(number of bits in one "short int"). This is used to perform
-// division. 
-#define lImax 4
-// (1 << (lImax - 1)). This is used as mask for (1 << lImax), when
-// computing remainder  
-#define mImax 15
-
 namespace itpp {
+
+  // ============================================================
+  // ================= SPARSE GF(2) MATRIX CLASS ================
+  // ============================================================
 
   //! Sparse GF(2) vector
   typedef Sparse_Vec<bin> GF2vec_sparse;
@@ -95,7 +64,12 @@ namespace itpp {
   //! Sparse GF(2) matrix
   typedef Sparse_Mat<bin> GF2mat_sparse;
 
-  /*! \brief Parameterized ("alist") representation of sparse GF(2) matrix
+  // ============================================================
+  // ===== ALIST PARAMETERIZATION OF SPARSE GF(2) MATRIX CLASS ==
+  // ============================================================
+
+  /*! \brief Parameterized ("alist") representation of sparse GF(2)
+    matrix
 
   This class is used to provide a parameterized representation of a \c
   GF2mat_sparse class. The format is compatible with the "alist"
@@ -104,6 +78,8 @@ namespace itpp {
   http://www.inference.phy.cam.ac.uk/mackay/codes/data.html ).
 
   \relates GF2mat_sparse
+
+  \author Adam Piatyszek. Minor changes by Erik G. Larsson 
   */
   class GF2mat_sparse_alist 
     {
@@ -120,14 +96,16 @@ namespace itpp {
     
       /*! \brief Convert to \c GF2mat_sparse
 
-      \param transposed indicates whether matrix is stored in transposed form
+      \param transposed indicates whether matrix is stored in
+      transposed form
       */
       GF2mat_sparse to_sparse(bool transposed=false) const;
     
       /*! \brief Import from \c GF2mat sparse
 	
-      \param mat matrix to import
-      \param transposed indicates whether matrix is stored in transposed form
+      \param mat matrix to import 
+      \param transposed indicates whether
+      matrix is stored in transposed form
       */
       void from_sparse(const GF2mat_sparse &mat, bool transposed=false);
     
@@ -135,9 +113,9 @@ namespace itpp {
       bool data_ok;
       //! Size of the matrix: \c M rows x \c N columns
       int M, N;
-      //! List of integer coordinates in the m direction with non-zero entries
+      //! List of integer coords in the m direction with non-zero entries
       imat mlist;
-      //! List of integer coordinates in the n direction with non-zero entries
+      //! List of integer coords in the n direction with non-zero entries
       imat nlist;
       //! Weight of each row m
       ivec num_mlist;
@@ -149,30 +127,62 @@ namespace itpp {
       int max_num_n; 
     };
 
+  // ============================================================
+  // ================== DENSE GF(2) MATRIX CLASS ================
+  // ============================================================
+  
+  /* 
+     An "unsigned short int" is used to represent the data
+     structure. Note that, an unsigned short int has at least 16 bits,
+     possibly more depending on the implementation.  Here 16 bits is
+     assumed.
+     
+     Note: the data structure is implemented as unsigned int because
+     some operations rely on right shifting (for signed integers the
+     right shift operator is implementation defined).
+
+     TODO:
+  
+     - There is probably potential for improving the efficiency of some
+     of the matrix/vector multiplication operators.  (See specific
+     comments in the code.)
+     
+     - Make the data representation dynamic to account for the
+     possibility (?) that a short integer can store more than 16 bits.
+     Or use "int" or "long int"?
+
+     - Implement a general GF(2)-matrix class which offers the user a
+     transparent interface (user does not need to know whether the
+     sparse or the dense representation is used)?
+  */
+  
   /*! 
     \brief Class for dense GF(2) matrices
 
-    This class is used to represent relatively large GF(2) matrices
-    making efficient use of computer memory. (One bit in the matrix
-    requires one bit of memory.)
+    This class can be used as an alternative to \bmat to represent
+    GF(2) matrices.  It extends the functionality of \bmat in two ways:
 
-    The \c GF2mat class extends the \c bmat class by offering a more
-    memory efficient representation of data and providing several
-    functios for linear algebra.  \c GF2mat may be used in lieu of \c
-    bmat whenever the linear algebra functionality or improved memory
-    efficiency is desired.
+    - \c GF2mat makes more efficient use of computer
+    memory than \c bmat. (One bit in the matrix requires one bit of
+    memory.)  
+
+    - \c GF2mat provides several functios for linear algebra and
+    matrix factorizations.
 
     See also \c GF2mat_sparse which offers an efficient representation
-    of sparse GF(2) matrices.
+    of sparse GF(2) matrices, and \c GF2mat_sparse_alist for a
+    parameterized representation of sparse GF(2) matrices.
 
     \relates bmat
+
+    \author Erik G. Larsson 
   */
   class GF2mat {
   public:
   
     // ----------- Constructors -----------
 
-    //! Default constructor (this gives a 1*1 matrix consisting of a single zero)
+    //! Default constructor (gives empty 1*1 matrix)
     GF2mat();
   
     //! Construct an empty (all-zero) m*n matrix 
@@ -181,10 +191,16 @@ namespace itpp {
     //! Construct a dense GF(2) matrix from a sparse GF(2) matrix
     GF2mat(const GF2mat_sparse &X);
   
-    //! Construct a dense GF(2) matrix from a subset (m1,n1) to (m2,n2) of sparse GF(2) matrix 
+    /*! \brief Constructor, from subset of sparse GF(2) matrix
+      
+    This constructor forms a dense GF(2) matrix from a subset (m1,n1)
+    to (m2,n2) of a sparse GF(2) matrix */
     GF2mat(const GF2mat_sparse &X, int m1, int n1, int m2, int n2);  
 
-    /*! \brief Construct a dense GF(2) matrix from a subset of columns in sparse GF(2) matrix
+    /*! \brief Constructor, from subset of sparse GF(2) matrix
+
+    This constructor forms a dense GF(2) matrix from a subset of
+    columns in sparse GF(2) matrix
       
     \param sparse matrix to copy from
     \param ivec subset of columns to copy    
@@ -195,8 +211,8 @@ namespace itpp {
       \brief Create a dense GF(2) matrix from a single vector. 
 
       \param x The input vector
-      \param rc A parameter that  indicates whether the result should be a row vector (rc=0),
-      or a column vector (rc=1, default)
+      \param rc A parameter that  indicates whether the result 
+      should be a row vector (rc=0), or a column vector (rc=1, default)
     */
     GF2mat(const bvec &x, bool rc=1);
 
@@ -241,15 +257,17 @@ namespace itpp {
     /*! \brief Multiply from left with permutation matrix (permute rows).
 
     \param perm Permutation vector
-    \param I Parameter that determines permutation.   I=0: apply permutation, I=1: apply inverse permutation
+    \param I Parameter that determines permutation.   
+    I=0: apply permutation, I=1: apply inverse permutation
     */
     void permute_rows(ivec &perm, bool I);
 
-    /*! \brief Multiply a matrix from right with a permutation matrix (i.e.,
-      permute the columns).  
+    /*! \brief Multiply a matrix from right with a permutation matrix
+      (i.e., permute the columns).
 
     \param perm Permutation vector
-    \param I Parameter that determines permutation.   I=0: apply permutation, I=1: apply inverse permutation
+    \param I Parameter that determines permutation.   
+    I=0: apply permutation, I=1: apply inverse permutation
     */
     void permute_cols(ivec &perm, bool I); 
 
@@ -341,7 +359,8 @@ namespace itpp {
       matrices with close to full rank but it is generally slower for
       non-full rank matrices.
     */
-    int T_fact_update_bitflip(GF2mat &T, GF2mat &U, ivec &P, int rank, int r, int c) const;
+    int T_fact_update_bitflip(GF2mat &T, GF2mat &U, 
+			      ivec &P, int rank, int r, int c) const;
 
     /*!  \brief TXP factorization update, when column is added
 
@@ -361,7 +380,8 @@ namespace itpp {
     
     The complexity is O(m^2) for an m*n matrix.
     */
-    int T_fact_update_addcol(GF2mat &T, GF2mat &U, ivec &P, bvec newcol) const;
+    int T_fact_update_addcol(GF2mat &T, GF2mat &U, 
+			     ivec &P, bvec newcol) const;
 
     // ----- Operators -----------
 
@@ -401,6 +421,14 @@ namespace itpp {
     int nwords;                  // number of bytes used
     int nrows, ncols;            // number of rows and columns of matrix
     Mat<unsigned short int> data;     // data structure
+
+    // log2(number of bits in one "short int"). This is used to perform
+    // division. 
+    static const unsigned char lImax=4;
+
+    // (1 << (lImax - 1)). This is used as mask for (1 << lImax), when
+    // computing remainder  
+    static const unsigned char mImax=15;
   };
 
 
@@ -472,7 +500,8 @@ namespace itpp {
     it_assert0(j>=0 && j<ncols,"GF2mat::get_element()");
     int col = j>>lImax;
     char bit = j&mImax;
-    return ((data(i,col) >> bit) & 1);    // NB data must be unsigned for this to be well defined
+    // NB data must be unsigned for right shift to be well defined
+    return ((data(i,col) >> bit) & 1); 
   }
 
   inline void GF2mat::set(int i, int j, bin s) 
