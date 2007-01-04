@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@
 #include <itpp/base/converters.h>
 #include <iostream>
 
+
 namespace itpp {
 
   // ====== IMPLEMENTATION OF THE ALIST CLASS ==========
@@ -46,15 +47,16 @@ namespace itpp {
     read(fname);
   }
   
-  void GF2mat_sparse_alist::read(const std::string &fname) {
+  void GF2mat_sparse_alist::read(const std::string &fname)
+  {
     std::ifstream file;
     std::string line;
     std::stringstream ss;
 
     file.open(fname.c_str());
-    it_assert(file.is_open(), 
-     "GF2mat_sparse_alist::read(): Could not open file for reading"); 
-
+    it_assert(file.is_open(), "GF2mat_sparse_alist::read(): Could not open file \"" 
+	      << fname << "\" for reading"); 
+    
     // parse N and M:
     getline(file, line);
     ss << line;
@@ -146,13 +148,14 @@ namespace itpp {
     data_ok = true;
   }
 
-  void GF2mat_sparse_alist::write(const std::string &fname) const {
+  void GF2mat_sparse_alist::write(const std::string &fname) const
+  {
     it_assert(data_ok, 
        "GF2mat_sparse_alist::write(): alist data not ready for writing");
 
     std::ofstream file(fname.c_str(), std::ofstream::out);
-    it_assert(file.is_open(), 
-       "GF2mat_sparse_alist::write(): Could not open file for writing"); 
+    it_assert(file.is_open(), "GF2mat_sparse_alist::write(): Could not open file \""
+	      << fname << "\" for writing"); 
 
     file << N << " " << M << std::endl;
     file << max_num_n << " " << max_num_m << std::endl;
@@ -181,8 +184,8 @@ namespace itpp {
   }
 
 
-  GF2mat_sparse GF2mat_sparse_alist::to_sparse(bool transposed) const {
-
+  GF2mat_sparse GF2mat_sparse_alist::to_sparse(bool transpose) const
+  {
     GF2mat_sparse sbmat(M, N, max_num_m);
 
     for (int i = 0; i < M; i++) {
@@ -192,70 +195,68 @@ namespace itpp {
     }
     sbmat.compact();
 
-    if (transposed) { 
+    if (transpose) { 
       return sbmat.transpose(); 
-    } else { 
+    } else {
       return sbmat; 
     }
-    
   }
 
-  // ------------------------------------------------------------
-  // WARNING: This method is very slow... Sparse_Mat has to be
-  // extended with some extra functions to improve the performance of
-  // this.
-  // ------------------------------------------------------------
+
+  // ----------------------------------------------------------------------
+  // WARNING: This method is very slow. Sparse_Mat has to be extended with
+  // some extra functions to improve the performance of this.
+  // ----------------------------------------------------------------------
   void GF2mat_sparse_alist::from_sparse(const GF2mat_sparse &sbmat, 
-					bool transposed) 
+					bool transpose) 
   {
-    if (transposed) {
-      GF2mat_sparse tempmat=sbmat.transpose();
-      from_sparse(tempmat, false);
+    if (transpose) {
+      from_sparse(sbmat.transpose(), false);
     }
+    else {
+      // check matrix dimension
+      M = sbmat.rows();
+      N = sbmat.cols();
 
-    // check matrix dimension
-    M = sbmat.rows();
-    N = sbmat.cols();
+      num_mlist.set_size(M);
+      num_nlist.set_size(N);
 
-    num_mlist.set_size(M);
-    num_mlist.clear();
-    num_nlist.set_size(N);
-    num_nlist.clear();
-
-    // fill mlist matrix, num_mlist vector and max_num_m
-    mlist.set_size(0, 0);
-    for (int i = 0; i < M; i++) {
-      ivec temp_row(0);
-      for (int j = 0; j < N; j++) {
-	if (sbmat(i, j) == bin(1)) {
-	  temp_row = concat(temp_row, j + 1);
-	}
-      }
-      mlist.set_size(mlist.rows(), std::max(mlist.cols(), 
-					    temp_row.size()), true);
-      mlist.append_row(temp_row);
-      num_mlist(i) = temp_row.length();
-    }
-    max_num_m = max(num_mlist);
-  
-    // fill nlist matrix, num_nlist vector and max_num_n
-    nlist.set_size(0, 0);
-    for (int j = 0; j < N; j++) {
-      ivec temp_row(0);
+      // fill mlist matrix, num_mlist vector and max_num_m
+      mlist.set_size(0, 0);
       for (int i = 0; i < M; i++) {
-	if (sbmat(i, j) == bin(1)) {
-	  temp_row = concat(temp_row, i + 1);
+	ivec temp_row(0);
+	for (int j = 0; j < N; j++) {
+	  if (sbmat(i, j) == bin(1)) {
+	    temp_row = concat(temp_row, j + 1);
+	  }
 	}
+	mlist.set_size(mlist.rows(), std::max(mlist.cols(), temp_row.size()),
+		       true);
+	mlist.append_row(temp_row);
+	num_mlist(i) = temp_row.length();
       }
-      nlist.set_size(nlist.rows(), std::max(nlist.cols(), 
-					    temp_row.size()), true);
-      nlist.append_row(temp_row);
-      num_nlist(j) = temp_row.length();
-    }
-    max_num_n = max(num_nlist);
+      max_num_m = max(num_mlist);
+  
+      // fill nlist matrix, num_nlist vector and max_num_n
+      nlist.set_size(0, 0);
+      for (int j = 0; j < N; j++) {
+	ivec temp_row(0);
+	for (int i = 0; i < M; i++) {
+	  if (sbmat(i, j) == bin(1)) {
+	    temp_row = concat(temp_row, i + 1);
+	  }
+	}
+	nlist.set_size(nlist.rows(), std::max(nlist.cols(), temp_row.size()),
+		       true);
+	nlist.append_row(temp_row);
+	num_nlist(j) = temp_row.length();
+      }
+      max_num_n = max(num_nlist);
 
-    data_ok = true;
+      data_ok = true;
+    }
   }
+
 
   // === IMPLEMENTATION OF (DENSE) GF2 MATRIX CLASS =================
 
