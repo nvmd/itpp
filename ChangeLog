@@ -1,3 +1,7 @@
+2007-01-05  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/base/gf2mat.h: Clarification in documentation
+
 2007-01-04  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/base/gf2mat.h, itpp/base/gf2mat.cpp, tests/Makefile.am:

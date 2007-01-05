@@ -343,25 +343,24 @@ namespace itpp {
   
     /*! \brief TXP factorization update, when bit is flipped.
 
-      Update upper triangular factor U in the T-factorization (U=TXP)
-      when the bit at position (r,c) is changed (0->1 or 1->0). The
-      purpose of this function is to avoid re-running a complete
-      T-factorization when a single bit is changed. The function
-      assumes that T, U, and P already exist and that U=TXP before the
-      function is called. The function also assumes that the rank
-      provided is correct. The function updates T, U and P these
-      matrices.  The function returns the new rank of the matrix after
-      the bitflip.
-
-      Note: T, U, P and the rank value supplied to the function must
-      be correct one. This is not checked by the function (for reasons
-      of efficiency).
-
-      The function works by performing permutations to bring the
-      matrix to a form where the Gaussian eliminated can be restarted
-      from the point (rank-1,rank-1). The function is very fast for
-      matrices with close to full rank but it is generally slower for
-      non-full rank matrices.
+    Update upper triangular factor U in the TXP-factorization (U=TXP)
+    when the bit at position (r,c) is changed (0->1 or 1->0). The
+    purpose of this function is to avoid re-running a complete
+    T-factorization when a single bit is changed. The function assumes
+    that T, U, and P already exist and that U=TXP before the function
+    is called. The function also assumes that the rank provided is
+    correct. The function updates T, U and P these matrices.  The
+    function returns the new rank of the matrix after the bitflip.
+    
+    \note T, U, P and the rank value supplied to the function must be
+    correct one. This is not checked by the function (for reasons of
+    efficiency).
+    
+    The function works by performing permutations to bring the matrix
+    to a form where the Gaussian eliminated can be restarted from the
+    point (rank-1,rank-1). The function is very fast for matrices with
+    close to full rank but it is generally slower for non-full rank
+    matrices.
     */
     int T_fact_update_bitflip(GF2mat &T, GF2mat &U, 
 			      ivec &P, int rank, int r, int c) const;
@@ -376,12 +375,15 @@ namespace itpp {
     done otherwise).  The function returns 1 if the column was added,
     and 0 otherwise.
     
-    Note: T, U, P and the rank value supplied to the function must be
-    correct one. This is not checked by the function (for reasons of
-    efficiency). Also, the matrix operating on must have full column
-    rank (this is assumed by the function, but not checked for reasons
-    of efficiency).
-    
+    \note This function does not actually add the column newcol to the
+    GF2 matrix. It only checks whether doing so would increase the
+    rank, and if this is the case, it updates the T-factorization.  A
+    typical calling sequence would be
+    \code
+    bool rank_will_improve =  X.T_fact_update_addcol(T,U,perm,c);
+    if (rank_will_improve) { X = X.concatenate_horizontal(c); }
+    \endcode
+   
     The complexity is O(m^2) for an m*n matrix.
     */
     int T_fact_update_addcol(GF2mat &T, GF2mat &U, 
