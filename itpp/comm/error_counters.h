@@ -95,6 +95,8 @@ namespace itpp {
     double get_errors() { return errors; }
     //! Returns the counted number of corectly received bits
     double get_corrects() { return corrects; }
+    //! Returns the total number of bits processed
+    double get_total_bits() { return (errors+corrects); }
     //! Returns the estimated bit error rate.
     double get_errorrate() { return (errors / (corrects + errors)); }
     /*!
@@ -140,6 +142,8 @@ namespace itpp {
     double get_errors() { return errors; }
     //! Returns the number of correct blocks
     double get_corrects() { return corrects; }
+    //! Returns the total number of block processed
+    double get_total_blocks() { return (errors+corrects); }
     //! Returns the block error rate
     double get_errorrate() { return (errors / (corrects + errors)); }
 

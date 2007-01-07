@@ -137,23 +137,7 @@ namespace itpp {
   // ============================================================
   // ================== DENSE GF(2) MATRIX CLASS ================
   // ============================================================
-  
-  /* 
-     TODO:
-  
-     - There is probably potential for improving the efficiency of some
-     of the matrix/vector multiplication operators.  (See specific
-     comments in the code.)
-     
-     - Make the data representation dynamic to account for the
-     possibility (?) that a short integer can store more than 16 bits.
-     Or use "int" or "long int"?
-
-     - Implement a general GF(2)-matrix class which offers the user a
-     transparent interface (user does not need to know whether the
-     sparse or the dense representation is used)?
-  */
-  
+   
   /*! 
     \relates bmat
     \brief Class for dense GF(2) matrices

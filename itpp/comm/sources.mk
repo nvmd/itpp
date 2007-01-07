@@ -10,6 +10,7 @@ h_comm_sources = \
 	$(top_srcdir)/itpp/comm/galois.h \
 	$(top_srcdir)/itpp/comm/hammcode.h \
 	$(top_srcdir)/itpp/comm/interleave.h \
+	$(top_srcdir)/itpp/comm/ldpc.h \
 	$(top_srcdir)/itpp/comm/llr.h \
 	$(top_srcdir)/itpp/comm/modulator.h \
 	$(top_srcdir)/itpp/comm/modulator_nd.h \
@@ -33,6 +34,7 @@ cpp_comm_sources = \
 	$(top_srcdir)/itpp/comm/galois.cpp \
 	$(top_srcdir)/itpp/comm/hammcode.cpp \
 	$(top_srcdir)/itpp/comm/interleave.cpp \
+	$(top_srcdir)/itpp/comm/ldpc.cpp \
 	$(top_srcdir)/itpp/comm/llr.cpp \
 	$(top_srcdir)/itpp/comm/modulator.cpp \
 	$(top_srcdir)/itpp/comm/modulator_nd.cpp \

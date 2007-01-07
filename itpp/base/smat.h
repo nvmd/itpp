@@ -787,7 +787,6 @@ namespace itpp {
       return ret;
     }
 
-  // modified implementation by EGL, May'05
   template <class T>
     Sparse_Mat<T> operator*(const Sparse_Mat<T> &m1, const Sparse_Mat<T> &m2)
     {
@@ -796,15 +795,28 @@ namespace itpp {
       Sparse_Mat<T> ret(m1.n_rows, m2.n_cols);
       
       for (int c=0; c<m2.n_cols; c++) {
-	for (int p2=0; p2<m2.col[c].nnz(); p2++) {
-	  Sparse_Vec<T> &mcol = m1.col[m2.col[c].get_nz_index(p2)];
+	Sparse_Vec<T> &m2colc=m2.col[c];
+	for (int p2=0; p2<m2colc.nnz(); p2++) {
+	  Sparse_Vec<T> &mcol = m1.col[m2colc.get_nz_index(p2)];
+	  T x = m2colc.get_nz_data(p2);
 	  for (int p1=0; p1<mcol.nnz(); p1++) {
 	    int r = mcol.get_nz_index(p1);
-	    T inc = mcol.get_nz_data(p1) * m2.col[c].get_nz_data(p2);
+	    T inc = mcol.get_nz_data(p1) *x;
 	    ret.col[c].add_elem(r,inc);
 	  }
 	}
       }
+      // old code
+/*       for (int c=0; c<m2.n_cols; c++) { */
+/* 	for (int p2=0; p2<m2.col[c].nnz(); p2++) { */
+/* 	  Sparse_Vec<T> &mcol = m1.col[m2.col[c].get_nz_index(p2)]; */
+/* 	  for (int p1=0; p1<mcol.nnz(); p1++) { */
+/* 	    int r = mcol.get_nz_index(p1); */
+/* 	    T inc = mcol.get_nz_data(p1) * m2.col[c].get_nz_data(p2); */
+/* 	    ret.col[c].add_elem(r,inc); */
+/* 	  } */
+/* 	} */
+/*       } */
       ret.compact();
       return ret;
     }
@@ -856,14 +868,14 @@ namespace itpp {
       /* The two lines below added because the input parameter "v" is
 	 declared const, but the some functions (e.g., nnz()) change
 	 the vector... Is there a better workaround? */
-      Sparse_Vec<T> vv;
-      vv = v;
+      Sparse_Vec<T> vv = v;
 
       for (int p2=0; p2<vv.nnz(); p2++) {
 	Sparse_Vec<T> &mcol = m.col[vv.get_nz_index(p2)];
+	T x = vv.get_nz_data(p2);
 	for (int p1=0; p1<mcol.nnz(); p1++) {
 	  int r = mcol.get_nz_index(p1);
-	  T inc = mcol.get_nz_data(p1) * vv.get_nz_data(p2);
+	  T inc = mcol.get_nz_data(p1) * x;
 	  ret.add_elem(r,inc);
 	}
       }

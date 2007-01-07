@@ -1,0 +1,68 @@
+Processing edge: 0 out of 600. Variable node degree: 3. Girth target: 6. Accumulated failures: 0
+Processing edge: 250 out of 600. Variable node degree: 3. Girth target: 6. Accumulated failures: 0
+Processing edge: 500 out of 600. Variable node degree: 3. Girth target: 6. Accumulated failures: 0
+--- LDPC parity check matrix ---
+Dimension: ncheck*nvar = 100 * 200
+Variable node degree distribution from node perspective:
+[0 0 0 1]
+Check node degree distribution from node perspective:
+[0 0 0 0 0 0 1]
+Variable node degree distribution from edge perspective:
+[0 0 0 1]
+Check node degree distribution from edge perspective:
+[0 0 0 0 0 0 1]
+--------------------------------
+--- LDPC parity check matrix ---
+Dimension: ncheck*nvar = 100 * 200
+Variable node degree distribution from node perspective:
+[0 0 0 1]
+Check node degree distribution from node perspective:
+[0 0 0 0 0 0 1]
+Variable node degree distribution from edge perspective:
+[0 0 0 1]
+Check node degree distribution from edge perspective:
+[0 0 0 0 0 0 1]
+--------------------------------
+Starting new pass of cycle elimination, target girth 6... 
+11% done.
+22% done.
+33% done.
+44% done.
+55% done.
+66% done.
+77% done.
+88% done.
+99% done.
+Achieved girth 6. Proceeding to next level.
+Cycle removal (MGW algoritm) finished. Graph girth: 6. Cycles remaining on next girth level: 0
+girth=6
+Computing generator matrix...
+Rank of parity check matrix: 100
+LDPC_Generator_Matrix() done.
+Computing decoder parameterization. Phase 1.
+Computing decoder parameterization. Phase 2.
+Computing decoder parameterization. Phase 3.
+Computing decoder parameterization. Phase 4.
+Saving LDPC codec to ldpc_test.codec
+LDPC_Code::save_to_file():  successfully saved LDPC codec to ldpc_test.codec
+LDPC_Code::LDPC_Code(): Loading LDPC codec from ldpc_test.codec
+LDPC_Code::LDPC_Code(): Passed cross-check check.
+LDPC_Code::LDPC_Code(): Successfully loaded LDPC codec from ldpc_test.codec
+---------- LDPC codec -----------------
+Nvar=200  Ncheck=100  rate=0.5
+Column degrees (node perspective): [0 0 0 200]
+Row degrees (node perspective): [0 0 0 0 0 0 100]
+---------------------------------------
+Decoder parameters: dec_method=bp. Decoder options: [50 1 0]
+---------- LLR calculation unit -----------------
+LLR_calc_unit table properties:
+The granularity in the LLR representation is 0.000244141
+The LLR scale factor is 4096
+The largest LLR that can be represented is 32768
+The table resolution is 0.03125
+The number of entries in the table is 300
+The tables truncates at the LLR value 9.375
+-------------------------------------------------
+
+
+[23625 44694 52954 25049 33439 29853 59945 30385 22718 12071 37012 73868 45940 48085 34535 22022 47165 52413 23258 58284 50495 35488 38476 31772 45970]

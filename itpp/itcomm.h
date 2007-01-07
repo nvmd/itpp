@@ -61,6 +61,7 @@
 #include <itpp/comm/galois.h>
 #include <itpp/comm/hammcode.h>
 #include <itpp/comm/interleave.h>
+#include <itpp/comm/ldpc.h>
 #include <itpp/comm/llr.h>
 #include <itpp/comm/modulator.h>
 #include <itpp/comm/modulator_nd.h>

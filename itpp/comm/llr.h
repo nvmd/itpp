@@ -31,7 +31,6 @@
  * -------------------------------------------------------------------------
  */
 
-
 #ifndef LLR_H
 #define LLR_H
 
@@ -39,7 +38,6 @@
 #include <itpp/base/mat.h>
 #include <itpp/base/specmat.h>
 #include <itpp/base/matfunc.h>
-
 
 namespace itpp {
   
@@ -61,7 +59,8 @@ namespace itpp {
   /*!  \relates LLR_calc_unit 
     The largest possible QLLR value
   */
-  const QLLR QLLR_MAX=(INT_MAX>>2) ;
+/*   const QLLR QLLR_MAX=(INT_MAX>>2) ; */
+  const QLLR QLLR_MAX=(INT_MAX>>4) ;
  // added some margin to make sure the sum of two LLR is still permissible
 
   /*! 
@@ -139,34 +138,46 @@ namespace itpp {
       The default parameter values are chosen to give a performance
       practically indistinguishable from that of using floating point
       calculations.
+
+      Example: (recommended settings with "exact" computation via high 
+      resolution lookup table)
+      \code
+      LLR_calc_unit lcalc(12,300,7);
+      \endcode
+
+      Example: (recommended settings with logmax, i.e. no table lookup)
+      \code
+      LLR_calc_unit lcalc(12,0,7);
+      \endcode
     */
     void init_llr_tables(short int Dint1 = 12, short int Dint2 = 300, 
 			 short int Dint3 = 7);
-    // void init_llr_tables(const short int d1=10, const short int d2=300, const short int d3=5);
+    // void init_llr_tables(const short int d1=10, const short int d2=300, 
+    //            const short int d3=5);
 
     //! Convert a "real" LLR value to an LLR type
-    inline QLLR to_qllr(const double &l);
+    inline QLLR to_qllr(const double &l) const;
 
     //! Convert a vector of "real" LLR values to an LLR type
-    QLLRvec to_qllr(const vec &l);
+    QLLRvec to_qllr(const vec &l) const;
 
     //! Convert a matrix of "real" LLR values to an LLR type
-    QLLRmat to_qllr(const mat &l);
+    QLLRmat to_qllr(const mat &l) const;
   
     //! Convert an LLR type to a "real" LLR 
     inline double to_double(const QLLR &l) const { return ( ((double) l) / ((double) (1<<Dint1))); };
 
     //! Convert a vector of LLR types to a "real" LLR 
-    vec to_double(const QLLRvec &l);
+    vec to_double(const QLLRvec &l) const;
 
     //! Convert a matrix of LLR types to a "real" LLR 
-    mat to_double(const QLLRmat &l);
+    mat to_double(const QLLRmat &l) const;
 
     /*! \brief Jacobian logarithm. 
 
     This function computes \f[ \log(\exp(a)+\exp(b)) \f]
     */
-    inline QLLR jaclog(QLLR a, QLLR b);
+    inline QLLR jaclog(QLLR a, QLLR b) const;
     // Note: a version of this function taking "double" values as input
     // is deliberately omitted, because this is rather slow. 
 
@@ -176,12 +187,12 @@ namespace itpp {
       \f[ \mbox{sign}(a)*\mbox{sign}(b)*\mbox{min}(|a|,|b|)+f(|a+b|)-f(|a-b|) \f]
       where \f[ f(x) = \log(1+\exp(-x))  \f]
     */
-    inline QLLR Boxplus(QLLR a, QLLR b);
+    inline QLLR Boxplus(QLLR a, QLLR b) const;
 
     /*! \brief Logexp operator.
 
     This function computes \f[ f(x) = \log(1+\exp(-x)) \f]  */
-    QLLR logexp(QLLR x);
+    inline QLLR logexp(QLLR x) const;
 
     //! Retrieve the table resolution values
     ivec get_Dint();
@@ -209,59 +220,50 @@ namespace itpp {
   */
   std::ostream &operator<<(std::ostream &os, const LLR_calc_unit &lcu);
 
-  
-
   // ================ IMPLEMENTATIONS OF SOME LIKELIHOOD ALGEBRA FUNCTIONS =========== 
 
-  inline QLLR LLR_calc_unit::to_qllr(const double &l)
+  inline QLLR LLR_calc_unit::to_qllr(const double &l) const
     { 
       it_assert0(l<=to_double(QLLR_MAX),"LLR_calc_unit::to_qllr(): overflow");
       it_assert0(l>=-to_double(QLLR_MAX),"LLR_calc_unit::to_qllr(): overflow");
       return ( (int) std::floor(0.5+(1<<Dint1)*l) ); 
     };
   
-  inline QLLR LLR_calc_unit::Boxplus(QLLR a, QLLR b)
+  inline QLLR LLR_calc_unit::Boxplus(QLLR a, QLLR b) const
     {
-      /* These boundary checks are meant to completely eliminate the
-	 possibility of any numerical problem.  Perhaps they are not
-	 strictly necessary.  */
-      if (a>=QLLR_MAX) { 
-	return b;
-      }
-      if (b>=QLLR_MAX) {
-	return a;
-      }
-      if (a<=-QLLR_MAX) {
-	return (-b);
-      }
-      if (b<=-QLLR_MAX) {
-	return (-a);
-      }
+      it_assert0(a<QLLR_MAX,"LLR_calc_unit::Boxplus(): owerflow");
+      it_assert0(b<QLLR_MAX,"LLR_calc_unit::Boxplus(): owerflow");
+      it_assert0(a>-QLLR_MAX,"LLR_calc_unit::Boxplus(): owerflow");
+      it_assert0(b>-QLLR_MAX,"LLR_calc_unit::Boxplus(): owerflow");
 
       QLLR a_abs = (a>0 ? a : -a);
       QLLR b_abs = (b>0 ? b : -b);
       QLLR minabs = (a_abs>b_abs ? b_abs : a_abs);
       QLLR term1 = (a>0 ? (b>0 ? minabs : -minabs) : (b>0 ? -minabs : minabs));
+
+      if (Dint2==0) {  // logmax approximation - avoid looking into empty table
+	it_assert0(term1<QLLR_MAX,"LLR_calc_unit::Boxplus(): owerflow");
+	it_assert0(term1>-QLLR_MAX,"LLR_calc_unit::Boxplus(): owerflow");
+	return term1;
+      }
+
       QLLR apb = a+b;
       QLLR term2 = logexp((apb>0 ? apb : -apb));
       QLLR amb = a-b;
       QLLR term3 = logexp((amb>0 ? amb : -amb));
 
       QLLR result = term1+term2-term3;
-      if (result>=QLLR_MAX) {         
-	return QLLR_MAX; 
-      } else if (result<=-QLLR_MAX) {
-	return (-QLLR_MAX);
-      } else {
-	return result;
-      }
+
+      it_assert0(result<QLLR_MAX,"LLR_calc_unit::Boxplus(): owerflow");
+      it_assert0(result>-QLLR_MAX,"LLR_calc_unit::Boxplus(): owerflow");
+      return result;
     }
 
-  inline QLLR LLR_calc_unit::logexp(QLLR x)
+  inline QLLR LLR_calc_unit::logexp(QLLR x) const
     {
       it_assert0(x>=0,"LLR_calc_unit::logexp() is not defined for negative LLR values");
       int ind = x>>Dint3;
-      if (ind>=Dint2) {
+      if (ind>=Dint2) {  // outside table
 	return 0;
       }
 
@@ -276,7 +278,7 @@ namespace itpp {
       return logexp_table(ind);
     }
 
-  inline QLLR LLR_calc_unit::jaclog(QLLR a, QLLR b )
+  inline QLLR LLR_calc_unit::jaclog(QLLR a, QLLR b ) const
     {
       QLLR x,maxab;
   

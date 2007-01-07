@@ -2,10 +2,10 @@
 \page tutorial Tutorials
 \addindex Tutorial
 
-This page consists of a number of tutorial examples that will help you getting
+This page contains some tutorial examples that will help you getting
 started using IT++. Most examples show how to construct some simple
-communication system simulations. The source codes and Makefile to compile
-these examples can be found in \c {ITPP_HOME}/doc/tutorial/src
+communication system simulations. The source codes for these examples
+can be found in \c {ITPP_HOME}/doc/tutorial/src.
 
 Examples of basic functionality:
 - \ref vector_and_matrix
@@ -23,6 +23,8 @@ Examples of communications related functions:
 
 More specialized examples:
 - \ref mimoconv
+- \ref ldpc_gen_codes
+- \ref ldpc_bersim_awgn
 - \ref mog
 
 Other:
