@@ -40,6 +40,7 @@ if ENABLE_COMM
 	convcode_test \
 	galois_test \
 	interleaver_test \
+	ldpc_test \
 	llr_test \
 	modulator_test \
 	modulator_nd_test \
@@ -101,6 +102,7 @@ histogram_test_SOURCES = histogram_test.cpp
 integration_test_SOURCES = integration_test.cpp
 interleaver_test_SOURCES = interleaver_test.cpp
 inv_test_SOURCES = inv_test.cpp
+ldpc_test_SOURCES = ldpc_test.cpp
 llr_test_SOURCES = llr_test.cpp
 ls_solve_test_SOURCES = ls_solve_test.cpp
 lu_test_SOURCES = lu_test.cpp
@@ -148,3 +150,4 @@ check-local: $(check_PROGRAMS) $(ref_sources)
 clean-local:
 	rm -f *.tmp
 	rm -f gf2mat_test.alist 
+	rm -f ldpc_test.codec

@@ -88,7 +88,7 @@ namespace itpp {
     return result;
   }
 
-  QLLRvec LLR_calc_unit::to_qllr(const vec &l) {
+  QLLRvec LLR_calc_unit::to_qllr(const vec &l) const {
     int n=length(l);
     ivec result(n);
     for (int i=0; i<n; i++) {
@@ -97,7 +97,7 @@ namespace itpp {
     return result;
   }
   
-  vec LLR_calc_unit::to_double(const QLLRvec &l) {
+  vec LLR_calc_unit::to_double(const QLLRvec &l) const {
     int n=length(l);
     vec result(n);
     for (int i=0; i<n; i++) {
@@ -106,7 +106,7 @@ namespace itpp {
     return result;
   }
 
-  QLLRmat LLR_calc_unit::to_qllr(const mat &l) {
+  QLLRmat LLR_calc_unit::to_qllr(const mat &l)  const {
     int m=l.rows();
     int n=l.cols();
     imat result(m,n);
@@ -118,7 +118,7 @@ namespace itpp {
     return result;
   }
   
-  mat LLR_calc_unit::to_double(const QLLRmat &l) {
+  mat LLR_calc_unit::to_double(const QLLRmat &l) const {
     int m=l.rows();
     int n=l.cols();
     mat result(m,n);

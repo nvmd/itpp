@@ -1,3 +1,27 @@
+2007-01-07  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* AUTHORS, doc/local/authors.doc, itpp/comm/ldpc.h,
+	itpp/comm/ldpc.cpp, itpp/itcomm.h, itpp/tests/ldpc_test.cpp,
+	itpp/tests/ldpc_test.ref, itpp/comm/sources.mk, tests/Makefile.am,
+	doc/tutorial/tutorial.doc, doc/tutorial/sources.mk,
+	doc/tutorial/src/sources.mk, doc/tutorial/ldpc_gen_codes.doc,
+	doc/tutorial/ldpc_bersim_awgn.doc,
+	doc/tutorial/src/ldpc_gen_codes.cpp,
+	doc/tutorial/src/ldpc_bersim_awgn.cpp: Added first version of the
+	LDPC codec class
+
+	* itpp/comm/llr.h, itpp/comm/llr.cpp, itpp/tests/llr_test.ref,
+	itpp/tests/modulator_nd_test.ref: minor updates
+
+	* itpp/base/smat.h: minor efficiency improvements
+
+	* itpp/comm/error_counters.h: Added function get_total_bits() and
+	get_total_blocks()
+
+	* itpp/base/gf2mat.h: Documentation updates
+
+	* TODO: updated
+	
 2007-01-05  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/base/gf2mat.h: Clarification in documentation

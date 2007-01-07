@@ -5,7 +5,7 @@
 LLR_calc_unit table properties:
 The granularity in the LLR representation is 0.000244141
 The LLR scale factor is 4096
-The largest LLR that can be represented is 131072
+The largest LLR that can be represented is 32768
 The table resolution is 0.03125
 The number of entries in the table is 300
 The tables truncates at the LLR value 9.375
@@ -35,7 +35,7 @@ Symbol coordinates for dimension 4: [1 -1]
 LLR_calc_unit table properties:
 The granularity in the LLR representation is 0.000244141
 The LLR scale factor is 4096
-The largest LLR that can be represented is 131072
+The largest LLR that can be represented is 32768
 The table resolution is 0.03125
 The number of entries in the table is 300
 The tables truncates at the LLR value 9.375
@@ -80,7 +80,7 @@ Symbol coordinates for dimension 4: [1.34164 0.447214 -0.447214 -1.34164]
 LLR_calc_unit table properties:
 The granularity in the LLR representation is 0.000244141
 The LLR scale factor is 4096
-The largest LLR that can be represented is 131072
+The largest LLR that can be represented is 32768
 The table resolution is 0.03125
 The number of entries in the table is 300
 The tables truncates at the LLR value 9.375
@@ -145,7 +145,7 @@ Symbol coordinates for dimension 4: [1.52753 1.09109 0.654654 0.218218 -0.218218
 LLR_calc_unit table properties:
 The granularity in the LLR representation is 0.000244141
 The LLR scale factor is 4096
-The largest LLR that can be represented is 131072
+The largest LLR that can be represented is 32768
 The table resolution is 0.03125
 The number of entries in the table is 300
 The tables truncates at the LLR value 9.375
@@ -180,7 +180,7 @@ Symbol coordinates for dimension 2: [0.707107+0.707107i -0.707107+0.707107i 0.70
 LLR_calc_unit table properties:
 The granularity in the LLR representation is 0.000244141
 The LLR scale factor is 4096
-The largest LLR that can be represented is 131072
+The largest LLR that can be represented is 32768
 The table resolution is 0.03125
 The number of entries in the table is 300
 The tables truncates at the LLR value 9.375
@@ -250,7 +250,7 @@ Symbol coordinates for dimension 2: [0.948683+0.948683i 0.316228+0.948683i -0.31
 LLR_calc_unit table properties:
 The granularity in the LLR representation is 0.000244141
 The LLR scale factor is 4096
-The largest LLR that can be represented is 131072
+The largest LLR that can be represented is 32768
 The table resolution is 0.03125
 The number of entries in the table is 300
 The tables truncates at the LLR value 9.375
@@ -464,7 +464,7 @@ Symbol coordinates for dimension 2: [1.08012+1.08012i 0.771517+1.08012i 0.46291+
 LLR_calc_unit table properties:
 The granularity in the LLR representation is 0.000244141
 The LLR scale factor is 4096
-The largest LLR that can be represented is 131072
+The largest LLR that can be represented is 32768
 The table resolution is 0.03125
 The number of entries in the table is 300
 The tables truncates at the LLR value 9.375
@@ -498,7 +498,7 @@ Symbol coordinates for dimension 2: [1+0i 0+1i -1+0i 0-1i]
 LLR_calc_unit table properties:
 The granularity in the LLR representation is 0.000244141
 The LLR scale factor is 4096
-The largest LLR that can be represented is 131072
+The largest LLR that can be represented is 32768
 The table resolution is 0.03125
 The number of entries in the table is 300
 The tables truncates at the LLR value 9.375
@@ -568,7 +568,7 @@ Symbol coordinates for dimension 2: [1+0i 0.92388+0.382683i 0.707107+0.707107i 0
 LLR_calc_unit table properties:
 The granularity in the LLR representation is 0.000244141
 The LLR scale factor is 4096
-The largest LLR that can be represented is 131072
+The largest LLR that can be represented is 32768
 The table resolution is 0.03125
 The number of entries in the table is 300
 The tables truncates at the LLR value 9.375
@@ -782,7 +782,7 @@ Symbol coordinates for dimension 2: [1+0i 0.995185+0.0980171i 0.980785+0.19509i 
 LLR_calc_unit table properties:
 The granularity in the LLR representation is 0.000244141
 The LLR scale factor is 4096
-The largest LLR that can be represented is 131072
+The largest LLR that can be represented is 32768
 The table resolution is 0.03125
 The number of entries in the table is 300
 The tables truncates at the LLR value 9.375

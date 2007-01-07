@@ -11,7 +11,9 @@ cpp_tutorial_sources = \
 	$(top_srcdir)/doc/tutorial/src/vector_and_matrix.cpp \
 	$(top_srcdir)/doc/tutorial/src/mimoconv.cpp \
 	$(top_srcdir)/doc/tutorial/src/write_it_file.cpp \
-	$(top_srcdir)/doc/tutorial/src/mog.cpp
+	$(top_srcdir)/doc/tutorial/src/mog.cpp \
+	$(top_srcdir)/doc/tutorial/src/ldpc_gen_codes.cpp \
+	$(top_srcdir)/doc/tutorial/src/ldpc_bersim_awgn.cpp 
 
 ref_tutorial_sources = \
 	$(top_srcdir)/doc/tutorial/src/bpsk.ref \
