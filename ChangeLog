@@ -1,3 +1,7 @@
+2007-01-09  Conrad Sanderson  <conrad_s@users.sourceforge.net>
+
+	* itpp/base/itassert.cpp: changed "Assertation" to "Assertion"
+
 2007-01-07  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* AUTHORS, doc/local/authors.doc, itpp/comm/ldpc.h,
