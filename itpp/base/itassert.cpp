@@ -53,7 +53,7 @@ namespace itpp {
     std::ostringstream line_str;
     line_str << line << std::flush;
 
-    std::string error = "*** Assertation failed in ";
+    std::string error = "*** Assertion failed in "; 
     error += file;
     error += " on line ";
     error += line_str.str();
