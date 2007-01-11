@@ -1,3 +1,4 @@
+Running with Laim=[0 0 100 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6 6]
 Processing edge: 0 out of 600. Variable node degree: 3. Girth target: 6. Accumulated failures: 0
 Processing edge: 250 out of 600. Variable node degree: 3. Girth target: 6. Accumulated failures: 0
 Processing edge: 500 out of 600. Variable node degree: 3. Girth target: 6. Accumulated failures: 0

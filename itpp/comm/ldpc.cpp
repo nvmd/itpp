@@ -501,10 +501,13 @@ namespace itpp {
 
     // set the girth goal for various variable node degrees
     ivec Laim=zeros_i(Nmax);
-    Laim(2) = cycopt(0); // target for degree-2 nodes
-    for (int i=3; i<Nmax; i++) { 
-      Laim(i)=cycopt(1);   // target for >2 degree nodes
+    for (int i=0; i<length(cycopt); i++) {
+      Laim(i+2)=cycopt(i);
     }
+    for (int i=length(cycopt); i<Nmax-2; i++) {
+      Laim(i+2)=cycopt(length(cycopt)-1);
+    }
+    cout << "Running with Laim=" << Laim.left(25) << endl;
 
     long int failures=0;    
     const int Max_attempts=100;
