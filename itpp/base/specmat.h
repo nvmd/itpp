@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Definitions of special vectors and matrices
- * \author Tony Ottosson, Tobias Ringstrom, Pal Frenger and Adam Piatyszek
+ * \author Tony Ottosson, Tobias Ringstrom, Pal Frenger, Adam Piatyszek and Erik G. Larsson
  * 
  * $Date$
  * $Revision$
@@ -104,6 +104,35 @@ namespace itpp {
   vec impulse(int size);
   //! Linspace (works in the same way as the matlab version)
   vec linspace(double from, double to, int length = 100);
+  /*! \brief Zig-zag space function (variation on linspace)
+    
+  This function is a variation on linspace().  It traverses the points
+  in different order. For example
+  \code
+  zigzag_space(-5,5,3)
+  \endcode 
+  gives the vector 
+  \code 
+  [-5 5 0 -2.5 2.5 -3.75 -1.25 1.25 3.75]
+  \endcode
+  and
+  \code
+  zigzag_space(-5,5,4) 
+  \endcode
+  gives
+  the vector
+  \code
+  [-5 5 0 -2.5 2.5 -3.75 -1.25 1.25 3.75 -4.375 -3.125 -1.875 -0.625 0.625 1.875 3.125 4.375]
+  \endcode
+  and so on.
+
+  I.e. the function samples the interval [t0,t1] with finer and finer
+  density and with points uniformly distributed over the interval,
+  rather than from left to right (as does linspace).
+
+  The result is a vector of length 1+2^K.
+  */
+  vec zigzag_space(double t0, double t1, int K=5); 
   //! A 2^size by 2^size Hadamard matrix
   imat hadamard(int size);
 
