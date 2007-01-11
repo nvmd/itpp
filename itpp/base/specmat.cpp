@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Implementation of special vectors and matrices
- * \author Tony Ottosson, Tobias Ringstrom, Pal Frenger and Adam Piatyszek
+ * \author Tony Ottosson, Tobias Ringstrom, Pal Frenger, Adam Piatyszek and Erik G. Larsson
  * 
  * $Date$
  * $Revision$
@@ -127,7 +127,29 @@ namespace itpp {
       return output;
     }
   }
-
+    
+  vec zigzag_space(double t0, double t1, int K)
+  {
+    it_assert(K>0,"zigzag_space:() K must be positive");
+    ivec N="0 1";
+    
+    int n=2;
+    for (int k=0; k<K; k++) {
+      ivec Nn=2*N;
+      for (int i=1; i<length(Nn); i+=2)  {
+	Nn=concat(Nn,i);
+	n++;
+      }
+      N=Nn;
+    }
+    
+    vec T0=linspace(t0,t1,n);
+    vec Tt=zeros(n);
+    for (int i=0; i<n; i++) {
+      Tt(i)=T0(N(i));
+    }
+    return Tt;
+  }
 
   // Construct a Hadamard-imat of size "size"
   imat hadamard(int size) {	

@@ -2,6 +2,9 @@
 
 	* itpp/comm/ldpc.cpp, tests/ldpc_test.ref: minor enhancement
 
+	* itpp/base/specmat.h, itpp/base/specmat.cpp: added function
+	"zigzag_space()"
+	
 2007-01-09  Conrad Sanderson  <conrad_s@users.sourceforge.net>
 
 	* itpp/base/itassert.cpp: changed "Assertation" to "Assertion"
