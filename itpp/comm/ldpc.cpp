@@ -3,8 +3,8 @@
  * \brief Implementation of a Low-Density Parity Check (LDPC) codec.
  * \author Erik G. Larsson and Mattias Andersson
  *
- * $Date:  $
- * $Revision:  $
+ * $Date$
+ * $Revision$
  *
  * -------------------------------------------------------------------------
  *
