@@ -3,8 +3,8 @@
  * \brief Channel classes test program
  * \author Adam Piatyszek
  *
- * $Date: 2006-08-08 13:39:59 +0200 (Tue, 08 Aug 2006) $
- * $Revision: 586 $
+ * $Date$
+ * $Revision$
  *
  * -------------------------------------------------------------------------
  *
