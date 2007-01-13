@@ -1,19 +1,24 @@
+2007-01-13  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/ldpc.cpp, itpp/comm/ldpc.h, tests/channel_test.cpp,
+	tests/ldpc_test.cpp: Added missing SVN properities
+
 2007-01-13  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/comm/ldpc.cpp, itpp/comm/ldpc.h, itpp/comm/modulator_nd.h,
-	itpp/comm/modulator_nd.cpp: code cleanup, removing local
-	declarations etc
+	itpp/comm/modulator_nd.cpp: Code cleanup, removing local
+	declarations, etc.
 
 2007-01-11  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
-	* itpp/comm/ldpc.cpp, tests/ldpc_test.ref: minor enhancement
+	* itpp/comm/ldpc.cpp, tests/ldpc_test.ref: Minor enhancements
 
-	* itpp/base/specmat.h, itpp/base/specmat.cpp: added function
+	* itpp/base/specmat.h, itpp/base/specmat.cpp: Added function
 	"zigzag_space()"
 	
 2007-01-09  Conrad Sanderson  <conrad_s@users.sourceforge.net>
 
-	* itpp/base/itassert.cpp: changed "Assertation" to "Assertion"
+	* itpp/base/itassert.cpp: Changed "Assertation" to "Assertion"
 
 2007-01-07  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
@@ -28,16 +33,16 @@
 	LDPC codec class
 
 	* itpp/comm/llr.h, itpp/comm/llr.cpp, itpp/tests/llr_test.ref,
-	itpp/tests/modulator_nd_test.ref: minor updates
+	itpp/tests/modulator_nd_test.ref: Minor updates
 
-	* itpp/base/smat.h: minor efficiency improvements
+	* itpp/base/smat.h: Minor efficiency improvements
 
 	* itpp/comm/error_counters.h: Added function get_total_bits() and
 	get_total_blocks()
 
 	* itpp/base/gf2mat.h: Documentation updates
 
-	* TODO: updated
+	* TODO: Updated
 	
 2007-01-05  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 

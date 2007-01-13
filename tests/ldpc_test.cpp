@@ -3,8 +3,8 @@
  * \brief LDPC class test program
  * \author Erik G. Larsson
  *
- * $Date: 2006-10-14 13:46:33 +0200 (Sat, 14 Oct 2006) $
- * $Revision: 676 $
+ * $Date$
+ * $Revision$
  *
  * -------------------------------------------------------------------------
  *
