@@ -3,8 +3,8 @@
  * \brief Implementation of a Low-Density Parity Check (LDPC) codec.
  * \author Erik G. Larsson 
  *
- * $Date: 2006-11-02 19:31:47 +0100 (Thu, 02 Nov 2006) $
- * $Revision: 705 $
+ * $Date:  $
+ * $Revision:  $
  *
  * -------------------------------------------------------------------------
  *
@@ -42,7 +42,9 @@
 
 namespace itpp {
   
-  // ----------- LDPC PARITY CHECK MATRIX ---------------------
+  // ---------------------------------------------------------------------------
+  // LDPC_Parity_Matrix
+  // ---------------------------------------------------------------------------
   
   /*!
     \brief LDPC Parity check matrix class
@@ -276,13 +278,24 @@ namespace itpp {
       // Generate random parity matrix
       void generate_random_H(const ivec C, const ivec R, const ivec cycopt);
       
+      /* This help function returns the nonzeros of a sparse vector. The
+	 only purpose of this function is to guard against possible "0"
+	 elements delivered by the svec package. This should not happen,
+	 so this function should only be seen as a firewall to guard
+	 against possible problems if using a sparse-matrix handler that
+	 cannot correctly deal with integer matrices.
+      */
+      template <class T> ivec index_nonzeros(Sparse_Vec<T> x) const;
+
       //      inline int get_cmax() const {   return (max(sumX1));  } 
       //      inline int get_vmax() const {   return (max(sumX2));  } 
       //      ivec get_coldegree() const; 
       //      ivec get_rowdegree() const; 
     };
 
-  // ----------------- LDPC GENERATOR MATRIX -----------------
+  // ---------------------------------------------------------------------------
+  // LDPC_Generator_Matrix
+  // ---------------------------------------------------------------------------
   /*! \brief LDPC Generator matrix class
 
   A generator matrix is basically a dense GF(2) matrix with a
@@ -334,7 +347,9 @@ namespace itpp {
       int nvar,ncheck;
     };
 
-  // ------------- LDPC CODEC -----------------------
+  // ---------------------------------------------------------------------------
+  // LDPC_Code
+  // ---------------------------------------------------------------------------
 
   /*!
     \brief Low-density parity check (LDPC) codec  
@@ -356,6 +371,8 @@ namespace itpp {
     <b>Please refer to the tutorials \ref ldpc_gen_codes and \ref
     ldpc_bersim_awgn for extensive examples of how to use LDPC
     codes.</b>
+
+    \ingroup fec
   */
   class LDPC_Code : public Channel_Code
     {

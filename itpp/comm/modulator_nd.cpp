@@ -37,10 +37,11 @@
 #include <itpp/base/math/elem_math.h>
 #include <itpp/base/converters.h>
 
-
 namespace itpp {
 
-  // ----------------------- MIMO GENERAL -----------------------------
+  // ----------------------------------------------------------------------
+  // Modulator_ND
+  // ----------------------------------------------------------------------
   
   QLLRvec Modulator_ND::probabilities(QLLR l)
   {
@@ -65,33 +66,39 @@ namespace itpp {
     return result;
   }
 
-  void Modulator_ND::update_LLR(Vec<QLLRvec> &logP_apriori, QLLRvec &p1, QLLRvec &p0, int s, QLLR scaled_norm, int j)
+  void Modulator_ND::update_LLR(Vec<QLLRvec> &logP_apriori, QLLRvec &p1, 
+				QLLRvec &p0, int s, QLLR scaled_norm, int j)
   {
     QLLR log_apriori_prob_const_point = 0;
     int b=0;
     for (int i=0; i<k(j); i++) {
-      log_apriori_prob_const_point += ((bitmap(j)(s,i)==0) ? logP_apriori(b)(1) : logP_apriori(b)(0));
+      log_apriori_prob_const_point += ((bitmap(j)(s,i)==0) ? 
+				       logP_apriori(b)(1) : logP_apriori(b)(0));
       b++;
     }
     
     b=0;
     for (int i=0; i<k(j); i++) {
       if (bitmap(j)(s,i)==0) {
-	p1(b) =  llrcalc.jaclog(p1(b), scaled_norm + log_apriori_prob_const_point );
+	p1(b) =  llrcalc.jaclog(p1(b), scaled_norm 
+				+ log_apriori_prob_const_point );
       }  else {
-	p0(b) = llrcalc.jaclog(p0(b),  scaled_norm + log_apriori_prob_const_point );
+	p0(b) = llrcalc.jaclog(p0(b),  scaled_norm 
+			       + log_apriori_prob_const_point );
       }
       b++;
     }
   }
 
-  void Modulator_ND::update_LLR(Vec<QLLRvec> &logP_apriori, QLLRvec &p1, QLLRvec &p0, ivec &s, QLLR scaled_norm)
+  void Modulator_ND::update_LLR(Vec<QLLRvec> &logP_apriori, QLLRvec &p1, 
+				QLLRvec &p0, ivec &s, QLLR scaled_norm)
   {
     QLLR log_apriori_prob_const_point = 0;
     int b=0;
     for (int j=0; j<nt; j++) {
       for (int i=0; i<k(j); i++) {
-	log_apriori_prob_const_point += ((bitmap(j)(s[j],i)==0) ? logP_apriori(b)(1) : logP_apriori(b)(0));
+	log_apriori_prob_const_point += ((bitmap(j)(s[j],i)==0) ? 
+					 logP_apriori(b)(1) : logP_apriori(b)(0));
 	b++;
       }
     }
@@ -100,16 +107,23 @@ namespace itpp {
     for (int j=0; j<nt; j++) {
       for (int i=0; i<k(j); i++) {
 	if (bitmap(j)(s[j],i)==0) {
-	  p1(b) =  llrcalc.jaclog(p1(b), scaled_norm + log_apriori_prob_const_point );
+	  p1(b) =  llrcalc.jaclog(p1(b), scaled_norm 
+				  + log_apriori_prob_const_point );
 	}  else {
-	  p0(b) = llrcalc.jaclog(p0(b),  scaled_norm + log_apriori_prob_const_point );
+	  p0(b) = llrcalc.jaclog(p0(b),  scaled_norm 
+				 + log_apriori_prob_const_point );
 	}
 	b++;
       }
     }	    
   }
 
-  void Modulator_NRD::update_norm(double &norm, int k, int sold, int snew, vec &ytH, mat &HtH, ivec &s)
+  // ----------------------------------------------------------------------
+  // Modulator_NRD
+  // ----------------------------------------------------------------------
+
+  void Modulator_NRD::update_norm(double &norm, int k, int sold, int snew, 
+				  vec &ytH, mat &HtH, ivec &s)
   {
    
     int m = length(s);
@@ -123,24 +137,12 @@ namespace itpp {
      }
   }
 
-  void Modulator_NCD::update_norm(double &norm, int k, int sold, int snew, cvec &ytH, cmat &HtH, ivec &s)
-  {
-    int m = length(s);
-    std::complex<double> cdiff = symbols(k)[snew]-symbols(k)[sold];
-    
-    norm += sqr(cdiff)*(HtH(k,k).real());
-    cdiff = 2.0*cdiff;
-    norm -= (cdiff.real()*ytH[k].real() - cdiff.imag()*ytH[k].imag());
-    for (int i=0; i<m; i++) {
-      norm += (cdiff*HtH(i,k)*conj(symbols(k)[s[i]])).real();
-    }
-  }
-
   void Modulator_NRD::map_demod(QLLRvec &LLR_apriori,  QLLRvec &LLR_aposteriori,  
 			   double sigma2,  vec &h, vec &y)
   {
     it_assert(length(LLR_apriori)==sum(k),"Modulator_NRD::map_demod()");
-    it_assert(length(LLR_apriori)==length(LLR_aposteriori),"Modulator_NRD::map_demod()");
+    it_assert(length(LLR_apriori)==length(LLR_aposteriori),
+	      "Modulator_NRD::map_demod()");
     it_assert(length(h)==length(y),"Modulator_NRD::map_demod()");
     it_assert(length(h)==nt,"Modulator_NRD:map_demod()");
 
@@ -163,46 +165,22 @@ namespace itpp {
     }
   };
 
-  void Modulator_NCD::map_demod(QLLRvec &LLR_apriori,  QLLRvec &LLR_aposteriori,  
-				double sigma2,  cvec &h, cvec &y)
-  {
-    it_assert(length(LLR_apriori)==sum(k),"Modulator_NCD::map_demod()");
-    it_assert(length(LLR_apriori)==length(LLR_aposteriori),"Modulator_NCD::map_demod()");
-    it_assert(length(h)==length(y),"Modulator_NCD::map_demod()");
-    it_assert(length(h)==nt,"Modulator_NCD:map_demod()");
-
-    int b=0;
-    double oo_s2 = 1.0/sigma2;
-    double norm2;
-    QLLRvec temp, bnum, bdenom;
-    for (int i=0; i<nt; i++) {
-      temp=LLR_apriori(b,b+k(i)-1);
-      bnum = (-QLLR_MAX)*ones_i(k(i));
-      bdenom = (-QLLR_MAX)*ones_i(k(i));    
-      Vec<QLLRvec> logP_apriori = probabilities(temp);
-      for (int j=0; j<M(i); j++) {
-	norm2 = sqr(y(i)-h(i)*symbols(i)(j)); 
-	QLLR scaled_norm = llrcalc.to_qllr(-norm2*oo_s2);
-	update_LLR(logP_apriori, bnum, bdenom, j, scaled_norm,i);
-      }
-      LLR_aposteriori.set_subvector(b,bnum-bdenom);
-      b+=k(i);
-    }
-  };
-
-  void Modulator_NRD::map_demod(QLLRvec &LLR_apriori,  QLLRvec &LLR_aposteriori,  
-			   double sigma2,  mat &H, vec &y)
+  void Modulator_NRD::map_demod(QLLRvec &LLR_apriori,  
+				QLLRvec &LLR_aposteriori,  
+				double sigma2,  mat &H, vec &y)
   {
     int nr = H.rows();
     int np=sum(k); // number of bits in total
     it_assert(length(LLR_apriori)==np,"Modulator_NRD::map_demod()");
-    it_assert(length(LLR_apriori)==length(LLR_aposteriori),"Modulator_NRD::map_demod()");
+    it_assert(length(LLR_apriori)==length(LLR_aposteriori),
+	      "Modulator_NRD::map_demod()");
     it_assert(H.rows()==length(y),"Modulator_NRD::map_demod()");
     it_assert(H.cols()==nt,"Modulator_NRD:map_demod()");
     
     int mode=0;
      for (int i=0; i<length(M); i++) {
-       if (nt*M(i)>4) { mode = 1; }    // differential update only pays off for larger dimensions
+       // differential update only pays off for larger dimensions
+       if (nt*M(i)>4) { mode = 1; }   
      }
     
     Vec<QLLRvec> logP_apriori = probabilities(LLR_apriori);
@@ -262,8 +240,84 @@ namespace itpp {
 
   };
 
-  void Modulator_NCD::map_demod(QLLRvec &LLR_apriori,  QLLRvec &LLR_aposteriori,  double sigma2,  
-				cmat &H, cvec &y)
+  vec Modulator_NRD::modulate_bits(const bvec &bits) const
+  {
+    vec result(nt);
+
+    it_assert(length(bits)==sum(k),"Modulator_NRD::modulate_bits(): The number of input bits does not match.");
+
+    int b=0;
+    for (int i=0; i<nt; i++) {
+      int symb = bin2dec(bits.mid(b,k(i)));
+      result(i) = symbols(i)(bits2symbols(i)(symb));
+      b+=k(i);
+    }
+
+    return result;
+  };
+
+  std::ostream &operator<<(std::ostream &os, const Modulator_NRD &mod)
+  {
+    os << "--- REAL MIMO (NRD) CHANNEL ---------" << std::endl;
+    os << "Dimension (nt):           " << mod.nt << std::endl;
+    os << "Bits per dimension (k):   " << mod.k << std::endl;
+    os << "Symbols per dimension (M):" << mod.M << std::endl;
+    for (int i=0; i<mod.nt; i++) { 
+      os << "Bitmap for dimension " << i << ": " << mod.bitmap(i) << std::endl;
+      // skip printing the trailing zero
+      os << "Symbol coordinates for dimension " << i << ": " << mod.symbols(i).left(mod.M(i)) << std::endl;
+    }
+    os << mod.get_llrcalc() << std::endl;
+    return os;
+  };
+
+  // ----------------------------------------------------------------------
+  // Modulator_NCD
+  // ----------------------------------------------------------------------
+
+  void Modulator_NCD::update_norm(double &norm, int k, int sold, int snew, 
+				  cvec &ytH, cmat &HtH, ivec &s)
+  {
+    int m = length(s);
+    std::complex<double> cdiff = symbols(k)[snew]-symbols(k)[sold];
+    
+    norm += sqr(cdiff)*(HtH(k,k).real());
+    cdiff = 2.0*cdiff;
+    norm -= (cdiff.real()*ytH[k].real() - cdiff.imag()*ytH[k].imag());
+    for (int i=0; i<m; i++) {
+      norm += (cdiff*HtH(i,k)*conj(symbols(k)[s[i]])).real();
+    }
+  }
+
+  void Modulator_NCD::map_demod(QLLRvec &LLR_apriori,  QLLRvec &LLR_aposteriori,  
+				double sigma2,  cvec &h, cvec &y)
+  {
+    it_assert(length(LLR_apriori)==sum(k),"Modulator_NCD::map_demod()");
+    it_assert(length(LLR_apriori)==length(LLR_aposteriori),"Modulator_NCD::map_demod()");
+    it_assert(length(h)==length(y),"Modulator_NCD::map_demod()");
+    it_assert(length(h)==nt,"Modulator_NCD:map_demod()");
+
+    int b=0;
+    double oo_s2 = 1.0/sigma2;
+    double norm2;
+    QLLRvec temp, bnum, bdenom;
+    for (int i=0; i<nt; i++) {
+      temp=LLR_apriori(b,b+k(i)-1);
+      bnum = (-QLLR_MAX)*ones_i(k(i));
+      bdenom = (-QLLR_MAX)*ones_i(k(i));    
+      Vec<QLLRvec> logP_apriori = probabilities(temp);
+      for (int j=0; j<M(i); j++) {
+	norm2 = sqr(y(i)-h(i)*symbols(i)(j)); 
+	QLLR scaled_norm = llrcalc.to_qllr(-norm2*oo_s2);
+	update_LLR(logP_apriori, bnum, bdenom, j, scaled_norm,i);
+      }
+      LLR_aposteriori.set_subvector(b,bnum-bdenom);
+      b+=k(i);
+    }
+  };
+
+  void Modulator_NCD::map_demod(QLLRvec &LLR_apriori,  QLLRvec &LLR_aposteriori,  
+				double sigma2,  cmat &H, cvec &y)
   {
     int nr = H.rows();
     int np=sum(k); // number of bits in total
@@ -274,7 +328,8 @@ namespace itpp {
     
     int mode=0;  
     for (int i=0; i<length(M); i++) {
-      if (nt*M(i)>4) { mode = 1; }    // differential update only pays off for larger dimensions
+      // differential update only pays off for larger dimensions
+      if (nt*M(i)>4) { mode = 1; }    
     }
     
     Vec<QLLRvec> logP_apriori = probabilities(LLR_apriori);
@@ -334,25 +389,6 @@ namespace itpp {
     LLR_aposteriori = bnum - bdenom;
   };
 
-
-
-  vec Modulator_NRD::modulate_bits(const bvec &bits) const
-  {
-    vec result(nt);
-
-    it_assert(length(bits)==sum(k),"Modulator_NRD::modulate_bits(): The number of input bits does not match.");
-
-    int b=0;
-    for (int i=0; i<nt; i++) {
-      int symb = bin2dec(bits.mid(b,k(i)));
-      result(i) = symbols(i)(bits2symbols(i)(symb));
-      b+=k(i);
-    }
-
-    return result;
-  };
-
-
   cvec Modulator_NCD::modulate_bits(const bvec &bits) const
   {
     cvec result(nt);
@@ -368,25 +404,7 @@ namespace itpp {
 
     return result;
   };
-  
-
-
-
-  std::ostream &operator<<(std::ostream &os, const Modulator_NRD &mod)
-  {
-    os << "--- REAL MIMO (NRD) CHANNEL ---------" << std::endl;
-    os << "Dimension (nt):           " << mod.nt << std::endl;
-    os << "Bits per dimension (k):   " << mod.k << std::endl;
-    os << "Symbols per dimension (M):" << mod.M << std::endl;
-    for (int i=0; i<mod.nt; i++) { 
-      os << "Bitmap for dimension " << i << ": " << mod.bitmap(i) << std::endl;
-      // skip printing the trailing zero
-      os << "Symbol coordinates for dimension " << i << ": " << mod.symbols(i).left(mod.M(i)) << std::endl;
-    }
-    os << mod.get_llrcalc() << std::endl;
-    return os;
-  };
-  
+    
   std::ostream &operator<<(std::ostream &os, const Modulator_NCD &mod)
   {
     os << "--- COMPLEX MIMO (NCD) CHANNEL --------" << std::endl;
@@ -394,14 +412,18 @@ namespace itpp {
     os << "Bits per dimension (k):   " << mod.k << std::endl;
     os << "Symbols per dimension (M):" << mod.M << std::endl;
     for (int i=0; i<mod.nt; i++) { 
-      os << "Bitmap for dimension " << i << ": " << mod.bitmap(i) << std::endl;
-      os << "Symbol coordinates for dimension " << i << ": " << mod.symbols(i).left(mod.M(i)) << std::endl;
+      os << "Bitmap for dimension " << i << ": " 
+	 << mod.bitmap(i) << std::endl;
+      os << "Symbol coordinates for dimension " << i << ": " 
+	 << mod.symbols(i).left(mod.M(i)) << std::endl;
     }
     os << mod.get_llrcalc() << std::endl;
     return os;
   };
 
-  // ------------------------- MIMO with uniform PAM ----------------------------
+  // ----------------------------------------------------------------------
+  // ND_UPAM
+  // ----------------------------------------------------------------------
 
   ND_UPAM::ND_UPAM(int nt_in, int Mary)
   {
@@ -444,19 +466,17 @@ namespace itpp {
 	symbols(i)(j) = double((M(i)-1)-j*2) / scaling_factor;
 	bits2symbols(i)(bin2dec(bitmap(i).get_row(j))) = j;
       }      
-      
-      symbols(i)(M(i))=0.0;  // must end with a zero; only for a trick exploited in update_norm()
+
+      // the "symbols" vector must end with a zero; only for a trick
+      // exploited in update_norm()
+      symbols(i)(M(i))=0.0; 
 
       spacing(i)=2.0/scaling_factor;
     }
   };
   
-
-#define max(a,b) (((a)>(b))?(a):(b))
-#define min(a,b) (((a)<(b))?(a):(b))
-#define sign(a)  (((a)>0)?(1):(-1))
-
-  int ND_UPAM::sphere_search_SE(vec &y_in, mat &H, imat &zrange, double r, ivec &zhat)
+  int ND_UPAM::sphere_search_SE(vec &y_in, mat &H, 
+				imat &zrange, double r, ivec &zhat)
   {
     // The implementation of this function basically follows the
     // Schnorr-Eucner algorithm described in Agrell et al. (IEEE
@@ -489,11 +509,11 @@ namespace itpp {
     ivec z(n);
     zhat.set_size(n);
     z(n-1) = (int) std::floor(0.5 + E(n*n-1));
-    z(n-1) = max(z(n-1),zrange(n-1,0));
-    z(n-1) = min(z(n-1),zrange(n-1,1));
+    z(n-1) = std::max(z(n-1),zrange(n-1,0));
+    z(n-1) = std::min(z(n-1),zrange(n-1,1));
     double p = (E(n*n-1)-z(n-1))/Vi(n*n-1);
     ivec step(n);
-    step(n-1) = sign(p);
+    step(n-1) = sign_i(p);
     
     // Run search loop 
     int k=n-1;  // k uses natural indexing, goes from 0 to n-1 
@@ -510,11 +530,11 @@ namespace itpp {
 	k--;
 	dist(k) = newdist;
 	z(k) = (int) std::floor(0.5+E(k+k*n));
-	z(k) = max(z(k),zrange(k,0));
-	z(k) = min(z(k),zrange(k,1));
+	z(k) = std::max(z(k),zrange(k,0));
+	z(k) = std::min(z(k),zrange(k,1));
 	p = (E(k+k*n)-z(k))/Vi(k+k*n);
 	
-	step[k] = sign(p);
+	step[k] = sign_i(p);
       } else {
 	while (1==1) {
 	  if (newdist<bestdist) {
@@ -531,7 +551,7 @@ namespace itpp {
 	  z[k] += step(k);
 	  
 	  if ((z(k)<zrange(k,0)) || (z(k)>zrange(k,1))) {
-	    step(k) = (-step(k) - sign(step(k)));
+	    step(k) = (-step(k) - sign_i(step(k)));
 	    z(k) += step(k);
 	  }
 	  
@@ -541,7 +561,7 @@ namespace itpp {
 	}
 	
 	p = (E(k+k*n)-z(k))/Vi(k+k*n);
-	step(k) = (-step(k) - sign(step(k)));
+	step(k) = (-step(k) - sign_i(step(k)));
       }
     }
     
@@ -602,12 +622,14 @@ namespace itpp {
     
   }
   
+  // ----------------------------------------------------------------------
+  // ND_UQAM
+  // ----------------------------------------------------------------------
 
-  // -------------------- MIMO with uniform QAM ---------------------------- 
-
-  // The ND_UQAM class could alternatively have been implemented by
-  // using a ND_UPAM class of twice the dimension, but this does not
-  // fit as elegantly into the class structure
+  // The ND_UQAM (MIMO with uniform QAM) class could alternatively
+  // have been implemented by using a ND_UPAM class of twice the
+  // dimension, but this does not fit as elegantly into the class
+  // structure
 
   ND_UQAM::ND_UQAM(int nt_in, int Mary)
   {
@@ -652,23 +674,26 @@ namespace itpp {
       
       for (int j1=0; j1<L(i); j1++) {
 	for (int j2=0; j2<L(i); j2++) {
-	  symbols(i)(j1*L(i)+j2) = std::complex<double>( ((L(i)-1)-j2*2.0)/scaling_factor,
-							 ((L(i)-1)-j1*2.0)/scaling_factor );
+	  symbols(i)(j1*L(i)+j2) = 
+	    std::complex<double>( ((L(i)-1)-j2*2.0)/scaling_factor,
+				  ((L(i)-1)-j1*2.0)/scaling_factor );
 	  bitmap(i).set_row(j1*L(i)+j2, concat(gray_code.get_row(j1), 
 					       gray_code.get_row(j2)));
-	  bits2symbols(i)( bin2dec(bitmap(i).get_row(j1*L(i)+j2)) ) = j1*L(i)+j2;
+	  bits2symbols(i)( bin2dec(bitmap(i).get_row(j1*L(i)+j2)) ) 
+	    = j1*L(i)+j2;
 	}
       }
       
-      symbols(i)(M(i))=0.0;  // must end with a zero; only for a trick exploited in update_norm()
+      // must end with a zero; only for a trick exploited in
+      // update_norm()
+      symbols(i)(M(i))=0.0; 
     }    
       
   };
 
-  
-
-
-  // ----------- MIMO with uniform PSK ---------------
+  // ----------------------------------------------------------------------
+  // ND_UPSK
+  // ----------------------------------------------------------------------
 
   ND_UPSK::ND_UPSK(int nt_in, int Mary)
   {
@@ -708,7 +733,8 @@ namespace itpp {
       double epsilon = delta/10000.0;
       
       for (int j=0; j<M(i); j++) {
-	std::complex<double> symb = std::complex<double>(std::polar(1.0,delta*j));
+	std::complex<double> symb 
+	  = std::complex<double>(std::polar(1.0,delta*j));
 
 	if (std::abs(std::real(symb)) < epsilon) { 
 	  symbols(i)(j) = std::complex<double>(0.0,std::imag(symb)); 
@@ -721,7 +747,9 @@ namespace itpp {
 	bits2symbols(i)(bin2dec(bitmap(i).get_row(j))) = j;
       }      
       
-      symbols(i)(M(i))=0.0;  // must end with a zero; only for a trick exploited in update_norm()
+      // must end with a zero; only for a trick exploited in
+      // update_norm()
+      symbols(i)(M(i))=0.0; 
     }
   };
   

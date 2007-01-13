@@ -41,13 +41,18 @@ namespace itpp {
   /*! \addtogroup modulators
    */
 
-  // ------------------------- N-dimensional ("MIMO") MODULATOR CLASSES ---------------------------------
+  // ----------------------------------------------------------------------
+  // Modulator_ND
+  // ----------------------------------------------------------------------
 
-  /*! \ingroup modulators \brief Base class for an N-dimensional (ND)
-    vector ("MIMO") modulator. See \c ND_UPAM for examples. Can also
-    be used for scalar modulation/demodulation as an alternative to \c
-    Modulator_1D or \c Modulator_2D. Mixed use of \c Modulator_1D/\c
-    Modulator_2D and \c Modulator_ND is <b>not advised</b>.
+  /*! \ingroup modulators 
+    \brief Base class for an N-dimensional (ND)
+    vector ("MIMO") modulator. See \c ND_UPAM for examples. 
+
+    Can also be used for scalar modulation/demodulation as an
+    alternative to \c Modulator_1D or \c Modulator_2D. Mixed use of \c
+    Modulator_1D/\c Modulator_2D and \c Modulator_ND is <b>not
+    advised</b>.
   */
   class Modulator_ND {
   public:
@@ -124,6 +129,10 @@ namespace itpp {
 		    int s, QLLR scaled_norm, int j);
 
   };
+
+  // ----------------------------------------------------------------------
+  // Modulator_NRD
+  // ----------------------------------------------------------------------
 
   /*! 
     \ingroup modulators
@@ -228,6 +237,9 @@ namespace itpp {
   */
   std::ostream &operator<<(std::ostream &os, const Modulator_NRD &mod);
 
+  // ----------------------------------------------------------------------
+  // Modulator_NCD
+  // ----------------------------------------------------------------------
 
   /*!  \ingroup modulators 
     \brief Base class for vector ("MIMO")
@@ -300,6 +312,10 @@ namespace itpp {
   */
   std::ostream &operator<<(std::ostream &os, const Modulator_NCD &mod);
     
+  // ----------------------------------------------------------------------
+  // ND_UPAM
+  // ----------------------------------------------------------------------
+
   /*! \brief Multidimensional channel with uniform PAM along each dimension.
     
   <b>Example: (4*3 matrix channel with 4-PAM)</b>    
@@ -335,6 +351,8 @@ namespace itpp {
   cout << "True bits:" << b << endl;
   cout << "LLRs:" << chan.get_llrcalc().to_double(llr) << endl;    
   \endcode
+
+  \ingroup modulators 
   */
   class ND_UPAM : public Modulator_NRD {
   public:
@@ -385,10 +403,18 @@ namespace itpp {
 
     vec spacing;  // spacing between the constellation points
     
+    inline int sign_i(int a) { return (a>0 ? 1 : -1); };
+    inline int sign_i(double a) { return (a>0 ? 1 : -1); };
   };
-  
-  
-  //! Complex MIMO with uniform QAM  per dimension
+
+  // ----------------------------------------------------------------------
+  // ND_UQAM
+  // ----------------------------------------------------------------------
+    
+  /*! \brief Complex MIMO with uniform QAM  per dimension
+
+  \ingroup modulators 
+   */
   class ND_UQAM : public Modulator_NCD {
   public:
     //! Constructor
@@ -402,14 +428,19 @@ namespace itpp {
     //! Set component modulators to M-QAM with Gray mapping, different M per component
     void set_Gray_QAM(int nt_in=1, ivec Mary="4");
 
-  
   protected:
     ivec L;  // the square root of M
 
   };
 
+  // ----------------------------------------------------------------------
+  // ND_UPSK
+  // ----------------------------------------------------------------------
 
-  //! Complex MIMO with uniform PSK per dimension
+  /*! Complex MIMO with uniform PSK per dimension
+
+  \ingroup modulators 
+  */
   class ND_UPSK : public Modulator_NCD {
   public:
     //! Constructor
