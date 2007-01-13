@@ -1,3 +1,9 @@
+2007-01-13  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/comm/ldpc.cpp, itpp/comm/ldpc.h, itpp/comm/modulator_nd.h,
+	itpp/comm/modulator_nd.cpp: code cleanup, removing local
+	declarations etc
+
 2007-01-11  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/comm/ldpc.cpp, tests/ldpc_test.ref: minor enhancement

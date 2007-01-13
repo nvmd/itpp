@@ -3,8 +3,8 @@
  * \brief Implementation of a Low-Density Parity Check (LDPC) codec.
  * \author Erik G. Larsson and Mattias Andersson
  *
- * $Date: 2006-11-02 19:31:47 +0100 (Thu, 02 Nov 2006) $
- * $Revision: 705 $
+ * $Date:  $
+ * $Revision:  $
  *
  * -------------------------------------------------------------------------
  *
@@ -33,23 +33,16 @@
 #include <itpp/comm/ldpc.h>
 
 using std::cout;
-using std::cerr;
 using std::endl;
 
 namespace itpp {
 
-  typedef Sparse_Mat<short> Ssmat;
-  typedef Sparse_Vec<short> Ssvec;
-
-  /* This help function returns the nonzeros of a sparse vector. The
-     only purpose of this function is to guard against possible "0"
-     elements delivered by the svec package. This should not happen,
-     so this function should only be seen as a firewall to guard
-     against possible problems if using a sparse-matrix handler that
-     cannot correctly deal with integer matrices.
-  */
+  // ---------------------------------------------------------------------------
+  // LDPC_Parity_Matrix
+  // ---------------------------------------------------------------------------
+  
   template <class T>
-  ivec index_nonzeros(Sparse_Vec<T> x)
+  ivec LDPC_Parity_Matrix::index_nonzeros(Sparse_Vec<T> x) const
   {
     ivec r;
     for (int i=0; i<x.nnz(); i++)     {
@@ -60,10 +53,6 @@ namespace itpp {
     return r;
   }
 
-  // ---------------------------------------------------------------------------
-  // LDPC_Parity_Matrix
-  // ---------------------------------------------------------------------------
-  
   void LDPC_Parity_Matrix::initialize(int nc, int nv)
   {
     ncheck=nc;
@@ -200,6 +189,9 @@ namespace itpp {
 
   int LDPC_Parity_Matrix::cycle_removal_MGW(int Maxcyc)
   {
+    typedef Sparse_Mat<short> Ssmat;
+    typedef Sparse_Vec<short> Ssvec;
+    
     Maxcyc -= 2; 
 
     // Construct the adjacency matrix of the graph
@@ -894,16 +886,15 @@ namespace itpp {
     
     cout << "Computing decoder parameterization. Phase 1." << endl;
     for (int i=0; i<nvar; i++) {
-      ivec coli = index_nonzeros(Hmat.get_col(i));
+      ivec coli = Hmat.index_nonzeros(Hmat.get_col(i));
       for (int j0=0; j0<length(coli); j0++) {
 	C(j0+cmax*i) = coli(j0);
       }
     }
 
-    //   GF2mat_sparse T = Hmat.getH().transpose();
     cout << "Computing decoder parameterization. Phase 2." << endl;
     for (int j=0; j<ncheck; j++) {
-      ivec rowj = index_nonzeros(Hmat.get_row(j));
+      ivec rowj = Hmat.index_nonzeros(Hmat.get_row(j));
       for (int i0=0; i0<length(rowj); i0++) {
 	V(j+ncheck*i0) = rowj(i0);
       }
