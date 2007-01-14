@@ -1,4 +1,14 @@
+==============================================================================
+
+2007-01-14  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* IT++ 3.10.8 released (SVN tag: release-3-10-8)
+	(merged rev. 828:830 from the itpp-3-10 branch)
+
 2007-01-13  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* NEWS: Updated to reflect recent changes
+	(merged rev. 828:830 from the itpp-3-10 branch)
 
 	* itpp/comm/ldpc.cpp, itpp/comm/ldpc.h, tests/channel_test.cpp,
 	tests/ldpc_test.cpp: Added missing SVN properities
