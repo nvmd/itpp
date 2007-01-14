@@ -1,4 +1,37 @@
 ===============================================================================
+IT++ version 3.10.8                                        Released: 2007-01-14
+-------------------------------------------------------------------------------
+
+This is the next bug-fix release of a stable IT++ library. Therefore, no new
+features have been added since 3.10.7 release. Only minor modifications and
+bug-fixes have been done.
+
+Modifications:
+--------------
+
+* Implemented feature request [1216416]. Multiply operator `*' of a vector
+  `v' and single-row matrix `m' now works for any size of vector `v'. This
+  change is backward compatible with the previous implementation.
+
+* Cleaned up the exception handling in the PNM class and added GCC specific
+  "-fno-exceptions" flag to CXXFLAGS_OPT and CXXFLAGS_DEBUG when
+  "--enable-exceptions" is not used.
+
+Bug-fixes:
+----------
+
+* Updated Mersenne Twister random number generator sources to the latest
+  version 1.0 published by Richard J. Wagner on 15th May, 2003.
+
+* Fixed a problem with discretization of the TDL_Channel delay profile in
+  the case when the sampling frequency is too low, as compared to the delay
+  profile resolution.
+
+* A few other minor fixes. For a full list of them, please check the
+  ChangeLog file.
+
+
+===============================================================================
 IT++ version 3.10.7                                        Released: 2006-12-04
 -------------------------------------------------------------------------------
 
