@@ -34,6 +34,7 @@
 #ifndef LLR_H
 #define LLR_H
 
+#include <limits>
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/specmat.h>
@@ -60,7 +61,8 @@ namespace itpp {
     The largest possible QLLR value
   */
 /*   const QLLR QLLR_MAX=(INT_MAX>>2) ; */
-  const QLLR QLLR_MAX=(INT_MAX>>4) ;
+/*   const QLLR QLLR_MAX=(INT_MAX>>4) ; */
+  const QLLR QLLR_MAX=(std::numeric_limits<int>::max() >> 4);
  // added some margin to make sure the sum of two LLR is still permissible
 
   /*! 
