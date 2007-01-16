@@ -1,3 +1,11 @@
+2007-01-16  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/comm/ldpc.cpp, tests/ldpc_test.ref: Changed rand() to
+	randi() for code portability and to use it++ routines for random
+	numbers
+
+	* itpp/comm/llr.h: C convention for INT_MAX changed to C++
+	
 2007-01-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/Makefile.am: Fixed non-portable parts of the Makefile

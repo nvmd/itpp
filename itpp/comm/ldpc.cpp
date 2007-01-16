@@ -247,7 +247,8 @@ namespace itpp {
 	      // choose k
 	      ivec tmpi = index_nonzeros(elem_mult(Gpow(r/2-1).get_col(i),
 						   G.get_col(j)));
-	      int k = tmpi(rand()%length(tmpi));    
+// 	      int k = tmpi(rand()%length(tmpi));    
+	      int k = tmpi(randi(0,length(tmpi)-1));    
 	      it_assert0(G(j,k)==1 && G(k,j)==1,
 			 "LDPC_Parity_Matrix::remove_cycles_MGW() internal error");
 
@@ -521,7 +522,8 @@ namespace itpp {
 	if (get(r,c)) { // double edge
 	  // set(r,c,0);  
 	  if (el>0) {
-	    long int t=k+1+rand()%el;
+// 	    long int t=k+1+rand()%el;
+	    long int t=k+1+randi(0,el-1);
 	    int x=ind(t);  
 	    ind(t)=ind(k);
 	    ind(k)=x;  
@@ -540,7 +542,8 @@ namespace itpp {
 	      set(r,c,0);
 	      if (el>0) {
 		// make a swap in the index permutation
-		long int t=k+1+rand()%el;
+// 		long int t=k+1+rand()%el;
+		long int t=k+1+randi(0,el-1);
 		int x=ind(t);  
 		ind(t)=ind(k);
 		ind(k)=x;  
@@ -838,7 +841,8 @@ namespace itpp {
   void LDPC_Code::save_to_file(std::string filename) const
   {
     cout << "Saving LDPC codec to " << filename << endl;
-    it_file f(filename);
+    it_file f;
+    f.open(filename,true);
     f << Name("Fileversion") << 1;
     f << Name("H_is_defined") << H_is_defined;
     f << Name("nvar") << nvar;
