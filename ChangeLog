@@ -1,3 +1,8 @@
+2007-01-16  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* tests/Makefile.am: Fixed non-portable parts of the Makefile
+	reported by the latest stable automake 1.10
+
 2007-01-14  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* NEWS, NEWS-3.10: NEWS file with 3.10 series information copied
