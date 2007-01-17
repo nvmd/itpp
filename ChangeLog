@@ -1,5 +1,7 @@
 2007-01-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/local/verification.doc: Updated to reflect recent tests
+
 	* NEWS: Consistancy and language improved. Thanks to Erik for his
 	valuable comments.
 

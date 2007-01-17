@@ -3,6 +3,13 @@
 
 \section toc Table of Contents
 - \ref intro
+- \ref itpp_3_99
+  - \ref linux_3_99
+    - \ref gentoo_atlas_3_99
+  - \ref windows_3_99
+    - \ref mingw_netlib_3_99
+    - \ref msvc_mkl_3_99
+  - \ref unix_3_99
 - \ref itpp_3_10
   - \ref linux
     - \ref fedora_atlas
@@ -22,9 +29,6 @@
     - \ref msvc_mkl
   - \ref unix
     - \ref sunos59
-- \ref itpp_3_9_1
-- \ref itpp_3_9_0
-- \ref itpp_3_8_1
 
 
 \section intro Introdution
@@ -44,7 +48,85 @@ If you manage to compile, install and test the IT++ library on a system not
 mentioned below, please let us know, so we could update this database.
 
 
-\section itpp_3_10 IT++ 3.10.x
+\section itpp_3_99 IT++ 3.99.x (Development Releases)
+
+\subsection linux_3_99 Linux Systems
+
+\subsubsection gentoo_atlas_3_99 Gentoo Linux with ATLAS
+
+- <b>Platform</b>: Intel Pentium M Centrino
+- <b>Operating System</b>: Gentoo Linux 2006.1 (x86)
+- <b>Compiler</b>: g++ (GCC) 4.1.1
+- <b>IT++ release</b>: 3.99.0
+- <b>External Libraries</b>: Compiled and installed from the portage tree:
+  - <tt>sci-libs/fftw-3.1.2</tt>
+  - <tt>sci-libs/blas-atlas-3.7.24</tt>
+  - <tt>sci-libs/lapack-atlas-3.7.24</tt>
+- <b>Tests Status</b>: All tests PASSED
+- <b>Comments</b>: BLAS and LAPACK libs set up by using the following system
+  commands:
+\verbatim
+% eselect blas set atlas
+% eselect cblas set atlas
+% eselect lapack set atlas
+\endverbatim
+  IT++ configured with:
+\verbatim
+% export CXXFLAGS="-march=pentium-m -O3 -fno-exceptions -pipe"
+% ./configure --with-blas="-lblas" --enable-debug
+\endverbatim
+- <b>Date</b>: January 18, 2007
+- <b>Tester</b>: Adam Piatyszek (ediap)
+
+
+\subsection windows_3_99 Windows Systems
+
+\subsubsection mingw_netlib_3_99 Microsoft Windows XP with MinGW/MSYS and IT++ External
+
+- <b>Platform</b>: AMD Sempron 3000+
+- <b>Operating System</b>: Microsoft Windows XP SP2, MinGW 5.1.3, MSYS 1.0.11
+- <b>Compiler(s)</b>: g++ (GCC) 3.4.4 (mingw special)
+- <b>IT++ release</b>: 3.99.0
+- <b>External Libraries</b>: BLAS, CBLAS, LAPACK and FFTW libraries from
+  IT++ External 2.99.1 package
+- <b>Tests Status</b>: All tests PASSED
+- <b>Comments</b>: Only static library can be built. IT++ configured with:
+\verbatim
+% export LDFLAGS="-L/usr/local/lib"
+% export CPPFLAGS="-I/usr/local/include"
+% export CXXFLAGS="-Wall -O3 -march=athlon-tbird -pipe"
+% ./configure --disable-html-doc --enable-debug
+\endverbatim
+- <b>Date</b>: January 18, 2007
+- <b>Tester</b>: Adam Piatyszek (ediap)
+
+
+\subsubsection msvc_mkl_3_99 Microsoft Windows XP with MS Visual C++ and Intel MKL
+
+- <b>Platform</b>: AMD Sempron 3000+
+- <b>Operating System</b>: Microsoft Windows XP SP2
+- <b>Compiler(s)</b>: Microsoft Visual C++ 2005 .NET
+- <b>IT++ release</b>: 3.99.0
+- <b>External Libraries</b>: Intel Math Kernel Library (MKL) 8.1 installed
+  manually in the following directory:
+  <tt>"C:\Program Files\Intel\MKL\8.1"</tt>
+- <b>Tests Status</b>: Not fully tested. Some IT++ based programs compiled
+  and run with success.
+- <b>Comments</b>: Only static library can be built. IT++ built by opening 
+  the <tt>"win32\itpp.vcproj"</tt> project file in MSVC++ and executing
+  <tt>"Build -> Build Solution"</tt> command from menu.
+- <b>Date</b>: January 17, 2007
+- <b>Tester</b>: Adam Piatyszek (ediap)
+
+
+\subsection unix_3_99 Unix Systems
+
+
+
+
+\page verification_3_10 IT++ Supported Systems
+
+\section itpp_3_10 IT++ 3.10.x (Stable Releases)
 
 \subsection linux Linux Systems
 
@@ -371,245 +453,4 @@ mentioned below, please let us know, so we could update this database.
 - <b>Date</b>: May 15, 2006
 - <b>Tester</b>: Adam Piatyszek (ediap)
 
-*/
-
-
-/*!
-\page verification_old IT++ Supported Systems (Previous Releases)
-
-\section itpp_3_9_1 IT++ 3.9.1
-
-\htmlonly
-
-<p> This version has been compiled, installed and tested on the following
-platforms: </p>
-
-<table cellpadding="2" cellspacing="2" border="1" width="100%">
-
-<tr>
-  <td valign="top" bgcolor="yellow"><b>Platform&nbsp;(OS,&nbsp;CPU):</b></td>
-  <td valign="top" bgcolor="yellow"><b>Compiler:</b></td>
-  <td valign="top" bgcolor="yellow"><b>Date:</b></td>
-  <td valign="top" bgcolor="yellow"><b>External Libraries:</b></td>
-  <td valign="top" bgcolor="yellow"><b>Status:</b></td>
-  <td valign="top" bgcolor="yellow"><b>Comments:</b></td>
-  <td valign="top" bgcolor="yellow"><b>Tester(s):</b></td>
-</tr>
-
-<tr>
-  <td valign="top">Gentoo Linux, Intel Pentium&nbsp;M Centrino</td>
-  <td valign="top">g++ (GCC) 3.4.4</td>
-  <td valign="top">January 25, 2006</td>
-  <td valign="top">Compiled from Gentoo's portage: <tt>fftw-3.0.1-r2</tt>, 
-    <tt>blas-atlas-3.6.0-r1</tt>, <tt>lapack-atlas-3.6.0</tt></td>
-  <td valign="top">OK</td>
-  <td valign="top">-</td>
-  <td valign="top">Adam Piatyszek</td>
-</tr>
-
-<tr>
-  <td valign="top">Gentoo Linux, Intel Pentium&nbsp;M Centrino</td>
-  <td valign="top">g++ (GCC) 3.4.4</td>
-  <td valign="top">January 25, 2006</td>
-  <td valign="top">Intel's Math Kernel Library (MKL) 8.0.1</td>
-  <td valign="top">OK</td>
-  <td valign="top">Configured using: 
-    <tt>./configure --with-mkl-dir=/opt/intel/mkl/8.0.1 
-    --with-mkl=&quot;-lmkl_p3 -lmkl_lapack -lguide&quot;</tt></td>
-  <td valign="top">Adam Piatyszek</td>
-</tr>
-
-<tr>
-  <td valign="top">SUSE Linux 10.0, Intel Pentium&nbsp;M Centrino</td>
-  <td valign="top">g++ (GCC) 4.0.2 (20050901-3)</td>
-  <td valign="top">January 26, 2006</td>
-  <td valign="top">From SUSE distribution: <tt>fftw3-3.0.1-114.i586</tt>,
-    <tt>fftw3-devel-3.0.1-114.i586</tt>;<br>
-    From <tt>itpp-external-2.0.0</tt>: <tt>CBLAS</tt>, <tt>LAPACK</tt></td>
-  <td valign="top">OK</td>
-  <td valign="top">Could not compile atlas-3.6.0</td>
-  <td valign="top">Zbigniew Dlugaszewski</td>
-</tr>
-
-<tr>
-  <td valign="top">MS Windows XP, Cygwin, AMD Sempron 3000+</td>
-  <td valign="top">g++ (GCC) 3.4.4 (cygming special)</td>
-  <td valign="top">January 26, 2006</td>
-  <td valign="top">From Cygwin's repository: <tt>fftw-3.0.1-1</tt>, 
-    <tt>fftw-dev-3.0.1-1</tt>, <tt>lapack-3.0-3</tt></td>
-  <td valign="top">OK</td>
-  <td valign="top">-</td>
-  <td valign="top">Adam Piatyszek</td>
-</tr>
-
-</table>
-
-\endhtmlonly
-
-\section itpp_3_9_0 IT++ 3.9.0
-
-\htmlonly
-
-<p> This version has been compiled, installed and tested on the following
-platforms: </p>
-
-<table cellpadding="2" cellspacing="2" border="1" width="100%">
-
-<tr>
-  <td valign="top" bgcolor="yellow"><b>Platform&nbsp;(OS,&nbsp;CPU):</b></td>
-  <td valign="top" bgcolor="yellow"><b>Compiler:</b></td>
-  <td valign="top" bgcolor="yellow"><b>Date:</b></td>
-  <td valign="top" bgcolor="yellow"><b>External Libraries:</b></td>
-  <td valign="top" bgcolor="yellow"><b>Status:</b></td>
-  <td valign="top" bgcolor="yellow"><b>Comments:</b></td>
-  <td valign="top" bgcolor="yellow"><b>Tester(s):</b></td>
-</tr>
-
-<tr>
-  <td valign="top">Linux Fedora Core 4.0, Intel Pentium&nbsp;4</td>
-  <td valign="top">g++ (GCC) 4.0.2</td>
-  <td valign="top">December 21, 2005</td>
-  <td valign="top">From FC4 distribution: <tt>fftw3.i386-3.0.1-3</tt>, 
-    <tt>fftw3-devel.i386-3.0.1-3</tt>, <tt>atlas-sse2.i386-3.6.0-8.fc4</tt>, 
-    <tt>atlas-sse2-devel.i386-3.6.0-8.fc4</tt>, <tt>blas.i386-3.0-35.fc4</tt>, 
-    <tt>lapack.i386-3.0-35.fc4</tt></td>
-  <td valign="top">OK</td>
-  <td valign="top">-</td>
-  <td valign="top">Tony Ottosson</td>
-</tr>
-
-<tr>
-  <td valign="top">Gentoo Linux, Intel Pentium&nbsp;M Centrino</td>
-  <td valign="top">g++ (GCC) 3.4.4</td>
-  <td valign="top">December 21, 2005</td>
-  <td valign="top">Compiled from Gentoo's portage: <tt>fftw-3.0.1-r2</tt>, 
-    <tt>blas-atlas-3.6.0</tt>, <tt>lapack-atlas-3.6.0</tt></td>
-  <td valign="top">OK</td>
-  <td valign="top">-</td>
-  <td valign="top">Adam Piatyszek</td>
-</tr>
-
-<tr>
-  <td valign="top">Gentoo Linux, Intel Pentium&nbsp;M Centrino</td>
-  <td valign="top">g++ (GCC) 3.4.4</td>
-  <td valign="top">December 23, 2005</td>
-  <td valign="top">Intel's Math Kernel Library (MKL) 8.0.1</td>
-  <td valign="top">OK</td>
-  <td valign="top">Configured using: 
-    <tt>./configure --with-mkl-dir=/opt/intel/mkl/8.0.1 
-    --with-mkl=&quot;-lmkl_p3 -lmkl_lapack -lguide&quot;</tt></td>
-  <td valign="top">Adam Piatyszek</td>
-</tr>
-
-<tr>
-  <td valign="top">SUSE Linux 10.0, Intel Pentium&nbsp;M Centrino</td>
-  <td valign="top">g++ (GCC) 4.0.2 (20050901-3)</td>
-  <td valign="top">December 22, 2005</td>
-  <td valign="top">From SUSE distribution: <tt>fftw3-3.0.1-114.i586</tt>,
-    <tt>fftw3-devel-3.0.1-114.i586</tt>;<br>
-    Compiled from sources: <tt>atlas-3.7.11</tt>, <tt>lapack-3.0</tt></td> 
-  <td valign="top">OK</td>
-  <td valign="top">Could not compile atlas-3.6.0</td>
-  <td valign="top">Zbigniew Dlugaszewski</td>
-</tr>
-
-<tr>
-  <td valign="top">MS Windows XP, Cygwin, AMD Sempron 3000+</td>
-  <td valign="top">g++ (GCC) 3.4.4 (cygming special)</td>
-  <td valign="top">December 23, 2005</td>
-  <td valign="top">From Cygwin's repository: <tt>fftw-3.0.1-1</tt>, 
-    <tt>fftw-dev-3.0.1-1</tt>, <tt>lapack-3.0-3</tt></td>
-  <td valign="top">OK</td>
-  <td valign="top">-</td>
-  <td valign="top">Adam Piatyszek</td>
-</tr>
-
-<tr>
-  <td valign="top">MS Windows XP, Intel Pentium&nbsp;4</td>
-  <td valign="top">MS Visual C++ .Net 2003</td>
-  <td valign="top">December 22, 2005</td>
-  <td valign="top">Intel's Math Kernel Library (MKL) 8.0.0</td>
-  <td valign="top">OK</td>
-  <td valign="top">Test programs' outputs differ from the reference files
-    due to a different end-of-line character in Windows and Linux/Unix</td> 
-  <td valign="top">Thomas Eriksson</td>
-</tr>
-
-</table>
-
-\endhtmlonly
-
-\section itpp_3_8_1 IT++ 3.8.1
-
-\htmlonly
-
-<p> This version has been compiled, installed and tested on the following
-platforms: </p>  
-
-<table cellpadding="2" cellspacing="2" border="1" width="100%">
-
-<tr>
-  <td valign="top" bgcolor="yellow"><b>Platform&nbsp;(OS,&nbsp;CPU):</b></td>
-  <td valign="top" bgcolor="yellow"><b>Compiler:</b></td>
-  <td valign="top" bgcolor="yellow"><b>Date:</b></td>
-  <td valign="top" bgcolor="yellow"><b>External libraries:</b></td>
-  <td valign="top" bgcolor="yellow"><b>Status:</b></td>
-  <td valign="top" bgcolor="yellow"><b>Comments:</b></td>
-  <td valign="top" bgcolor="yellow"><b>Tester(s):</b></td>
-</tr>
-
-<tr>
-  <td valign="top">Linux Fedora Core 2.0, Intel Pentium&nbsp;4</td>
-  <td valign="top">g++ (GCC) 3.3.3 20040412</td>
-  <td valign="top">May 18, 2005</td>
-  <td valign="top"><tt>it++external-1.0.1</tt> (FFTW, ATLAS)</td>
-  <td valign="top">OK</td>
-  <td valign="top">-</td>
-  <td valign="top">Tony Ottosson</td>
-</tr>
-
-<tr>
-  <td valign="top">Linux Fedora Core 2.0, Intel Pentium&nbsp;4</td>
-  <td valign="top">g++ (GCC) 3.3.3 20040412</td>
-  <td valign="top">May 18, 2005</td>
-  <td valign="top">Intel's Math Kernel Library (MKL) 7.2</td>
-  <td valign="top">OK</td>
-  <td valign="top">-</td>
-  <td valign="top">Tony Ottosson</td>
-</tr>
-
-<tr>
-  <td valign="top">Gentoo Linux, Intel Pentium&nbsp;M Centrino</td>
-  <td valign="top">g++ (GCC) 3.3.5-20050130</td>
-  <td valign="top">May 20, 2005</td>
-  <td valign="top">Compiled from Gentoo' portage: <tt>fftw-3.0.1</tt>,
-    <tt>blas-atlas-3.6.0</tt>, <tt>lapack-atlas-3.6.0</tt></td>
-  <td valign="top">OK</td>
-  <td valign="top">-</td>
-  <td valign="top">Adam Piatyszek</td>
-</tr>
-
-<tr>
-  <td valign="top">Solaris SunOS 5.9, SPARC</td>
-  <td valign="top">g++ (GCC) 3.4.4</td>
-  <td valign="top">June 22, 2005</td>
-  <td valign="top"><tt>it++external-1.0.1</tt> (FFTW, LAPACK, CBLAS)</td>
-  <td valign="top">OK</td>
-  <td valign="top">-</td>
-  <td valign="top">Adam Piatyszek</td>
-</tr>
-
-<tr>
-  <td valign="top">MS Windows XP, Intel Pentium&nbsp;4</td>
-  <td valign="top">Visual C++ .Net 2003</td>
-  <td valign="top">May 18, 2005</td>
-  <td valign="top">Intel's Math Kernel Library (MKL) 7.2</td>
-  <td valign="top">OK</td>
-  <td valign="top">-</td>
-  <td valign="top">Thomas Eriksson</td>
-</tr>
-
-</table>
-
-\endhtmlonly
 */
