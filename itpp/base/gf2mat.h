@@ -356,8 +356,8 @@ namespace itpp {
     matrix.  The purpose of this function is to avoid re-running a
     complete T-factorization when a column is added. The function ONLY
     adds the column if it improves the rank of the matrix (nothing is
-    done otherwise).  The function returns 1 if the column was added,
-    and 0 otherwise.
+    done otherwise).  The function returns "true" if the column was
+    added, and "false" otherwise.
     
     \note This function does not actually add the column newcol to the
     GF2 matrix. It only checks whether doing so would increase the
@@ -370,8 +370,8 @@ namespace itpp {
    
     The complexity is O(m^2) for an m*n matrix.
     */
-    int T_fact_update_addcol(GF2mat &T, GF2mat &U, 
-			     ivec &P, bvec newcol) const;
+    bool T_fact_update_addcol(GF2mat &T, GF2mat &U, 
+			      ivec &P, bvec newcol) const;
 
     // ----- Operators -----------
 

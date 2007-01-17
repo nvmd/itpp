@@ -1,3 +1,8 @@
+2007-01-17  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/base/gf2mat.h, itpp/base/gf2mat.cpp: Changed int to bool
+	for code portability
+
 2007-01-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/random.h: Fixed bug [1635988] by implementing the
