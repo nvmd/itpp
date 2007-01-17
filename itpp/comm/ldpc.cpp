@@ -1001,10 +1001,10 @@ namespace itpp {
     LLRout.set_size(length(LLRin));
 
     const int niter=dec_options(0);
-    const bool psc=dec_options(1);
-    const bool pisc=dec_options(2);
+    const int psc=dec_options(1);
+    const int pisc=dec_options(2);
   
-    if (pisc) {
+    if (pisc==1) {
       if (syndrome_check(LLRin)) {
 	LLRout = LLRin;
 	return 0; 
@@ -1439,7 +1439,7 @@ namespace itpp {
 	}
       }
       
-      if (psc) {
+      if (psc==1) {
 	if (syndrome_check(LLRout)==1) {
 	  is_valid_codeword=true;
 	  break;
