@@ -174,27 +174,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\cholesky.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\itpp\base\converters.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\det.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\eigen.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\elmatfunc.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\errorfunc.cpp"
 					>
 				</File>
 				<File
@@ -210,31 +190,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\integration.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\inv.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\itpp\base\itassert.cpp"
 					>
 				</File>
 				<File
 					RelativePath="..\itpp\base\itfile.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\itmisc.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\ls_solve.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\lu.cpp"
 					>
 				</File>
 				<File
@@ -246,10 +206,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\newton_search.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\itpp\base\operators.cpp"
 					>
 				</File>
@@ -258,15 +214,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\qr.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\itpp\base\random.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\schur.cpp"
 					>
 				</File>
 				<File
@@ -274,19 +222,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\source.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\itpp\base\specmat.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\stat.cpp"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\svd.cpp"
 					>
 				</File>
 				<File
@@ -353,6 +289,66 @@
 						>
 					</File>
 				</Filter>
+				<Filter
+					Name="algebra"
+					>
+					<File
+						RelativePath="..\itpp\base\algebra\cholesky.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\algebra\det.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\algebra\eigen.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\algebra\inv.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\algebra\ls_solve.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\algebra\lu.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\algebra\qr.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\algebra\schur.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\algebra\svd.cpp"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="math"
+					>
+					<File
+						RelativePath="..\itpp\base\math\elem_math.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\math\error.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\math\integration.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\math\misc.cpp"
+						>
+					</File>
+				</Filter>
 			</Filter>
 			<Filter
 				Name="comm"
@@ -395,6 +391,10 @@
 				</File>
 				<File
 					RelativePath="..\itpp\comm\interleave.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\comm\ldpc.cpp"
 					>
 				</File>
 				<File
@@ -558,7 +558,15 @@
 					>
 				</File>
 				<File
+					RelativePath="..\itpp\signal\resampling.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\itpp\signal\sigfun.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\signal\source.cpp"
 					>
 				</File>
 				<File
@@ -574,6 +582,10 @@
 				Name="stat"
 				>
 				<File
+					RelativePath="..\itpp\stat\misc_stat.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\itpp\stat\mog_diag.cpp"
 					>
 				</File>
@@ -587,6 +599,14 @@
 				</File>
 				<File
 					RelativePath="..\itpp\stat\mog_generic.cpp"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="optim"
+				>
+				<File
+					RelativePath="..\itpp\optim\newton_search.cpp"
 					>
 				</File>
 			</Filter>
@@ -620,10 +640,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\cholesky.h"
-					>
-				</File>
-				<File
 					RelativePath="..\itpp\base\circular_buffer.h"
 					>
 				</File>
@@ -633,22 +649,6 @@
 				</File>
 				<File
 					RelativePath="..\itpp\base\copy_vector.h"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\det.h"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\eigen.h"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\elmatfunc.h"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\errorfunc.h"
 					>
 				</File>
 				<File
@@ -668,39 +668,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\integration.h"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\inv.h"
-					>
-				</File>
-				<File
 					RelativePath="..\itpp\base\itassert.h"
 					>
 				</File>
 				<File
 					RelativePath="..\itpp\base\itfile.h"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\itmisc.h"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\lapack.h"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\logexpfunc.h"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\ls_solve.h"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\lu.h"
 					>
 				</File>
 				<File
@@ -712,10 +684,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\newton_search.h"
-					>
-				</File>
-				<File
 					RelativePath="..\itpp\base\operators.h"
 					>
 				</File>
@@ -724,15 +692,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\qr.h"
-					>
-				</File>
-				<File
 					RelativePath="..\itpp\base\random.h"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\schur.h"
 					>
 				</File>
 				<File
@@ -744,23 +704,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\source.h"
-					>
-				</File>
-				<File
 					RelativePath="..\itpp\base\specmat.h"
 					>
 				</File>
 				<File
 					RelativePath="..\itpp\base\stack.h"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\stat.h"
-					>
-				</File>
-				<File
-					RelativePath="..\itpp\base\svd.h"
 					>
 				</File>
 				<File
@@ -772,10 +720,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\trihypfunc.h"
-					>
-				</File>
-				<File
 					RelativePath="..\itpp\base\vec.h"
 					>
 				</File>
@@ -784,6 +728,82 @@
 					>
 					<File
 						RelativePath="..\itpp\base\bessel\bessel_internal.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="algebra"
+					>
+					<File
+						RelativePath="..\itpp\base\algebra\cholesky.h"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\algebra\det.h"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\algebra\eigen.h"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\algebra\inv.h"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\algebra\lapack.h"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\algebra\ls_solve.h"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\algebra\lu.h"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\algebra\qr.h"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\algebra\schur.h"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\algebra\svd.h"
+						>
+					</File>
+				</Filter>
+				<Filter
+					Name="math"
+					>
+					<File
+						RelativePath="..\itpp\base\math\elem_math.h"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\math\error.h"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\math\integration.h"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\math\log_exp.h"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\math\min_max.h"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\math\misc.h"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\math\trig_hyp.h"
 						>
 					</File>
 				</Filter>
@@ -833,6 +853,10 @@
 				</File>
 				<File
 					RelativePath="..\itpp\comm\interleave.h"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\comm\ldpc.h"
 					>
 				</File>
 				<File
@@ -909,7 +933,7 @@
 				</File>
 			</Filter>
 			<Filter
-				Name="fixedpoint"
+				Name="fixed"
 				>
 				<File
 					RelativePath="..\itpp\fixed\cfix.h"
@@ -1008,7 +1032,15 @@
 					>
 				</File>
 				<File
+					RelativePath="..\itpp\signal\resampling.h"
+					>
+				</File>
+				<File
 					RelativePath="..\itpp\signal\sigfun.h"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\signal\source.h"
 					>
 				</File>
 				<File
@@ -1028,6 +1060,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\itpp\stat\misc_stat.h"
+					>
+				</File>
+				<File
 					RelativePath="..\itpp\stat\mog_diag.h"
 					>
 				</File>
@@ -1041,6 +1077,14 @@
 				</File>
 				<File
 					RelativePath="..\itpp\stat\mog_generic.h"
+					>
+				</File>
+			</Filter>
+			<Filter
+				Name="optim"
+				>
+				<File
+					RelativePath="..\itpp\optim\newton_search.h"
 					>
 				</File>
 			</Filter>
