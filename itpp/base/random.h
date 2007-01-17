@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -198,10 +198,28 @@ namespace itpp {
     //!
     unsigned int mixBits( const unsigned int& u, const unsigned int& v ) const
     { return hiBit(u) | loBits(v); }
+
+    /*
+     * ----------------------------------------------------------------------
+     * --- ediap - 2007/01/17 ---
+     * ----------------------------------------------------------------------
+     * Richard's implementation of the twist() function is was follows:
+     *  { return m ^ (mixBits(s0,s1)>>1) ^ (-loBit(s1) & 0x9908b0dfU); }
+     * However, this code caused a warning/error under MSVC++, because
+     * unsigned value loBit(s1) is being negated with `-' (c.f. bug report
+     * [1635988]). I changed this to the same implementation as is used in
+     * original C sources of Mersenne Twister RNG:
+     *  #define MATRIX_A 0x9908b0dfUL
+     *  #define UMASK 0x80000000UL
+     *  #define LMASK 0x7fffffffUL
+     *  #define MIXBITS(u,v) ( ((u) & UMASK) | ((v) & LMASK) )
+     *  #define TWIST(u,v) ((MIXBITS(u,v) >> 1) ^ ((v)&1UL ? MATRIX_A : 0UL)) 
+     * ----------------------------------------------------------------------
+     */
     //!
     unsigned int twist( const unsigned int& m, const unsigned int& s0,
 			const unsigned int& s1 ) const
-    { return m ^ (mixBits(s0,s1)>>1) ^ (-loBit(s1) & 0x9908b0dfU); }
+    { return m ^ (mixBits(s0,s1)>>1) ^ (loBit(s1) ? 0x9908b0dfU : 0U); }
     //!
     unsigned int hash( time_t t, clock_t c );
   };
