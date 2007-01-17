@@ -1,3 +1,8 @@
+2007-01-17  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* NEWS: Consistancy and language improved. Thanks to Erik for his
+	valuable comments.
+
 2007-01-17  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/base/gf2mat.h, itpp/base/gf2mat.cpp, itpp/comm/ldpc.cpp:
