@@ -664,8 +664,8 @@ namespace itpp {
     return nrows;
   }
 
-  int GF2mat::T_fact_update_addcol(GF2mat &T, GF2mat &U, 
-				   ivec &perm, bvec newcol) const
+  bool GF2mat::T_fact_update_addcol(GF2mat &T, GF2mat &U, 
+				    ivec &perm, bvec newcol) const
   {
     int i0 = T.rows();
     int j0 = U.cols();
@@ -692,7 +692,7 @@ namespace itpp {
 	goto found;
       }
     }
-    return 0; // adding the new column would not improve the rank
+    return (false); // adding the new column would not improve the rank
 
   found:
     perm.set_length(j0+1,true);
@@ -709,7 +709,7 @@ namespace itpp {
     }
 
     U = Utemp;
-    return 1; // the new column was successfully added
+    return (true); // the new column was successfully added
   }
 
 
