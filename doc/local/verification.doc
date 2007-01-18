@@ -3,6 +3,7 @@
 
 \section toc Table of Contents
 - \ref intro
+
 - \ref itpp_3_99
   - \ref linux_3_99
     - \ref gentoo_atlas_3_99
@@ -11,6 +12,7 @@
     - \ref mingw_acml_3_99
     - \ref msvc_mkl_3_99
   - \ref unix_3_99
+
 - \ref itpp_3_10
   - \ref linux
     - \ref fedora_atlas
@@ -47,6 +49,8 @@ used, etc.
 
 If you manage to compile, install and test the IT++ library on a system not
 mentioned below, please let us know, so we could update this database.
+
+\htmlonly <hr> \endhtmlonly
 
 
 \section itpp_3_99 IT++ 3.99.x (Development Releases)
@@ -102,7 +106,7 @@ mentioned below, please let us know, so we could update this database.
 - <b>Tester</b>: Adam Piątyszek (ediap)
 
 
-\subsubsection mingw_acml Microsoft Windows XP with MinGW/MSYS and ACML
+\subsubsection mingw_acml_3_99 Microsoft Windows XP with MinGW/MSYS and ACML
 
 - <b>Platform</b>: AMD Sempron 3000+
 - <b>Operating System</b>: Microsoft Windows XP SP2, MinGW 5.1.3, MSYS 1.0.11
@@ -143,9 +147,8 @@ mentioned below, please let us know, so we could update this database.
 \subsection unix_3_99 Unix Systems
 
 
+\htmlonly <hr> \endhtmlonly
 
-
-\page verification_3_10 IT++ Supported Systems
 
 \section itpp_3_10 IT++ 3.10.x (Stable Releases)
 
