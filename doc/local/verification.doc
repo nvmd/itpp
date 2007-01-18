@@ -7,6 +7,8 @@
 - \ref itpp_3_99
   - \ref linux_3_99
     - \ref gentoo_atlas_3_99
+    - \ref rhel4_3_99
+    - \ref debian_etch_3_99
   - \ref windows_3_99
     - \ref mingw_netlib_3_99
     - \ref mingw_acml_3_99
@@ -83,6 +85,29 @@ mentioned below, please let us know, so we could update this database.
 - <b>Date</b>: January 18, 2007
 - <b>Tester</b>: Adam Piątyszek (ediap)
 
+\subsubsection rhel4_3_99 Red Hat Enterprise Linux 4
+
+- <b>Platform</b>: Intel Pentium 4
+- <b>Operating System</b>: Red Hat Enterprise Linux 4
+- <b>Compiler</b>: g++ (GCC) 3.4.6
+- <b>IT++ release</b>: 3.99.0
+- <b>External Libraries</b>: ATLAS, LAPACK, and FFTW separately compiled from IT++ External 2.3.0 sources and installed in a local directory
+- <b>Tests Status</b>: All tests PASSED
+- <b>Date</b>: January 18, 2007
+- <b>Tester</b>: Erik G. Larsson
+
+\subsubsection debian_etch_3_99 Debian Etch
+
+- <b>Platform</b>: Intel Pentium 4
+- <b>Operating System</b>: Debian Etch
+- <b>Compiler</b>: g++ (GCC) 4.1.2
+- <b>IT++ release</b>: 3.99.0
+- <b>External Libraries</b>: ATLAS, LAPACK and FFTW from Debian packages (on the  computer 
+where the test was done the following packages were installed, among others:  fftw2, fftw3, fftw2-dev, fftw3-dev, atlas3-base,   atlas3-base,
+atlas3-base-dev, atlas3-headers,  atlas3-sse,  atlas3-sse-dev,  atlas3-sse2,  atlas3-sse2-dev,  atlas3-test)
+- <b>Tests Status</b>: All tests PASSED
+- <b>Date</b>: January 18, 2007
+- <b>Tester</b>: Erik G. Larsson
 
 \subsection windows_3_99 Windows Systems
 

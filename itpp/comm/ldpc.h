@@ -233,14 +233,28 @@ namespace itpp {
       */
       int check_for_cycles(int L) const;
 
-      /*! \brief Check for reachability between nodes 
+      /*! \brief Check for connectivity between nodes 
 	
       This function examines whether the point (to_m, to_n) in the
-      matrix can be reached from the point (from_m, to_m) using at
+      matrix can be reached from the point (from_m, from_n) using at
       most L steps. A recursive search is used. 
 
       \note This function can be very slow depending on the nature of
       the matrix.
+
+      Note that smaller cycles may appear as longer cycles when using
+      this method. More specifically, suppose the method is run with a
+      given L and there are cycles in the neighborhood of
+      (from_m,from_n) of length L-2 or less. These shorter cycles may
+      then also be reported as cycle of length L.  For example, if one
+      of the immediate neighbors of (from_m,from_n) is part of a cycle
+      of length 4 this method will report that (from_m,from_n) is part
+      of a cycle of length 6, if run with L=6. However, if it is known
+      that there are no cycles of length L-2 or smaller, and
+      check_connectivity(from_m,from_n,from_m,from_n,0,L) returns a
+      non-negative value, then one will know with certainty that the
+      point (from_m,from_n) is part of a cycle of length L. (This
+      behavior is inherent to the simple recursive search used.)
 
       \param from_m starting coordinate, row number
       \param to_m goal coordinte, row number
@@ -265,7 +279,7 @@ namespace itpp {
       >=0      : destination reached with certain number of steps left
 
       */
-      int can_reach(int from_m,int from_n,int to_m,int to_n,int g,int L) const;
+      int check_connectivity(int from_m,int from_n,int to_m,int to_n,int g,int L) const;
 
     private:
       static const int Nmax=200;   // Maximum node degree class can handle
