@@ -538,7 +538,7 @@ namespace itpp {
 	} else {
 	  set(r,c,1);
 	  if (L>0) { // attempt to avoid cycles
-	    if (can_reach(r,c,r,c,0,L)>=0) {   // detected cycle
+	    if (check_connectivity(r,c,r,c,0,L)>=0) {   // detected cycle
 	      set(r,c,0);
 	      if (el>0) {
 		// make a swap in the index permutation
@@ -570,7 +570,7 @@ namespace itpp {
     display_stats();
   }
   
-  int LDPC_Parity_Matrix::can_reach(int from_i, int from_j, int to_i, 
+  int LDPC_Parity_Matrix::check_connectivity(int from_i, int from_j, int to_i, 
 				    int to_j, int godir, int L ) const
   {
     int i, j, result;
@@ -602,7 +602,7 @@ namespace itpp {
       ivec cj = index_nonzeros(get_col(from_j));
       for (i=0; i<length(cj); i++) {
 	if (cj(i)!=from_i) {
-	  result = can_reach(cj(i),from_j,to_i,to_j,2,L-1);
+	  result = check_connectivity(cj(i),from_j,to_i,to_j,2,L-1);
 	  if (result>=0) {
 	    return (result);
 	  }
@@ -614,7 +614,7 @@ namespace itpp {
       ivec ri = index_nonzeros(get_row(from_i));
       for (j=0; j<length(ri); j++) {
 	if (ri(j)!=from_j) {
-	  result = can_reach(from_i,ri(j),to_i,to_j,1,L-1);
+	  result = check_connectivity(from_i,ri(j),to_i,to_j,1,L-1);
 	  if (result>=0) {
 	    return (result);
 	  }
@@ -635,7 +635,7 @@ namespace itpp {
     for (int i=0; i<nvar; i++) {
       ivec ri = index_nonzeros(get_col(i));
       for (int j=0; j<length(ri); j++) {
-	if (can_reach(ri(j),i,ri(j),i,0,L)>=0)	{
+	if (check_connectivity(ri(j),i,ri(j),i,0,L)>=0)	{
 	  cycles++;
 	}
       }

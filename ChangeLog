@@ -1,3 +1,10 @@
+2007-01-18  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/comm/ldpc.h, itpp/comm/ldpc.cpp: Changed one function name
+	and updated documentation
+	
+	* doc/local/verification.doc: Updated 
+
 2007-01-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* doc/local/verification.doc: Updated to reflect recent tests
