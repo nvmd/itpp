@@ -6,12 +6,13 @@
 
 - \ref itpp_3_99
   - \ref linux_3_99
-    - \ref gentoo_atlas_3_99
-    - \ref rhel4_3_99
     - \ref debian_etch_3_99
+    - \ref gentoo_atlas_3_99
+    - \ref gentoo_mkl_3_99
+    - \ref rhel4_3_99
   - \ref windows_3_99
-    - \ref mingw_netlib_3_99
     - \ref mingw_acml_3_99
+    - \ref mingw_netlib_3_99
     - \ref msvc_mkl_3_99
   - \ref unix_3_99
 
@@ -59,6 +60,22 @@ mentioned below, please let us know, so we could update this database.
 
 \subsection linux_3_99 Linux Systems
 
+\subsubsection debian_etch_3_99 Debian Etch
+
+- <b>Platform</b>: Intel Pentium 4
+- <b>Operating System</b>: Debian Etch
+- <b>Compiler</b>: g++ (GCC) 4.1.2
+- <b>IT++ release</b>: 3.99.0
+- <b>External Libraries</b>: ATLAS, LAPACK and FFTW from Debian packages (on
+  the computer where the test was done the following packages were
+  installed, among others: fftw3, fftw3-dev, atlas3-base, atlas3-base-dev,
+  atlas3-headers, atlas3-sse, atlas3-sse-dev, atlas3-sse2, atlas3-sse2-dev, 
+  atlas3-test) 
+- <b>Tests Status</b>: All tests PASSED
+- <b>Date</b>: January 18, 2007
+- <b>Tester</b>: Erik G. Larsson
+
+
 \subsubsection gentoo_atlas_3_99 Gentoo Linux with ATLAS
 
 - <b>Platform</b>: Intel Pentium M Centrino
@@ -85,51 +102,43 @@ mentioned below, please let us know, so we could update this database.
 - <b>Date</b>: January 18, 2007
 - <b>Tester</b>: Adam Piątyszek (ediap)
 
+
+\subsubsection gentoo_mkl_3_99 Gentoo Linux with MKL
+
+- <b>Platform</b>: Intel Pentium M Centrino
+- <b>Operating System</b>: Gentoo Linux 2006.1 (x86)
+- <b>Compiler</b>: g++ (GCC) 4.1.1
+- <b>IT++ release</b>: 3.99.0
+- <b>External Libraries</b>: Intel Math Kernel Library (MKL) 8.1.014
+  installed from the portage three:
+\verbatim
+% emerge sci-libs/mkl
+\endverbatim
+- <b>Tests Status</b>: All tests PASSED
+- <b>Comments</b>: IT++ configured using the following commands:
+\verbatim 
+% export LDFLAGS="-L/opt/intel/mkl/8.1/lib/32"
+% export CPPFLAGS="-I/opt/intel/mkl/8.1/include"
+% ./configure --enable-debug
+\endverbatim
+- <b>Date</b>: January 18, 2007
+- <b>Tester</b>: Adam Piątyszek (ediap)
+
+
 \subsubsection rhel4_3_99 Red Hat Enterprise Linux 4
 
 - <b>Platform</b>: Intel Pentium 4
 - <b>Operating System</b>: Red Hat Enterprise Linux 4
 - <b>Compiler</b>: g++ (GCC) 3.4.6
 - <b>IT++ release</b>: 3.99.0
-- <b>External Libraries</b>: ATLAS, LAPACK, and FFTW separately compiled from IT++ External 2.3.0 sources and installed in a local directory
+- <b>External Libraries</b>: ATLAS, LAPACK, and FFTW separately compiled
+  from IT++ External 2.3.0 sources and installed in a local directory 
 - <b>Tests Status</b>: All tests PASSED
 - <b>Date</b>: January 18, 2007
 - <b>Tester</b>: Erik G. Larsson
 
-\subsubsection debian_etch_3_99 Debian Etch
-
-- <b>Platform</b>: Intel Pentium 4
-- <b>Operating System</b>: Debian Etch
-- <b>Compiler</b>: g++ (GCC) 4.1.2
-- <b>IT++ release</b>: 3.99.0
-- <b>External Libraries</b>: ATLAS, LAPACK and FFTW from Debian packages (on the  computer 
-where the test was done the following packages were installed, among others:  fftw2, fftw3, fftw2-dev, fftw3-dev, atlas3-base,   atlas3-base,
-atlas3-base-dev, atlas3-headers,  atlas3-sse,  atlas3-sse-dev,  atlas3-sse2,  atlas3-sse2-dev,  atlas3-test)
-- <b>Tests Status</b>: All tests PASSED
-- <b>Date</b>: January 18, 2007
-- <b>Tester</b>: Erik G. Larsson
 
 \subsection windows_3_99 Windows Systems
-
-\subsubsection mingw_netlib_3_99 Microsoft Windows XP with MinGW/MSYS and IT++ External
-
-- <b>Platform</b>: AMD Sempron 3000+
-- <b>Operating System</b>: Microsoft Windows XP SP2, MinGW 5.1.3, MSYS 1.0.11
-- <b>Compiler(s)</b>: g++ (GCC) 3.4.5 (mingw special)
-- <b>IT++ release</b>: 3.99.0
-- <b>External Libraries</b>: BLAS, CBLAS, LAPACK and FFTW libraries from
-  IT++ External 2.99.1 package
-- <b>Tests Status</b>: All tests PASSED
-- <b>Comments</b>: Only static library can be built. IT++ configured with:
-\verbatim
-% export LDFLAGS="-L/usr/local/lib"
-% export CPPFLAGS="-I/usr/local/include"
-% export CXXFLAGS="-Wall -O3 -march=athlon-tbird -pipe"
-% ./configure --disable-html-doc --enable-debug
-\endverbatim
-- <b>Date</b>: January 18, 2007
-- <b>Tester</b>: Adam Piątyszek (ediap)
-
 
 \subsubsection mingw_acml_3_99 Microsoft Windows XP with MinGW/MSYS and ACML
 
@@ -146,6 +155,26 @@ atlas3-base-dev, atlas3-headers,  atlas3-sse,  atlas3-sse-dev,  atlas3-sse2,  at
 % export LDFLAGS="-L/c/Progra~1/AMD/acml3.6.0/gnu32/lib"
 % export CPPFLAGS="-I/c/Progra~1/AMD/acml3.6.0/gnu32/include"
 % ./configure --enable-debug
+\endverbatim
+- <b>Date</b>: January 18, 2007
+- <b>Tester</b>: Adam Piątyszek (ediap)
+
+
+\subsubsection mingw_netlib_3_99 Microsoft Windows XP with MinGW/MSYS and IT++ External
+
+- <b>Platform</b>: AMD Sempron 3000+
+- <b>Operating System</b>: Microsoft Windows XP SP2, MinGW 5.1.3, MSYS 1.0.11
+- <b>Compiler(s)</b>: g++ (GCC) 3.4.5 (mingw special)
+- <b>IT++ release</b>: 3.99.0
+- <b>External Libraries</b>: BLAS, CBLAS, LAPACK and FFTW libraries from
+  IT++ External 2.99.1 package
+- <b>Tests Status</b>: All tests PASSED
+- <b>Comments</b>: Only static library can be built. IT++ configured with:
+\verbatim
+% export LDFLAGS="-L/usr/local/lib"
+% export CPPFLAGS="-I/usr/local/include"
+% export CXXFLAGS="-Wall -O3 -march=athlon-tbird -pipe"
+% ./configure --disable-html-doc --enable-debug
 \endverbatim
 - <b>Date</b>: January 18, 2007
 - <b>Tester</b>: Adam Piątyszek (ediap)

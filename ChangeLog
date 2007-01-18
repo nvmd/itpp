@@ -1,3 +1,8 @@
+2007-01-18  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/local/verification.doc: Updated to include recent test under
+	Gentoo Linux with Intel MKL
+
 2007-01-18  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/comm/ldpc.h, itpp/comm/ldpc.cpp: Changed one function name
