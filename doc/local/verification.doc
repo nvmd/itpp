@@ -17,6 +17,7 @@
     - \ref mingw_netlib_3_99
     - \ref msvc_mkl_3_99
   - \ref unix_3_99
+    - \ref sunos59_netlib_3_99
 
 - \ref itpp_3_10
   - \ref linux
@@ -239,6 +240,24 @@ mentioned below, please let us know, so we could update this database.
 
 
 \subsection unix_3_99 Unix Systems
+
+\subsubsection sunos59_netlib_3_99 SunOS 5.9 with IT++ External
+
+- <b>Platform</b>: SUNW, Sun-Blade-100 (SPARC)
+- <b>Operating System</b>: SunOS 5.9 Generic_112233-10
+- <b>Compiler(s)</b>: g++ (GCC) 3.4.5
+- <b>IT++ release</b>: 3.99.0
+- <b>External Libraries</b>: BLAS, CBLAS, LAPACK and FFTW libraries from
+  IT++ External 2.99.1 package
+- <b>Tests Status</b>: All tests PASSED
+- <b>Comments</b>: IT++ configured with:
+\verbatim
+% export LDFLAGS="-L/usr/local/lib"
+% export CPPFLAGS="-I/usr/local/include"
+% ./configure
+\endverbatim
+- <b>Date</b>: January 19, 2007
+- <b>Tester</b>: Adam Piątyszek (ediap)
 
 
 \htmlonly <hr> \endhtmlonly
