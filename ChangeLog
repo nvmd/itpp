@@ -1,3 +1,8 @@
+2007-01-19  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/local/verification.doc: Updated to include recent tests
+	under Cygwin/Windows XP
+
 2007-01-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* doc/local/verification.doc: Updated to include recent test under

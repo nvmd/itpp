@@ -10,7 +10,9 @@
     - \ref gentoo_atlas_3_99
     - \ref gentoo_mkl_3_99
     - \ref rhel4_3_99
-  - \ref windows_3_99
+  - \ref windows_3_99 
+    - \ref cygwin_3_99
+    - \ref cygwin_acml_3_99
     - \ref mingw_acml_3_99
     - \ref mingw_netlib_3_99
     - \ref msvc_mkl_3_99
@@ -140,7 +142,45 @@ mentioned below, please let us know, so we could update this database.
 
 \subsection windows_3_99 Windows Systems
 
-\subsubsection mingw_acml_3_99 Microsoft Windows XP with MinGW/MSYS and ACML
+\subsubsection cygwin_3_99 Cygwin
+
+- <b>Platform</b>: AMD Sempron 3000+
+- <b>Operating System</b>: Microsoft Windows XP SP2, Cygwin 1.5.23-2
+- <b>Compiler(s)</b>: g++ (GCC) 3.4.4 (cygming special)
+- <b>IT++ release</b>: 3.99.0
+- <b>External Libraries</b>: Installed from Cygwin repository:
+  - <tt>fftw3-3.0.1-2, fftw3-dev-3.0.1-2</tt> 
+  - <tt>lapack-3.0-5</tt>
+- <b>Tests Status</b>: All tests PASSED
+- <b>Comments</b>: Only static library can be built. IT++ configured with:
+\verbatim
+% ./configure --enable-debug
+\endverbatim
+- <b>Date</b>: January 19, 2007
+- <b>Tester</b>: Adam Piątyszek (ediap)
+
+
+\subsubsection cygwin_acml_3_99 Cygwin with ACML
+
+- <b>Platform</b>: AMD Sempron 3000+
+- <b>Operating System</b>: Microsoft Windows XP SP2, Cygwin 1.5.23-2
+- <b>Compiler(s)</b>: g++ (GCC) 3.4.4 (cygming special)
+- <b>IT++ release</b>: 3.99.0
+- <b>External Libraries</b>:  ACML version 3.6.0 
+  (<tt>acml3.6.0-32-g77.exe</tt>) installed into a default directory, 
+  i.e. <tt>"c:\Program Files\AMD\acml3.6.0"</tt>
+- <b>Tests Status</b>: All tests PASSED
+- <b>Comments</b>: Only static library can be built. IT++ configured with:
+\verbatim
+% export LDFLAGS="-L/cygdrive/c/Progra~1/AMD/acml3.6.0/gnu32/lib"
+% export CPPFLAGS="-I/cygdrive/c/Progra~1/AMD/acml3.6.0/gnu32/include"
+% ./configure --enable-debug
+\endverbatim
+- <b>Date</b>: January 19, 2007
+- <b>Tester</b>: Adam Piątyszek (ediap)
+
+
+\subsubsection mingw_acml_3_99 MinGW/MSYS with ACML
 
 - <b>Platform</b>: AMD Sempron 3000+
 - <b>Operating System</b>: Microsoft Windows XP SP2, MinGW 5.1.3, MSYS 1.0.11
@@ -160,7 +200,7 @@ mentioned below, please let us know, so we could update this database.
 - <b>Tester</b>: Adam Piątyszek (ediap)
 
 
-\subsubsection mingw_netlib_3_99 Microsoft Windows XP with MinGW/MSYS and IT++ External
+\subsubsection mingw_netlib_3_99 MinGW/MSYS with IT++ External
 
 - <b>Platform</b>: AMD Sempron 3000+
 - <b>Operating System</b>: Microsoft Windows XP SP2, MinGW 5.1.3, MSYS 1.0.11
@@ -180,7 +220,7 @@ mentioned below, please let us know, so we could update this database.
 - <b>Tester</b>: Adam Piątyszek (ediap)
 
 
-\subsubsection msvc_mkl_3_99 Microsoft Windows XP with MS Visual C++ and Intel MKL
+\subsubsection msvc_mkl_3_99 MS Visual C++ .NET with Intel MKL
 
 - <b>Platform</b>: AMD Sempron 3000+
 - <b>Operating System</b>: Microsoft Windows XP SP2
