@@ -17,6 +17,7 @@
     - \ref mingw_netlib_3_99
     - \ref msvc_mkl_3_99
   - \ref unix_3_99
+    - \ref sunos59_atlas_3_99
     - \ref sunos59_netlib_3_99
 
 - \ref itpp_3_10
@@ -128,7 +129,7 @@ mentioned below, please let us know, so we could update this database.
 - <b>Tester</b>: Adam Piątyszek (ediap)
 
 
-\subsubsection rhel4_3_99 Red Hat Enterprise Linux 4
+\subsubsection rhel4_3_99 Red Hat Enterprise Linux 4 with IT++ External
 
 - <b>Platform</b>: Intel Pentium 4
 - <b>Operating System</b>: Red Hat Enterprise Linux 4
@@ -240,6 +241,30 @@ mentioned below, please let us know, so we could update this database.
 
 
 \subsection unix_3_99 Unix Systems
+
+\subsubsection sunos59_atlas_3_99 SunOS 5.9 with ATLAS
+
+- <b>Platform</b>: SUNW, Sun-Blade-100 (SPARC)
+- <b>Operating System</b>: SunOS 5.9 Generic_112233-10
+- <b>Compiler(s)</b>: g++ (GCC) 3.4.5
+- <b>IT++ release</b>: 3.99.0
+- <b>External Libraries</b>: LAPACK and FFTW libraries installed from IT++
+  External 2.99.1 package. ATLAS 3.7.24 development version build from
+  sources using the following configuration command:
+\verbatim
+% ../configure --with-netlib-lapack="/usr/local/lib/liblapack.a"
+\endverbatim
+- <b>Tests Status</b>: All tests PASSED
+- <b>Comments</b>: Only static library can be built due to the ATLAS
+  installation. IT++ configured with:
+\verbatim
+% export LDFLAGS="-L/usr/local/atlas/lib -L/usr/local/lib"
+% export CPPFLAGS="-I/usr/local/include"
+% ./configure --disable-shared
+\endverbatim
+- <b>Date</b>: January 20, 2007
+- <b>Tester</b>: Adam Piątyszek (ediap)
+
 
 \subsubsection sunos59_netlib_3_99 SunOS 5.9 with IT++ External
 
