@@ -1,3 +1,7 @@
+2007-01-21  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* Makefile.am: Added missing files to EXTRA_DIST
+
 2007-01-20  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* ChangeLog-2006: ChangeLog entries from year 2006 moved to a
