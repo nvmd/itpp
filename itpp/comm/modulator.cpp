@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -47,7 +47,8 @@ namespace itpp {
   {
     k = levels2bits(Mary);
     M = Mary;
-    it_assert(pow2i(k) == M, "QAM::set_M(): M is not a power of 2");
+    it_assert((pow2i(k) == M) && (is_even(k)), 
+	      "QAM::set_M(): M = " << M << " is not an even power of 2");
     L = round_i(std::sqrt(static_cast<double>(M)));
 
     double average_energy = (M - 1) * 2.0 / 3.0;
