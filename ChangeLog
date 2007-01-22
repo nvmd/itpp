@@ -1,3 +1,10 @@
+2007-01-22  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/modulator.cpp: Fixed wrong assertion check in QAM
+	modulator set_M() function
+
+==============================================================================
+
 2007-01-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* IT++ 3.99.0 released (SVN tag: release-3-99-0)
