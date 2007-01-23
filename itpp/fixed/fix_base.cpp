@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -97,7 +97,7 @@ namespace itpp {
       overflow = true;
       switch (omode) {
       case WRAP:
-        ret = fixrep((int64(ret) << n_unused_bits) >> n_unused_bits);
+        ret = fixrep((fixrep(ret) << n_unused_bits) >> n_unused_bits);
         break;
       case SAT:
         ret = min;
@@ -111,7 +111,7 @@ namespace itpp {
       overflow = true;
       switch (omode) {
       case WRAP:
-        ret = fixrep((int64(ret) << n_unused_bits) >> n_unused_bits);
+        ret = fixrep((fixrep(ret) << n_unused_bits) >> n_unused_bits);
         break;
       case SAT:
         ret = max;

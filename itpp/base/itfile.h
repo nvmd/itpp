@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@
 #include <itpp/base/vec.h>
 #include <itpp/base/array.h>
 #include <itpp/base/binfile.h>
+#include <itpp/base/it_types.h>
 
 
 namespace itpp {
@@ -86,7 +87,7 @@ namespace itpp {
       //! 0=little, 1=big
       char endianity;
       //! size variables
-      unsigned int hdr_bytes, data_bytes, block_bytes;
+      uint32_t hdr_bytes, data_bytes, block_bytes;
       //! type=="" means deleted
       std::string name, type;
     };
@@ -262,10 +263,10 @@ namespace itpp {
     //!Write the header for the \c it_file
     void write_file_header();
     //!Write the data header for a variable, specifying the type and size of the data to follow.
-    void write_data_header(const std::string &type, unsigned int size);
+    void write_data_header(const std::string &type, uint32_t size);
     //!Write the data header for a variable, specifying the type, name, and size of the data to follow.
     void write_data_header(const std::string &type, const std::string &name,
-			   unsigned int size);
+			   uint32_t size);
     //!Write a binary value at the current file pointer position
     void low_level_write(bin x);
     //!Write a short value at the current file pointer position
