@@ -1,7 +1,7 @@
 /*!
  * \file 
  * \brief Binary file formats implementations
- * \author Tony Ottosson and Thomas Eriksson
+ * \author Tony Ottosson, Thomas Eriksson and Adam Piatyszek
  *
  * $Date$
  * $Revision$
@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -151,27 +151,6 @@ namespace itpp {
     }
     return *this;
   }
-
-//   bofstream& bofstream::operator <<(long double a)
-//   {
-//     char *c=reinterpret_cast<char *>(&a);
-
-//     if (endianity == native_endianity)
-//       write(c, 10);
-//     else {
-//       put(c[9]);
-//       put(c[8]);
-//       put(c[7]);
-//       put(c[6]);
-//       put(c[5]);
-//       put(c[4]);
-//       put(c[3]);
-//       put(c[2]);
-//       put(c[1]);
-//       put(c[0]);
-//     }
-//     return *this;
-//   }
 
   bofstream& bofstream::operator <<(int a)
   {
@@ -379,27 +358,6 @@ namespace itpp {
     return *this;
   }
 
-//   bifstream& bifstream::operator >>(long double &a)
-//   {
-//     char *c=reinterpret_cast<char *>(&a);
-
-//     if (endianity == native_endianity)
-//       read(c, 10);
-//     else {
-//       get(c[9]);
-//       get(c[8]);
-//       get(c[7]);
-//       get(c[6]);
-//       get(c[5]);
-//       get(c[4]);
-//       get(c[3]);
-//       get(c[2]);
-//       get(c[1]);
-//       get(c[0]);
-//     }
-//     return *this;
-//   }
-
   bifstream& bifstream::operator >>(long int &a)
   {
     char *c=reinterpret_cast<char *>(&a);
@@ -456,7 +414,7 @@ namespace itpp {
   {
   }
 
-  void bfstream::open(const std::string &name, bool trnc, endian e) //CC fix trunc -> trnc
+  void bfstream::open(const std::string &name, bool trnc, endian e)
   {
     endianity = e;
 
@@ -464,8 +422,6 @@ namespace itpp {
       fstream::open(name.c_str(), ios::in | ios::out | ios::binary | ios::trunc);
     else
       fstream::open(name.c_str(), ios::in | ios::out | ios::binary);
-
-
   }
 
   void bfstream::open_readonly(const std::string &name, endian e)
@@ -586,27 +542,6 @@ namespace itpp {
     }
     return *this;
   }
-
-//   bfstream& bfstream::operator <<(long double a)
-//   {
-//     char *c=reinterpret_cast<char *>(&a);
-
-//     if (endianity == native_endianity)
-//       write(c, 10);
-//     else {
-//       put(c[9]);
-//       put(c[8]);
-//       put(c[7]);
-//       put(c[6]);
-//       put(c[5]);
-//       put(c[4]);
-//       put(c[3]);
-//       put(c[2]);
-//       put(c[1]);
-//       put(c[0]);
-//     }
-//     return *this;
-//   }
 
   bfstream& bfstream::operator <<(long int a)
   {
@@ -753,27 +688,6 @@ namespace itpp {
     }
     return *this;
   }
-
-//   bfstream& bfstream::operator >>(long double &a)
-//   {
-//     char *c=reinterpret_cast<char *>(&a);
-
-//     if (endianity == native_endianity)
-//       read(c, 10);
-//     else {
-//       get(c[9]);
-//       get(c[8]);
-//       get(c[7]);
-//       get(c[6]);
-//       get(c[5]);
-//       get(c[4]);
-//       get(c[3]);
-//       get(c[2]);
-//       get(c[1]);
-//       get(c[0]);
-//     }
-//     return *this;
-//   }
 
   bfstream& bfstream::operator >>(long int &a)
   {

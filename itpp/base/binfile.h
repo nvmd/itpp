@@ -1,7 +1,7 @@
 /*!
  * \file 
  * \brief Binary file formats definitions
- * \author Tony Ottosson and Thomas Eriksson
+ * \author Tony Ottosson, Thomas Eriksson and Adam Piatyszek
  *
  * $Date$
  * $Revision$
@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,39 +49,45 @@ namespace itpp {
     \brief Base class for binary file classes
     \ingroup itfile
 
-    This class serves as a base class for the classes \c bofstream, \c bifstream, and \c bfstream. It
-    controls the endianity (i.e. the byte order of multibyte numbers on the disk) of the inhereted classes.
+    This class serves as a base class for the classes \c bofstream,
+    \c bifstream, and \c bfstream. It controls the endianity (i.e. the 
+    byte order of multibyte numbers on the disk) of the inhereted classes.
   */
   class bfstream_base {
   public:
     /*!
       \brief Definition of the endian data type
 
-      The Endian defines the order in which multibyte numbers are stored in the file.
-      The two orders are called "Little Endian" (\c l_endian ) and "Big Endian" (\c b_endian ).
+      The Endianness defines the order in which multibyte numbers are stored
+      in the file. The two orders are called "Little Endian" (\c l_endian )
+      and "Big Endian" (\c b_endian ).
 
-      "Little Endian" means that the low-order byte of the number is stored at the lowest adress
-      (i.e. the little end comes first). "Big Endian" means that the high-order byte of the number is
-      stored in memory at the highest address (i.e. the big end comes first)
+      "Little Endian" means that the low-order byte of the number is stored
+      at the lowest adress (i.e. the little end comes first). "Big Endian"
+      means that the high-order byte of the number is stored in memory at
+      the lowest address (i.e. the big end comes first)
     */
     enum endian { l_endian, b_endian };
 
     /*!
       \brief Class Constructor
 
-      \param e Defines the endianity of the class. Possible values are \c l_endian for little endian or \c b_endian for big endian. The default value is \c b_endian.
+      \param e Defines the endianity of the class. Possible values are \c
+      l_endian for little endian or \c b_endian for big endian. The default
+      value is \c b_endian. 
     */
-    bfstream_base(endian e=b_endian);
+    bfstream_base(endian e = b_endian);
 
     /*!
-      \brief Returns the endianity of the class (\c l_endian or \c b_endian )
+      \brief Returns the endianity of the class
     */
     endian get_endianity() const { return endianity; }
 
     /*!
-      \brief Returns the native endianity for this computer architecture (\c l_endian or \c b_endian )
+      \brief Returns the native endianity for this computer architecture
 
-      Intel processors use "Little Endian" byte ordering while e.g. Motorola processors use "Big Endian" byte ordering.
+      Intel processors use "Little Endian" byte ordering while e.g. Motorola
+      processors use "Big Endian" byte ordering. 
     */
     endian get_native_endianity() const { return native_endianity; }
 
@@ -91,7 +97,8 @@ namespace itpp {
     void set_endianity(endian e) { endianity = e; }
 
     /*!
-      \brief Set the endianity of this class to the native endianity for this computer architecture
+      \brief Set the endianity of this class to the native endianity for
+      this computer architecture
     */
     void set_native_endianity() { endianity = native_endianity; }
 
@@ -112,9 +119,11 @@ namespace itpp {
       \brief Class constructor that opens a file and sets the endianity
 
       \param name The name of the file to open
-      \param e Defines the endianity of the class. Possible values are \c l_endian for "Little Endian" or \c b_endian for "Big Endian". The default value is \c b_endian.
+      \param e Defines the endianity of the class. Possible values are 
+      \c l_endian for "Little Endian" or \c b_endian for "Big Endian". The
+      default value is \c b_endian.
     */
-    bofstream(const std::string &name, endian e=b_endian);
+    bofstream(const std::string &name, endian e = b_endian);
 
     //! Class Constructor
     bofstream();
@@ -126,9 +135,10 @@ namespace itpp {
       \brief Open a file for writing and set the endianity
 
       \param name The name of the file to open
-      \param e Defines the endianity of the class (default value is \c b_endian )
+      \param e Defines the endianity of the class (default value is
+      \c b_endian )
     */
-    void open(const std::string &name, endian e=b_endian);
+    void open(const std::string &name, endian e = b_endian);
 
     //! Writes a \c char variable to the binary output file
     bofstream& operator<<(char a);
@@ -146,15 +156,11 @@ namespace itpp {
     bofstream& operator<<(float a);
     //! Writes a \c double variable to the binary output file
     bofstream& operator<<(double a);
-    // Writes a \c long \c double variable to the binary output file
-    //bofstream& operator<<(long double a);
     //! Writes a \c long \c int variable to the binary output file
     bofstream& operator<<(long int a);
     //! Writes a \c unsigned \c long \c int variable to the binary output file
     bofstream& operator<<(unsigned long int a);
-    // Writes a \c long_long variable to the binary output file
-    //bofstream& operator<<(long_long a);
-    //! ACTION: ADD DOCUMENTATION FOR THIS MEMBER!!!!!!!!!!
+    //! Writes a \c char* string to the binary output file
     bofstream& operator<<(const char *a);
     //! Writes a \c string variable to the binary output file
     bofstream& operator<<(const std::string &a);
@@ -170,9 +176,11 @@ namespace itpp {
       \brief Class constructor that opens a file and sets the endianity
 
       \param name The name of the file to open
-      \param e Defines the endianity of the class. Possible values are \c l_endian for "Little Endian" or \c b_endian for "Big Endian". The default value is \c b_endian.
+      \param e Defines the endianity of the class. Possible values are
+      \c l_endian for "Little Endian" or \c b_endian for "Big Endian". The
+      default value is \c b_endian.
     */
-    bifstream(const std::string &name, endian e=b_endian);
+    bifstream(const std::string &name, endian e = b_endian);
 
     //! Class Constructor
     bifstream();
@@ -184,9 +192,10 @@ namespace itpp {
       \brief Open a file for reading and set the endianity
 
       \param name The name of the file to open
-      \param e Defines the endianity of the class (default value is \c b_endian )
+      \param e Defines the endianity of the class (default value is
+      \c b_endian )
     */
-    void open(const std::string &name, endian e=b_endian);
+    void open(const std::string &name, endian e = b_endian);
 
     //! Returns the length in bytes of the file
     long length();
@@ -207,15 +216,11 @@ namespace itpp {
     bifstream& operator>>(float &a);
     //! Reads a \c double variable from the binary input file
     bifstream& operator>>(double &a);
-    // Reads a \c long \c double variable from the binary input file
-    //bifstream& operator>>(long double &a);
     //! Reads a \c long \c int variable from the binary input file
     bifstream& operator>>(long int &a);
     //! Reads an \c unsigned \c long \c int variable from the binary input file
     bifstream& operator>>(unsigned long int &a);
-    // Reads a \c long_long variable from the binary input file
-    //bifstream& operator>>(long_long &a);
-    //! ACTION: ADD DOCUMENTATION FOR THIS MEMBER!!!!!!!!!!
+    //! Reads a \c char* string from the binary input file
     bifstream& operator>>(char *a);
     //! Reads a \c string variable from the binary input file
     bifstream& operator>>(std::string &a);
@@ -231,9 +236,11 @@ namespace itpp {
       \brief Class constructor that opens a file and sets the endianity
 
       \param name The name of the file to open
-      \param e Defines the endianity of the class. Possible values are \c l_endian for "Little Endian" or \c b_endian for "Big Endian". The default value is \c b_endian.
+      \param e Defines the endianity of the class. Possible values are
+      \c l_endian for "Little Endian" or \c b_endian for "Big Endian".
+      The default value is \c b_endian.
     */
-    bfstream(const std::string &name, endian e=b_endian);
+    bfstream(const std::string &name, endian e = b_endian);
 
     //! Class Constructor
     bfstream();
@@ -245,18 +252,20 @@ namespace itpp {
       \brief Open a file for reading and writing and set the endianity
 
       \param name The name of the file to open
-      \param trunc ACTION: Add documentation for this parameter (default value is \c false)
-      \param e Defines the endianity of the class (default value is \c b_endian )
+      \param trunc Rewrite the file if it exists (default value is \c false)
+      \param e Defines the endianity of the class (default value is
+      \c b_endian )
     */
-    void open(const std::string &name, bool trunc=false, endian e=b_endian);
+    void open(const std::string &name, bool trunc = false, endian e = b_endian);
 
     /*!
       \brief Open a file for reading only and set the endianity
 
       \param name The name of the file to open
-      \param e Defines the endianity of the class (default value is \c b_endian )
+      \param e Defines the endianity of the class (default value is
+      \c b_endian )
     */
-    void open_readonly(const std::string &name, endian e=b_endian);
+    void open_readonly(const std::string &name, endian e = b_endian);
 
     //! Returns the length in bytes of the file
     long length();
@@ -277,15 +286,11 @@ namespace itpp {
     bfstream& operator<<(float a);
     //! Writes a \c double variable to the binary file
     bfstream& operator<<(double a);
-    // Writes a \c long \c double variable to the binary file
-    //bfstream& operator<<(long double a);
     //! Writes a \c long \c int variable to the binary file
     bfstream& operator<<(long int a);
     //! Writes an \c unsigned \c long \c int variable to the binary file
     bfstream& operator<<(unsigned long int a);
-    // Writes a \c long_long variable to the binary file
-    //bfstream& operator<<(long_long a);
-    //! ACTION: ADD DOCUMENTATION FOR THIS MEMBER!!!!!!!!!!
+    //! Writes a \c char* string to the binary output file
     bfstream& operator<<(const char *a);
     //! Writes a \c string variable to the binary file
     bfstream& operator<<(const std::string &a);
@@ -312,9 +317,7 @@ namespace itpp {
     bfstream& operator>>(long int &a);
     //! Reads an \c unsigned \c long \c int variable from the binary file
     bfstream& operator>>(unsigned long int &a);
-    // Reads a \c long_long variable from the binary file
-    //bfstream& operator>>(long_long &a);
-    //! ACTION: ADD DOCUMENTATION FOR THIS MEMBER!!!!!!!!!!
+    //! Reads a \c char* string from the binary input file
     bfstream& operator>>(char *a);
     //! Reads a \c string variable from the binary file
     bfstream& operator>>(std::string &a);

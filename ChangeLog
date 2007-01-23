@@ -1,5 +1,8 @@
 2007-01-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/binfile.cpp, itpp/base/binfile.h: Documentation
+	improvements and minor cosmetic changes
+
 	* tests/itfile_test.cpp, tests/itfile_test_data.it,
 	tests/itfile_test.ref: Improved it_file tests
 
