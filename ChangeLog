@@ -1,5 +1,11 @@
 2007-01-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/itfile_test.cpp, tests/itfile_test_data.it,
+	tests/itfile_test.ref, tests/Makefile.am: Added test file for a
+	binary it_file format. It is supposed to detect wrong endianness
+	detection on various platforms.
+	(merged rev. 860:863 from the itpp-3-10 branch)
+
 	* itpp/comm/modulator.cpp: Fixed wrong assertion check in QAM
 	modulator set_M() function
 
