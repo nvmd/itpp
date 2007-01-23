@@ -574,7 +574,7 @@ namespace itpp {
 			       double stepup, QLLRvec &detected_bits)
   {
     it_assert(H.rows()==length(y),"ND_UPAM::sphere_decoding(): dimension mismatch");
-    it_assert(H.rows()==nt,"ND_UPAM::sphere_decoding(): dimension mismatch");
+    it_assert(H.cols()==nt,"ND_UPAM::sphere_decoding(): dimension mismatch");
     it_assert(rstart>0,"ND_UPAM::sphere_decoding(): radius error");
     it_assert(rmax>rstart,"ND_UPAM::sphere_decoding(): radius error");
     
