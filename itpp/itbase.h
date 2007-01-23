@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -117,6 +117,8 @@
 #include <itpp/base/gf2mat.h>
 #include <itpp/base/itassert.h>
 #include <itpp/base/itfile.h>
+#include <itpp/base/it_endian.h>
+#include <itpp/base/it_types.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/base/operators.h>

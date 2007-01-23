@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -517,7 +517,7 @@ namespace itpp {
     s << file_version;
   }
 
-  void it_file::write_data_header(const std::string &type, unsigned int size)
+  void it_file::write_data_header(const std::string &type, uint32_t size)
   {
     if (next_name == "")
       it_error("Try to write without a name");
@@ -526,7 +526,7 @@ namespace itpp {
   }
 
   void it_file::write_data_header(const std::string &type, 
-				  const std::string &name, unsigned int size)
+				  const std::string &name, uint32_t size)
   {
     data_header h1, h2;
     std::streampos p;

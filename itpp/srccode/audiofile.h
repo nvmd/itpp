@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,7 +34,6 @@
 #define AUDIOFILE_H
 
 #include <itpp/base/vec.h>
-#include <itpp/base/math/misc.h>
 #include <fstream>
 
 
@@ -347,38 +346,6 @@ namespace itpp {
   // Write SAP audio data
   bool sap_write(const char *fname, const vec &v, const char *hdr);
   */
-
-  //! Read binary data and optionally switch endianness
-  template<typename T>
-  inline T read_endian(std::istream &s, bool switch_endian = false)
-  {
-    T data;
-    int bytes = sizeof(T);
-    char *c = reinterpret_cast<char *>(&data);
-    if (!switch_endian) {
-      s.read(c, bytes);
-    }
-    else {
-      for (int i = bytes-1; i >= 0; i--)
-	s.get(c[i]);
-    }
-    return data;
-  }
- 
-  //! Write binary data and optionally switch endianness
-  template<typename T>
-  inline void write_endian(std::ostream &s, T data, bool switch_endian = false)
-  {
-    int bytes = sizeof(T);
-    char *c = reinterpret_cast<char *>(&data);
-    if (!switch_endian) {
-      s.write(c, bytes);
-    }
-    else {
-      for (int i = bytes-1; i >= 0; i--)
-	s.put(c[i]);
-    }
-  }
 
   //!@}
 

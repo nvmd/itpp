@@ -1,8 +1,8 @@
 /*!
  * \file
- * \brief Miscellaneous functions - source file
- * \author Tony Ottosson and Adam Piatyszek
- * 
+ * \brief IT++ types definitions
+ * \author Adam Piatyszek
+ *
  * $Date$
  * $Revision$
  *
@@ -30,18 +30,38 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/base/math/misc.h>
+#ifndef IT_TYPES_H
+#define IT_TYPES_H
 
-
-namespace itpp { 
-
-  std::string itpp_version(void)
-  {
-#ifdef PACKAGE_VERSION
-    return std::string(PACKAGE_VERSION);
+#ifndef _MSC_VER
+#  include <itpp/config.h>
 #else
-    return std::string("Warning: Version unknown!");
+#  include <itpp/config_msvc.h>
 #endif
-  }
 
-} //namespace itpp
+#if defined(HAVE_STDINT_H)
+#  include <stdint.h>
+#elif defined(HAVE_INTTYPES_H)
+#  include <inttypes.h>
+#else
+
+// Typedefs for 32 bit architechures (default)
+typedef signed char             int8_t;
+typedef unsigned char           uint8_t;
+typedef signed short            int16_t;
+typedef unsigned short          uint16_t;
+typedef signed int              int32_t;
+typedef unsigned int            uint32_t;
+
+// WARNING: These types might be wrong on 64-bit platforms
+#ifndef _MSC_VER
+typedef signed long long int    int64_t;
+typedef unsigned long long int  uint64_t;
+#else
+typedef __int64 int64_t;
+typedef unsigned __int64 uint64_t;
+#endif // ifndef(_MSC_VER)
+
+#endif // ifdef(HAVE_STDINT_H)
+
+#endif /* IT_TYPES_H */
