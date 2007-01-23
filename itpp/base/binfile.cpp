@@ -31,13 +31,14 @@
  */
 
 #include <itpp/base/binfile.h>
-#include <itpp/base/it_endian.h>
+#include <itpp/base/math/misc.h>
 
+
+using std::string;
 using std::ofstream;
 using std::ifstream;
 using std::fstream;
 using std::ios;
-
 
 namespace itpp { 
 
@@ -92,49 +93,122 @@ namespace itpp {
 
   bofstream& bofstream::operator <<(short a)
   {
-    write_endian<short, bofstream&>(*this, a, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity) {
+      put(c[0]);
+      put(c[1]);
+    } else {
+      put(c[1]);
+      put(c[0]);
+    }
     return *this;
   }
 
   bofstream& bofstream::operator <<(unsigned short a)
   {
-    write_endian<unsigned short, bofstream&>(*this, a, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      write(c, 2);
+    else {
+      put(c[1]);
+      put(c[0]);
+    }
     return *this;
   }
 
   bofstream& bofstream::operator <<(float a)
   {
-    write_endian<float, bofstream&>(*this, a, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      write(c, 4);
+    else {
+      put(c[3]);
+      put(c[2]);
+      put(c[1]);
+      put(c[0]);
+    }
     return *this;
   }
 
   bofstream& bofstream::operator <<(double a)
   {
-    write_endian<double, bofstream&>(*this, a, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      write(c, 8);
+    else {
+      put(c[7]);
+      put(c[6]);
+      put(c[5]);
+      put(c[4]);
+      put(c[3]);
+      put(c[2]);
+      put(c[1]);
+      put(c[0]);
+    }
     return *this;
   }
 
   bofstream& bofstream::operator <<(int a)
   {
-    write_endian<int, bofstream&>(*this, a, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      write(c, 4);
+    else {
+      put(c[3]);
+      put(c[2]);
+      put(c[1]);
+      put(c[0]);
+    }
     return *this;
   }
 
   bofstream& bofstream::operator <<(unsigned int a)
   {
-    write_endian<unsigned int, bofstream&>(*this, a, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      write(c, 4);
+    else {
+      put(c[3]);
+      put(c[2]);
+      put(c[1]);
+      put(c[0]);
+    }
     return *this;
   }
 
   bofstream& bofstream::operator <<(long int a)
   {
-    write_endian<long int, bofstream&>(*this, a, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      write(c, 4);
+    else {
+      put(c[3]);
+      put(c[2]);
+      put(c[1]);
+      put(c[0]);
+    }
     return *this;
   }
 
   bofstream& bofstream::operator <<(unsigned long int a)
   {
-    write_endian<unsigned long int, bofstream&>(*this, a, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      write(c, 4);
+    else {
+      put(c[3]);
+      put(c[2]);
+      put(c[1]);
+      put(c[0]);
+    }
     return *this;
   }
 
@@ -196,49 +270,121 @@ namespace itpp {
 
   bifstream& bifstream::operator >>(int &a)
   {
-    a = read_endian<int, bifstream&>(*this, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      read(c, 4);
+    else {
+      get(c[3]);
+      get(c[2]);
+      get(c[1]);
+      get(c[0]);
+    }
     return *this;
   }
 
   bifstream& bifstream::operator >>(unsigned int &a)
   {
-    a = read_endian<unsigned int, bifstream&>(*this, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      read(c, 4);
+    else {
+      get(c[3]);
+      get(c[2]);
+      get(c[1]);
+      get(c[0]);
+    }
     return *this;
   }
 
   bifstream& bifstream::operator >>(short int &a)
   {
-    a = read_endian<short int, bifstream&>(*this, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      read(c, 2);
+    else {
+      get(c[1]);
+      get(c[0]);
+    }
     return *this;
   }
 
   bifstream& bifstream::operator >>(unsigned short int &a)
   {
-    a = read_endian<unsigned short int, bifstream&>(*this, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      read(c, 2);
+    else {
+      get(c[1]);
+      get(c[0]);
+    }
     return *this;
   }
 
   bifstream& bifstream::operator >>(float &a)
   {
-    a = read_endian<float, bifstream&>(*this, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+	if (endianity == native_endianity) {
+      read(c, 4);
+	} else {
+      get(c[3]);
+      get(c[2]);
+      get(c[1]);
+      get(c[0]);
+    }
     return *this;
   }
 
   bifstream& bifstream::operator >>(double &a)
   {
-    a = read_endian<double, bifstream&>(*this, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      read(c, 8);
+    else {
+      get(c[7]);
+      get(c[6]);
+      get(c[5]);
+      get(c[4]);
+      get(c[3]);
+      get(c[2]);
+      get(c[1]);
+      get(c[0]);
+    }
     return *this;
   }
 
   bifstream& bifstream::operator >>(long int &a)
   {
-    a = read_endian<long int, bifstream&>(*this, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      read(c, 4);
+    else {
+      get(c[3]);
+      get(c[2]);
+      get(c[1]);
+      get(c[0]);
+    }
     return *this;
   }
 
   bifstream& bifstream::operator >>(unsigned long int &a)
   {
-    a = read_endian<unsigned long int, bifstream&>(*this, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      read(c, 4);
+    else {
+      get(c[3]);
+      get(c[2]);
+      get(c[1]);
+      get(c[0]);
+    }
     return *this;
   }
 
@@ -308,49 +454,122 @@ namespace itpp {
 
   bfstream& bfstream::operator <<(int a)
   {
-    write_endian<int, bfstream&>(*this, a, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      write(c, 4);
+    else {
+      put(c[3]);
+      put(c[2]);
+      put(c[1]);
+      put(c[0]);
+    }
     return *this;
   }
 
   bfstream& bfstream::operator <<(unsigned int a)
   {
-    write_endian<unsigned int, bfstream&>(*this, a, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      write(c, 4);
+    else {
+      put(c[3]);
+      put(c[2]);
+      put(c[1]);
+      put(c[0]);
+    }
     return *this;
   }
 
   bfstream& bfstream::operator <<(short a)
   {
-    write_endian<short, bfstream&>(*this, a, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity) {
+      put(c[0]);
+      put(c[1]);
+    } else {
+      put(c[1]);
+      put(c[0]);
+    }
     return *this;
   }
 
   bfstream& bfstream::operator <<(unsigned short a)
   {
-    write_endian<unsigned short, bfstream&>(*this, a, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      write(c, 2);
+    else {
+      put(c[1]);
+      put(c[0]);
+    }
     return *this;
   }
 
   bfstream& bfstream::operator <<(float a)
   {
-    write_endian<float, bfstream&>(*this, a, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      write(c, 4);
+    else {
+      put(c[3]);
+      put(c[2]);
+      put(c[1]);
+      put(c[0]);
+    }
     return *this;
   }
 
   bfstream& bfstream::operator <<(double a)
   {
-    write_endian<double, bfstream&>(*this, a, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      write(c, 8);
+    else {
+      put(c[7]);
+      put(c[6]);
+      put(c[5]);
+      put(c[4]);
+      put(c[3]);
+      put(c[2]);
+      put(c[1]);
+      put(c[0]);
+    }
     return *this;
   }
 
   bfstream& bfstream::operator <<(long int a)
   {
-    write_endian<long int, bfstream&>(*this, a, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      write(c, 4);
+    else {
+      put(c[3]);
+      put(c[2]);
+      put(c[1]);
+      put(c[0]);
+    }
     return *this;
   }
 
   bfstream& bfstream::operator <<(unsigned long int a)
   {
-    write_endian<unsigned long int, bfstream&>(*this, a, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      write(c, 4);
+    else {
+      put(c[3]);
+      put(c[2]);
+      put(c[1]);
+      put(c[0]);
+    }
     return *this;
   }
 
@@ -382,49 +601,121 @@ namespace itpp {
 
   bfstream& bfstream::operator >>(int &a)
   {
-    a = read_endian<int, bfstream&>(*this, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      read(c, 4);
+    else {
+      get(c[3]);
+      get(c[2]);
+      get(c[1]);
+      get(c[0]);
+    }
     return *this;
   }
 
   bfstream& bfstream::operator >>(unsigned int &a)
   {
-    a = read_endian<unsigned int, bfstream&>(*this, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      read(c, 4);
+    else {
+      get(c[3]);
+      get(c[2]);
+      get(c[1]);
+      get(c[0]);
+    }
     return *this;
   }
 
   bfstream& bfstream::operator >>(short int &a)
   {
-    a = read_endian<short int, bfstream&>(*this, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      read(c, 2);
+    else {
+      get(c[1]);
+      get(c[0]);
+    }
     return *this;
   }
 
   bfstream& bfstream::operator >>(unsigned short int &a)
   {
-    a = read_endian<unsigned short int, bfstream&>(*this, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      read(c, 2);
+    else {
+      get(c[1]);
+      get(c[0]);
+    }
     return *this;
   }
 
   bfstream& bfstream::operator >>(float &a)
   {
-    a = read_endian<float, bfstream&>(*this, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      read(c, 4);
+    else {
+      get(c[3]);
+      get(c[2]);
+      get(c[1]);
+      get(c[0]);
+    }
     return *this;
   }
 
   bfstream& bfstream::operator >>(double &a)
   {
-    a = read_endian<double, bfstream&>(*this, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      read(c, 8);
+    else {
+      get(c[7]);
+      get(c[6]);
+      get(c[5]);
+      get(c[4]);
+      get(c[3]);
+      get(c[2]);
+      get(c[1]);
+      get(c[0]);
+    }
     return *this;
   }
 
   bfstream& bfstream::operator >>(long int &a)
   {
-    a = read_endian<long int, bfstream&>(*this, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      read(c, 4);
+    else {
+      get(c[3]);
+      get(c[2]);
+      get(c[1]);
+      get(c[0]);
+    }
     return *this;
   }
 
   bfstream& bfstream::operator >>(unsigned long int &a)
   {
-    a = read_endian<unsigned long int, bfstream&>(*this, endianity != native_endianity);
+    char *c=reinterpret_cast<char *>(&a);
+
+    if (endianity == native_endianity)
+      read(c, 4);
+    else {
+      get(c[3]);
+      get(c[2]);
+      get(c[1]);
+      get(c[0]);
+    }
     return *this;
   }
 

@@ -117,8 +117,7 @@
 #include <itpp/base/gf2mat.h>
 #include <itpp/base/itassert.h>
 #include <itpp/base/itfile.h>
-#include <itpp/base/it_endian.h>
-#include <itpp/base/it_types.h>
+#include <itpp/base/ittypes.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/base/operators.h>

@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -44,4 +44,14 @@ namespace itpp {
 #endif
   }
 
+  bool check_big_endianness()
+  {
+    int i = 1;
+    char *p = (char *) &i;
+    if (p[0] == 1) // Lowest address contains the least significant byte
+      return false; // LITTLE_ENDIAN
+    else
+      return true; // BIG_ENDIAN
+  }
+  
 } //namespace itpp

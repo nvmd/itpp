@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -125,6 +125,10 @@ namespace itpp {
 
   //! Returns IT++ library version number, e.g. "3.7.1".
   std::string itpp_version();
+
+
+  //! Returns machine endianness: big-endian = true; little-endian = false
+  bool check_big_endianness();
 
   //!@}
 
