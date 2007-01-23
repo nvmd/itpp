@@ -45,6 +45,8 @@ int main() {
 
 int main()
 {
+  string c = "abcdefgh";
+  string d;
   int x = 1234567890;
   int y;
 
@@ -54,8 +56,10 @@ int main()
   ff.open(string(ITFILE_TEST_FILE));
 #ifdef SAVE_DATA  
   ff << Name("x") << x;
+  ff << Name("c") << c;
 #endif
   ff >> Name("x") >> y;
+  ff >> Name("c") >> d;
   ff.close();
 
   ff.open(string(ITFILE_TEST_FILE));
@@ -71,6 +75,8 @@ int main()
   
   cout << "x = " << x << endl;
   cout << "y = " << y << endl;
+  cout << "c = " << c << endl;
+  cout << "d = " << d << endl;
 
   return 0;
 }
