@@ -1,3 +1,7 @@
+2007-01-23  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac: IT++ version incremented
+
 2007-01-23  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/comm/modulator_nd.cpp: Fixed an incorrect assertion check
