@@ -30,8 +30,8 @@
  * -------------------------------------------------------------------------
  */
 
-#ifndef IT_TYPES_H
-#define IT_TYPES_H
+#ifndef ITTYPES_H
+#define ITTYPES_H
 
 #ifndef _MSC_VER
 #  include <itpp/config.h>
@@ -64,4 +64,4 @@ typedef unsigned __int64 uint64_t;
 
 #endif // ifdef(HAVE_STDINT_H)
 
-#endif /* IT_TYPES_H */
+#endif /* ITTYPES_H */

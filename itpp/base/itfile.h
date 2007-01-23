@@ -36,7 +36,7 @@
 #include <itpp/base/vec.h>
 #include <itpp/base/array.h>
 #include <itpp/base/binfile.h>
-#include <itpp/base/it_types.h>
+#include <itpp/base/ittypes.h>
 
 
 namespace itpp {

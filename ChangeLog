@@ -8,15 +8,10 @@
 
 2007-01-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* itpp/base/binfile.cpp, itpp/base/it_endian.h,
-	itpp/base/itfile.cpp, itpp/base/itfile.h, itpp/base/it_types.h,
-	itpp/base/math/misc.cpp, itpp/base/math/misc.h,
-	itpp/fixed/fix_base.cpp, itpp/fixed/fix_base.h, itpp/itbase.h,
-	itpp/srccode/audiofile.cpp, itpp/srccode/audiofile.h: Improved
-	inter-platform portability by using fixed-length integer types
-	where needed. Endianness handling functions grouped in a separate
-	header file. Besides, binfile stream operators are now dependent
-	on the size of the written/read variable.
+	* itpp/base/itfile.cpp, itpp/base/itfile.h, itpp/base/ittypes.h,
+	itpp/fixed/fix_base.cpp, itpp/fixed/fix_base.h, itpp/itbase.h:
+	Improved inter-platform portability by using fixed-length integer
+	types where needed.
 
 	* itpp/base/binfile.cpp, itpp/base/binfile.h: Documentation
 	improvements and minor cosmetic changes
