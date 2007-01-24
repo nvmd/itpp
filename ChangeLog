@@ -1,5 +1,8 @@
 2007-01-24  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* AUTHORS, doc/local/authors.doc: Added Kumar Appaiah (Debian
+	packages maintainer) to the list of authors
+
 	* itpp/base/sort.h: Minor documentation improvements
 
 	* tests/Makefile.am: Added missing "tests/itfile_test_data.it"
