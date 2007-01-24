@@ -1,5 +1,7 @@
 2007-01-24  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/sort.h: Minor documentation improvements
+
 	* tests/Makefile.am: Added missing "tests/itfile_test_data.it"
 	file
 
