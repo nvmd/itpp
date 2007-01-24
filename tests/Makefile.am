@@ -138,7 +138,8 @@ check_PROGRAMS = $(ALL_TESTS)
 ref_files = $(ALL_TESTS:=.ref)
 tmp_files = $(ALL_TESTS:=.tmp)
 
-EXTRA_DIST = fastica_test_data.txt parser_test_data.txt $(ref_files) 
+EXTRA_DIST = itfile_test_data.it fastica_test_data.txt parser_test_data.txt \
+	$(ref_files) 
 
 check-local: $(check_PROGRAMS) $(ref_files)
 	@for i in $(ALL_TESTS); do \
