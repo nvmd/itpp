@@ -39,13 +39,27 @@
 #  include <itpp/config_msvc.h>
 #endif
 
+#ifndef NO_INT_SIZE_CHECK
+#if (SIZEOF_SHORT != 2) || (SIZEOF_UNSIGNED_SHORT != 2) \
+  || (SIZEOF_INT != 4) || (SIZEOF_UNSIGNED_INT != 4)
+#  error								\
+  This platform uses different sizes for "short" and "int" standard	\
+  types than expected 2 and 4 bytes, respectively. This causes		\
+  incompatibilities of some parts of IT++ with most of 32- and 64-bit	\
+  platforms. Especially binary I/O operations will be incompatible.	\
+  Please report this problem to IT++ developers. If you are OK with it	\
+  you can add "-DNO_INT_SIZE_CHECK" to your CPPFLAGS and recompile the	\
+  library.
+#endif
+#endif // ifndef NO_INT_SIZE_CHECK
+
 #if defined(HAVE_STDINT_H)
 #  include <stdint.h>
 #elif defined(HAVE_INTTYPES_H)
 #  include <inttypes.h>
 #else
 
-// Typedefs for 32 bit architechures (default)
+// Common typedefs for most 32- and 64-bit architechures
 typedef signed char             int8_t;
 typedef unsigned char           uint8_t;
 typedef signed short            int16_t;
@@ -53,15 +67,21 @@ typedef unsigned short          uint16_t;
 typedef signed int              int32_t;
 typedef unsigned int            uint32_t;
 
-// WARNING: These types might be wrong on 64-bit platforms
-#ifndef _MSC_VER
-typedef signed long long int    int64_t;
-typedef unsigned long long int  uint64_t;
+#if defined(_MSC_VER)
+typedef __int64                 int64_t;
+typedef unsigned __int64        uint64_t;
+#elif (SIZEOF_LONG == 8) && (SIZEOF_UNSIGNED_LONG == 8)
+typedef signed long             int64_t;
+typedef unsigned long           uint64_t;
+#elif (SIZEOF_LONG_LONG == 8) && (SIZEOF_UNSIGNED_LONG_LONG == 8)
+typedef signed long long        int64_t;
+typedef unsigned long long      uint64_t;
 #else
-typedef __int64 int64_t;
-typedef unsigned __int64 uint64_t;
-#endif // ifndef(_MSC_VER)
+#  error						\
+  64-bit integer type not detected on this platform.	\
+  Please report the problem to IT++ developers.
+#endif // defined(_MSC_VER)
 
-#endif // ifdef(HAVE_STDINT_H)
+#endif // defined(HAVE_STDINT_H)
 
 #endif /* ITTYPES_H */

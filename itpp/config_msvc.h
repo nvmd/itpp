@@ -81,7 +81,7 @@
 /* #undef HAVE_IEEEFP_H */
 
 /* Define to 1 if you have the <inttypes.h> header file. */
-#define HAVE_INTTYPES_H 1
+/* #undef HAVE_INTTYPES_H */
 
 /* Define to 1 if you have the <iomanip> header file. */
 #define HAVE_IOMANIP 1
@@ -126,7 +126,7 @@
 #define HAVE_STDEXCEPT 1
 
 /* Define to 1 if you have the <stdint.h> header file. */
-#define HAVE_STDINT_H 1
+/* #undef HAVE_STDINT_H */
 
 /* Define to 1 if you have the <stdlib.h> header file. */
 #define HAVE_STDLIB_H 1
@@ -165,13 +165,37 @@
 #define PACKAGE_NAME "IT++"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "IT++ 3.99.0"
+#define PACKAGE_STRING "IT++ 3.99.1"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "itpp"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "3.99.0"
+#define PACKAGE_VERSION "3.99.1"
+
+/* The size of `int', as computed by sizeof. */
+#define SIZEOF_INT 4
+
+/* The size of `long', as computed by sizeof. */
+#define SIZEOF_LONG 4
+
+/* The size of `long long', as computed by sizeof. */
+#define SIZEOF_LONG_LONG 8
+
+/* The size of `short', as computed by sizeof. */
+#define SIZEOF_SHORT 2
+
+/* The size of `unsigned int', as computed by sizeof. */
+#define SIZEOF_UNSIGNED_INT 4
+
+/* The size of `unsigned long', as computed by sizeof. */
+#define SIZEOF_UNSIGNED_LONG 4
+
+/* The size of `unsigned long long', as computed by sizeof. */
+#define SIZEOF_UNSIGNED_LONG_LONG 8
+
+/* The size of `unsigned short', as computed by sizeof. */
+#define SIZEOF_UNSIGNED_SHORT 2
 
 /* Define to 1 if you have the ANSI C header files. */
 #define STDC_HEADERS 1
@@ -180,20 +204,20 @@
 /* #undef TIME_WITH_SYS_TIME */
 
 /* Version number of package */
-#define VERSION "3.99.0"
+#define VERSION "3.99.1"
 
 
-#if HAVE_CMATH
+#if defined(HAVE_CMATH)
 #  include <cmath>
 #endif
 
 /* Solaris uses <ieeefp.h> for declaring isnan() and finite() functions */
-#if HAVE_IEEEFP_H
+#if defined(HAVE_IEEEFP_H)
 #  include <ieeefp.h>
 #endif
 
 /* Microsoft Visual C++ .NET underscore prefixed functions */
-#if _MSC_VER
+#if defined(_MSC_VER)
 #  include <cfloat>
 #  define HAVE_FINITE 1
 #  define finite(x) _finite(x)
@@ -209,7 +233,7 @@
 #  define j0(a) _j0(a)
 #  define HAVE_J1 1
 #  define j1(a) _j1(a)
-#endif
+#endif /* defined(_MSC_VER) */
 
 #if (! defined(HAVE_ISINF) && defined(HAVE_FPCLASS))
 #  define HAVE_ISINF 1
