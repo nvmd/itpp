@@ -1,3 +1,13 @@
+2007-01-25  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac, itpp/base/ittypes.h, itpp/config_msvc.h,
+	win32/itpp.vcproj: Improved portability by adding checks for sizes
+	of short, int, long and "long long" integer types. Assuming that
+	short has always 2 bytes and int has always 4 bytes. Instead of
+	long or "long long" types, an int64_t type should be used, which
+	has always 8 bytes on both 32- and 64-bit platforms. MSVC++
+	project file and configuration header updated accordingly.
+
 2007-01-24  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* AUTHORS, doc/local/authors.doc: Added Kumar Appaiah (Debian

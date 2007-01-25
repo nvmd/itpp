@@ -616,6 +616,46 @@
 			Filter="h;hpp;hxx;hm;inl;inc;xsd"
 			UniqueIdentifier="{93995380-89BD-4b04-88EB-625FBE52EBFB}"
 			>
+			<File
+				RelativePath="..\itpp\config_msvc.h"
+				>
+			</File>
+			<File
+				RelativePath="..\itpp\itbase.h"
+				>
+			</File>
+			<File
+				RelativePath="..\itpp\itcomm.h"
+				>
+			</File>
+			<File
+				RelativePath="..\itpp\itfixed.h"
+				>
+			</File>
+			<File
+				RelativePath="..\itpp\itmex.h"
+				>
+			</File>
+			<File
+				RelativePath="..\itpp\itoptim.h"
+				>
+			</File>
+			<File
+				RelativePath="..\itpp\itprotocol.h"
+				>
+			</File>
+			<File
+				RelativePath="..\itpp\itsignal.h"
+				>
+			</File>
+			<File
+				RelativePath="..\itpp\itsrccode.h"
+				>
+			</File>
+			<File
+				RelativePath="..\itpp\itstat.h"
+				>
+			</File>
 			<Filter
 				Name="base"
 				>
@@ -673,6 +713,10 @@
 				</File>
 				<File
 					RelativePath="..\itpp\base\itfile.h"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\base\ittypes.h"
 					>
 				</File>
 				<File

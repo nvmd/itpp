@@ -290,6 +290,17 @@ AC_CHECK_FUNC(fpclass, ,
     [AC_DEFINE(HAVE_FPCLASS)])])
 
 
+# Check for types
+AC_CHECK_SIZEOF(short)
+AC_CHECK_SIZEOF(unsigned short)
+AC_CHECK_SIZEOF(int)
+AC_CHECK_SIZEOF(unsigned int)
+AC_CHECK_SIZEOF(long)
+AC_CHECK_SIZEOF(unsigned long)
+AC_CHECK_SIZEOF(long long)
+AC_CHECK_SIZEOF(unsigned long long)
+
+
 # config.h top and bottom
 AH_TOP([
 #ifndef CONFIG_H
@@ -297,17 +308,17 @@ AH_TOP([
 ])
 
 AH_BOTTOM([
-#if HAVE_CMATH
+#if defined(HAVE_CMATH)
 #  include <cmath>
 #endif
 
 /* Solaris uses <ieeefp.h> for declaring isnan() and finite() functions */
-#if HAVE_IEEEFP_H
+#if defined(HAVE_IEEEFP_H)
 #  include <ieeefp.h>
 #endif
 
 /* Microsoft Visual C++ .NET underscore prefixed functions */
-#if _MSC_VER
+#if defined(_MSC_VER)
 #  include <cfloat>
 #  define HAVE_FINITE 1
 #  define finite(x) _finite(x)
@@ -323,7 +334,7 @@ AH_BOTTOM([
 #  define j0(a) _j0(a)
 #  define HAVE_J1 1
 #  define j1(a) _j1(a)
-#endif
+#endif /* defined(_MSC_VER) */
 
 #if (! defined(HAVE_ISINF) && defined(HAVE_FPCLASS))
 #  define HAVE_ISINF 1
