@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -140,13 +140,13 @@ namespace itpp {
   }
 
   // Calculates binomial coefficient "n over k".
-  long binom_i(int n, int k)
+  int binom_i(int n, int k)
   {
     it_assert(k <= n, "binom_i(n, k): k can not be larger than n");
     it_assert((n >= 0) && (k >= 0), "binom_i(n, k): n and k must be non-negative integers");
     k = ((n - k) < k) ? n - k : k;
 
-    long out = n - k + 1;
+    int out = n - k + 1;
     for (int i = 2; i <= k; i++) {
       out *= (i + n - k);
       out /= i;
@@ -169,10 +169,10 @@ namespace itpp {
   }
 
   // Calculates the greatest common divisor
-  long gcd(long a, long b)
+  int gcd(int a, int b)
   {
     it_assert((a >= 0) && (b >= 0),"gcd(a, b): a and b must be non-negative integers");
-    long v, u, t, q;
+    int v, u, t, q;
 
     u = a;
     v = b;
