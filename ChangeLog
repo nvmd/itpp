@@ -4,6 +4,9 @@
 
 2007-01-26  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/binfile.cpp: Fixed a minor bug, which caused infinite
+	loop of itfile_test on Solaris SPARC with GCC 3.4.5
+
 	* itpp/base/mat.h, itpp/base/vec.h, itpp/comm/crc.cpp,
 	itpp/comm/crc.h: Added some missing const keywords, as suggested
 	in feature request [1644569]. Thanks to Christian for providing a
