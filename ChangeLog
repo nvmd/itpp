@@ -1,3 +1,7 @@
+2007-01-26  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/comm/ldpc.cpp: Fix to avoid compiler warning
+
 2007-01-26  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/mat.h, itpp/base/vec.h, itpp/comm/crc.cpp,
@@ -10,7 +14,7 @@
 	portability issues. Fixed assumptions of type sizes in << and >>
 	operators replaced with size dependent read_endian() and
 	write_endian() templated functions. Minor cosmetic changes.
-
+	
 2007-01-25  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac, itpp/base/ittypes.h, itpp/config_msvc.h,

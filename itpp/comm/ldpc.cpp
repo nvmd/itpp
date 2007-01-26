@@ -218,7 +218,8 @@ namespace itpp {
        powers of G are symmetric matrices. This fact is exploited in
        the code.
     */
-    int cycles_found, r;
+    int r;
+    int cycles_found =0;
     int scl=Maxcyc;
     for (r=4; r<=Maxcyc; r+=2) {
       // compute the next power of the adjacency matrix
