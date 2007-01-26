@@ -34,6 +34,7 @@
 #define BINFILE_H
 
 #include <itpp/base/binary.h>
+#include <itpp/base/ittypes.h>
 #include <fstream>
 
 
@@ -156,10 +157,10 @@ namespace itpp {
     bofstream& operator<<(float a);
     //! Writes a \c double variable to the binary output file
     bofstream& operator<<(double a);
-    //! Writes a \c long \c int variable to the binary output file
-    bofstream& operator<<(long int a);
-    //! Writes a \c unsigned \c long \c int variable to the binary output file
-    bofstream& operator<<(unsigned long int a);
+    //! Writes an \c int64_t variable to the binary output file
+    bofstream& operator<<(int64_t a);
+    //! Writes an \c uint64_t variable to the binary output file
+    bofstream& operator<<(uint64_t a);
     //! Writes a \c char* string to the binary output file
     bofstream& operator<<(const char *a);
     //! Writes a \c string variable to the binary output file
@@ -198,7 +199,7 @@ namespace itpp {
     void open(const std::string &name, endian e = b_endian);
 
     //! Returns the length in bytes of the file
-    long length();
+    int length();
 
     //! Reads a \c char variable from the binary input file
     bifstream& operator>>(char &a);
@@ -216,10 +217,10 @@ namespace itpp {
     bifstream& operator>>(float &a);
     //! Reads a \c double variable from the binary input file
     bifstream& operator>>(double &a);
-    //! Reads a \c long \c int variable from the binary input file
-    bifstream& operator>>(long int &a);
-    //! Reads an \c unsigned \c long \c int variable from the binary input file
-    bifstream& operator>>(unsigned long int &a);
+    //! Reads an \c int64_t variable from the binary input file
+    bifstream& operator>>(int64_t &a);
+    //! Reads an \c uint64_t variable from the binary input file
+    bifstream& operator>>(uint64_t &a);
     //! Reads a \c char* string from the binary input file
     bifstream& operator>>(char *a);
     //! Reads a \c string variable from the binary input file
@@ -268,7 +269,7 @@ namespace itpp {
     void open_readonly(const std::string &name, endian e = b_endian);
 
     //! Returns the length in bytes of the file
-    long length();
+    int length();
 
     //! Writes a \c char variable to the binary file
     bfstream& operator<<(char a);
@@ -286,10 +287,10 @@ namespace itpp {
     bfstream& operator<<(float a);
     //! Writes a \c double variable to the binary file
     bfstream& operator<<(double a);
-    //! Writes a \c long \c int variable to the binary file
-    bfstream& operator<<(long int a);
-    //! Writes an \c unsigned \c long \c int variable to the binary file
-    bfstream& operator<<(unsigned long int a);
+    //! Writes an \c int64_t variable to the binary file
+    bfstream& operator<<(int64_t a);
+    //! Writes an \c uint64_t variable to the binary file
+    bfstream& operator<<(uint64_t a);
     //! Writes a \c char* string to the binary output file
     bfstream& operator<<(const char *a);
     //! Writes a \c string variable to the binary file
@@ -311,12 +312,10 @@ namespace itpp {
     bfstream& operator>>(float &a);
     //! Reads a \c double variable from the binary file
     bfstream& operator>>(double &a);
-    // Reads a \c long \c double variable from the binary file
-    //bfstream& operator>>(long double &a);
-    //! Reads a \c long \c int variable from the binary file
-    bfstream& operator>>(long int &a);
-    //! Reads an \c unsigned \c long \c int variable from the binary file
-    bfstream& operator>>(unsigned long int &a);
+    //! Reads an \c int64_t variable from the binary file
+    bfstream& operator>>(int64_t &a);
+    //! Reads an \c uint64_t variable from the binary file
+    bfstream& operator>>(uint64_t &a);
     //! Reads a \c char* string from the binary input file
     bfstream& operator>>(char *a);
     //! Reads a \c string variable from the binary file
@@ -326,16 +325,3 @@ namespace itpp {
 } //namespace itpp
 
 #endif // #ifndef BINFILE_H
-
-
-
-
-
-
-
-
-
-
-
-
-
