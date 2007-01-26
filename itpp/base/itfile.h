@@ -137,8 +137,6 @@ namespace itpp {
     void low_level_read(short &x);
     //!Read an integer value at the current file pointer position
     void low_level_read(int &x);
-    //Read a long long value at the current file pointer position
-    //void low_level_read(long_long &x);
     //!Read a float value at the current file pointer position
     void low_level_read(float &x);
     //!Read a double value at the current file pointer position
@@ -151,8 +149,6 @@ namespace itpp {
     void low_level_read_lo(vec &v);
     //!Read a vector of double values at the current file pointer position
     void low_level_read_hi(vec &v);
-    //Read a vector of long long values at the current file pointer position
-    //void low_level_read(llvec &v);
     //!Read a vector of integer values at the current file pointer position
     void low_level_read(ivec &v);
     //!Read a vector of binary values at the current file pointer position
@@ -167,8 +163,6 @@ namespace itpp {
     void low_level_read_lo(mat &m);
     //!Read a matrix of double values at the current file pointer position
     void low_level_read_hi(mat &m);
-    //Read a matrix of long long values at the current file pointer position
-    //void low_level_read(llmat &m);
     //!Read a matrix of integer values at the current file pointer position
     void low_level_read(imat &m);
     //!Read a matrix of binary values at the current file pointer position
@@ -184,8 +178,6 @@ namespace itpp {
     void low_level_read_lo(Array<double> &v);
     //!Read an Array of double values at the current file pointer position
     void low_level_read_hi(Array<double> &v);
-    //Read an Array of long long values at the current file pointer position
-    //void low_level_read(Array<long_long> &v);
     //!Read an Array of integer values at the current file pointer position
     void low_level_read(Array<int> &v);
     //!Read an Array of binary values at the current file pointer position
@@ -273,8 +265,6 @@ namespace itpp {
     void low_level_write(short x);
     //!Write an integer value at the current file pointer position
     void low_level_write(int x);
-    //Write a long long value at the current file pointer position
-    //void low_level_write(long_long x);
     //!Write a float value at the current file pointer position
     void low_level_write(float x);
     //!Write a double value at the current file pointer position
@@ -313,8 +303,6 @@ namespace itpp {
     void low_level_write(const Array<int> &v);
     //!Write a bin Array at the current file pointer position
     void low_level_write(const Array<bin> &v);
-    //Write a long long Array at the current file pointer position
-    //void low_level_write(const Array<long_long> &v);
     //!Write a float complex Array at the current file pointer position
     void low_level_write(const Array<std::complex<float> > &v);
     //!Write a double complex Array at the current file pointer position
