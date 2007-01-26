@@ -46,12 +46,12 @@ namespace itpp {
   template<typename T1, typename T2> inline
   void read_endian(T1& st, T2& data, bool switch_endian = false)
   {
-    unsigned int bytes = sizeof(T2);
+    int bytes = sizeof(T2);
     char *c = reinterpret_cast<char *>(&data);
     if (!switch_endian)
       st.read(c, bytes);
     else
-      for (unsigned int i = bytes - 1; i >= 0; i--)
+      for (int i = bytes - 1; i >= 0; i--)
 	st.get(c[i]);
   }
 
@@ -59,12 +59,12 @@ namespace itpp {
   template<typename T1, typename T2> inline
   void write_endian(T1& st, T2 data, bool switch_endian = false)
   {
-    unsigned int bytes = sizeof(T2);
+    int bytes = sizeof(T2);
     char *c = reinterpret_cast<char *>(&data);
     if (!switch_endian)
       st.write(c, bytes);
     else
-      for (unsigned int i = bytes - 1; i >= 0; i--)
+      for (int i = bytes - 1; i >= 0; i--)
 	st.put(c[i]);
   }
 
