@@ -1,3 +1,11 @@
+2007-01-26  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/math/elem_math.cpp, itpp/base/math/elem_math.h:
+	Replaced long with int in binom_i() and gcd() functions, since
+	long and int have the same sizes on most IT++ supported
+	architectures. If there is a need for 64-bit integers, (u)int64_t
+	type should be used instead of long.
+
 2007-01-26  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/comm/ldpc.cpp: Fix to avoid compiler warning

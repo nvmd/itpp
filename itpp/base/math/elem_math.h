@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -194,7 +194,7 @@ namespace itpp {
   double binom(int n, int k);
 
   //! Compute the binomial coefficient "n over k".
-  long binom_i(int n, int k);
+  int binom_i(int n, int k);
 
   //! Compute the base 10 logarithm of the binomial coefficient "n over k".
   double log_binom(int n, int k);
@@ -209,8 +209,7 @@ namespace itpp {
    * \a a and \a b must be non-negative integers. \a gdc(0, 0) is 0 by
    * convention; all other GCDs are positive integers.
    */
-  long gcd(long a, long b);
-
+  int gcd(int a, int b);
 
 
   // -------------------- complex related functions --------------------
