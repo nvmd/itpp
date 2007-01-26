@@ -203,7 +203,7 @@ namespace itpp {
       By default the matrix is stored as a RowMajor matrix (i.e. listing elements in sequence
       beginning with the first column).
     */
-    Mat(Num_T *c_array, int rows, int cols, bool RowMajor = true, const Factory &f = DEFAULT_FACTORY);
+    Mat(const Num_T *c_array, int rows, int cols, bool RowMajor = true, const Factory &f = DEFAULT_FACTORY);
 
     //! Destructor
     ~Mat();
@@ -582,7 +582,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-  Mat<Num_T>::Mat(Num_T *c_array, int rows, int cols, bool RowMajor, const Factory &f) :
+  Mat<Num_T>::Mat(const Num_T *c_array, int rows, int cols, bool RowMajor, const Factory &f) :
     datasize(0), no_rows(0), no_cols(0), data(0), factory(f)
   {
     alloc(rows, cols);
@@ -590,10 +590,9 @@ namespace itpp {
     if (!RowMajor)
       copy_vector(datasize, c_array, data);
     else { // Row Major
-      Num_T *ptr = c_array;
       for (int i=0; i<rows; i++) {
 	for (int j=0; j<cols; j++)
-	  data[i+j*no_rows] = *(ptr++);
+	  data[i+j*no_rows] = c_array[i*no_cols+j];
       }
     }
   }
@@ -979,8 +978,7 @@ namespace itpp {
     if (c2 == -1) c2 = no_cols-1;
 
     it_assert1(r1>=0 && r2>=0 && r1<no_rows && r2<no_rows &&
-	       c1>=0 && c2>=0 && c1<no_cols && c2<no_cols, "Mat<Num_T>::set_submatrix(): i\
- ndex out of range");
+	       c1>=0 && c2>=0 && c1<no_cols && c2<no_cols, "Mat<Num_T>::set_submatrix(): index out of range");
 
     it_assert1(r2>=r1 && c2>=c1, "Mat<Num_T>::set_submatrix: r2<r1 or c2<c1");
 
