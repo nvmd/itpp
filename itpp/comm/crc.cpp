@@ -75,7 +75,7 @@ namespace itpp {
     bvec poly;
     for (int i=0; i<18;i++) {
       if (crccode[i][0] == code)
-				poly = bvec(crccode[i][1]);
+        poly = bvec(crccode[i][1]);
     }
 
     if ( (code=="WCDMA-8") || (code=="WCDMA-12") || (code=="WCDMA-16") || (code=="WCDMA-24") ) {
@@ -87,13 +87,13 @@ namespace itpp {
   }
 
   // Not optimized for speed!
-  void CRC_Code::parity(const bvec &in_bits, bvec &out)
+  void CRC_Code::parity(const bvec &in_bits, bvec &out) const
   {
     bvec temp = concat(in_bits, zeros_b(no_parity));
 
     for (int i=0; i<temp.size()-polynomial.size()+1; i++) {
       if (temp(i) == 1) {
-				temp.set_subvector(i,i+no_parity, temp(i,i+no_parity) + polynomial);
+        temp.set_subvector(i,i+no_parity, temp(i,i+no_parity) + polynomial);
       }
     }   
 
@@ -106,7 +106,7 @@ namespace itpp {
   }
 
   // Not optimized for speed
-  bool CRC_Code::check_parity(const bvec &coded_bits)
+  bool CRC_Code::check_parity(const bvec &coded_bits) const
   {
     int n = coded_bits.size();
     bvec temp;
@@ -119,7 +119,7 @@ namespace itpp {
 
     for (int i=0; i<temp.size()-polynomial.size()+1; i++) { 
       if (temp(i) == 1) {
-				temp.set_subvector(i,i+no_parity, temp(i,i+no_parity) + polynomial);
+        temp.set_subvector(i,i+no_parity, temp(i,i+no_parity) + polynomial);
       }
     }   
   
@@ -129,21 +129,21 @@ namespace itpp {
       return false;
   }
 
-  void CRC_Code::encode(const bvec &in_bits, bvec &out)
+  void CRC_Code::encode(const bvec &in_bits, bvec &out) const
   {
     bvec p;
     parity(in_bits, p);
     out = concat(in_bits, p); 
   }
 
-  bvec CRC_Code::encode(const bvec &in_bits)
+  bvec CRC_Code::encode(const bvec &in_bits) const
   {
     bvec temp;
     encode(in_bits, temp);
     return temp;
   }
 
-  bool CRC_Code::decode(const bvec &coded_bits, bvec &out) 
+  bool CRC_Code::decode(const bvec &coded_bits, bvec &out) const
   {
     out = coded_bits(0, coded_bits.size()-no_parity-1); 
     if (check_parity(coded_bits)) {
@@ -152,7 +152,7 @@ namespace itpp {
       return false;
   }
 
-  bool CRC_Code::decode(bvec &coded_bits)
+  bool CRC_Code::decode(bvec &coded_bits) const
   {
     //coded_bits = coded_bits(0, coded_bits.size()-no_parity-1); <-- OLD CODE
     if (check_parity(coded_bits)) {

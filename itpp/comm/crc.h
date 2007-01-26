@@ -86,22 +86,22 @@ namespace itpp {
     void set_code(const std::string &code);
 
     //! Calulate the parity bits
-    void parity(const bvec &in_bits, bvec &out);
+    void parity(const bvec &in_bits, bvec &out) const;
 
     //! Return true if parity checks OK otherwise flase
-    bool check_parity(const bvec &coded_bits);
+    bool check_parity(const bvec &coded_bits) const;
 
     //! Calculate and add parity to the in_bits.
-    void encode(const bvec &in_bits, bvec &out);
+    void encode(const bvec &in_bits, bvec &out) const;
 
     //! Returns the in_bits vector with parity added
-    bvec encode(const bvec &in_bits);
+    bvec encode(const bvec &in_bits) const;
 
     //! Return true if parity checks OK otherwise flase. Also returns the message part in out. 
-    bool decode(const bvec &coded_bits, bvec &out);
+    bool decode(const bvec &coded_bits, bvec &out) const;
 
     //! Return true if parity checks OK otherwise flase. Also returns the message part in bits.
-    bool decode(bvec &bits);
+    bool decode(bvec &bits) const;
 
   private:
     bool reverse_parity;

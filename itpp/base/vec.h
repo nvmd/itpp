@@ -222,7 +222,7 @@ namespace itpp {
     //! Constructor taking a string as input. An element factory \c f can be specified.
     Vec(const std::string &values, const Factory &f = DEFAULT_FACTORY);
     //! Constructor taking a C-array as input. Copies all data. An element factory \c f can be specified.
-    Vec(Num_T *c_array, int size, const Factory &f = DEFAULT_FACTORY);
+    Vec(const Num_T *c_array, int size, const Factory &f = DEFAULT_FACTORY);
 
     //! Destructor
     ~Vec();
@@ -579,7 +579,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-  Vec<Num_T>::Vec(Num_T *c_array, int size, const Factory &f) : datasize(0), data(0), factory(f)
+  Vec<Num_T>::Vec(const Num_T *c_array, int size, const Factory &f) : datasize(0), data(0), factory(f)
   { 
     alloc(size);
     copy_vector(size, c_array, data);
