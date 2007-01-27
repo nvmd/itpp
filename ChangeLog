@@ -1,3 +1,8 @@
+2007-01-27  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	 * itpp/base/bessel/hyperg.cpp, itpp/comm/modulator_nd.cpp: Fixes
+	to avoid warnings on possibly uninitialised variables
+
 2007-01-26  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/math/elem_math.cpp, itpp/base/math/elem_math.h:
