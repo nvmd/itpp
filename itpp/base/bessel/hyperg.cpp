@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -102,7 +102,7 @@ static double hy1f1a(double, double, double, double *);
 
 double hyperg(double a, double b, double x)
 {
-  double asum, psum, acanc, pcanc, temp;
+  double asum, psum, acanc, pcanc = 0, temp;
 
   /* See if a Kummer transformation will help */
   temp = b - a;
