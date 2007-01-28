@@ -1,5 +1,10 @@
 2007-01-28  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/random.cpp, itpp/base/random.h: Replaced "unsigned
+	long" type of "seed" argument of function reset() with "unsigned
+	int", because the rest of Random_Generator implementation uses
+	"unsigned int" type.
+
 	* itpp/base/itfile.cpp, itpp/comm/convcode.cpp,
 	itpp/comm/convcode.h, itpp/comm/interleave.h,
 	itpp/comm/punct_convcode.cpp, itpp/comm/punct_convcode.h,
