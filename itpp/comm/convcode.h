@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -430,7 +430,6 @@ namespace itpp {
     \brief Compare two distance spectra. Return 1 if v1 is less, 0 if v2 less, and -1 if equal.
   */
   int compare_spectra(ivec v1, ivec v2);
-  //int compare_spectra(llvec v1, llvec v2);
 
   /*!
     \relates Convolutional_Code

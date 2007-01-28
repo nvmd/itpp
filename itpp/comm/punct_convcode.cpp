@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -579,7 +579,6 @@ namespace itpp {
     int cat_treshold = (1 << m) * Period;
     int i, j, t = 0;
     ivec dist_prof(K), dist_prof_rev(K), dist_prof_temp(K);
-    //llvec dist_prof(K), dist_prof_rev(K), dist_prof_temp(K);
 
     //calculate distance profile
     distance_profile(dist_prof, start_time, dfree);
@@ -719,7 +718,6 @@ namespace itpp {
   void Punctured_Convolutional_Code::calculate_spectrum(Array<ivec> &spectrum, int dmax, int no_terms)
   {
     Array<ivec> temp_spectra(2);
-    //Array<llvec> temp_spectra(2);
     spectrum.set_size(2);
     spectrum(0).set_size(dmax + no_terms, false);
     spectrum(1).set_size(dmax + no_terms, false);
@@ -738,9 +736,6 @@ namespace itpp {
     imat Ad_states(1 << (K - 1), dmax + no_terms), Cd_states(1 << m, dmax + no_terms);
     imat Ad_temp(1 << (K - 1), dmax + no_terms), Cd_temp(1 << m, dmax + no_terms);
     ivec mindist(1 << (K - 1)), mindist_temp(1 << m);
-    //llmat Ad_states(1<<(K-1), dmax+no_terms), Cd_states(1<<m, dmax+no_terms);
-    //llmat Ad_temp(1<<(K-1), dmax+no_terms), Cd_temp(1<<m, dmax+no_terms);
-    //llvec mindist(1<<(K-1)), mindist_temp(1<<m);
 
     spectrum.set_size(2);
     spectrum(0).set_size(dmax + no_terms, false);
@@ -752,8 +747,6 @@ namespace itpp {
     mindist.zeros();
     int wmax = dmax + no_terms;
     ivec visited_states(1 << m), visited_states_temp(1 << m);
-    //long_long wmax = dmax+no_terms;
-    //llvec visited_states(1<<m), visited_states_temp(1<<m);
     bool proceede, expand_s1;
     int t, d, w0, w1, s, s0, s1 = 0, s_start;
 
