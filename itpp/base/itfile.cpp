@@ -169,13 +169,6 @@ namespace itpp {
     s >> x;
   }
 
-  /*
-    void it_ifile::low_level_read(long_long &x)
-    {
-    s >> x;
-    }
-  */
-
   void it_ifile::low_level_read(float &x)
   {
     s >> x;

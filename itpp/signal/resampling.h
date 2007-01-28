@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -77,7 +77,7 @@ namespace itpp {
     it_assert1(usf >= 1, "upsample: upsampling factor must be equal or greater than one" );
     u.set_size(v.length()*usf);
     u.clear();
-    for(long i=0;i<v.length();i++)
+    for(int i=0;i<v.length();i++)
       u(i*usf)=v(i);
   }
 
@@ -98,7 +98,7 @@ namespace itpp {
     it_assert1(usf >= 1, "upsample: upsampling factor must be equal or greater than one" );
     u.set_size(v.rows(),v.cols()*usf);
     u.clear();
-    for (long j=0;j<v.cols();j++)
+    for (int j=0;j<v.cols();j++)
       u.set_col(j*usf,v.get_col(j));
   }
 
@@ -116,10 +116,10 @@ namespace itpp {
   void lininterp(const Mat<T> &m, int usf, Mat<T> &u)
   {
     it_assert1(usf >= 1, "lininterp: upsampling factor must be equal or greater than one" );
-    long L = (m.cols()-1)*usf+1;
+    int L = (m.cols()-1)*usf+1;
     u.set_size(m.rows(),L);
-    for (long i = 0; i < m.rows(); i++){
-      for (long j = 0; j < L-1; j++)
+    for (int i = 0; i < m.rows(); i++){
+      for (int j = 0; j < L-1; j++)
 	u(i,j) = (m(i,j/usf) + (j % usf)/((double)usf)*(m(i,(j+usf)/usf)-m(i,j/usf)));
       u(i,L-1) = m(i,m.cols()-1);
     }
@@ -179,9 +179,9 @@ namespace itpp {
   void lininterp(const Vec<T> &v, int usf, Vec<T> &u)
   {
     it_assert1(usf >= 1, "lininterp(): upsampling factor must be equal or greater than one" );
-    long L = (v.length()-1)*usf+1;
+    int L = (v.length()-1)*usf+1;
     u.set_size(L);
-    for (long j = 0; j < L-1; j++) {
+    for (int j = 0; j < L-1; j++) {
       u(j) = (v(j/usf) + (j % usf)/((double)usf)*(v((j+usf)/usf)-v(j/usf)));
     }
     u(L-1) = v(v.length()-1);

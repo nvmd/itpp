@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -244,7 +244,7 @@ namespace itpp {
   void GMM::load(std::string filename)
   {
     std::ifstream	GMMFile(filename.c_str());
-    long		i,j;
+    int 		i,j;
 
     it_error_if(!GMMFile,std::string("GMM::load : cannot open file ")+filename);
 

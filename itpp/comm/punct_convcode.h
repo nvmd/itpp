@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -199,7 +199,6 @@ namespace itpp {
 
     //! Calculate distance profile. If reverse = true calculate for the reverse code instead.
     void distance_profile(ivec &dist_prof, int time, int dmax = 100000, bool reverse = false);
-    //void distance_profile(llvec &dist_prof, int time, int dmax = 100000, bool reverse = false);
 
     /*!
       \brief Calculate spectrum.
@@ -218,10 +217,6 @@ namespace itpp {
       Observe that there is a risk that some of the integers are overflow if many terms are calculated in the spectrum.
     */
     void calculate_spectrum(Array<ivec> &spectrum, int dmax, int no_terms);
-    //void calculate_spectrum(Array<llvec> &spectrum, int dmax, int no_terms);
-
-    // Calculate spectrum. Suitable when calculating many terms in the spectra. Breadth first search.
-    // void calculate_spectrum(Array<llvec> &spectrum, int time, int dmax, int no_terms);
 
     /*!
       \brief Calculate spectrum. Suitable when calculating many terms in the spectra. Breadth first search.
@@ -234,7 +229,6 @@ namespace itpp {
       </ul>
     */
     void calculate_spectrum(Array<ivec> &spectrum, int time, int dmax, int no_terms, int block_length=0);
-    //void calculate_spectrum(Array<llvec> &spectrum, int time, int dmax, int no_terms, int block_length=0);
 
     /*!
       \brief Cederwall's fast algorithm.
@@ -253,7 +247,6 @@ namespace itpp {
       Observe that there is a risk that some of the integers are overflow if many terms are calculated in the spectrum.
     */
     int fast(Array<ivec> &spectrum, int time, int dfree, int no_terms, int d_best_so_far = 0, bool test_catastrophic = false);
-    //int fast(Array<llvec> &spectrum, int time, int dfree, int no_terms, int d_best_so_far = 0, bool test_catastrophic = false);
 
   protected:
     //! The weight of path from \c state with \c input (0 or 1) at transition \c time

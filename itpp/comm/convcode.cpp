@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -1126,7 +1126,6 @@ namespace itpp {
   /*
     Calculate distance profile. If reverse = true calculate for the reverse code instead.
   */
-  //void Convolutional_Code::distance_profile(llvec &dist_prof, int dmax, bool reverse)
   void Convolutional_Code::distance_profile(ivec &dist_prof, int dmax, bool reverse)
   {
     int max_stack_size = 50000;
@@ -1210,15 +1209,11 @@ namespace itpp {
     dmax = an upper bound on the free distance
     no_terms = no_terms including the dmax term that should be calculated
   */
-  //void Convolutional_Code::calculate_spectrum(Array<llvec> &spectrum, int dmax, int no_terms)
   void Convolutional_Code::calculate_spectrum(Array<ivec> &spectrum, int dmax, int no_terms)
   {
     imat Ad_states(no_states, dmax+no_terms), Cd_states(no_states, dmax+no_terms);
     imat Ad_temp(no_states, dmax+no_terms), Cd_temp(no_states, dmax+no_terms);
     ivec mindist(no_states),  mindist_temp(1<<m);
-    //llmat Ad_states(1<<m, dmax+no_terms), Cd_states(1<<m, dmax+no_terms);
-    //llmat Ad_temp(1<<m, dmax+no_terms), Cd_temp(1<<m, dmax+no_terms);
-    //llvec mindist(1<<m),  mindist_temp(1<<m);
 
     spectrum.set_size(2);
     spectrum(0).set_size(dmax+no_terms, false);
@@ -1230,8 +1225,6 @@ namespace itpp {
     mindist.zeros();
     int wmax = dmax+no_terms;
     ivec visited_states(no_states), visited_states_temp(no_states);
-    //long_long wmax = dmax+no_terms;
-    //llvec visited_states(1<<m), visited_states_temp(1<<m);
     bool proceede;
     int d, w0, w1, s, s0, s1;
 
@@ -1298,14 +1291,11 @@ namespace itpp {
     \arg \c no_terms including the dfree term that should be calculated
     \ar \c Cdfree is the best value of information weight spectrum found so far
   */
-  //int Convolutional_Code::fast(Array<llvec> &spectrum, const int dfree, const int no_terms, const int Cdfree, const bool test_catastrophic)
   int Convolutional_Code::fast(Array<ivec> &spectrum, const int dfree, const int no_terms, const int Cdfree, const bool test_catastrophic)
   {
     int cat_treshold = 7*K; // just a big number, but not to big!
     int i;
     ivec dist_prof(K), dist_prof_rev(K);
-    //llvec dist_prof(K), dist_prof_rev(K);
-    //calculate distance profile
     distance_profile(dist_prof, dfree);
     distance_profile(dist_prof_rev, dfree, true); // for the reverse code
 
@@ -1471,7 +1461,6 @@ namespace itpp {
     \relates Convolutional_Code
     Compare two distance spectra. Return 1 if v1 is less, 0 if v2 less, and -1 if equal.
   */
-  //int compare_spectra(llvec v1, llvec v2)
   int compare_spectra(ivec v1, ivec v2)
   {
     it_assert1(v1.size() == v2.size(), "compare_spectra: wrong sizes");

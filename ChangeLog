@@ -1,6 +1,17 @@
+2007-01-28  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/itfile.cpp, itpp/comm/convcode.cpp,
+	itpp/comm/convcode.h, itpp/comm/interleave.h,
+	itpp/comm/punct_convcode.cpp, itpp/comm/punct_convcode.h,
+	itpp/comm/turbo.cpp, itpp/comm/turbo.h, itpp/signal/resampling.h,
+	itpp/srccode/gmm.cpp: Replaced long with int, since long and int
+	have the same sizes on most IT++ supported architectures. If there
+	is a need for 64-bit integers, due to portability
+	reasons (u)int64_t type should be used instead of long.
+
 2007-01-27  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	 * itpp/base/bessel/hyperg.cpp, itpp/comm/modulator_nd.cpp: Fixes
+	* itpp/base/bessel/hyperg.cpp, itpp/comm/modulator_nd.cpp: Fixes
 	to avoid warnings on possibly uninitialised variables
 
 2007-01-26  Adam Piatyszek  <ediap@users.sourceforge.net>

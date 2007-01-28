@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -256,10 +256,10 @@ namespace itpp {
 			      bmat &decoded_bits_i, int &nrof_used_iterations_i, const bvec &true_bits="0");
 
     //! Get number of coded bits
-    long get_Ncoded() { return Ncoded; }
+    int get_Ncoded() { return Ncoded; }
     
     //! Get number of uncoded bits
-    long get_Nuncoded() { return Nuncoded; }
+    int get_Nuncoded() { return Nuncoded; }
 
   protected:   
 
@@ -270,8 +270,8 @@ namespace itpp {
 		   const bvec &true_bits="0");
 
     //Scalars:
-    long interleaver_size;
-    long Ncoded, Nuncoded;
+    int interleaver_size;
+    int Ncoded, Nuncoded;
     int m_tail, n1, n2, n_tot, iterations;
     double Ec, N0, Lc, R, logmax_scale_factor;
     bool adaptive_stop;

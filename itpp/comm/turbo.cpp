@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -154,7 +154,7 @@ namespace itpp {
   {
     //Local variables:
     int i, k, j, no_blocks;
-    long count;
+    int count;
     bvec input_bits, in1, in2, tail1, tail2, out;
     bmat parity1, parity2;
   
@@ -215,7 +215,7 @@ namespace itpp {
       mat rec_parity1, rec_parity2;
       bmat decoded_bits_i;
       int no_blocks, i, j, k, nrof_used_iterations_i;
-      long count;
+      int count;
       bool CHECK_TRUE_BITS;
     
       //Initilaizations:
@@ -324,7 +324,7 @@ namespace itpp {
   {
     //Local variables:
     int i;
-    long count, l, k;
+    int count, l, k;
     vec extrinsic_input, extrinsic_output, int_rec_syst1, int_rec_syst, tmp;
     vec deint_rec_syst2, rec_syst, sub_rec_syst, Le12, Le21, Le12_int, Le21_int, L, tail1, tail2;
     bool CHECK_TRUE_BITS, CONTINUE; 
@@ -446,7 +446,7 @@ namespace itpp {
     vec extrinsic_input, extrinsic_output, Le12, Le21, Le12_int, Le21_int, L;
     bvec temp_decoded_bits;
     int no_blocks, i, j, k, l, nrof_used_iterations_i;
-    long count, count_out;
+    int count, count_out;
     bool CHECK_TRUE_BITS, CONTINUE;
 
     //Initializations:
@@ -644,7 +644,7 @@ namespace itpp {
       s.clear();
       s(0) = 1;
       for (i=1; i<=(p-2); i++) {
-	s(i) = (int) mod((long) (v * s(i-1)), (long) p);
+	s(i) = mod(v * s(i-1), p);
       }
     
       //Let q(0) = 1 be the first prime integer in {q(j)}, and select the consecutive 
@@ -656,7 +656,7 @@ namespace itpp {
 	for (i=0; i<primes.length(); i++) {
 	  qj = primes(i);
 	  if ( (qj>6) && (qj>q(j-1)) ) {
-	    if (gcd((long) qj,(long) (p-1)) == 1) {
+	    if (gcd(qj, p-1) == 1) {
 	      q(j) = qj;
 	      break;
 	    }
@@ -707,14 +707,14 @@ namespace itpp {
       if (C==p) {    
 	for (j=0; j<=(R-1); j++) {
 	  for (i=0; i<=(p-2); i++) {
-	    U(j,i) = s( mod((long) (i*r(j)), (long) (p-1)) );
+	    U(j,i) = s(mod(i*r(j), p-1));
 	  }
 	  U(j,p-1) = 0;
 	}
       } else if (C==(p+1)) {
 	for (j=0; j<=(R-1); j++) {
 	  for (i=0; i<=(p-2); i++) {
-	    U(j,i) = s( mod((long) (i*r(j)),(long) (p-1)) ); 
+	    U(j,i) = s(mod(i*r(j), p-1)); 
 	  }
 	  U(j,p-1) = 0;
 	  U(j,p) = p;
@@ -727,7 +727,7 @@ namespace itpp {
       } else if (C==(p-1)) {
 	for (j=0; j<=(R-1); j++) {
 	  for (i=0; i<=(p-2); i++) {
-	    U(j,i) = s( mod((long) (i*r(j)),(long) (p-1)) ) - 1;
+	    U(j,i) = s(mod(i*r(j), p-1)) - 1;
 	  }
 	}
       }

@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -475,12 +475,8 @@ namespace itpp {
       int thisinput_length = input.length();
       int steps = (int)std::ceil( double(thisinput_length)/double(interleaver_depth) );
       int output_length = steps*interleaver_depth;
-      //long_long thisinput_length = input.length();
-      //long_long steps = (long_long)std::ceil( double(thisinput_length)/double(interleaver_depth) );
-      //long_long output_length = steps*interleaver_depth;
       output.set_length(output_length,false);
       int	s, i;
-      //long_long	s, i;
 
       if (thisinput_length == output_length) {
 
