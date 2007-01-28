@@ -229,7 +229,7 @@ namespace itpp {
   //!@{
 
   //! Set the seed of the Global Random Number Generator
-  void RNG_reset(unsigned long seed);
+  void RNG_reset(unsigned int seed);
   //! Set the seed of the Global Random Number Generator to the same as last reset/init
   void RNG_reset();
   //! Set a random seed for the Global Random Number Generator.
