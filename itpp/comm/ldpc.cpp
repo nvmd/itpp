@@ -231,10 +231,10 @@ namespace itpp {
 	cout << "Starting new pass of cycle elimination, target girth "
 	     << (r+2) << "... " << endl;
 	int pdone=0;
-	for (long int j=0; j<ncheck+nvar; j++) { // loop over elements of G
-	  for (long int i=0; i<ncheck+nvar; i++ ) {
-	    int ptemp = (int) std::floor(100.0*(i+j*(ncheck+nvar))/
-					 ((nvar+ncheck)*(nvar+ncheck)));
+	for (int j=0; j<ncheck+nvar; j++) { // loop over elements of G
+	  for (int i=0; i<ncheck+nvar; i++ ) {
+	    int ptemp = floor_i(100.0*(i+j*(ncheck+nvar))/
+				((nvar+ncheck)*(nvar+ncheck)));
 	    if (ptemp>pdone+10) {
 	      cout << ptemp << "% done." << endl;
 	      cout.flush();
@@ -450,7 +450,7 @@ namespace itpp {
     // C, R: Target number of columns/rows with certain number of ones
 
     // compute number of edges
-    long int Ne=0;
+    int Ne=0;
     for (int i = 0;i < C.length();i++){
       for (int j = 0; j < C(i); j++) {
 	for (int m=0; m<i; m++) Ne++;
@@ -462,8 +462,8 @@ namespace itpp {
     ivec ccon(Ne); 
     ivec vd(nvar);
     ivec cd(ncheck); 
-    long int k=0;
-    long int l=0;
+    int k=0;
+    int l=0;
     for (int i = 0;i < C.length();i++){
       for (int j = 0; j < C(i); j++) {
 	for (int m=0; m<i; m++) {
@@ -503,11 +503,11 @@ namespace itpp {
     }
     cout << "Running with Laim=" << Laim.left(25) << endl;
 
-    long int failures=0;    
+    int failures=0;    
     const int Max_attempts=100;
     const int apcl=10;      // attempts before reducing girth target
-    for (long int k=0; k<Ne; k++) {
-      const long int el=Ne-k-2;
+    for (int k=0; k<Ne; k++) {
+      const int el=Ne-k-2;
       if (k%250==0) { 
 	cout << "Processing edge: " << k << " out of " << Ne 
 	     << ". Variable node degree: " << vd(vcon(k)) 
@@ -523,8 +523,8 @@ namespace itpp {
 	if (get(r,c)) { // double edge
 	  // set(r,c,0);  
 	  if (el>0) {
-// 	    long int t=k+1+rand()%el;
-	    long int t=k+1+randi(0,el-1);
+// 	    int t=k+1+rand()%el;
+	    int t=k+1+randi(0,el-1);
 	    int x=ind(t);  
 	    ind(t)=ind(k);
 	    ind(k)=x;  
@@ -543,8 +543,8 @@ namespace itpp {
 	      set(r,c,0);
 	      if (el>0) {
 		// make a swap in the index permutation
-// 		long int t=k+1+rand()%el;
-		long int t=k+1+randi(0,el-1);
+// 		int t=k+1+rand()%el;
+		int t=k+1+randi(0,el-1);
 		int x=ind(t);  
 		ind(t)=ind(k);
 		ind(k)=x;  
