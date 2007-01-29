@@ -1,3 +1,10 @@
+2007-01-29  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/ldpc.cpp: Replaced long with int, since long and int
+	have the same sizes on most IT++ supported architectures. If there
+	is a need for 64-bit integers, (u)int64_t type should be used
+	instead of long.
+
 2007-01-28  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/random.cpp, itpp/base/random.h: Replaced "unsigned
