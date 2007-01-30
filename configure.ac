@@ -381,6 +381,7 @@ AC_CONFIG_FILES([Makefile \
   win32/Makefile \
   itpp.pc \
   itpp-config \
+  itpp-config.1 \
   itpp.spec])
 
 AC_OUTPUT

@@ -17,6 +17,9 @@ SUBDIRS = itpp extras win32 $(HTML_DOC_DIR) $(TEST_DIR)
 EXTRA_DIST = autogen.sh ChangeLog-2005 ChangeLog-2006 itpp.spec \
 	Makefile.common NEWS-3.9 NEWS-3.10 TODO
 
+man_MANS = @PACKAGE@-config.1
+dist_man_MANS = @PACKAGE@-config.1
+
 bin_SCRIPTS = @PACKAGE@-config
 
 pkgconfigdir = $(libdir)/pkgconfig

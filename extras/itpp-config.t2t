@@ -1,0 +1,77 @@
+itpp-config
+IT++ @PACKAGE_VERSION@
+%%date(%B %Y)
+
+%!target: man
+
+
+= NAME =
+
+itpp-config - script to get information about intalled IT++ library
+prefix, compiler flags and its version
+
+
+= SYNOPSIS =
+
+**itpp-config** [--prefix] [--exec-prefix]
+            [--libs] [--libs-opt] [--libs-debug]
+            [--cflags] [--cflags-opt] [--cflags-debug]
+            [--help]
+            [--version]
+
+
+= DESCRIPTION =
+
+//itpp-config// is a tool that can be used to determine the compiler and
+linker flags required for compiling and linking programs that use IT++.
+It can be also used for checking the intalled libitpp library version.
+
+
+= OPTIONS =
+
+//itpp-config// accepts the following options:
+: **--prefix**
+print libitpp installation prefix
+: **--exec-prefix**
+print libitpp installation exec prefix
+: **--libs**
+print library linking information (same as **--libs-opt**)
+: **--libs-opt**
+print optimised library linking information
+: **--libs-debug**
+print debugging library linking information
+: **--cflags**
+print pre-processor and compiler flags (same as **--cflags-opt**)
+: **--cflags-opt**
+print optimised pre-processor and compiler flags
+: **--cflags-debug**
+print debugging pre-processor and compiler flags
+: **--help**
+display brief help and exit
+: **--version**
+print libitpp version number
+
+
+= AUTHOR =
+
+This manual page was written by Adam Piatyszek <ediap@users.sourceforge.net>
+as a text file, then converted to man format by txt2tags.
+
+
+= COPYRIGHT =
+
+Copyright (C) 1995-2007  IT++ (see AUTHORS file for a list of contributors)
+
+This program is free software; you can redistribute it and/or modify
+it under the terms of the GNU General Public License as published by
+the Free Software Foundation; either version 2 of the License, or
+(at your option) any later version.
+
+This program is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+GNU General Public License for more details.
+
+You should have received a copy of the GNU General Public License
+along with this program; if not, write to the Free Software
+Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
