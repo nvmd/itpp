@@ -1,3 +1,9 @@
+2007-01-30  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac, extras/itpp-config.t2t, extras/txt2man.sh,
+	itpp-config.1.in, Makefile.am: Added man page for itpp-config
+	script
+
 2007-01-29  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/ldpc.cpp: Replaced long with int, since long and int
