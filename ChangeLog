@@ -1,5 +1,10 @@
 2007-01-31  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/comm/punct_convcode.h: Protected inheritance of the
+	Convolutional_Code class replaced with a public one. This fixes
+	the problem of assigning the Punctured_Convolutional_Code class
+	object to a pointer of Channel_Code class.
+
 	* itpp/base/gf2mat.cpp: Fixed improper reading and writing
 	functions of the alist file format
 
