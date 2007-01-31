@@ -828,7 +828,6 @@ namespace itpp {
     f >> Name("G_type") >> G.type;
     switch (G.type) {
     case 0: { // no generator defined
-      G=LDPC_Generator_Matrix();  // clear the generator matrix
       break;
     }
     case 1: { // systematic matrix
