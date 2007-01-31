@@ -764,6 +764,7 @@ namespace itpp {
   {
     H_is_defined=0;
     decoder_parameterization(H);
+    G=LDPC_Generator_Matrix();  // clear the generator matrix
 
     setup_decoder();
   }
@@ -792,13 +793,13 @@ namespace itpp {
     G=Gi;
     
     // check that the generator and parity check matrices match
-    GF2mat G1 = gf2dense_eye(nvar-ncheck)
+    GF2mat G1 = gf2dense_eye(nvar-ncheck)  
       .concatenate_horizontal(G.G.transpose());
     it_assert((GF2mat(Hmat.H)*G1.transpose()).is_zero(),
 	      "LDPC_Code(): H and G matrices do not match");
     
-    mcv.set_size(max(sumX2)*ncheck);
-    mvc.set_size(nvar*max(sumX1));
+//     mcv.set_size(max(sumX2)*ncheck);
+//     mvc.set_size(nvar*max(sumX1));
     setup_decoder();
   }
 
@@ -827,6 +828,7 @@ namespace itpp {
     f >> Name("G_type") >> G.type;
     switch (G.type) {
     case 0: { // no generator defined
+      G=LDPC_Generator_Matrix();  // clear the generator matrix
       break;
     }
     case 1: { // systematic matrix
