@@ -80,7 +80,7 @@ namespace itpp {
     code.decode(rx_signal, decoded_bits);
     \endcode
   */
-  class Punctured_Convolutional_Code : protected Convolutional_Code {
+  class Punctured_Convolutional_Code : public Convolutional_Code {
   public:
     //! Constructor
     Punctured_Convolutional_Code(void) : Convolutional_Code() {}
