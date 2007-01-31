@@ -54,7 +54,8 @@ namespace itpp {
     std::stringstream ss;
 
     file.open(fname.c_str());
-    it_assert(file.is_open(), "GF2mat_sparse_alist::read(): Could not open file \"" 
+    it_assert(file.is_open(), 
+	      "GF2mat_sparse_alist::read(): Could not open file \"" 
 	      << fname << "\" for reading"); 
     
     // parse N and M:
@@ -62,7 +63,7 @@ namespace itpp {
     ss << line;
     ss >> N >> M;
     it_assert(!ss.fail(), 
-      "GF2mat_sparse_alist::read(): Wrong alist data (N or M)");
+	      "GF2mat_sparse_alist::read(): Wrong alist data (N or M)");
     it_assert((N > 0) && (M > 0), 
 	      "GF2mat_sparse_alist::read(): Wrong alist data");
     ss.seekg(0, std::ios::end);
@@ -73,10 +74,10 @@ namespace itpp {
     ss << line;
     ss >> max_num_n >> max_num_m;
     it_assert(!ss.fail(), 
-      "GF2mat_sparse_alist::read(): Wrong alist data (max_num_[n,m])");
+	      "GF2mat_sparse_alist::read(): Wrong alist data (max_num_{n,m})");
     it_assert((max_num_n >= 0) && (max_num_n <= N) &&
-	       (max_num_m >= 0) && (max_num_m <= M),
-	       "GF2mat_sparse_alist::read(): Wrong alist data");
+	      (max_num_m >= 0) && (max_num_m <= M),
+	      "GF2mat_sparse_alist::read(): Wrong alist data");
     ss.seekg(0, std::ios::end);
     ss.clear();
 
@@ -88,9 +89,11 @@ namespace itpp {
     for (int i = 0; i < N; i++) {
       ss >> num_nlist(i);
       it_assert(!ss.fail(), 
-          "GF2mat_sparse_alist::read(): Wrong alist data (num_nlist(i))");
+		"GF2mat_sparse_alist::read(): Wrong alist data (num_nlist(" 
+		<< i << "))");
       it_assert((num_nlist(i) >= 0) && (num_nlist(i) <= M),
-	   "GF2mat_sparse_alist::read(): Wrong alist data");
+		"GF2mat_sparse_alist::read(): Wrong alist data (num_nlist(" 
+		<< i << "))");
     }
     ss.seekg(0, std::ios::end);
     ss.clear();
@@ -103,9 +106,11 @@ namespace itpp {
     for (int i = 0; i < M; i++) {
       ss >> num_mlist(i);
       it_assert(!ss.fail(), 
-         "GF2mat_sparse_alist::read(): Wrong alist data (num_mlist(i))");
+		"GF2mat_sparse_alist::read(): Wrong alist data (num_mlist(" 
+		<< i << "))");
       it_assert((num_mlist(i) >= 0) && (num_mlist(i) <= N),
-		 "GF2mat_sparse_alist::read(): Wrong alist data");
+		"GF2mat_sparse_alist::read(): Wrong alist data (num_mlist(" 
+		<< i << "))");
     }
     ss.seekg(0, std::ios::end);
     ss.clear();
@@ -116,12 +121,14 @@ namespace itpp {
     for (int i = 0; i < N; i++) {
       getline(file, line);
       ss << line;
-      for (int j = 0; j < max_num_n; j++) {
+      for (int j = 0; j < num_nlist(i); j++) {
 	ss >> nlist(i, j);
 	it_assert(!ss.fail(), 
- 	  "GF2mat_sparse_alist::read(): Wrong alist data (nlist(i, j))");
+		  "GF2mat_sparse_alist::read(): Wrong alist data (nlist(" 
+		  << i << "," << j << "))");
 	it_assert((nlist(i, j) >= 0) && (nlist(i, j) <= M),
-		   "GF2mat_sparse_alist::read(): Wrong alist data");
+		  "GF2mat_sparse_alist::read(): Wrong alist data (nlist(" 
+		  << i << "," << j << "))");
       }
       ss.seekg(0, std::ios::end);
       ss.clear();
@@ -133,12 +140,14 @@ namespace itpp {
     for (int i = 0; i < M; i++) {
       getline(file, line);
       ss << line;
-      for (int j = 0; j < max_num_m; j++) {
+      for (int j = 0; j < num_mlist(i); j++) {
 	ss >> mlist(i, j);
 	it_assert(!ss.fail(), 
-           "GF2mat_sparse_alist::read(): Wrong alist data (mlist(i, j))");
+		  "GF2mat_sparse_alist::read(): Wrong alist data (mlist(" 
+		  << i << "," << j << "))");
 	it_assert((mlist(i, j) >= 0) && (mlist(i, j) <= N),
-	   "GF2mat_sparse_alist::read(): Wrong alist data");
+		  "GF2mat_sparse_alist::read(): Wrong alist data (mlist(" 
+		  << i << "," << j << "))");
       }
       ss.seekg(0, std::ios::end);
       ss.clear();
@@ -151,10 +160,11 @@ namespace itpp {
   void GF2mat_sparse_alist::write(const std::string &fname) const
   {
     it_assert(data_ok, 
-       "GF2mat_sparse_alist::write(): alist data not ready for writing");
+	      "GF2mat_sparse_alist::write(): alist data not ready for writing");
 
     std::ofstream file(fname.c_str(), std::ofstream::out);
-    it_assert(file.is_open(), "GF2mat_sparse_alist::write(): Could not open file \""
+    it_assert(file.is_open(), 
+	      "GF2mat_sparse_alist::write(): Could not open file \""
 	      << fname << "\" for writing"); 
 
     file << N << " " << M << std::endl;
@@ -169,15 +179,15 @@ namespace itpp {
     file << num_mlist(num_mlist.length() - 1) << std::endl;
 
     for (int i = 0; i < N; i++) {
-      for (int j = 0; j < max_num_n - 1; j++)
+      for (int j = 0; j < num_nlist(i) - 1; j++)
 	file << nlist(i, j) << " ";
-      file << nlist(i, max_num_n - 1) << std::endl;
+      file << nlist(i, num_nlist(i) - 1) << std::endl;
     }
 
     for (int i = 0; i < M; i++) {
-      for (int j = 0; j < max_num_m - 1; j++)
+      for (int j = 0; j < num_mlist(i) - 1; j++)
 	file << mlist(i, j) << " ";
-      file << mlist(i, max_num_m - 1) << std::endl;
+      file << mlist(i, num_mlist(i) - 1) << std::endl;
     }
 
     file.close();
@@ -189,7 +199,7 @@ namespace itpp {
     GF2mat_sparse sbmat(M, N, max_num_m);
 
     for (int i = 0; i < M; i++) {
-      for (int j = 0; j < max_num_m; j++) {
+      for (int j = 0; j < num_mlist(i); j++) {
 	sbmat.set_new(i, mlist(i, j) - 1, bin(1));
       }
     }
