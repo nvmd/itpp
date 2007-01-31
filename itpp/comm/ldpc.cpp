@@ -357,8 +357,9 @@ namespace itpp {
 						 std::string method,
 						 ivec options)
   {
-    int Ncheck_actual = (int) round(((double )Nvar)
-				    *((double) k)/((double) l));
+    int Ncheck_actual = static_cast<int>( round( static_cast<double>(Nvar) *
+						 static_cast<double>(k) /
+						 static_cast<double>(l) ) );
     // C, R: Target number of columns/rows with certain number of ones
     ivec C = zeros_i(Nmax);
     ivec R = zeros_i(Nmax);
@@ -756,6 +757,11 @@ namespace itpp {
 
   LDPC_Code::LDPC_Code(const LDPC_Parity_Matrix &H)
   {
+    set_code(H);
+  }
+
+  void LDPC_Code::set_code(const LDPC_Parity_Matrix &H)
+  {
     H_is_defined=0;
     decoder_parameterization(H);
 
@@ -775,6 +781,12 @@ namespace itpp {
   LDPC_Code::LDPC_Code(const LDPC_Parity_Matrix &Hmat, 
 		       const LDPC_Generator_Matrix &Gi)
   {
+    set_code(Hmat,Gi);
+  }
+  
+  void LDPC_Code::set_code(const LDPC_Parity_Matrix &Hmat, 
+			   const LDPC_Generator_Matrix &Gi)
+  {
     H_is_defined=0;
     decoder_parameterization(Hmat);
     G=Gi;
@@ -791,6 +803,11 @@ namespace itpp {
   }
 
   LDPC_Code::LDPC_Code(std::string filename)
+  {
+    set_code(filename);
+  }
+
+  void LDPC_Code::set_code(std::string filename)
   {
     cout << "LDPC_Code::LDPC_Code(): Loading LDPC codec from " 
 	 << filename << endl;  
