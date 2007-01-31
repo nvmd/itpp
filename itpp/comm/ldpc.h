@@ -130,7 +130,7 @@ namespace itpp {
 
       //! Get the coderate
       inline double get_rate() const { 
-	return   (1.0-(((double) ncheck)/((double) nvar))); 
+	return   (1.0 - static_cast<double>(ncheck) / nvar); 
       }
       
       //! Export matrix to \c GF2mat_sparse_alist format
@@ -402,17 +402,40 @@ namespace itpp {
       /*! \brief Constructor, from parity check matrix
     
       \param H the parity check matrix
+
+      This constructor simply calls set_code(). See set_code() for
+      documentation.
       */
       LDPC_Code(const LDPC_Parity_Matrix &H);
-  
+
       /*! \brief Constructor, from parity and generator matrix
+
+      This constructor simply calls set_code(). See set_code() for
+      documentation.
+      */
+      LDPC_Code(const LDPC_Parity_Matrix &H, const LDPC_Generator_Matrix &G);
+
+      /*! \brief Constructor, by reading from file 
+
+      This constructor simply calls set_code(). See set_code() for
+      documentation.
+      */
+      LDPC_Code(std::string filename);
+
+      /*! \brief Set the codec, from parity check matrix
+    
+      \param H the parity check matrix
+      */
+      void set_code(const LDPC_Parity_Matrix &H);
+  
+      /*! \brief Set the codec, from parity and generator matrix
 
       \param H the parity check matrix
       \param G the generator check matrix
       */
-      LDPC_Code(const LDPC_Parity_Matrix &H, const LDPC_Generator_Matrix &G);
-  
-      /*! \brief Constructor, by reading from file 
+      void set_code(const LDPC_Parity_Matrix &H, const LDPC_Generator_Matrix &G);
+      
+      /*! \brief Set the codec, by reading from file 
 
       The file format is defined in the source code and can be read by
       the LDPC_Code::LDPC_Code(string) constructor.  LDPC codecs can
@@ -420,7 +443,7 @@ namespace itpp {
 
       \param filename name of the file where the codec is stored
       */
-      LDPC_Code(std::string filename);
+      void set_code(std::string filename);
 
       /*! \brief Initialize decoder and set parameters
 
@@ -528,7 +551,7 @@ namespace itpp {
   
       //! Get the coderate
       double get_rate(void)  { 
-	return   (1.0-(((double) ncheck)/((double) nvar))); 
+	return   (1.0 - static_cast<double>(ncheck) / nvar); 
       }
 
       //! Get the number of variable nodes 

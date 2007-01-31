@@ -1,3 +1,8 @@
+2007-01-31  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/comm/ldpc.h, itpp/comm/ldpc.cpp: Added some initialization
+	functions for completeness of the class hierarchy
+	
 2007-01-31  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/punct_convcode.h: Protected inheritance of the
