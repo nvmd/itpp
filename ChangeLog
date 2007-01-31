@@ -1,3 +1,8 @@
+2007-01-31  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/gf2mat.cpp: Fixed improper reading and writing
+	functions of the alist file format
+
 2007-01-30  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac, extras/itpp-config.t2t, extras/txt2man.sh,
