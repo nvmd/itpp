@@ -1,7 +1,7 @@
 /*!
  * \file 
- * \brief Implementation of error handling functions
- * \author Tobias Ringstrom
+ * \brief Error handling functions - source file
+ * \author Tobias Ringstrom and Adam Piatyszek
  *
  * $Date$
  * $Revision$
@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,24 +45,19 @@ namespace itpp {
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS
   static bool warnings_enabled = true;
+  static bool file_line_info_enabled = true;
   static std::ostream *warn = &std::cerr;
 #endif //DOXYGEN_SHOULD_SKIP_THIS
 
   void it_assert_f(std::string ass, std::string msg, std::string file, int line)
   {
-    std::ostringstream line_str;
-    line_str << line << std::flush;
-
-    std::string error = "*** Assertion failed in "; 
-    error += file;
-    error += " on line ";
-    error += line_str.str();
-    error += ":\n";
-    error += msg;
-    error += " (";
-    error += ass;
-    error += ")";
-    std::cerr << error << std::endl << std::flush;
+    if (file_line_info_enabled) {
+      std::cerr << "*** Assertion failed in " << file << " on line " << line
+		<< ":\n" << msg << " (" << ass << ")\n" << std::flush;
+    }
+    else {
+      std::cerr << msg << " (" << ass << ")\n" << std::flush;
+    }
 #ifdef ITPP_EXCEPTIONS
     throw std::runtime_error(error);
 #else
@@ -72,16 +67,13 @@ namespace itpp {
 
   void it_error_f(std::string msg, std::string file, int line)
   {
-    std::ostringstream line_str;
-    line_str << line << std::flush;
-
-    std::string error = "*** Error in ";
-    error += file;
-    error += " on line ";
-    error += line_str.str();
-    error += ":\n";
-    error += msg;
-    std::cerr << error << std::endl << std::flush;
+    if (file_line_info_enabled) {
+      std::cerr << "*** Error in " << file << " on line " << line << ":\n" 
+		<< msg << std::endl << std::flush;
+    }
+    else {
+      std::cerr << msg << std::endl << std::flush;
+    }
 #ifdef ITPP_EXCEPTIONS
     throw std::runtime_error(error);
 #else
@@ -89,11 +81,22 @@ namespace itpp {
 #endif
   }
 
+  void it_info_f(std::string msg)
+  {
+    std::cerr << msg << std::endl << std::flush;
+  }
+
   void it_warning_f(std::string msg, std::string file, int line)
   {
-    if (warnings_enabled)
-      (*warn) << "*** Warning in " << file << " on line " << line << ":" 
-	      << std::endl << msg << std::endl << std::flush;
+    if (warnings_enabled) {
+      if (file_line_info_enabled) {
+	(*warn) << "*** Warning in " << file << " on line " << line << ":\n" 
+		<< msg << std::endl << std::flush;
+      }
+      else {
+	(*warn) << msg << std::endl << std::flush;
+      }
+    }
   }
 
   void it_enable_warnings()
@@ -109,6 +112,20 @@ namespace itpp {
   void it_redirect_warnings(std::ostream *warn_stream)
   {
     warn = warn_stream;
+  }
+
+  void it_error_msg_style(error_msg_style style)
+  {
+    switch (style) {
+    case Full:
+      file_line_info_enabled = true;
+      break;
+    case Minimum:
+      file_line_info_enabled = false;
+      break;
+    default:
+      file_line_info_enabled = true;
+    }
   }
 
 } //namespace itpp

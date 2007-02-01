@@ -143,13 +143,13 @@ PACKAGE_DEBUG="$PACKAGE"
 # Set debug flags
 if test "x$enable_debug" = xyes; then
   PACKAGE_DEBUG="$PACKAGE"_debug
-  CXXFLAGS_DEBUG="-DASSERT_LEVEL=2 -g"
+  CXXFLAGS_DEBUG="-g"
   # Only for GCC compiler 
   if test "x$GXX" = xyes; then
     if test "x$enable_exceptions" = xno; then
       CXXFLAGS_DEBUG="$CXXFLAGS_DEBUG -fno-exceptions"
     fi
-    CXXFLAGS_DEBUG="$CXXFLAGS_DEBUG -Wall -pipe"
+    CXXFLAGS_DEBUG="-Wall $CXXFLAGS_DEBUG -pipe"
   fi
 fi
 AC_SUBST(CXXFLAGS_DEBUG)
@@ -157,7 +157,7 @@ AC_SUBST(PACKAGE_DEBUG)
 
 # Set optimised flags
 if test "x$CXXFLAGS" = x; then
-  CXXFLAGS_OPT="-DASSERT_LEVEL=1 -O3" 
+  CXXFLAGS_OPT="-DNDEBUG -O3" 
   # Only for GCC compiler 
   if test "x$GXX" = xyes; then
     if test "x$enable_exceptions" = xno; then

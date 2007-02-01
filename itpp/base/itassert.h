@@ -1,7 +1,7 @@
 /*!
  * \file 
- * \brief Definitions of error handling functions
- * \author Tobias Ringstrom
+ * \brief Error handling functions - header file
+ * \author Tobias Ringstrom and Adam Piatyszek
  *
  * $Date$
  * $Revision$
@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,26 +51,29 @@ namespace itpp {
     For all functions, the argument \c s is a string that is displayed.
   
     \code
-    it_assert(t,s);   // Abort if \c t is not true.
-    it_assert0(t,s);  // Abort if \c t is not true and ASSERT_LEVEL = 2
-    it_assert1(t,s);  // Abort if \c t is not true and ASSERT_LEVEL = 2 or 1
-    it_error_if(t,s); // Abort if \c t is true.
-    it_error(s);      // Abort.
-    it_warning(s);    // Show a warning.
+    it_assert(t,s);        // Abort if \c t is not true
+    it_assert_debug(t,s);  // Abort if \c t is not true and NDEBUG is not defined
+    it_error_if(t,s);      // Abort if \c t is true
+    it_error(s);           // Abort
+    it_info(s);            // Display a message
+    it_info_debug(s);      // Display a message if NDEBUG is not defined
+    it_warning(s);         // Display a warning
     \endcode
 
-    \c it_assert(), \c it_error() and \c it_warning() is always active while
-    \c it_assert0() and \c it_assert1() depends on the \c ASSERT_LEVEL variable.
-    If \c ASSERT_LEVEL == 0 then none of these are executed while if it is 1
-    only \c it_assert1() is executed.
+    \c it_assert(), \c it_error(), \c it_error_if() and \c it_warning() are
+    always active while \c it_assert_debug() and \c it_warning_debug()
+    depends on the \c NDEBUG compile time definition. If \c NDEBUG is
+    defined, then none of these two macros is executed.
   */
   //!@{
  
-  //! Helper function for the \c it_assert functions
+  //! Helper function for the \c it_assert and \c it_assert_d macros
   void it_assert_f(std::string ass, std::string msg, std::string file, int line);
-  //! Helper function for the \c it_error functions
+  //! Helper function for the \c it_error and \c it_error_if macros
   void it_error_f(std::string msg, std::string file, int line);
-  //! Helper function for the \c it_warning functions
+  //! Helper function for the \c it_info and \c it_info_d macros
+  void it_info_f(std::string msg);
+  //! Helper function for the \c it_warning macro
   void it_warning_f(std::string msg, std::string file, int line);
 
   //! Enable/disable using exceptions for error handling.
@@ -82,59 +85,75 @@ namespace itpp {
   //! Redirect warnings to the ostream warn_stream
   void it_redirect_warnings(std::ostream *warn_stream);
 
+  enum error_msg_style { Full, Minimum };
 
-#define it_assert_base(t,s) \
-if(!(t)) { \
-  std::ostringstream m_sout; \
-  m_sout << s; \
-  itpp::it_assert_f(#t,m_sout.str(),__FILE__,__LINE__); \
-} else \
-  (void)0
+  //! Set preffered style of assert, error and warning messages
+  void it_error_msg_style(error_msg_style style);
 
-#if ASSERT_LEVEL==0 // No tests
-#  define it_assert0(t,s) (void)0
-#  define it_assert1(t,s) (void)0
-#elif ASSERT_LEVEL==1 // Only some tests
-#  define it_assert0(t,s) (void)0
-#  define it_assert1(t,s) it_assert_base(t,s)
-#else // Full tests
-  //! Abort if \c t is not true and IT++ is compiled with \c -DASSERT_LEVEL=2
-  //! The message string \c s is printed on standard output.
-#  define it_assert0(t,s) it_assert_base(t,s)
-  //! Abort if \c t is not true and IT++ is compiled with \c -DASSERT_LEVEL=1 
-  //! or \c -DASSERT_LEVEL=2. The message string \c s is printed on standard 
-  //! output. 
-#  define it_assert1(t,s) it_assert_base(t,s)
-#endif // ASSERT_LEVEL
+
   //! Abort if \c t is not true and output \c s
-#define it_assert(t,s) it_assert_base(t,s)
+#define it_assert(t,s)						\
+  if (!(t)) {							\
+    std::ostringstream m_sout;					\
+    m_sout << s;						\
+    itpp::it_assert_f(#t,m_sout.str(),__FILE__,__LINE__);	\
+  } else							\
+    ((void) 0)
+
+#if defined(NDEBUG)
+#  define it_assert_debug(t,s) ((void) 0)
+#  define it_assert0(t,s) ((void) 0)
+#  define it_assert1(t,s) ((void) 0)
+#else
+#  define it_assert_debug(t,s) it_assert(t,s)
+#  define it_assert0(t,s) it_assert(t,s)
+#  define it_assert1(t,s) it_assert(t,s)
+#endif // if defined(NDEBUG) 
+
 
   //! Abort if \c t is true and output \c s
-#define it_error_if(t,s) \
-if((t)) { \
-  std::ostringstream m_sout; \
-  m_sout << s; \
-  itpp::it_error_f(m_sout.str(),__FILE__,__LINE__); \
-} else \
-  (void)0
+#define it_error_if(t,s)				\
+  if((t)) {						\
+    std::ostringstream m_sout;				\
+    m_sout << s;					\
+    itpp::it_error_f(m_sout.str(),__FILE__,__LINE__);	\
+  } else						\
+    ((void) 0)
 
   //! Abort and output \c s
-#define it_error(s) \
-if (true) { \
-  std::ostringstream m_sout; \
-  m_sout << s; \
-  itpp::it_error_f(m_sout.str(),__FILE__,__LINE__); \
-} else \
-  (void)0
+#define it_error(s)					\
+  if (true) {						\
+    std::ostringstream m_sout;				\
+    m_sout << s;					\
+    itpp::it_error_f(m_sout.str(),__FILE__,__LINE__);	\
+  } else						\
+    ((void) 0)
 
-  //! Output the warning \c s
-#define it_warning(s) \
-if (true) { \
-  std::ostringstream m_sout; \
-  m_sout << s; \
-  itpp::it_warning_f(m_sout.str(),__FILE__,__LINE__); \
-} else \
-  (void)0
+
+  //! Output an info message \c s
+#define it_info(s)				\
+  if (true) {					\
+    std::ostringstream m_sout;			\
+    m_sout << s;				\
+    itpp::it_info_f(m_sout.str());		\
+  } else					\
+    ((void) 0)
+
+#if defined(NDEBUG)
+#  define it_info_debug(t,s) ((void) 0)
+#else
+#  define it_info_debug(t,s) it_info(t,s)
+#endif // if defined(NDEBUG) 
+
+
+  //! Output a warning \c s
+#define it_warning(s)					\
+  if (true) {						\
+    std::ostringstream m_sout;				\
+    m_sout << s;					\
+    itpp::it_warning_f(m_sout.str(),__FILE__,__LINE__); \
+  } else						\
+    ((void) 0)
 
   //!@}
 
