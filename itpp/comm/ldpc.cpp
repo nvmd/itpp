@@ -775,8 +775,10 @@ namespace itpp {
     dec_method=method_in;
     dec_options=options_in;
     llrcalc=lcalc;   
-    mcv.set_size(max(sumX2)*ncheck);
-    mvc.set_size(nvar*max(sumX1));
+    if (H_is_defined) {
+      mcv.set_size(max(sumX2)*ncheck);
+      mvc.set_size(nvar*max(sumX1));
+    }
   }
 
   LDPC_Code::LDPC_Code(const LDPC_Parity_Matrix &Hmat, 
@@ -849,8 +851,8 @@ namespace itpp {
     
     f.close();
 
-    mcv.set_size(max(sumX2)*ncheck);
-    mvc.set_size(nvar*max(sumX1));
+//     mcv.set_size(max(sumX2)*ncheck);
+//     mvc.set_size(nvar*max(sumX1));
     setup_decoder();
 
     cout << "LDPC_Code::LDPC_Code(): Successfully loaded LDPC codec from " 
