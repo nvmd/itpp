@@ -1,3 +1,7 @@
+2007-02-01  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/comm/ldpc.cpp: Fix in the standard constructor
+
 2007-01-31  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/comm/ldpc.h, itpp/comm/ldpc.cpp: Added some initialization
