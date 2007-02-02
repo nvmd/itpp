@@ -48,12 +48,12 @@ namespace itpp {
   /*! 
     \addtogroup errorhandlingfunc
 
-    For all functions, the argument \c s is a string that is displayed.
+    For the following macros, the argument \c s is a string that is displayed.
   
     \code
-    it_assert(t,s);        // Abort if \c t is not true
-    it_assert_debug(t,s);  // Abort if \c t is not true and NDEBUG is not defined
-    it_error_if(t,s);      // Abort if \c t is true
+    it_assert(t,s);        // Abort if t is not true
+    it_assert_debug(t,s);  // Abort if t is not true and NDEBUG is not defined
+    it_error_if(t,s);      // Abort if t is true
     it_error(s);           // Abort
     it_info(s);            // Display a message
     it_info_debug(s);      // Display a message if NDEBUG is not defined
@@ -61,9 +61,13 @@ namespace itpp {
     \endcode
 
     \c it_assert(), \c it_error(), \c it_error_if() and \c it_warning() are
-    always active while \c it_assert_debug() and \c it_warning_debug()
-    depends on the \c NDEBUG compile time definition. If \c NDEBUG is
-    defined, then none of these two macros is executed.
+    always active, whereas \c it_assert_debug() and \c it_info_debug() depends
+    on the \c NDEBUG compile time definition. If \c NDEBUG is defined, then
+    none of these two macros is executed.
+
+    \note \c it_assert0() and \c it_assert1() macros are still defined for
+    backward compatibility, but \c it_assert_debug() should be used instead
+    of them.
   */
   //!@{
  
@@ -85,13 +89,13 @@ namespace itpp {
   //! Redirect warnings to the ostream warn_stream
   void it_redirect_warnings(std::ostream *warn_stream);
 
+  //! Style of assert, error and warning messages.
   enum error_msg_style { Full, Minimum };
 
   //! Set preffered style of assert, error and warning messages
   void it_error_msg_style(error_msg_style style);
 
 
-  //! Abort if \c t is not true and output \c s
 #define it_assert(t,s)						\
   if (!(t)) {							\
     std::ostringstream m_sout;					\
@@ -102,16 +106,14 @@ namespace itpp {
 
 #if defined(NDEBUG)
 #  define it_assert_debug(t,s) ((void) 0)
-#  define it_assert0(t,s) ((void) 0)
-#  define it_assert1(t,s) ((void) 0)
 #else
 #  define it_assert_debug(t,s) it_assert(t,s)
-#  define it_assert0(t,s) it_assert(t,s)
-#  define it_assert1(t,s) it_assert(t,s)
 #endif // if defined(NDEBUG) 
 
+#define it_assert0(t,s) it_assert_debug(t,s)
+#define it_assert1(t,s) it_assert_debug(t,s)
 
-  //! Abort if \c t is true and output \c s
+
 #define it_error_if(t,s)				\
   if((t)) {						\
     std::ostringstream m_sout;				\
@@ -120,7 +122,6 @@ namespace itpp {
   } else						\
     ((void) 0)
 
-  //! Abort and output \c s
 #define it_error(s)					\
   if (true) {						\
     std::ostringstream m_sout;				\
@@ -130,7 +131,6 @@ namespace itpp {
     ((void) 0)
 
 
-  //! Output an info message \c s
 #define it_info(s)				\
   if (true) {					\
     std::ostringstream m_sout;			\
@@ -140,13 +140,12 @@ namespace itpp {
     ((void) 0)
 
 #if defined(NDEBUG)
-#  define it_info_debug(t,s) ((void) 0)
+#  define it_info_debug(s) ((void) 0)
 #else
-#  define it_info_debug(t,s) it_info(t,s)
+#  define it_info_debug(s) it_info(s)
 #endif // if defined(NDEBUG) 
 
 
-  //! Output a warning \c s
 #define it_warning(s)					\
   if (true) {						\
     std::ostringstream m_sout;				\
