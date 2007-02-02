@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -56,8 +56,8 @@ namespace itpp {
     nrhs = 1;
     char uplo='U';
 
-    it_assert1(A.cols() == n, "ls_solve_chol: System-matrix is not square");
-    it_assert1(n == b.size(), "The number of rows in A must equal the length of b!");
+    it_assert_debug(A.cols() == n, "ls_solve_chol: System-matrix is not square");
+    it_assert_debug(n == b.size(), "The number of rows in A must equal the length of b!");
 
     ivec ipiv(n);
     x = b;
@@ -76,8 +76,8 @@ namespace itpp {
     nrhs = B.cols();
     char uplo='U';
 
-    it_assert1(A.cols() == n, "ls_solve_chol: System-matrix is not square");
-    it_assert1(n == B.rows(), "The number of rows in A must equal the length of B!");
+    it_assert_debug(A.cols() == n, "ls_solve_chol: System-matrix is not square");
+    it_assert_debug(n == B.rows(), "The number of rows in A must equal the length of B!");
 
     ivec ipiv(n);
     X = B;
@@ -95,8 +95,8 @@ namespace itpp {
     nrhs = 1;
     char uplo='U';
 
-    it_assert1(A.cols() == n, "ls_solve_chol: System-matrix is not square");
-    it_assert1(n == b.size(), "The number of rows in A must equal the length of b!");
+    it_assert_debug(A.cols() == n, "ls_solve_chol: System-matrix is not square");
+    it_assert_debug(n == b.size(), "The number of rows in A must equal the length of b!");
 
     ivec ipiv(n);
     x = b;
@@ -114,8 +114,8 @@ namespace itpp {
     nrhs = B.cols();
     char uplo='U';
 
-    it_assert1(A.cols() == n, "ls_solve_chol: System-matrix is not square");
-    it_assert1(n == B.rows(), "The number of rows in A must equal the length of B!");
+    it_assert_debug(A.cols() == n, "ls_solve_chol: System-matrix is not square");
+    it_assert_debug(n == B.rows(), "The number of rows in A must equal the length of B!");
 
     ivec ipiv(n);
     X = B;
@@ -159,7 +159,7 @@ namespace itpp {
     vec x;
     bool info = ls_solve_chol(A, b, x);
 
-    it_assert1(info, "ls_solve_chol: Failed solving the system");
+    it_assert_debug(info, "ls_solve_chol: Failed solving the system");
     return x;
   }
 
@@ -168,7 +168,7 @@ namespace itpp {
     mat X;
     bool info = ls_solve_chol(A, B, X);
 
-    it_assert1(info, "ls_solve_chol: Failed solving the system");
+    it_assert_debug(info, "ls_solve_chol: Failed solving the system");
     return X;
   }
 
@@ -177,7 +177,7 @@ namespace itpp {
     cvec x;
     bool info = ls_solve_chol(A, b, x);
 
-    it_assert1(info, "ls_solve_chol: Failed solving the system");
+    it_assert_debug(info, "ls_solve_chol: Failed solving the system");
     return x;
   }
 
@@ -186,7 +186,7 @@ namespace itpp {
     cmat X;
     bool info = ls_solve_chol(A, B, X);
 
-    it_assert1(info, "ls_solve_chol: Failed solving the system");
+    it_assert_debug(info, "ls_solve_chol: Failed solving the system");
     return X;
   }
 
@@ -200,8 +200,8 @@ namespace itpp {
     n = lda = ldb = A.rows();
     nrhs = 1;
 
-    it_assert1(A.cols() == n, "ls_solve: System-matrix is not square");
-    it_assert1(n == b.size(), "The number of rows in A must equal the length of b!");
+    it_assert_debug(A.cols() == n, "ls_solve: System-matrix is not square");
+    it_assert_debug(n == b.size(), "The number of rows in A must equal the length of b!");
 
     ivec ipiv(n);
     x = b;
@@ -218,8 +218,8 @@ namespace itpp {
     n = lda = ldb = A.rows();
     nrhs = B.cols();
 
-    it_assert1(A.cols() == n, "ls_solve: System-matrix is not square");
-    it_assert1(n == B.rows(), "The number of rows in A must equal the length of B!");
+    it_assert_debug(A.cols() == n, "ls_solve: System-matrix is not square");
+    it_assert_debug(n == B.rows(), "The number of rows in A must equal the length of B!");
 
     ivec ipiv(n);
     X = B;
@@ -236,8 +236,8 @@ namespace itpp {
     n = lda = ldb = A.rows();
     nrhs = 1;
 
-    it_assert1(A.cols() == n, "ls_solve: System-matrix is not square");
-    it_assert1(n == b.size(), "The number of rows in A must equal the length of b!");
+    it_assert_debug(A.cols() == n, "ls_solve: System-matrix is not square");
+    it_assert_debug(n == b.size(), "The number of rows in A must equal the length of b!");
 
     ivec ipiv(n);
     x = b;
@@ -254,8 +254,8 @@ namespace itpp {
     n = lda = ldb = A.rows();
     nrhs = B.cols();
 
-    it_assert1(A.cols() == n, "ls_solve: System-matrix is not square");
-    it_assert1(n == B.rows(), "The number of rows in A must equal the length of B!");
+    it_assert_debug(A.cols() == n, "ls_solve: System-matrix is not square");
+    it_assert_debug(n == B.rows(), "The number of rows in A must equal the length of B!");
 
     ivec ipiv(n);
     X = B;
@@ -299,7 +299,7 @@ namespace itpp {
     vec x;
     bool info = ls_solve(A, b, x);
 
-    it_assert1(info, "ls_solve: Failed solving the system");
+    it_assert_debug(info, "ls_solve: Failed solving the system");
     return x;
   }
 
@@ -308,7 +308,7 @@ namespace itpp {
     mat X;
     bool info = ls_solve(A, B, X);
 
-    it_assert1(info, "ls_solve: Failed solving the system");
+    it_assert_debug(info, "ls_solve: Failed solving the system");
     return X;
   }
 
@@ -317,7 +317,7 @@ namespace itpp {
     cvec x;
     bool info = ls_solve(A, b, x);
 
-    it_assert1(info, "ls_solve: Failed solving the system");
+    it_assert_debug(info, "ls_solve: Failed solving the system");
     return x;
   }
 
@@ -326,7 +326,7 @@ namespace itpp {
     cmat X;
     bool info = ls_solve(A, B, X);
 
-    it_assert1(info, "ls_solve: Failed solving the system");
+    it_assert_debug(info, "ls_solve: Failed solving the system");
     return X;
   }
 
@@ -343,8 +343,8 @@ namespace itpp {
     nrhs = 1;
     lwork = n + std::max(m,nrhs);
 
-    it_assert1(m >= n, "The system is under-determined!");
-    it_assert1(m == b.size(), "The number of rows in A must equal the length of b!");
+    it_assert_debug(m >= n, "The system is under-determined!");
+    it_assert_debug(m == b.size(), "The number of rows in A must equal the length of b!");
 
     vec work(lwork);
     x = b;
@@ -365,8 +365,8 @@ namespace itpp {
     nrhs = B.cols();
     lwork = n + std::max(m,nrhs);
 
-    it_assert1(m >= n, "The system is under-determined!");
-    it_assert1(m == B.rows(), "The number of rows in A must equal the length of b!");
+    it_assert_debug(m >= n, "The system is under-determined!");
+    it_assert_debug(m == B.rows(), "The number of rows in A must equal the length of b!");
 
     vec work(lwork);
     X = B;
@@ -387,8 +387,8 @@ namespace itpp {
     nrhs = 1;
     lwork = n + std::max(m,nrhs);
 
-    it_assert1(m >= n, "The system is under-determined!");
-    it_assert1(m == b.size(), "The number of rows in A must equal the length of b!");
+    it_assert_debug(m >= n, "The system is under-determined!");
+    it_assert_debug(m == b.size(), "The number of rows in A must equal the length of b!");
 
     cvec work(lwork);
     x = b;
@@ -409,8 +409,8 @@ namespace itpp {
     nrhs = B.cols();
     lwork = n + std::max(m,nrhs);
 
-    it_assert1(m >= n, "The system is under-determined!");
-    it_assert1(m == B.rows(), "The number of rows in A must equal the length of b!");
+    it_assert_debug(m >= n, "The system is under-determined!");
+    it_assert_debug(m == B.rows(), "The number of rows in A must equal the length of b!");
 
     cvec work(lwork);
     X = B;
@@ -455,7 +455,7 @@ namespace itpp {
     vec x;
     bool info = ls_solve_od(A, b, x);
 
-    it_assert1(info, "ls_solve_od: Failed solving the system");
+    it_assert_debug(info, "ls_solve_od: Failed solving the system");
     return x;
   }
 
@@ -464,7 +464,7 @@ namespace itpp {
     mat X;
     bool info = ls_solve_od(A, B, X);
 
-    it_assert1(info, "ls_solve_od: Failed solving the system");
+    it_assert_debug(info, "ls_solve_od: Failed solving the system");
     return X;
   }
 
@@ -473,7 +473,7 @@ namespace itpp {
     cvec x;
     bool info = ls_solve_od(A, b, x);
 
-    it_assert1(info, "ls_solve_od: Failed solving the system");
+    it_assert_debug(info, "ls_solve_od: Failed solving the system");
     return x;
   }
 
@@ -482,7 +482,7 @@ namespace itpp {
     cmat X;
     bool info = ls_solve_od(A, B, X);
 
-    it_assert1(info, "ls_solve_od: Failed solving the system");
+    it_assert_debug(info, "ls_solve_od: Failed solving the system");
     return X;
   }
 
@@ -499,8 +499,8 @@ namespace itpp {
     nrhs = 1;
     lwork = m + std::max(n,nrhs);
 
-    it_assert1(m < n, "The system is over-determined!");
-    it_assert1(m == b.size(), "The number of rows in A must equal the length of b!");
+    it_assert_debug(m < n, "The system is over-determined!");
+    it_assert_debug(m == b.size(), "The number of rows in A must equal the length of b!");
 
     vec work(lwork);
     x = b;
@@ -522,8 +522,8 @@ namespace itpp {
     nrhs = B.cols();
     lwork = m + std::max(n,nrhs);
 
-    it_assert1(m < n, "The system is over-determined!");
-    it_assert1(m == B.rows(), "The number of rows in A must equal the length of b!");
+    it_assert_debug(m < n, "The system is over-determined!");
+    it_assert_debug(m == B.rows(), "The number of rows in A must equal the length of b!");
 
     vec work(lwork);
     X = B;
@@ -546,8 +546,8 @@ namespace itpp {
     nrhs = 1;
     lwork = m + std::max(n,nrhs);
 
-    it_assert1(m < n, "The system is over-determined!");
-    it_assert1(m == b.size(), "The number of rows in A must equal the length of b!");
+    it_assert_debug(m < n, "The system is over-determined!");
+    it_assert_debug(m == b.size(), "The number of rows in A must equal the length of b!");
 
     cvec work(lwork);
     x = b;
@@ -569,8 +569,8 @@ namespace itpp {
     nrhs = B.cols();
     lwork = m + std::max(n,nrhs);
 
-    it_assert1(m < n, "The system is over-determined!");
-    it_assert1(m == B.rows(), "The number of rows in A must equal the length of b!");
+    it_assert_debug(m < n, "The system is over-determined!");
+    it_assert_debug(m == B.rows(), "The number of rows in A must equal the length of b!");
 
     cvec work(lwork);
     X = B;
@@ -617,7 +617,7 @@ namespace itpp {
     vec x;
     bool info = ls_solve_ud(A, b, x);
 
-    it_assert1(info, "ls_solve_ud: Failed solving the system");
+    it_assert_debug(info, "ls_solve_ud: Failed solving the system");
     return x;
   }
 
@@ -626,7 +626,7 @@ namespace itpp {
     mat X;
     bool info = ls_solve_ud(A, B, X);
 
-    it_assert1(info, "ls_solve_ud: Failed solving the system");
+    it_assert_debug(info, "ls_solve_ud: Failed solving the system");
     return X;
   }
 
@@ -635,7 +635,7 @@ namespace itpp {
     cvec x;
     bool info = ls_solve_ud(A, b, x);
 
-    it_assert1(info, "ls_solve_ud: Failed solving the system");
+    it_assert_debug(info, "ls_solve_ud: Failed solving the system");
     return x;
   }
 
@@ -644,7 +644,7 @@ namespace itpp {
     cmat X;
     bool info = ls_solve_ud(A, B, X);
 
-    it_assert1(info, "ls_solve_ud: Failed solving the system");
+    it_assert_debug(info, "ls_solve_ud: Failed solving the system");
     return X;
   }
 
@@ -672,7 +672,7 @@ namespace itpp {
     vec x;
     bool info = backslash(A, b, x);
     
-    it_assert1(info, "backslash(): solution was not found");
+    it_assert_debug(info, "backslash(): solution was not found");
 
     return x;
   }
@@ -699,7 +699,7 @@ namespace itpp {
     mat X;
     bool info = backslash(A, B, X);
 
-    it_assert1(info, "backslash(): solution was not found");
+    it_assert_debug(info, "backslash(): solution was not found");
 
     return X;
   }
@@ -726,7 +726,7 @@ namespace itpp {
     cvec x;
     bool info = backslash(A, b, x);
 
-    it_assert1(info, "backslash(): solution was not found");
+    it_assert_debug(info, "backslash(): solution was not found");
 
     return x;
   }
@@ -752,7 +752,7 @@ namespace itpp {
     cmat X;
     bool info = backslash(A, B, X);
 
-    it_assert1(info, "backslash(): solution was not found");
+    it_assert_debug(info, "backslash(): solution was not found");
 
     return X;
   }

@@ -12,7 +12,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -127,7 +127,7 @@ namespace itpp {
 
   fixvec operator+(const fixvec &a, const ivec &b)
   {
-    it_assert1(a.size() == b.size(), "operator+(): sizes do not match");
+    it_assert_debug(a.size() == b.size(), "operator+(): sizes do not match");
     fixvec temp(a);
     for (int i=0; i<a.size(); i++) {
       temp(i) += b(i);
@@ -137,7 +137,7 @@ namespace itpp {
 
   Fix operator*(const fixvec &a, const ivec &b)
   {
-    it_assert1(a.size() == b.size(), "operator+(): sizes do not match");
+    it_assert_debug(a.size() == b.size(), "operator+(): sizes do not match");
     Fix temp(0);
     for (int i=0; i<a.size(); i++) {
       temp += a(i) * b(i);
@@ -147,7 +147,7 @@ namespace itpp {
 
   fixmat operator+(const fixmat &a, const imat &b)
   {
-    it_assert1(a.cols()==b.cols() && a.rows()==b.rows(), "operator+(): sizes do not match");
+    it_assert_debug(a.cols()==b.cols() && a.rows()==b.rows(), "operator+(): sizes do not match");
     fixmat temp(a);
 
     for (int i=0; i<a.rows(); i++) {
@@ -160,7 +160,7 @@ namespace itpp {
 
   fixmat operator*(const fixmat &a, const imat &b)
   {
-    it_assert1(a.cols() == b.rows(), "operator*: wrong sizes");
+    it_assert_debug(a.cols() == b.rows(), "operator*: wrong sizes");
     fixmat r(a.rows(), b.cols());
   
     Fix tmp;
@@ -352,7 +352,7 @@ namespace itpp {
 
   cfixvec operator+(const cfixvec &a, const fixvec &b)
   {
-    it_assert1(a.size() == b.size(), "operator+(): sizes do not match");
+    it_assert_debug(a.size() == b.size(), "operator+(): sizes do not match");
     cfixvec temp(a);
     for (int i=0; i<a.size(); i++) {
       temp(i) += b(i);
@@ -362,7 +362,7 @@ namespace itpp {
 
   CFix operator*(const cfixvec &a, const fixvec &b)
   {
-    it_assert1(a.size() == b.size(), "operator+(): sizes do not match");
+    it_assert_debug(a.size() == b.size(), "operator+(): sizes do not match");
     CFix temp(0);
     for (int i=0; i<a.size(); i++) {
       temp += a(i) * b(i);
@@ -372,7 +372,7 @@ namespace itpp {
 
   cfixmat operator+(const cfixmat &a, const fixmat &b)
   {
-    it_assert1(a.cols()==b.cols() && a.rows()==b.rows(), "operator+(): sizes do not match");
+    it_assert_debug(a.cols()==b.cols() && a.rows()==b.rows(), "operator+(): sizes do not match");
     cfixmat temp(a);
 
     for (int i=0; i<a.rows(); i++) {
@@ -385,7 +385,7 @@ namespace itpp {
 
   cfixmat operator*(const cfixmat &a, const fixmat &b)
   {
-    it_assert1(a.cols() == b.rows(), "operator*: wrong sizes");
+    it_assert_debug(a.cols() == b.rows(), "operator*: wrong sizes");
     cfixmat r(a.rows(), b.cols());
   
     CFix tmp;
@@ -410,7 +410,7 @@ namespace itpp {
 
   cfixvec operator+(const cfixvec &a, const ivec &b)
   {
-    it_assert1(a.size() == b.size(), "operator+(): sizes do not match");
+    it_assert_debug(a.size() == b.size(), "operator+(): sizes do not match");
     cfixvec temp(a);
     for (int i=0; i<a.size(); i++) {
       temp(i) += b(i);
@@ -420,7 +420,7 @@ namespace itpp {
 
   CFix operator*(const cfixvec &a, const ivec &b)
   {
-    it_assert1(a.size() == b.size(), "operator+(): sizes do not match");
+    it_assert_debug(a.size() == b.size(), "operator+(): sizes do not match");
     CFix temp(0);
     for (int i=0; i<a.size(); i++) {
       temp += a(i) * b(i);
@@ -430,7 +430,7 @@ namespace itpp {
 
   cfixmat operator+(const cfixmat &a, const imat &b)
   {
-    it_assert1(a.cols()==b.cols() && a.rows()==b.rows(), "operator+(): sizes do not match");
+    it_assert_debug(a.cols()==b.cols() && a.rows()==b.rows(), "operator+(): sizes do not match");
     cfixmat temp(a);
 
     for (int i=0; i<a.rows(); i++) {
@@ -443,7 +443,7 @@ namespace itpp {
 
   cfixmat operator*(const cfixmat &a, const imat &b)
   {
-    it_assert1(a.cols() == b.rows(), "operator*: wrong sizes");
+    it_assert_debug(a.cols() == b.rows(), "operator*: wrong sizes");
     cfixmat r(a.rows(), b.cols());
   
     CFix tmp;

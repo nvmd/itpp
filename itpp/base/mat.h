@@ -539,7 +539,7 @@ namespace itpp {
   Mat<Num_T>::Mat(int inrow, int incol, const Factory &f) : 
     datasize(0), no_rows(0), no_cols(0), data(0), factory(f)
   {
-    it_assert1((inrow >= 0) && (incol >= 0), "The rows and columns must be >= 0");
+    it_assert_debug((inrow >= 0) && (incol >= 0), "The rows and columns must be >= 0");
     alloc(inrow, incol); 
   }
 
@@ -607,7 +607,7 @@ namespace itpp {
   template<class Num_T> inline
   void Mat<Num_T>::set_size(int inrow, int incol, bool copy)
   {
-    it_assert1((inrow >= 0) && (incol >= 0), "Mat<Num_T>::set_size: The rows and columns must be >= 0");
+    it_assert_debug((inrow >= 0) && (incol >= 0), "Mat<Num_T>::set_size: The rows and columns must be >= 0");
     if ((no_rows == inrow) && (no_cols == incol))
       return;
     if (copy) {
@@ -652,7 +652,7 @@ namespace itpp {
   template<class Num_T> inline
   const Num_T& Mat<Num_T>::operator()(int R,int C) const
   { 
-    it_assert0((R >= 0) && (R < no_rows) && (C >= 0) && (C < no_cols),
+    it_assert_debug((R >= 0) && (R < no_rows) && (C >= 0) && (C < no_cols),
 	       "Mat<Num_T>::operator(): index out of range");
     return data[R+C*no_rows];
   }
@@ -660,7 +660,7 @@ namespace itpp {
   template<class Num_T> inline
   Num_T& Mat<Num_T>::operator()(int R,int C)
   { 
-    it_assert0((R >= 0) && (R < no_rows) && (C >= 0) && (C < no_cols),
+    it_assert_debug((R >= 0) && (R < no_rows) && (C >= 0) && (C < no_cols),
 	       "Mat<Num_T>::operator(): index out of range");
     return data[R+C*no_rows];
   }
@@ -668,7 +668,7 @@ namespace itpp {
   template<class Num_T> inline
   Num_T& Mat<Num_T>::operator()(int index)
   { 
-    it_assert0((index < no_rows*no_cols) && (index >= 0),
+    it_assert_debug((index < no_rows*no_cols) && (index >= 0),
 	       "Mat<Num_T>::operator(): index out of range");
     return data[index];
   }
@@ -676,7 +676,7 @@ namespace itpp {
   template<class Num_T> inline
   const Num_T& Mat<Num_T>::operator()(int index) const
   {
-    it_assert0((index < no_rows*no_cols) && (index >= 0),
+    it_assert_debug((index < no_rows*no_cols) && (index >= 0),
 	       "Mat<Num_T>::operator(): index out of range");
     return data[index];
   }
@@ -684,7 +684,7 @@ namespace itpp {
   template<class Num_T> inline
   const Num_T& Mat<Num_T>::get(int R,int C) const
   { 
-    it_assert0((R >= 0) && (R < no_rows) && (C >= 0) && (C < no_cols),
+    it_assert_debug((R >= 0) && (R < no_rows) && (C >= 0) && (C < no_cols),
 	       "Mat<Num_T>::get(): index out of range"); 
     return data[R+C*no_rows];
   }
@@ -692,7 +692,7 @@ namespace itpp {
   template<class Num_T> inline
   void Mat<Num_T>::set(int R, int C, const Num_T &v)
   {
-    it_assert0((R >= 0) && (R < no_rows) && (C >= 0) && (C < no_cols),
+    it_assert_debug((R >= 0) && (R < no_rows) && (C >= 0) && (C < no_cols),
 	       "Mat<Num_T>::set(): index out of range"); 
     data[R+C*no_rows] = v;
   }
@@ -778,10 +778,10 @@ namespace itpp {
     if (c1 == -1) c1 = no_cols-1;
     if (c2 == -1) c2 = no_cols-1;
 
-    it_assert1(r1>=0 && r2>=0 && r1<no_rows && r2<no_rows &&
+    it_assert_debug(r1>=0 && r2>=0 && r1<no_rows && r2<no_rows &&
 	       c1>=0 && c2>=0 && c1<no_cols && c2<no_cols, "operator()(r1,r2,c1,c2)");
 
-    it_assert1(r2>=r1 && c2>=c1, "Mat<Num_T>::op(): r2>=r1 or c2>=c1 not fulfilled");
+    it_assert_debug(r2>=r1 && c2>=c1, "Mat<Num_T>::op(): r2>=r1 or c2>=c1 not fulfilled");
 
     Mat<Num_T> s(r2-r1+1, c2-c1+1);
 
@@ -800,7 +800,7 @@ namespace itpp {
   template<class Num_T> inline
   const Vec<Num_T> Mat<Num_T>::get_row(int Index) const
   {
-    it_assert1(Index>=0 && Index<no_rows, "Mat<Num_T>::get_row: index out of range");
+    it_assert_debug(Index>=0 && Index<no_rows, "Mat<Num_T>::get_row: index out of range");
     Vec<Num_T> a(no_cols);
 
     copy_vector(no_cols, data+Index, no_rows, a._data(), 1);
@@ -810,7 +810,7 @@ namespace itpp {
   template<class Num_T>
   const Mat<Num_T> Mat<Num_T>::get_rows(int r1, int r2) const
   {
-    it_assert1(r1>=0 && r2<no_rows && r1<=r2, "Mat<Num_T>::get_rows: index out of range");
+    it_assert_debug(r1>=0 && r2<no_rows && r1<=r2, "Mat<Num_T>::get_rows: index out of range");
     Mat<Num_T> m(r2-r1+1, no_cols);
 
     for (int i=0; i<m.rows(); i++)
@@ -825,7 +825,7 @@ namespace itpp {
     Mat<Num_T> m(indexlist.size(),no_cols);
 
     for (int i=0;i<indexlist.size();i++) {
-      it_assert1(indexlist(i)>=0 && indexlist(i)<no_rows, "Mat<Num_T>::get_rows: index out of range");
+      it_assert_debug(indexlist(i)>=0 && indexlist(i)<no_rows, "Mat<Num_T>::get_rows: index out of range");
       copy_vector(no_cols, data+indexlist(i), no_rows, m.data+i, m.no_rows);
     }
 
@@ -835,7 +835,7 @@ namespace itpp {
   template<class Num_T> inline
   const Vec<Num_T> Mat<Num_T>::get_col(int Index) const
   {
-    it_assert1(Index>=0 && Index<no_cols, "Mat<Num_T>::get_col: index out of range");
+    it_assert_debug(Index>=0 && Index<no_cols, "Mat<Num_T>::get_col: index out of range");
     Vec<Num_T> a(no_rows);
 
     copy_vector(no_rows, data+Index*no_rows, a._data());
@@ -846,7 +846,7 @@ namespace itpp {
   template<class Num_T> inline
   const Mat<Num_T> Mat<Num_T>::get_cols(int c1, int c2) const
   {
-    it_assert1(c1>=0 && c2<no_cols && c1<=c2, "Mat<Num_T>::get_cols: index out of range");
+    it_assert_debug(c1>=0 && c2<no_cols && c1<=c2, "Mat<Num_T>::get_cols: index out of range");
     Mat<Num_T> m(no_rows, c2-c1+1);
 
     for (int i=0; i<m.cols(); i++)
@@ -861,7 +861,7 @@ namespace itpp {
     Mat<Num_T> m(no_rows,indexlist.size());
 
     for (int i=0; i<indexlist.size(); i++) {
-      it_assert1(indexlist(i)>=0 && indexlist(i)<no_cols, "Mat<Num_T>::get_cols: index out of range");
+      it_assert_debug(indexlist(i)>=0 && indexlist(i)<no_cols, "Mat<Num_T>::get_cols: index out of range");
       copy_vector(no_rows, data+indexlist(i)*no_rows, m.data+i*m.no_rows);
     }
 
@@ -871,8 +871,8 @@ namespace itpp {
   template<class Num_T> inline
   void Mat<Num_T>::set_row(int Index, const Vec<Num_T> &v)
   {
-    it_assert1(Index>=0 && Index<no_rows, "Mat<Num_T>::set_row: index out of range");
-    it_assert1(v.length() == no_cols, "Mat<Num_T>::set_row: lengths doesn't match");
+    it_assert_debug(Index>=0 && Index<no_rows, "Mat<Num_T>::set_row: index out of range");
+    it_assert_debug(v.length() == no_cols, "Mat<Num_T>::set_row: lengths doesn't match");
 
     copy_vector(v.size(), v._data(), 1, data+Index, no_rows);
   }
@@ -880,8 +880,8 @@ namespace itpp {
   template<class Num_T> inline
   void Mat<Num_T>::set_col(int Index, const Vec<Num_T> &v)
   {
-    it_assert1(Index>=0 && Index<no_cols, "Mat<Num_T>::set_col: index out of range");
-    it_assert1(v.length() == no_rows, "Mat<Num_T>::set_col: lengths doesn't match");
+    it_assert_debug(Index>=0 && Index<no_cols, "Mat<Num_T>::set_col: index out of range");
+    it_assert_debug(v.length() == no_rows, "Mat<Num_T>::set_col: lengths doesn't match");
 
     copy_vector(v.size(), v._data(), data+Index*no_rows);
   }
@@ -889,7 +889,7 @@ namespace itpp {
   template<class Num_T> inline
   void Mat<Num_T>::copy_row(int to, int from)
   {
-    it_assert1(to>=0 && from>=0 && to<no_rows && from<no_rows,
+    it_assert_debug(to>=0 && from>=0 && to<no_rows && from<no_rows,
 	       "Mat<Num_T>::copy_row: index out of range");
 
     if (from == to)
@@ -901,7 +901,7 @@ namespace itpp {
   template<class Num_T> inline
   void Mat<Num_T>::copy_col(int to, int from)
   {
-    it_assert1(to>=0 && from>=0 && to<no_cols && from<no_cols,
+    it_assert_debug(to>=0 && from>=0 && to<no_cols && from<no_cols,
 	       "Mat<Num_T>::copy_col: index out of range");
 
     if (from == to)
@@ -913,7 +913,7 @@ namespace itpp {
   template<class Num_T> inline
   void Mat<Num_T>::swap_rows(int r1, int r2)
   {
-    it_assert1(r1>=0 && r2>=0 && r1<no_rows && r2<no_rows,
+    it_assert_debug(r1>=0 && r2>=0 && r1<no_rows && r2<no_rows,
 	       "Mat<Num_T>::swap_rows: index out of range");
 
     if (r1 == r2)
@@ -925,7 +925,7 @@ namespace itpp {
   template<class Num_T> inline
   void Mat<Num_T>::swap_cols(int c1, int c2)
   {
-    it_assert1(c1>=0 && c2>=0 && c1<no_cols && c2<no_cols,
+    it_assert_debug(c1>=0 && c2>=0 && c1<no_cols && c2<no_cols,
 	       "Mat<Num_T>::swap_cols: index out of range");
 
     if (c1 == c2)
@@ -943,11 +943,11 @@ namespace itpp {
     if (c1 == -1) c1 = no_cols-1;
     if (c2 == -1) c2 = no_cols-1;
 
-    it_assert1(r1>=0 && r2>=0 && r1<no_rows && r2<no_rows &&
+    it_assert_debug(r1>=0 && r2>=0 && r1<no_rows && r2<no_rows &&
 	       c1>=0 && c2>=0 && c1<no_cols && c2<no_cols, "Mat<Num_T>::set_submatrix(): index out of range");
 
-    it_assert1(r2>=r1 && c2>=c1, "Mat<Num_T>::set_submatrix: r2<r1 or c2<c1");
-    it_assert1(m.no_rows == r2-r1+1 && m.no_cols == c2-c1+1, "Mat<Num_T>::set_submatrix(): sizes don't match");
+    it_assert_debug(r2>=r1 && c2>=c1, "Mat<Num_T>::set_submatrix: r2<r1 or c2<c1");
+    it_assert_debug(m.no_rows == r2-r1+1 && m.no_cols == c2-c1+1, "Mat<Num_T>::set_submatrix(): sizes don't match");
 
     for (int i=0; i<m.no_cols; i++)
       copy_vector(m.no_rows, m.data+i*m.no_rows, data+(c1+i)*no_rows+r1);
@@ -959,7 +959,7 @@ namespace itpp {
   void Mat<Num_T>::set_submatrix(int r, int c, const Mat<Num_T> &m)
   {
 
-    it_assert1(r>=0 && r+m.no_rows<=no_rows &&
+    it_assert_debug(r>=0 && r+m.no_rows<=no_rows &&
 	       c>=0 && c+m.no_cols<=no_cols, "Mat<Num_T>::set_submatrix(): index out of range");
 
     for (int i=0; i<m.no_cols; i++)
@@ -977,10 +977,10 @@ namespace itpp {
     if (c1 == -1) c1 = no_cols-1;
     if (c2 == -1) c2 = no_cols-1;
 
-    it_assert1(r1>=0 && r2>=0 && r1<no_rows && r2<no_rows &&
+    it_assert_debug(r1>=0 && r2>=0 && r1<no_rows && r2<no_rows &&
 	       c1>=0 && c2>=0 && c1<no_cols && c2<no_cols, "Mat<Num_T>::set_submatrix(): index out of range");
 
-    it_assert1(r2>=r1 && c2>=c1, "Mat<Num_T>::set_submatrix: r2<r1 or c2<c1");
+    it_assert_debug(r2>=r1 && c2>=c1, "Mat<Num_T>::set_submatrix: r2<r1 or c2<c1");
 
     int i, j, pos, rows = r2-r1+1;
 
@@ -995,7 +995,7 @@ namespace itpp {
   template<class Num_T> inline
   void Mat<Num_T>::del_row(int r)
   {
-    it_assert1(r>=0 && r<no_rows, "Mat<Num_T>::del_row(): index out of range");
+    it_assert_debug(r>=0 && r<no_rows, "Mat<Num_T>::del_row(): index out of range");
     Mat<Num_T> Temp(*this);
     set_size(no_rows-1, no_cols, false);
     for (int i=0 ; i < r ; i++) {
@@ -1010,7 +1010,7 @@ namespace itpp {
   template<class Num_T> inline
   void Mat<Num_T>::del_rows(int r1, int r2)
   {
-    it_assert1(r1>=0 && r2<no_rows && r1<=r2, "Mat<Num_T>::del_rows(): index out of range");
+    it_assert_debug(r1>=0 && r2<no_rows && r1<=r2, "Mat<Num_T>::del_rows(): index out of range");
 
     for (int i=r1 ; i<=r2 ; i++) {
       del_row(r1);
@@ -1031,7 +1031,7 @@ namespace itpp {
   template<class Num_T> inline
   void Mat<Num_T>::del_col(int c) 
   {
-    it_assert1(c>=0 && c<no_cols, "Mat<Num_T>::del_col(): index out of range");
+    it_assert_debug(c>=0 && c<no_cols, "Mat<Num_T>::del_col(): index out of range");
     Mat<Num_T> Temp(*this);
 	  
     set_size(no_rows, no_cols-1, false);
@@ -1042,7 +1042,7 @@ namespace itpp {
   template<class Num_T> inline
   void Mat<Num_T>::del_cols(int c1, int c2) 
   {
-    it_assert1(c1>=0 && c2<no_cols && c1<=c2, "Mat<Num_T>::del_cols(): index out of range");
+    it_assert_debug(c1>=0 && c2<no_cols && c1<=c2, "Mat<Num_T>::del_cols(): index out of range");
     Mat<Num_T> Temp(*this);
     int n_deleted_cols = c2-c1+1;
     set_size(no_rows, no_cols-n_deleted_cols, false);
@@ -1053,8 +1053,8 @@ namespace itpp {
   template<class Num_T> inline
   void Mat<Num_T>::ins_row(int r, const Vec<Num_T> &in) 
   {
-    it_assert1(r>=0 && r<=no_rows, "Mat<Num_T>::ins_row(): index out of range");
-    it_assert1((in.size() == no_cols) || no_rows==0, "Mat<Num_T>::ins_row(): vector size does not match");
+    it_assert_debug(r>=0 && r<=no_rows, "Mat<Num_T>::ins_row(): index out of range");
+    it_assert_debug((in.size() == no_cols) || no_rows==0, "Mat<Num_T>::ins_row(): vector size does not match");
 
     if (no_cols==0) {
       no_cols = in.size();
@@ -1075,8 +1075,8 @@ namespace itpp {
   template<class Num_T> inline
   void Mat<Num_T>::ins_col(int c, const Vec<Num_T> &in) 
   {
-    it_assert1(c>=0 && c<=no_cols, "Mat<Num_T>::ins_col(): index out of range");
-    it_assert1(in.size() == no_rows || no_cols==0, "Mat<Num_T>::ins_col(): vector size does not match");
+    it_assert_debug(c>=0 && c<=no_cols, "Mat<Num_T>::ins_col(): index out of range");
+    it_assert_debug(in.size() == no_rows || no_cols==0, "Mat<Num_T>::ins_col(): vector size does not match");
 
     if (no_rows==0) {
       no_rows = in.size();
@@ -1129,7 +1129,7 @@ namespace itpp {
   template<class Num_T>
   const Mat<Num_T> concat_horizontal(const Mat<Num_T> &m1, const Mat<Num_T> &m2)
   {
-    it_assert1(m1.no_rows == m2.no_rows, "Mat<Num_T>::concat_horizontal; wrong sizes");
+    it_assert_debug(m1.no_rows == m2.no_rows, "Mat<Num_T>::concat_horizontal; wrong sizes");
 
     Mat<Num_T> temp(m1.no_rows, m1.no_cols+m2.no_cols);
     int i;
@@ -1147,7 +1147,7 @@ namespace itpp {
   template<class Num_T>
   const Mat<Num_T> concat_vertical(const Mat<Num_T> &m1, const Mat<Num_T> &m2)
   {
-    it_assert1(m1.no_cols == m2.no_cols, "Mat<Num_T>::concat_vertical; wrong sizes");
+    it_assert_debug(m1.no_cols == m2.no_cols, "Mat<Num_T>::concat_vertical; wrong sizes");
 
     Mat<Num_T> temp(m1.no_rows+m2.no_rows, m1.no_cols);
     int i;
@@ -1184,7 +1184,7 @@ namespace itpp {
   template<class Num_T> inline
   Mat<Num_T>& Mat<Num_T>::operator=(const Vec<Num_T> &v)
   {
-    it_assert1( (no_rows == 1 && no_cols == v.size()) || (no_cols == 1 && no_rows == v.size()),
+    it_assert_debug( (no_rows == 1 && no_cols == v.size()) || (no_cols == 1 && no_rows == v.size()),
 		"Mat<Num_T>::operator=(vec); wrong size");
 		
     // construct a 1-d column of the vector
@@ -1210,7 +1210,7 @@ namespace itpp {
       operator=(m);
     else {
       int i, j, m_pos=0, pos=0;
-      it_assert1(m.no_rows==no_rows && m.no_cols==no_cols,"Mat<Num_T>::operator+=: wrong sizes");
+      it_assert_debug(m.no_rows==no_rows && m.no_cols==no_cols,"Mat<Num_T>::operator+=: wrong sizes");
       for (i=0; i<no_cols; i++) {
 	for (j=0; j<no_rows; j++)
 	  data[pos+j] += m.data[m_pos+j];
@@ -1235,7 +1235,7 @@ namespace itpp {
     Mat<Num_T> r(m1.no_rows, m1.no_cols);
     int i, j, m1_pos=0, m2_pos=0, r_pos=0;
 
-    it_assert1(m1.no_rows==m2.no_rows && m1.no_cols == m2.no_cols, "Mat<Num_T>::operator+: wrong sizes");
+    it_assert_debug(m1.no_rows==m2.no_rows && m1.no_cols == m2.no_cols, "Mat<Num_T>::operator+: wrong sizes");
 
     for (i=0; i<r.no_cols; i++) {
       for (j=0; j<r.no_rows; j++)
@@ -1287,7 +1287,7 @@ namespace itpp {
 	pos += no_rows;
       }
     } else {
-      it_assert1(m.no_rows==no_rows && m.no_cols==no_cols,"Mat<Num_T>::operator-=: wrong sizes");
+      it_assert_debug(m.no_rows==no_rows && m.no_cols==no_cols,"Mat<Num_T>::operator-=: wrong sizes");
       for (i=0; i<no_cols; i++) {
 	for (j=0; j<no_rows; j++)
 	  data[pos+j] -= m.data[m_pos+j];
@@ -1305,7 +1305,7 @@ namespace itpp {
     Mat<Num_T> r(m1.no_rows, m1.no_cols);
     int i, j, m1_pos=0, m2_pos=0, r_pos=0;
 
-    it_assert1(m1.no_rows==m2.no_rows && m1.no_cols == m2.no_cols, "Mat<Num_T>::operator-: wrong sizes");
+    it_assert_debug(m1.no_rows==m2.no_rows && m1.no_cols == m2.no_cols, "Mat<Num_T>::operator-: wrong sizes");
 
     for (i=0; i<r.no_cols; i++) {
       for (j=0; j<r.no_rows; j++)
@@ -1386,7 +1386,7 @@ namespace itpp {
   template<class Num_T> inline
   Mat<Num_T>& Mat<Num_T>::operator*=(const Mat<Num_T> &m)
   {
-    it_assert1(no_cols == m.no_rows,"Mat<Num_T>::operator*=: wrong sizes");
+    it_assert_debug(no_cols == m.no_rows,"Mat<Num_T>::operator*=: wrong sizes");
     Mat<Num_T> r(no_rows, m.no_cols);
 
     Num_T tmp;
@@ -1427,7 +1427,7 @@ namespace itpp {
   template<class Num_T>
   const Mat<Num_T> operator*(const Mat<Num_T> &m1, const Mat<Num_T> &m2)
   {
-    it_assert1(m1.no_cols == m2.no_rows,"Mat<Num_T>::operator*: wrong sizes");
+    it_assert_debug(m1.no_cols == m2.no_rows,"Mat<Num_T>::operator*: wrong sizes");
     Mat<Num_T> r(m1.no_rows, m2.no_cols);
 
     Num_T tmp;
@@ -1457,7 +1457,7 @@ namespace itpp {
   template<class Num_T>
   const Vec<Num_T> operator*(const Mat<Num_T> &m, const Vec<Num_T> &v)
   {
-    it_assert1(m.no_cols == v.size(),"Mat<Num_T>::operator*: wrong sizes");
+    it_assert_debug(m.no_cols == v.size(),"Mat<Num_T>::operator*: wrong sizes");
     Vec<Num_T> r(m.no_rows);
     int i, k, m_pos;
 
@@ -1476,7 +1476,7 @@ namespace itpp {
   template<class Num_T> inline
   const Mat<Num_T> operator*(const Vec<Num_T> &v, const Mat<Num_T> &m)
   {
-    it_assert1(m.no_rows == 1,"Mat<Num_T>::operator*: wrong sizes");
+    it_assert_debug(m.no_rows == 1,"Mat<Num_T>::operator*: wrong sizes");
     Mat<Num_T> r(v.size(), m.no_cols);
 
     for (int i = 0; i < v.size(); ++i)
@@ -1519,7 +1519,7 @@ namespace itpp {
   template<class Num_T> inline
   void elem_mult_out(const Mat<Num_T> &A, const Mat<Num_T> &B, Mat<Num_T> &out)
   {
-    it_assert1( (A.no_rows==B.no_rows) && (A.no_cols==B.no_cols), "Mat<Num_T>::elem_mult_out: wrong sizes");
+    it_assert_debug( (A.no_rows==B.no_rows) && (A.no_cols==B.no_cols), "Mat<Num_T>::elem_mult_out: wrong sizes");
     
     if( (out.no_rows != A.no_rows) || (out.no_cols != A.no_cols) )
       out.set_size(A.no_rows, A.no_cols);
@@ -1531,7 +1531,7 @@ namespace itpp {
   template<class Num_T> inline
   void elem_mult_out(const Mat<Num_T> &A, const Mat<Num_T> &B, const Mat<Num_T> &C, Mat<Num_T> &out)
   {
-    it_assert1( (A.no_rows==B.no_rows==C.no_rows) \
+    it_assert_debug( (A.no_rows==B.no_rows==C.no_rows) \
                 && (A.no_cols==B.no_cols==C.no_cols), \
                 "Mat<Num_T>::elem_mult_out: wrong sizes" );
     
@@ -1545,7 +1545,7 @@ namespace itpp {
   template<class Num_T> inline
   void elem_mult_out(const Mat<Num_T> &A, const Mat<Num_T> &B, const Mat<Num_T> &C, const Mat<Num_T> &D, Mat<Num_T> &out)
   {
-    it_assert1( (A.no_rows==B.no_rows==C.no_rows==D.no_rows) \
+    it_assert_debug( (A.no_rows==B.no_rows==C.no_rows==D.no_rows) \
                 && (A.no_cols==B.no_cols==C.no_cols==D.no_cols), \
                 "Mat<Num_T>::elem_mult_out: wrong sizes" );
     if( (out.no_rows != A.no_rows) || (out.no_cols != A.no_cols) )
@@ -1558,7 +1558,7 @@ namespace itpp {
   template<class Num_T> inline
   void elem_mult_inplace(const Mat<Num_T> &A, Mat<Num_T> &B)
   {
-    it_assert1( (A.no_rows==B.no_rows) && (A.no_cols==B.no_cols), \
+    it_assert_debug( (A.no_rows==B.no_rows) && (A.no_cols==B.no_cols), \
                 "Mat<Num_T>::elem_mult_inplace: wrong sizes" );
 
     for(int i=0; i<B.datasize; i++)
@@ -1568,7 +1568,7 @@ namespace itpp {
   template<class Num_T> inline
   Num_T elem_mult_sum(const Mat<Num_T> &A, const Mat<Num_T> &B)
   {
-    it_assert1( (A.no_rows==B.no_rows) && (A.no_cols==B.no_cols), "Mat<Num_T>::elem_mult_sum: wrong sizes" );
+    it_assert_debug( (A.no_rows==B.no_rows) && (A.no_cols==B.no_cols), "Mat<Num_T>::elem_mult_sum: wrong sizes" );
 
     Num_T acc = 0;
     
@@ -1600,7 +1600,7 @@ namespace itpp {
   template<class Num_T> inline
   Mat<Num_T>& Mat<Num_T>::operator/=(const Mat<Num_T> &m)
   {
-    it_assert1(m.no_rows==no_rows && m.no_cols==no_cols, "Mat<Num_T>::operator/=: wrong sizes");
+    it_assert_debug(m.no_rows==no_rows && m.no_cols==no_cols, "Mat<Num_T>::operator/=: wrong sizes");
 
     for (int i=0; i<datasize; i++)
       data[i] /= m.data[i];
@@ -1618,7 +1618,7 @@ namespace itpp {
   template<class Num_T> inline
   void elem_div_out(const Mat<Num_T> &A, const Mat<Num_T> &B, Mat<Num_T> &out)
   {
-    it_assert1( (A.no_rows==B.no_rows) && (A.no_cols==B.no_cols), "Mat<Num_T>::elem_div_out: wrong sizes");
+    it_assert_debug( (A.no_rows==B.no_rows) && (A.no_cols==B.no_cols), "Mat<Num_T>::elem_div_out: wrong sizes");
     
     if( (out.no_rows != A.no_rows) || (out.no_cols != A.no_cols) )
       out.set_size(A.no_rows, A.no_cols);
@@ -1630,7 +1630,7 @@ namespace itpp {
   template<class Num_T> inline
   Num_T elem_div_sum(const Mat<Num_T> &A, const Mat<Num_T> &B)
   {
-    it_assert1( (A.no_rows==B.no_rows) && (A.no_cols==B.no_cols), "Mat<Num_T>::elem_div_sum: wrong sizes" );
+    it_assert_debug( (A.no_rows==B.no_rows) && (A.no_cols==B.no_cols), "Mat<Num_T>::elem_div_sum: wrong sizes" );
 
     Num_T acc = 0;
     

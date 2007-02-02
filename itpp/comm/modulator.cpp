@@ -78,7 +78,7 @@ namespace itpp {
 
   void QAM::demodulate_bits(const cvec &signal, bvec &out) const
   {
-    it_assert0(setup_done, "QAM::demodulate_bits(): Modulator not ready.");
+    it_assert_debug(setup_done, "QAM::demodulate_bits(): Modulator not ready.");
     out.set_size(k*signal.size(), false);
 
     int temp_real, temp_imag;
@@ -148,7 +148,7 @@ namespace itpp {
 
   void PSK::demodulate_bits(const cvec &signal, bvec &out) const
   {
-    it_assert0(setup_done, "PSK::demodulate_bits(): Modulator not ready.");
+    it_assert_debug(setup_done, "PSK::demodulate_bits(): Modulator not ready.");
     int est_symbol;
     double ang, temp;
 
@@ -408,7 +408,7 @@ namespace itpp {
 
   void PAM_c::demodulate_bits(const cvec &signal, bvec &out) const
   {
-    it_assert0(setup_done, "PAM_c::demodulate_bits(): Modulator not ready.");
+    it_assert_debug(setup_done, "PAM_c::demodulate_bits(): Modulator not ready.");
     int est_symbol;
     out.set_size(k*signal.size(), false);
 
@@ -434,7 +434,7 @@ namespace itpp {
   void PAM_c::demodulate_soft_bits(const cvec &rx_symbols, double N0,
 				   vec &soft_bits, Soft_Method method) const
   {
-    it_assert0(setup_done, "PAM_c::demodulate_soft_bits(): Modulator not ready.");
+    it_assert_debug(setup_done, "PAM_c::demodulate_soft_bits(): Modulator not ready.");
     double P0, P1, d0min, d1min, temp;
     vec metric(M);
 
@@ -488,7 +488,7 @@ namespace itpp {
 				   double N0, vec &soft_bits,
 				   Soft_Method method) const
   {
-    it_assert0(setup_done, "PAM_c::demodulate_soft_bits(): Modulator not ready.");
+    it_assert_debug(setup_done, "PAM_c::demodulate_soft_bits(): Modulator not ready.");
     double P0, P1, d0min, d1min, temp;
     vec metric(M);
 
@@ -567,7 +567,7 @@ namespace itpp {
 
   void PAM::demodulate_bits(const vec &signal, bvec &out) const
   {
-    it_assert0(setup_done, "PAM::demodulate_bits(): Modulator not ready.");
+    it_assert_debug(setup_done, "PAM::demodulate_bits(): Modulator not ready.");
     int est_symbol;
     out.set_size(k*signal.size(), false);
 

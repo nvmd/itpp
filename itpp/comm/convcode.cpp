@@ -1463,7 +1463,7 @@ namespace itpp {
   */
   int compare_spectra(ivec v1, ivec v2)
   {
-    it_assert1(v1.size() == v2.size(), "compare_spectra: wrong sizes");
+    it_assert_debug(v1.size() == v2.size(), "compare_spectra: wrong sizes");
 
     for (int i=0; i<v1.size(); i++) {
       if (v1(i) < v2(i)) {

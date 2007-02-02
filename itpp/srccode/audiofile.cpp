@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modfy
  * it under the terms of the GNU General Public License as published by
@@ -91,7 +91,7 @@ namespace itpp {
 
   bool raw16le_read(const char *fname, vec &v, int beg, int len)
   {
-    it_assert1(len >= 0, "raw16le_read()");
+    it_assert_debug(len >= 0, "raw16le_read()");
     ifstream file(fname, ios::in | ios::binary);
     if (!file)
       return false;
@@ -140,7 +140,7 @@ namespace itpp {
 
   bool raw16be_read(const char *fname, vec &v, int beg, int len)
   {
-    it_assert1(len >= 0, "raw16le_read()");
+    it_assert_debug(len >= 0, "raw16le_read()");
     ifstream file(fname, ios::in | ios::binary);
     if (!file)
       return false;

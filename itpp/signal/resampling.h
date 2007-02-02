@@ -74,7 +74,7 @@ namespace itpp {
   template<class T> 
   void upsample(const Vec<T> &v, int usf, Vec<T> &u)
   {
-    it_assert1(usf >= 1, "upsample: upsampling factor must be equal or greater than one" );
+    it_assert_debug(usf >= 1, "upsample: upsampling factor must be equal or greater than one" );
     u.set_size(v.length()*usf);
     u.clear();
     for(int i=0;i<v.length();i++)
@@ -95,7 +95,7 @@ namespace itpp {
   template<class T>
   void upsample(const Mat<T> &v, int usf, Mat<T> &u)
   {
-    it_assert1(usf >= 1, "upsample: upsampling factor must be equal or greater than one" );
+    it_assert_debug(usf >= 1, "upsample: upsampling factor must be equal or greater than one" );
     u.set_size(v.rows(),v.cols()*usf);
     u.clear();
     for (int j=0;j<v.cols();j++)
@@ -115,7 +115,7 @@ namespace itpp {
   template<class T>
   void lininterp(const Mat<T> &m, int usf, Mat<T> &u)
   {
-    it_assert1(usf >= 1, "lininterp: upsampling factor must be equal or greater than one" );
+    it_assert_debug(usf >= 1, "lininterp: upsampling factor must be equal or greater than one" );
     int L = (m.cols()-1)*usf+1;
     u.set_size(m.rows(),L);
     for (int i = 0; i < m.rows(); i++){
@@ -143,9 +143,9 @@ namespace itpp {
     double t_ups = 1 / f_ups;
     int rows = m.rows();
     int cols = m.cols();
-    it_assert1(f_ups > f_base, "lininterp(): upsampled frequency must be greater than base frequency" );
-    it_assert1((t_start >= 0) && (t_start < cols * t_base), "lininterp(): incorrect start time offset");
-    it_assert1((nrof_samples * t_ups + t_start) <= (cols * t_base), "lininterp(): too many samples required or input data to short");
+    it_assert_debug(f_ups > f_base, "lininterp(): upsampled frequency must be greater than base frequency" );
+    it_assert_debug((t_start >= 0) && (t_start < cols * t_base), "lininterp(): incorrect start time offset");
+    it_assert_debug((nrof_samples * t_ups + t_start) <= (cols * t_base), "lininterp(): too many samples required or input data to short");
     Mat<T> u(rows, nrof_samples);
     double curr_time = t_start;
     
@@ -178,7 +178,7 @@ namespace itpp {
   template<class T>
   void lininterp(const Vec<T> &v, int usf, Vec<T> &u)
   {
-    it_assert1(usf >= 1, "lininterp(): upsampling factor must be equal or greater than one" );
+    it_assert_debug(usf >= 1, "lininterp(): upsampling factor must be equal or greater than one" );
     int L = (v.length()-1)*usf+1;
     u.set_size(L);
     for (int j = 0; j < L-1; j++) {
@@ -213,9 +213,9 @@ namespace itpp {
     double t_base = 1 / f_base;
     double t_ups = 1 / f_ups;
     int len = v.length();
-    it_assert1(f_ups > f_base, "lininterp(): upsampled frequency must be greater than base frequency" );
-    it_assert1((t_start >= 0) && (t_start < len * t_base), "lininterp(): incorrect start time offset");
-    it_assert1((nrof_samples * t_ups + t_start) <= (len * t_base), "lininterp(): too many samples required or input data to short");
+    it_assert_debug(f_ups > f_base, "lininterp(): upsampled frequency must be greater than base frequency" );
+    it_assert_debug((t_start >= 0) && (t_start < len * t_base), "lininterp(): incorrect start time offset");
+    it_assert_debug((nrof_samples * t_ups + t_start) <= (len * t_base), "lininterp(): too many samples required or input data to short");
     Vec<T> u(nrof_samples);
     double curr_time = t_start;
 

@@ -1,5 +1,25 @@
 2007-02-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/algebra/det.cpp, itpp/base/algebra/eigen.cpp,
+	itpp/base/algebra/inv.cpp, itpp/base/algebra/ls_solve.cpp,
+	itpp/base/algebra/lu.cpp, itpp/base/algebra/schur.cpp,
+	itpp/base/array.h, itpp/base/binary.h,
+	itpp/base/circular_buffer.h, itpp/base/converters.cpp,
+	itpp/base/gf2mat.cpp, itpp/base/gf2mat.h, itpp/base/mat.cpp,
+	itpp/base/matfunc.h, itpp/base/mat.h, itpp/base/operators.cpp,
+	itpp/base/smat.h, itpp/base/specmat.cpp, itpp/base/stack.h,
+	itpp/base/svec.h, itpp/base/vec.h, itpp/comm/commfunc.cpp,
+	itpp/comm/convcode.cpp, itpp/comm/galois.h, itpp/comm/ldpc.cpp,
+	itpp/comm/ldpc.h, itpp/comm/llr.cpp, itpp/comm/llr.h,
+	itpp/comm/modulator.cpp, itpp/comm/modulator.h,
+	itpp/fixed/cfix.cpp, itpp/fixed/cfix.h, itpp/fixed/fix_base.cpp,
+	itpp/fixed/fix.cpp, itpp/fixed/fix_functions.h, itpp/fixed/fix.h,
+	itpp/fixed/fix_operators.cpp, itpp/signal/resampling.h,
+	itpp/signal/sigfun.cpp, itpp/signal/transforms.cpp,
+	itpp/srccode/audiofile.cpp, itpp/srccode/pnm.cpp: 
+	Mass replace of the depreceted it_assert0() and it_assert1()
+	macros with it_assert_debug()
+
 	* itpp/base/itassert.h: Fixed a small bug in the it_info_debug()
 	macro definition. Documentation improved.
 

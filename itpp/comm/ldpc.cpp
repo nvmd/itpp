@@ -99,10 +99,10 @@ namespace itpp {
 
   void LDPC_Parity_Matrix::set(int i, int j, bin x) 
   {
-    it_assert0((x==0) | (x==1),"LDPC_Parity_Matrix::set");
-    it_assert0((i>=0) & (i<ncheck),"LDPC_Parity_Matrix::set");
-    it_assert0((j>=0) & (j<nvar),"LDPC_Parity_Matrix::set");
-    it_assert0(H(i,j)==Ht(j,i),"LDPC_Parity_Matrix internal error");
+    it_assert_debug((x==0) | (x==1),"LDPC_Parity_Matrix::set");
+    it_assert_debug((i>=0) & (i<ncheck),"LDPC_Parity_Matrix::set");
+    it_assert_debug((j>=0) & (j<nvar),"LDPC_Parity_Matrix::set");
+    it_assert_debug(H(i,j)==Ht(j,i),"LDPC_Parity_Matrix internal error");
 
     int old_element = H(i,j);
     if (x==1)   {
@@ -117,8 +117,8 @@ namespace itpp {
     sumX1(j) += diff;
     sumX2(i) += diff;
   
-    it_assert0(H(i,j)==x,"LDPC_Parity_Matrix::set");
-    it_assert0(Ht(j,i)==x,"LDPC_Parity_Matrix::set");
+    it_assert_debug(H(i,j)==x,"LDPC_Parity_Matrix::set");
+    it_assert_debug(Ht(j,i)==x,"LDPC_Parity_Matrix::set");
   }
 
   //   ivec LDPC_Parity_Matrix::get_rowdegree()  const
@@ -250,7 +250,7 @@ namespace itpp {
 						   G.get_col(j)));
 // 	      int k = tmpi(rand()%length(tmpi));    
 	      int k = tmpi(randi(0,length(tmpi)-1));    
-	      it_assert0(G(j,k)==1 && G(k,j)==1,
+	      it_assert_debug(G(j,k)==1 && G(k,j)==1,
 			 "LDPC_Parity_Matrix::remove_cycles_MGW() internal error");
 
 	      // determine candidate edges for an edge swap
@@ -290,11 +290,11 @@ namespace itpp {
 	      // cout.flush();
 
 	      // Update the matrix
-	      it_assert0((get(j,k-ncheck)==1) && (get(p,l-ncheck)==1),
+	      it_assert_debug((get(j,k-ncheck)==1) && (get(p,l-ncheck)==1),
 			 "LDPC_Parity_Matrix::remove_cycles_MGW() internal error");
 	      set(j,k-ncheck,0);
 	      set(p,l-ncheck,0);
-	      it_assert0((get(j,l-ncheck)==0) && (get(p,k-ncheck)==0),
+	      it_assert_debug((get(j,l-ncheck)==0) && (get(p,k-ncheck)==0),
 			 "LDPC_Parity_Matrix::remove_cycles_MGW() internal error");
 	      set(j,l-ncheck,1);
 	      set(p,k-ncheck,1);
@@ -303,9 +303,9 @@ namespace itpp {
 	      // << check_for_cycles(r) << endl;
 
 	      // Update adjacency matrix
-	      it_assert0(G(p,l)==1 && G(l,p)==1 && G(j,k)==1 
+	      it_assert_debug(G(p,l)==1 && G(l,p)==1 && G(j,k)==1 
 			 && G(k,j)==1,"G");
-	      it_assert0(G(j,l)==0 && G(l,j)==0 && G(p,k)==0 
+	      it_assert_debug(G(j,l)==0 && G(l,j)==0 && G(p,k)==0 
 			 && G(k,p)==0,"G");
       	      
 	      // Delta is the update term to G
@@ -317,9 +317,9 @@ namespace itpp {
 
 	      // update G and its powers
 	      G = G+Delta;
-	      it_assert0(G(p,l)==0 && G(l,p)==0 && G(j,k)==0 
+	      it_assert_debug(G(p,l)==0 && G(l,p)==0 && G(j,k)==0 
 			 && G(k,j)==0,"G");
-	      it_assert0(G(j,l)==1 && G(l,j)==1 && G(p,k)==1 
+	      it_assert_debug(G(j,l)==1 && G(l,j)==1 && G(p,k)==1 
 			 && G(k,p)==1,"G");
 
 	      Gpow(1)=G;	
@@ -735,7 +735,7 @@ namespace itpp {
     }
   
     // check that the result was correct
-    it_assert0((GF2mat(H.H)*(gf2dense_eye(nvar-ncheck)
+    it_assert_debug((GF2mat(H.H)*(gf2dense_eye(nvar-ncheck)
 			     .concatenate_horizontal(G)).transpose())
 	       .is_zero(),
 	       "LDPC_Gmat::LDPC_Gmat() result was incorrect");
@@ -1015,7 +1015,7 @@ namespace itpp {
     // Note the IT++ convention that a sure zero corresponds to
     // LLR=+infinity
     it_assert(H_is_defined,"there is no parity check matrix");
-    it_assert1(length(LLRin)==nvar 
+    it_assert_debug(length(LLRin)==nvar 
 	       && length(sumX1)==nvar 
 	       && length(sumX2)==ncheck,
 	       "LDPC_Code::bp_decode() wrong input dimensions");
@@ -1516,7 +1516,7 @@ namespace itpp {
       it_error("LDPC_Code::encode(): unsupported G matrix type");
     }
     
-    it_assert0(syndrome_check(bitsout),"LDPC_Code::encode()");
+    it_assert_debug(syndrome_check(bitsout),"LDPC_Code::encode()");
   } 
 
   bvec LDPC_Code::encode(const bvec &input)

@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -123,7 +123,7 @@ namespace itpp {
     //! Conversion to double
     operator double() const
     {
-      it_assert1(shift>=-63 && shift<=64, "Fix::operator double: Illegal shift!");
+      it_assert_debug(shift>=-63 && shift<=64, "Fix::operator double: Illegal shift!");
       return double(re)*DOUBLE_POW2[64 - shift];
     }
 #endif

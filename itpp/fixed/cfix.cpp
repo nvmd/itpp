@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -169,7 +169,7 @@ namespace itpp {
 
   CFix& CFix::operator<<=(const int n)
   {
-    it_assert1(n >= 0, "CFix::operator<<=: n cannot be negative!");
+    it_assert_debug(n >= 0, "CFix::operator<<=: n cannot be negative!");
     shift += n;
     re = apply_o_mode(re << n);
     im = apply_o_mode(im << n);
@@ -214,7 +214,7 @@ namespace itpp {
 
   void CFix::lshift(int n)
   {
-    it_assert1(n >= 0, "CFix::lshift: n cannot be negative!");
+    it_assert_debug(n >= 0, "CFix::lshift: n cannot be negative!");
     shift += n;
     re = apply_o_mode(re << n);
     im = apply_o_mode(im << n);
@@ -236,7 +236,7 @@ namespace itpp {
 
   std::complex<double> CFix::unfix() const
   {
-    it_assert1(shift>=-63 && shift<=64, "CFix::unfix: Illegal shift!");
+    it_assert_debug(shift>=-63 && shift<=64, "CFix::unfix: Illegal shift!");
     return std::complex<double>(double(re)*DOUBLE_POW2[64 - shift],
                            double(im)*DOUBLE_POW2[64 - shift]);
   }

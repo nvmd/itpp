@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -63,7 +63,7 @@ namespace itpp {
     
     //! Set the binary object equal to \c value. Either "0" or "1".
     bin(const short value) {
-      it_assert0(value==0 || value==1, "bin(value): value must be 0 or 1");
+      it_assert_debug(value==0 || value==1, "bin(value): value must be 0 or 1");
       b = static_cast<char>(value);
     }
 
@@ -72,7 +72,7 @@ namespace itpp {
 
     //! Assign a value
     void operator=(const short &value) {
-      it_assert0(value==0 || value==1, "bin(value): value must be 0 or 1");
+      it_assert_debug(value==0 || value==1, "bin(value): value must be 0 or 1");
       b = static_cast<char>(value);
     }
 

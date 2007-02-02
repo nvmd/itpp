@@ -12,7 +12,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -121,7 +121,7 @@ namespace itpp {
   //! Set <tt>y = (real + i*imag) * pow2(n)</tt> using the quantization mode of \c y
   inline void set_fix(cfixvec &y, const vec &real, const vec &imag, int n)
   {
-    it_assert1(real.length()==imag.length(), "set_fix: real and imag should have the same size");
+    it_assert_debug(real.length()==imag.length(), "set_fix: real and imag should have the same size");
     y.set_size(real.length());
     for (int i=0; i<y.size(); i++) y(i).set(real(i), imag(i), n);
   }
@@ -134,7 +134,7 @@ namespace itpp {
   //! Set <tt>y = (real + i*imag) * pow2(n)</tt> using the specified quantization mode \c q
   inline void set_fix(cfixvec &y, const vec &real, const vec &imag, int n, q_mode q)
   {
-    it_assert1(real.length()==imag.length(), "set_fix: real and imag should have the same size");
+    it_assert_debug(real.length()==imag.length(), "set_fix: real and imag should have the same size");
     y.set_size(real.length());
     for (int i=0; i<y.size(); i++) y(i).set(real(i), imag(i), n, q);
   }
@@ -147,7 +147,7 @@ namespace itpp {
   //! Set <tt>y = (real + i*imag) * pow2(n)</tt> using the quantization mode of \c y
   inline void set_fix(cfixmat &y, const mat &real, const mat &imag, int n)
   {
-    it_assert1(real.rows()==imag.rows() && real.cols()==imag.cols(), "set_fix: real and imag should have the same size");
+    it_assert_debug(real.rows()==imag.rows() && real.cols()==imag.cols(), "set_fix: real and imag should have the same size");
     y.set_size(real.rows(), real.cols());
     for (int i=0; i<y.size(); i++) y(i).set(real(i), imag(i), n);
   }
@@ -160,7 +160,7 @@ namespace itpp {
   //! Set <tt>y = (real + i*imag) * pow2(n)</tt> using the specified quantization mode \c q
   inline void set_fix(cfixmat &y, const mat &real, const mat &imag, int n, q_mode q)
   {
-    it_assert1(real.rows()==imag.rows() && real.cols()==imag.cols(), "set_fix: real and imag should have the same size");
+    it_assert_debug(real.rows()==imag.rows() && real.cols()==imag.cols(), "set_fix: real and imag should have the same size");
     y.set_size(real.rows(), real.cols());
     for (int i=0; i<y.size(); i++) y(i).set(real(i), imag(i), n, q);
   }
@@ -198,7 +198,7 @@ namespace itpp {
   //! Call set_fix for each Array element
   template<class T1, class T2> inline void set_fix(Array<T1> &y, const Array<T2> &real, const Array<T2> &imag, int n)
   {
-    it_assert1(real.size()==imag.size(), "set_fix: real and imag should have the same size");
+    it_assert_debug(real.size()==imag.size(), "set_fix: real and imag should have the same size");
     y.set_size(real.size());
     for (int i=0; i<y.size(); i++) set_fix(y(i), real(i), imag(i), n);
   }
@@ -211,7 +211,7 @@ namespace itpp {
   //! Call set_fix for each Array element
   template<class T1, class T2> inline void set_fix(Array<T1> &y, const Array<T2> &real, const Array<T2> &imag, int n, q_mode q)
   {
-    it_assert1(real.size()==imag.size(), "set_fix: real and imag should have the same size");
+    it_assert_debug(real.size()==imag.size(), "set_fix: real and imag should have the same size");
     y.set_size(real.size());
     for (int i=0; i<y.size(); i++) set_fix(y(i), real(i), imag(i), n, q);
   }
@@ -316,10 +316,10 @@ namespace itpp {
   inline void assert_fixshift(const std::complex<double> &x, const int shift) {}
   //! If x is a fixed-point variable, assert that x has the specified shift value, otherwise do nothing
   inline void assert_fixshift(const Fix &x, const int shift)
-  {it_assert1(x.get_shift()==shift, "Shift should be " + to_str(shift) + " but it is " + to_str(x.get_shift()) + ".");}
+  {it_assert_debug(x.get_shift()==shift, "Shift should be " + to_str(shift) + " but it is " + to_str(x.get_shift()) + ".");}
   //! If x is a fixed-point variable, assert that x has the specified shift value, otherwise do nothing
   inline void assert_fixshift(const CFix &x, const int shift)
-  {it_assert1(x.get_shift()==shift, "Shift should be " + to_str(shift) + " but it is " + to_str(x.get_shift()) + ".");}
+  {it_assert_debug(x.get_shift()==shift, "Shift should be " + to_str(shift) + " but it is " + to_str(x.get_shift()) + ".");}
 
   //! Converts a fixvec to vec
   vec to_vec(const fixvec &v);
@@ -393,7 +393,7 @@ namespace itpp {
   //! Convert Vec<U> (real and imaginary parts) to Vec<T>
   template<class T, class U> Vec<T> to(const Vec<U> &real, const Vec<U> &imag)
   {
-    it_assert1(real.length()==imag.length(), "to: real and imag should have the same size");
+    it_assert_debug(real.length()==imag.length(), "to: real and imag should have the same size");
     Vec<T> y(real.length());
     for (int i=0; i<real.length(); i++) {
       y(i) = T(real(i), imag(i));
@@ -424,7 +424,7 @@ namespace itpp {
   //! Convert Mat<U> (real and imaginary parts) to Mat<T>
   template<class T, class U> Mat<T> to(const Mat<U> &real, const Mat<U> &imag)
   {
-    it_assert1(real.rows()==imag.rows() && real.cols()==imag.cols(), "to: real and imag should have the same size");
+    it_assert_debug(real.rows()==imag.rows() && real.cols()==imag.cols(), "to: real and imag should have the same size");
     Mat<T> y(real.rows(), real.cols());
     for (int i=0; i<real.rows(); i++) {
       for (int j=0; j<real.cols(); j++) {
@@ -449,7 +449,7 @@ namespace itpp {
   template<class T, class U>
   Array<typename ConvertU2T<T, U>::result> to(const Array<U> &real, const Array<U> &imag)
   {
-    it_assert1(real.size()==imag.size(), "to: real and imag should have the same size");
+    it_assert_debug(real.size()==imag.size(), "to: real and imag should have the same size");
     Array<typename ConvertU2T<T, U>::result> y(real.size());
     for (int i=0; i<real.size(); i++) {
       y(i) = to<T>(real(i), imag(i));

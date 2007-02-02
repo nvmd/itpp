@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -45,7 +45,7 @@ namespace itpp {
   */
   double det(const mat &X)
   {
-    it_assert1(X.rows()==X.cols(),"det : Only square matrices");
+    it_assert_debug(X.rows()==X.cols(),"det : Only square matrices");
 
     mat L, U;
     ivec p;
@@ -78,7 +78,7 @@ namespace itpp {
   */
   std::complex<double> det(const cmat &X)
   {
-    it_assert1(X.rows()==X.cols(),"det : Only square matrices");
+    it_assert_debug(X.rows()==X.cols(),"det : Only square matrices");
 
     int i;
     cmat L, U;

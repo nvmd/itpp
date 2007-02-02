@@ -12,7 +12,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -40,7 +40,7 @@ namespace itpp {
 
   vec operator+(const double &s, const ivec &v)
   {
-    it_assert1(v.size() > 0, "operator+(): Vector of zero length");
+    it_assert_debug(v.size() > 0, "operator+(): Vector of zero length");
 
     vec temp(v.size());
     for (int i=0;i<v.size();i++) {
@@ -51,7 +51,7 @@ namespace itpp {
 
   vec operator-(const double &s, const ivec &v)
   {
-    it_assert1(v.size() > 0, "operator-(): Vector of zero length");
+    it_assert_debug(v.size() > 0, "operator-(): Vector of zero length");
 
     vec temp(v.size());
     for (int i=0;i<v.size();i++) {
@@ -62,7 +62,7 @@ namespace itpp {
 
   vec operator*(const double &s, const ivec &v)
   {
-    it_assert1(v.size() > 0, "operator*(): Vector of zero length");
+    it_assert_debug(v.size() > 0, "operator*(): Vector of zero length");
 
     vec temp(v.size());
     for (int i=0;i<v.size();i++) {
@@ -73,7 +73,7 @@ namespace itpp {
 
   vec operator/(const double &s, const ivec &v)
   {
-    it_assert1(v.size() > 0, "operator/(): Vector of zero length");
+    it_assert_debug(v.size() > 0, "operator/(): Vector of zero length");
 
     vec temp(v.size());
     for (int i=0;i<v.size();i++) {
@@ -84,7 +84,7 @@ namespace itpp {
 
   vec operator/(const ivec &v, const double &s)
   {
-    it_assert1(v.size() > 0, "operator/(): Vector of zero length");
+    it_assert_debug(v.size() > 0, "operator/(): Vector of zero length");
 
     vec temp(v.size());
     for (int i=0;i<v.size();i++) {
@@ -95,7 +95,7 @@ namespace itpp {
 
   cvec operator+(const std::complex<double> &s, const ivec &v)
   {
-    it_assert1(v.size() > 0, "operator+(): Vector of zero length");
+    it_assert_debug(v.size() > 0, "operator+(): Vector of zero length");
 
     cvec temp(v.size());
     for (int i=0;i<v.size();i++) {
@@ -106,7 +106,7 @@ namespace itpp {
 
   cvec operator-(const std::complex<double> &s, const ivec &v)
   {
-    it_assert1(v.size() > 0, "operator-(): Vector of zero length");
+    it_assert_debug(v.size() > 0, "operator-(): Vector of zero length");
 
     cvec temp(v.size());
     for (int i=0;i<v.size();i++) {
@@ -117,7 +117,7 @@ namespace itpp {
 
   cvec operator*(const std::complex<double> &s, const ivec &v)
   {
-    it_assert1(v.size() > 0, "operator*(): Vector of zero length");
+    it_assert_debug(v.size() > 0, "operator*(): Vector of zero length");
 
     cvec temp(v.size());
     for (int i=0;i<v.size();i++) {
@@ -128,7 +128,7 @@ namespace itpp {
 
   cvec operator/(const std::complex<double> &s, const ivec &v)
   {
-    it_assert1(v.size() > 0, "operator/(): Vector of zero length");
+    it_assert_debug(v.size() > 0, "operator/(): Vector of zero length");
 
     cvec temp(v.size());
     for (int i=0;i<v.size();i++) {
@@ -139,7 +139,7 @@ namespace itpp {
 
   cvec operator/(const ivec &v, const std::complex<double> &s)
   {
-    it_assert1(v.size() > 0, "operator/(): Vector of zero length");
+    it_assert_debug(v.size() > 0, "operator/(): Vector of zero length");
 
     cvec temp(v.size());
     for (int i=0;i<v.size();i++) {
@@ -152,7 +152,7 @@ namespace itpp {
 
   cvec operator+(const double &s, const cvec &v)
   {
-    it_assert1(v.size() > 0, "operator+(): Vector of zero length");
+    it_assert_debug(v.size() > 0, "operator+(): Vector of zero length");
 
     cvec temp = v;
     for (int i=0;i<v.size();i++) {
@@ -163,7 +163,7 @@ namespace itpp {
 
   cvec operator-(const double &s, const cvec &v)
   {
-    it_assert1(v.size() > 0, "operator-(): Vector of zero length");
+    it_assert_debug(v.size() > 0, "operator-(): Vector of zero length");
 
     cvec temp(v.size());
     for (int i=0;i<v.size();i++) {
@@ -174,7 +174,7 @@ namespace itpp {
 
   cvec operator*(const double &s, const cvec &v)
   {
-    it_assert1(v.size() > 0, "operator*(): Vector of zero length");
+    it_assert_debug(v.size() > 0, "operator*(): Vector of zero length");
 
     cvec temp = v;
     for (int i=0;i<v.size();i++) {
@@ -185,7 +185,7 @@ namespace itpp {
 
   cvec operator/(const cvec &v, const double &s)
   {
-    it_assert1(v.size() > 0, "operator/(): Vector of zero length");
+    it_assert_debug(v.size() > 0, "operator/(): Vector of zero length");
 
     cvec temp = v;
     for (int i=0;i<v.size();i++) {
@@ -196,7 +196,7 @@ namespace itpp {
 
   cvec operator/(const double &s, const cvec &v)
   {
-    it_assert1(v.size() > 0, "operator/(): Vector of zero length");
+    it_assert_debug(v.size() > 0, "operator/(): Vector of zero length");
 
     cvec temp(v.length());
     for (int i=0;i<v.size();i++) {
@@ -209,7 +209,7 @@ namespace itpp {
 
   cmat operator+(const double &s, const cmat &m)
   {
-    it_assert1(m.rows()> 0 && m.cols() > 0, "operator+(): Matrix of zero length");
+    it_assert_debug(m.rows()> 0 && m.cols() > 0, "operator+(): Matrix of zero length");
 
     cmat temp = m;
     for (int i=0;i<m._datasize();i++) {
@@ -220,7 +220,7 @@ namespace itpp {
 
   cmat operator-(const double &s, const cmat &m)
   {
-    it_assert1(m.rows()> 0 && m.cols() > 0, "operator-(): Matrix of zero length");
+    it_assert_debug(m.rows()> 0 && m.cols() > 0, "operator-(): Matrix of zero length");
 
     cmat temp(m.rows(), m.cols());
     for (int i=0;i<m._datasize();i++) {
@@ -231,7 +231,7 @@ namespace itpp {
 
   cmat operator*(const double &s, const cmat &m)
   {
-    it_assert1(m.rows()> 0 && m.cols() > 0, "operator*(): Matrix of zero length");
+    it_assert_debug(m.rows()> 0 && m.cols() > 0, "operator*(): Matrix of zero length");
 
     cmat temp = m;
     for (int i=0;i<m._datasize();i++) {
@@ -242,7 +242,7 @@ namespace itpp {
 
   cmat operator*(const std::complex<double> &s, const mat &m)
   {
-    it_assert1(m.rows()> 0 && m.cols() > 0, "operator*(): Matrix of zero length");
+    it_assert_debug(m.rows()> 0 && m.cols() > 0, "operator*(): Matrix of zero length");
 
     cmat temp(m.rows(), m.cols());
 
@@ -254,7 +254,7 @@ namespace itpp {
 
   cmat operator/(const cmat &m, const double &s)
   {
-    it_assert1(m.rows()> 0 && m.cols() > 0, "operator/(): Matrix of zero length");
+    it_assert_debug(m.rows()> 0 && m.cols() > 0, "operator/(): Matrix of zero length");
 
     cmat temp = m;
     for (int i=0;i<m._datasize();i++) {
@@ -292,7 +292,7 @@ namespace itpp {
 
   vec operator+(const bvec &a, const vec &b)
   {
-    it_assert1(a.size() == b.size(), "operator+(): sizes does not match");
+    it_assert_debug(a.size() == b.size(), "operator+(): sizes does not match");
     vec temp(a.size());
     for (int i=0;i<a.size();i++) {temp(i)=(double)a(i)+b(i);}
     return temp;
@@ -300,7 +300,7 @@ namespace itpp {
 
   vec operator+(const svec &a, const vec &b)
   {
-    it_assert1(a.size() == b.size(), "operator+(): sizes does not match");
+    it_assert_debug(a.size() == b.size(), "operator+(): sizes does not match");
     vec temp(a.size());
     for (int i=0;i<a.size();i++) {temp(i)=(double)a(i)+b(i);}
     return temp;
@@ -308,7 +308,7 @@ namespace itpp {
 
   vec operator+(const ivec &a, const vec &b)
   {
-    it_assert1(a.size() == b.size(), "operator+(): sizes does not match");
+    it_assert_debug(a.size() == b.size(), "operator+(): sizes does not match");
     vec temp(a.size());
     for (int i=0;i<a.size();i++) {temp(i)=(double)a(i)+b(i);}
     return temp;
@@ -316,7 +316,7 @@ namespace itpp {
 
   cvec operator+(const bvec &a, const cvec &b)
   {
-    it_assert1(a.size() == b.size(), "operator+(): sizes does not match");
+    it_assert_debug(a.size() == b.size(), "operator+(): sizes does not match");
     cvec temp = b;
     for (int i=0;i<a.size();i++) {temp(i) +=(double)a(i);}
     return temp;
@@ -324,7 +324,7 @@ namespace itpp {
 
   cvec operator+(const svec &a, const cvec &b)
   {
-    it_assert1(a.size() == b.size(), "operator+(): sizes does not match");
+    it_assert_debug(a.size() == b.size(), "operator+(): sizes does not match");
     cvec temp = b;
     for (int i=0;i<a.size();i++) {temp(i) +=(double)a(i);}
     return temp;
@@ -332,7 +332,7 @@ namespace itpp {
 
   cvec operator+(const ivec &a, const cvec &b)
   {
-    it_assert1(a.size() == b.size(), "operator+(): sizes does not match");
+    it_assert_debug(a.size() == b.size(), "operator+(): sizes does not match");
     cvec temp = b;
     for (int i=0;i<a.size();i++) {temp(i) +=(double)a(i);}
     return temp;
@@ -342,7 +342,7 @@ namespace itpp {
 
   double operator*(const bvec &a, const vec &b)
   {
-    it_assert1(a.size() == b.size(), "operator*(): sizes does not match");
+    it_assert_debug(a.size() == b.size(), "operator*(): sizes does not match");
     double temp=0;
     for (int i=0;i<a.size();i++) {temp+=(double)a(i)*b(i);}
     return temp;
@@ -350,7 +350,7 @@ namespace itpp {
 
   double operator*(const svec &a, const vec &b)
   {
-    it_assert1(a.size() == b.size(), "operator*(): sizes does not match");
+    it_assert_debug(a.size() == b.size(), "operator*(): sizes does not match");
     double temp=0;
     for (int i=0;i<a.size();i++) {temp+=(double)a(i)*b(i);}
     return temp;
@@ -358,7 +358,7 @@ namespace itpp {
 
   double operator*(const ivec &a, const vec &b)
   {
-    it_assert1(a.size() == b.size(), "operator*(): sizes does not match");
+    it_assert_debug(a.size() == b.size(), "operator*(): sizes does not match");
     double temp=0;
     for (int i=0;i<a.size();i++) {temp+=(double)a(i)*b(i);}
     return temp;
@@ -366,7 +366,7 @@ namespace itpp {
 
   std::complex<double> operator*(const bvec &a, const cvec &b)
   {
-    it_assert1(a.size() == b.size(), "operator*(): sizes does not match");
+    it_assert_debug(a.size() == b.size(), "operator*(): sizes does not match");
     std::complex<double> temp=0;
     for (int i=0;i<a.size();i++) {temp+=(double)a(i)*b(i);}
     return temp;
@@ -374,7 +374,7 @@ namespace itpp {
 
   std::complex<double> operator*(const svec &a, const cvec &b)
   {
-    it_assert1(a.size() == b.size(), "operator*(): sizes does not match");
+    it_assert_debug(a.size() == b.size(), "operator*(): sizes does not match");
     std::complex<double> temp=0;
     for (int i=0;i<a.size();i++) {temp+=(double)a(i)*b(i);}
     return temp;
@@ -382,7 +382,7 @@ namespace itpp {
 
   std::complex<double> operator*(const ivec &a, const cvec &b)
   {
-    it_assert1(a.size() == b.size(), "operator*(): sizes does not match");
+    it_assert_debug(a.size() == b.size(), "operator*(): sizes does not match");
     std::complex<double> temp=0;
     for (int i=0;i<a.size();i++) {temp+=(double)a(i)*b(i);}
     return temp;
@@ -392,7 +392,7 @@ namespace itpp {
 
   mat operator+(const bmat &a, const mat &b)
   {
-    it_assert1(a.cols()==b.cols() && a.rows()==b.rows(), "operator+(): sizes does not match");
+    it_assert_debug(a.cols()==b.cols() && a.rows()==b.rows(), "operator+(): sizes does not match");
     mat temp(b);
 
     for (int i=0;i<a.rows();i++) {
@@ -405,7 +405,7 @@ namespace itpp {
 
   mat operator+(const smat &a, const mat &b)
   {
-    it_assert1(a.cols()==b.cols() && a.rows()==b.rows(), "operator+(): sizes does not match");
+    it_assert_debug(a.cols()==b.cols() && a.rows()==b.rows(), "operator+(): sizes does not match");
     mat temp(b);
 
     for (int i=0;i<a.rows();i++) {
@@ -418,7 +418,7 @@ namespace itpp {
 
   mat operator+(const imat &a, const mat &b)
   {
-    it_assert1(a.cols()==b.cols() && a.rows()==b.rows(), "operator+(): sizes does not match");
+    it_assert_debug(a.cols()==b.cols() && a.rows()==b.rows(), "operator+(): sizes does not match");
     mat temp(b);
 
     for (int i=0;i<a.rows();i++) {
@@ -433,7 +433,7 @@ namespace itpp {
 
   cmat operator+(const bmat &a, const cmat &b)
   {
-    it_assert1(a.cols()==b.cols() && a.rows()==b.rows(), "operator+(): sizes does not match");
+    it_assert_debug(a.cols()==b.cols() && a.rows()==b.rows(), "operator+(): sizes does not match");
     cmat temp(b);
 
     for (int i=0;i<a.rows();i++) {
@@ -446,7 +446,7 @@ namespace itpp {
 
   cmat operator+(const smat &a, const cmat &b)
   {
-    it_assert1(a.cols()==b.cols() && a.rows()==b.rows(), "operator+(): sizes does not match");
+    it_assert_debug(a.cols()==b.cols() && a.rows()==b.rows(), "operator+(): sizes does not match");
     cmat temp(b);
 
     for (int i=0;i<a.rows();i++) {
@@ -459,7 +459,7 @@ namespace itpp {
 
   cmat operator+(const imat &a, const cmat &b)
   {
-    it_assert1(a.cols()==b.cols() && a.rows()==b.rows(), "operator+(): sizes does not match");
+    it_assert_debug(a.cols()==b.cols() && a.rows()==b.rows(), "operator+(): sizes does not match");
     cmat temp(b);
 
     for (int i=0;i<a.rows();i++) {
@@ -472,7 +472,7 @@ namespace itpp {
 
   cmat operator+(const mat &a, const cmat &b)
   {
-    it_assert1(a.cols()==b.cols() && a.rows()==b.rows(), "operator+(): sizes does not match");
+    it_assert_debug(a.cols()==b.cols() && a.rows()==b.rows(), "operator+(): sizes does not match");
     cmat temp(b);
 
     for (int i=0;i<a.rows();i++) {

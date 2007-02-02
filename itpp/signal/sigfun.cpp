@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -272,7 +272,7 @@ namespace itpp {
 
   vec spectrum(const vec &v, int nfft, int noverlap)
   {
-    it_assert1(pow2i(levels2bits(nfft)) == nfft,
+    it_assert_debug(pow2i(levels2bits(nfft)) == nfft,
 	       "nfft must be a power of two in spectrum()!");
     
     vec P(nfft/2+1), w(nfft), wd(nfft);
@@ -302,7 +302,7 @@ namespace itpp {
   vec spectrum(const vec &v, const vec &w, int noverlap)
   {
     int nfft = w.size();
-    it_assert1(pow2i(levels2bits(nfft)) == nfft,
+    it_assert_debug(pow2i(levels2bits(nfft)) == nfft,
 	       "The window size must be a power of two in spectrum()!");
     
     vec P(nfft/2+1), wd(nfft);

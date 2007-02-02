@@ -348,9 +348,9 @@ namespace itpp {
 
   GF2mat::GF2mat(const GF2mat_sparse &X, int m1, int n1, int m2, int n2)
   {
-    it_assert1(X.rows()>m2,"GF2mat(): indexes out of range");
-    it_assert1(X.cols()>n2,"GF2mat(): indexes out of range");
-    it_assert1(m1>=0 && n1>=0 && m2>=m1 && n2>=n1,
+    it_assert_debug(X.rows()>m2,"GF2mat(): indexes out of range");
+    it_assert_debug(X.cols()>n2,"GF2mat(): indexes out of range");
+    it_assert_debug(m1>=0 && n1>=0 && m2>=m1 && n2>=n1,
 	       "GF2mat::GF2mat(): indexes out of range");
   
     nrows=m2-m1+1;
@@ -375,9 +375,9 @@ namespace itpp {
 
   GF2mat::GF2mat(const GF2mat_sparse &X, const ivec &columns)
   {
-    it_assert1(X.cols()>max(columns),
+    it_assert_debug(X.cols()>max(columns),
 	       "GF2mat::GF2mat(): index out of range");
-    it_assert1(min(columns)>=0,
+    it_assert_debug(min(columns)>=0,
 	       "GF2mat::GF2mat(): column index must be positive");
   
     nrows=X.rows();
@@ -415,7 +415,7 @@ namespace itpp {
 
   bvec GF2mat::bvecify()
   {
-    it_assert1(nrows==1 || ncols==1,
+    it_assert_debug(nrows==1 || ncols==1,
 	       "GF2mat::bvecify() matrix must be a vector");
     int n=(nrows==1 ? ncols : nrows);
     bvec result(n);
@@ -428,7 +428,7 @@ namespace itpp {
 
   void GF2mat::set_row(int i, bvec x)
   {
-    it_assert1(length(x)==ncols,
+    it_assert_debug(length(x)==ncols,
 	       "GF2mat::set_row(): dimension mismatch");
     for (int j=0; j<ncols; j++) {
       set(i,j,x(j));
@@ -437,7 +437,7 @@ namespace itpp {
  
   void GF2mat::set_col(int j, bvec x)
   {
-    it_assert1(length(x)==nrows,
+    it_assert_debug(length(x)==nrows,
 	       "GF2mat::set_col(): dimension mismatch");
     for (int i=0; i<nrows; i++) {
       set(i,j,x(i));
@@ -456,7 +456,7 @@ namespace itpp {
 
   GF2mat GF2mat::get_submatrix(int m1, int n1, int m2, int n2)
   {
-    it_assert1(m1>=0 && n1>=0 && m2>=m1 && n2>=n1 
+    it_assert_debug(m1>=0 && n1>=0 && m2>=m1 && n2>=n1 
 	       && m2<nrows && n2<ncols,
 	       "GF2mat::get_submatrix() index out of range");
     GF2mat result(m2-m1+1,n2-n1+1);
@@ -473,9 +473,9 @@ namespace itpp {
 
   GF2mat GF2mat::concatenate_vertical(const GF2mat &X)
   {
-    it_assert1(X.ncols==ncols,
+    it_assert_debug(X.ncols==ncols,
 	       "GF2mat::concatenate_vertical(): dimension mismatch");
-    it_assert1(X.nwords==nwords,
+    it_assert_debug(X.nwords==nwords,
 	       "GF2mat::concatenate_vertical(): dimension mismatch");
   
     GF2mat result(nrows+X.nrows,ncols);
@@ -496,7 +496,7 @@ namespace itpp {
 
   GF2mat GF2mat::concatenate_horizontal(const GF2mat &X)
   {
-    it_assert1(X.nrows==nrows,
+    it_assert_debug(X.nrows==nrows,
 	       "GF2mat::concatenate_horizontal(): dimension mismatch");
 
     GF2mat result(nrows,X.ncols+ncols);
@@ -679,17 +679,17 @@ namespace itpp {
   {
     int i0 = T.rows();
     int j0 = U.cols();
-    it_assert1(j0>0,"GF2mat::T_fact_update_addcol(): dimension mismatch");
-    it_assert1(i0==T.cols(),
+    it_assert_debug(j0>0,"GF2mat::T_fact_update_addcol(): dimension mismatch");
+    it_assert_debug(i0==T.cols(),
 	       "GF2mat::T_fact_update_addcol(): dimension mismatch");
-    it_assert1(i0==U.rows(),
+    it_assert_debug(i0==U.rows(),
 	       "GF2mat::T_fact_update_addcol(): dimension mismatch");
-    it_assert1(length(perm)==j0,
+    it_assert_debug(length(perm)==j0,
 	       "GF2mat::T_fact_update_addcol(): dimension mismatch");
-    it_assert1(U.get(j0-1,j0-1)==1,
+    it_assert_debug(U.get(j0-1,j0-1)==1,
 	       "GF2mat::T_fact_update_addcol(): dimension mismatch");
     // The following test is VERY TIME-CONSUMING
-    it_assert0(U.row_rank()==j0,
+    it_assert_debug(U.row_rank()==j0,
       "GF2mat::T_fact_update_addcol(): factorization has incorrect rank"); 
 
     bvec z = T*newcol;
@@ -727,13 +727,13 @@ namespace itpp {
 
   GF2mat GF2mat::inverse() const
   {
-    it_assert1(nrows==ncols,"GF2mat::inverse(): Matrix must be square");
+    it_assert_debug(nrows==ncols,"GF2mat::inverse(): Matrix must be square");
 
     // first compute the T-factorization
     GF2mat T,U;
     ivec perm;
     int rank = T_fact(T,U,perm);
-    it_assert1(rank==ncols,"GF2mat::inverse(): Matrix is not full rank"); 
+    it_assert_debug(rank==ncols,"GF2mat::inverse(): Matrix is not full rank"); 
  
     // backward substitution
     for (int i=ncols-2; i>=0; i--) {
@@ -772,7 +772,7 @@ namespace itpp {
   {
     if (X.nrows!=nrows) { return false; }
     if (X.ncols!=ncols) { return false; }
-    it_assert1(X.nwords==nwords,"GF2mat::operator==() dimension mismatch");
+    it_assert_debug(X.nwords==nwords,"GF2mat::operator==() dimension mismatch");
  
     for (int i=0; i<nrows; i++) {
       for (int j=0; j<nwords; j++) {
@@ -788,8 +788,8 @@ namespace itpp {
 
   void GF2mat::add_rows(int i, int j)
   {
-    it_assert0(i>=0 && i<nrows,"GF2mat::add_rows(): out of range");
-    it_assert0(j>=0 && j<nrows,"GF2mat::add_rows(): out of range");
+    it_assert_debug(i>=0 && i<nrows,"GF2mat::add_rows(): out of range");
+    it_assert_debug(j>=0 && j<nrows,"GF2mat::add_rows(): out of range");
     for (int k=0; k<nwords; k++)   {
       data(i,k) ^= data(j,k);    
     }  
@@ -797,8 +797,8 @@ namespace itpp {
 
   void GF2mat::swap_rows(int i, int j)
   {
-    it_assert0(i>=0 && i<nrows,"GF2mat::swap_rows(): index out of range");
-    it_assert0(j>=0 && j<nrows,"GF2mat::swap_rows(): index out of range");
+    it_assert_debug(i>=0 && i<nrows,"GF2mat::swap_rows(): index out of range");
+    it_assert_debug(j>=0 && j<nrows,"GF2mat::swap_rows(): index out of range");
     for (int k=0; k<nwords; k++) {
       int temp = data(i,k);
       data(i,k) = data(j,k);
@@ -808,8 +808,8 @@ namespace itpp {
 
   void GF2mat::swap_cols(int i, int j)
   {
-    it_assert0(i>=0 && i<ncols,"GF2mat::swap_cols(): index out of range");
-    it_assert0(j>=0 && j<ncols,"GF2mat::swap_cols(): index out of range");
+    it_assert_debug(i>=0 && i<ncols,"GF2mat::swap_cols(): index out of range");
+    it_assert_debug(j>=0 && j<ncols,"GF2mat::swap_cols(): index out of range");
     bvec temp = get_col(i);
     set_col(i,get_col(j));
     set_col(j,temp);
@@ -826,9 +826,9 @@ namespace itpp {
 
   GF2mat operator*(const GF2mat &X, const GF2mat &Y)
   {
-    it_assert1(X.ncols==Y.nrows,"GF2mat::operator*(): dimension mismatch");
-    it_assert0(X.nwords>0,"Gfmat::operator*(): dimension mismatch");
-    it_assert0(Y.nwords>0,"Gfmat::operator*(): dimension mismatch");
+    it_assert_debug(X.ncols==Y.nrows,"GF2mat::operator*(): dimension mismatch");
+    it_assert_debug(X.nwords>0,"Gfmat::operator*(): dimension mismatch");
+    it_assert_debug(Y.nwords>0,"Gfmat::operator*(): dimension mismatch");
 
     /*  
     // this can be done more efficiently?
@@ -852,8 +852,8 @@ namespace itpp {
 
   bvec operator*(const GF2mat &X, const bvec &y) 
   {
-    it_assert1(length(y)==X.ncols,"GF2mat::operator*(): dimension mismatch");
-    it_assert0(X.nwords>0,"Gfmat::operator*(): dimension mismatch");
+    it_assert_debug(length(y)==X.ncols,"GF2mat::operator*(): dimension mismatch");
+    it_assert_debug(X.nwords>0,"Gfmat::operator*(): dimension mismatch");
 
     /*  
     // this can be done more efficiently?
@@ -883,10 +883,10 @@ namespace itpp {
 
   GF2mat mult_trans(const GF2mat &X, const GF2mat &Y)
   {
-    it_assert1(X.ncols==Y.ncols,"GF2mat::mult_trans(): dimension mismatch");
-    it_assert0(X.nwords>0,"GF2mat::mult_trans(): dimension mismatch");
-    it_assert0(Y.nwords>0,"GF2mat::mult_trans(): dimension mismatch");
-    it_assert0(X.nwords==Y.nwords,"GF2mat::mult_trans(): dimension mismatch");
+    it_assert_debug(X.ncols==Y.ncols,"GF2mat::mult_trans(): dimension mismatch");
+    it_assert_debug(X.nwords>0,"GF2mat::mult_trans(): dimension mismatch");
+    it_assert_debug(Y.nwords>0,"GF2mat::mult_trans(): dimension mismatch");
+    it_assert_debug(X.nwords==Y.nwords,"GF2mat::mult_trans(): dimension mismatch");
   
     GF2mat result(X.nrows,Y.nrows);
 
@@ -929,9 +929,9 @@ namespace itpp {
 
   GF2mat operator+(const GF2mat &X, const GF2mat &Y)
   {
-    it_assert1(X.nrows==Y.nrows,"GF2mat::operator+(): dimension mismatch");
-    it_assert1(X.ncols==Y.ncols,"GF2mat::operator+(): dimension mismatch");
-    it_assert1(X.nwords==Y.nwords,"GF2mat::operator+(): dimension mismatch");
+    it_assert_debug(X.nrows==Y.nrows,"GF2mat::operator+(): dimension mismatch");
+    it_assert_debug(X.ncols==Y.ncols,"GF2mat::operator+(): dimension mismatch");
+    it_assert_debug(X.nwords==Y.nwords,"GF2mat::operator+(): dimension mismatch");
     GF2mat result(X.nrows,X.ncols);
   
     for (int i=0; i<X.nrows; i++) {
@@ -945,7 +945,7 @@ namespace itpp {
 
   void GF2mat::permute_cols(ivec &perm, bool I)
   {
-    it_assert1(length(perm)==ncols,
+    it_assert_debug(length(perm)==ncols,
 	       "GF2mat::permute_cols(): dimensions do not match");
 
     GF2mat temp = (*this);
@@ -960,7 +960,7 @@ namespace itpp {
 
   void GF2mat::permute_rows(ivec &perm, bool I)
   {
-    it_assert1(length(perm)==nrows,
+    it_assert_debug(length(perm)==nrows,
 	       "GF2mat::permute_rows(): dimensions do not match");
 
     GF2mat temp = (*this);

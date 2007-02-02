@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -49,7 +49,7 @@ namespace itpp {
 
   bool inv(const mat &X, mat &Y)
   {
-    it_assert1(X.rows() == X.cols(), "inv: matrix is not square");
+    it_assert_debug(X.rows() == X.cols(), "inv: matrix is not square");
 
     int m = X.rows(), info, lwork;
     lwork = m; // may be choosen better
@@ -68,7 +68,7 @@ namespace itpp {
 
   bool inv(const cmat &X, cmat &Y)
   {
-    it_assert1(X.rows() == X.cols(), "inv: matrix is not square");
+    it_assert_debug(X.rows() == X.cols(), "inv: matrix is not square");
 
     int m = X.rows(), info, lwork;
     lwork = m; // may be choosen better

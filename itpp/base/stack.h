@@ -178,7 +178,7 @@ namespace itpp {
       }
       else {
 	data = new T[n];
-	it_assert1(data!=0, "Out of memory in Stack::alloc");
+	it_assert_debug(data!=0, "Out of memory in Stack::alloc");
       }
       ndata = n;
     }

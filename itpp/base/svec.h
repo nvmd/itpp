@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -566,7 +566,7 @@ namespace itpp {
   template <class T>
     T Sparse_Vec<T>::operator()(int i) const
     {
-      it_assert0(i >= 0 && i < v_size, "The index of the element is out of range");
+      it_assert_debug(i >= 0 && i < v_size, "The index of the element is out of range");
   
       bool found = false;
       int p;
@@ -582,7 +582,7 @@ namespace itpp {
   template <class T>
     void Sparse_Vec<T>::set(int i, T v)
     {
-      it_assert0(i >= 0 && i < v_size, "The index of the element is out of range");
+      it_assert_debug(i >= 0 && i < v_size, "The index of the element is out of range");
   
       bool found = false;
       bool larger_than_eps;
@@ -617,7 +617,7 @@ namespace itpp {
   template <class T>
     void Sparse_Vec<T>::set_new(int i, T v)
     {
-      it_assert0(v_size > i, "The index of the element exceeds the size of the sparse vector");
+      it_assert_debug(v_size > i, "The index of the element exceeds the size of the sparse vector");
   
       //Check that the new element is larger than eps!
       if (std::abs(v) > std::abs(eps)) {
@@ -635,7 +635,7 @@ namespace itpp {
       bool found = false;
       int p;
 
-      it_assert0(v_size > i, "The index of the element exceeds the size of the sparse vector");
+      it_assert_debug(v_size > i, "The index of the element exceeds the size of the sparse vector");
   
       for (p=0; p<used_size; p++) {
 	if (index[p] == i) {
@@ -664,7 +664,7 @@ namespace itpp {
       int i,p,q;
       int nrof_nz=v.size();
 
-      it_assert0(v_size>max(index_vec),"The indices exceeds the size of the sparse vector");
+      it_assert_debug(v_size>max(index_vec),"The indices exceeds the size of the sparse vector");
 
       //Elements are added if they have identical indices
       for (q=0; q<nrof_nz; q++){
@@ -704,7 +704,7 @@ namespace itpp {
       bool found = false;
       int p;
 
-      it_assert0(v_size > i, "The index of the element exceeds the size of the sparse vector");
+      it_assert_debug(v_size > i, "The index of the element exceeds the size of the sparse vector");
   
       for (p=0; p<used_size; p++) {
 	if (index[p] == i) {
@@ -732,7 +732,7 @@ namespace itpp {
       bool found = false;
       int p;
 
-      it_assert0(v_size > i, "The index of the element exceeds the size of the sparse vector");
+      it_assert_debug(v_size > i, "The index of the element exceeds the size of the sparse vector");
   
       for (p=0; p<used_size; p++) {
 	if (index[p] == i) {
@@ -750,7 +750,7 @@ namespace itpp {
   template <class T>
     void Sparse_Vec<T>::set(const ivec& index_vec, const Vec<T>& v)
     {
-      it_assert0(v_size>max(index_vec),"The indices exceeds the size of the sparse vector");
+      it_assert_debug(v_size>max(index_vec),"The indices exceeds the size of the sparse vector");
 
       //Clear all old non-zero elements
       clear();
@@ -765,7 +765,7 @@ namespace itpp {
       int q;
       int nrof_nz=v.size();
 
-      it_assert0(v_size>max(index_vec),"The indices exceeds the size of the sparse vector");
+      it_assert_debug(v_size>max(index_vec),"The indices exceeds the size of the sparse vector");
 
       //Clear all old non-zero elements
       clear();
@@ -784,7 +784,7 @@ namespace itpp {
   template <class T>
     Sparse_Vec<T> Sparse_Vec<T>::get_subvector(int i1, int i2) const
     {
-      it_assert0(v_size > i1 && v_size > i2 && i1<=i2 && i1>=0, "The index of the element exceeds the size of the sparse vector");
+      it_assert_debug(v_size > i1 && v_size > i2 && i1<=i2 && i1>=0, "The index of the element exceeds the size of the sparse vector");
   
       Sparse_Vec<T> r(i2-i1+1);
   
@@ -932,7 +932,7 @@ namespace itpp {
       T tmp_data;
       int nrof_nz_v=v.used_size;
 
-      it_assert0(v_size == v.size(), "Attempted addition of unequal sized sparse vectors");
+      it_assert_debug(v_size == v.size(), "Attempted addition of unequal sized sparse vectors");
   
       for (p=0; p<nrof_nz_v; p++) {
 	i = v.index[p];
@@ -949,7 +949,7 @@ namespace itpp {
     {
       int i;
 
-      it_assert0(v_size == v.size(), "Attempted addition of unequal sized sparse vectors");
+      it_assert_debug(v_size == v.size(), "Attempted addition of unequal sized sparse vectors");
   
       for (i=0; i<v.size(); i++)
 	if (v(i)!=T(0))
@@ -966,7 +966,7 @@ namespace itpp {
       T tmp_data;
       int nrof_nz_v=v.used_size;
 
-      it_assert0(v_size == v.size(), "Attempted subtraction of unequal sized sparse vectors");
+      it_assert_debug(v_size == v.size(), "Attempted subtraction of unequal sized sparse vectors");
   
       for (p=0; p<nrof_nz_v; p++) {
 	i = v.index[p];
@@ -983,7 +983,7 @@ namespace itpp {
     {
       int i;
 
-      it_assert0(v_size == v.size(), "Attempted subtraction of unequal sized sparse vectors");
+      it_assert_debug(v_size == v.size(), "Attempted subtraction of unequal sized sparse vectors");
   
       for (i=0; i<v.size(); i++)
 	if (v(i)!=T(0))
@@ -1018,7 +1018,7 @@ namespace itpp {
   template <class T>
     T operator*(const Sparse_Vec<T> &v1, const Sparse_Vec<T> &v2)
     {
-      it_assert0(v1.v_size == v2.v_size, "Sparse_Vec<T> * Sparse_Vec<T>");
+      it_assert_debug(v1.v_size == v2.v_size, "Sparse_Vec<T> * Sparse_Vec<T>");
   
       T sum(0);
       Vec<T> v1f(v1.v_size);
@@ -1034,7 +1034,7 @@ namespace itpp {
   template <class T>
     T operator*(const Sparse_Vec<T> &v1, const Vec<T> &v2)
     {
-      it_assert0(v1.size() == v2.size(), "Multiplication of unequal sized vectors attempted");
+      it_assert_debug(v1.size() == v2.size(), "Multiplication of unequal sized vectors attempted");
   
       T sum(0);
       for (int p1=0; p1<v1.used_size; p1++)
@@ -1046,7 +1046,7 @@ namespace itpp {
   template <class T>
     T operator*(const Vec<T> &v1, const Sparse_Vec<T> &v2)
     {
-      it_assert0(v1.size() == v2.size(), "Multiplication of unequal sized vectors attempted");
+      it_assert_debug(v1.size() == v2.size(), "Multiplication of unequal sized vectors attempted");
   
       T sum(0);
       for (int p2=0; p2<v2.used_size; p2++)
@@ -1058,7 +1058,7 @@ namespace itpp {
   template <class T>
     Sparse_Vec<T> elem_mult(const Sparse_Vec<T> &v1, const Sparse_Vec<T> &v2)
     {
-      it_assert0(v1.v_size == v2.v_size, "elem_mult(Sparse_Vec<T>, Sparse_Vec<T>)");
+      it_assert_debug(v1.v_size == v2.v_size, "elem_mult(Sparse_Vec<T>, Sparse_Vec<T>)");
   
       Sparse_Vec<T> r(v1.v_size);
       ivec pos(v1.v_size);
@@ -1082,7 +1082,7 @@ namespace itpp {
   template <class T>
     Vec<T> elem_mult(const Sparse_Vec<T> &v1, const Vec<T> &v2)
     {
-      it_assert0(v1.v_size == v2.size(), "elem_mult(Sparse_Vec<T>, Vec<T>)");
+      it_assert_debug(v1.v_size == v2.size(), "elem_mult(Sparse_Vec<T>, Vec<T>)");
   
       Vec<T> r(v1.v_size);
       r = T(0);
@@ -1095,7 +1095,7 @@ namespace itpp {
   template <class T>
     Sparse_Vec<T> elem_mult_s(const Sparse_Vec<T> &v1, const Vec<T> &v2)
     {
-      it_assert0(v1.v_size == v2.size(), "elem_mult(Sparse_Vec<T>, Vec<T>)");
+      it_assert_debug(v1.v_size == v2.size(), "elem_mult(Sparse_Vec<T>, Vec<T>)");
   
       Sparse_Vec<T> r(v1.v_size);
       for (int p1=0; p1<v1.used_size; p1++) {
@@ -1115,7 +1115,7 @@ namespace itpp {
   template <class T>
     Vec<T> elem_mult(const Vec<T> &v1, const Sparse_Vec<T> &v2)
     {
-      it_assert0(v1.size() == v2.v_size, "elem_mult(Vec<T>, Sparse_Vec<T>)");
+      it_assert_debug(v1.size() == v2.v_size, "elem_mult(Vec<T>, Sparse_Vec<T>)");
   
       Vec<T> r(v2.v_size);
       r = T(0);
@@ -1128,7 +1128,7 @@ namespace itpp {
   template <class T>
     Sparse_Vec<T> elem_mult_s(const Vec<T> &v1, const Sparse_Vec<T> &v2)
     {
-      it_assert0(v1.size() == v2.v_size, "elem_mult(Vec<T>, Sparse_Vec<T>)");
+      it_assert_debug(v1.size() == v2.v_size, "elem_mult(Vec<T>, Sparse_Vec<T>)");
   
       Sparse_Vec<T> r(v2.v_size);
       for (int p2=0; p2<v2.used_size; p2++) {
@@ -1148,7 +1148,7 @@ namespace itpp {
   template <class T>
     Sparse_Vec<T> operator+(const Sparse_Vec<T> &v1, const Sparse_Vec<T> &v2)
     {
-      it_assert0(v1.v_size == v2.v_size, "Sparse_Vec<T> + Sparse_Vec<T>");
+      it_assert_debug(v1.v_size == v2.v_size, "Sparse_Vec<T> + Sparse_Vec<T>");
   
       Sparse_Vec<T> r(v1);
       ivec pos(v1.v_size);

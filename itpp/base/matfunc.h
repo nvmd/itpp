@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -693,7 +693,7 @@ namespace itpp {
   template<class T>
   Mat<T> reshape(const Mat<T> &m, int rows, int cols)
   {
-    it_assert1(m.rows()*m.cols() == rows*cols, "Mat<T>::reshape: Sizes must match");
+    it_assert_debug(m.rows()*m.cols() == rows*cols, "Mat<T>::reshape: Sizes must match");
     Mat<T> temp(rows, cols);
     int i, j, ii=0, jj=0;
     for (j=0; j<m.cols(); j++) {
@@ -716,7 +716,7 @@ namespace itpp {
   template<class T>
   Mat<T> reshape(const Vec<T> &v, int rows, int cols)
   {
-    it_assert1(v.size() == rows*cols, "Mat<T>::reshape: Sizes must match");
+    it_assert_debug(v.size() == rows*cols, "Mat<T>::reshape: Sizes must match");
     Mat<T> temp(rows, cols);
     int i, j, ii=0;
     for (j=0; j<cols; j++) {
