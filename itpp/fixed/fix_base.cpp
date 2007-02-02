@@ -71,12 +71,12 @@ namespace itpp {
   {
     switch (emode) {
     case TC:
-      it_assert1(wordlen >= 1 && wordlen <= 64, "Fix_Base::calc_apply_o_modes: Illegal word length!");
+      it_assert_debug(wordlen >= 1 && wordlen <= 64, "Fix_Base::calc_apply_o_modes: Illegal word length!");
       max = fixrep(UINT64_POW2[wordlen - 1] - 1);
       min = -max - 1;
       break;
     case US:
-      it_assert1(wordlen >= 0 && wordlen <= 63, "Fix_Base::calc_apply_o_modes: Illegal word length!");
+      it_assert_debug(wordlen >= 0 && wordlen <= 63, "Fix_Base::calc_apply_o_modes: Illegal word length!");
       min = 0;
       max = fixrep(UINT64_POW2[wordlen] - 1);
       break;
@@ -130,7 +130,7 @@ namespace itpp {
 
   fixrep Fix_Base::scale_and_apply_modes(double x, q_mode q) const
   {
-    it_assert1(shift>=-64 && shift<=63, "Fix_Base::scale_and_apply_modes: Illegal shift!");
+    it_assert_debug(shift>=-64 && shift<=63, "Fix_Base::scale_and_apply_modes: Illegal shift!");
     fixrep ret = 0;
     double scaled_value = x*DOUBLE_POW2[shift + 64];
 
@@ -184,7 +184,7 @@ namespace itpp {
 
   fixrep Fix_Base::rshift_and_apply_q_mode(fixrep x, int n, q_mode q) const
   {
-    it_assert1(n >= 0, "Fix_Base::rshift_and_apply_q_mode: n cannot be negative!");
+    it_assert_debug(n >= 0, "Fix_Base::rshift_and_apply_q_mode: n cannot be negative!");
     fixrep ret = 0;
 
     if (n == 0) {

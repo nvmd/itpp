@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -231,7 +231,7 @@ namespace itpp {
   template <class T>
     void Circular_Buffer<T>::get(T& out)
     {
-      it_assert0(_rw_dist>0,"Buffer empty. No data left to read from the buffer.");
+      it_assert_debug(_rw_dist>0,"Buffer empty. No data left to read from the buffer.");
       out=_data[_read];
       _read++;
       _rw_dist--;
@@ -262,7 +262,7 @@ namespace itpp {
 
       for (int i=0;i<N_out;i++)
 	{
-	  it_assert0(_rw_dist>0,"Buffer empty. No data left to read from the buffer.");
+	  it_assert_debug(_rw_dist>0,"Buffer empty. No data left to read from the buffer.");
 	  out(i)=_data[_read];
 	  _read++;
 	  _rw_dist--;
@@ -286,7 +286,7 @@ namespace itpp {
 
       for (int i=0;i<N_out;i++)
 	{
-	  it_assert0(_rw_dist>0,"Buffer empty. No data left to read from the buffer.");
+	  it_assert_debug(_rw_dist>0,"Buffer empty. No data left to read from the buffer.");
 	  out(i)=_data[_read];
 	  _read++;
 	  _rw_dist--;
@@ -299,7 +299,7 @@ namespace itpp {
   template <class T>
     void Circular_Buffer<T>::peek(T& out) const
     {
-      it_assert0(_rw_dist>0,"Attempted to peek at an empty buffer.");
+      it_assert_debug(_rw_dist>0,"Attempted to peek at an empty buffer.");
       out=_data[_read];
     }
 
@@ -315,7 +315,7 @@ namespace itpp {
   template <class T>
     void Circular_Buffer<T>::peek(const int index, T& out) const
     {
-      it_assert0(_rw_dist>index && index>=0,"The index exceeds the number of elements stored in the buffer.");
+      it_assert_debug(_rw_dist>index && index>=0,"The index exceeds the number of elements stored in the buffer.");
       out=_data[(_read+index)%_ndata];
     }
 
@@ -330,7 +330,7 @@ namespace itpp {
       else
 	N_out=N;
 
-      it_assert0(_rw_dist>=N_out,"Attempted to peek at more elements than there are stored in the buffer.");
+      it_assert_debug(_rw_dist>=N_out,"Attempted to peek at more elements than there are stored in the buffer.");
       out.set_size(N_out);
 
       for (int i=0;i<N_out;i++)
@@ -349,7 +349,7 @@ namespace itpp {
 
       for (int i=0;i<index.size();i++)
 	{
-	  it_assert0(_rw_dist>=index(i) && index(i)>=0,"Attempted to peek at an element, whose index exceeds the number of buffered elements.");
+	  it_assert_debug(_rw_dist>=index(i) && index(i)>=0,"Attempted to peek at an element, whose index exceeds the number of buffered elements.");
 	  out(i)=_data[(_read+index(i))%_ndata];
 	}
     }
@@ -365,7 +365,7 @@ namespace itpp {
       else
 	N_out=N;
 
-      it_assert0(_rw_dist>=N_out,"Attempted to peek at more elements than there are stored in the buffer.");
+      it_assert_debug(_rw_dist>=N_out,"Attempted to peek at more elements than there are stored in the buffer.");
       out.set_size(N_out);
 
       for (int i=0;i<N_out;i++)
@@ -384,7 +384,7 @@ namespace itpp {
 
       for (int i=0;i<index.size();i++)
 	{
-	  it_assert0(_rw_dist>=index(i) && index(i)>=0,"Attempted to peek at an element, whose index exceeds the number of buffered elements.");
+	  it_assert_debug(_rw_dist>=index(i) && index(i)>=0,"Attempted to peek at an element, whose index exceeds the number of buffered elements.");
 	  out(i)=_data[(_read+index(i))%_ndata];
 	}
     }
@@ -394,7 +394,7 @@ namespace itpp {
     {
       int read_tmp;
 
-      it_assert0(_rw_dist>0,"Attempted to peek at an empty buffer.");
+      it_assert_debug(_rw_dist>0,"Attempted to peek at an empty buffer.");
 
       if (_write>0)
 	read_tmp=_write-1;
@@ -424,7 +424,7 @@ namespace itpp {
       else
 	N_out=N;
 
-      it_assert0(_rw_dist>=N_out,"Attempted to peek at more elements than there are stored in the buffer.");
+      it_assert_debug(_rw_dist>=N_out,"Attempted to peek at more elements than there are stored in the buffer.");
       out.set_size(N_out);
 
       if (_write>0)
@@ -452,7 +452,7 @@ namespace itpp {
       else
 	N_out=N;
 
-      it_assert0(_rw_dist>=N_out,"Attempted to peek at more elements than there are stored in the buffer.");
+      it_assert_debug(_rw_dist>=N_out,"Attempted to peek at more elements than there are stored in the buffer.");
       out.set_size(N_out);
 
       if (_write>0)

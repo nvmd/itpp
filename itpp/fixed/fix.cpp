@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -112,7 +112,7 @@ namespace itpp {
 
   Fix& Fix::operator<<=(const int n)
   {
-    it_assert1(n >= 0, "Fix::operator<<=: n cannot be negative!");
+    it_assert_debug(n >= 0, "Fix::operator<<=: n cannot be negative!");
     shift += n;
     re = apply_o_mode(re << n);
     return *this;
@@ -139,7 +139,7 @@ namespace itpp {
 
   void Fix::lshift(int n)
   {
-    it_assert1(n >= 0, "Fix::lshift: n cannot be negative!");
+    it_assert_debug(n >= 0, "Fix::lshift: n cannot be negative!");
     shift += n;
     re = apply_o_mode(re << n);
   }
@@ -158,7 +158,7 @@ namespace itpp {
 
   double Fix::unfix() const
   {
-    it_assert1(shift>=-63 && shift<=64, "Fix::unfix: Illegal shift!");
+    it_assert_debug(shift>=-63 && shift<=64, "Fix::unfix: Illegal shift!");
     return double(re)*DOUBLE_POW2[64 - shift];
   }
 

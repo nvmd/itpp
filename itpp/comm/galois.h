@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -87,7 +87,7 @@ namespace itpp {
 
     //! GF(q) equals \a alpha ^ \a inexp
     void set(int qvalue, int inexp) {
-      set_size(qvalue); it_assert0(inexp>=-1 && inexp<qvalue-1, "GF::set, out of range"); value=inexp; }
+      set_size(qvalue); it_assert_debug(inexp>=-1 && inexp<qvalue-1, "GF::set, out of range"); value=inexp; }
     /*! 
       \brief GF(q) equals the element that corresponds to the given vector space.
 
@@ -189,10 +189,10 @@ namespace itpp {
     void clear();
     //! Acces to individual element in the GF(q)[x] polynomial
     GF operator[](int index) const {
-      it_assert0(index<=degree, "GFX::op[], out of range"); return coeffs(index); }
+      it_assert_debug(index<=degree, "GFX::op[], out of range"); return coeffs(index); }
     //! Acces to individual element in the GF(q)[x] polynomial
     GF &operator[](int index) {
-      it_assert0(index<=degree, "GFX::op[], out of range"); return coeffs(index); }
+      it_assert_debug(index<=degree, "GFX::op[], out of range"); return coeffs(index); }
     //! Copy
     void operator=(const GFX &ingfx);
     //! sum of two GF(q)[x]
@@ -246,7 +246,7 @@ namespace itpp {
   inline void GF::set(int qvalue, const bvec &vectorspace)
 	{
 		set_size(qvalue);
-		it_assert0(vectorspace.length() == m, "GF::set, out of range");
+		it_assert_debug(vectorspace.length() == m, "GF::set, out of range");
 		value=logalpha(m)(bin2dec(vectorspace));
 	}
 
@@ -289,7 +289,7 @@ namespace itpp {
 
   inline void GF::operator=(const int inexp)
 	{
-		it_assert0(m>0 && inexp>=-1 && inexp<(q[m]-1), "GF::op=, out of range");
+		it_assert_debug(m>0 && inexp>=-1 && inexp<(q[m]-1), "GF::op=, out of range");
 		value=inexp;
 	}
 
@@ -300,7 +300,7 @@ namespace itpp {
 			m=ingf.m;
 		}
 		else if (ingf.value != -1) {
-			it_assert0(ingf.m == m, "GF::op+=, not same field");
+			it_assert_debug(ingf.m == m, "GF::op+=, not same field");
 			value=logalpha(m)(alphapow(m)(value)^alphapow(m)(ingf.value));
 		}
 	}
@@ -329,7 +329,7 @@ namespace itpp {
 		if (value == -1 || ingf.value == -1)
 			value=-1;
 		else {
-			it_assert0(ingf.m == m, "GF::op+=, not same field");
+			it_assert_debug(ingf.m == m, "GF::op+=, not same field");
 			value=(value+ingf.value)%(q[m]-1);
 		}
 	}
@@ -347,7 +347,7 @@ namespace itpp {
 		if (value == -1)
 			value=-1;
 		else {
-			it_assert0(ingf.m == m, "GF::op+=, not same field");
+			it_assert_debug(ingf.m == m, "GF::op+=, not same field");
 			value=(value-ingf.value+q[m]-1)%(q[m]-1);
 		}
 	}
@@ -368,13 +368,13 @@ namespace itpp {
 
   inline GFX::GFX(int qvalue)
 	{
-		it_assert0(qvalue>=0, "GFX::GFX, out of range");
+		it_assert_debug(qvalue>=0, "GFX::GFX, out of range");
 		q=qvalue;
 	}
 
   inline void GFX::set(int qvalue, const ivec &invalues)
 	{
-		it_assert0(qvalue>0, "GFX::set, out of range");
+		it_assert_debug(qvalue>0, "GFX::set, out of range");
 		degree=invalues.size()-1;
 		coeffs.set_size(degree+1, false);
 		for (int i=0;i<degree+1;i++)
@@ -394,7 +394,7 @@ namespace itpp {
 
   inline GFX::GFX(int qvalue, int indegree)
 	{
-		it_assert0(qvalue>0 && indegree>=0, "GFX::GFX, out of range");
+		it_assert_debug(qvalue>0 && indegree>=0, "GFX::GFX, out of range");
 		q=qvalue;
 		coeffs.set_size(indegree+1, false);
 		degree=indegree;
@@ -435,7 +435,7 @@ namespace itpp {
 
   inline void GFX::set_degree(int indegree)
 	{
-		it_assert0(indegree>=-1, "GFX::set_degree, out of range");
+		it_assert_debug(indegree>=-1, "GFX::set_degree, out of range");
 		coeffs.set_size(indegree+1);
 		degree=indegree;
 	}
@@ -453,7 +453,7 @@ namespace itpp {
 
   inline void GFX::clear()
 	{
-		it_assert0(degree>=0 && q>0, "GFX::clear, not set");
+		it_assert_debug(degree>=0 && q>0, "GFX::clear, not set");
 		for(int i=0;i<degree+1;i++)
 			coeffs(i).set(q,-1);
 	}
@@ -467,7 +467,7 @@ namespace itpp {
 
   inline void GFX::operator+=(const GFX &ingfx)
 	{
-		it_assert0(q == ingfx.q, "GFX::op+=, not same field");
+		it_assert_debug(q == ingfx.q, "GFX::op+=, not same field");
 		if (ingfx.degree > degree) {
 			coeffs.set_size(ingfx.degree+1, true);
 			// set new coefficients to the zeroth element
@@ -498,7 +498,7 @@ namespace itpp {
 
   inline void GFX::operator*=(const GFX &ingfx)
 	{
-		it_assert0(q == ingfx.q, "GFX::op*=, Not same field");
+		it_assert_debug(q == ingfx.q, "GFX::op*=, Not same field");
 		int i,j;
 		Array<GF> tempcoeffs=coeffs;
 		coeffs.set_size(degree+ingfx.degree+1, false);
@@ -519,7 +519,7 @@ namespace itpp {
 
   inline GFX operator*(const GF &ingf, const GFX &ingfx)
 	{
-		it_assert0(ingf.get_size() == ingfx.q, "GFX::op*, Not same field");
+		it_assert_debug(ingf.get_size() == ingfx.q, "GFX::op*, Not same field");
 		GFX temp(ingfx);
 		for (int i=0;i<ingfx.degree+1;i++)
 			temp.coeffs(i)*=ingf;
@@ -533,7 +533,7 @@ namespace itpp {
 
   inline GFX  operator/(const GFX &ingfx, const GF &ingf)
 	{
-		it_assert0(ingf.get_size() == ingfx.q, "GFX::op/, Not same field");
+		it_assert_debug(ingf.get_size() == ingfx.q, "GFX::op/, Not same field");
 		GFX temp(ingfx);
 		for (int i=0;i<ingfx.degree+1;i++)
 			temp.coeffs(i)/=ingf;
@@ -542,7 +542,7 @@ namespace itpp {
 
   inline GF GFX::operator()(const GF &ingf)
 	{
-		it_assert0(q == ingf.get_size(), "GFX::op(), Not same field");
+		it_assert_debug(q == ingf.get_size(), "GFX::op(), Not same field");
 		GF temp(coeffs(0)), ingfpower(ingf);
 		for (int i=1; i<degree+1; i++) {
 			temp+=coeffs(i)*ingfpower;

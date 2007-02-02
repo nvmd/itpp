@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -480,7 +480,7 @@ namespace itpp {
   template<>
   mat& Mat<double>::operator*=(const mat &m)
   {
-    it_assert1(no_cols == m.no_rows,"mat::operator*=: wrong sizes");
+    it_assert_debug(no_cols == m.no_rows,"mat::operator*=: wrong sizes");
     mat r(no_rows, m.no_cols); // unnecessary memory??
 
     cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, no_rows, m.no_cols, no_cols, 1.0,
@@ -493,7 +493,7 @@ namespace itpp {
   template<>
   cmat& Mat<std::complex<double> >::operator*=(const cmat &m)
   {
-    it_assert1(no_cols == m.no_rows,"cmat::operator*=: wrong sizes");
+    it_assert_debug(no_cols == m.no_rows,"cmat::operator*=: wrong sizes");
     std::complex<double> alpha = std::complex<double>(1.0), beta = std::complex<double>(0.0);
     cmat r(no_rows, m.no_cols); // unnecessary memory??
 
@@ -507,7 +507,7 @@ namespace itpp {
   template<>
   const mat operator*(const mat &m1, const mat &m2)
   {
-    it_assert1(m1.no_cols == m2.no_rows,"mat::operator*: wrong sizes");
+    it_assert_debug(m1.no_cols == m2.no_rows,"mat::operator*: wrong sizes");
     mat r(m1.no_rows, m2.no_cols);
 
     cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, m1.no_rows, m2.no_cols, m1.no_cols, 1.0,
@@ -519,7 +519,7 @@ namespace itpp {
   template<>
   const cmat operator*(const cmat &m1, const cmat &m2)
   {
-    it_assert1(m1.no_cols == m2.no_rows,"cmat::operator*: wrong sizes");
+    it_assert_debug(m1.no_cols == m2.no_rows,"cmat::operator*: wrong sizes");
     std::complex<double> alpha = std::complex<double>(1.0), beta = std::complex<double>(0.0);
     cmat r(m1.no_rows, m2.no_cols);
 
@@ -532,7 +532,7 @@ namespace itpp {
   template<>
   const Vec<double> operator*(const mat &m, const Vec<double> &v)
   {
-    it_assert1(m.no_cols == v.size(),"mat::operator*: wrong sizes");
+    it_assert_debug(m.no_cols == v.size(),"mat::operator*: wrong sizes");
     vec r(m.no_rows);
 
     cblas_dgemv(CblasColMajor, CblasNoTrans, m.no_rows, m.no_cols, 1.0, m.data, m.no_rows, v._data(), 1,
@@ -544,7 +544,7 @@ namespace itpp {
   template<>
   const Vec<std::complex<double> > operator*(const cmat &m, const Vec<std::complex<double> > &v)
   {
-    it_assert1(m.no_cols == v.size(),"cmat::operator*: wrong sizes");
+    it_assert_debug(m.no_cols == v.size(),"cmat::operator*: wrong sizes");
     std::complex<double> alpha = std::complex<double>(1.0), beta = std::complex<double>(0.0);
     cvec r(m.no_rows);
 

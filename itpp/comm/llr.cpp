@@ -12,7 +12,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -83,7 +83,7 @@ namespace itpp {
       double x = pow2(static_cast<double>(Dint3 - Dint1)) * i;
       result(i) = to_qllr(std::log(1 + std::exp(-x)));
     }
-    it_assert1(length(result)==Dint2,"Ldpc_codec::construct_logexp_table()");
+    it_assert_debug(length(result)==Dint2,"Ldpc_codec::construct_logexp_table()");
 
     return result;
   }

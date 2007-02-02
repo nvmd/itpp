@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -157,7 +157,7 @@ namespace itpp {
     imat H(size,size);
     logsize = levels2bits(size);
 
-    it_assert1(pow2i(logsize)==size,"hadamard size not a power of 2");
+    it_assert_debug(pow2i(logsize)==size,"hadamard size not a power of 2");
     H(0,0)=1;H(0,1)=1;H(1,0)=1;H(1,1)=-1;
 	
     for (i=1;i<logsize;i++) {
@@ -201,7 +201,7 @@ namespace itpp {
 
   imat conference(int n)
   {
-    it_assert1(n%4 == 2, "conference(int n); wrong size");
+    it_assert_debug(n%4 == 2, "conference(int n); wrong size");
     int pm=n-1; // p must be odd prime, not checked
     imat out(n,n);
 

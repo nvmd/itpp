@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -226,7 +226,7 @@ namespace itpp {
   template <class T>
   cmat to_cmat(const Mat<T> &real, const Mat<T> &imag)
   {
-    it_assert1(real.rows()==imag.rows() && real.cols()==imag.cols(), "to_cmat::real and imag part sizes does not match");
+    it_assert_debug(real.rows()==imag.rows() && real.cols()==imag.cols(), "to_cmat::real and imag part sizes does not match");
     cmat temp(real.rows(),real.cols());
 
     for (int i=0;i<temp.rows();i++) {

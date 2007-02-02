@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -315,7 +315,7 @@ namespace itpp {
   template<typename T>
   void Modulator<T>::modulate(const ivec &symbolnumbers, Vec<T>& output) const
   {
-    it_assert0(setup_done, "Modulator<T>::modulate(): Modulator not ready.");
+    it_assert_debug(setup_done, "Modulator<T>::modulate(): Modulator not ready.");
     output.set_size(symbolnumbers.length());
     for (int i = 0; i < symbolnumbers.length(); i++)
       output(i) = symbols(symbolnumbers(i));
@@ -333,7 +333,7 @@ namespace itpp {
   template<typename T>
   void Modulator<T>::demodulate(const Vec<T> &signal, ivec& output) const
   {
-    it_assert0(setup_done, "Modulator<T>::demodulate(): Modulator not ready.");
+    it_assert_debug(setup_done, "Modulator<T>::demodulate(): Modulator not ready.");
     double dist, mindist;
     int closest;
     output.set_size(signal.size());
@@ -364,7 +364,7 @@ namespace itpp {
   template<typename T>
   void Modulator<T>::modulate_bits(const bvec &bits, Vec<T> &output) const
   {
-    it_assert0(setup_done, "Modulator<T>::modulate_bits(): Modulator not ready.");
+    it_assert_debug(setup_done, "Modulator<T>::modulate_bits(): Modulator not ready.");
     // Check if some bits have to be cut and print warning message in such
     // case.
     if (bits.length() % k) {
@@ -388,7 +388,7 @@ namespace itpp {
   template<typename T>
   void Modulator<T>::demodulate_bits(const Vec<T> &signal, bvec &bits) const
   {
-    it_assert0(setup_done, "Modulator<T>::demodulate_bist(): Modulator not ready.");
+    it_assert_debug(setup_done, "Modulator<T>::demodulate_bist(): Modulator not ready.");
     double dist, mindist;
     int closest;
     bits.set_size(k*signal.size());
@@ -421,7 +421,7 @@ namespace itpp {
 					  vec &soft_bits, 
 					  Soft_Method method) const
   {
-    it_assert0(setup_done, "Modulator<T>::demodulate_soft_bits(): Modulator not ready.");
+    it_assert_debug(setup_done, "Modulator<T>::demodulate_soft_bits(): Modulator not ready.");
     double P0, P1, d0min, d1min, temp;
     vec metric(M);
 
@@ -497,7 +497,7 @@ namespace itpp {
 					  vec &soft_bits,
 					  Soft_Method method) const
   {
-    it_assert0(setup_done, "Modulator_2D::demodulate_soft_bits(): Modulator not ready.");
+    it_assert_debug(setup_done, "Modulator_2D::demodulate_soft_bits(): Modulator not ready.");
     double P0, P1, d0min, d1min, temp;
     vec metric(M);
 

@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -492,28 +492,28 @@ namespace itpp {
   template <class T>
     T Sparse_Mat<T>::operator()(int r, int c) const
     {
-      it_assert0(r>=0&&r<n_rows&&c>=0&&c<n_cols, "Incorrect input indexes given");
+      it_assert_debug(r>=0&&r<n_rows&&c>=0&&c<n_cols, "Incorrect input indexes given");
       return col[c](r);
     }
 
   template <class T>
     void Sparse_Mat<T>::set(int r, int c, T v)
     {
-      it_assert0(r>=0&&r<n_rows&&c>=0&&c<n_cols, "Incorrect input indexes given");
+      it_assert_debug(r>=0&&r<n_rows&&c>=0&&c<n_cols, "Incorrect input indexes given");
       col[c].set(r, v);
     }
 
   template <class T>
     void Sparse_Mat<T>::set_new(int r, int c, T v)
     {
-      it_assert0(r>=0&&r<n_rows&&c>=0&&c<n_cols, "Incorrect input indexes given");
+      it_assert_debug(r>=0&&r<n_rows&&c>=0&&c<n_cols, "Incorrect input indexes given");
       col[c].set_new(r, v);
     }
 
   template <class T>
     void Sparse_Mat<T>::add_elem(int r, int c, T v)
     {
-      it_assert0(r>=0&&r<n_rows&&c>=0&&c<n_cols, "Incorrect input indexes given");
+      it_assert_debug(r>=0&&r<n_rows&&c>=0&&c<n_cols, "Incorrect input indexes given");
       col[c].add_elem(r, v);
     }
 
@@ -527,7 +527,7 @@ namespace itpp {
   template <class T>
     void Sparse_Mat<T>::zero_elem(const int r, const int c)
     {
-      it_assert0(r>=0&&r<n_rows&&c>=0&&c<n_cols, "Incorrect input indexes given");
+      it_assert_debug(r>=0&&r<n_rows&&c>=0&&c<n_cols, "Incorrect input indexes given");
       col[c].zero_elem(r);
     }
 
@@ -541,7 +541,7 @@ namespace itpp {
   template <class T>
     void Sparse_Mat<T>::clear_elem(const int r, const int c)
     {
-      it_assert0(r>=0&&r<n_rows&&c>=0&&c<n_cols, "Incorrect input indexes given");
+      it_assert_debug(r>=0&&r<n_rows&&c>=0&&c<n_cols, "Incorrect input indexes given");
       col[c].clear_elem(r);
     }
 
@@ -553,11 +553,11 @@ namespace itpp {
     if (c1 == -1) c1 = n_cols-1;
     if (c2 == -1) c2 = n_cols-1;
 
-    it_assert1(r1>=0 && r2>=0 && r1<n_rows && r2<n_rows &&
+    it_assert_debug(r1>=0 && r2>=0 && r1<n_rows && r2<n_rows &&
 	       c1>=0 && c2>=0 && c1<n_cols && c2<n_cols, "Sparse_Mat<Num_T>::set_submatrix(): index out of range");
 
-    it_assert1(r2>=r1 && c2>=c1, "Sparse_Mat<Num_T>::set_submatrix: r2<r1 or c2<c1");
-    it_assert1(m.rows() == r2-r1+1 && m.cols() == c2-c1+1, "Mat<Num_T>::set_submatrix(): sizes don't match");
+    it_assert_debug(r2>=r1 && c2>=c1, "Sparse_Mat<Num_T>::set_submatrix: r2<r1 or c2<c1");
+    it_assert_debug(m.rows() == r2-r1+1 && m.cols() == c2-c1+1, "Mat<Num_T>::set_submatrix(): sizes don't match");
 
     for (int i=0 ; i<m.rows() ; i++) {
       for (int j=0 ; j<m.cols() ; j++) {
@@ -569,7 +569,7 @@ namespace itpp {
   template <class T>
     void Sparse_Mat<T>::set_submatrix(int r, int c, const Mat<T>& m) 
   {
-    it_assert1(r>=0 && r+m.rows()<=n_rows &&
+    it_assert_debug(r>=0 && r+m.rows()<=n_rows &&
                c>=0 && c+m.cols()<=n_cols, "Sparse_Mat<Num_T>::set_submatrix(): index out of range");
 
     for (int i=0 ; i<m.rows() ; i++) {
@@ -582,7 +582,7 @@ namespace itpp {
   template <class T>
     Sparse_Mat<T> Sparse_Mat<T>::get_submatrix(int r1, int r2, int c1, int c2) const
     {
-      it_assert0(r1<=r2 && r1>=0 && r1<n_rows && c1<=c2 && c1>=0 && c1<n_cols,
+      it_assert_debug(r1<=r2 && r1>=0 && r1<n_rows && c1<=c2 && c1>=0 && c1<n_cols,
 		"Sparse_Mat<T>::get_submatrix(): illegal input variables");
     
       Sparse_Mat<T> r(r2-r1+1, c2-c1+1);
@@ -597,7 +597,7 @@ namespace itpp {
   template <class T>
     Sparse_Mat<T> Sparse_Mat<T>::get_submatrix_cols(int c1, int c2) const
     {
-      it_assert0(c1<=c2 && c1>=0 && c1<n_cols, "Sparse_Mat<T>::get_submatrix_cols()");
+      it_assert_debug(c1<=c2 && c1>=0 && c1<n_cols, "Sparse_Mat<T>::get_submatrix_cols()");
       Sparse_Mat<T> r(n_rows, c2-c1+1, 0);
 
       for (int c=c1; c<=c2; c++)
@@ -705,7 +705,7 @@ namespace itpp {
   template <class T>
     void Sparse_Mat<T>::operator+=(const Sparse_Mat<T> &m)
     {
-      it_assert0(m.rows()==n_rows&&m.cols()==n_cols, "Addition of unequal sized matrices is not allowed");
+      it_assert_debug(m.rows()==n_rows&&m.cols()==n_cols, "Addition of unequal sized matrices is not allowed");
 
       Sparse_Vec<T> v;
       for (int c=0; c<n_cols; c++) {
@@ -717,7 +717,7 @@ namespace itpp {
   template <class T>
     void Sparse_Mat<T>::operator+=(const Mat<T> &m)
     {
-      it_assert0(m.rows()==n_rows&&m.cols()==n_cols, "Addition of unequal sized matrices is not allowed");
+      it_assert_debug(m.rows()==n_rows&&m.cols()==n_cols, "Addition of unequal sized matrices is not allowed");
 
       for (int c=0; c<n_cols; c++)
 	col[c]+=(m.get_col(c));
@@ -726,7 +726,7 @@ namespace itpp {
   template <class T>
     void Sparse_Mat<T>::operator-=(const Sparse_Mat<T> &m)
     {
-      it_assert0(m.rows()==n_rows&&m.cols()==n_cols, "Subtraction of unequal sized matrices is not allowed");
+      it_assert_debug(m.rows()==n_rows&&m.cols()==n_cols, "Subtraction of unequal sized matrices is not allowed");
 
       Sparse_Vec<T> v;
       for (int c=0; c<n_cols; c++) {
@@ -738,7 +738,7 @@ namespace itpp {
   template <class T>
     void Sparse_Mat<T>::operator-=(const Mat<T> &m)
     {
-      it_assert0(m.rows()==n_rows&&m.cols()==n_cols, "Subtraction of unequal sized matrices is not allowed");
+      it_assert_debug(m.rows()==n_rows&&m.cols()==n_cols, "Subtraction of unequal sized matrices is not allowed");
 
       for (int c=0; c<n_cols; c++)
 	col[c]-=(m.get_col(c));
@@ -761,7 +761,7 @@ namespace itpp {
   template <class T>
     Sparse_Mat<T> operator+(const Sparse_Mat<T> &m1, const Sparse_Mat<T> &m2)
     {
-      it_assert0(m1.n_cols == m2.n_cols && m1.n_rows == m2.n_rows , "Sparse_Mat<T> + Sparse_Mat<T>");
+      it_assert_debug(m1.n_cols == m2.n_cols && m1.n_rows == m2.n_rows , "Sparse_Mat<T> + Sparse_Mat<T>");
     
       Sparse_Mat<T> m(m1.n_rows, m1.n_cols, 0);
 
@@ -790,7 +790,7 @@ namespace itpp {
   template <class T>
     Sparse_Mat<T> operator*(const Sparse_Mat<T> &m1, const Sparse_Mat<T> &m2)
     {
-      it_assert0(m1.n_cols == m2.n_rows, "Sparse_Mat<T> * Sparse_Mat<T>");
+      it_assert_debug(m1.n_cols == m2.n_rows, "Sparse_Mat<T> * Sparse_Mat<T>");
       
       Sparse_Mat<T> ret(m1.n_rows, m2.n_cols);
       
@@ -826,7 +826,7 @@ namespace itpp {
 /*   template <class T> */
 /*     Sparse_Mat<T> operator*(const Sparse_Mat<T> &m1, const Sparse_Mat<T> &m2) */
 /*     { */
-/*       it_assert0(m1.n_cols == m2.n_rows, "Sparse_Mat<T> * Sparse_Mat<T>"); */
+/*       it_assert_debug(m1.n_cols == m2.n_rows, "Sparse_Mat<T> * Sparse_Mat<T>"); */
     
 /*       Sparse_Mat<T> ret(m1.n_rows, m2.n_cols); */
 /*       ivec occupied_by(ret.n_rows), pos(ret.n_rows); */
@@ -861,7 +861,7 @@ namespace itpp {
   template <class T>
     Sparse_Vec<T> operator*(const Sparse_Mat<T> &m, const Sparse_Vec<T> &v)
     {
-      it_assert0(m.n_cols == v.size(), "Sparse_Mat<T> * Sparse_Vec<T>");
+      it_assert_debug(m.n_cols == v.size(), "Sparse_Mat<T> * Sparse_Vec<T>");
 
       Sparse_Vec<T> ret(m.n_rows);
 
@@ -887,7 +887,7 @@ namespace itpp {
   template <class T>
     Vec<T> operator*(const Sparse_Mat<T> &m, const Vec<T> &v)
     {
-      it_assert0(m.n_cols == v.size(), "Sparse_Mat<T> * Vec<T>");
+      it_assert_debug(m.n_cols == v.size(), "Sparse_Mat<T> * Vec<T>");
     
       Vec<T> r(m.n_rows);
       r.clear();
@@ -903,7 +903,7 @@ namespace itpp {
   template <class T>
     Vec<T> operator*(const Vec<T> &v, const Sparse_Mat<T> &m)
     {
-      it_assert0(v.size() == m.n_rows, "Vec<T> * Sparse_Mat<T>");
+      it_assert_debug(v.size() == m.n_rows, "Vec<T> * Sparse_Mat<T>");
     
       Vec<T> r(m.n_cols);
       r.clear();
@@ -958,7 +958,7 @@ namespace itpp {
   template <class T>
     Sparse_Mat<T> trans_mult(const Sparse_Mat<T> &m1, const Sparse_Mat<T> &m2)
     {
-      it_assert0(m1.n_rows == m2.n_rows, "trans_mult()");
+      it_assert_debug(m1.n_rows == m2.n_rows, "trans_mult()");
     
       Sparse_Mat<T> ret(m1.n_cols, m2.n_cols);
       Vec<T> col;

@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@ namespace itpp {
 
   bool eig_sym(const mat &A, vec &d, mat &V)
   {
-    it_assert1(A.rows() == A.cols(), "eig_sym: Matrix is not symmetric");
+    it_assert_debug(A.rows() == A.cols(), "eig_sym: Matrix is not symmetric");
 
     // Test for symmetric?
 
@@ -71,7 +71,7 @@ namespace itpp {
 
   bool eig_sym(const mat &A, vec &d)
   {
-    it_assert1(A.rows() == A.cols(), "eig_sym: Matrix is not symmetric");
+    it_assert_debug(A.rows() == A.cols(), "eig_sym: Matrix is not symmetric");
 
     // Test for symmetric?
 
@@ -92,7 +92,7 @@ namespace itpp {
 
   bool eig_sym(const cmat &A, vec &d, cmat &V)
   {
-    it_assert1(A.rows() == A.cols(), "eig_sym: Matrix is not hermitian");
+    it_assert_debug(A.rows() == A.cols(), "eig_sym: Matrix is not hermitian");
 
     // Test for symmetric?
 
@@ -114,7 +114,7 @@ namespace itpp {
 
   bool eig_sym(const cmat &A, vec &d)
   {
-    it_assert1(A.rows() == A.cols(), "eig_sym: Matrix is not hermitian");
+    it_assert_debug(A.rows() == A.cols(), "eig_sym: Matrix is not hermitian");
 
     // Test for symmetric?
 
@@ -138,7 +138,7 @@ namespace itpp {
   // Non-symmetric matrix
   bool eig(const mat &A, cvec &d, cmat &V)
   {
-    it_assert1(A.rows() == A.cols(), "eig: Matrix is not square");
+    it_assert_debug(A.rows() == A.cols(), "eig: Matrix is not square");
 
     char jobvl='N', jobvr='V';
     int n, lda, ldvl, ldvr, lwork, info;
@@ -176,7 +176,7 @@ namespace itpp {
   // Non-symmetric matrix
   bool eig(const mat &A, cvec &d)
   {
-    it_assert1(A.rows() == A.cols(), "eig: Matrix is not square");
+    it_assert_debug(A.rows() == A.cols(), "eig: Matrix is not square");
 
     char jobvl='N', jobvr='N';
     int n, lda, ldvl, ldvr, lwork, info;
@@ -200,7 +200,7 @@ namespace itpp {
 
   bool eig(const cmat &A, cvec &d, cmat &V)
   {
-    it_assert1(A.rows() == A.cols(), "eig: Matrix is not square");
+    it_assert_debug(A.rows() == A.cols(), "eig: Matrix is not square");
 
     char jobvl='N', jobvr='V';
     int n, lda, ldvl, ldvr, lwork, info;
@@ -224,7 +224,7 @@ namespace itpp {
 
   bool eig(const cmat &A, cvec &d)
   {
-    it_assert1(A.rows() == A.cols(), "eig: Matrix is not square");
+    it_assert_debug(A.rows() == A.cols(), "eig: Matrix is not square");
 
     char jobvl='N', jobvr='N';
     int n, lda, ldvl, ldvr, lwork, info;

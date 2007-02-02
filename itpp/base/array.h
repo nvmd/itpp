@@ -255,7 +255,7 @@ namespace itpp {
   template<class T> inline
   void Array<T>::set_size(int size, bool copy)
   {
-    it_assert1(size >= 0, "Array::set_size(): New size must not be negative");
+    it_assert_debug(size >= 0, "Array::set_size(): New size must not be negative");
     if (ndata == size) 
       return;
     if (copy) {
@@ -276,21 +276,21 @@ namespace itpp {
   template<class T> inline
   T& Array<T>::operator()(int i) 
   {
-    it_assert1(in_range(i), "Array::operator(): Improper index");
+    it_assert_debug(in_range(i), "Array::operator(): Improper index");
     return data[i];
   }
 
   template<class T> inline
   const T& Array<T>::operator()(int i) const
   {
-    it_assert1(in_range(i), "Array::operator(): Improper index");
+    it_assert_debug(in_range(i), "Array::operator(): Improper index");
     return data[i];
   }
 
   template<class T> inline
   const Array<T> Array<T>::operator()(int i1, int i2) const
   {
-    it_assert1(in_range(i1) && in_range(i2) && (i2 >= i1), 
+    it_assert_debug(in_range(i1) && in_range(i2) && (i2 >= i1), 
 	       "Array::operator()(i1, i2): Improper indexes.");
     Array<T> s(i2-i1+1);
     for (int i = 0; i < s.ndata; i++)
@@ -303,7 +303,7 @@ namespace itpp {
   {
     Array<T> a(indices.size());
     for (int i = 0; i < a.size(); i++) {
-      it_assert1(in_range(indices(i)),
+      it_assert_debug(in_range(indices(i)),
 		 "Array::operator()(indices): Improper indices.");
       a(i) = data[indices(i)];
     }
@@ -343,7 +343,7 @@ namespace itpp {
   template<class T>
   Array<T> Array<T>::left(int n) const
   {
-    it_assert1(in_range(n), "Array::left(): Index out of range");
+    it_assert_debug(in_range(n), "Array::left(): Index out of range");
     Array<T> tmp(n);
     for (int i = 0; i < n; ++i)
       tmp.data[i] = data[i];
@@ -353,7 +353,7 @@ namespace itpp {
   template<class T>
   Array<T> Array<T>::right(int n) const
   {
-    it_assert1(in_range(n), "Array::right(): Index out of range");
+    it_assert_debug(in_range(n), "Array::right(): Index out of range");
     Array<T> tmp(n);
     for (int i = 0; i < n; ++i)
       tmp.data[i] = data[ndata-n+i];
@@ -363,7 +363,7 @@ namespace itpp {
   template<class T>
   Array<T> Array<T>::mid(int pos, int n) const
   {
-    it_assert1((pos >= 0) && (n > 0) && (pos + n <= ndata), "Array::mid(): Indexing out of range");
+    it_assert_debug((pos >= 0) && (n > 0) && (pos + n <= ndata), "Array::mid(): Indexing out of range");
     Array<T> tmp(n);
     for (int i = 0; i < n; ++i)
       tmp.data[i] = data[pos+i];
@@ -374,7 +374,7 @@ namespace itpp {
   template<class T>
   T Array<T>::shift_right(const T& x)
   {
-    it_assert1(ndata > 0, "Array::shift_right(x): Array empty!");
+    it_assert_debug(ndata > 0, "Array::shift_right(x): Array empty!");
     T ret;
 
     ret = data[ndata-1];
@@ -389,7 +389,7 @@ namespace itpp {
   template<class T>
   const Array<T> Array<T>::shift_right(const Array<T> &a)
   {
-    it_assert1(a.ndata <= ndata, "Array::shift_right(): Shift Array too large");
+    it_assert_debug(a.ndata <= ndata, "Array::shift_right(): Shift Array too large");
     Array<T> out(a.ndata);
 
     for (int i = 0; i < a.ndata; i++)
@@ -417,7 +417,7 @@ namespace itpp {
   template<class T>
   const Array<T> Array<T>::shift_left(const Array<T> &a)
   {
-    it_assert1(a.ndata <= ndata, "Array::shift_left(): Shift Array too large");
+    it_assert_debug(a.ndata <= ndata, "Array::shift_left(): Shift Array too large");
     Array<T> out(a.ndata);
 
     for (int i = 0; i < a.ndata; i++)
@@ -433,7 +433,7 @@ namespace itpp {
   template<class T>
   void Array<T>::swap(int i, int j)
   {
-    it_assert1(in_range(i) && in_range(j),
+    it_assert_debug(in_range(i) && in_range(j),
 	       "Array::swap(): Indices out of range.");
     
     T temp = data[i];
@@ -447,10 +447,10 @@ namespace itpp {
     if (i1 == -1) i1 = ndata-1;
     if (i2 == -1) i2 = ndata-1;
   
-    it_assert1(in_range(i1) && in_range(i2), 
+    it_assert_debug(in_range(i1) && in_range(i2), 
 	       "Array<T>::set_subarray(): Indices out of range.");
-    it_assert1(i2 >= i1, "Array<T>::set_subarray(): i2 >= i1 necessary.");
-    it_assert1(i2-i1+1 == a.ndata, "Array<T>::set_subarray(): Wrong sizes.");
+    it_assert_debug(i2 >= i1, "Array<T>::set_subarray(): i2 >= i1 necessary.");
+    it_assert_debug(i2-i1+1 == a.ndata, "Array<T>::set_subarray(): Wrong sizes.");
 
     copy_vector(a.ndata, a.data, data+i1);
   }
@@ -461,9 +461,9 @@ namespace itpp {
     if (i1 == -1) i1 = ndata-1;
     if (i2 == -1) i2 = ndata-1;
   
-    it_assert1(in_range(i1) && in_range(i2), 
+    it_assert_debug(in_range(i1) && in_range(i2), 
 	       "Array<T>::set_subarray(): Indices out of range");
-    it_assert1(i2 >= i1, "Array<T>::set_subarray(): i2 >= i1 necessary");
+    it_assert_debug(i2 >= i1, "Array<T>::set_subarray(): i2 >= i1 necessary");
 
     for (int i = i1; i <= i2; i++)
       data[i] = t;

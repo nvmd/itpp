@@ -475,8 +475,8 @@ namespace itpp {
 
   inline void GF2mat::addto_element(int i, int j, bin s) 
   {
-    it_assert0(i>=0 && i<nrows,"GF2mat::addto_element()");
-    it_assert0(j>=0 && j<ncols,"GF2mat::addto_element()");
+    it_assert_debug(i>=0 && i<nrows,"GF2mat::addto_element()");
+    it_assert_debug(j>=0 && j<ncols,"GF2mat::addto_element()");
     if (s==1) { 
       int col = j>>lImax;
       char bit = j&mImax;
@@ -486,8 +486,8 @@ namespace itpp {
 
   inline bin GF2mat::get(int i, int j) const 
   {
-    it_assert0(i>=0 && i<nrows,"GF2mat::get_element()");
-    it_assert0(j>=0 && j<ncols,"GF2mat::get_element()");
+    it_assert_debug(i>=0 && i<nrows,"GF2mat::get_element()");
+    it_assert_debug(j>=0 && j<ncols,"GF2mat::get_element()");
     int col = j>>lImax;
     char bit = j&mImax;
     // NB data must be unsigned for right shift to be well defined
@@ -496,9 +496,9 @@ namespace itpp {
 
   inline void GF2mat::set(int i, int j, bin s) 
   {
-    it_assert0(i>=0 && i<nrows,"GF2mat::set_element()");
-    it_assert0(j>=0 && j<ncols,"GF2mat::set_element()");
-    it_assert0(s==0 || s==1,"GF2mat::set_element()");
+    it_assert_debug(i>=0 && i<nrows,"GF2mat::set_element()");
+    it_assert_debug(j>=0 && j<ncols,"GF2mat::set_element()");
+    it_assert_debug(s==0 || s==1,"GF2mat::set_element()");
     int col = j>>lImax;
     char bit = j&mImax;
     //    int oldvalue = (data(i,col) >> bit) & 1;

@@ -12,7 +12,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -649,7 +649,7 @@ namespace itpp {
     vout.set_size(N);
 
     m = levels2bits(N);
-    it_assert1((1<<m)==N, "dht: The vector size must be a power of two!");
+    it_assert_debug((1<<m)==N, "dht: The vector size must be a power of two!");
 
     // This step is separated because it copies vin to vout
     for (ib=0; ib<N; ib+=2) {
@@ -685,7 +685,7 @@ namespace itpp {
     N = v.size();
 
     m = levels2bits(N);
-    it_assert1((1<<m)==N, "dht: The vector size must be a power of two!");
+    it_assert_debug((1<<m)==N, "dht: The vector size must be a power of two!");
 
     for (i=0; i<m; i++) {
       N /= 2;

@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -62,7 +62,7 @@ namespace itpp {
   {
     int i, n=0;
 
-    it_assert1(a.size() == b.size(), "hamming_distance()");
+    it_assert_debug(a.size() == b.size(), "hamming_distance()");
     for (i=0; i<a.size(); i++)
       if (a(i) != b(i))
 				n++;

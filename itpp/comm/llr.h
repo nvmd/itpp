@@ -12,7 +12,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -226,17 +226,17 @@ namespace itpp {
 
   inline QLLR LLR_calc_unit::to_qllr(const double &l) const
     { 
-      it_assert0(l<=to_double(QLLR_MAX),"LLR_calc_unit::to_qllr(): overflow");
-      it_assert0(l>=-to_double(QLLR_MAX),"LLR_calc_unit::to_qllr(): overflow");
+      it_assert_debug(l<=to_double(QLLR_MAX),"LLR_calc_unit::to_qllr(): overflow");
+      it_assert_debug(l>=-to_double(QLLR_MAX),"LLR_calc_unit::to_qllr(): overflow");
       return ( (int) std::floor(0.5+(1<<Dint1)*l) ); 
     };
   
   inline QLLR LLR_calc_unit::Boxplus(QLLR a, QLLR b) const
     {
-      it_assert0(a<QLLR_MAX,"LLR_calc_unit::Boxplus(): owerflow");
-      it_assert0(b<QLLR_MAX,"LLR_calc_unit::Boxplus(): owerflow");
-      it_assert0(a>-QLLR_MAX,"LLR_calc_unit::Boxplus(): owerflow");
-      it_assert0(b>-QLLR_MAX,"LLR_calc_unit::Boxplus(): owerflow");
+      it_assert_debug(a<QLLR_MAX,"LLR_calc_unit::Boxplus(): owerflow");
+      it_assert_debug(b<QLLR_MAX,"LLR_calc_unit::Boxplus(): owerflow");
+      it_assert_debug(a>-QLLR_MAX,"LLR_calc_unit::Boxplus(): owerflow");
+      it_assert_debug(b>-QLLR_MAX,"LLR_calc_unit::Boxplus(): owerflow");
 
       QLLR a_abs = (a>0 ? a : -a);
       QLLR b_abs = (b>0 ? b : -b);
@@ -244,8 +244,8 @@ namespace itpp {
       QLLR term1 = (a>0 ? (b>0 ? minabs : -minabs) : (b>0 ? -minabs : minabs));
 
       if (Dint2==0) {  // logmax approximation - avoid looking into empty table
-	it_assert0(term1<QLLR_MAX,"LLR_calc_unit::Boxplus(): owerflow");
-	it_assert0(term1>-QLLR_MAX,"LLR_calc_unit::Boxplus(): owerflow");
+	it_assert_debug(term1<QLLR_MAX,"LLR_calc_unit::Boxplus(): owerflow");
+	it_assert_debug(term1>-QLLR_MAX,"LLR_calc_unit::Boxplus(): owerflow");
 	return term1;
       }
 
@@ -256,21 +256,21 @@ namespace itpp {
 
       QLLR result = term1+term2-term3;
 
-      it_assert0(result<QLLR_MAX,"LLR_calc_unit::Boxplus(): owerflow");
-      it_assert0(result>-QLLR_MAX,"LLR_calc_unit::Boxplus(): owerflow");
+      it_assert_debug(result<QLLR_MAX,"LLR_calc_unit::Boxplus(): owerflow");
+      it_assert_debug(result>-QLLR_MAX,"LLR_calc_unit::Boxplus(): owerflow");
       return result;
     }
 
   inline QLLR LLR_calc_unit::logexp(QLLR x) const
     {
-      it_assert0(x>=0,"LLR_calc_unit::logexp() is not defined for negative LLR values");
+      it_assert_debug(x>=0,"LLR_calc_unit::logexp() is not defined for negative LLR values");
       int ind = x>>Dint3;
       if (ind>=Dint2) {  // outside table
 	return 0;
       }
 
-      it_assert0(ind>=0,"LLR_calc_unit::logexp() internal error");
-      it_assert0(ind<Dint2,"LLR_calc_unit::logexp() internal error");
+      it_assert_debug(ind>=0,"LLR_calc_unit::logexp() internal error");
+      it_assert_debug(ind<Dint2,"LLR_calc_unit::logexp() internal error");
 
       // With interpolation 
       // int delta=x-(ind<<Dint3);

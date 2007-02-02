@@ -104,15 +104,15 @@ namespace itpp {
 
       //! Get the number of variable nodes (number of columns) 
       int get_nvar() const {
-	it_assert0(H.cols()==nvar,"LDPC_Parity_Matrix internal error");
-	it_assert0(Ht.rows()==nvar,"LDPC_Parity_Matrix internal error");    
+	it_assert_debug(H.cols()==nvar,"LDPC_Parity_Matrix internal error");
+	it_assert_debug(Ht.rows()==nvar,"LDPC_Parity_Matrix internal error");    
 	return nvar; 
       }
 
       //! Get the number of check nodes (number of rows)
       int get_ncheck() const {
-	it_assert0(H.rows()==ncheck,"LDPC_Parity_Matrix internal error");
-	it_assert0(Ht.cols()==ncheck,"LDPC_Parity_Matrix internal error");
+	it_assert_debug(H.rows()==ncheck,"LDPC_Parity_Matrix internal error");
+	it_assert_debug(Ht.cols()==ncheck,"LDPC_Parity_Matrix internal error");
 	return ncheck;
       }
 
@@ -121,7 +121,7 @@ namespace itpp {
 
       //! Get element (i,j) of the parity check matrix
       inline bin get(int i, int j) const {   
-	it_assert0(H(i,j)==Ht(j,i),"LDPC_Parity_Matrix internal error");
+	it_assert_debug(H(i,j)==Ht(j,i),"LDPC_Parity_Matrix internal error");
 	return H(i,j);  
       }
 

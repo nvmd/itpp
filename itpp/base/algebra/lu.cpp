@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -50,7 +50,7 @@ namespace itpp {
 
   bool lu(const mat &X, mat &L, mat &U, ivec &p)
   {
-    it_assert1(X.rows() == X.cols(), "lu: matrix is not quadratic");
+    it_assert_debug(X.rows() == X.cols(), "lu: matrix is not quadratic");
     //int m, n, lda, info;
     //m = n = lda = X.rows();
     int m = X.rows(), info;
@@ -83,7 +83,7 @@ namespace itpp {
   // Slower than not using LAPACK when matrix size smaller than approx 20.
   bool lu(const cmat &X, cmat &L, cmat &U, ivec &p)
   {
-    it_assert1(X.rows() == X.cols(), "lu: matrix is not quadratic");
+    it_assert_debug(X.rows() == X.cols(), "lu: matrix is not quadratic");
     //int m, n, lda, info;
     //m = n = lda = X.rows();
     int m = X.rows(), info;
