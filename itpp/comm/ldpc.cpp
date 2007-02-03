@@ -1015,10 +1015,10 @@ namespace itpp {
     // Note the IT++ convention that a sure zero corresponds to
     // LLR=+infinity
     it_assert(H_is_defined,"there is no parity check matrix");
-    it_assert_debug(length(LLRin)==nvar 
-	       && length(sumX1)==nvar 
-	       && length(sumX2)==ncheck,
-	       "LDPC_Code::bp_decode() wrong input dimensions");
+    it_assert(length(LLRin)==nvar 
+	      && length(sumX1)==nvar 
+	      && length(sumX2)==ncheck,
+	      "LDPC_Code::bp_decode() wrong input dimensions");
     LLRout.set_size(length(LLRin));
 
     const int niter=dec_options(0);
