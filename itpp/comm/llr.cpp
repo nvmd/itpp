@@ -83,7 +83,7 @@ namespace itpp {
       double x = pow2(static_cast<double>(Dint3 - Dint1)) * i;
       result(i) = to_qllr(std::log(1 + std::exp(-x)));
     }
-    it_assert_debug(length(result)==Dint2,"Ldpc_codec::construct_logexp_table()");
+    it_assert(length(result)==Dint2,"Ldpc_codec::construct_logexp_table()");
 
     return result;
   }
