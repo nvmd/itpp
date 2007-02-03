@@ -157,8 +157,8 @@ namespace itpp {
   vec ls_solve_chol(const mat &A, const vec &b)
   {
     vec x;
-    bool info = ls_solve_chol(A, b, x);
-
+    bool info;
+    info = ls_solve_chol(A, b, x);
     it_assert_debug(info, "ls_solve_chol: Failed solving the system");
     return x;
   }
@@ -166,8 +166,8 @@ namespace itpp {
   mat ls_solve_chol(const mat &A, const mat &B)
   {
     mat X;
-    bool info = ls_solve_chol(A, B, X);
-
+    bool info;
+    info = ls_solve_chol(A, B, X);
     it_assert_debug(info, "ls_solve_chol: Failed solving the system");
     return X;
   }
@@ -175,8 +175,8 @@ namespace itpp {
   cvec ls_solve_chol(const cmat &A, const cvec &b)
   {
     cvec x;
-    bool info = ls_solve_chol(A, b, x);
-
+    bool info;
+    info = ls_solve_chol(A, b, x);
     it_assert_debug(info, "ls_solve_chol: Failed solving the system");
     return x;
   }
@@ -184,8 +184,8 @@ namespace itpp {
   cmat ls_solve_chol(const cmat &A, const cmat &B)
   {
     cmat X;
-    bool info = ls_solve_chol(A, B, X);
-
+    bool info;
+    info = ls_solve_chol(A, B, X);
     it_assert_debug(info, "ls_solve_chol: Failed solving the system");
     return X;
   }
@@ -297,8 +297,8 @@ namespace itpp {
   vec ls_solve(const mat &A, const vec &b)
   {
     vec x;
-    bool info = ls_solve(A, b, x);
-
+    bool info;
+    info = ls_solve(A, b, x);
     it_assert_debug(info, "ls_solve: Failed solving the system");
     return x;
   }
@@ -306,8 +306,8 @@ namespace itpp {
   mat ls_solve(const mat &A, const mat &B)
   {
     mat X;
-    bool info = ls_solve(A, B, X);
-
+    bool info;
+    info = ls_solve(A, B, X);
     it_assert_debug(info, "ls_solve: Failed solving the system");
     return X;
   }
@@ -315,8 +315,8 @@ namespace itpp {
   cvec ls_solve(const cmat &A, const cvec &b)
   {
     cvec x;
-    bool info = ls_solve(A, b, x);
-
+    bool info;
+    info = ls_solve(A, b, x);
     it_assert_debug(info, "ls_solve: Failed solving the system");
     return x;
   }
@@ -324,8 +324,8 @@ namespace itpp {
   cmat ls_solve(const cmat &A, const cmat &B)
   {
     cmat X;
-    bool info = ls_solve(A, B, X);
-
+    bool info;
+    info = ls_solve(A, B, X);
     it_assert_debug(info, "ls_solve: Failed solving the system");
     return X;
   }
@@ -453,8 +453,8 @@ namespace itpp {
   vec ls_solve_od(const mat &A, const vec &b)
   {
     vec x;
-    bool info = ls_solve_od(A, b, x);
-
+    bool info;
+    info = ls_solve_od(A, b, x);
     it_assert_debug(info, "ls_solve_od: Failed solving the system");
     return x;
   }
@@ -462,8 +462,8 @@ namespace itpp {
   mat ls_solve_od(const mat &A, const mat &B)
   {
     mat X;
-    bool info = ls_solve_od(A, B, X);
-
+    bool info;
+    info = ls_solve_od(A, B, X);
     it_assert_debug(info, "ls_solve_od: Failed solving the system");
     return X;
   }
@@ -471,8 +471,8 @@ namespace itpp {
   cvec ls_solve_od(const cmat &A, const cvec &b)
   {
     cvec x;
-    bool info = ls_solve_od(A, b, x);
-
+    bool info;
+    info = ls_solve_od(A, b, x);
     it_assert_debug(info, "ls_solve_od: Failed solving the system");
     return x;
   }
@@ -480,8 +480,8 @@ namespace itpp {
   cmat ls_solve_od(const cmat &A, const cmat &B)
   {
     cmat X;
-    bool info = ls_solve_od(A, B, X);
-
+    bool info;
+    info = ls_solve_od(A, B, X);
     it_assert_debug(info, "ls_solve_od: Failed solving the system");
     return X;
   }
@@ -615,8 +615,8 @@ namespace itpp {
   vec ls_solve_ud(const mat &A, const vec &b)
   {
     vec x;
-    bool info = ls_solve_ud(A, b, x);
-
+    bool info;
+    info = ls_solve_ud(A, b, x);
     it_assert_debug(info, "ls_solve_ud: Failed solving the system");
     return x;
   }
@@ -624,8 +624,8 @@ namespace itpp {
   mat ls_solve_ud(const mat &A, const mat &B)
   {
     mat X;
-    bool info = ls_solve_ud(A, B, X);
-
+    bool info;
+    info = ls_solve_ud(A, B, X);
     it_assert_debug(info, "ls_solve_ud: Failed solving the system");
     return X;
   }
@@ -633,8 +633,8 @@ namespace itpp {
   cvec ls_solve_ud(const cmat &A, const cvec &b)
   {
     cvec x;
-    bool info = ls_solve_ud(A, b, x);
-
+    bool info;
+    info = ls_solve_ud(A, b, x);
     it_assert_debug(info, "ls_solve_ud: Failed solving the system");
     return x;
   }
@@ -642,8 +642,8 @@ namespace itpp {
   cmat ls_solve_ud(const cmat &A, const cmat &B)
   {
     cmat X;
-    bool info = ls_solve_ud(A, B, X);
-
+    bool info;
+    info = ls_solve_ud(A, B, X);
     it_assert_debug(info, "ls_solve_ud: Failed solving the system");
     return X;
   }
@@ -670,10 +670,9 @@ namespace itpp {
   vec backslash(const mat &A, const vec &b)
   {
     vec x;
-    bool info = backslash(A, b, x);
-    
+    bool info;
+    info = backslash(A, b, x);
     it_assert_debug(info, "backslash(): solution was not found");
-
     return x;
   }
 
@@ -697,10 +696,9 @@ namespace itpp {
   mat backslash(const mat &A, const mat &B)
   {
     mat X;
-    bool info = backslash(A, B, X);
-
+    bool info;
+    info = backslash(A, B, X);
     it_assert_debug(info, "backslash(): solution was not found");
-
     return X;
   }
 
@@ -724,10 +722,9 @@ namespace itpp {
   cvec backslash(const cmat &A, const cvec &b)
   {
     cvec x;
-    bool info = backslash(A, b, x);
-
+    bool info;
+    info = backslash(A, b, x);
     it_assert_debug(info, "backslash(): solution was not found");
-
     return x;
   }
 
@@ -750,10 +747,9 @@ namespace itpp {
   cmat backslash(const cmat &A, const cmat &B)
   {
     cmat X;
-    bool info = backslash(A, B, X);
-
+    bool info;
+    info = backslash(A, B, X);
     it_assert_debug(info, "backslash(): solution was not found");
-
     return X;
   }
 
