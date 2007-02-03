@@ -1,3 +1,8 @@
+2007-02-03  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/algebra/ls_solve.cpp: Minor fixes to prevent "unused
+	variable" warnings when NDEBUG flag is defined.
+
 2007-02-03  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/base/gf2mat.cpp, itpp/comm/llr.cpp, itpp/comm/ldpc.cpp:
