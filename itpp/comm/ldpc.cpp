@@ -32,7 +32,6 @@
 
 #include <itpp/comm/ldpc.h>
 
-using std::cout;
 using std::endl;
 
 namespace itpp {
@@ -166,17 +165,17 @@ namespace itpp {
 					       vdeg.length())),
 			      to_ivec(vdeg)));
   
-    cout << "--- LDPC parity check matrix ---" << endl;
-    cout << "Dimension: ncheck*nvar = " << ncheck << " * " << nvar << endl;
-    cout << "Variable node degree distribution from node perspective:" 
-	 << endl << vdeg/nvar << endl;
-    cout << "Check node degree distribution from node perspective:" 
-	 << endl << cdeg/ncheck << endl;
-    cout << "Variable node degree distribution from edge perspective:" 
-	 << endl << vdegedge/edges << endl;
-    cout << "Check node degree distribution from edge perspective:" 
-	 << endl << cdegedge/edges << endl;  
-    cout << "--------------------------------" << endl;
+    it_info("--- LDPC parity check matrix ---");
+    it_info("Dimension: ncheck*nvar = " << ncheck << " * " << nvar);
+    it_info("Variable node degree distribution from node perspective:" 
+	    << endl << vdeg/nvar);
+    it_info("Check node degree distribution from node perspective:" 
+	    << endl << cdeg/ncheck);
+    it_info("Variable node degree distribution from edge perspective:" 
+	    << endl << vdegedge/edges);
+    it_info("Check node degree distribution from edge perspective:" 
+	    << endl << cdegedge/edges);  
+    it_info("--------------------------------");
   }
 
 
@@ -228,16 +227,15 @@ namespace itpp {
       do {
 	traverse_again=false;
 	cycles_found=0;
-	cout << "Starting new pass of cycle elimination, target girth "
-	     << (r+2) << "... " << endl;
+	it_info_debug("Starting new pass of cycle elimination, target girth "
+		      << (r+2) << "...");
 	int pdone=0;
 	for (int j=0; j<ncheck+nvar; j++) { // loop over elements of G
 	  for (int i=0; i<ncheck+nvar; i++ ) {
 	    int ptemp = floor_i(100.0*(i+j*(ncheck+nvar))/
 				((nvar+ncheck)*(nvar+ncheck)));
 	    if (ptemp>pdone+10) {
-	      cout << ptemp << "% done." << endl;
-	      cout.flush();
+	      it_info_debug(ptemp << "% done.");
 	      pdone=ptemp;
 	    }
 	  
@@ -340,15 +338,15 @@ namespace itpp {
 	}
       }  while (cycles_found!=0);
       scl=r;  // there were no cycles of length r; move on to next r
-      cout << "Achieved girth " << (scl+2) 
-	   << ". Proceeding to next level." << endl;
+      it_info_debug("Achieved girth " << (scl+2) 
+		    << ". Proceeding to next level.");
     } // loop over r
 
   finished:
     int girth=scl+2;  // scl=length of smallest cycle
-    cout << "Cycle removal (MGW algoritm) finished. Graph girth: " 
-	 << girth << ". Cycles remaining on next girth level: " 
-	 << cycles_found << endl;
+    it_info_debug("Cycle removal (MGW algoritm) finished. Graph girth: " 
+		  << girth << ". Cycles remaining on next girth level: " 
+		  << cycles_found);
  
     return girth;
   } 
@@ -502,7 +500,7 @@ namespace itpp {
     for (int i=length(cycopt); i<Nmax-2; i++) {
       Laim(i+2)=cycopt(length(cycopt)-1);
     }
-    cout << "Running with Laim=" << Laim.left(25) << endl;
+    it_info_debug("Running with Laim=" << Laim.left(25));
 
     int failures=0;    
     const int Max_attempts=100;
@@ -510,10 +508,10 @@ namespace itpp {
     for (int k=0; k<Ne; k++) {
       const int el=Ne-k-2;
       if (k%250==0) { 
-	cout << "Processing edge: " << k << " out of " << Ne 
-	     << ". Variable node degree: " << vd(vcon(k)) 
-	     << ". Girth target: " << Laim(vd(vcon(k))) 
-	     << ". Accumulated failures: " << failures << endl ; 
+	it_info("Processing edge: " << k << " out of " << Ne 
+		<< ". Variable node degree: " << vd(vcon(k)) 
+		<< ". Girth target: " << Laim(vd(vcon(k))) 
+		<< ". Accumulated failures: " << failures); 
       }
       const int c=cp(vcon(k));    
       int L= Laim(vd(vcon(k)));
@@ -682,7 +680,7 @@ namespace itpp {
     GF2mat P1; //(ncheck,nvar-ncheck);      // non-invertible part
     GF2mat P2; //(ncheck,ncheck);           // invertible part
  
-    cout << "Computing generator matrix..." << endl;
+    it_info_debug("Computing generator matrix...");
 
     int j1=0, j2=0;
     int rank;
@@ -690,8 +688,7 @@ namespace itpp {
     GF2mat T, U;
     for (int k=0; k<nvar; k++) {
       if (j1>=nvar-ncheck) {
-	cout << "Unable to obtain enough independent columns." << endl;
-	it_error("LDPC_Gmat(): internal error");
+	it_error("LDPC_Gmat(): Unable to obtain enough independent columns.");
       }
       bvec c = Hd.get_col(col_order(k));
       if (j2==0)  {       // first column in P2 is number col_order(k)
@@ -717,7 +714,7 @@ namespace itpp {
       }
     }
 
-    cout << "Rank of parity check matrix: " << j2 << endl;
+    it_info_debug("Rank of parity check matrix: " << j2);
 
     // compute the systematic part of the generator matrix
     G = (P2.inverse()*P1).transpose();
@@ -735,13 +732,13 @@ namespace itpp {
     }
   
     // check that the result was correct
-    it_assert_debug((GF2mat(H.H)*(gf2dense_eye(nvar-ncheck)
-			     .concatenate_horizontal(G)).transpose())
-	       .is_zero(),
-	       "LDPC_Gmat::LDPC_Gmat() result was incorrect");
+    it_assert_debug((GF2mat(H.H) * (gf2dense_eye(nvar-ncheck)
+				    .concatenate_horizontal(G)).transpose())
+		    .is_zero(),
+		    "LDPC_Gmat::LDPC_Gmat() result was incorrect");
 
     G=G.transpose();  // store the generator matrix in transposed form
-    cout << "LDPC_Generator_Matrix() done." << endl;
+    it_info_debug("LDPC_Generator_Matrix() done.");
   }
 
 
@@ -812,8 +809,8 @@ namespace itpp {
 
   void LDPC_Code::set_code(std::string filename)
   {
-    cout << "LDPC_Code::LDPC_Code(): Loading LDPC codec from " 
-	 << filename << endl;  
+    it_info_debug("LDPC_Code::LDPC_Code(): Loading LDPC codec from " 
+		  << filename);  
     it_ifile f(filename);
     int fileversion;
     f >> Name("Fileversion") >> fileversion;
@@ -842,7 +839,7 @@ namespace itpp {
 	ci = concat(zeros_b(i),ci);
 	it_assert(syndrome_check(ci),"LDPC_Code(): H and G do not match");
       }
-      cout << "LDPC_Code::LDPC_Code(): Passed cross-check check." << endl;
+      it_info_debug("LDPC_Code::LDPC_Code(): Passed cross-check check.");
       break;
     }
     default:
@@ -855,13 +852,14 @@ namespace itpp {
 //     mvc.set_size(nvar*max(sumX1));
     setup_decoder();
 
-    cout << "LDPC_Code::LDPC_Code(): Successfully loaded LDPC codec from " 
-	 << filename << endl;  
+    it_info_debug("LDPC_Code::LDPC_Code(): Successfully loaded LDPC codec from " 
+		  << filename);  
   }
 
   void LDPC_Code::save_to_file(std::string filename) const
   {
-    cout << "Saving LDPC codec to " << filename << endl;
+    it_info_debug("LDPC_Code::save_to_file(): Saving LDPC codec to "
+		  << filename);
     it_file f;
     f.open(filename,true);
     f << Name("Fileversion") << 1;
@@ -889,8 +887,8 @@ namespace itpp {
 
     f.close();
 
-    cout << "LDPC_Code::save_to_file(): "
-	 << " successfully saved LDPC codec to " << filename << endl;  
+    it_info_debug("LDPC_Code::save_to_file(): successfully saved LDPC codec to "
+		  << filename);  
   }
 
   void LDPC_Code::decoder_parameterization(const LDPC_Parity_Matrix &Hmat)
@@ -909,7 +907,7 @@ namespace itpp {
     jind = zeros_i(ncheck*vmax);
     iind = zeros_i(nvar*cmax);
     
-    cout << "Computing decoder parameterization. Phase 1." << endl;
+    it_info_debug("Computing decoder parameterization. Phase 1.");
     for (int i=0; i<nvar; i++) {
       ivec coli = Hmat.index_nonzeros(Hmat.get_col(i));
       for (int j0=0; j0<length(coli); j0++) {
@@ -917,7 +915,7 @@ namespace itpp {
       }
     }
 
-    cout << "Computing decoder parameterization. Phase 2." << endl;
+    it_info_debug("Computing decoder parameterization. Phase 2.");
     for (int j=0; j<ncheck; j++) {
       ivec rowj = Hmat.index_nonzeros(Hmat.get_row(j));
       for (int i0=0; i0<length(rowj); i0++) {
@@ -925,7 +923,7 @@ namespace itpp {
       }
     }   
 
-    cout << "Computing decoder parameterization. Phase 3." << endl;
+    it_info_debug("Computing decoder parameterization. Phase 3.");
     for (int j=0; j<ncheck; j++) {
       for (int ip=0; ip<sumX2(j); ip++) {
 	int vip = V(j+ip*ncheck);
@@ -940,7 +938,7 @@ namespace itpp {
       }
     }
 
-    cout << "Computing decoder parameterization. Phase 4." << endl;
+    it_info_debug("Computing decoder parameterization. Phase 4.");
     for (int i=0; i<nvar; i++) {
       for (int jp=0; jp<sumX1(i); jp++) {
 	int cjp = C(jp+i*cmax);
@@ -1020,18 +1018,18 @@ namespace itpp {
 	      && length(sumX2)==ncheck,
 	      "LDPC_Code::bp_decode() wrong input dimensions");
     LLRout.set_size(length(LLRin));
-
+    
     const int niter=dec_options(0);
     const int psc=dec_options(1);
     const int pisc=dec_options(2);
-  
+    
     if (pisc==1) {
       if (syndrome_check(LLRin)) {
 	LLRout = LLRin;
 	return 0; 
       }
     }
-
+    
     // initial step
     for (int i=0; i<nvar; i++) {
       int index = i;
@@ -1045,7 +1043,7 @@ namespace itpp {
     int iter =0;
     do {
       iter++;  
-      if (nvar>=100000) { cout << "."; cout.flush(); }
+      if (nvar>=100000) { it_info_no_endl_debug("."); }
       // --------- Step 1: check to variable nodes ----------
       for (int j=0; j<ncheck; j++) {
 	switch (sumX2(j)) {
@@ -1468,7 +1466,7 @@ namespace itpp {
       }
     } while  (iter<=niter);
    
-    if (nvar>=100000) { cout << endl; }
+    if (nvar>=100000) { it_info_debug(""); }
     return (is_valid_codeword ? iter : -iter);
   }
 
