@@ -1,5 +1,8 @@
 2007-02-04  Adam Piatyszek  <ediap@users.sourceforge.net>
-	
+
+	* tests/Makefile.am: Redirecting stderr to /dev/null during "make
+	check"
+
 	* itpp/base/itassert.h, itpp/base/itassert.cpp: Added
 	it_info_no_endl() and it_info_no_endl_debug() macros, which does
 	not append "std::endl" at the end of message.

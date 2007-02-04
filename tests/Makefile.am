@@ -144,7 +144,7 @@ EXTRA_DIST = itfile_test_data.it fastica_test_data.txt parser_test_data.txt \
 check-local: $(check_PROGRAMS) $(ref_files)
 	@for i in $(ALL_TESTS); do \
 		echo ------------------------------------------------------------------------------; \
-		./$$i$(EXEEXT) | sed 's/^M$$//' | sed 's/\(-\?[0-9]\+\.\?[0-9]*e[+-]\)0\([0-9][0-9]\)/\1\2/g' > $$i.tmp; \
+		./$$i$(EXEEXT) 2> /dev/null | sed 's/^M$$//' | sed 's/\(-\?[0-9]\+\.\?[0-9]*e[+-]\)0\([0-9][0-9]\)/\1\2/g' > $$i.tmp; \
 		diff $$i.tmp $(srcdir)/$$i.ref > /dev/null; \
 		if test "x$$?" = "x0"; then \
 			echo "Test \`$$i' PASSED."; \
