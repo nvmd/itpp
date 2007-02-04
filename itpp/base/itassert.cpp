@@ -83,7 +83,7 @@ namespace itpp {
 
   void it_info_f(std::string msg)
   {
-    std::cerr << msg << std::endl << std::flush;
+    std::cerr << msg << std::flush;
   }
 
   void it_warning_f(std::string msg, std::string file, int line)

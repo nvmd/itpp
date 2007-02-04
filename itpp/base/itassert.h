@@ -51,19 +51,22 @@ namespace itpp {
     For the following macros, the argument \c s is a string that is displayed.
   
     \code
-    it_assert(t,s);        // Abort if t is not true
-    it_assert_debug(t,s);  // Abort if t is not true and NDEBUG is not defined
-    it_error_if(t,s);      // Abort if t is true
-    it_error(s);           // Abort
-    it_info(s);            // Display a message
-    it_info_debug(s);      // Display a message if NDEBUG is not defined
-    it_warning(s);         // Display a warning
+    it_assert(t,s);           // Abort if t is not true
+    it_assert_debug(t,s);     // Abort if t is not true and NDEBUG is not defined
+    it_error_if(t,s);         // Abort if t is true
+    it_error(s);              // Abort
+    it_info(s);               // Display a message
+    it_info_debug(s);         // Display a message if NDEBUG is not defined
+    it_info_no_endl(s);       // Display a message without appended "std::endl"
+    it_info_no_endl_debug(s); // Display a message without appended "std::endl" if NDEBUG is not defined
+    it_warning(s);            // Display a warning
     \endcode
 
-    \c it_assert(), \c it_error(), \c it_error_if() and \c it_warning() are
-    always active, whereas \c it_assert_debug() and \c it_info_debug() depends
-    on the \c NDEBUG compile time definition. If \c NDEBUG is defined, then
-    none of these two macros is executed.
+    \c it_assert(), \c it_error(), \c it_error_if(), \c it_info(), \c
+    it_info_no_endl() and \c it_warning() are always active, whereas \c
+    it_assert_debug(), \c it_info_debug() and \c it_info_no_endl_debug()
+    depends on the \c NDEBUG compile time definition. If \c NDEBUG is
+    defined, then none of these macros is executed.
 
     \note \c it_assert0() and \c it_assert1() macros are still defined for
     backward compatibility, but \c it_assert_debug() should be used instead
@@ -71,11 +74,11 @@ namespace itpp {
   */
   //!@{
  
-  //! Helper function for the \c it_assert and \c it_assert_d macros
+  //! Helper function for the \c it_assert and \c it_assert_debug macros
   void it_assert_f(std::string ass, std::string msg, std::string file, int line);
   //! Helper function for the \c it_error and \c it_error_if macros
   void it_error_f(std::string msg, std::string file, int line);
-  //! Helper function for the \c it_info and \c it_info_d macros
+  //! Helper function for the \c it_info and \c it_info_debug macros
   void it_info_f(std::string msg);
   //! Helper function for the \c it_warning macro
   void it_warning_f(std::string msg, std::string file, int line);
@@ -134,6 +137,14 @@ namespace itpp {
 #define it_info(s)				\
   if (true) {					\
     std::ostringstream m_sout;			\
+    m_sout << s << std::endl;			\
+    itpp::it_info_f(m_sout.str());		\
+  } else					\
+    ((void) 0)
+
+#define it_info_no_endl(s)			\
+  if (true) {					\
+    std::ostringstream m_sout;			\
     m_sout << s;				\
     itpp::it_info_f(m_sout.str());		\
   } else					\
@@ -141,8 +152,10 @@ namespace itpp {
 
 #if defined(NDEBUG)
 #  define it_info_debug(s) ((void) 0)
+#  define it_info_no_endl_debug(s) ((void) 0)
 #else
 #  define it_info_debug(s) it_info(s)
+#  define it_info_no_endl_debug(s) it_info_no_endl(s)
 #endif // if defined(NDEBUG) 
 
 
