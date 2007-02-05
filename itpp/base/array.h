@@ -43,10 +43,14 @@ namespace itpp {
 
   // Forward declarations
   template<class T> class Array;
+  //! Append element \c e to the end of the Array \c a
   template<class T> const Array<T> concat(const Array<T> &a, const T e);
+  //! Append element \c e to the beginning of the Array \c a
   template<class T> const Array<T> concat(const T e, const Array<T> &a);
+  //! Concat Arrays \c a1 and \c a2
   template<class T> const Array<T> concat(const Array<T> &a1,
 					  const Array<T> &a2);
+  //! Concat Arrays \c a1, \c a2 and \c a3
   template<class T> const Array<T> concat(const Array<T> &a1, 
 					  const Array<T> &a2,
 					  const Array<T> &a3);

@@ -1,5 +1,9 @@
 2007-02-05  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/array.h, itpp/base/binfile.cpp, itpp/base/binfile.h,
+	itpp/base/converters.cpp: Documentation fixes related to Doxygen
+	warnings and errors
+
 	* itpp/base/algebra/ls_solve.h: Fixed improper declarations of
 	ls_solve_od() and ls_solve_ud() methods
 
