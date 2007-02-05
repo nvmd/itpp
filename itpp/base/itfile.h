@@ -87,7 +87,15 @@ namespace itpp {
       //! 0=little, 1=big
       char endianity;
       //! size variables
-      uint32_t hdr_bytes, data_bytes, block_bytes;
+      unsigned int hdr_bytes, data_bytes, block_bytes;
+      /* 
+	 WARNING: Due to a compilation problem under Cygwin, "uint32_t" is
+	 temporary replaced with "unsigned int" here. However, this change
+	 should be still portable and backward compatible, because we check
+	 for the size of unsigned int to be 32-bit only.
+
+	 uint32_t hdr_bytes, data_bytes, block_bytes;
+      */
       //! type=="" means deleted
       std::string name, type;
     };
