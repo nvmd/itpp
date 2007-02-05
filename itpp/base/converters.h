@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -46,109 +46,122 @@
 namespace itpp {
 
   //! \addtogroup convertfunc
-  //!@{
+  //@{
 
   /*!
-    \relates Vec
+    \relatesalso Vec
     \brief Converts a Vec<T> to bvec
   */
   template <class T>
-    bvec to_bvec(const Vec<T> &v);
+  bvec to_bvec(const Vec<T> &v);
 
   /*!
-    \relates Vec
+    \relatesalso Vec
     \brief Converts a Vec<T> to svec
   */
   template <class T>
-    svec to_svec(const Vec<T> &v);
+  svec to_svec(const Vec<T> &v);
 
   /*!
-    \relates Vec
+    \relatesalso Vec
     \brief Converts a Vec<T> to ivec
   */
   template <class T>
-    ivec to_ivec(const Vec<T> &v);
+  ivec to_ivec(const Vec<T> &v);
 
   /*!
-    \relates Vec
+    \relatesalso Vec
     \brief Converts a Vec<T> to vec
   */
   template <class T>
-    vec to_vec(const Vec<T> &v);
+  vec to_vec(const Vec<T> &v);
 
   /*!
-    \relates Vec
+    \relatesalso Vec
     \brief Converts a Vec<T> to cvec
   */
   template <class T>
-    cvec to_cvec(const Vec<T> &v);
+  cvec to_cvec(const Vec<T> &v);
 
   /*!
-    \relates Vec
+    \relatesalso Vec
+    \brief Converts a bvec to cvec
+  */
+  //  cvec to_cvec(const bvec &v);
+
+  /*!
+    \relatesalso Vec
     \brief Converts real and imaginary Vec<T> to cvec
   */
   template <class T>
-    cvec to_cvec(const Vec<T> &real, const Vec<T> &imag);
+  cvec to_cvec(const Vec<T> &real, const Vec<T> &imag);
 
   /*!
-    \relates Vec
+    \relatesalso Vec
+    \brief Converts real and imaginary bvec to cvec
+  */
+  //  cvec to_cvec(const bvec &real, const bvec &imag);
+
+  /*!
+    \relatesalso Vec
     \brief Converts an int to ivec
   */
   ivec to_ivec(int s);
 
   /*!
-    \relates Vec
+    \relatesalso Vec
     \brief Converts an double to vec
   */
   vec to_vec(double s);
 
   /*!
-    \relates Vec
+    \relatesalso Vec
     \brief Converts real and imaginary double to cvec
   */
   cvec to_cvec(double real, double imag);
 
+
   /*!
-    \relates Mat
+    \relatesalso Mat
     \brief Converts a Mat<T> to bmat
   */
   template <class T>
-    bmat to_bmat(const Mat<T> &m);
+  bmat to_bmat(const Mat<T> &m);
 
   /*!
-    \relates Mat
+    \relatesalso Mat
     \brief Converts a Mat<T> to smat
   */
   template <class T>
-    smat to_smat(const Mat<T> &m);
+  smat to_smat(const Mat<T> &m);
 
   /*!
-    \relates Mat
+    \relatesalso Mat
     \brief Converts a Mat<T> to imat
   */
   template <class T>
-    imat to_imat(const Mat<T> &m);
+  imat to_imat(const Mat<T> &m);
 
   /*!
-    \relates Mat
+    \relatesalso Mat
     \brief Converts a Mat<T> to mat
   */
   template <class T>
-    mat to_mat(const Mat<T> &m);
+  mat to_mat(const Mat<T> &m);
 
   /*!
-    \relates Mat
+    \relatesalso Mat
     \brief Converts a Mat<T> to cmat
   */
   template <class T>
-    cmat to_cmat(const Mat<T> &m);
+  cmat to_cmat(const Mat<T> &m);
 
   /*!
-    \relates Mat
+    \relatesalso Mat
     \brief Converts real and imaginary Mat<T> to cmat
   */
   template <class T>
-    cmat to_cmat(const Mat<T> &real, const Mat<T> &imag);
+  cmat to_cmat(const Mat<T> &real, const Mat<T> &imag);
 
 
   /*!
@@ -284,18 +297,18 @@ namespace itpp {
     \param i (Input) The value to be converted to a string
   */
   template <typename T>
-    std::string to_str(const T &i);
+  std::string to_str(const T &i);
   
   /*! 
     \brief Convert double to string
     
     \param[in]  i          The value to be converted to a string
     \param[in]  precision  The number of digits used to represent the
-                           fractional part
+    fractional part
   */
   std::string to_str(const double &i, const int precision);
 
-  //!@}
+  //@}
 
   template <typename T>
   std::string to_str(const T &i)
@@ -314,20 +327,19 @@ namespace itpp {
   //! Template instantiation of to_bvec
   extern template bvec to_bvec(const svec &v);
   //! Template instantiation of to_bvec
-  extern template bvec to_bvec(const Vec<int> &v);
+  extern template bvec to_bvec(const ivec &v);
+
   //! Template instantiation of to_svec
   extern template svec to_svec(const bvec &v);
   //! Template instantiation of to_svec
   extern template svec to_svec(const ivec &v);
-  //! Template instantiation of to_svec
-  extern template svec to_svec(const svec &v);
+  //! Template instantiation of to_ivec
+  extern template svec to_svec(const vec &v);
 
   //! Template instantiation of to_ivec
   extern template ivec to_ivec(const bvec &v);
   //! Template instantiation of to_ivec
   extern template ivec to_ivec(const svec &v);
-  //! Template instantiation of to_ivec
-  extern template ivec to_ivec(const ivec &v);
   //! Template instantiation of to_ivec
   extern template ivec to_ivec(const vec &v);
 
@@ -337,20 +349,16 @@ namespace itpp {
   extern template vec to_vec(const svec &v);
   //! Template instantiation of to_vec
   extern template vec to_vec(const ivec &v);
-  //! Template instantiation of to_vec
-  extern template vec to_vec(const vec &v);
 
-  // Template instantiation of to_cvec
-  //template cvec to_cvec(const bvec &v); //Specialization created above
-
+  //! Template instantiation of to_cvec
+  extern template cvec to_cvec(const bvec &v);
   //! Template instantiation of to_cvec
   extern template cvec to_cvec(const svec &v);
   //! Template instantiation of to_cvec
   extern template cvec to_cvec(const ivec &v);
   //! Template instantiation of to_cvec
   extern template cvec to_cvec(const vec &v);
-  //! Template instantiation of to_cvec
-  extern template cvec to_cvec(const cvec &v);
+
   //! Template instantiation of to_cvec
   extern template cvec to_cvec(const bvec &real, const bvec &imag);
   //! Template instantiation of to_cvec
@@ -364,18 +372,19 @@ namespace itpp {
   extern template bmat to_bmat(const smat &m);
   //! Template instantiation of to_bmat
   extern template bmat to_bmat(const imat &m);
+
   //! Template instantiation of to_bmat
   extern template smat to_smat(const bmat &m);
   //! Template instantiation of to_bmat
   extern template smat to_smat(const imat &m);
+  //! Template instantiation of to_bmat
+  extern template smat to_smat(const mat &m);
 
   //! Template instantiation of to_imat
   extern template imat to_imat(const bmat &m);
   //! Template instantiation of to_imat
   extern template imat to_imat(const smat &m);
   //! Template instantiation of to_imat
-  extern template imat to_imat(const imat &m);
-  // Template instantiation of to_imat
   extern template imat to_imat(const mat &m);
 
   //! Template instantiation of to_mat
@@ -384,20 +393,16 @@ namespace itpp {
   extern template mat to_mat(const smat &m);
   //! Template instantiation of to_mat
   extern template mat to_mat(const imat &m);
-  //! Template instantiation of to_mat
-  extern template mat to_mat(const mat &m);
 
-  // Template instantiation of to_cmat
-  //template cmat to_cmat(const bmat &m); //Specialization created above
-
+  //! Template instantiation of to_cmat
+  extern template cmat to_cmat(const bmat &m);
   //! Template instantiation of to_cmat
   extern template cmat to_cmat(const smat &m);
   //! Template instantiation of to_cmat
   extern template cmat to_cmat(const imat &m);
   //! Template instantiation of to_cmat
   extern template cmat to_cmat(const mat &m);
-  //! Template instantiation of to_cmat
-  extern template cmat to_cmat(const cmat &m);
+
   //! Template instantiation of to_cmat
   extern template cmat to_cmat(const bmat &real, const bmat &imag);
   //! Template instantiation of to_cmat
