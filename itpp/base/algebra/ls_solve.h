@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -208,7 +208,7 @@ namespace itpp {
   Solves the overdetermined linear system \f$AX=B\f$, where \f$A\f$ is a \f$m \times n\f$ matrix and \f$m \geq n\f$.
   Uses QR-factorization and assumes that \f$A\f$ is full rank. Based on the LAPACK routine ZGELS.
   */
-  bool ls_solve_od(const cmat &A, const cmat &B, mat &X);
+  bool ls_solve_od(const cmat &A, const cmat &B, cmat &X);
 
   /*! \brief Solves overdetermined linear equation systems.
 
@@ -267,7 +267,7 @@ namespace itpp {
   Solves the underdetermined linear system \f$AX=B\f$, where \f$A\f$ is a \f$m \times n\f$ matrix and \f$m \leq n\f$.
   Uses LQ-factorization and assumes that \f$A\f$ is full rank. Based on the LAPACK routine ZGELS.
   */
-  bool ls_solve_ud(const cmat &A, const cmat &B, mat &X);
+  bool ls_solve_ud(const cmat &A, const cmat &B, cmat &X);
 
   /*! \brief Solves underdetermined linear equation systems.
 
@@ -275,7 +275,6 @@ namespace itpp {
   Uses LQ-factorization and assumes that \f$A\f$ is full rank. Based on the LAPACK routine ZGELS.
   */
   cmat ls_solve_ud(const cmat &A, const cmat &B);
-
 
 
   /*! \brief A general linear equation system solver.
