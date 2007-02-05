@@ -99,6 +99,7 @@ namespace itpp {
   void it_error_msg_style(error_msg_style style);
 
 
+  //! Abort if \c t is not true
 #define it_assert(t,s)						\
   if (!(t)) {							\
     std::ostringstream m_sout;					\
@@ -108,15 +109,20 @@ namespace itpp {
     ((void) 0)
 
 #if defined(NDEBUG)
+  //! Abort if \c t is not true and NDEBUG is not defined
 #  define it_assert_debug(t,s) ((void) 0)
 #else
+  //! Abort if \c t is not true and NDEBUG is not defined
 #  define it_assert_debug(t,s) it_assert(t,s)
 #endif // if defined(NDEBUG) 
 
+  //! Deprecated macro. Please use \c it_assert_debug() instead.
 #define it_assert0(t,s) it_assert_debug(t,s)
+  //! Deprecated macro. Please use \c it_assert_debug() instead.
 #define it_assert1(t,s) it_assert_debug(t,s)
 
 
+  //! Abort if \c t is true
 #define it_error_if(t,s)				\
   if((t)) {						\
     std::ostringstream m_sout;				\
@@ -125,6 +131,7 @@ namespace itpp {
   } else						\
     ((void) 0)
 
+  //! Abort unconditionally
 #define it_error(s)					\
   if (true) {						\
     std::ostringstream m_sout;				\
@@ -134,6 +141,7 @@ namespace itpp {
     ((void) 0)
 
 
+  //! Print information message
 #define it_info(s)				\
   if (true) {					\
     std::ostringstream m_sout;			\
@@ -142,6 +150,7 @@ namespace itpp {
   } else					\
     ((void) 0)
 
+  //! Print information message withot \c std::endl at the end
 #define it_info_no_endl(s)			\
   if (true) {					\
     std::ostringstream m_sout;			\
@@ -151,14 +160,25 @@ namespace itpp {
     ((void) 0)
 
 #if defined(NDEBUG)
+  //! Print information message if NDEBUG is not defined
 #  define it_info_debug(s) ((void) 0)
+  /*! 
+    \brief Print information message withot \c std::endl at the end if
+    NDEBUG is not defined 
+  */
 #  define it_info_no_endl_debug(s) ((void) 0)
 #else
+  //! Print information message if NDEBUG is not defined
 #  define it_info_debug(s) it_info(s)
+  /*! 
+    \brief Print information message withot \c std::endl at the end if
+    NDEBUG is not defined 
+  */
 #  define it_info_no_endl_debug(s) it_info_no_endl(s)
 #endif // if defined(NDEBUG) 
 
 
+  //! Display a warning message
 #define it_warning(s)					\
   if (true) {						\
     std::ostringstream m_sout;				\
