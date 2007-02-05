@@ -1,3 +1,9 @@
+2007-02-06  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/converters.cpp, itpp/base/converters.h: Fixed Doxygen
+	errors and improved the implementation of to_cvec() and to_cmat()
+	functions
+
 2007-02-05  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/array.h, itpp/base/binfile.cpp, itpp/base/binfile.h,

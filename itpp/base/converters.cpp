@@ -37,15 +37,16 @@
 
 namespace itpp {
 
-  //--------------- Converters for vectors ------------------
+  // ----------------------------------------------------------------------
+  // Converters for vectors
+  // ----------------------------------------------------------------------
 
   template <class T>
   bvec to_bvec(const Vec<T> &v)
   {
     bvec temp(v.length());
     for (int i=0;i<v.length();i++){
-      //temp(i)=static_cast<bin>(v(i));
-      temp(i)=bin(v(i));
+      temp(i)=static_cast<bin>(v(i));
     }
     return temp;
   }
@@ -55,8 +56,7 @@ namespace itpp {
   {
     svec temp(v.length());
     for (int i=0;i<v.length();i++){
-      //temp(i)=static_cast<short>(v(i));
-      temp(i)=short(v(i));
+      temp(i)=static_cast<short>(v(i));
     }
     return temp;
   }
@@ -66,8 +66,7 @@ namespace itpp {
   {
     ivec temp(v.length());
     for (int i=0;i<v.length();i++){
-      //temp(i)=static_cast<int>(v(i));
-      temp(i)=int(v(i));
+      temp(i)=static_cast<int>(v(i));
     }
     return temp;
   }
@@ -77,8 +76,7 @@ namespace itpp {
   {
     vec temp(v.length());
     for (int i=0;i<v.length();i++){
-      //temp(i)=static_cast<double>(v(i));
-      temp(i)=double(v(i));
+      temp(i)=static_cast<double>(v(i));
     }
     return temp;
   }
@@ -88,22 +86,22 @@ namespace itpp {
   {
     cvec temp(v.length());
     for (int i=0;i<v.length();i++){
-      //temp(i)=static_cast<complex<double> >(v(i));
-      temp(i)=std::complex<double>(v(i));
+      temp(i) = std::complex<double>(static_cast<double>(v(i)), 0.0);
     }
     return temp;
   }
 
-  cvec to_cvec(const bvec &v)
+  template <class T>
+  cvec to_cvec(const Vec<T> &real, const Vec<T> &imag)
   {
-    cvec temp(v.length());
-    for (int i=0;i<v.length();i++){
-      if (v(i)==bin(0)) { 
-	temp(i) = std::complex<double>(0.0,0.0);
-      } else {
-	temp(i) = std::complex<double>(1.0,0.0);
-      }
+    it_assert(real.length() == imag.length(),
+	      "to_cvec(): real and imaginary parts must have the same length");
+    cvec temp(real.length());
+    for(int i=0;i<real.length();i++){
+      temp(i) = std::complex<double>(static_cast<double>(real(i)),
+				     static_cast<double>(imag(i)));
     }
+		
     return temp;
   }
 
@@ -113,22 +111,20 @@ namespace itpp {
 
   cvec to_cvec(double real, double imag) {cvec out(1); out(0) = std::complex<double>(real,imag); return out;}
 
-  //------------- end of converters for vectors -------------
 
-  //--------------- Converters for matricies ------------------
+  // ----------------------------------------------------------------------
+  // Converters for matrices
+  // ----------------------------------------------------------------------
 
   template <class T>
   bmat to_bmat(const Mat<T> &m)
   {
     bmat temp(m.rows(),m.cols());
-
     for (int i=0;i<temp.rows();i++) {
       for (int j=0;j<temp.cols();j++) {
-	//temp(i,j)=static_cast<bin>(m(i,j));
-	temp(i,j)=bin(m(i,j));
+	temp(i,j) = static_cast<bin>(m(i,j));
       }
     }
-
     return temp;
   }
 
@@ -136,14 +132,11 @@ namespace itpp {
   smat to_smat(const Mat<T> &m)
   {
     smat temp(m.rows(),m.cols());
-
     for (int i=0;i<temp.rows();i++) {
       for (int j=0;j<temp.cols();j++) {
-	//temp(i,j)=static_cast<short>(m(i,j));
-	temp(i,j)=short(m(i,j));
+	temp(i,j) = static_cast<short>(m(i,j));
       }
     }
-
     return temp;
   }
 
@@ -151,14 +144,11 @@ namespace itpp {
   imat to_imat(const Mat<T> &m)
   {
     imat temp(m.rows(),m.cols());
-
     for (int i=0;i<temp.rows();i++) {
       for (int j=0;j<temp.cols();j++) {
-	//temp(i,j)=static_cast<int>(m(i,j));
-	temp(i,j)=int(m(i,j));
+	temp(i,j) = static_cast<int>(m(i,j));
       }
     }
-
     return temp;
   }
 
@@ -166,14 +156,11 @@ namespace itpp {
   mat to_mat(const Mat<T> &m)
   {
     mat temp(m.rows(),m.cols());
-
     for (int i=0;i<temp.rows();i++) {
       for (int j=0;j<temp.cols();j++) {
-	//temp(i,j)=static_cast<double>(m(i,j));
-	temp(i,j)=double(m(i,j));
+	temp(i,j) = static_cast<double>(m(i,j));
       }
     }
-
     return temp;
   }
 
@@ -181,62 +168,33 @@ namespace itpp {
   cmat to_cmat(const Mat<T> &m)
   {
     cmat temp(m.rows(),m.cols());
-
     for (int i=0;i<temp.rows();i++) {
       for (int j=0;j<temp.cols();j++) {
-	//temp(i,j)=static_cast<std::complex<double> >(m(i,j));
-	temp(i,j)=std::complex<double>(m(i,j));
+	temp(i,j) = std::complex<double>(static_cast<double>(m(i,j)), 0.0);
       }
     }
-
-    return temp;
-  }
-
-  cmat to_cmat(const bmat &m)
-  {
-    cmat temp(m.rows(),m.cols());
-
-    for (int i=0;i<temp.rows();i++) {
-      for (int j=0;j<temp.cols();j++) {
-	if (m(i,j)==bin(0)) { 
-	  temp(i,j) = std::complex<double>(0.0,0.0);
-	} else {
-	  temp(i,j) = std::complex<double>(1.0,0.0);
-	}
-      }
-    }
-
-    return temp;
-  }
-
-  //------------- end of converters for matricies -------------
-
-  template <class T>
-  cvec to_cvec(const Vec<T> &real, const Vec<T> &imag)
-  {
-    it_assert(real.length()==imag.length(),"to_cvec: real and imaginary parts must have the same length");
-    cvec temp(real.length());
-    for(int i=0;i<real.length();i++){
-      temp(i)=std::complex<double>(real(i),imag(i));
-    }
-		
     return temp;
   }
 
   template <class T>
   cmat to_cmat(const Mat<T> &real, const Mat<T> &imag)
   {
-    it_assert_debug(real.rows()==imag.rows() && real.cols()==imag.cols(), "to_cmat::real and imag part sizes does not match");
+    it_assert_debug((real.rows() == imag.rows()) && (real.cols() == imag.cols()),
+		    "to_cmat(): real and imag part sizes does not match");
     cmat temp(real.rows(),real.cols());
-
     for (int i=0;i<temp.rows();i++) {
       for (int j=0;j<temp.cols();j++) {
-	temp(i,j)=std::complex<double>(real(i,j), imag(i,j));
+	temp(i,j) = std::complex<double>(static_cast<double>(real(i,j)),
+					 static_cast<double>(imag(i,j)));
       }
     }
-
     return temp;
   }
+
+
+  // ----------------------------------------------------------------------
+  // Miscellaneous converters
+  // ----------------------------------------------------------------------
 
   bvec dec2bin(int length, int index)
   {
@@ -376,17 +334,6 @@ namespace itpp {
   }
 
 
-  /*
-  template <>
-  string to_str(const double &i)
-  {
-    std::ostringstream ss;
-    ss.precision(8);
-    ss.setf(ostringstream::scientific,ostringstream::floatfield);
-    ss << i;
-    return ss.str();
-  }
-*/  
   std::string to_str(const double &i, const int precision)
   {
     std::ostringstream ss;
@@ -399,29 +346,25 @@ namespace itpp {
   // ---------------------- Instantiations -----------------------------------------
 
   template bvec to_bvec(const svec &v);
-  template bvec to_bvec(const Vec<int> &v);
+  template bvec to_bvec(const ivec &v);
+
   template svec to_svec(const bvec &v);
   template svec to_svec(const ivec &v);
-  template svec to_svec(const svec &v);
   template svec to_svec(const vec &v);
 
   template ivec to_ivec(const bvec &v);
   template ivec to_ivec(const svec &v);
-  template ivec to_ivec(const ivec &v);
   template ivec to_ivec(const vec &v);
 
   template vec to_vec(const bvec &v);
   template vec to_vec(const svec &v);
   template vec to_vec(const ivec &v);
-  template vec to_vec(const vec &v);
 
-  // Template instantiation of to_cvec
-  //template cvec to_cvec(const bvec &v); //Specialization created above
-
+  template cvec to_cvec(const bvec &v);
   template cvec to_cvec(const svec &v);
   template cvec to_cvec(const ivec &v);
   template cvec to_cvec(const vec &v);
-  template cvec to_cvec(const cvec &v);
+
   template cvec to_cvec(const bvec &real, const bvec &imag);
   template cvec to_cvec(const svec &real, const svec &imag);
   template cvec to_cvec(const ivec &real, const ivec &imag);
@@ -429,26 +372,24 @@ namespace itpp {
 
   template bmat to_bmat(const smat &m);
   template bmat to_bmat(const imat &m);
+
   template smat to_smat(const bmat &m);
   template smat to_smat(const imat &m);
+  template smat to_smat(const mat &m);
 
   template imat to_imat(const bmat &m);
   template imat to_imat(const smat &m);
-  template imat to_imat(const imat &m);
   template imat to_imat(const mat &m);
 
   template mat to_mat(const bmat &m);
   template mat to_mat(const smat &m);
   template mat to_mat(const imat &m);
-  template mat to_mat(const mat &m);
 
-  // Template instantiation of to_cmat
-  // template cmat to_cmat(const bmat &m); //Specialization created above
-
+  template cmat to_cmat(const bmat &m);
   template cmat to_cmat(const smat &m);
   template cmat to_cmat(const imat &m);
   template cmat to_cmat(const mat &m);
-  template cmat to_cmat(const cmat &m);
+
   template cmat to_cmat(const bmat &real, const bmat &imag);
   template cmat to_cmat(const smat &real, const smat &imag);
   template cmat to_cmat(const imat &real, const imat &imag);
