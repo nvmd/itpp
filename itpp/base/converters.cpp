@@ -348,9 +348,9 @@ namespace itpp {
   // Round to nearest upper integer
   imat ceil_i(const mat &x) { return to_imat(ceil(x)); }
 
-  //! Round to nearest lower integer
+  // Round to nearest lower integer
   ivec floor_i(const vec &x) { return to_ivec(floor(x)); }
-  //! Round to nearest lower integer
+  // Round to nearest lower integer
   imat floor_i(const mat &x) { return to_imat(floor(x)); }
 
 

@@ -42,7 +42,7 @@ using std::ios;
 
 namespace itpp { 
 
-  // Read binary data and optionally switch endianness
+  //! Read binary data and optionally switch endianness
   template<typename T1, typename T2> inline
   void read_endian(T1& st, T2& data, bool switch_endian = false)
   {
@@ -55,7 +55,7 @@ namespace itpp {
 	st.get(c[i]);
   }
 
-  // Write binary data and optionally switch endianness
+  //! Write binary data and optionally switch endianness
   template<typename T1, typename T2> inline
   void write_endian(T1& st, T2 data, bool switch_endian = false)
   {

@@ -144,7 +144,7 @@ namespace itpp {
     //! Writes a \c char variable to the binary output file
     bofstream& operator<<(char a);
     //! Writes a \c bin variable to the binary output file
-    bofstream& operator<<(const class bin &a);
+    bofstream& operator<<(const bin &a);
     //! Writes an \c int variable to the binary output file
     bofstream& operator<<(int a);
     //! Writes an \c unsigned \c int variable to the binary output file
@@ -204,7 +204,7 @@ namespace itpp {
     //! Reads a \c char variable from the binary input file
     bifstream& operator>>(char &a);
     //! Reads a \c bin variable from the binary input file
-    bifstream& operator>>(class bin &a);
+    bifstream& operator>>(bin &a);
     //! Reads an \c int variable from the binary input file
     bifstream& operator>>(int &a);
     //! Reads an \c unsigned \c int variable from the binary input file
@@ -274,7 +274,7 @@ namespace itpp {
     //! Writes a \c char variable to the binary file
     bfstream& operator<<(char a);
     //! Writes a \c bin variable to the binary file
-    bfstream& operator<<(const class bin &a);
+    bfstream& operator<<(const bin &a);
     //! Writes an \c int variable to the binary file
     bfstream& operator<<(int a);
     //! Writes an \c unsigned \c int variable to the binary file
@@ -299,7 +299,7 @@ namespace itpp {
     //! Reads a \c char variable from the binary file
     bfstream& operator>>(char &a);
     //! Reads a \c bin variable from the binary file
-    bfstream& operator>>(class bin &a);
+    bfstream& operator>>(bin &a);
     //! Reads an \c int variable from the binary file
     bfstream& operator>>(int &a);
     //! Reads an \c unsigned \c int variable from the binary file
