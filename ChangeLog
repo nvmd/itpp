@@ -1,3 +1,8 @@
+2007-02-05  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/itfile.h: Replaced "uint32_t" with "unsigned int",
+	which is a workaroud for the compilation problem under Cygwin.
+
 2007-02-04  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/comm/ldpc.cpp, tests/ldpc_test.ref: Updated information
