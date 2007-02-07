@@ -1609,6 +1609,7 @@ namespace itpp {
     return false;
   }
 
+  //! Output stream operator of a vector \c v
   template<class Num_T>
   std::ostream &operator<<(std::ostream &os, const Vec<Num_T> &v)
   {
@@ -1625,6 +1626,7 @@ namespace itpp {
     return os;
   }
 
+  //! Input stream operator to read a vector
   template<class Num_T>
   std::istream &operator>>(std::istream &is, Vec<Num_T> &v)
   {
