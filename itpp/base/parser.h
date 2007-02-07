@@ -13,7 +13,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@
 #ifndef PARSER_H
 #define PARSER_H
 
-#define MAX_STR_LEN 4096
+// #define MAX_STR_LEN 4096
 
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>

@@ -987,6 +987,7 @@ namespace itpp {
       return trans_mult(m1.transpose(),m2.transpose());
     }
 
+  //! Convert a dense matrix \c m into its sparse representation
   template <class T>
     inline Sparse_Mat<T> sparse(const Mat<T> &m, T epsilon)
     {
@@ -994,6 +995,7 @@ namespace itpp {
       return s;
     }
 
+  //! Convert a sparse matrix \c s into its dense representation
   template <class T>
     inline Mat<T> full(const Sparse_Mat<T> &s)
     {
@@ -1002,6 +1004,7 @@ namespace itpp {
       return m;
     }
 
+  //! Transpose a sparse matrix \c s
   template <class T>
     inline Sparse_Mat<T> transpose(const Sparse_Mat<T> &s)
     {
