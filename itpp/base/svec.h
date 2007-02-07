@@ -1172,6 +1172,7 @@ namespace itpp {
       return r;
     }
 
+  //! Convert a dense vector \c v into its sparse representation
   template <class T>
     inline Sparse_Vec<T> sparse(const Vec<T> &v)
     {
@@ -1179,6 +1180,7 @@ namespace itpp {
       return s;
     }
 
+  //! Convert a dense vector \c v into its sparse representation
   template <class T>
     inline Sparse_Vec<T> sparse(const Vec<T> &v, T epsilon)
     {
@@ -1186,6 +1188,7 @@ namespace itpp {
       return s;
     }
 
+  //! Convert a sparse vector \c s into its dense representation
   template <class T>
     inline Vec<T> full(const Sparse_Vec<T> &s)
     {

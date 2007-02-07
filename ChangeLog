@@ -2,8 +2,10 @@
 
 	* itpp/base/fastmath.h, itpp/base/gf2mat.h, itpp/base/ittypes.h,
 	itpp/base/mat.h, itpp/base/matfunc.h, itpp/base/math/elem_math.h,
-	itpp/base/math/error.cpp, itpp/base/math/integration.cpp: Fixed
-	Doxygen warnings by adding or correcting the documentation
+	itpp/base/math/error.cpp, itpp/base/math/integration.cpp,
+	itpp/base/operators.h, itpp/base/parser.h, itpp/base/smat.h,
+	itpp/base/svec.h: Fixed Doxygen warnings by adding or correcting
+	the documentation
 
 2007-02-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 
