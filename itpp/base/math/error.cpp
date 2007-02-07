@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -122,7 +122,7 @@ double erf(double x)
 
 namespace itpp { 
 
-  /*
+  /*!
    * Abramowitz and Stegun: Eq. (7.1.14) gives this continued fraction
    * for erfc(z)
    *
@@ -171,6 +171,7 @@ namespace itpp {
     return f;
   }
 
+  //! Complementary function to \c cerfc_continued_fraction
   std::complex<double> cerf_continued_fraction(const std::complex<double>& z)
   {
     if (z.real() > 0)
@@ -179,7 +180,7 @@ namespace itpp {
       return -1.0 + cerfc_continued_fraction(-z);
   }
 
-  /*
+  /*!
    * Abramawitz and Stegun: Eq. (7.1.5) gives a series for erf(z) good
    * for all z, but converges faster for smallish abs(z), say abs(z) < 2.
    */
@@ -198,7 +199,7 @@ namespace itpp {
     return sum * 2.0 / std::sqrt(pi);
   }
 
-  /*
+  /*!
    * Numerical Recipes quotes a formula due to Rybicki for evaluating
    * Dawson's Integral:
    *
