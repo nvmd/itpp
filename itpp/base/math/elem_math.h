@@ -54,6 +54,7 @@ double tgamma(double x);
 #if !defined(HAVE_LGAMMA) || (HAVE_DECL_SIGNGAM != 1)
 //! Lograrithm of an absolute gamma function
 double lgamma(double x);
+//! Global variable needed by \c lgamma function
 extern int signgam;
 #endif
 

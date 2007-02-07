@@ -12,7 +12,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -41,13 +41,13 @@
 namespace itpp {
 
   /*! 
-    \relates Mat
+    \relatesalso Mat
     \brief Calculates m=m-v*v'*m
   */
   void sub_v_vT_m(mat &m, const vec &v);
 
   /*! 
-    \relates Mat
+    \relatesalso Mat
     \brief Calculates m=m-m*v*v'
   */
   void sub_m_v_vT(mat &m, const vec &v);

@@ -71,7 +71,7 @@ namespace itpp {
   // ============================================================
 
   /*!
-    \relates GF2mat_sparse
+    \relatesalso GF2mat_sparse
     \brief Parameterized "alist" representation of sparse GF(2) matrix
     \author Adam Piatyszek and Erik G. Larsson 
 
@@ -139,7 +139,7 @@ namespace itpp {
   // ============================================================
    
   /*! 
-    \relates bmat
+    \relatesalso bmat
     \brief Class for dense GF(2) matrices
     \author Erik G. Larsson 
 
@@ -425,48 +425,49 @@ namespace itpp {
   // ============ RELATED FUNCTIONS ============================
 
   /*!  
-    /relates GF2mat 
+    /relatesalso GF2mat 
     /brief Write GF(2) matrix to file.
   */
   it_file &operator<<(it_file &f, const GF2mat &X);
 
   /*!  
-    /relates GF2mat 
+    /relatesalso GF2mat 
     /brief Read GF(2) matrix from file.
   */
   it_ifile &operator>>(it_ifile &f, GF2mat &X);
 
   /*!
-    \relates GF2mat
+    \relatesalso GF2mat
     \brief GF(2) matrix multiplication 
   */
   GF2mat operator*(const GF2mat &X, const GF2mat &Y);
 
   /*!
-    \relates GF2mat
+    \relatesalso GF2mat
     \brief GF(2) matrix multiplication with "regular" binary vector
   */
   bvec operator*(const GF2mat &X, const bvec &y);
 
   /*!
-    \relates GF2mat
+    \relatesalso GF2mat
     \brief GF(2) matrix addition 
   */
   GF2mat operator+(const GF2mat &X, const GF2mat &Y);
 
   /*!
-    \relates GF2mat
+    \relatesalso GF2mat
     \brief Output stream (plain text) operator for dense GF(2) matrices
   */
   std::ostream &operator<<(std::ostream &os, const GF2mat &X);
 
   /*!
-    \relates GF2mat
+    \relatesalso GF2mat
     \brief GF(2) Identity matrix
   */
   GF2mat gf2dense_eye(int m);
 
-  /*! \relates GF2mat
+  /*!
+    \relatesalso GF2mat
     \brief Multiplication X*Y' where X and Y are GF(2) matrices
   */
   GF2mat mult_trans(const GF2mat &X, const GF2mat &Y);

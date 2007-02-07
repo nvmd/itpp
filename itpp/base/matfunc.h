@@ -888,7 +888,7 @@ namespace itpp {
 
   //! Extern Template instantiation of product
   extern template vec prod(const mat &m, int dim);
-  // Extern Template instantiation of product
+  //! Extern Template instantiation of product
   extern template cvec prod(const cmat &v, int dim);
   //! Extern Template instantiation of product
   extern template svec prod(const smat &m, int dim);
