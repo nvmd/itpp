@@ -474,14 +474,14 @@ namespace itpp {
   // ----------------------------------------------------------------------
 
   /*!
-    \relates Mat
+    \relatesalso Mat
     \brief Output stream for matrices
   */
   template <class Num_T>
   std::ostream &operator<<(std::ostream &os, const Mat<Num_T> &m);
 
   /*!
-    \relates Mat
+    \relatesalso Mat
     \brief Input stream for matrices
 
     The input can be on the form "1 2 3; 4 5 6" or "[[1 2 3][4 5 6]]", i.e. with
