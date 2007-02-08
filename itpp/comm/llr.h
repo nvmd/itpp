@@ -217,7 +217,8 @@ namespace itpp {
 
   };
 
-  /*! \relates LLR_calc_unit
+  /*!
+    \relatesalso LLR_calc_unit
     \brief Print some properties of the LLR calculation unit in plain text.
   */
   std::ostream &operator<<(std::ostream &os, const LLR_calc_unit &lcu);

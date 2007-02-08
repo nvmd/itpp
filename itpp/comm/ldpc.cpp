@@ -954,7 +954,7 @@ namespace itpp {
     H_is_defined=1;
   }
 
-  std::ostream &operator<<(std::ostream &os, LDPC_Code &C)
+  std::ostream &operator<<(std::ostream &os, const LDPC_Code &C)
   {
     ivec rdeg = zeros_i(max(C.sumX2)+1);
     for (int i=0; i<C.ncheck; i++)     {
