@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,9 +38,10 @@
 
 namespace itpp {
 
-  /*! \addtogroup sigproc
+  /*!
+   * \addtogroup sigproc
+   * @{
    */
-  //!@{
 
   /*! 
     \brief Cross-correlation calculation
@@ -65,9 +66,12 @@ namespace itpp {
     \param max_lag (Input) Maximum lag for which the cross-correlation is calculated. The output vector is of size \c 2*maxlag+1. 
     Default value: \c max_lag=-1 calculates the cross-correlations for all possible lags
     \param scaleopt (Input) Indicates how the cross-correlation function should be scaled. Default value: \c "none" indicates that no scaling is done
+
+    @{
   */
   void xcorr_old(const vec &x, const vec &y, vec &out, const int max_lag=-1, const std::string scaleopt="none");
   void xcorr(const vec &x, const vec &y, vec &out, const int max_lag=-1, const std::string scaleopt="none");
+  /*! @} */
 
   /*! 
     \brief Cross-correlation calculation
@@ -93,9 +97,12 @@ namespace itpp {
     \param scaleopt (Input) Indicates how the cross-correlation function should be scaled. Default 
     value: \c "none" indicates that no scaling is done
     \returns The cross correlation between \a x and \a y.
+
+    @{
   */
   vec xcorr_old(const vec &x, const vec &y, const int max_lag=-1, const std::string scaleopt="none");
   vec xcorr(const vec &x, const vec &y, const int max_lag=-1, const std::string scaleopt="none");
+  /*! @} */
 
   /*!
     \brief Cross Correlation
@@ -127,9 +134,12 @@ namespace itpp {
     \param scaleopt (Input) Indicates how the auto-correlation function should be scaled. 
     Default value: \c "none" indicates that no scaling is done.
     \returns The auto-correlation of \a x.
+
+    @{
   */
   vec xcorr_old(const vec &x, const int max_lag=-1, const std::string scaleopt="none");
   vec xcorr(const vec &x, const int max_lag=-1, const std::string scaleopt="none");
+  /*! @} */
 
   /*!
     \brief Cross Correlation
@@ -189,7 +199,7 @@ namespace itpp {
   */
   vec filter_spectrum(const vec &a, const vec &b, int nfft=256);
 
-  //!@}
+  /*! @} */
 
 } // namespace itpp
 

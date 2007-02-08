@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@
 
 namespace itpp {
 
-  template<>
+  template<double>
   bool Vec<double>::set(const char *values)
   {
     std::istringstream buffer(values);
@@ -174,7 +174,7 @@ namespace itpp {
   }
 
 
-  template<>
+  template<std::complex<double> >
   bool Vec<std::complex<double> >::set(const char *values)
   {
     std::istringstream buffer(values);
@@ -214,7 +214,7 @@ namespace itpp {
   }
 
 
-  template<>
+  template<bin>
   bool Vec<bin>::set(const char *values)
   {
     std::istringstream buffer(values);
@@ -255,7 +255,7 @@ namespace itpp {
   }
 
 
-  template<>
+  template<int>
   bool Vec<int>::set(const char *values)
   {
     std::istringstream buffer(values);
@@ -738,7 +738,7 @@ namespace itpp {
     return true;
   }
 
-  template<>
+  template<short int>
   bool Vec<short int>::set(const char *values)
   {
     std::istringstream buffer(values);

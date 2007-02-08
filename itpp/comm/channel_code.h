@@ -52,9 +52,9 @@ namespace itpp {
   */
   class Channel_Code {
   public:
-    //! 
+    //! Default constructor
     Channel_Code() {}
-    //! 
+    //! Destructor
     virtual ~Channel_Code() {}
 
     //! Encode a bvec of input
@@ -87,9 +87,9 @@ namespace itpp {
   */
   class Dummy_Code : public Channel_Code {
   public:
-    //! 
+    //! Default constructor
     Dummy_Code() {}
-    //! 
+    //! Destructor
     virtual ~Dummy_Code() {}
 
     //! Encode a bvec of input

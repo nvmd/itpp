@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -51,13 +51,14 @@ namespace itpp {
 
     Stabilizes the polynomial transfer function by replacing all roots outside
     the unit cirlce with their reflection inside the unit circle.
+
+    @{
   */
-  //!@{
   void polystab(const vec &a, vec &out);
   inline vec polystab(const vec &a) { vec temp; polystab(a, temp); return temp; }
   void polystab(const cvec &a, cvec &out);
   inline cvec polystab(const cvec &a) { cvec temp; polystab(a, temp); return temp; }
-  //!@}
+  /*! @} */
   
   /*!
     \brief Frequency response of filter
@@ -69,8 +70,9 @@ namespace itpp {
     The default value of N is 512.
 
     If \c w is supplied polyval() is used. Otherwise the calculation is based on the fft.
+
+    @{
   */
-  //!@{
   void freqz(const cvec &b, const cvec& a, const int N, cvec &h, vec &w);
   cvec freqz(const cvec &b, const cvec& a, const int N = 512);
   cvec freqz(const cvec &b, const cvec& a, const vec &w);
@@ -78,7 +80,7 @@ namespace itpp {
   void freqz(const vec &b, const vec& a, const int N, cvec &h, vec &w);
   cvec freqz(const vec &b, const vec& a, const int N = 512);
   cvec freqz(const vec &b, const vec& a, const vec &w);
-  //!@}
+  /*! @} */
 
 
 

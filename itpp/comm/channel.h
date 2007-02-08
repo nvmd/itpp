@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -228,7 +228,9 @@ namespace itpp {
    */
   class Fading_Generator {
   public:
+    //! Default constructor
     Fading_Generator();
+    //! Destructor
     virtual ~Fading_Generator() {}
  
     //! Set relative LOS power
@@ -455,10 +457,14 @@ namespace itpp {
     int Ni;
     //! Rice process generation method
     RICE_METHOD rice_method;
-    //! Doppler frequencies, amplitudes and phases
+    /*! Doppler frequencies, amplitudes and phases
+     * @{ */
     vec f1, f2, c1, c2, th1, th2;
-    //! frequency shift values of the Doppler spectrum in GaussI and GaussII
+    /*! @} */
+    /*! Frequency shift values of the Doppler spectrum in GaussI and GaussII
+     * @{ */
     double f01, f02;
+    /*! @} */
 
     //! Init function for MEDS method
     void init_MEDS();
@@ -504,6 +510,7 @@ namespace itpp {
   protected:
     int fir_length; //!< Size of FIR filter
     int upsample_rate; //!< Upsampling rate for linear interpolation
+    //! Filter used for fading generation
     MA_Filter<std::complex<double>, double, std::complex<double> > fir_filter;
     cvec left_overs; //!< Left-overs from upsampling
 

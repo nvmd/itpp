@@ -705,11 +705,21 @@ namespace itpp {
     data[i] = v;
   }
 
-  template<> bool Vec<double>::set(const char *values);
-  template<> bool Vec<std::complex<double> >::set(const char *values);
-  template<> bool Vec<bin>::set(const char *values);
-  template<> bool Vec<int>::set(const char *values);
-  template<> bool Vec<short int>::set(const char *values);
+  //! Specialisation of \c set() for double
+  template<double>
+  bool Vec<double>::set(const char *values);
+  //! Specialisation of \c set() for std::complex<double>
+  template<std::complex<double> >
+  bool Vec<std::complex<double> >::set(const char *values);
+  //! Specialisation of \c set() for itpp::bin
+  template<bin>
+  bool Vec<bin>::set(const char *values);
+  //! Specialisation of \c set() for int
+  template<int>
+  bool Vec<int>::set(const char *values);
+  //! Specialisation of \c set() for short int
+  template<short int> 
+  bool Vec<short int>::set(const char *values);
 
   template<class Num_T>
   bool Vec<Num_T>::set(const char *values)

@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -179,8 +179,10 @@ namespace itpp {
     //! Get the period of the code (length of code vector).
     short get_period() { return spreadI.get_period(); }
   protected:
-    //! The spreaders for the I and Q channels respectively
+    /*! The spreaders for the I and Q channels respectively
+     * @{ */
     Spread_1d spreadI, spreadQ;
+    /*! @} */
   };
 
   /*! 
@@ -266,8 +268,10 @@ namespace itpp {
     //! Returns the spreading factor
     short get_period() { return mcspreadI.get_period(); }
   protected:
-    //! The multicode spreaders for the I and Q channels respectively
+    /*! The multicode spreaders for the I and Q channels respectively
+     * @{ */
     Multicode_Spread_1d mcspreadI, mcspreadQ;
+    /*! @} */
   };
 
 } // namespace itpp

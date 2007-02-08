@@ -380,7 +380,7 @@ namespace itpp {
     int K;
     //! Memory of the encoder
     int m;
-    // number of states
+    //! Number of states
     int no_states;
     //! Generator polynomials
     ivec gen_pol;

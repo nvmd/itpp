@@ -86,8 +86,10 @@ namespace itpp {
     struct data_header {
       //! 0=little, 1=big
       char endianity;
-      //! size variables
+      /*! size variables
+       * @{ */
       unsigned int hdr_bytes, data_bytes, block_bytes;
+      /*! @} */
       /* 
 	 WARNING: Due to a compilation problem under Cygwin, "uint32_t" is
 	 temporary replaced with "unsigned int" here. However, this change
@@ -96,8 +98,10 @@ namespace itpp {
 
 	 uint32_t hdr_bytes, data_bytes, block_bytes;
       */
-      //! type=="" means deleted
-      std::string name, type;
+      //! data name
+      std::string name;
+      //! data type, e.g. int32, float32, etc. type = "" means deleted
+      std::string type;
     };
 
   protected:

@@ -118,7 +118,9 @@ namespace itpp {
     //! Flag indicating that "alist" matrix data are properly set
     bool data_ok;
     //! Size of the matrix: \c M rows x \c N columns
-    int M, N;
+    int M;
+    //! Size of the matrix: \c M rows x \c N columns
+    int N;
     //! List of integer coordinates in the m direction with non-zero entries
     imat mlist;
     //! List of integer coordinates in the n direction with non-zero entries
@@ -143,8 +145,8 @@ namespace itpp {
     \brief Class for dense GF(2) matrices
     \author Erik G. Larsson 
 
-    This class can be used as an alternative to \bmat to represent
-    GF(2) matrices.  It extends the functionality of \bmat in two ways:
+    This class can be used as an alternative to \c bmat to represent
+    GF(2) matrices.  It extends the functionality of \c bmat in two ways:
 
     - \c GF2mat makes more efficient use of computer
     memory than \c bmat. (One bit in the matrix requires one bit of
@@ -190,8 +192,8 @@ namespace itpp {
     This constructor forms a dense GF(2) matrix from a subset of
     columns in sparse GF(2) matrix
       
-    \param sparse matrix to copy from
-    \param ivec subset of columns to copy    
+    \param X matrix to copy from
+    \param columns subset of columns to copy    
     */ 
     GF2mat(const GF2mat_sparse &X, const ivec &columns);
 

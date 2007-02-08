@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -63,7 +63,7 @@ namespace itpp {
       }
   }
 
-  template<>
+  template<double>
   vec Freq_Filt<double>::overlap_add(const vec &x)
   {
     cvec y; // Size of y is set later
@@ -71,7 +71,7 @@ namespace itpp {
     return real(y);
   }
 
-  template<>
+  template<short>
   svec Freq_Filt<short>::overlap_add(const svec &x)
   {
     cvec y; // Size of y is set later
@@ -79,7 +79,7 @@ namespace itpp {
     return to_svec(real(y));
   }
 
-  template<>
+  template<int>
   ivec Freq_Filt<int>::overlap_add(const ivec &x)
   {
     cvec y; // Size of y is set later
@@ -87,7 +87,7 @@ namespace itpp {
     return to_ivec(real(y));
   }
 
-  template<>
+  template<std::complex<double> >
   cvec Freq_Filt<std::complex<double> >::overlap_add(const cvec &x)
   {
     cvec y; // Size of y is set later

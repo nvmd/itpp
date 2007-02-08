@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -54,9 +54,9 @@ namespace itpp {
     response. The resulting data is then inversed Fourier transformed to return
     a filtered time domain signal.
 
-    Freq_Filt is a templated class. The template paramter \b <T1> defines the
-    data type for the impulse response \b b, input data \b x and output data
-    \b y.
+    Freq_Filt is a templated class. The template paramter \c Num_T defines the
+    data type for the impulse response \c b, input data \c x and output data
+    \c y.
 
     The class constructor chooses an optimal FFT length and data block 
     size that minimizes execution time.
@@ -163,8 +163,6 @@ namespace itpp {
     vec overlap_add(const vec &x);
     svec overlap_add(const svec &x);
     ivec overlap_add(const ivec &x);
-    //fvec overlap_add(const fvec &x);
-    //fcvec overlap_add(cont fcvec &x);
     cvec overlap_add(const cvec &x);
     void overlap_add(const cvec &x, cvec &y);
   };

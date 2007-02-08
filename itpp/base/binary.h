@@ -159,19 +159,19 @@ namespace itpp {
   };
 
   /*! 
-    \relates bin
+    \relatesalso bin
     \brief Output stream of bin
   */
   std::ostream &operator<<(std::ostream &output, const bin &inbin);
 
   /*! 
-    \relates bin
+    \relatesalso bin
     \brief Input stream of bin
   */
   std::istream &operator>>(std::istream &input, bin &outbin);
 
   /*! 
-    \relates bin
+    \relatesalso bin
     \brief absolute value of bin
   */
   inline bin abs(const bin &inbin) { return inbin; }
@@ -180,7 +180,7 @@ namespace itpp {
 
 namespace std{     // added 11/2005, EGL
   /*! 
-    \relates itpp::bin
+    \relatesalso itpp::bin
     \brief absolute value of bin
   */
   inline short abs(const itpp::bin &inbin) { return inbin; }
