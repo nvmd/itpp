@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -55,10 +55,10 @@ namespace itpp {
   public:
 
     //! Class constructor
-    Rec_Syst_Conv_Code(void) {}
+    Rec_Syst_Conv_Code(): infinity(1e30) {}
 
     //! Class constructor
-    virtual ~Rec_Syst_Conv_Code(void) {}
+    virtual ~Rec_Syst_Conv_Code() {}
 
     /*! 
       \brief Set generator polynomials. 
@@ -205,7 +205,6 @@ namespace itpp {
     // ========================================================
 
   private:
-
     //! Used for precalculations of the trellis state transitions
     int calc_state_transition(const int instate, const int input, ivec &parity);
 
@@ -227,6 +226,8 @@ namespace itpp {
     */
     LLR_calc_unit llrcalc;  
 
+    // This const value replaces INT definition used previously
+    const double infinity;
   };
 
 } // namespace itpp
