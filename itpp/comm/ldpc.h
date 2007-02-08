@@ -550,7 +550,7 @@ namespace itpp {
       // ------------ Basic information gathering functions ------
   
       //! Get the coderate
-      double get_rate(void)  { 
+      double get_rate() const { 
 	return   (1.0 - static_cast<double>(ncheck) / nvar); 
       }
 
@@ -563,8 +563,8 @@ namespace itpp {
       //! Get LLR calculation unit used in decoder
       LLR_calc_unit get_llrcalc() const { return llrcalc; }
 
-      //!  Print some properties of the codec in plain text
-      friend std::ostream &operator<<(std::ostream &os, LDPC_Code &L);
+      //! Print some properties of the codec in plain text
+      friend std::ostream &operator<<(std::ostream &os, const LDPC_Code &C);
            
     private:
 
@@ -588,10 +588,11 @@ namespace itpp {
       void decoder_parameterization(const LDPC_Parity_Matrix &H);
     };
 
-  /*! \relates LDPC_Code
+  /*! 
+    \relatesalso LDPC_Code
     \brief Print some properties of the LDPC codec in plain text.
   */
-  std::ostream &operator<<(std::ostream &os, const LDPC_Code &L);
+  std::ostream &operator<<(std::ostream &os, const LDPC_Code &C);
 }
 
 #endif

@@ -99,10 +99,10 @@ namespace itpp {
     void set_generator_polynomials(const ivec &gen, int constraint_length)
       { Convolutional_Code::set_generator_polynomials(gen, constraint_length); }
     //! Get generator polynomials
-    ivec get_generator_polynomials(void) { return gen_pol; }
+    ivec get_generator_polynomials() const { return gen_pol; }
 
     //! Return rate of code
-    virtual double get_rate(void) { return rate; }
+    virtual double get_rate() const { return rate; }
 
     //! Set encoding and decoding method (Trunc, Tail, or Tailbite)
     void set_method(const CONVOLUTIONAL_CODE_METHOD method) { Convolutional_Code::set_method(method); }
@@ -110,9 +110,9 @@ namespace itpp {
     //! Set puncture matrix (size n*Period)
     void set_puncture_matrix(const bmat &pmatrix); // add test of matrix size
     //! Get puncture matrix
-    bmat get_puncture_matrix(void) { return puncture_matrix; }
+    bmat get_puncture_matrix() const { return puncture_matrix; }
     //! Get puncturing period
-    int get_puncture_period(void) { return Period; }
+    int get_puncture_period() const { return Period; }
 
     //! Set the encoder internal state in start_state (set by set_start_state()).
     void init_encoder() { encoder_state = start_state; }

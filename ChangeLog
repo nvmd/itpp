@@ -1,3 +1,10 @@
+2007-02-08  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/bch.h, itpp/comm/channel_code.h, itpp/comm/convcode.h,
+	itpp/comm/egolay.h, itpp/comm/hammcode.h, itpp/comm/ldpc.h,
+	itpp/comm/punct_convcode.h, itpp/comm/reedsolomon.h,
+	itpp/comm/turbo.h: Changed get_rate() functions into const ones
+
 2007-02-07  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/fastmath.h, itpp/base/gf2mat.h, itpp/base/ittypes.h,

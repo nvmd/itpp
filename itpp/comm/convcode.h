@@ -242,7 +242,7 @@ namespace itpp {
 
 
     //! Return rate of code (not including the rate-loss)
-    virtual double get_rate(void) { return rate; }
+    virtual double get_rate(void) const { return rate; }
 
 
     //! Set encoder default start state
