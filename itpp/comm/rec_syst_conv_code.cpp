@@ -32,14 +32,16 @@
 
 #include <itpp/comm/rec_syst_conv_code.h>
 
-#define INF (1e30)
 
 namespace itpp { 
 
   //! Pointer to logarithmic branch metric function
   double (*com_log) (double, double) = NULL;
+
+#ifndef DOXYGEN_SHOULD_SKIP_THIS  
   // This wrapper is because "com_log = std::max;" below caused an error
   inline double max(double x, double y) { return std::max(x, y); }
+#endif
 
   // ----------------- Protected functions -----------------------------
 
@@ -309,7 +311,7 @@ namespace itpp {
     beta.set_size(Nstates,block_length+1,false);
     gamma.set_size(2*Nstates,block_length+1,false);
     extrinsic_output.set_size(block_length,false);
-    denom.set_size(block_length+1,false); for (k=0; k<=block_length; k++) { denom(k) = -INF; } 
+    denom.set_size(block_length+1,false); for (k=0; k<=block_length; k++) { denom(k) = -infinity; } 
 
     if (in_terminated) { terminated = true; }
 
@@ -334,7 +336,7 @@ namespace itpp {
     }
 
     //Initiate alpha
-    for (j=1; j<Nstates; j++) { alpha(j,0) = -INF; } 
+    for (j=1; j<Nstates; j++) { alpha(j,0) = -infinity; } 
     alpha(0,0) = 0.0;
   
     //Calculate alpha, going forward through the trellis
@@ -353,7 +355,7 @@ namespace itpp {
   
     //Initiate beta
     if (terminated) {
-      for (i=1; i<Nstates; i++) { beta(i,block_length) = -INF; } 
+      for (i=1; i<Nstates; i++) { beta(i,block_length) = -infinity; } 
       beta(0,block_length) = 0.0;
     } else {
       beta.set_col(block_length, alpha.get_col(block_length) );
@@ -373,8 +375,8 @@ namespace itpp {
     //Calculate extrinsic output for each bit
     for (k=1; k<=block_length; k++) {
       kk = k-1;
-      nom = -INF;
-      den = -INF;
+      nom = -infinity;
+      den = -infinity;
       for (s_prim=0; s_prim<Nstates; s_prim++) {
 	s0 = state_trans(s_prim,0);
 	s1 = state_trans(s_prim,1);
@@ -425,7 +427,7 @@ namespace itpp {
     beta.set_size(Nstates,block_length+1,false);
     gamma.set_size(2*Nstates,block_length+1,false);
     extrinsic_output.set_size(ext_info_length,false);
-    //denom.set_size(block_length+1,false); for (k=0; k<=block_length; k++) { denom(k) = -INF; } 
+    //denom.set_size(block_length+1,false); for (k=0; k<=block_length; k++) { denom(k) = -infinity; } 
 
     if (in_terminated) { terminated = true; }
 
@@ -434,7 +436,7 @@ namespace itpp {
 	      "Rec_Syst_Conv_Code::log_decode_n2: This function assumes that Lc = 1.0. Please use proper scaling of the input data");
   
     //Initiate alpha
-    for (s=1; s<Nstates; s++) { alpha(s,0) = -INF; } 
+    for (s=1; s<Nstates; s++) { alpha(s,0) = -infinity; } 
     alpha(0,0) = 0.0;
 
     //Calculate alpha and gamma going forward through the trellis
@@ -463,7 +465,7 @@ namespace itpp {
 
     //Initiate beta
     if (terminated) {
-      for (s=1; s<Nstates; s++) { beta(s,block_length) = -INF; } 
+      for (s=1; s<Nstates; s++) { beta(s,block_length) = -infinity; } 
       beta(0,block_length) = 0.0;
     } else {
       beta.set_col(block_length, alpha.get_col(block_length) );
@@ -484,8 +486,8 @@ namespace itpp {
     for (k=1; k<=block_length; k++) {
       kk = k-1;
       if (kk<ext_info_length) {
-	nom = -INF;
-	den = -INF;
+	nom = -infinity;
+	den = -infinity;
 	rp = 0.5 * rec_parity(kk);
 	for (s_prim=0; s_prim<Nstates; s_prim++) {
 	  if (output_parity( s_prim , 0 )) { exp_temp0 = -rp; } else { exp_temp0 = rp; }
@@ -622,7 +624,7 @@ namespace itpp {
     beta_q.set_size(Nstates,block_length+1,false);
     gamma_q.set_size(2*Nstates,block_length+1,false);
     extrinsic_output.set_size(ext_info_length,false);
-    //denom.set_size(block_length+1,false); for (k=0; k<=block_length; k++) { denom(k) = -INF; } 
+    //denom.set_size(block_length+1,false); for (k=0; k<=block_length; k++) { denom(k) = -infinity; } 
 
     if (in_terminated) { terminated = true; }
 
