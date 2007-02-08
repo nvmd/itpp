@@ -481,7 +481,6 @@ namespace itpp {
   
       // ------------ Encoding  ---------------------
   
-      //@{
       /*!  \brief Encode codeword. 
 
       Currently for systematic generator matrices, this is done by
@@ -491,8 +490,8 @@ namespace itpp {
       \param bitsout vector of output bits
       */
       virtual void encode(const bvec &bitsin, bvec &bitsout);
+      //! \brief Encode codeword
       virtual bvec encode(const bvec &input); 
-      //@}
 
       // ------------ Decoding  ---------------------
       

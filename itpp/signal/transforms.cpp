@@ -617,6 +617,7 @@ namespace itpp {
     return ret;
   }
 
+  //! Bit reverse
   template <class T>
   void bitrv(Vec<T> &out) {
     int i,j,N1,K,N=out.size();

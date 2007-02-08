@@ -113,7 +113,6 @@ namespace itpp {
     //! Hard demodulation of bits
     virtual bvec demodulate_bits(const Vec<T>& signal) const;
   
-    //@{
     /*! 
       \brief Soft demodulator for AWGN channels
 
@@ -156,22 +155,23 @@ namespace itpp {
     virtual void demodulate_soft_bits(const Vec<T>& rx_symbols, double N0, 
 				      vec& soft_bits,
 				      Soft_Method method = LOGMAP) const;
+    //! Soft demodulator for AWGN channels
     virtual vec demodulate_soft_bits(const Vec<T>& rx_symbols, double N0,
 				     Soft_Method method = LOGMAP) const;
-    //@}
 
-    //@{
     /*! 
       \brief Deprecated soft demodulator for AWGN channels. Please use
       demodulate_soft_bits() with method = APPROX instead. 
     */
     virtual void demodulate_soft_bits_approx(const Vec<T>& rx_symbols,
 					     double N0, vec& soft_bits) const;
+    /*! 
+      \brief Deprecated soft demodulator for AWGN channels. Please use
+      demodulate_soft_bits() with method = APPROX instead. 
+    */
     virtual vec demodulate_soft_bits_approx(const Vec<T>& rx_symbols,
 					    double N0) const;
-    //@}
 
-    //@{
     /*! 
       \brief Soft demodulator for fading channels
 
@@ -214,13 +214,12 @@ namespace itpp {
 				      const Vec<T>& channel, 
 				      double N0, vec& soft_bits,
 				      Soft_Method method = LOGMAP) const;
+    //! Soft demodulator for fading channels
     virtual vec demodulate_soft_bits(const Vec<T>& rx_symbols, 
 				     const Vec<T>& channel,
 				     double N0,
 				     Soft_Method method = LOGMAP) const;
-    //@}
 
-    //@{
     /*! 
       \brief Deprecated soft demodulator for AWGN channels. Please use
       demodulate_soft_bits() with method = APPROX instead. 
@@ -228,10 +227,13 @@ namespace itpp {
     virtual void demodulate_soft_bits_approx(const Vec<T>& rx_symbols,
 					     const Vec<T>& channel, 
 					     double N0, vec& soft_bits) const;
+    /*! 
+      \brief Deprecated soft demodulator for AWGN channels. Please use
+      demodulate_soft_bits() with method = APPROX instead. 
+    */
     virtual vec demodulate_soft_bits_approx(const Vec<T>& rx_symbols, 
 					    const Vec<T>& channel,
 					    double N0) const;
-    //@}
     
   protected:
     //! Setup indicator
@@ -712,7 +714,6 @@ namespace itpp {
     //! Destructor
     virtual ~QPSK() {}
 
-    //@{
     /*! 
       \brief Soft demodulator for AWGN channel
     
@@ -737,11 +738,11 @@ namespace itpp {
     virtual void demodulate_soft_bits(const cvec& rx_symbols, double N0,
 				      vec& soft_bits,
 				      Soft_Method method = LOGMAP) const;
+    //! Soft demodulator for AWGN channel
     vec demodulate_soft_bits(const cvec& rx_symbols, double N0,
 			     Soft_Method method = LOGMAP) const;
-    //@}
 
-    //@{
+
     /*! 
       \brief Soft demodulator for a known channel in AWGN      
 
@@ -768,9 +769,9 @@ namespace itpp {
 				      const cvec& channel, double N0,
 				      vec& soft_bits,
 				      Soft_Method method = LOGMAP) const;
+    //! Soft demodulator for a known channel in AWGN      
     vec demodulate_soft_bits(const cvec& rx_symbols, const cvec& channel,
 			     double N0, Soft_Method method = LOGMAP) const;
-    //@}
   };
 
 
@@ -819,7 +820,6 @@ namespace itpp {
     //! Demodulate noisy BPSK symbols in complex domain into bits
     bvec demodulate_bits(const cvec& signal) const;
 
-    //@{
     /*! 
       \brief Soft demodulator for AWGN channel
     
@@ -842,11 +842,10 @@ namespace itpp {
     virtual void demodulate_soft_bits(const cvec& rx_symbols, double N0,
 				      vec& soft_bits,
 				      Soft_Method method = LOGMAP) const;
+    //! Soft demodulator for AWGN channel
     vec demodulate_soft_bits(const cvec& rx_symbols, double N0,
 			     Soft_Method method = LOGMAP) const;
-    //@}
 
-    //@{
     /*! 
       \brief Soft demodulator for a known channel in AWGN      
 
@@ -871,9 +870,9 @@ namespace itpp {
 				      const cvec& channel, double N0,
 				      vec& soft_bits,
 				      Soft_Method method = LOGMAP) const;
+    //! Soft demodulator for a known channel in AWGN      
     vec demodulate_soft_bits(const cvec& rx_symbols, const cvec& channel,
 			     double N0, Soft_Method method = LOGMAP) const;
-    //@}
   };
 
 
@@ -921,7 +920,6 @@ namespace itpp {
     //! Demodulate noisy BPSK symbols in complex domain into bits
     bvec demodulate_bits(const vec& signal) const;
 
-    //@{
     /*! 
       \brief Soft demodulator for AWGN channel
     
@@ -942,11 +940,10 @@ namespace itpp {
     virtual void demodulate_soft_bits(const vec& rx_symbols, double N0,
 				      vec& soft_bits,
 				      Soft_Method method = LOGMAP) const;
+    //! Soft demodulator for AWGN channel
     vec demodulate_soft_bits(const vec& rx_symbols, double N0,
 			     Soft_Method method = LOGMAP) const;
-    //@}
 
-    //@{
     /*! 
       \brief Soft demodulator for a known channel in AWGN      
 
@@ -970,9 +967,9 @@ namespace itpp {
 				      const vec& channel, double N0,
 				      vec& soft_bits,
 				      Soft_Method method = LOGMAP) const;
+    //! Soft demodulator for a known channel in AWGN      
     vec demodulate_soft_bits(const vec& rx_symbols, const vec& channel,
 			     double N0, Soft_Method method = LOGMAP) const;
-    //@}
   };
 
 
@@ -1012,7 +1009,6 @@ namespace itpp {
     //! Hard demodulation of PAM symbols in complex domain to bits
     bvec demodulate_bits(const cvec& signal) const;
 
-    //@{
     /*! 
       \brief Soft demodulator for AWGN channels.
 
@@ -1055,11 +1051,10 @@ namespace itpp {
     virtual void demodulate_soft_bits(const cvec& rx_symbols, double N0,
 				      vec& soft_bits,
 				      Soft_Method method = LOGMAP) const;
+    //! Soft demodulator for AWGN channels.
     virtual vec demodulate_soft_bits(const cvec& rx_symbols, double N0,
 				     Soft_Method method = LOGMAP) const;
-    //@}
 
-    //@{
     /*! 
       \brief Soft demodulator for known fading channels.
 
@@ -1102,10 +1097,10 @@ namespace itpp {
 				      const cvec& channel, double N0,
 				      vec& soft_bits,
 				      Soft_Method method = LOGMAP) const;
+    //! Soft demodulator for known fading channels.
     virtual vec demodulate_soft_bits(const cvec& rx_symbols, 
 				     const cvec& channel, double N0,
 				     Soft_Method method = LOGMAP) const;
-    //@}
 
   protected:
     //! Scaling factor used to normalize the average energy to 1

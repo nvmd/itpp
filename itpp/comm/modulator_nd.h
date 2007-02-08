@@ -106,7 +106,7 @@ namespace itpp {
     \param numerator the logarithm of the numerator in the above expression
     \param denominator the logarithm of the denominator in the above expression
     \param s the symbol vector
-
+    \param x ADD DOCUMENTATION FOR THIS ITEM
     */
     void update_LLR(Vec<QLLRvec> &logP_apriori, QLLRvec &numerator, QLLRvec &denominator, ivec &s, QLLR x);
     
@@ -123,7 +123,8 @@ namespace itpp {
     \param numerator the logarithm of the numerator in the above expression
     \param denominator the logarithm of the denominator in the above expression
     \param s the symbol vector
-
+    \param scaled_norm ADD DOCUMENTATION FOR THIS ITEM
+    \param j ADD DOCUMENTATION FOR THIS ITEM
     */
     void update_LLR(Vec<QLLRvec> &logP_apriori, QLLRvec &numerator, QLLRvec &denominator, 
 		    int s, QLLR scaled_norm, int j);
@@ -305,6 +306,7 @@ namespace itpp {
     //! Vector of modulation symbols (along each dimension)
     Vec<cvec> symbols;
 
+    //! ADD DOCUMENTATION FOR THIS ITEM
     void update_norm(double &norm, int k, int sold, int snew, cvec &ytH, cmat &HtH, ivec &s);
   };
   
@@ -431,7 +433,7 @@ namespace itpp {
     void set_Gray_QAM(int nt_in=1, ivec Mary="4");
 
   protected:
-    ivec L;  // the square root of M
+    ivec L;  //!< the square root of M
 
   };
 

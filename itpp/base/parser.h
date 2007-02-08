@@ -140,7 +140,7 @@ namespace itpp {
 
     //! Get variable value if \a name can be found (and return true), otherwise keep old value (and return false)
     template<class T>
-      bool get(T &var, const std::string &name, int num=-1);
+    bool get(T &var, const std::string &name, int num=-1);
 
     //! Interpret variable \a name as a bool
     bool get_bool(const std::string &name,  int num=-1);
@@ -199,7 +199,7 @@ namespace itpp {
   // ----------------------- Implementation starts here -----------------------
 
   template<class T>
-    bool Parser::get(T &var, const std::string &name, int num)
+  bool Parser::get(T &var, const std::string &name, int num)
   {
     bool error_flag, print_flag;
     std::string str = findname(name, error_flag, print_flag, num, true);
@@ -219,13 +219,13 @@ namespace itpp {
     return !error_flag;
   }
 
-  // Specialization for std::string
+  //! Specialization or \c get() for std::string
   template<>
   bool Parser::get(std::string &var, const std::string &name, int num);
-  // Specialization for int
+  //! Specialization of \c get() for int
   template<>
   bool Parser::get(int &var, const std::string &name, int num);
-  // Specialization for bool
+  //! Specialization of \c get() for bool
   template<>
   bool Parser::get(bool &var, const std::string &name, int num);
   

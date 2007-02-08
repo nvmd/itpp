@@ -418,8 +418,10 @@ namespace itpp {
     //! Free the memory space of the matrix
     void free();
 
-    //! Protected integer variables
+    /*! Protected integer variables
+     * @{ */
     int datasize, no_rows, no_cols;
+    /*! @} */
     //! Protected data pointer
     Num_T *data;
     //! Element factory (set to DEFAULT_FACTORY to use Num_T default constructors only)
@@ -697,9 +699,6 @@ namespace itpp {
     data[R+C*no_rows] = v;
   }
 
-  
-  template<> bool Mat<int>::set(const char *values);
-  template<> bool Mat<short int>::set(const char *values);
 
   template<class Num_T>
   bool Mat<Num_T>::set(const char *values)
@@ -763,6 +762,11 @@ namespace itpp {
 
     return true;
   }
+
+  //! Specialization of \c set() method for int
+  template<int> bool Mat<int>::set(const char *values);
+  //! Specialization of \c set() method for short int
+  template<short int> bool Mat<short int>::set(const char *values);
 
   template<class Num_T>
   bool Mat<Num_T>::set(const std::string &str)
@@ -1113,7 +1117,9 @@ namespace itpp {
     return temp;
   }
 
-  template<> const cmat Mat<std::complex<double> >::hermitian_transpose() const;
+  //! Specialization of \c hermitian_transpose() method for std::complex<double>
+  template<std::complex<double> > 
+  const cmat Mat<std::complex<double> >::hermitian_transpose() const;
 
   template<class Num_T>
   const Mat<Num_T> Mat<Num_T>::hermitian_transpose() const

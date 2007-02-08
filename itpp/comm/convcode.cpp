@@ -1427,7 +1427,7 @@ namespace itpp {
 
   //----------- These functions should be moved into some other place -------
 
-  /*
+  /*!
     Reverses the bitrepresentation of in (of size length) and converts to an integer
   */
   int reverse_int(int length, int in)
@@ -1445,7 +1445,7 @@ namespace itpp {
     return out;
   }
 
-  /*
+  /*!
     Calculate the Hamming weight of the binary representation of in of size length
   */
   int weight_int(int length, int in)
@@ -1457,8 +1457,7 @@ namespace itpp {
     return w;
   }
 
-  /*
-    \relates Convolutional_Code
+  /*!
     Compare two distance spectra. Return 1 if v1 is less, 0 if v2 less, and -1 if equal.
   */
   int compare_spectra(ivec v1, ivec v2)
@@ -1475,7 +1474,7 @@ namespace itpp {
     return -1;
   }
 
-  /*
+  /*!
     Compare two distance spectra using a weight profile.
 
     Return 1 if v1 is less, 0 if v2 less, and -1 if equal.

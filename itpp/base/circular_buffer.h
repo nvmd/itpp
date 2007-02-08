@@ -92,8 +92,8 @@ namespace itpp {
     \endcode
   */
   template<class T>
-    class Circular_Buffer {
-    public:
+  class Circular_Buffer {
+  public:
     //! Default constructor
     Circular_Buffer();
 
@@ -175,7 +175,7 @@ namespace itpp {
     //! Resizing a Circular_Buffer<T>.
     void set_size(int n, bool copy=false);
 
-    protected:
+  private:
 
     int _write;
     int _read;

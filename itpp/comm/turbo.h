@@ -261,7 +261,7 @@ namespace itpp {
     //! Get number of uncoded bits
     int get_Nuncoded() const { return Nuncoded; }
 
-  protected:   
+  private:   
 
     /*! 
       \brief Special decoder function for \a R = 1/3 i.e. two parity bits for each systematic bit
@@ -287,7 +287,7 @@ namespace itpp {
   };
 
   /*!
-    \relates Turbo_Codec
+    \relatesalso Turbo_Codec
     \brief Generates the interleaver sequence for the internal turbo encoder interleaver used in WCDMA
   */
   ivec wcdma_turbo_interleaver_sequence(int interleaver_size);

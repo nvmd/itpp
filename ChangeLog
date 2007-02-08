@@ -1,17 +1,26 @@
 2007-02-08  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/doxygen_html.cfg.in, itpp/base/binary.h,
+	itpp/base/circular_buffer.h, itpp/base/gf2mat.h,
+	itpp/base/itfile.h, itpp/base/mat.cpp, itpp/base/mat.h,
+	itpp/base/parser.h, itpp/base/vec.cpp, itpp/base/vec.h,
+	itpp/comm/channel.h, itpp/comm/channel_code.h,
+	itpp/comm/convcode.cpp, itpp/comm/convcode.h, itpp/comm/ldpc.cpp,
+	itpp/comm/ldpc.h, itpp/comm/llr.h, itpp/comm/modulator.h,
+	itpp/comm/modulator_nd.h, itpp/comm/reedsolomon.h,
+	itpp/comm/spread.h, itpp/comm/turbo.h, itpp/fixed/cfix.h,
+	itpp/fixed/cfixed.h, itpp/fixed/fix.h, itpp/fixed/fix_base.h,
+	itpp/fixed/fix_factory.h, itpp/fixed/fixed.h,
+	itpp/optim/newton_search.h, itpp/signal/fastica.cpp,
+	itpp/signal/filter.h, itpp/signal/filter_design.h,
+	itpp/signal/freq_filt.cpp, itpp/signal/freq_filt.h,
+	itpp/signal/poly.h, itpp/signal/sigfun.h,
+	itpp/signal/transforms.cpp, itpp/stat/histogram.h: Fixed Doxygen
+	warnings by adding or correcting the documentation syntax
+
 	* doc/local/installation.doc: Updated CXXFLAGS description
 
-	* itpp/fixed/cfixed.h, itpp/fixed/cfix.h, itpp/fixed/fix_base.h,
-	itpp/fixed/fixed.h, itpp/fixed/fix_factory.h, itpp/fixed/fix.h:
-	Fixed Doxygen warnings by adding or correcting the documentation
-	
 	* configure.ac, Makefile.am: "upload" target removed
-
-	* doc/doxygen_html.cfg.in, itpp/comm/ldpc.cpp, itpp/comm/llr.h,
-	itpp/comm/modulator.h, itpp/comm/modulator_nd.h,
-	itpp/optim/newton_search.h: Fixed Doxygen warnings by adding or
-	correcting the documentation
 
 	* itpp/comm/rec_syst_conv_code.cpp,
 	itpp/comm/rec_syst_conv_code.h: "INF" preprocessor definition

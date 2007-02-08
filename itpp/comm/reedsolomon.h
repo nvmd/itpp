@@ -76,8 +76,10 @@ namespace itpp {
     virtual double get_rate() const { return static_cast<double>(k) / n; }
 
   protected:
-    //! Internal encoder/decoder parameters
+    /*! Internal encoder/decoder parameters
+     * @{ */
     int m, t, k, n, q;
+    /*! @} */
     //! The generator polynomial of the RS code
     GFX g;
     //! Whether or not the code is systematic

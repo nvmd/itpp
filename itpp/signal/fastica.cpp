@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -80,8 +80,11 @@
 
 using namespace itpp;
 
-// Local functions for FastICA
 
+/*!
+  \brief Local functions for FastICA
+  @{
+*/
 static void selcol ( const mat oldMatrix, const vec maskVector, mat & newMatrix ); 
 static void pcamat( const mat vectors, const int numOfIC, int firstEig, int lastEig, mat & Es, vec & Ds );
 static void remmean( mat inVectors, mat & outVectors, vec & meanValue );
@@ -91,7 +94,7 @@ static mat mpower( const mat A, const double y );
 static ivec getSamples ( const int max, const double percentage ); 
 static vec sumcol ( const mat A ); 
 static void fpica ( const mat X, const mat whiteningMatrix, const mat dewhiteningMatrix, const int approach, const int numOfIC, const int g, const int finetune, const double a1, const double a2, double myy, const int stabilization, const double epsilon, const int maxNumIterations, const int maxFinetune, const int initState, mat guess, double sampleSize, mat & A, mat & W ); 
-
+/*! @} */
 
 namespace itpp {
 

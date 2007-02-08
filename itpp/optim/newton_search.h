@@ -73,9 +73,9 @@ namespace itpp {
   */
   class Newton_Search {
   public:
-    //!
+    //! Default constructor
     Newton_Search();
-    //!
+    //! Destructor
     ~Newton_Search() {};
 
     //! Set function pointer
@@ -223,9 +223,9 @@ namespace itpp {
   */
   class Line_Search {
   public:
-    //!
+    //! Default constructor
     Line_Search();
-    //!
+    //! Destructor
     ~Line_Search() {};
 
     //! Set function pointer
