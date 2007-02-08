@@ -256,10 +256,10 @@ namespace itpp {
 			      bmat &decoded_bits_i, int &nrof_used_iterations_i, const bvec &true_bits="0");
 
     //! Get number of coded bits
-    int get_Ncoded() { return Ncoded; }
+    int get_Ncoded() const { return Ncoded; }
     
     //! Get number of uncoded bits
-    int get_Nuncoded() { return Nuncoded; }
+    int get_Nuncoded() const { return Nuncoded; }
 
   protected:   
 

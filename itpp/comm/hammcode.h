@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -67,16 +67,16 @@ namespace itpp {
     virtual bvec decode(const vec &received_signal);
 
     //! Get the code rate
-    virtual double get_rate() { return (double)k/(double)n; };
+    virtual double get_rate() const { return static_cast<double>(k) / n; };
 
     //! Gets the code length \a n.
-    short get_n() { return n; };
+    short get_n() const { return n; };
     //! Gets the number of information bits per code word, \a k.
-    short get_k() { return k; };
+    short get_k() const { return k; };
     //! Gets the parity check matrix for the code.
-    bmat get_H() { return H; };
+    bmat get_H() const { return H; };
     //! Gets the generator matrix for the code.
-    bmat get_G() { return G; };
+    bmat get_G() const { return G; };
   private:
     short n, k; 
     bmat H, G;
