@@ -1,5 +1,7 @@
 2007-02-08  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/local/installation.doc: Updated CXXFLAGS description
+
 	* itpp/fixed/cfixed.h, itpp/fixed/cfix.h, itpp/fixed/fix_base.h,
 	itpp/fixed/fixed.h, itpp/fixed/fix_factory.h, itpp/fixed/fix.h:
 	Fixed Doxygen warnings by adding or correcting the documentation
