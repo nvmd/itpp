@@ -197,25 +197,28 @@ some external libraries. To do this you should use \c
 % ./configure --without-cblas --without-lapack
 \endverbatim
 
-It is recommended to set CXXFLAGS environment variable with some
-compiler- and platform-specific optimisation flags before invoking the 
-\c `configure' command. For example, in the case of using the Intel Pentium
-4 processor one might employ the following flags:
+It is recommended to set a CXXFLAGS environment variable with some compiler-
+and platform-specific optimisation flags, before invoking the \c `configure'
+command. Additionally, \c `-DNDEBUG' should be included in the optimised
+CXXFLAGS, because it turns off all conditionall assertion checks. This will
+improve the computation performance of many IT++ functions. For example, in
+the case of using the Intel Pentium 4 processor one might employ the
+following flags:
 
 \verbatim
-% CXXFLAGS="-O3 -pipe -march=pentium4" ./configure
+% CXXFLAGS="-DNDEBUG -O3 -pipe -march=pentium4" ./configure
 \endverbatim
 
 In the case of Sun's UltraSPARC 64-bit platform and GCC compiler, the flags
 might be set as follows:
 
 \verbatim
-% export CXXFLAGS="-O3 -pipe -mcpu=v9 -m64"
+% export CXXFLAGS="-DNDEBUG -O3 -pipe -mcpu=v9 -m64"
 % ./confiugre
 \endverbatim
 
 If CXXFLAGS is not set in the environment, it will be initialised with
-the default flags, i.e. <tt>"-DASSERT_LEVEL=1 -O3 -pipe"</tt>.
+the default flags, i.e. <tt>"-DNDEBUG -O3 -fno-exceptions -pipe"</tt>.
 
 When the configuration process is finished, a status message is displayed. 
 For instance, after having invoked the following configuration
@@ -229,7 +232,7 @@ one can observe something like this:
 
 \verbatim
 ------------------------------------------------------------------------------
-itpp-3.99.0 library configuration:
+itpp-3.99.1 library configuration:
 ------------------------------------------------------------------------------
 
 Directories:
@@ -237,7 +240,7 @@ Directories:
   - exec_prefix .... : ${prefix}
   - includedir ..... : ${prefix}/include
   - libdir ......... : ${exec_prefix}/lib
-  - docdir ......... : ${prefix}/share/doc/itpp-3.99.0
+  - docdir ......... : ${prefix}/share/doc/itpp-3.99.1
 
 Switches:
   - debug .......... : no
@@ -279,14 +282,14 @@ External libs:
 Compiler/linker flags/libs/defs:
   - CXX ............ : g++
   - F77 ............ : gfortran
-  - CXXFLAGS ....... : -DASSERT_LEVEL=1 -O3 -fno-exceptions -pipe
+  - CXXFLAGS ....... : -DNDEBUG -O3 -fno-exceptions -pipe
   - CXXFLAGS_DEBUG . : 
   - CPPFLAGS ....... : 
   - LDFLAGS ........ : 
   - LIBS ........... : -lfftw3 -llapack -lcblas -lblas -lgfortran
 
 ------------------------------------------------------------------------------
-Now type 'make && make install' to build and install itpp-3.99.0 library
+Now type 'make && make install' to build and install itpp-3.99.1 library
 ------------------------------------------------------------------------------
 
 \endverbatim
