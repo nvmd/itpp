@@ -43,14 +43,14 @@
 namespace itpp {
 
   /*!
-   * \addtogroup modulators
-   * Soft demodulation methods.
+   * \ingroup modulators
+   * \brief Soft demodulation methods
    */
   enum Soft_Method {
     LOGMAP,			//!< Log-MAP full calculation
     APPROX			//!< Approximate faster method
   };
-
+  
   /*! 
     \ingroup modulators
     \brief General modulator for 1D or 2D signal constellations.

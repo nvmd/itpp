@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -232,7 +232,8 @@ namespace itpp {
     void update_norm(double &norm, int k, int sold, int snew, vec &ytH, mat &HtH, ivec &s);
   };
 
-  /*! \relates Modulator_NRD
+  /*!
+    \relatesalso Modulator_NRD
     \brief Print some properties of the MIMO modulator in plain text (mainly to aid debugging)
   */
   std::ostream &operator<<(std::ostream &os, const Modulator_NRD &mod);
@@ -307,7 +308,8 @@ namespace itpp {
     void update_norm(double &norm, int k, int sold, int snew, cvec &ytH, cmat &HtH, ivec &s);
   };
   
-  /*! \relates Modulator_NCD
+  /*! 
+    \relatesalso Modulator_NCD
     \brief Print some properties of the MIMO modulator in plain text (mainly to aid debugging)
   */
   std::ostream &operator<<(std::ostream &os, const Modulator_NCD &mod);
