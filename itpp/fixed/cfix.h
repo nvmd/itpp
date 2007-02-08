@@ -160,9 +160,16 @@ namespace itpp {
     friend int assert_shifts(const CFix &x, int y);
 
   protected:
-    //! Data representation
-    fixrep re, im;
+    fixrep re;			//!< Real data part
+    fixrep im;			//!< Imaginary data part
   };
+
+  //! Check that x.shift==y.shift OR x==0 OR y==0 and return the shift (for the non-zero argument)
+  int assert_shifts(const CFix &x, const CFix &y);
+  //! Check that x.shift==y.shift OR x==0 OR y==0 and return the shift (for the non-zero argument)
+  int assert_shifts(const CFix &x, const Fix &y);
+  //! Check that x.shift==0 OR x==0 OR y==0 and return x.shift
+  int assert_shifts(const CFix &x, int y);
 
   //! Input bit representation and, optionally, the shift
   std::istream &operator>>(std::istream &is, CFix &x);
