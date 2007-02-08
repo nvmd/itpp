@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -38,8 +38,10 @@
 
 namespace itpp {
 
-  //! \addtogroup fixed
-  //!@{
+  /*!
+   * \addtogroup fixed
+   * @{
+   */
 
   /*!
     \brief Templated complex fixed-point data type
@@ -53,7 +55,7 @@ namespace itpp {
     CFixed(double r=0.0, double i=0.0, int s=0, Stat *ptr=0)
       : CFix(r, i, s, w, e, o, q, ptr) {}
     //! Constructor
-  CFixed(std::complex<double> x, double dummy=0.0, int s=0, Stat *ptr=0)
+    CFixed(std::complex<double> x, double dummy=0.0, int s=0, Stat *ptr=0)
       : CFix(x, 0.0, s, w, e, o, q, ptr) {}
     //! Constructor
     explicit CFixed(Stat *ptr)
@@ -84,7 +86,7 @@ namespace itpp {
       return *this;
     }  
     //! Assignment from complex<double>. Fractional part is truncated
-  CFixed& operator=(const std::complex<double> &x)
+    CFixed& operator=(const std::complex<double> &x)
     {
       shift = 0;
       re = apply_o_mode(fixrep(real(x)));
@@ -102,10 +104,11 @@ namespace itpp {
   protected:
   };
 
-  //!@}
+  /*! @} */
 
-  // Typedefs for CFixed
+  //! Typedefs for CFixed (cfixed1, cfixed2, ..., cfixed64)
   typedef CFixed<1, TC, WRAP> cfixed1;
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
   typedef CFixed<2, TC, WRAP> cfixed2;
   typedef CFixed<3, TC, WRAP> cfixed3;
   typedef CFixed<4, TC, WRAP> cfixed4;
@@ -169,8 +172,11 @@ namespace itpp {
   typedef CFixed<62, TC, WRAP> cfixed62;
   typedef CFixed<63, TC, WRAP> cfixed63;
   typedef CFixed<64, TC, WRAP> cfixed64;
+#endif
 
-  // Typedefs for saturated CFixed
+  //! Typedefs for saturated CFixed (scfixed1, scfixed2, ..., scfixed64)
+  typedef CFixed<1, TC, WRAP> cfixed1;
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
   typedef CFixed<1, TC, SAT> scfixed1;
   typedef CFixed<2, TC, SAT> scfixed2;
   typedef CFixed<3, TC, SAT> scfixed3;
@@ -235,6 +241,7 @@ namespace itpp {
   typedef CFixed<62, TC, SAT> scfixed62;
   typedef CFixed<63, TC, SAT> scfixed63;
   typedef CFixed<64, TC, SAT> scfixed64;
+#endif
 
   // Template instantiations
 #ifndef _MSC_VER

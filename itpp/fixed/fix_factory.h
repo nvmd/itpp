@@ -12,7 +12,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -157,8 +157,10 @@ namespace itpp {
 
   //!@}
 
-  // Fix_Factories for signed Fix/CFix with wrap-around
+
+  //! Fix_Factories for signed Fix/CFix with wrap-around (FIX1, FIX2, ..., FIX64)
   const Fix_Factory FIX1(1, TC, WRAP);
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
   const Fix_Factory FIX2(2, TC, WRAP);
   const Fix_Factory FIX3(3, TC, WRAP);
   const Fix_Factory FIX4(4, TC, WRAP);
@@ -222,9 +224,11 @@ namespace itpp {
   const Fix_Factory FIX62(62, TC, WRAP);
   const Fix_Factory FIX63(63, TC, WRAP);
   const Fix_Factory FIX64(64, TC, WRAP);
+#endif
 
-  // Fix_Factories for unsigned Fix/CFix with wrap-around
+  //! Fix_Factories for unsigned Fix/CFix with wrap-around (UFIX1, UFIX2, ..., UFIX64)
   const Fix_Factory UFIX1(1, US, WRAP);
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
   const Fix_Factory UFIX2(2, US, WRAP);
   const Fix_Factory UFIX3(3, US, WRAP);
   const Fix_Factory UFIX4(4, US, WRAP);
@@ -288,9 +292,11 @@ namespace itpp {
   const Fix_Factory UFIX62(62, US, WRAP);
   const Fix_Factory UFIX63(63, US, WRAP);
   const Fix_Factory UFIX64(64, US, WRAP);
+#endif
 
-  // Fix_Factories for signed Fix/CFix with saturation
+  //! Fix_Factories for unsigned Fix/CFix with wrap-around (SFIX1, SFIX2, ..., SFIX64)
   const Fix_Factory SFIX1(1, TC, SAT);
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
   const Fix_Factory SFIX2(2, TC, SAT);
   const Fix_Factory SFIX3(3, TC, SAT);
   const Fix_Factory SFIX4(4, TC, SAT);
@@ -354,9 +360,11 @@ namespace itpp {
   const Fix_Factory SFIX62(62, TC, SAT);
   const Fix_Factory SFIX63(63, TC, SAT);
   const Fix_Factory SFIX64(64, TC, SAT);
+#endif
 
-  // Fix_Factories for unsigned Fix/CFix with saturation
+  //! Fix_Factories for unsigned Fix/CFix with saturation (SUFIX1, SUFIX2, ..., SUFIX64)
   const Fix_Factory SUFIX1(1, US, SAT);
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
   const Fix_Factory SUFIX2(2, US, SAT);
   const Fix_Factory SUFIX3(3, US, SAT);
   const Fix_Factory SUFIX4(4, US, SAT);
@@ -420,6 +428,7 @@ namespace itpp {
   const Fix_Factory SUFIX62(62, US, SAT);
   const Fix_Factory SUFIX63(63, US, SAT);
   const Fix_Factory SUFIX64(64, US, SAT);
+#endif
 
 } // namespace itpp
 

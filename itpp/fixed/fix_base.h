@@ -647,7 +647,7 @@ namespace itpp {
     \ref fix_fcn_to instead of the unfix method.
   
     Equivalently, the double(Fix&) and complex<double>(CFix&) operators can be
-    used, unless you #define NO_IMPLICIT_FIX_CONVERSION before you #include IT++
+    used, unless you define NO_IMPLICIT_FIX_CONVERSION before you include IT++
     in your program.
     \code
     Fix a(3.14, 5);
