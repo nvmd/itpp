@@ -35,7 +35,7 @@
 
 namespace itpp {
 
-  template<double>
+  template<>
   bool Vec<double>::set(const char *values)
   {
     std::istringstream buffer(values);
@@ -174,7 +174,7 @@ namespace itpp {
   }
 
 
-  template<std::complex<double> >
+  template<>
   bool Vec<std::complex<double> >::set(const char *values)
   {
     std::istringstream buffer(values);
@@ -214,7 +214,7 @@ namespace itpp {
   }
 
 
-  template<bin>
+  template<>
   bool Vec<bin>::set(const char *values)
   {
     std::istringstream buffer(values);
@@ -255,7 +255,7 @@ namespace itpp {
   }
 
 
-  template<int>
+  template<>
   bool Vec<int>::set(const char *values)
   {
     std::istringstream buffer(values);
@@ -738,7 +738,7 @@ namespace itpp {
     return true;
   }
 
-  template<short int>
+  template<>
   bool Vec<short int>::set(const char *values)
   {
     std::istringstream buffer(values);

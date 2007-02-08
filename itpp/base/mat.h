@@ -764,9 +764,11 @@ namespace itpp {
   }
 
   //! Specialization of \c set() method for int
-  template<int> bool Mat<int>::set(const char *values);
+  template<>
+  bool Mat<int>::set(const char *values);
   //! Specialization of \c set() method for short int
-  template<short int> bool Mat<short int>::set(const char *values);
+  template<>
+  bool Mat<short int>::set(const char *values);
 
   template<class Num_T>
   bool Mat<Num_T>::set(const std::string &str)
@@ -1118,7 +1120,7 @@ namespace itpp {
   }
 
   //! Specialization of \c hermitian_transpose() method for std::complex<double>
-  template<std::complex<double> > 
+  template<> 
   const cmat Mat<std::complex<double> >::hermitian_transpose() const;
 
   template<class Num_T>
