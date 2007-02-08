@@ -39,7 +39,7 @@
 
 namespace itpp {
 
-  template<int>
+  template<>
   bool Mat<int>::set(const char *values)
   {
     std::istringstream buffer(values);
@@ -251,7 +251,7 @@ namespace itpp {
     return true;
   }
 
-  template<short int> 
+  template<> 
   bool Mat<short int>::set(const char *values) {
     std::istringstream buffer(values);
     int rows = 0, maxrows = 10, cols = 0, nocols = 0, maxcols = 10;
@@ -462,7 +462,7 @@ namespace itpp {
   }
 
 
-  template<std::complex<double> >
+  template<>
   const cmat Mat<std::complex<double> >::hermitian_transpose() const
   {
     cmat temp(no_cols, no_rows);

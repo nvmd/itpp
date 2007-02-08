@@ -63,7 +63,7 @@ namespace itpp {
       }
   }
 
-  template<double>
+  template<>
   vec Freq_Filt<double>::overlap_add(const vec &x)
   {
     cvec y; // Size of y is set later
@@ -71,7 +71,7 @@ namespace itpp {
     return real(y);
   }
 
-  template<short>
+  template<>
   svec Freq_Filt<short>::overlap_add(const svec &x)
   {
     cvec y; // Size of y is set later
@@ -79,7 +79,7 @@ namespace itpp {
     return to_svec(real(y));
   }
 
-  template<int>
+  template<>
   ivec Freq_Filt<int>::overlap_add(const ivec &x)
   {
     cvec y; // Size of y is set later
@@ -87,7 +87,7 @@ namespace itpp {
     return to_ivec(real(y));
   }
 
-  template<std::complex<double> >
+  template<>
   cvec Freq_Filt<std::complex<double> >::overlap_add(const cvec &x)
   {
     cvec y; // Size of y is set later

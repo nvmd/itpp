@@ -1,5 +1,9 @@
 2007-02-08  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/mat.cpp, itpp/base/mat.h, itpp/base/vec.cpp,
+	itpp/base/vec.h, itpp/signal/freq_filt.cpp: Fixed improper changes
+	in template specializations
+
 	* doc/doxygen_html.cfg.in, itpp/base/binary.h,
 	itpp/base/circular_buffer.h, itpp/base/gf2mat.h,
 	itpp/base/itfile.h, itpp/base/mat.cpp, itpp/base/mat.h,
