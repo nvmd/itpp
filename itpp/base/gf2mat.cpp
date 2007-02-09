@@ -546,8 +546,8 @@ namespace itpp {
     }
   
     if (nrows>250) {     // avoid cluttering output ...
-      it_info("Performing T-factorization of GF(2) matrix...  rows: " 
-	    << nrows << " cols: "  << ncols << " .... " << std::endl);
+      it_info_debug("Performing T-factorization of GF(2) matrix...  rows: " 
+		    << nrows << " cols: "  << ncols << " .... " << std::endl);
     }
     int pdone=0;
     for (int j=0; j<nrows; j++) {
@@ -576,7 +576,7 @@ namespace itpp {
 	if (U.get(i1,j)==1) { 
 	  int ptemp = floor_i(100.0*(i1+j*nrows)/(nrows*nrows));
 	  if (nrows>250 && ptemp>pdone+10) {    
-	    it_info(ptemp << "% done." << std::endl);
+	    it_info_debug(ptemp << "% done.");
 	    pdone=ptemp;
 	  }
 	  U.add_rows(i1,j);
