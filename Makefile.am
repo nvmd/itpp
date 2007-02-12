@@ -31,8 +31,11 @@ uninstall-local:
 dist-html:
 	$(MAKE) -C doc dist-html
 
+snapshot_suffix = _pre`date +"%Y%m%d"`
+
 snapshot:
-	$(MAKE) dist distdir=@PACKAGE_TARNAME@-`date +"%Y%m%d"`
+	$(MAKE) dist distdir=@PACKAGE@-@VERSION@$(snapshot_suffix)
 
 snapshot-html:
-	$(MAKE) -C doc dist-html html_tarname=@PACKAGE_TARNAME@-html-doc-`date +"%Y%m%d"`
+	$(MAKE) -C doc dist-html \
+		distdir_html=@PACKAGE@-html-doc-@VERSION@$(snapshot_suffix)
