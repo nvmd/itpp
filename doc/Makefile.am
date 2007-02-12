@@ -17,7 +17,7 @@ SUBDIRS = images tutorial local
 
 docdir = @docdir@
 
-html_tarname = @PACKAGE_TARNAME@-html-doc-@PACKAGE_VERSION@
+distdir_html = @PACKAGE@-html-doc-@VERSION@
 
 all-local: html-local
 
@@ -45,12 +45,12 @@ html/index.html: doxygen_html.cfg \
 	fi
 
 dist-html: html-local
-	cp -a $(top_builddir)/doc/html $(top_builddir)/$(html_tarname)
-	tar chof - $(top_builddir)/$(html_tarname) | \
-		gzip --best -c > $(top_builddir)/$(html_tarname).tar.gz
-	tar chof - $(top_builddir)/$(html_tarname) | \
-		bzip2 -9 -c > $(top_builddir)/$(html_tarname).tar.bz2
-	rm -rf $(top_builddir)/$(html_tarname)
+	cp -a $(top_builddir)/doc/html $(top_builddir)/$(distdir_html)
+	tar chof - $(top_builddir)/$(distdir_html) | \
+		gzip --best -c > $(top_builddir)/$(distdir_html).tar.gz
+	tar chof - $(top_builddir)/$(distdir_html) | \
+		bzip2 -9 -c > $(top_builddir)/$(distdir_html).tar.bz2
+	rm -rf $(top_builddir)/$(distdir_html)
 
 install-data-local: html-local
 	$(mkinstalldirs) $(DESTDIR)$(docdir)
