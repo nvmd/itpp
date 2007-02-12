@@ -1,4 +1,48 @@
 ===============================================================================
+IT++ version 3.10.9                                        Released: 2007-02-10
+-------------------------------------------------------------------------------
+
+This is the next bug-fix release of the stable IT++ library. Therefore, no
+new features have been added since 3.10.8 was released. Only minor
+modifications and bug-fixes have been done.
+
+Modifications:
+--------------
+
+* Added test file for a binary it_file format. It is supposed to assert
+  wrong endianness detection on various platforms.
+
+* Added a manual page for itpp-config script
+
+* Improved portability by adding support for <endian.h> system header,
+  available at least on Linux systems.
+
+Bug-fixes:
+----------
+
+* Fixed bug [1635988] by implementing the twist() function in a similar way
+  as the original TWIST() macro from Takuji Nishimura's and Makoto
+  Matsumoto's C sources.
+
+* Fixed wrong assertion check in QAM modulator set_M() function. This
+  problem was reported on the Help forum.
+
+* Protected inheritance of the Convolutional_Code class replaced with a
+  public one. This fixes the problem of assigning the
+  Punctured_Convolutional_Code class object to a pointer of Channel_Code
+  class.
+
+* Added missing architecture checks, which should fix bugs [1641691] and
+  [1640347].
+
+* Minor fixes to prevent "unused variable" warnings when ASSERT_LEVEL flag
+  is not defined.
+
+* Fixed non-portable parts of the Makefile reported by the latest stable
+  automake 1.10
+
+
+===============================================================================
 IT++ version 3.10.8                                        Released: 2007-01-14
 -------------------------------------------------------------------------------
 

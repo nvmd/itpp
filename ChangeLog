@@ -3,6 +3,16 @@
 	* doc/Makefile.am, Makefile.am: Changed the naming scheme of
 	snapshots to "itpp-VERSION_preYYYYMMDD"
 
+==============================================================================
+
+2007-02-10  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* IT++ 3.10.9 released (SVN tag: release-3-10-9)
+	(merged rev. 929:930 from the itpp-3-10 branch)
+
+	* NEWS: Updated to include recent changes
+	(merged rev. 929:930 from the itpp-3-10 branch)
+	
 2007-02-09  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/gf2mat.cpp: Replaced it_info() with it_info_debug() to
