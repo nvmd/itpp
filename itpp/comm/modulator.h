@@ -624,6 +624,8 @@ namespace itpp {
   */
   class QAM : public Modulator<std::complex<double> > {
   public:
+    //! Default Constructor
+    QAM() {}
     //! Class Constructor
     QAM(int M) { set_M(M); }
     //! Destructor
@@ -670,6 +672,8 @@ namespace itpp {
   */
   class PSK : public Modulator<std::complex<double> > {
   public:
+    //! Default Constructor
+    PSK() {}
     //! Class constructor
     PSK(int M) { set_M(M); }
     //! Destructor
@@ -997,6 +1001,8 @@ namespace itpp {
   */
   class PAM_c : public Modulator<std::complex<double> > {
   public:
+    //! Default Constructor
+    PAM_c() {}
     //! Constructor
     PAM_c(int M) { set_M(M); }
     //! Destructor
@@ -1130,6 +1136,8 @@ namespace itpp {
   */
   class PAM : public Modulator<double> {
   public:
+    //! Default Constructor
+    PAM() {}
     //! Constructor
     PAM(int M) { set_M(M); }
     //! Destructor
