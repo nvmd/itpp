@@ -98,9 +98,9 @@ namespace itpp {
 
   void LDPC_Parity_Matrix::set(int i, int j, bin x) 
   {
-    it_assert_debug((x==0) | (x==1),"LDPC_Parity_Matrix::set");
-    it_assert_debug((i>=0) & (i<ncheck),"LDPC_Parity_Matrix::set");
-    it_assert_debug((j>=0) & (j<nvar),"LDPC_Parity_Matrix::set");
+    it_assert_debug((x==0) || (x==1),"LDPC_Parity_Matrix::set");
+    it_assert_debug((i>=0) && (i<ncheck),"LDPC_Parity_Matrix::set");
+    it_assert_debug((j>=0) && (j<nvar),"LDPC_Parity_Matrix::set");
     it_assert_debug(H(i,j)==Ht(j,i),"LDPC_Parity_Matrix internal error");
 
     int old_element = H(i,j);
