@@ -1,6 +1,12 @@
+2007-02-17  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* config/acx_blas.m4, config/acx_cblas.m4, config/acx_fft.m4,
+	config/acx_lapack.m4, configure.ac: Improved the speed and
+	portability of external libraries detection macros
+	
 2007-02-16  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
-	* itpp/comm/ldpc.cpp: Fixed some assertions.
+	* itpp/comm/ldpc.cpp: Fixed some assertions
 
 2007-02-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
