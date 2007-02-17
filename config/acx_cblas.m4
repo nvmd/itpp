@@ -1,6 +1,6 @@
 dnl @synopsis ACX_CBLAS
 dnl @author Adam Piatyszek <ediap@users.sourceforge.net>
-dnl @version 2006-01-31
+dnl @version 2007-02-15
 dnl
 dnl This macro looks for a library that implements the CBLAS
 dnl interface for BLAS (see http://www.netlib.org/blas/). On
@@ -9,14 +9,10 @@ dnl requisite library linkages. Besides, it defines HAVE_CBLAS.
 dnl
 dnl To link with CBLAS, you should link with:
 dnl
-dnl     $CBLAS_LIBS $BLAS_LIBS $LIBS $FLIBS
+dnl     $CBLAS_LIBS $BLAS_LIBS $LIBS
 dnl
 dnl in that order. BLAS_LIBS is the output variable of the ACX_BLAS
-dnl macro, called automatically. FLIBS is the output variable of the
-dnl AC_F77_LIBRARY_LDFLAGS macro (called if necessary by ACX_BLAS), and
-dnl is sometimes necessary in order to link with F77 libraries. Users
-dnl will also need to use AC_F77_DUMMY_MAIN (see the autoconf manual),
-dnl for the same reason.
+dnl macro, called automatically.
 dnl
 dnl The user may also use --with-cblas=<lib> in order to use some
 dnl specific CBLAS library <lib>. In order to link successfully,
@@ -38,51 +34,42 @@ case $with_cblas in
   *) CBLAS_LIBS="-l$with_cblas" ;;
 esac
 
-test x"$acx_cblas_ok" != xdisabled && acx_cblas_ok=no
+test "$acx_cblas_ok" != disabled && acx_cblas_ok=no
 cblas_acml_ok=no
 
 # We cannot use CBLAS if BLAS is not found
-if test "x$acx_blas_ok" != xyes; then
-  acx_cblas_ok=noblas
-fi
+test "$acx_blas_ok" != yes && acx_cblas_ok=noblas
 
 # First, check CBLAS_LIBS environment variable
 if test "x$CBLAS_LIBS" != x; then
-  save_LIBS="$LIBS"; LIBS="$CBLAS_LIBS $BLAS_LIBS $LIBS $FLIBS"
+  save_LIBS="$LIBS"; LIBS="$CBLAS_LIBS $BLAS_LIBS $LIBS"
   AC_MSG_CHECKING([for cblas_sgemm in $CBLAS_LIBS])
   AC_TRY_LINK_FUNC(cblas_sgemm, [acx_cblas_ok=yes])
   AC_MSG_RESULT($acx_cblas_ok)
   # Special check for ACML CBLAS
-  if test $acx_cblas_ok = no; then
+  if test "$acx_cblas_ok" = no; then
     AC_MSG_CHECKING([for sgemm in $CBLAS_LIBS])
     AC_TRY_LINK_FUNC(sgemm, [acx_cblas_ok=yes], [CBLAS_LIBS=""])
     AC_MSG_RESULT($acx_cblas_ok)
-    if test $acx_cblas_ok = yes; then
+    if test "$acx_cblas_ok" = yes; then
       AC_CHECK_HEADER([acml.h], [cblas_acml_ok=yes], [acx_cblas_ok=no])
     fi
   fi
   LIBS="$save_LIBS"
 fi
 
-# CBLAS linked to by default?  (is sometimes included in BLAS lib)
-if test $acx_cblas_ok = no; then
+# CBLAS linked to by default?  (it is sometimes included in BLAS)
+if test "$acx_cblas_ok" = no; then
   save_LIBS="$LIBS"; LIBS="$LIBS $BLAS_LIBS"
   AC_CHECK_FUNC(cblas_sgemm, [acx_cblas_ok=yes])
   LIBS="$save_LIBS"
 fi
 
-# CBLAS linked to by default using FLIBS?
-if test $acx_cblas_ok = no; then
-  save_LIBS="$LIBS"; LIBS="$LIBS $BLAS_LIBS $FLIBS"
-  AC_CHECK_FUNC(cblas_sgemm, [acx_cblas_ok=yes])
-  LIBS="$save_LIBS"
-fi
-
 # CBLAS from ACML linked to by default using FLIBS?
-if test $acx_cblas_ok = no; then
-  save_LIBS="$LIBS"; LIBS="$LIBS $BLAS_LIBS $FLIBS"
+if test "$acx_cblas_ok" = no; then
+  save_LIBS="$LIBS"; LIBS="$LIBS $BLAS_LIBS"
   AC_CHECK_FUNC(sgemm, [acx_cblas_ok=yes])
-  if test $acx_cblas_ok = yes; then
+  if test "$acx_cblas_ok" = yes; then
     AC_CHECK_HEADER([acml.h], [cblas_acml_ok=yes], [acx_cblas_ok=no])
   fi
   LIBS="$save_LIBS"
@@ -90,8 +77,8 @@ fi
 
 # Generic CBLAS library?
 for cblas in cblas gslcblas; do
-  if test $acx_cblas_ok = no; then
-    save_LIBS="$LIBS"; LIBS="$BLAS_LIBS $LIBS $FLIBS"
+  if test "$acx_cblas_ok" = no; then
+    save_LIBS="$LIBS"; LIBS="$BLAS_LIBS $LIBS"
     AC_CHECK_LIB($cblas, cblas_sgemm, [acx_cblas_ok=yes; CBLAS_LIBS="-l$cblas"])
     LIBS="$save_LIBS"
   fi
@@ -100,9 +87,9 @@ done
 AC_SUBST(CBLAS_LIBS)
 
 # Finally, define HAVE_CBLAS
-if test x"$acx_cblas_ok" = xyes; then
+if test "$acx_cblas_ok" = yes; then
   AC_DEFINE(HAVE_CBLAS, 1, [Define if you have CBLAS library.])
-  if test x"$cblas_acml_ok" = xyes; then
+  if test "$cblas_acml_ok" = yes; then
     AC_DEFINE(HAVE_CBLAS_ACML, 1, [Define if you have ACML CBLAS library.])
   fi
 fi

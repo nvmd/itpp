@@ -191,51 +191,6 @@ test "x$diff_ok" != xyes && enable_tests=no
 test "x$sed_ok" != xyes && enable_tests=no
 AM_CONDITIONAL([RUN_TESTS], [test "x$enable_tests" = xyes])
 
-# Check if we have Fortran compiler
-if test "x$F77" != x; then
-  # Checks for BLAS (ACML, MKL, ATLAS or NETLIB)
-  ACX_BLAS
-
-  # Checks for CBLAS (ACML, MKL, ATLAS or NETLIB)
-  ACX_CBLAS
-
-  # Checks for LAPACK (ACML, MKL, ATLAS or NETLIB)
-  ACX_LAPACK
-
-  # Set LIBS
-  if test x"$acx_blas_ok" = xyes; then
-    if test x"$F77" = xgfortran; then
-      MY_FLIBS="-lgfortran"
-    else 
-      if test x"$F77" = xg77; then
-        MY_FLIBS="-lg2c"
-      fi 
-    fi 
-    LIBS="$BLAS_LIBS $LIBS$MY_FLIBS"
-    if test "x$CBLAS_LIBS" != x; then
-      LIBS="$CBLAS_LIBS $LIBS"
-    fi
-    if test x"$LAPACK_LIBS" != x; then
-      LIBS="$LAPACK_LIBS $LIBS"
-    fi
-  fi
-else
-  acx_blas_ok=nofortran;
-  blas_mkl_ok=no;
-  blas_acml_ok=no;
-  blas_atlas_ok=no;
-  acx_cblas_ok=noblas;
-  acx_lapack_ok=noblas;
-fi
-
-# Checks for FFT (ACML, MKL or FFTW3)
-ACX_FFT
-
-# Set LIBS
-if test "x$FFT_LIBS" != x; then
-  LIBS="$FFT_LIBS $LIBS"
-fi
-
 
 # Checks for header files
 AC_HEADER_STDC
@@ -295,6 +250,44 @@ AC_CHECK_SIZEOF(long)
 AC_CHECK_SIZEOF(unsigned long)
 AC_CHECK_SIZEOF(long long)
 AC_CHECK_SIZEOF(unsigned long long)
+
+
+# Check if we have Fortran compiler
+if test "x$F77" != x; then
+
+  # Checks for BLAS (ACML, MKL, ATLAS or NETLIB)
+  ACX_BLAS
+
+  # Checks for CBLAS (ACML, MKL, ATLAS or NETLIB)
+  ACX_CBLAS
+
+  # Checks for LAPACK (ACML, MKL, ATLAS or NETLIB)
+  ACX_LAPACK
+else
+  acx_blas_ok=nofortran;
+  blas_mkl_ok=no;
+  blas_acml_ok=no;
+  blas_atlas_ok=no;
+  acx_cblas_ok=noblas;
+  acx_lapack_ok=noblas;
+fi
+
+# Checks for FFT (ACML, MKL or FFTW3)
+ACX_FFT
+
+# Set LIBS
+if test $acx_blas_ok = yes; then
+  LIBS="$BLAS_LIBS $LIBS"
+  if test "x$CBLAS_LIBS" != x; then
+    LIBS="$CBLAS_LIBS $LIBS"
+  fi
+  if test "x$LAPACK_LIBS" != x; then
+    LIBS="$LAPACK_LIBS $LIBS"
+  fi
+fi
+if test "x$FFT_LIBS" != x; then
+  LIBS="$FFT_LIBS $LIBS"
+fi
 
 
 # config.h top and bottom
