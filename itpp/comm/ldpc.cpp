@@ -656,11 +656,10 @@ namespace itpp {
     return *this;
   };
 
-  LDPC_Generator_Matrix::LDPC_Generator_Matrix(LDPC_Parity_Matrix &H, std::string t, 
+  ivec LDPC_Generator_Matrix::build_systematic(LDPC_Parity_Matrix &H, 
+					       bool natural_ordering,
 					       ivec avoid_cols) 
   {
-    it_assert(t=="systematic","LDPC_Generator_Matrix(): unsupported format");
-
     // create systematic generator matrix
     type=1;
     nvar=H.get_nvar();
@@ -670,13 +669,26 @@ namespace itpp {
     // create dense representation of parity check matrix
     GF2mat Hd(H.H);  
 
+    // -- Determine initial column ordering --
+    ivec col_order(nvar);
+    if (natural_ordering) {
+      for (int i=0; i<nvar; i++) {
+	col_order(i)=i;
+      }
+    } else { 
     // take the columns in random order, but the ones to avoid at last
-    vec col_importance = randu(nvar);
-    for (int i=0; i<length(avoid_cols); i++) {
-      col_importance(avoid_cols(i)) = (-col_importance(avoid_cols(i)));
+      vec col_importance = randu(nvar);
+      for (int i=0; i<length(avoid_cols); i++) {
+	col_importance(avoid_cols(i)) = (-col_importance(avoid_cols(i)));
+      }
+      col_order = sort_index(-col_importance);
     }
-    ivec col_order = sort_index(-col_importance);
 
+    ivec actual_ordering(nvar);
+
+    // Now partition P as P=[P1 P2]. Then find G so [P1 P2][I G]'=0.
+
+    // -- Create P1 and P2 --
     GF2mat P1; //(ncheck,nvar-ncheck);      // non-invertible part
     GF2mat P2; //(ncheck,ncheck);           // invertible part
  
@@ -694,6 +706,7 @@ namespace itpp {
       if (j2==0)  {       // first column in P2 is number col_order(k)
 	P2 = GF2mat(c);
 	rank = P2.T_fact(T,U,perm);
+	actual_ordering(k)=nvar-ncheck;
 	j2++;
       } else  {
 	//      bvec c = Hd.get_col(col_order(k));
@@ -701,14 +714,17 @@ namespace itpp {
 	  bool success =  P2.T_fact_update_addcol(T,U,perm,c);
 	  if (success) {
 	    P2 = P2.concatenate_horizontal(c);
+	    actual_ordering(k)=nvar-ncheck+j2;
 	    j2++;
 	    continue;
 	  } 
 	} 
 	if (j1==0) {
 	  P1 = GF2mat(c); 
+	  actual_ordering(k)=j1;
 	} else {
 	  P1 = P1.concatenate_horizontal(c);
+	  actual_ordering(k)=j1;
 	}
 	j1++;
       }
@@ -716,10 +732,10 @@ namespace itpp {
 
     it_info_debug("Rank of parity check matrix: " << j2);
 
-    // compute the systematic part of the generator matrix
+    // -- Compute the systematic part of the generator matrix --
     G = (P2.inverse()*P1).transpose();
 
-    // permute the columns of the parity check matrix
+    // -- Permute the columns of the parity check matrix --
     GF2mat P = P1.concatenate_horizontal(P2);
     H=LDPC_Parity_Matrix(ncheck,nvar);
     // brute force copy from P to H
@@ -731,7 +747,7 @@ namespace itpp {
       }
     }
   
-    // check that the result was correct
+    // -- Check that the result was correct --
     it_assert_debug((GF2mat(H.H) * (gf2dense_eye(nvar-ncheck)
 				    .concatenate_horizontal(G)).transpose())
 		    .is_zero(),
@@ -739,6 +755,7 @@ namespace itpp {
 
     G=G.transpose();  // store the generator matrix in transposed form
     it_info_debug("LDPC_Generator_Matrix() done.");
+    return actual_ordering;
   }
 
 
