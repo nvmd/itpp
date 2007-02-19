@@ -43,7 +43,8 @@ int main()
   H.display_stats();
   int girth = H.cycle_removal_MGW(6);
   cout << "girth=" << girth << endl;
-  LDPC_Generator_Matrix G(H,"systematic");
+  LDPC_Generator_Matrix G;
+  G.build_systematic(H);
   LDPC_Code C(H,G);
   C.save_to_file("ldpc_test.codec");
   LDPC_Code C1("ldpc_test.codec");

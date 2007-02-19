@@ -329,28 +329,42 @@ namespace itpp {
       //! Default constructor
       LDPC_Generator_Matrix() { type=0; };
 
-      /*!  \brief Construct generator matrix
+      /*!  \brief Construct systematic generator matrix
 
-      This function constructs the generator matrix from a parity check
-      matrix (\c LDPC_Parity_Matrix). 
+      This function constructs a generator matrix with systematic part
+      from a parity check matrix (\c LDPC_Parity_Matrix). The order of
+      the columns is randomized unless otherwise requested via the
+      natural_ordering parameter.
 
-      One can optionally provide an index vector, ind, of variable
-      nodes (columns). The algorithm then avoids, to use columns
-      corresponding to this index vector. This can be useful for
-      example to avoid using variable nodes of a low degree as
-      systematic bits.
+      \param H parity check matrix 
+      
+      \param natural_ordering If this flag is true, the columns are
+      not randomly reordered (no interleaving applied). If this flag
+      is set, then the function tries so far as possible to avoid
+      permuting columns at all. (Permutation then takes place only if
+      absolutely necessary.)
 
-      \param H parity check matrix
-      \param t what type of matrix to generate ("systematic"=systematic 
-      form, currently the only supported option)
-      \param ind vector of column indices (variable nodes) to avoid in 
-      the systematic part
+      \param ind Vector of column indices (variable nodes) to avoid in
+      the systematic part. If this vector is supplied, the algorithm
+      then avoids to use variable nodes corresponding to this index
+      vector as systematic bits. (This can be used for example to
+      avoid using variable nodes of a low degree as systematic bits.)
+      This parameter is ignored if the natural_ordering flag is set.
 
-      \note This function modifies the parity check matrix (its
-      columns are sorted).
+      \note This function modifies the parity check matrix. Its
+      columns may be sorted so that it gets the structure H=[H1 H2]
+      where H2 is square and invertible.  The computed generator then
+      satisfies [H1 H2][I; G']=0.
+
+      The function returns the permutation P on the variable nodes
+      that was necessary to construct a full rank generator. This is
+      the permutation which effectively has been applied to the
+      columns of H. The k:th column of the original H is the P(k):th
+      column of the rearranged H.)
       */
-      LDPC_Generator_Matrix(LDPC_Parity_Matrix &H, 
-			    std::string t="systematic", ivec ind="");
+      ivec build_systematic(LDPC_Parity_Matrix &H, 
+			    bool natural_ordering=false, 
+			    ivec ind="");
 
       //! Assignment operator
       LDPC_Generator_Matrix& operator=(const LDPC_Generator_Matrix &X);
