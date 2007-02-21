@@ -1,7 +1,7 @@
 /*!
  * \file 
  * \brief Implementation of a Low-Density Parity Check (LDPC) codec.
- * \author Erik G. Larsson and Mattias Andersson
+ * \author Erik G. Larsson, Mattias Andersson and Adam Piatyszek
  *
  * $Date$
  * $Revision$
@@ -643,31 +643,30 @@ namespace itpp {
     return cycles;
   };
 
+
   // ---------------------------------------------------------------------------
-  // LDPC_Generator_Matrix
+  // LDPC_Generator_Systematic
   // ---------------------------------------------------------------------------
 
-  LDPC_Generator_Matrix& LDPC_Generator_Matrix::operator=(const LDPC_Generator_Matrix &X)
+  LDPC_Generator_Systematic::LDPC_Generator_Systematic(LDPC_Parity_Matrix &H, 
+						       bool natural_ordering, 
+						       const ivec& ind):
+    LDPC_Generator("systematic"), G()
   {
-    G=X.G;
-    type=X.type;
-    nvar=X.nvar;
-    ncheck=X.ncheck;
-    return *this;
-  };
+    ivec tmp;
+    tmp = construct(H, natural_ordering, ind);
+  }
 
-  ivec LDPC_Generator_Matrix::build_systematic(LDPC_Parity_Matrix &H, 
-					       bool natural_ordering,
-					       ivec avoid_cols) 
+
+  ivec LDPC_Generator_Systematic::construct(LDPC_Parity_Matrix &H, 
+					    bool natural_ordering,
+					    const ivec& avoid_cols) 
   {
-    // create systematic generator matrix
-    type=1;
-    nvar=H.get_nvar();
-    ncheck=H.get_ncheck();
-    // systematic part is never saved explicitly
-
+    int nvar = H.get_nvar();
+    int ncheck = H.get_ncheck();
+  
     // create dense representation of parity check matrix
-    GF2mat Hd(H.H);  
+    GF2mat Hd(H.get_H());  
 
     // -- Determine initial column ordering --
     ivec col_order(nvar);
@@ -675,8 +674,9 @@ namespace itpp {
       for (int i=0; i<nvar; i++) {
 	col_order(i)=i;
       }
-    } else { 
-    // take the columns in random order, but the ones to avoid at last
+    } 
+    else { 
+      // take the columns in random order, but the ones to avoid at last
       vec col_importance = randu(nvar);
       for (int i=0; i<length(avoid_cols); i++) {
 	col_importance(avoid_cols(i)) = (-col_importance(avoid_cols(i)));
@@ -692,27 +692,26 @@ namespace itpp {
     GF2mat P1; //(ncheck,nvar-ncheck);      // non-invertible part
     GF2mat P2; //(ncheck,ncheck);           // invertible part
  
-    it_info_debug("Computing generator matrix...");
+    it_info_debug("Computing a systematic generator matrix...");
 
     int j1=0, j2=0;
     int rank;
     ivec perm;
     GF2mat T, U;
     for (int k=0; k<nvar; k++) {
-      if (j1>=nvar-ncheck) {
-	it_error("LDPC_Gmat(): Unable to obtain enough independent columns.");
-      }
+      it_error_if(j1 >= nvar-ncheck,
+		  "LDPC_Generator_Systematic::construct(): Unable to obtain enough independent columns.");
+
       bvec c = Hd.get_col(col_order(k));
-      if (j2==0)  {       // first column in P2 is number col_order(k)
+      if (j2==0) {       // first column in P2 is number col_order(k)
 	P2 = GF2mat(c);
 	rank = P2.T_fact(T,U,perm);
 	actual_ordering(k)=nvar-ncheck;
 	j2++;
-      } else  {
-	//      bvec c = Hd.get_col(col_order(k));
+      } 
+      else {
 	if (j2<ncheck) {
-	  bool success =  P2.T_fact_update_addcol(T,U,perm,c);
-	  if (success) {
+	  if (P2.T_fact_update_addcol(T,U,perm,c)) {
 	    P2 = P2.concatenate_horizontal(c);
 	    actual_ordering(k)=nvar-ncheck+j2;
 	    j2++;
@@ -722,7 +721,8 @@ namespace itpp {
 	if (j1==0) {
 	  P1 = GF2mat(c); 
 	  actual_ordering(k)=j1;
-	} else {
+	} 
+	else {
 	  P1 = P1.concatenate_horizontal(c);
 	  actual_ordering(k)=j1;
 	}
@@ -737,7 +737,7 @@ namespace itpp {
 
     // -- Permute the columns of the parity check matrix --
     GF2mat P = P1.concatenate_horizontal(P2);
-    H=LDPC_Parity_Matrix(ncheck,nvar);
+    H = LDPC_Parity_Matrix(ncheck, nvar);
     // brute force copy from P to H
     for (int i=0; i<ncheck; i++) {
       for (int j=0; j<nvar; j++) {
@@ -748,14 +748,59 @@ namespace itpp {
     }
   
     // -- Check that the result was correct --
-    it_assert_debug((GF2mat(H.H) * (gf2dense_eye(nvar-ncheck)
-				    .concatenate_horizontal(G)).transpose())
-		    .is_zero(),
-		    "LDPC_Gmat::LDPC_Gmat() result was incorrect");
+    it_assert_debug((GF2mat(H.get_H()) 
+		     * (gf2dense_eye(nvar-ncheck).concatenate_horizontal(G)).transpose()).is_zero(),
+		    "LDPC_Generator_Systematic::construct(): Incorrect generator matrix G");
+    
+    G = G.transpose();  // store the generator matrix in transposed form
+    it_info_debug("Systematic generator matrix computed.");
 
-    G=G.transpose();  // store the generator matrix in transposed form
-    it_info_debug("LDPC_Generator_Matrix() done.");
+    init_flag = true;
+
     return actual_ordering;
+  }
+
+
+  void LDPC_Generator_Systematic::save(std::string filename) const
+  {
+    it_file f(filename);
+    int fileversion;
+    f >> Name("Fileversion") >> fileversion;
+    it_assert(fileversion == 1,
+	      "LDPC_Generator_Systematic::save(): Unsupported file format");
+    f << Name("G_type") << type;
+    f << Name("G") << G;
+    f.close();
+  }
+
+
+  void LDPC_Generator_Systematic::load(std::string filename)
+  {
+    it_ifile f(filename);
+    int fileversion;
+    f >> Name("Fileversion") >> fileversion;
+    it_assert(fileversion == 1,
+	      "LDPC_Generator_Systematic::load(): Unsupported file format");
+    std::string gen_type;
+    f >> Name("G_type") >> gen_type;
+    it_assert(gen_type == type,
+	      "LDPC_Generator_Systematic::load(): Wrong generator type");
+    f >> Name("G") >> G;
+    f.close();
+    
+    init_flag = true;
+  }
+
+  
+  void LDPC_Generator_Systematic::encode(const bvec &input, bvec &output)
+  {
+    it_assert(init_flag,
+	      "LDPC_Generator_Systematic::encode(): Systematic generator not set up");
+    it_assert(input.size() == G.cols(), 
+	      "LDPC_Generator_Systematic::encode(): Improper input vector size (" 
+	      << input.size() << " != " << G.cols() << ")");
+
+    output = concat(input, G * input);
   }
 
 
@@ -763,25 +808,95 @@ namespace itpp {
   // LDPC_Code
   // ---------------------------------------------------------------------------
 
-  LDPC_Code::LDPC_Code()
+  LDPC_Code::LDPC_Code(): H_is_defined(false), G(0)
   { 
-    H_is_defined=0;
     setup_decoder();
-  } 
-
-  LDPC_Code::LDPC_Code(const LDPC_Parity_Matrix &H)
-  {
-    set_code(H);
   }
 
-  void LDPC_Code::set_code(const LDPC_Parity_Matrix &H)
+  LDPC_Code::LDPC_Code(const LDPC_Parity_Matrix &H, LDPC_Generator* const G_in):
+    H_is_defined(false)
   {
-    H_is_defined=0;
+    set_code(H, G_in);
+  }
+
+  LDPC_Code::LDPC_Code(std::string filename, LDPC_Generator* const G_in): 
+    H_is_defined(false)
+  {
+    load_code(filename, G_in);
+  }
+
+
+  void LDPC_Code::set_code(const LDPC_Parity_Matrix &H, LDPC_Generator* const G_in)
+  {
     decoder_parameterization(H);
-    G=LDPC_Generator_Matrix();  // clear the generator matrix
-
+    G = G_in;
+    integrity_check();
     setup_decoder();
   }
+
+  void LDPC_Code::load_code(std::string filename, LDPC_Generator* const G_in)
+  {
+    it_info_debug("LDPC_Code::LDPC_Code(): Loading LDPC codec from " 
+		  << filename);  
+    it_ifile f(filename);
+    int fileversion;
+    f >> Name("Fileversion") >> fileversion;
+    it_assert(fileversion==1,"unsupported format");
+    int H_temp;
+    f >> Name("H_is_defined") >> H_temp;
+    (H_temp == 1) ? H_is_defined = true : H_is_defined = false;
+    f >> Name("nvar") >> nvar;
+    f >> Name("ncheck") >> ncheck;
+    f >> Name("C") >> C;
+    f >> Name("V") >> V;
+    f >> Name("sumX1") >> sumX1;
+    f >> Name("sumX2") >> sumX2;
+    f >> Name("iind") >> iind;
+    f >> Name("jind") >> jind;
+    f.close();
+
+    // load generator data;
+    G = G_in;
+    if (G != 0)
+      G->load(filename);
+    else
+      it_info_debug("LDPC_Code::load_code(): Missing generator object - generator data not loaded");
+      
+    it_info_debug("LDPC_Code::load_code(): Successfully loaded LDPC codec from " 
+		  << filename);  
+
+    integrity_check();
+    setup_decoder();
+  }
+
+  void LDPC_Code::save_code(std::string filename) const
+  {
+    it_info_debug("LDPC_Code::save_to_file(): Saving LDPC codec to "
+		  << filename);
+    it_file f;
+    f.open(filename,true);
+    f << Name("Fileversion") << 1;
+    f << Name("H_is_defined") << static_cast<int>(H_is_defined);
+    f << Name("nvar") << nvar;
+    f << Name("ncheck") << ncheck;
+    f << Name("C") << C;
+    f << Name("V") << V;
+    f << Name("sumX1") << sumX1;
+    f << Name("sumX2") << sumX2;
+    f << Name("iind") << iind;
+    f << Name("jind") << jind;
+    f.close();
+
+    // save generator data;
+    if (G != 0)
+      G->save(filename);
+    else
+      it_info_debug("LDPC_Code::save_code(): Missing generator object - generator data not saved");
+
+    it_info_debug("LDPC_Code::save_code(): Successfully saved LDPC codec to "
+		  << filename);  
+  }
+
 
   void LDPC_Code::setup_decoder(std::string method_in, ivec options_in, 
 				const LLR_calc_unit lcalc)
@@ -795,237 +910,49 @@ namespace itpp {
     }
   }
 
-  LDPC_Code::LDPC_Code(const LDPC_Parity_Matrix &Hmat, 
-		       const LDPC_Generator_Matrix &Gi)
+
+  void LDPC_Code::encode(const bvec &input, bvec &output)
   {
-    set_code(Hmat,Gi);
+    it_assert(G != 0,
+	      "LDPC_Code::encode(): LDPC Generator is required for encoding");
+
+    G->encode(input, output);
+    
+    it_assert_debug(syndrome_check(output), "LDPC_Code::encode()");
+  } 
+
+  bvec LDPC_Code::encode(const bvec &input)
+  { 
+    bvec result;
+    encode(input, result);
+    return result;
+  }
+
+  void LDPC_Code::decode(const vec &llrin, bvec &bitsout)
+  {
+    it_assert(dec_method=="bp","not implemented");
+    it_assert(H_is_defined,"there is no parity check matrix");
+
+    // decode with belief propagation
+    QLLRvec qllrin=llrcalc.to_qllr(llrin);
+    QLLRvec qllrout;
+    bp_decode(qllrin,qllrout);
+    bitsout = qllrout<0;
   }
   
-  void LDPC_Code::set_code(const LDPC_Parity_Matrix &Hmat, 
-			   const LDPC_Generator_Matrix &Gi)
+  bvec LDPC_Code::decode(const vec &x)
   {
-    H_is_defined=0;
-    decoder_parameterization(Hmat);
-    G=Gi;
-    
-    // check that the generator and parity check matrices match
-    GF2mat G1 = gf2dense_eye(nvar-ncheck)  
-      .concatenate_horizontal(G.G.transpose());
-    it_assert((GF2mat(Hmat.H)*G1.transpose()).is_zero(),
-	      "LDPC_Code(): H and G matrices do not match");
-    
-//     mcv.set_size(max(sumX2)*ncheck);
-//     mvc.set_size(nvar*max(sumX1));
-    setup_decoder();
+    it_assert(dec_method=="bp","not implemented");
+    it_assert(H_is_defined,"there is no parity check matrix");
+
+    // decode with belief propagation
+    bvec b;
+    decode(x,b);
+    return b;
   }
 
-  LDPC_Code::LDPC_Code(std::string filename)
-  {
-    set_code(filename);
-  }
 
-  void LDPC_Code::set_code(std::string filename)
-  {
-    it_info_debug("LDPC_Code::LDPC_Code(): Loading LDPC codec from " 
-		  << filename);  
-    it_ifile f(filename);
-    int fileversion;
-    f >> Name("Fileversion") >> fileversion;
-    it_assert(fileversion==1,"unsupported format");
-    f >> Name("H_is_defined") >> H_is_defined;
-    f >> Name("nvar") >> nvar;
-    f >> Name("ncheck") >> ncheck;
-    f >> Name("C") >> C;
-    f >> Name("V") >> V;
-    f >> Name("sumX1") >> sumX1;
-    f >> Name("sumX2") >> sumX2;
-    f >> Name("iind") >> iind;
-    f >> Name("jind") >> jind;
-    f >> Name("G_type") >> G.type;
-    switch (G.type) {
-    case 0: { // no generator defined
-      break;
-    }
-    case 1: { // systematic matrix
-      f >> Name("G") >> G.G;
-      // check integretity of generator matrix
-      for (int i=0; i<G.G.cols(); i++) {
-	bvec ci = G.G.get_col(i);
-	ci = concat(zeros_b(G.G.cols()-1-i),ci);
-	ci = concat(bin(1),ci);
-	ci = concat(zeros_b(i),ci);
-	it_assert(syndrome_check(ci),"LDPC_Code(): H and G do not match");
-      }
-      it_info_debug("LDPC_Code::LDPC_Code(): Passed cross-check check.");
-      break;
-    }
-    default:
-      it_error("LDPC_Code::LDPC_Code(): unsupported generator matrix format");
-    }
-    
-    f.close();
-
-//     mcv.set_size(max(sumX2)*ncheck);
-//     mvc.set_size(nvar*max(sumX1));
-    setup_decoder();
-
-    it_info_debug("LDPC_Code::LDPC_Code(): Successfully loaded LDPC codec from " 
-		  << filename);  
-  }
-
-  void LDPC_Code::save_to_file(std::string filename) const
-  {
-    it_info_debug("LDPC_Code::save_to_file(): Saving LDPC codec to "
-		  << filename);
-    it_file f;
-    f.open(filename,true);
-    f << Name("Fileversion") << 1;
-    f << Name("H_is_defined") << H_is_defined;
-    f << Name("nvar") << nvar;
-    f << Name("ncheck") << ncheck;
-    f << Name("C") << C;
-    f << Name("V") << V;
-    f << Name("sumX1") << sumX1;
-    f << Name("sumX2") << sumX2;
-    f << Name("iind") << iind;
-    f << Name("jind") << jind;
-    f << Name("G_type") << G.type;
-    switch (G.type) {
-    case 0: { // no generator
-      break;
-    }
-    case 1: { // systematic
-      f << Name("G") << G.G;
-      break;
-    }
-    default:
-      it_error("LDPC_Code::save_to_file(): unsupported G format");
-    }
-
-    f.close();
-
-    it_info_debug("LDPC_Code::save_to_file(): successfully saved LDPC codec to "
-		  << filename);  
-  }
-
-  void LDPC_Code::decoder_parameterization(const LDPC_Parity_Matrix &Hmat)
-  {
-    // copy basic parameters
-    sumX1 = Hmat.get_sumX1();
-    sumX2 = Hmat.get_sumX2();
-    nvar = Hmat.get_nvar();
-    ncheck = Hmat.get_ncheck();
-    int cmax = max(sumX1);
-    int vmax = max(sumX2);
-
-    // decoder parameterization
-    V = zeros_i(ncheck*vmax);
-    C = zeros_i(cmax*nvar);
-    jind = zeros_i(ncheck*vmax);
-    iind = zeros_i(nvar*cmax);
-    
-    it_info_debug("Computing decoder parameterization. Phase 1.");
-    for (int i=0; i<nvar; i++) {
-      ivec coli = Hmat.index_nonzeros(Hmat.get_col(i));
-      for (int j0=0; j0<length(coli); j0++) {
-	C(j0+cmax*i) = coli(j0);
-      }
-    }
-
-    it_info_debug("Computing decoder parameterization. Phase 2.");
-    for (int j=0; j<ncheck; j++) {
-      ivec rowj = Hmat.index_nonzeros(Hmat.get_row(j));
-      for (int i0=0; i0<length(rowj); i0++) {
-	V(j+ncheck*i0) = rowj(i0);
-      }
-    }   
-
-    it_info_debug("Computing decoder parameterization. Phase 3.");
-    for (int j=0; j<ncheck; j++) {
-      for (int ip=0; ip<sumX2(j); ip++) {
-	int vip = V(j+ip*ncheck);
-	int k=0;
-	while (1==1)  { 
-	  if (C(k+vip*cmax)==j) {
-	    break;
-	  }
-	  k++; 
-	}
-	jind(j+ip*ncheck) = vip+k*nvar;
-      }
-    }
-
-    it_info_debug("Computing decoder parameterization. Phase 4.");
-    for (int i=0; i<nvar; i++) {
-      for (int jp=0; jp<sumX1(i); jp++) {
-	int cjp = C(jp+i*cmax);
-	int k=0;
-	while (1==1) {
-	  if (V(cjp+k*ncheck)==i) {break; }
-	  k++;
-	}
-	iind(i+jp*nvar) = cjp+k*ncheck;
-      }
-    }
-
-    H_is_defined=1;
-  }
-
-  std::ostream &operator<<(std::ostream &os, const LDPC_Code &C)
-  {
-    ivec rdeg = zeros_i(max(C.sumX2)+1);
-    for (int i=0; i<C.ncheck; i++)     {
-      rdeg(C.sumX2(i))++;
-    }  
-
-    ivec cdeg = zeros_i(max(C.sumX1)+1);
-    for (int j=0; j<C.nvar; j++)     {
-      cdeg(C.sumX1(j))++;
-    }
-    
-    os << "---------- LDPC codec -----------------" << std::endl;
-    os << "Nvar=" << C.get_nvar() << "  Ncheck=" << C.get_ncheck() 
-       << "  rate=" << C.get_rate() << std::endl;
-    os << "Column degrees (node perspective): " << cdeg << std::endl;
-    os << "Row degrees (node perspective): " << rdeg << std::endl;
-    os << "---------------------------------------" << std::endl;
-    os << "Decoder parameters: dec_method=" << C.dec_method 
-       << ". Decoder options: " << C.dec_options << std::endl;
-    os << C.llrcalc << std::endl;
-    return os;
-  }
-
-  bool LDPC_Code::syndrome_check(const bvec &x) const
-  {
-    QLLRvec llr=1-2*to_ivec(x);
-    return syndrome_check(llr);
-  }
-  
-  bool LDPC_Code::syndrome_check(const QLLRvec &LLR) const    
-  {
-    // Please note the IT++ convention that a sure zero corresponds to
-    // LLR=+infinity
-    int i,j,synd,vi;
-  
-    for (j=0; j<ncheck; j++) {
-      synd = 0;
-      int vind = j; // tracks j+i*ncheck
-      for (i=0; i<sumX2(j); i++) {
-	vi = V(vind);
-	if (LLR(vi)<0) {
-	  synd++;
-	}
-	vind += ncheck;
-      }
-      if ((synd&1)==1) { 
-	return false;  // codeword is invalid
-      }    
-    }          
-    return true;   // codeword is valid 
-  };
-
-
-  int LDPC_Code::bp_decode(const QLLRvec &LLRin,   QLLRvec &LLRout) 
+  int LDPC_Code::bp_decode(const QLLRvec &LLRin, QLLRvec &LLRout) 
   {
     // Note the IT++ convention that a sure zero corresponds to
     // LLR=+infinity
@@ -1487,57 +1414,141 @@ namespace itpp {
     return (is_valid_codeword ? iter : -iter);
   }
 
-  void LDPC_Code::decode(const vec &llrin, bvec &bitsout)
-  {
-    it_assert(dec_method=="bp","not implemented");
-    it_assert(H_is_defined,"there is no parity check matrix");
 
-    // decode with belief propagation
-    QLLRvec qllrin=llrcalc.to_qllr(llrin);
-    QLLRvec qllrout;
-    bp_decode(qllrin,qllrout);
-    bitsout = qllrout<0;
+  bool LDPC_Code::syndrome_check(const bvec &x) const
+  {
+    QLLRvec llr=1-2*to_ivec(x);
+    return syndrome_check(llr);
   }
   
-  bvec LDPC_Code::decode(const vec &x)
+  bool LDPC_Code::syndrome_check(const QLLRvec &LLR) const    
   {
-    it_assert(dec_method=="bp","not implemented");
-    it_assert(H_is_defined,"there is no parity check matrix");
+    // Please note the IT++ convention that a sure zero corresponds to
+    // LLR=+infinity
+    int i,j,synd,vi;
+  
+    for (j=0; j<ncheck; j++) {
+      synd = 0;
+      int vind = j; // tracks j+i*ncheck
+      for (i=0; i<sumX2(j); i++) {
+	vi = V(vind);
+	if (LLR(vi)<0) {
+	  synd++;
+	}
+	vind += ncheck;
+      }
+      if ((synd&1)==1) { 
+	return false;  // codeword is invalid
+      }    
+    }          
+    return true;   // codeword is valid 
+  };
 
-    // decode with belief propagation
-    bvec b;
-    decode(x,b);
-    return b;
+
+  // ----------------------------------------------------------------------
+  // LDPC_Code private methods
+  // ----------------------------------------------------------------------
+
+  void LDPC_Code::decoder_parameterization(const LDPC_Parity_Matrix &Hmat)
+  {
+    // copy basic parameters
+    sumX1 = Hmat.get_sumX1();
+    sumX2 = Hmat.get_sumX2();
+    nvar = Hmat.get_nvar();
+    ncheck = Hmat.get_ncheck();
+    int cmax = max(sumX1);
+    int vmax = max(sumX2);
+
+    // decoder parameterization
+    V = zeros_i(ncheck*vmax);
+    C = zeros_i(cmax*nvar);
+    jind = zeros_i(ncheck*vmax);
+    iind = zeros_i(nvar*cmax);
+    
+    it_info_debug("Computing decoder parameterization. Phase 1.");
+    for (int i=0; i<nvar; i++) {
+      ivec coli = Hmat.index_nonzeros(Hmat.get_col(i));
+      for (int j0=0; j0<length(coli); j0++) {
+	C(j0+cmax*i) = coli(j0);
+      }
+    }
+
+    it_info_debug("Computing decoder parameterization. Phase 2.");
+    for (int j=0; j<ncheck; j++) {
+      ivec rowj = Hmat.index_nonzeros(Hmat.get_row(j));
+      for (int i0=0; i0<length(rowj); i0++) {
+	V(j+ncheck*i0) = rowj(i0);
+      }
+    }   
+
+    it_info_debug("Computing decoder parameterization. Phase 3.");
+    for (int j=0; j<ncheck; j++) {
+      for (int ip=0; ip<sumX2(j); ip++) {
+	int vip = V(j+ip*ncheck);
+	int k=0;
+	while (1==1)  { 
+	  if (C(k+vip*cmax)==j) {
+	    break;
+	  }
+	  k++; 
+	}
+	jind(j+ip*ncheck) = vip+k*nvar;
+      }
+    }
+
+    it_info_debug("Computing decoder parameterization. Phase 4.");
+    for (int i=0; i<nvar; i++) {
+      for (int jp=0; jp<sumX1(i); jp++) {
+	int cjp = C(jp+i*cmax);
+	int k=0;
+	while (1==1) {
+	  if (V(cjp+k*ncheck)==i) {break; }
+	  k++;
+	}
+	iind(i+jp*nvar) = cjp+k*ncheck;
+      }
+    }
+
+    H_is_defined = true;
   }
 
-  void LDPC_Code::encode(const bvec &bitsin, bvec &bitsout)
+  void LDPC_Code::integrity_check()
   {
-    it_assert(G.type!=0,
-	      "encode(): No G matrix, only zero codeword possible.");
-
-    bitsout = zeros_b(nvar);
-    switch (G.type) {
-    case 1: {       // generator matrix is systematic
-      for (int i=0; i<nvar-ncheck; i++) {
-	bitsout(i)=bitsin(i);
-      }
-      bvec btemp=G.G*bitsin;  
-      for (int i=0; i<ncheck; i++) {
-	bitsout(i+nvar-ncheck) = btemp(i);
-      }
-      break;
+    bvec temp_in, temp_out;
+    for (int i = 0; i < nvar-ncheck; i++) {
+      temp_in = concat(zeros_b(i), ones_b(1), zeros_b(nvar - ncheck - i - 1));
+      encode(temp_in, temp_out);
+      it_assert(syndrome_check(temp_out),
+		"LDPC_Code::integrity_check(): Syndrom check failed");
     }
-    default:
-      it_error("LDPC_Code::encode(): unsupported G matrix type");
+  }
+
+  // ----------------------------------------------------------------------
+  // Related functions
+  // ----------------------------------------------------------------------
+
+  std::ostream &operator<<(std::ostream &os, const LDPC_Code &C)
+  {
+    ivec rdeg = zeros_i(max(C.sumX2)+1);
+    for (int i=0; i<C.ncheck; i++)     {
+      rdeg(C.sumX2(i))++;
+    }  
+
+    ivec cdeg = zeros_i(max(C.sumX1)+1);
+    for (int j=0; j<C.nvar; j++)     {
+      cdeg(C.sumX1(j))++;
     }
     
-    it_assert_debug(syndrome_check(bitsout),"LDPC_Code::encode()");
-  } 
-
-  bvec LDPC_Code::encode(const bvec &input)
-  { 
-    bvec result;
-    encode(input,result);
-    return result;
+    os << "---------- LDPC codec -----------------" << std::endl;
+    os << "Nvar=" << C.get_nvar() << "  Ncheck=" << C.get_ncheck() 
+       << "  rate=" << C.get_rate() << std::endl;
+    os << "Column degrees (node perspective): " << cdeg << std::endl;
+    os << "Row degrees (node perspective): " << rdeg << std::endl;
+    os << "---------------------------------------" << std::endl;
+    os << "Decoder parameters: dec_method=" << C.dec_method 
+       << ". Decoder options: " << C.dec_options << std::endl;
+    os << C.llrcalc << std::endl;
+    return os;
   }
-}
+
+} // namespace itpp
