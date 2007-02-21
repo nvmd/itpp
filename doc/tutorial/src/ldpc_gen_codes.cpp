@@ -25,15 +25,15 @@ extern int main(int argc, char **argv)
     cout << "========= MACKAY CODE ==========" << endl;
     LDPC_Parity_Matrix H("204.33.484","alist");
     H.display_stats();
-    LDPC_Generator_Matrix G(H);
-    LDPC_Code C(H,G);
+    LDPC_Generator_Systematic G(H);
+    LDPC_Code C(H, &G);
     C.save_to_file("mackay_204.33.484.it"); 
 
     // Now produce a girth-optimized version of this code by removing
     // cycles. This slightly improves the performance at high SNR.
     H.cycle_removal_MGW(12);
-    LDPC_Generator_Matrix G1(H);
-    LDPC_Code C1(H,G1);
+    LDPC_Generator_Systematic G1(H);
+    LDPC_Code C1(H, &G1);
     C1.save_to_file("mackay_204.33.484_opt.it"); 
   }
     

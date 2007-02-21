@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -43,11 +43,11 @@ int main()
   H.display_stats();
   int girth = H.cycle_removal_MGW(6);
   cout << "girth=" << girth << endl;
-  LDPC_Generator_Matrix G;
-  G.build_systematic(H);
-  LDPC_Code C(H,G);
-  C.save_to_file("ldpc_test.codec");
-  LDPC_Code C1("ldpc_test.codec");
+  LDPC_Generator_Systematic G;
+  G.construct(H);
+  LDPC_Code C(H, &G);
+  C.save_code("ldpc_test.codec");
+  LDPC_Code C1("ldpc_test.codec", &G);
   cout << C << endl;
   bvec bitsin=randb(C.get_nvar()-C.get_ncheck());
   bvec bitsout;

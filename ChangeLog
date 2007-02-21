@@ -1,3 +1,14 @@
+2007-02-21  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/tutorial/src/ldpc_bersim_awgn.cpp,
+	doc/tutorial/src/ldpc_gen_codes.cpp, itpp/comm/ldpc.cpp,
+	itpp/comm/ldpc.h, tests/ldpc_test.cpp: LDPC_Generator abstract
+	base class added. It provides a common interface for user defined
+	generators. LDPC_Generator_Matrix replaced with the
+	LDPC_Generator_Systematic class derived from the LDPC_Generator.
+	Improved the interface of LDPC_Code class. Tutorial examples and
+	test program updated accordingly.
+
 2007-02-18  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/comm/ldpc.h, itpp/comm/ldpc.cpp, tests/ldpc_test.cpp: Added
