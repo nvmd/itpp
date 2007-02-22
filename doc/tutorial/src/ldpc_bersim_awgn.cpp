@@ -5,7 +5,7 @@ using namespace itpp;
 
 extern int main(int argc, char **argv)
 { 
-  int Nbits = 1000*1000*5000;  // maximum number of bits simulated for any SNR point
+  int64_t Nbits = 1000*1000*5000;  // maximum number of bits simulated for any SNR point
   int Nbers = 2000;            // target number of bit errors per SNR point
   double BERmin = 1e-6;        // BER at which to terminate simulation
   vec EbN0db = "0.6:0.2:5";
@@ -45,7 +45,7 @@ extern int main(int argc, char **argv)
     BLERC ferc; // Counter for coded FER
     ferc.set_blocksize(N);
 
-    for (int i = 0; i < Nbits; i += C.get_nvar()) {
+    for (int64_t i = 0; i < Nbits; i += C.get_nvar()) {
       // Received data
       vec x = chan(s);
       
