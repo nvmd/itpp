@@ -1514,12 +1514,17 @@ namespace itpp {
 
   void LDPC_Code::integrity_check()
   {
-    bvec temp_in, temp_out;
-    for (int i = 0; i < nvar-ncheck; i++) {
-      temp_in = concat(zeros_b(i), ones_b(1), zeros_b(nvar - ncheck - i - 1));
-      encode(temp_in, temp_out);
-      it_assert(syndrome_check(temp_out),
-		"LDPC_Code::integrity_check(): Syndrom check failed");
+    if (G != 0) {
+      bvec temp_in, temp_out;
+      for (int i = 0; i < nvar-ncheck; i++) {
+	temp_in = concat(zeros_b(i), ones_b(1), zeros_b(nvar - ncheck - i - 1));
+	encode(temp_in, temp_out);
+	it_assert(syndrome_check(temp_out),
+		  "LDPC_Code::integrity_check(): Syndrom check failed");
+      }
+    }
+    else {
+      it_info_debug("LDPC_Code::integrity_check(): No generator defined - no check performed");
     }
   }
 
