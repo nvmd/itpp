@@ -30,6 +30,8 @@
 * -------------------------------------------------------------------------
 */
 
+// To run extensive tests uncomment the following definition
+// #define EXTENSIVE_TESTS
 
 #include <itpp/itbase.h>
 
@@ -95,7 +97,7 @@ int main()
  GF2mat_sparse_alist alist2(file);
  it_assert(GF2mat(alist2.to_sparse())==A,"Alist test failed");
  
- /*            // to run the extensive tests, remove this comment   
+#ifdef EXTENSIVE_TESTS
     
  // ========== EXTENSIVE RANDOM TESTS ========== 
 
@@ -258,6 +260,6 @@ int main()
 
  cout << "All tests successfully passed." << endl;
 
- */     // to run the extensive tests, remove this comment   
+#endif // #ifdef(EXTENSIVE_TESTS)
 
 }
