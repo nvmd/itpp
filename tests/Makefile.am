@@ -1,11 +1,6 @@
 include $(top_srcdir)/Makefile.common
-if ENABLE_DEBUG
-LDADD = $(top_builddir)/itpp/libitpp_debug.la
-AM_CXXFLAGS = $(CXXFLAGS_DEBUG)
-else
 LDADD = $(top_builddir)/itpp/libitpp.la
 AM_CXXFLAGS = $(CXXFLAGS_OPT)
-endif
 
 BASE_TESTS = \
 	array_test \
@@ -32,8 +27,7 @@ BASE_TESTS = \
 	timer_test \
 	vec_test
 
-if ENABLE_COMM
-  COMM_TESTS = \
+COMM_TESTS = \
 	bch_test \
 	channel_test \
 	convcode_test \
@@ -47,20 +41,14 @@ if ENABLE_COMM
 	rec_syst_conv_code_test \
 	reedsolomon_test \
 	turbo_test
-endif
 
-if ENABLE_FIXED
-  FIXED_TESTS = \
+FIXED_TESTS = \
 	fix_test
-endif
 
-if ENABLE_OPTIM
-  OPTIM_TESTS = \
+OPTIM_TESTS = \
 	newton_search_test
-endif
 
-if ENABLE_SIGNAL
-  SIGNAL_TESTS = \
+SIGNAL_TESTS = \
 	fastica_test \
 	filter_test \
 	filter_design_test \
@@ -70,7 +58,6 @@ if ENABLE_SIGNAL
 	source_test \
 	transforms_test \
 	window_test
-endif
 
 STAT_TESTS = \
 	histogram_test \
@@ -79,6 +66,19 @@ STAT_TESTS = \
 ALL_TESTS = $(BASE_TESTS) $(COMM_TESTS) $(FIXED_TESTS) $(OPTIM_TESTS) \
 	$(SIGNAL_TESTS) $(STAT_TESTS)
 
+USED_TESTS = $(BASE_TESTS) $(STAT_TESTS)
+if ENABLE_COMM
+  USED_TESTS += $(COMM_TESTS)
+endif
+if ENABLE_FIXED
+  USED_TESTS += $(FIXED_TESTS)
+endif
+if ENABLE_OPTIM
+  USED_TESTS += $(OPTIM_TESTS)
+endif
+if ENABLE_SIGNAL
+  USED_TESTS += $(SIGNAL_TESTS)
+endif
 
 array_test_SOURCES = array_test.cpp
 bch_test_SOURCES = bch_test.cpp
@@ -134,15 +134,15 @@ vec_test_SOURCES = vec_test.cpp
 window_test_SOURCES = window_test.cpp
 
 
-check_PROGRAMS = $(ALL_TESTS)
+check_PROGRAMS = $(USED_TESTS)
+tmp_files = $(USED_TESTS:=.tmp)
 ref_files = $(ALL_TESTS:=.ref)
-tmp_files = $(ALL_TESTS:=.tmp)
 
 EXTRA_DIST = itfile_test_data.it fastica_test_data.txt parser_test_data.txt \
 	$(ref_files) 
 
 check-local: $(check_PROGRAMS) $(ref_files)
-	@for i in $(ALL_TESTS); do \
+	@for i in $(USED_TESTS); do \
 		echo ------------------------------------------------------------------------------; \
 		./$$i$(EXEEXT) 2> /dev/null | sed 's/^M$$//' | sed 's/\(-\?[0-9]\+\.\?[0-9]*e[+-]\)0\([0-9][0-9]\)/\1\2/g' > $$i.tmp; \
 		diff $$i.tmp $(srcdir)/$$i.ref > /dev/null; \
