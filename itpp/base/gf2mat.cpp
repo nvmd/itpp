@@ -267,60 +267,57 @@ namespace itpp {
   }
 
 
-  // === IMPLEMENTATION OF (DENSE) GF2 MATRIX CLASS =================
+  // ----------------------------------------------------------------------
+  // Implementation of a dense GF2 matrix class
+  // ----------------------------------------------------------------------
 
-  GF2mat::GF2mat(int i, int j) 
+  GF2mat::GF2mat(int i, int j): nrows(i), ncols(j), 
+				nwords((j >> shift_divisor) + 1)
   {
-    int k = j/(1<<lImax)+1;
-    nrows=i;
-    ncols=j;
-    nwords=k;
-    data.set_size(nrows,nwords);
-    for (int i=0; i<nrows; i++) {
-      for (int j=0; j<nwords; j++) {
-	data(i,j) = 0;
-      }
-    }
+    data.set_size(nrows, nwords);
+    data.clear();
   }
 
-  GF2mat::GF2mat()   
+  GF2mat::GF2mat(): nrows(1), ncols(1), nwords(1)
   {
-    nrows=1;
-    ncols=1;
-    nwords=1;
-    data.set_size(1,1);
-    data(0,0) = 0;
+    data.set_size(nrows, nwords);
+    data.clear();
   }
 
-  GF2mat::GF2mat(const bvec &x, bool row_or_column)
+  GF2mat::GF2mat(const bvec &x, bool is_column)
   {
-    if (row_or_column==1) {     // create column vector
-      nrows=length(x);
-      ncols=1;
-      nwords=1;
-      data.set_size(nrows,1);
-      for (int i=0; i<nrows; i++) {
-	data(i,0) = 0;
-	set(i,0,x(i));
+    if (is_column) {     // create column vector
+      nrows = length(x);
+      ncols = 1;
+      nwords = 1;
+      data.set_size(nrows, nwords);
+      data.clear();
+      for (int i = 0; i < nrows; i++) {
+	set(i, 0, x(i));
       }
     } else {    // create row vector
-      nrows=1;
-      ncols=length(x);
-      nwords=ncols/(1<<lImax)+1;
-      data.set_size(1,nwords);
-      for (int i=0; i<nwords; i++) {
-	data(0,i) = 0;
-      }
-      for (int i=0; i<ncols; i++) {
-	set(0,i,x(i));
+      nrows = 1;
+      ncols = length(x);
+      nwords = (ncols >> shift_divisor) + 1;
+      data.set_size(nrows, nwords);
+      data.clear();
+      for (int i = 0; i < ncols; i++) {
+	set(0, i, x(i));
       }
     }
   }
   
 
-  GF2mat::GF2mat(const bmat &X)
+  GF2mat::GF2mat(const bmat &X): nrows(X.rows()), ncols(X.cols())
   {
-    it_error("not yet implemented");
+    nwords = (ncols >> shift_divisor) + 1;
+    data.set_size(nrows, nwords);
+    data.clear();
+    for (int i = 0; i < nrows; i++) {
+      for (int j = 0; j < ncols; j++) {
+	set(i, j, X(i, j));
+      }
+    }
   }
 
 
@@ -328,8 +325,7 @@ namespace itpp {
   {
     nrows=X.rows();
     ncols=X.cols();
-    int k = ncols/(1<<lImax)+1;
-    nwords=k;
+    nwords = (ncols >> shift_divisor) + 1;
     data.set_size(nrows,nwords);
     for (int i=0; i<nrows; i++) {
       for (int j=0; j<nwords; j++) {
@@ -354,7 +350,7 @@ namespace itpp {
   
     nrows=m2-m1+1;
     ncols=n2-n1+1;
-    nwords=ncols/(1<<lImax)+1;
+    nwords = (ncols >> shift_divisor) + 1;
     data.set_size(nrows,nwords);
 
     for (int i=0; i<nrows; i++) {
@@ -381,7 +377,7 @@ namespace itpp {
   
     nrows=X.rows();
     ncols=length(columns);
-    nwords=ncols/(1<<lImax)+1;
+    nwords = (ncols >> shift_divisor) + 1;
     data.set_size(nrows,nwords);
 
     for (int i=0; i<nrows; i++) {
@@ -398,7 +394,7 @@ namespace itpp {
     }
   }
 
-  GF2mat_sparse GF2mat::sparsify()
+  GF2mat_sparse GF2mat::sparsify() const
   {
     GF2mat_sparse Z(nrows,ncols);
     for (int i=0; i<nrows; i++) {
@@ -412,14 +408,20 @@ namespace itpp {
     return Z;
   }
 
-  bvec GF2mat::bvecify()
+  bvec GF2mat::bvecify() const
   {
     it_assert(nrows==1 || ncols==1,
 	      "GF2mat::bvecify() matrix must be a vector");
-    int n=(nrows==1 ? ncols : nrows);
+    int n = (nrows == 1 ? ncols : nrows);
     bvec result(n);
-    for (int i=0; i<n; i++) {
-      result(i)=(nrows==1 ? get(0,i) : get(i,0));
+    if (nrows == 1) {
+      for (int i = 0; i < n; i++) {
+	result(i) = get(0, i);
+      }
+    } else {
+      for (int i = 0; i < n; i++) {
+	result(i) = get(i, 0);
+      }
     }
     return result;
   }
@@ -453,7 +455,7 @@ namespace itpp {
     return Z;
   }
 
-  GF2mat GF2mat::get_submatrix(int m1, int n1, int m2, int n2)
+  GF2mat GF2mat::get_submatrix(int m1, int n1, int m2, int n2) const
   {
     it_assert(m1>=0 && n1>=0 && m2>=m1 && n2>=n1 
 	      && m2<nrows && n2<ncols,
@@ -470,7 +472,7 @@ namespace itpp {
   }
 
 
-  GF2mat GF2mat::concatenate_vertical(const GF2mat &X)
+  GF2mat GF2mat::concatenate_vertical(const GF2mat &X) const
   {
     it_assert(X.ncols==ncols,
 	      "GF2mat::concatenate_vertical(): dimension mismatch");
@@ -493,7 +495,7 @@ namespace itpp {
     return result;
   }
 
-  GF2mat GF2mat::concatenate_horizontal(const GF2mat &X)
+  GF2mat GF2mat::concatenate_horizontal(const GF2mat &X) const
   {
     it_assert(X.nrows==nrows,
 	      "GF2mat::concatenate_horizontal(): dimension mismatch");
@@ -514,9 +516,9 @@ namespace itpp {
     return result;
   }
 
-  bvec GF2mat::get_row(int i)
+  bvec GF2mat::get_row(int i) const
   {
-    bvec result = zeros_b(ncols);
+    bvec result(ncols);
     for (int j=0; j<ncols; j++) {
       result(j) = get(i,j);
     }
@@ -524,9 +526,9 @@ namespace itpp {
     return result;
   }
 
-  bvec GF2mat::get_col(int j)
+  bvec GF2mat::get_col(int j) const
   {
-    bvec result = zeros_b(nrows);
+    bvec result(nrows);
     for (int i=0; i<nrows; i++) {
       result(i) = get(i,j);
     }
@@ -745,7 +747,7 @@ namespace itpp {
     return T;
   }
 
-  int GF2mat::row_rank()
+  int GF2mat::row_rank() const
   {
     GF2mat T,U;
     ivec perm;
@@ -753,7 +755,7 @@ namespace itpp {
     return rank;  
   }
 
-  bool GF2mat::is_zero()
+  bool GF2mat::is_zero() const
   {
     for (int i=0; i<nrows; i++) {
       for (int j=0; j<nwords; j++) {
@@ -858,9 +860,8 @@ namespace itpp {
     for (int i=0; i<X.nrows; i++) {
     // do the nwords-1 data columns first
     for (int j=0; j<X.nwords-1; j++) {
-    int ind = j<<lImax;
-    // NB. THIS MUST BE UNSIGNED FOR >> TO BE WELL DEFINED
-    unsigned short r=X.data(i,j); 
+    int ind = j<<shift_divisor;
+    unsigned char r=X.data(i,j); 
     while (r) {
     result(i) ^= (r & y(ind));
     r >>= 1;    
@@ -868,7 +869,7 @@ namespace itpp {
     }
     }
     // do the last column separately
-    for (int j=(X.nwords-1)<<lImax; j<X.ncols; j++) {
+    for (int j=(X.nwords-1)<<shift_divisor; j<X.ncols; j++) {
     result(i) ^= (X.get(i,j) & y(j));
     }
     }      
@@ -893,8 +894,7 @@ namespace itpp {
 	int kindx =i; 
 	int kindy =j;
 	for (int k=0; k<X.nwords; k++) {
-	  //	unsigned short int r=(X.data(i,k) & Y.data(j,k));
-	  unsigned short int r=X.data(kindx) & Y.data(kindy);
+	  unsigned char r = X.data(kindx) & Y.data(kindy);
 	  /* The following can be speeded up by using a small lookup
 	     table for the number of ones and shift only a few times (or
 	     not at all if table is large) */
@@ -1008,7 +1008,9 @@ namespace itpp {
 
   it_file &operator<<(it_file &f, const GF2mat &X)
   {
-    int bytecount = 3*sizeof(int)+X.nrows*X.nwords*sizeof(int);
+    // 3 int words for: nrows, ncols and nwords + rest for char data
+    unsigned int bytecount = 3 * sizeof(int) 
+      + X.nrows * X.nwords * sizeof(char);
     f.write_data_header("GF2mat", bytecount);
 
     f.low_level_write(X.nrows);
@@ -1016,7 +1018,7 @@ namespace itpp {
     f.low_level_write(X.nwords);
     for (int i=0; i<X.nrows; i++) {
       for (int j=0; j<X.nwords; j++) {
-	short r=X.data(i,j);
+	char r = X.data(i,j);
 	f.low_level_write(r);
       }
     }
@@ -1035,9 +1037,9 @@ namespace itpp {
       X.data.set_size(X.nrows,X.nwords);
       for (int i=0; i<X.nrows; i++) {
 	for (int j=0; j<X.nwords; j++) {
-	  short r;
+	  char r;
 	  f.low_level_read(r);
-	  X.data(i,j) = ((unsigned short int) r);
+	  X.data(i,j) = static_cast<unsigned char>(r);
 	}
       }
     
