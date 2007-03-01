@@ -55,9 +55,9 @@
 
 namespace itpp {
 
-  // ============================================================
-  // ================= SPARSE GF(2) MATRIX CLASS ================
-  // ============================================================
+  // ----------------------------------------------------------------------
+  // Sparse GF(2) matrix class
+  // ----------------------------------------------------------------------
 
   //! Sparse GF(2) vector
   typedef Sparse_Vec<bin> GF2vec_sparse;
@@ -66,10 +66,10 @@ namespace itpp {
   typedef Sparse_Mat<bin> GF2mat_sparse;
 
 
-  // ============================================================
-  // ===== ALIST PARAMETERIZATION OF SPARSE GF(2) MATRIX CLASS ==
-  // ============================================================
-
+  // ----------------------------------------------------------------------
+  // Alist parameterization of sparse GF(2) matrix class
+  // ----------------------------------------------------------------------
+  
   /*!
     \relatesalso GF2mat_sparse
     \brief Parameterized "alist" representation of sparse GF(2) matrix
@@ -84,8 +84,7 @@ namespace itpp {
     of Sparse Graph Codes:
     - http://www.inference.phy.cam.ac.uk/mackay/codes/data.html
   */
-  class GF2mat_sparse_alist 
-  {
+  class GF2mat_sparse_alist {
   public:
     //! Default constructor
     GF2mat_sparse_alist() : data_ok(false) {}
@@ -136,9 +135,9 @@ namespace itpp {
   };
 
 
-  // ============================================================
-  // ================== DENSE GF(2) MATRIX CLASS ================
-  // ============================================================
+  // ----------------------------------------------------------------------
+  // Dense GF(2) matrix class
+  // ----------------------------------------------------------------------
    
   /*! 
     \relatesalso bmat
@@ -146,36 +145,26 @@ namespace itpp {
     \author Erik G. Larsson 
 
     This class can be used as an alternative to \c bmat to represent
-    GF(2) matrices.  It extends the functionality of \c bmat in two ways:
+    GF(2) matrices. It extends the functionality of \c bmat in two ways:
 
-    - \c GF2mat makes more efficient use of computer
-    memory than \c bmat. (One bit in the matrix requires one bit of
-    memory.)  
-
-    - \c GF2mat provides several functios for linear algebra and
-    matrix factorizations.
+    - \c GF2mat makes more efficient use of computer memory than \c bmat
+    (one bit in the matrix requires one bit of memory)
+    - \c GF2mat provides several functions for linear algebra and matrix
+    factorizations
 
     See also \c GF2mat_sparse which offers an efficient representation
     of sparse GF(2) matrices, and \c GF2mat_sparse_alist for a
     parameterized representation of sparse GF(2) matrices.
-
-    \note An "unsigned short int" is used to represent the data structure.
-    Note that, an "unsigned short int" has at least 16 bits, possibly more
-    depending on the platform. Here 16 bits are assumed.
-
-    \note The data structure is implemented as unsigned because some
-    operations rely on right shifting (for signed integers the right shift
-    operator is implementation dependent).
   */
   class GF2mat {
   public:
   
     // ----------- Constructors -----------
 
-    //! Default constructor (gives empty 1*1 matrix)
+    //! Default constructor (gives an empty 1 x 1 matrix)
     GF2mat();
   
-    //! Construct an empty (all-zero) m*n matrix 
+    //! Construct an empty (all-zero) m x n matrix 
     GF2mat(int m, int n);
 
     //! Construct a dense GF(2) matrix from a sparse GF(2) matrix
@@ -201,19 +190,19 @@ namespace itpp {
       \brief Create a dense GF(2) matrix from a single vector. 
 
       \param x The input vector
-      \param rc A parameter that  indicates whether the result 
-      should be a row vector (rc=0), or a column vector (rc=1, default)
+      \param is_column A parameter that indicates whether the result should
+      be a row vector (false), or a column vector (true - default)
     */
-    GF2mat(const bvec &x, bool rc=1);
+    GF2mat(const bvec &x, bool is_column = true);
 
     //! Create a dense GF(2) matrix from a bmat
     GF2mat(const bmat &X);
 
     //! Create a sparse GF(2) matrix from a dense GF(2) matrix
-    GF2mat_sparse sparsify();
+    GF2mat_sparse sparsify() const;
 
     //! Create a bvec from a GF(2) matrix (must have one column or one row)
-    bvec bvecify();
+    bvec bvecify() const;
 
     // ----------- Elementwise manipulation and simple functions -------------
 
@@ -236,7 +225,7 @@ namespace itpp {
     void set_row(int i, bvec x);
 
     //! Check whether the matrix is identical to zero
-    bool is_zero();
+    bool is_zero() const;
 
     //! Swap rows i and j
     void swap_rows(int i, int j);
@@ -265,28 +254,28 @@ namespace itpp {
     GF2mat transpose() const;
 
     //! Submatrix from (m1,n1) to (m2,n2)
-    GF2mat get_submatrix(int m1, int n1, int m2, int n2);
+    GF2mat get_submatrix(int m1, int n1, int m2, int n2) const;
 
     //! Concatenate horizontally (append X on the right side of matrix)
-    GF2mat concatenate_horizontal(const GF2mat &X);
+    GF2mat concatenate_horizontal(const GF2mat &X) const;
 
     //! Concatenate vertically (append X underneath)
-    GF2mat concatenate_vertical(const GF2mat &X);
+    GF2mat concatenate_vertical(const GF2mat &X) const;
   
     //! Get row
-    bvec get_row(int i);
+    bvec get_row(int i) const;
   
     //! Get column
-    bvec get_col(int j);
+    bvec get_col(int j) const;
   
     //! Compute the matrix density (fraction of elements equal to "1")
     double density() const;
 
     //! Get number of rows
-    inline int rows() { return nrows; }
+    int rows() const { return nrows; }
 
     //! Get number of columns
-    inline int cols() { return ncols; }
+    int cols() const { return ncols; }
 
     /*! \brief Add (or equivalently, subtract) rows
 
@@ -307,7 +296,7 @@ namespace itpp {
     GF2mat inverse() const;
 
     //! Returns the number of linearly independent rows 
-    int row_rank();
+    int row_rank() const;
 
     /*! \brief TXP factorization. 
 
@@ -410,21 +399,23 @@ namespace itpp {
     friend GF2mat mult_trans(const GF2mat &X, const GF2mat &Y);
 
   private:
-    int nwords;                  // number of bytes used
     int nrows, ncols;            // number of rows and columns of matrix
-    Mat<unsigned short int> data;     // data structure
+    int nwords;                  // number of bytes used
+    Mat<unsigned char> data;		 // data structure
 
-    // This value is used to perform division ans is equal to
-    // log2(number of bits in "short int"). WARNING: non portable! 
-    static const unsigned char lImax = 4;
+    // This value is used to perform division by bit shift and is equal to
+    // log2(8)
+    static const unsigned char shift_divisor = 3;
 
-    // This value is used as a mask for (1 << lImax), when computing
-    // remainder  
-    static const unsigned char mImax = (1 << lImax) - 1;
+    // This value is used as a mask when computing the bit position of the
+    // division remainder 
+    static const unsigned char rem_mask = (1 << shift_divisor) - 1;
   };
 
 
-  // ============ RELATED FUNCTIONS ============================
+  // ----------------------------------------------------------------------
+  // GF2mat related functions
+  // ----------------------------------------------------------------------
 
   /*!  
     /relatesalso GF2mat 
@@ -474,42 +465,34 @@ namespace itpp {
   */
   GF2mat mult_trans(const GF2mat &X, const GF2mat &Y);
 
-  // ================= INLINE IMPLEMENTATIONS =======================
+
+  // ----------------------------------------------------------------------
+  // Inline implementations
+  // ----------------------------------------------------------------------
 
   inline void GF2mat::addto_element(int i, int j, bin s) 
   {
-    it_assert_debug(i>=0 && i<nrows,"GF2mat::addto_element()");
-    it_assert_debug(j>=0 && j<ncols,"GF2mat::addto_element()");
-    if (s==1) { 
-      int col = j>>lImax;
-      char bit = j&mImax;
-      data(i,col) ^= (1<<bit); 
-    }
+    it_assert_debug(i >= 0 && i < nrows, "GF2mat::addto_element()");
+    it_assert_debug(j >= 0 && j < ncols, "GF2mat::addto_element()");
+    if (s == 1)
+      data(i, (j >> shift_divisor)) ^= (1 << (j & rem_mask)); 
   }
 
   inline bin GF2mat::get(int i, int j) const 
   {
-    it_assert_debug(i>=0 && i<nrows,"GF2mat::get_element()");
-    it_assert_debug(j>=0 && j<ncols,"GF2mat::get_element()");
-    int col = j>>lImax;
-    char bit = j&mImax;
-    // NB data must be unsigned for right shift to be well defined
-    return ((data(i,col) >> bit) & 1); 
+    it_assert_debug(i >= 0 && i < nrows, "GF2mat::get_element()");
+    it_assert_debug(j >= 0 && j < ncols, "GF2mat::get_element()");
+    return (data(i, (j >> shift_divisor)) >> (j & rem_mask)) & 1; 
   }
 
   inline void GF2mat::set(int i, int j, bin s) 
   {
-    it_assert_debug(i>=0 && i<nrows,"GF2mat::set_element()");
-    it_assert_debug(j>=0 && j<ncols,"GF2mat::set_element()");
-    it_assert_debug(s==0 || s==1,"GF2mat::set_element()");
-    int col = j>>lImax;
-    char bit = j&mImax;
-    //    int oldvalue = (data(i,col) >> bit) & 1;
-    if (s==1) {  // set bit to one
-      data(i,col) |=  (1<<bit);
-    }  else { // set bit to zero
-      data(i,col) &= ((~0) ^ (1<<bit));
-    }
+    it_assert_debug(i >= 0 && i < nrows, "GF2mat::set_element()");
+    it_assert_debug(j >= 0 && j < ncols, "GF2mat::set_element()");
+    if (s == 1) // set bit to one
+      data(i, (j >> shift_divisor)) |= (1 << (j & rem_mask));
+    else // set bit to zero
+      data(i, (j >> shift_divisor)) &= (~(1 << (j & rem_mask)));
   }
 
 } // namespace itpp

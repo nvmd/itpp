@@ -1,5 +1,11 @@
 2007-03-01  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/gf2mat.cpp, itpp/base/gf2mat.h: Portability improved
+	by replacing "unsigned short int" with 8-bit "unsigned char" type
+	for storing data bits. Implemented missing GF2mat constructor that
+	uses bmat as an argument. A few other cosmetic changes and
+	documentation improvements done.
+
 	* itpp/base/itfile.cpp, itpp/base/itfile.h: Added missing
 	read/write operators for the char type
 
