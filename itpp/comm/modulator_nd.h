@@ -66,6 +66,9 @@ namespace itpp {
     
     //! Get LLR calculation unit
     LLR_calc_unit get_llrcalc() const { return llrcalc; }
+
+    //! Set LLR calculation unit
+    void set_llrcalc(LLR_calc_unit llrcalc_in) { llrcalc=llrcalc_in; };
     
     //! Get number of bits per modulation symbol
     ivec get_k() { return k; }
