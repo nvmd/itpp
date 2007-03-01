@@ -143,6 +143,8 @@ namespace itpp {
     bool read_check_file_header();
     //!Read the data header and return the result in the variable \c h
     void read_data_header(data_header &h);
+    //!Read a char value at the current file pointer position
+    void low_level_read(char &x);
     //!Read a binary value at the current file pointer position
     void low_level_read(bin &x);
     //!Read a short value at the current file pointer position
@@ -267,10 +269,12 @@ namespace itpp {
     //!Write the header for the \c it_file
     void write_file_header();
     //!Write the data header for a variable, specifying the type and size of the data to follow.
-    void write_data_header(const std::string &type, uint32_t size);
+    void write_data_header(const std::string &type, unsigned int size);
     //!Write the data header for a variable, specifying the type, name, and size of the data to follow.
     void write_data_header(const std::string &type, const std::string &name,
-			   uint32_t size);
+			   unsigned int size);
+    //!Write a char value at the current file pointer position
+    void low_level_write(char x);
     //!Write a binary value at the current file pointer position
     void low_level_write(bin x);
     //!Write a short value at the current file pointer position
@@ -291,8 +295,6 @@ namespace itpp {
     void low_level_write(const ivec &v);
     //!Write a bvec at the current file pointer position
     void low_level_write(const bvec &v);
-    //Write a llvec at the current file pointer position
-    //void low_level_write(const llvec &v);
     //!Write a cvec at the current file pointer position
     void low_level_write(const cvec &v);
     //!Write a string at the current file pointer position
@@ -303,8 +305,6 @@ namespace itpp {
     void low_level_write(const imat &m);
     //!Write a bmat at the current file pointer position
     void low_level_write(const bmat &m);
-    //Write a llmat at the current file pointer position
-    //void low_level_write(const llmat &m);
     //!Write a cmat at the current file pointer position
     void low_level_write(const cmat &m);
     //!Write a float Array at the current file pointer position
@@ -398,6 +398,9 @@ namespace itpp {
       return f;
     }
 
+  //!Read the char variable \c v from the \c it_ifile pointer
+  it_ifile &operator>>(it_ifile &f, char &v);
+
   //!Read the binary variable \c v from the \c it_ifile pointer
   it_ifile &operator>>(it_ifile &f, bin &v);
 
@@ -490,6 +493,10 @@ namespace itpp {
 
   //!Read the cmat Array \c v from the \c it_ifile pointer
   it_ifile &operator>>(it_ifile &f, Array<cmat> &v);
+
+
+  //!Write the char variable \c x to the \c it_file pointer
+  it_file &operator<<(it_file &f, char x);
 
   //!Write the binary variable \c x to the \c it_file pointer
   it_file &operator<<(it_file &f, bin x);
