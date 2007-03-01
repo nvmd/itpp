@@ -154,6 +154,11 @@ namespace itpp {
     s.seekg(p + static_cast<std::streampos>(h.hdr_bytes));
   }
 
+  void it_ifile::low_level_read(char &x)
+  {
+    s >> x;
+  }
+
   void it_ifile::low_level_read(bin &x)
   {
     s >> x;
@@ -510,7 +515,7 @@ namespace itpp {
     s << file_version;
   }
 
-  void it_file::write_data_header(const std::string &type, uint32_t size)
+  void it_file::write_data_header(const std::string &type, unsigned int size)
   {
     if (next_name == "")
       it_error("Try to write without a name");
@@ -519,7 +524,7 @@ namespace itpp {
   }
 
   void it_file::write_data_header(const std::string &type, 
-				  const std::string &name, uint32_t size)
+				  const std::string &name, unsigned int size)
   {
     data_header h1, h2;
     std::streampos p;
@@ -621,6 +626,11 @@ namespace itpp {
   void it_file::pack()
   {
     it_warning("pack() is not implemented!");
+  }
+
+  void it_file::low_level_write(char x)
+  {
+    s << x;
   }
 
   void it_file::low_level_write(bin x)
@@ -835,6 +845,19 @@ namespace itpp {
 	s << static_cast<double>(v(i).imag());
       }
     }
+  }
+
+  it_ifile &operator>>(it_ifile &f, char &x)
+  {
+    it_file::data_header h;
+
+    f.read_data_header(h);
+    if (h.type == "int8")
+      f.low_level_read(x);
+    else
+      it_error("Wrong type");
+
+    return f;
   }
 
   it_ifile &operator>>(it_ifile &f, bin &x)
@@ -1312,6 +1335,14 @@ namespace itpp {
     }
     else
       it_error("Wrong type");
+
+    return f;
+  }
+
+  it_file &operator<<(it_file &f, char x)
+  {
+    f.write_data_header("int8", sizeof(char));
+    f.low_level_write(x);
 
     return f;
   }

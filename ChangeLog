@@ -1,6 +1,11 @@
+2007-03-01  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/itfile.cpp, itpp/base/itfile.h: Added missing
+	read/write operators for the char type
+
 2007-03-01  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
-	* itpp/comm/modulator_nd.h: Added a function "set_llrcalc()".
+	* itpp/comm/modulator_nd.h: Added a function set_llrcalc()
 	
 2007-02-28  Adam Piatyszek  <ediap@users.sourceforge.net>
 
