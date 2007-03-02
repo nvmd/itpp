@@ -1,3 +1,9 @@
+2007-03-02  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* config/acx_blas.m4: Fixed a bug in BLAS detection, when an
+	explicit library is passed to configure using "--with-blas=..."
+	option.
+
 2007-03-01  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/gf2mat.cpp, itpp/base/gf2mat.h: Portability improved

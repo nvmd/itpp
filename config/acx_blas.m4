@@ -54,7 +54,7 @@ if test "$acx_blas_ok" = no; then
   if test "x$BLAS_LIBS" != x; then
     save_LIBS="$LIBS"; LIBS="$BLAS_LIBS $LIBS"
     AC_MSG_CHECKING([for $sgemm in $BLAS_LIBS])
-    AC_TRY_LINK_FUNC($sgemm, [acx_blas_ok=yes], [BLAS_LIBS=""])
+    AC_TRY_LINK_FUNC($sgemm, [acx_blas_ok=yes])
     AC_MSG_RESULT($acx_blas_ok)
     # Try to use MY_FLIBS
     if test "$acx_blas_ok" = no; then
