@@ -1,3 +1,8 @@
+2007-03-06  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/svec.h: Added a new method get_nz_indices(), which
+	returns the indices of non-zero values in a sparse vector.
+
 2007-03-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* config/acx_blas.m4: Fixed a bug in BLAS detection, when an

@@ -252,6 +252,9 @@ namespace itpp {
 	dat=data[p];
       }
 
+    //! Retrun the indices of non-zero values
+    ivec get_nz_indices();
+
     //! Return sparse subvector from index \c i1 to index \c i2
     Sparse_Vec<T> get_subvector(int i1, int i2) const;
   
@@ -322,6 +325,7 @@ namespace itpp {
     T eps;
     bool check_small_elems_flag;
   };
+
 
   /*! 
     \relates Sparse_Vec
@@ -780,6 +784,17 @@ namespace itpp {
 	}
       }
     }
+
+  template <class T>
+  ivec Sparse_Vec<T>::get_nz_indices()
+  {
+    int n = nnz();
+    ivec r(n);
+    for (int i = 0; i < n; i++) {
+      r(i) = get_nz_index(i);
+    }
+    return r;
+  }
 
   template <class T>
     Sparse_Vec<T> Sparse_Vec<T>::get_subvector(int i1, int i2) const
