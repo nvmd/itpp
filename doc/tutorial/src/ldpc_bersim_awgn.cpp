@@ -1,10 +1,16 @@
 #include <itpp/itcomm.h>
+#include <sstream>
 
 using namespace std;
 using namespace itpp;
 
-extern int main(int argc, char **argv)
+int main(int argc, char **argv)
 { 
+  if (argc < 2) {
+    it_info("Usage: " << argv[0] << " codec_file.it [EbN0_dB]");
+    return 1;
+  }
+    
   int64_t Nbits = 1000*1000*5000;  // maximum number of bits simulated for any SNR point
   int Nbers = 2000;            // target number of bit errors per SNR point
   double BERmin = 1e-6;        // BER at which to terminate simulation
@@ -13,10 +19,10 @@ extern int main(int argc, char **argv)
   LDPC_Code C(argv[1]);
   bool single_snr_mode = false;
   if (argc == 3) {
+    istringstream ss(argv[2]); 
     double x;
-    sscanf(argv[2], "%lf", &x);
-    EbN0db.set_size(1);
-    EbN0db(0) = x;
+    ss >> x;
+    EbN0db = x;
     single_snr_mode = true;
   }
 

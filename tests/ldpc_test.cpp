@@ -38,14 +38,14 @@ using namespace itpp;
 
 int main()
 {
-  LDPC_Parity_Matrix H;
-  H.generate_regular_ldpc(200,3,6,"rand","100 6");
+  LDPC_Parity_Regular H;
+  H.generate(200, 3, 6, "rand", "100 6");
   H.display_stats();
   int girth = H.cycle_removal_MGW(6);
   cout << "girth=" << girth << endl;
   LDPC_Generator_Systematic G;
-  G.construct(H);
-  LDPC_Code C(H, &G);
+  G.construct(&H);
+  LDPC_Code C(&H, &G);
   C.save_code("ldpc_test.codec");
   LDPC_Code C1("ldpc_test.codec", &G);
   cout << C << endl;

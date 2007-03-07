@@ -1,3 +1,12 @@
+2007-03-07  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/tutorial/src/ldpc_bersim_awgn.cpp,
+	doc/tutorial/src/ldpc_gen_codes.cpp, itpp/comm/ldpc.cpp,
+	itpp/comm/ldpc.h, tests/ldpc_test.cpp: LDPC_Parity_Matrix class
+	split into a set of classes, which inherits from the new base
+	class LDPC_Parity. Test and tutorials programs updated
+	accordingly.
+
 2007-03-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/svec.h: Added a new method get_nz_indices(), which
