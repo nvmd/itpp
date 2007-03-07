@@ -1,6 +1,6 @@
 /*!
  * \file 
- * \brief Implementation of a Low-Density Parity Check (LDPC) codec.
+ * \brief Implementation of Low-Density Parity Check (LDPC) codes
  * \author Erik G. Larsson, Mattias Andersson and Adam Piatyszek
  *
  * $Date$
@@ -37,136 +37,101 @@ using std::endl;
 namespace itpp {
 
   // ---------------------------------------------------------------------------
-  // LDPC_Parity_Matrix
+  // LDPC_Parity
   // ---------------------------------------------------------------------------
-  
-  template <class T>
-  ivec LDPC_Parity_Matrix::index_nonzeros(Sparse_Vec<T> x) const
+
+  // public methods
+
+  LDPC_Parity::LDPC_Parity(int nc, int nv): init_state(false)
   {
-    ivec r;
-    for (int i=0; i<x.nnz(); i++)     {
-      if (x.get_nz_data(i)!=0) 	{
-	r = concat(r,x.get_nz_index(i));
-      }
+    initialize(nc, nv);
+  }
+  
+  LDPC_Parity::LDPC_Parity(std::string filename, std::string format): 
+    init_state(false)
+  {
+    if (format == "alist") {
+      load_alist(filename);
+    } else {
+      it_error("LDPC_Parity::LDPC_Parity(): Only 'alist' format is supported");
     }
-    return r;
   }
 
-  void LDPC_Parity_Matrix::initialize(int nc, int nv)
+  LDPC_Parity::LDPC_Parity(const GF2mat_sparse_alist &alist): 
+    init_state(false)
   {
-    ncheck=nc;
-    nvar=nv;
-    H=GF2mat_sparse(ncheck,nvar);
-    Ht=GF2mat_sparse(nvar,ncheck);
+    import_alist(alist);
+  }
+
+  void LDPC_Parity::initialize(int nc, int nv)
+  {
+    ncheck = nc;
+    nvar = nv;
+    H = GF2mat_sparse(ncheck, nvar);
+    Ht = GF2mat_sparse(nvar, ncheck);
     sumX1 = zeros_i(nvar);
     sumX2 = zeros_i(ncheck);
+    init_state = true;
   }
 
-  LDPC_Parity_Matrix::LDPC_Parity_Matrix()
+  void LDPC_Parity::set(int i, int j, bin x) 
   {
-    initialize(1,1);
-  }
+    it_assert(init_state, "LDPC_Parity::set(): Object not initialized");
+    it_assert_debug((i >= 0) && (i < ncheck),
+		    "LDPC_Parity::set(): Wrong index i");
+    it_assert_debug((j >= 0) && (j < nvar),
+		    "LDPC_Parity::set(): Wrong index j");
+    it_assert_debug(H(i,j) == Ht(j,i), "LDPC_Parity:set(): Internal error");
 
-  LDPC_Parity_Matrix::LDPC_Parity_Matrix(int nc, int nv) 
-  {
-    initialize(nc,nv);
-  }
+    int diff = static_cast<int>(x) - static_cast<int>(H(i,j));
+    sumX1(j) += diff;
+    sumX2(i) += diff;
 
-  LDPC_Parity_Matrix::LDPC_Parity_Matrix(std::string filename, std::string format)
-  {
-    if (format=="alist") {
-      *this = LDPC_Parity_Matrix(GF2mat_sparse_alist(filename));
-    } else { 
-      it_error("not implemented");
-    };
-  }
-
-  LDPC_Parity_Matrix::LDPC_Parity_Matrix(const GF2mat_sparse_alist &alist) 
-  {
-    GF2mat_sparse X=alist.to_sparse();
-
-    initialize(X.rows(),X.cols());
-    // brute force copy from X to this
-    for (int i=0; i<ncheck; i++) {
-      for (int j=0; j<nvar; j++) {
- 	if (X(i,j)) {
- 	  set(i,j,1);
- 	}
-      }
-    }    
-  }
-
-  void LDPC_Parity_Matrix::set(int i, int j, bin x) 
-  {
-    it_assert_debug((x==0) || (x==1),"LDPC_Parity_Matrix::set");
-    it_assert_debug((i>=0) && (i<ncheck),"LDPC_Parity_Matrix::set");
-    it_assert_debug((j>=0) && (j<nvar),"LDPC_Parity_Matrix::set");
-    it_assert_debug(H(i,j)==Ht(j,i),"LDPC_Parity_Matrix internal error");
-
-    int old_element = H(i,j);
-    if (x==1)   {
+    if (x == 1) {
       H.set(i,j,1);
       Ht.set(j,i,1);
     }
-    else    {
+    else {
       H.clear_elem(i,j);
       Ht.clear_elem(j,i);
     }
-    int diff = ((int) x)-((int) old_element);
-    sumX1(j) += diff;
-    sumX2(i) += diff;
   
-    it_assert_debug(H(i,j)==x,"LDPC_Parity_Matrix::set");
-    it_assert_debug(Ht(j,i)==x,"LDPC_Parity_Matrix::set");
+    it_assert_debug(H(i,j) == x, "LDPC_Parity::set(): Internal error");
+    it_assert_debug(Ht(j,i) == x, "LDPC_Parity::set(): Internal error");
   }
 
-  //   ivec LDPC_Parity_Matrix::get_rowdegree()  const
-  //   {
-  //     ivec rdeg = zeros_i(Nmax);
-  //     for (int i=0; i<ncheck; i++)     {
-  //       rdeg(sumX2(i))++;
-  //     }  
-  //     return rdeg;
-  //   };
-  
-  //   ivec LDPC_Parity_Matrix::get_coldegree()  const
-  //   {
-  //     ivec cdeg = zeros_i(Nmax);
-  //     for (int j=0; j<nvar; j++)     {
-  //       cdeg(sumX1(j))++;
-  //     }
-  //     return cdeg;
-  //   };
-  
-  void LDPC_Parity_Matrix::display_stats() const
+  void LDPC_Parity::display_stats() const
   {
-    int cmax=max(sumX1);
-    int vmax=max(sumX2);
-    vec vdeg = zeros(cmax+1); //no of var nodes with n neighbours
-    vec cdeg = zeros(vmax+1); //no of check nodes with n neighb
-    for (int col=0; col<nvar; col++){
-      vdeg(length(index_nonzeros(get_col(col))))++;  
-      it_assert(sumX1(col)==length(index_nonzeros(get_col(col))),"internal error");
+    it_assert(init_state, "LDPC_Parity::display_stats(): Object not initialized");
+    int cmax = max(sumX1);
+    int vmax = max(sumX2);
+    vec vdeg = zeros(cmax+1); // number of variable nodes with n neighbours
+    vec cdeg = zeros(vmax+1); // number of check nodes with n neighbours
+    for (int col = 0; col < nvar; col++) {
+      vdeg(length(get_col(col).get_nz_indices()))++;  
+      it_assert(sumX1(col) == length(get_col(col).get_nz_indices()),
+		"LDPC_Parity::display_stats(): Internal error");
     }
-    for (int row=0; row<ncheck; row++){
-      cdeg(length(index_nonzeros(get_row(row))))++;
-      it_assert(sumX2(row)==length(index_nonzeros(get_row(row))),"internal error");
+    for (int row = 0; row < ncheck; row++) {
+      cdeg(length(get_row(row).get_nz_indices()))++;
+      it_assert(sumX2(row) == length(get_row(row).get_nz_indices()),
+		"LDPC_Parity::display_stats(): Internal error");
     }
     
-    //from edge perspective
-    //number of edges connected to vnodes of degree n
-    vec vdegedge = elem_mult(vdeg,linspace(0,vdeg.length()-1,
-					   vdeg.length()));
-    //-"- but cnodes 
-    vec cdegedge = elem_mult(cdeg,linspace(0,cdeg.length()-1,
-					   cdeg.length()));
+    // from edge perspective
+    // number of edges connected to vnodes of degree n
+    vec vdegedge = elem_mult(vdeg, linspace(0, vdeg.length()-1,
+					    vdeg.length()));
+    // number of edges connected to cnodes of degree n
+    vec cdegedge = elem_mult(cdeg, linspace(0, cdeg.length()-1,
+					    cdeg.length()));
 
-    int edges = sum(elem_mult(to_ivec(linspace(0,vdeg.length()-1,
+    int edges = sum(elem_mult(to_ivec(linspace(0, vdeg.length()-1,
 					       vdeg.length())),
 			      to_ivec(vdeg)));
   
     it_info("--- LDPC parity check matrix ---");
-    it_info("Dimension: ncheck*nvar = " << ncheck << " * " << nvar);
+    it_info("Dimension [ncheck x nvar]: " << ncheck << " x " << nvar);
     it_info("Variable node degree distribution from node perspective:" 
 	    << endl << vdeg/nvar);
     it_info("Check node degree distribution from node perspective:" 
@@ -178,16 +143,147 @@ namespace itpp {
     it_info("--------------------------------");
   }
 
-
-  GF2mat_sparse_alist LDPC_Parity_Matrix::export_alist() const 
+  
+  void LDPC_Parity::load_alist(std::string alist_file) 
   {
+    import_alist(GF2mat_sparse_alist(alist_file));
+  }
+
+  void LDPC_Parity::save_alist(std::string alist_file) const
+  {
+    GF2mat_sparse_alist alist = export_alist();
+    alist.write(alist_file);
+  }
+
+
+  void LDPC_Parity::import_alist(const GF2mat_sparse_alist& alist)
+  {
+    GF2mat_sparse X = alist.to_sparse();
+
+    initialize(X.rows(), X.cols());
+    // brute force copy from X to this
+    for (int i = 0; i < ncheck; i++) {
+      for (int j = 0; j < nvar; j++) {
+ 	if (X(i,j)) {
+ 	  set(i, j, 1);
+ 	}
+      }
+    }
+  }
+
+  GF2mat_sparse_alist LDPC_Parity::export_alist() const 
+  {
+    it_assert(init_state, "LDPC_Parity::export_alist(): Object not initialized");
     GF2mat_sparse_alist alist;
     alist.from_sparse(H);
     return alist;
   }
 
-  int LDPC_Parity_Matrix::cycle_removal_MGW(int Maxcyc)
+  
+  int LDPC_Parity::check_connectivity(int from_i, int from_j, int to_i, 
+				      int to_j, int godir, int L ) const
   {
+    it_assert(init_state,
+	      "LDPC_Parity::check_connectivity(): Object not initialized");
+    int i, j, result;
+  
+    if (L<0) {           // unable to reach coordinate with given L 
+      return (-3); 
+    }
+    
+    // check if reached destination 
+    if ((from_i==to_i) && (from_j==to_j) && (godir!=0)) {  
+      return L;
+    }
+  
+    if (get(from_i,from_j)==0) {  // meaningless search 
+      return (-2); 
+    } 
+  
+    if (L==2) {      // Treat this case separately for efficiency
+      if (godir==2) { // go horizontally
+	if (get(from_i,to_j)==1) { return 0; }
+      }
+      if (godir==1) { // go vertically
+	if (get(to_i,from_j)==1) { return 0; }
+      }
+      return (-3);
+    }
+  
+    if ((godir==1) || (godir==0)) {   // go vertically
+      ivec cj = get_col(from_j).get_nz_indices();
+      for (i=0; i<length(cj); i++) {
+	if (cj(i)!=from_i) {
+	  result = check_connectivity(cj(i),from_j,to_i,to_j,2,L-1);
+	  if (result>=0) {
+	    return (result);
+	  }
+	}
+      }
+    }
+  
+    if (godir==2) {   // go horizontally
+      ivec ri = get_row(from_i).get_nz_indices();
+      for (j=0; j<length(ri); j++) {
+	if (ri(j)!=from_j) {
+	  result = check_connectivity(from_i,ri(j),to_i,to_j,1,L-1);
+	  if (result>=0) {
+	    return (result);
+	  }
+	}
+      }
+    }  
+  
+    return (-1);    
+  };
+
+  int LDPC_Parity::check_for_cycles(int L) const
+  {
+    it_assert(init_state,
+	      "LDPC_Parity::check_for_cycles(): Object not initialized");
+    // looking for odd length cycles does not make sense
+    if ((L&1)==1) { return (-1); } 
+    if (L==0) { return (-4); } 
+
+    int cycles=0;
+    for (int i=0; i<nvar; i++) {
+      ivec ri = get_col(i).get_nz_indices();
+      for (int j=0; j<length(ri); j++) {
+	if (check_connectivity(ri(j),i,ri(j),i,0,L)>=0)	{
+	  cycles++;
+	}
+      }
+    }
+    return cycles;
+  };
+
+  //   ivec LDPC_Parity::get_rowdegree()  const
+  //   {
+  //     ivec rdeg = zeros_i(Nmax);
+  //     for (int i=0; i<ncheck; i++)     {
+  //       rdeg(sumX2(i))++;
+  //     }  
+  //     return rdeg;
+  //   };
+  
+  //   ivec LDPC_Parity::get_coldegree()  const
+  //   {
+  //     ivec cdeg = zeros_i(Nmax);
+  //     for (int j=0; j<nvar; j++)     {
+  //       cdeg(sumX1(j))++;
+  //     }
+  //     return cdeg;
+  //   };
+
+
+  // ----------------------------------------------------------------------
+  // LDPC_Parity_Unstructured
+  // ----------------------------------------------------------------------
+  
+  int LDPC_Parity_Unstructured::cycle_removal_MGW(int Maxcyc)
+  {
+    it_assert(init_state,
+	      "LDPC_Parity::cycle_removal_MGW(): Object not initialized");
     typedef Sparse_Mat<short> Ssmat;
     typedef Sparse_Vec<short> Ssvec;
     
@@ -244,12 +340,12 @@ namespace itpp {
 	      cycles_found++;
 
 	      // choose k
-	      ivec tmpi = index_nonzeros(elem_mult(Gpow(r/2-1).get_col(i),
-						   G.get_col(j)));
+	      ivec tmpi = (elem_mult(Gpow(r/2-1).get_col(i), 
+				     G.get_col(j))).get_nz_indices();
 // 	      int k = tmpi(rand()%length(tmpi));    
 	      int k = tmpi(randi(0,length(tmpi)-1));    
 	      it_assert_debug(G(j,k)==1 && G(k,j)==1,
-			 "LDPC_Parity_Matrix::remove_cycles_MGW() internal error");
+			 "LDPC_Parity::remove_cycles_MGW() internal error");
 
 	      // determine candidate edges for an edge swap
 	      Ssvec rowjk = Gpow(r/2)*(Gpow(r/2-1).get_col(j)
@@ -260,7 +356,7 @@ namespace itpp {
 	      for (int s=0; s<nvar+ncheck; s++)  {
 		l = Ce_ind(s);
 		if (rowjk(l)!=0) { continue; }
-		ivec colcandi = index_nonzeros(G.get_col(l));
+		ivec colcandi = G.get_col(l).get_nz_indices();
 		if (length(colcandi)>0)  {
 		  // select a node p which is a member of Ce
 		  for (int u=0; u<length(colcandi); u++) {
@@ -289,11 +385,11 @@ namespace itpp {
 
 	      // Update the matrix
 	      it_assert_debug((get(j,k-ncheck)==1) && (get(p,l-ncheck)==1),
-			 "LDPC_Parity_Matrix::remove_cycles_MGW() internal error");
+			 "LDPC_Parity::remove_cycles_MGW() internal error");
 	      set(j,k-ncheck,0);
 	      set(p,l-ncheck,0);
 	      it_assert_debug((get(j,l-ncheck)==0) && (get(p,k-ncheck)==0),
-			 "LDPC_Parity_Matrix::remove_cycles_MGW() internal error");
+			 "LDPC_Parity::remove_cycles_MGW() internal error");
 	      set(j,l-ncheck,1);
 	      set(p,k-ncheck,1);
 	      
@@ -351,95 +447,9 @@ namespace itpp {
     return girth;
   } 
 
-  void LDPC_Parity_Matrix::generate_regular_ldpc(int Nvar, int k, int l, 
-						 std::string method,
-						 ivec options)
-  {
-    int Ncheck_actual = static_cast<int>( round( static_cast<double>(Nvar) *
-						 static_cast<double>(k) /
-						 static_cast<double>(l) ) );
-    // C, R: Target number of columns/rows with certain number of ones
-    ivec C = zeros_i(Nmax);
-    ivec R = zeros_i(Nmax);
-    C(k) = Nvar;
-    R(l) = Ncheck_actual;
-
-    // ---------------
-
-    if (method=="rand") {
-      generate_random_H(C,R,options);
-    } else { 
-      it_error("not implemented"); 
-    };
-  }
-
-  void LDPC_Parity_Matrix::generate_irregular_ldpc(int Nvar, vec var_deg, 
-						   vec chk_deg, std::string method,
-						   ivec options)
-  {
-    // compute the degree distributions from a node perspective
-    vec Vi = linspace(1,length(var_deg),length(var_deg)); 
-    vec Ci = linspace(1,length(chk_deg),length(chk_deg)); 
-    // Compute number of cols with n 1's
-    // C, R: Target number of columns/rows with certain number of ones
-    ivec C = to_ivec(round(Nvar*elem_div(var_deg,Vi)
-			   /sum(elem_div(var_deg,Vi))));   
-    C = concat(0,C);
-    int edges = sum(elem_mult(to_ivec(linspace(0,C.length()-1,
-					       C.length())),C));
-    ivec R = to_ivec(round(edges*elem_div(chk_deg,Ci))); 
-    R = concat(0,R);
-    vec Ri = linspace(0,length(R)-1,length(R));
-    vec Coli = linspace(0,length(C)-1,length(C));
-
-    // trim to deal with inconsistencies due to rounding errors
-    if (sum(C)!=Nvar) {
-      ivec ind = find(C==max(C));
-      C(ind(0)) = C(ind(0)) - (sum(C)-Nvar);
-    }
-
-    //the number of edges calculated from R must match the number of
-    //edges calculated from C
-    while (sum(elem_mult(to_vec(R),Ri)) != 
-	   sum(elem_mult(to_vec(C),Coli))) {
-      //we're only changing R, this is probably(?) better for irac codes
-      if (sum(elem_mult(to_vec(R),Ri)) > sum(elem_mult(to_vec(C),Coli))) {
-	//remove an edge from R
-	ivec ind = find(R == max(R));
-	int old = R(ind(0));
-	R.set(ind(0),old-1);
-	old = R(ind(0)-1);
-	R.set(ind(0)-1,old+1);
-      }
-      else {
-	ivec ind = find(R == max(R));
-	if (ind(0) == R.length()-1) {
-	  R = concat(R,0);
-	  Ri = linspace(0,length(R)-1,length(R));
-	}
-	int old = R(ind(0));
-	R.set(ind(0),old-1);
-	old = R(ind(0)+1);
-	R.set(ind(0)+1,old+1);
-      }
-    }
-
-    C = concat(C, zeros_i(Nmax-length(C)));
-    R = concat(R, zeros_i(Nmax-length(R)));
-
-    // -------------------
-
-    if (method=="rand") {
-      generate_random_H(C,R,options);
-    } else { 
-      it_error("not implemented"); 
-    };
-    
-  }
-
-  void LDPC_Parity_Matrix::generate_random_H(const ivec C, 
-					     const ivec R, 
-					     const ivec cycopt)
+  void LDPC_Parity_Unstructured::generate_random_H(const ivec& C, 
+						   const ivec& R, 
+						   const ivec& cycopt)
   {
     // Method based on random permutation. Attempts to avoid placing new
     // edges so that cycles are created. More aggressive cycle avoidance
@@ -569,86 +579,123 @@ namespace itpp {
   
     display_stats();
   }
-  
-  int LDPC_Parity_Matrix::check_connectivity(int from_i, int from_j, int to_i, 
-				    int to_j, int godir, int L ) const
+
+
+  // ----------------------------------------------------------------------
+  // LDPC_Parity_Regular
+  // ----------------------------------------------------------------------
+
+  LDPC_Parity_Regular::LDPC_Parity_Regular(int Nvar, int k, int l, 
+					   std::string method,
+					   const ivec& options)
   {
-    int i, j, result;
-  
-    if (L<0) {           // unable to reach coordinate with given L 
-      return (-3); 
-    }
-    
-    // check if reached destination 
-    if ((from_i==to_i) && (from_j==to_j) && (godir!=0)) {  
-      return L;
-    }
-  
-    if (get(from_i,from_j)==0) {  // meaningless search 
-      return (-2); 
-    } 
-  
-    if (L==2) {      // Treat this case separately for efficiency
-      if (godir==2) { // go horizontally
-	if (get(from_i,to_j)==1) { return 0; }
-      }
-      if (godir==1) { // go vertically
-	if (get(to_i,from_j)==1) { return 0; }
-      }
-      return (-3);
-    }
-  
-    if ((godir==1) || (godir==0)) {   // go vertically
-      ivec cj = index_nonzeros(get_col(from_j));
-      for (i=0; i<length(cj); i++) {
-	if (cj(i)!=from_i) {
-	  result = check_connectivity(cj(i),from_j,to_i,to_j,2,L-1);
-	  if (result>=0) {
-	    return (result);
-	  }
-	}
-      }
-    }
-  
-    if (godir==2) {   // go horizontally
-      ivec ri = index_nonzeros(get_row(from_i));
-      for (j=0; j<length(ri); j++) {
-	if (ri(j)!=from_j) {
-	  result = check_connectivity(from_i,ri(j),to_i,to_j,1,L-1);
-	  if (result>=0) {
-	    return (result);
-	  }
-	}
-      }
-    }  
-  
-    return (-1);    
-  };
+    generate(Nvar, k, l, method, options);
+  }
 
-  int LDPC_Parity_Matrix::check_for_cycles(int L) const
+  void LDPC_Parity_Regular::generate(int Nvar, int k, int l, 
+				     std::string method,
+				     const ivec& options)
   {
-    // looking for odd length cycles does not make sense
-    if ((L&1)==1) { return (-1); } 
-    if (L==0) { return (-4); } 
+    int Ncheck_actual = round_i(Nvar * k / static_cast<double>(l));
+    // C, R: Target number of columns/rows with certain number of ones
+    ivec C = zeros_i(Nmax);
+    ivec R = zeros_i(Nmax);
+    C(k) = Nvar;
+    R(l) = Ncheck_actual;
 
-    int cycles=0;
-    for (int i=0; i<nvar; i++) {
-      ivec ri = index_nonzeros(get_col(i));
-      for (int j=0; j<length(ri); j++) {
-	if (check_connectivity(ri(j),i,ri(j),i,0,L)>=0)	{
-	  cycles++;
+    // ---------------
+
+    if (method=="rand") {
+      generate_random_H(C,R,options);
+    } else { 
+      it_error("not implemented"); 
+    };
+  }
+
+
+  // ----------------------------------------------------------------------
+  // LDPC_Parity_Irregular
+  // ----------------------------------------------------------------------
+
+  LDPC_Parity_Irregular::LDPC_Parity_Irregular(int Nvar, 
+					       const vec& var_deg, 
+					       const vec& chk_deg, 
+					       std::string method,
+					       const ivec& options)
+  {
+    generate(Nvar, var_deg, chk_deg, method, options);
+  }
+
+  void LDPC_Parity_Irregular::generate(int Nvar, const vec& var_deg,
+				       const vec& chk_deg,
+				       std::string method,
+				       const ivec& options)
+  {
+    // compute the degree distributions from a node perspective
+    vec Vi = linspace(1,length(var_deg),length(var_deg)); 
+    vec Ci = linspace(1,length(chk_deg),length(chk_deg)); 
+    // Compute number of cols with n 1's
+    // C, R: Target number of columns/rows with certain number of ones
+    ivec C = to_ivec(round(Nvar*elem_div(var_deg,Vi)
+			   /sum(elem_div(var_deg,Vi))));   
+    C = concat(0,C);
+    int edges = sum(elem_mult(to_ivec(linspace(0,C.length()-1,
+					       C.length())),C));
+    ivec R = to_ivec(round(edges*elem_div(chk_deg,Ci))); 
+    R = concat(0,R);
+    vec Ri = linspace(0,length(R)-1,length(R));
+    vec Coli = linspace(0,length(C)-1,length(C));
+
+    // trim to deal with inconsistencies due to rounding errors
+    if (sum(C)!=Nvar) {
+      ivec ind = find(C==max(C));
+      C(ind(0)) = C(ind(0)) - (sum(C)-Nvar);
+    }
+
+    //the number of edges calculated from R must match the number of
+    //edges calculated from C
+    while (sum(elem_mult(to_vec(R),Ri)) != 
+	   sum(elem_mult(to_vec(C),Coli))) {
+      //we're only changing R, this is probably(?) better for irac codes
+      if (sum(elem_mult(to_vec(R),Ri)) > sum(elem_mult(to_vec(C),Coli))) {
+	//remove an edge from R
+	ivec ind = find(R == max(R));
+	int old = R(ind(0));
+	R.set(ind(0),old-1);
+	old = R(ind(0)-1);
+	R.set(ind(0)-1,old+1);
+      }
+      else {
+	ivec ind = find(R == max(R));
+	if (ind(0) == R.length()-1) {
+	  R = concat(R,0);
+	  Ri = linspace(0,length(R)-1,length(R));
 	}
+	int old = R(ind(0));
+	R.set(ind(0),old-1);
+	old = R(ind(0)+1);
+	R.set(ind(0)+1,old+1);
       }
     }
-    return cycles;
-  };
+
+    C = concat(C, zeros_i(Nmax-length(C)));
+    R = concat(R, zeros_i(Nmax-length(R)));
+
+    // -------------------
+
+    if (method=="rand") {
+      generate_random_H(C,R,options);
+    } else { 
+      it_error("not implemented"); 
+    };
+  }
 
 
-  // ---------------------------------------------------------------------------
+  // ----------------------------------------------------------------------
   // LDPC_Generator_Systematic
-  // ---------------------------------------------------------------------------
+  // ----------------------------------------------------------------------
 
-  LDPC_Generator_Systematic::LDPC_Generator_Systematic(LDPC_Parity_Matrix &H, 
+  LDPC_Generator_Systematic::LDPC_Generator_Systematic(LDPC_Parity* const H, 
 						       bool natural_ordering, 
 						       const ivec& ind):
     LDPC_Generator("systematic"), G()
@@ -658,15 +705,15 @@ namespace itpp {
   }
 
 
-  ivec LDPC_Generator_Systematic::construct(LDPC_Parity_Matrix &H, 
+  ivec LDPC_Generator_Systematic::construct(LDPC_Parity* const H, 
 					    bool natural_ordering,
 					    const ivec& avoid_cols) 
   {
-    int nvar = H.get_nvar();
-    int ncheck = H.get_ncheck();
+    int nvar = H->get_nvar();
+    int ncheck = H->get_ncheck();
   
     // create dense representation of parity check matrix
-    GF2mat Hd(H.get_H());  
+    GF2mat Hd(H->get_H());  
 
     // -- Determine initial column ordering --
     ivec col_order(nvar);
@@ -737,18 +784,18 @@ namespace itpp {
 
     // -- Permute the columns of the parity check matrix --
     GF2mat P = P1.concatenate_horizontal(P2);
-    H = LDPC_Parity_Matrix(ncheck, nvar);
+    *H = LDPC_Parity(ncheck, nvar);
     // brute force copy from P to H
     for (int i=0; i<ncheck; i++) {
       for (int j=0; j<nvar; j++) {
  	if (P.get(i,j)) {
- 	  H.set(i,j,1);
+ 	  H->set(i,j,1);
  	}
       }
     }
   
     // -- Check that the result was correct --
-    it_assert_debug((GF2mat(H.get_H()) 
+    it_assert_debug((GF2mat(H->get_H()) 
 		     * (gf2dense_eye(nvar-ncheck).concatenate_horizontal(G)).transpose()).is_zero(),
 		    "LDPC_Generator_Systematic::construct(): Incorrect generator matrix G");
     
@@ -813,7 +860,7 @@ namespace itpp {
     setup_decoder();
   }
 
-  LDPC_Code::LDPC_Code(const LDPC_Parity_Matrix &H, LDPC_Generator* const G_in):
+  LDPC_Code::LDPC_Code(const LDPC_Parity* const H, LDPC_Generator* const G_in):
     H_is_defined(false)
   {
     set_code(H, G_in);
@@ -826,7 +873,7 @@ namespace itpp {
   }
 
 
-  void LDPC_Code::set_code(const LDPC_Parity_Matrix &H, LDPC_Generator* const G_in)
+  void LDPC_Code::set_code(const LDPC_Parity* const H, LDPC_Generator* const G_in)
   {
     decoder_parameterization(H);
     G = G_in;
@@ -1449,13 +1496,13 @@ namespace itpp {
   // LDPC_Code private methods
   // ----------------------------------------------------------------------
 
-  void LDPC_Code::decoder_parameterization(const LDPC_Parity_Matrix &Hmat)
+  void LDPC_Code::decoder_parameterization(const LDPC_Parity* const Hmat)
   {
     // copy basic parameters
-    sumX1 = Hmat.get_sumX1();
-    sumX2 = Hmat.get_sumX2();
-    nvar = Hmat.get_nvar();
-    ncheck = Hmat.get_ncheck();
+    sumX1 = Hmat->sumX1;
+    sumX2 = Hmat->sumX2;
+    nvar = Hmat->nvar; //get_nvar();
+    ncheck = Hmat->ncheck; //get_ncheck();
     int cmax = max(sumX1);
     int vmax = max(sumX2);
 
@@ -1467,7 +1514,7 @@ namespace itpp {
     
     it_info_debug("Computing decoder parameterization. Phase 1.");
     for (int i=0; i<nvar; i++) {
-      ivec coli = Hmat.index_nonzeros(Hmat.get_col(i));
+      ivec coli = Hmat->get_col(i).get_nz_indices();
       for (int j0=0; j0<length(coli); j0++) {
 	C(j0+cmax*i) = coli(j0);
       }
@@ -1475,7 +1522,7 @@ namespace itpp {
 
     it_info_debug("Computing decoder parameterization. Phase 2.");
     for (int j=0; j<ncheck; j++) {
-      ivec rowj = Hmat.index_nonzeros(Hmat.get_row(j));
+      ivec rowj = Hmat->get_row(j).get_nz_indices();
       for (int i0=0; i0<length(rowj); i0++) {
 	V(j+ncheck*i0) = rowj(i0);
       }

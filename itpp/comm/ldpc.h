@@ -1,6 +1,6 @@
 /*!
  * \file 
- * \brief Implementation of a Low-Density Parity Check (LDPC) codec.
+ * \brief Implementation of Low-Density Parity Check (LDPC) codes
  * \author Erik G. Larsson, Mattias Andersson and Adam Piatyszek
  *
  * $Date$
@@ -43,73 +43,90 @@
 namespace itpp {
   
   // ---------------------------------------------------------------------------
-  // LDPC_Parity_Matrix
+  // LDPC_Parity
   // ---------------------------------------------------------------------------
   
   /*!
-    \brief LDPC Parity check matrix class
+    \brief LDPC parity check matrix generic class
 
-    This class provides functionality for design of and operations on
-    parity check matrices for LDPC codes. Please refer to the tutorial
-    \ref ldpc_gen_codes for extensive examples of code generation.
-    
-    Parity check matrices can be saved to a file by converting them to
-    \c GF2mat_sparse_alist format. However, typically one will want to
-    create a \c LDPC_Code from the matrix and save the codec instead.
+    This class provides a basic set of function needed to represent a
+    parity check matrix, which defines an LDPC code. This class is a base
+    class for a set of specific LDPC parity check matrix classes, e.g.
+    regular or irregular LDPC code generators.
 
     This class stores a parity check matrix as a sparse matrix.  The
     transpose of the matrix is also stored to enable efficient access
     to its rows.
 
-    \author Erik G. Larsson. Contributions from Mattias Andersson.
+    All parity check matrices can be loaded from (saved to) a file by
+    converting them from (to) a portable \c GF2mat_sparse_alist format.
+
+    However, typically one will want to create a \c LDPC_Code from the
+    parity check matrix (and optionally a generator) and save the codec
+    binary data instead. 
+
+    Please refer to the tutorial \ref ldpc_gen_codes for extensive examples
+    of code generation.
+    
+    \author Erik G. Larsson, Mattias Andersson and Adam Piatyszek
   */
-  class LDPC_Parity_Matrix {
+  class LDPC_Parity {
     friend class LDPC_Code;
   public:     
-    // ------------ Constructors ------------------------------
-      
-    /*! \brief Default constructor
+    //! Default constructor
+    LDPC_Parity(): init_state(false) {}
 
-      Gives an empty parity check matrix of size 1*1 */
-    LDPC_Parity_Matrix();
+    //! Constructor that gives an empty matrix of size ncheck x nvar
+    LDPC_Parity(int ncheck, int nvar);
 
-    //! Constructor, gives empty matrix of size ncheck*nvar
-    LDPC_Parity_Matrix(int ncheck, int nvar);
+    /*! 
+      \brief Load an LDPC parity check matrix from a file
 
-    /*! \brief Obtain LDPC parity check matrix from a file
+      \param filename file name 
+      \param format file format
 
-      \param filename Filename 
-      \param format format of the
-      matrix. Currently, only "alist" is supported (see 
-      \c GF2mat_sparse_alist for definition).
+      \note Currently, only "alist" format is supported (see 
+      \c GF2mat_sparse_alist for its definition).
+
+      \sa \c load_alist() and \c save_alist()
     */
-    LDPC_Parity_Matrix(std::string filename, std::string format);
+    LDPC_Parity(std::string filename, std::string format);
 
     //! Constructor, from a \c GF2mat_sparse_alist object
-    LDPC_Parity_Matrix(const GF2mat_sparse_alist &alist);
+    LDPC_Parity(const GF2mat_sparse_alist& alist);
 
-    // ----------- Basic access functions ---------------------
+    //! Virtual destructor
+    virtual ~LDPC_Parity() {}
 
-    //! Get the parity check matrix 
-    GF2mat_sparse get_H() const { return H; } 
+    //! Initialize an empty matrix of size ncheck x nvar
+    void initialize(int ncheck, int nvar);
+
+    //! Get the parity check matrix, optionally its transposed form
+    GF2mat_sparse get_H(bool transpose = false) const {
+      return (transpose ? Ht : H);
+    } 
 
     //! Get a specific column from the matrix
-    Sparse_Vec<bin> get_col(int r) const {   return H.get_col(r); }
+    Sparse_Vec<bin> get_col(int c) const { return H.get_col(c); }
 
     //! Get a specific row from the matrix
-    Sparse_Vec<bin> get_row(int r) const {   return Ht.get_col(r); }
+    Sparse_Vec<bin> get_row(int r) const { return Ht.get_col(r); }
 
     //! Get the number of variable nodes (number of columns) 
     int get_nvar() const {
-      it_assert_debug(H.cols()==nvar,"LDPC_Parity_Matrix internal error");
-      it_assert_debug(Ht.rows()==nvar,"LDPC_Parity_Matrix internal error");    
+      it_assert_debug(H.cols() == nvar,
+		      "LDPC_Parity::get_nvar(): Internal error");
+      it_assert_debug(Ht.rows() == nvar,
+		      "LDPC_Parity::get_nvar(): Internal error");    
       return nvar; 
     }
 
     //! Get the number of check nodes (number of rows)
     int get_ncheck() const {
-      it_assert_debug(H.rows()==ncheck,"LDPC_Parity_Matrix internal error");
-      it_assert_debug(Ht.cols()==ncheck,"LDPC_Parity_Matrix internal error");
+      it_assert_debug(H.rows() == ncheck,
+		      "LDPC_Parity::get_ncheck(): Internal error");
+      it_assert_debug(Ht.cols() == ncheck,
+		      "LDPC_Parity::get_ncheck(): Internal error");
       return ncheck;
     }
 
@@ -117,146 +134,96 @@ namespace itpp {
     void set(int i, int j, bin value);
 
     //! Get element (i,j) of the parity check matrix
-    inline bin get(int i, int j) const {   
-      it_assert_debug(H(i,j)==Ht(j,i),"LDPC_Parity_Matrix internal error");
+    bin get(int i, int j) const {   
+      it_assert_debug(H(i,j) == Ht(j,i), "LDPC_Parity::get(): Internal error");
+      return H(i,j);  
+    }
+
+    //! Get element (i,j) of the parity check matrix
+    bin operator()(int i, int j) const {   
+      it_assert_debug(H(i,j) == Ht(j,i), "LDPC_Parity::operator(): Internal error");
       return H(i,j);  
     }
 
     //! Display some information about the matrix
-    void display_stats() const;
+    virtual void display_stats() const;
 
-    //! Get the coderate
-    inline double get_rate() const { 
+    //! Get the code rate
+    double get_rate() const { 
       return   (1.0 - static_cast<double>(ncheck) / nvar); 
     }
-      
+
+    //! Import matrix from \c GF2mat_sparse_alist format
+    void import_alist(const GF2mat_sparse_alist& H_alist);
+
     //! Export matrix to \c GF2mat_sparse_alist format
     GF2mat_sparse_alist export_alist() const;
+
+    //! Load matrix from \c alist_file text file in alist format
+    void load_alist(std::string alist_file);
+
+    //! Save matrix to \c alist_file text file in alist format
+    void save_alist(std::string alist_file) const;
   
-    // ------------ Parity matrix generation ---------------------
-
-    /*! \brief Generate a (k,l) regular LDPC code. 
-
-      This function prepares for the generation of a regular LDPC
-      code.
-
-      \param Nvar  number of variable nodes
-      \param k number of ones per column
-      \param l number of ones per row
-      \param method See documentation of generate_irregular_ldpc()
-      \param options See documentation of generate_irregular_ldpc()
-    */
-    void generate_regular_ldpc(int Nvar, int k, int l, 
-			       std::string method="rand",
-			       ivec options="200 6");
-
-    /*! \brief Generate an irregular LDPC code.
-
-      This function  generates an irregular LDPC code. 
-
-      \param Nvar  number of variable nodes
-
-      \param var_deg vector of variable degree distributions, from an
-      edge perspective
-
-      \param chk_deg vector of check degree distributions, from an
-      edge perspective
-
-      \param method currently the only supported method is "rand" 
-      (see below)
-
-      \param options Determines the level of matrix optimization.  
-      
-      The "rand" method generates a fully unstructured random
-      matrix. Some stochastic optimization is performed to avoid
-      cycles. This optimization is controlled via the parameter \c
-      options.  In particular, the girth for the
-      variable-node-degree-2 part of the graph can be controlled via
-      the parameter options(0). The girth for the rest of the nodes
-      can be controlled via the parameter options(1).  The recommended
-      value for options is "200 6" for graphs of small size, and "100
-      4" for large graphs. The value "0 0" means no
-      optimization. Double edges are always avoided.
-    */
-    void generate_irregular_ldpc(int Nvar, vec var_deg, vec chk_deg, 
-				 std::string method="rand",
-				 ivec options="200 6");
-
-    // ----------- Graph optimization ------------------------
-
-    /*!   \brief Remove cycles (loops) from parity check matrix.
-
-      This function implements the cycle removal algorithm presented
-      by McGowan and Williamson at the IT workshop 2003. The maximum
-      girth of the graph that will be attempted is L. The algorithm is
-      bound to remove all loops of length L, insofar this is
-      possible. I.e., it does not terminate until it is impossible to
-      remove more cycles by swapping two edges.
-
-      \note This algorithm can take a long time to run for large L
-      or large graphs.
-
-      The function returns the girth of the graph, i.e. the length of
-      the shortest cycle. For example, a return value of 6 means that
-      there are no 4-cycles.
-
-      \param L target girth. For example, L=6 attempts to removes all
-      4-cycles.
-    */
-    int cycle_removal_MGW(int L);
- 
   protected:
-    //! Initialize empty matrix of size ncheck*nvar
-    void initialize(int ncheck, int nvar);
-
-    //! Get sum over all rows (sum(X,1))
-    ivec get_sumX1() const {  return sumX1;   }
-
-    //! Get sum over all columns (sum(X,2))
-    ivec get_sumX2() const {  return sumX2;   }  
-
-    /*! \brief Check for cycles of length L 
+    //! Flag that indicates proper initialization
+    bool init_state;
+    //! Maximum node degree class can handle
+    static const int Nmax = 200;
+    //! The parity check matrix
+    GF2mat_sparse H;
+    //! The transposed parity check matrix
+    GF2mat_sparse Ht;
+    //! Number of variable nodes
+    int nvar; 
+    //! Number of check nodes
+    int ncheck;
+    //! Actual number of ones in each column
+    ivec sumX1;
+    //! Actual number of ones in each row
+    ivec sumX2;
+     
+    /*! 
+      \brief Check for cycles of length L 
 
       This function implements a recursive routine to find loops. The
-      function is mainly a tool for testing and debugging more
-      sophisticated functions for graph manipulation. The function
-      returns the number of cycles found of length L or
-      shorter. Cycles may be counted multiple times.
+      function is mainly a tool for testing and debugging more sophisticated
+      functions for graph manipulation.
 
       \param L length of cycles to look for
 
-      \note This function can be very slow for large matrices. It is
-      mainly intended as a debugging aid.
+      \return The function returns the number of cycles found of length L or
+      shorter. Cycles may be counted multiple times.
+
+      \note This function can be very slow for large matrices. It is mainly
+      intended as a debugging aid.
     */
     int check_for_cycles(int L) const;
 
-    /*! \brief Check for connectivity between nodes 
+    /*! 
+      \brief Check for connectivity between nodes
 	
-      This function examines whether the point (to_m, to_n) in the
-      matrix can be reached from the point (from_m, from_n) using at
-      most L steps. A recursive search is used. 
+      This function examines whether the point (to_m, to_n) in the matrix
+      can be reached from the point (from_m, from_n) using at most L steps.
+      A recursive search is used.
 
       The function can be used to search for cycles in the matrix. To
       search for a cycle of length L, set from_m=to_m and from_n=to_n,
       and godir=0.
 
       \param from_m starting coordinate, row number
-      \param to_m goal coordinte, row number
+      \param to_m goal coordinate, row number
       \param from_n starting coordinate, column number
       \param to_n goal coordinate, row number
       \param g direction: 1=start going vertically, 2=start 
       going horizontally
       \param L number of permitted steps
      
-      Possible return values:
-
-      -1 or -3 : destination unreachable, 
-
-      -2       : meaningless search (started in a "0" point), 
-
-      -4       : meaningless search
-
-      >=0      : destination reached with certain number of steps left
+      \return
+      - -1 or -3 : destination unreachable 
+      - -2       : meaningless search (started in a "0" point), 
+      - -4       : meaningless search
+      - >=0      : destination reached with certain number of steps left
 
       \note This function can be very slow depending on the nature of
       the matrix.
@@ -276,27 +243,8 @@ namespace itpp {
       point (from_m,from_n) is part of a cycle of length L. (This
       behavior is inherent to the simple recursive search used.)
     */
-    int check_connectivity(int from_m,int from_n,int to_m,int to_n,int g,int L) const;
-
-  private:
-    static const int Nmax=200;   // Maximum node degree class can handle
-
-    GF2mat_sparse H;    // The parity check matrix 
-    GF2mat_sparse Ht;   // The transposed parity check matrix
-    int nvar, ncheck;   // Matrix dimensions
-    ivec sumX1, sumX2;  // Actual number of ones in each column and row
-     
-    // Generate random parity matrix
-    void generate_random_H(const ivec C, const ivec R, const ivec cycopt);
-      
-    /* This help function returns the nonzeros of a sparse vector. The
-       only purpose of this function is to guard against possible "0"
-       elements delivered by the svec package. This should not happen,
-       so this function should only be seen as a firewall to guard
-       against possible problems if using a sparse-matrix handler that
-       cannot correctly deal with integer matrices.
-    */
-    template <class T> ivec index_nonzeros(Sparse_Vec<T> x) const;
+    int check_connectivity(int from_m, int from_n, int to_m, int to_n,
+			   int g, int L) const;
 
     //      inline int get_cmax() const {   return (max(sumX1));  } 
     //      inline int get_vmax() const {   return (max(sumX2));  } 
@@ -305,9 +253,132 @@ namespace itpp {
   };
 
 
-  // ---------------------------------------------------------------------------
+  // ----------------------------------------------------------------------
+  // LDPC_Parity_Unstructured
+  // ----------------------------------------------------------------------
+
+  /*!
+    \brief Pure abstract class for unstructured LDPC matrices
+    
+    This class provides a common set of methods, which are used by the 
+    \c LDPC_Parity_Irregular and \c LDPC_Parity_Regular generator classes.
+
+    \author Erik G. Larsson, Mattias Andersson and Adam Piatyszek
+  */
+  class LDPC_Parity_Unstructured : public LDPC_Parity {
+  public:
+    //! Display some information about the matrix
+    virtual void display_stats() const = 0;
+
+    /*!
+      \brief Remove cycles (loops) from unstructured parity check matrix.
+
+      This function implements the cycle removal algorithm presented by
+      McGowan and Williamson at the IT workshop 2003. The maximum girth of
+      the graph that will be attempted is L. The algorithm is bound to
+      remove all loops of length L, insofar this is possible. I.e., it does
+      not terminate until it is impossible to remove more cycles by swapping
+      two edges.
+
+      \param L Target girth. For example, L=6 attempts to removes all
+      4-cycles.
+      \return The girth of the graph, i.e. the length of the shortest cycle.
+      For example, a return value of 6 means that there are no 4-cycles.
+
+      \note This algorithm can take a long time to run for large L or large
+      graphs.
+    */
+    int cycle_removal_MGW(int L);
+
+  protected:
+    //! Generate a random parity check matrix
+    void generate_random_H(const ivec& C, const ivec& R, const ivec& cycopt);
+  };
+
+
+  // ----------------------------------------------------------------------
+  // LDPC_Parity_Irregular
+  // ----------------------------------------------------------------------
+
+  /*!
+    \brief Irregular LDPC code generator class
+    \author Erik G. Larsson, Mattias Andersson and Adam Piatyszek
+  */
+  class LDPC_Parity_Irregular : public LDPC_Parity_Unstructured {
+  public:
+    //! Default constructor
+    LDPC_Parity_Irregular() {} 
+    //! Constructor that invokes \c generate() method
+    LDPC_Parity_Irregular(int Nvar, const vec& var_deg, const vec& chk_deg,
+			  std::string method = "rand", 
+			  const ivec& options = "200 6");
+
+    /*! 
+      \brief Generate an irregular LDPC code
+       
+      \param Nvar number of variable nodes
+      \param var_deg vector of variable degree distributions, from an edge
+      perspective
+      \param chk_deg vector of check degree distributions, from an edge
+      perspective
+      \param method currently the only supported method is "rand" (see below)
+      \param options Determines the level of matrix optimization.  
+      
+      The "rand" method generates a fully unstructured random matrix. Some 
+      stochastic optimization is performed to avoid cycles. This optimization
+      is controlled via the parameter \c options. In particular, the girth for
+      the variable-node-degree-2 part of the graph can be controlled via the
+      parameter options(0). The girth for the rest of the nodes can be
+      controlled via the parameter options(1). The recommended value for
+      options is "200 6" for graphs of small size, and "100 4" for large
+      graphs. The value "0 0" means no optimization. Double edges are always
+      avoided.
+    */
+    void generate(int Nvar, const vec& var_deg, const vec& chk_deg, 
+		  std::string method = "rand", 
+		  const ivec& options = "200 6");
+
+    //! Display some information about the matrix
+    void display_stats() const { LDPC_Parity::display_stats(); }
+  };
+
+
+  // ----------------------------------------------------------------------
+  // LDPC_Parity_Regular
+  // ----------------------------------------------------------------------
+
+  /*!
+    \brief Regular LDPC code generator class
+    \author Erik G. Larsson, Mattias Andersson and Adam Piatyszek
+  */
+  class LDPC_Parity_Regular : public LDPC_Parity_Unstructured {
+  public:
+    //! Default constructor
+    LDPC_Parity_Regular() {} 
+    //! Constructor that invokes \c construct() method
+    LDPC_Parity_Regular(int Nvar, int k, int l, std::string method = "rand",
+			const ivec& options = "200 6");
+
+    /*!
+      \brief Generate a (k,l) regular LDPC code 
+
+      \param Nvar  number of variable nodes
+      \param k number of ones per column
+      \param l number of ones per row
+      \param method See \c LDPC_Parity_Irregular::generate()
+      \param options See \c LDPC_Parity_Irregular::generate()
+    */
+    void generate(int Nvar, int k, int l, std::string method = "rand",
+		  const ivec& options = "200 6");
+
+    //! Display some information about the matrix
+    void display_stats() const { LDPC_Parity::display_stats(); }
+  };
+
+
+  // ----------------------------------------------------------------------
   // LDPC_Generator
-  // ---------------------------------------------------------------------------
+  // ----------------------------------------------------------------------
 
   /*!
     \brief LDPC Generator pure virtual base class
@@ -350,9 +421,9 @@ namespace itpp {
   };
 
 
-  // ---------------------------------------------------------------------------
+  // ----------------------------------------------------------------------
   // LDPC_Generator_Systematic
-  // ---------------------------------------------------------------------------
+  // ----------------------------------------------------------------------
 
   /*!
     \brief Systematic LDPC Generator class
@@ -363,15 +434,14 @@ namespace itpp {
     \note Please refer to the tutorials for examples of how to use this
     class.
 
-    \author Erik G. Larsson
-    \author Adam Piatyszek
+    \author Erik G. Larsson and Adam Piatyszek
   */
   class LDPC_Generator_Systematic : public LDPC_Generator { 
   public:
     //! Default constructor
     LDPC_Generator_Systematic(): LDPC_Generator("systematic"), G() {}
     //! Parametrized constructor
-    LDPC_Generator_Systematic(LDPC_Parity_Matrix &H, 
+    LDPC_Generator_Systematic(LDPC_Parity* const H, 
 			      bool natural_ordering = false, 
 			      const ivec& ind = "");
 
@@ -385,11 +455,11 @@ namespace itpp {
       \brief Construct systematic generator matrix
 
       This function constructs a systematic generator matrix from a parity
-      check matrix (\c LDPC_Parity_Matrix). The order of the columns is
+      check matrix (\c LDPC_Parity). The order of the columns is
       randomized unless otherwise requested via the \c natural_ordering
       parameter.
 
-      \param H parity check matrix 
+      \param H A pointer to the parity check matrix \c H
       
       \param natural_ordering If this flag is true, the columns are not
       randomly reordered (no interleaving applied), i.e. the function tries
@@ -409,12 +479,12 @@ namespace itpp {
       columns of \c H. The k-th column of the original \c H is the \c P(k)-th
       column of the rearranged \c H.
 
-      \note This function modifies the parity check matrix. Its columns may
-      be sorted so that it gets the structure <tt>H = [H1 H2]</tt> where \c
-      H2 is square and invertible. The computed generator then satisfies
+      \note This function modifies the parity check matrix \c H. Its columns
+      may be sorted so that it gets the structure <tt>H = [H1 H2]</tt> where
+      \c H2 is square and invertible. The computed generator then satisfies
       <tt>[H1 H2][I; G'] = 0<tt>.
     */
-    ivec construct(LDPC_Parity_Matrix& H, bool natural_ordering = false, 
+    ivec construct(LDPC_Parity* const H, bool natural_ordering = false, 
 		   const ivec& ind = "");
 
   protected:
@@ -428,16 +498,16 @@ namespace itpp {
   };
 
 
-  // ---------------------------------------------------------------------------
+  // ----------------------------------------------------------------------
   // LDPC_Code
-  // ---------------------------------------------------------------------------
+  // ----------------------------------------------------------------------
 
   /*!
     \ingroup fec
     \brief Low-density parity check (LDPC) codec  
 
     This class provides the functionality for encoding and decoding of LDPC
-    codes defined via \c LDPC_Parity_Matrix and \c LDPC_Generator classes.
+    codes defined via \c LDPC_Parity and \c LDPC_Generator classes.
 
     LDPC codecs are constructed from parity check and generator matrices.
     Since the procedure of constructing the codec can be time-consuming (for
@@ -449,8 +519,7 @@ namespace itpp {
     \note Please refer to the tutorials \ref ldpc_gen_codes and \ref
     ldpc_bersim_awgn for extensive examples of how to use LDPC codes.
 
-    \author Erik G. Larsson
-    \author Adam Piatyszek
+    \author Erik G. Larsson and Adam Piatyszek
   */
   class LDPC_Code : public Channel_Code {
   public:
@@ -463,7 +532,7 @@ namespace itpp {
     
       This constructor simply calls \c set_code().
     */
-    LDPC_Code(const LDPC_Parity_Matrix &H, LDPC_Generator* const G = 0);
+    LDPC_Code(const LDPC_Parity* const H, LDPC_Generator* const G = 0);
 
     /*!
       \brief Constructor, from a saved file
@@ -483,7 +552,7 @@ namespace itpp {
       \param H The parity check matrix
       \param G A pointer to the optional generator object
     */
-    void set_code(const LDPC_Parity_Matrix &H, LDPC_Generator* const G = 0);
+    void set_code(const LDPC_Parity* const H, LDPC_Generator* const G = 0);
       
     /*! 
       \brief Set the codec, by reading from a saved file
@@ -531,8 +600,8 @@ namespace itpp {
       \note The decoder parameters are not saved to file when saving
       the LDPC code.
     */
-    void setup_decoder(std::string method="bp", ivec options="50 1 0",
-		       LLR_calc_unit lcalc=LLR_calc_unit()); 
+    void setup_decoder(std::string method = "bp", ivec options = "50 1 0",
+		       LLR_calc_unit lcalc = LLR_calc_unit()); 
 
   
     // ------------ Encoding  ---------------------
@@ -645,7 +714,7 @@ namespace itpp {
     QLLRvec mvc, mcv;
 
     // Function to compute decoder parameterization 
-    void decoder_parameterization(const LDPC_Parity_Matrix &H);
+    void decoder_parameterization(const LDPC_Parity* const H);
 
     // Function to check the integrity of the parity check matrix and generator
     void integrity_check();
