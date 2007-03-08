@@ -42,13 +42,13 @@ namespace itpp {
 
   // public methods
 
-  LDPC_Parity::LDPC_Parity(int nc, int nv): init_state(false)
+  LDPC_Parity::LDPC_Parity(int nc, int nv): init_flag(false)
   {
     initialize(nc, nv);
   }
   
   LDPC_Parity::LDPC_Parity(std::string filename, std::string format): 
-    init_state(false)
+    init_flag(false)
   {
     if (format == "alist") {
       load_alist(filename);
@@ -58,7 +58,7 @@ namespace itpp {
   }
 
   LDPC_Parity::LDPC_Parity(const GF2mat_sparse_alist &alist): 
-    init_state(false)
+    init_flag(false)
   {
     import_alist(alist);
   }
@@ -71,12 +71,12 @@ namespace itpp {
     Ht = GF2mat_sparse(nvar, ncheck);
     sumX1 = zeros_i(nvar);
     sumX2 = zeros_i(ncheck);
-    init_state = true;
+    init_flag = true;
   }
 
   void LDPC_Parity::set(int i, int j, bin x) 
   {
-    it_assert(init_state, "LDPC_Parity::set(): Object not initialized");
+    it_assert(init_flag, "LDPC_Parity::set(): Object not initialized");
     it_assert_debug((i >= 0) && (i < ncheck),
 		    "LDPC_Parity::set(): Wrong index i");
     it_assert_debug((j >= 0) && (j < nvar),
@@ -102,7 +102,8 @@ namespace itpp {
 
   void LDPC_Parity::display_stats() const
   {
-    it_assert(init_state, "LDPC_Parity::display_stats(): Object not initialized");
+    it_assert(init_flag, 
+	      "LDPC_Parity::display_stats(): Object not initialized");
     int cmax = max(sumX1);
     int vmax = max(sumX2);
     vec vdeg = zeros(cmax+1); // number of variable nodes with n neighbours
@@ -173,7 +174,8 @@ namespace itpp {
 
   GF2mat_sparse_alist LDPC_Parity::export_alist() const 
   {
-    it_assert(init_state, "LDPC_Parity::export_alist(): Object not initialized");
+    it_assert(init_flag, 
+	      "LDPC_Parity::export_alist(): Object not initialized");
     GF2mat_sparse_alist alist;
     alist.from_sparse(H);
     return alist;
@@ -183,7 +185,7 @@ namespace itpp {
   int LDPC_Parity::check_connectivity(int from_i, int from_j, int to_i, 
 				      int to_j, int godir, int L ) const
   {
-    it_assert(init_state,
+    it_assert(init_flag,
 	      "LDPC_Parity::check_connectivity(): Object not initialized");
     int i, j, result;
   
@@ -239,7 +241,7 @@ namespace itpp {
 
   int LDPC_Parity::check_for_cycles(int L) const
   {
-    it_assert(init_state,
+    it_assert(init_flag,
 	      "LDPC_Parity::check_for_cycles(): Object not initialized");
     // looking for odd length cycles does not make sense
     if ((L&1)==1) { return (-1); } 
@@ -282,7 +284,7 @@ namespace itpp {
   
   int LDPC_Parity_Unstructured::cycle_removal_MGW(int Maxcyc)
   {
-    it_assert(init_state,
+    it_assert(init_flag,
 	      "LDPC_Parity::cycle_removal_MGW(): Object not initialized");
     typedef Sparse_Mat<short> Ssmat;
     typedef Sparse_Vec<short> Ssvec;
@@ -345,7 +347,8 @@ namespace itpp {
 // 	      int k = tmpi(rand()%length(tmpi));    
 	      int k = tmpi(randi(0,length(tmpi)-1));    
 	      it_assert_debug(G(j,k)==1 && G(k,j)==1,
-			 "LDPC_Parity::remove_cycles_MGW() internal error");
+			      "LDPC_Parity_Unstructured::cycle_removal_MGW(): "
+			      "Internal error");
 
 	      // determine candidate edges for an edge swap
 	      Ssvec rowjk = Gpow(r/2)*(Gpow(r/2-1).get_col(j)
@@ -385,11 +388,13 @@ namespace itpp {
 
 	      // Update the matrix
 	      it_assert_debug((get(j,k-ncheck)==1) && (get(p,l-ncheck)==1),
-			 "LDPC_Parity::remove_cycles_MGW() internal error");
+			      "LDPC_Parity_Unstructured::cycle_removal_MGW(): "
+			      "Internal error");
 	      set(j,k-ncheck,0);
 	      set(p,l-ncheck,0);
 	      it_assert_debug((get(j,l-ncheck)==0) && (get(p,k-ncheck)==0),
-			 "LDPC_Parity::remove_cycles_MGW() internal error");
+			      "LDPC_Parity_Unstructured::cycle_removal_MGW(): "
+			      "Internal error");
 	      set(j,l-ncheck,1);
 	      set(p,k-ncheck,1);
 	      
@@ -518,10 +523,10 @@ namespace itpp {
     for (int k=0; k<Ne; k++) {
       const int el=Ne-k-2;
       if (k%250==0) { 
-	it_info("Processing edge: " << k << " out of " << Ne 
-		<< ". Variable node degree: " << vd(vcon(k)) 
-		<< ". Girth target: " << Laim(vd(vcon(k))) 
-		<< ". Accumulated failures: " << failures); 
+	it_info_debug("Processing edge: " << k << " out of " << Ne 
+		      << ". Variable node degree: " << vd(vcon(k)) 
+		      << ". Girth target: " << Laim(vd(vcon(k))) 
+		      << ". Accumulated failures: " << failures); 
       }
       const int c=cp(vcon(k));    
       int L= Laim(vd(vcon(k)));
@@ -746,8 +751,8 @@ namespace itpp {
     ivec perm;
     GF2mat T, U;
     for (int k=0; k<nvar; k++) {
-      it_error_if(j1 >= nvar-ncheck,
-		  "LDPC_Generator_Systematic::construct(): Unable to obtain enough independent columns.");
+      it_error_if(j1 >= nvar-ncheck, "LDPC_Generator_Systematic::construct(): "
+		  "Unable to obtain enough independent columns.");
 
       bvec c = Hd.get_col(col_order(k));
       if (j2==0) {       // first column in P2 is number col_order(k)
@@ -1512,7 +1517,8 @@ namespace itpp {
     jind = zeros_i(ncheck*vmax);
     iind = zeros_i(nvar*cmax);
     
-    it_info_debug("Computing decoder parameterization. Phase 1.");
+    it_info_debug("LDPC_Code::decoder_parameterization(): Computations "
+		  "- phase 1");
     for (int i=0; i<nvar; i++) {
       ivec coli = Hmat->get_col(i).get_nz_indices();
       for (int j0=0; j0<length(coli); j0++) {
@@ -1520,7 +1526,9 @@ namespace itpp {
       }
     }
 
-    it_info_debug("Computing decoder parameterization. Phase 2.");
+    it_info_debug("LDPC_Code::decoder_parameterization(): Computations "
+		  "- phase 2");
+    it_info_debug("Computing decoder parameterization. Phase 2");
     for (int j=0; j<ncheck; j++) {
       ivec rowj = Hmat->get_row(j).get_nz_indices();
       for (int i0=0; i0<length(rowj); i0++) {
@@ -1528,6 +1536,8 @@ namespace itpp {
       }
     }   
 
+    it_info_debug("LDPC_Code::decoder_parameterization(): Computations "
+		  "- phase 3");
     it_info_debug("Computing decoder parameterization. Phase 3.");
     for (int j=0; j<ncheck; j++) {
       for (int ip=0; ip<sumX2(j); ip++) {
@@ -1543,7 +1553,8 @@ namespace itpp {
       }
     }
 
-    it_info_debug("Computing decoder parameterization. Phase 4.");
+    it_info_debug("LDPC_Code::decoder_parameterization(): Computations "
+		  "- phase 4");
     for (int i=0; i<nvar; i++) {
       for (int jp=0; jp<sumX1(i); jp++) {
 	int cjp = C(jp+i*cmax);
@@ -1562,16 +1573,20 @@ namespace itpp {
   void LDPC_Code::integrity_check()
   {
     if (G != 0) {
-      bvec temp_in, temp_out;
+      it_info_debug("LDPC_Code::integrity_check(): Checking integrity of "
+		    "the LDPC_Parity and LDPC_Generator data");
+      bvec bv(nvar-ncheck);
+      bv.clear(); 
+      bv(0) = 1;
       for (int i = 0; i < nvar-ncheck; i++) {
-	temp_in = concat(zeros_b(i), ones_b(1), zeros_b(nvar - ncheck - i - 1));
-	encode(temp_in, temp_out);
-	it_assert(syndrome_check(temp_out),
+	it_assert(syndrome_check(encode(bv)),
 		  "LDPC_Code::integrity_check(): Syndrom check failed");
+	bv.shift_right(bv(nvar-ncheck-1));
       }
     }
     else {
-      it_info_debug("LDPC_Code::integrity_check(): No generator defined - no check performed");
+      it_info_debug("LDPC_Code::integrity_check(): No generator defined "
+		    "- no check performed");
     }
   }
 
