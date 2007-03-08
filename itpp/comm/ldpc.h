@@ -74,7 +74,7 @@ namespace itpp {
     friend class LDPC_Code;
   public:     
     //! Default constructor
-    LDPC_Parity(): init_state(false) {}
+    LDPC_Parity(): init_flag(false) {}
 
     //! Constructor that gives an empty matrix of size ncheck x nvar
     LDPC_Parity(int ncheck, int nvar);
@@ -167,7 +167,7 @@ namespace itpp {
   
   protected:
     //! Flag that indicates proper initialization
-    bool init_state;
+    bool init_flag;
     //! Maximum node degree class can handle
     static const int Nmax = 200;
     //! The parity check matrix

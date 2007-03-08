@@ -1,3 +1,9 @@
+2007-03-08  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/ldpc.cpp, itpp/comm/ldpc.h: "init_state" variable
+	renamed to "init_flag". Cosmetic changes in the integrity_check()
+	function.
+
 2007-03-07  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* doc/tutorial/src/ldpc_bersim_awgn.cpp,
