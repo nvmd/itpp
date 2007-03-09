@@ -90,7 +90,7 @@ namespace itpp {
 
       \sa \c load_alist() and \c save_alist()
     */
-    LDPC_Parity(std::string filename, std::string format);
+    LDPC_Parity(const std::string& filename, const std::string& format);
 
     //! Constructor, from a \c GF2mat_sparse_alist object
     LDPC_Parity(const GF2mat_sparse_alist& alist);
@@ -141,7 +141,8 @@ namespace itpp {
 
     //! Get element (i,j) of the parity check matrix
     bin operator()(int i, int j) const {   
-      it_assert_debug(H(i,j) == Ht(j,i), "LDPC_Parity::operator(): Internal error");
+      it_assert_debug(H(i,j) == Ht(j,i), 
+		      "LDPC_Parity::operator(): Internal error");
       return H(i,j);  
     }
 
@@ -160,10 +161,10 @@ namespace itpp {
     GF2mat_sparse_alist export_alist() const;
 
     //! Load matrix from \c alist_file text file in alist format
-    void load_alist(std::string alist_file);
+    void load_alist(const std::string& alist_file);
 
     //! Save matrix to \c alist_file text file in alist format
-    void save_alist(std::string alist_file) const;
+    void save_alist(const std::string& alist_file) const;
   
   protected:
     //! Flag that indicates proper initialization
@@ -310,7 +311,7 @@ namespace itpp {
     LDPC_Parity_Irregular() {} 
     //! Constructor that invokes \c generate() method
     LDPC_Parity_Irregular(int Nvar, const vec& var_deg, const vec& chk_deg,
-			  std::string method = "rand", 
+			  const std::string& method = "rand", 
 			  const ivec& options = "200 6");
 
     /*! 
@@ -335,7 +336,7 @@ namespace itpp {
       avoided.
     */
     void generate(int Nvar, const vec& var_deg, const vec& chk_deg, 
-		  std::string method = "rand", 
+		  const std::string& method = "rand", 
 		  const ivec& options = "200 6");
 
     //! Display some information about the matrix
@@ -356,7 +357,8 @@ namespace itpp {
     //! Default constructor
     LDPC_Parity_Regular() {} 
     //! Constructor that invokes \c construct() method
-    LDPC_Parity_Regular(int Nvar, int k, int l, std::string method = "rand",
+    LDPC_Parity_Regular(int Nvar, int k, int l, 
+			const std::string& method = "rand",
 			const ivec& options = "200 6");
 
     /*!
@@ -368,7 +370,8 @@ namespace itpp {
       \param method See \c LDPC_Parity_Irregular::generate()
       \param options See \c LDPC_Parity_Irregular::generate()
     */
-    void generate(int Nvar, int k, int l, std::string method = "rand",
+    void generate(int Nvar, int k, int l, 
+		  const std::string& method = "rand",
 		  const ivec& options = "200 6");
 
     //! Display some information about the matrix
@@ -399,8 +402,8 @@ namespace itpp {
     friend class LDPC_Code;
   public:
     //! Default constructor
-    LDPC_Generator(std::string type_in = ""): init_flag(false), 
-					      type(type_in) {}
+    LDPC_Generator(const std::string& type_in = ""): init_flag(false), 
+						     type(type_in) {}
     //! Virtual destructor
     virtual ~LDPC_Generator() {}
 
@@ -415,9 +418,9 @@ namespace itpp {
     std::string type;		//!< Generator type
 
     //! Save generator data to a file
-    virtual void save(std::string filename) const = 0;
+    virtual void save(const std::string& filename) const = 0;
     //! Read generator data from a file
-    virtual void load(std::string filename) = 0;
+    virtual void load(const std::string& filename) = 0;
   };
 
 
@@ -489,9 +492,9 @@ namespace itpp {
 
   protected:
     //! Save generator data to a file
-    virtual void save(std::string filename) const;
+    virtual void save(const std::string& filename) const;
     //! Read generator data from a file
-    virtual void load(std::string filename);
+    virtual void load(const std::string& filename);
     
   private:
     GF2mat G; // the matrix is stored in transposed form
@@ -539,7 +542,7 @@ namespace itpp {
 
       This constructor simply calls \c load_code().
     */
-    LDPC_Code(std::string filename, LDPC_Generator* const G = 0);
+    LDPC_Code(const std::string& filename, LDPC_Generator* const G = 0);
 
     //! Destructor
     virtual ~LDPC_Code() {}
@@ -567,14 +570,14 @@ namespace itpp {
       read from the saved file. This means that the encoding can not be
       performed.
     */
-    void load_code(std::string filename, LDPC_Generator* const G = 0);
+    void load_code(const std::string& filename, LDPC_Generator* const G = 0);
 
     /*!
       \brief Save the codec to a file
 
       \param filename Name of the file where to store the codec     
     */
-    void save_code(std::string filename) const;
+    void save_code(const std::string& filename) const;
 
 
     /*!
@@ -600,7 +603,8 @@ namespace itpp {
       \note The decoder parameters are not saved to file when saving
       the LDPC code.
     */
-    void setup_decoder(std::string method = "bp", ivec options = "50 1 0",
+    void setup_decoder(const std::string& method = "bp", 
+		       ivec options = "50 1 0",
 		       LLR_calc_unit lcalc = LLR_calc_unit()); 
 
   
