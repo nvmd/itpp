@@ -1,3 +1,9 @@
+2007-03-09  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/ldpc.cpp, itpp/comm/ldpc.h: "std::string" replaced
+	with "const std::string&" in function arguments to prevent passing
+	by value. Cosmetic changes related to line wrapping.
+
 2007-03-08  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/ldpc.cpp, itpp/comm/ldpc.h: "init_state" variable

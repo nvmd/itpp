@@ -32,7 +32,6 @@
 
 #include <itpp/comm/ldpc.h>
 
-using std::endl;
 
 namespace itpp {
 
@@ -47,8 +46,8 @@ namespace itpp {
     initialize(nc, nv);
   }
   
-  LDPC_Parity::LDPC_Parity(std::string filename, std::string format): 
-    init_flag(false)
+  LDPC_Parity::LDPC_Parity(const std::string& filename,
+			   const std::string& format): init_flag(false)
   {
     if (format == "alist") {
       load_alist(filename);
@@ -133,24 +132,24 @@ namespace itpp {
   
     it_info("--- LDPC parity check matrix ---");
     it_info("Dimension [ncheck x nvar]: " << ncheck << " x " << nvar);
-    it_info("Variable node degree distribution from node perspective:" 
-	    << endl << vdeg/nvar);
-    it_info("Check node degree distribution from node perspective:" 
-	    << endl << cdeg/ncheck);
-    it_info("Variable node degree distribution from edge perspective:" 
-	    << endl << vdegedge/edges);
-    it_info("Check node degree distribution from edge perspective:" 
-	    << endl << cdegedge/edges);  
+    it_info("Variable node degree distribution from node perspective:\n" 
+	    << vdeg/nvar);
+    it_info("Check node degree distribution from node perspective:\n" 
+	    << cdeg/ncheck);
+    it_info("Variable node degree distribution from edge perspective:\n" 
+	    << vdegedge/edges);
+    it_info("Check node degree distribution from edge perspective:\n" 
+	    << cdegedge/edges);  
     it_info("--------------------------------");
   }
 
   
-  void LDPC_Parity::load_alist(std::string alist_file) 
+  void LDPC_Parity::load_alist(const std::string& alist_file) 
   {
     import_alist(GF2mat_sparse_alist(alist_file));
   }
 
-  void LDPC_Parity::save_alist(std::string alist_file) const
+  void LDPC_Parity::save_alist(const std::string& alist_file) const
   {
     GF2mat_sparse_alist alist = export_alist();
     alist.write(alist_file);
@@ -398,9 +397,6 @@ namespace itpp {
 	      set(j,l-ncheck,1);
 	      set(p,k-ncheck,1);
 	      
-	      // cout << "Number of cycles remaining: " 
-	      // << check_for_cycles(r) << endl;
-
 	      // Update adjacency matrix
 	      it_assert_debug(G(p,l)==1 && G(l,p)==1 && G(j,k)==1 
 			 && G(k,j)==1,"G");
@@ -425,8 +421,6 @@ namespace itpp {
 	      Gpow(2)=G*G;
 	      for (int z=3; z<=r/2; z++) {
 		Gpow(z) = Gpow(z-1)*G;
-		//	      cout << "power: " << z << "    density: " 
-		// << Gpow(z).density() << endl;
 	      }
 
 	      traverse_again=true;
@@ -591,14 +585,14 @@ namespace itpp {
   // ----------------------------------------------------------------------
 
   LDPC_Parity_Regular::LDPC_Parity_Regular(int Nvar, int k, int l, 
-					   std::string method,
+					   const std::string& method,
 					   const ivec& options)
   {
     generate(Nvar, k, l, method, options);
   }
 
   void LDPC_Parity_Regular::generate(int Nvar, int k, int l, 
-				     std::string method,
+				     const std::string& method,
 				     const ivec& options)
   {
     int Ncheck_actual = round_i(Nvar * k / static_cast<double>(l));
@@ -625,7 +619,7 @@ namespace itpp {
   LDPC_Parity_Irregular::LDPC_Parity_Irregular(int Nvar, 
 					       const vec& var_deg, 
 					       const vec& chk_deg, 
-					       std::string method,
+					       const std::string& method,
 					       const ivec& options)
   {
     generate(Nvar, var_deg, chk_deg, method, options);
@@ -633,7 +627,7 @@ namespace itpp {
 
   void LDPC_Parity_Irregular::generate(int Nvar, const vec& var_deg,
 				       const vec& chk_deg,
-				       std::string method,
+				       const std::string& method,
 				       const ivec& options)
   {
     // compute the degree distributions from a node perspective
@@ -813,7 +807,7 @@ namespace itpp {
   }
 
 
-  void LDPC_Generator_Systematic::save(std::string filename) const
+  void LDPC_Generator_Systematic::save(const std::string& filename) const
   {
     it_file f(filename);
     int fileversion;
@@ -826,7 +820,7 @@ namespace itpp {
   }
 
 
-  void LDPC_Generator_Systematic::load(std::string filename)
+  void LDPC_Generator_Systematic::load(const std::string& filename)
   {
     it_ifile f(filename);
     int fileversion;
@@ -846,39 +840,40 @@ namespace itpp {
   
   void LDPC_Generator_Systematic::encode(const bvec &input, bvec &output)
   {
-    it_assert(init_flag,
-	      "LDPC_Generator_Systematic::encode(): Systematic generator not set up");
-    it_assert(input.size() == G.cols(), 
-	      "LDPC_Generator_Systematic::encode(): Improper input vector size (" 
-	      << input.size() << " != " << G.cols() << ")");
+    it_assert(init_flag, "LDPC_Generator_Systematic::encode(): Systematic "
+	      "generator not set up");
+    it_assert(input.size() == G.cols(), "LDPC_Generator_Systematic::encode(): "
+	      "Improper input vector size (" << input.size() << " != " 
+	      << G.cols() << ")");
 
     output = concat(input, G * input);
   }
 
 
-  // ---------------------------------------------------------------------------
+  // ----------------------------------------------------------------------
   // LDPC_Code
-  // ---------------------------------------------------------------------------
+  // ----------------------------------------------------------------------
 
   LDPC_Code::LDPC_Code(): H_is_defined(false), G(0)
   { 
     setup_decoder();
   }
 
-  LDPC_Code::LDPC_Code(const LDPC_Parity* const H, LDPC_Generator* const G_in):
-    H_is_defined(false)
+  LDPC_Code::LDPC_Code(const LDPC_Parity* const H, 
+		       LDPC_Generator* const G_in): H_is_defined(false)
   {
     set_code(H, G_in);
   }
 
-  LDPC_Code::LDPC_Code(std::string filename, LDPC_Generator* const G_in): 
-    H_is_defined(false)
+  LDPC_Code::LDPC_Code(const std::string& filename, 
+		       LDPC_Generator* const G_in): H_is_defined(false)
   {
     load_code(filename, G_in);
   }
 
 
-  void LDPC_Code::set_code(const LDPC_Parity* const H, LDPC_Generator* const G_in)
+  void LDPC_Code::set_code(const LDPC_Parity* const H, 
+			   LDPC_Generator* const G_in)
   {
     decoder_parameterization(H);
     G = G_in;
@@ -886,7 +881,8 @@ namespace itpp {
     setup_decoder();
   }
 
-  void LDPC_Code::load_code(std::string filename, LDPC_Generator* const G_in)
+  void LDPC_Code::load_code(const std::string& filename, 
+			    LDPC_Generator* const G_in)
   {
     it_info_debug("LDPC_Code::LDPC_Code(): Loading LDPC codec from " 
 		  << filename);  
@@ -912,16 +908,17 @@ namespace itpp {
     if (G != 0)
       G->load(filename);
     else
-      it_info_debug("LDPC_Code::load_code(): Missing generator object - generator data not loaded");
+      it_info_debug("LDPC_Code::load_code(): Missing generator object - "
+		    "generator data not loaded");
       
-    it_info_debug("LDPC_Code::load_code(): Successfully loaded LDPC codec from " 
-		  << filename);  
+    it_info_debug("LDPC_Code::load_code(): Successfully loaded LDPC codec "
+		  "from " << filename);  
 
     integrity_check();
     setup_decoder();
   }
 
-  void LDPC_Code::save_code(std::string filename) const
+  void LDPC_Code::save_code(const std::string& filename) const
   {
     it_info_debug("LDPC_Code::save_to_file(): Saving LDPC codec to "
 		  << filename);
@@ -943,14 +940,16 @@ namespace itpp {
     if (G != 0)
       G->save(filename);
     else
-      it_info_debug("LDPC_Code::save_code(): Missing generator object - generator data not saved");
+      it_info_debug("LDPC_Code::save_code(): Missing generator object - "
+		    "generator data not saved");
 
     it_info_debug("LDPC_Code::save_code(): Successfully saved LDPC codec to "
 		  << filename);  
   }
 
 
-  void LDPC_Code::setup_decoder(std::string method_in, ivec options_in, 
+  void LDPC_Code::setup_decoder(const std::string& method_in,
+				ivec options_in, 
 				const LLR_calc_unit lcalc)
   {
     dec_method=method_in;
@@ -1606,15 +1605,15 @@ namespace itpp {
       cdeg(C.sumX1(j))++;
     }
     
-    os << "---------- LDPC codec -----------------" << std::endl;
-    os << "Nvar=" << C.get_nvar() << "  Ncheck=" << C.get_ncheck() 
-       << "  rate=" << C.get_rate() << std::endl;
-    os << "Column degrees (node perspective): " << cdeg << std::endl;
-    os << "Row degrees (node perspective): " << rdeg << std::endl;
-    os << "---------------------------------------" << std::endl;
-    os << "Decoder parameters: dec_method=" << C.dec_method 
-       << ". Decoder options: " << C.dec_options << std::endl;
-    os << C.llrcalc << std::endl;
+    os << "---------- LDPC codec -----------------\n"
+       << "Nvar=" << C.get_nvar() << "  Ncheck=" << C.get_ncheck() 
+       << "  rate=" << C.get_rate() << "\n"
+       << "Column degrees (node perspective): " << cdeg << "\n"
+       << "Row degrees (node perspective): " << rdeg << "\n"
+       << "---------------------------------------\n"
+       << "Decoder parameters: dec_method=" << C.dec_method 
+       << ". Decoder options: " 
+       << C.dec_options << "\n" << C.llrcalc << "\n";
     return os;
   }
 
