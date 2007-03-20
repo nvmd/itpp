@@ -115,13 +115,16 @@ namespace itpp {
   class Random_Generator {
   public:
     //! Construct a new Random_Generator.    
-    Random_Generator();
+    Random_Generator() { if (!initialized) reset(4357U); }
+    //! Construct Random_Generator object using \c seed
+    Random_Generator(unsigned int seed) { reset(seed); }
     //! Set the seed to a semi-random value (based on hashed time and clock).
-    void randomize();
+    void randomize() { reset(hash(time(0), clock())); }
     //! Reset the source. The same sequance will be generated as the last time.
-    void reset() { initialize(lastSeed); reload(); }
+    void reset() { initialize(last_seed); reload(); initialized = true; }
     //! Reset the source after setting the seed to seed.
-    void reset(unsigned int seed) { lastSeed = seed; initialize(lastSeed); reload(); }
+    void reset(unsigned int seed) { last_seed = seed; reset(); }
+
     //! Return a uniformly distributed [0,2^32-1] integer.
     unsigned int random_int()
     {
@@ -137,19 +140,28 @@ namespace itpp {
     }
 
     //! Return a uniformly distributed (0,1) value.
-    double random_01() { return (double(random_int()) + 0.5) * (1.0/4294967296.0); }
+    double random_01() { return (random_int() + 0.5) * (1.0/4294967296.0); }
     //! Return a uniformly distributed [0,1) value.
-    double random_01_lclosed() { return double(random_int()) * (1.0/4294967296.0); }
+    double random_01_lclosed() { return random_int() * (1.0/4294967296.0); }
     //! Return a uniformly distributed [0,1] value.
-    double random_01_closed() { return double(random_int()) * (1.0/4294967295.0); }
+    double random_01_closed() { return random_int() * (1.0/4294967295.0); }
+    //! Return a uniformly distributed [0,1) value in 53-bit resolution.
+    double random53_01_lclosed()
+    { 
+      return ((random_int() >> 5) * 67108864.0 + (random_int() >> 6)) 
+	* (1.0/9007199254740992.0); // by Isaku Wada
+    }
+
     //! Save current full state of generator in memory
     void get_state(ivec &out_state);
     //! Resume the state saved in memory. Clears memory.
     void set_state(ivec &new_state);
-  protected:
+
   private:
+    //! initialization flag
+    static bool initialized;
     //! seed used for initialisation
-    unsigned int lastSeed;
+    unsigned int last_seed;
     //! internal state
     static unsigned int state[624];
     //! next value to get from state
@@ -157,13 +169,15 @@ namespace itpp {
     //! number of values left before reload needed
     static int left;
 
-    //!
+    /*!
+     * \brief Initialize generator state with seed.
+     * See Knuth TAOCP Vol 2, 3rd Ed, p.106 for multiplier.
+     * \note In previous versions, most significant bits (MSBs) of the seed
+     * affect only MSBs of the state array. Modified 9 Jan 2002 by Makoto
+     * Matsumoto. 
+     */
     void initialize( unsigned int seed )
     {
-      // Initialize generator state with seed
-      // See Knuth TAOCP Vol 2, 3rd Ed, p.106 for multiplier.
-      // In previous versions, most significant bits (MSBs) of the seed affect
-      // only MSBs of the state array.  Modified 9 Jan 2002 by Makoto Matsumoto.
       register unsigned int *s = state;
       register unsigned int *r = state;
       register int i = 1;
@@ -174,11 +188,13 @@ namespace itpp {
 	  r++;
 	}
     }
-    //!
+    
+    /*!
+     * \brief Generate N new values in state. 
+     * Made clearer and faster by Matthew Bellew (matthew.bellew@home.com)
+     */
     void reload()
     {
-      // Generate N new values in state
-      // Made clearer and faster by Matthew Bellew (matthew.bellew@home.com)
       register unsigned int *p = state;
       register int i;
       for( i = 624 - 397; i--; ++p )
@@ -203,7 +219,7 @@ namespace itpp {
      * ----------------------------------------------------------------------
      * --- ediap - 2007/01/17 ---
      * ----------------------------------------------------------------------
-     * Richard's implementation of the twist() function is was follows:
+     * Wagners's implementation of the twist() function was as follows:
      *  { return m ^ (mixBits(s0,s1)>>1) ^ (-loBit(s1) & 0x9908b0dfU); }
      * However, this code caused a warning/error under MSVC++, because
      * unsigned value loBit(s1) is being negated with `-' (c.f. bug report
