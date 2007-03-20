@@ -37,24 +37,14 @@
 
 namespace itpp { 
 
-  int Random_Generator::left = 0;
-  unsigned int Random_Generator::state[624];
-  unsigned int *Random_Generator::pNext;
-
-  //! Variable used to ensure proper seed initialization 
-  static bool __Random_Generator_seed_is_initialized = false; 
-
   ///////////////////////////////////////////////
   // Random_Generator
   ///////////////////////////////////////////////
 
-  Random_Generator::Random_Generator() : lastSeed( 4357U )
-  {
-    if (!__Random_Generator_seed_is_initialized){
-      reset();
-      __Random_Generator_seed_is_initialized = true;
-    }
-  }
+  bool Random_Generator::initialized = false; 
+  int Random_Generator::left = 0;
+  unsigned int Random_Generator::state[624];
+  unsigned int *Random_Generator::pNext;
 
   unsigned int Random_Generator::hash( time_t t, clock_t c )
   {
@@ -78,12 +68,6 @@ namespace itpp {
 	h2 += p[j];
       }
     return ( h1 + differ++ ) ^ h2;
-  }
-
-  void Random_Generator::randomize()
-  {
-    lastSeed = hash(time(0), clock());
-    reset();
   }
 
   void Random_Generator::get_state(ivec &out_state)
