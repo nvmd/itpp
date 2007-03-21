@@ -1,3 +1,13 @@
+2007-03-21  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* win32/itpp_acml.sln, win32/itpp_acml.vcproj, win32/itpp_mkl.sln,
+	win32/itpp_mkl.vcproj, doc/local/installation.doc,
+	doc/local/linking.doc, itpp/config_msvc.h, win32/itpp.sln,
+	win32/itpp.vcproj, win32/Makefile.am: Added a new MSVC++ project
+	file for linking IT++ with ACML (PGI build for Windows).
+	Installation manual and "Linking with IT++" document updated to
+	reflect these changes.
+
 2007-03-20  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/random.cpp, itpp/base/random.h: Added

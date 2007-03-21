@@ -22,14 +22,20 @@
 /* Define to 1 if you have the `atanh' function. */
 /* #undef HAVE_ATANH */
 
+#if defined(HAVE_ACML) || defined(HAVE_MKL)
 /* Define if you have a BLAS library. */
-#define HAVE_BLAS 1
+#  define HAVE_BLAS 1
+#endif
 
+#if defined(HAVE_ACML) || defined(HAVE_MKL)
 /* Define if you have CBLAS library. */
-#define HAVE_CBLAS 1
+#  define HAVE_CBLAS 1
+#endif
 
+#ifdef HAVE_ACML
 /* Define if you have ACML CBLAS library. */
-/* #undef HAVE_CBLAS_ACML */
+#  define HAVE_CBLAS_ACML 1
+#endif
 
 /* Define to 1 if you have the `cbrt' function. */
 /* #undef HAVE_CBRT */
@@ -56,17 +62,23 @@
 /* Define to 1 if you have the `erfc' function. */
 /* #undef HAVE_ERFC */
 
+#if defined(HAVE_ACML) || defined(HAVE_MKL)
 /* Define if you have FFT library. */
-#define HAVE_FFT 1
+#  define HAVE_FFT 1
+#endif
 
 /* Define if you have FFTW3 library. */
 /* #undef HAVE_FFTW3 */
 
+#ifdef HAVE_ACML
 /* Define if you have ACML FFT library. */
-/* #undef HAVE_FFT_ACML */
+#  define HAVE_FFT_ACML 1
+#endif
 
+#ifdef HAVE_MKL
 /* Define if you have MKL8 FFT library. */
-#define HAVE_FFT_MKL8 1
+#  define HAVE_FFT_MKL8 1
+#endif
 
 /* Define to 1 if you have the `finite' function. */
 /* #undef HAVE_FINITE */
@@ -98,8 +110,10 @@
 /* Define to 1 if you have the `isnan' function. */
 /* #undef HAVE_ISNAN */
 
+#if defined(HAVE_ACML) || defined(HAVE_MKL)
 /* Define if you have LAPACK library. */
-#define HAVE_LAPACK 1
+#  define HAVE_LAPACK 1
+#endif
 
 /* Define to 1 if you have the `lgamma' function. */
 /* #undef HAVE_LGAMMA */
