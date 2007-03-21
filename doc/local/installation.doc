@@ -534,67 +534,47 @@ guarantees that you start with a clean directory, in the event you would
 repeat the installation procedure.
 
 
-\section msvc IT++ Compilation and Installation using Microsoft Visual C++ .NET and Intel MKL
+\section msvc IT++ Compilation and Installation using Microsoft Visual C++ .NET
 
 It is possible to compile and link the IT++ library using the 
 <a href="http://msdn.microsoft.com/visualc/">Microsoft Visual C++ .NET</a>
-compiler and
-<a href="http://www.intel.com/cd/software/products/asmo-na/eng/perflib/mkl/">Intel
-Math Kernel Library (MKL)</a>.
+compiler and either
+<a href="http://www.intel.com/cd/software/products/asmo-na/eng/perflib/mkl/">
+Intel Math Kernel Library (MKL)</a> or 
+<a href="http://developer.amd.com/acml.aspx">AMD Core Math Library (ACML)</a>.
 
-First of all you need to install the MKL libraries into your system. This
-documentation assumes that you have already downloaded an installer with
-Intel MKL 8.1 for Windows. Please follow the default steps of the MKL
-installer, which should install files into 
-<tt>"C:\Program Files\Intel\MKL\8.1"</tt> location on your disk. During the
-installation procedure, the MKL installer ask if PATH, LIB and INCLUDE
-environment variables should be set appropriately. Check this option, since
-this step is required for for Windows to find the MKL dll files. After
-waiting a few dozens of seconds you should have the MKL libraries installed
-on your computer.
+First, you need to install ACML or MKL in your system. If you decided to use
+ACML, please download the library built with PGI compiler for Windows, e.g.
+<tt>acml3.6.0-32-pgi.exe</tt> file for 32-bit systems. Please follow the
+default installation steps of the ACML or MKL installer. Intel's library is
+installed by default in the following directory: 
+<tt>"C:\Program Files\Intel\MKL\<VERSION>"</tt>.
+During the installation procedure, the installer ask if PATH, LIB and
+INCLUDE environment variables should be set appropriately. Check this
+option, since this step is required for for Windows to find the MKL dll
+files. The ACML is installed in 
+<tt>"C:\Program Files\AMD\acml<VERSION>"</tt> by default. After waiting a
+few dozens of seconds you should have the external libraries installed on
+your computer.
 
 The next step is to compile and link the IT++ library. Assuming that you
-have already downloaded and unpacked the IT++ package, you should find a
-MSVC++ .NET project file <tt>itpp.vcproj</tt> in the <tt>win32</tt>
-sub-directory. Open this project file in the MSVC++ .NET environment. There
-are two default targets prepared for compilation and linking: <tt>Debug</tt>
-and <tt>Release</tt>. The former can be used to compile a non-optimised
-version of the library for debugging purposes, named
-<tt>itpp_debug.lib</tt>, whereas the latter one should produce an optimised
-library named <tt>itpp.lib</tt>. Both libraries are static ones and they
-should be created in <tt>win32/libs</tt> sub-directory.
+have already downloaded and unpacked the IT++ package, you should find
+MSVC++ .NET project files <tt>itpp_acml.vcproj</tt> and
+<tt>itpp_mkl.vcproj</tt> in the <tt>win32</tt> directory. Depending on the
+installed external libraries (ACML or MKL), open one of these project files
+in the MSVC++ .NET environment. There are two default targets prepared for
+compilation and linking: <tt>Debug</tt> and <tt>Release</tt>. The former can
+be used to compile a non-optimised version of the library for debugging
+purposes, named <tt>itpp_debug.lib</tt>, whereas the latter one should
+produce an optimised library named <tt>itpp.lib</tt>. Both libraries are
+static ones and they should be created in <tt>win32/libs</tt> directory. The
+current project files are configured for the MKL in version 8.1 and ACML in
+version 3.6.0. If you have different versions or/and you installed them in
+non-standard locations, please update the include paths in the relevant
+project files.
 
-Finally, you can start using the IT++ library with your own programs and
-link them with IT++ and MKL. Observe that several things need to be
-correctly set up:
-- The IT++ include directory must be defined. Settings for this can be found
-in the menu <tt>"Tools -&gt; Options -&gt; Projects and Solutions -&gt; VC++
-Directories -&gt; Include files"</tt>. Add a path to 
-<tt>"<IT++ source directory>"</tt>, e.g. <tt>"C:\itpp-3.10.4"</tt>.
-- The IT++ library directory must be defined. Settings for this can be found
-in the menu <tt>"Tools -&gt; Options -&gt; Projects and Solutions -&gt; VC++
-Directories -&gt; Library files"</tt>. Add a path to 
-<tt>"<IT++ source directory>\win32\libs"</tt>, e.g.
-<tt>"C:\itpp-3.10.4\win32\libs"</tt>.
-- The MKL library directory must be defined. Add another library path with
-<tt>"C:\Program Files\Intel\MKL\8.1\ia32\lib"</tt>.
-- Linking with IT++ and MKL must be set up. Do this by marking your project
-and go to the menu <tt>"Project -&gt; Properties -&gt; Configuration
-Properties -&gt; Linker -&gt; Input -&gt; Additional Dependencies"</tt>.
-There you need to add <tt>itpp_debug.lib</tt> or <tt>itpp.lib</tt> depending
-on whether Debug or Release mode are being used. Furthermore, you need to
-add <tt>mkl_c_dll.lib</tt>.
-- The runtime library for linking needs to be set to <tt>Multi-threaded
-Debug</tt> or <tt>Multi-threaded</tt>. This option can be set in the menu
-<tt>"Project -&gt; Properties -&gt; Configuration Properties -&gt; C/C++
--&gt; Code Generation -&gt; Runtime Library"</tt>.
-- Two additional definitions: <tt>_CRT_SECURE_NO_DEPRECATE</tt> and
-<tt>_CRT_NONSTDC_NO_DEPRECATE</tt>, which disable warnings on C Standard
-Library and POSIX-compilant function names, might be also added in
-<tt>"Project -&gt; Properties -&gt; Configuration Properties -&gt; C/C++
--&gt; Preprocessor -&gt; Preprocessor Definitions"</tt>.
-
-Please note that Project settings for your program must be made for both the
-Debug and Release modes.
+IT++ should compile and link without any warnings or errors. To learn how to
+set up your own project for linking with the IT++ library and ACML or MKL,
+please read the following manual: \ref msvc_linking.
 
 */
