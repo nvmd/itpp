@@ -15,6 +15,7 @@
     - \ref cygwin_acml_3_99
     - \ref mingw_acml_3_99
     - \ref mingw_netlib_3_99
+    - \ref msvc_acml_3_99
     - \ref msvc_mkl_3_99
   - \ref unix_3_99
     - \ref sunos59_atlas_3_99
@@ -222,21 +223,39 @@ mentioned below, please let us know, so we could update this database.
 - <b>Tester</b>: Adam Piątyszek (ediap)
 
 
+\subsubsection msvc_acml_3_99 MS Visual C++ .NET with ACML
+
+- <b>Platform</b>: AMD Sempron 3000+
+- <b>Operating System</b>: Microsoft Windows XP SP2
+- <b>Compiler(s)</b>: Microsoft Visual C++ 2005 .NET
+- <b>IT++ release</b>: 3.99.1
+- <b>External Libraries</b>: ACML version 3.6.0 (PGI)
+  (<tt>acml3.6.0-32-pgi.exe</tt>) installed into a default directory, 
+  i.e. <tt>"c:\Program Files\AMD\acml3.6.0"</tt>
+- <b>Tests Status</b>: Not fully tested. Some IT++ based programs compiled
+  and run with success.
+- <b>Comments</b>: Only static library can be built. IT++ built by opening 
+  the <tt>"win32\itpp_acml.vcproj"</tt> project file in MSVC++ and executing
+  <tt>"Build -> Build Solution"</tt> command from menu.
+- <b>Date</b>: March 21, 2007
+- <b>Tester</b>: Adam Piątyszek (ediap)
+
+
 \subsubsection msvc_mkl_3_99 MS Visual C++ .NET with Intel MKL
 
 - <b>Platform</b>: AMD Sempron 3000+
 - <b>Operating System</b>: Microsoft Windows XP SP2
 - <b>Compiler(s)</b>: Microsoft Visual C++ 2005 .NET
-- <b>IT++ release</b>: 3.99.0
+- <b>IT++ release</b>: 3.99.1
 - <b>External Libraries</b>: Intel Math Kernel Library (MKL) 8.1 installed
   manually in the following directory:
   <tt>"C:\Program Files\Intel\MKL\8.1"</tt>
 - <b>Tests Status</b>: Not fully tested. Some IT++ based programs compiled
   and run with success.
 - <b>Comments</b>: Only static library can be built. IT++ built by opening 
-  the <tt>"win32\itpp.vcproj"</tt> project file in MSVC++ and executing
+  the <tt>"win32\itpp_mkl.vcproj"</tt> project file in MSVC++ and executing
   <tt>"Build -> Build Solution"</tt> command from menu.
-- <b>Date</b>: January 17, 2007
+- <b>Date</b>: March 21, 2007
 - <b>Tester</b>: Adam Piątyszek (ediap)
 
 
