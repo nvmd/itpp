@@ -20,6 +20,11 @@ New features:
 
 * MS Visual C++ .NET project file for linking IT++ with ACML added
 
+* Added man page for itpp-config script
+
+* Added test file for a binary it_file format. It is supposed to detect
+  wrong endianness detection on various platforms.
+
 
 Modifications:
 --------------
@@ -30,10 +35,28 @@ Modifications:
   for creating new generation methods and parity check matrix
   representations by end users.
 
+* Improved and reorganised existing error handling macros:
+  - using standard NDEBUG flag for controlling it_assert_debug() macro,
+    which replaced a three-level ASSERT_LEVEL definition
+  - for backward compatibility it_assert0() and it_assert1() now behaves the
+    same as it_assert_debug()
+  - added new it_info() and it_info_debug() macros for printing information
+    messages; it_info_debug() is also dependent on the NDEBUG compile-time
+    definition
+  - added it_error_msg_style() function for changing the format of
+    it_assert(), it_error() and it_warning() messages; if style is set to
+    Minimum, file name and line number of the error/assert/warning macro is
+    not printed
+
 * Portability improved by replacing "unsigned short int" with 8-bit
   "unsigned char" type for storing data bits in GF2mat
 
 * Improved the speed and portability of external libraries detection macros
+
+* Replaced long with int in many sources, since long and int have the same
+  sizes on most IT++ supported architectures. If there is a need for 64-bit
+  integers, due to portability reasons (u)int64_t type should be used
+  instead of long.
 
 
 Bug-fixes:
@@ -44,6 +67,15 @@ Bug-fixes:
 
 * Fixed a bug in BLAS detection, when an explicit library is passed to the
   script configure using "--with-blas=" option.
+
+* Fixed improper declarations of ls_solve_od() and ls_solve_ud() methods
+
+* Protected inheritance of the Convolutional_Code class replaced with a
+  public one. This fixes the problem of assigning the
+  Punctured_Convolutional_Code class object to a pointer of Channel_Code
+  class.
+
+* Minor documentation fixes in many places
 
 
 ===============================================================================
