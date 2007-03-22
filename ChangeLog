@@ -1,5 +1,7 @@
 2007-03-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* NEWS: Updated to reflect recent changes
+
 	* doc/local/verification.doc: Added a new verification report for
 	MSVC++ .NET and IT++ with ACML
 

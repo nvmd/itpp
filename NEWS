@@ -1,4 +1,52 @@
 ===============================================================================
+IT++ version 3.99.1                                        Released: 2007-03-22
+-------------------------------------------------------------------------------
+
+This is the next development release of the IT++ 3.99.x series. Below is a
+brief summary of the most important new features, modifications and bug
+fixes, as compared to the previous release 3.99.0. Please note that some
+interfaces have changed, so you might need to update your programs linking
+to this version.
+
+
+New features:
+-------------
+
+* Random number generator extended with random53_01_lclosed() function,
+  which generates [0,1) values in 53-bit resolution.
+
+* Added missing	read/write operators for char variables in it_file and
+  it_ifile classes
+
+* MS Visual C++ .NET project file for linking IT++ with ACML added
+
+
+Modifications:
+--------------
+
+* LDPC_Parity_Matrix and LDPC_Generator_Matrix classes split into a set of
+  specialized classes, which inherits from the base classes LDPC_Parity and
+  LDPC_Generator. The new inheritance model provides a flexible interface
+  for creating new generation methods and parity check matrix
+  representations by end users.
+
+* Portability improved by replacing "unsigned short int" with 8-bit
+  "unsigned char" type for storing data bits in GF2mat
+
+* Improved the speed and portability of external libraries detection macros
+
+
+Bug-fixes:
+---------
+
+* Fixed bug [1661419] by adding default constructors to the QAM, PSK, PAM_c
+  and PAM modulator classes. Thanks to Jordy Potman for reporting this bug.
+
+* Fixed a bug in BLAS detection, when an explicit library is passed to the
+  script configure using "--with-blas=" option.
+
+
+===============================================================================
 IT++ version 3.99.0                                        Released: 2007-01-21
 -------------------------------------------------------------------------------
 
