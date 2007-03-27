@@ -1,3 +1,9 @@
+2007-03-27  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac: Version bump
+
+==============================================================================
+	
 2007-03-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* IT++ 3.99.1 released (SVN tag: release-3-99-1)
