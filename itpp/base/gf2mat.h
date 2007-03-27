@@ -198,6 +198,9 @@ namespace itpp {
     //! Create a dense GF(2) matrix from a bmat
     GF2mat(const bmat &X);
 
+    //! Set size of GF(2) matrix. If copy = true, keep data before resizing.
+    void set_size(int m, int n, bool copy = false);
+
     //! Create a sparse GF(2) matrix from a dense GF(2) matrix
     GF2mat_sparse sparsify() const;
 
