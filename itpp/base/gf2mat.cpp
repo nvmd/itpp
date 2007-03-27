@@ -394,6 +394,18 @@ namespace itpp {
     }
   }
 
+
+  void GF2mat::set_size(int m, int n, bool copy)
+  {
+    nrows = m;
+    ncols = n;
+    nwords = (ncols >> shift_divisor) + 1;
+    data.set_size(nrows, nwords, copy);
+    if (!copy)
+      data.clear();
+  }
+
+
   GF2mat_sparse GF2mat::sparsify() const
   {
     GF2mat_sparse Z(nrows,ncols);

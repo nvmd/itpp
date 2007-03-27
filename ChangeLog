@@ -1,5 +1,9 @@
 2007-03-27  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/gf2mat.cpp, itpp/base/gf2mat.h: Added set_size()
+	method to the GF2mat class, which is compatible with Mat's
+	set_size() function.
+
 	* configure.ac: Version bump
 
 ==============================================================================
