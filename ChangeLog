@@ -1,3 +1,10 @@
+2007-03-30  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/ldpc.cpp, itpp/comm/ldpc.h: Fixed a small bug in the
+	integrity_check() function. Some of the private data and methods
+	made protected to allow access by the classes who might inherit
+	from the LDPC_Code.
+
 2007-03-27  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/gf2mat.cpp, itpp/base/gf2mat.h: Added set_size()

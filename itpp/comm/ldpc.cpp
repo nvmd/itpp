@@ -1574,11 +1574,12 @@ namespace itpp {
     if (G != 0) {
       it_info_debug("LDPC_Code::integrity_check(): Checking integrity of "
 		    "the LDPC_Parity and LDPC_Generator data");
-      bvec bv(nvar-ncheck);
+      bvec bv(nvar-ncheck), cw;
       bv.clear(); 
       bv(0) = 1;
       for (int i = 0; i < nvar-ncheck; i++) {
-	it_assert(syndrome_check(encode(bv)),
+	G->encode(bv, cw);
+	it_assert(syndrome_check(cw),
 		  "LDPC_Code::integrity_check(): Syndrom check failed");
 	bv.shift_right(bv(nvar-ncheck-1));
       }
