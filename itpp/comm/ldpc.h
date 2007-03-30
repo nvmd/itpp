@@ -699,29 +699,30 @@ namespace itpp {
 
     //! Print some properties of the codec in plain text
     friend std::ostream &operator<<(std::ostream &os, const LDPC_Code &C);
-           
+
+  protected:
+    bool H_is_defined;		//!< true if parity check matrix is defined
+    int nvar;			//!< Number of variable nodes
+    int ncheck;			//!< Number of check nodes
+    LDPC_Generator *G;		//!< Generator object pointer
+    LLR_calc_unit llrcalc; 	//!< LLR calculation unit 
+
+    //! Function to check the integrity of the parity check matrix and generator
+    void integrity_check();
+
+    //! Function to compute decoder parameterization 
+    void decoder_parameterization(const LDPC_Parity* const H);
+
   private:
     // Parity check matrix parameterization 
-    bool H_is_defined;        // true if the parity check matrix defined
-    int nvar, ncheck;
     ivec C, V, sumX1, sumX2, iind, jind;  
 
-    // Generator object pointer
-    LDPC_Generator* G;  
-     
     // decoder parameters
-    LLR_calc_unit llrcalc; 
     std::string dec_method;
     ivec dec_options;
 
     // temporary storage for decoder (memory allocated when codec defined)
     QLLRvec mvc, mcv;
-
-    // Function to compute decoder parameterization 
-    void decoder_parameterization(const LDPC_Parity* const H);
-
-    // Function to check the integrity of the parity check matrix and generator
-    void integrity_check();
   };
 
 
