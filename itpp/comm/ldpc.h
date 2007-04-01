@@ -49,10 +49,10 @@ namespace itpp {
   /*!
     \brief LDPC parity check matrix generic class
 
-    This class provides a basic set of function needed to represent a
-    parity check matrix, which defines an LDPC code. This class is a base
-    class for a set of specific LDPC parity check matrix classes, e.g.
-    regular or irregular LDPC code generators.
+    This class provides a basic set of functions needed to represent a
+    parity check matrix, which defines an LDPC code. This class is
+    used as base class for a set of specific LDPC parity check matrix
+    classes, e.g. regular or irregular LDPC codes.
 
     This class stores a parity check matrix as a sparse matrix.  The
     transpose of the matrix is also stored to enable efficient access
@@ -62,10 +62,10 @@ namespace itpp {
     converting them from (to) a portable \c GF2mat_sparse_alist format.
 
     However, typically one will want to create a \c LDPC_Code from the
-    parity check matrix (and optionally a generator) and save the codec
-    binary data instead. 
+    parity check matrix (and optionally a generator) and save the
+    codec binary data instead.
 
-    Please refer to the tutorial \ref ldpc_gen_codes for extensive examples
+    Please refer to the tutorial \ref ldpc_gen_codes for some examples
     of code generation.
     
     \author Erik G. Larsson, Mattias Andersson and Adam Piatyszek
@@ -261,8 +261,15 @@ namespace itpp {
   /*!
     \brief Pure abstract class for unstructured LDPC matrices
     
-    This class provides a common set of methods, which are used by the 
-    \c LDPC_Parity_Irregular and \c LDPC_Parity_Regular generator classes.
+    This class provides a common set of methods for unstructured LDPC
+    matrices. For unstructured codes the parity checks are distributed
+    at random rather than according to a specific pattern, and the
+    generation of a parity matrix can be viewed as drawing a random
+    sample from an ensemble of graphs (matrices) that are described by
+    a specific degree distribution. 
+
+    This class is used as base for the \c LDPC_Parity_Irregular and \c
+    LDPC_Parity_Regular generator classes.
 
     \author Erik G. Larsson, Mattias Andersson and Adam Piatyszek
   */
@@ -322,18 +329,35 @@ namespace itpp {
       perspective
       \param chk_deg vector of check degree distributions, from an edge
       perspective
-      \param method currently the only supported method is "rand" (see below)
+      \param method currently the only provided method is "rand" (see below)
       \param options Determines the level of matrix optimization.  
       
-      The "rand" method generates a fully unstructured random matrix. Some 
-      stochastic optimization is performed to avoid cycles. This optimization
-      is controlled via the parameter \c options. In particular, the girth for
-      the variable-node-degree-2 part of the graph can be controlled via the
-      parameter options(0). The girth for the rest of the nodes can be
-      controlled via the parameter options(1). The recommended value for
-      options is "200 6" for graphs of small size, and "100 4" for large
-      graphs. The value "0 0" means no optimization. Double edges are always
-      avoided.
+      The "rand" method generates a fully unstructured random
+      matrix. Some stochastic optimization is performed to avoid
+      cycles. This optimization is controlled via the parameter \c
+      options. In particular, the girth for the variable-node-degree-2
+      part of the graph can be controlled via the parameter
+      options(0). The girth for the rest of the nodes can be
+      controlled via the parameter options(1). The recommended value
+      for options is "200 6" for graphs of small size, and "100 4" for
+      large graphs. The value "0 0" means no optimization. Double
+      edges are always avoided.
+
+      \note The "rand" method for graph construction provided in this
+      function is not intended to provide the best possible error
+      performance, but it is a simple, basic, fast tool that can
+      easily be used to build relatively good irregular graphs. Better
+      results in terms of performance and error-floor can be achieved
+      by using other performance measures for the graph than cycle
+      length (for irregular codes, the so-called ACE measure for
+      example). Additionally, the "rand" method builds the graph edge
+      by edge, with no possibility of removing an edge once it has
+      been placed. Better results may be achieved by building the
+      graphs by placing pairs or n-tuples of edges at time, for
+      example, column by column.
+
+      \note Alternative (user-defined) methods for code generation can
+      be implemented by inheriting \c LDPC_Parity_Irregular.
     */
     void generate(int Nvar, const vec& var_deg, const vec& chk_deg, 
 		  const std::string& method = "rand", 
@@ -356,7 +380,7 @@ namespace itpp {
   public:
     //! Default constructor
     LDPC_Parity_Regular() {} 
-    //! Constructor that invokes \c construct() method
+    //! Constructor that invokes \c generate() method
     LDPC_Parity_Regular(int Nvar, int k, int l, 
 			const std::string& method = "rand",
 			const ivec& options = "200 6");
@@ -369,6 +393,9 @@ namespace itpp {
       \param l number of ones per row
       \param method See \c LDPC_Parity_Irregular::generate()
       \param options See \c LDPC_Parity_Irregular::generate()
+
+      \note Alternative (user-defined) methods for code generation can
+      be implemented by inheriting \c LDPC_Parity_Regular.
     */
     void generate(int Nvar, int k, int l, 
 		  const std::string& method = "rand",
@@ -386,15 +413,15 @@ namespace itpp {
   /*!
     \brief LDPC Generator pure virtual base class
 
-    This is an abstract base class of the LDPC Generator, which provides a
-    generic interface used by the \c LDPC_Code class. The \c LDPC_Generator
-    class can be inherited to create a new type of generator. Beside the
-    default constructor, the following three pure virtual methods: \c
-    encode(), \c save() and \c load(), needs to be defined in the derived
-    class.
+    This is an abstract base class for LDPC generators. It provides a
+    generic interface that is used by the \c LDPC_Code class. The \c
+    LDPC_Generator class can be inherited to create a new type of
+    generator. In addition to the default constructor, the following
+    three pure virtual methods need to be defined in a derived class:
+    \c encode(), \c save() and \c load().
 
-    See the \c LDPC_Generator_Systematic class for an example implementation
-    of the derived generator.
+    See the \c LDPC_Generator_Systematic class for an example
+    implementation of a derived generator.
 
     \author Adam Piatyszek
   */

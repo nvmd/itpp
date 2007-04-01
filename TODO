@@ -63,17 +63,13 @@ Specific features
     of the matrix/vector multiplication operators.  (See specific
     comments in the code.)
      
-  - Make the data representation dynamic to account for the
-    possibility (?) that a short integer can store more than 16 bits.
-    Or use "int" or "long int"?
-
   - Implement a general GF(2)-matrix class which offers the user a
     transparent interface (user does not need to know whether the
     sparse or the dense representation is used)?
 
 * LDPC classes: (Erik)
-  - Random matrix generation strategy is rather ad hoc but seems to
-    work fairly well. Room for improvement?
+  - Implement ACE-measured based random matrix generation of
+    irregular codes	
 
   - Add more extensive information gathering functions.
 
