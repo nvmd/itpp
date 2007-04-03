@@ -1,5 +1,8 @@
 2007-04-03  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/itfile.cpp: Fixed bug [1693384] caused by a missing
+	explicit cast of string size to int
+
 	* configure.ac, itpp.spec.in: Minor cleanups and improvements
 
 	* AUTHORS, doc/local/authors.doc: Added Gunter Dannoritzer as
