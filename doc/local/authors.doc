@@ -4,20 +4,20 @@
 
 \section admins Project Admins
 
-- Tony Ottosson <tonyottosson@users.sourceforge.net> (\ref N)
-- Adam Piątyszek <ediap@users.sourceforge.net> (\ref N)
+- Tony Ottosson <tonyottosson (at) users.sourceforge.net> (\ref N)
+- Adam Piątyszek <ediap (at) users.sourceforge.net> (\ref N)
 
 
 \section developers Developers
 
-- Johan Bergman <emwjohb@users.sourceforge.net> 
-- Håkan Eriksson <hakanbe@users.sourceforge.net>
-- Thomas Eriksson <thomases2@users.sourceforge.net>
-- Pål Frenger <frenger@users.sourceforge.net>
-- Fredrik Huss <frehu@users.sourceforge.net>
-- Erik G. Larsson <erik_g_larsson@users.sourceforge.net>
-- Conrad Sanderson <conrad_s@users.sourceforge.net>
-- Simon Wood <sgwoodjr@users.sourceforge.net>
+- Johan Bergman <emwjohb (at) users.sourceforge.net> 
+- Håkan Eriksson <hakanbe (at) users.sourceforge.net>
+- Thomas Eriksson <thomases2 (at) users.sourceforge.net>
+- Pål Frenger <frenger (at) users.sourceforge.net>
+- Fredrik Huss <frehu (at) users.sourceforge.net>
+- Erik G. Larsson <erik_g_larsson (at) users.sourceforge.net>
+- Conrad Sanderson <conrad_s (at) users.sourceforge.net>
+- Simon Wood <sgwoodjr (at) users.sourceforge.net>
 
 
 \section retired Retired Developers
@@ -48,11 +48,13 @@
 
 \section distributors Distribution Maintainers
 
-- Kumar Appaiah <akumar@ee.iitm.ac.in>
+- Kumar Appaiah <akumar (at) ee.iitm.ac.in>
   (<a href="http://www.debian.org/">Debian GNU/Linux</a>)
-- Markus Dittrich <markusle@gentoo.org> 
+- Günter Dannoritzer <dannori (at) users.sourceforge.net>
+  (<a href="http://www.opensuse.org/">openSUSE</a>)
+- Markus Dittrich <markusle (at) gentoo.org> 
   (<a href="http://www.gentoo.org/">Gentoo Linux</a>)
-- Ed Hill <edhill@users.sourceforge.net> 
+- Ed Hill <edhill (at) users.sourceforge.net> 
   (<a href="http://fedoraproject.org/wiki/Extras/">Fedora Extras</a>)
 
 \note
