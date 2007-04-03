@@ -1,5 +1,7 @@
 2007-04-03  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac, itpp.spec.in: Minor cleanups and improvements
+
 	* AUTHORS, doc/local/authors.doc: Added Gunter Dannoritzer as
 	openSUSE distribution packages maintainer
 
