@@ -51,15 +51,17 @@ namespace itpp {
 
   void it_assert_f(std::string ass, std::string msg, std::string file, int line)
   {
+    std::ostringstream error;
     if (file_line_info_enabled) {
-      std::cerr << "*** Assertion failed in " << file << " on line " << line
-		<< ":\n" << msg << " (" << ass << ")\n" << std::flush;
+      error << "*** Assertion failed in " << file << " on line " << line
+	    << ":\n" << msg << " (" << ass << ")\n";
     }
     else {
-      std::cerr << msg << " (" << ass << ")\n" << std::flush;
+      error << msg << " (" << ass << ")\n";
     }
+    std::cerr << error << std::flush;
 #ifdef ITPP_EXCEPTIONS
-    throw std::runtime_error(error);
+    throw std::runtime_error(error.str());
 #else
     abort();
 #endif
@@ -67,15 +69,17 @@ namespace itpp {
 
   void it_error_f(std::string msg, std::string file, int line)
   {
+    std::ostringstream error;
     if (file_line_info_enabled) {
-      std::cerr << "*** Error in " << file << " on line " << line << ":\n" 
-		<< msg << std::endl << std::flush;
+      error << "*** Error in " << file << " on line " << line << ":\n" 
+	    << msg << "\n";
     }
     else {
-      std::cerr << msg << std::endl << std::flush;
+      error << msg << "\n";
     }
+    std::cerr << error << std::flush;
 #ifdef ITPP_EXCEPTIONS
-    throw std::runtime_error(error);
+    throw std::runtime_error(error.str());
 #else
     abort();
 #endif
