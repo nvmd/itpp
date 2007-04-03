@@ -718,9 +718,10 @@ namespace itpp {
 
   void it_file::low_level_write(const std::string &str)
   {
-    s << str.size();
+    int size = str.size();
+    s << size;
 
-    for (int i=0; i<(int)str.size(); i++)
+    for (int i=0; i< size; i++)
       s << str[i];
   }
 
