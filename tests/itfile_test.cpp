@@ -37,6 +37,8 @@ using namespace std;
 
 // To run extensive tests uncomment the following definition
 // #define EXTENSIVE_TESTS
+// To rewrite the ITFILE_TEST_FILE uncomment the following definition
+// #define SAVE_DATA
 
 #ifndef ITFILE_TEST_FILE
 
@@ -79,8 +81,8 @@ int main()
     "[(1.1,2) (7,-4e-5); (0,2) (1.5,7.2)]}";
 
   it_file ff;
-  ff.open(string(ITFILE_TEST_FILE));
 #ifdef SAVE_DATA  
+  ff.open(string(ITFILE_TEST_FILE), true);
   ff << Name("c") << c_ref;
   ff << Name("b") << b_ref;
   ff << Name("s") << s_ref;
@@ -105,7 +107,9 @@ int main()
   ff << Name("aim") << aim_ref;
   ff << Name("am") << am_ref;
   ff << Name("acm") << acm_ref;
+  ff.close();
 #endif
+  ff.open(string(ITFILE_TEST_FILE), false);
   ff >> Name("c") >> c;
   ff >> Name("b") >> b;
   ff >> Name("s") >> s;
