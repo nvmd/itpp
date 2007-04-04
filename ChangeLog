@@ -1,3 +1,8 @@
+2007-04-04  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* tests/itfile_test.cpp, tests/itfile_test_data.it,
+	tests/itfile_test.ref: IT++ file format test program improved
+
 2007-04-03  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/itassert.cpp: Fixed a compilation problem when IT++ is
