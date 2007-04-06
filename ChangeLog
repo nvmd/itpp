@@ -1,3 +1,12 @@
+2007-04-06  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/vec.cpp, tests/vec_test.cpp, tests/vec_test.ref: Fixed
+	a minor bug in the set() method, when parsing an "a:b" or "a:b:c"
+	fromat. Due to precision problems the last value from some
+	specific ranges was not included in the result, e.g. "0:0.2:3"
+	resulted in a vector with 2.8 at the end (instead of 3). Thanks to
+	Martin Senst for reporting this issue.
+
 2007-04-04  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/itfile_test.cpp, tests/itfile_test_data.it,
