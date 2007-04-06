@@ -128,6 +128,14 @@ int main()
   cout << "Testing double vector initialisation with: \"-10.000 :.5:-4.5\":" 
        << endl << "v = " << v << endl;
 
+	v = "0:.2: 3";
+  cout << "Testing double vector initialisation with: \"0:.2: 3\":" 
+       << endl << "v = " << v << endl;
+  
+	v = "1e0:1.5:1E+1";
+  cout << "Testing double vector initialisation with: \"1e0:1.5:1E+1\":" 
+       << endl << "v = " << v << endl;
+
   iv = "0xA : -010";
   cout << "Testing int vector initialisation with: \"0xA : -010\":" 
        << endl << "iv = " << iv << endl;

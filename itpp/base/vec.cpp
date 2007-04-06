@@ -39,7 +39,7 @@ namespace itpp {
   bool Vec<double>::set(const char *values)
   {
     std::istringstream buffer(values);
-    double b, c;
+    double b, c, eps_margin;
     bool b_parsed = false;
     bool c_parsed = false;
     bool comma = true;
@@ -105,8 +105,11 @@ namespace itpp {
 	it_assert(b_parsed, "Vec<double>::set(): Improper data string (a:b)");
 
 	if (c_parsed) {
+	  // Adding this margin fixes precision problems in e.g. "0:0.2:3",
+	  // where the last value was 2.8 instead of 3.
+	  eps_margin = std::fabs((c - data[pos-1]) / b) * eps;
 	  if (b > 0 && c >= data[pos-1]) {
-	    while (data[pos-1] + b <= c) {
+	    while (data[pos-1] + b <= c + eps_margin) {
 	      if (++pos > maxpos) {
 		maxpos <<= 1;
 		set_size(maxpos, true);
@@ -115,7 +118,7 @@ namespace itpp {
 	    }
 	  }
 	  else if (b < 0 && c <= data[pos-1]) {
-	    while (data[pos-1] + b >= c) {
+	    while (data[pos-1] + b >= c - eps_margin) {
 	      if (++pos > maxpos) {
 		maxpos <<= 1;
 		set_size(maxpos, true);
@@ -131,8 +134,9 @@ namespace itpp {
 	  }
 	} // end if (c_parsed) 
 	else if (b_parsed) {
+	  eps_margin = std::fabs(b - data[pos-1]) * eps;
 	  if (b < data[pos-1]) {
-	    while (data[pos-1] > b) {
+	    while (data[pos-1] -1.0 >= b - eps_margin) {
 	      if (++pos > maxpos) {
 		maxpos <<= 1;
 		set_size(maxpos, true);
@@ -141,7 +145,7 @@ namespace itpp {
 	    }
 	  }
 	  else {
-	    while (data[pos-1] < b) {
+	    while (data[pos-1] + 1.0 <= b + eps_margin) {
 	      if (++pos > maxpos) {
 		maxpos <<= 1;
 		set_size(maxpos, true);
