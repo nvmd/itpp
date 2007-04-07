@@ -1,7 +1,7 @@
-2007-04-06   Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+2007-04-07   Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
-	* itpp/ldpc/ldpc.cpp: "<=" changed to "<" in iteration count in
-	decoder. Thanks to M. Senst for reporting this.
+	* itpp/ldpc/ldpc.cpp, tests/ldpc_test.ref: "<=" changed to "<" in
+	iteration count in decoder. Thanks to M. Senst for reporting this.
 
 2007-04-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 
