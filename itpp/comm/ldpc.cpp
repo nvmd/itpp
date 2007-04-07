@@ -1459,7 +1459,7 @@ namespace itpp {
 	  break;
 	}
       }
-    } while  (iter<=niter);
+    } while  (iter<niter);
    
     if (nvar>=100000) { it_info_debug(""); }
     return (is_valid_codeword ? iter : -iter);
