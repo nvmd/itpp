@@ -1,3 +1,10 @@
+2007-04-10  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* tests/timer_test.cpp, tests/timer_test.ref: CPU_Timer test is
+	now independent of a Real_Timer test. This should solve test
+	failures in some specific cases (high load of CPU, etc.).
+	(merged rev. 993:994 from the itpp-3-10 branch)
+
 2007-04-07   Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/ldpc/ldpc.cpp, tests/ldpc_test.ref: "<=" changed to "<" in
