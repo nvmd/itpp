@@ -31,6 +31,7 @@
 */
 
 #include <itpp/itbase.h>
+#include <iomanip>
 
 using namespace itpp;
 using namespace std;
@@ -83,10 +84,10 @@ int main()
   it_file ff;
 #ifdef SAVE_DATA  
   ff.open(string(ITFILE_TEST_FILE), true);
-  ff << Name("c") << c_ref;
-  ff << Name("b") << b_ref;
-  ff << Name("s") << s_ref;
-  ff << Name("i") << i_ref;
+  ff << Name("c", "char variable") << c_ref;
+  ff << Name("b", "bin variable") << b_ref;
+  ff << Name("s", "short int variable") << s_ref;
+  ff << Name("i", "int variable") << i_ref;
   ff << Name("f") << f_ref;
   ff << Name("d") << d_ref;
   ff << Name("cd") << cd_ref;
@@ -109,7 +110,20 @@ int main()
   ff << Name("acm") << acm_ref;
   ff.close();
 #endif
+  std::string name, type, desc;
+  uint64_t size;
+  int n = 0;
+  cout.setf(ios::fixed);
+  cout << "Name |      Type | Size | Description\n";
+  cout << "------------------------------------------------\n";
   ff.open(string(ITFILE_TEST_FILE), false);
+  while (ff.seek(n++)) {
+    ff.info(name, type, desc, size);
+    cout << setw(4) << name << setw(12) << type << setw(7) << size 
+	 << "   " << desc << endl;
+  }
+  cout << "------------------------------------------------\n\n";
+  cout.setf(ios::scientific);
   ff >> Name("c") >> c;
   ff >> Name("b") >> b;
   ff >> Name("s") >> s;
@@ -188,21 +202,24 @@ int main()
   ff1 << Name("iv1") << iv1 << flush;
   ff1 << Name("iv2") << iv2 << flush;
   ff1.remove("iv1");
-  ff1 << Name("iv1") << ivec("1");
+  ff1 << Name("iv1") << ivec("1") << flush;
   ff1 << Name("iv3") << iv3 << flush;
   ff1 << Name("iv4") << iv3 << flush;
+  ff1.remove("iv3");
+  ff1.low_level().seekg(0, std::ios::end);
+  it_info("Size before packing: " << ff1.low_level().tellg());
+  ff1.pack();
+  ff1.low_level().seekg(0, std::ios::end);
+  it_info("Size after packing:  " << ff1.low_level().tellg());
   ff1.close();
 
-  std::string name, type;
-  int size;
   it_ifile ff2("itfile_test_extensive.it");
-  int n = 0;
+  n = 0;
   while (ff2.seek(n++)) {
-    ff2.info(name, type, size);
-    cout << "Name = " << name << "   Type = " << type << "   Size = " << size 
-	 << endl;
+    ff2.info(name, type, desc, size);
     ff2 >> iv1;
-    cout << iv1 << endl;
+    cout << "Name = " << name << "  Type = " << type << "  Size = " << size 
+	 << "  Desc = \"" << desc << "\"  Data = " << iv1 << endl;
   }
   ff2.close();
 #endif

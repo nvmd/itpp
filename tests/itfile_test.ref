@@ -1,3 +1,31 @@
+Name |      Type | Size | Description
+------------------------------------------------
+   c        int8      1   char variable
+   b         bin      1   bin variable
+   s       int16      2   short int variable
+   i       int32      4   int variable
+   f     float32      4   
+   d     float64      8   
+  cd    cfloat64     16   
+  st      string     29   
+  bv        bvec     13   
+  iv        ivec     28   
+   v        dvec     48   
+  cv       dcvec     40   
+  bm        bmat     22   
+  im        imat     40   
+   m        dmat     64   
+  cm       dcmat     80   
+ abv   bvecArray     50   
+ aiv   ivecArray     68   
+  av    vecArray     80   
+ acv   cvecArray    112   
+ abm   bmatArray     71   
+ aim   imatArray    120   
+  am    matArray    120   
+ acm   cmatArray    168   
+------------------------------------------------
+
 char    : 'c'
           'c'
 bin     : 0

@@ -70,7 +70,7 @@ namespace itpp {
 
   // ----------------------------------------------------------------------
 
-  bool exist(const std::string &name)
+  bool exist(const std::string& name)
   {
     bool file_exists = false;
     ifstream file(name.c_str(), ios::in);
@@ -85,23 +85,36 @@ namespace itpp {
   // bfstream_base
   // ----------------------------------------------------------------------
 
-  bfstream_base::bfstream_base(endian e) :
-    endianity(e), 
-    native_endianity(check_big_endianness() ? b_endian : l_endian) {}
+  bfstream_base::bfstream_base(endian e): 
+    switch_endianity(false), 
+    native_endianity(check_big_endianness() ? b_endian : l_endian)
+  { 
+    if (native_endianity != e)
+      switch_endianity = true;
+  }
 
   // ----------------------------------------------------------------------
   // bofstream
   // ----------------------------------------------------------------------
 
-  bofstream::bofstream(const std::string &name, endian e) :
+  bofstream::bofstream(const std::string& name, endian e) :
     bfstream_base(e), ofstream(name.c_str(), ios::out | ios::binary) {}
 
   bofstream::bofstream() : bfstream_base(), ofstream() {}
 
-  void bofstream::open(const std::string &name, endian e)
+  void bofstream::open(const std::string& name, endian e)
   {
-    endianity = e;
+    if (native_endianity != e) 
+      switch_endianity = true;
+    else
+      switch_endianity = false;
     ofstream::open(name.c_str(), ios::out | ios::binary);
+  }
+
+  bofstream& bofstream::operator<<(const bin& a)
+  {
+    put(a.value());
+    return *this;
   }
 
   bofstream& bofstream::operator<<(char a)
@@ -110,59 +123,57 @@ namespace itpp {
     return *this;
   }
 
-  bofstream& bofstream::operator<<(const bin &a)
+  bofstream& bofstream::operator<<(unsigned char a)
   {
-    put(a.value());
+    put(static_cast<char>(a));
     return *this;
   }
 
-  bofstream& bofstream::operator<<(short a)
+  bofstream& bofstream::operator<<(int16_t a)
   {
-    write_endian<bofstream, short>(*this, a, endianity != native_endianity);
+    write_endian<bofstream, int16_t>(*this, a, switch_endianity);
     return *this;
   }
 
-  bofstream& bofstream::operator<<(unsigned short a)
+  bofstream& bofstream::operator<<(uint16_t a)
   {
-    write_endian<bofstream, unsigned short>(*this, a, 
-					    endianity != native_endianity);
+    write_endian<bofstream, uint16_t>(*this, a, switch_endianity);
     return *this;
   }
 
-  bofstream& bofstream::operator<<(float a)
+  bofstream& bofstream::operator<<(int32_t a)
   {
-    write_endian<bofstream, float>(*this, a, endianity != native_endianity);
+    write_endian<bofstream, int32_t>(*this, a, switch_endianity);
     return *this;
   }
 
-  bofstream& bofstream::operator<<(double a)
+  bofstream& bofstream::operator<<(uint32_t a)
   {
-    write_endian<bofstream, double>(*this, a, endianity != native_endianity);
-    return *this;
-  }
-
-  bofstream& bofstream::operator<<(int a)
-  {
-    write_endian<bofstream, int>(*this, a, endianity != native_endianity);
-    return *this;
-  }
-
-  bofstream& bofstream::operator<<(unsigned int a)
-  {
-    write_endian<bofstream, unsigned int>(*this, a, 
-					  endianity != native_endianity);
+    write_endian<bofstream, uint32_t>(*this, a, switch_endianity);
     return *this;
   }
 
   bofstream& bofstream::operator<<(int64_t a)
   {
-    write_endian<bofstream, int64_t>(*this, a, endianity != native_endianity);
+    write_endian<bofstream, int64_t>(*this, a, switch_endianity);
     return *this;
   }
 
   bofstream& bofstream::operator<<(uint64_t a)
   {
-    write_endian<bofstream, uint64_t>(*this, a, endianity != native_endianity);
+    write_endian<bofstream, uint64_t>(*this, a, switch_endianity);
+    return *this;
+  }
+
+  bofstream& bofstream::operator<<(float a)
+  {
+    write_endian<bofstream, float>(*this, a, switch_endianity);
+    return *this;
+  }
+
+  bofstream& bofstream::operator<<(double a)
+  {
+    write_endian<bofstream, double>(*this, a, switch_endianity);
     return *this;
   }
 
@@ -172,7 +183,7 @@ namespace itpp {
     return *this;
   }
 
-  bofstream& bofstream::operator<<(const std::string &a)
+  bofstream& bofstream::operator<<(const std::string& a)
   {
     write(a.c_str(), a.size()+1);
     return *this;
@@ -182,14 +193,17 @@ namespace itpp {
   // bifstream
   // ----------------------------------------------------------------------
 
-  bifstream::bifstream(const std::string &name, endian e) :
+  bifstream::bifstream(const std::string& name, endian e) :
     bfstream_base(e), ifstream(name.c_str(), ios::in | ios::binary ) {}
 
   bifstream::bifstream() : bfstream_base(), ifstream() {}
 
-  void bifstream::open(const std::string &name, endian e)
+  void bifstream::open(const std::string& name, endian e)
   {
-    endianity = e;
+    if (native_endianity != e) 
+      switch_endianity = true;
+    else
+      switch_endianity = false;
     ifstream::open(name.c_str(),ios::in | ios::binary );
   }
 
@@ -203,66 +217,73 @@ namespace itpp {
     return len;
   }
 
-  bifstream& bifstream::operator>>(char &a)
+  bifstream& bifstream::operator>>(bin& a)
+  {
+    char tmp;
+    get(tmp);
+    a = tmp;
+    return *this;
+  }
+
+  bifstream& bifstream::operator>>(char& a)
   {
     get(a);
     return *this;
   }
 
-  bifstream& bifstream::operator>>(bin &a)
+  bifstream& bifstream::operator>>(unsigned char& a)
   {
-    char temp;
-    get(temp);
-    a = temp;
+    char tmp;
+    get(tmp);
+    a = tmp;
     return *this;
   }
 
-  bifstream& bifstream::operator>>(int &a)
+  bifstream& bifstream::operator>>(int16_t& a)
   {
-    read_endian<bifstream, int>(*this, a, endianity != native_endianity);
+    read_endian<bifstream, int16_t>(*this, a, switch_endianity);
     return *this;
   }
 
-  bifstream& bifstream::operator>>(unsigned int &a)
+  bifstream& bifstream::operator>>(uint16_t& a)
   {
-    read_endian<bifstream, unsigned int>(*this, a, 
-					 endianity != native_endianity);
+    read_endian<bifstream, uint16_t>(*this, a, switch_endianity);
     return *this;
   }
 
-  bifstream& bifstream::operator>>(short int &a)
+  bifstream& bifstream::operator>>(int32_t& a)
   {
-    read_endian<bifstream, short int>(*this, a, endianity != native_endianity);
+    read_endian<bifstream, int32_t>(*this, a, switch_endianity);
     return *this;
   }
 
-  bifstream& bifstream::operator>>(unsigned short int &a)
+  bifstream& bifstream::operator>>(uint32_t& a)
   {
-    read_endian<bifstream, unsigned short int>(*this, a, endianity != native_endianity);
+    read_endian<bifstream, uint32_t>(*this, a, switch_endianity);
     return *this;
   }
 
-  bifstream& bifstream::operator>>(float &a)
+  bifstream& bifstream::operator>>(int64_t& a)
   {
-    read_endian<bifstream, float>(*this, a, endianity != native_endianity);
+    read_endian<bifstream, int64_t>(*this, a, switch_endianity);
     return *this;
   }
 
-  bifstream& bifstream::operator>>(double &a)
+  bifstream& bifstream::operator>>(uint64_t& a)
   {
-    read_endian<bifstream, double>(*this, a, endianity != native_endianity);
+    read_endian<bifstream, uint64_t>(*this, a, switch_endianity);
     return *this;
   }
 
-  bifstream& bifstream::operator>>(int64_t &a)
+  bifstream& bifstream::operator>>(float& a)
   {
-    read_endian<bifstream, int64_t>(*this, a, endianity != native_endianity);
+    read_endian<bifstream, float>(*this, a, switch_endianity);
     return *this;
   }
 
-  bifstream& bifstream::operator>>(uint64_t &a)
+  bifstream& bifstream::operator>>(double& a)
   {
-    read_endian<bifstream, uint64_t>(*this, a, endianity != native_endianity);
+    read_endian<bifstream, double>(*this, a, switch_endianity);
     return *this;
   }
 
@@ -272,7 +293,7 @@ namespace itpp {
     return *this;
   }
 
-  bifstream& bifstream::operator>>(std::string &a)
+  bifstream& bifstream::operator>>(std::string& a)
   {
     std::getline(*this, a, '\0');
     return *this;
@@ -282,15 +303,18 @@ namespace itpp {
   // bfstream
   // ----------------------------------------------------------------------
 
-  bfstream::bfstream(const std::string &name, endian e) : 
+  bfstream::bfstream(const std::string& name, endian e) : 
     bfstream_base(e), fstream(name.c_str(), ios::in | ios::out | ios::binary)
   {}
 
   bfstream::bfstream() : bfstream_base(), fstream() {}
 
-  void bfstream::open(const std::string &name, bool trnc, endian e)
+  void bfstream::open(const std::string& name, bool trnc, endian e)
   {
-    endianity = e;
+    if (native_endianity != e) 
+      switch_endianity = true;
+    else
+      switch_endianity = false;
     
     if (trnc)
       fstream::open(name.c_str(), ios::in | ios::out | ios::binary 
@@ -299,9 +323,12 @@ namespace itpp {
       fstream::open(name.c_str(), ios::in | ios::out | ios::binary);
   }
 
-  void bfstream::open_readonly(const std::string &name, endian e)
+  void bfstream::open_readonly(const std::string& name, endian e)
   {
-    endianity = e;
+    if (native_endianity != e) 
+      switch_endianity = true;
+    else
+      switch_endianity = false;
     fstream::open(name.c_str(), ios::in | ios::binary);
   }
 
@@ -315,65 +342,69 @@ namespace itpp {
     return len;
   }
 
+  bfstream& bfstream::operator<<(const bin& a)
+  {
+    put(a.value());
+    return *this;
+  }
+
   bfstream& bfstream::operator<<(char a)
   {
     put(a);
     return *this;
   }
 
-  bfstream& bfstream::operator<<(const bin &a)
+  bfstream& bfstream::operator<<(unsigned char a)
   {
-    put(a.value());
+    put(static_cast<char>(a));
     return *this;
   }
 
-  bfstream& bfstream::operator<<(int a)
+  bfstream& bfstream::operator<<(int16_t a)
   {
-    write_endian<bfstream, int>(*this, a, endianity != native_endianity);
+    write_endian<bfstream, int16_t>(*this, a, switch_endianity);
     return *this;
   }
 
-  bfstream& bfstream::operator<<(unsigned int a)
+  bfstream& bfstream::operator<<(uint16_t a)
   {
-    write_endian<bfstream, unsigned int>(*this, a,
-					 endianity != native_endianity);
+    write_endian<bfstream, uint16_t>(*this, a, switch_endianity);
     return *this;
   }
 
-  bfstream& bfstream::operator<<(short a)
+  bfstream& bfstream::operator<<(int32_t a)
   {
-    write_endian<bfstream, short>(*this, a, endianity != native_endianity);
+    write_endian<bfstream, int32_t>(*this, a, switch_endianity);
     return *this;
   }
 
-  bfstream& bfstream::operator<<(unsigned short a)
+  bfstream& bfstream::operator<<(uint32_t a)
   {
-    write_endian<bfstream, unsigned short>(*this, a,
-					   endianity != native_endianity);
-    return *this;
-  }
-
-  bfstream& bfstream::operator<<(float a)
-  {
-    write_endian<bfstream, float>(*this, a, endianity != native_endianity);
-    return *this;
-  }
-
-  bfstream& bfstream::operator<<(double a)
-  {
-    write_endian<bfstream, double>(*this, a, endianity != native_endianity);
+    write_endian<bfstream, uint32_t>(*this, a, switch_endianity);
     return *this;
   }
 
   bfstream& bfstream::operator<<(int64_t a)
   {
-    write_endian<bfstream, int64_t>(*this, a, endianity != native_endianity);
+    write_endian<bfstream, int64_t>(*this, a, switch_endianity);
     return *this;
   }
 
   bfstream& bfstream::operator<<(uint64_t a)
   {
-    write_endian<bfstream, uint64_t>(*this, a, endianity != native_endianity);
+    write_endian<bfstream, uint64_t>(*this, a, switch_endianity);
+    return *this;
+  }
+
+  bfstream& bfstream::operator<<(float a)
+  {
+    write_endian<bfstream, float>(*this, a, switch_endianity);
+    return *this;
+  }
+
+  bfstream& bfstream::operator<<(double a)
+  {
+    write_endian<bfstream, double>(*this, a, switch_endianity);
     return *this;
   }
 
@@ -383,73 +414,80 @@ namespace itpp {
     return *this;
   }
 
-  bfstream& bfstream::operator<<(const std::string &a)
+  bfstream& bfstream::operator<<(const std::string& a)
   {
     write(a.c_str(), a.size()+1);
     return *this;
   }
 
-  bfstream& bfstream::operator>>(char &a)
+
+  bfstream& bfstream::operator>>(bin& a)
+  {
+    char tmp;
+    get(tmp);
+    a = tmp;
+    return *this;
+  }
+
+  bfstream& bfstream::operator>>(char& a)
   {
     get(a);
     return *this;
   }
 
-  bfstream& bfstream::operator>>(bin &a)
+  bfstream& bfstream::operator>>(unsigned char& a)
   {
-    char temp;
-    get(temp);
-    a = temp;
+    char tmp;
+    get(tmp);
+    a = tmp;
     return *this;
   }
 
-  bfstream& bfstream::operator>>(int &a)
+  bfstream& bfstream::operator>>(int16_t& a)
   {
-    read_endian<bfstream, int>(*this, a, endianity != native_endianity);
+    read_endian<bfstream, int16_t>(*this, a, switch_endianity);
     return *this;
   }
 
-  bfstream& bfstream::operator>>(unsigned int &a)
+  bfstream& bfstream::operator>>(uint16_t& a)
   {
-    read_endian<bfstream, unsigned int>(*this, a, 
-					endianity != native_endianity);
+    read_endian<bfstream, uint16_t>(*this, a, switch_endianity);
     return *this;
   }
 
-  bfstream& bfstream::operator>>(short int &a)
+  bfstream& bfstream::operator>>(int32_t& a)
   {
-    read_endian<bfstream, short int>(*this, a, endianity != native_endianity);
+    read_endian<bfstream, int32_t>(*this, a, switch_endianity);
     return *this;
   }
 
-  bfstream& bfstream::operator>>(unsigned short int &a)
+  bfstream& bfstream::operator>>(uint32_t& a)
   {
-    read_endian<bfstream, unsigned short int>(*this, a,
-					      endianity != native_endianity);
+    read_endian<bfstream, uint32_t>(*this, a, switch_endianity);
     return *this;
   }
 
-  bfstream& bfstream::operator>>(float &a)
+  bfstream& bfstream::operator>>(int64_t& a)
   {
-    read_endian<bfstream, float>(*this, a, endianity != native_endianity);
+    read_endian<bfstream, int64_t>(*this, a, switch_endianity);
     return *this;
   }
 
-  bfstream& bfstream::operator>>(double &a)
+  bfstream& bfstream::operator>>(uint64_t& a)
   {
-    read_endian<bfstream, double>(*this, a, endianity != native_endianity);
+    read_endian<bfstream, uint64_t>(*this, a, switch_endianity);
     return *this;
   }
 
-  bfstream& bfstream::operator>>(int64_t &a)
+  bfstream& bfstream::operator>>(float& a)
   {
-    read_endian<bfstream, int64_t>(*this, a, endianity != native_endianity);
+    read_endian<bfstream, float>(*this, a, switch_endianity);
     return *this;
   }
 
-  bfstream& bfstream::operator>>(uint64_t &a)
+  bfstream& bfstream::operator>>(double& a)
   {
-    read_endian<bfstream, uint64_t>(*this, a, endianity != native_endianity);
+    read_endian<bfstream, double>(*this, a, switch_endianity);
     return *this;
   }
 
@@ -459,7 +497,7 @@ namespace itpp {
     return *this;
   }
 
-  bfstream& bfstream::operator>>(std::string &a)
+  bfstream& bfstream::operator>>(std::string& a)
   {
     std::getline(*this, a, '\0');
     return *this;
