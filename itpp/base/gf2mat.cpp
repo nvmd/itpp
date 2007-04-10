@@ -1020,18 +1020,17 @@ namespace itpp {
 
   it_file &operator<<(it_file &f, const GF2mat &X)
   {
-    // 3 int words for: nrows, ncols and nwords + rest for char data
-    unsigned int bytecount = 3 * sizeof(int) 
+    // 3 64-bit unsigned words for: nrows, ncols and nwords + rest for char data
+    uint64_t bytecount = 3 * sizeof(uint64_t) 
       + X.nrows * X.nwords * sizeof(char);
     f.write_data_header("GF2mat", bytecount);
 
-    f.low_level_write(X.nrows);
-    f.low_level_write(X.ncols);
-    f.low_level_write(X.nwords);
+    f.low_level_write(static_cast<uint64_t>(X.nrows));
+    f.low_level_write(static_cast<uint64_t>(X.ncols));
+    f.low_level_write(static_cast<uint64_t>(X.nwords));
     for (int i=0; i<X.nrows; i++) {
       for (int j=0; j<X.nwords; j++) {
-	char r = X.data(i,j);
-	f.low_level_write(r);
+	f.low_level_write(static_cast<char>(X.data(i,j)));
       }
     }
     return f; 
@@ -1040,12 +1039,13 @@ namespace itpp {
   it_ifile &operator>>(it_ifile &f, GF2mat &X)
   {
     it_file::data_header h;
-  
+
     f.read_data_header(h);
     if (h.type == "GF2mat") {
-      f.low_level_read(X.nrows);
-      f.low_level_read(X.ncols);
-      f.low_level_read(X.nwords);
+      uint64_t tmp;
+      f.low_level_read(tmp); X.nrows = static_cast<int>(tmp); 
+      f.low_level_read(tmp); X.ncols = static_cast<int>(tmp);
+      f.low_level_read(tmp); X.nwords = static_cast<int>(tmp);
       X.data.set_size(X.nrows,X.nwords);
       for (int i=0; i<X.nrows; i++) {
 	for (int j=0; j<X.nwords; j++) {
@@ -1054,9 +1054,8 @@ namespace itpp {
 	  X.data(i,j) = static_cast<unsigned char>(r);
 	}
       }
-    
-    }  else {
-      //    throw it_file_base::Error("Wrong type");
+    }
+    else {
       it_error("it_ifile &operator>>() - internal error");
     }
 

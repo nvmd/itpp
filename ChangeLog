@@ -1,5 +1,45 @@
 2007-04-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* TODO: Updated to reflect recent changes in IT++ file format
+	(merged rev. 986:997 from the it_file-v3 temporary branch)
+
+	* extras/itload.m, extras/itsave.m: Updated to be compatible with
+	IT++ file format version 3. Implemented missing load functions for
+	Array<Vec<T> >, Array<Mat<T> > and Array<string> types. Function
+	itsave() detects the type of a saved vector or matrix and uses
+	bvec, bmat, ivec, imat, vec, mat, cvec or cmat types respecively.
+	(merged rev. 986:997 from the it_file-v3 temporary branch)
+
+	* itpp/base/binfile.cpp, itpp/base/binfile.h,
+	itpp/base/gf2mat.cpp, itpp/base/itfile.cpp, itpp/base/itfile.h,
+	tests/itfile_test.cpp, tests/itfile_test.ref,
+	tests/itfile_test_data.it: 
+	Major changes in IT++ file format related classes:
+	- the new file format (version 3) is incompatible with version 2,
+	which was used in IT++ 3.10.x series; for backward compatibility
+	the previous format can be handled using the it_file_old and
+	it_ifile_old classes, which are considered as deprecated and will
+	be removed from the library in future
+	- data is always saved using a little endian byte ordering; files
+	files written on machines using big or little endian ordering
+	should be identical; endianity variable removed from the
+	data_header structure
+	- all size variables are stored using fixed-width 64-bit unsigned
+	integer type, and therefore are independent of the architecture
+	word size (32- or 64-bit)
+	- short and int data types are explicitly casted to fixed-with
+	types int16_t, uint16_t, int32_t and uint32_t, since C/C++
+	standards do not assume fixed widths of these types
+	- cleaner and more efficient implementation of the
+	write_data_header() function
+	- added missing implementation of a pack() function, which compacts
+	an opened it_file by removing free space between data blocks
+	- added optional description filed which can be saved with each
+	variable
+	- added missing operators and methods for reading and writing svec
+	and smat data types
+	(merged rev. 986:997 from the it_file-v3 temporary branch)
+	
 	* tests/timer_test.cpp, tests/timer_test.ref: CPU_Timer test is
 	now independent of a Real_Timer test. This should solve test
 	failures in some specific cases (high load of CPU, etc.).

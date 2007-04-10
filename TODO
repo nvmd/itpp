@@ -37,11 +37,6 @@ Specific features
 * Check the fastmath functions. It seems like they are not any faster
   than the ordinary math functions.
 
-* Add support for Array<Mat<T> > and Array<Vec<T> > in itload.m and itsave.m
-
-* Modify it-file so that a description field and comment fields are
-  added
-
 * Add possibility to change kernel generator
 
 * Make a m-file load/saver (similar to it-file).
