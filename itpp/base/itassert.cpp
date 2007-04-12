@@ -59,7 +59,7 @@ namespace itpp {
     else {
       error << msg << " (" << ass << ")\n";
     }
-    std::cerr << error << std::flush;
+    std::cerr << error.str() << std::flush;
 #ifdef ITPP_EXCEPTIONS
     throw std::runtime_error(error.str());
 #else
@@ -77,7 +77,7 @@ namespace itpp {
     else {
       error << msg << "\n";
     }
-    std::cerr << error << std::flush;
+    std::cerr << error.str() << std::flush;
 #ifdef ITPP_EXCEPTIONS
     throw std::runtime_error(error.str());
 #else
