@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -194,8 +194,8 @@ void Selective_Repeat_ARQ_Sender::push_packet_on_tx_buffer(Packet *packet){
   }
   else{
     buffer_overflow(0);
-    std::cout << "Stopped due to buffer overflow" << std::endl;
-    exit(0);
+    it_error("Selective_Repeat_ARQ_Sender::push_packet_on_tx_buffer(): "
+	     "Stopped due to buffer overflow");
   }
   fill_output();
 

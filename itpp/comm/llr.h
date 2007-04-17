@@ -1,4 +1,3 @@
-
 /*!
  * \file 
  * \brief Class for numerically efficient log-likelihood algebra
@@ -39,6 +38,7 @@
 #include <itpp/base/mat.h>
 #include <itpp/base/specmat.h>
 #include <itpp/base/matfunc.h>
+#include <limits>
 
 namespace itpp {
   
@@ -60,10 +60,8 @@ namespace itpp {
   /*!  \relates LLR_calc_unit 
     The largest possible QLLR value
   */
-/*   const QLLR QLLR_MAX=(INT_MAX>>2) ; */
-/*   const QLLR QLLR_MAX=(INT_MAX>>4) ; */
-  const QLLR QLLR_MAX=(std::numeric_limits<int>::max() >> 4);
- // added some margin to make sure the sum of two LLR is still permissible
+  const QLLR QLLR_MAX = (std::numeric_limits<QLLR>::max() >> 4);
+  // added some margin to make sure the sum of two LLR is still permissible
 
   /*! 
     \brief Log-likelihood algebra calculation unit.

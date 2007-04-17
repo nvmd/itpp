@@ -430,7 +430,7 @@ namespace itpp {
   template<class T>
   Mat<T> diag(const Vec<T> &v, const int K = 0)
   {
-    Mat<T> m(v.size()+abs(K), v.size()+abs(K));
+    Mat<T> m(v.size() + std::abs(K), v.size() + std::abs(K));
     m = T(0);
     if (K>0)
       for (int i=v.size()-1; i>=0; i--)
