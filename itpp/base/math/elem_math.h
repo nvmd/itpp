@@ -41,6 +41,7 @@
 
 #include <itpp/base/help_functions.h>
 #include <itpp/base/converters.h>
+#include <cstdlib>
 
 
 //!\addtogroup miscfunc
@@ -92,17 +93,13 @@ namespace itpp {
   // -------------------- abs function --------------------
 
   //! Absolute value
-  inline short abs(short x) { return (x >= 0 ? x : -x); }
-  //! Absolute value
-  inline int abs(int x) { return (x >= 0 ? x : -x); }
-  //! Absolute value
   inline vec abs(const vec &x) { return apply_function<double>(std::fabs, x); }
   //! Absolute value
   inline mat abs(const mat &x) { return apply_function<double>(std::fabs, x); }
   //! Absolute value
-  inline ivec abs(const ivec &x) { return apply_function<int>(abs, x); }
+  inline ivec abs(const ivec &x) { return apply_function<int>(std::abs, x); }
   //! Absolute value
-  inline imat abs(const imat &x) { return apply_function<int>(abs, x); }
+  inline imat abs(const imat &x) { return apply_function<int>(std::abs, x); }
   //! Absolute value
   vec abs(const cvec &x);
   //! Absolute value

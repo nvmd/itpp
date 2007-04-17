@@ -39,6 +39,7 @@
 #include <itpp/base/itassert.h>
 #include <iostream>
 #include <stdexcept>
+#include <cstdlib>
 
 
 namespace itpp {

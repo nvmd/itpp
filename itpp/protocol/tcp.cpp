@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -36,6 +36,7 @@
 #include <itpp/protocol/tcp.h>
 #include <itpp/base/itfile.h>
 #include <limits>
+#include <cstdlib>
 #include <ctime>
 
 
@@ -63,8 +64,7 @@ namespace itpp {
   const double TCP_STIMERGRAN  = 0.2;
   const double TCP_SWSATIMERVALUE = 0.2;
 #define TCP_MAXBACKOFF 64
-  //#define TCP_MAXRTO DBL_MAX
-#define TCP_MAXRTO std::numeric_limits<double>::max()
+  const double TCP_MAXRTO = std::numeric_limits<double>::max();
 #define TCP_IMMEDIATEBACKOFFRESET false
 #define TCP_TIMESTAMPS false
 #define TCP_KARN true
@@ -80,17 +80,16 @@ namespace itpp {
   // TCP receiver
 
 #define TCP_RMSS 1460
-#define TCP_BUFFERSIZE INT_MAX/4
+  const int TCP_BUFFERSIZE = std::numeric_limits<int>::max()/4;
 #define TCP_DELAYEDACK true
   const double TCP_ACKDELAYTIME = 0.2;
 #define TCP_SENDPERIODICACKS false
-  //#define TCP_SENDPERIODICACKS true
 #define TCP_STRICTPERIODICACKS false
 #define TCP_PERIODICACKINTERVAL 1
 #define TCP_ACKSCHEDULINGDELAY 0
 #define TCP_ACKBUFFERWRITE false
 #define TCP_ACKBUFFERREAD true
-#define TCP_MAXUSERBLOCKSIZE INT_MAX/4
+  const int TCP_MAXUSERBLOCKSIZE = std::numeric_limits<int>::max()/4;
 #define TCP_MINUSERBLOCKSIZE 1
 #define TCP_USERBLOCKPROCDELAY 0
 

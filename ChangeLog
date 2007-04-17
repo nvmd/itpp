@@ -1,3 +1,14 @@
+2007-04-17  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/itassert.cpp, itpp/base/math/elem_math.h,
+	itpp/base/parser.cpp, itpp/comm/error_counters.cpp,
+	itpp/comm/llr.h, itpp/protocol/selective_repeat.cpp,
+	itpp/protocol/tcp.cpp, itpp/srccode/vq.cpp: Added missing #include
+	<cstdlib> and <limits> header files. This fixes problems with
+	building using GCC 4.3 snapshot. Thanks to Martin Michlmayr from
+	the Debian project for reporting this bug.
+	(merged rev. 1005:1006 from the itpp-3-10 branch)
+	
 2007-04-12  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/itassert.cpp: Fixed a problem with not displayed

@@ -13,7 +13,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -34,6 +34,7 @@
 
 #include <itpp/base/parser.h>
 #include <fstream>
+#include <sstream>
 
 
 using std::cout;
@@ -434,7 +435,8 @@ namespace itpp {
   {
     double out;
     bool error_flag, print_flag;
-    out = atof(findname(name,error_flag,print_flag,num).c_str());
+    std::istringstream ss(findname(name,error_flag,print_flag,num));
+    ss >> out;
     if (error_flag) { it_error("Parser: Can not find variable: " + name); }
     if (print_flag) { cout << "Parsing double: " << name << " = " << out << endl; }
     return out;
