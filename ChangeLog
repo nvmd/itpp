@@ -14,7 +14,15 @@
 	* itpp/base/itassert.cpp: Fixed a problem with not displayed
 	assert and error messages, which was introduced in rev. 982.
 
+==============================================================================
+	
 2007-04-10  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* IT++ 3.10.10 released (SVN tag: release-3-10-10)
+	(merged rev. 999:1000 from the itpp-3-10 branch)
+
+	* NEWS-3.10: Updated to reflect recent changes
+	(merged rev. 999:1000 from the itpp-3-10 branch)
 
 	* TODO: Updated to reflect recent changes in IT++ file format
 	(merged rev. 986:997 from the it_file-v3 temporary branch)

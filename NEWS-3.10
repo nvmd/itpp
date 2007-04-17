@@ -1,4 +1,36 @@
 ===============================================================================
+IT++ version 3.10.10                                       Released: 2007-04-10
+-------------------------------------------------------------------------------
+
+This is the next bug-fix release of the stable IT++ library. Therefore, no
+new features have been added since 3.10.9 was released. Only minor
+modifications and bug-fixes have been done.
+
+Modifications:
+--------------
+
+* Test programs are linked to the optimised library by default.
+
+* A separate MSVC++ project file created to simplify linking the IT++
+  library with ACML (PGI build) under Windows. Documentation updated 
+  accordingly.
+
+* Speed and portability improvements in the configuration scripts backported
+  from the development branch.
+
+Bug-fixes:
+----------
+
+* Fixed bug [1693384] in it_file low_level_write(std::string) method caused
+  by a missing explicit cast of string size to 32-bit int. Only 64-bit
+  architectures were affected by this bug.
+
+* CPU_Timer and Real_Timer tests are now independent of each other. This
+  should solve possible test failures in specific cases (e.g. high CPU
+  load).
+
+
+===============================================================================
 IT++ version 3.10.9                                        Released: 2007-02-10
 -------------------------------------------------------------------------------
 
