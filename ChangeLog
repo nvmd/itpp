@@ -1,5 +1,7 @@
 2007-04-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/**/*.{cpp,h}: Copyright dates updated to `1995-2007'
+
 	* itpp/base/svec.h, itpp/protocol/selective_repeat.cpp,
 	itpp/stat/mog_diag.cpp: Once again added missing #include
 	<cstdlib> statements
