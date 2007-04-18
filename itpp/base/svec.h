@@ -35,6 +35,7 @@
 
 #include <itpp/base/vec.h>
 #include <itpp/base/math/min_max.h>
+#include <cstdlib>
 
 
 namespace itpp {

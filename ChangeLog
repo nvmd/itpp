@@ -1,3 +1,9 @@
+2007-04-18  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/svec.h, itpp/protocol/selective_repeat.cpp,
+	itpp/stat/mog_diag.cpp: Once again added missing #include
+	<cstdlib> statements
+
 2007-04-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/itassert.cpp, itpp/base/math/elem_math.h,
