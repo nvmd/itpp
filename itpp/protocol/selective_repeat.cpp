@@ -31,6 +31,7 @@
  */
 
 #include <itpp/protocol/selective_repeat.h>
+#include <cstdlib>
 
 
 namespace itpp {
