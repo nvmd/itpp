@@ -504,6 +504,25 @@ namespace itpp {
     return out;
 
   }
+  
+  void double2mxArray(const double &in, mxArray *out)
+  { 
+    double* temp = (double *) mxGetPr(out);
+    if (temp==0) mexErrMsgTxt("double2mxArray: Pointer to data is NULL");
+
+    *temp= (double) in;
+  }
+  
+  void double_complex2mxArray(const std::complex<double> &in, mxArray *out)
+  {
+    double* tempR = (double *) mxGetPr(out);
+    double* tempI = (double *) mxGetPi(out);
+    if (tempR==0) mexErrMsgTxt("double_complex2mxArray: Pointer to real valued part is NULL");
+    if (tempI==0) mexErrMsgTxt("double_complex2mxArray: Pointer to imaginary valued part is NULL");
+    
+    *tempR= (double) in.real();
+    *tempI= (double) in.imag();
+  }
 
   void bvec2mxArray(const bvec &in, mxArray *out)
   {
