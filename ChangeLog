@@ -1,3 +1,9 @@
+2007-04-23  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/itmex.h: Fixed bug [1703731] by implementing the missing
+	double2mxArray() and double_complex2mxArray() functions. Thanks to
+	Danilo Zanatta Filho for providing a patch.
+
 2007-04-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/**/*.{cpp,h}: Copyright dates updated to `1995-2007'
