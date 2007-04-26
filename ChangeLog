@@ -1,3 +1,15 @@
+2007-04-26  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/tutorial/src/ldpc_bersim_awgn.cpp, itpp/comm/ldpc.cpp,
+	itpp/comm/ldpc.h, tests/ldpc_test.ref: Fixed bugs in
+	LDPC_Code::load_code() and LDPC_Code::save_code() functions. It
+	could happen that LDPC generator object might be left
+	uninitialised when loading the coded from a binary file. Removed
+	unnecessary integrity_check() execution from the load_code()
+	function. setup_decoder() method replaced with three separate
+	methods, which are more flexible to use. Tutorial example updated
+	to reflect recent changes.
+
 2007-04-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/itmex.h: Fixed bug [1703731] by implementing the missing
