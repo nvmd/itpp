@@ -854,19 +854,22 @@ namespace itpp {
   // LDPC_Code
   // ----------------------------------------------------------------------
 
-  LDPC_Code::LDPC_Code(): H_is_defined(false), G(0)
-  { 
-    setup_decoder();
-  }
+  LDPC_Code::LDPC_Code(): H_defined(false), G_defined(false), dec_method("BP"),
+			  max_iters(50), psc(true), pisc(false),
+			  llrcalc(LLR_calc_unit()) { }
 
   LDPC_Code::LDPC_Code(const LDPC_Parity* const H, 
-		       LDPC_Generator* const G_in): H_is_defined(false)
+		       LDPC_Generator* const G_in):
+    H_defined(false), G_defined(false), dec_method("BP"), max_iters(50),
+    psc(true), pisc(false), llrcalc(LLR_calc_unit())
   {
     set_code(H, G_in);
   }
 
   LDPC_Code::LDPC_Code(const std::string& filename, 
-		       LDPC_Generator* const G_in): H_is_defined(false)
+		       LDPC_Generator* const G_in):
+    H_defined(false), G_defined(false), dec_method("BP"), max_iters(50),
+    psc(true), pisc(false), llrcalc(LLR_calc_unit())
   {
     load_code(filename, G_in);
   }
@@ -876,9 +879,12 @@ namespace itpp {
 			   LDPC_Generator* const G_in)
   {
     decoder_parameterization(H);
-    G = G_in;
-    integrity_check();
     setup_decoder();
+    G = G_in;
+    if (G != 0) {
+      G_defined = true;
+      integrity_check();
+    }
   }
 
   void LDPC_Code::load_code(const std::string& filename, 
@@ -886,13 +892,17 @@ namespace itpp {
   {
     it_info_debug("LDPC_Code::LDPC_Code(): Loading LDPC codec from " 
 		  << filename);  
+
     it_ifile f(filename);
     int fileversion;
     f >> Name("Fileversion") >> fileversion;
     it_assert(fileversion==1,"unsupported format");
-    int H_temp;
-    f >> Name("H_is_defined") >> H_temp;
-    (H_temp == 1) ? H_is_defined = true : H_is_defined = false;
+    int H_tmp;
+    f >> Name("H_defined") >> H_tmp;
+    H_defined = static_cast<bool>(H_tmp);
+    int G_tmp;
+    f >> Name("G_defined") >> G_tmp;
+    G_defined = static_cast<bool>(G_tmp);
     f >> Name("nvar") >> nvar;
     f >> Name("ncheck") >> ncheck;
     f >> Name("C") >> C;
@@ -903,29 +913,37 @@ namespace itpp {
     f >> Name("jind") >> jind;
     f.close();
 
-    // load generator data;
-    G = G_in;
-    if (G != 0)
+    // load generator data
+    if (G_defined) {
+      it_assert(G_in != 0, "LDPC_Code::load_code(): Generator object is "
+		"missing. Can not load the generator data from a file.");
+      G = G_in;
       G->load(filename);
-    else
-      it_info_debug("LDPC_Code::load_code(): Missing generator object - "
-		    "generator data not loaded");
-      
+    }
+    else {
+      G = 0;
+      it_info_debug("LDPC_Code::load_code(): Generator data not loaded. "
+		    "Generator object will not be used.");
+    }
+
     it_info_debug("LDPC_Code::load_code(): Successfully loaded LDPC codec "
 		  "from " << filename);  
 
-    integrity_check();
     setup_decoder();
   }
 
   void LDPC_Code::save_code(const std::string& filename) const
   {
+    it_assert(H_defined, "LDPC_Code::save_to_file(): There is no parity "
+	      "check matrix");
     it_info_debug("LDPC_Code::save_to_file(): Saving LDPC codec to "
 		  << filename);
+
     it_file f;
     f.open(filename,true);
     f << Name("Fileversion") << 1;
-    f << Name("H_is_defined") << static_cast<int>(H_is_defined);
+    f << Name("H_defined") << static_cast<int>(H_defined);
+    f << Name("G_defined") << static_cast<int>(G_defined);
     f << Name("nvar") << nvar;
     f << Name("ncheck") << ncheck;
     f << Name("C") << C;
@@ -937,7 +955,7 @@ namespace itpp {
     f.close();
 
     // save generator data;
-    if (G != 0)
+    if (G_defined)
       G->save(filename);
     else
       it_info_debug("LDPC_Code::save_code(): Missing generator object - "
@@ -948,28 +966,37 @@ namespace itpp {
   }
 
 
-  void LDPC_Code::setup_decoder(const std::string& method_in,
-				ivec options_in, 
-				const LLR_calc_unit lcalc)
+  void LDPC_Code::set_decoding_method(const std::string& method_in)
   {
-    dec_method=method_in;
-    dec_options=options_in;
-    llrcalc=lcalc;   
-    if (H_is_defined) {
-      mcv.set_size(max(sumX2)*ncheck);
-      mvc.set_size(nvar*max(sumX1));
-    }
+    it_assert((method_in == "bp") || (method_in == "BP"), 
+	      "LDPC_Code::set_decoding_method(): Not implemented decoding method");
+    dec_method = method_in;
+  }
+
+  void LDPC_Code::set_exit_conditions(int max_iters_in, 
+				      bool syndr_check_each_iter,
+				      bool syndr_check_at_start)
+  {
+    it_assert(max_iters >= 0, "LDPC_Code::set_nrof_iterations(): Maximum "
+	      "number of iterations can not be negative");
+    max_iters = max_iters_in;
+    psc = syndr_check_each_iter;
+    pisc = syndr_check_at_start;
+  }
+
+  void LDPC_Code::set_llrcalc(const LLR_calc_unit& llrcalc_in)
+  {
+    llrcalc = llrcalc_in;
   }
 
 
   void LDPC_Code::encode(const bvec &input, bvec &output)
   {
-    it_assert(G != 0,
-	      "LDPC_Code::encode(): LDPC Generator is required for encoding");
-
+    it_assert(G_defined, "LDPC_Code::encode(): LDPC Generator is required "
+	      "for encoding");
     G->encode(input, output);
-    
-    it_assert_debug(syndrome_check(output), "LDPC_Code::encode()");
+    it_assert_debug(syndrome_check(output), "LDPC_Code::encode(): Syndrom "
+		    "check failed");
   } 
 
   bvec LDPC_Code::encode(const bvec &input)
@@ -981,22 +1008,18 @@ namespace itpp {
 
   void LDPC_Code::decode(const vec &llrin, bvec &bitsout)
   {
-    it_assert(dec_method=="bp","not implemented");
-    it_assert(H_is_defined,"there is no parity check matrix");
+    it_assert(H_defined, "LDPC_Code::decode(): Parity check matrix is "
+	      "required for decoding");
 
     // decode with belief propagation
-    QLLRvec qllrin=llrcalc.to_qllr(llrin);
+    QLLRvec qllrin = llrcalc.to_qllr(llrin);
     QLLRvec qllrout;
-    bp_decode(qllrin,qllrout);
-    bitsout = qllrout<0;
+    bp_decode(qllrin, qllrout);
+    bitsout = qllrout < 0;
   }
   
   bvec LDPC_Code::decode(const vec &x)
   {
-    it_assert(dec_method=="bp","not implemented");
-    it_assert(H_is_defined,"there is no parity check matrix");
-
-    // decode with belief propagation
     bvec b;
     decode(x,b);
     return b;
@@ -1007,23 +1030,18 @@ namespace itpp {
   {
     // Note the IT++ convention that a sure zero corresponds to
     // LLR=+infinity
-    it_assert(H_is_defined,"there is no parity check matrix");
-    it_assert(length(LLRin)==nvar 
-	      && length(sumX1)==nvar 
-	      && length(sumX2)==ncheck,
-	      "LDPC_Code::bp_decode() wrong input dimensions");
-    LLRout.set_size(length(LLRin));
-    
-    const int niter=dec_options(0);
-    const int psc=dec_options(1);
-    const int pisc=dec_options(2);
-    
-    if (pisc==1) {
-      if (syndrome_check(LLRin)) {
-	LLRout = LLRin;
-	return 0; 
-      }
+    it_assert(H_defined, "LDPC_Code::bp_decode(): Parity check matrix not "
+	      "defined");
+    it_assert((LLRin.size() == nvar) && (sumX1.size() == nvar) 
+	      && (sumX2.size() == ncheck), "LDPC_Code::bp_decode(): Wrong "
+	      "input dimensions");
+   
+    if (pisc && syndrome_check(LLRin)) {
+      LLRout = LLRin;
+      return 0; 
     }
+
+    LLRout.set_size(LLRin.size());
     
     // initial step
     for (int i=0; i<nvar; i++) {
@@ -1453,13 +1471,11 @@ namespace itpp {
 	}
       }
       
-      if (psc==1) {
-	if (syndrome_check(LLRout)==1) {
-	  is_valid_codeword=true;
-	  break;
-	}
+      if (psc && syndrome_check(LLRout)) {
+	is_valid_codeword=true;
+	break;
       }
-    } while  (iter<niter);
+    } while  (iter < max_iters);
    
     if (nvar>=100000) { it_info_debug(""); }
     return (is_valid_codeword ? iter : -iter);
@@ -1566,12 +1582,22 @@ namespace itpp {
       }
     }
 
-    H_is_defined = true;
+    H_defined = true;
   }
+
+
+  void LDPC_Code::setup_decoder()
+  {
+    if (H_defined) {
+      mcv.set_size(max(sumX2) * ncheck);
+      mvc.set_size(max(sumX1) * nvar);
+    }
+  }
+
 
   void LDPC_Code::integrity_check()
   {
-    if (G != 0) {
+    if (G_defined) {
       it_info_debug("LDPC_Code::integrity_check(): Checking integrity of "
 		    "the LDPC_Parity and LDPC_Generator data");
       bvec bv(nvar-ncheck), cw;
@@ -1605,16 +1631,21 @@ namespace itpp {
     for (int j=0; j<C.nvar; j++)     {
       cdeg(C.sumX1(j))++;
     }
-    
-    os << "---------- LDPC codec -----------------\n"
-       << "Nvar=" << C.get_nvar() << "  Ncheck=" << C.get_ncheck() 
-       << "  rate=" << C.get_rate() << "\n"
+
+    os << "--- LDPC codec ----------------------------------\n"
+       << "Nvar : " << C.get_nvar() << "\n"
+       << "Ncheck : " << C.get_ncheck() << "\n"
+       << "Rate : " << C.get_rate() << "\n"
        << "Column degrees (node perspective): " << cdeg << "\n"
        << "Row degrees (node perspective): " << rdeg << "\n"
-       << "---------------------------------------\n"
-       << "Decoder parameters: dec_method=" << C.dec_method 
-       << ". Decoder options: " 
-       << C.dec_options << "\n" << C.llrcalc << "\n";
+       << "-------------------------------------------------\n"
+       << "Decoder parameters:\n"
+       << " - method : " << C.dec_method << "\n"
+       << " - max. iterations : " << C.max_iters << "\n"
+       << " - syndrom check at each iteration : " << C.psc << "\n"
+       << " - syndrom check at start : " << C.pisc << "\n"
+       << "-------------------------------------------------\n"
+       << C.llrcalc << "\n";
     return os;
   }
 

@@ -603,38 +603,44 @@ namespace itpp {
       \brief Save the codec to a file
 
       \param filename Name of the file where to store the codec     
+
+      \note The decoder parameters (\c max_iters, \c syndr_check_each_iter,
+      \c syndr_check_at_start and \c llrcalc) are not saved to a file.
     */
     void save_code(const std::string& filename) const;
 
 
     /*!
-      \brief Initialize decoder and set parameters
+      \brief Set the decoding method
+      
+      Currently only a belief propagation method ("BP" or "bp") is
+      supported.
 
-      \param method Currently only supported is "bp" (belief propagation)
-      \param options Vector of options to the decoder as follows:
+      \note The default method set in the class constructors is "BP".
+    */ 
+    void set_decoding_method(const std::string& method);
 
-      - options(0): The maximum number of iterations that the decoder 
-      performs before terminating. Recommended value 50.
+    /*!
+      \brief Set the decoding loop exit conditions
+      
+      \param max_iters Maximum number of the decoding iterations
+      \param stop_if_valid If true, break the decoding loop as soon as
+      valid codeword is found. Recommended value: \c true.
+      \param syndr_check_at_start If true, perform a syndrome check before
+      entering the decoding loop. If LLRin corresponds to a valid codeword,
+      set LLRout = LLRin. Recommended value: \c false.
 
-      - options(1): If this flag is 1,  the decoder
-      performs a syndrome check each iteration and terminates if valid 
-      codeword is found. Recommended value: 1.
-
-      - options(2): If this flag is 1, then the decoder performs a syndrome 
-      check before it start decoding. It terminates without
-      decoding if LLRin corresponds to a valid codeword (the decoder 
-      then sets LLRout=LLRin). Recommended value: 0.
-
-      \param lcalc LLR calculation unit (optional). 
-
-      \note The decoder parameters are not saved to file when saving
-      the LDPC code.
+      \note The default values set in the class constructor are: "50",
+      "true" and "false", respectively. 
     */
-    void setup_decoder(const std::string& method = "bp", 
-		       ivec options = "50 1 0",
-		       LLR_calc_unit lcalc = LLR_calc_unit()); 
+    void set_exit_conditions(int max_iters, 
+			     bool syndr_check_each_iter = true,
+			     bool syndr_check_at_start = false); 
 
+    //! Set LLR calculation unit
+    void set_llrcalc(const LLR_calc_unit& llrcalc);
   
+
     // ------------ Encoding  ---------------------
   
     /*!
@@ -721,6 +727,12 @@ namespace itpp {
     //! Get the number of check nodes 
     int get_ncheck() const { return ncheck; }
 
+    //! Return the decoding method
+    std::string get_decoding_method() const { return dec_method; }
+
+    //! Get the maximum number of iterations of the decoder
+    int get_nrof_iterations() const { return max_iters; }
+
     //! Get LLR calculation unit used in decoder
     LLR_calc_unit get_llrcalc() const { return llrcalc; }
 
@@ -728,25 +740,31 @@ namespace itpp {
     friend std::ostream &operator<<(std::ostream &os, const LDPC_Code &C);
 
   protected:
-    bool H_is_defined;		//!< true if parity check matrix is defined
+    bool H_defined;		//!< true if parity check matrix is defined
+    bool G_defined;		//!< true if generator is defined
     int nvar;			//!< Number of variable nodes
     int ncheck;			//!< Number of check nodes
     LDPC_Generator *G;		//!< Generator object pointer
-    LLR_calc_unit llrcalc; 	//!< LLR calculation unit 
 
-    //! Function to check the integrity of the parity check matrix and generator
-    void integrity_check();
+    // decoder parameters
+    std::string dec_method;	//!< Decoding method 
+    int max_iters;		//!< Maximum number of iterations
+    bool psc;			//!< check syndrom after each iteration
+    bool pisc;			//!< check syndrom before first iteration
+    LLR_calc_unit llrcalc;	//!< LLR calculation unit 
 
     //! Function to compute decoder parameterization 
     void decoder_parameterization(const LDPC_Parity* const H);
 
+    //! Function to check the integrity of the parity check matrix and generator
+    void integrity_check();
+
+    //! Initialize decoder
+    void setup_decoder(); 
+
   private:
     // Parity check matrix parameterization 
     ivec C, V, sumX1, sumX2, iind, jind;  
-
-    // decoder parameters
-    std::string dec_method;
-    ivec dec_options;
 
     // temporary storage for decoder (memory allocated when codec defined)
     QLLRvec mvc, mcv;

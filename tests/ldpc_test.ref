@@ -1,10 +1,17 @@
 girth=6
----------- LDPC codec -----------------
-Nvar=200  Ncheck=100  rate=0.5
+--- LDPC codec ----------------------------------
+Nvar : 200
+Ncheck : 100
+Rate : 0.5
 Column degrees (node perspective): [0 0 0 200]
 Row degrees (node perspective): [0 0 0 0 0 0 100]
----------------------------------------
-Decoder parameters: dec_method=bp. Decoder options: [50 1 0]
+-------------------------------------------------
+Decoder parameters:
+ - method : BP
+ - max. iterations : 50
+ - syndrom check at each iteration : 1
+ - syndrom check at start : 0
+-------------------------------------------------
 ---------- LLR calculation unit -----------------
 LLR_calc_unit table properties:
 The granularity in the LLR representation is 0.000244141
