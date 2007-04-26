@@ -29,10 +29,10 @@ int main(int argc, char **argv)
   cout << "Running with Eb/N0: " << EbN0db << endl;
 
   // High performance: 2500 iterations, high resolution LLR algebra
-  C.setup_decoder("bp","2500 1 0");  
+  C.set_exit_conditions(2500);  
 
-  // Alt. setting -- High speed: 50 iterations, logmax approximation
-  // C.setup_decoder("bp","50 1 0",LLR_calc_unit(12,0,7));  
+  // Alternate high speed settings: 50 iterations, logmax approximation
+  // C.set_llrcalc(LLR_calc_unit(12,0,7));  
 
   cout << C << endl;
 
