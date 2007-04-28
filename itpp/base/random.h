@@ -416,18 +416,28 @@ namespace itpp {
   };
 
   /*!
-    \brief Normal distribution
-    \ingroup randgen
-  */
+   * \brief Normal distribution
+   * \ingroup randgen
+   *
+   * Normal (Gaussian) random variables, using a simplified Ziggurat method.
+   *
+   * For details see the following arcticle: George Marsaglia, Wai Wan
+   * Tsang, "The Ziggurat Method for Generating Random Variables", Journal
+   * of Statistical Software, vol. 5 (2000), no. 8
+   *
+   * This implementation is based on the generator written by Jochen Voss
+   * found at http://seehuhn.de/comp/ziggurat/, which is also included in
+   * the GSL library (randlist/gauss.c).
+   */
   class Normal_RNG {
   public:
     //! Constructor. Set mean and variance.
     Normal_RNG(double meanval, double variance) { setup(meanval, variance); };
     //! Constructor. Set mean and variance.
-    Normal_RNG() { mean = 0.0; sigma = 1.0; odd = false; }
+    Normal_RNG() { mean = 0.0; sigma = 1.0; }
     //! Set mean, and variance
     void setup(double meanval, double variance)
-    { mean = meanval; sigma = std::sqrt(variance); odd = false; }
+    { mean = meanval; sigma = std::sqrt(variance); }
     //! Get mean and variance
     void get_setup(double &meanval, double &variance) const;
     //! Get one sample.
@@ -437,16 +447,34 @@ namespace itpp {
     //! Get a sample matrix.
     mat operator()(int h, int w) { mat temp(h,w); sample_matrix(h,w, temp); return (sigma*temp+mean); }
     //! Get a Normal distributed (0,1) sample
-    double sample() // Box-Mueller, Polar version, See Knuth v2, 3rd ed, p122 
+    double sample()
     {
-      double x, r2;
-      if (odd) {
-	odd = 0;
-	return y;
+      unsigned int u, sign, i, j;
+      double x, y;
+
+      while(true) {
+	u = RNG.random_int();
+	sign = u & 0x80; // 1 bit for the sign
+	i = u & 0x7f; // 7 bits to choose the step
+	j = u >> 8; // 24 bits for the x-value
+
+	x = j * wtab[i];
+
+	if (j < ktab[i]) 
+	  break;
+
+	if (i < 127) {
+	  y = ytab[i+1] + (ytab[i] - ytab[i+1]) * RNG.random_01();
+	} 
+	else {
+	  x = PARAM_R - std::log(1.0 - RNG.random_01()) / PARAM_R;
+	  y = std::exp(-PARAM_R * (x - 0.5 * PARAM_R)) * RNG.random_01();
+	}
+	
+	if (y < std::exp(-0.5 * x * x)) 
+	  break;
       }
-      do { x = 2. * RNG.random_01() - 1.; y = 2. * RNG.random_01() - 1.; r2 = x*x + y*y; } while (r2 >= 1. || r2 < 1E-30);
-      r2 = std::sqrt(std::log(r2)*(-2./r2)); x *= r2;  y *= r2; odd = 1;
-      return x;
+      return sign ? x : -x;
     }
  
     //! Get a Normal distributed (0,1) vector
@@ -465,9 +493,15 @@ namespace itpp {
   protected:
   private:
     //!
-    double mean, sigma, y;
+    double mean, sigma;
     //!
-    int odd;
+    static const double ytab[128];
+    //!
+    static const unsigned int ktab[128];
+    //!
+    static const double wtab[128];
+    //!
+    static const double PARAM_R;
     //!
     Random_Generator RNG;
   };
