@@ -1,37 +1,37 @@
-peek(out_vec,2) = [-0.390741 -0.78583]: display 2 first elements of the buffer, without affecting the content
-peek_reverse(out_vec,-1) = [-0.478648 -0.78583 -0.390741]: display buffer, without affecting the content
-peek_reverse(out_array,-1) = {-0.478648 -0.78583 -0.390741}: display buffer, without affecting the content
-get(out_vec,1) = [-0.78583]
-get(out_vec) = [-0.478648 2.49012 1.17944 0.10843 0.51785 0.528388 -0.0433091 0.219357 0.606813]
+peek(out_vec,2) = [1.93597 1.90882]: display 2 first elements of the buffer, without affecting the content
+peek_reverse(out_vec,-1) = [-0.335967 1.90882 1.93597]: display buffer, without affecting the content
+peek_reverse(out_array,-1) = {-0.335967 1.90882 1.93597}: display buffer, without affecting the content
+get(out_vec,1) = [1.90882]
+get(out_vec) = [-0.335967 0.0474307 0.214331 0.0491298 0.704564 -2.84648 -1.21741 -0.604713 -0.632424]
 get(out_vec) = []; get(out_array,0) = {}: empty buffer, no content
 buffer size = 10
 nrof_elements = 10
-i = 0: peek() = -0.78583; peek_reverse() = 0.606813; get() = -0.78583
-i = 1: peek() = -0.478648; peek_reverse() = 0.606813; get() = -0.478648
-i = 2: peek() = 2.49012; peek_reverse() = 0.606813; get() = 2.49012
-i = 3: peek() = 1.17944; peek_reverse() = 0.606813; get() = 1.17944
-i = 4: peek() = 0.10843; peek_reverse() = 0.606813; get() = 0.10843
-i = 5: peek() = 0.51785; peek_reverse() = 0.606813; get() = 0.51785
-i = 6: peek() = 0.528388; peek_reverse() = 0.606813; get() = 0.528388
-i = 7: peek() = -0.0433091; peek_reverse() = 0.606813; get() = -0.0433091
-i = 8: peek() = 0.219357; peek_reverse() = 0.606813; get() = 0.219357
-i = 9: peek() = 0.606813; peek_reverse() = 0.606813; get() = 0.606813
+i = 0: peek() = 1.90882; peek_reverse() = -0.632424; get() = 1.90882
+i = 1: peek() = -0.335967; peek_reverse() = -0.632424; get() = -0.335967
+i = 2: peek() = 0.0474307; peek_reverse() = -0.632424; get() = 0.0474307
+i = 3: peek() = 0.214331; peek_reverse() = -0.632424; get() = 0.214331
+i = 4: peek() = 0.0491298; peek_reverse() = -0.632424; get() = 0.0491298
+i = 5: peek() = 0.704564; peek_reverse() = -0.632424; get() = 0.704564
+i = 6: peek() = -2.84648; peek_reverse() = -0.632424; get() = -2.84648
+i = 7: peek() = -1.21741; peek_reverse() = -0.632424; get() = -1.21741
+i = 8: peek() = -0.604713; peek_reverse() = -0.632424; get() = -0.604713
+i = 9: peek() = -0.632424; peek_reverse() = -0.632424; get() = -0.632424
 buffer size = 10
 nrof_elements = 8
-peek(out_vec) = [2.49012 1.17944 0.10843 0.51785 0.528388 -0.0433091 0.219357 0.606813]
-peek at index 5: peek(5) = -0.0433091
-peek at index 3: peek(3) = 0.51785
-peek at index 7: peek(7) = 0.606813
-peek at index 1: peek(1) = 1.17944
+peek(out_vec) = [0.0474307 0.214331 0.0491298 0.704564 -2.84648 -1.21741 -0.604713 -0.632424]
+peek at index 5: peek(5) = -1.21741
+peek at index 3: peek(3) = 0.704564
+peek at index 7: peek(7) = -0.632424
+peek at index 1: peek(1) = 0.214331
 peek at indices [5 3 7 1]:
-peek(index_vec,out_vec) = [-0.0433091 0.51785 0.606813 1.17944]
+peek(index_vec,out_vec) = [-1.21741 0.704564 -0.632424 0.214331]
 buffer size = 15
 nrof_elements = 8
-peek(out_vec) = [2.49012 1.17944 0.10843 0.51785 0.528388 -0.0433091 0.219357 0.606813]
+peek(out_vec) = [0.0474307 0.214331 0.0491298 0.704564 -2.84648 -1.21741 -0.604713 -0.632424]
 buffer size = 5
 nrof_elements = 5
-peek(out_vec) = [0.51785 0.528388 -0.0433091 0.219357 0.606813]
+peek(out_vec) = [0.704564 -2.84648 -1.21741 -0.604713 -0.632424]
 Copy constructor: 
-Circular_Buffer<double> cb2(cb1): cb2.peek(out_vec) = [0.51785 0.528388 -0.0433091 0.219357 0.606813]
+Circular_Buffer<double> cb2(cb1): cb2.peek(out_vec) = [0.704564 -2.84648 -1.21741 -0.604713 -0.632424]
 Copy operator: 
-Circular_Buffer<double> cb3=cb1: cb3.peek(out_array) = {0.51785 0.528388 -0.0433091 0.219357 0.606813}
+Circular_Buffer<double> cb3=cb1: cb3.peek(out_array) = {0.704564 -2.84648 -1.21741 -0.604713 -0.632424}

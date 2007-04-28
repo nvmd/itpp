@@ -40,7 +40,6 @@ int main()
 {
   LDPC_Parity_Regular H;
   H.generate(200, 3, 6, "rand", "100 6");
-  H.display_stats();
   int girth = H.cycle_removal_MGW(6);
   cout << "girth=" << girth << endl;
   LDPC_Generator_Systematic G;
