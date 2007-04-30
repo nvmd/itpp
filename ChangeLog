@@ -1,3 +1,8 @@
+2007-04-30  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/comm/commfunc.h, itpp/comm/commfunc.cpp: Added a new
+	function "waterfilling()" to solve water-filling problems
+
 2007-04-29  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/random.cpp, itpp/base/random.h,

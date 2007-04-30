@@ -1,7 +1,7 @@
 /*!
  * \file 
  * \brief Definitions of some specific functions useful in communications
- * \author Tony Ottosson
+ * \author Tony Ottosson and Erik G. Larsson
  *
  * $Date$
  * $Revision$
@@ -60,6 +60,28 @@ namespace itpp {
     \ingroup misccommfunc
   */
   int weight(const bvec &a);
+
+  /*!
+   * \brief Compute the water-filling solution
+   * \ingroup misccommfunc
+   * 
+   * This function computes the solution of the water-filling problem
+   * \f[ 
+   * \max_{p_0,...,p_{n-1}} \sum_{i=0}^{n-1} \log\left(1+p_i\alpha_i\right)
+   * \f]
+   * subject to
+   * \f[ 
+   * \sum_{i=0}^{n-1} p_i \le P
+   * \f]
+   *
+   * \param alpha vector of \f$\alpha_0,...,\alpha_{n-1}\f$ gains (must have
+   * strictly positive elements)
+   * \param P power constraint
+   * \return vector of power allocations \f$p_0,...,p_{n-1}\f$
+   *
+   * The computational complexity of the method is \f$O(n^2)\f$ at most
+   */
+  vec waterfilling(const vec& alpha, double P);
 
 } // namespace itpp
 
