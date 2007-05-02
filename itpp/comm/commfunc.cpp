@@ -104,7 +104,7 @@ namespace itpp {
 	break;
     }
     
-    vec result;
+    vec result(n);
     for (int j=0; j<n; j++) {
       result(j) = ((lambda < alpha(j)) ? (1.0/lambda - 1.0/alpha(j)) : 0.0);
     }

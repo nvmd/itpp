@@ -1,3 +1,7 @@
+2007-05-02  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/comm/commfunc.cpp: Fixed missing memory allocation
+
 2007-04-30  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/comm/commfunc.h, itpp/comm/commfunc.cpp: Added a new
