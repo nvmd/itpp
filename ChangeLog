@@ -1,5 +1,8 @@
 2007-05-02  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
+        * itpp/tests/commfunc_test.cpp, itpp/tests/commfunc_test.ref:
+	Added missing test program
+	
 	* itpp/comm/commfunc.cpp: Fixed missing memory allocation
 
 2007-04-30  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>

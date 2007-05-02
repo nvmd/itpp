@@ -30,6 +30,7 @@ BASE_TESTS = \
 COMM_TESTS = \
 	bch_test \
 	channel_test \
+	commfunc_test \
 	convcode_test \
 	galois_test \
 	interleaver_test \
@@ -88,6 +89,7 @@ itfile_test_SOURCES = itfile_test.cpp
 itfile_test_CPPFLAGS = -DITFILE_TEST_FILE=\"$(srcdir)/itfile_test_data.it\" $(AM_CPPFLAGS)
 cholesky_test_SOURCES = cholesky_test.cpp
 circular_buffer_test_SOURCES = circular_buffer_test.cpp
+commfunc_test_SOURCES = commfunc_test.cpp
 convcode_test_SOURCES = convcode_test.cpp
 det_test_SOURCES = det_test.cpp
 eigen_test_SOURCES = eigen_test.cpp
