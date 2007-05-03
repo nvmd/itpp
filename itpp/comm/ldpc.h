@@ -649,8 +649,8 @@ namespace itpp {
       This is a wrapper functions which calls a proper implementation from
       the \c LDPC_Generator object.
 
-      \param input Vector of input bits
-      \param output Vector of output bits
+      \param input Vector of \c ncheck input bits
+      \param output Vector of \c nvar output bits
     */
     virtual void encode(const bvec &input, bvec &output);
     //! \brief Encode codeword
@@ -671,10 +671,15 @@ namespace itpp {
       return bvec();
     } 
 
-    //! This function is a wrapper for bp_decode()
-    virtual void decode(const vec &received_signal, bvec &output);
-    //! This function is a wrapper for bp_decode()
-    virtual bvec decode(const vec &received_signal);
+    //! This function outputs systematic bits of the decoded codeword
+    virtual void decode(const vec &llr_in, bvec &syst_bits);
+    //! This function outputs systematic bits of the decoded codeword
+    virtual bvec decode(const vec &llr_in);
+
+    //! This function is a wrapper for \c bp_decode()
+    void decode_soft_out(const vec &llr_in, vec &llr_out);
+    //! This function is a wrapper for \c bp_decode()
+    vec decode_soft_out(const vec &llr_in);
 
     /*! \brief Belief propagation decoding.  
 
@@ -682,21 +687,21 @@ namespace itpp {
       (Pearl's belief propagation) using LLR values as messages.  A
       fast update mechanism is used for nodes with large degrees.
     
-      \param LLRin  vector of input LLR values
-      \param LLRout vector of output LLR values
+      \param LLRin  vector of \c nvar input LLR values
+      \param LLRout vector of \c nvar output LLR values
 
       If the decoder converged to a valid codeword, the function
       returns the number of iterations performed.  Otherwise the
       function returns the number of iterations performed but with
       negative sign.
 
-      Run setup_decoder() first to set number of iterations and other
-      parameters. The function uses \c LLR_calc_unit to implement
-      table-lookup for the Boxplus operator.  By setting the
-      parameters of the \c LLR_calc_unit provided in setup_decoder(),
-      one can change the resolution, for example to use a logmax
-      approximation. See the documentation of \c LLR_calc_unit for
-      details on how to do this.
+      One can use \c set_exit_conditions() method to change the number of
+      decoding iterations and related parameters parameters. The decoding
+      function uses \c LLR_calc_unit to implement table-lookup for the
+      Boxplus operator. By setting the parameters of the \c LLR_calc_unit
+      provided in \c set_llrcalc(), one can change the resolution, for
+      example to use a logmax approximation. See the documentation of \c
+      LLR_calc_unit for details on how to do this.
     */
     int bp_decode(const QLLRvec &LLRin, QLLRvec &LLRout);
    
