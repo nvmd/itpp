@@ -1,5 +1,8 @@
 2007-05-03  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* AUTHORS, doc/local/authors.doc: Sean Finney added to the list of
+	contributors
+
 	* itpp/base/random.h, tests/channel_test.ref,
 	tests/cholesky_test.ref, tests/det_test.ref, tests/eigen_test.ref,
 	tests/filter_design_test.ref, tests/filter_test.ref,
