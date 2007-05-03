@@ -1006,25 +1006,35 @@ namespace itpp {
     return result;
   }
 
-  void LDPC_Code::decode(const vec &llrin, bvec &bitsout)
+  void LDPC_Code::decode(const vec &llr_in, bvec &syst_bits)
   {
-    it_assert(H_defined, "LDPC_Code::decode(): Parity check matrix is "
-	      "required for decoding");
-
-    // decode with belief propagation
-    QLLRvec qllrin = llrcalc.to_qllr(llrin);
+    QLLRvec qllrin = llrcalc.to_qllr(llr_in);
     QLLRvec qllrout;
     bp_decode(qllrin, qllrout);
-    bitsout = qllrout < 0;
+    syst_bits = (qllrout.left(ncheck) < 0);
   }
   
-  bvec LDPC_Code::decode(const vec &x)
+  bvec LDPC_Code::decode(const vec &llr_in)
   {
-    bvec b;
-    decode(x,b);
-    return b;
+    bvec syst_bits;
+    decode(llr_in, syst_bits);
+    return syst_bits;
   }
 
+  void LDPC_Code::decode_soft_out(const vec &llr_in, vec &llr_out)
+  {
+    QLLRvec qllrin = llrcalc.to_qllr(llr_in);
+    QLLRvec qllrout;
+    bp_decode(qllrin, qllrout);
+    llr_out = llrcalc.to_double(qllrout);
+  }
+
+  vec LDPC_Code::decode_soft_out(const vec &llr_in)
+  {
+    vec llr_out;
+    decode_soft_out(llr_in, llr_out);
+    return llr_out;
+  }
 
   int LDPC_Code::bp_decode(const QLLRvec &LLRin, QLLRvec &LLRout) 
   {

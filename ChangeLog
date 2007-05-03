@@ -1,3 +1,10 @@
+2007-05-03  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/ldpc.cpp, itpp/comm/ldpc.h: Now the decode() methods
+	return only systematic bits, to be symetric with the encode()
+	methods. New methods decode_soft_out() added, which return soft
+	LLR values for all bits in a codeword.
+
 2007-05-02  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
         * itpp/tests/commfunc_test.cpp, itpp/tests/commfunc_test.ref:
