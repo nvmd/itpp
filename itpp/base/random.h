@@ -553,25 +553,45 @@ namespace itpp {
   class Complex_Normal_RNG {
   public:
     //! Constructor. Set mean and variance.
-    Complex_Normal_RNG(std::complex<double> mean, double variance) { setup(mean, variance); }
-    //! Constructor. Set mean and variance.
-    Complex_Normal_RNG() { m = 0.0; sigma=1.0; }
+    Complex_Normal_RNG(std::complex<double> mean, double variance):
+      norm_factor(1.0/std::sqrt(2.0)) 
+    { 
+      setup(mean, variance);
+    }
+    //! Default constructor
+    Complex_Normal_RNG(): m(0.0), sigma(1.0), norm_factor(1.0/std::sqrt(2.0)) {}
     //! Set mean and variance
-    void setup(std::complex<double> mean, double variance) { m = mean; sigma = std::sqrt(variance); }
+    void setup(std::complex<double> mean, double variance) 
+    {
+      m = mean; sigma = std::sqrt(variance); 
+    }
     //! Get mean and variance
-    void get_setup(std::complex<double> &mean, double &variance) { mean = m; variance = sigma*sigma; }
+    void get_setup(std::complex<double> &mean, double &variance)
+    { 
+      mean = m; variance = sigma*sigma;
+    }
     //! Get one sample.
     std::complex<double> operator()() { return sigma*sample()+m; }
     //! Get a sample vector.
-    cvec operator()(int n) { cvec temp(n); sample_vector(n, temp); return (sigma*temp+m); }
+    cvec operator()(int n) 
+    { 
+      cvec temp(n); 
+      sample_vector(n, temp); 
+      return (sigma*temp+m);
+    }
     //! Get a sample matrix.
-    cmat operator()(int h, int w) { cmat temp(h,w); sample_matrix(h,w, temp); return (sigma*temp+m); }
+    cmat operator()(int h, int w) 
+    { 
+      cmat temp(h, w); 
+      sample_matrix(h, w, temp); 
+      return (sigma*temp+m);
+    }
     //! Get a Complex Normal (0,1) distributed sample
     std::complex<double> sample()
     {
-      double a = m_2pi * RNG.random_01();
-      double b = std::sqrt(-std::log(RNG.random_01()));
-      return std::complex<double>(b * std::cos(a), b * std::sin(a));
+      double a = nRNG.sample() * norm_factor;
+      double b = nRNG.sample() * norm_factor;
+      return std::complex<double>(a, b);
     }
 
     //! Get a Complex Normal (0,1) distributed vector
@@ -587,14 +607,11 @@ namespace itpp {
       out.set_size(rows, cols, false);
       for (int i=0; i<rows*cols; i++) out(i) = sample(); 
     }
-  protected:
   private:
-    //!
     std::complex<double> m;
-    //!
     double sigma;
-    //!
-    Random_Generator RNG;
+    const double norm_factor;
+    Normal_RNG nRNG;
   };
 
   /*!

@@ -1,5 +1,19 @@
 2007-05-03  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/random.h, tests/channel_test.ref,
+	tests/cholesky_test.ref, tests/det_test.ref, tests/eigen_test.ref,
+	tests/filter_design_test.ref, tests/filter_test.ref,
+	tests/inv_test.ref, tests/ls_solve_test.ref, tests/lu_test.ref,
+	tests/matfunc_test.ref, tests/modulator_nd_test.ref,
+	tests/modulator_test.ref, tests/poly_test.ref, tests/qr_test.ref,
+	tests/schur_test.ref, tests/source_test.ref, tests/svd_test.ref,
+	tests/transforms_test.ref: New implementation of the
+	Complex_Normal_RNG class, which now uses the improved Normal_RNG
+	for generating the real and imaginary parts of the complex random
+	sample. The new generator is about four times faster than the
+	previous implementation. This closes feature request [1711727].
+	Thanks to Sean Finney for providing a patch.
+
 	* itpp/comm/ldpc.cpp, itpp/comm/ldpc.h: Now the decode() methods
 	return only systematic bits, to be symetric with the encode()
 	methods. New methods decode_soft_out() added, which return soft
