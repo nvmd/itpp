@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -58,13 +58,11 @@ int main()
     cout << "norm(I - U*U^T) = " 
 	 << round_to_zero(norm(eye(size) - (U * transpose(U))), thres) << endl;
     double temp_sum = 0;
-    for (int i = 1; i < size; i++)
-      for (int j = 0; j < i; j++)
+    for (int i = 2; i < size; i++)
+      for (int j = 0; j < i-1; j++)
 	temp_sum += sqr(T(i, j));
     cout << "norm(lower triangular part of T) = " 
 	 << round_to_zero(sqrt(temp_sum), thres) << endl; 
-    // Note: The last norm might be non zero, since T matrix might be
-    // quasi-upper triangular for real matrix A 
   }
   {
     cout << endl << "Complex matrix" << endl;
