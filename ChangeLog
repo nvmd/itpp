@@ -1,3 +1,10 @@
+2007-05-22  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* tests/schur_test.cpp, tests/schur_test.ref: Schur decomposition
+	is not unique, therefore the comparision of the non-zero norm of
+	the lower triangular part of matrix T was not a good idea. Fixed
+	this problem in the schur_test program.
+
 2007-05-15  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/signal/transforms.cpp, itpp/signal/transforms.h: Fixed
