@@ -431,7 +431,7 @@ namespace itpp {
 
       // create a new plan
       p = fftw_plan_dft_c2r_1d(N, (fftw_complex *)in._data(), (double *)out._data(), 
-			       FFTW_ESTIMATE | FFTW_UNALIGNED);
+			       FFTW_ESTIMATE | FFTW_UNALIGNED | FFTW_PRESERVE_INPUT);
     }
 
     // compute IFFT using the GURU FFTW interface
