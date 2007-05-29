@@ -934,6 +934,20 @@ namespace itpp {
     return r;
   }
 
+  template<> inline
+  const cmat outer_product(const cvec &v1, const cvec &v2)
+  {
+    it_assert_debug((v1.datasize > 0) && (v2.datasize > 0), 
+		    "Vec::outer_product:: Vector of zero size");
+
+    cmat out(v1.datasize, v2.datasize);
+    for (int i = 0; i < v1.datasize; ++i)
+      for (int j = 0; j < v2.datasize; ++j)
+	out(i, j) = conj(v1.data[i]) * v2.data[j];
+
+    return out;
+  }
+
   template<class Num_T> inline
   const Mat<Num_T> outer_product(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
   {
