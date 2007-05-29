@@ -1,5 +1,9 @@
 2007-05-29  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/vec.h: Added specialisation of the outer_product()
+	method for complex vector arguments. This fixes bug [1727923].
+	Thanks to Yngve Selen for reporting this issue.
+
 	* itpp/signal/transforms.cpp: Fixed bug [1724746], i.e. a problem
 	with modified input data in ifft_real() function. Additional
 	FFTW_PRESERVE_INPUT flag used during FFTW plan creation solves
