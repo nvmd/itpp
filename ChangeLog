@@ -1,3 +1,10 @@
+2007-05-29  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/signal/transforms.cpp: Fixed bug [1724746], i.e. a problem
+	with modified input data in ifft_real() function. Additional
+	FFTW_PRESERVE_INPUT flag used during FFTW plan creation solves
+	this problem. Thanks to Klaas Hofstra for reporting this bug.
+
 2007-05-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/schur_test.cpp, tests/schur_test.ref: Schur decomposition
