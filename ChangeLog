@@ -1,3 +1,12 @@
+2007-06-02  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/vec.h: The outer_product() function now uses an extra
+	argument "hermitian", which controls the calculation for complex
+	vectors. By default "hermitian" is set to false, which results in
+	(x * y^T) calculation. If "hermitian" is true, (x * y^H) is
+	calculated. This solution is backward compatible with 3.10.x
+	interface of outer_product(). Final fix for bug [1727923].
+
 2007-05-29  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/vec.h: Added specialisation of the outer_product()

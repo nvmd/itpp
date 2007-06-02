@@ -83,8 +83,17 @@ namespace itpp {
   //! Inner (dot) product of two vectors v1 and v2
   template<class Num_T> Num_T operator*(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
   { return dot(v1, v2); }
-  //! Outer product of two vectors v1 and v2
-  template<class Num_T> const Mat<Num_T> outer_product(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
+  /*!
+   * \brief Outer product of two vectors v1 and v2
+   *
+   * When \a v1 and \a v2 are complex vectors (cvec), the third boolean
+   * argument \a hermitian can be set to \a true to conjugate \a v2
+   * (Matlab's v1 * v2' operation). This parameter is ignored for types
+   * other then cvec.
+   */
+  template<class Num_T> 
+  const Mat<Num_T> outer_product(const Vec<Num_T> &v1, const Vec<Num_T> &v2,
+				 bool hermitian = false);
   //! Multiplication of a vector and a scalar
   template<class Num_T> const Vec<Num_T> operator*(const Vec<Num_T> &v, const Num_T t);
   //! Multiplication of a scalar and a vector. Results in a vector
@@ -307,7 +316,9 @@ namespace itpp {
     //! Inner (dot) product
     friend Num_T dot <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
     //! Outer product of two vectors v1 and v2
-    friend const Mat<Num_T> outer_product <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
+    friend const Mat<Num_T> outer_product <>(const Vec<Num_T> &v1, 
+					     const Vec<Num_T> &v2, 
+					     bool hermitian);
     //! Elementwise multiplication of vector and scalar
     friend const Vec<Num_T> operator*<>(const Vec<Num_T> &v, const Num_T t);
     //! Elementwise multiplication of vector and scalar
@@ -935,31 +946,22 @@ namespace itpp {
   }
 
   template<> inline
-  const cmat outer_product(const cvec &v1, const cvec &v2)
-  {
-    it_assert_debug((v1.datasize > 0) && (v2.datasize > 0), 
-		    "Vec::outer_product:: Vector of zero size");
-
-    cmat out(v1.datasize, v2.datasize);
-    for (int i = 0; i < v1.datasize; ++i)
-      for (int j = 0; j < v2.datasize; ++j)
-	out(i, j) = conj(v1.data[i]) * v2.data[j];
-
-    return out;
-  }
+  const cmat outer_product(const cvec &v1, const cvec &v2, 
+			   bool hermitian);
 
   template<class Num_T> inline
-  const Mat<Num_T> outer_product(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
+  const Mat<Num_T> outer_product(const Vec<Num_T> &v1, const Vec<Num_T> &v2,
+				 bool hermitian)
   {
     int i, j;
 
-    it_assert_debug(v1.datasize>0 && v2.datasize>0, "Vec::outer_product:: Vector of zero size");
+    it_assert_debug((v1.datasize > 0) && (v2.datasize > 0), 
+		    "Vec::outer_product:: Input vector of zero size");
 
     Mat<Num_T> r(v1.datasize, v2.datasize);
-
     for (i=0; i<v1.datasize; i++) {
       for (j=0; j<v2.datasize; j++) {
-	      r(i,j) = v1.data[i] * v2.data[j];
+	r(i,j) = v1.data[i] * v2.data[j];
       }
     }
 
@@ -1842,15 +1844,17 @@ namespace itpp {
   extern template bin operator*(const bvec &v1, const bvec &v2);
 
   //! Template instantiation of outer_product
-  extern template const mat outer_product(const vec &v1, const vec &v2);
+  extern template const mat outer_product(const vec &v1, const vec &v2,
+					  bool hermitian);
   //! Template instantiation of outer_product
-  extern template const cmat outer_product(const cvec &v1, const cvec &v2);
+  extern template const imat outer_product(const ivec &v1, const ivec &v2,
+					   bool hermitian);
   //! Template instantiation of outer_product
-  extern template const imat outer_product(const ivec &v1, const ivec &v2);
+  extern template const smat outer_product(const svec &v1, const svec &v2,
+					   bool hermitian);
   //! Template instantiation of outer_product
-  extern template const smat outer_product(const svec &v1, const svec &v2);
-  //! Template instantiation of outer_product
-  extern template const bmat outer_product(const bvec &v1, const bvec &v2);
+  extern template const bmat outer_product(const bvec &v1, const bvec &v2,
+					   bool hermitian);
 
   //! Template instantiation of operator*
   extern template const vec operator*(const vec &v, double t);
