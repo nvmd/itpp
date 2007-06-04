@@ -1,3 +1,9 @@
+2007-06-04  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/srccode/pnm.cpp: The functions for reading ppm and pgm
+	images have to use binary mode when opening files. This fixes bug
+	[1730610]. Thanks to Thomas Andersson for reporting this problem.
+
 2007-06-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/vec.h: The outer_product() function now uses an extra

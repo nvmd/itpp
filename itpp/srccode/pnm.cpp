@@ -73,7 +73,7 @@ namespace itpp {
     ifstream file;
     char pnm_type;
 
-    file.open( filename.c_str() );
+    file.open(filename.c_str(), ifstream::in | ifstream::binary);
 
     string comments;
     int width, height, max_val;
@@ -90,7 +90,7 @@ namespace itpp {
   {
     ifstream file;
 
-    file.open( filename.c_str() );
+    file.open(filename.c_str(), ifstream::in | ifstream::binary);
 
     pnm_read_header( file, pnm_type, width, height, max_val, comments );
     
@@ -109,7 +109,7 @@ namespace itpp {
     int width, height, max_val, i, j;
     comments = "";
 
-    file.open( filename.c_str() );
+    file.open(filename.c_str(), ifstream::in | ifstream::binary);
 
     // The format code is 'P5' for pgm files
     char pnm_type;
@@ -152,7 +152,7 @@ namespace itpp {
     // Its purpose is the call of function pnm_read_header.
     string comments;
 
-    file.open( filename.c_str() );
+    file.open(filename.c_str(), ifstream::in | ifstream::binary);
 
     char pnm_type;
     if (!pnm_read_header(file, pnm_type, width, height, max_val, comments, '5' ) )
@@ -234,7 +234,7 @@ namespace itpp {
     ifstream file;
     int width, height, max_val, i, j;
 
-    file.open( filename.c_str() );
+    file.open(filename.c_str(), ifstream::in | ifstream::binary);
       
     char pnm_type;
     if(!pnm_read_header(file, pnm_type, width, height, max_val, comments, '6' ) )
@@ -275,7 +275,7 @@ namespace itpp {
     // This is a dummy variable. Its purpose is the call of function pnm_read_header.
     string comments;
 
-    file.open( filename.c_str() );
+    file.open(filename.c_str(), ifstream::in | ifstream::binary);
     
     char pnm_type;
     if (!pnm_read_header(file, pnm_type, width, height, max_val, comments, '6' ) )
