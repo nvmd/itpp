@@ -4,7 +4,15 @@
 	images have to use binary mode when opening files. This fixes bug
 	[1730610]. Thanks to Thomas Andersson for reporting this problem.
 
+==============================================================================
+
 2007-06-02  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* IT++ 3.10.11 released (SVN tag: release-3-10-11)
+	(merged rev. 1050:1051 from itpp-3-10 branch)
+
+	* NEWS-3.10: Updated to reflect recent changes
+	(merged rev. 1050:1051 from itpp-3-10 branch)
 
 	* itpp/base/vec.h: The outer_product() function now uses an extra
 	argument "hermitian", which controls the calculation for complex
