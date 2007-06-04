@@ -1,4 +1,35 @@
 ===============================================================================
+IT++ version 3.10.11                                       Released: 2007-06-02
+-------------------------------------------------------------------------------
+
+This is the next bug-fix release of the stable IT++ library. As usually, no
+new features have been added since our previous release 3.10.10. Only minor
+modifications and bug-fixes have been done.
+
+Bug-fixes:
+----------
+
+* Fixed bug [1727923]. Actually the behaviour of the function is not changed
+  at all. Instead, the documentation is improved to clearly describe what
+  this method does.
+
+* Fixed bug [1724746], i.e. a problem with modified input data in
+  ifft_real() function.
+
+* Fixed a minor problem in the schur_test program, which caused failed test
+  when linking IT++ with some LAPACK implementations
+
+* Fixed linking errors when trying to use Hadamard and Walsh-Hadamard
+  transform functions. This fixes bug [1719146].
+
+* Fixed bug [1703731] by implementing the missing double2mxArray() and
+  double_complex2mxArray() functions
+
+* Added missing #include <cstdlib> and <limits> header files. This fixes
+  problems when building using GCC 4.3 snapshot.
+
+
+===============================================================================
 IT++ version 3.10.10                                       Released: 2007-04-10
 -------------------------------------------------------------------------------
 
