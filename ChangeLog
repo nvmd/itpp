@@ -1,3 +1,15 @@
+2007-06-10  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* INSTALL, config/acx_blas.m4, config/acx_fft.m4,
+	config/acx_lapack.m4, configure.ac, doc/local/installation.doc,
+	itpp/config_msvc.h, itpp/signal/transforms.cpp: 
+	Improvements in	MKL detection macros
+
+	The latest MKL release 9.1.018 has different naming of a lapack
+	shared library (libmkl_lapack32.so and libmkl_lapack64.so ->
+	libmkl_lapack.so). Cosmetic changes in MKL's FFT macro and
+	variable names (MKL8 -> MKL)
+
 2007-06-04  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/srccode/pnm.cpp: The functions for reading ppm and pgm
