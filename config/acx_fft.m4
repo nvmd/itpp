@@ -6,7 +6,7 @@ dnl
 dnl This macro looks for some FFT implementation, e.g. FFTW3, MKL, ACML,
 dnl etc. On success, it sets the FFT_LIBS output variable to hold the
 dnl requisite library linkages. Besides it defines one of the following:
-dnl HAVE_FFT, HAVE_FFTW, HAVE_MKL8_FFT, HAVE_ACML_FFT
+dnl HAVE_FFT, HAVE_FFTW, HAVE_MKL_FFT, HAVE_ACML_FFT
 dnl
 dnl The user may also use --with-fft=<lib> in order to use some
 dnl specific FFT library <lib>.
@@ -23,7 +23,7 @@ esac
 
 test "$acx_fft_ok" != disabled && acx_fft_ok=no
 
-fft_mkl8_ok=no
+fft_mkl_ok=no
 fft_acml_ok=no
 fftw3_ok=no
 
@@ -34,7 +34,7 @@ if test "x$FFT_LIBS" != x; then
   AC_TRY_LINK_FUNC(DftiComputeForward, [acx_fft_ok=yes])
   AC_MSG_RESULT($acx_fft_ok)
   if test "$acx_fft_ok" = yes; then
-    AC_CHECK_HEADER([mkl_dfti.h], [fft_mkl8_ok=yes; blas_mkl_ok=yes], 
+    AC_CHECK_HEADER([mkl_dfti.h], [fft_mkl_ok=yes; blas_mkl_ok=yes], 
       [acx_fft_ok=no])
   fi
   if test "$acx_fft_ok" = no; then
@@ -62,7 +62,7 @@ if test "$acx_fft_ok" = no; then
   save_LIBS="$LIBS"; LIBS="$LIBS $BLAS_LIBS"
   AC_CHECK_FUNC(DftiComputeForward, [acx_fft_ok=yes])
   if test "$acx_fft_ok" = yes; then
-    AC_CHECK_HEADER([mkl_dfti.h], [fft_mkl8_ok=yes; blas_mkl_ok=yes], 
+    AC_CHECK_HEADER([mkl_dfti.h], [fft_mkl_ok=yes; blas_mkl_ok=yes], 
       [acx_fft_ok=no])
   fi
   LIBS="$save_LIBS"
@@ -104,7 +104,7 @@ if test "$acx_fft_ok" = no; then
     [-lguide -lpthread])
   if test "$acx_fft_ok" = yes; then
     AC_CHECK_HEADER([mkl_dfti.h],
-      [fft_mkl8_ok=yes; blas_mkl_ok=yes; FFT_LIBS="-lmkl -lguide -lpthread"], 
+      [fft_mkl_ok=yes; blas_mkl_ok=yes; FFT_LIBS="-lmkl -lguide -lpthread"], 
       [acx_fft_ok=no])
   fi
   LIBS="$save_LIBS"
@@ -127,8 +127,8 @@ AC_SUBST(FFT_LIBS)
 # Finally, define HAVE_*
 if test "$acx_fft_ok" = yes; then
   AC_DEFINE(HAVE_FFT, 1, [Define if you have FFT library.])
-  if test "$fft_mkl8_ok" = yes; then
-    AC_DEFINE(HAVE_FFT_MKL8, 1, [Define if you have MKL8 FFT library.])
+  if test "$fft_mkl_ok" = yes; then
+    AC_DEFINE(HAVE_FFT_MKL, 1, [Define if you have MKL FFT library.])
   fi
   if test "$fft_acml_ok" = yes; then
     AC_DEFINE(HAVE_FFT_ACML, 1, [Define if you have ACML FFT library.])

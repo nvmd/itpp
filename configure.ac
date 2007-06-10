@@ -412,7 +412,7 @@ External libs:
   - CBLAS .......... : ${acx_cblas_ok}
   - LAPACK ......... : ${acx_lapack_ok}
   - FFT ............ : ${acx_fft_ok}
-    * MKL .......... : ${fft_mkl8_ok}
+    * MKL .......... : ${fft_mkl_ok}
     * ACML ......... : ${fft_acml_ok}
     * FFTW ......... : ${fftw3_ok}
 
