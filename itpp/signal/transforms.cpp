@@ -37,7 +37,7 @@
 #  include <itpp/config_msvc.h>
 #endif
 
-#if defined(HAVE_FFT_MKL8)
+#if defined(HAVE_FFT_MKL)
 #  include <mkl_dfti.h>
 #elif defined(HAVE_FFT_ACML)
 #  include <acml.h>
@@ -50,7 +50,7 @@
 
 namespace itpp { 
 
-#ifdef HAVE_FFT_MKL8
+#ifdef HAVE_FFT_MKL
 
   //---------------------------------------------------------------------------
   // FFT/IFFT based on MKL
@@ -525,7 +525,7 @@ namespace itpp {
     it_error("FFT library is needed to use idct() function");
   }
 
-#endif // HAVE_FFT_MKL8 or HAVE_FFT_ACML or HAVE_FFTW3
+#endif // HAVE_FFT_MKL or HAVE_FFT_ACML or HAVE_FFTW3
 
   cvec fft(const cvec &in) 
   { 

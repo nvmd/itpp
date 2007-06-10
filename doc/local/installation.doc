@@ -157,7 +157,7 @@ Otherwise, the detection procedure is as follows:
 -# Finally, a set of separate checks for some FFT library is executed.
    Currently three different libraries providing FFT/IFFT routines can be
    used: MKL, ACML and FFTW. If at least one of them is found, \c HAVE_FFT
-   id defined. Besides, one of the following: \c HAVE_FFT_MKL8, \c
+   id defined. Besides, one of the following: \c HAVE_FFT_MKL, \c
    HAVE_FFT_ACML or \c HAVE_FFTW3 is defined. 
 
 If some external libraries are installed in a non-standard location in your
