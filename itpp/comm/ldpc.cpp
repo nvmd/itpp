@@ -31,6 +31,7 @@
  */
 
 #include <itpp/comm/ldpc.h>
+#include <iomanip>
 
 
 namespace itpp {
@@ -343,7 +344,7 @@ namespace itpp {
 	      // choose k
 	      ivec tmpi = (elem_mult(Gpow(r/2-1).get_col(i), 
 				     G.get_col(j))).get_nz_indices();
-// 	      int k = tmpi(rand()%length(tmpi));    
+	      // 	      int k = tmpi(rand()%length(tmpi));    
 	      int k = tmpi(randi(0,length(tmpi)-1));    
 	      it_assert_debug(G(j,k)==1 && G(k,j)==1,
 			      "LDPC_Parity_Unstructured::cycle_removal_MGW(): "
@@ -399,9 +400,9 @@ namespace itpp {
 	      
 	      // Update adjacency matrix
 	      it_assert_debug(G(p,l)==1 && G(l,p)==1 && G(j,k)==1 
-			 && G(k,j)==1,"G");
+			      && G(k,j)==1,"G");
 	      it_assert_debug(G(j,l)==0 && G(l,j)==0 && G(p,k)==0 
-			 && G(k,p)==0,"G");
+			      && G(k,p)==0,"G");
       	      
 	      // Delta is the update term to G
 	      Ssmat Delta(ncheck+nvar,ncheck+nvar,2);    
@@ -413,9 +414,9 @@ namespace itpp {
 	      // update G and its powers
 	      G = G+Delta;
 	      it_assert_debug(G(p,l)==0 && G(l,p)==0 && G(j,k)==0 
-			 && G(k,j)==0,"G");
+			      && G(k,j)==0,"G");
 	      it_assert_debug(G(j,l)==1 && G(l,j)==1 && G(p,k)==1 
-			 && G(k,p)==1,"G");
+			      && G(k,p)==1,"G");
 
 	      Gpow(1)=G;	
 	      Gpow(2)=G*G;
@@ -531,7 +532,7 @@ namespace itpp {
 	if (get(r,c)) { // double edge
 	  // set(r,c,0);  
 	  if (el>0) {
-// 	    int t=k+1+rand()%el;
+	    // 	    int t=k+1+rand()%el;
 	    int t=k+1+randi(0,el-1);
 	    int x=ind(t);  
 	    ind(t)=ind(k);
@@ -551,7 +552,7 @@ namespace itpp {
 	      set(r,c,0);
 	      if (el>0) {
 		// make a swap in the index permutation
-// 		int t=k+1+rand()%el;
+		// 		int t=k+1+rand()%el;
 		int t=k+1+randi(0,el-1);
 		int x=ind(t);  
 		ind(t)=ind(k);
@@ -688,6 +689,173 @@ namespace itpp {
       it_error("not implemented"); 
     };
   }
+
+  // ----------------------------------------------------------------------
+  // BLDPC_Parity
+  // ----------------------------------------------------------------------
+
+  BLDPC_Parity::BLDPC_Parity(const imat& base_matrix, int exp_factor)
+  {
+    expand_base(base_matrix, exp_factor);
+  }
+
+  BLDPC_Parity::BLDPC_Parity(const std::string& filename, int exp_factor)
+  {
+    load_base_matrix(filename);
+    expand_base(H_b, exp_factor);
+  }
+
+  void BLDPC_Parity::expand_base(const imat& base_matrix, int exp_factor)
+  {
+    Z = exp_factor;
+    H_b = base_matrix;
+    H_b_valid = true;
+    bmat H_dense(H_b.rows() * Z, H_b.cols() * Z);
+
+    for (int r = 0; r < H_b.rows(); r++)
+      for (int c = 0; c < H_b.cols(); c++)
+	switch (H_b(r, c)) {
+	case -1:
+	  H_dense.set_submatrix(r*Z, c*Z, zeros_b(Z, Z));
+	  break;
+	case 0:
+	  H_dense.set_submatrix(r*Z, c*Z, eye_b(Z));
+	  break;
+	default:
+	  H_dense.set_submatrix(r*Z, c*Z, circular_eye_b(Z, H_b(r, c)));
+	  break;
+	}
+
+    initialize(H_dense.rows(), H_dense.cols());
+
+    for (int r = 0; r < ncheck; r++)
+      for (int c = 0; c < nvar; c++)
+	if (H_dense(r, c))
+	  set(r, c, 1);
+  }
+
+
+  int BLDPC_Parity::get_exp_factor() const
+  { 
+    return Z;
+  }
+
+  imat BLDPC_Parity::get_base_matrix() const
+  { 
+    return H_b;
+  }
+
+  void BLDPC_Parity::set_exp_factor(int exp_factor)
+  {
+    Z = exp_factor;
+    if (H_b_valid) {
+      expand_base(H_b, exp_factor);
+    }
+    else {
+      calculate_base_matrix();
+    }
+  }
+
+
+  void BLDPC_Parity::load_base_matrix(const std::string& filename)
+  {
+    std::ifstream bm_file(filename.c_str());
+    it_assert(bm_file.is_open(), "BLDPC_Parity::load_base_matrix(): Could not "
+	      "open file \"" << filename << "\" for reading");
+    // delete old base matrix content
+    H_b.set_size(0, 0);
+    // parse text file content, row by row
+    std::string line;
+    int line_counter = 0;
+    getline(bm_file, line);
+    while (!bm_file.eof()) {
+      line_counter++;
+      std::stringstream ss(line);
+      ivec row(0);
+      while (ss.good()) {
+	int val;
+	ss >> val;
+	row = concat(row, val);
+      }
+      if ((H_b.rows() == 0) || (row.size() == H_b.cols()))
+	H_b.append_row(row);
+      else
+	it_warning("BLDPC_Parity::load_base_matrix(): Wrong size of "
+		   "a parsed row number " << line_counter);
+      getline(bm_file, line);
+    }
+    bm_file.close();
+
+    // transpose parsed base matrix if necessary
+    if (H_b.rows() > H_b.cols())
+      H_b = H_b.transpose();
+
+    H_b_valid = true;
+    init_flag = false;
+  }
+
+  void BLDPC_Parity::save_base_matrix(const std::string& filename) const
+  {
+    it_assert(H_b_valid, "BLDPC_Parity::save_base_matrix(): Base matrix is "
+	      "not valid");
+    std::ofstream bm_file(filename.c_str());
+    it_assert(bm_file.is_open(), "BLDPC_Parity::save_base_matrix(): Could not "
+	      "open file \"" << filename << "\" for writing");
+  
+    for (int r = 0; r < H_b.rows(); r++) {
+      for (int c = 0; c < H_b.cols(); c++) {
+	bm_file << std::setw(3) << H_b(r, c);
+      }
+      bm_file << "\n";
+    }
+
+    bm_file.close();
+  }
+
+
+  bmat BLDPC_Parity::circular_eye_b(int size, int shift)
+  {
+    bmat I = eye_b(size);
+    int c = I.cols();
+    int s = shift % c;
+    if (s > 0)
+      return concat_horizontal(I.get_cols(c-s, c-1), I.get_cols(0, c-1-s));
+    else
+      return I;
+  }
+
+  void BLDPC_Parity::calculate_base_matrix()
+  {
+    bmat H_dense = H.full();
+    int rows = H_dense.rows() / Z;
+    int cols = H_dense.cols() / Z;
+    it_assert((rows * Z == H_dense.rows()) && (cols * Z == H_dense.cols()),
+	      "BLDPC_Parity::calculate_base_matrix(): Parity check matrix "
+	      "does not match an expansion factor");
+    H_b.set_size(rows, cols);
+  
+    for (int r = 0; r < rows; r++) {
+      for (int c = 0; c < cols; c++) {
+	bmat tmp = H_dense.get(r*Z, (r+1)*Z-1, c*Z, (c+1)*Z-1);
+	if (tmp == zeros_b(Z, Z)) {
+	  H_b(r, c) = -1;
+	}
+	else {
+	  int shift = 0;
+	  while (tmp != circular_eye_b(Z, shift) && shift < Z) {
+	    shift++;
+	  }
+	  it_assert(shift < Z, "BLDPC_Parity::calculate_base_matrix(): " 
+		    "Parity check matrix was not constructed with expansion " 
+		    "factor Z = " << Z);
+	  H_b(r, c) = shift;
+	}
+      }
+    }
+
+    H_b_valid = true;
+  }
+
 
 
   // ----------------------------------------------------------------------
@@ -847,6 +1015,169 @@ namespace itpp {
 	      << G.cols() << ")");
 
     output = concat(input, G * input);
+  }
+
+
+  // ----------------------------------------------------------------------
+  // BLDPC_Generator
+  // ----------------------------------------------------------------------
+
+  BLDPC_Generator::BLDPC_Generator(const BLDPC_Parity* const H,
+				   const std::string type):
+    LDPC_Generator(type), H_enc(), N(0), M(0), K(0), Z(0)
+  {
+    construct(H);
+  }
+
+
+  void BLDPC_Generator::encode(const bvec &input, bvec &output)
+  { 
+    it_assert(init_flag, "BLDPC_Generator::encode(): Cannot encode with not "
+	      "initialized generator");
+    it_assert(input.size() == K, "BLDPC_Generator::encode(): Input vector "
+	      "length is not equal to K");
+
+    // copy systematic bits first
+    output = input;
+    output.set_size(N, true);
+
+    // backward substitution to obtain the first Z parity check bits
+    for (int k = 0; k < Z; k++) {
+      for (int j = 0; j < K; j++) {
+	output(K+k) += H_enc(M-1-k, j) * input(j);
+      }
+      for (int j = 0; j < k; j++) {
+	output(K+k) += H_enc(M-1-k, K+j) * output(K+j);
+      }
+    }
+
+    // forward substitution to obtain the next M-Z parity check bits
+    for (int k = 0; k < M-Z; k++) {
+      for (int j = 0; j < K; j++) {
+	output(K+Z+k) += H_enc(k, j) * input(j);
+      }    
+      for (int j = K; j < K+Z; j++) {
+	output(K+Z+k) += H_enc(k, j) * output(j);
+      }
+      for (int j = K+Z; j < K+Z+k; j++) {
+	output(K+Z+k) += H_enc(k, j) * output(j);
+      }
+    }
+  }
+
+  
+  void BLDPC_Generator::construct(const BLDPC_Parity* const H)
+  {
+    if (H != 0 && H->is_valid()) {
+      H_enc = H->get_H(); // sparse to dense conversion
+      Z = H->get_exp_factor();
+      N = H_enc.cols();
+      M = H_enc.rows();
+      K = N - M;
+
+      // ----------------------------------------------------------------------
+      // STEP 1 
+      // ----------------------------------------------------------------------
+      // loop over last M-Z columns of matrix H
+      for (int i = 0; i < M-Z; i += Z) {
+	// loop over last Z rows of matrix H
+	for (int j = 0; j < Z; j++) {
+	  // Gaussian elimination by adding particular rows
+	  H_enc.add_rows(M-1-j, M-Z-1-j-i);
+	}
+      }
+
+      // ----------------------------------------------------------------------
+      // STEP 2 
+      // ----------------------------------------------------------------------
+      // set first processed row index to M-Z
+      int r1 = M-Z;
+      // loop over columns with indexes K .. K+Z-1
+      for (int c1 = K+Z-1; c1 >= K; c1--) {
+	int r2 = r1;
+	// find the first '1' in column c1
+	while (H_enc(r2, c1) == 0 && r2 < M-1)
+	  r2++;
+	// if necessary, swap rows r1 and r2
+	if (r2 != r1)
+	  H_enc.swap_rows(r1, r2);
+
+	// look for the other '1' in column c1 and get rid of them
+	for (r2 = r1+1; r2 < M; r2++) {
+	  if (H_enc(r2, c1) == 1) {
+	    // Gaussian elimination by adding particular rows
+	    H_enc.add_rows(r2, r1);
+	  }
+	}
+
+	// increase first processed row index
+	r1++;
+      }
+
+      init_flag = true;
+    }
+  }
+
+
+  void BLDPC_Generator::save(const std::string& filename) const
+  {
+    it_assert(init_flag,
+	      "BLDPC_Generator::save(): Can not save not initialized generator");
+    // Every Z-th row of H_enc until M-Z
+    GF2mat H_T(M/Z-1, N);
+    for (int i = 0; i < M/Z-1; i++) {
+      H_T.set_row(i, H_enc.get_row(i*Z));
+    }
+    // Last Z preprocessed rows of H_enc
+    GF2mat H_Z = H_enc.get_submatrix(M-Z, 0, M-1, N-1);
+  
+    it_file f(filename);
+    int fileversion;
+    f >> Name("Fileversion") >> fileversion;
+    it_assert(fileversion == 1,
+	      "BLDPC_Generator::save(): Unsupported file format");
+    f << Name("G_type") << type;
+    f << Name("H_T") << H_T;
+    f << Name("H_Z") << H_Z;
+    f << Name("Z") << Z;
+    f.close();
+  }
+
+  void BLDPC_Generator::load(const std::string& filename)
+  {
+    GF2mat H_T, H_Z;
+
+    it_ifile f(filename);
+    int fileversion;
+    f >> Name("Fileversion") >> fileversion;
+    it_assert(fileversion == 1,
+	      "BLDPC_Generator::load(): Unsupported file format");
+    std::string gen_type;
+    f >> Name("G_type") >> gen_type;
+    it_assert(gen_type == type,
+	      "BLDPC_Generator::load(): Wrong generator type");
+    f >> Name("H_T") >> H_T;
+    f >> Name("H_Z") >> H_Z;
+    f >> Name("Z") >> Z;
+    f.close();
+  
+    N = H_T.cols();
+    M = (H_T.rows() + 1) * Z;
+    K = N-M;
+
+    H_enc = GF2mat(M-Z, N);
+    for (int i = 0; i < H_T.rows(); i++) {
+      for (int j = 0; j < Z; j++) {
+	for (int k = 0; k < N; k++) {
+	  if (H_T(i, (k/Z)*Z + (k+Z-j)%Z)) {
+	    H_enc.set(i*Z + j, k, 1); 
+	  }
+	}
+      }
+    }
+    H_enc = H_enc.concatenate_vertical(H_Z);
+
+    init_flag = true;
   }
 
 

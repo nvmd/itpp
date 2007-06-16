@@ -405,6 +405,78 @@ namespace itpp {
     void display_stats() const { LDPC_Parity::display_stats(); }
   };
 
+  // ----------------------------------------------------------------------
+  // BLDPC_Parity
+  // ----------------------------------------------------------------------
+
+  /*!
+    \brief Block LDPC code parity-check matrix
+    \author Adam Piatyszek
+
+    Block LDPC Codes (B-LDPC) are a special class of Quasi-Cyclic LDPC Codes
+    (QC-LDPC). Linear encoding properties and memory efficiency are their
+    main advantages. 
+
+    B-LDPC codes' parity-check matrix is constructed from so-called base
+    matrix by expansion of each single value with a zero matrix or
+    cyclic-shifted identity matrix of size Z x Z, where Z is an expansion
+    factor. Each non negative value of the base matrix represents the cyclic
+    shift value, e.g. 0 means that the identity matrix should not be
+    shifted; 6 means than the identity matrix should be circularly
+    right-shifted by (6 mod Z). Negative values (usually -1) represents zero
+    matrix of size Z x Z.
+
+    Please refer to [MYK05] for more details.
+
+    References: 
+
+    [MYK05] S. Myung, K. Yang, J. Kim, "Quasi-Cyclic LDPC Codes for Fast
+    Encoding", IEEE Trans. on Inform. Theory, vol. 51, no. 8, August 2005
+  */
+  class BLDPC_Parity : public LDPC_Parity {
+  public:
+    //! Default constructor
+    BLDPC_Parity(): LDPC_Parity(), Z(0), H_b(), H_b_valid(false) {}
+
+    //! Construct BLDPC matrix from base matrix
+    BLDPC_Parity(const imat &base_matrix, int exp_factor);
+
+    //! Construct BLDPC matrix parsing base matrix from a text file
+    BLDPC_Parity(const std::string &filename, int exp_factor);
+
+    //! Create BLDPC matrix from base matrix by expansion
+    void expand_base(const imat &base_matrix, int exp_factor);
+
+    //! Get expansion factor
+    int get_exp_factor() const;
+
+    //! Get base matrix
+    imat get_base_matrix() const;
+
+    //! Verify initialisation
+    bool is_valid() const { return H_b_valid && init_flag; }
+
+    //! Set expansion factor
+    void set_exp_factor(int exp_factor);
+
+    //! Load base matrix from a text file
+    void load_base_matrix(const std::string &filename);
+
+    //! Save base matrix to a text file
+    void save_base_matrix(const std::string &filename) const;
+
+  private:
+    int Z;			//!< Expansion factor
+    imat H_b;			//!< Base matrix
+    bool H_b_valid;		//!< Indicates that base matrix is valid
+
+    //! Generate circulated identity matrix
+    bmat circular_eye_b(int size, int shift);
+
+    //! Calculate base matrix from parity matrix \c H and \c Z
+    void calculate_base_matrix();
+  };
+
 
   // ----------------------------------------------------------------------
   // LDPC_Generator
@@ -525,6 +597,49 @@ namespace itpp {
     
   private:
     GF2mat G; // the matrix is stored in transposed form
+  };
+
+
+  // ----------------------------------------------------------------------
+  // BLDPC_Generator
+  // ----------------------------------------------------------------------
+
+  /*!
+    \brief Block LDPC Generator class
+    \author Adam Piatyszek
+
+    \note Please refer to the BLDPC_Parity class description for
+    information on B-LDPC codes
+  */
+  class BLDPC_Generator : public LDPC_Generator {
+  public:
+    //! Default constructor
+    BLDPC_Generator(const std::string type = "BLDPC"): 
+      LDPC_Generator(type), H_enc(), N(0), M(0), K(0), Z(0) {}
+    //! Parametrized constructor
+    BLDPC_Generator(const BLDPC_Parity* const H, 
+		    const std::string type = "BLDPC");
+
+    //! Get expansion factor
+    int get_exp_factor() const { return Z; }
+
+    //! Generator specific encode function
+    void encode(const bvec &input, bvec &output);
+  
+    //! Construct the BLDPC generator
+    void construct(const BLDPC_Parity* const H);
+
+  protected:
+    //! Save generator data to a file
+    void save(const std::string &filename) const;
+    //! Read generator data from a file
+    void load(const std::string &filename);
+
+    GF2mat H_enc;		//!< Preprocessed parity check matrix
+    int N;			//!< Codeword length = H_enc.cols()
+    int M;		     //!< Number of parity check bits = H_enc.rows()
+    int K;			//!< Number of information bits = N-M
+    int Z;			//!< Expansion factor
   };
 
 

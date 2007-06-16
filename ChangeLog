@@ -1,3 +1,15 @@
+2007-06-16  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/ldpc.cpp, itpp/comm/ldpc.h:
+	Added B-LDPC Codes implementation
+
+	B-LDPC Codes implementation in IT++ consists of a BLDPC_Parity and
+	BLDPC_Generator classes. The former one can be used for
+	constructing the parity-check matrix from so-called base-matrix.
+	Base matrix can be saved and loaded from a text file. The
+	BLDPC_Generator class implements an efficient encoding algorithm
+	using a preprocessed version of the parity-check matrix.
+
 2007-06-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* INSTALL, config/acx_blas.m4, config/acx_fft.m4,
