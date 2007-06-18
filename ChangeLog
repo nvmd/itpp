@@ -1,3 +1,11 @@
+2007-06-18  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/math/elem_math.cpp:
+	Fixed bug [1739267] in binom() and binom_i()
+
+	The binomial coefficient was calculated wrongly for n = k. Instead
+	of 1 the functions result was n+1.
+
 2007-06-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/ldpc.cpp, itpp/comm/ldpc.h:
