@@ -152,23 +152,21 @@ namespace itpp {
   }
 
   // Construct a Hadamard-imat of size "size"
-  imat hadamard(int size) {	
-    int i,k,l,pow2,logsize;
-    imat H(size,size);
-    logsize = levels2bits(size);
+  imat hadamard(int size) {
+    it_assert(size > 0, "hadamard(): size is not a power of 2"); 
+    int logsize = ceil_i(log2(static_cast<double>(size)));
+    it_assert(pow2i(logsize) == size, "hadamard(): size is not a power of 2");
 
-    it_assert_debug(pow2i(logsize)==size,"hadamard size not a power of 2");
-    H(0,0)=1;H(0,1)=1;H(1,0)=1;H(1,1)=-1;
+    imat H(size, size); H(0,0) = 1; 
 	
-    for (i=1;i<logsize;i++) {
-      // 	pow2=round_i(pow(2,i));  // Unbeliveably slow
-      pow2 = 1<<i;
-      for (k=0;k<pow2;k++) {
-	for (l=0;l<pow2;l++) {
-	  H(k,l)=H(k,l);
-	  H(k+pow2,l)=H(k,l);
-	  H(k,l+pow2)=H(k,l);
-	  H(k+pow2,l+pow2)=(-1)*H(k,l);
+    for (int i = 0; i < logsize; ++i) {
+      int pow2 = 1 << i;
+      for (int k = 0; k < pow2; ++k) {
+	for (int l = 0; l < pow2; ++l) {
+	  H(k, l) = H(k, l);
+	  H(k+pow2, l) = H(k, l);
+	  H(k, l+pow2) = H(k, l);
+	  H(k+pow2, l+pow2) = (-1) * H(k, l);
 	}
       }
     }
