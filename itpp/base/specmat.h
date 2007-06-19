@@ -133,7 +133,13 @@ namespace itpp {
   The result is a vector of length 1+2^K.
   */
   vec zigzag_space(double t0, double t1, int K=5); 
-  //! A 2^size by 2^size Hadamard matrix
+
+  /*!
+   * \brief Hadamard matrix
+   *
+   * This function constructs a \a size by \a size Hadammard matrix, where
+   * \a size is a power of 2.
+   */
   imat hadamard(int size);
 
   /*!

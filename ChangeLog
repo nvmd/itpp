@@ -1,3 +1,13 @@
+2007-06-19  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/specmat.cpp, itpp/base/specmat.h:
+	Fixed bug [1739500] in hadamard() function
+
+	The initial recursion for creating Hadamard matrices has to start
+	with a 1x1 matrix H = [1], not with a 2x2 matrix. This fix
+	provides correct solution for imat H = hadamard(1). Thanks to
+	Matthias for reporting this problem.
+
 2007-06-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/math/elem_math.cpp:
