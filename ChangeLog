@@ -1,7 +1,14 @@
 2007-06-20  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* configure.ac:
-	Removed "-fno-exceptions" flag from CXXFLAGS
+	* itpp/comm/ldpc.cpp: Fixed a minor bug reported as error in
+	MSVC++
+
+	The implicit cast of int variables to bool results in compilation
+	errors under MS Visual C++ .NET 2005 compiler. The applied fix is
+	a workaround solution. In future fstream operators ">>" and "<<"
+	for bool variables should be implemented in it_file class.
+
+	* configure.ac: Removed "-fno-exceptions" flag from CXXFLAGS
 
 	This conditional flag was added to CXXFLAGS and CXXFLAGS_DEBUG
 	when "--enable-exceptions" switch was passed to configure.
@@ -11,8 +18,8 @@
 
 2007-06-19  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* itpp/base/specmat.cpp, itpp/base/specmat.h:
-	Fixed bug [1739500] in hadamard() function
+	* itpp/base/specmat.cpp, itpp/base/specmat.h: Fixed bug [1739500]
+	in hadamard() function
 
 	The initial recursion for creating Hadamard matrices has to start
 	with a 1x1 matrix H = [1], not with a 2x2 matrix. This fix
@@ -21,16 +28,16 @@
 
 2007-06-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* itpp/base/math/elem_math.cpp:
-	Fixed bug [1739267] in binom() and binom_i()
+	* itpp/base/math/elem_math.cpp: Fixed bug [1739267] in binom() and
+	binom_i()
 
 	The binomial coefficient was calculated wrongly for n = k. Instead
 	of 1 the functions result was n+1.
 
 2007-06-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* itpp/comm/ldpc.cpp, itpp/comm/ldpc.h:
-	Added B-LDPC Codes implementation
+	* itpp/comm/ldpc.cpp, itpp/comm/ldpc.h: Added B-LDPC Codes
+	implementation
 
 	B-LDPC Codes implementation in IT++ consists of a BLDPC_Parity and
 	BLDPC_Generator classes. The former one can be used for
