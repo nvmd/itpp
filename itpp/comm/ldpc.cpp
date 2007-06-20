@@ -1230,10 +1230,10 @@ namespace itpp {
     it_assert(fileversion==1,"unsupported format");
     int H_tmp;
     f >> Name("H_defined") >> H_tmp;
-    H_defined = static_cast<bool>(H_tmp);
+    H_defined = (H_tmp == 1) ? true : false;
     int G_tmp;
     f >> Name("G_defined") >> G_tmp;
-    G_defined = static_cast<bool>(G_tmp);
+    G_defined = (G_tmp == 1) ? true : false;
     f >> Name("nvar") >> nvar;
     f >> Name("ncheck") >> ncheck;
     f >> Name("C") >> C;
