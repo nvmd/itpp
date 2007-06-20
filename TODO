@@ -1,16 +1,10 @@
-Things to do before releasing version 4.0.0
-============================================
-
-* Go through our current feature requests at SourceForge. There are
-  interesting hints and patches posted by the IT++ users.
-
-
 General improvements for the future
 ===================================
 
 * Spped improvements:
   - revise the idea of shallow matrix views
-  - possibly use external libraries for random number generation
+  - possibly use external libraries for random number generation (e.g. the
+    new 64-bit DSFMT algorithm using SSE2 or AltiVec instructions)
 
 * Possibly add linear programming (LP) in the form of an external library
   "lpsolve"
@@ -37,8 +31,6 @@ Specific features
 * Check the fastmath functions. It seems like they are not any faster
   than the ordinary math functions.
 
-* Add possibility to change kernel generator
-
 * Make a m-file load/saver (similar to it-file).
 
 * Soft-in soft-out turbo decoder (Erik)
@@ -55,9 +47,9 @@ Specific features
 
 * GF2mat_dense class: (Erik)
   - There is probably potential for improving the efficiency of some
-    of the matrix/vector multiplication operators.  (See specific
-    comments in the code.)
-     
+    of the matrix/vector multiplication operators (see specific
+    comments in the code)
+
   - Implement a general GF(2)-matrix class which offers the user a
     transparent interface (user does not need to know whether the
     sparse or the dense representation is used)?
@@ -66,7 +58,7 @@ Specific features
   - Implement ACE-measured based random matrix generation of
     irregular codes	
 
-  - Add more extensive information gathering functions.
+  - Add more extensive information gathering functions
 
   - Support for efficient encoding, using sparse representation of
     generator matrix
@@ -74,7 +66,10 @@ Specific features
   - Support for structured parity check matrices
 
   - Optimizations in decoder? Implement suboptimum decoding schemes,
-    e.g., min-sum?
+    e.g. min-sum?
 
   - In MGW-cycle removal algorithm, hardcode a binomial expansion of
     the adjacency matrix for higher powers to improve efficiency
+
+* Add support for reading and writing bool variables in it_file and it_ifile
+  classes. (Adam)

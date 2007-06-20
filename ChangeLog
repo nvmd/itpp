@@ -1,5 +1,7 @@
 2007-06-20  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* NEWS, TODO: Updated to reflect recent changes 
+
 	* itpp/comm/ldpc.cpp: Fixed a minor bug reported as error in
 	MSVC++
 
