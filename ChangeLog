@@ -1,3 +1,14 @@
+2007-06-20  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac:
+	Removed "-fno-exceptions" flag from CXXFLAGS
+
+	This conditional flag was added to CXXFLAGS and CXXFLAGS_DEBUG
+	when "--enable-exceptions" switch was passed to configure.
+	However, it is better not to use it by default, since it might
+	cause problems when linking the IT++ library with other programs
+	that use exceptions.
+
 2007-06-19  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/specmat.cpp, itpp/base/specmat.h:
