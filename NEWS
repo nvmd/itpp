@@ -1,4 +1,130 @@
 ===============================================================================
+IT++ version 3.99.2                                        Released: 2007-06-20
+-------------------------------------------------------------------------------
+
+This is the next development release of the IT++ library. As usual, below is
+a list of the most important features, modifications and bug-fixes, since
+version 3.99.1 was released. As this is a development version, some
+interfaces have changed. Therefore, you might need to update your programs
+using this library.
+
+New features:
+-------------
+
+* Added B-LDPC Codes implementation, which consists of a BLDPC_Parity and
+  BLDPC_Generator classes. The former one can be used for constructing the
+  parity-check matrix from so-called base-matrix. Base matrix can be saved
+  and loaded from a text file. The BLDPC_Generator class implements an
+  efficient encoding algorithm using a preprocessed version of the
+  parity-check matrix.
+
+* New implementation of the Normal_RNG sample() function, which uses the
+  so-called Ziggurat algorithm. The new generator is about five times faster
+  than the previous one using the Box-Mueller method. This fixes feature
+  request [1707969].
+
+* New implementation of the Complex_Normal_RNG class, which now uses the
+  improved Normal_RNG for generating the real and imaginary parts of the
+  complex random sample. The new generator is about four times faster than
+  the previous implementation. This closes feature request [1711727].
+
+* Added a new function waterfilling() to solve water-filling problems
+
+* Implemented set_size() method in the GF2mat class
+
+
+Modifications:
+--------------
+
+* LDPC_Code::decode() methods changed to return only systematic bits, to be
+  compatible with the encode() methods. New methods decode_soft_out() added,
+  which return soft LLR values for all bits in a codeword.
+
+* Removed unnecessary integrity_check() execution from the
+  LDPC_Code::load_code() function. setup_decoder() method replaced with
+  three separate methods, which are more flexible to use. Tutorial example
+  updated to reflect recent changes.
+
+* Major changes in IT++ file format related classes:
+  - the new file format (version 3) is incompatible with version 2, which
+    was used in IT++ 3.10.x series; for backward compatibility the previous
+    format can be handled using the it_file_old and it_ifile_old classes,
+    which are considered as deprecated and will be removed from the library
+    in future
+  - data is always saved using a little endian byte ordering; files files
+    written on machines using big or little endian ordering should be
+    identical; endianity variable removed from the data_header structure
+  - all size variables are stored using fixed-width 64-bit unsigned integer
+    type, and therefore are independent of the architecture word size (32-
+    or 64-bit)
+  - short and int data types are explicitly casted to fixed-with types
+    int16_t, uint16_t, int32_t and uint32_t, since C/C++ standards do not
+    assume fixed widths of these types
+  - cleaner and more efficient implementation of the write_data_header()
+    function
+  - added missing implementation of a pack() function, which compacts an
+    opened it_file by removing free space between data blocks
+  - added optional description filed which can be saved with each variable
+  - added missing operators and methods for reading and writing svec and
+    smat data types
+  - test program improved
+  - itload.m and itsave.m M-files updated to be compatible with the latest
+    IT++ file format
+
+* The outer_product() function now uses an extra argument "hermitian", which
+  controls the calculation for complex vectors. By default "hermitian" is
+  set to false, which results in (x * y^T) calculation. If "hermitian" is
+  true, (x * y^H) is calculated. This solution is backward compatible with
+  3.10.x interface of outer_product(). Final fix for bug [1727923].
+
+* Improvements in MKL detection macros. The latest MKL release 9.1.018 has
+  different naming of a lapack shared library (libmkl_lapack32.so and
+  libmkl_lapack64.so -> libmkl_lapack.so).
+
+* Removed "-fno-exceptions" flag from CXXFLAGS and CXXFLAGS_DEBUG
+
+
+Bug-fixes:
+----------
+
+* Fixed bug [1739500] in hadamard() function. The initial recursion for
+  creating Hadamard matrices has to start with a 1x1 matrix H = [1], not
+  with a 2x2 matrix. This fix provides correct solution for imat H =
+  hadamard(1).
+
+* Fixed bug [1739267] in binom() and binom_i(). The binomial coefficient was
+  calculated wrongly for n = k. Instead of 1 the functions result was n+1.
+
+* The functions for reading ppm and pgm images have to use binary mode when
+  opening files. This fixes bug [1730610].
+
+* Fixed bug [1724746], i.e. a problem with modified input data in
+  ifft_real() function. Additional FFTW_PRESERVE_INPUT flag used during FFTW
+  plan creation solves this problem.
+
+* Fixed linking errors when trying to use Hadamard and Walsh-Hadamard
+  transform functions. This fixes bug report [1719146].
+
+* Fixed bugs in LDPC_Code::load_code() and LDPC_Code::save_code() functions.
+  It could happen that LDPC generator object might be left uninitialised
+  when loading the coded from a binary file.
+
+* Fixed the actual number of iterations of the LDPC decoding algorithm. It
+  was using one more then expected.
+
+* Fixed bug [1703731] by implementing the missing double2mxArray() and
+  double_complex2mxArray() functions in itmex.h
+
+* Included missing <cstdlib> and <limits> header files where necessary. This
+  fixes problems with building using GCC 4.3 snapshot.
+
+* Fixed a minor bug in the set() method, when parsing an "a:b" or "a:b:c"
+  format. Due to precision problems, the last value from some specific ranges
+  was not included in the result, e.g. "0:0.2:3" resulted in a vector with
+  2.8 at the end (instead of 3).
+
+
+===============================================================================
 IT++ version 3.99.1                                        Released: 2007-03-22
 -------------------------------------------------------------------------------
 
