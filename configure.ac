@@ -134,9 +134,6 @@ if test "x$enable_debug" = xyes; then
   CXXFLAGS_DEBUG="-g"
   # Only for GCC compiler 
   if test "x$GXX" = xyes; then
-    if test "x$enable_exceptions" = xno; then
-      CXXFLAGS_DEBUG="$CXXFLAGS_DEBUG -fno-exceptions"
-    fi
     CXXFLAGS_DEBUG="-Wall $CXXFLAGS_DEBUG -pipe"
   fi
 fi
@@ -148,9 +145,6 @@ if test "x$CXXFLAGS" = x; then
   CXXFLAGS_OPT="-DNDEBUG -O3" 
   # Only for GCC compiler 
   if test "x$GXX" = xyes; then
-    if test "x$enable_exceptions" = xno; then
-      CXXFLAGS_OPT="$CXXFLAGS_OPT -fno-exceptions"
-    fi
     CXXFLAGS_OPT="$CXXFLAGS_OPT -pipe"
   fi
 else
