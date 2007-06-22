@@ -33,7 +33,6 @@
 #ifndef BINFILE_H
 #define BINFILE_H
 
-#include <itpp/base/binary.h>
 #include <itpp/base/ittypes.h>
 #include <fstream>
 
@@ -149,8 +148,6 @@ namespace itpp {
     */
     void open(const std::string& name, endian e = b_endian);
 
-    //! Writes a bin variable to the binary output file
-    bofstream& operator<<(const bin& a);
     //! Writes a signed char variable to the binary output file
     bofstream& operator<<(char a);
     //! Writes an unsigned char variable to the binary output file
@@ -211,8 +208,6 @@ namespace itpp {
     //! Returns the length in bytes of the file
     int length();
 
-    //! Reads a bin variable from the binary output file
-    bifstream& operator>>(bin& a);
     //! Reads a signed char variable from the binary output file
     bifstream& operator>>(char& a);
     //! Reads an unsigned char variable from the binary output file
@@ -283,8 +278,6 @@ namespace itpp {
     //! Returns the length in bytes of the file
     int length();
 
-    //! Writes a bin variable to the binary output file
-    bfstream& operator<<(const bin& a);
     //! Writes an signed char variable to the binary output file
     bfstream& operator<<(char a);
     //! Writes an unsigned char variable to the binary output file
@@ -310,8 +303,6 @@ namespace itpp {
     //! Writes a string variable to the binary output file
     bfstream& operator<<(const std::string& a);
 
-    //! Reads a bin variable from the binary output file
-    bfstream& operator>>(bin& a);
     //! Reads a char variable from the binary output file
     bfstream& operator>>(char& a);
     //! Reads an unsigned char variable from the binary output file

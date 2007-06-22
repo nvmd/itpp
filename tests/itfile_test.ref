@@ -1,6 +1,7 @@
 Name |      Type | Size | Description
 ------------------------------------------------
    c        int8      1   char variable
+  bo        bool      1   bool variable
    b         bin      1   bin variable
    s       int16      2   short int variable
    i       int32      4   int variable
@@ -28,6 +29,8 @@ Name |      Type | Size | Description
 
 char    : 'c'
           'c'
+bool    : 1
+          1
 bin     : 0
           0
 short   : 1234

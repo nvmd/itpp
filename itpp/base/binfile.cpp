@@ -111,12 +111,6 @@ namespace itpp {
     ofstream::open(name.c_str(), ios::out | ios::binary);
   }
 
-  bofstream& bofstream::operator<<(const bin& a)
-  {
-    put(a.value());
-    return *this;
-  }
-
   bofstream& bofstream::operator<<(char a)
   {
     put(a);
@@ -215,14 +209,6 @@ namespace itpp {
     len = tellg();
     seekg(pos1);
     return len;
-  }
-
-  bifstream& bifstream::operator>>(bin& a)
-  {
-    char tmp;
-    get(tmp);
-    a = tmp;
-    return *this;
   }
 
   bifstream& bifstream::operator>>(char& a)
@@ -342,12 +328,6 @@ namespace itpp {
     return len;
   }
 
-  bfstream& bfstream::operator<<(const bin& a)
-  {
-    put(a.value());
-    return *this;
-  }
-
   bfstream& bfstream::operator<<(char a)
   {
     put(a);
@@ -420,14 +400,6 @@ namespace itpp {
     return *this;
   }
 
-
-  bfstream& bfstream::operator>>(bin& a)
-  {
-    char tmp;
-    get(tmp);
-    a = tmp;
-    return *this;
-  }
 
   bfstream& bfstream::operator>>(char& a)
   {

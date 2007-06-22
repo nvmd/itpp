@@ -70,6 +70,3 @@ Specific features
 
   - In MGW-cycle removal algorithm, hardcode a binomial expansion of
     the adjacency matrix for higher powers to improve efficiency
-
-* Add support for reading and writing bool variables in it_file and it_ifile
-  classes. (Adam)

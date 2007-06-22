@@ -157,10 +157,19 @@ namespace itpp {
     s >> x;
   }
 
+  void it_ifile::low_level_read(bool &x)
+  {
+    char tmp;
+    s >> tmp;
+    x = (tmp == 0) ? false : true;
+  }
+
 
   void it_ifile::low_level_read(bin &x)
   {
-    s >> x;
+    char tmp;
+    s >> tmp;
+    x = tmp;
   }
 
   void it_ifile::low_level_read(short &x)
@@ -206,10 +215,13 @@ namespace itpp {
   void it_ifile::low_level_read(bvec &v)
   {
     uint64_t size;
+    char tmp;
     s >> size;
     v.set_size(static_cast<int>(size), false);
-    for (int i = 0; i < v.size(); ++i)
-      s >> v(i);
+    for (int i = 0; i < v.size(); ++i) {
+      s >> tmp;
+      v(i) = tmp;
+    }
   }
 
   void it_ifile::low_level_read(svec &v)
@@ -296,11 +308,15 @@ namespace itpp {
   void it_ifile::low_level_read(bmat &m)
   {
     uint64_t i, j;
+    char tmp;
     s >> i >> j;
     m.set_size(static_cast<int>(i), static_cast<int>(j), false);
-    for (int j = 0; j < m.cols(); ++j)
-      for (int i = 0; i < m.rows(); ++i)
-	s >> m(i, j);
+    for (int j = 0; j < m.cols(); ++j) {
+      for (int i = 0; i < m.rows(); ++i) {
+	s >> tmp;
+	m(i, j) = tmp;
+      }
+    }
   }
 
   void it_ifile::low_level_read(smat &m)
@@ -383,10 +399,13 @@ namespace itpp {
   void it_ifile::low_level_read(Array<bin> &v)
   {
     uint64_t size;
+    char tmp;
     s >> size;
     v.set_size(static_cast<int>(size), false);
-    for (int i = 0; i < v.size(); ++i)
-      s >> v(i);
+    for (int i = 0; i < v.size(); ++i) {
+      s >> tmp;
+      v(i) = tmp;
+    }
   }
 
   void it_ifile::low_level_read(Array<short> &v)
@@ -710,9 +729,14 @@ namespace itpp {
     s << x;
   }
 
+  void it_file::low_level_write(bool x)
+  {
+    s << static_cast<char>(x);
+  }
+
   void it_file::low_level_write(bin x)
   {
-    s << x;
+    s << x.value();
   }
 
   void it_file::low_level_write(short x)
@@ -751,7 +775,7 @@ namespace itpp {
   {
     s << static_cast<uint64_t>(v.size());
     for (int i = 0; i < v.size(); ++i)
-      s << v(i);
+      s << v(i).value();
   }
 
   void it_file::low_level_write(const svec &v)
@@ -811,7 +835,7 @@ namespace itpp {
       << static_cast<uint64_t>(m.cols());
     for (int j = 0; j < m.cols(); ++j)
       for (int i = 0; i < m.rows(); ++i)
-	s << m(i, j);
+	s << m(i, j).value();
   }
 
   void it_file::low_level_write(const smat &m)
@@ -872,7 +896,7 @@ namespace itpp {
   {
     s << static_cast<uint64_t>(v.size());
     for (int i = 0; i < v.size(); ++i)
-      s << v(i);
+      s << v(i).value();
   }
 
   void it_file::low_level_write(const Array<short> &v)
@@ -941,6 +965,15 @@ namespace itpp {
     it_file::data_header h;
     f.read_data_header(h);
     it_assert(h.type == "int8", "it_ifile::operator>>(): Wrong type");
+    f.low_level_read(x);
+    return f;
+  }
+
+  it_ifile &operator>>(it_ifile &f, bool &x)
+  {
+    it_file::data_header h;
+    f.read_data_header(h);
+    it_assert(h.type == "bool", "it_ifile::operator>>(): Wrong type");
     f.low_level_read(x);
     return f;
   }
@@ -1401,9 +1434,16 @@ namespace itpp {
     return f;
   }
 
+  it_file &operator<<(it_file &f, bool x)
+  {
+    f.write_data_header("bool", sizeof(char));
+    f.low_level_write(x);
+    return f;
+  }
+
   it_file &operator<<(it_file &f, bin x)
   {
-    f.write_data_header("bin", sizeof(bin));
+    f.write_data_header("bin", sizeof(char));
     f.low_level_write(x);
     return f;
   }
@@ -1452,7 +1492,7 @@ namespace itpp {
 
   it_file &operator<<(it_file &f, const bvec &v)
   {
-    f.write_data_header("bvec", sizeof(uint64_t) + v.size() * sizeof(bin));
+    f.write_data_header("bvec", sizeof(uint64_t) + v.size() * sizeof(char));
     f.low_level_write(v);
     return f;
   }
@@ -1505,7 +1545,7 @@ namespace itpp {
   it_file &operator<<(it_file &f, const bmat &m)
   {
     f.write_data_header("bmat", 2 * sizeof(uint64_t)
-			+ m.rows() * m.cols() * sizeof(bin));
+			+ m.rows() * m.cols() * sizeof(char));
     f.low_level_write(m);
     return f;
   }
@@ -1552,7 +1592,7 @@ namespace itpp {
 
   it_file &operator<<(it_file &f, const Array<bin> &v)
   {
-    f.write_data_header("bArray", sizeof(uint64_t) + v.size() * sizeof(bin));
+    f.write_data_header("bArray", sizeof(uint64_t) + v.size() * sizeof(char));
     f.low_level_write(v);
     return f;
   }
@@ -1621,7 +1661,7 @@ namespace itpp {
 
     // write header
     f.write_data_header("bvecArray", sizeof(uint64_t) * (1 + v.size())
-			+ sum_l * sizeof(bin));
+			+ sum_l * sizeof(char));
     // write the length of the array
     f.low_level_write(static_cast<uint64_t>(v.size()));
 
@@ -1741,7 +1781,7 @@ namespace itpp {
 
     // write header
     f.write_data_header("bmatArray", sizeof(uint64_t) * (1 + 2 * v.size())
-			+ sum_l * sizeof(bin));
+			+ sum_l * sizeof(char));
     // write the length of the array
     f.low_level_write(static_cast<uint64_t>(v.size()));
 
@@ -2441,7 +2481,7 @@ namespace itpp {
 
   void it_file_old::low_level_write(bin x)
   {
-    s << x;
+    s << x.value();
   }
 
   void it_file_old::low_level_write(short x)
@@ -2501,7 +2541,7 @@ namespace itpp {
   {
     s << static_cast<int32_t>(v.size());
     for (int i=0; i<v.size(); i++)
-      s << v(i);
+      s << v(i).value();
   }
 
   void it_file_old::low_level_write(const cvec &v)
@@ -2566,7 +2606,7 @@ namespace itpp {
     s << static_cast<int32_t>(m.rows()) << static_cast<int32_t>(m.cols());
      for (j=0; j<m.cols(); j++)
       for (i=0; i<m.rows(); i++)
-	s << m(i,j);
+	s << m(i,j).value();
   }
 
   void it_file_old::low_level_write(const cmat &m)
@@ -2624,7 +2664,7 @@ namespace itpp {
   {
     s << static_cast<int32_t>(v.size());
     for (int i=0; i<v.size(); i++)
-      s << v(i);
+      s << v(i).value();
   }
 
   void it_file_old::low_level_write(const Array<std::complex<float> > &v)
