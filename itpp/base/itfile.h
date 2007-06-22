@@ -153,6 +153,8 @@ namespace itpp {
     void low_level_read(char& x);
     //! Read a 64-bit unsigned integer value at the current file pointer position
     void low_level_read(uint64_t& x);
+    //! Read a bool value at the current file pointer position
+    void low_level_read(bool &x);
 
     //! Read a binary value at the current file pointer position
     void low_level_read(bin& x);
@@ -296,6 +298,8 @@ namespace itpp {
     void low_level_write(char x);
     //! Write an unsigned integer 64-bit value at the current file pointer position
     void low_level_write(uint64_t x);
+    //! Write a bool value at the current file pointer position
+    void low_level_write(bool x);
 
     //! Write a binary value at the current file pointer position
     void low_level_write(bin x);
@@ -441,6 +445,8 @@ namespace itpp {
 
   //! Read the char variable \c v from the \c it_ifile pointer
   it_ifile& operator>>(it_ifile& f, char& v);
+  //! Read the bool variable \c v from the \c it_ifile pointer
+  it_ifile& operator>>(it_ifile &f, bool &v);
 
   //! Read the binary variable \c v from the \c it_ifile pointer
   it_ifile& operator>>(it_ifile& f, bin& v);
@@ -525,6 +531,8 @@ namespace itpp {
 
   //! Write the char variable \c x to the \c it_file pointer
   it_file& operator<<(it_file& f, char x);
+  //! Write the bool variable \c x to the \c it_file pointer
+  it_file& operator<<(it_file &f, bool x);
 
   //! Write the binary variable \c x to the \c it_file pointer
   it_file& operator<<(it_file& f, bin x);

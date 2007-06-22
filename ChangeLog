@@ -1,3 +1,17 @@
+2007-06-22  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* TODO, itpp/base/binfile.cpp, itpp/base/binfile.h,
+	itpp/base/itfile.cpp, itpp/base/itfile.h, tests/itfile_test.cpp,
+	tests/itfile_test.ref, tests/itfile_test_data.it: Added support
+	for bool variables in it_file class
+
+	It is now possible to read and write bool variables using standard
+	stream operators ">>" and "<<" of the it_file and it_ifile
+	classes. Boolean variables are stored in a binary file using a
+	char datatype.
+
+==============================================================================
+
 2007-06-20  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* IT++ 3.99.2 released (SVN tag: release-3-99-2)

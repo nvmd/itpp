@@ -52,6 +52,7 @@ int main() {
 int main()
 {
   char c, c_ref = 'c';
+  bool bo, bo_ref = true;
   bin b, b_ref = 0;
   short s, s_ref = 1234;
   int i, i_ref = -1234567890;
@@ -85,6 +86,7 @@ int main()
 #ifdef SAVE_DATA  
   ff.open(string(ITFILE_TEST_FILE), true);
   ff << Name("c", "char variable") << c_ref;
+  ff << Name("bo", "bool variable") << bo_ref;
   ff << Name("b", "bin variable") << b_ref;
   ff << Name("s", "short int variable") << s_ref;
   ff << Name("i", "int variable") << i_ref;
@@ -124,34 +126,37 @@ int main()
   }
   cout << "------------------------------------------------\n\n";
   cout.setf(ios::scientific);
-  ff >> Name("c") >> c;
-  ff >> Name("b") >> b;
-  ff >> Name("s") >> s;
-  ff >> Name("i") >> i;
-  ff >> Name("f") >> f;
-  ff >> Name("d") >> d;
-  ff >> Name("cd") >> cd;
-  ff >> Name("st") >> st;
-  ff >> Name("bv") >> bv;
-  ff >> Name("iv") >> iv;
-  ff >> Name("v") >> v;
-  ff >> Name("cv") >> cv;
-  ff >> Name("bm") >> bm;
-  ff >> Name("im") >> im;
-  ff >> Name("m") >> m;
-  ff >> Name("cm") >> cm;
-  ff >> Name("abv") >> abv;
-  ff >> Name("aiv") >> aiv;
-  ff >> Name("av") >> av;
-  ff >> Name("acv") >> acv;
   ff >> Name("abm") >> abm;
-  ff >> Name("aim") >> aim;
-  ff >> Name("am") >> am;
+  ff >> Name("abv") >> abv;
   ff >> Name("acm") >> acm;
+  ff >> Name("acv") >> acv;
+  ff >> Name("aim") >> aim;
+  ff >> Name("aiv") >> aiv;
+  ff >> Name("am") >> am;
+  ff >> Name("av") >> av;
+  ff >> Name("b") >> b;
+  ff >> Name("bm") >> bm;
+  ff >> Name("bo") >> bo;
+  ff >> Name("bv") >> bv;
+  ff >> Name("c") >> c;
+  ff >> Name("cd") >> cd;
+  ff >> Name("cm") >> cm;
+  ff >> Name("cv") >> cv;
+  ff >> Name("d") >> d;
+  ff >> Name("f") >> f;
+  ff >> Name("i") >> i;
+  ff >> Name("im") >> im;
+  ff >> Name("iv") >> iv;
+  ff >> Name("m") >> m;
+  ff >> Name("s") >> s;
+  ff >> Name("st") >> st;
+  ff >> Name("v") >> v;
   ff.close();
 
   cout << "char    : '" << c << "'"<< endl
        << "          '" << c_ref << "'" << endl
+       << "bool    : " << bo << endl
+       << "          " << bo_ref << endl
        << "bin     : " << b << endl
        << "          " << b_ref << endl
        << "short   : " << s << endl
