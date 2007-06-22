@@ -1,5 +1,13 @@
 2007-06-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/comm/ldpc.cpp: Improved LDPC binary files versioning
+
+	A global static const variable LDPC_binary_file_version has been
+	defined, which is now used in load/save methods of LDPC_Generator
+	and LDPC_Code classes. Besides, H_defined and G_defined boolean
+	variables are loaded/saved using the new stream operators of
+	it_file and it_ifile classes.
+
 	* TODO, itpp/base/binfile.cpp, itpp/base/binfile.h,
 	itpp/base/itfile.cpp, itpp/base/itfile.h, tests/itfile_test.cpp,
 	tests/itfile_test.ref, tests/itfile_test_data.it: Added support

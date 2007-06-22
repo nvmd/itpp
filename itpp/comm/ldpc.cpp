@@ -36,6 +36,14 @@
 
 namespace itpp {
 
+  /*!
+   * \brief Version of the binary file with generator and decoder data
+   *
+   * This has to be global since it is used in LDPC_Generator and LDPC_Code
+   * classes
+   */
+  static const int LDPC_binary_file_version = 2;
+
   // ---------------------------------------------------------------------------
   // LDPC_Parity
   // ---------------------------------------------------------------------------
@@ -978,9 +986,9 @@ namespace itpp {
   void LDPC_Generator_Systematic::save(const std::string& filename) const
   {
     it_file f(filename);
-    int fileversion;
-    f >> Name("Fileversion") >> fileversion;
-    it_assert(fileversion == 1,
+    int ver;
+    f >> Name("Fileversion") >> ver;
+    it_assert(ver == LDPC_binary_file_version, 
 	      "LDPC_Generator_Systematic::save(): Unsupported file format");
     f << Name("G_type") << type;
     f << Name("G") << G;
@@ -991,9 +999,9 @@ namespace itpp {
   void LDPC_Generator_Systematic::load(const std::string& filename)
   {
     it_ifile f(filename);
-    int fileversion;
-    f >> Name("Fileversion") >> fileversion;
-    it_assert(fileversion == 1,
+    int ver;
+    f >> Name("Fileversion") >> ver;
+    it_assert(ver == LDPC_binary_file_version,
 	      "LDPC_Generator_Systematic::load(): Unsupported file format");
     std::string gen_type;
     f >> Name("G_type") >> gen_type;
@@ -1132,10 +1140,10 @@ namespace itpp {
     GF2mat H_Z = H_enc.get_submatrix(M-Z, 0, M-1, N-1);
   
     it_file f(filename);
-    int fileversion;
-    f >> Name("Fileversion") >> fileversion;
-    it_assert(fileversion == 1,
-	      "BLDPC_Generator::save(): Unsupported file format");
+    int ver;
+    f >> Name("Fileversion") >> ver;
+    it_assert(ver == LDPC_binary_file_version, "BLDPC_Generator::save(): "
+	      "Unsupported file format");
     f << Name("G_type") << type;
     f << Name("H_T") << H_T;
     f << Name("H_Z") << H_Z;
@@ -1148,10 +1156,10 @@ namespace itpp {
     GF2mat H_T, H_Z;
 
     it_ifile f(filename);
-    int fileversion;
-    f >> Name("Fileversion") >> fileversion;
-    it_assert(fileversion == 1,
-	      "BLDPC_Generator::load(): Unsupported file format");
+    int ver;
+    f >> Name("Fileversion") >> ver;
+    it_assert(ver == LDPC_binary_file_version, "BLDPC_Generator::load(): "
+	      "Unsupported file format");
     std::string gen_type;
     f >> Name("G_type") >> gen_type;
     it_assert(gen_type == type,
@@ -1221,19 +1229,16 @@ namespace itpp {
   void LDPC_Code::load_code(const std::string& filename, 
 			    LDPC_Generator* const G_in)
   {
-    it_info_debug("LDPC_Code::LDPC_Code(): Loading LDPC codec from " 
+    it_info_debug("LDPC_Code::load_code(): Loading LDPC codec from " 
 		  << filename);  
 
     it_ifile f(filename);
-    int fileversion;
-    f >> Name("Fileversion") >> fileversion;
-    it_assert(fileversion==1,"unsupported format");
-    int H_tmp;
-    f >> Name("H_defined") >> H_tmp;
-    H_defined = (H_tmp == 1) ? true : false;
-    int G_tmp;
-    f >> Name("G_defined") >> G_tmp;
-    G_defined = (G_tmp == 1) ? true : false;
+    int ver;
+    f >> Name("Fileversion") >> ver;
+    it_assert(ver == LDPC_binary_file_version,"LDPC_Code::load_code(): "
+	      "Unsupported file format");
+    f >> Name("H_defined") >> H_defined;
+    f >> Name("G_defined") >> G_defined;
     f >> Name("nvar") >> nvar;
     f >> Name("ncheck") >> ncheck;
     f >> Name("C") >> C;
@@ -1272,9 +1277,9 @@ namespace itpp {
 
     it_file f;
     f.open(filename,true);
-    f << Name("Fileversion") << 1;
-    f << Name("H_defined") << static_cast<int>(H_defined);
-    f << Name("G_defined") << static_cast<int>(G_defined);
+    f << Name("Fileversion") << LDPC_binary_file_version;
+    f << Name("H_defined") << H_defined;
+    f << Name("G_defined") << G_defined;
     f << Name("nvar") << nvar;
     f << Name("ncheck") << ncheck;
     f << Name("C") << C;
