@@ -1,5 +1,7 @@
 2007-06-29  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/signal/resampling.h: Minor spelling fixes in documentation
+
 	* tests/*.cpp: Copyright dates updated
 
 	* configure.ac: Version number updated
