@@ -1,3 +1,14 @@
+2007-06-29  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/matfunc.cpp, itpp/base/matfunc.h,
+	tests/matfunc_test.cpp, tests/matfunc_test.ref: Added repmat()
+	function (feature request [1744527])
+
+	This functions is a clone of a Matlab's repmat function. It
+	expands an input matrix or vector to a larger matrix by
+	concatenating (m x n) copies of the input matrix (vector). Thanks
+	to Mark Dobossy for providing a patch.
+
 2007-06-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/ldpc.cpp: Improved LDPC binary files versioning
@@ -24,7 +35,7 @@
 
 	* IT++ 3.99.2 released (SVN tag: release-3-99-2)
 
-	* NEWS, TODO: Updated to reflect recent changes 
+	* NEWS, TODO: Updated to reflect recent changes
 
 	* itpp/comm/ldpc.cpp: Fixed a minor bug reported as error in
 	MSVC++
@@ -76,7 +87,7 @@
 
 	* INSTALL, config/acx_blas.m4, config/acx_fft.m4,
 	config/acx_lapack.m4, configure.ac, doc/local/installation.doc,
-	itpp/config_msvc.h, itpp/signal/transforms.cpp: 
+	itpp/config_msvc.h, itpp/signal/transforms.cpp:
 	Improvements in	MKL detection macros
 
 	The latest MKL release 9.1.018 has different naming of a lapack
@@ -160,7 +171,7 @@
 
         * itpp/tests/commfunc_test.cpp, itpp/tests/commfunc_test.ref:
 	Added missing test program
-	
+
 	* itpp/comm/commfunc.cpp: Fixed missing memory allocation
 
 2007-04-30  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
@@ -225,14 +236,14 @@
 	building using GCC 4.3 snapshot. Thanks to Martin Michlmayr from
 	the Debian project for reporting this bug.
 	(merged rev. 1005:1006 from the itpp-3-10 branch)
-	
+
 2007-04-12  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/itassert.cpp: Fixed a problem with not displayed
 	assert and error messages, which was introduced in rev. 982.
 
 ==============================================================================
-	
+
 2007-04-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* IT++ 3.10.10 released (SVN tag: release-3-10-10)
@@ -254,7 +265,7 @@
 	* itpp/base/binfile.cpp, itpp/base/binfile.h,
 	itpp/base/gf2mat.cpp, itpp/base/itfile.cpp, itpp/base/itfile.h,
 	tests/itfile_test.cpp, tests/itfile_test.ref,
-	tests/itfile_test_data.it: 
+	tests/itfile_test_data.it:
 	Major changes in IT++ file format related classes:
 	- the new file format (version 3) is incompatible with version 2,
 	which was used in IT++ 3.10.x series; for backward compatibility
@@ -280,7 +291,7 @@
 	- added missing operators and methods for reading and writing svec
 	and smat data types
 	(merged rev. 986:997 from the it_file-v3 temporary branch)
-	
+
 	* tests/timer_test.cpp, tests/timer_test.ref: CPU_Timer test is
 	now independent of a Real_Timer test. This should solve test
 	failures in some specific cases (high load of CPU, etc.).
@@ -338,7 +349,7 @@
 	* configure.ac: Version bump
 
 ==============================================================================
-	
+
 2007-03-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* IT++ 3.99.1 released (SVN tag: release-3-99-1)
@@ -411,7 +422,7 @@
 2007-03-01  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/comm/modulator_nd.h: Added a function set_llrcalc()
-	
+
 2007-02-28  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/Makefile.am: Test programs are now linked to the optimised
@@ -451,7 +462,7 @@
 	* config/acx_blas.m4, config/acx_cblas.m4, config/acx_fft.m4,
 	config/acx_lapack.m4, configure.ac: Improved the speed and
 	portability of external libraries detection macros
-	
+
 2007-02-16  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/comm/ldpc.cpp: Fixed some assertions
@@ -476,7 +487,7 @@
 
 	* NEWS: Updated to include recent changes
 	(merged rev. 929:930 from the itpp-3-10 branch)
-	
+
 2007-02-09  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/gf2mat.cpp: Replaced it_info() with it_info_debug() to
@@ -561,7 +572,7 @@
 	* itpp/base/itassert.h, itpp/base/itassert.cpp: Added
 	it_info_no_endl() and it_info_no_endl_debug() macros, which does
 	not append "std::endl" at the end of message.
-	
+
 2007-02-03  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/algebra/ls_solve.cpp: Minor fixes to prevent "unused
@@ -571,7 +582,7 @@
 
 	* itpp/base/gf2mat.cpp, itpp/comm/llr.cpp, itpp/comm/ldpc.cpp:
 	Updated some assertions and information messages
-	
+
 2007-02-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/algebra/det.cpp, itpp/base/algebra/eigen.cpp,
@@ -590,7 +601,7 @@
 	itpp/fixed/fix.cpp, itpp/fixed/fix_functions.h, itpp/fixed/fix.h,
 	itpp/fixed/fix_operators.cpp, itpp/signal/resampling.h,
 	itpp/signal/sigfun.cpp, itpp/signal/transforms.cpp,
-	itpp/srccode/audiofile.cpp, itpp/srccode/pnm.cpp: 
+	itpp/srccode/audiofile.cpp, itpp/srccode/pnm.cpp:
 	Mass replace of the depreceted it_assert0() and it_assert1()
 	macros with it_assert_debug()
 
@@ -604,7 +615,7 @@
 	- using standard NDEBUG flag for controlling it_assert_debug()
 	macro, which replaced a three-level ASSERT_LEVEL definition
 	- for backward compatibility it_assert0() and it_assert1() now
-	behaves the same as it_assert_debug() 
+	behaves the same as it_assert_debug()
 	- added new it_info() and it_info_debug() macros for printing
 	information messages; it_info_debug() is also dependent on the
 	NDEBUG compile-time definition
@@ -612,7 +623,7 @@
 	it_assert(), it_error() and it_warning() messages; if style is set
 	to Minimum, file name and line number of the error/assert/warning
 	macro is not printed
-	
+
 2007-02-01  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/comm/ldpc.cpp: Fix in the standard constructor
@@ -621,7 +632,7 @@
 
 	* itpp/comm/ldpc.h, itpp/comm/ldpc.cpp: Added some initialization
 	functions for completeness of the class hierarchy
-	
+
 2007-01-31  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/punct_convcode.h: Protected inheritance of the
@@ -693,7 +704,7 @@
 	portability issues. Fixed assumptions of type sizes in << and >>
 	operators replaced with size dependent read_endian() and
 	write_endian() templated functions. Minor cosmetic changes.
-	
+
 2007-01-25  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac, itpp/base/ittypes.h, itpp/config_msvc.h,
@@ -778,8 +789,8 @@
 
 	* itpp/comm/ldpc.h, itpp/comm/ldpc.cpp: Changed one function name
 	and updated documentation
-	
-	* doc/local/verification.doc: Updated 
+
+	* doc/local/verification.doc: Updated
 
 2007-01-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
@@ -809,7 +820,7 @@
 	numbers
 
 	* itpp/comm/llr.h: C convention for INT_MAX changed to C++
-	
+
 2007-01-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/Makefile.am: Fixed non-portable parts of the Makefile
@@ -848,7 +859,7 @@
 
 	* itpp/base/specmat.h, itpp/base/specmat.cpp: Added function
 	"zigzag_space()"
-	
+
 2007-01-09  Conrad Sanderson  <conrad_s@users.sourceforge.net>
 
 	* itpp/base/itassert.cpp: Changed "Assertation" to "Assertion"
@@ -876,7 +887,7 @@
 	* itpp/base/gf2mat.h: Documentation updates
 
 	* TODO: Updated
-	
+
 2007-01-05  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/base/gf2mat.h: Clarification in documentation
@@ -892,11 +903,11 @@
 	tests/gf2mat_test.ref: Added support for "alist" representation
 	(based on code provided by Adam P) of sparse GF(2)
 	matrices. Implemented minor improvements.
-	
+
 	* doc/tutorial/src/mimoconv.cpp: Minor improvements
 
 	* itpp/base/random.h: Minor documentation improvement
-	
+
 2007-01-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/mat.h: Implemented feature request [1216416]. Multiply

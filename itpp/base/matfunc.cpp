@@ -1,8 +1,8 @@
 /*!
  * \file
  * \brief Various functions on vectors and matrices - source file
- * \author Tony Ottosson, Adam Piatyszek and Conrad Sanderson
- * 
+ * \author Tony Ottosson, Adam Piatyszek, Conrad Sanderson and Mark Dobossy
+ *
  * $Date$
  * $Revision$
  *
@@ -80,17 +80,17 @@ namespace itpp {
 
   bool all(const bvec &testvec)
   {
-    for (int i=0; i<testvec.length(); i++) 
+    for (int i=0; i<testvec.length(); i++)
       if (!testvec(i)) return false;
     return true;
   }
-  
+
   bool any(const bvec &testvec)
   {
-    for (int i=0; i<testvec.length(); i++) 
+    for (int i=0; i<testvec.length(); i++)
       if (testvec(i)) return true;
     return false;
-  } 
+  }
 
   // ----------------------------------------------------------------------
   // Instantiations
@@ -127,8 +127,10 @@ namespace itpp {
   template bin prod(const bvec &v);
 
   template vec cross(const vec &v1, const vec &v2);
+  template cvec cross(const cvec &v1, const cvec &v2);
   template ivec cross(const ivec &v1, const ivec &v2);
   template svec cross(const svec &v1, const svec &v2);
+  template bvec cross(const bvec &v1, const bvec &v2);
 
   template vec reverse(const vec &in);
   template cvec reverse(const cvec &in);
@@ -136,19 +138,22 @@ namespace itpp {
   template ivec reverse(const ivec &in);
   template bvec reverse(const bvec &in);
 
-  template ivec zero_pad(const ivec &v, int n);
   template vec zero_pad(const vec &v, int n);
   template cvec zero_pad(const cvec &v, int n);
+  template ivec zero_pad(const ivec &v, int n);
+  template svec zero_pad(const svec &v, int n);
   template bvec zero_pad(const bvec &v, int n);
 
-  template ivec zero_pad(const ivec &v);
   template vec zero_pad(const vec &v);
   template cvec zero_pad(const cvec &v);
+  template ivec zero_pad(const ivec &v);
+  template svec zero_pad(const svec &v);
   template bvec zero_pad(const bvec &v);
 
   template mat  zero_pad(const mat &, int, int);
   template cmat zero_pad(const cmat &, int, int);
   template imat zero_pad(const imat &, int, int);
+  template smat zero_pad(const smat &, int, int);
   template bmat zero_pad(const bmat &, int, int);
 
   template vec sum(const mat &m, int dim);
@@ -179,6 +184,7 @@ namespace itpp {
   template cvec prod(const cmat &v, int dim);
   template svec prod(const smat &m, int dim);
   template ivec prod(const imat &m, int dim);
+  template bvec prod(const bmat &m, int dim);
 
   template vec diag(const mat &in);
   template cvec diag(const cmat &in);
@@ -237,24 +243,46 @@ namespace itpp {
   template imat hermitian_transpose(const imat &m);
   template bmat hermitian_transpose(const bmat &m);
 
-  template  vec rvectorize(const  mat &m);
+  template vec rvectorize(const mat &m);
   template cvec rvectorize(const cmat &m);
-  template  ivec rvectorize(const  imat &m);
-  template  bvec rvectorize(const  bmat &m);
+  template ivec rvectorize(const imat &m);
+  template svec rvectorize(const smat &m);
+  template bvec rvectorize(const bmat &m);
 
-  template  vec cvectorize(const  mat &m);
+  template vec cvectorize(const mat &m);
   template cvec cvectorize(const cmat &m);
-  template  ivec cvectorize(const  imat &m);
-  template  bvec cvectorize(const  bmat &m);
+  template ivec cvectorize(const imat &m);
+  template svec cvectorize(const smat &m);
+  template bvec cvectorize(const bmat &m);
 
-  template  mat reshape(const  mat &m, int rows, int cols);
+  template mat reshape(const mat &m, int rows, int cols);
   template cmat reshape(const cmat &m, int rows, int cols);
-  template  imat reshape(const  imat &m, int rows, int cols);
-  template  bmat reshape(const  bmat &m, int rows, int cols);
+  template imat reshape(const imat &m, int rows, int cols);
+  template smat reshape(const smat &m, int rows, int cols);
+  template bmat reshape(const bmat &m, int rows, int cols);
 
-  template  mat reshape(const  vec &m, int rows, int cols);
+  template mat reshape(const vec &m, int rows, int cols);
   template cmat reshape(const cvec &m, int rows, int cols);
-  template  imat reshape(const  ivec &m, int rows, int cols);
-  template  bmat reshape(const  bvec &m, int rows, int cols);
+  template imat reshape(const ivec &m, int rows, int cols);
+  template smat reshape(const svec &m, int rows, int cols);
+  template bmat reshape(const bvec &m, int rows, int cols);
+
+  template mat kron(const mat &X, const mat &Y);
+  template cmat kron(const cmat &X, const cmat &Y);
+  template imat kron(const imat &X, const imat &Y);
+  template smat kron(const smat &X, const smat &Y);
+  template bmat kron(const bmat &X, const bmat &Y);
+
+  template mat repmat(const vec &v, int m, int n, bool transpose);
+  template cmat repmat(const cvec &v, int m, int n, bool transpose);
+  template imat repmat(const ivec &v, int m, int n, bool transpose);
+  template smat repmat(const svec &v, int m, int n, bool transpose);
+  template bmat repmat(const bvec &v, int m, int n, bool transpose);
+
+  template mat repmat(const mat &data, int m, int n);
+  template cmat repmat(const cmat &data, int m, int n);
+  template imat repmat(const imat &data, int m, int n);
+  template smat repmat(const smat &data, int m, int n);
+  template bmat repmat(const bmat &data, int m, int n);
 
 } // namespace itpp
