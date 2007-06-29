@@ -2,7 +2,7 @@
  * \file
  * \brief Resampling functions - header file
  * \author Tony Ottosson and Adam Piatyszek
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -71,7 +71,7 @@ namespace itpp {
   }
 
   //! Upsample a vector by inserting \a (usf-1) zeros after each sample
-  template<class T> 
+  template<class T>
   void upsample(const Vec<T> &v, int usf, Vec<T> &u)
   {
     it_assert_debug(usf >= 1, "upsample: upsampling factor must be equal or greater than one" );
@@ -82,7 +82,7 @@ namespace itpp {
   }
 
 
-  //! Upsample a vector by incerting \a (usf-1) zeros after each sample
+  //! Upsample a vector by inserting \a (usf-1) zeros after each sample
   template<class T>
   Vec<T> upsample(const Vec<T> &v, int usf)
   {
@@ -91,7 +91,7 @@ namespace itpp {
     return u;
   }
 
-  //! Upsample each column by incerting \a (usf-1) zeros after each column
+  //! Upsample each column by inserting \a (usf-1) zeros after each column
   template<class T>
   void upsample(const Mat<T> &v, int usf, Mat<T> &u)
   {
@@ -102,7 +102,7 @@ namespace itpp {
       u.set_col(j*usf,v.get_col(j));
   }
 
-  //! Upsample each column by incerting \a (usf-1) zeros after each column
+  //! Upsample each column by inserting \a (usf-1) zeros after each column
   template<class T>
   Mat<T> upsample(const Mat<T> &v, int usf)
   {
@@ -111,7 +111,7 @@ namespace itpp {
     return u;
   }
 
-  //! Upsample each column by a factor of  \a (usf-1) by linear interpolation
+  //! Upsample each column by a factor of \a (usf-1) by linear interpolation
   template<class T>
   void lininterp(const Mat<T> &m, int usf, Mat<T> &u)
   {
@@ -125,7 +125,7 @@ namespace itpp {
     }
   }
 
-  /*! 
+  /*!
    * \brief Upsample each column of matrix \a m to achieve \a f_ups
    * frequency using linear interpolation
    * \author Adam Piatyszek
@@ -148,13 +148,13 @@ namespace itpp {
     it_assert_debug((nrof_samples * t_ups + t_start) <= (cols * t_base), "lininterp(): too many samples required or input data to short");
     Mat<T> u(rows, nrof_samples);
     double curr_time = t_start;
-    
+
     int i = 0;
     int k = 0;
     while (i < cols - 1) {
       while ((curr_time < (i + 1) * t_base) && (k < nrof_samples)) {
 	for (int j = 0; j < rows; j++) {
-	  u(j, k) = (m(j, i) * ((i + 1) * t_base - curr_time) 
+	  u(j, k) = (m(j, i) * ((i + 1) * t_base - curr_time)
 		     - m(j, i + 1) * (i * t_base - curr_time)) / t_base;
 	}
 	k++;
@@ -196,9 +196,9 @@ namespace itpp {
     return u;
   }
 
-  /*! 
+  /*!
    * \brief Upsample vector \a v to achieve \a f_ups frequency using linear
-   * interpolation 
+   * interpolation
    * \author Adam Piatyszek
    *
    * This function performs upsampling of vector \a v to achieve
@@ -223,7 +223,7 @@ namespace itpp {
     int k = 0;
     while (i < len - 1) {
       while ((curr_time < (i + 1) * t_base) && (k < nrof_samples)) {
-	u(k) = (v(i) * ((i + 1) * t_base - curr_time) 
+	u(k) = (v(i) * ((i + 1) * t_base - curr_time)
 		- v(i + 1) * (i * t_base - curr_time)) / t_base;
 	k++;
 	curr_time += t_ups;
