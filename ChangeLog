@@ -1,5 +1,7 @@
 2007-06-29  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/*.cpp: Copyright dates updated
+
 	* configure.ac: Version number updated
 
 	* itpp/base/matfunc.cpp, itpp/base/matfunc.h,
