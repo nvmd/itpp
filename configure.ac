@@ -2,7 +2,7 @@
 #-------------------------------------------------------------------
 AC_PREREQ(2.59)
 AC_COPYRIGHT([Copyright (C) 2006, 2007  Adam Piatyszek <ediap@users.sourceforge.net>])
-AC_INIT([IT++],[3.99.2],[ediap@users.sourceforge.net],[itpp])
+AC_INIT([IT++],[3.99.3],[ediap@users.sourceforge.net],[itpp])
 AC_CONFIG_HEADER([itpp/config.h])
 AC_CONFIG_SRCDIR([itpp/base/vec.cpp])
 AC_CONFIG_AUX_DIR([config])
@@ -16,7 +16,7 @@ GENERIC_LIBRARY_VERSION="6:0:0"
 #              current:revision:age
 #                 |        |     |
 #                 |        |     +- increment if interfaces have been added;
-#                 |        |        set to zero if interfaces have been 
+#                 |        |        set to zero if interfaces have been
 #                 |        |        removed or changed
 #                 |        +- increment if source code has changed;
 #                 |           set to zero if current is incremented
@@ -27,11 +27,11 @@ AC_SUBST(GENERIC_LIBRARY_VERSION)
 # Check for host and disable building a shared library in Windows
 AC_CANONICAL_HOST
 case $host in
-  *-*-msdos* | *-*-go32* | *-*-mingw32* | *-*-cygwin* | *-*-windows*) 
+  *-*-msdos* | *-*-go32* | *-*-mingw32* | *-*-cygwin* | *-*-windows*)
     AC_DISABLE_SHARED
     AC_ENABLE_STATIC
     ;;
-  *)  
+  *)
     AC_ENABLE_SHARED
     AC_DISABLE_STATIC
     ;;
@@ -67,7 +67,7 @@ AC_ARG_ENABLE(exceptions,
 test "x$enable_exceptions" != xyes && enable_exceptions=no
 
 # Check for html-doc switch
-AC_ARG_ENABLE(html-doc, 
+AC_ARG_ENABLE(html-doc,
               [AS_HELP_STRING([--disable-html-doc],
                               [do not generate HTML documentation])])
 test "x$enable_html_doc" != xno && enable_html_doc=yes
@@ -132,7 +132,7 @@ PACKAGE_DEBUG="$PACKAGE"
 if test "x$enable_debug" = xyes; then
   PACKAGE_DEBUG="$PACKAGE"_debug
   CXXFLAGS_DEBUG="-g"
-  # Only for GCC compiler 
+  # Only for GCC compiler
   if test "x$GXX" = xyes; then
     CXXFLAGS_DEBUG="-Wall $CXXFLAGS_DEBUG -pipe"
   fi
@@ -142,8 +142,8 @@ AC_SUBST(PACKAGE_DEBUG)
 
 # Set optimised flags
 if test "x$CXXFLAGS" = x; then
-  CXXFLAGS_OPT="-DNDEBUG -O3" 
-  # Only for GCC compiler 
+  CXXFLAGS_OPT="-DNDEBUG -O3"
+  # Only for GCC compiler
   if test "x$GXX" = xyes; then
     CXXFLAGS_OPT="$CXXFLAGS_OPT -pipe"
   fi
