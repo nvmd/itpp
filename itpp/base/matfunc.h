@@ -1,8 +1,8 @@
 /*!
  * \file
  * \brief Various functions on vectors and matrices - header file
- * \author Tony Ottosson, Adam Piatyszek and Conrad Sanderson
- * 
+ * \author Tony Ottosson, Adam Piatyszek, Conrad Sanderson and Mark Dobossy
+ *
  * $Date$
  * $Revision$
  *
@@ -54,7 +54,7 @@ namespace itpp {
   template<class T>
   int size(const Vec<T> &v) { return v.length(); }
 
-  //! Sum of all elements in the vector 
+  //! Sum of all elements in the vector
   template<class T>
   T sum(const Vec<T> &v)
   {
@@ -66,8 +66,8 @@ namespace itpp {
     return M;
   }
 
-  /*! 
-   * \brief Sum of elements in the matrix \c m, either along columns or rows 
+  /*!
+   * \brief Sum of elements in the matrix \c m, either along columns or rows
    *
    * <tt>sum(m) = sum(m, 1)</tt> returns a vector where the elements are sum
    * over each column, whereas <tt>sum(m, 2)</tt> returns a vector where the
@@ -84,19 +84,19 @@ namespace itpp {
 
       for (int i=0; i<m.cols(); i++)
 	      out(i) = sum(m.get_col(i));
-    } 
+    }
     else {
       out.set_size(m.rows(), false);
 
       for (int i=0; i<m.rows(); i++)
 	      out(i) = sum(m.get_row(i));
     }
-      
+
     return out;
   }
 
 
-  //! Sum of all elements in the given matrix. Fast version of sum(sum(X))   
+  //! Sum of all elements in the given matrix. Fast version of sum(sum(X))
   template<class T>
   T sumsum(const Mat<T> &X)
   {
@@ -123,7 +123,7 @@ namespace itpp {
     return M;
   }
 
-  /*! 
+  /*!
    * \brief Sum of the square of elements in the matrix \c m
    *
    * <tt>sum(m) = sum(m, 1)</tt> returns a vector where the elements are sum
@@ -141,18 +141,18 @@ namespace itpp {
 
       for (int i=0; i<m.cols(); i++)
 	out(i) = sum_sqr(m.get_col(i));
-    } 
+    }
     else {
       out.set_size(m.rows(), false);
 
       for (int i=0; i<m.rows(); i++)
 	out(i) = sum_sqr(m.get_row(i));
     }
-      
+
     return out;
   }
 
-  //! Cumulative sum of all elements in the vector 
+  //! Cumulative sum of all elements in the vector
   template<class T>
   Vec<T> cumsum(const Vec<T> &v)
   {
@@ -165,7 +165,7 @@ namespace itpp {
     return out;
   }
 
-  /*! 
+  /*!
    * \brief Cumulative sum of elements in the matrix \c m
    *
    * <tt>cumsum(m) = cumsum(m, 1)</tt> returns a matrix where the elements
@@ -188,7 +188,7 @@ namespace itpp {
 
     return out;
   }
-  
+
   //! The product of all elements in the vector
   template<class T>
   T prod(const Vec<T> &v)
@@ -202,8 +202,8 @@ namespace itpp {
     return out;
   }
 
-  /*! 
-   * \brief Product of elements in the matrix \c m 
+  /*!
+   * \brief Product of elements in the matrix \c m
    *
    * <tt>prod(m) = prod(m, 1)</tt> returns a vector where the elements are
    * products over each column, whereas <tt>prod(m, 2)</tt> returns a vector
@@ -216,13 +216,13 @@ namespace itpp {
     Vec<T> out(m.cols());
 
     if (dim == 1) {
-      it_assert((m.cols() >= 1) && (m.rows() >= 1), 
+      it_assert((m.cols() >= 1) && (m.rows() >= 1),
 		"prod: number of columns should be at least 1");
       out.set_size(m.cols(), false);
 
       for (int i=0; i<m.cols(); i++)
 	out(i) = prod(m.get_col(i));
-    } 
+    }
     else {
       it_assert((m.cols() >= 1) && (m.rows() >= 1),
 		"prod: number of rows should be at least 1");
@@ -238,7 +238,7 @@ namespace itpp {
   template<class T>
   Vec<T> cross(const Vec<T> &v1, const Vec<T> &v2)
   {
-    it_assert((v1.size() == 3) && (v2.size() == 3), 
+    it_assert((v1.size() == 3) && (v2.size() == 3),
 	      "cross: vectors should be of size 3");
 
     Vec<T> r(3);
@@ -277,7 +277,7 @@ namespace itpp {
   template<class T>
   Mat<T> zero_pad(const Mat<T> &m, int rows, int cols)
   {
-    it_assert((rows >= m.rows()) && (cols >= m.cols()), 
+    it_assert((rows >= m.rows()) && (cols >= m.cols()),
 	      "zero_pad() cannot shrink the matrix!");
     Mat<T> m2(rows, cols);
     m2.set_submatrix(0,m.rows()-1,0,m.cols()-1, m);
@@ -288,7 +288,7 @@ namespace itpp {
 
     return m2;
   }
-  
+
 
   //! Return zero if indexing outside the vector \c v otherwise return the
   //! element \c index
@@ -312,7 +312,7 @@ namespace itpp {
 
 
   //! Hermitian transpose (complex conjugate transpose) of the matrix \c m
-  //! returning the transposed matrix in \c out 
+  //! returning the transposed matrix in \c out
   template<class T>
   void hermitian_transpose(const Mat<T> &m, Mat<T> &out) { out = m.H(); }
 
@@ -322,7 +322,7 @@ namespace itpp {
 
 
 
-  /*!  
+  /*!
    * \brief Returns true if matrix \c X is hermitian, false otherwise
    * \author M. Szalay
    *
@@ -333,14 +333,14 @@ namespace itpp {
    */
   template<class Num_T>
   bool is_hermitian(const Mat<Num_T>& X) {
-    
+
     if (X == X.H() )
       return true;
     else
       return false;
   }
 
-  /*!  
+  /*!
    * \brief Returns true if matrix \c X is unitary, false otherwise
    * \author M. Szalay
    *
@@ -351,7 +351,7 @@ namespace itpp {
    */
   template<class Num_T>
   bool is_unitary(const Mat<Num_T>& X) {
-    
+
     if ( inv(X) == X.H() )
       return true;
     else
@@ -359,7 +359,51 @@ namespace itpp {
   }
 
 
-  /*! 
+  /*!
+   * \relates Mat
+   * \brief Creates a matrix with \c m by \c n copies of the matrix \c data
+   * \author Mark Dobossy
+   *
+   * \param data Matrix to be repeated
+   * \param m Number of times to repeat data vertically
+   * \param n Number of times to repeat data horizontally
+   */
+  template<class T>
+  Mat<T> repmat(const Mat<T> &data, int m, int n)
+  {
+    it_assert((m > 0) && (n > 0), "repmat(): Wrong repetition parameters");
+    int data_rows = data.rows();
+    int data_cols = data.cols();
+    it_assert((data_rows > 0) && (data_cols > 0), "repmat(): Input matrix can "
+	      "not be empty");
+    Mat<T> assembly(data_rows*m, data_cols*n);
+    for (int i = 0; i < m; ++i) {
+      for (int j = 0; j < n; ++j) {
+        assembly.set_submatrix(i*data_rows, j*data_cols, data);
+      }
+    }
+    return assembly;
+  }
+
+  /*!
+   * \relates Mat
+   * \brief Returns a matrix with \c m by \c n copies of the vector \c data
+   * \author Adam Piatyszek
+   *
+   * \param data Vector to be repeated
+   * \param m Number of times to repeat data vertically
+   * \param n Number of times to repeat data horizontally
+   * \param transpose Specifies the input vector orientation (column vector
+   * by default)
+   */
+  template<class T> inline
+  Mat<T> repmat(const Vec<T> &v, int m, int n, bool transpose = false)
+  {
+    return repmat((transpose ? v.T() : Mat<T>(v)), m, n);
+  }
+
+
+  /*!
    * \brief Computes the Kronecker product of two matrices
    *
    * <tt>K = kron(X, Y)</tt> returns the Kronecker tensor product of \c X
@@ -371,21 +415,21 @@ namespace itpp {
    * \author Adam Piatyszek
    */
   template<class Num_T>
-  Mat<Num_T> kron(const Mat<Num_T>& X, const Mat<Num_T>& Y) 
+  Mat<Num_T> kron(const Mat<Num_T>& X, const Mat<Num_T>& Y)
   {
     Mat<Num_T> result(X.rows() * Y.rows(), X.cols() * Y.cols());
 
     for (int i = 0; i < X.rows(); i++)
       for (int j = 0; j < X.cols(); j++)
 	result.set_submatrix(i * Y.rows(), j * Y.cols(), X(i, j) * Y);
-    
+
     return result;
   }
 
 
-  /*! 
-   * \brief Square root of the complex square matrix \c A 
-   *  
+  /*!
+   * \brief Square root of the complex square matrix \c A
+   *
    * This function computes the matrix square root of the complex square
    * matrix \c A. The implementation is based on the Matlab/Octave \c
    * sqrtm() function.
@@ -397,9 +441,9 @@ namespace itpp {
    */
   cmat sqrtm(const cmat& A);
 
-  /*! 
-   * \brief Square root of the real square matrix \c A 
-   *  
+  /*!
+   * \brief Square root of the real square matrix \c A
+   *
    * This function computes the matrix square root of the real square matrix
    * \c A. Please note that the returned matrix is complex. The
    * implementation is based on the Matlab/Octave \c sqrtm() function.
@@ -420,12 +464,12 @@ namespace itpp {
   //! \addtogroup diag
   //!@{
 
-  /*! 
+  /*!
     \brief Returns a diagonal matrix whith the elements of the vector \c v
-    on the diagonal and zeros elsewhere. 
+    on the diagonal and zeros elsewhere.
 
     The size of the return matrix will be \f$n \times n\f$, where \f$n\f$ is
-    the length of the input vector \c v. 
+    the length of the input vector \c v.
   */
   template<class T>
   Mat<T> diag(const Vec<T> &v, const int K = 0)
@@ -442,12 +486,12 @@ namespace itpp {
     return m;
   }
 
-  /*! 
+  /*!
     \brief Returns in the output wariable \c m a diagonal matrix whith the
-    elements of the vector \c v on the diagonal and zeros elsewhere. 
-  
+    elements of the vector \c v on the diagonal and zeros elsewhere.
+
     The size of the output matrix \c m will be \f$n \times n\f$, where
-    \f$n\f$ is the length of the input vector \c v. 
+    \f$n\f$ is the length of the input vector \c v.
   */
   template<class T>
   void diag(const Vec<T> &v, Mat<T> &m)
@@ -458,11 +502,11 @@ namespace itpp {
       m(i,i) = v(i);
   }
 
-  /*! 
+  /*!
     \brief Returns the diagonal elements of the input matrix \c m.
 
     The input matrix \c m must be a square \f$n \times n\f$ matrix. The size
-    of the output vector will be \f$n\f$. 
+    of the output vector will be \f$n\f$.
   */
   template<class T>
   Vec<T> diag(const Mat<T> &m)
@@ -475,15 +519,15 @@ namespace itpp {
     return t;
   }
 
-  // 
+  //
   /*!
     \brief Returns a matrix with the elements of the input vector \c main on
     the diagonal and the elements of the input vector \c sup on the diagonal
-    row above. 
+    row above.
 
     If the number of elements in the vector \c main is \f$n\f$, then the
     number of elements in the input vector \c sup must be \f$n-1\f$. The
-    size of the return matrix will be \f$n \times n\f$. 
+    size of the return matrix will be \f$n \times n\f$.
   */
   template<class T>
   Mat<T> bidiag(const Vec<T> &main, const Vec<T> &sup)
@@ -505,11 +549,11 @@ namespace itpp {
   /*!
     \brief Returns in the output variable \c m a matrix with the elements of
     the input vector \c main on the diagonal and the elements of the input
-    vector \c sup on the diagonal row above. 
+    vector \c sup on the diagonal row above.
 
     If the number of elements in the vector \c main is \f$n\f$, then the
     number of elements in the input vector \c sup must be \f$n-1\f$. The
-    size of the output matrix \c m will be \f$n \times n\f$. 
+    size of the output matrix \c m will be \f$n \times n\f$.
   */
   template<class T>
   void bidiag(const Vec<T> &main, const Vec<T> &sup, Mat<T> &m)
@@ -528,11 +572,11 @@ namespace itpp {
 
   /*!
     \brief Returns the main diagonal and the diagonal row above in the two
-    output vectors \c main and \c sup. 
+    output vectors \c main and \c sup.
 
     The input matrix \c in must be a square \f$n \times n\f$ matrix. The
     length of the output vector \c main will be \f$n\f$ and the length of
-    the output vector \c sup will be \f$n-1\f$. 
+    the output vector \c sup will be \f$n-1\f$.
   */
   template<class T>
   void bidiag(const Mat<T> &m, Vec<T> &main, Vec<T> &sup)
@@ -552,11 +596,11 @@ namespace itpp {
   /*!
     \brief Returns a matrix with the elements of \c main on the diagonal,
     the elements of \c sup on the diagonal row above, and the elements of \c
-    sub on the diagonal row below. 
+    sub on the diagonal row below.
 
     If the length of the input vector \c main is \f$n\f$ then the lengths of
     the vectors \c sup and \c sub must equal \f$n-1\f$. The size of the
-    return matrix will be \f$n \times n\f$. 
+    return matrix will be \f$n \times n\f$.
   */
   template<class T>
   Mat<T> tridiag(const Vec<T> &main, const Vec<T> &sup, const Vec<T> &sub)
@@ -579,11 +623,11 @@ namespace itpp {
   /*!
     \brief Returns in the output matrix \c m a matrix with the elements of
     \c main on the diagonal, the elements of \c sup on the diagonal row
-    above, and the elements of \c sub on the diagonal row below. 
-  
+    above, and the elements of \c sub on the diagonal row below.
+
     If the length of the input vector \c main is \f$n\f$ then the lengths of
     the vectors \c sup and \c sub must equal \f$n-1\f$. The size of the
-    output matrix \c m will be \f$n \times n\f$. 
+    output matrix \c m will be \f$n \times n\f$.
   */
   template<class T>
   void tridiag(const Vec<T> &main, const Vec<T> &sup, const Vec<T> &sub, Mat<T> &m)
@@ -603,11 +647,11 @@ namespace itpp {
 
   /*!
     \brief Returns the main diagonal, the diagonal row above, and the
-    diagonal row below int the output vectors \c main, \c sup, and \c sub. 
+    diagonal row below int the output vectors \c main, \c sup, and \c sub.
 
     The input matrix \c m must be a square \f$n \times n\f$ matrix. The
     length of the output vector \c main will be \f$n\f$ and the length of
-    the output vectors \c sup and \c sup will be \f$n-1\f$. 
+    the output vectors \c sup and \c sup will be \f$n-1\f$.
   */
   template<class T>
   void tridiag(const Mat<T> &m, Vec<T> &main, Vec<T> &sup, Vec<T> &sub)
@@ -627,7 +671,7 @@ namespace itpp {
   }
 
 
-  /*! 
+  /*!
     \brief The trace of the matrix \c m, i.e. the sum of the diagonal elements.
   */
   template<class T>
@@ -688,7 +732,7 @@ namespace itpp {
     \brief Reshape the matrix into an rows*cols matrix
 
     The data is taken columnwise from the original matrix and written
-    columnwise into the new matrix. 
+    columnwise into the new matrix.
   */
   template<class T>
   Mat<T> reshape(const Mat<T> &m, int rows, int cols)
@@ -711,7 +755,7 @@ namespace itpp {
     \brief Reshape the vector into an rows*cols matrix
 
     The data is element by element from the vector and written columnwise
-    into the new matrix. 
+    into the new matrix.
   */
   template<class T>
   Mat<T> reshape(const Vec<T> &v, int rows, int cols)
@@ -800,9 +844,13 @@ namespace itpp {
   //! Extern Template instantiation of cross
   extern template vec cross(const vec &v1, const vec &v2);
   //! Extern Template instantiation of cross
+  extern template cvec cross(const cvec &v1, const cvec &v2);
+  //! Extern Template instantiation of cross
   extern template ivec cross(const ivec &v1, const ivec &v2);
   //! Extern Template instantiation of cross
   extern template svec cross(const svec &v1, const svec &v2);
+  //! Extern Template instantiation of cross
+  extern template bvec cross(const bvec &v1, const bvec &v2);
 
   //! Extern Template instantiation of reverse
   extern template vec reverse(const vec &in);
@@ -816,29 +864,35 @@ namespace itpp {
   extern template bvec reverse(const bvec &in);
 
   //! Extern Template instantiation of zero_pad
-  extern template ivec zero_pad(const ivec &v, int n);
-  //! Extern Template instantiation of zero_pad
   extern template vec zero_pad(const vec &v, int n);
   //! Extern Template instantiation of zero_pad
   extern template cvec zero_pad(const cvec &v, int n);
   //! Extern Template instantiation of zero_pad
+  extern template ivec zero_pad(const ivec &v, int n);
+  //! Extern Template instantiation of zero_pad
+  extern template svec zero_pad(const svec &v, int n);
+  //! Extern Template instantiation of zero_pad
   extern template bvec zero_pad(const bvec &v, int n);
 
-  //! Extern Template instantiation of zero_pad
-  extern template ivec zero_pad(const ivec &v);
   //! Extern Template instantiation of zero_pad
   extern template vec zero_pad(const vec &v);
   //! Extern Template instantiation of zero_pad
   extern template cvec zero_pad(const cvec &v);
   //! Extern Template instantiation of zero_pad
+  extern template ivec zero_pad(const ivec &v);
+  //! Extern Template instantiation of zero_pad
+  extern template svec zero_pad(const svec &v);
+  //! Extern Template instantiation of zero_pad
   extern template bvec zero_pad(const bvec &v);
 
   //! Extern Template instantiation of zero_pad
-  extern template mat  zero_pad(const mat &, int, int);
+  extern template mat zero_pad(const mat &, int, int);
   //! Extern Template instantiation of zero_pad
   extern template cmat zero_pad(const cmat &, int, int);
   //! Extern Template instantiation of zero_pad
   extern template imat zero_pad(const imat &, int, int);
+  //! Extern Template instantiation of zero_pad
+  extern template smat zero_pad(const smat &, int, int);
   //! Extern Template instantiation of zero_pad
   extern template bmat zero_pad(const bmat &, int, int);
 
@@ -894,6 +948,8 @@ namespace itpp {
   extern template svec prod(const smat &m, int dim);
   //! Extern Template instantiation of product
   extern template ivec prod(const imat &m, int dim);
+  //! Extern Template instantiation of product
+  extern template bvec prod(const bmat &m, int dim);
 
   //! Extern Template instantiation of diag
   extern template vec diag(const mat &in);
@@ -1006,40 +1062,81 @@ namespace itpp {
   extern template bool is_unitary(const cmat &X);
 
   //! Extern Template instantiation of rvectorize
-  extern template  vec rvectorize(const  mat &m);
+  extern template vec rvectorize(const mat &m);
   //! Extern Template instantiation of rvectorize
   extern template cvec rvectorize(const cmat &m);
   //! Extern Template instantiation of rvectorize
-  extern template  ivec rvectorize(const  imat &m);
+  extern template ivec rvectorize(const imat &m);
   //! Extern Template instantiation of rvectorize
-  extern template  bvec rvectorize(const  bmat &m);
+  extern template svec rvectorize(const smat &m);
+  //! Extern Template instantiation of rvectorize
+  extern template bvec rvectorize(const bmat &m);
 
   //! Extern Template instantiation of cvectorize
-  extern template  vec cvectorize(const  mat &m);
+  extern template vec cvectorize(const mat &m);
   //! Extern Template instantiation of cvectorize
   extern template cvec cvectorize(const cmat &m);
   //! Extern Template instantiation of cvectorize
-  extern template  ivec cvectorize(const  imat &m);
+  extern template ivec cvectorize(const imat &m);
   //! Extern Template instantiation of cvectorize
-  extern template  bvec cvectorize(const  bmat &m);
+  extern template svec cvectorize(const smat &m);
+  //! Extern Template instantiation of cvectorize
+  extern template bvec cvectorize(const bmat &m);
 
   //! Extern Template instantiation of reshape
-  extern template  mat reshape(const  mat &m, int rows, int cols);
+  extern template mat reshape(const mat &m, int rows, int cols);
   //! Extern Template instantiation of reshape
   extern template cmat reshape(const cmat &m, int rows, int cols);
   //! Extern Template instantiation of reshape
-  extern template  imat reshape(const  imat &m, int rows, int cols);
+  extern template imat reshape(const imat &m, int rows, int cols);
   //! Extern Template instantiation of reshape
-  extern template  bmat reshape(const  bmat &m, int rows, int cols);
+  extern template smat reshape(const smat &m, int rows, int cols);
+  //! Extern Template instantiation of reshape
+  extern template bmat reshape(const bmat &m, int rows, int cols);
 
   //! Extern Template instantiation of reshape
-  extern template  mat reshape(const  vec &m, int rows, int cols);
+  extern template mat reshape(const vec &m, int rows, int cols);
   //! Extern Template instantiation of reshape
   extern template cmat reshape(const cvec &m, int rows, int cols);
   //! Extern Template instantiation of reshape
-  extern template  imat reshape(const  ivec &m, int rows, int cols);
+  extern template imat reshape(const ivec &m, int rows, int cols);
   //! Extern Template instantiation of reshape
-  extern template  bmat reshape(const  bvec &m, int rows, int cols);
+  extern template smat reshape(const svec &m, int rows, int cols);
+  //! Extern Template instantiation of reshape
+  extern template bmat reshape(const bvec &m, int rows, int cols);
+
+  //! Extern Template instantiation of kron
+  extern template mat kron(const mat &X, const mat &Y);
+  //! Extern Template instantiation of kron
+  extern template cmat kron(const cmat &X, const cmat &Y);
+  //! Extern Template instantiation of kron
+  extern template imat kron(const imat &X, const imat &Y);
+  //! Extern Template instantiation of kron
+  extern template smat kron(const smat &X, const smat &Y);
+  //! Extern Template instantiation of kron
+  extern template bmat kron(const bmat &X, const bmat &Y);
+
+  //! Extern Template instantiation of repmat
+  extern template mat repmat(const vec &v, int m, int n, bool transpose);
+  //! Extern Template instantiation of repmat
+  extern template cmat repmat(const cvec &v, int m, int n, bool transpose);
+  //! Extern Template instantiation of repmat
+  extern template imat repmat(const ivec &v, int m, int n, bool transpose);
+  //! Extern Template instantiation of repmat
+  extern template smat repmat(const svec &v, int m, int n, bool transpose);
+  //! Extern Template instantiation of repmat
+  extern template bmat repmat(const bvec &v, int m, int n, bool transpose);
+
+  //! Extern Template instantiation of repmat
+  extern template mat repmat(const mat &data, int m, int n);
+  //! Extern Template instantiation of repmat
+  extern template cmat repmat(const cmat &data, int m, int n);
+  //! Extern Template instantiation of repmat
+  extern template imat repmat(const imat &data, int m, int n);
+  //! Extern Template instantiation of repmat
+  extern template smat repmat(const smat &data, int m, int n);
+  //! Extern Template instantiation of repmat
+  extern template bmat repmat(const bmat &data, int m, int n);
 
 #endif
 

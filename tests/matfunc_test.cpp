@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Test program of various functions on vectors and matrices
  * \author Tony Ottosson and Adam Piatyszek
  *
@@ -11,7 +11,7 @@
  * IT++ - C++ library of mathematical, signal processing, speech processing,
  *        and communications classes and functions
  *
- * Copyright (C) 1995-2006  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
  *
  * This program is free software; you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
@@ -31,6 +31,7 @@
  */
 
 #include <itpp/itstat.h>
+#include <iomanip>
 
 using namespace std;
 using namespace itpp;
@@ -42,6 +43,9 @@ int main()
   cout << "=================================" << endl;
   cout << "    Test of matfunc routines     " << endl;
   cout << "=================================" << endl;
+
+  cout.setf(ios::fixed);
+  cout.precision(3);
 
   vec a = randn(5);
   cout << "a = " << a << endl;
@@ -69,6 +73,10 @@ int main()
   cout << "sum_sqr(A,1) = " << sum_sqr(A,1) << endl;
   cout << "sum_sqr(A,2) = " << sum_sqr(A,2) << endl << endl;
 
+  cout << "repmat(a, 1, 3) = " << repmat(a, 1, 3) << endl;
+  cout << "repmat(a, 3, 1, true) = " << repmat(a, 3, 1, true) << endl;
+  cout << "repmat(A, 2, 2) = " << repmat(A, 2, 2) << endl << endl;
+
   cout << "Kronecker test" << endl;
   mat X = to_mat(randi(2, 2, 1, 4));
   mat Y = randn(3, 3);
@@ -80,15 +88,15 @@ int main()
   A = randn(3,3);
   cmat A_sqrtm = sqrtm(A);
   cout << "A = " << A << endl;
-  cout << "norm(sqrtm(A) * sqrtm(A) - A) = " 
-       << round_to_zero(norm(A_sqrtm * A_sqrtm - to_cmat(A)), 1e-13) 
+  cout << "norm(sqrtm(A) * sqrtm(A) - A) = "
+       << round_to_zero(norm(A_sqrtm * A_sqrtm - to_cmat(A)), 1e-13)
        << endl << endl;
 
   cout << "sqrtm of a complex matrix" << endl;
   cmat B = randn_c(3,3);
   cmat B_sqrtm = sqrtm(B);
   cout << "B = " << B << endl;
-  cout << "norm(sqrtm(B) * sqrtm(B) - B) = " 
+  cout << "norm(sqrtm(B) * sqrtm(B) - B) = "
        << round_to_zero(norm(B_sqrtm * B_sqrtm - B), 1e-13) << endl;
 
   return 0;
@@ -96,8 +104,8 @@ int main()
 
 #else
 
-int main() { 
-  cerr << "Error: LAPACK library is needed to run this test program" << endl; 
+int main() {
+  cerr << "Error: LAPACK library is needed to run this test program" << endl;
   return 1;
 }
 
