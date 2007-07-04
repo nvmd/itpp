@@ -1,7 +1,8 @@
 /*!
  * \file
  * \brief Various functions on vectors and matrices - source file
- * \author Tony Ottosson, Adam Piatyszek, Conrad Sanderson and Mark Dobossy
+ * \author Tony Ottosson, Adam Piatyszek, Conrad Sanderson, Mark Dobossy
+ *         and Martin Senst
  *
  * $Date$
  * $Revision$
@@ -272,6 +273,12 @@ namespace itpp {
   template imat kron(const imat &X, const imat &Y);
   template smat kron(const smat &X, const smat &Y);
   template bmat kron(const bmat &X, const bmat &Y);
+
+  template vec repmat(const vec &v, int n);
+  template cvec repmat(const cvec &v, int n);
+  template ivec repmat(const ivec &v, int n);
+  template svec repmat(const svec &v, int n);
+  template bvec repmat(const bvec &v, int n);
 
   template mat repmat(const vec &v, int m, int n, bool transpose);
   template cmat repmat(const cvec &v, int m, int n, bool transpose);
