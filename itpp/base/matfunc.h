@@ -1,7 +1,8 @@
 /*!
  * \file
  * \brief Various functions on vectors and matrices - header file
- * \author Tony Ottosson, Adam Piatyszek, Conrad Sanderson and Mark Dobossy
+ * \author Tony Ottosson, Adam Piatyszek, Conrad Sanderson, Mark Dobossy
+ *         and Martin Senst
  *
  * $Date$
  * $Revision$
@@ -356,6 +357,28 @@ namespace itpp {
       return true;
     else
       return false;
+  }
+
+
+  /*!
+   * \relates Vec
+   * \brief Creates a vector with \c n copies of the vector \c v
+   * \author Martin Senst
+   *
+   * \param v Vector to be repeated
+   * \param n Number of times to repeat \c v
+   */
+  template<class T>
+  Vec<T> repmat(const Vec<T> &v, int n)
+  {
+    it_assert(n > 0, "repmat(): Wrong repetition parameter");
+    int data_length = v.length();
+    it_assert(data_length > 0, "repmat(): Input vector can not be empty");
+    Vec<T> assembly(data_length * n);
+    for (int j = 0; j < n; ++j) {
+      assembly.set_subvector(j * data_length, v);
+    }
+    return assembly;
   }
 
 
@@ -1115,6 +1138,17 @@ namespace itpp {
   extern template smat kron(const smat &X, const smat &Y);
   //! Extern Template instantiation of kron
   extern template bmat kron(const bmat &X, const bmat &Y);
+
+  //! Extern Template instantiation of repmat
+  extern template vec repmat(const vec &v, int n);
+  //! Extern Template instantiation of repmat
+  extern template cvec repmat(const cvec &v, int n);
+  //! Extern Template instantiation of repmat
+  extern template ivec repmat(const ivec &v, int n);
+  //! Extern Template instantiation of repmat
+  extern template svec repmat(const svec &v, int n);
+  //! Extern Template instantiation of repmat
+  extern template bvec repmat(const bvec &v, int n);
 
   //! Extern Template instantiation of repmat
   extern template mat repmat(const vec &v, int m, int n, bool transpose);
