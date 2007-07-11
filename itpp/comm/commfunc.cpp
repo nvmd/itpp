@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of some specific functions useful in communications
  * \author Tony Ottosson and Erik G. Larsson
  *
@@ -37,7 +37,7 @@
 #include <itpp/base/binary.h>
 #include <itpp/base/sort.h>
 
-namespace itpp { 
+namespace itpp {
 
   bmat graycode(int m)
   {
@@ -66,22 +66,22 @@ namespace itpp {
     for (i=0; i<a.size(); i++)
       if (a(i) != b(i))
 	n++;
-    
+
     return n;
   }
 
   int weight(const bvec &a)
   {
     int i, n=0;
-    
+
     for (i=0; i<a.size(); i++)
       if (a(i)==bin(1))
 	n++;
-    
+
     return n;
   }
-  
-  vec waterfilling(const vec& alpha, double P) // added by EGL April 2007
+
+  vec waterfilling(const vec &alpha, double P) // added by EGL April 2007
   {
     int n=length(alpha);
     it_assert(n > 0, "waterfilling(): alpha vector cannot have zero length");
@@ -89,9 +89,9 @@ namespace itpp {
 
     ivec ind=sort_index(alpha); // indices in increasing order
     it_assert(alpha(ind(0)) > 0, "waterfilling(): Gains must be positive");
-    
+
     // find lambda
-    double lambda;
+    double lambda = 0.0;
     for (int m=0; m<n; m++) {
       // try m,...,n-1 nonzero allocation
       double t=0;
@@ -103,13 +103,13 @@ namespace itpp {
       if (lambda < alpha(ind(m)))
 	break;
     }
-    
+
     vec result(n);
     for (int j=0; j<n; j++) {
       result(j) = ((lambda < alpha(j)) ? (1.0/lambda - 1.0/alpha(j)) : 0.0);
     }
-    
+
     return result;
   }
-  
+
 } // namespace itpp
