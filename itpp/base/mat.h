@@ -1016,22 +1016,19 @@ namespace itpp {
   template<class Num_T> inline
   void Mat<Num_T>::del_rows(int r1, int r2)
   {
-    it_assert_debug(r1>=0 && r2<no_rows && r1<=r2, "Mat<Num_T>::del_rows(): index out of range");
+    it_assert_debug((r1 >= 0) && (r2 < no_rows) && (r1 <= r2),
+		    "Mat<Num_T>::del_rows(): indices out of range");
 
-    for (int i=r1 ; i<=r2 ; i++) {
-      del_row(r1);
+    Mat<Num_T> Temp(*this);
+    int no_del_rows = r2-r1+1;
+    set_size(no_rows-no_del_rows, no_cols, false);
+    for (int i = 0; i < r1 ; ++i) {
+      copy_vector(no_cols, &Temp.data[i], Temp.no_rows, &data[i], no_rows);
     }
-
-    // this should work, I don't understand why it does not.
-    /*     Mat<Num_T> Temp(*this); */
-    /*     int n_deleted_rows = r2-r1+1; */
-    /*     set_size(no_rows-n_deleted_rows, no_cols, false); */
-    /*     for (int i=0 ; i < r1 ; i++) { */
-    /*       copy_vector(no_cols, &Temp.data[i], Temp.no_rows, &data[i], no_rows); */
-    /*     } */
-    /*     for (int i=r2 ; i < no_rows ; i++) { */
-    /*       copy_vector(no_cols, &Temp.data[i+1], Temp.no_rows, &data[i-n_deleted_rows+1], no_rows); */
-    /*     }  */
+    for (int i = r2+1; i < Temp.no_rows; ++i) {
+      copy_vector(no_cols, &Temp.data[i], Temp.no_rows, &data[i-no_del_rows],
+		  no_rows);
+    }
   }
 
   template<class Num_T> inline

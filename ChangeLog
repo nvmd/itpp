@@ -1,3 +1,11 @@
+2007-07-16  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/mat.h: Improved del_rows() performance
+
+	The more optimum but not working implementation of del_rows() has
+	been fixed and uncommented, so it now replaces the slow execution
+	of del_row() method for each deleted row in a loop.
+
 2007-07-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/commfunc.cpp: Compilation warning suppressed by
