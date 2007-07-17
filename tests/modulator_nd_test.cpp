@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Vector ("MIMO") modulator classes test program
  * \author Erik G. Larsson
  *
@@ -41,7 +41,7 @@ int main()
   cout << "========================================================" << endl;
   cout << "               Test of ND (MIMO) Modulators             " << endl;
   cout << "========================================================" << endl;
-   
+
   RNG_reset(12345);
 
   {
@@ -50,10 +50,10 @@ int main()
     double sigma2=0.005;
     int nt=5;
     for (int np=1; np<=3; np++) {
-      cout << "================== ND-U" << (1<<np) << "PAM =========== " 
+      cout << "================== ND-U" << (1<<np) << "PAM =========== "
 	   << endl;
 
-      chan.set_Gray_PAM(nt,1<<np);   
+      chan.set_Gray_PAM(nt,1<<np);
       cout << chan << endl;
       bvec b=randb(nt*np);
       QLLRvec LLR_ap = zeros_i(nt*np);
@@ -61,7 +61,7 @@ int main()
       //       LLR_ap(4)=chan.get_llrcalc().to_qllr(-100);
       cout << b << endl;
       vec x=chan.modulate_bits(b);
-      
+
       QLLRvec LLR(nt*np);
       mat H = randn(nt,nt);
       vec y= H*x;
@@ -99,10 +99,10 @@ int main()
     double sigma2=0.005;
     int nt=3;
     for (int np=1; np<=3; np++) {
-      cout << "================== ND-U" << ((1<<(2*np))) << "QAM =========== " 
+      cout << "================== ND-U" << ((1<<(2*np))) << "QAM =========== "
 	   << endl;
 
-      chan.set_Gray_QAM(nt,(1<<(2*np)));   
+      chan.set_Gray_QAM(nt,(1<<(2*np)));
       cout << chan << endl;
       bvec b=randb(nt*np*2);
       cout << b << endl;
@@ -127,10 +127,10 @@ int main()
     double sigma2=0.005;
     int nt=3;
     for (int np=1; np<=3; np++) {
-      cout << "================== ND-U" << ((1<<(2*np))) << "PSK =========== " 
+      cout << "================== ND-U" << ((1<<(2*np))) << "PSK =========== "
 	   << endl;
 
-      chan.set_Gray_PSK(nt,(1<<(2*np)));   
+      chan.set_Gray_PSK(nt,(1<<(2*np)));
       cout << chan << endl;
       bvec b=randb(nt*np*2);
       cout << b << endl;
@@ -153,7 +153,7 @@ int main()
 
 #else
 
-int main() { 
+int main() {
   cerr << "Error: LAPACK library is needed to run this test program" << endl;
   return 1;
 }

@@ -15,7 +15,7 @@
 IT++ should compile without errors or warnings on most GNU/Linux systems,
 on UNIX systems like Solaris SunOS, and on POSIX based environments for
 Microsoft Windows like Cygwin or MinGW with MSYS. It can be also built on
-Microsoft Windows NT/2000/XP using Microsoft's Visual C++ .NET, but our 
+Microsoft Windows NT/2000/XP using Microsoft's Visual C++ .NET, but our
 support for this compiler is limited. For GNU/Linux, SunOS, Cygwin and MinGW
 we assume that you have at least the following GNU software installed on
 your computer:
@@ -26,12 +26,12 @@ and g77 or gfortran), version 3.3.x or later (check version with <tt>`gcc
 --version'</tt>)
 .
 To perform tests, two command line programs: \c sed and \c diff are
-required. Optionally, you might need a few additional programs, i.e. 
-<a href="http://www.doxygen.org/">Doxygen</a>, 
+required. Optionally, you might need a few additional programs, i.e.
+<a href="http://www.doxygen.org/">Doxygen</a>,
 <a href="http://www.latex-project.org/">LaTeX</a>,
-<a href="http://www.radicaleye.com/dvips.html">Dvips</a> and 
+<a href="http://www.radicaleye.com/dvips.html">Dvips</a> and
 <a href="http://www.cs.wisc.edu/~ghost/">Ghostscript</a>, to generate the
-HTML documentation. 
+HTML documentation.
 
 We strongly recommend that you use recent stable releases of the GCC, if
 possible. We do not actively work on supporting older versions of the GCC,
@@ -40,7 +40,7 @@ releases of IT++.
 
 In order to use all functionality provided by the IT++ library, it is
 recommended that you have some external libraries compiled and installed in
-your computer. The basic set of them is: 
+your computer. The basic set of them is:
 <a href="http://www.netlib.org/blas/">BLAS</a>,
 <a href="http://www.netlib.org/lapack/">LAPACK</a> and
 <a href="http://www.fftw.org/">FFTW</a> (version 3.0.0 or later). To improve
@@ -52,7 +52,7 @@ optimized platform-specific libraries can be used as well, i.e.:
 - <a href="http://math-atlas.sourceforge.net/">ATLAS</a> (<em>Automatically
   Tuned Linear Algebra Software</em>) - includes optimised BLAS, CBLAS and a
   limited set of LAPACK routines (version 3.6.0 or later)
-- <a href="http://www.intel.com/cd/software/products/asmo-na/eng/perflib/mkl/">MKL</a>  
+- <a href="http://www.intel.com/cd/software/products/asmo-na/eng/perflib/mkl/">MKL</a>
   (<em>Intel Math Kernel Library</em>) - includes all required BLAS, CBLAS,
   LAPACK and FFT routines (version 8.0.0 or later; FFTW not required)
 - <a href="http://developer.amd.com/acml.aspx">ACML</a> (<em>AMD Core Math
@@ -73,7 +73,7 @@ source code of the IT++ library is available for free download. To obtain
 the IT++ source code, visit the project pages on SourceForge:
 - <a href="http://itpp.sourceforge.net/">http://itpp.sourceforge.net/</a>
 .
-and download the file named \c itpp-\<VERSION\>.tar.gz or 
+and download the file named \c itpp-\<VERSION\>.tar.gz or
 \c itpp-\<VERSION\>.tar.bz2, where \c \<VERSION\> is the latest release
 number, e.g. 3.9.0.
 
@@ -84,21 +84,21 @@ Assuming that you have already downloaded the latest IT++ sources, untar
 and unpack the sources, and enter the unpacked directory. Depending on the
 package type you have downloaded, use the following commands:
 
-\verbatim 
-% gzip -cd itpp-<VERSION>.tar.gz | tar xf - 
-% cd itpp-<VERSION> 
+\verbatim
+% gzip -cd itpp-<VERSION>.tar.gz | tar xf -
+% cd itpp-<VERSION>
 \endverbatim
 
-\verbatim 
-% bzip2 -cd itpp-<VERSION>.tar.bz2 | tar xf - 
-% cd itpp-<VERSION> 
+\verbatim
+% bzip2 -cd itpp-<VERSION>.tar.bz2 | tar xf -
+% cd itpp-<VERSION>
 \endverbatim
 
 Since version 3.9.0, the IT++ library uses autoconf, automake and libtool
 for preparing Makefiles and configuration script, so the compilation
-procedure resembles a standard, well-known GNU method, i.e. 
+procedure resembles a standard, well-known GNU method, i.e.
 
-\verbatim 
+\verbatim
 % ./configure
 % make
 \endverbatim
@@ -158,10 +158,10 @@ Otherwise, the detection procedure is as follows:
    Currently three different libraries providing FFT/IFFT routines can be
    used: MKL, ACML and FFTW. If at least one of them is found, \c HAVE_FFT
    id defined. Besides, one of the following: \c HAVE_FFT_MKL, \c
-   HAVE_FFT_ACML or \c HAVE_FFTW3 is defined. 
+   HAVE_FFT_ACML or \c HAVE_FFTW3 is defined.
 
 If some external libraries are installed in a non-standard location in your
-system, e.g. MKL in <tt>`/opt/intel/mkl/8.0.1'</tt>, the \c `configure' script 
+system, e.g. MKL in <tt>`/opt/intel/mkl/8.0.1'</tt>, the \c `configure' script
 will not detect them automatically. In such a case, you should use LDFLAGS
 and CPPFLAGS environment variables to define additional directories to be
 searched for libraries (LDFLAGS) and include files (CPPFLAGS). For instance,
@@ -186,7 +186,7 @@ more then one library names by quoting them with doublequotes, e.g.
 \endverbatim
 
 If there is only one library specified, you can use a simplified notation
-without the preceding `-l', e.g. \c `--with-fft=fftw3' instead of \c 
+without the preceding `-l', e.g. \c `--with-fft=fftw3' instead of \c
 `--with-fftw=-lfftw3'.
 
 Although it is not recommended, you can intentionally prevent detection of
@@ -220,7 +220,7 @@ might be set as follows:
 If CXXFLAGS is not set in the environment, it will be initialised with
 the default flags, i.e. <tt>"-DNDEBUG -O3 -fno-exceptions -pipe"</tt>.
 
-When the configuration process is finished, a status message is displayed. 
+When the configuration process is finished, a status message is displayed.
 For instance, after having invoked the following configuration
 command on a recent Gentoo Linux system:
 
@@ -283,9 +283,9 @@ Compiler/linker flags/libs/defs:
   - CXX ............ : g++
   - F77 ............ : gfortran
   - CXXFLAGS ....... : -DNDEBUG -O3 -fno-exceptions -pipe
-  - CXXFLAGS_DEBUG . : 
-  - CPPFLAGS ....... : 
-  - LDFLAGS ........ : 
+  - CXXFLAGS_DEBUG . :
+  - CPPFLAGS ....... :
+  - LDFLAGS ........ :
   - LIBS ........... : -lfftw3 -llapack -lcblas -lblas -lgfortran
 
 ------------------------------------------------------------------------------
@@ -376,10 +376,10 @@ message that might occur:
 checking for Fortran libraries of g77... -lcrt2.o -L/sw/lib/gcc/powerpc-apple-da
 rwin8.4.0/3.4.3 -L/sw/lib/gcc/powerpc-apple-darwin8.4.0/3.4.3/../../.. -lm -lfrt
 begin -lg2c -lSystemStubs -lSystem -lmx /usr/lib/gcc/powerpc-apple-darwin8/4.0.1
-/libgcc.a 
-checking for dummy main to link with Fortran libraries... unknown 
-configure: error: linking to Fortran libraries from C fails 
-See `config.log' for more details. 
+/libgcc.a
+checking for dummy main to link with Fortran libraries... unknown
+configure: error: linking to Fortran libraries from C fails
+See `config.log' for more details.
 \endverbatim
 
 We have found out that this error is caused by a possible bug in an autoconf
@@ -389,16 +389,16 @@ libraries. The problem is with "-lcrt2.o", which shouldn't be there.
 The known solution is to set FLIBS by hand, e.g.:
 
 \verbatim
-% FLIBS="-L/sw/lib -lg2c" ./configure 
+% FLIBS="-L/sw/lib -lg2c" ./configure
 \endverbatim
 
 or if it does not work, use the FLIBS detected by the autoconf omitting "-lcrt2.o":
 
 \verbatim
-% FLIBS="-L/sw/lib/gcc/powerpc-apple-darwin8.4.0/3.4.3 -L/sw/lib -lm -lfrtbegin 
+% FLIBS="-L/sw/lib/gcc/powerpc-apple-darwin8.4.0/3.4.3 -L/sw/lib -lm -lfrtbegin
 -lg2c -lSystemStubs -lSystem -lmx /usr/lib/gcc/powerpc-apple-darwin8/4.0.1/libg
 cc.a"
-% ./configure 
+% ./configure
 \endverbatim
 
 BLAS and LAPACK support can be obtained with the \c vecLib framework, but
@@ -536,23 +536,23 @@ repeat the installation procedure.
 
 \section msvc IT++ Compilation and Installation using Microsoft Visual C++ .NET
 
-It is possible to compile and link the IT++ library using the 
+It is possible to compile and link the IT++ library using the
 <a href="http://msdn.microsoft.com/visualc/">Microsoft Visual C++ .NET</a>
 compiler and either
 <a href="http://www.intel.com/cd/software/products/asmo-na/eng/perflib/mkl/">
-Intel Math Kernel Library (MKL)</a> or 
+Intel Math Kernel Library (MKL)</a> or
 <a href="http://developer.amd.com/acml.aspx">AMD Core Math Library (ACML)</a>.
 
 First, you need to install ACML or MKL in your system. If you decided to use
 ACML, please download the library built with PGI compiler for Windows, e.g.
 <tt>acml3.6.0-32-pgi.exe</tt> file for 32-bit systems. Please follow the
 default installation steps of the ACML or MKL installer. Intel's library is
-installed by default in the following directory: 
+installed by default in the following directory:
 <tt>"C:\Program Files\Intel\MKL\<VERSION>"</tt>.
 During the installation procedure, the installer ask if PATH, LIB and
 INCLUDE environment variables should be set appropriately. Check this
 option, since this step is required for for Windows to find the MKL dll
-files. The ACML is installed in 
+files. The ACML is installed in
 <tt>"C:\Program Files\AMD\acml<VERSION>"</tt> by default. After waiting a
 few dozens of seconds you should have the external libraries installed on
 your computer.

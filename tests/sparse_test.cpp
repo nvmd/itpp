@@ -53,7 +53,7 @@ int main()
  cout << "Add " << v << " to the indices " << index_vec << endl;
  v1.add(index_vec,v);
  cout << "v1=" << v1.full() << endl;
- 
+
  v1.clear_elem(2);
  cout << "v1(element 2 cleared) = " << v1.full() << endl;
 
@@ -143,10 +143,10 @@ int main()
  C = A*B;
  z1 = A*y;
  z2 = x*A;
- 
+
  cout << "C = " << full(C) << endl;
  cout << "z1 = " << z1 << endl;
  cout << "z2 = " << z2 << endl;
- 
+
  return 0;
 }

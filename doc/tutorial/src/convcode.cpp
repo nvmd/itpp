@@ -35,7 +35,7 @@ int main()
   generators(2) = 0175;
   constraint_length = 7;
   conv_code.set_generator_polynomials(generators, constraint_length);
- 
+
   //Init: Calculate some simulation specific parameters:
   Ec = 1.0;
   EbN0dB = linspace(-2,6,5);
@@ -45,7 +45,7 @@ int main()
   MaxNrofErrors = 100;
   Nobits = 10000;
   MaxIterations = 10;
-  ber.set_size(EbN0dB.length(),false); 
+  ber.set_size(EbN0dB.length(),false);
   ber.clear();
 
   //Randomize the random number generators.
@@ -54,16 +54,16 @@ int main()
   for (p=0; p<EbN0dB.length(); p++) {
 
     cout << "Now simulating point " << p+1 << " out of " << EbN0dB.length() << endl;
-    berc.clear();                 //Clear the bit error rate counter.   
+    berc.clear();                 //Clear the bit error rate counter.
     channel.set_noise(N0(p)/2.0); //Set the noise value of the AWGN channel.
 
     for (i=0; i<MaxIterations; i++) {
 
       uncoded_bits = randb(Nobits);                   //The uncoded bits.
-      coded_bits = conv_code.encode(uncoded_bits);    //The convolutional encoder function.    
+      coded_bits = conv_code.encode(uncoded_bits);    //The convolutional encoder function.
       bpsk.modulate_bits(coded_bits, trans_symbols); //The BPSK modulator.
-      rec_symbols = channel( trans_symbols );         //The AWGN channel. 
-      decoded_bits = conv_code.decode(rec_symbols);   //The Viterbi decoder function. 
+      rec_symbols = channel( trans_symbols );         //The AWGN channel.
+      decoded_bits = conv_code.decode(rec_symbols);   //The Viterbi decoder function.
       berc.count(uncoded_bits,decoded_bits);          //Count the errors.
       ber(p) = berc.get_errorrate();
 

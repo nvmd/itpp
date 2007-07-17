@@ -8,12 +8,12 @@ int main()
   // class
   TDL_Channel my_channel;
 
-  // The normalized Doppler frequency is set to 0.1 
+  // The normalized Doppler frequency is set to 0.1
   double norm_dopp = 0.1;
   my_channel.set_norm_doppler(norm_dopp);
 
   // Generate nrof_samples of the fading process and store them in ch_coeffs
-  // matrix 
+  // matrix
   int nrof_samples = 10000;
   cmat ch_coeffs;
   my_channel.generate(nrof_samples, ch_coeffs);

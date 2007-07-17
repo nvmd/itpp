@@ -1,5 +1,5 @@
 /*!
-* \file 
+* \file
 * \brief Pulse shaping classes test program
 * \author Adam Piatyszek
 *
@@ -58,7 +58,7 @@ int main()
  samples = rc_tx.shape_symbols(symbols);
 
  cout << "*** Raised Cosine; real input ***" << endl << endl;
- cout << "pulse, RC = " << round_to_zero(rc_tx.get_pulse_shape()) 
+ cout << "pulse, RC = " << round_to_zero(rc_tx.get_pulse_shape())
       << endl << endl;
  cout << "symbols = " << round_to_zero(symbols) << endl << endl;
  cout << "samples = " << round_to_zero(samples) << endl << endl;
@@ -82,7 +82,7 @@ int main()
  csamples = crc_tx.shape_symbols(csymbols);
 
  cout << "*** Raised Cosine; complex input ***" << endl << endl;
- cout << "pulse, RC = " << round_to_zero(crc_tx.get_pulse_shape()) 
+ cout << "pulse, RC = " << round_to_zero(crc_tx.get_pulse_shape())
       << endl << endl;
  cout << "symbols = " << round_to_zero(csymbols) << endl << endl;
  cout << "samples = " << round_to_zero(csamples) << endl << endl;

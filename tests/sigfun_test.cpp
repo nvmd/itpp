@@ -1,7 +1,7 @@
 /*!
-* \file 
+* \file
 * \brief Signal processing routines test program
-* \author Tony Ottosson, Thomas Eriksson, Pal Frenger, Tobias Ringstrom 
+* \author Tony Ottosson, Thomas Eriksson, Pal Frenger, Tobias Ringstrom
 *         and Adam Piatyszek
 *
 * -------------------------------------------------------------------------
@@ -93,8 +93,8 @@ int main()
 
 #else
 
-int main() { 
- cerr << "Error: FFT library is needed to run this test program" << endl; 
+int main() {
+ cerr << "Error: FFT library is needed to run this test program" << endl;
  return 1;
 }
 

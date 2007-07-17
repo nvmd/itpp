@@ -38,7 +38,7 @@ int main()
 
  //Put the elements of \c b to the buffer
  cb1.put(b);
- 
+
  //Extract the oldest element of the buffer
  cb1.get(out_vec,1);
  cout << "get(out_vec,1) = " << out_vec << endl ;
@@ -54,7 +54,7 @@ int main()
 
  for (int i=0;i<a.length();i++) { cb1.put(a(i)); }
  for (int i=0;i<b.length();i++) { cb1.put(b(i)); }
- 
+
  cout << "buffer size = " << cb1.size() << endl;
  cout << "nrof_elements = " << cb1.nrof_elements() << endl;
 

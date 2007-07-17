@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Cholesky factorisation test program
  * \author Tony Ottosson and Adam Piatyszek
  *
@@ -53,12 +53,12 @@ int main()
      for (int i = 0; i < X.cols(); i++)
 	X(i, i) = std::abs(X(i, i));
 
-     ok = chol(X, F);      
+     ok = chol(X, F);
      cout << "X = " << round_to_zero(X) << endl;
      if (!ok)
 	cout << "matrix is not positive definite" << endl;
      else {
-	cout << "norm(X - F^T*F) = " 
+	cout << "norm(X - F^T*F) = "
 	     << round_to_zero(norm(X - transpose(F) * F)) << endl;
      }
    }
@@ -76,13 +76,13 @@ int main()
      for (int i = 0; i < X.cols(); i++)
 	X(i, i) = std::abs(real(X(i, i)))
 ;
-     ok = chol(X, F);      
+     ok = chol(X, F);
      cout << "X = " << round_to_zero(X) << endl;
 
      if (!ok)
 	cout << "matrix is not positive definite" << endl;
      else {
-	cout << "norm(X - F^H*F) = " 
+	cout << "norm(X - F^H*F) = "
 	     << round_to_zero(norm(X - hermitian_transpose(F) * F)) << endl;
      }
    }
@@ -93,7 +93,7 @@ int main()
 
 #else
 
-int main() { 
+int main() {
  cerr << "Error: LAPACK library is needed to run this test program" << endl;
  return 1;
 }

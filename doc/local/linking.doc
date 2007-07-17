@@ -1,4 +1,4 @@
-/*! 
+/*!
 \page linking Linking with IT++
 
 \section toc Table of Contents
@@ -25,7 +25,7 @@ libraries. It helps you insert the correct compiler and linker
 options. The syntax of the \c `pkg-config' is as follows:
 
 \code
-% pkg-config <options> <library_name>  
+% pkg-config <options> <library_name>
 \endcode
 
 For instance, assuming that you need to compile an IT++ based program
@@ -33,7 +33,7 @@ For instance, assuming that you need to compile an IT++ based program
 
 \code
 % g++ `pkg-config --cflags itpp` -o my_prog my_prog.cpp `pkg-config --libs itpp`
-\endcode  
+\endcode
 
 For more information see the \c `pkg-config' man pages.
 
@@ -98,7 +98,7 @@ export LD_LIBRARY_PATH=<IT++ installation prefix>/lib:$LD_LIBRARY_PATH
 \endcode
 
 
-\section msvc_linking Linking your own programs with IT++ using MSVC++ .NET 
+\section msvc_linking Linking your own programs with IT++ using MSVC++ .NET
 
 It is assumed here that the IT++ library is already compiled and linked with
 either ACML or MKL, using Microsoft Visual C++ .NET compiler (cf. \ref msvc).
@@ -108,12 +108,12 @@ be correctly set up in your project:
 
 - The IT++ include directory must be defined. Settings for this can be found
 in the menu <tt>"Tools -&gt; Options -&gt; Projects and Solutions -&gt; VC++
-Directories -&gt; Include files"</tt>. Add a path to 
+Directories -&gt; Include files"</tt>. Add a path to
 <tt>"<IT++ source directory>"</tt>, e.g. <tt>"C:\itpp-3.10.10"</tt>.
 
 - The IT++ library directory must be defined. Settings for this can be found
 in the menu <tt>"Tools -&gt; Options -&gt; Projects and Solutions -&gt; VC++
-Directories -&gt; Library files"</tt>. Add a path to 
+Directories -&gt; Library files"</tt>. Add a path to
 <tt>"<IT++ source directory>\win32\libs"</tt>, e.g.
 <tt>"C:\itpp-3.10.10\win32\libs"</tt>.
 

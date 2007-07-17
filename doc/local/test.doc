@@ -1,4 +1,4 @@
-/*! 
+/*!
 \page test Test Rules
 
 This section describes rules how the functionality of the IT++
@@ -40,8 +40,8 @@ the test file.
 
 One can compile and execute all test programs from \c `tests'
 subdirectory by typing
-\verbatim 
-% make check 
+\verbatim
+% make check
 \endverbatim after
 successful compilation of the IT++ library.
 

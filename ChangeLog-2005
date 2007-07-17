@@ -27,7 +27,7 @@
 	* extras/itload.m, extras/itsave.m, extras/Makefile.am,
 	Makefile.am, configure.ac: Added missing `itload.m' and `itsave.m'
 	files for loading and saving an itfile in Matlab/Octave (function
-	and file names changed from `load_it.m' and `save_it.m'). 
+	and file names changed from `load_it.m' and `save_it.m').
 
 2005-12-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
@@ -46,7 +46,7 @@
 	* itpp/base/transforms.cpp, tests/transforms_test.ref: Fixed bug
 	[1388024]. Both versions of fft_real() and ifft_real() functions
 	(based on FFTW3 and MKL) worked differently than the reference
-	Matlab's fft()/ifft() functions. It seems to be fixed now, but an  
+	Matlab's fft()/ifft() functions. It seems to be fixed now, but an
 	additional code overhead was added.
 
 2005-12-22  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
@@ -93,7 +93,7 @@
 
 	* NEWS: Updated to include recent changes
 	* configure.ac: Updated version number and fixed header files'
-	checks 
+	checks
 	* itpp/base/binfile.cpp, itpp/base/timing.cpp,
 	itpp/comm/modulator.cpp: Updated include statements due to
 	`configure.ac' changes
@@ -104,7 +104,7 @@
 	* TODO: Updated to include recent changes
 
 	* itpp/protocol/packet.h, itpp/protocol/selective_repeat.h:
-	Removed unnecessary include preprocessor commands 
+	Removed unnecessary include preprocessor commands
 
 	* itpp/base/elmatfunc.cpp, itpp/base/elmatfunc.h,
 	itpp/base/scalfunc.cpp, itpp/base/scalfunc.h: Added
@@ -118,7 +118,7 @@
 
 	* tests/Makefile.am: Added support for redesigned tests, which
 	should be more robust to negligible precison errors, ie.
-	plus/minus zero. 
+	plus/minus zero.
 	* tests/pulse_shape_test2.cpp, tests/pulse_shape_test2.ref:
 	Redesined tests of pulse shaping classes added.
 
@@ -146,7 +146,7 @@
 	* IT++ 3.9.0-rc1 released (CVS tag: release-3-9-0-rc1)
 
 2005-12-18  Adam Piatyszek  <ediap@users.sourceforge.net>
-	
+
 	* NEWS: Updated for itpp-3.9.0 release
 	* configure.ac, doc/doxygen_html.cfg.in, doc/local/index.doc.in,
 	doc/local/sources.mk: Changed the HTML main page to automatically
@@ -178,11 +178,11 @@
 	* Updated the documentation on IT++ and MKL setup for MSVC++.
 	* Function `kurtosis' renamed to `kurtosisexcess' for MATLAB
 	compability and conformance to literature. A new function
-	`kurtosis' is defined. 
+	`kurtosis' is defined.
 
 2005-12-15  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* itpp/base/scalfunc.cpp, itpp/base/source.cpp,	itpp/base/timing.cpp: 
+	* itpp/base/scalfunc.cpp, itpp/base/source.cpp,	itpp/base/timing.cpp:
 	Minor cosmetic changes (math.h -> cmath; 3.1415 -> pi)
 	* Makefile.am, itpp/Makefile.am: Added missing filenames to
 	EXTRA_DIST
@@ -190,7 +190,7 @@
 2005-12-14  Thomas Eriksson  <thomases2@users.sourceforge.net>
 
 	* itpp.sln, itpp.vcproj, itpp/config_msvc.h: Changes and additions
-	for compability with Microsoft Visual C++ (MSVC) 
+	for compability with Microsoft Visual C++ (MSVC)
 
 2005-12-13  Adam Piatyszek  <ediap@users.sourceforge.net>
 
@@ -211,12 +211,12 @@
 	* itpp/itconfig.h: Doxygen modules moved from `alpha_modules.h'
 	into this file
 	* itpp/Makefile.am, doc/Makefile.am, doc/doxygen_html.cfg.in:
-	Minor updates in lists of `*.h' and `*.cpp' sources 
+	Minor updates in lists of `*.h' and `*.cpp' sources
 
 	* tests/filter_design_test.ref, tests/poly_test.ref: Added missing
 	reference files
 	* tests/filter_design_test.cpp: `NO_LAPACK' and	`NO_CBLAS'
-	definitions replaced with `HAVE_LAPACK' and `HAVE_CBLAS' 
+	definitions replaced with `HAVE_LAPACK' and `HAVE_CBLAS'
 	* doc/Makefile.am: Updated with new files
 
 2005-12-12  Tony Ottosson  <tonyottosson@users.sourceforge.net>
@@ -272,7 +272,7 @@
 	* itpp/base/gf2mat.{h,cpp}: Added a new GF2 matrix module
 	* tests/gf2mat_test.cpp: added a test program for GF2 matrix
 	module
-	
+
 2005-11-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac: Removed some cpu-specific optimise flags from
@@ -315,7 +315,7 @@
 2005-10-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* Makefile.common: AM_CPPFLAGS fixed to support building in a
-	separate directory (required by rpm-build) 
+	separate directory (required by rpm-build)
 
 2005-10-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
@@ -405,7 +405,7 @@
 
 	* AUTHORS: Updated developer's list
 	* COPYING: Converted from UTF-8 to ASCII; GNU GPL-2 license text
-	updated 
+	updated
 
 2005-08-29  Adam Piatyszek  <ediap@users.sourceforge.net>
 
@@ -428,7 +428,7 @@
 
 	* configure.ac, doc/Makefile.am: `--with-docdir' option added to the
 	configure script. This option can be used to decide where the html
-	documentation will be installed. 
+	documentation will be installed.
 
 2005-08-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
@@ -457,11 +457,11 @@
 	* Fixed bug [1084246]. Operators and other functions in Vec, Mat
 	and Array revised to follow standard C++ conventions. Now
 	operators provide an lvalue and also check against self-
-	assignment. 
+	assignment.
 
 2005-07-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
-	* configure.ac: Fixed a bug that prevented detection of nonstandard 
+	* configure.ac: Fixed a bug that prevented detection of nonstandard
 	CBLAS and LAPACK libraries ($FLIBS has not been used where neccessary)
 
 2005-07-21  Adam Piatyszek  <ediap@users.sourceforge.net>
@@ -476,9 +476,9 @@
 	* tests/pulse_shape_test.{cpp,ref}: Fixed different floating-point
 	numbers' precision in `cout' output problem by using `setprecision()'
 	manipulator
-	
+
 	* tests/Makefile.am: Cygwin's `.exe' extension problem in test
-	programs' filenames 
+	programs' filenames
 	* TODO updated
 
 2005-07-19  Adam Piatyszek  <ediap@users.sourceforge.net>
@@ -555,7 +555,7 @@
 	* TODO list updated
 
 	* Added --enable-pedantic and --with-cpu=CPU switches to
-	configure.ac 
+	configure.ac
 	* Removed unnecessary AM_ENABLE_SHARED statement
 	* Commented AM_MAINTAINER_MODE, since it might cause some
 	dependency problems
@@ -572,7 +572,7 @@
 	* Changed version number to 3.9.0 in configure.ac
 	* Updated AUTHORS, ChangeLog, NEWS and TODO files
 
-	* FFTW, HARU, CBLAS and LAPACK libraries checking rules rewriten 
+	* FFTW, HARU, CBLAS and LAPACK libraries checking rules rewriten
 	to use --with-library[=name] or --without-library configure switches
 	* Removed unnecessary Makefile.am in config subdirectory
 

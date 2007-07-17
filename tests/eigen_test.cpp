@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Eigenvalue decomposition test program
  * \author Tony Ottosson and Adam Piatyszek
  *
@@ -52,7 +52,7 @@ int main(void)
     eig_sym(A, d, V);
 
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "norm(A*V-V*diag(d)) = " 
+    cout << "norm(A*V-V*diag(d)) = "
 	 << round_to_zero(norm(A * V - V * diag(d)), thresh) << endl;
   }
 
@@ -64,7 +64,7 @@ int main(void)
     eig(A, d, V);
 
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "norm(A*V-V*diag(d)) = " 
+    cout << "norm(A*V-V*diag(d)) = "
 	 << round_to_zero(norm(A * V - V * diag(d)), thresh) << endl;
   }
 
@@ -77,7 +77,7 @@ int main(void)
     eig_sym(A, d, V);
 
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "norm(A*V-V*diag(d)) = " 
+    cout << "norm(A*V-V*diag(d)) = "
 	 << round_to_zero(norm(A * V - V * diag(d)), thresh) << endl;
   }
 
@@ -89,7 +89,7 @@ int main(void)
     eig(A, d, V);
 
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "norm(A*V-V*diag(d)) = " 
+    cout << "norm(A*V-V*diag(d)) = "
 	 << round_to_zero(norm(A * V - V * diag(d)), thresh) << endl;
   }
 
@@ -98,7 +98,7 @@ int main(void)
 
 #else
 
-int main() { 
+int main() {
   cerr << "Error: LAPACK library is needed to run this test program" << endl;
   return 1;
 }

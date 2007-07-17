@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Deterministic sources test program
  * \author Tobias Ringstrom, Tony Ottosson and Adam Piatyszek
  *
@@ -58,7 +58,7 @@ void show(const char *name, double sm, double sv)
 
 void show(const char *name, complex<double> sm, double sv)
 {
-  cout << setw(18) << name << "  " 
+  cout << setw(18) << name << "  "
        << setw(20) << round_to_zero(sm, THRESHOLD) << "  "
        << setw(20) << round_to_zero(sv, THRESHOLD) << endl;
 }

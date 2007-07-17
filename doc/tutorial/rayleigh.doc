@@ -1,4 +1,4 @@
-/*! 
+/*!
 \page rayleigh Generating a correlated Rayleigh fading process
 
 In this example we will generate a correlated Rayleigh fading process with a

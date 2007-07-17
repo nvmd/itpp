@@ -1,3 +1,17 @@
+2007-07-17  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* **/*: Removed trailing whitespace
+
+	Trailing whitespace (spaces and tabs at the end of each line) does
+	not contain any information. Moreover, it sometimes causes
+	conflicts when applying patches or merging branches. Therefore,
+	let's get rid of it from the code and other text files.
+
+	Trailing whitespace can be easily removed with sed or perl and
+	their regular expressions:
+	% sed -i -e 's/[ \t]*$//' source.cpp
+	% perl -i -p -e 's/[ \t]*$//' source.cpp
+
 2007-07-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* doc/local/documentation.doc, extras/itload.m, extras/itsave.m,

@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Reed-Solomon encoder/decoder class test program
  * \author Steve Peters and Adam Piatyszek
  *
@@ -49,7 +49,7 @@ int main()
   Reed_Solomon rs_sys(3, 1, true);
 
   bmat f = "1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0; 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0; 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0; 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0; 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0; 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0; 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1; 0 0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0";
-   
+
   cout << "Non-systematic case" << endl;
   cout << "-------------------" << endl;
   for (int i = 0; i < u.rows(); i++) {
@@ -62,7 +62,7 @@ int main()
     it_assert(y.cols() == length(errorword), "Error 2");
     y.set_row(i,f.get_row(i) + c.get_row(i));
     cout << "One error added: " << y.get_row(i) << endl;
-    decoded.set_row(i,rs.decode(y.get_row(i))); 
+    decoded.set_row(i,rs.decode(y.get_row(i)));
     cout << "Decoded to:      " << decoded.get_row(i) << endl << endl;
   }
 
@@ -74,9 +74,9 @@ int main()
     cout << "Encoded:         " << c.get_row(i) << endl;
     y.set_row(i,f.get_row(i) + c.get_row(i));
     cout << "One error added: " << y.get_row(i) << endl;
-    decoded.set_row(i,rs_sys.decode(y.get_row(i))); 
+    decoded.set_row(i,rs_sys.decode(y.get_row(i)));
     cout << "Decoded to:      " << decoded.get_row(i) << endl << endl;
   }
 
   return 0;
-} 
+}

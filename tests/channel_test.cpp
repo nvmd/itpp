@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Channel classes test program
  * \author Adam Piatyszek
  *

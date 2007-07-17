@@ -1,5 +1,5 @@
-/*! 
-\page matlab_itpp Conversion table between IT++ syntax and Matlab/Octave 
+/*!
+\page matlab_itpp Conversion table between IT++ syntax and Matlab/Octave
 
 Here we provide a conversion table between Matlab/Octave and IT++
 syntax.  This table is intended to help with the transition from
@@ -7,13 +7,13 @@ Matlab/Octave programming to IT++, but it is not an exhaustive list of
 possible operations.
 
 <br><br>
-In what follows, 
+In what follows,
 <ul>
 <li>a, b denote vectors (assumed to be column vectors in Matlab/Octave notation),</li>
 <li>A, B denote matrices, </li>
 <li>x is a scalar,</li>
 <li>k, l, n are indices</li>
-</ul> 
+</ul>
 <br>
 <b>Vector indexing and manipulation:</b>
 \code
@@ -30,7 +30,7 @@ concat(a,b)                          // [a; b] (or [a.' b.'].')
 a.clear();                           // a=zeros(size(a));  (or a=complex(zeros(size(a)));)
 to_cmat(a)                           // complex(a)   (assuming a real-valued)
 \endcode
-Note that indexing in  IT++ starts at 0, whereas indexing in Matlab starts at 1. Also 
+Note that indexing in  IT++ starts at 0, whereas indexing in Matlab starts at 1. Also
 note that Matlab/Octave does distinguish between column and row
 vectors, whereas IT++ does not.
 <br><br>

@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief BCH encoder/decoder class test program
  * \author Pal Frenger, Steve Peters and Adam Piatyszek
  *
@@ -33,7 +33,7 @@ using namespace itpp;
 using namespace std;
 
 
-bvec set_errors(const bvec &input, const ivec errpos) 
+bvec set_errors(const bvec &input, const ivec errpos)
 {
   bvec output = input;
   for (int i = 0; i < errpos.length(); i++)
@@ -42,7 +42,7 @@ bvec set_errors(const bvec &input, const ivec errpos)
 }
 
 
-int main() 
+int main()
 {
   cout << "===================================" << endl;
   cout << "    Test of BCH encoder/decoder    " << endl;
@@ -61,7 +61,7 @@ int main()
     cout << "encoded = " << encoded << endl ;
     cout << "err =     " << err <<  endl ;
     cout << "decoded = " << decoded << endl ;
- 
+
     input = randb(21);
     encoded = bch.encode(input);
     err = set_errors(encoded, (ivec) "1 2 27"); // error positions
@@ -95,7 +95,7 @@ int main()
       cout << "Encoded " << u.get_row(i) << " to " << c.get_row(i) << endl;
       y.set_row(i, f.get_row(i) + c.get_row(i));
       cout << "One error added: " << y.get_row(i) << endl;
-      decoded.set_row(i, bch_nsys.decode(y.get_row(i))); 
+      decoded.set_row(i, bch_nsys.decode(y.get_row(i)));
       cout << "Decoded to:" << decoded.get_row(i) << endl << endl;
     }
 
@@ -106,10 +106,10 @@ int main()
       cout << "Encoded " << u.get_row(i) << " to " << c.get_row(i) << endl;
       y.set_row(i, f.get_row(i) + c.get_row(i));
       cout << "One error added: " << y.get_row(i) << endl;
-      decoded.set_row(i, bch_sys.decode(y.get_row(i))); 
+      decoded.set_row(i, bch_sys.decode(y.get_row(i)));
       cout << "Decoded to:" << decoded.get_row(i) << endl << endl;
     }
   }
- 
+
   return 0;
 }

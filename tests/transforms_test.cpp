@@ -1,5 +1,5 @@
 /*!
-* \file 
+* \file
 * \brief Transforms test program
 * \author Tony Ottosson, Thomas Eriksson, Simon Wood and Adam Piatyszek
 *
@@ -51,7 +51,7 @@ int main()
    x = randn(N);
    cout << "Test 1: FFT/IFFT; Real input vector x; N = " << N << endl
 	<< "        fft_real(x, y), ifft_real(y, z):" << endl << endl;
-   
+
    cout << "x = " << round_to_zero(x) << endl;
    fft_real(x, y);
    cout << "y = " << round_to_zero(y) << endl;
@@ -61,7 +61,7 @@ int main()
    N = 15;
    s = N - 4;
    x = randn(s);
-   cout << "Test 2: FFT/IFFT; Real input vector x of size s = " << s 
+   cout << "Test 2: FFT/IFFT; Real input vector x of size s = " << s
 	<< "; N = " << N << endl
 	<< "        y = fft_real(x, N), z = ifft_real(y, N):" << endl << endl;
 
@@ -78,7 +78,7 @@ int main()
    x = randn_c(N);
    cout << "Test 3: FFT/IFFT; Complex input vector x; N = " << N << endl
 	<< "        fft(x, y), ifft(y, z):" << endl << endl;
-   
+
    cout << "x = " << round_to_zero(x) << endl;
    fft(x, y);
    cout << "y = " << round_to_zero(y) << endl;
@@ -88,10 +88,10 @@ int main()
    N = 16;
    s = N - 7;
    x = randn_c(s);
-   cout << "Test 4: FFT/IFFT; Complex input vector x of size s = " << s 
+   cout << "Test 4: FFT/IFFT; Complex input vector x of size s = " << s
 	<< "; N = " << N << endl
 	<< "        y = fft(x, N), z = ifft(y, N):" << endl << endl;
-   
+
    cout << "x = " << round_to_zero(x) << endl;
    y = fft(x, N);
    cout << "y = " << round_to_zero(y) << endl;
@@ -103,9 +103,9 @@ int main()
 
    N = 8;
    x = randn(N);
-   cout << "Test 5: DCT/IDCT; Real input vector; N = " << N << endl 
+   cout << "Test 5: DCT/IDCT; Real input vector; N = " << N << endl
 	<< "        dct(x, y), idct(y, z):" << endl << endl;
-   
+
    cout << "x = " << round_to_zero(x) << endl;
    dct(x, y);
    cout << "y = " << round_to_zero(y) << endl;
@@ -116,7 +116,7 @@ int main()
    x = randn(N);
    cout << "Test 6: DCT/IDCT; Real input vector; N = " << N << endl
 	<< "        dct(x, y), idct(y, z):" << endl << endl;
-   
+
    cout << "x = " << round_to_zero(x) << endl;
    dct(x, y);
    cout << "y = " << round_to_zero(y) << endl;
@@ -129,8 +129,8 @@ int main()
 
 #else
 
-int main() { 
- cerr << "Error: FFT library is needed to run this test program" << endl; 
+int main() {
+ cerr << "Error: FFT library is needed to run this test program" << endl;
  return 1;
 }
 

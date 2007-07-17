@@ -19,7 +19,7 @@ the reference documentation.
 - matrix decompositions such as eigenvalue, Cholesky, LU, Schur, SVD, and QR
 - solving linear system of equations (including over and underdetermined)
 - random number generation (Mersenne Twister generator)
-- binary and Galois types (both scalar and vector and matrices) 
+- binary and Galois types (both scalar and vector and matrices)
 - integration of 1-dimensional functions
 - unconditional nonlinear optimization (Quasi-Newton search)
 
@@ -61,7 +61,7 @@ the reference documentation.
 
 \section srccode_features Source coding
 - Scalar Quantizer (SQ) and Vector Quantizer (VQ) classes and functions for
-  training of these 
+  training of these
 - LPC, LSF, and cepstrum parameter calculation for speech processing
 - Gaussian Mixture Modeling
 - reading and saving several different audiofile formats

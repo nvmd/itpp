@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Filter classes test program
  * \author Hakan Eriksson, Thomas Eriksson, Tony Ottosson and Adam Piatyszek
  *
@@ -71,7 +71,7 @@ int main()
 
   cvec cy, cy2;
   cvec cs1, cs2;
- 
+
   cout << endl << "-----------------------------------------------" << endl;
   cout << "MA Filter: " << endl;
 

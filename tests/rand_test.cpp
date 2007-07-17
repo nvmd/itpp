@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Random number generator test program
  * \author Adam Piatyszek
  *

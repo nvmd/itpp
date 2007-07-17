@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief 1D and 2D modulators test program
  * \author Tony Ottosson and Adam Piatyszek
  *
@@ -40,7 +40,7 @@ int main()
   cout << "===========================================================" << endl;
   cout << "                    Test of Modulators                     " << endl;
   cout << "===========================================================" << endl;
-   
+
   const int no_symbols = 5;
   const double N0 = 0.1;
 
@@ -48,7 +48,7 @@ int main()
     cout << endl << "Modulator_1D (configured as BPSK)" << endl;
     Modulator_1D  mod("1.0 -1.0", "0 1");
     int bps = round_i(mod.bits_per_symbol());
-   
+
     bvec tx_bits = randb(no_symbols * bps);
     ivec tx_sym_numbers = randi(no_symbols, 0, pow2i(bps) - 1);
     vec noise = sqrt(N0) * randn(no_symbols);
@@ -56,7 +56,7 @@ int main()
     vec tx_symbols = mod.modulate_bits(tx_bits);
     vec rx_symbols = tx_symbols + noise;
     bvec decbits = mod.demodulate_bits(rx_symbols);
-    
+
     cout << "* modulating bits:" << endl;
     cout << "  tx_bits         = " << tx_bits << endl;
     cout << "  tx_symbols      = " << tx_symbols << endl;
@@ -79,7 +79,7 @@ int main()
     bpsk.modulate_bits(tx_bits, tx_symbols);
     rx_symbols = tx_symbols + noise;
     bpsk.demodulate_bits(rx_symbols, decbits);
-    
+
     cout << "* modulating bits:" << endl;
     cout << "  tx_bits         = " << tx_bits << endl;
     cout << "  tx_symbols      = " << tx_symbols << endl;
@@ -94,7 +94,7 @@ int main()
     decbits = bpsk_c.demodulate_bits(rx_csymbols);
     vec softbits_approx = bpsk_c.demodulate_soft_bits(rx_csymbols, N0, APPROX);
     vec softbits = bpsk_c.demodulate_soft_bits(rx_csymbols, N0, LOGMAP);
-    
+
     cout << "* modulating bits:" << endl;
     cout << "  tx_bits         = " << tx_bits << endl;
     cout << "  tx_csymbols     = " << tx_csymbols << endl;
@@ -118,7 +118,7 @@ int main()
     vec tx_symbols = mod.modulate_bits(tx_bits);
     vec rx_symbols = tx_symbols + noise;
     bvec decbits = mod.demodulate_bits(rx_symbols);
-    
+
     cout << "* modulating bits:" << endl;
     cout << "  tx_bits         = " << tx_bits << endl;
     cout << "  tx_symbols      = " << tx_symbols << endl;
@@ -134,14 +134,14 @@ int main()
     cout << "  tx_symbols      = " << tx_symbols << endl;
     cout << "  rx_symbols      = " << rx_symbols << endl;
     cout << "  dec_sym_numbers = " << dec_sym_numbers << endl;
-    
+
     cout << endl << "4-PAM (real signal)" << endl;
     PAM pam(4);
 
     pam.modulate_bits(tx_bits, tx_symbols);
     rx_symbols = tx_symbols + noise;
     pam.demodulate_bits(rx_symbols, decbits);
-    
+
     cout << "* modulating bits:" << endl;
     cout << "  tx_bits         = " << tx_bits << endl;
     cout << "  tx_symbols      = " << tx_symbols << endl;
@@ -156,7 +156,7 @@ int main()
     decbits = pam_c.demodulate_bits(rx_csymbols);
     vec softbits_approx = pam_c.demodulate_soft_bits(rx_csymbols, N0, APPROX);
     vec softbits = pam_c.demodulate_soft_bits(rx_csymbols, N0, LOGMAP);
-    
+
     cout << "* modulating bits:" << endl;
     cout << "  tx_bits         = " << tx_bits << endl;
     cout << "  tx_csymbols     = " << tx_csymbols << endl;

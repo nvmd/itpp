@@ -52,7 +52,7 @@ int main(void)
  cout << "bM = \" 1 1 0; 0 1; 1 1 ,1,   1; ; 0 1\"" << endl;
  bM = " 1 1 0; 0 1; 1 1 ,1,   1; ; 0 1";
  cout << "bM = " << bM << endl << endl;
-   
+
  cout << "Testing setting/copying/swapping" << endl;
  cout << "================================" << endl;
  cout << "v = " << v << endl;

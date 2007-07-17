@@ -8,7 +8,7 @@ using std::endl;
 
 int main()
 {
-  //Declarations of scalars and vectors: 
+  //Declarations of scalars and vectors:
   int i, Number_of_bits;
   double Ec, Eb;
   vec EbN0dB, EbN0, N0, noise_variance, bit_error_rate; //vec is a vector containing double
@@ -29,11 +29,11 @@ int main()
   Ec = 1.0;                      //The transmitted energy per QPSK symbol is 1.
   Eb = Ec / 2.0;                 //The transmitted energy per bit is 0.5.
   EbN0dB = linspace(0.0,9.0,10); //Simulate for 10 Eb/N0 values from 0 to 9 dB.
-  EbN0 = inv_dB(EbN0dB);         //Calculate Eb/N0 in a linear scale instead of dB. 
+  EbN0 = inv_dB(EbN0dB);         //Calculate Eb/N0 in a linear scale instead of dB.
   N0 = Eb * pow(EbN0,-1.0);      //N0 is the variance of the (complex valued) noise.
   Number_of_bits = 100000;       //One hundred thousand bits is transmitted for each Eb/N0 value
 
-  //Allocate storage space for the result vector. 
+  //Allocate storage space for the result vector.
   //The "false" argument means "Do not copy the old content of the vector to the new storage area."
   bit_error_rate.set_size(EbN0dB.length(),false);
 
@@ -58,7 +58,7 @@ int main()
     //Run the transmited symbols through the channel using the () operator:
     received_symbols = awgn_channel(transmitted_symbols);
 
-    //Demodulate the received QPSK symbols into received bits: 
+    //Demodulate the received QPSK symbols into received bits:
     received_bits = qpsk.demodulate_bits(received_symbols);
 
     //Calculate the bit error rate:

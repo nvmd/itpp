@@ -1,5 +1,5 @@
 /*!
-* \file 
+* \file
 * \brief Linear systems of equations solving test program
 * \author Tony Ottosson and Adam Piatyszek
 *
@@ -231,8 +231,8 @@ int main()
 
 #else
 
-int main() { 
- cerr << "Error: LAPACK library is needed to run this test program" << endl; 
+int main() {
+ cerr << "Error: LAPACK library is needed to run this test program" << endl;
  return 1;
 }
 

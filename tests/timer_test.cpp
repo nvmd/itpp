@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Timer classes test program
  * \author Thomas Eriksson, Tony Ottosson, Tobias Ringstrom and Adam Piatyszek
  *
@@ -52,14 +52,14 @@ int main()
   if (fabs(t1.get_time() - period) <= relative_error * period)
     cout << "CPU_Timer is OK" << endl;
   else
-    cout << "CPU_Timer difference: " << fabs(t1.get_time() - period) 
-	 << " > " << relative_error * period << endl; 
+    cout << "CPU_Timer difference: " << fabs(t1.get_time() - period)
+	 << " > " << relative_error * period << endl;
 
   if (fabs(t2.get_time() - period) <= relative_error * period)
     cout << "Real_Timer is OK" << endl;
   else
-    cout << "Real_Timer difference: " << fabs(t1.get_time() - period) 
-	 << " > " << relative_error * period << endl; 
+    cout << "Real_Timer difference: " << fabs(t1.get_time() - period)
+	 << " > " << relative_error * period << endl;
 
   if (t3 >= t2.get_time())
     cout << "tic() and toc() are OK" << endl;

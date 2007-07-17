@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Vector class test program
  * \author Tony Ottosson and Adam Piatyszek
  *
@@ -118,35 +118,35 @@ int main()
 
   // Test vectror initialisation with string
   v = "23.3 1232.7 0.111 1.525 0.333";
-  cout << "Testing double vector initialisation with: \"23.3 1232.7 0.111 1.525 0.333\":" 
+  cout << "Testing double vector initialisation with: \"23.3 1232.7 0.111 1.525 0.333\":"
        << endl << "v = " << v << endl;
 
   v = "-10.000 :.5:-4.5";
-  cout << "Testing double vector initialisation with: \"-10.000 :.5:-4.5\":" 
+  cout << "Testing double vector initialisation with: \"-10.000 :.5:-4.5\":"
        << endl << "v = " << v << endl;
 
 	v = "0:.2: 3";
-  cout << "Testing double vector initialisation with: \"0:.2: 3\":" 
+  cout << "Testing double vector initialisation with: \"0:.2: 3\":"
        << endl << "v = " << v << endl;
-  
+
 	v = "1e0:1.5:1E+1";
-  cout << "Testing double vector initialisation with: \"1e0:1.5:1E+1\":" 
+  cout << "Testing double vector initialisation with: \"1e0:1.5:1E+1\":"
        << endl << "v = " << v << endl;
 
   iv = "0xA : -010";
-  cout << "Testing int vector initialisation with: \"0xA : -010\":" 
+  cout << "Testing int vector initialisation with: \"0xA : -010\":"
        << endl << "iv = " << iv << endl;
 
   sv = "3 0xF -10, 0133 0177, 0x0 ";
-  cout << "Testing short int vector initialisation with: \"3 0xF -10, 0133 0177, 0x0 \":" 
+  cout << "Testing short int vector initialisation with: \"3 0xF -10, 0133 0177, 0x0 \":"
        << endl << "sv = " << sv << endl;
 
   cv = " (0.3, 0.4)  .2-.01i, 1e-3+0.25i";
-  cout << "Testing complex vector initialisation with: \" (0.3, 0.4)  .2-.01i, 1e-3+0.25i\":" 
+  cout << "Testing complex vector initialisation with: \" (0.3, 0.4)  .2-.01i, 1e-3+0.25i\":"
        << endl << "cv = " << cv << endl;
 
   bv = "1 1 0,1  1  ,  0 ,1  ";
-  cout << "Testing bit vector initialisation with: \"1 1 0,1  1  ,  0 ,1  \":" 
+  cout << "Testing bit vector initialisation with: \"1 1 0,1  1  ,  0 ,1  \":"
        << endl << "bv = " << bv << endl << endl;
 
   // Test of shifts

@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief QR factorisation test program
  * \author Tony Ottosson and Adam Piatyszek
  *
@@ -47,20 +47,20 @@ int main()
     mat A = randn(5, 5);
     qr(A, Q, R);
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "norm(A - Q*R) = " << round_to_zero(norm(A - Q * R)) << endl 
+    cout << "norm(A - Q*R) = " << round_to_zero(norm(A - Q * R)) << endl
 	 << endl;
 
     // This does not give same sizes as matlab. Why???!!!!!
     A = randn(4, 2);
     qr(A, Q, R);
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "norm(A - Q*R) = " << round_to_zero(norm(A - Q * R)) << endl 
+    cout << "norm(A - Q*R) = " << round_to_zero(norm(A - Q * R)) << endl
 	 << endl;
 
     A = randn(2, 4);
     qr(A, Q, R);
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "norm(A - Q*R) = " << round_to_zero(norm(A - Q * R)) << endl 
+    cout << "norm(A - Q*R) = " << round_to_zero(norm(A - Q * R)) << endl
 	 << endl;
   }
 
@@ -145,7 +145,7 @@ int main()
 
 #else
 
-int main() { 
+int main() {
   cerr << "Error: LAPACK library is needed to run this test program" << endl;
   return 1;
 }

@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Convolutional encoder/decoder class test program
  * \author Tony Ottosson and Adam Piatyszek
  *
@@ -54,16 +54,16 @@ int main()
   const int packet_size = 500;
 
   int coded_packet_size;
-  bvec bits, tail_coded_bits, tail_decoded_bits, tailbite_coded_bits, 
+  bvec bits, tail_coded_bits, tail_decoded_bits, tailbite_coded_bits,
     tailbite_decoded_bits, trunc_coded_bits, trunc_decoded_bits;
   vec symbols;
   ivec dist_profile;
 
-  ivec G(2); 
-  G(0) = 0133; 
+  ivec G(2);
+  G(0) = 0133;
   G(1) = 0171;
   int L = max(int2bits(G(0)), int2bits(G(1))); // L = 7
-  
+
   code.set_generator_polynomials(G, L);
   code_punct.set_generator_polynomials(G, L);
 
@@ -103,7 +103,7 @@ int main()
   berc.count(bits, tail_decoded_bits);
   cout << "BER = " << berc.get_errorrate() << endl << endl;
 
-  cout << "Tailbite method test. Printing 30 bits starting from bit 1400:" 
+  cout << "Tailbite method test. Printing 30 bits starting from bit 1400:"
        << endl;
   cout << "* Input bits    = " << bits.mid(1400, 30) << endl;
   tailbite_coded_bits = code.encode_tailbite(bits);
@@ -119,8 +119,8 @@ int main()
   cout << "* Input bits    = " << bits.mid(1400, 30) << endl;
   trunc_coded_bits.set_size(0);
   for (int i = 0; i < no_bits/packet_size; i++) {
-    trunc_coded_bits = concat(trunc_coded_bits, 
-			      code.encode_trunc(bits.mid(i*packet_size, 
+    trunc_coded_bits = concat(trunc_coded_bits,
+			      code.encode_trunc(bits.mid(i*packet_size,
 							 packet_size)));
   }
   cout << "* Coded bits    = " << trunc_coded_bits.mid(1400, 30) << endl;
@@ -128,9 +128,9 @@ int main()
   trunc_decoded_bits.set_size(0);
   coded_packet_size = round_i(packet_size / code.get_rate());
   for (int i = 0; i < no_bits/packet_size; i++) {
-    trunc_decoded_bits = 
-      concat(trunc_decoded_bits, 
-	     code.decode_trunc(symbols.mid(i*coded_packet_size, 
+    trunc_decoded_bits =
+      concat(trunc_decoded_bits,
+	     code.decode_trunc(symbols.mid(i*coded_packet_size,
 					   coded_packet_size)));
   }
   cout << "* Decoded bits  = " << trunc_decoded_bits.mid(1400, 30) << endl;
@@ -145,7 +145,7 @@ int main()
 
   cout << "Catastrophic test = " << code_punct.catastrophic() << endl;
   cout << "Code rate         = " << code_punct.get_rate() << endl;
-  cout << "Puncture matrix   = " << code_punct.get_puncture_matrix() << endl 
+  cout << "Puncture matrix   = " << code_punct.get_puncture_matrix() << endl
        << endl;
 
   cout << "Tail method test. Printing 30 bits starting from bit 1400:" << endl;
@@ -159,7 +159,7 @@ int main()
   berc.count(bits, tail_decoded_bits);
   cout << "BER = " << berc.get_errorrate() << endl << endl;
 
-  cout << "Tailbite method test. Printing 30 bits starting from bit 1400:" 
+  cout << "Tailbite method test. Printing 30 bits starting from bit 1400:"
        << endl;
   cout << "* Input bits    = " << bits.mid(1400, 30) << endl;
   tailbite_coded_bits = code_punct.encode_tailbite(bits);
@@ -175,8 +175,8 @@ int main()
   cout << "* Input bits    = " << bits.mid(1400, 30) << endl;
   trunc_coded_bits.set_size(0);
   for (int i = 0; i < no_bits/packet_size; i++) {
-    trunc_coded_bits = concat(trunc_coded_bits, 
-			      code_punct.encode_trunc(bits.mid(i*packet_size, 
+    trunc_coded_bits = concat(trunc_coded_bits,
+			      code_punct.encode_trunc(bits.mid(i*packet_size,
 							       packet_size)));
   }
   cout << "* Coded bits    = " << trunc_coded_bits.mid(1400, 30) << endl;
@@ -184,9 +184,9 @@ int main()
   trunc_decoded_bits.set_size(0);
   coded_packet_size = round_i(packet_size / code_punct.get_rate());
   for (int i = 0; i < no_bits/packet_size; i++) {
-    trunc_decoded_bits = 
-      concat(trunc_decoded_bits, 
-	     code_punct.decode_trunc(symbols.mid(i*coded_packet_size, 
+    trunc_decoded_bits =
+      concat(trunc_decoded_bits,
+	     code_punct.decode_trunc(symbols.mid(i*coded_packet_size,
 						 coded_packet_size)));
   }
   cout << "* Decoded bits  = " << trunc_decoded_bits.mid(1400, 30) << endl;

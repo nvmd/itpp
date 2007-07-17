@@ -11,7 +11,7 @@ int main()
   ff.open("it_file_test.it");
 
   // Read the variable a from the file. Put result in vector a.
-  vec a;	
+  vec a;
   ff >> Name("a") >> a;
 
   // Print the result

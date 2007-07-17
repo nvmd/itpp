@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Parser test program
  * \author Pal Frenger
  *

@@ -6,16 +6,16 @@ using namespace itpp;
 using namespace std;
 
 int main(int argc, char **argv)
-{ 
+{
   { // This generates a random regular (3,6) code with 500 bits
     cout << "========= RANDOM (3,6) CODE ==========" << endl;
     LDPC_Parity_Regular H;
-    H.generate(500, 3, 6, 
+    H.generate(500, 3, 6,
 	       "rand",  // random unstructured matrix
 	       "500 10");   // optimize girth
     H.display_stats();
     LDPC_Code C1(&H);
-    C1.save_code("random_3_6_code.it"); 
+    C1.save_code("random_3_6_code.it");
   }
 
   { // This is the code "204.33.484 (N=204, K=102, M=102, R=0.5)" from
@@ -28,7 +28,7 @@ int main(int argc, char **argv)
     H.display_stats();
     LDPC_Generator_Systematic G(&H);
     LDPC_Code C(&H, &G);
-    C.save_code("mackay_204.33.484.it"); 
+    C.save_code("mackay_204.33.484.it");
 
     // Now produce a girth-optimized version of this code by removing
     // cycles. This slightly improves the performance at high SNR.
@@ -38,12 +38,12 @@ int main(int argc, char **argv)
     H.cycle_removal_MGW(12);
     LDPC_Generator_Systematic G1(&H);
     LDPC_Code C1(&H, &G1);
-    C1.save_code("mackay_204.33.484_opt.it"); 
+    C1.save_code("mackay_204.33.484_opt.it");
   }
-    
+
   // Irregular 1/2-rate codes optimized for the AWGN channel. The
   // degree distributions are taken from Richardson & Urbanke,
-  // Trans. IT 2001.  
+  // Trans. IT 2001.
 
   { // 1000 bits
     cout << "========= IRREGULAR CODE 1000 BITS ==========" << endl;
@@ -54,7 +54,7 @@ int main(int argc, char **argv)
 	       "rand",   // random unstructured matrix
 	       "500 8"); // optimize girth
     LDPC_Code C(&H);
-    C.save_code("RU_1000.it"); 
+    C.save_code("RU_1000.it");
   }
 
   {  // 10000 bits (takes a few minutes to run)
@@ -62,12 +62,12 @@ int main(int argc, char **argv)
     LDPC_Parity_Irregular H;
     H.generate(10000,
 	       "0 0.21991 0.23328 0.02058 0 0.08543 0.06540 0.04767 0.01912"
-	       "0 0 0 0 0 0 0 0 0 0.08064 0.22798", 
+	       "0 0 0 0 0 0 0 0 0 0.08064 0.22798",
 	       "0 0 0 0 0 0 0 0.64854 0.34747 0.00399",
 	       "rand",  // random unstructured matrix
 	       "150 8"); // optimize
     LDPC_Code C(&H);
-    C.save_code("RU_10000.it"); 
+    C.save_code("RU_10000.it");
   }
 
   { // 100000 bits (takes a while to run)
@@ -78,14 +78,14 @@ int main(int argc, char **argv)
 	       "0.02802 0 0 0 0 0.01206 0 0 0 0 0 0 0 0 0 0 0 0 0 0"
 	       "0.07212 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25830",
 	       "0 0 0 0 0 0 0 0 0.33620 0.08883 0.57497",
-	       "rand",  
+	       "rand",
 	       "40 4");  // less aggressive optimization
     LDPC_Code C(&H);
-    C.save_code("RU_100000.it"); 
+    C.save_code("RU_100000.it");
   }
-    
+
   return 0;
-  
+
   { // 1000000 bits (THIS CODE REQUIRES ABOUT 450 MB TO STORE AND 2GB
     // INTERNAL MEMORY TO GENERATE)
     cout << "========= IRREGULAR CODE 1000000 BITS ==========" << endl;
@@ -98,7 +98,7 @@ int main(int argc, char **argv)
 	       "rand",
 	       "0 0");  // no optimization here
     LDPC_Code C(&H);
-    C.save_code("RU_1000000.it"); 
+    C.save_code("RU_1000000.it");
   }
-    
+
 }
