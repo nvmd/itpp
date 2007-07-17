@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of Bessel functions of noninteager order
  * \author Tony Ottosson
  *
@@ -30,7 +30,7 @@
  * -------------------------------------------------------------------------
  *
  * This is slightly modified routine from the Cephes library:
- * http://www.netlib.org/cephes/ 
+ * http://www.netlib.org/cephes/
  */
 
 #include <itpp/base/bessel/bessel_internal.h>
@@ -434,7 +434,7 @@ static double jvs(double n, double x)
   t = frexp( 0.5*x, &ex );
   ex = int(ex * n);
   if(  (ex > -1023)
-       && (ex < 1023) 
+       && (ex < 1023)
        && (n > 0.0)
        && (n < (MAXGAM-1.0)) )
     {
@@ -516,7 +516,7 @@ static double hankel(double n, double x)
 	{
 	  goto hank1;
 	}
-    }	
+    }
 
  hank1:
   u = x - (0.5*n + 0.25) * PI;

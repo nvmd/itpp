@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Conversion routines between IT++ and Matlab
  * \author Tony Ottosson and Pal Frenger
  *
@@ -43,7 +43,7 @@ namespace itpp {
   // mex -> it++
   //--------------------------------------------------------
 
-  /*! 
+  /*!
     \addtogroup mexfiles
     \brief Conversions between IT++ and Matlab for writing mex-files.
     \author Tony Ottosson and Pal Frenger
@@ -66,7 +66,7 @@ namespace itpp {
 
     // Convert input variables to IT++ format
     bvec input_bits = mxArray2bvec(input[0]);
-    
+
     // ------------------ Start of routine ---------------------------
     cvec output_symbols;
     QPSK qpsk;
@@ -311,7 +311,7 @@ namespace itpp {
     out.set_size(size,false);
 
     for (i=0; i<size; i++) {
-      out(i) = (short) (*temp++);    
+      out(i) = (short) (*temp++);
     }
 
     return out;
@@ -331,7 +331,7 @@ namespace itpp {
     out.set_size(size,false);
 
     for (i=0; i<size; i++) {
-      out(i) = (int) (*temp++);    
+      out(i) = (int) (*temp++);
     }
 
     return out;
@@ -351,7 +351,7 @@ namespace itpp {
     out.set_size(size,false);
 
     for (i=0; i<size; i++) {
-      out(i) = (*temp++);    
+      out(i) = (*temp++);
     }
 
     return out;
@@ -424,7 +424,7 @@ namespace itpp {
 
     for (c=0; c<cols; c++) {
       for (r=0; r<rows; r++) {
-	out(r,c) = (short) (*temp++);    
+	out(r,c) = (short) (*temp++);
       }
     }
 
@@ -447,7 +447,7 @@ namespace itpp {
 
     for (c=0; c<cols; c++) {
       for (r=0; r<rows; r++) {
-	out(r,c) = (int) (*temp++);    
+	out(r,c) = (int) (*temp++);
       }
     }
 
@@ -470,7 +470,7 @@ namespace itpp {
 
     for (c=0; c<cols; c++) {
       for (r=0; r<rows; r++) {
-	out(r,c) = (*temp++);    
+	out(r,c) = (*temp++);
       }
     }
 
@@ -504,22 +504,22 @@ namespace itpp {
     return out;
 
   }
-  
+
   void double2mxArray(const double &in, mxArray *out)
-  { 
+  {
     double* temp = (double *) mxGetPr(out);
     if (temp==0) mexErrMsgTxt("double2mxArray: Pointer to data is NULL");
 
     *temp= (double) in;
   }
-  
+
   void double_complex2mxArray(const std::complex<double> &in, mxArray *out)
   {
     double* tempR = (double *) mxGetPr(out);
     double* tempI = (double *) mxGetPi(out);
     if (tempR==0) mexErrMsgTxt("double_complex2mxArray: Pointer to real valued part is NULL");
     if (tempI==0) mexErrMsgTxt("double_complex2mxArray: Pointer to imaginary valued part is NULL");
-    
+
     *tempR= (double) in.real();
     *tempI= (double) in.imag();
   }
@@ -590,7 +590,7 @@ namespace itpp {
 	if(in(r,c))
 	  *temp++= 1.0;
 	else
-	  *temp++= 0.0;    
+	  *temp++= 0.0;
       }
     }
 
@@ -728,7 +728,7 @@ namespace itpp {
     if (cols==0) mexErrMsgTxt("mxArray2Csmat: Data has zero columns");
     for (c=0; c<cols; c++) {
       for (r=0; r<rows; r++) {
-	out[r][c] = (short) (*temp++);    
+	out[r][c] = (short) (*temp++);
       }
     }
   }
@@ -744,7 +744,7 @@ namespace itpp {
     if (cols==0) mexErrMsgTxt("mxArray2Cimat: Data has zero columns");
     for (c=0; c<cols; c++) {
       for (r=0; r<rows; r++) {
-	out[r][c] = (int) (*temp++);    
+	out[r][c] = (int) (*temp++);
       }
     }
   }
@@ -760,7 +760,7 @@ namespace itpp {
     if (cols==0) mexErrMsgTxt("mxArray2Cmat: Data has zero columns");
     for (c=0; c<cols; c++) {
       for (r=0; r<rows; r++) {
-	out[r][c] = (*temp++);    
+	out[r][c] = (*temp++);
       }
     }
   }
@@ -778,8 +778,8 @@ namespace itpp {
     if (cols==0) mexErrMsgTxt("mxArray2Cmat: Data has zero columns");
     for (c=0; c<cols; c++) {
       for (r=0; r<rows; r++) {
-	out_real[r][c] = (*tempR++);    
-	out_imag[r][c] = (*tempI++);    
+	out_real[r][c] = (*tempR++);
+	out_imag[r][c] = (*tempI++);
       }
     }
   }

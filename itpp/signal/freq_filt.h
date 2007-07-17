@@ -2,7 +2,7 @@
  * \file
  * \brief Definition of frequency domain filter class
  * \author Simon Wood
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -58,7 +58,7 @@ namespace itpp {
     data type for the impulse response \c b, input data \c x and output data
     \c y.
 
-    The class constructor chooses an optimal FFT length and data block 
+    The class constructor chooses an optimal FFT length and data block
     size that minimizes execution time.
 
     For example,
@@ -106,14 +106,14 @@ namespace itpp {
     }
     \endcode
   */
-    
-  
+
+
   template<class Num_T>
     class Freq_Filt {
     public:
     /*!
       \brief Constructor
-      
+
       The empty constructor makes it possible to have other container objects
       of the Freq_Filt class
     */
@@ -134,7 +134,7 @@ namespace itpp {
 
     /*!
       \brief Filter data in the input vector \b x
-      
+
       Filters data in batch mode or streaming mode
       \code
       FF.filter(x);	// Filters data in batch mode
@@ -145,7 +145,7 @@ namespace itpp {
 
     //! Return FFT size
     int get_fft_size() { return fftsize; }
-    
+
     //! Return the data block size
     int get_blk_size() { return blksize; }
 
@@ -203,15 +203,15 @@ namespace itpp {
       //ivec index = find(n,">", static_cast<double>(num_elements-1));
       ivec index(n.length());
       int cnt = 0;
-      for(int ii=0; ii<n.length(); ii++) 
+      for(int ii=0; ii<n.length(); ii++)
 	{
-	  if( n(ii) > (num_elements-1) ) 
+	  if( n(ii) > (num_elements-1) )
 	    {
 	      index(cnt) = ii;
 	      cnt += 1;
 	    }
 	}
-      index.set_size(cnt,true);  
+      index.set_size(cnt,true);
 
       fftflops = fftflops(index);
       n = n(index);
@@ -237,7 +237,7 @@ namespace itpp {
        * If we are not in streaming mode we want to process all of the data.
        * However, if we are in streaming mode we want to process the data in
        * blocks that are commensurate with the designed 'blksize' parameter.
-       * So, we do a little book keeping to divide the iinput vector into the 
+       * So, we do a little book keeping to divide the iinput vector into the
        * correct size.
        */
       if(!strm)

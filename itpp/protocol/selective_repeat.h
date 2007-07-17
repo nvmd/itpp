@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definitions of Selective Repeat ARQ classes
  * \author Anders Persson and Tony Ottosson
  *
@@ -55,7 +55,7 @@ public:
 
   ~Selective_Repeat_ARQ_Sender();
 
-  void set_parameters(const int Seq_no_size,        // # bits in sequence no. 
+  void set_parameters(const int Seq_no_size,        // # bits in sequence no.
 		      const int Buffer_size_factor, // Link-packet buffer size = 2^(Seq_no_size)*Buffer_size_factor.
 		      const int Link_packet_size,    // Size of the link packets in bytes.
 		      const Ttype Time_out);        // Idle time before retransmission.
@@ -70,7 +70,7 @@ public:
   Signal<Array<Packet*> > packet_output;                // Delivers transmitted packets.
   Signal<int> nof_ready_packets;                // Delivers no ready packets.
   Signal<int> buffer_overflow;                  // Signals buffer overflows.
-  
+
   int buffer_size();
   int link_packets_buffered();
   int nof_ready_link_packets();
@@ -98,7 +98,7 @@ private:
   Array<Link_Packet*> input_buffer;
   int input_buffer_size;
   int input_next;
-  int input_free_space;  
+  int input_free_space;
   int seq_no_size;
   int seq_no;
   int seq_no_max;
@@ -134,10 +134,10 @@ public:
   Slot<Selective_Repeat_ARQ_Receiver, Array<Packet*> > packet_input;    // Receives incoming packets.
 
   // -- Signals -- //
-  Signal<Array<Packet*> > ack_output;       // Delivers ack.  
-  Signal<Packet*> packet_output; // Delivers received packets.  
+  Signal<Array<Packet*> > ack_output;       // Delivers ack.
+  Signal<Packet*> packet_output; // Delivers received packets.
 
-  void set_parameters(const int Seq_no_size); // # bits in sequence no. 
+  void set_parameters(const int Seq_no_size); // # bits in sequence no.
 
 private:
   bool greater_modulo_L(const int a, const int b);

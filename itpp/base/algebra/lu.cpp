@@ -2,7 +2,7 @@
  * \file
  * \brief Implementation of LU factorisation functions.
  * \author Tony Ottosson
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -44,7 +44,7 @@
 #include <itpp/base/specmat.h>
 
 
-namespace itpp { 
+namespace itpp {
 
 #if defined(HAVE_LAPACK)
 
@@ -118,13 +118,13 @@ namespace itpp {
   bool lu(const mat &X, mat &L, mat &U, ivec &p)
   {
     it_error("LAPACK library is needed to use lu() function");
-    return false;   
+    return false;
   }
 
   bool lu(const cmat &X, cmat &L, cmat &U, ivec &p)
   {
     it_error("LAPACK library is needed to use lu() function");
-    return false;   
+    return false;
   }
 
 #endif // HAVE_LAPACK

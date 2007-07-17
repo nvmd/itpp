@@ -1,9 +1,9 @@
 /*!
  * \file
- * \brief Implementation of special operations on vectors and matricies 
+ * \brief Implementation of special operations on vectors and matricies
  * optimized for speed
  * \author Tony Ottosson and Tobias Ringstrom
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -33,8 +33,8 @@
 
 #include <itpp/base/fastmath.h>
 
- 
-namespace itpp { 
+
+namespace itpp {
 
   // m=m-v*v'*m
   void sub_v_vT_m(mat &m, const vec &v)
@@ -73,7 +73,7 @@ namespace itpp {
     int i, j;
 
     it_assert(v.size() == m.cols(), "sub_m_v_vT()");
-    
+
     v2p = v2._data();
     for (i=0; i<m.rows(); i++) {
       tmp = 0.0;

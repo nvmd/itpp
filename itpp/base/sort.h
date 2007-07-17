@@ -2,7 +2,7 @@
  * \file
  * \brief Sorting functions
  * \author Tony Ottosson
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -38,7 +38,7 @@
 
 namespace itpp {
 
-  /*! 
+  /*!
     \relates Vec
     \brief Sort the \c data vector in increasing order
   */
@@ -48,9 +48,9 @@ namespace itpp {
     QS(0,data.size()-1,data);
   }
 
-  /*! 
+  /*!
     \relates Vec
-    \brief Return an index vector corresponding to a sorted vector 
+    \brief Return an index vector corresponding to a sorted vector
     \c data (increasing order)
   */
   template<class T>
@@ -66,9 +66,9 @@ namespace itpp {
     return indexlist;
   }
 
-  /*! 
+  /*!
     \relates Vec
-    \brief Quick sort function of a subset of a vector \c data 
+    \brief Quick sort function of a subset of a vector \c data
 
     \param low Start index of a subvector to be sorted
     \param high End index of a subvector to be sorted
@@ -104,10 +104,10 @@ namespace itpp {
     }
   }
 
-  /*! 
+  /*!
     \relates Vec
     \brief Quick sort function, which gives a sorted index vector
-    \c indexlist 
+    \c indexlist
 
     \param low Start index of a subvector to be sorted
     \param high End index of a subvector to be sorted

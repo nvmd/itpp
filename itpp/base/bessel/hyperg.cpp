@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of confluent hypergeometric function
  * \author Tony Ottosson
  *
@@ -30,7 +30,7 @@
  * -------------------------------------------------------------------------
  *
  * This is slightly modified routine from the Cephes library:
- * http://www.netlib.org/cephes/ 
+ * http://www.netlib.org/cephes/
  */
 
 #include <itpp/base/bessel/bessel_internal.h>
@@ -74,9 +74,9 @@ using namespace itpp;
  * arithmetic   domain     # trials      peak         rms
  *    DEC       0,30         2000       1.2e-15     1.3e-16
  qtst1:
- 21800   max =  1.4200E-14   rms =  1.0841E-15  ave = -5.3640E-17 
+ 21800   max =  1.4200E-14   rms =  1.0841E-15  ave = -5.3640E-17
  ltstd:
- 25500   max = 1.2759e-14   rms = 3.7155e-16  ave = 1.5384e-18 
+ 25500   max = 1.2759e-14   rms = 3.7155e-16  ave = 1.5384e-18
  *    IEEE      0,30        30000       1.8e-14     1.1e-15
  *
  * Larger errors can be observed when b is near a negative
@@ -212,11 +212,11 @@ static double hy1f1p(double a, double b, double x, double *err)
 /*							hy1f1a()	*/
 /* asymptotic formula for hypergeometric function:
  *
- *        (    -a                         
- *  --    ( |z|                           
+ *        (    -a
+ *  --    ( |z|
  * |  (b) ( -------- 2f0( a, 1+a-b, -1/x )
- *        (  --                           
- *        ( |  (b-a)                      
+ *        (  --
+ *        ( |  (b-a)
  *
  *
  *                                x    a-b                     )

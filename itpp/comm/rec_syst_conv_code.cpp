@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of a Recursive Systematic Convolutional codec class
  * \author Pal Frenger.  QLLR support by Erik G. Larsson.
  *
@@ -33,12 +33,12 @@
 #include <itpp/comm/rec_syst_conv_code.h>
 
 
-namespace itpp { 
+namespace itpp {
 
   //! Pointer to logarithmic branch metric function
   double (*com_log) (double, double) = NULL;
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS  
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
   // This wrapper is because "com_log = std::max;" below caused an error
   inline double max(double x, double y) { return std::max(x, y); }
 #endif
@@ -77,12 +77,12 @@ namespace itpp {
     K = constraint_length;
     m = K-1;
     rate = 1.0/n;
-  
+
     gen_pol_rev.set_size(n,false);
     for (int i=0; i<n; i++) {
       gen_pol_rev(i) = reverse_int(K, gen_pol(i));
     }
-  
+
     Nstates = (1<<m);
     state_trans.set_size(Nstates,2,false);
     rev_state_trans.set_size(Nstates,2,false);
@@ -98,7 +98,7 @@ namespace itpp {
 	output_parity(s_prim,2*j+0) = p0(j);
 	rev_output_parity(s0,2*j+0) = p0(j);
       }
-    
+
       s1 = calc_state_transition(s_prim,1,p1);
       state_trans(s_prim,1) = s1;
       rev_state_trans(s1,1) = s_prim;
@@ -114,12 +114,12 @@ namespace itpp {
     Lc = 1.0;
   }
 
-  void Rec_Syst_Conv_Code::set_awgn_channel_parameters(double Ec, double N0) 
+  void Rec_Syst_Conv_Code::set_awgn_channel_parameters(double Ec, double N0)
   {
     Lc = 4.0 * std::sqrt(Ec)/N0;
   }
 
-  void Rec_Syst_Conv_Code::set_scaling_factor(double in_Lc) 
+  void Rec_Syst_Conv_Code::set_scaling_factor(double in_Lc)
   {
     Lc = in_Lc;
   }
@@ -129,7 +129,7 @@ namespace itpp {
     int i, j, length = input.size(), target_state;
     parity_bits.set_size(length+m, n-1, false);
     tail.set_size(m, false);
-  
+
     encoder_state = 0;
     for (i=0; i<length; i++) {
       for (j=0; j<(n-1); j++) {
@@ -137,7 +137,7 @@ namespace itpp {
       }
       encoder_state = state_trans(encoder_state,int(input(i)));
     }
-  
+
     // add tail of m=K-1 zeros
     for (i=0; i<m; i++) {
       target_state = (encoder_state<<1) & ((1<<m)-1);
@@ -154,7 +154,7 @@ namespace itpp {
   {
     int i, j, length = input.size();
     parity_bits.set_size(length, n-1, false);
-  
+
     encoder_state = 0;
     for (i=0; i<length; i++) {
       for (j=0; j<(n-1); j++) {
@@ -165,22 +165,22 @@ namespace itpp {
     terminated = false;
   }
 
-  void Rec_Syst_Conv_Code::map_decode(const vec &rec_systematic, const mat &rec_parity, const vec &extrinsic_input, 
+  void Rec_Syst_Conv_Code::map_decode(const vec &rec_systematic, const mat &rec_parity, const vec &extrinsic_input,
 				      vec &extrinsic_output, bool in_terminated)
   {
     double gamma_k_e, nom, den, temp0, temp1, exp_temp0, exp_temp1;
     int j, s0, s1, k, kk, s, s_prim, s_prim0, s_prim1, block_length = rec_systematic.length();
-    ivec p0, p1; 
-  
+    ivec p0, p1;
+
     alpha.set_size(Nstates,block_length+1,false);
     beta.set_size(Nstates,block_length+1,false);
     gamma.set_size(2*Nstates,block_length+1,false);
     denom.set_size(block_length+1,false); denom.clear();
     extrinsic_output.set_size(block_length,false);
-  
+
     if (in_terminated) { terminated = true; }
-  
-    //Calculate gamma 
+
+    //Calculate gamma
     for (k=1; k<=block_length; k++) {
       kk = k-1;
       for (s_prim = 0; s_prim<Nstates; s_prim++) {
@@ -217,30 +217,30 @@ namespace itpp {
     }
 
     //Initiate alpha
-    alpha.set_col(0,zeros(Nstates)); 
+    alpha.set_col(0,zeros(Nstates));
     alpha(0,0) = 1.0;
 
     //Calculate alpha and denom going forward through the trellis
     for (k=1; k<=block_length; k++) {
       for (s=0; s<Nstates; s++) {
-	s_prim0 = rev_state_trans(s,0);	    
-	s_prim1 = rev_state_trans(s,1);	    
+	s_prim0 = rev_state_trans(s,0);
+	s_prim1 = rev_state_trans(s,1);
 	temp0 = alpha(s_prim0,k-1) * gamma(2*s_prim0+0,k);
 	temp1 = alpha(s_prim1,k-1) * gamma(2*s_prim1+1,k);
 	alpha(s,k) = temp0 + temp1;
 	denom(k)  += temp0 + temp1;
       }
-      alpha.set_col(k, alpha.get_col(k) / denom(k) ); 
+      alpha.set_col(k, alpha.get_col(k) / denom(k) );
     }
-    
+
     //Initiate beta
     if (terminated) {
-      beta.set_col( block_length, zeros(Nstates) ); 
+      beta.set_col( block_length, zeros(Nstates) );
       beta(0,block_length) = 1.0;
     } else {
       beta.set_col( block_length, alpha.get_col( block_length ) );
     }
-  
+
     //Calculate beta going backward in the trellis
     for (k=block_length; k>=2; k--) {
       for (s_prim=0; s_prim<Nstates; s_prim++) {
@@ -248,9 +248,9 @@ namespace itpp {
 	s1 = state_trans(s_prim,1);
 	beta(s_prim,k-1) = (beta(s0,k) * gamma(2*s_prim+0,k)) + (beta(s1,k) * gamma(2*s_prim+1,k));
       }
-      beta.set_col( k-1, beta.get_col(k-1) / denom(k) ); 
+      beta.set_col( k-1, beta.get_col(k-1) / denom(k) );
     }
-  
+
     //Calculate extrinsic output for each bit
     for (k=1; k<=block_length; k++) {
       kk = k-1;
@@ -268,7 +268,7 @@ namespace itpp {
 	//	gamma_k_e = std::exp( exp_temp0 );
 	gamma_k_e = trunc_exp( exp_temp0 );
 	nom += alpha(s_prim,k-1) * gamma_k_e * beta(s0,k);
-      
+
 	// gamma_k_e = std::exp( exp_temp1 );
 	gamma_k_e = trunc_exp( exp_temp1 );
 	den += alpha(s_prim,k-1) * gamma_k_e * beta(s1,k);
@@ -279,10 +279,10 @@ namespace itpp {
 
   }
 
-  void Rec_Syst_Conv_Code::log_decode(const vec &rec_systematic, const mat &rec_parity, 
+  void Rec_Syst_Conv_Code::log_decode(const vec &rec_systematic, const mat &rec_parity,
     const vec &extrinsic_input, vec &extrinsic_output, bool in_terminated, std::string metric)
   {
-    if (metric=="TABLE") {  
+    if (metric=="TABLE") {
       /* Use the QLLR decoder.  This can probably be done more
 	 efficiently since it converts floating point vectors to QLLR.
 	 However we have to live with this for the time being. */
@@ -298,27 +298,27 @@ namespace itpp {
 
     double nom, den, exp_temp0, exp_temp1, rp, temp0, temp1;
     int i, j, s0, s1, k, kk, l, s, s_prim, s_prim0, s_prim1, block_length = rec_systematic.length();
-    ivec p0, p1; 
+    ivec p0, p1;
 
     //Set the internal metric:
-    if (metric=="LOGMAX") { com_log = max; } 
+    if (metric=="LOGMAX") { com_log = max; }
     else if (metric=="LOGMAP") { com_log = log_add; }
     else {
       it_error("Rec_Syst_Conv_Code::log_decode: Illegal metric parameter");
     }
- 
+
     alpha.set_size(Nstates,block_length+1,false);
     beta.set_size(Nstates,block_length+1,false);
     gamma.set_size(2*Nstates,block_length+1,false);
     extrinsic_output.set_size(block_length,false);
-    denom.set_size(block_length+1,false); for (k=0; k<=block_length; k++) { denom(k) = -infinity; } 
+    denom.set_size(block_length+1,false); for (k=0; k<=block_length; k++) { denom(k) = -infinity; }
 
     if (in_terminated) { terminated = true; }
 
     //Check that Lc = 1.0
     it_assert(Lc==1.0,
 	      "Rec_Syst_Conv_Code::log_decode: This function assumes that Lc = 1.0. Please use proper scaling of the input data");
-  
+
     //Calculate gamma
     for (k=1; k<=block_length; k++) {
       kk = k-1;
@@ -336,33 +336,33 @@ namespace itpp {
     }
 
     //Initiate alpha
-    for (j=1; j<Nstates; j++) { alpha(j,0) = -infinity; } 
+    for (j=1; j<Nstates; j++) { alpha(j,0) = -infinity; }
     alpha(0,0) = 0.0;
-  
+
     //Calculate alpha, going forward through the trellis
     for (k=1; k<=block_length; k++) {
       for (s = 0; s<Nstates; s++) {
-	s_prim0 = rev_state_trans(s,0);	
+	s_prim0 = rev_state_trans(s,0);
 	s_prim1 = rev_state_trans(s,1);
 	temp0 = alpha(s_prim0,k-1) + gamma(2*s_prim0+0,k);
-	temp1 = alpha(s_prim1,k-1) + gamma(2*s_prim1+1,k); 
+	temp1 = alpha(s_prim1,k-1) + gamma(2*s_prim1+1,k);
 	alpha(s,k) = com_log( temp0, temp1 );
 	denom(k)   = com_log( alpha(s,k), denom(k) );
       }
       //Normalization of alpha
-      for (l=0; l<Nstates; l++) { alpha(l,k) -= denom(k); } 
+      for (l=0; l<Nstates; l++) { alpha(l,k) -= denom(k); }
     }
-  
+
     //Initiate beta
     if (terminated) {
-      for (i=1; i<Nstates; i++) { beta(i,block_length) = -infinity; } 
+      for (i=1; i<Nstates; i++) { beta(i,block_length) = -infinity; }
       beta(0,block_length) = 0.0;
     } else {
       beta.set_col(block_length, alpha.get_col(block_length) );
     }
-  
+
     //Calculate beta going backward in the trellis
-    for (k=block_length; k>=1; k--) { 
+    for (k=block_length; k>=1; k--) {
       for (s_prim=0; s_prim<Nstates; s_prim++) {
 	s0 = state_trans(s_prim,0);
 	s1 = state_trans(s_prim,1);
@@ -392,10 +392,10 @@ namespace itpp {
       }
       extrinsic_output(kk) = nom - den;
     }
-  
+
   }
 
-  void Rec_Syst_Conv_Code::log_decode_n2(const vec &rec_systematic, const vec &rec_parity, 
+  void Rec_Syst_Conv_Code::log_decode_n2(const vec &rec_systematic, const vec &rec_parity,
     const vec &extrinsic_input, vec &extrinsic_output, bool in_terminated, std::string metric)
   {
     if (metric=="TABLE") {  // use the QLLR decoder; also see comment under log_decode()
@@ -413,30 +413,30 @@ namespace itpp {
     double nom, den, exp_temp0, exp_temp1, rp;
     int k, kk, l, s, s_prim, s_prim0, s_prim1, block_length = rec_systematic.length();
     int ext_info_length = extrinsic_input.length();
-    ivec p0, p1; 
+    ivec p0, p1;
     double ex, norm;
 
     //Set the internal metric:
-    if (metric=="LOGMAX") { com_log = max; } 
+    if (metric=="LOGMAX") { com_log = max; }
     else if (metric=="LOGMAP") { com_log = log_add; }
     else {
       it_error("Rec_Syst_Conv_Code::log_decode_n2: Illegal metric parameter");
     }
- 
+
     alpha.set_size(Nstates,block_length+1,false);
     beta.set_size(Nstates,block_length+1,false);
     gamma.set_size(2*Nstates,block_length+1,false);
     extrinsic_output.set_size(ext_info_length,false);
-    //denom.set_size(block_length+1,false); for (k=0; k<=block_length; k++) { denom(k) = -infinity; } 
+    //denom.set_size(block_length+1,false); for (k=0; k<=block_length; k++) { denom(k) = -infinity; }
 
     if (in_terminated) { terminated = true; }
 
     //Check that Lc = 1.0
     it_assert(Lc==1.0,
 	      "Rec_Syst_Conv_Code::log_decode_n2: This function assumes that Lc = 1.0. Please use proper scaling of the input data");
-  
+
     //Initiate alpha
-    for (s=1; s<Nstates; s++) { alpha(s,0) = -infinity; } 
+    for (s=1; s<Nstates; s++) { alpha(s,0) = -infinity; }
     alpha(0,0) = 0.0;
 
     //Calculate alpha and gamma going forward through the trellis
@@ -446,10 +446,10 @@ namespace itpp {
 	ex = 0.5 * ( extrinsic_input(kk) + rec_systematic(kk) );
       } else {
 	ex = 0.5 * rec_systematic(kk);
-      }      
+      }
       rp = 0.5 * rec_parity(kk);
       for (s = 0; s<Nstates; s++) {
-	s_prim0 = rev_state_trans(s,0);	
+	s_prim0 = rev_state_trans(s,0);
 	s_prim1 = rev_state_trans(s,1);
 	if (output_parity( s_prim0 , 0 )) { exp_temp0 = -rp; } else { exp_temp0 = rp; }
 	if (output_parity( s_prim1 , 1 )) { exp_temp1 = -rp; } else { exp_temp1 = rp; }
@@ -460,22 +460,22 @@ namespace itpp {
 	//denom(k)   = com_log( alpha(s,k), denom(k) );
       }
       norm = alpha(0,k); //norm = denom(k);
-      for (l=0; l<Nstates; l++) { alpha(l,k) -= norm; } 
+      for (l=0; l<Nstates; l++) { alpha(l,k) -= norm; }
     }
 
     //Initiate beta
     if (terminated) {
-      for (s=1; s<Nstates; s++) { beta(s,block_length) = -infinity; } 
+      for (s=1; s<Nstates; s++) { beta(s,block_length) = -infinity; }
       beta(0,block_length) = 0.0;
     } else {
       beta.set_col(block_length, alpha.get_col(block_length) );
     }
-  
+
     //Calculate beta going backward in the trellis
-    for (k=block_length; k>=1; k--) { 
+    for (k=block_length; k>=1; k--) {
       kk = k-1;
       for (s_prim=0; s_prim<Nstates; s_prim++) {
-	beta(s_prim,kk) = com_log( beta(state_trans(s_prim,0),k) + gamma(2*s_prim,k), 
+	beta(s_prim,kk) = com_log( beta(state_trans(s_prim,0),k) + gamma(2*s_prim,k),
 				   beta(state_trans(s_prim,1),k) + gamma(2*s_prim+1,k) );
       }
       norm = beta(0,k); //norm = denom(k);
@@ -494,35 +494,35 @@ namespace itpp {
 	  if (output_parity( s_prim , 1 )) { exp_temp1 = -rp; } else { exp_temp1 = rp; }
 	  nom = com_log(nom, alpha(s_prim,kk) + exp_temp0 + beta(state_trans(s_prim,0),k) );
 	  den = com_log(den, alpha(s_prim,kk) + exp_temp1 + beta(state_trans(s_prim,1),k) );
-	} 
+	}
 	extrinsic_output(kk) = nom - den;
-      }    
+      }
     }
   }
 
   // === Below new decoder functions by EGL, using QLLR arithmetics ===========
 
-  void Rec_Syst_Conv_Code::log_decode(const QLLRvec &rec_systematic, const QLLRmat &rec_parity, 
-				      const QLLRvec &extrinsic_input, 
+  void Rec_Syst_Conv_Code::log_decode(const QLLRvec &rec_systematic, const QLLRmat &rec_parity,
+				      const QLLRvec &extrinsic_input,
 				      QLLRvec &extrinsic_output, bool in_terminated)
   {
-    
+
     int nom, den, exp_temp0, exp_temp1, rp, temp0, temp1;
     int i, j, s0, s1, k, kk, l, s, s_prim, s_prim0, s_prim1, block_length = rec_systematic.length();
-    //    ivec p0, p1; 
+    //    ivec p0, p1;
 
     alpha_q.set_size(Nstates,block_length+1,false);
     beta_q.set_size(Nstates,block_length+1,false);
     gamma_q.set_size(2*Nstates,block_length+1,false);
     extrinsic_output.set_size(block_length,false);
-    denom_q.set_size(block_length+1,false); for (k=0; k<=block_length; k++) { denom_q(k) = -QLLR_MAX; } 
+    denom_q.set_size(block_length+1,false); for (k=0; k<=block_length; k++) { denom_q(k) = -QLLR_MAX; }
 
     if (in_terminated) { terminated = true; }
 
     //Check that Lc = 1.0
     it_assert(Lc==1.0,
 	      "Rec_Syst_Conv_Code::log_decode: This function assumes that Lc = 1.0. Please use proper scaling of the input data");
-  
+
     //Calculate gamma_q
     for (k=1; k<=block_length; k++) {
       kk = k-1;
@@ -541,35 +541,35 @@ namespace itpp {
     }
 
     //Initiate alpha_q
-    for (j=1; j<Nstates; j++) { alpha_q(j,0) = -QLLR_MAX; } 
+    for (j=1; j<Nstates; j++) { alpha_q(j,0) = -QLLR_MAX; }
     alpha_q(0,0) = 0;
-  
+
     //Calculate alpha_q, going forward through the trellis
     for (k=1; k<=block_length; k++) {
       for (s = 0; s<Nstates; s++) {
-	s_prim0 = rev_state_trans(s,0);	
+	s_prim0 = rev_state_trans(s,0);
 	s_prim1 = rev_state_trans(s,1);
 	temp0 = alpha_q(s_prim0,k-1) + gamma_q(2*s_prim0+0,k);
-	temp1 = alpha_q(s_prim1,k-1) + gamma_q(2*s_prim1+1,k); 
+	temp1 = alpha_q(s_prim1,k-1) + gamma_q(2*s_prim1+1,k);
 	//	alpha_q(s,k) = com_log( temp0, temp1 );
 	//	denom_q(k)   = com_log( alpha_q(s,k), denom_q(k) );
 	alpha_q(s,k) = llrcalc.jaclog( temp0, temp1 );
 	denom_q(k)   = llrcalc.jaclog( alpha_q(s,k), denom_q(k) );
       }
       //Normalization of alpha_q
-      for (l=0; l<Nstates; l++) { alpha_q(l,k) -= denom_q(k); } 
+      for (l=0; l<Nstates; l++) { alpha_q(l,k) -= denom_q(k); }
     }
-  
+
     //Initiate beta_q
     if (terminated) {
-      for (i=1; i<Nstates; i++) { beta_q(i,block_length) = -QLLR_MAX; } 
+      for (i=1; i<Nstates; i++) { beta_q(i,block_length) = -QLLR_MAX; }
       beta_q(0,block_length) = 0;
     } else {
       beta_q.set_col(block_length, alpha_q.get_col(block_length) );
     }
-  
+
     //Calculate beta_q going backward in the trellis
-    for (k=block_length; k>=1; k--) { 
+    for (k=block_length; k>=1; k--) {
       for (s_prim=0; s_prim<Nstates; s_prim++) {
 	s0 = state_trans(s_prim,0);
 	s1 = state_trans(s_prim,1);
@@ -602,38 +602,38 @@ namespace itpp {
       }
       extrinsic_output(kk) = nom - den;
     }
-  
+
   }
 
 
 
-  void Rec_Syst_Conv_Code::log_decode_n2(const QLLRvec &rec_systematic, 
-					 const QLLRvec &rec_parity, 
-					 const QLLRvec &extrinsic_input, 
-					 QLLRvec &extrinsic_output, 
+  void Rec_Syst_Conv_Code::log_decode_n2(const QLLRvec &rec_systematic,
+					 const QLLRvec &rec_parity,
+					 const QLLRvec &extrinsic_input,
+					 QLLRvec &extrinsic_output,
 					 bool in_terminated)
   {
     int nom, den, exp_temp0, exp_temp1, rp;
     int k, kk, l, s, s_prim, s_prim0, s_prim1, block_length = rec_systematic.length();
     int ext_info_length = extrinsic_input.length();
-    ivec p0, p1; 
+    ivec p0, p1;
     int ex, norm;
 
- 
+
     alpha_q.set_size(Nstates,block_length+1,false);
     beta_q.set_size(Nstates,block_length+1,false);
     gamma_q.set_size(2*Nstates,block_length+1,false);
     extrinsic_output.set_size(ext_info_length,false);
-    //denom.set_size(block_length+1,false); for (k=0; k<=block_length; k++) { denom(k) = -infinity; } 
+    //denom.set_size(block_length+1,false); for (k=0; k<=block_length; k++) { denom(k) = -infinity; }
 
     if (in_terminated) { terminated = true; }
 
     //Check that Lc = 1.0
     it_assert(Lc==1.0,
 	      "Rec_Syst_Conv_Code::log_decode_n2: This function assumes that Lc = 1.0. Please use proper scaling of the input data");
-  
+
     //Initiate alpha
-    for (s=1; s<Nstates; s++) { alpha_q(s,0) = -QLLR_MAX; } 
+    for (s=1; s<Nstates; s++) { alpha_q(s,0) = -QLLR_MAX; }
     alpha_q(0,0) = 0;
 
     //Calculate alpha and gamma going forward through the trellis
@@ -643,10 +643,10 @@ namespace itpp {
 	ex =  ( extrinsic_input(kk) + rec_systematic(kk) )/2;
       } else {
 	ex =  rec_systematic(kk)/2;
-      }      
+      }
       rp =  rec_parity(kk)/2;
       for (s = 0; s<Nstates; s++) {
-	s_prim0 = rev_state_trans(s,0);	
+	s_prim0 = rev_state_trans(s,0);
 	s_prim1 = rev_state_trans(s,1);
 	if (output_parity( s_prim0 , 0 )) { exp_temp0 = -rp; } else { exp_temp0 = rp; }
 	if (output_parity( s_prim1 , 1 )) { exp_temp1 = -rp; } else { exp_temp1 = rp; }
@@ -657,22 +657,22 @@ namespace itpp {
 	//denom(k)   = com_log( alpha(s,k), denom(k) );
       }
       norm = alpha_q(0,k); //norm = denom(k);
-      for (l=0; l<Nstates; l++) { alpha_q(l,k) -= norm; } 
+      for (l=0; l<Nstates; l++) { alpha_q(l,k) -= norm; }
     }
 
     //Initiate beta
     if (terminated) {
-      for (s=1; s<Nstates; s++) { beta_q(s,block_length) = -QLLR_MAX; } 
+      for (s=1; s<Nstates; s++) { beta_q(s,block_length) = -QLLR_MAX; }
       beta_q(0,block_length) = 0;
     } else {
       beta_q.set_col(block_length, alpha_q.get_col(block_length) );
     }
-  
+
     //Calculate beta going backward in the trellis
-    for (k=block_length; k>=1; k--) { 
+    for (k=block_length; k>=1; k--) {
       kk = k-1;
       for (s_prim=0; s_prim<Nstates; s_prim++) {
-	beta_q(s_prim,kk) = llrcalc.jaclog( beta_q(state_trans(s_prim,0),k) + gamma_q(2*s_prim,k), 
+	beta_q(s_prim,kk) = llrcalc.jaclog( beta_q(state_trans(s_prim,0),k) + gamma_q(2*s_prim,k),
 				   beta_q(state_trans(s_prim,1),k) + gamma_q(2*s_prim+1,k) );
       }
       norm = beta_q(0,k); //norm = denom(k);
@@ -691,16 +691,16 @@ namespace itpp {
 	  if (output_parity( s_prim , 1 )) { exp_temp1 = -rp; } else { exp_temp1 = rp; }
 	  nom = llrcalc.jaclog(nom, alpha_q(s_prim,kk) + exp_temp0 + beta_q(state_trans(s_prim,0),k) );
 	  den = llrcalc.jaclog(den, alpha_q(s_prim,kk) + exp_temp1 + beta_q(state_trans(s_prim,1),k) );
-	} 
+	}
 	extrinsic_output(kk) = nom - den;
-      }    
+      }
     }
   }
-  
-  void Rec_Syst_Conv_Code::set_llrcalc(LLR_calc_unit in_llrcalc) 
-  {    
+
+  void Rec_Syst_Conv_Code::set_llrcalc(LLR_calc_unit in_llrcalc)
+  {
     llrcalc = in_llrcalc;
-  } 
+  }
 
 
 } // namespace itpp

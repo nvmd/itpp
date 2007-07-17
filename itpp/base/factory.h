@@ -2,7 +2,7 @@
  * \file
  * \brief Base class for class factories
  * \author Johan Bergman
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -112,7 +112,7 @@ namespace itpp {
     }
     \endcode
 
-    Now,  
+    Now,
     \code
     // Declare a My_Factory for init_data = 123
     My_Factory my123_factory(123);

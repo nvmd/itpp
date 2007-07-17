@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Error handling functions - source file
  * \author Tobias Ringstrom and Adam Piatyszek
  *
@@ -72,7 +72,7 @@ namespace itpp {
   {
     std::ostringstream error;
     if (file_line_info_enabled) {
-      error << "*** Error in " << file << " on line " << line << ":\n" 
+      error << "*** Error in " << file << " on line " << line << ":\n"
 	    << msg << "\n";
     }
     else {
@@ -95,7 +95,7 @@ namespace itpp {
   {
     if (warnings_enabled) {
       if (file_line_info_enabled) {
-	(*warn) << "*** Warning in " << file << " on line " << line << ":\n" 
+	(*warn) << "*** Warning in " << file << " on line " << line << ":\n"
 		<< msg << std::endl << std::flush;
       }
       else {

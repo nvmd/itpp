@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definitions of a fixed-point data type Fix
  * \author Johan Bergman
  *
@@ -48,7 +48,7 @@ namespace itpp {
 
   /*!
     \brief Fixed-point data type
-  
+
     See the Detailed Description in the \ref fixed module.
   */
   class Fix : public Fix_Base {

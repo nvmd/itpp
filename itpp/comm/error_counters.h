@@ -1,6 +1,6 @@
 /*!
- * \file 
- * \brief Definitions of Bit Error Rate Counter (BERC) and 
+ * \file
+ * \brief Definitions of Bit Error Rate Counter (BERC) and
  *        BLock Error Rate Counter (BLERC) classes
  * \author Pal Frenger and Adam Piatyszek
  *
@@ -30,7 +30,7 @@
  *
  * -------------------------------------------------------------------------
  */
- 
+
 #ifndef ERROR_COUNTERS_H
 #define ERROR_COUNTERS_H
 
@@ -39,7 +39,7 @@
 
 namespace itpp {
 
-  /*! 
+  /*!
     \brief Bit Error Rate Counter (BERC) Class
 
     Example:
@@ -52,37 +52,37 @@ namespace itpp {
 
       //Initiate a Binary Symetric Channel with cross-over probability 0.1
       BSC binary_symetric_channel(0.1);
-  
+
       bvec transmitted_bits = randb(100);
       bvec received_bits = binary_symetric_channel(transmitted_bits);
 
       //Count the number of bit errors
       berc.count(transmitted_bits, received_bits);
 
-      cout << "Estimated bit error probability is " << berc.get_errorrate() 
+      cout << "Estimated bit error probability is " << berc.get_errorrate()
            << endl;
 
       return 0;
-    } 
+    }
     \endcode
   */
   class BERC {
   public:
-    /*! 
+    /*!
       \brief Constructor for the berc class.
 
       <ul>
-      <li> \a delay is positive if \a in2 is a delayed replica of 
+      <li> \a delay is positive if \a in2 is a delayed replica of
       \a in1 and negative otherwise. </li>
       <li> \a ignorefirst and \a ignorelast may be used if errors in
-      the begining and/or the end is to be ignored.</li> 
+      the begining and/or the end is to be ignored.</li>
       </ul>
     */
     BERC(int indelay = 0, int inignorefirst = 0, int inignorelast = 0);
     //! Cumulative error counter
     void count(const bvec &in1, const bvec &in2);
     //! Run this member function if the delay between \a in1 and
-    //! \a in2 is unknown. 
+    //! \a in2 is unknown.
     void estimate_delay(const bvec &in1, const bvec &in2, int mindelay = -100,
 			int maxdelay = 100);
     //! Clears the bit error counter
@@ -109,8 +109,8 @@ namespace itpp {
       double errors = BERC::count_errors(in1, in2);
       \endcode
     */
-    static double count_errors(const bvec &in1, const bvec &in2, 
-			       int indelay = 0, int inignorefirst = 0, 
+    static double count_errors(const bvec &in1, const bvec &in2,
+			       int indelay = 0, int inignorefirst = 0,
 			       int inignorelast = 0);
 
   private:
@@ -123,7 +123,7 @@ namespace itpp {
 
   /*!
     \brief Class for counting block error rates.
-  
+
     Use this class to count block errors in binary vectors.
   */
   class BLERC {

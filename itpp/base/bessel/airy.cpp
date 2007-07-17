@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of Airy function
  * \author Tony Ottosson
  *
@@ -30,7 +30,7 @@
  * -------------------------------------------------------------------------
  *
  * This is slightly modified routine from the Cephes library:
- * http://www.netlib.org/cephes/ 
+ * http://www.netlib.org/cephes/
  */
 
 #include <itpp/base/bessel/bessel_internal.h>

@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definitions of converters between different vector and matrix types
  * \author Tony Ottosson, Tobias Ringstrom, Pal Frenger and Adam Piatyszek
  *
@@ -255,21 +255,21 @@ namespace itpp {
 
 
   //! Round \a x to zero if \a abs(x) is smaller than \a threshold
-  inline double round_to_zero(double x, double threshold = 1e-14) 
+  inline double round_to_zero(double x, double threshold = 1e-14)
   {
     return ((std::fabs(x) < threshold) ? 0.0 : x);
   }
-  
-  //! Round each part of \a x smaller than \a threshold to zero  
+
+  //! Round each part of \a x smaller than \a threshold to zero
   inline std::complex<double> round_to_zero(const std::complex<double>& x,
-					    double threshold = 1e-14) 
+					    double threshold = 1e-14)
   {
-    return std::complex<double>(round_to_zero(x.real(), threshold), 
+    return std::complex<double>(round_to_zero(x.real(), threshold),
 				round_to_zero(x.imag(), threshold));
   }
 
   //! Round each element to zero if element < threshold
-  inline vec round_to_zero(const vec &x, double threshold = 1e-14) 
+  inline vec round_to_zero(const vec &x, double threshold = 1e-14)
   {
     return apply_function<double>(round_to_zero, x, threshold);
   }
@@ -291,17 +291,17 @@ namespace itpp {
   inline int gray_code(int x) { return x^(x >> 1); }
 
 
-  /*! 
+  /*!
     \brief Convert anything to string
-    
+
     \param i (Input) The value to be converted to a string
   */
   template <typename T>
   std::string to_str(const T &i);
-  
-  /*! 
+
+  /*!
     \brief Convert double to string
-    
+
     \param[in]  i          The value to be converted to a string
     \param[in]  precision  The number of digits used to represent the
     fractional part

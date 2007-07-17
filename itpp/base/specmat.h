@@ -2,7 +2,7 @@
  * \file
  * \brief Definitions of special vectors and matrices
  * \author Tony Ottosson, Tobias Ringstrom, Pal Frenger, Adam Piatyszek and Erik G. Larsson
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -39,13 +39,13 @@
 
 namespace itpp {
 
-  /*! 
+  /*!
     \brief Return a integer vector with indicies where bvec == 1
     \ingroup miscfunc
   */
   ivec find(const bvec &invector);
 
-  /*! 
+  /*!
     \addtogroup specmat
   */
 
@@ -105,19 +105,19 @@ namespace itpp {
   //! Linspace (works in the same way as the matlab version)
   vec linspace(double from, double to, int length = 100);
   /*! \brief Zig-zag space function (variation on linspace)
-    
+
   This function is a variation on linspace().  It traverses the points
   in different order. For example
   \code
   zigzag_space(-5,5,3)
-  \endcode 
-  gives the vector 
-  \code 
+  \endcode
+  gives the vector
+  \code
   [-5 5 0 -2.5 2.5 -3.75 -1.25 1.25 3.75]
   \endcode
   and
   \code
-  zigzag_space(-5,5,4) 
+  zigzag_space(-5,5,4)
   \endcode
   gives
   the vector
@@ -132,7 +132,7 @@ namespace itpp {
 
   The result is a vector of length 1+2^K.
   */
-  vec zigzag_space(double t0, double t1, int K=5); 
+  vec zigzag_space(double t0, double t1, int K=5);
 
   /*!
    * \brief Hadamard matrix
@@ -144,13 +144,13 @@ namespace itpp {
 
   /*!
     \brief Jacobsthal matrix.
-  
+
     Constructs an p by p matrix Q where p is a prime (not checked).
     The elements in Q {qij} is given by qij=X(j-i), where X(x) is the
     Legendre symbol given as:
 
     <ul>
-    <li> X(x)=0 if x is a multiple of p, </li> 
+    <li> X(x)=0 if x is a multiple of p, </li>
     <li> X(x)=1 if x is a quadratic residue modulo p, </li>
     <li> X(x)=-1 if x is a quadratic nonresidue modulo p. </li>
     </ul>
@@ -160,22 +160,22 @@ namespace itpp {
   */
   imat jacobsthal(int p);
 
-  /*! 
+  /*!
     \brief Conference matrix.
-  
+
     Constructs an n by n matrix C, where n=p^m+1=2 (mod 4) and p is a odd prime (not checked).
     This code only work with m=1, that is n=p+1 and p odd prime. The valid sizes
     of n is then n=6, 14, 18, 30, 38, ... (and not 10, 26, ...).
     C has the property that C*C'=(n-1)I, that is it has orthogonal rows and columns
     in the same way as Hadamard matricies. However, one element in each row (on the
     diagonal) is zeros. The others are {-1,+1}.
-  
+
     For more details see pp. 55-58 in MacWilliams & Sloane "The theory of error correcting codes",
     North-Holland, 1977.
   */
   imat conference(int n);
 
-  /*! 
+  /*!
     \brief Computes the Hermitian Toeplitz matrix.
 
     Return the Toeplitz matrix constructed given the first column C,
@@ -207,49 +207,49 @@ namespace itpp {
   //!@}
 
 
-  /*! 
+  /*!
     \brief Create a rotation matrix that rotates the given plane \c angle radians. Note that the order of the planes are important!
     \ingroup miscfunc
   */
   mat rotation_matrix(int dim, int plane1, int plane2, double angle);
 
-  /*! 
+  /*!
     \brief Calcualte the Householder vector
     \ingroup miscfunc
   */
   void house(const vec &x, vec &v, double &beta);
 
-  /*! 
+  /*!
     \brief Calculate the Givens rotation values
     \ingroup miscfunc
   */
   void givens(double a, double b, double &c, double &s);
 
-  /*! 
+  /*!
     \brief Calculate the Givens rotation matrix
     \ingroup miscfunc
   */
   void givens(double a, double b, mat &m);
 
-  /*! 
+  /*!
     \brief Calculate the Givens rotation matrix
     \ingroup miscfunc
   */
   mat givens(double a, double b);
 
-  /*! 
+  /*!
     \brief Calculate the transposed Givens rotation matrix
     \ingroup miscfunc
   */
   void givens_t(double a, double b, mat &m);
 
-  /*! 
+  /*!
     \brief Calculate the transposed Givens rotation matrix
     \ingroup miscfunc
   */
   mat givens_t(double a, double b);
 
-  /*! 
+  /*!
     \relates Vec
     \brief Vector of length 1
   */
@@ -261,7 +261,7 @@ namespace itpp {
       return v;
     }
 
-  /*! 
+  /*!
     \relates Vec
     \brief Vector of length 2
   */
@@ -274,7 +274,7 @@ namespace itpp {
       return v;
     }
 
-  /*! 
+  /*!
     \relates Vec
     \brief Vector of length 3
   */
@@ -288,7 +288,7 @@ namespace itpp {
       return v;
     }
 
-  /*! 
+  /*!
     \relates Mat
     \brief Matrix of size 1 by 1
   */
@@ -300,7 +300,7 @@ namespace itpp {
       return m;
     }
 
-  /*! 
+  /*!
     \relates Mat
     \brief Matrix of size 1 by 2
   */
@@ -312,7 +312,7 @@ namespace itpp {
       return m;
     }
 
-  /*! 
+  /*!
     \relates Mat
     \brief Matrix of size 2 by 1
   */
@@ -326,7 +326,7 @@ namespace itpp {
       return m;
     }
 
-  /*! 
+  /*!
     \relates Mat
     \brief Matrix of size 2 by 2
   */
@@ -340,7 +340,7 @@ namespace itpp {
       return m;
     }
 
-  /*! 
+  /*!
     \relates Mat
     \brief Matrix of size 1 by 3
   */
@@ -352,7 +352,7 @@ namespace itpp {
       return m;
     }
 
-  /*! 
+  /*!
     \relates Mat
     \brief Matrix of size 3 by 1
   */
@@ -368,7 +368,7 @@ namespace itpp {
       return m;
     }
 
-  /*! 
+  /*!
     \relates Mat
     \brief Matrix of size 2 by 3
   */
@@ -382,7 +382,7 @@ namespace itpp {
       return m;
     }
 
-  /*! 
+  /*!
     \relates Mat
     \brief Matrix of size 3 by 2
   */
@@ -398,7 +398,7 @@ namespace itpp {
       return m;
     }
 
-  /*! 
+  /*!
     \relates Mat
     \brief Matrix of size 3 by 3
   */

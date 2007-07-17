@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Error handling functions - header file
  * \author Tobias Ringstrom and Adam Piatyszek
  *
@@ -45,11 +45,11 @@
 
 namespace itpp {
 
-  /*! 
+  /*!
     \addtogroup errorhandlingfunc
 
     For the following macros, the argument \c s is a string that is displayed.
-  
+
     \code
     it_assert(t,s);           // Abort if t is not true
     it_assert_debug(t,s);     // Abort if t is not true and NDEBUG is not defined
@@ -73,7 +73,7 @@ namespace itpp {
     of them.
   */
   //!@{
- 
+
   //! Helper function for the \c it_assert and \c it_assert_debug macros
   void it_assert_f(std::string ass, std::string msg, std::string file, int line);
   //! Helper function for the \c it_error and \c it_error_if macros
@@ -114,7 +114,7 @@ namespace itpp {
 #else
   //! Abort if \c t is not true and NDEBUG is not defined
 #  define it_assert_debug(t,s) it_assert(t,s)
-#endif // if defined(NDEBUG) 
+#endif // if defined(NDEBUG)
 
   //! Deprecated macro. Please use \c it_assert_debug() instead.
 #define it_assert0(t,s) it_assert_debug(t,s)
@@ -162,20 +162,20 @@ namespace itpp {
 #if defined(NDEBUG)
   //! Print information message if NDEBUG is not defined
 #  define it_info_debug(s) ((void) 0)
-  /*! 
+  /*!
     \brief Print information message withot \c std::endl at the end if
-    NDEBUG is not defined 
+    NDEBUG is not defined
   */
 #  define it_info_no_endl_debug(s) ((void) 0)
 #else
   //! Print information message if NDEBUG is not defined
 #  define it_info_debug(s) it_info(s)
-  /*! 
+  /*!
     \brief Print information message withot \c std::endl at the end if
-    NDEBUG is not defined 
+    NDEBUG is not defined
   */
 #  define it_info_no_endl_debug(s) it_info_no_endl(s)
-#endif // if defined(NDEBUG) 
+#endif // if defined(NDEBUG)
 
 
   //! Display a warning message

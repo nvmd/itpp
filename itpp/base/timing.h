@@ -2,7 +2,7 @@
  * \file
  * \brief Definitions of Timing classes
  * \author Thomas Eriksson, Tony Ottosson and Tobias Ringstrom
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -40,7 +40,7 @@ namespace itpp {
   \addtogroup timers
 */
 
-/*! 
+/*!
   \brief A virtual base class for timers.
   \ingroup timers
 */
@@ -64,7 +64,7 @@ public:
     void toc_print(void);
     //! Returns the elapsed time.
     double get_time() const;
-    
+
 protected:
     //! Vitrual function that returns teh current time
     virtual double get_current_time() const = 0;
@@ -78,19 +78,19 @@ protected:
     bool running;
 };
 
-/*! 
+/*!
   \brief A CPU time timer class
   \ingroup timers
 
   Measures the time spent by the CPU on the current process.  If two processes
   are running concurrently, one real seconds equal 5 CPU seconds per process.
   The resolution is not very good (in the order of 0.01 seconds).
-  
+
   Usage: Define a time object:
   \code
   CPU_Timer timer;
   \endcode
-  
+
   Actions:
   Reset: \code timer.reset(); \endcode
   Start: \code timer.start(); \endcode
@@ -112,17 +112,17 @@ protected:
     double get_current_time() const;
 };
 
-/*! 
+/*!
   \brief A real time timer class
   \ingroup timers
 
   Measures real time.
-  
+
   Usage: Define a time object:
   \code
   Real_Timer timer;
   \endcode
-  
+
   Actions:
   Reset: \code timer.reset(); \endcode
   Start: \code timer.start(); \endcode
@@ -132,38 +132,38 @@ protected:
   It is possible to get elapsed time without stopping the timer.
   Observe that it is also possible to use the macros "time.tic();"
   to reset and start clock and "time.toc_print();" to print the elapsed time.
-  
+
   \warning May give an negative answer if the measured time is too long.
 */
 class Real_Timer : public Timer {
 public:
     //! Create a new timer. Sets the time to zero.
     Real_Timer() { }
-    
+
 protected:
     //!
     double get_current_time() const;
 };
 
-/*! 
+/*!
   \brief Reset and start timer
   \ingroup timers
 */
 void tic();
 
-/*! 
+/*!
   \brief Returns the elapsed time since last tic()
   \ingroup timers
 */
 double toc();
 
-/*! 
+/*!
   \brief Prints the elapsed time since last tic()
   \ingroup timers
 */
 void toc_print();
 
-/*! 
+/*!
   \brief pause
   \ingroup timers
 

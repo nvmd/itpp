@@ -2,7 +2,7 @@
  * \file
  * \brief Miscellaneous statistics functions and classes - header file
  * \author Tony Ottosson, Johan Bergman and Adam Piatyszek
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -44,7 +44,7 @@ namespace itpp {
   //! \addtogroup statistics
   //!@{
 
-  /*! 
+  /*!
     \brief A class for sampling a signal and calculating statistics
   */
   class Stat {
@@ -149,7 +149,7 @@ namespace itpp {
   template<class T>
   double geometric_mean(const Mat<T> &m)
   {
-    return std::exp(std::log(static_cast<double>(prod(prod(m)))) 
+    return std::exp(std::log(static_cast<double>(prod(prod(m))))
 		    / (m.rows() * m.cols()));
   }
 
@@ -216,7 +216,7 @@ namespace itpp {
    */
   double norm(const mat &m, int p = 2);
 
-  /*! 
+  /*!
    * Calculate the p-norm of a complex matrix
    *
    * p = 1: max(svd(m))
@@ -228,7 +228,7 @@ namespace itpp {
 
   //! Calculate the frobeniuos norm of a matrix for s = "fro"
   double norm(const mat &m, const std::string &s);
-  
+
   //! Calculate the frobeniuos norm of a matrix for s = "fro"
   double norm(const cmat &m, const std::string &s);
 
@@ -263,45 +263,45 @@ namespace itpp {
   //! Return true if the input value \c x is within the tolerance \c tol of the reference value \c xref
   inline bool within_tolerance(double x, double xref, double tol = 1e-14)
   {
-    return ( fabs(x-xref) <= tol ) ? true : false; 
+    return ( fabs(x-xref) <= tol ) ? true : false;
   }
 
   //! Return true if the input value \c x is within the tolerance \c tol of the reference value \c xref
   inline bool within_tolerance(std::complex<double> x, std::complex<double> xref, double tol = 1e-14)
   {
-    return ( abs(x-xref) <= tol ) ? true : false; 
+    return ( abs(x-xref) <= tol ) ? true : false;
   }
 
   //! Return true if the input vector \c x is elementwise within the tolerance \c tol of the reference vector \c xref
   inline bool within_tolerance(const vec &x, const vec &xref, double tol = 1e-14)
   {
-    return ( max(abs(x-xref)) <= tol ) ? true : false; 
+    return ( max(abs(x-xref)) <= tol ) ? true : false;
   }
 
   //! Return true if the input vector \c x is elementwise within the tolerance \c tol of the reference vector \c xref
   inline bool within_tolerance(const cvec &x, const cvec &xref, double tol = 1e-14)
   {
-    return ( max(abs(x-xref)) <= tol ) ? true : false; 
+    return ( max(abs(x-xref)) <= tol ) ? true : false;
   }
 
   //! Return true if the input matrix \c X is elementwise within the tolerance \c tol of the reference matrix \c Xref
   inline bool within_tolerance(const mat &X, const mat &Xref, double tol = 1e-14)
   {
-    return ( max(max(abs(X-Xref))) <= tol ) ? true : false; 
+    return ( max(max(abs(X-Xref))) <= tol ) ? true : false;
   }
 
   //! Return true if the input matrix \c X is elementwise within the tolerance \c tol of the reference matrix \c Xref
   inline bool within_tolerance(const cmat &X, const cmat &Xref, double tol = 1e-14)
   {
-    return ( max(max(abs(X-Xref))) <= tol ) ? true : false; 
+    return ( max(max(abs(X-Xref))) <= tol ) ? true : false;
   }
 
   /*!
     \brief Calculate the central moment of vector x
-  
+
     The \f$r\f$th sample central moment of the samples in the vector
     \f$ \mathbf{x} \f$ is defined as
-  
+
     \f[
     m_r = \mathrm{E}[x-\mu]^r = \frac{1}{n} \sum_{i=0}^{n-1} (x_i - \mu)^r
     \f]
@@ -343,7 +343,7 @@ namespace itpp {
   /*!
     \brief Calculate the kurtosis excess of the input vector x
 
-    The kurtosis excess is a measure of peakedness of a distribution. 
+    The kurtosis excess is a measure of peakedness of a distribution.
 	The kurtosis excess is defined as
     \f[
     \gamma_2 = \frac{\mathrm{E}[x-\mu]^4}{\sigma^4} - 3
@@ -370,7 +370,7 @@ namespace itpp {
     /*!
     \brief Calculate the kurtosis of the input vector x
 
-    The kurtosis is a measure of peakedness of a distribution. The kurtosis 
+    The kurtosis is a measure of peakedness of a distribution. The kurtosis
 	is defined as
     \f[
     \gamma_2 = \frac{\mathrm{E}[x-\mu]^4}{\sigma^4}

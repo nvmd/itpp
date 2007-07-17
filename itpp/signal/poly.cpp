@@ -2,7 +2,7 @@
  * \file
  * \brief Polynomial functions
  * \author Tony Ottosson
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -42,7 +42,7 @@ namespace itpp {
   void poly(const vec &r, vec &p)
   {
     int n = r.size();
-    
+
     p.set_size(n+1, false);
     p.zeros();
     p(0) = 1.0;
@@ -54,7 +54,7 @@ namespace itpp {
   void poly(const cvec &r, cvec &p)
   {
     int n = r.size();
-    
+
     p.set_size(n+1, false);
     p.zeros();
     p(0) = 1.0;
@@ -72,15 +72,15 @@ namespace itpp {
     m = f.size();
     vec v = p;
     mat A;
-    
+
     if (m > 0 && n > 1) {
       v = v(f(0),f(m-1));
       l = v.size();
 
       if (l>1) {
-	
+
 	A = diag(ones(l-2), -1);
-	A.set_row(0, -v(1,l-1)/v(0)); 
+	A.set_row(0, -v(1,l-1)/v(0));
 	r = eig(A);
 	cvec d;
 	cmat V;
@@ -110,14 +110,14 @@ namespace itpp {
     m = f.size();
     cvec v = p;
     cmat A;
-    
+
     if (m > 0 && n > 1) {
       v = v(f(0),f(m-1));
       l = v.size();
 
       if (l>1) {
 	A = diag(ones_c(l-2), -1);
-	A.set_row(0, -v(1,l-1)/v(0)); 
+	A.set_row(0, -v(1,l-1)/v(0));
 	r = eig(A);
 	if (f(m-1) < n)
 	  r = concat(r, zeros_c(n-f(m-1)-1));

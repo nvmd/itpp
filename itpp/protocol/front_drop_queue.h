@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definitions of a Front Drop Queue class
  * \author Anders Persson and Tony Ottosson
  *
@@ -55,7 +55,7 @@ class Front_Drop_Queue : public virtual std::queue<Packet*> {
    // TODO destructor
 //  ~FrontDropQueue() { }
 
-  void set_debug(const bool enable_debug = true) { 
+  void set_debug(const bool enable_debug = true) {
      debug = enable_debug;
   }
 

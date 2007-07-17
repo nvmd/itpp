@@ -2,7 +2,7 @@
  * \file
  * \brief Filter design functions
  * \author Tony Ottosson
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -49,7 +49,7 @@ namespace itpp {
   {
     cvec r;
     roots(a, r);
-    
+
     for (int i=0; i<r.size(); i++) {
       if (abs(r(i)) > 1)
 	r(i) = std::complex<double>(1.0)/conj(r(i));
@@ -61,7 +61,7 @@ namespace itpp {
   {
     cvec r;
     roots(a, r);
-    
+
     for (int i=0; i<r.size(); i++) {
       if (abs(r(i)) > 1)
 	r(i) = std::complex<double>(1.0)/conj(r(i));
@@ -165,7 +165,7 @@ namespace itpp {
     int N_fft = 512;
     vec m_interp(N_fft+1);
     // unused variable:
-    // double df_interp = 1.0/double(N_fft); 
+    // double df_interp = 1.0/double(N_fft);
 
     m_interp(0) = m(0);
     double inc;

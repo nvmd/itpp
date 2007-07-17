@@ -2,7 +2,7 @@
  * \file
  * \brief Trigonometric and hyperbolic functions - header file
  * \author Tony Ottosson and Adam Piatyszek
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -47,7 +47,7 @@
 
 #ifndef HAVE_ASINH
 //! Arcus sinhyp
-inline double asinh(double x) 
+inline double asinh(double x)
 {
   return ((x >= 0) ? log(x + sqrt(x * x + 1)) : -log( -x + sqrt(x * x + 1)));
 }
@@ -81,8 +81,8 @@ namespace itpp {
 
   //! Sinc function: sinc(x) = sin(pi*x)/pi*x
   inline double sinc(double x)
-  { 
-    return ((x == 0) ? 1.0 : sin(itpp::pi * x) / itpp::pi / x); 
+  {
+    return ((x == 0) ? 1.0 : sin(itpp::pi * x) / itpp::pi / x);
   }
 
   //! Sine function

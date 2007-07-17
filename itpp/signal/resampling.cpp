@@ -2,7 +2,7 @@
  * \file
  * \brief Resampling functions - source file
  * \author Tony Ottosson and Adam Piatyszek
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -74,7 +74,7 @@ namespace itpp {
   template void upsample(const smat &v, int usf,  smat & u);
   template void upsample(const imat &v, int usf,  imat & u);
   template void upsample(const bmat &v, int usf,  bmat & u);
- 
+
   template vec lininterp(const vec &v, int usf);
   template cvec lininterp(const cvec &v, int usf);
 

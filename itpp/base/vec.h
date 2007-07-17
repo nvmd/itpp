@@ -59,7 +59,7 @@ namespace itpp {
   class bin;
 
   //-----------------------------------------------------------------------------------
-  // Declaration of Vec Friends 
+  // Declaration of Vec Friends
   //-----------------------------------------------------------------------------------
 
   //! Addition of two vectors
@@ -91,7 +91,7 @@ namespace itpp {
    * (Matlab's v1 * v2' operation). This parameter is ignored for types
    * other then cvec.
    */
-  template<class Num_T> 
+  template<class Num_T>
   const Mat<Num_T> outer_product(const Vec<Num_T> &v1, const Vec<Num_T> &v2,
 				 bool hermitian = false);
   //! Multiplication of a vector and a scalar
@@ -115,7 +115,7 @@ namespace itpp {
 
   //! In-place element-wise multiplication of two vectors. Fast version of b = elem_mult(a,b)
   template<class Num_T> void elem_mult_inplace(const Vec<Num_T> &a, Vec<Num_T> &b);
-  //! Element-wise multiplication of two vectors, followed by summation of the resultant elements. Fast version of sum(elem_mult(a,b))  
+  //! Element-wise multiplication of two vectors, followed by summation of the resultant elements. Fast version of sum(elem_mult(a,b))
   template<class Num_T> Num_T elem_mult_sum(const Vec<Num_T> &a, const Vec<Num_T> &b);
 
   //! Division of all elements in \c v with \c t
@@ -129,7 +129,7 @@ namespace itpp {
   template<class Num_T> const Vec<Num_T> elem_div(const Num_T t, const Vec<Num_T> &v);
   //! Elementwise division of two vectors, storing the result in vector \c out (which is re-sized if necessary)
   template<class Num_T> void elem_div_out(const Vec<Num_T> &a, const Vec<Num_T> &b, Vec<Num_T> &out);
-  //! Elementwise division of two vectors, followed by summation of the resultant elements. Fast version of sum(elem_div(a,b))  
+  //! Elementwise division of two vectors, followed by summation of the resultant elements. Fast version of sum(elem_div(a,b))
   template<class Num_T> Num_T elem_div_sum(const Vec<Num_T> &a, const Vec<Num_T> &b);
 
   //! Append element \c a to the end of the vector \c v
@@ -316,8 +316,8 @@ namespace itpp {
     //! Inner (dot) product
     friend Num_T dot <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
     //! Outer product of two vectors v1 and v2
-    friend const Mat<Num_T> outer_product <>(const Vec<Num_T> &v1, 
-					     const Vec<Num_T> &v2, 
+    friend const Mat<Num_T> outer_product <>(const Vec<Num_T> &v1,
+					     const Vec<Num_T> &v2,
 					     bool hermitian);
     //! Elementwise multiplication of vector and scalar
     friend const Vec<Num_T> operator*<>(const Vec<Num_T> &v, const Num_T t);
@@ -340,7 +340,7 @@ namespace itpp {
 
     //! In-place element-wise multiplication of two vectors. Fast version of b = elem_mult(a,b)
     friend void elem_mult_inplace <>(const Vec<Num_T> &a, Vec<Num_T> &b);
-    //! Element-wise multiplication of two vectors, followed by summation of the resultant elements. Fast version of sum(elem_mult(a,b))  
+    //! Element-wise multiplication of two vectors, followed by summation of the resultant elements. Fast version of sum(elem_mult(a,b))
     friend Num_T elem_mult_sum <>(const Vec<Num_T> &a, const Vec<Num_T> &b);
 
     //! Elementwise division
@@ -359,7 +359,7 @@ namespace itpp {
     friend const Vec<Num_T> elem_div <>(const Num_T t, const Vec<Num_T> &v);
     //! Elementwise division
     friend void elem_div_out <>(const Vec<Num_T> &v1, const Vec<Num_T> &v2, Vec<Num_T> &out);
-    //! Elementwise division, followed by summation of the resultant elements. Fast version of sum(elem_mult(a,b))  
+    //! Elementwise division, followed by summation of the resultant elements. Fast version of sum(elem_mult(a,b))
     friend Num_T elem_div_sum <>(const Vec<Num_T> &a, const Vec<Num_T> &b);
 
     //! Get the elements in the vector where \c binlist is \c 1
@@ -546,7 +546,7 @@ namespace itpp {
 
   template<class Num_T> inline
   void Vec<Num_T>::free()
-  { 
+  {
     delete [] data;
     data = 0;
     datasize = 0;
@@ -558,9 +558,9 @@ namespace itpp {
 
   template<class Num_T> inline
   Vec<Num_T>::Vec(int size, const Factory &f) : datasize(0), data(0), factory(f)
-  { 
-    it_assert_debug(size>=0, "Negative size in Vec::Vec(int)"); 
-    alloc(size); 
+  {
+    it_assert_debug(size>=0, "Negative size in Vec::Vec(int)");
+    alloc(size);
   }
 
   template<class Num_T> inline
@@ -579,26 +579,26 @@ namespace itpp {
 
   template<class Num_T> inline
   Vec<Num_T>::Vec(const char *values, const Factory &f) : datasize(0), data(0), factory(f)
-  { 
+  {
     set(values);
   }
 
   template<class Num_T> inline
-  Vec<Num_T>::Vec(const std::string &values, const Factory &f) : datasize(0), data(0), factory(f) 
-  { 
-    set(values); 
+  Vec<Num_T>::Vec(const std::string &values, const Factory &f) : datasize(0), data(0), factory(f)
+  {
+    set(values);
   }
 
   template<class Num_T> inline
   Vec<Num_T>::Vec(const Num_T *c_array, int size, const Factory &f) : datasize(0), data(0), factory(f)
-  { 
+  {
     alloc(size);
     copy_vector(size, c_array, data);
   }
 
   template<class Num_T> inline
   Vec<Num_T>::~Vec()
-  { 
+  {
     free();
   }
 
@@ -617,7 +617,7 @@ namespace itpp {
       for (int i = min; i < size; ++i)
 	data[i] = Num_T(0);
       delete[] tmp;
-    } 
+    }
     else {
       free();
       alloc(size);
@@ -626,29 +626,29 @@ namespace itpp {
 
   template<class Num_T> inline
   const Num_T& Vec<Num_T>::operator[](int i) const
-  { 
-    it_assert_debug((i >= 0) && (i < datasize), "Vec::operator[]: Index out of range"); 
+  {
+    it_assert_debug((i >= 0) && (i < datasize), "Vec::operator[]: Index out of range");
     return data[i];
   }
 
   template<class Num_T> inline
   const Num_T& Vec<Num_T>::operator()(int i) const
-  { 
-    it_assert_debug((i >= 0) && (i < datasize), "Vec::operator(): Index out of range"); 
+  {
+    it_assert_debug((i >= 0) && (i < datasize), "Vec::operator(): Index out of range");
     return data[i];
   }
 
   template<class Num_T> inline
   Num_T& Vec<Num_T>::operator[](int i)
-  { 
-    it_assert_debug((i >= 0) && (i < datasize), "Vec::operator[]: Index out of range"); 
+  {
+    it_assert_debug((i >= 0) && (i < datasize), "Vec::operator[]: Index out of range");
     return data[i];
   }
 
   template<class Num_T> inline
   Num_T& Vec<Num_T>::operator()(int i)
-  { 
-    it_assert_debug((i >= 0) && (i < datasize), "Vec::operator(): Index out of range"); 
+  {
+    it_assert_debug((i >= 0) && (i < datasize), "Vec::operator(): Index out of range");
     return data[i];
   }
 
@@ -696,9 +696,9 @@ namespace itpp {
 
 
   template<class Num_T> inline
-  void Vec<Num_T>::zeros() 
-  { 
-    for (int i = 0; i < datasize; i++) 
+  void Vec<Num_T>::zeros()
+  {
+    for (int i = 0; i < datasize; i++)
       data[i] = Num_T(0);
   }
 
@@ -711,7 +711,7 @@ namespace itpp {
 
   template<class Num_T> inline
   void Vec<Num_T>::set(int i, const Num_T &v)
-  { 
+  {
     it_assert_debug((i >= 0) && (i < datasize), "method set()");
     data[i] = v;
   }
@@ -756,7 +756,7 @@ namespace itpp {
     return temp;
   }
 
-  template<> 
+  template<>
   Mat<std::complex<double> > Vec<std::complex<double> >::hermitian_transpose() const;
 
   template<class Num_T>
@@ -788,9 +788,9 @@ namespace itpp {
 
   template<class Num_T> inline
   Vec<Num_T>& Vec<Num_T>::operator+=(const Num_T t)
-  { 
-    for (int i=0;i<datasize;i++) 
-      data[i]+=t; 
+  {
+    for (int i=0;i<datasize;i++)
+      data[i]+=t;
     return *this;
   }
 
@@ -850,8 +850,8 @@ namespace itpp {
 
   template<class Num_T> inline
   Vec<Num_T>& Vec<Num_T>::operator-=(const Num_T t)
-  { 
-    for (int i=0;i<datasize;i++) 
+  {
+    for (int i=0;i<datasize;i++)
       data[i]-=t;
     return *this;
   }
@@ -907,9 +907,9 @@ namespace itpp {
 
   template<class Num_T> inline
   Vec<Num_T>& Vec<Num_T>::operator*=(const Num_T t)
-  { 
-    for (int i=0;i<datasize;i++) 
-      data[i] *= t; 
+  {
+    for (int i=0;i<datasize;i++)
+      data[i] *= t;
     return *this;
   }
 
@@ -920,7 +920,7 @@ namespace itpp {
     it_assert_debug(v1.datasize == v2.datasize, "vec::dot: wrong sizes");
     return cblas_ddot(v1.datasize, v1.data, 1, v2.data, 1);;
   }
- 
+
   template<> inline
   std::complex<double> dot(const cvec &v1, const cvec &v2)
   {
@@ -946,7 +946,7 @@ namespace itpp {
   }
 
   template<> inline
-  const cmat outer_product(const cvec &v1, const cvec &v2, 
+  const cmat outer_product(const cvec &v1, const cvec &v2,
 			   bool hermitian);
 
   template<class Num_T> inline
@@ -955,7 +955,7 @@ namespace itpp {
   {
     int i, j;
 
-    it_assert_debug((v1.datasize > 0) && (v2.datasize > 0), 
+    it_assert_debug((v1.datasize > 0) && (v2.datasize > 0),
 		    "Vec::outer_product:: Input vector of zero size");
 
     Mat<Num_T> r(v1.datasize, v2.datasize);
@@ -1020,10 +1020,10 @@ namespace itpp {
   void elem_mult_out(const Vec<Num_T> &a, const Vec<Num_T> &b, Vec<Num_T> &out)
   {
     it_assert_debug(a.datasize==b.datasize, "Vec::elem_mult_out: wrong sizes");
-   
+
     if(out.datasize != a.datasize)
       out.set_size(a.size());
-   
+
     for(int i=0; i<a.datasize; i++)
       out.data[i] = a.data[i] * b.data[i];
   }
@@ -1032,10 +1032,10 @@ namespace itpp {
   void elem_mult_out(const Vec<Num_T> &a, const Vec<Num_T> &b, const Vec<Num_T> &c, Vec<Num_T> &out)
   {
     it_assert_debug(a.datasize==b.datasize==c.datasize, "Vec::elem_mult_out: wrong sizes");
-   
+
     if(out.datasize != a.datasize)
       out.set_size(a.size());
-   
+
     for(int i=0; i<a.datasize; i++)
       out.data[i] = a.data[i] * b.data[i] * c.data[i];
   }
@@ -1044,10 +1044,10 @@ namespace itpp {
   void elem_mult_out(const Vec<Num_T> &a, const Vec<Num_T> &b, const Vec<Num_T> &c, const Vec<Num_T> &d, Vec<Num_T> &out)
   {
     it_assert_debug(a.datasize==b.datasize==c.datasize==d.datasize, "Vec::elem_mult_out: wrong sizes");
-   
+
     if(out.datasize != a.datasize)
       out.set_size(a.size());
-   
+
     for(int i=0; i<a.datasize; i++)
       out.data[i] = a.data[i] * b.data[i] * c.data[i] * d.data[i];
   }
@@ -1056,7 +1056,7 @@ namespace itpp {
   void elem_mult_inplace(const Vec<Num_T> &a, Vec<Num_T> &b)
   {
     it_assert_debug(a.datasize==b.datasize, "Vec::elem_mult_inplace: wrong sizes");
-   
+
     for(int i=0; i<a.datasize; i++)
       b.data[i] *= a.data[i];
   }
@@ -1065,12 +1065,12 @@ namespace itpp {
   Num_T elem_mult_sum(const Vec<Num_T> &a, const Vec<Num_T> &b)
   {
     it_assert_debug(a.datasize==b.datasize, "Vec::elem_mult_sum: wrong sizes");
-   
+
     Num_T acc = 0;
-   
+
     for(int i=0; i<a.datasize; i++)
       acc += a.data[i] * b.data[i];
-    
+
     return acc;
   }
 
@@ -1100,9 +1100,9 @@ namespace itpp {
 
   template<class Num_T> inline
   Vec<Num_T>& Vec<Num_T>::operator/=(const Num_T t)
-  { 
-    for (int i=0;i<datasize;i++) 
-      data[i]/=t; 
+  {
+    for (int i=0;i<datasize;i++)
+      data[i]/=t;
     return *this;
   }
 
@@ -1141,27 +1141,27 @@ namespace itpp {
   void elem_div_out(const Vec<Num_T> &a, const Vec<Num_T> &b, Vec<Num_T> &out)
   {
     it_assert_debug(a.datasize==b.datasize, "Vecelem_div_out: wrong sizes");
-    
+
     if(out.datasize != a.datasize)
       out.set_size(a.size());
 
     for(int i=0; i<a.datasize; i++)
       out.data[i] = a.data[i] / b.data[i];
   }
-  
+
   template<class Num_T> inline
   Num_T elem_div_sum(const Vec<Num_T> &a, const Vec<Num_T> &b)
   {
     it_assert_debug(a.datasize==b.datasize, "Vec::elem_div_sum: wrong sizes");
-   
+
     Num_T acc = 0;
-   
+
     for(int i=0; i<a.datasize; i++)
       acc += a.data[i] / b.data[i];
-    
+
     return acc;
   }
-  
+
   template<class Num_T>
   Vec<Num_T> Vec<Num_T>::get(const Vec<bin> &binlist) const
   {
@@ -1441,7 +1441,7 @@ namespace itpp {
   }
 
   template<class Num_T>
-  void  Vec<Num_T>::del(int i1, int i2) 
+  void  Vec<Num_T>::del(int i1, int i2)
   {
     it_assert_debug((i1>=0) && (i2<datasize) && (i1<i2), "Vec::del: index out of range");
 
@@ -1478,9 +1478,9 @@ namespace itpp {
 
   template<class Num_T> inline
   Vec<Num_T>& Vec<Num_T>::operator=(const Num_T t)
-  { 
-    for (int i=0;i<datasize;i++) 
-      data[i] = t; 
+  {
+    for (int i=0;i<datasize;i++)
+      data[i] = t;
     return *this;
   }
 
@@ -1512,13 +1512,13 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-  Vec<Num_T>& Vec<Num_T>::operator=(const char *values) 
-  { 
+  Vec<Num_T>& Vec<Num_T>::operator=(const char *values)
+  {
     set(values);
     return *this;
   }
 
-  template<> 
+  template<>
   bvec Vec<std::complex<double> >::operator==(std::complex<double>) const;
 
   template<class Num_T>
@@ -1534,7 +1534,7 @@ namespace itpp {
     return temp;
   }
 
-  template<> 
+  template<>
   bvec Vec<std::complex<double> >::operator!=(std::complex<double>) const;
 
   template<class Num_T>
@@ -1550,7 +1550,7 @@ namespace itpp {
     return temp;
   }
 
-  template<> 
+  template<>
   bvec Vec<std::complex<double> >::operator<(std::complex<double>) const;
 
   template<class Num_T>
@@ -1566,7 +1566,7 @@ namespace itpp {
     return temp;
   }
 
-  template<> 
+  template<>
   bvec Vec<std::complex<double> >::operator<=(std::complex<double>) const;
 
   template<class Num_T>
@@ -2047,7 +2047,7 @@ namespace itpp {
   extern template short elem_div_sum(const svec &a, const svec &b);
   //! Template instantiation of elem_div_sum
   extern template bin elem_div_sum(const bvec &a, const bvec &b);
-  
+
   //--------------------- concat operator -----------------
 
   //! Template instantiation of concat

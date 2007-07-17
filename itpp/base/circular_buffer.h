@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Circular_Buffer class (container)
  * \author Tobias Tynderfeldt
  *
@@ -45,16 +45,16 @@
 
 namespace itpp {
 
-  /*! 
+  /*!
     \brief General circular buffer class
-  
+
     This class is a general circular buffer class for arbitrary types.
-  
+
     For rarely used types you will need to instantiate the class by
     \code
     template class Circular_Buffer<type>;
     \endcode
-  
+
     The following example shows how to define a Circular_Buffer of doubles:
     \code
     vec a = randn(3);
@@ -81,7 +81,7 @@ namespace itpp {
 
     //Put the elements of \c b to the buffer
     cb1.put(b);
-  
+
     //Extract the oldest element of the buffer
     cb1.get(out_vec,1);
     cout << "get(out_vec,1) = " << out_vec << endl ;
@@ -235,7 +235,7 @@ namespace itpp {
       out=_data[_read];
       _read++;
       _rw_dist--;
-  
+
       if (_read==_ndata) { _read=0; }
     }
 
@@ -243,7 +243,7 @@ namespace itpp {
     T Circular_Buffer<T>::get()
     {
       T out;
-  
+
       get(out);
       return out;
     }
@@ -266,9 +266,9 @@ namespace itpp {
 	  out(i)=_data[_read];
 	  _read++;
 	  _rw_dist--;
-      
+
 	  if (_read==_ndata)
-	    _read=0;    
+	    _read=0;
 	}
     }
 
@@ -290,9 +290,9 @@ namespace itpp {
 	  out(i)=_data[_read];
 	  _read++;
 	  _rw_dist--;
-      
+
 	  if (_read==_ndata)
-	    _read=0;    
+	    _read=0;
 	}
     }
 
@@ -338,7 +338,7 @@ namespace itpp {
 	  out(i)=_data[read_tmp];
 	  read_tmp++;
 	  if (read_tmp==_ndata)
-	    read_tmp=0;    
+	    read_tmp=0;
 	}
     }
 
@@ -373,7 +373,7 @@ namespace itpp {
 	  out(i)=_data[read_tmp];
 	  read_tmp++;
 	  if (read_tmp==_ndata)
-	    read_tmp=0;    
+	    read_tmp=0;
 	}
     }
 
@@ -501,12 +501,12 @@ namespace itpp {
 	      T dummy;
 	      get(dummy);
 	    }
-      
+
 	  //Write data to the buffer and move the pointer to the next buffer slot
 	  _data[_write]=in(i);
 	  _write++;
 	  _rw_dist++;
-      
+
 	  //Check if the pointer in the circular buffer should go back to zero
 	  if (_write>=_ndata)
 	    _write=0;
@@ -525,12 +525,12 @@ namespace itpp {
 	      T dummy;
 	      get(dummy);
 	    }
-      
+
 	  //Write data to the buffer and move the pointer to the next buffer slot
 	  _data[_write]=in(i);
 	  _write++;
 	  _rw_dist++;
-      
+
 	  //Check if the pointer in the circular buffer should go back to zero
 	  if (_write>=_ndata)
 	    _write=0;
@@ -600,7 +600,7 @@ namespace itpp {
 	  peek_reverse(tmp,-1);
 	  min_nrof_elem = _rw_dist < sz ? _rw_dist : sz;
 	  alloc(sz);
-	  clear();      
+	  clear();
 	  for (i=0; i<min_nrof_elem; i++)
 	    put(tmp(min_nrof_elem-1-i));
 	}

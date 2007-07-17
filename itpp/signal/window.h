@@ -2,7 +2,7 @@
  * \file
  * \brief Definitions of window functions
  * \author Tony Ottosson, Tobias Ringstrom, Pal Frenger and Adam Piatyszek
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -38,7 +38,7 @@
 
 namespace itpp {
 
-  /*! 
+  /*!
     \addtogroup windfunc
   */
 
@@ -59,7 +59,7 @@ namespace itpp {
 
 
   /*! \brief Hanning window
-    
+
   The \c n size Hanning window is a vector \f$w\f$ where the \f$i\f$th component is
   \f[
   w_i = 0.5(1 - \cos(2\pi (i+1)/(n+1))
@@ -71,27 +71,27 @@ namespace itpp {
   vec hanning(int n);
 
   /*! \brief Hanning window compatible with matlab
-    
+
   The \c n size Hanning window is a vector \f$w\f$ where the \f$i\f$th component is
   \f[
   w_i = 0.5(1 - \cos(2\pi i/(n-1))
-  \f] 
+  \f]
   */
   vec hann(int n);
 
 
   /*! \brief Blackman window
-    
+
   The \c n size Blackman window is a vector \f$w\f$ where the \f$i\f$th component is
   \f[
   w_i = 0.42 - 0.5\cos(2\pi i/(n-1)) + 0.08\cos(4\pi i/(n-1))
-  \f] 
+  \f]
   */
   vec blackman(int n);
 
   /*! \brief Triangular window
 
-  
+
   The \c n size triangle window is a vector \f$w\f$ where the \f$i\f$th component is
   \f[
   w_i = w_{n-i-1} = \frac{2(i+1)}{n+1}

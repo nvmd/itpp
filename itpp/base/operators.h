@@ -1,9 +1,9 @@
 /*!
  * \file
- * \brief Definitions of operators for vectors and matricies of different 
+ * \brief Definitions of operators for vectors and matricies of different
  *        types
  * \author Tony Ottosson
- * 
+ *
  * $Date$
  * $Revision$
  *

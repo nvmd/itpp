@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of a vector quantizer training functions
  * \author Thomas Eriksson
  *
@@ -50,7 +50,7 @@ namespace itpp {
     mat				xsum(DIM,SIZE);
     int				n,MinIndex,i,j,k;
     double			MinS,S,D,Dold,*xp,*cp;
-	
+
     xsum.clear();
     xnum.clear();
 
@@ -96,7 +96,7 @@ namespace itpp {
     int				n,i,j;
     double			D,Dold;
     ivec			ind(SIZE);
-	
+
     for (i=0;i<SIZE;i++) {
       ind(i)=randi(0,T-1);
       j=0;
@@ -109,7 +109,7 @@ namespace itpp {
       }
       codebook.set_col(i,DB(ind(i)));
     }
-	
+
 
     if (VERBOSE) std::cout << "Training VQ..." << std::endl ;
 
@@ -163,13 +163,13 @@ namespace itpp {
     vec				codebook(DIM*SIZE);
     int				n,MinIndex,i,j;
     double			MinS,S,D,step,*xp,*cp;
-	
+
     for (i=0;i<SIZE;i++) {
       codebook.replace_mid(i*DIM,DB(randi(0,DB.length()-1)));
     }
     if (VERBOSE) std::cout << "Training VQ..." << std::endl ;
 
-  res: D=0; 
+  res: D=0;
     for (n=0;n<NOITER;n++) {
       step=STARTSTEP*(1.0-double(n)/NOITER);if (step<0) step=0;
       x=DB(randi(0,DB.length()-1)); // seems unnecessary! Check it up.
@@ -239,7 +239,7 @@ namespace itpp {
     }
     return cb;
   }
-  
+
   vec sqtrain(const vec &inDB, int SIZE)
   {
     vec		DB(inDB);

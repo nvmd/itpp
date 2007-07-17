@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of Bessel functions
  * \author Tony Ottosson
  *
@@ -40,7 +40,7 @@
 #endif
 
 
-namespace itpp { 
+namespace itpp {
 
   // Bessel function of order nu
   double besselj(int nu, double x) { return jn(nu, x); }

@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of a Reed-Solomon codec class
  * \author Pal Frenger, Steve Peters and Adam Piatyszek
  *
@@ -33,7 +33,7 @@
 #include <itpp/comm/reedsolomon.h>
 #include <itpp/base/math/log_exp.h>
 
-namespace itpp { 
+namespace itpp {
 
   //-------------------- Help Function ----------------------------
 
@@ -51,10 +51,10 @@ namespace itpp {
   }
 
   //-------------------- Reed-Solomon ----------------------------
-  //A Reed-Solomon code is a q^m-ary BCH code of length n = pow(q,m)-1. 
+  //A Reed-Solomon code is a q^m-ary BCH code of length n = pow(q,m)-1.
   //k = pow(q,m)-1-t. This class works for q==2.
-  Reed_Solomon::Reed_Solomon(int in_m, int in_t, bool sys): 
-    m(in_m), t(in_t), systematic(sys) 
+  Reed_Solomon::Reed_Solomon(int in_m, int in_t, bool sys):
+    m(in_m), t(in_t), systematic(sys)
   {
     n = pow2i(m) - 1;
     k = pow2i(m) - 1 - 2*t;
@@ -93,15 +93,15 @@ namespace itpp {
 	  cx[j] = mx[j];
 	  uncoded_shifted[j+n-k] = mx[j];
 	}
-      }  
+      }
       //Fix the outputbits cbit.
       if (systematic) {
 	r = modgfx(uncoded_shifted, g);
-	for (j = k; j < n; j++) { 
+	for (j = k; j < n; j++) {
 	  cx[j] = r[j-k];
         }
-      } else { 
-	cx = g*mx; 
+      } else {
+	cx = g*mx;
       }
       for (j = 0; j < n; j++) {
 	cbit = cx[j].get_vectorspace();
@@ -124,7 +124,7 @@ namespace itpp {
     bvec mbit(m*k);
     decoded_bits.set_size(itterations*k*m, false);
 
-    GFX rx(q,n-1), cx(q,n-1), mx(q,k-1), ex(q,n-1), S(q,2*t), Lambda(q), 
+    GFX rx(q,n-1), cx(q,n-1), mx(q,k-1), ex(q,n-1), S(q,2*t), Lambda(q),
       Lambdaprim(q), OldLambda(q), T(q), Ohmega(q);
     GFX dummy(q), One(q,(char*)"0"), Ohmegatemp(q);
     GF delta(q), tempsum(q), rtemp(q), temp(q), Xk(q), Xkinv(q);
@@ -133,40 +133,40 @@ namespace itpp {
     for (i = 0; i < itterations; i++) {
       decoderfailure = false;
       //Fix the received polynomial r(x)
-      for (j = 0; j < n; j++) { 
-	rtemp.set(q,coded_bits.mid(i*n*m + j*m, m)); 
-	rx[j] = rtemp; 
+      for (j = 0; j < n; j++) {
+	rtemp.set(q,coded_bits.mid(i*n*m + j*m, m));
+	rx[j] = rtemp;
       }
       //Fix the syndrome polynomial S(x).
       S.clear();
-      for (j = 1; j <= 2*t; j++) { 
-	S[j] = rx(GF(q, j)); 
+      for (j = 1; j <= 2*t; j++) {
+	S[j] = rx(GF(q, j));
       }
       if (S.get_true_degree() == 0) {
-	cx = rx; 
-	decoderfailure = false; 
+	cx = rx;
+	decoderfailure = false;
       }
       else {//Errors in the received word
 	    //Itterate to find Lambda(x).
-	kk = 0; 
-	Lambda = GFX(q, (char*)"0"); 
-	L = 0; 
-	T = GFX(q, (char*)"-1 0");   
+	kk = 0;
+	Lambda = GFX(q, (char*)"0");
+	L = 0;
+	T = GFX(q, (char*)"-1 0");
 	while (kk < 2*t) {
 	  kk = kk + 1;
 	  tempsum = GF(q, -1);
-	  for (l = 1; l <= L; l++) { 
-	    tempsum += Lambda[l] * S[kk-l]; 
+	  for (l = 1; l <= L; l++) {
+	    tempsum += Lambda[l] * S[kk-l];
 	  }
 	  delta = S[kk] - tempsum;
 	  if (delta != GF(q,-1)) {
 	    OldLambda = Lambda;
 	    Lambda -= delta*T;
-	    if (2*L < kk) { 
-	      L = kk - L; 
+	    if (2*L < kk) {
+	      L = kk - L;
 	      T = OldLambda / delta;
 	    }
-	  } 
+	  }
 	  T = GFX(q, (char*)"-1 0") * T;
 	}
 	//Find the zeros to Lambda(x).
@@ -178,38 +178,38 @@ namespace itpp {
 	  if (Lambda(GF(q, j)) == GF(q, -1)) {
 	    errorpos(foundzeros) = (n-j) % n;
 	    foundzeros += 1;
-	    if (foundzeros >= Lambda.get_true_degree()) { 
-	      break; 
+	    if (foundzeros >= Lambda.get_true_degree()) {
+	      break;
 	    }
 	  }
 	}
-	if (foundzeros != Lambda.get_true_degree()) { 
-	  decoderfailure = false; 
-	} 
+	if (foundzeros != Lambda.get_true_degree()) {
+	  decoderfailure = false;
+	}
 	else {
 	  //Compute Ohmega(x) using the key equation for RS-decoding
 	  Ohmega.set_degree(2*t);
 	  Ohmegatemp = Lambda * (One +S);
-	  for (j = 0; j <= 2*t; j++) { 
+	  for (j = 0; j <= 2*t; j++) {
 	    Ohmega[j] = Ohmegatemp[j];
 	  }
 	  Lambdaprim = formal_derivate(Lambda);
 	  //Find the error polynomial
 	  ex.clear();
 	  for (j = 0; j < foundzeros; j++) {
-	    Xk = GF(q,errorpos(j)); 
+	    Xk = GF(q,errorpos(j));
 	    Xkinv = GF(q,0) / Xk;
 	    ex[errorpos(j)] = (Xk * Ohmega(Xkinv)) / Lambdaprim(Xkinv);
 	  }
 	  //Reconstruct the corrected codeword.
 	  cx = rx + ex;
 	  //Code word validation
-	  S.clear(); 
-	  for (j = 1; j <= 2*t; j++) { 
-	    S[j] = rx(GF(q, j)); 
+	  S.clear();
+	  for (j = 1; j <= 2*t; j++) {
+	    S[j] = rx(GF(q, j));
 	  }
-	  if (S.get_true_degree() >= 1) { 
-	    decoderfailure=false; 
+	  if (S.get_true_degree() >= 1) {
+	    decoderfailure=false;
 	  }
 	}
       }
@@ -221,14 +221,14 @@ namespace itpp {
 	    for (j = 0; j < k; j++) {
               mx[j] = cx[j];
 	    }
-          } else { 
+          } else {
 	    mx = divgfx(cx,g);
 	  }
-	  for (j = 0; j <= mx.get_true_degree(); j++) { 
+	  for (j = 0; j <= mx.get_true_degree(); j++) {
 	    mbit.replace_mid(j*m, mx[j].get_vectorspace());
 	  }
 	}
-      } 
+      }
       decoded_bits.replace_mid(i*m*k, mbit);
     }
   }

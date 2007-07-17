@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Include file for the IT++ communications module
  * \author Tony Ottosson
  *

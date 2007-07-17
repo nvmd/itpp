@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of Transport Control Protocol (TCP)
  * \author Krister Norlund
  *
@@ -336,7 +336,7 @@ namespace itpp {
     tcp_socket_write.set_name("SocketWrite");
     tcp_release.forward(this, &TCP_Sender::release);
     tcp_release.set_name("Release");
- 
+
   }
 
 
@@ -344,19 +344,19 @@ namespace itpp {
   {
   }
 
-  void TCP_Sender::set_debug(const bool enable_debug) 
+  void TCP_Sender::set_debug(const bool enable_debug)
   {
     fDebug = enable_debug;
     tcp_send.set_debug(enable_debug);
   }
 
-  void TCP_Sender::set_debug(bool enable_debug, bool enable_signal_debug) 
+  void TCP_Sender::set_debug(bool enable_debug, bool enable_signal_debug)
   {
     fDebug = enable_debug;
     tcp_send.set_debug(enable_signal_debug);
   }
 
-  void TCP_Sender::set_trace(const bool enable_trace) 
+  void TCP_Sender::set_trace(const bool enable_trace)
   {
     fTrace = enable_trace;
   }
@@ -449,7 +449,7 @@ namespace itpp {
     struct tm *timeinfo;
     timeinfo = localtime(&rawtime);
     std::ostringstream filename_stream;
-    filename_stream << "trace_tcp_sender_u" << fLabel 
+    filename_stream << "trace_tcp_sender_u" << fLabel
 		    << "_" << 1900+timeinfo->tm_year
 		    << "_" << timeinfo->tm_mon
 		    << "_" << timeinfo->tm_mday
@@ -474,7 +474,7 @@ namespace itpp {
 	filename = GenerateFilename();
       else
 	filename = file;
-      
+
       save_trace(filename);
     }
   }
@@ -527,7 +527,7 @@ namespace itpp {
        (packet.get_ACK() >= fSndUna))  {    // ACK is OK
       HandleACK(packet);
     }
-   
+
     delete &packet;
   }
 
@@ -948,7 +948,7 @@ namespace itpp {
     fCWnd = fMSS;               // not initial CWnd, see RFC 2581
 
     it_assert(fSSThresh <= fMaxCWnd, "TCP_Sender::HandleRtxTimeout, internal error: SndSSThresh is > MaxCWnd");
-   
+
     fRecoveryTO = fSndMax;
 
     if (fGoBackN) {
@@ -962,7 +962,7 @@ namespace itpp {
 		<< ": rtx timeout: "
 		<< "t = " << Event_Queue::now()
 		<< ", SndNxt = " << fSndNxt
-		<< ", SndUna = " << fSndUna 
+		<< ", SndUna = " << fSndUna
 		<< std::endl;
     }
 
@@ -989,7 +989,7 @@ namespace itpp {
       fUserNxt += (unsigned) packet_p->bit_size()/8;
       delete packet_p;
     }
-   
+
     Sequence_Number end = min(min(fUserNxt, begin + fMSS),
 			      fSndUna + SendWindow());
 
@@ -1040,7 +1040,7 @@ namespace itpp {
 		<< "t = " << Event_Queue::now()
 		<< ", RTO = " << rto
 		<< ", Backoff = " << fBackoff
-		<< ", TimUna = " << fTimUna 
+		<< ", TimUna = " << fTimUna
 		<< std::endl;
     }
   }
@@ -1083,7 +1083,7 @@ namespace itpp {
     if (RTTsample_index >= RTTsample_time.size()) {
       RTTsample_time.set_size(2*RTTsample_time.size(),true);
       RTTsample_val.set_size(2*RTTsample_val.size(),true);
-    }   
+    }
     RTTsample_val(RTTsample_index) = sampleRTT;
     RTTsample_time(RTTsample_index) = Event_Queue::now();
     RTTsample_index++;
@@ -1091,7 +1091,7 @@ namespace itpp {
     if (RTTEstimate_index >= RTTEstimate_time.size()) {
       RTTEstimate_time.set_size(2*RTTEstimate_time.size(),true);
       RTTEstimate_val.set_size(2*RTTEstimate_val.size(),true);
-    }   
+    }
     RTTEstimate_val(RTTEstimate_index) = fRTTEstimate;
     RTTEstimate_time(RTTEstimate_index) = Event_Queue::now();
     RTTEstimate_index++;
@@ -1108,7 +1108,7 @@ namespace itpp {
     if (CWnd_index >= CWnd_time.size()) {
       CWnd_time.set_size(2*CWnd_time.size(),true);
       CWnd_val.set_size(2*CWnd_val.size(),true);
-    }   
+    }
     CWnd_val(CWnd_index) = fCWnd;
     CWnd_time(CWnd_index) = Event_Queue::now();
     CWnd_index++;
@@ -1125,7 +1125,7 @@ namespace itpp {
     if (SSThresh_index >= SSThresh_time.size()) {
       SSThresh_time.set_size(2*SSThresh_time.size(),true);
       SSThresh_val.set_size(2*SSThresh_val.size(),true);
-    }   
+    }
     SSThresh_val(SSThresh_index) = fSSThresh;
     SSThresh_time(SSThresh_index) = Event_Queue::now();
     SSThresh_index++;
@@ -1138,13 +1138,13 @@ namespace itpp {
     if (fDebug) {
       std::cout << "sender " << fLabel
                 << " t = " << Event_Queue::now()
-                << " sent = " << sn 
+                << " sent = " << sn
                 << std::endl;
     }
     if (sent_seq_num_index >= sent_seq_num_time.size()) {
       sent_seq_num_time.set_size(2*sent_seq_num_time.size(),true);
       sent_seq_num_val.set_size(2*sent_seq_num_val.size(),true);
-    }   
+    }
     sent_seq_num_val(sent_seq_num_index) = sn.value();
     sent_seq_num_time(sent_seq_num_index) = Event_Queue::now();
     sent_seq_num_index++;
@@ -1156,14 +1156,14 @@ namespace itpp {
     if (fDebug) {
       std::cout << "sender " << fLabel
                 << " t = " << Event_Queue::now()
-                << " ACK = " << sn 
+                << " ACK = " << sn
                 << std::endl;
     }
 
     if (sender_recv_ack_seq_num_index >= sender_recv_ack_seq_num_time.size()) {
       sender_recv_ack_seq_num_time.set_size(2*sender_recv_ack_seq_num_time.size(),true);
       sender_recv_ack_seq_num_val.set_size(2*sender_recv_ack_seq_num_val.size(),true);
-    }   
+    }
     sender_recv_ack_seq_num_val(sender_recv_ack_seq_num_index) = sn.value();
     sender_recv_ack_seq_num_time(sender_recv_ack_seq_num_index) = Event_Queue::now();
     sender_recv_ack_seq_num_index++;
@@ -1194,33 +1194,33 @@ namespace itpp {
       std::cout << "CWnd_val" << CWnd_val << std::endl;
       std::cout << "CWnd_time" << CWnd_time << std::endl;
       std::cout << "CWnd_index" << CWnd_index << std::endl;
-      
+
       std::cout << "SSThresh_val" << SSThresh_val << std::endl;
       std::cout << "SSThresh_time" << SSThresh_time << std::endl;
       std::cout << "SSThresh_index" << SSThresh_index << std::endl;
-      
+
       std::cout << "sent_seq_num_val" << sent_seq_num_val << std::endl;
       std::cout << "sent_seq_num_time" << sent_seq_num_time << std::endl;
       std::cout << "sent_seq_num_index" << sent_seq_num_index << std::endl;
-      
+
       std::cout << "sender_recv_ack_seq_num_val" << sender_recv_ack_seq_num_val << std::endl;
       std::cout << "sender_recv_ack_seq_num_time" << sender_recv_ack_seq_num_time << std::endl;
       std::cout << "sender_recv_ack_seq_num_index" << sender_recv_ack_seq_num_index << std::endl;
-      
+
       std::cout << "RTTEstimate_val" << RTTEstimate_val << std::endl;
       std::cout << "RTTEstimate_time" << RTTEstimate_time << std::endl;
       std::cout << "RTTEstimate_index" << RTTEstimate_index << std::endl;
-      
+
       std::cout << "RTTsample_val" << RTTsample_val << std::endl;
       std::cout << "RTTsample_time" << RTTsample_time << std::endl;
       std::cout << "RTTsample_index" << RTTsample_index << std::endl;
-      
+
       std::cout << "TCP_Sender::saving to file: " << filename << std::endl;
     }
 
     it_file ff2;
     ff2.open(filename);
-      
+
     ff2 << Name("CWnd_val") << CWnd_val;
     ff2 << Name("CWnd_time") << CWnd_time;
     ff2 << Name("CWnd_index") << CWnd_index;
@@ -1337,13 +1337,13 @@ namespace itpp {
 	iter++;
 	it_assert(iter != fBufList.end(), "TCP_Receiver_Buffer::Write, internal error");
       }
-      
+
       TCP_Segment & exBlock = *iter;
-      
+
       if (exBlock.can_be_combined(newBlock)) {
 	// overlapping or contiguous blocks -> combine
 	exBlock.combine(newBlock);
-         
+
 	// check following blocks
 	iter++;
 	while ((iter != fBufList.end()) &&
@@ -1354,7 +1354,7 @@ namespace itpp {
       } else {
 	// no overlap, newBlock lies between two existing list entries
 	// new list entry has to be created
-         
+
 	fBufList.insert(iter, newBlock);
       }
     }
@@ -1404,10 +1404,10 @@ namespace itpp {
        << "first byte stored: " << fFirstByte << std::endl
        << "last byte stored +1: " << last_byte() << std::endl
        << "next byte expected: " << next_expected() << std::endl;
-   
+
     if (detail>0) {
       os << "segments in receiver buffer:" << std::endl;
-      
+
       typedef std::list<TCP_Segment>::const_iterator LI;
       for (LI i = fBufList.begin(); i != fBufList.end(); ++i) {
 	const TCP_Segment & block = *i;
@@ -1474,21 +1474,21 @@ namespace itpp {
   }
 
 
-  void TCP_Receiver::set_debug(const bool enable_debug) 
+  void TCP_Receiver::set_debug(const bool enable_debug)
   {
     fDebug = enable_debug;
     tcp_send_ack.set_debug(enable_debug);
     tcp_new_data.set_debug();
   }
 
-  void TCP_Receiver::set_debug(bool enable_debug, bool enable_signal_debug) 
+  void TCP_Receiver::set_debug(bool enable_debug, bool enable_signal_debug)
   {
     fDebug = enable_debug;
     tcp_send_ack.set_debug(enable_signal_debug);
     tcp_new_data.set_debug();
   }
 
-  void TCP_Receiver::set_trace(const bool enable_trace) 
+  void TCP_Receiver::set_trace(const bool enable_trace)
   {
     fTrace = enable_trace;
   }
@@ -1521,7 +1521,7 @@ namespace itpp {
     struct tm *timeinfo;
     timeinfo = localtime(&rawtime);
     std::ostringstream filename_stream;
-    filename_stream << "trace_tcp_receiver_u" << fLabel 
+    filename_stream << "trace_tcp_receiver_u" << fLabel
 		    << "_" << 1900+timeinfo->tm_year
 		    << "_" << timeinfo->tm_mon
 		    << "_" << timeinfo->tm_mday
@@ -1556,7 +1556,7 @@ namespace itpp {
 	filename = GenerateFilename();
       else
 	filename = file;
-      
+
       save_trace(filename);
     }
   }
@@ -1571,8 +1571,8 @@ namespace itpp {
       }
       else {
 	it_warning("Received a TCP packet with wrong SessionId");
-	std::cout << "TCP_Receiver::ReceiveMessageFromNet, " 
-		  << "fLabel= " << fLabel 
+	std::cout << "TCP_Receiver::ReceiveMessageFromNet, "
+		  << "fLabel= " << fLabel
 		  << "fSessionId= " << fSessionId << std::endl;
 	std::cout << "packet=" << packet
 		  << ", next exp. = " << fReceiverBuffer.next_expected()
@@ -1620,7 +1620,7 @@ namespace itpp {
       IndicateUserMessage();
     }
 
-    delete &msg;   
+    delete &msg;
   }
 
 
@@ -1630,7 +1630,7 @@ namespace itpp {
       // receive a block
       unsigned noOfBytes = min(fReceiverBuffer.first_block_size(),
                                fMaxUserBlockSize);
-     
+
       if (fDebug) {
 	std::cout << "TCP_Receiver::IndicateUserMessage  "
 		  << "t = " << Event_Queue::now()
@@ -1852,7 +1852,7 @@ namespace itpp {
     if (received_seq_num_index >= received_seq_num_time.size()) {
       received_seq_num_time.set_size(2*received_seq_num_time.size(),true);
       received_seq_num_val.set_size(2*received_seq_num_val.size(),true);
-    }   
+    }
     received_seq_num_val(received_seq_num_index) = sn.value();
     received_seq_num_time(received_seq_num_index) = Event_Queue::now();
     received_seq_num_index++;
@@ -1873,7 +1873,7 @@ namespace itpp {
 
     it_file ff2;
     ff2.open(filename);
-   
+
     ff2 << Name("received_seq_num_val") << received_seq_num_val;
     ff2 << Name("received_seq_num_time") << received_seq_num_time;
     ff2 << Name("received_seq_num_index") << received_seq_num_index;

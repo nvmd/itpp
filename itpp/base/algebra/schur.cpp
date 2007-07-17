@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Schur decomposition functions
  * \author Adam Piatyszek
  *
@@ -43,7 +43,7 @@
 #include <itpp/base/algebra/schur.h>
 
 
-namespace itpp { 
+namespace itpp {
 
 #if defined(HAVE_LAPACK)
 
@@ -61,7 +61,7 @@ namespace itpp {
     vec wr(n);
     vec wi(n);
     vec work(lwork);
-    
+
     T.set_size(lda, n, false);
     U.set_size(ldvs, n, false);
 
@@ -88,13 +88,13 @@ namespace itpp {
     vec rwork(n);
     cvec w(n);
     cvec work(lwork);
-    
+
     T.set_size(lda, n, false);
     U.set_size(ldvs, n, false);
 
     T = A; // The routine overwrites input matrix with eigenvectors
 
-    zgees_(&jobvs, &sort, 0, &n, T._data(), &lda, &sdim, w._data(), U._data(), 
+    zgees_(&jobvs, &sort, 0, &n, T._data(), &lda, &sdim, w._data(), U._data(),
 	   &ldvs, work._data(), &lwork, rwork._data(), 0, &info);
 
     return (info == 0);
@@ -104,7 +104,7 @@ namespace itpp {
 
   bool schur(const mat &A, mat &U, mat &T) {
     it_error("LAPACK library is needed to use schur() function");
-    return false;   
+    return false;
   }
 
 

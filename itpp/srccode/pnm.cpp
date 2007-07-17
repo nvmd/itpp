@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of PNM graphics format I/O function
  * \author
  *
@@ -56,7 +56,7 @@ namespace itpp {
   static void pnm_write_comments( ostream & o, const string & comments );
 
   // Read/Write the header for the pnm file format
-  static bool pnm_read_header(ifstream & file, char & pnm_type, 
+  static bool pnm_read_header(ifstream & file, char & pnm_type,
 			      int & width, int & height, int & max_val,
 			      string & comments, char pnm_type_required = '0' );
 
@@ -78,13 +78,13 @@ namespace itpp {
     string comments;
     int width, height, max_val;
     pnm_read_header( file, pnm_type, width, height, max_val, comments );
-  
+
     return pnm_type;
   }
 
 
   //--------------------------------------------------------------
-  bool pnm_info( const string & filename, char & pnm_type, 
+  bool pnm_info( const string & filename, char & pnm_type,
 		 int & width, int & height, int & max_val,
 		 string & comments )
   {
@@ -93,7 +93,7 @@ namespace itpp {
     file.open(filename.c_str(), ifstream::in | ifstream::binary);
 
     pnm_read_header( file, pnm_type, width, height, max_val, comments );
-    
+
     return true;
   }
 
@@ -102,7 +102,7 @@ namespace itpp {
   // PGM related functions (gray images)
   //--------------------------------------------------------------
 
-  bool pgm_read(const string & filename, 
+  bool pgm_read(const string & filename,
 		imat & m, string & comments )
   {
     ifstream file;
@@ -116,14 +116,14 @@ namespace itpp {
     if ( !pnm_read_header(file, pnm_type, width, height, max_val, comments, '5' ) )
       return false;
 
-    // Format the returned matrix    
+    // Format the returned matrix
     m.set_size( height, width, false );
 
     // Retrieve the integer value from the file
     for( i = 0 ; i<height; i++)
       for( j = 0; j<width; j++)
 	m(i,j) = file.get();
-	
+
     return true;
   }
 
@@ -142,13 +142,13 @@ namespace itpp {
 
 
   //--------------------------------------------------------------
-  bool pgm_read(const string & filename, imat &m, 
+  bool pgm_read(const string & filename, imat &m,
 		int r1, int r2, int c1, int c2)
   {
     ifstream file;
     int width, height, max_val, i, j;
 
-    // This is a dummy variable. 
+    // This is a dummy variable.
     // Its purpose is the call of function pnm_read_header.
     string comments;
 
@@ -175,32 +175,32 @@ namespace itpp {
 
     if( r1 < 0 )
       it_error( "Bad parameter value : row number must be >=0" );
-   
+
     if( c1 < 0 )
       it_error( "Bad parameter value : column number must be >=0" );
-   
+
     if (r2 >= height )
       it_error( "Bad parameter value : row number exceeds the image heigth" );
 
     if( c1 >= width )
       it_error( "Bad parameter value : column number exceeds the image width" );
-    
+
     m.set_size( r2-r1+1, c2-c1+1, false );
     file.seekg( r1 * width + c1, ios::cur );
 
-    for( i = 0 ; i < m.rows() ; i++ ) 
+    for( i = 0 ; i < m.rows() ; i++ )
       {
 	for( j = 0 ; j < m.cols() ; j++ )
 	  m( i, j ) = file.get();
 	file.seekg( width - ( c2-c1+1 ), ios::cur );
       }
-    
+
     return true;
   }
 
 
   //--------------------------------------------------------------
-  bool pgm_write( const string & filename, 
+  bool pgm_write( const string & filename,
 		  const imat &m, const string & comments )
   {
 
@@ -211,14 +211,14 @@ namespace itpp {
 
     if (!pnm_write_header(file, '5', m.cols(), m.rows(), 255, comments ))
       return false;
-	
+
     for (i=0; i<m.rows(); i++)
       for (j=0; j<m.cols(); j++)
 	file.put( m(i,j) );
-	
+
     if (!file)
       return false;
-	
+
     return true;
   }
 
@@ -227,7 +227,7 @@ namespace itpp {
   // PPM related functions (color images)
   //--------------------------------------------------------------
 
-  bool ppm_read( const string & filename, 
+  bool ppm_read( const string & filename,
 		 imat &r, imat &g, imat &b,
 		 string & comments )
   {
@@ -235,11 +235,11 @@ namespace itpp {
     int width, height, max_val, i, j;
 
     file.open(filename.c_str(), ifstream::in | ifstream::binary);
-      
+
     char pnm_type;
     if(!pnm_read_header(file, pnm_type, width, height, max_val, comments, '6' ) )
       return false;
-      
+
     r.set_size(height, width, false);
     g.set_size(height, width, false);
     b.set_size(height, width, false);
@@ -249,14 +249,14 @@ namespace itpp {
 	g(i,j) = file.get();
 	b(i,j) = file.get();
       }
- 
+
     return true;
   }
 
 
   //--------------------------------------------------------------
   // Same function but suppress the comments
-  bool ppm_read( const string & filename, 
+  bool ppm_read( const string & filename,
 		 imat &r, imat &g, imat &b )
   {
     string comments; // This is a dummy variable
@@ -265,7 +265,7 @@ namespace itpp {
   }
 
   //--------------------------------------------------------------
-  bool ppm_read( const string & filename, 
+  bool ppm_read( const string & filename,
 		 imat &r, imat &g, imat &b,
 		 int r1, int r2, int c1, int c2)
   {
@@ -276,7 +276,7 @@ namespace itpp {
     string comments;
 
     file.open(filename.c_str(), ifstream::in | ifstream::binary);
-    
+
     char pnm_type;
     if (!pnm_read_header(file, pnm_type, width, height, max_val, comments, '6' ) )
       return false;
@@ -300,16 +300,16 @@ namespace itpp {
 
     if( r1 < 0 )
       it_error( "Bad parameter value : row number must be >=0" );
-   
+
     if( c1 < 0 )
       it_error( "Bad parameter value : column number must be >=0" );
-   
+
     if (r2 >= height )
       it_error( "Bad parameter value : row number exceeds the image heigth" );
 
     if( c1 >= width)
       it_error( "Bad parameter value : column number exceeds the image width" );
-    
+
     r.set_size( r2-r1+1, c2-c1+1, false);
     g.set_size( r2-r1+1, c2-c1+1, false);
     b.set_size( r2-r1+1, c2-c1+1, false);
@@ -323,13 +323,13 @@ namespace itpp {
       }
       file.seekg( 3 * ( width - (c2-c1+1) ), ios::cur);
     }
-  
+
     return true;
   }
 
 
   //--------------------------------------------------------------
-  bool ppm_write( const string & filename, 
+  bool ppm_write( const string & filename,
 		  const imat &r, const imat &g, const imat &b,
 		  const string & comments,
 		  int max_val )
@@ -348,26 +348,26 @@ namespace itpp {
 	it_warning( "Proposed maximal value is incorrect" );
 	return false;
       }
-  
+
     if (!pnm_write_header(file, '6', r.cols(), r.rows(), max_val, comments ))
       return false;
-	
+
     for (i=0; i<r.rows(); i++)
       for (j=0; j<r.cols(); j++) {
 	file.put( r(i,j) );
 	file.put( g(i,j) );
 	file.put( b(i,j) );
       }
-	
+
     if (!file)
       return false;
-	
+
     return true;
   }
 
 
   //--------------------------------------------------------------
-  imat img_double2int( const mat & m, 
+  imat img_double2int( const mat & m,
 		       int max_val,
 		       double double_min,
 		       double double_max )
@@ -379,11 +379,11 @@ namespace itpp {
       for( j = 0 ; j < m.cols() ; j++ )
 	if( m( i, j ) <= double_min )
 	  M( i, j ) = 0;
-  
+
 	else if( m( i, j ) >= double_max )
 	  M( i, j ) = max_val;
-  
-	else 
+
+	else
 	  M( i, j ) = (int) ( max_val * ( m( i, j ) - double_min )
 			      / ( double_max - double_min ) + 0.5 );
 
@@ -391,7 +391,7 @@ namespace itpp {
   }
 
   //--------------------------------------------------------------
-  mat img_int2double( const imat & m, 
+  mat img_int2double( const imat & m,
 		      int max_val,
 		      double double_min,
 		      double double_max )
@@ -403,13 +403,13 @@ namespace itpp {
       for( j = 0 ; j < m.cols() ; j++ )
 	if( m( i, j ) <= 0 )
 	  M( i, j ) = double_min;
-  
+
 	else if( m( i, j ) >= max_val )
 	  M( i, j ) = double_max;
-  
-	else 
+
+	else
 	  // This rounding works well when m(i,j) is positive
-	  M( i, j ) = double_min + ( double_max - double_min ) 
+	  M( i, j ) = double_min + ( double_max - double_min )
 	    * m( i, j ) / (double) max_val;
 
     return M;
@@ -423,11 +423,11 @@ namespace itpp {
   //--------------------------------------------------------------
   static void pnm_read_comments( istream & i, string & comments )
   {
-    while (isspace(i.peek())) 
+    while (isspace(i.peek()))
       {
 	while (isspace(i.peek()))
 	  i.get();
-      
+
 	if (i.peek() == '#')
 	  while (i.peek()!='\r' && i.peek()!='\n')
 	    comments += i.get();
@@ -453,7 +453,7 @@ namespace itpp {
 
   //--------------------------------------------------------------
   // Read the header of a pnm file
-  static bool pnm_read_header( ifstream & file, char & pnm_type, 
+  static bool pnm_read_header( ifstream & file, char & pnm_type,
 			       int & width, int & height, int & max_val,
 			       string & comments, char pnm_type_required )
   {
@@ -500,7 +500,7 @@ namespace itpp {
     // be greater than 65536 and lower than 0
     if( max_val >= 65536 || max_val < 0 )
       it_error( "Invalid maximum number in pnm header" );
-	  
+
     // For type P5 and P6, the value have to be lower than 255
     if( ( pnm_type == '5' || pnm_type == '6' ) && max_val > 255 )
       it_error( "Invalid maximum number in pnm header" );

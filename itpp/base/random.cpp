@@ -2,7 +2,7 @@
  * \file
  * \brief Implementation of classes for random number generators
  * \author Tony Ottosson and Adam Piatyszek
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -35,13 +35,13 @@
 #include <limits>
 
 
-namespace itpp { 
+namespace itpp {
 
   ///////////////////////////////////////////////
   // Random_Generator
   ///////////////////////////////////////////////
 
-  bool Random_Generator::initialized = false; 
+  bool Random_Generator::initialized = false;
   int Random_Generator::left = 0;
   unsigned int Random_Generator::state[624];
   unsigned int *Random_Generator::pNext;

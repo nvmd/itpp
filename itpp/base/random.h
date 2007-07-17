@@ -2,7 +2,7 @@
  * \file
  * \brief Definition of classes for random number generators
  * \author Tony Ottosson and Adam Piatyszek
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -41,7 +41,7 @@ namespace itpp {
 
   //! \addtogroup randgen
 
-  /*! 
+  /*!
    * \brief Base class for random (stochastic) sources.
    * \ingroup randgen
    *
@@ -69,12 +69,12 @@ namespace itpp {
    * Reference:
    * M. Matsumoto and T. Nishimura, "Mersenne Twister: A 623-Dimensionally
    * Equidistributed Uniform Pseudo-Random Number Generator", ACM Transactions
-   * on Modeling and Computer Simulation, Vol. 8, No. 1, January 1998, pp. 
+   * on Modeling and Computer Simulation, Vol. 8, No. 1, January 1998, pp.
    * 3-30.
    *
    * Copyright (C) 1997 - 2002, Makoto Matsumoto and Takuji Nishimura,
    * Copyright (C) 2000 - 2003, Richard J. Wagner
-   * All rights reserved.                          
+   * All rights reserved.
    *
    * Redistribution and use in source and binary forms, with or without
    * modification, are permitted provided that the following conditions
@@ -114,7 +114,7 @@ namespace itpp {
    */
   class Random_Generator {
   public:
-    //! Construct a new Random_Generator.    
+    //! Construct a new Random_Generator.
     Random_Generator() { if (!initialized) reset(4357U); }
     //! Construct Random_Generator object using \c seed
     Random_Generator(unsigned int seed) { reset(seed); }
@@ -130,7 +130,7 @@ namespace itpp {
     {
       if( left == 0 ) reload();
       --left;
-		
+
       register unsigned int s1;
       s1 = *pNext++;
       s1 ^= (s1 >> 11);
@@ -147,8 +147,8 @@ namespace itpp {
     double random_01_closed() { return random_int() * (1.0/4294967295.0); }
     //! Return a uniformly distributed [0,1) value in 53-bit resolution.
     double random53_01_lclosed()
-    { 
-      return ((random_int() >> 5) * 67108864.0 + (random_int() >> 6)) 
+    {
+      return ((random_int() >> 5) * 67108864.0 + (random_int() >> 6))
 	* (1.0/9007199254740992.0); // by Isaku Wada
     }
 
@@ -174,7 +174,7 @@ namespace itpp {
      * See Knuth TAOCP Vol 2, 3rd Ed, p.106 for multiplier.
      * \note In previous versions, most significant bits (MSBs) of the seed
      * affect only MSBs of the state array. Modified 9 Jan 2002 by Makoto
-     * Matsumoto. 
+     * Matsumoto.
      */
     void initialize( unsigned int seed )
     {
@@ -182,15 +182,15 @@ namespace itpp {
       register unsigned int *r = state;
       register int i = 1;
       *s++ = seed & 0xffffffffU;
-      for( ; i < 624; ++i ) 
+      for( ; i < 624; ++i )
 	{
 	  *s++ = ( 1812433253U * ( *r ^ (*r >> 30) ) + i ) & 0xffffffffU;
 	  r++;
 	}
     }
-    
+
     /*!
-     * \brief Generate N new values in state. 
+     * \brief Generate N new values in state.
      * Made clearer and faster by Matthew Bellew (matthew.bellew@home.com)
      */
     void reload()
@@ -202,7 +202,7 @@ namespace itpp {
       for( i = 397; --i; ++p )
 	*p = twist( p[397-624], p[0], p[1] );
       *p = twist( p[397-624], p[0], state[0] );
-      
+
       left = 624, pNext = state;
     }
     //!
@@ -229,7 +229,7 @@ namespace itpp {
      *  #define UMASK 0x80000000UL
      *  #define LMASK 0x7fffffffUL
      *  #define MIXBITS(u,v) ( ((u) & UMASK) | ((v) & LMASK) )
-     *  #define TWIST(u,v) ((MIXBITS(u,v) >> 1) ^ ((v)&1UL ? MATRIX_A : 0UL)) 
+     *  #define TWIST(u,v) ((MIXBITS(u,v) >> 1) ^ ((v)&1UL ? MATRIX_A : 0UL))
      * ----------------------------------------------------------------------
      */
     //!
@@ -256,7 +256,7 @@ namespace itpp {
   void RNG_set_state(ivec &state);
   //!@}
 
-  /*! 
+  /*!
     \brief Bernoulli distribution
     \ingroup randgen
   */
@@ -286,7 +286,7 @@ namespace itpp {
     void sample_vector(int size, bvec &out)
     {
       out.set_size(size, false);
-      for (int i=0; i<size; i++) out(i) = sample(); 
+      for (int i=0; i<size; i++) out(i) = sample();
     }
     //! Get a sample matrix.
     void sample_matrix(int rows, int cols, bmat &out)
@@ -302,18 +302,18 @@ namespace itpp {
     Random_Generator RNG;
   };
 
-  /*! 
+  /*!
     \brief Integer uniform distribution
     \ingroup randgen
-  
+
     Example: Generation of random uniformly distributed integers in the interval [0,10].
     \code
     #include "itpp/sigproc.h"
-  
+
     int main() {
-  
+
     I_Uniform_RNG gen(0, 10);
-  
+
     cout << gen() << endl; // prints a random integer
     cout << gen(10) << endl; // prints 10 random integers
     }
@@ -365,19 +365,19 @@ namespace itpp {
     //! Get a sample matrix.
     mat operator()(int h, int w)
     { mat temp(h,w); sample_matrix(h,w, temp); return (temp *(hi_bound - lo_bound) + lo_bound); }
-    //! Get a Uniformly distributed (0,1) sample 
+    //! Get a Uniformly distributed (0,1) sample
     double sample() {  return RNG.random_01(); }
     //! Get a Uniformly distributed (0,1) vector
     void sample_vector(int size, vec &out)
     {
       out.set_size(size, false);
-      for (int i=0; i<size; i++) out(i) = sample(); 
+      for (int i=0; i<size; i++) out(i) = sample();
     }
     //! Get a Uniformly distributed (0,1) matrix
     void sample_matrix(int rows, int cols, mat &out)
     {
       out.set_size(rows, cols, false);
-      for (int i=0; i<rows*cols; i++) out(i) = sample(); 
+      for (int i=0; i<rows*cols; i++) out(i) = sample();
     }
   protected:
   private:
@@ -460,35 +460,35 @@ namespace itpp {
 
 	x = j * wtab[i];
 
-	if (j < ktab[i]) 
+	if (j < ktab[i])
 	  break;
 
 	if (i < 127) {
 	  y = ytab[i+1] + (ytab[i] - ytab[i+1]) * RNG.random_01();
-	} 
+	}
 	else {
 	  x = PARAM_R - std::log(1.0 - RNG.random_01()) / PARAM_R;
 	  y = std::exp(-PARAM_R * (x - 0.5 * PARAM_R)) * RNG.random_01();
 	}
-	
-	if (y < std::exp(-0.5 * x * x)) 
+
+	if (y < std::exp(-0.5 * x * x))
 	  break;
       }
       return sign ? x : -x;
     }
- 
+
     //! Get a Normal distributed (0,1) vector
     void sample_vector(int size, vec &out)
     {
       out.set_size(size, false);
-      for (int i=0; i<size; i++) out(i) = sample(); 
+      for (int i=0; i<size; i++) out(i) = sample();
     }
 
     //! Get a Normal distributed (0,1) matrix
     void sample_matrix(int rows, int cols, mat &out)
     {
       out.set_size(rows, cols, false);
-      for (int i=0; i<rows*cols; i++) out(i) = sample(); 
+      for (int i=0; i<rows*cols; i++) out(i) = sample();
     }
   protected:
   private:
@@ -506,7 +506,7 @@ namespace itpp {
     Random_Generator RNG;
   };
 
-  /*! 
+  /*!
     \brief Laplacian distribution
     \ingroup randgen
   */
@@ -532,10 +532,10 @@ namespace itpp {
 	l=std::log(2.0*u);
       else
 	l=-std::log(2.0*(1-u));
-      
+
       l *= std::sqrt(var/2.0);
       l += mean;
-      
+
       return l;
     }
   protected:
@@ -554,36 +554,36 @@ namespace itpp {
   public:
     //! Constructor. Set mean and variance.
     Complex_Normal_RNG(std::complex<double> mean, double variance):
-      norm_factor(1.0/std::sqrt(2.0)) 
-    { 
+      norm_factor(1.0/std::sqrt(2.0))
+    {
       setup(mean, variance);
     }
     //! Default constructor
     Complex_Normal_RNG(): m(0.0), sigma(1.0), norm_factor(1.0/std::sqrt(2.0)) {}
     //! Set mean and variance
-    void setup(std::complex<double> mean, double variance) 
+    void setup(std::complex<double> mean, double variance)
     {
-      m = mean; sigma = std::sqrt(variance); 
+      m = mean; sigma = std::sqrt(variance);
     }
     //! Get mean and variance
     void get_setup(std::complex<double> &mean, double &variance)
-    { 
+    {
       mean = m; variance = sigma*sigma;
     }
     //! Get one sample.
     std::complex<double> operator()() { return sigma*sample()+m; }
     //! Get a sample vector.
-    cvec operator()(int n) 
-    { 
-      cvec temp(n); 
-      sample_vector(n, temp); 
+    cvec operator()(int n)
+    {
+      cvec temp(n);
+      sample_vector(n, temp);
       return (sigma*temp+m);
     }
     //! Get a sample matrix.
-    cmat operator()(int h, int w) 
-    { 
-      cmat temp(h, w); 
-      sample_matrix(h, w, temp); 
+    cmat operator()(int h, int w)
+    {
+      cmat temp(h, w);
+      sample_matrix(h, w, temp);
       return (sigma*temp+m);
     }
     //! Get a Complex Normal (0,1) distributed sample
@@ -598,14 +598,14 @@ namespace itpp {
     void sample_vector(int size, cvec &out)
     {
       out.set_size(size, false);
-      for (int i=0; i<size; i++) out(i) = sample(); 
+      for (int i=0; i<size; i++) out(i) = sample();
     }
 
     //! Get a Complex Normal (0,1) distributed matrix
     void sample_matrix(int rows, int cols, cmat &out)
     {
       out.set_size(rows, cols, false);
-      for (int i=0; i<rows*cols; i++) out(i) = sample(); 
+      for (int i=0; i<rows*cols; i++) out(i) = sample();
     }
   private:
     std::complex<double> m;
@@ -636,7 +636,7 @@ namespace itpp {
     mat operator()(int h, int w);
 
   protected:
-  private: 
+  private:
     //!
     double sample();
     //!
@@ -653,7 +653,7 @@ namespace itpp {
   */
   typedef Normal_RNG Gauss_RNG;
 
-  /*! 
+  /*!
     \brief AR1_Gauss_RNG is the same as AR1_Normal_RNG
     \ingroup randgen
   */
@@ -690,7 +690,7 @@ namespace itpp {
     Random_Generator RNG;
   };
 
-  /*! 
+  /*!
     \brief Rayleigh distribution
     \ingroup randgen
   */
@@ -719,7 +719,7 @@ namespace itpp {
     Random_Generator RNG;
   };
 
-  /*! 
+  /*!
     \brief Rice distribution
     \ingroup randgen
   */
@@ -774,9 +774,9 @@ namespace itpp {
 
   //! Generates a random integer in the interval [low,high]
   inline int randi(int low, int high) { I_Uniform_RNG src; src.setup(low, high); return src(); }
-  //! Generates a random ivec with elements in the interval [low,high] 
+  //! Generates a random ivec with elements in the interval [low,high]
   inline ivec randi(int size, int low, int high) { I_Uniform_RNG src; src.setup(low, high); return src(size); }
-  //! Generates a random imat with elements in the interval [low,high] 
+  //! Generates a random imat with elements in the interval [low,high]
   inline imat randi(int rows, int cols, int low, int high) { I_Uniform_RNG src; src.setup(low, high); return src(rows, cols); }
 
   //! Generates a random Rayleigh vector
@@ -800,7 +800,7 @@ namespace itpp {
   inline mat randn(int rows, int cols){ mat temp; randn(rows, cols, temp); return temp; }
 
   /*! \brief Generates a random complex Gaussian (0,1) variable
-    
+
   The real and imaginary parts are independent and have variances equal to 0.5
   */
   inline std::complex<double> randn_c(void) { Complex_Normal_RNG src; return src.sample(); }
@@ -829,10 +829,10 @@ namespace itpp {
       s = std::sqrt(factr * std::log(r2)) * std::sin(m_2pi * r1);
 
     odd = !odd;
-  
+
     mem = s + r * mem;
     s = mem + mean;
-  
+
     return s;
   }
 
@@ -852,7 +852,7 @@ namespace itpp {
     s2 = std::sqrt(-2.0 * std::log(r2)) * std::sin(m_2pi * r1);
     // s1 and s2 are N(0,1) and independent
     samp = sig * std::sqrt(s1*s1 + s2*s2);
-     
+
     return samp;
   }
 
@@ -869,7 +869,7 @@ namespace itpp {
     s2 = std::sqrt(-2.0 * std::log(r2)) * std::sin(m_2pi * r1);
     // s1 and s2 are N(0,1) and independent
     samp = std::sqrt((sig*s1+m1) * (sig*s1+m1) + (sig*s2+m2) * (sig*s2+m2));
-      
+
     return samp;
   }
 

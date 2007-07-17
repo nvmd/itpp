@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of audio Audio classes and functions
  * \author Tobias Ringstrom and Adam Piatyszek
  *
@@ -85,7 +85,7 @@ namespace itpp {
     v.set_size(n, false);
     for (int i = 0; i < n; i++)
       v(i) = read_endian<short>(file, switch_endian) / 32768.0;
-    
+
     return true;
   }
 
@@ -101,7 +101,7 @@ namespace itpp {
     file.seekg(2 * beg);
     for (int i = 0; i < len; i++)
       v(i) = read_endian<short>(file, switch_endian) / 32768.0;
-	
+
     return true;
   }
 
@@ -114,7 +114,7 @@ namespace itpp {
     bool switch_endian = check_big_endianness(); // if BIG_ENDIAN than switch
     for (int i = 0; i < v.size(); i++)
       write_endian<short>(file, double_to_short(v(i) * 32768.0), switch_endian);
-    
+
     return true;
   }
 
@@ -134,7 +134,7 @@ namespace itpp {
     v.set_size(n, false);
     for (int i = 0; i < n; i++)
       v(i) = read_endian<short>(file, switch_endian) / 32768.0;
-    
+
     return true;
   }
 
@@ -150,7 +150,7 @@ namespace itpp {
     file.seekg(2 * beg);
     for (int i = 0; i < len; i++)
       v(i) = read_endian<short>(file, switch_endian) / 32768.0;
-	
+
     return true;
   }
 
@@ -163,7 +163,7 @@ namespace itpp {
     bool switch_endian = !check_big_endianness(); // if LITTLE_ENDIAN than switch
     for (int i = 0; i < v.size(); i++)
       write_endian<short>(file, double_to_short(v(i) * 32768.0), switch_endian);
-	
+
     return true;
   }
 
@@ -275,7 +275,7 @@ namespace itpp {
     file.close();
     is_valid = false;
   }
-    
+
   bool SND_In_File::seek_read(int pos)
   {
     if (pos < 0)
@@ -289,8 +289,8 @@ namespace itpp {
   {
     if (!good())
       return -1;
-    
-    return ((static_cast<int>(file.tellg()) - sizeof(header)) 
+
+    return ((static_cast<int>(file.tellg()) - sizeof(header))
 	    / (header.channels * sample_size()));
   }
 
@@ -298,13 +298,13 @@ namespace itpp {
   {
     if (!good())
       return false;
-    
+
     int i, n;
-    
+
     n = samples();
     v.set_size(n, false);
     seek_read(0);
-    
+
     bool switch_endian = !check_big_endianness(); // if LITTLE_ENDIAN than switch
     switch (header.encoding) {
     case enc_linear8 :
@@ -336,7 +336,7 @@ namespace itpp {
       return false;
 
     int i;
-    
+
     bool switch_endian = !check_big_endianness(); // if LITTLE_ENDIAN than switch
     v.set_size(n, false);
     switch (header.encoding) {
@@ -386,12 +386,12 @@ namespace itpp {
     file.open(fname, ios::out | ios::trunc | ios::binary);
     if (!file)
       return false;
-    
+
     header.data_size = 0;
     header.encoding = static_cast<unsigned int>(e);
     header.sample_rate = rate;
     header.channels = 1;
-    
+
     if (!write_header(file))
       return false;
 
@@ -407,7 +407,7 @@ namespace itpp {
     file.close();
     is_valid = false;
   }
-    
+
   bool SND_Out_File::seek_write(int pos)
   {
     if (!good())
@@ -425,7 +425,7 @@ namespace itpp {
     if (!good())
       return -1;
 
-    return ((static_cast<int>(file.tellp()) - sizeof(header)) 
+    return ((static_cast<int>(file.tellp()) - sizeof(header))
 	    / (header.channels * sample_size()));
   }
 
@@ -435,7 +435,7 @@ namespace itpp {
       return false;
 
     int i;
-    
+
     bool switch_endian = !check_big_endianness(); // if LITTLE_ENDIAN than switch
     switch (header.encoding) {
     case enc_linear8 :
@@ -444,7 +444,7 @@ namespace itpp {
       break;
     case enc_linear16 :
       for (i=0; i<v.size(); i++)
-	write_endian<short>(file, double_to_short(v(i) * 32768.0), 
+	write_endian<short>(file, double_to_short(v(i) * 32768.0),
 			    switch_endian);
       break;
     case enc_float :
@@ -477,7 +477,7 @@ namespace itpp {
     file.open(fname, ios::in | ios::out | ios::binary);
     if (!file)
       return false;
-    
+
     if (!read_header(file)) {
       file.close();
       return false;
@@ -487,7 +487,7 @@ namespace itpp {
       file.close();
       return false;
     }
-    
+
     is_valid = true;
     return true;
   }
@@ -498,7 +498,7 @@ namespace itpp {
     file.close();
     is_valid = false;
   }
-    
+
   bool snd_read(const char *fname, vec &v)
   {
     SND_In_File file;

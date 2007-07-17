@@ -2,7 +2,7 @@
  * \file
  * \brief Implementation of functions for solving linear equation systems
  * \author Tony Ottosson
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -43,7 +43,7 @@
 #include <itpp/base/algebra/ls_solve.h>
 
 
-namespace itpp { 
+namespace itpp {
 
   // ----------- ls_solve_chol -----------------------------------------------------------
 
@@ -271,25 +271,25 @@ namespace itpp {
   bool ls_solve(const mat &A, const vec &b, vec &x)
   {
     it_error("LAPACK library is needed to use ls_solve() function");
-    return false;   
+    return false;
   }
 
   bool ls_solve(const mat &A, const mat &B, mat &X)
   {
     it_error("LAPACK library is needed to use ls_solve() function");
-    return false;   
+    return false;
   }
 
   bool ls_solve(const cmat &A, const cvec &b, cvec &x)
   {
     it_error("LAPACK library is needed to use ls_solve() function");
-    return false;   
+    return false;
   }
 
   bool ls_solve(const cmat &A, const cmat &B, cmat &X)
   {
     it_error("LAPACK library is needed to use ls_solve() function");
-    return false;   
+    return false;
   }
 
 #endif // HAVE_LAPACK
@@ -375,7 +375,7 @@ namespace itpp {
     dgels_(&trans, &m, &n, &nrhs, QR._data(), &lda, X._data(), &ldb, work._data(), &lwork, &info);
     X.set_size(n, nrhs, true);
 
-    return (info==0);    
+    return (info==0);
   }
 
   bool ls_solve_od(const cmat &A, const cvec &b, cvec &x)
@@ -419,7 +419,7 @@ namespace itpp {
     zgels_(&trans, &m, &n, &nrhs, QR._data(), &lda, X._data(), &ldb, work._data(), &lwork, &info);
     X.set_size(n, nrhs, true);
 
-    return (info==0);    
+    return (info==0);
   }
 
 #else
@@ -427,25 +427,25 @@ namespace itpp {
   bool ls_solve_od(const mat &A, const vec &b, vec &x)
   {
     it_error("LAPACK library is needed to use ls_solve_od() function");
-    return false;   
+    return false;
   }
 
   bool ls_solve_od(const mat &A, const mat &B, mat &X)
-  { 
+  {
     it_error("LAPACK library is needed to use ls_solve_od() function");
-    return false;   
+    return false;
   }
 
   bool ls_solve_od(const cmat &A, const cvec &b, cvec &x)
   {
     it_error("LAPACK library is needed to use ls_solve_od() function");
-    return false;   
+    return false;
   }
 
   bool ls_solve_od(const cmat &A, const cmat &B, cmat &X)
   {
     it_error("LAPACK library is needed to use ls_solve_od() function");
-    return false;   
+    return false;
   }
 
 #endif // HAVE_LAPACK
@@ -533,7 +533,7 @@ namespace itpp {
     dgels_(&trans, &m, &n, &nrhs, QR._data(), &lda, X._data(), &ldb, work._data(), &lwork, &info);
     X.set_size(n, nrhs, true);
 
-    return (info==0);    
+    return (info==0);
   }
 
   bool ls_solve_ud(const cmat &A, const cvec &b, cvec &x)
@@ -580,7 +580,7 @@ namespace itpp {
     zgels_(&trans, &m, &n, &nrhs, QR._data(), &lda, X._data(), &ldb, work._data(), &lwork, &info);
     X.set_size(n, nrhs, true);
 
-    return (info==0);    
+    return (info==0);
   }
 
 #else
@@ -588,25 +588,25 @@ namespace itpp {
   bool ls_solve_ud(const mat &A, const vec &b, vec &x)
   {
     it_error("LAPACK library is needed to use ls_solve_ud() function");
-    return false;   
+    return false;
   }
 
   bool ls_solve_ud(const mat &A, const mat &B, mat &X)
   {
     it_error("LAPACK library is needed to use ls_solve_ud() function");
-    return false;   
+    return false;
   }
 
   bool ls_solve_ud(const cmat &A, const cvec &b, cvec &x)
   {
     it_error("LAPACK library is needed to use ls_solve_ud() function");
-    return false;   
+    return false;
   }
 
   bool ls_solve_ud(const cmat &A, const cmat &B, cmat &X)
   {
     it_error("LAPACK library is needed to use ls_solve_ud() function");
-    return false;   
+    return false;
   }
 
 #endif // HAVE_LAPACK
@@ -662,7 +662,7 @@ namespace itpp {
       info = ls_solve_od(A,b,x);
     else
       info = ls_solve_ud(A,b,x);
-    
+
     return info;
   }
 
@@ -688,7 +688,7 @@ namespace itpp {
       info = ls_solve_od(A, B, X);
     else
       info = ls_solve_ud(A, B, X);
-    
+
     return info;
   }
 
@@ -714,7 +714,7 @@ namespace itpp {
       info = ls_solve_od(A,b,x);
     else
       info = ls_solve_ud(A,b,x);
-    
+
     return info;
   }
 
@@ -740,7 +740,7 @@ namespace itpp {
       info = ls_solve_od(A, B, X);
     else
       info = ls_solve_ud(A, B, X);
-    
+
     return info;
   }
 
@@ -760,7 +760,7 @@ namespace itpp {
   {
     int n = L.rows();
     vec x(n);
-  
+
     forward_substitution(L, b, x);
 
     return x;
@@ -768,7 +768,7 @@ namespace itpp {
 
   void forward_substitution(const mat &L, const vec &b, vec &x)
   {
-    it_assert( L.rows() == L.cols() && L.cols() == b.size() && b.size() == x.size(), 
+    it_assert( L.rows() == L.cols() && L.cols() == b.size() && b.size() == x.size(),
 	       "forward_substitution: dimension mismatch" );
     int n = L.rows(), i, j;
     double temp;
@@ -791,7 +791,7 @@ namespace itpp {
   {
     int n = L.rows();
     vec x(n);
-  
+
     forward_substitution(L, p, b, x);
 
     return x;
@@ -804,7 +804,7 @@ namespace itpp {
     int n = L.rows(), i, j;
 
     x=b;
-  
+
     for (j=0;j<n;j++) {
       x(j)/=L(j,j);
       for (i=j+1;i<std::min(j+p+1,n);i++) {
@@ -857,7 +857,7 @@ namespace itpp {
     int n = U.rows(), i, j;
 
     x=b;
-  
+
     for (j=n-1; j>=0; j--) {
       x(j) /= U(j,j);
       for (i=std::max(0,j-q); i<j; i++) {

@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of modified Bessel functions of third kind
  * \author Tony Ottosson
  *
@@ -30,7 +30,7 @@
  * -------------------------------------------------------------------------
  *
  * This is slightly modified routine from the Cephes library:
- * http://www.netlib.org/cephes/ 
+ * http://www.netlib.org/cephes/
  */
 
 #include <itpp/base/bessel/bessel_internal.h>
@@ -98,7 +98,7 @@ using namespace itpp;
 /* Chebyshev coefficients for K0(x) + log(x/2) I0(x)
  * in the interval [0,2].  The odd order coefficients are all
  * zero; only the even order coefficients are listed.
- * 
+ *
  * lim(x->0){ K0(x) + log(x/2) I0(x) } = -EUL.
  */
 
@@ -119,7 +119,7 @@ static double A[] =
 
 /* Chebyshev coefficients for exp(x) sqrt(x) K0(x)
  * in the inverted interval [2,infinity].
- * 
+ *
  * lim(x->inf){ exp(x) sqrt(x) K0(x) } = sqrt(pi/2).
  */
 

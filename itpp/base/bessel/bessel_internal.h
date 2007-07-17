@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Bessel help functions header. For internal use only.
  * \author Tony Ottosson
  *

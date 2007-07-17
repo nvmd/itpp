@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definitions of Cholesky factorisation functions
  * \author Tony Ottosson
  *

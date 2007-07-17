@@ -2,7 +2,7 @@
  * \file
  * \brief Miscellaneous statistics functions and classes - source file
  * \author Tony Ottosson, Johan Bergman and Adam Piatyszek
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -82,7 +82,7 @@ namespace itpp {
     double E = 0.0;
     for (int i = 0; i < v.length(); i++)
       E += std::norm(v[i]);
-    
+
     return std::sqrt(E);
   }
 
@@ -99,14 +99,14 @@ namespace itpp {
     return norm(v, 2);
   }
 
-  /* 
+  /*
    * Calculate the p-norm of a real matrix
    * p = 1: max(svd(m))
    * p = 2: max(sum(abs(X)))
    */
   double norm(const mat &m, int p)
   {
-    it_assert((p == 1) || (p == 2), 
+    it_assert((p == 1) || (p == 2),
 	      "norm(): Can only calculate a matrix norm of order 1 or 2");
 
     if (p == 1)
@@ -122,7 +122,7 @@ namespace itpp {
    */
   double norm(const cmat &m, int p)
   {
-    it_assert((p == 1) || (p == 2), 
+    it_assert((p == 1) || (p == 2),
 	      "norm(): Can only calculate a matrix norm of order 1 or 2");
 
     if (p == 1)

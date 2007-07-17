@@ -2,7 +2,7 @@
  * \file
  * \brief Help functions to make functions with vec and mat as arguments
  * \author Tony Ottosson and Adam Piatyszek
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -101,10 +101,10 @@ namespace itpp {
     return out;
   }
 
-  //! \brief Help function to call for a function: 
+  //! \brief Help function to call for a function:
   //!        Vec<T> function(const T&, const Vec<T>&)
   template<typename T>
-  inline Vec<T> apply_function(T (*f)(const T&, const T&), const T& x, 
+  inline Vec<T> apply_function(T (*f)(const T&, const T&), const T& x,
 			       const Vec<T>& v)
   {
     Vec<T> out(v.length());
@@ -127,10 +127,10 @@ namespace itpp {
     return out;
   }
 
-  //! \brief Help function to call for a function: 
+  //! \brief Help function to call for a function:
   //!        Mat<T> function(const T&, const Mat<T>&)
   template<typename T>
-  inline Mat<T> apply_function(T (*f)(const T&, const T&), const T& x, 
+  inline Mat<T> apply_function(T (*f)(const T&, const T&), const T& x,
 			       const Mat<T>& m)
   {
     Mat<T> out(m.rows(), m.cols());
@@ -153,10 +153,10 @@ namespace itpp {
     return out;
   }
 
-  //! \brief Help function to call for a function: 
+  //! \brief Help function to call for a function:
   //!        Vec<T> function(const Vec<T>&, const T&)
   template<typename T>
-  inline Vec<T> apply_function(T (*f)(const T&, const T&), const Vec<T>& v, 
+  inline Vec<T> apply_function(T (*f)(const T&, const T&), const Vec<T>& v,
 			       const T& x)
   {
     Vec<T> out(v.length());
@@ -179,10 +179,10 @@ namespace itpp {
     return out;
   }
 
-  //! \brief Help function to call for a function: 
+  //! \brief Help function to call for a function:
   //!        Mat<T> function(const Mat<T>&, const T&)
   template<typename T>
-  inline Mat<T> apply_function(T (*f)(const T&, const T&), const Mat<T>& m, 
+  inline Mat<T> apply_function(T (*f)(const T&, const T&), const Mat<T>& m,
 			       const T& x)
   {
     Mat<T> out(m.rows(), m.cols());
@@ -226,8 +226,8 @@ namespace itpp {
   //! Extern Template instantiation of apply_function
   extern template vec apply_function(double (*f)(double, double), const double& x, const vec &v);
   //! Extern Template instantiation of apply_function
-  extern template cvec apply_function(std::complex<double> (*f)(const std::complex<double> &, 
-								const std::complex<double> &), 
+  extern template cvec apply_function(std::complex<double> (*f)(const std::complex<double> &,
+								const std::complex<double> &),
 				      const std::complex<double>& x, const cvec &v);
   //! Extern Template instantiation of apply_function
   extern template svec apply_function(short (*f)(short, short), const short& x, const svec &v);
@@ -239,8 +239,8 @@ namespace itpp {
   //! Extern Template instantiation of apply_function
   extern template mat apply_function(double (*f)(double, double), const double& x, const mat &m);
   //! Extern Template instantiation of apply_function
-  extern template cmat apply_function(std::complex<double> (*f)(const std::complex<double> &, 
-								const std::complex<double> &), 
+  extern template cmat apply_function(std::complex<double> (*f)(const std::complex<double> &,
+								const std::complex<double> &),
 				      const std::complex<double>& x, const cmat &m);
   //! Extern Template instantiation of apply_function
   extern template smat apply_function(short (*f)(short, short), const short& x, const smat &m);
@@ -265,8 +265,8 @@ namespace itpp {
   //! Extern Template instantiation of apply_function
   extern template mat apply_function(double (*f)(double, double), const mat &m, const double& x);
   //! Extern Template instantiation of apply_function
-  extern template cmat apply_function(std::complex<double> (*f)(const std::complex<double> &, 
-								const std::complex<double> &), 
+  extern template cmat apply_function(std::complex<double> (*f)(const std::complex<double> &,
+								const std::complex<double> &),
 				      const cmat &m, const std::complex<double>& x);
   //! Extern Template instantiation of apply_function
   extern template smat apply_function(short (*f)(short, short), const smat &m, const short& x);

@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief One- and two-dimensional modulators - header file
  * \author Tony Ottosson and Adam Piatyszek
  *
@@ -50,8 +50,8 @@ namespace itpp {
     LOGMAP,			//!< Log-MAP full calculation
     APPROX			//!< Approximate faster method
   };
-  
-  /*! 
+
+  /*!
     \ingroup modulators
     \brief General modulator for 1D or 2D signal constellations.
 
@@ -69,7 +69,7 @@ namespace itpp {
     s_k + n_k,\f] where \f$c_k\f$ is the real or complex channel gain,
     \f$s_k\f$ is the transmitted constellation symbol, and \f$n_k\f$ is the
     AWGN of the channel (with variance \f$N_0\f$).
-  
+
     It is also assumed that the channel estimates are perfect when
     calculating the soft bits.
   */
@@ -102,7 +102,7 @@ namespace itpp {
     virtual void demodulate(const Vec<T>& signal, ivec& output) const;
     //! Demodulation of symbols
     virtual ivec demodulate(const Vec<T>& signal) const;
-  
+
     //! Modulation of bits
     virtual void modulate_bits(const bvec& bits, Vec<T>& output) const;
     //! Modulation of bits
@@ -112,8 +112,8 @@ namespace itpp {
     virtual void demodulate_bits(const Vec<T>& signal, bvec& bits) const;
     //! Hard demodulation of bits
     virtual bvec demodulate_bits(const Vec<T>& signal) const;
-  
-    /*! 
+
+    /*!
       \brief Soft demodulator for AWGN channels
 
       This function calculates the log-likelihood ratio (LLR) of the
@@ -152,27 +152,27 @@ namespace itpp {
       faster. Please note, however, that mixed use of \c
       Modulator_1D/\c Modulator_2D and \c Modulator_ND is not advised.
     */
-    virtual void demodulate_soft_bits(const Vec<T>& rx_symbols, double N0, 
+    virtual void demodulate_soft_bits(const Vec<T>& rx_symbols, double N0,
 				      vec& soft_bits,
 				      Soft_Method method = LOGMAP) const;
     //! Soft demodulator for AWGN channels
     virtual vec demodulate_soft_bits(const Vec<T>& rx_symbols, double N0,
 				     Soft_Method method = LOGMAP) const;
 
-    /*! 
+    /*!
       \brief Deprecated soft demodulator for AWGN channels. Please use
-      demodulate_soft_bits() with method = APPROX instead. 
+      demodulate_soft_bits() with method = APPROX instead.
     */
     virtual void demodulate_soft_bits_approx(const Vec<T>& rx_symbols,
 					     double N0, vec& soft_bits) const;
-    /*! 
+    /*!
       \brief Deprecated soft demodulator for AWGN channels. Please use
-      demodulate_soft_bits() with method = APPROX instead. 
+      demodulate_soft_bits() with method = APPROX instead.
     */
     virtual vec demodulate_soft_bits_approx(const Vec<T>& rx_symbols,
 					    double N0) const;
 
-    /*! 
+    /*!
       \brief Soft demodulator for fading channels
 
       This function calculates the log-likelihood ratio (LLR) of the
@@ -197,7 +197,7 @@ namespace itpp {
       the turbo decoder shall be set to 1. The output from this function can
       also be used by a Viterbi decoder using an AWGN based metric
       calculation function.
-    
+
       \param rx_symbols The received noisy constellation symbols \f$r_k\f$
       \param channel The channel values \f$c_k\f$
       \param N0 The spectral density of the AWGN noise
@@ -211,30 +211,30 @@ namespace itpp {
       Modulator_1D/\c Modulator_2D and \c Modulator_ND is not advised.
     */
     virtual void demodulate_soft_bits(const Vec<T>& rx_symbols,
-				      const Vec<T>& channel, 
+				      const Vec<T>& channel,
 				      double N0, vec& soft_bits,
 				      Soft_Method method = LOGMAP) const;
     //! Soft demodulator for fading channels
-    virtual vec demodulate_soft_bits(const Vec<T>& rx_symbols, 
+    virtual vec demodulate_soft_bits(const Vec<T>& rx_symbols,
 				     const Vec<T>& channel,
 				     double N0,
 				     Soft_Method method = LOGMAP) const;
 
-    /*! 
+    /*!
       \brief Deprecated soft demodulator for AWGN channels. Please use
-      demodulate_soft_bits() with method = APPROX instead. 
+      demodulate_soft_bits() with method = APPROX instead.
     */
     virtual void demodulate_soft_bits_approx(const Vec<T>& rx_symbols,
-					     const Vec<T>& channel, 
+					     const Vec<T>& channel,
 					     double N0, vec& soft_bits) const;
-    /*! 
+    /*!
       \brief Deprecated soft demodulator for AWGN channels. Please use
-      demodulate_soft_bits() with method = APPROX instead. 
+      demodulate_soft_bits() with method = APPROX instead.
     */
-    virtual vec demodulate_soft_bits_approx(const Vec<T>& rx_symbols, 
+    virtual vec demodulate_soft_bits_approx(const Vec<T>& rx_symbols,
 					    const Vec<T>& channel,
 					    double N0) const;
-    
+
   protected:
     //! Setup indicator
     bool setup_done;
@@ -282,8 +282,8 @@ namespace itpp {
   // ----------------------------------------------------------------------
 
   template<typename T>
-  Modulator<T>::Modulator() : 
-    setup_done(false), k(0), M(0), bitmap(""), bits2symbols(""), symbols(""), 
+  Modulator<T>::Modulator() :
+    setup_done(false), k(0), M(0), bitmap(""), bits2symbols(""), symbols(""),
     S0(""), S1("") {}
 
   template<typename T>
@@ -297,7 +297,7 @@ namespace itpp {
   {
     it_assert(in_symbols.size() == in_bits2symbols.size(),
 	      "Modulator<T>::set(): Number of symbols and bits2symbols does not match");
-    it_assert(is_even(in_symbols.size()) && (in_symbols.size() > 0), 
+    it_assert(is_even(in_symbols.size()) && (in_symbols.size() > 0),
 	      "Modulator<T>::set(): Number of symbols needs to be even and non-zero");
     it_assert((max(in_bits2symbols) == in_bits2symbols.size() - 1)
 	      && (min(in_bits2symbols) == 0), "Modulator<T>::set(): Improper bits2symbol vector");
@@ -419,8 +419,8 @@ namespace itpp {
 
 
   template<typename T>
-  void Modulator<T>::demodulate_soft_bits(const Vec<T> &rx_symbols, double N0, 
-					  vec &soft_bits, 
+  void Modulator<T>::demodulate_soft_bits(const Vec<T> &rx_symbols, double N0,
+					  vec &soft_bits,
 					  Soft_Method method) const
   {
     it_assert_debug(setup_done, "Modulator<T>::demodulate_soft_bits(): Modulator not ready.");
@@ -438,7 +438,7 @@ namespace itpp {
 	  P0 = P1 = 0;
 	  for (int j = 0; j < (M >> 1); j++) {
 	    P0 += metric(S0(i, j));
-	    P1 += metric(S1(i, j));  
+	    P1 += metric(S1(i, j));
 	  }
 	  soft_bits(l*k+i) = trunc_log(P0) - trunc_log(P1);
 	}
@@ -464,7 +464,7 @@ namespace itpp {
   }
 
   template<typename T>
-  vec Modulator<T>::demodulate_soft_bits(const Vec<T> &rx_symbols, 
+  vec Modulator<T>::demodulate_soft_bits(const Vec<T> &rx_symbols,
 					 double N0,
 					 Soft_Method method) const
   {
@@ -474,8 +474,8 @@ namespace itpp {
   }
 
   template<typename T>
-  void Modulator<T>::demodulate_soft_bits_approx(const Vec<T> &rx_symbols, 
-						 double N0, 
+  void Modulator<T>::demodulate_soft_bits_approx(const Vec<T> &rx_symbols,
+						 double N0,
 						 vec &soft_bits) const
   {
     it_warning("Modulator<T>::demodulate_soft_bits_approx(): This function is deprecated. Please use demodulate_soft_bits() with method=APPROX instead.");
@@ -483,7 +483,7 @@ namespace itpp {
   }
 
   template<typename T>
-  vec Modulator<T>::demodulate_soft_bits_approx(const Vec<T> &rx_symbols, 
+  vec Modulator<T>::demodulate_soft_bits_approx(const Vec<T> &rx_symbols,
 						double N0) const
   {
     it_warning("Modulator<T>::demodulate_soft_bits_approx(): This function is deprecated. Please use demodulate_soft_bits() with method=APPROX instead.");
@@ -494,8 +494,8 @@ namespace itpp {
 
 
   template<typename T>
-  void Modulator<T>::demodulate_soft_bits(const Vec<T> &rx_symbols, 
-					  const Vec<T> &channel, double N0, 
+  void Modulator<T>::demodulate_soft_bits(const Vec<T> &rx_symbols,
+					  const Vec<T> &channel, double N0,
 					  vec &soft_bits,
 					  Soft_Method method) const
   {
@@ -508,14 +508,14 @@ namespace itpp {
     if (method == LOGMAP) {
       for (int l = 0; l < rx_symbols.size(); l++) {
 	for (int j = 0; j < M; j++) {
-	  metric(j) = std::exp(-sqr(rx_symbols(l) - channel(l) * symbols(j)) 
+	  metric(j) = std::exp(-sqr(rx_symbols(l) - channel(l) * symbols(j))
 			       / N0);
 	}
 	for (int i = 0; i < k; i++) {
 	  P0 = P1 = 0;
 	  for (int j = 0; j < (M >> 1); j++) {
 	    P0 += metric(S0(i, j));
-	    P1 += metric(S1(i, j));  
+	    P1 += metric(S1(i, j));
 	  }
 	  soft_bits(l*k+i) = trunc_log(P0) - trunc_log(P1);
 	}
@@ -541,7 +541,7 @@ namespace itpp {
   }
 
   template<typename T>
-  vec Modulator<T>::demodulate_soft_bits(const Vec<T> &rx_symbols, 
+  vec Modulator<T>::demodulate_soft_bits(const Vec<T> &rx_symbols,
 					 const Vec<T> &channel,
 					 double N0,
 					 Soft_Method method) const
@@ -553,8 +553,8 @@ namespace itpp {
 
   template<typename T>
   void Modulator<T>::demodulate_soft_bits_approx(const Vec<T> &rx_symbols,
-						 const Vec<T> &channel, 
-						 double N0, 
+						 const Vec<T> &channel,
+						 double N0,
 						 vec &soft_bits) const
   {
     it_warning("Modulator<T>::demodulate_soft_bits_approx(): This function is deprecated. Please use demodulate_soft_bits() with method=APPROX instead.");
@@ -563,7 +563,7 @@ namespace itpp {
 
   template<typename T>
   vec Modulator<T>::demodulate_soft_bits_approx(const Vec<T> &rx_symbols,
-						const Vec<T> &channel, 
+						const Vec<T> &channel,
 						double N0) const
   {
     it_warning("Modulator<T>::demodulate_soft_bits_approx(): This function is deprecated. Please use demodulate_soft_bits() with method=APPROX instead.");
@@ -588,7 +588,7 @@ namespace itpp {
       for (int j = 0; j < M; j++) {
 	if (bitmap(j, i) == bin(0)) {
 	  S0(i, count0++) = j;
-	} 
+	}
 	else {
 	  S1(i, count1++) = j;
 	}
@@ -605,7 +605,7 @@ namespace itpp {
   /*!
     \ingroup modulators
     \brief M-ary QAM modulator with square lattice.
-  
+
     The size of the QAM constellation is \f$M = 2^k\f$, where \f$k = 1, 2,
     \ldots \f$. Symbol values in each dimension are: \f$\{-(\sqrt{M}-1),
     \ldots, -3, -1, 1, 3, \ldots, (\sqrt{M}-1)\}\f$. The bitmap is Gray
@@ -618,7 +618,7 @@ namespace itpp {
     n_k,\f] where \f$c_k\f$ is the real or complex channel gain, \f$s_k\f$
     is the transmitted constellation symbol, and \f$n_k\f$ is the AWGN of
     the channel (with variance \f$N_0\f$).
-  
+
     It is also assumed that the channel estimates are perfect when
     calculating the soft bits.
   */
@@ -650,7 +650,7 @@ namespace itpp {
   // PSK : Modulator<std::complex<double> >
   // ----------------------------------------------------------------------
 
-  /*! 
+  /*!
     \ingroup modulators
     \brief M-ary PSK modulator.
 
@@ -666,7 +666,7 @@ namespace itpp {
     n_k,\f] where \f$c_k\f$ is the real or complex channel gain, \f$s_k\f$
     is the transmitted constellation symbol, and \f$n_k\f$ is the AWGN of
     the channel (with variance \f$N_0\f$).
-  
+
     It is also assumed that the channel estimates are perfect when
     calculating the soft bits.
   */
@@ -692,7 +692,7 @@ namespace itpp {
   // QPSK : PSK : Modulator<std::complex<double> >
   // ----------------------------------------------------------------------
 
-  /*! 
+  /*!
     \ingroup modulators
     \brief QPSK modulator.
 
@@ -707,7 +707,7 @@ namespace itpp {
     n_k,\f] where \f$c_k\f$ is the real or complex channel gain, \f$s_k\f$
     is the transmitted constellation symbol, and \f$n_k\f$ is the AWGN of
     the channel (with variance \f$N_0\f$).
-  
+
     It is also assumed that the channel estimates are perfect when
     calculating the soft bits.
   */
@@ -718,9 +718,9 @@ namespace itpp {
     //! Destructor
     virtual ~QPSK() {}
 
-    /*! 
+    /*!
       \brief Soft demodulator for AWGN channel
-    
+
       This function calculates the log-MAP estimate assuming equally likely
       bits transmitted: \f[\log \left( \frac{P(b=0|r)}{P(b=1|r)} \right) =
       \frac{2 \sqrt{2}}{N_0} \Im\{r_k \exp \left(j \frac{\Pi}{4} \right)
@@ -747,8 +747,8 @@ namespace itpp {
 			     Soft_Method method = LOGMAP) const;
 
 
-    /*! 
-      \brief Soft demodulator for a known channel in AWGN      
+    /*!
+      \brief Soft demodulator for a known channel in AWGN
 
       This function calculates the log-MAP estimate assuming equally likely
       bits transmitted: \f[\log \left( \frac{P(b=0|r)}{P(b=1|r)} \right) =
@@ -773,7 +773,7 @@ namespace itpp {
 				      const cvec& channel, double N0,
 				      vec& soft_bits,
 				      Soft_Method method = LOGMAP) const;
-    //! Soft demodulator for a known channel in AWGN      
+    //! Soft demodulator for a known channel in AWGN
     vec demodulate_soft_bits(const cvec& rx_symbols, const cvec& channel,
 			     double N0, Soft_Method method = LOGMAP) const;
   };
@@ -783,13 +783,13 @@ namespace itpp {
   // BPSK_c : PSK : Modulator<std::complex<double> >
   // ----------------------------------------------------------------------
 
-  /*! 
+  /*!
     \ingroup modulators
     \brief BPSK modulator with complex symbols.
-  
+
     This is a special version of the PSK modulator with \f$M = 2\f$
     constellation points. The following bit to symbol mapping is used:
-    - \f$0 \rightarrow 1+0i\f$ 
+    - \f$0 \rightarrow 1+0i\f$
     - \f$1 \rightarrow -1+0i\f$.
 
     Beside hard demapping, this class can also perform soft demodulation,
@@ -798,7 +798,7 @@ namespace itpp {
     n_k,\f] where \f$c_k\f$ is the real or complex channel gain, \f$s_k\f$
     is the transmitted constellation symbol, and \f$n_k\f$ is the AWGN of
     the channel (with variance \f$N_0\f$).
-  
+
     It is also assumed that the channel estimates are perfect when
     calculating the soft bits.
 
@@ -824,15 +824,15 @@ namespace itpp {
     //! Demodulate noisy BPSK symbols in complex domain into bits
     bvec demodulate_bits(const cvec& signal) const;
 
-    /*! 
+    /*!
       \brief Soft demodulator for AWGN channel
-    
+
       This function calculates the log-MAP estimate assuming equally likely
       bits transmitted: \f[\log \left( \frac{P(b=0|r)}{P(b=1|r)} \right) =
       \frac{4 \Re\{r\}} {N_0}\f]
 
       \param rx_symbols The received noisy constellation symbols, \f$r\f$
-      (complex but symbols in real part) 
+      (complex but symbols in real part)
       \param N0 The spectral density of the AWGN noise, \f$n\f$
       \param soft_bits The soft bits calculated using the expression above
       \param method The method used for demodulation (LOGMAP or APPROX)
@@ -850,15 +850,15 @@ namespace itpp {
     vec demodulate_soft_bits(const cvec& rx_symbols, double N0,
 			     Soft_Method method = LOGMAP) const;
 
-    /*! 
-      \brief Soft demodulator for a known channel in AWGN      
+    /*!
+      \brief Soft demodulator for a known channel in AWGN
 
       This function calculates the log-MAP estimate assuming equally likely
       bits transmitted: \f[\log \left( \frac{P(b=0|r)}{P(b=1|r)} \right) =
       \frac{4 \Re\{r c^{*}\}}{N_0}\f]
 
       \param rx_symbols The received noisy constellation symbols, \f$r\f$
-      (complex but symbols in real part) 
+      (complex but symbols in real part)
       \param channel The channel coefficients, \f$c\f$ (complex)
       \param N0 The spectral density of the AWGN noise, \f$n\f$
       \param soft_bits The soft bits calculated using the expression above
@@ -874,7 +874,7 @@ namespace itpp {
 				      const cvec& channel, double N0,
 				      vec& soft_bits,
 				      Soft_Method method = LOGMAP) const;
-    //! Soft demodulator for a known channel in AWGN      
+    //! Soft demodulator for a known channel in AWGN
     vec demodulate_soft_bits(const cvec& rx_symbols, const cvec& channel,
 			     double N0, Soft_Method method = LOGMAP) const;
   };
@@ -885,13 +885,13 @@ namespace itpp {
   // BPSK : Modulator<double>
   // ----------------------------------------------------------------------
 
-  /*! 
+  /*!
     \ingroup modulators
     \brief BPSK modulator with real symbols.
-  
+
     This is a special version of the PSK modulator with \f$M = 2\f$
     constellation points. The following bit to symbol mapping is used:
-    - \f$0 \rightarrow 1\f$ 
+    - \f$0 \rightarrow 1\f$
     - \f$1 \rightarrow -1\f$.
 
     Beside hard demapping, this class can also perform soft demodulation,
@@ -900,7 +900,7 @@ namespace itpp {
     n_k,\f] where \f$c_k\f$ is the real or complex channel gain, \f$s_k\f$
     is the transmitted constellation symbol, and \f$n_k\f$ is the AWGN of
     the channel (with variance \f$N_0\f$).
-  
+
     It is also assumed that the channel estimates are perfect when
     calculating the soft bits.
 
@@ -924,9 +924,9 @@ namespace itpp {
     //! Demodulate noisy BPSK symbols in complex domain into bits
     bvec demodulate_bits(const vec& signal) const;
 
-    /*! 
+    /*!
       \brief Soft demodulator for AWGN channel
-    
+
       This function calculates the log-MAP estimate assuming equally likely
       bits transmitted: \f[\log \left( \frac{P(b=0|r)}{P(b=1|r)} \right) =
       \frac{4 r}{N_0}\f]
@@ -948,15 +948,15 @@ namespace itpp {
     vec demodulate_soft_bits(const vec& rx_symbols, double N0,
 			     Soft_Method method = LOGMAP) const;
 
-    /*! 
-      \brief Soft demodulator for a known channel in AWGN      
+    /*!
+      \brief Soft demodulator for a known channel in AWGN
 
       This function calculates the log-MAP estimate assuming equally likely
       bits transmitted: \f[\log \left( \frac{P(b=0|r)}{P(b=1|r)} \right) =
       \frac{4 \Re\{r c^{*}\}}{N_0}\f]
- 
+
       \param rx_symbols The received noisy constellation symbols, \f$r\f$
-      (complex but symbols in real part) 
+      (complex but symbols in real part)
       \param channel The channel coefficients, \f$c\f$ (complex)
       \param N0 The spectral density of the AWGN noise, \f$n\f$
       \param soft_bits The soft bits calculated using the expression above
@@ -971,7 +971,7 @@ namespace itpp {
 				      const vec& channel, double N0,
 				      vec& soft_bits,
 				      Soft_Method method = LOGMAP) const;
-    //! Soft demodulator for a known channel in AWGN      
+    //! Soft demodulator for a known channel in AWGN
     vec demodulate_soft_bits(const vec& rx_symbols, const vec& channel,
 			     double N0, Soft_Method method = LOGMAP) const;
   };
@@ -981,10 +981,10 @@ namespace itpp {
   // PAM_c : Modulator<std::complex<double> >
   // ----------------------------------------------------------------------
 
-  /*! 
+  /*!
     \ingroup modulators
     \brief M-ary PAM modulator with complex symbols.
-  
+
     This class implements an M-ary PAM modulator with the following signal
     values: \f$\{-(M-1), \ldots, -3, -1, 1, 3, \ldots, (M-1)\}\f$. Symbol
     numbering is from right to left in the increasing order. The Gray
@@ -1015,7 +1015,7 @@ namespace itpp {
     //! Hard demodulation of PAM symbols in complex domain to bits
     bvec demodulate_bits(const cvec& signal) const;
 
-    /*! 
+    /*!
       \brief Soft demodulator for AWGN channels.
 
       This function calculates the log-likelihood ratio (LLR) of the
@@ -1042,7 +1042,7 @@ namespace itpp {
       the turbo decoder shall be set to 1. The output from this function can
       also be used by a Viterbi decoder using an AWGN based metric
       calculation function.
-   
+
       \param rx_symbols The received noisy constellation symbols \f$r_k\f$
       (complex, but symbols are real)
       \param N0 The spectral density of the AWGN noise
@@ -1061,7 +1061,7 @@ namespace itpp {
     virtual vec demodulate_soft_bits(const cvec& rx_symbols, double N0,
 				     Soft_Method method = LOGMAP) const;
 
-    /*! 
+    /*!
       \brief Soft demodulator for known fading channels.
 
       This function calculates the log-likelihood ratio (LLR) of the
@@ -1086,9 +1086,9 @@ namespace itpp {
       the turbo decoder shall be set to 1. The output from this function can
       also be used by a Viterbi decoder using an AWGN based metric
       calculation function.
-    
+
       \param rx_symbols The received noisy constellation symbols \f$r_k\f$
-      (complex) 
+      (complex)
       \param channel The channel values \f$c_k\f$
       \param N0 The spectral density of the AWGN noise
       \param soft_bits The soft bits calculated using the expression above
@@ -1104,7 +1104,7 @@ namespace itpp {
 				      vec& soft_bits,
 				      Soft_Method method = LOGMAP) const;
     //! Soft demodulator for known fading channels.
-    virtual vec demodulate_soft_bits(const cvec& rx_symbols, 
+    virtual vec demodulate_soft_bits(const cvec& rx_symbols,
 				     const cvec& channel, double N0,
 				     Soft_Method method = LOGMAP) const;
 
@@ -1118,7 +1118,7 @@ namespace itpp {
   // PAM : Modulator<double>
   // ----------------------------------------------------------------------
 
-  /*! 
+  /*!
     \ingroup modulators
     \brief M-ary PAM modulator with real symbols.
 

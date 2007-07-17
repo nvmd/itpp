@@ -1,5 +1,12 @@
 2007-07-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/**/*.cpp, itpp/**/*.h: Removed trailing whitespace
+
+	Trailing whitespace (spaces and tabs at the end of each line) does
+	not contain any information. Moreover, it sometimes causes
+	conflicts when applying patches or merging branches. Therefore,
+	let's get rid of it from the code.
+
 	* itpp/base/mat.h: Improved del_rows() performance
 
 	The more optimum but not working implementation of del_rows() has

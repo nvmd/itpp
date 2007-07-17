@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definition of a Packet generator class
  * \author Anders Persson and Tony Ottosson
  *
@@ -117,7 +117,7 @@ namespace itpp {
     Sink(const unsigned long int Max_packets = 1000);
     ~Sink();
     // -- Slots -- //
-    Slot<Sink, Packet*> packet_input; 
+    Slot<Sink, Packet*> packet_input;
   private:
     void handle_packet_input(Packet* packet);
     unsigned long int Ncp;

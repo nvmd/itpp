@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definition of spread spectrum classes and functions
  * \author Tony Ottosson
  *
@@ -39,10 +39,10 @@
 
 namespace itpp {
 
-  /*! 
+  /*!
     \ingroup modulators
     \brief Spreading of float symbols to float output
-  
+
     Spreading block for generation of 1-dimensional DS-CDMA signals
     Useful in the simulation of DS-CDMA systems on chip level or upsampled chip level.
 
@@ -71,7 +71,7 @@ namespace itpp {
     #include "itpp/itcomm.h"
 
     int main() {
-  
+
     //Generate the spreading code you want to use.
     vec spreading_code = "-1 1 -1 1";
 
@@ -88,13 +88,13 @@ namespace itpp {
 
     //Generate the received signal
     vec received_signal = transmitted_signal;
-    
+
     //Despread the received signal
     vec received_symbols  = spread_1d.despread(received_signal,0);
 
     //demodulate the bits
     bvec received_bits = bpsk.demodulate_bits(received_symbols);
-    
+
     }
     \endcode
 
@@ -109,11 +109,11 @@ namespace itpp {
     void spread(const vec &symbols, vec &out);
     //! Spreading of signal.
     vec spread(const vec &symbols) { vec out; spread(symbols, out); return out; }
-    /*! 
+    /*!
       \brief Despreading of signal. \a timing is the start position of the first symbol, given in number of samples.
     */
     void despread(const vec &rec_signal, vec &out, int timing);
-    /*! 
+    /*!
       \brief Despreading of signal. \a timing is the start position of the first symbol, given in number of samples.
     */
     vec despread(const vec &rec_signal, int timing)
@@ -131,14 +131,14 @@ namespace itpp {
     short N;
   };
 
-  /*! 
+  /*!
     \ingroup modulators
     \brief Spreading of complex symbols to complex output.
-  
+
     The spreading are done independently for the I and Q phases. That is
     real(symbols) are spread by the incodeI and imag(symbols) are spread
     by incodeQ.
-  
+
     Before despreading the phase should be corrected, that is the
     complex baseband signal should be multiplied by exp(j*PHIk), where
     PHIk is the phase of that user (and path).
@@ -161,11 +161,11 @@ namespace itpp {
     void spread(const cvec &symbols, cvec &out);
     //! Spreading of signal
     cvec spread(const cvec &symbols) { cvec out; spread(symbols, out); return out; }
-    /*! 
+    /*!
       \brief Despreading of signal. \a timing is the start position of the first symbol, given in number of samples.
     */
     void despread(const cvec &rec_signal, cvec &out, int timing);
-    /*! 
+    /*!
       \brief Despreading of signal. \a timing is the start position of the first symbol, given in number of samples.
     */
     cvec despread(const cvec &rec_signal, int timing)
@@ -185,7 +185,7 @@ namespace itpp {
     /*! @} */
   };
 
-  /*! 
+  /*!
     \ingroup modulators
     \brief Multicode spreading of float symbols
 
@@ -224,14 +224,14 @@ namespace itpp {
     short N;
   };
 
-  /*! 
+  /*!
     \ingroup modulators
     \brief Multicode spreading of complex symbols to complex output.
-  
+
     The spreading are done independently for the I and Q phases. That is
     real(symbols) are spread by the incodeI and imag(symbols) are spread
     by incodeQ.
-  
+
     Before despreading the phase should be corrected, that is the
     complex baseband signal should be multiplied by exp(j*PHIk), where
     PHIk is the phase of that user (and path).
@@ -254,7 +254,7 @@ namespace itpp {
     cvec spread(const cvec &symbols);
     //! Despreading of signal. \a timing is the start position of the first symbol, given in number of samples.
     cvec despread(const cvec &receivedsignal, int timing);
-    /*! 
+    /*!
       \brief Set the spreading codes
 
       The codes are given as rows in the matricies \a incodesI and \a incodesQ. The number of rows

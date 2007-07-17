@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definitions of binary sequence classes and functions
  * \author Tony Ottosson and Pal Frenger
  *
@@ -39,17 +39,17 @@
 
 namespace itpp {
 
-  /*! 
+  /*!
     \brief Binary Linear Feedback Shift Register (LFSR)
     \ingroup sequence
-  
+
     - The LFSR is on Fibonacci form (see p. 104 in Peterson, Ziemer and
     Borth, "Introduction to Spread Spctrum communications", Prentice-Hall,
     1995)
     - If the connect_polynomial=1+g1*D+g2*D^2+...+gr*D^r is a primitive
     polynomial, a Maximum Length Sequence (m-sequence) of length N=2^r-1 is
     constructed. Use an arbitrary state not equal to zero, to get a phase of
-    the m-sequence 
+    the m-sequence
     - For a table of primtive polynomials see p. 117 in the reference above
     or a suitable book on coding
   */
@@ -81,13 +81,13 @@ namespace itpp {
     bvec memory, Connections;
   };
 
-  /*! 
+  /*!
     \brief Gold Sequences
     \ingroup sequence
   */
   class Gold {
   public:
-    /*! 
+    /*!
       \brief Class constructor
 
       Automatic selection of a preferred pair of connections. Just give the
@@ -109,9 +109,9 @@ namespace itpp {
     bvec shift(int no_shifts);
     //! Returns the length (period) of a Gold-sequence
     int get_sequence_length(void);
-    /*! 
+    /*!
       \brief Returns the code family
-    
+
       The Gold code family is defined by the two m-sequences (\a mseq1 and \a mseq2 ) and the sum
       of \a mseq1 and all time shifts of \a mseq2. The return matric thus contain \a N + 2 rows
       and \a N columns, where \a N is the length of the m-sequences.
@@ -133,13 +133,13 @@ namespace itpp {
 
   // --------------- Functions ---------------------
 
-  /*! 
+  /*!
     \brief Generates the OVSF (orthogonal variable spreading factor)
-    spreading codes used in WCDMA. 
+    spreading codes used in WCDMA.
     \ingroup sequence
 
     The codes are written row-wise in the return matrix.
-  */ 
+  */
   smat wcdma_spreading_codes(int SF);
 
 } // namespace itpp

@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of Low-Density Parity Check (LDPC) codes
  * \author Erik G. Larsson, Mattias Andersson and Adam Piatyszek
  *
@@ -54,7 +54,7 @@ namespace itpp {
   {
     initialize(nc, nv);
   }
-  
+
   LDPC_Parity::LDPC_Parity(const std::string& filename,
 			   const std::string& format): init_flag(false)
   {
@@ -65,7 +65,7 @@ namespace itpp {
     }
   }
 
-  LDPC_Parity::LDPC_Parity(const GF2mat_sparse_alist &alist): 
+  LDPC_Parity::LDPC_Parity(const GF2mat_sparse_alist &alist):
     init_flag(false)
   {
     import_alist(alist);
@@ -82,7 +82,7 @@ namespace itpp {
     init_flag = true;
   }
 
-  void LDPC_Parity::set(int i, int j, bin x) 
+  void LDPC_Parity::set(int i, int j, bin x)
   {
     it_assert(init_flag, "LDPC_Parity::set(): Object not initialized");
     it_assert_debug((i >= 0) && (i < ncheck),
@@ -103,21 +103,21 @@ namespace itpp {
       H.clear_elem(i,j);
       Ht.clear_elem(j,i);
     }
-  
+
     it_assert_debug(H(i,j) == x, "LDPC_Parity::set(): Internal error");
     it_assert_debug(Ht(j,i) == x, "LDPC_Parity::set(): Internal error");
   }
 
   void LDPC_Parity::display_stats() const
   {
-    it_assert(init_flag, 
+    it_assert(init_flag,
 	      "LDPC_Parity::display_stats(): Object not initialized");
     int cmax = max(sumX1);
     int vmax = max(sumX2);
     vec vdeg = zeros(cmax+1); // number of variable nodes with n neighbours
     vec cdeg = zeros(vmax+1); // number of check nodes with n neighbours
     for (int col = 0; col < nvar; col++) {
-      vdeg(length(get_col(col).get_nz_indices()))++;  
+      vdeg(length(get_col(col).get_nz_indices()))++;
       it_assert(sumX1(col) == length(get_col(col).get_nz_indices()),
 		"LDPC_Parity::display_stats(): Internal error");
     }
@@ -126,7 +126,7 @@ namespace itpp {
       it_assert(sumX2(row) == length(get_row(row).get_nz_indices()),
 		"LDPC_Parity::display_stats(): Internal error");
     }
-    
+
     // from edge perspective
     // number of edges connected to vnodes of degree n
     vec vdegedge = elem_mult(vdeg, linspace(0, vdeg.length()-1,
@@ -138,22 +138,22 @@ namespace itpp {
     int edges = sum(elem_mult(to_ivec(linspace(0, vdeg.length()-1,
 					       vdeg.length())),
 			      to_ivec(vdeg)));
-  
+
     it_info("--- LDPC parity check matrix ---");
     it_info("Dimension [ncheck x nvar]: " << ncheck << " x " << nvar);
-    it_info("Variable node degree distribution from node perspective:\n" 
+    it_info("Variable node degree distribution from node perspective:\n"
 	    << vdeg/nvar);
-    it_info("Check node degree distribution from node perspective:\n" 
+    it_info("Check node degree distribution from node perspective:\n"
 	    << cdeg/ncheck);
-    it_info("Variable node degree distribution from edge perspective:\n" 
+    it_info("Variable node degree distribution from edge perspective:\n"
 	    << vdegedge/edges);
-    it_info("Check node degree distribution from edge perspective:\n" 
-	    << cdegedge/edges);  
+    it_info("Check node degree distribution from edge perspective:\n"
+	    << cdegedge/edges);
     it_info("--------------------------------");
   }
 
-  
-  void LDPC_Parity::load_alist(const std::string& alist_file) 
+
+  void LDPC_Parity::load_alist(const std::string& alist_file)
   {
     import_alist(GF2mat_sparse_alist(alist_file));
   }
@@ -180,36 +180,36 @@ namespace itpp {
     }
   }
 
-  GF2mat_sparse_alist LDPC_Parity::export_alist() const 
+  GF2mat_sparse_alist LDPC_Parity::export_alist() const
   {
-    it_assert(init_flag, 
+    it_assert(init_flag,
 	      "LDPC_Parity::export_alist(): Object not initialized");
     GF2mat_sparse_alist alist;
     alist.from_sparse(H);
     return alist;
   }
 
-  
-  int LDPC_Parity::check_connectivity(int from_i, int from_j, int to_i, 
+
+  int LDPC_Parity::check_connectivity(int from_i, int from_j, int to_i,
 				      int to_j, int godir, int L ) const
   {
     it_assert(init_flag,
 	      "LDPC_Parity::check_connectivity(): Object not initialized");
     int i, j, result;
-  
-    if (L<0) {           // unable to reach coordinate with given L 
-      return (-3); 
+
+    if (L<0) {           // unable to reach coordinate with given L
+      return (-3);
     }
-    
-    // check if reached destination 
-    if ((from_i==to_i) && (from_j==to_j) && (godir!=0)) {  
+
+    // check if reached destination
+    if ((from_i==to_i) && (from_j==to_j) && (godir!=0)) {
       return L;
     }
-  
-    if (get(from_i,from_j)==0) {  // meaningless search 
-      return (-2); 
-    } 
-  
+
+    if (get(from_i,from_j)==0) {  // meaningless search
+      return (-2);
+    }
+
     if (L==2) {      // Treat this case separately for efficiency
       if (godir==2) { // go horizontally
 	if (get(from_i,to_j)==1) { return 0; }
@@ -219,7 +219,7 @@ namespace itpp {
       }
       return (-3);
     }
-  
+
     if ((godir==1) || (godir==0)) {   // go vertically
       ivec cj = get_col(from_j).get_nz_indices();
       for (i=0; i<length(cj); i++) {
@@ -231,7 +231,7 @@ namespace itpp {
 	}
       }
     }
-  
+
     if (godir==2) {   // go horizontally
       ivec ri = get_row(from_i).get_nz_indices();
       for (j=0; j<length(ri); j++) {
@@ -242,9 +242,9 @@ namespace itpp {
 	  }
 	}
       }
-    }  
-  
-    return (-1);    
+    }
+
+    return (-1);
   };
 
   int LDPC_Parity::check_for_cycles(int L) const
@@ -252,8 +252,8 @@ namespace itpp {
     it_assert(init_flag,
 	      "LDPC_Parity::check_for_cycles(): Object not initialized");
     // looking for odd length cycles does not make sense
-    if ((L&1)==1) { return (-1); } 
-    if (L==0) { return (-4); } 
+    if ((L&1)==1) { return (-1); }
+    if (L==0) { return (-4); }
 
     int cycles=0;
     for (int i=0; i<nvar; i++) {
@@ -272,10 +272,10 @@ namespace itpp {
   //     ivec rdeg = zeros_i(Nmax);
   //     for (int i=0; i<ncheck; i++)     {
   //       rdeg(sumX2(i))++;
-  //     }  
+  //     }
   //     return rdeg;
   //   };
-  
+
   //   ivec LDPC_Parity::get_coldegree()  const
   //   {
   //     ivec cdeg = zeros_i(Nmax);
@@ -289,15 +289,15 @@ namespace itpp {
   // ----------------------------------------------------------------------
   // LDPC_Parity_Unstructured
   // ----------------------------------------------------------------------
-  
+
   int LDPC_Parity_Unstructured::cycle_removal_MGW(int Maxcyc)
   {
     it_assert(init_flag,
 	      "LDPC_Parity::cycle_removal_MGW(): Object not initialized");
     typedef Sparse_Mat<short> Ssmat;
     typedef Sparse_Vec<short> Ssvec;
-    
-    Maxcyc -= 2; 
+
+    Maxcyc -= 2;
 
     // Construct the adjacency matrix of the graph
     Ssmat G(ncheck+nvar,ncheck+nvar,5);
@@ -311,11 +311,11 @@ namespace itpp {
       }
     }
 
-    Array<Ssmat> Gpow(Maxcyc);  
+    Array<Ssmat> Gpow(Maxcyc);
     Gpow(0).set_size(ncheck+nvar,ncheck+nvar,1);
     Gpow(0).clear();
     for (int i=0; i<ncheck+nvar; i++) {
-      Gpow(0).set(i,i,1); 
+      Gpow(0).set(i,i,1);
     }
     Gpow(1) = G;
 
@@ -328,7 +328,7 @@ namespace itpp {
     int scl=Maxcyc;
     for (r=4; r<=Maxcyc; r+=2) {
       // compute the next power of the adjacency matrix
-      Gpow(r/2) = Gpow(r/2-1)*G;            
+      Gpow(r/2) = Gpow(r/2-1)*G;
       bool traverse_again;
       do {
 	traverse_again=false;
@@ -344,16 +344,16 @@ namespace itpp {
 	      it_info_debug(ptemp << "% done.");
 	      pdone=ptemp;
 	    }
-	  
+
 	    if (((Gpow(r/2))(i,j) >= 2)  && ((Gpow(r/2-2))(i,j)==0)) {
 	      // Found a cycle.
 	      cycles_found++;
 
 	      // choose k
-	      ivec tmpi = (elem_mult(Gpow(r/2-1).get_col(i), 
+	      ivec tmpi = (elem_mult(Gpow(r/2-1).get_col(i),
 				     G.get_col(j))).get_nz_indices();
-	      // 	      int k = tmpi(rand()%length(tmpi));    
-	      int k = tmpi(randi(0,length(tmpi)-1));    
+	      // 	      int k = tmpi(rand()%length(tmpi));
+	      int k = tmpi(randi(0,length(tmpi)-1));
 	      it_assert_debug(G(j,k)==1 && G(k,j)==1,
 			      "LDPC_Parity_Unstructured::cycle_removal_MGW(): "
 			      "Internal error");
@@ -381,15 +381,15 @@ namespace itpp {
 		}
 	      }
 	      continue; // go to the next entry (i,j)
-	      
+
 	    found_candidate_vector:
 	      // swap edges
 
-	      if (p>=ncheck) { int z=l; l=p; p=z; } 
-	      if (j>=ncheck) { int z=k; k=j; j=z; } 
+	      if (p>=ncheck) { int z=l; l=p; p=z; }
+	      if (j>=ncheck) { int z=k; k=j; j=z; }
 
 	      // Swap endpoints of edges (p,l) and (j,k)
-	      // cout << "(" << j << "," << k << ")<->(" 
+	      // cout << "(" << j << "," << k << ")<->("
 	      // << p << "," << l << ") " ;
 	      // cout << ".";
 	      // cout.flush();
@@ -405,28 +405,28 @@ namespace itpp {
 			      "Internal error");
 	      set(j,l-ncheck,1);
 	      set(p,k-ncheck,1);
-	      
+
 	      // Update adjacency matrix
-	      it_assert_debug(G(p,l)==1 && G(l,p)==1 && G(j,k)==1 
+	      it_assert_debug(G(p,l)==1 && G(l,p)==1 && G(j,k)==1
 			      && G(k,j)==1,"G");
-	      it_assert_debug(G(j,l)==0 && G(l,j)==0 && G(p,k)==0 
+	      it_assert_debug(G(j,l)==0 && G(l,j)==0 && G(p,k)==0
 			      && G(k,p)==0,"G");
-      	      
+
 	      // Delta is the update term to G
-	      Ssmat Delta(ncheck+nvar,ncheck+nvar,2);    
+	      Ssmat Delta(ncheck+nvar,ncheck+nvar,2);
 	      Delta.set(j,k,-1);    Delta.set(k,j,-1);
-	      Delta.set(p,l,-1);    Delta.set(l,p,-1);     
+	      Delta.set(p,l,-1);    Delta.set(l,p,-1);
 	      Delta.set(j,l,1);	    Delta.set(l,j,1);
-	      Delta.set(p,k,1);	    Delta.set(k,p,1); 
+	      Delta.set(p,k,1);	    Delta.set(k,p,1);
 
 	      // update G and its powers
 	      G = G+Delta;
-	      it_assert_debug(G(p,l)==0 && G(l,p)==0 && G(j,k)==0 
+	      it_assert_debug(G(p,l)==0 && G(l,p)==0 && G(j,k)==0
 			      && G(k,j)==0,"G");
-	      it_assert_debug(G(j,l)==1 && G(l,j)==1 && G(p,k)==1 
+	      it_assert_debug(G(j,l)==1 && G(l,j)==1 && G(p,k)==1
 			      && G(k,p)==1,"G");
 
-	      Gpow(1)=G;	
+	      Gpow(1)=G;
 	      Gpow(2)=G*G;
 	      for (int z=3; z<=r/2; z++) {
 		Gpow(z) = Gpow(z-1)*G;
@@ -442,21 +442,21 @@ namespace itpp {
 	}
       }  while (cycles_found!=0);
       scl=r;  // there were no cycles of length r; move on to next r
-      it_info_debug("Achieved girth " << (scl+2) 
+      it_info_debug("Achieved girth " << (scl+2)
 		    << ". Proceeding to next level.");
     } // loop over r
 
   finished:
     int girth=scl+2;  // scl=length of smallest cycle
-    it_info_debug("Cycle removal (MGW algoritm) finished. Graph girth: " 
-		  << girth << ". Cycles remaining on next girth level: " 
+    it_info_debug("Cycle removal (MGW algoritm) finished. Graph girth: "
+		  << girth << ". Cycles remaining on next girth level: "
 		  << cycles_found);
- 
-    return girth;
-  } 
 
-  void LDPC_Parity_Unstructured::generate_random_H(const ivec& C, 
-						   const ivec& R, 
+    return girth;
+  }
+
+  void LDPC_Parity_Unstructured::generate_random_H(const ivec& C,
+						   const ivec& R,
 						   const ivec& cycopt)
   {
     // Method based on random permutation. Attempts to avoid placing new
@@ -473,12 +473,12 @@ namespace itpp {
 	for (int m=0; m<i; m++) Ne++;
       }
     }
- 
+
     // compute connectivity matrix
     ivec vcon(Ne);
-    ivec ccon(Ne); 
+    ivec ccon(Ne);
     ivec vd(nvar);
-    ivec cd(ncheck); 
+    ivec cd(ncheck);
     int k=0;
     int l=0;
     for (int i = 0;i < C.length();i++){
@@ -499,14 +499,14 @@ namespace itpp {
 	  ccon(k)=l;
 	  cd(l)=i;
 	  k++;
-	} 
+	}
 	l++;
       }
     }
     it_assert(k==Ne,"C/R mismatch");
-  
+
     // compute random permutations
-    ivec ind = sort_index(randu(Ne));   
+    ivec ind = sort_index(randu(Ne));
     ivec cp = sort_index(randu(nvar));
     ivec rp = sort_index(randu(ncheck));
 
@@ -520,38 +520,38 @@ namespace itpp {
     }
     it_info_debug("Running with Laim=" << Laim.left(25));
 
-    int failures=0;    
+    int failures=0;
     const int Max_attempts=100;
     const int apcl=10;      // attempts before reducing girth target
     for (int k=0; k<Ne; k++) {
       const int el=Ne-k-2;
-      if (k%250==0) { 
-	it_info_debug("Processing edge: " << k << " out of " << Ne 
-		      << ". Variable node degree: " << vd(vcon(k)) 
-		      << ". Girth target: " << Laim(vd(vcon(k))) 
-		      << ". Accumulated failures: " << failures); 
+      if (k%250==0) {
+	it_info_debug("Processing edge: " << k << " out of " << Ne
+		      << ". Variable node degree: " << vd(vcon(k))
+		      << ". Girth target: " << Laim(vd(vcon(k)))
+		      << ". Accumulated failures: " << failures);
       }
-      const int c=cp(vcon(k));    
+      const int c=cp(vcon(k));
       int L= Laim(vd(vcon(k)));
       int attempt=0;
       while (true) {
 	if (attempt>0 && attempt%apcl==0 && L>=6) { L-=2; };
 	int r=rp(ccon(ind(k)));
 	if (get(r,c)) { // double edge
-	  // set(r,c,0);  
+	  // set(r,c,0);
 	  if (el>0) {
 	    // 	    int t=k+1+rand()%el;
 	    int t=k+1+randi(0,el-1);
-	    int x=ind(t);  
+	    int x=ind(t);
 	    ind(t)=ind(k);
-	    ind(k)=x;  
+	    ind(k)=x;
 	    attempt++;
-	    if (attempt==Max_attempts) { 
+	    if (attempt==Max_attempts) {
 	      failures++;
-	      break; 
+	      break;
 	    }
 	  } else {  // almost at the last edge
-	    break; 
+	    break;
 	  }
 	} else {
 	  set(r,c,1);
@@ -562,18 +562,18 @@ namespace itpp {
 		// make a swap in the index permutation
 		// 		int t=k+1+rand()%el;
 		int t=k+1+randi(0,el-1);
-		int x=ind(t);  
+		int x=ind(t);
 		ind(t)=ind(k);
-		ind(k)=x;  
+		ind(k)=x;
 		attempt++;
 		if (attempt==Max_attempts) {  // give up
 		  failures++;
-		  set(r,c,1);		
+		  set(r,c,1);
 		  break;
 		}
 	      } else {  // no edges left
-		set(r,c,1);		
-		break; 
+		set(r,c,1);
+		break;
 	      }
 	    } else {
 	      break;
@@ -584,7 +584,7 @@ namespace itpp {
 	}
       }
     }
-  
+
     display_stats();
   }
 
@@ -593,14 +593,14 @@ namespace itpp {
   // LDPC_Parity_Regular
   // ----------------------------------------------------------------------
 
-  LDPC_Parity_Regular::LDPC_Parity_Regular(int Nvar, int k, int l, 
+  LDPC_Parity_Regular::LDPC_Parity_Regular(int Nvar, int k, int l,
 					   const std::string& method,
 					   const ivec& options)
   {
     generate(Nvar, k, l, method, options);
   }
 
-  void LDPC_Parity_Regular::generate(int Nvar, int k, int l, 
+  void LDPC_Parity_Regular::generate(int Nvar, int k, int l,
 				     const std::string& method,
 				     const ivec& options)
   {
@@ -615,8 +615,8 @@ namespace itpp {
 
     if (method=="rand") {
       generate_random_H(C,R,options);
-    } else { 
-      it_error("not implemented"); 
+    } else {
+      it_error("not implemented");
     };
   }
 
@@ -625,9 +625,9 @@ namespace itpp {
   // LDPC_Parity_Irregular
   // ----------------------------------------------------------------------
 
-  LDPC_Parity_Irregular::LDPC_Parity_Irregular(int Nvar, 
-					       const vec& var_deg, 
-					       const vec& chk_deg, 
+  LDPC_Parity_Irregular::LDPC_Parity_Irregular(int Nvar,
+					       const vec& var_deg,
+					       const vec& chk_deg,
 					       const std::string& method,
 					       const ivec& options)
   {
@@ -640,16 +640,16 @@ namespace itpp {
 				       const ivec& options)
   {
     // compute the degree distributions from a node perspective
-    vec Vi = linspace(1,length(var_deg),length(var_deg)); 
-    vec Ci = linspace(1,length(chk_deg),length(chk_deg)); 
+    vec Vi = linspace(1,length(var_deg),length(var_deg));
+    vec Ci = linspace(1,length(chk_deg),length(chk_deg));
     // Compute number of cols with n 1's
     // C, R: Target number of columns/rows with certain number of ones
     ivec C = to_ivec(round(Nvar*elem_div(var_deg,Vi)
-			   /sum(elem_div(var_deg,Vi))));   
+			   /sum(elem_div(var_deg,Vi))));
     C = concat(0,C);
     int edges = sum(elem_mult(to_ivec(linspace(0,C.length()-1,
 					       C.length())),C));
-    ivec R = to_ivec(round(edges*elem_div(chk_deg,Ci))); 
+    ivec R = to_ivec(round(edges*elem_div(chk_deg,Ci)));
     R = concat(0,R);
     vec Ri = linspace(0,length(R)-1,length(R));
     vec Coli = linspace(0,length(C)-1,length(C));
@@ -662,7 +662,7 @@ namespace itpp {
 
     //the number of edges calculated from R must match the number of
     //edges calculated from C
-    while (sum(elem_mult(to_vec(R),Ri)) != 
+    while (sum(elem_mult(to_vec(R),Ri)) !=
 	   sum(elem_mult(to_vec(C),Coli))) {
       //we're only changing R, this is probably(?) better for irac codes
       if (sum(elem_mult(to_vec(R),Ri)) > sum(elem_mult(to_vec(C),Coli))) {
@@ -693,8 +693,8 @@ namespace itpp {
 
     if (method=="rand") {
       generate_random_H(C,R,options);
-    } else { 
-      it_error("not implemented"); 
+    } else {
+      it_error("not implemented");
     };
   }
 
@@ -744,12 +744,12 @@ namespace itpp {
 
 
   int BLDPC_Parity::get_exp_factor() const
-  { 
+  {
     return Z;
   }
 
   imat BLDPC_Parity::get_base_matrix() const
-  { 
+  {
     return H_b;
   }
 
@@ -809,7 +809,7 @@ namespace itpp {
     std::ofstream bm_file(filename.c_str());
     it_assert(bm_file.is_open(), "BLDPC_Parity::save_base_matrix(): Could not "
 	      "open file \"" << filename << "\" for writing");
-  
+
     for (int r = 0; r < H_b.rows(); r++) {
       for (int c = 0; c < H_b.cols(); c++) {
 	bm_file << std::setw(3) << H_b(r, c);
@@ -841,7 +841,7 @@ namespace itpp {
 	      "BLDPC_Parity::calculate_base_matrix(): Parity check matrix "
 	      "does not match an expansion factor");
     H_b.set_size(rows, cols);
-  
+
     for (int r = 0; r < rows; r++) {
       for (int c = 0; c < cols; c++) {
 	bmat tmp = H_dense.get(r*Z, (r+1)*Z-1, c*Z, (c+1)*Z-1);
@@ -853,8 +853,8 @@ namespace itpp {
 	  while (tmp != circular_eye_b(Z, shift) && shift < Z) {
 	    shift++;
 	  }
-	  it_assert(shift < Z, "BLDPC_Parity::calculate_base_matrix(): " 
-		    "Parity check matrix was not constructed with expansion " 
+	  it_assert(shift < Z, "BLDPC_Parity::calculate_base_matrix(): "
+		    "Parity check matrix was not constructed with expansion "
 		    "factor Z = " << Z);
 	  H_b(r, c) = shift;
 	}
@@ -870,8 +870,8 @@ namespace itpp {
   // LDPC_Generator_Systematic
   // ----------------------------------------------------------------------
 
-  LDPC_Generator_Systematic::LDPC_Generator_Systematic(LDPC_Parity* const H, 
-						       bool natural_ordering, 
+  LDPC_Generator_Systematic::LDPC_Generator_Systematic(LDPC_Parity* const H,
+						       bool natural_ordering,
 						       const ivec& ind):
     LDPC_Generator("systematic"), G()
   {
@@ -880,15 +880,15 @@ namespace itpp {
   }
 
 
-  ivec LDPC_Generator_Systematic::construct(LDPC_Parity* const H, 
+  ivec LDPC_Generator_Systematic::construct(LDPC_Parity* const H,
 					    bool natural_ordering,
-					    const ivec& avoid_cols) 
+					    const ivec& avoid_cols)
   {
     int nvar = H->get_nvar();
     int ncheck = H->get_ncheck();
-  
+
     // create dense representation of parity check matrix
-    GF2mat Hd(H->get_H());  
+    GF2mat Hd(H->get_H());
 
     // -- Determine initial column ordering --
     ivec col_order(nvar);
@@ -896,8 +896,8 @@ namespace itpp {
       for (int i=0; i<nvar; i++) {
 	col_order(i)=i;
       }
-    } 
-    else { 
+    }
+    else {
       // take the columns in random order, but the ones to avoid at last
       vec col_importance = randu(nvar);
       for (int i=0; i<length(avoid_cols); i++) {
@@ -913,7 +913,7 @@ namespace itpp {
     // -- Create P1 and P2 --
     GF2mat P1; //(ncheck,nvar-ncheck);      // non-invertible part
     GF2mat P2; //(ncheck,ncheck);           // invertible part
- 
+
     it_info_debug("Computing a systematic generator matrix...");
 
     int j1=0, j2=0;
@@ -930,7 +930,7 @@ namespace itpp {
 	rank = P2.T_fact(T,U,perm);
 	actual_ordering(k)=nvar-ncheck;
 	j2++;
-      } 
+      }
       else {
 	if (j2<ncheck) {
 	  if (P2.T_fact_update_addcol(T,U,perm,c)) {
@@ -938,12 +938,12 @@ namespace itpp {
 	    actual_ordering(k)=nvar-ncheck+j2;
 	    j2++;
 	    continue;
-	  } 
-	} 
+	  }
+	}
 	if (j1==0) {
-	  P1 = GF2mat(c); 
+	  P1 = GF2mat(c);
 	  actual_ordering(k)=j1;
-	} 
+	}
 	else {
 	  P1 = P1.concatenate_horizontal(c);
 	  actual_ordering(k)=j1;
@@ -968,12 +968,12 @@ namespace itpp {
  	}
       }
     }
-  
+
     // -- Check that the result was correct --
-    it_assert_debug((GF2mat(H->get_H()) 
+    it_assert_debug((GF2mat(H->get_H())
 		     * (gf2dense_eye(nvar-ncheck).concatenate_horizontal(G)).transpose()).is_zero(),
 		    "LDPC_Generator_Systematic::construct(): Incorrect generator matrix G");
-    
+
     G = G.transpose();  // store the generator matrix in transposed form
     it_info_debug("Systematic generator matrix computed.");
 
@@ -988,7 +988,7 @@ namespace itpp {
     it_file f(filename);
     int ver;
     f >> Name("Fileversion") >> ver;
-    it_assert(ver == LDPC_binary_file_version, 
+    it_assert(ver == LDPC_binary_file_version,
 	      "LDPC_Generator_Systematic::save(): Unsupported file format");
     f << Name("G_type") << type;
     f << Name("G") << G;
@@ -1009,17 +1009,17 @@ namespace itpp {
 	      "LDPC_Generator_Systematic::load(): Wrong generator type");
     f >> Name("G") >> G;
     f.close();
-    
+
     init_flag = true;
   }
 
-  
+
   void LDPC_Generator_Systematic::encode(const bvec &input, bvec &output)
   {
     it_assert(init_flag, "LDPC_Generator_Systematic::encode(): Systematic "
 	      "generator not set up");
     it_assert(input.size() == G.cols(), "LDPC_Generator_Systematic::encode(): "
-	      "Improper input vector size (" << input.size() << " != " 
+	      "Improper input vector size (" << input.size() << " != "
 	      << G.cols() << ")");
 
     output = concat(input, G * input);
@@ -1039,7 +1039,7 @@ namespace itpp {
 
 
   void BLDPC_Generator::encode(const bvec &input, bvec &output)
-  { 
+  {
     it_assert(init_flag, "BLDPC_Generator::encode(): Cannot encode with not "
 	      "initialized generator");
     it_assert(input.size() == K, "BLDPC_Generator::encode(): Input vector "
@@ -1063,7 +1063,7 @@ namespace itpp {
     for (int k = 0; k < M-Z; k++) {
       for (int j = 0; j < K; j++) {
 	output(K+Z+k) += H_enc(k, j) * input(j);
-      }    
+      }
       for (int j = K; j < K+Z; j++) {
 	output(K+Z+k) += H_enc(k, j) * output(j);
       }
@@ -1073,7 +1073,7 @@ namespace itpp {
     }
   }
 
-  
+
   void BLDPC_Generator::construct(const BLDPC_Parity* const H)
   {
     if (H != 0 && H->is_valid()) {
@@ -1084,7 +1084,7 @@ namespace itpp {
       K = N - M;
 
       // ----------------------------------------------------------------------
-      // STEP 1 
+      // STEP 1
       // ----------------------------------------------------------------------
       // loop over last M-Z columns of matrix H
       for (int i = 0; i < M-Z; i += Z) {
@@ -1096,7 +1096,7 @@ namespace itpp {
       }
 
       // ----------------------------------------------------------------------
-      // STEP 2 
+      // STEP 2
       // ----------------------------------------------------------------------
       // set first processed row index to M-Z
       int r1 = M-Z;
@@ -1138,7 +1138,7 @@ namespace itpp {
     }
     // Last Z preprocessed rows of H_enc
     GF2mat H_Z = H_enc.get_submatrix(M-Z, 0, M-1, N-1);
-  
+
     it_file f(filename);
     int ver;
     f >> Name("Fileversion") >> ver;
@@ -1168,7 +1168,7 @@ namespace itpp {
     f >> Name("H_Z") >> H_Z;
     f >> Name("Z") >> Z;
     f.close();
-  
+
     N = H_T.cols();
     M = (H_T.rows() + 1) * Z;
     K = N-M;
@@ -1178,7 +1178,7 @@ namespace itpp {
       for (int j = 0; j < Z; j++) {
 	for (int k = 0; k < N; k++) {
 	  if (H_T(i, (k/Z)*Z + (k+Z-j)%Z)) {
-	    H_enc.set(i*Z + j, k, 1); 
+	    H_enc.set(i*Z + j, k, 1);
 	  }
 	}
       }
@@ -1197,7 +1197,7 @@ namespace itpp {
 			  max_iters(50), psc(true), pisc(false),
 			  llrcalc(LLR_calc_unit()) { }
 
-  LDPC_Code::LDPC_Code(const LDPC_Parity* const H, 
+  LDPC_Code::LDPC_Code(const LDPC_Parity* const H,
 		       LDPC_Generator* const G_in):
     H_defined(false), G_defined(false), dec_method("BP"), max_iters(50),
     psc(true), pisc(false), llrcalc(LLR_calc_unit())
@@ -1205,7 +1205,7 @@ namespace itpp {
     set_code(H, G_in);
   }
 
-  LDPC_Code::LDPC_Code(const std::string& filename, 
+  LDPC_Code::LDPC_Code(const std::string& filename,
 		       LDPC_Generator* const G_in):
     H_defined(false), G_defined(false), dec_method("BP"), max_iters(50),
     psc(true), pisc(false), llrcalc(LLR_calc_unit())
@@ -1214,7 +1214,7 @@ namespace itpp {
   }
 
 
-  void LDPC_Code::set_code(const LDPC_Parity* const H, 
+  void LDPC_Code::set_code(const LDPC_Parity* const H,
 			   LDPC_Generator* const G_in)
   {
     decoder_parameterization(H);
@@ -1226,11 +1226,11 @@ namespace itpp {
     }
   }
 
-  void LDPC_Code::load_code(const std::string& filename, 
+  void LDPC_Code::load_code(const std::string& filename,
 			    LDPC_Generator* const G_in)
   {
-    it_info_debug("LDPC_Code::load_code(): Loading LDPC codec from " 
-		  << filename);  
+    it_info_debug("LDPC_Code::load_code(): Loading LDPC codec from "
+		  << filename);
 
     it_ifile f(filename);
     int ver;
@@ -1263,7 +1263,7 @@ namespace itpp {
     }
 
     it_info_debug("LDPC_Code::load_code(): Successfully loaded LDPC codec "
-		  "from " << filename);  
+		  "from " << filename);
 
     setup_decoder();
   }
@@ -1298,18 +1298,18 @@ namespace itpp {
 		    "generator data not saved");
 
     it_info_debug("LDPC_Code::save_code(): Successfully saved LDPC codec to "
-		  << filename);  
+		  << filename);
   }
 
 
   void LDPC_Code::set_decoding_method(const std::string& method_in)
   {
-    it_assert((method_in == "bp") || (method_in == "BP"), 
+    it_assert((method_in == "bp") || (method_in == "BP"),
 	      "LDPC_Code::set_decoding_method(): Not implemented decoding method");
     dec_method = method_in;
   }
 
-  void LDPC_Code::set_exit_conditions(int max_iters_in, 
+  void LDPC_Code::set_exit_conditions(int max_iters_in,
 				      bool syndr_check_each_iter,
 				      bool syndr_check_at_start)
   {
@@ -1333,10 +1333,10 @@ namespace itpp {
     G->encode(input, output);
     it_assert_debug(syndrome_check(output), "LDPC_Code::encode(): Syndrom "
 		    "check failed");
-  } 
+  }
 
   bvec LDPC_Code::encode(const bvec &input)
-  { 
+  {
     bvec result;
     encode(input, result);
     return result;
@@ -1349,7 +1349,7 @@ namespace itpp {
     bp_decode(qllrin, qllrout);
     syst_bits = (qllrout.left(ncheck) < 0);
   }
-  
+
   bvec LDPC_Code::decode(const vec &llr_in)
   {
     bvec syst_bits;
@@ -1372,28 +1372,28 @@ namespace itpp {
     return llr_out;
   }
 
-  int LDPC_Code::bp_decode(const QLLRvec &LLRin, QLLRvec &LLRout) 
+  int LDPC_Code::bp_decode(const QLLRvec &LLRin, QLLRvec &LLRout)
   {
     // Note the IT++ convention that a sure zero corresponds to
     // LLR=+infinity
     it_assert(H_defined, "LDPC_Code::bp_decode(): Parity check matrix not "
 	      "defined");
-    it_assert((LLRin.size() == nvar) && (sumX1.size() == nvar) 
+    it_assert((LLRin.size() == nvar) && (sumX1.size() == nvar)
 	      && (sumX2.size() == ncheck), "LDPC_Code::bp_decode(): Wrong "
 	      "input dimensions");
-   
+
     if (pisc && syndrome_check(LLRin)) {
       LLRout = LLRin;
-      return 0; 
+      return 0;
     }
 
     LLRout.set_size(LLRin.size());
-    
+
     // initial step
     for (int i=0; i<nvar; i++) {
       int index = i;
       for (int j=0; j<sumX1(i); j++) {
-	mvc[index] = LLRin(i); 
+	mvc[index] = LLRin(i);
 	index += nvar;
       }
     }
@@ -1401,7 +1401,7 @@ namespace itpp {
     bool is_valid_codeword=false;
     int iter =0;
     do {
-      iter++;  
+      iter++;
       if (nvar>=100000) { it_info_no_endl_debug("."); }
       // --------- Step 1: check to variable nodes ----------
       for (int j=0; j<ncheck; j++) {
@@ -1441,7 +1441,7 @@ namespace itpp {
 	  mcv[j2]=llrcalc.Boxplus(m01,m3);
 	  mcv[j3]=llrcalc.Boxplus(m01,m2);
 	  break;
-	} 
+	}
 	case 5: {
 	  int j0=j;
 	  QLLR m0=mvc[jind[j0]];
@@ -1490,7 +1490,7 @@ namespace itpp {
 	  mcv[j4]=llrcalc.Boxplus(m03,m5);
 	  mcv[j5]=llrcalc.Boxplus(m03,m4);
 	  break;
-	}	
+	}
 	case 7: {
 	  int j0=j;
 	  QLLR m0=mvc[jind[j0]];
@@ -1556,7 +1556,7 @@ namespace itpp {
 	  mcv[j6]=llrcalc.Boxplus(m45,llrcalc.Boxplus(m03,m7));
 	  mcv[j7]=llrcalc.Boxplus(m03,llrcalc.Boxplus(m45,m6));
 	  break;
-	}	
+	}
 	case 9: {
 	  int j0=j;
 	  QLLR m0=mvc[jind[j0]];
@@ -1596,7 +1596,7 @@ namespace itpp {
 	  mcv[j7]=llrcalc.Boxplus(llrcalc.Boxplus(m05,m6),m8);
 	  mcv[j8]=llrcalc.Boxplus(m05,m67);
 	  break;
-	}	
+	}
 	case 10: {
 	  int j0=j;
 	  QLLR m0=mvc[jind[j0]];
@@ -1641,7 +1641,7 @@ namespace itpp {
 	  mcv[j8]=llrcalc.Boxplus(m07,m9);
 	  mcv[j9]=llrcalc.Boxplus(m07,m8);
 	  break;
-	}	
+	}
 	case 11: {
 	  int j0=j;
 	  QLLR m0=mvc[jind[j0]];
@@ -1691,7 +1691,7 @@ namespace itpp {
 	  mcv[j9]=llrcalc.Boxplus(m10,llrcalc.Boxplus(m07,m8));
 	  mcv[j10]=llrcalc.Boxplus(m07,m89);
 	  break;
-	}	
+	}
 	case 12: {
 	  int j0=j;
 	  QLLR m0=mvc[jind[j0]];
@@ -1713,7 +1713,7 @@ namespace itpp {
 	  QLLR m8=mvc[jind[j8]];
 	  int j9=j8+ncheck;
 	  QLLR m9=mvc[jind[j9]];
-	  int j10=j9+ncheck;  
+	  int j10=j9+ncheck;
 	  QLLR m10=mvc[jind[j10]];
 	  int j11=j10+ncheck;
 	  QLLR m11=mvc[jind[j11]];
@@ -1745,20 +1745,20 @@ namespace itpp {
 	  mcv[j10]=llrcalc.Boxplus(llrcalc.Boxplus(m07,m89),m11);
 	  mcv[j11]=llrcalc.Boxplus(llrcalc.Boxplus(m07,m89),m10);
 	  break;
-	}	
-	default:  
+	}
+	default:
 	  it_error("check node degrees >12 not supported in this version");
 	}  // switch statement
       }
-    
-      // step 2: variable to check nodes 
+
+      // step 2: variable to check nodes
       for (int i=0; i<nvar; i++) {
 	switch (sumX1(i)) {
 	case 0: it_error("LDPC_Code::bp_decode(): sumX1(i)=0");
 	case 1: {
 	  // Degenerate case-should not occur for good coded. A lonely
 	  // variable node only sends its incoming message
-	  mvc[i] = LLRin(i); 
+	  mvc[i] = LLRin(i);
 	  LLRout(i)=LLRin(i);
 	  break;
 	}
@@ -1799,8 +1799,8 @@ namespace itpp {
 	  mvc[i2]=LLRout(i)-m2;
 	  mvc[i3]=LLRout(i)-m3;
 	  break;
-	} 
-	default:  	{ // differential update 
+	}
+	default:  	{ // differential update
 	  QLLR mvc_temp = LLRin(i);
 	  int index_iind = i; // tracks i+jp*nvar
 	  for (int jp=0; jp<sumX1(i); jp++) {
@@ -1816,13 +1816,13 @@ namespace itpp {
 	}
 	}
       }
-      
+
       if (psc && syndrome_check(LLRout)) {
 	is_valid_codeword=true;
 	break;
       }
     } while  (iter < max_iters);
-   
+
     if (nvar>=100000) { it_info_debug(""); }
     return (is_valid_codeword ? iter : -iter);
   }
@@ -1833,13 +1833,13 @@ namespace itpp {
     QLLRvec llr=1-2*to_ivec(x);
     return syndrome_check(llr);
   }
-  
-  bool LDPC_Code::syndrome_check(const QLLRvec &LLR) const    
+
+  bool LDPC_Code::syndrome_check(const QLLRvec &LLR) const
   {
     // Please note the IT++ convention that a sure zero corresponds to
     // LLR=+infinity
     int i,j,synd,vi;
-  
+
     for (j=0; j<ncheck; j++) {
       synd = 0;
       int vind = j; // tracks j+i*ncheck
@@ -1850,11 +1850,11 @@ namespace itpp {
 	}
 	vind += ncheck;
       }
-      if ((synd&1)==1) { 
+      if ((synd&1)==1) {
 	return false;  // codeword is invalid
-      }    
-    }          
-    return true;   // codeword is valid 
+      }
+    }
+    return true;   // codeword is valid
   };
 
 
@@ -1877,7 +1877,7 @@ namespace itpp {
     C = zeros_i(cmax*nvar);
     jind = zeros_i(ncheck*vmax);
     iind = zeros_i(nvar*cmax);
-    
+
     it_info_debug("LDPC_Code::decoder_parameterization(): Computations "
 		  "- phase 1");
     for (int i=0; i<nvar; i++) {
@@ -1895,7 +1895,7 @@ namespace itpp {
       for (int i0=0; i0<length(rowj); i0++) {
 	V(j+ncheck*i0) = rowj(i0);
       }
-    }   
+    }
 
     it_info_debug("LDPC_Code::decoder_parameterization(): Computations "
 		  "- phase 3");
@@ -1904,11 +1904,11 @@ namespace itpp {
       for (int ip=0; ip<sumX2(j); ip++) {
 	int vip = V(j+ip*ncheck);
 	int k=0;
-	while (1==1)  { 
+	while (1==1)  {
 	  if (C(k+vip*cmax)==j) {
 	    break;
 	  }
-	  k++; 
+	  k++;
 	}
 	jind(j+ip*ncheck) = vip+k*nvar;
       }
@@ -1947,7 +1947,7 @@ namespace itpp {
       it_info_debug("LDPC_Code::integrity_check(): Checking integrity of "
 		    "the LDPC_Parity and LDPC_Generator data");
       bvec bv(nvar-ncheck), cw;
-      bv.clear(); 
+      bv.clear();
       bv(0) = 1;
       for (int i = 0; i < nvar-ncheck; i++) {
 	G->encode(bv, cw);
@@ -1971,7 +1971,7 @@ namespace itpp {
     ivec rdeg = zeros_i(max(C.sumX2)+1);
     for (int i=0; i<C.ncheck; i++)     {
       rdeg(C.sumX2(i))++;
-    }  
+    }
 
     ivec cdeg = zeros_i(max(C.sumX1)+1);
     for (int j=0; j<C.nvar; j++)     {

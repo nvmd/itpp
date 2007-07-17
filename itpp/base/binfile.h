@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Binary file formats definitions
  * \author Tony Ottosson, Thomas Eriksson and Adam Piatyszek
  *
@@ -50,7 +50,7 @@ namespace itpp {
     \ingroup itfile
 
     This class serves as a base class for the classes \c bofstream,
-    \c bifstream, and \c bfstream. It controls the endianity (i.e. the 
+    \c bifstream, and \c bfstream. It controls the endianity (i.e. the
     byte order of multibyte numbers on the disk) of the inhereted classes.
   */
   class bfstream_base {
@@ -74,16 +74,16 @@ namespace itpp {
 
       \param e Defines the endianity of the class. Possible values are \c
       l_endian for little endian or \c b_endian for big endian. The default
-      value is \c b_endian. 
+      value is \c b_endian.
     */
     bfstream_base(endian e = b_endian);
 
     /*!
       \brief Returns the endianity of the class
     */
-    endian get_endianity() const 
-    { 
-      return switch_endianity 
+    endian get_endianity() const
+    {
+      return switch_endianity
 	? static_cast<endian>(!native_endianity) : native_endianity;
     }
 
@@ -91,17 +91,17 @@ namespace itpp {
       \brief Returns the native endianity for this computer architecture
 
       Intel processors use "Little Endian" byte ordering while e.g. Motorola
-      processors use "Big Endian" byte ordering. 
+      processors use "Big Endian" byte ordering.
     */
     endian get_native_endianity() const { return native_endianity; }
 
     /*!
       \brief Set the endianity for this class
     */
-    void set_endianity(endian e) 
-    { 
-      (native_endianity == e) 
-	? switch_endianity = false : switch_endianity = true; 
+    void set_endianity(endian e)
+    {
+      (native_endianity == e)
+	? switch_endianity = false : switch_endianity = true;
     }
 
     /*!
@@ -127,7 +127,7 @@ namespace itpp {
       \brief Class constructor that opens a file and sets the endianity
 
       \param name The name of the file to open
-      \param e Defines the endianity of the class. Possible values are 
+      \param e Defines the endianity of the class. Possible values are
       \c l_endian for "Little Endian" or \c b_endian for "Big Endian". The
       default value is \c b_endian.
     */

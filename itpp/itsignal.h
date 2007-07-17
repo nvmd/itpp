@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Include file for the IT++ signal-processing module
  * \author Adam Piatyszek
  *

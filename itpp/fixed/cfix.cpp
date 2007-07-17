@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of a complex fixed-point data type CFix
  * \author Johan Bergman
  *

@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definitions of a Binary Punctured Convolutional Encoder class
  * \author Tony Ottosson
  *

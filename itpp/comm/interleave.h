@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definitions of interleaver classes
  * \author Pal Frenger
  *
@@ -47,7 +47,7 @@ namespace itpp {
   /*! \ingroup interl
     \class Block_Interleaver comm/interleave.h
     \brief Block Interleaver Class.
-  
+
     Data is written row-wise and read column-wise when interleaving.
     <h3>Example of use:</h3>
     \code
@@ -58,7 +58,7 @@ namespace itpp {
     Block_Interleaver<double> block_interleaver(4,4);
     vec interleaved_symbols = block_interleaver.interleave(symbols);
     \endcode
-  
+
   */
   template <class T>
     class Block_Interleaver {
@@ -81,7 +81,7 @@ namespace itpp {
     void set_cols(int in_cols) {cols = in_cols;};
     //! Get the number of \a rows for block interleaving
     int get_rows(void) {return rows;};
-    //! Get the number of \a columns for block interleaving    
+    //! Get the number of \a columns for block interleaving
     int get_cols(void) {return cols;};
     private:
     int rows, cols, input_length;
@@ -100,7 +100,7 @@ namespace itpp {
     Cross_Interleaver<double> cross_interleaver(4);
     vec interleaved_symbols = cross_interleaver.interleave(symbols);
     \endcode
-  
+
     <ul>
     <li> See S. B. Wicker, "Error control systems for digital communications and storage,"
     Prentice Hall 1995, p. 427 for details. </li>
@@ -122,7 +122,7 @@ namespace itpp {
     //! Function for cross deinterleaving. Removes aditional zeros if \a keepzeros = 0.
     void deinterleave(const Vec<T> &input, Vec<T> &output, short keepzeros = 0);
     //! Set the \a order of the Cross Interleaver
-    void set_order(int in_order); 
+    void set_order(int in_order);
     //! Get the \a order of the Cross Interleaver
     int get_order(void) {return order;};
     private:
@@ -146,20 +146,20 @@ namespace itpp {
     sequence_interleaver.randomize_interleaver_sequence();
     vec interleaved_symbols = sequence_snterleaver.interleave(symbols);
     \endcode
-  
+
   */
   template <class T>
     class Sequence_Interleaver {
     public:
     //! Sequence_Interleaver constructor.
     Sequence_Interleaver(void) {interleaver_depth = 0;};
-    /*! 
+    /*!
       \brief Sequence_Interleaver constructor.
 
       Chooses a random sequence of length \a in_interleaver_depth for interleaving.
     */
     Sequence_Interleaver(int in_interleaver_depth);
-    /*! 
+    /*!
       \brief Sequence_Interleaver constructor.
 
       Uses the \a in_interleaver_sequence for interleaving.
@@ -531,7 +531,7 @@ namespace itpp {
     void Sequence_Interleaver<T>::set_interleaver_sequence(ivec in_interleaver_sequence)
     {
       interleaver_sequence = in_interleaver_sequence;
-      interleaver_depth = interleaver_sequence.size(); 
+      interleaver_depth = interleaver_sequence.size();
     }
 
   // ------------------------ Instantiations --------------------------------

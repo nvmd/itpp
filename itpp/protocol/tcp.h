@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definition of Transport Control Protocol (TCP)
  * \author Krister Norlund
  *
@@ -69,7 +69,7 @@ namespace itpp {
 		Sequence_Number(const Sequence_Number &n) : seq(n.seq) { }
 		Sequence_Number &operator=(const Sequence_Number &n) { seq = n.seq; return *this; }
 		Sequence_Number &operator=(const int &rep) { seq = rep; return *this; }
-	
+
 		//relational operators
 		bool operator==(const Sequence_Number &n) const { return seq == n.seq; }
 		bool operator!=(const Sequence_Number &n) const { return seq != n.seq; }
@@ -84,7 +84,7 @@ namespace itpp {
 		Sequence_Number operator-(const int n) const { return Sequence_Number(seq - n); }
 		Sequence_Number &operator-=(const int n) { seq -= n; return *this; }
 		int operator-(const Sequence_Number &n) const { return seq - n.seq; }
-   
+
 		//access to internal representation
 		int value() const { return seq; }
 
@@ -99,7 +99,7 @@ namespace itpp {
 
   inline const Sequence_Number & min(const Sequence_Number &n1, const Sequence_Number &n2) { return (n1 < n2)? n1 : n2; }
   inline const Sequence_Number & max(const Sequence_Number &n1, const Sequence_Number &n2) { return (n1 > n2)? n1 : n2; }
-  
+
 
 
   /*!

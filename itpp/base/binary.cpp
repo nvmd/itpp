@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Binary class implemenations
  * \author Tony Ottosson
  *
@@ -29,12 +29,12 @@
  *
  * -------------------------------------------------------------------------
  */
- 
+
 #include <itpp/base/binary.h>
 #include <iostream>
 
 
-namespace itpp { 
+namespace itpp {
 
   std::ostream &operator<<(std::ostream &output, const bin &inbin)
   {

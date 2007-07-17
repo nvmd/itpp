@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definitions of some specific functions useful in communications
  * \author Tony Ottosson and Erik G. Larsson
  *
@@ -43,19 +43,19 @@ namespace itpp {
     \brief Generate Gray code of blocklength m.
     \ingroup misccommfunc
 
-    The codes are contained as binary codewords {0,1} in the rows of the 
+    The codes are contained as binary codewords {0,1} in the rows of the
     returned matrix.
     See also the \c gray() function in \c math/scalfunc.h.
   */
   bmat graycode(int m);
 
-  /*! 
+  /*!
     \brief Calculate the Hamming distance between \a a and \a b
     \ingroup misccommfunc
   */
   int hamming_distance(const bvec &a, const bvec &b);
 
-  /*! 
+  /*!
     \brief Calculate the Hamming weight of \a a
     \ingroup misccommfunc
   */
@@ -64,13 +64,13 @@ namespace itpp {
   /*!
    * \brief Compute the water-filling solution
    * \ingroup misccommfunc
-   * 
+   *
    * This function computes the solution of the water-filling problem
-   * \f[ 
+   * \f[
    * \max_{p_0,...,p_{n-1}} \sum_{i=0}^{n-1} \log\left(1+p_i\alpha_i\right)
    * \f]
    * subject to
-   * \f[ 
+   * \f[
    * \sum_{i=0}^{n-1} p_i \le P
    * \f]
    *

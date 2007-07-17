@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definitions of a complex fixed-point data type CFixed
  * \author Johan Bergman
  *
@@ -45,7 +45,7 @@ namespace itpp {
 
   /*!
     \brief Templated complex fixed-point data type
-  
+
     See the Detailed Description in the \ref fixed module.
   */
   template<int w, e_mode e=TC, o_mode o=WRAP, q_mode q=TRN>
@@ -84,7 +84,7 @@ namespace itpp {
       re = apply_o_mode(x.re);
       im = 0;
       return *this;
-    }  
+    }
     //! Assignment from complex<double>. Fractional part is truncated
     CFixed& operator=(const std::complex<double> &x)
     {

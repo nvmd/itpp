@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of a Packet generator class
  * \author Anders Persson and Tony Ottosson
  *
@@ -61,7 +61,7 @@ namespace itpp {
   }
 
   void Packet_Generator::handle_next(Packet*){
-    if(keep_running){    
+    if(keep_running){
       output(new Packet(8*packet_size), delta_t());
       id++;
       if(max_packets && id>=max_packets)
@@ -80,18 +80,18 @@ namespace itpp {
 
   // ---------------------------- Poisson_Packet_Generator -------------------------------------------------
 
-  Poisson_Packet_Generator::Poisson_Packet_Generator(const double Avg_bit_rate, 
-						     const int Packet_size, 
+  Poisson_Packet_Generator::Poisson_Packet_Generator(const double Avg_bit_rate,
+						     const int Packet_size,
 						     const unsigned long int Max_packets):Packet_Generator(Packet_size, Max_packets){
     set_parameters(Avg_bit_rate, Packet_size, Max_packets);
   }
 
   Poisson_Packet_Generator::~Poisson_Packet_Generator(){}
 
-  void Poisson_Packet_Generator::set_parameters(const double Avg_bit_rate, 
-						const int Packet_size, 
+  void Poisson_Packet_Generator::set_parameters(const double Avg_bit_rate,
+						const int Packet_size,
 						const unsigned long int Max_packets){
-    Packet_Generator::set_parameters(Packet_size, Max_packets);  
+    Packet_Generator::set_parameters(Packet_size, Max_packets);
     it_assert(Avg_bit_rate > 0.0,"Packet_Generator::set_parameters(): ");
     avg_bit_rate = Avg_bit_rate;
     avg_delta_t = 8.0*get_packet_size()/avg_bit_rate;

@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of classes for the IT++ file format
  * \author Tony Ottosson, Tobias Ringstrom and Adam Piatyszek
  *
@@ -111,7 +111,7 @@ namespace itpp {
     return true;
   }
 
-  void it_ifile::info(std::string &name, std::string &type, 
+  void it_ifile::info(std::string &name, std::string &type,
 		      std::string &desc, uint64_t &bytes)
   {
     data_header h;
@@ -130,7 +130,7 @@ namespace itpp {
   {
     file_header h;
     s.read(reinterpret_cast<char *>(&h), sizeof(h));
-    return (memcmp(h.magic, file_magic, 4) == 0 
+    return (memcmp(h.magic, file_magic, 4) == 0
 	    && (h.version == file_version));
   }
 
@@ -506,11 +506,11 @@ namespace itpp {
   // it_file class
   // ----------------------------------------------------------------------
 
-  it_file::it_file(): low_prec(false), next_name(""), next_desc(""), 
+  it_file::it_file(): low_prec(false), next_name(""), next_desc(""),
 		      fname("") {}
 
   it_file::it_file(const std::string &name, bool trunc):
-    low_prec(false), next_name(""), next_desc(""), fname("") 
+    low_prec(false), next_name(""), next_desc(""), fname("")
   {
     open(name, trunc);
   }
@@ -558,14 +558,14 @@ namespace itpp {
     next_desc = "";
   }
 
-  void it_file::write_data_header(const std::string &type, 
+  void it_file::write_data_header(const std::string &type,
 				  const std::string &name, uint64_t size,
 				  const std::string &desc)
   {
     data_header h1, h2;
 
     // Prepare a new data header
-    h1.hdr_bytes = 3 * sizeof(uint64_t) + type.size()+1 + name.size()+1 
+    h1.hdr_bytes = 3 * sizeof(uint64_t) + type.size()+1 + name.size()+1
       + desc.size()+1;
     h1.data_bytes = size;
     h1.block_bytes = h1.hdr_bytes + h1.data_bytes;
@@ -584,9 +584,9 @@ namespace itpp {
       // save the current position
       std::streampos p = s.tellp();
       // read block at the current position
-      read_data_header(h2);	
+      read_data_header(h2);
       // if empty file, stop the search and set write pointer to the end of
-      // file 
+      // file
       if (s.eof()) {
 	s.clear();
 	s.seekp(0, std::ios::end);
@@ -614,7 +614,7 @@ namespace itpp {
       // otherwise, skip the current block and try again
       s.seekg(p + skip);
     } // while(true)
-    
+
     write_data_header_here(h1);
   }
 
@@ -831,7 +831,7 @@ namespace itpp {
 
   void it_file::low_level_write(const bmat &m)
   {
-    s << static_cast<uint64_t>(m.rows()) 
+    s << static_cast<uint64_t>(m.rows())
       << static_cast<uint64_t>(m.cols());
     for (int j = 0; j < m.cols(); ++j)
       for (int i = 0; i < m.rows(); ++i)
@@ -840,7 +840,7 @@ namespace itpp {
 
   void it_file::low_level_write(const smat &m)
   {
-    s << static_cast<uint64_t>(m.rows()) 
+    s << static_cast<uint64_t>(m.rows())
       << static_cast<uint64_t>(m.cols());
     for (int j = 0; j < m.cols(); ++j)
       for (int i = 0; i < m.rows(); ++i)
@@ -849,7 +849,7 @@ namespace itpp {
 
   void it_file::low_level_write(const imat &m)
   {
-    s << static_cast<uint64_t>(m.rows()) 
+    s << static_cast<uint64_t>(m.rows())
       << static_cast<uint64_t>(m.cols());
     for (int j = 0; j < m.cols(); ++j)
       for (int i = 0; i < m.rows(); ++i)
@@ -858,7 +858,7 @@ namespace itpp {
 
   void it_file::low_level_write(const mat &m)
   {
-    s << static_cast<uint64_t>(m.rows()) 
+    s << static_cast<uint64_t>(m.rows())
       << static_cast<uint64_t>(m.cols());
     if (get_low_precision()) {
       for (int j = 0; j < m.cols(); ++j)
@@ -874,7 +874,7 @@ namespace itpp {
 
   void it_file::low_level_write(const cmat &m)
   {
-    s << static_cast<uint64_t>(m.rows()) 
+    s << static_cast<uint64_t>(m.rows())
       << static_cast<uint64_t>(m.cols());
     if (get_low_precision()) {
       for (int j = 0; j < m.cols(); ++j)
@@ -1514,10 +1514,10 @@ namespace itpp {
   it_file &operator<<(it_file &f, const vec &v)
   {
     if (f.get_low_precision())
-      f.write_data_header("fvec", sizeof(uint64_t) 
+      f.write_data_header("fvec", sizeof(uint64_t)
 			  + v.size() * sizeof(float));
     else
-      f.write_data_header("dvec", sizeof(uint64_t) 
+      f.write_data_header("dvec", sizeof(uint64_t)
 			  + v.size() * sizeof(double));
     f.low_level_write(v);
     return f;
@@ -1526,10 +1526,10 @@ namespace itpp {
   it_file &operator<<(it_file &f, const cvec &v)
   {
     if (f.get_low_precision())
-      f.write_data_header("fcvec", sizeof(uint64_t) 
+      f.write_data_header("fcvec", sizeof(uint64_t)
 			  + v.size() * 2 * sizeof(float));
     else
-      f.write_data_header("dcvec", sizeof(uint64_t) 
+      f.write_data_header("dcvec", sizeof(uint64_t)
 			  + v.size() * 2 * sizeof(double));
     f.low_level_write(v);
     return f;
@@ -1569,10 +1569,10 @@ namespace itpp {
   it_file &operator<<(it_file &f, const mat &m)
   {
     if (f.get_low_precision())
-      f.write_data_header("fmat", 2 * sizeof(uint64_t) 
+      f.write_data_header("fmat", 2 * sizeof(uint64_t)
 			  + m.rows() * m.cols() * sizeof(float));
     else
-      f.write_data_header("dmat", 2 * sizeof(uint64_t) 
+      f.write_data_header("dmat", 2 * sizeof(uint64_t)
 			  + m.rows() * m.cols() * sizeof(double));
     f.low_level_write(m);
     return f;
@@ -1581,10 +1581,10 @@ namespace itpp {
   it_file &operator<<(it_file &f, const cmat &m)
   {
     if (f.get_low_precision())
-      f.write_data_header("fcmat", 2 * sizeof(uint64_t) 
+      f.write_data_header("fcmat", 2 * sizeof(uint64_t)
 			  + m.rows() * m.cols() * 2 * sizeof(float));
     else
-      f.write_data_header("dcmat", 2 * sizeof(uint64_t) 
+      f.write_data_header("dcmat", 2 * sizeof(uint64_t)
 			  + m.rows() * m.cols() * 2 * sizeof(double));
     f.low_level_write(m);
     return f;
@@ -1599,7 +1599,7 @@ namespace itpp {
 
   it_file &operator<<(it_file &f, const Array<short> &v)
   {
-    f.write_data_header("sArray", sizeof(uint64_t) 
+    f.write_data_header("sArray", sizeof(uint64_t)
 			+ v.size() * sizeof(int16_t));
     f.low_level_write(v);
     return f;
@@ -1607,7 +1607,7 @@ namespace itpp {
 
   it_file &operator<<(it_file &f, const Array<int> &v)
   {
-    f.write_data_header("iArray", sizeof(uint64_t) 
+    f.write_data_header("iArray", sizeof(uint64_t)
 			+ v.size() * sizeof(int32_t));
     f.low_level_write(v);
     return f;
@@ -1626,7 +1626,7 @@ namespace itpp {
       f.write_data_header("fArray", sizeof(uint64_t)
 			  + v.size() * sizeof(float));
     else
-      f.write_data_header("dArray", sizeof(uint64_t) 
+      f.write_data_header("dArray", sizeof(uint64_t)
 			  + v.size() * sizeof(double));
     f.low_level_write(v);
     return f;
@@ -1634,7 +1634,7 @@ namespace itpp {
 
   it_file &operator<<(it_file &f, const Array<std::complex<float> > &v)
   {
-    f.write_data_header("fcArray", sizeof(uint64_t) 
+    f.write_data_header("fcArray", sizeof(uint64_t)
 			+ v.size() * 2 * sizeof(float));
     f.low_level_write(v);
     return f;
@@ -1643,7 +1643,7 @@ namespace itpp {
   it_file &operator<<(it_file &f, const Array<std::complex<double> > &v)
   {
     if (f.get_low_precision())
-      f.write_data_header("fcArray", sizeof(uint64_t) 
+      f.write_data_header("fcArray", sizeof(uint64_t)
 			  + v.size() * 2 * sizeof(float));
     else
       f.write_data_header("dcArray", sizeof(uint64_t)
@@ -2369,7 +2369,7 @@ namespace itpp {
     next_name = "";
   }
 
-  void it_file_old::write_data_header(const std::string &type, 
+  void it_file_old::write_data_header(const std::string &type,
 				  const std::string &name, uint32_t size)
   {
     data_header h1, h2;

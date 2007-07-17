@@ -1,6 +1,6 @@
 /*!
- * \file 
- * \brief Interface of an Orthogonal Frequency Division Multiplex 
+ * \file
+ * \brief Interface of an Orthogonal Frequency Division Multiplex
  * (OFDM) class
  * \author Pal Frenger, Anders Persson and Tony Ottosson
  *
@@ -39,7 +39,7 @@
 
 namespace itpp {
 
-  /*! 
+  /*!
     \ingroup modulators
     \brief Class for modulating and demodulation of OFDM signals using the FFT
 
@@ -62,7 +62,7 @@ namespace itpp {
     //! Demodulate to complex valued symbols. Length of \c input must be \c Nfft+Ncp
     cvec demodulate(const cvec &input);
     //! Demodulate to complex valued symbols. Length of \c input must be \c Nfft+Ncp
-    void demodulate(const cvec &input, cvec &output);  
+    void demodulate(const cvec &input, cvec &output);
   private:
     double norm_factor;
     bool setup_done;

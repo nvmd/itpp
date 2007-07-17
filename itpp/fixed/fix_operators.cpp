@@ -1,6 +1,6 @@
 /*!
- * \file 
- * \brief Implementation of a set of operators for Fix, Fixed, CFix and 
+ * \file
+ * \brief Implementation of a set of operators for Fix, Fixed, CFix and
  * CFixed classes
  * \author Johan Bergman
  *
@@ -162,13 +162,13 @@ namespace itpp {
   {
     it_assert_debug(a.cols() == b.rows(), "operator*: wrong sizes");
     fixmat r(a.rows(), b.cols());
-  
+
     Fix tmp;
     int i, j, k;
     Fix *tr=r._data();
     const Fix *t1;
     const int *t2=b._data();
-  
+
     for (i=0; i<r.cols(); i++) {
       for (j=0; j<r.rows(); j++) {
         tmp = Fix(0); t1 = a._data()+j;
@@ -179,7 +179,7 @@ namespace itpp {
         *(tr++) = tmp; t2 -= b.rows();
       }
       t2 += b.rows();
-    }  
+    }
     return r;
   }
 
@@ -387,13 +387,13 @@ namespace itpp {
   {
     it_assert_debug(a.cols() == b.rows(), "operator*: wrong sizes");
     cfixmat r(a.rows(), b.cols());
-  
+
     CFix tmp;
     int i, j, k;
     CFix *tr=r._data();
     const CFix *t1;
     const Fix *t2=b._data();
-  
+
     for (i=0; i<r.cols(); i++) {
       for (j=0; j<r.rows(); j++) {
         tmp = CFix(0); t1 = a._data()+j;
@@ -404,7 +404,7 @@ namespace itpp {
         *(tr++) = tmp; t2 -= b.rows();
       }
       t2 += b.rows();
-    }  
+    }
     return r;
   }
 
@@ -445,13 +445,13 @@ namespace itpp {
   {
     it_assert_debug(a.cols() == b.rows(), "operator*: wrong sizes");
     cfixmat r(a.rows(), b.cols());
-  
+
     CFix tmp;
     int i, j, k;
     CFix *tr=r._data();
     const CFix *t1;
     const int *t2=b._data();
-  
+
     for (i=0; i<r.cols(); i++) {
       for (j=0; j<r.rows(); j++) {
         tmp = CFix(0); t1 = a._data()+j;
@@ -462,7 +462,7 @@ namespace itpp {
         *(tr++) = tmp; t2 -= b.rows();
       }
       t2 += b.rows();
-    }  
+    }
     return r;
   }
 

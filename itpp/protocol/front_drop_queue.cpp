@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of a Front Drop Queue class
  * \author Anders Persson and Tony Ottosson
  *
@@ -43,9 +43,9 @@ namespace itpp {
                 << " ptr=" << packet
                 << " time=" << Event_Queue::now() << std::endl;
 		}
-   
+
 		Packet *hol_packet;
-		while ((!std::queue<Packet*>::empty()) && 
+		while ((!std::queue<Packet*>::empty()) &&
 					 ((8*bytes_in_queue + packet->bit_size()) >  8*max_bytes_in_queue)) {
       hol_packet = std::queue<Packet*>::front();
       Front_Drop_Queue::pop();
@@ -59,7 +59,7 @@ namespace itpp {
 									<< "Packet Dropped, buffer overflow."
 									<< std::endl;
       }
-		}     
+		}
 
 		bytes_in_queue += packet->bit_size()/8;
 		std::queue<Packet*>::push(packet);

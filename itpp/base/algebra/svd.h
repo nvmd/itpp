@@ -2,7 +2,7 @@
  * \file
  * \brief Definitions of Singular Value Decompositions
  * \author Tony Ottosson
- * 
+ *
  * $Date$
  * $Revision$
  *

@@ -2,7 +2,7 @@
  * \file
  * \brief Elementary mathematical functions - source file
  * \author Tony Ottosson and Adam Piatyszek
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -43,7 +43,7 @@ double tgamma(double x)
 	      / (x + 5) - 0.00001352385959072596 / (x + 6)) / x;
   if (s < 0)
     return -exp((x + 0.5) * log(x + 5.5) - x - 5.5 + log(-s));
-  else 
+  else
     return exp((x + 0.5) * log(x + 5.5) - x - 5.5 + log(s));
 }
 #endif
@@ -54,7 +54,7 @@ double tgamma(double x)
 // or zero, -1 when it is negative. However, MinGW definition of lgamma()
 // function does not use the global signgam variable.
 int signgam;
-// Logarithm of an absolute value of gamma function 
+// Logarithm of an absolute value of gamma function
 double lgamma(double x)
 {
   double gam = tgamma(x);
@@ -69,7 +69,7 @@ double cbrt(double x) { return std::pow(x, 1.0/3.0); }
 #endif
 
 
-namespace itpp { 
+namespace itpp {
 
   vec sqr(const cvec &data)
   {
@@ -162,7 +162,7 @@ namespace itpp {
 
     double out = 0.0;
     for (int i = 1; i <= k; i++)
-      out += log10(static_cast<double>(i + n - k)) 
+      out += log10(static_cast<double>(i + n - k))
 	- log10(static_cast<double>(i));
 
     return out;
@@ -221,7 +221,7 @@ namespace itpp {
   mat imag(const cmat &data)
   {
     mat	temp(data.rows(),data.cols());
-  
+
     for (int i=0;i<temp.rows();i++) {
       for (int j=0;j<temp.cols();j++) {
 	temp(i,j)=data(i,j).imag();
@@ -237,14 +237,14 @@ namespace itpp {
 
     for (int i=0;i<data.length();i++)
       temp[i]=std::arg(data[i]);
-	
+
     return temp;
   }
 
   mat arg(const cmat &data)
   {
     mat	temp(data.rows(),data.cols());
-  
+
     for (int i=0;i<temp.rows();i++) {
       for (int j=0;j<temp.cols();j++) {
 	temp(i,j)=std::arg(data(i,j));
@@ -257,7 +257,7 @@ namespace itpp {
 #ifdef _MSC_VER
   cvec conj(const cvec &x) {
     cvec temp(x.size());
-    
+
     for (int i = 0; i < x.size(); i++) {
       temp(i) = std::conj(x(i));
     }
@@ -267,7 +267,7 @@ namespace itpp {
 
   cmat conj(const cmat &x) {
     cmat temp(x.rows(), x.cols());
-    
+
     for (int i = 0; i < x.rows(); i++) {
       for (int j = 0; j < x.cols(); j++) {
 	temp(i, j) = std::conj(x(i, j));

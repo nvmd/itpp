@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of spread spectrum classes and functions
  * \author Tony Ottosson
  *
@@ -59,7 +59,7 @@ namespace itpp {
   void Spread_1d::spread(const vec &symbols, vec &out)
   {
     out.set_size(symbols.length()*N, false);
-  
+
     for(int i=0;i<symbols.length();i++)
       out.replace_mid(i*N,symbols(i)*code);
   }
@@ -68,7 +68,7 @@ namespace itpp {
   {
     int nosymbols=(int)std::floor(double((rec_signal.length()-timing))/N);
     out.set_size(nosymbols);
-	
+
     for(int i=0;i<nosymbols;i++)
       out(i) = rec_signal.mid(i*N+timing,N)*code;
   }
@@ -137,10 +137,10 @@ namespace itpp {
     int i;
     int nomcsymbols=(int)std::floor(double(symbols.length()/L));
     vec temp(nomcsymbols*N);
-	
+
     for(i=0;i<nomcsymbols;i++) {
       temp.replace_mid(i*N,codes.T() * symbols.mid(i*L,L)); // TODO: this is now very slow
-    }	
+    }
 
     return temp;
   }
@@ -150,7 +150,7 @@ namespace itpp {
     int i;
     int nosymbols=(int)std::floor(double((receivedsignal.length()-timing))/N);
     vec temp(nosymbols*L);
-	
+
     for(i=0;i<nosymbols;i++) {
       temp.replace_mid(i*L,codes*receivedsignal.mid(i*N+timing,N));
     }

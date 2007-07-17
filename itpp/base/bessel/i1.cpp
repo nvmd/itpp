@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of modified Bessel functions of order one
  * \author Tony Ottosson
  *
@@ -30,7 +30,7 @@
  * -------------------------------------------------------------------------
  *
  * This is slightly modified routine from the Cephes library:
- * http://www.netlib.org/cephes/ 
+ * http://www.netlib.org/cephes/
  */
 
 #include <itpp/base/bessel/bessel_internal.h>
@@ -166,7 +166,7 @@ static double B[] =
 
 
 double i1(double x)
-{ 
+{
   double y, z;
 
   z = fabs(x);
@@ -185,7 +185,7 @@ double i1(double x)
 }
 
 double i1e(double x)
-{ 
+{
   double y, z;
 
   z = fabs(x);

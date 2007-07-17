@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of struve function
  * \author Tony Ottosson
  *
@@ -30,9 +30,9 @@
  * -------------------------------------------------------------------------
  *
  * This is slightly modified routine from the Cephes library:
- * http://www.netlib.org/cephes/ 
+ * http://www.netlib.org/cephes/
  */
- 
+
 #include <itpp/base/bessel/bessel_internal.h>
 #include <itpp/base/math/elem_math.h>
 
@@ -253,7 +253,7 @@ double struve(double v, double x)
 }
 
 
-/* 
+/*
  * Bessel function of noninteger order
  */
 double yv(double v, double x)
@@ -277,7 +277,7 @@ double yv(double v, double x)
  * for Struve function
  *
  *	 v	 x
- * 
+ *
  *	 0	19.2
  *	 1	18.95
  *	 2	19.15

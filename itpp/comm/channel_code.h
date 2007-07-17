@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Channel Code class virtual interface
  * \author Tony Ottosson
  *
@@ -45,10 +45,10 @@ namespace itpp {
 
   //---------------------- BCH --------------------------------------
 
-  /*! 
+  /*!
     \ingroup fec
     \brief Generic Channel Code class
-  
+
   */
   class Channel_Code {
   public:
@@ -79,7 +79,7 @@ namespace itpp {
   };
 
 
-  /*! 
+  /*!
     \ingroup fec
     \brief Dummy Channel Code class
 

@@ -2,7 +2,7 @@
  * \file
  * \brief Definitions of LU factorisation functions
  * \author Tony Ottosson
- * 
+ *
  * $Date$
  * $Revision$
  *

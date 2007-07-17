@@ -2,7 +2,7 @@
  * \file
  * \brief Stack class (container)
  * \author Thomas Eriksson
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -30,9 +30,9 @@
  * -------------------------------------------------------------------------
  *
  * This file is not separated into a .h and a .cpp file. The reason is
- * to avoid problems with template initializations of this class. 
+ * to avoid problems with template initializations of this class.
  * An \c Stack<type> can contain any type and it is not possible to
- * initialize and pre-compile all types that might be put into an 
+ * initialize and pre-compile all types that might be put into an
  * \c Stack.
  */
 
@@ -44,16 +44,16 @@
 
 namespace itpp {
 
-  /*! 
+  /*!
     \brief General stack class
-  
+
     This class is a general stack class for arbitrary types.
-  
+
     For rarely used types you will need to instantiate the class by
     \code
     template class Stack<type>;
     \endcode
-  
+
     The following example shows how to define a Stack of vectors:
     \code
     vec a = randn(10);
@@ -61,7 +61,7 @@ namespace itpp {
     Stack<vec> my_stack(10);
     my_stack.push(a);
     my_stack.push(b);
-  
+
     cout << my_stack.pop() << " " << my_stack.pop() << endl ;
     \endcode
   */

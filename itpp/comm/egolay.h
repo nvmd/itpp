@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definition of the Extended Golay Code (24, 12, 8)
  * \author Tony Ottosson
  *
@@ -40,11 +40,11 @@
 
 namespace itpp {
 
-  /*! 
+  /*!
     \ingroup fec
     \brief Extended Golay code (24,12,8).
     \author Tony Ottosson
-  
+
     The code is given in systematic form with the information bits
     first, followed by the parity check bits. The decoder uses the
     arithmetic decoding algorithm that is for example described in

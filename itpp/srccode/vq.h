@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definition of a vector quantizer class (unconstrained)
  * \author Thomas Eriksson
  *
@@ -45,7 +45,7 @@ namespace itpp {
 */
 
 
-/*! 
+/*!
 \ingroup sourcecoding
 \brief Class for vector quantization
 
@@ -132,7 +132,7 @@ inline vec Vector_Quantizer::Q(const vec &x) { return decode(encode(x)); }
 inline vec Vector_Quantizer::operator()(const vec &x) { return Q(x); }
 
 
-/*! 
+/*!
 \ingroup sourcecoding
 \brief Class for vector quantization
 

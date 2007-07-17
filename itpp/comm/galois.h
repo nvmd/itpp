@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definitions of Galois Field algebra classes and functions
  * \author Tony Ottosson
  *
@@ -41,7 +41,7 @@
 
 namespace itpp {
 
-  /*! 
+  /*!
     \brief Galois Field GF(q).
     \author Tony Ottosson
 
@@ -88,7 +88,7 @@ namespace itpp {
     //! GF(q) equals \a alpha ^ \a inexp
     void set(int qvalue, int inexp) {
       set_size(qvalue); it_assert_debug(inexp>=-1 && inexp<qvalue-1, "GF::set, out of range"); value=inexp; }
-    /*! 
+    /*!
       \brief GF(q) equals the element that corresponds to the given vector space.
 
       The format is (...,c,b,a), where the element x is given as x=...+c*alpha^2+b*alpha+a.
@@ -98,7 +98,7 @@ namespace itpp {
     void set_size(int qvalue);
     //! Return q.
     int get_size() const { return ( (m != 0) ? q[m] : 0 ); }
-    /*! 
+    /*!
       \brief Returns the vector space representation of GF(q).
 
       The format is (...,c,b,a), where the element x is given as x=...+c*alpha^2+b*alpha+a.
@@ -110,7 +110,7 @@ namespace itpp {
     int operator==(const GF &ingf) const;
     //! Not-equality check
     int operator!=(const GF &ingf) const;
-  
+
     //! GF(q) equals ingf
     void operator=(const GF &ingf);
     //! GF(q) equals alpha^inexp
@@ -150,7 +150,7 @@ namespace itpp {
   //! Division of GFX by GF
   GFX  operator/(const GFX &ingfx, const GF &ingf);
 
-  /*! 
+  /*!
     \brief Polynomials over GF(q)[x], where q=2^m, m=1,...,16
   */
   class GFX {
@@ -173,7 +173,7 @@ namespace itpp {
     int get_size() const;
     //! Return degree of GF(q)[x]
     int get_degree() const;
-    /*! 
+    /*!
       \brief Resize the polynomial to the given indegree. If the new polynomial is bigger, then the new coefficients are set to zero.
     */
     void set_degree(int indegree);
@@ -225,7 +225,7 @@ namespace itpp {
   };
 
   //-------------- Help Functions ------------------
-  /*! 
+  /*!
     \relates GFX
     \brief Int division of GF[q](x) polynomials: m(x) = c(x)/g(x).
 
@@ -233,7 +233,7 @@ namespace itpp {
   */
   GFX divgfx(const GFX &c, const GFX &g);
 
-  /*! 
+  /*!
     \relates GFX
     \brief Function that performs int division of gf[q](x) polynomials (a(x)/g(x)) and returns the reminder.
   */

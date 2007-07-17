@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definition of a CRC code class
  * \author Tony Ottosson
  *
@@ -39,8 +39,8 @@
 
 namespace itpp {
 
-  /*! 
-    \ingroup fec 
+  /*!
+    \ingroup fec
     \brief Cyclic Redundancy Check Codes
 
     This class will add the CRC bits after each input word. With b(i)
@@ -70,8 +70,8 @@ namespace itpp {
     //! Default Constructor
     CRC_Code() { reverse_parity = false; }
 
-    /*! 
-      \brief Set CRC code to one of the standardpolynomials using the 
+    /*!
+      \brief Set CRC code to one of the standardpolynomials using the
 			string value.
       \param code Possible values: CRC-4, CRC-7, CRC-8, CRC-12,
       CRC-24, CRC-32, CCITT-4, CCITT-5, CCITT-6, CCITT-16, CCITT-32,
@@ -97,7 +97,7 @@ namespace itpp {
     //! Returns the in_bits vector with parity added
     bvec encode(const bvec &in_bits) const;
 
-    //! Return true if parity checks OK otherwise flase. Also returns the message part in out. 
+    //! Return true if parity checks OK otherwise flase. Also returns the message part in out.
     bool decode(const bvec &coded_bits, bvec &out) const;
 
     //! Return true if parity checks OK otherwise flase. Also returns the message part in bits.

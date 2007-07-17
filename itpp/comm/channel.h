@@ -1,7 +1,7 @@
 /*!
- * \file 
+ * \file
  * \brief Communication channels' classes - header file
- * \author Tony Ottosson, Pal Frenger, Adam Piatyszek and Zbigniew Dlugaszewski 
+ * \author Tony Ottosson, Pal Frenger, Adam Piatyszek and Zbigniew Dlugaszewski
  *
  * $Date$
  * $Revision$
@@ -44,7 +44,7 @@
    * \brief Communication Channel Models
    * \author Tony Ottosson, Pal Frenger, Adam Piatyszek and Zbigniew Dlugaszewski
    *
-   * 
+   *
    * \section toc Table of Contents
    *
    * - \ref channel_intro
@@ -159,7 +159,7 @@
    * process is usually called a Rice fading process.
    *
    * The LOS component can be expressed as:
-   * 
+   *
    * \f[ \rho \exp(2 \pi f_\rho t + \theta_\rho), \f]
    *
    * where \f$ \rho \f$, \f$ f_\rho \f$, and \f$ \theta_\rho \f$ are the
@@ -178,10 +178,10 @@
    *
    * - [Pat02] Matthias Patzold, Mobile fading channels, Wiley, 2002.
    * - [Stu01] Gordon L. Stuber, Principles of mobile communication, 2nd.
-   * ed., Kluwer, 2001. 
+   * ed., Kluwer, 2001.
    * - [Rap96] Theodore S. Rappaport, Wireless communications: principles
    * and practise, Prentice Hall, 1996.
-   * 
+   *
    */
 
 
@@ -193,26 +193,26 @@ namespace itpp {
   //! Predefined channel profiles. Includes LOS and Doppler spectrum settings.
   enum CHANNEL_PROFILE {
     ITU_Vehicular_A, ITU_Vehicular_B, ITU_Pedestrian_A, ITU_Pedestrian_B,
-    COST207_RA, COST207_RA6, 
-    COST207_TU, COST207_TU6alt, COST207_TU12, COST207_TU12alt, 
-    COST207_BU, COST207_BU6alt, COST207_BU12, COST207_BU12alt, 
+    COST207_RA, COST207_RA6,
+    COST207_TU, COST207_TU6alt, COST207_TU12, COST207_TU12alt,
+    COST207_BU, COST207_BU6alt, COST207_BU12, COST207_BU12alt,
     COST207_HT, COST207_HT6alt, COST207_HT12, COST207_HT12alt,
     COST259_TUx, COST259_RAx, COST259_HTx
   };
 
   //! Fading generator type: Independent (default), Static or Correlated.
   enum FADING_TYPE { Independent, Static, Correlated };
-  
+
   //! Correlated fading generation methods: Rice_MEDS (default), IFFT or FIR.
   enum CORRELATED_METHOD { Rice_MEDS, IFFT, FIR };
 
   //! Rice fading generation methods: MEDS.
   enum RICE_METHOD { MEDS };
-  
+
   //! Predefined Doppler spectra
-  enum DOPPLER_SPECTRUM { 
+  enum DOPPLER_SPECTRUM {
     Jakes = 0, J = 0, Classic = 0, C = 0,
-    GaussI = 1, Gauss1 = 1, GI = 1, G1 = 1, 
+    GaussI = 1, Gauss1 = 1, GI = 1, G1 = 1,
     GaussII = 2, Gauss2 = 2, GII = 2, G2 = 2
   };
 
@@ -232,7 +232,7 @@ namespace itpp {
     Fading_Generator();
     //! Destructor
     virtual ~Fading_Generator() {}
- 
+
     //! Set relative LOS power
     void set_LOS_power(double relative_power);
     //! Set relative Doppler of the LOS component (for correlated fading generators)
@@ -355,7 +355,7 @@ namespace itpp {
     Correlated_Fading_Generator(double norm_doppler);
     //! Destructor
     virtual ~Correlated_Fading_Generator() {}
-    
+
     //! Set normalized Doppler
     virtual void set_norm_doppler(double norm_doppler);
     //! Set relative Doppler (compared to the maximum Doppler) for the LOS component
@@ -403,7 +403,7 @@ namespace itpp {
    * respectively. Rice showed that a generator of this form can perfectly
    * model a Gaussian process when \f$ N_i \rightarrow \infty \f$. When
    * generating a fading pattern we need a complex-valued generator
-   * 
+   *
    * \f[ \tilde \mu(t) = \tilde \mu_1(t) + j \tilde \mu_2(t) \f]
    *
    * Parameters that define the generator are the normalized Doppler and the
@@ -426,7 +426,7 @@ namespace itpp {
   class Rice_Fading_Generator : public Correlated_Fading_Generator {
   public:
     //! Default constructor
-    Rice_Fading_Generator(double norm_doppler, DOPPLER_SPECTRUM spectrum = Jakes, 
+    Rice_Fading_Generator(double norm_doppler, DOPPLER_SPECTRUM spectrum = Jakes,
 			  int no_freq = 16, RICE_METHOD method = MEDS);
     //! Destructor
     virtual ~Rice_Fading_Generator() {}
@@ -485,9 +485,9 @@ namespace itpp {
    *
    * References:
    * - [Stu01] Gordon L. Stuber, Principles of mobile communication, 2nd.
-   * ed., Kluwer, 2001. 
+   * ed., Kluwer, 2001.
    * - [Rap96] Theodore S. Rappaport, Wireless communications: principles
-   * and practise, Prentice Hall, 1996. 
+   * and practise, Prentice Hall, 1996.
    */
   class FIR_Fading_Generator : public Correlated_Fading_Generator {
   public:
@@ -519,7 +519,7 @@ namespace itpp {
      *
      * Function that generates the taps in the Jakes filter.
      * \param order Number of taps in the filter
-     * \param norm_dopp Normalized Doppler frequency, i.e. \f$ f_{norm} = 
+     * \param norm_dopp Normalized Doppler frequency, i.e. \f$ f_{norm} =
      * f_{max} T_{s} \f$, where \f$ f_{max} \f$ is the actual Doppler
      * frequency and \f$ T_{s} \f$ is the sampling interval.
      * \return A vector containing the filter taps of the Jakes filter.
@@ -548,9 +548,9 @@ namespace itpp {
    *
    * References:
    * - [Stu01] Gordon L. Stuber, Principles of mobile communication, 2nd.
-   * ed., Kluwer, 2001. 
+   * ed., Kluwer, 2001.
    * - [Rap96] Theodore S. Rappaport, Wireless communications: principles
-   * and practise, Prentice Hall, 1996. 
+   * and practise, Prentice Hall, 1996.
    */
   class IFFT_Fading_Generator : public Correlated_Fading_Generator {
   public:
@@ -609,8 +609,8 @@ namespace itpp {
    *
    * Optionally one can define LOS parameters: \a relative_power and
    * \a relative_doppler, and additionally the kind of Doppler spectrum for
-   * each tap. 
-   * 
+   * each tap.
+   *
    * It is also possible to specify a predefined channel model. The
    * implemented ones are as follows:
    * - ITU Channel models:
@@ -641,7 +641,7 @@ namespace itpp {
    * References:
    * - [Pat02] Matthias Patzold, Mobile fading channels, Wiley, 2002.
    * - [3GPP_TR_25.943] Technical Specification Group Radio Access Networs;
-   * Deployment aspects. Version 5.1.0 (2002-06). 
+   * Deployment aspects. Version 5.1.0 (2002-06).
    */
   class Channel_Specification {
   public:
@@ -666,7 +666,7 @@ namespace itpp {
     void set_LOS(int tap_number, double relative_power, double relative_doppler = 0.7);
     //! Set LOS (Rice) components for all taps
     void set_LOS(const vec& relative_power, const vec& relative_doppler = "");
-    
+
     //! Get both average power profile in dB and power delay profile in seconds
     void get_channel_profile(vec &avg_power_dB, vec &delay_prof) const;
     //! Return power profile in dB
@@ -685,7 +685,7 @@ namespace itpp {
     double get_LOS_power(int tap_number) const { return los_power(tap_number); }
     //! Get relative Doppler for tap \a tap_number
     double get_LOS_doppler(int tap_number) const { return los_dopp(tap_number); }
-    
+
     //! Return the number of channel taps
     int taps() const { return N_taps; }
 
@@ -734,7 +734,7 @@ namespace itpp {
    * - \a avg_power_dB Average power profile \f$ \mathbf{a} \f$, given in dB
    * - \a delay_profile Delay profile \f$ \mathbf{\tau} \f$, given in samples.
    * The delay profile should be sorted (increasing delay) and the first
-   * delay has to be 0. 
+   * delay has to be 0.
    *
    * In the case of correlated channel, the correlation in time is decided
    * by the normalized Doppler frequency and Doppler spectrum. The
@@ -746,7 +746,7 @@ namespace itpp {
    * method. In the filter method the correlated fading process is generated
    * with a filtering of the complex Gaussian process to achieve a given
    * Doppler spectrum (\a Jakes by default). Currently there are two filter
-   * implementations: 
+   * implementations:
    * - \a FIR - Finite Impulse Response (FIR) filter. Rather slow and
    * inaccurate. Use with care.
    * - \a IFFT - Blockwise filtering in the frequency-domain. Consecutive
@@ -768,7 +768,7 @@ namespace itpp {
    * \a Static_Fading_Generator ones. Their names are self-explanatory. The
    * only optional parameter of these two generators is a \a relative_power
    * of the LOS component.
-   * 
+   *
    * Example: Simulation of WCDMA
    * \code
    * #include <itpp/itcomm.h>
@@ -783,7 +783,7 @@ namespace itpp {
    *   TDL_Channel channel(channel_spec, Ts);
    *   // set the normalized Doppler; fading type will be set to Correlated
    *   // and Rice_MEDS method will be used (default settings)
-   *   channel.set_norm_doppler(0.01); 
+   *   channel.set_norm_doppler(0.01);
    *
    *   cvec transmitted_signal;
    *   // -----------------------------------------------
@@ -799,7 +799,7 @@ namespace itpp {
    * References:
    * - [Pat02] Matthias Patzold, Mobile fading channels, Wiley, 2002.
    * - [Stu01] Gordon L. Stuber, Principles of mobile communication, 2nd.
-   * ed., Kluwer, 2001. 
+   * ed., Kluwer, 2001.
    * - [Rap96] Theodore S. Rappaport, Wireless communications: principles
    * and practise, Prentice Hall, 1996.
    */
@@ -956,7 +956,7 @@ namespace itpp {
     /*!
      * \brief Discretize the delay profile with \a discrete_Ts (Ts). All
      * taps within ((i-0.5)Ts,(i+0.5)Ts] belong to the ith discrete tap.
-     * 
+     *
      * \param delay_profile Delay profile in seconds.
      */
     void discretize(const vec &delay_profile);
@@ -1004,7 +1004,7 @@ namespace itpp {
 
     For real signals, the input parameter (\a noisevar) should be set to
     \f$ N_0/2 \f$, where \f$ N_0 \f$ is the noise spectral density.
-    However, in case of complex signals, the input parameter (\a noisevar) 
+    However, in case of complex signals, the input parameter (\a noisevar)
     represents the total noise variance of both real and imaginary parts,
     and thus is equal to \f$ N_0 \f$.
 

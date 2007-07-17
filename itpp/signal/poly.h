@@ -2,7 +2,7 @@
  * \file
  * \brief Polynomial functions
  * \author Tony Ottosson
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -41,7 +41,7 @@ namespace itpp {
   /*!
     \brief Create a polynomial of the given roots
     \ingroup poly
-    
+
     Create a polynomial \c p with roots \c r
 
     @{
@@ -51,12 +51,12 @@ namespace itpp {
   void poly(const cvec &r, cvec &p);
   inline cvec poly(const cvec &r) { cvec temp; poly(r, temp); return temp; }
   /*! @} */
-  
+
 
   /*!
     \brief Calculate the roots of the polynomial
     \ingroup poly
-    
+
     Calculate the roots \c r of the polynomial \c p
 
     @{
@@ -66,12 +66,12 @@ namespace itpp {
   void roots(const cvec &p, cvec &r);
   inline cvec roots(const cvec &p) { cvec temp; roots(p, temp); return temp; }
   /*! @} */
-  
+
 
   /*!
     \brief Evaluate polynomial
     \ingroup poly
-    
+
     Evaluate the polynomial \c p (of length \f$N+1\f$ at the points \c x
     The output is given by
     \f[
@@ -79,7 +79,7 @@ namespace itpp {
     \f]
 
     @{
-  */  
+  */
   vec polyval(const vec &p, const vec &x);
   cvec polyval(const vec &p, const cvec &x);
   cvec polyval(const cvec &p, const vec &x);

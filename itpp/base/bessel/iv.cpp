@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of modified Bessel functions of noninteager order
  * \author Tony Ottosson
  *
@@ -30,7 +30,7 @@
  * -------------------------------------------------------------------------
  *
  * This is slightly modified routine from the Cephes library:
- * http://www.netlib.org/cephes/ 
+ * http://www.netlib.org/cephes/
  */
 
 #include <itpp/base/bessel/bessel_internal.h>
@@ -39,7 +39,7 @@
 
 using namespace itpp;
 
-/* 
+/*
  * Modified Bessel function of noninteger order
  *
  * double v, x, y, iv();

@@ -1,9 +1,9 @@
 /*!
  * \file
- * \brief Definitions of special operations on vectors and matricies optimized 
+ * \brief Definitions of special operations on vectors and matricies optimized
  * for speed
  * \author Tony Ottosson and Tobias Ringstrom
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -40,13 +40,13 @@
 
 namespace itpp {
 
-  /*! 
+  /*!
     \relatesalso Mat
     \brief Calculates m=m-v*v'*m
   */
   void sub_v_vT_m(mat &m, const vec &v);
 
-  /*! 
+  /*!
     \relatesalso Mat
     \brief Calculates m=m-m*v*v'
   */

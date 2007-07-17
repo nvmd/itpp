@@ -2,7 +2,7 @@
  * \file
  * \brief Matrix Class Implementation
  * \author Tony Ottosson, Tobias Ringstrom, Adam Piatyszek and Conrad Sanderson
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -72,7 +72,7 @@ namespace itpp {
 	  buffer.seekg(1, std::ios_base::cur);
 	  break;
 
-	  // then check for a possible sign 
+	  // then check for a possible sign
 	case '+': case '-':
 	  buffer.seekg(1, std::ios_base::cur);
 	  offset--;
@@ -101,9 +101,9 @@ namespace itpp {
 		  it_error("Mat<int>::set(): Improper data string (hex)");
 		}
 	      } while (buffer.peek() != EOF && buffer.peek() != ';' &&
-		       buffer.peek() != ' ' && buffer.peek() != '\t' && 
+		       buffer.peek() != ' ' && buffer.peek() != '\t' &&
 		       buffer.peek() != ',');
-	    
+
 	      buffer.clear();
 	      buffer.seekg(offset, std::ios_base::cur);
 	      offset = 0;
@@ -222,7 +222,7 @@ namespace itpp {
 	  buffer >> std::dec >> this->operator()(rows-1, cols-1);
 	  comma = false;
 	  break; // end of decimal part
-      
+
 	default:
 	  it_error("Mat<int>::set(): Improper data string");
 	}
@@ -241,17 +241,17 @@ namespace itpp {
 	comma = false;
 	// it_assert(buffer.peek() != EOF, "Mat<int>::set(): Improper data string");
       }
-      
+
       it_assert(!comma || (nocols == 0), "Mat<int>::set(): Improper matrix string");
 
     } // while (buffer.peek() != EOF)
 
     set_size(rows, nocols, true);
-  
+
     return true;
   }
 
-  template<> 
+  template<>
   bool Mat<short int>::set(const char *values) {
     std::istringstream buffer(values);
     int rows = 0, maxrows = 10, cols = 0, nocols = 0, maxcols = 10;
@@ -283,7 +283,7 @@ namespace itpp {
 	  buffer.seekg(1, std::ios_base::cur);
 	  break;
 
-	  // then check for a possible sign 
+	  // then check for a possible sign
 	case '+': case '-':
 	  buffer.seekg(1, std::ios_base::cur);
 	  offset--;
@@ -312,9 +312,9 @@ namespace itpp {
 		  it_error("Mat<short int>::set(): Improper data string (hex)");
 		}
 	      } while (buffer.peek() != EOF && buffer.peek() != ';' &&
-		       buffer.peek() != ' ' && buffer.peek() != '\t' && 
+		       buffer.peek() != ' ' && buffer.peek() != '\t' &&
 		       buffer.peek() != ',');
-	    
+
 	      buffer.clear();
 	      buffer.seekg(offset, std::ios_base::cur);
 	      offset = 0;
@@ -433,7 +433,7 @@ namespace itpp {
 	  buffer >> std::dec >> this->operator()(rows-1, cols-1);
 	  comma = false;
 	  break; // end of decimal part
-      
+
 	default:
 	  it_error("Mat<short int>::set(): Improper data string");
 	}
@@ -457,7 +457,7 @@ namespace itpp {
     } // while (buffer.peek() != EOF)
 
     set_size(rows, nocols, true);
-  
+
     return true;
   }
 
@@ -486,7 +486,7 @@ namespace itpp {
     cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, no_rows, m.no_cols, no_cols, 1.0,
 		data, no_rows, m.data, m.no_rows, 0.0, r.data, r.no_rows);
 
-    operator=(r); // time consuming 
+    operator=(r); // time consuming
     return *this;
   }
 
@@ -667,25 +667,25 @@ namespace itpp {
   template void elem_mult_out(const imat &A, const imat &B, imat &out);
   template void elem_mult_out(const smat &A, const smat &B, smat &out);
   template void elem_mult_out(const bmat &A, const bmat &B, bmat &out);
-  
+
   template void elem_mult_out(const mat &A, const mat &B, const mat &C, mat &out);
   template void elem_mult_out(const cmat &A, const cmat &B, const cmat &C, cmat &out);
   template void elem_mult_out(const imat &A, const imat &B, const imat &C, imat &out);
   template void elem_mult_out(const smat &A, const smat &B, const smat &C, smat &out);
   template void elem_mult_out(const bmat &A, const bmat &B, const bmat &C, bmat &out);
-  
+
   template void elem_mult_out(const mat &A, const mat &B, const mat &C, const mat &D, mat &out);
   template void elem_mult_out(const cmat &A, const cmat &B, const cmat &C, const cmat &D, cmat &out);
   template void elem_mult_out(const imat &A, const imat &B, const imat &C, const imat &D, imat &out);
   template void elem_mult_out(const smat &A, const smat &B, const smat &C, const smat &D, smat &out);
   template void elem_mult_out(const bmat &A, const bmat &B, const bmat &C, const bmat &D, bmat &out);
-  
+
   template void elem_mult_inplace(const mat &A, mat &B);
   template void elem_mult_inplace(const cmat &A, cmat &B);
   template void elem_mult_inplace(const imat &A, imat &B);
   template void elem_mult_inplace(const smat &A, smat &B);
   template void elem_mult_inplace(const bmat &A, bmat &B);
-  
+
   template double elem_mult_sum(const mat &A, const mat &B);
   template std::complex<double> elem_mult_sum(const cmat &A, const cmat &B);
   template int elem_mult_sum(const imat &A, const imat &B);
@@ -713,13 +713,13 @@ namespace itpp {
   template void elem_div_out(const imat &A, const imat &B, imat &out);
   template void elem_div_out(const smat &A, const smat &B, smat &out);
   template void elem_div_out(const bmat &A, const bmat &B, bmat &out);
-  
+
   template double elem_div_sum(const mat &A, const mat &B);
   template std::complex<double> elem_div_sum(const cmat &A, const cmat &B);
   template int elem_div_sum(const imat &A, const imat &B);
   template short elem_div_sum(const smat &A, const smat &B);
   template bin elem_div_sum(const bmat &A, const bmat &B);
-  
+
   // ------------- Concatenations -----------------
 
   template const mat concat_horizontal(const mat &m1, const mat &m2);

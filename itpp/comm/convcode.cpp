@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of a binary convolutional encoder class
  * \author Tony Ottosson and Adam Piatyszek
  *
@@ -35,7 +35,7 @@
 #include <itpp/base/matfunc.h>
 #include <limits>
 
-namespace itpp { 
+namespace itpp {
 
   // ----------------- Protected functions -----------------------------
 
@@ -62,7 +62,7 @@ namespace itpp {
 
   /*
     The weight (of the reverse code) of the transition from given state with
-    the input given 
+    the input given
   */
   int Convolutional_Code::weight_reverse(const int state, const int input)
   {
@@ -106,7 +106,7 @@ namespace itpp {
 
   /*
     The weight (of the reverse code) of the two paths (input 0 or 1) from
-    given state 
+    given state
   */
   void Convolutional_Code::weight_reverse(const int state, int &w0, int &w1)
   {
@@ -148,7 +148,7 @@ namespace itpp {
   /*
     Output on transition (backwards) with input from state
   */
-  void Convolutional_Code::output_reverse(const int state, bvec &zero_output, 
+  void Convolutional_Code::output_reverse(const int state, bvec &zero_output,
 					  bvec &one_output)
   {
     int j, temp, temp_state;
@@ -167,7 +167,7 @@ namespace itpp {
   /*
     Output on transition (backwards) with input from state
   */
-  void Convolutional_Code::output_reverse(const int state, int &zero_output, 
+  void Convolutional_Code::output_reverse(const int state, int &zero_output,
 					  int &one_output)
   {
     int j, temp, temp_state;
@@ -188,9 +188,9 @@ namespace itpp {
   /*
     Output on transition (backwards) with input from state
   */
-  void Convolutional_Code::calc_metric_reverse(int state, 
-					       const vec &rx_codeword, 
-					       double &zero_metric, 
+  void Convolutional_Code::calc_metric_reverse(int state,
+					       const vec &rx_codeword,
+					       double &zero_metric,
 					       double &one_metric)
   {
     int temp;
@@ -202,16 +202,16 @@ namespace itpp {
       temp = temp_state & gen_pol(j);
       one_bit = temp & 1;
       temp >>= 1;
-      one_metric += (2 * static_cast<int>(xor_int_table(temp) ^ one_bit) - 1) 
+      one_metric += (2 * static_cast<int>(xor_int_table(temp) ^ one_bit) - 1)
 	* rx_codeword(j);
-      zero_metric += (2 * static_cast<int>(xor_int_table(temp)) - 1) 
+      zero_metric += (2 * static_cast<int>(xor_int_table(temp)) - 1)
 	* rx_codeword(j);
     }
   }
 
 
   // calculates metrics for all codewords (2^n of them) in natural order
-  void Convolutional_Code::calc_metric(const vec &rx_codeword, 
+  void Convolutional_Code::calc_metric(const vec &rx_codeword,
 				       vec &delta_metrics)
   {
     int no_outputs = pow2i(n), no_loop = pow2i(n - 1), mask = no_outputs - 1,
@@ -231,7 +231,7 @@ namespace itpp {
 	}
 	delta_metrics(i ^ mask) = -delta_metrics(i); // the inverse codeword
       }
-    } 
+    }
     else {
       double zero_metric, one_metric;
       int zero_output, one_output, temp_state;
@@ -252,9 +252,9 @@ namespace itpp {
 	    zero_metric -= rx_codeword(j);
 	    one_metric += rx_codeword(j);
 	  }
-	  one_output = (one_output << 1) 
+	  one_output = (one_output << 1)
 	    | static_cast<int>(xor_int_table(temp) ^ one_bit);
-	  zero_output = (zero_output << 1) 
+	  zero_output = (zero_output << 1)
 	    | static_cast<int>(xor_int_table(temp));
 	}
 	delta_metrics(zero_output) = zero_metric;
@@ -550,7 +550,7 @@ namespace itpp {
   /*
     Set generator polynomials. Given in Proakis integer form
   */
-  void Convolutional_Code::set_generator_polynomials(const ivec &gen, 
+  void Convolutional_Code::set_generator_polynomials(const ivec &gen,
 						     int constraint_length)
   {
     it_error_if(constraint_length <= 0, "Convolutional_Code::set_generator_polynomials(): Constraint length out of range");
@@ -612,7 +612,7 @@ namespace itpp {
     trunc_ptr = 0;
     trunc_state = 0;
   }
-  
+
 
   /*
     Encode a binary vector of inputs using specified method
@@ -691,7 +691,7 @@ namespace itpp {
   {
     int temp;
     output.set_size(input.size() * n, false);
-    
+
     // Set the start state equal to the end state:
     encoder_state = 0;
     bvec last_bits = input.right(m);
@@ -733,7 +733,7 @@ namespace itpp {
   void Convolutional_Code::decode(const bvec &coded_bits, bvec &output)
   {
     it_error("Convolutional_Code::decode(): Hard-decision decoding not implemented");
-  } 
+  }
 
   bvec Convolutional_Code::decode(const bvec &coded_bits)
   {
@@ -769,7 +769,7 @@ namespace itpp {
   void Convolutional_Code::decode_tail(const vec &received_signal, bvec &output)
   {
     int block_length = received_signal.size() / n; // no input symbols
-    it_error_if(block_length - m <= 0, 
+    it_error_if(block_length - m <= 0,
 		"Convolutional_Code::decode_tail(): Input sequence to short");
     int S0, S1;
     vec temp_sum_metric(no_states), temp_rec(n), delta_metrics;
@@ -798,25 +798,25 @@ namespace itpp {
 	// S0 and S1 are the states that expanded end at state s
 	previous_state(s, S0, S1);
 	if (visited_state(S0)) { // expand trellis if state S0 is visited
-	  temp_metric_zero = sum_metric(S0) 
+	  temp_metric_zero = sum_metric(S0)
 	    + delta_metrics(output_reverse_int(s, 0));
 	  temp_visited_state(s) = true;
-	} 
+	}
 	else {
 	  temp_metric_zero = std::numeric_limits<double>::max();
 	}
 	if (visited_state(S1)) { // expand trellis if state S0 is visited
-	  temp_metric_one = sum_metric(S1) 
+	  temp_metric_one = sum_metric(S1)
 	    + delta_metrics(output_reverse_int(s, 1));
 	  temp_visited_state(s) = true;
-	} 
+	}
 	else {
 	  temp_metric_one = std::numeric_limits<double>::max();
 	}
 	if (temp_metric_zero < temp_metric_one) { // path zero survives
 	  temp_sum_metric(s) = temp_metric_zero;
 	  path_memory(s, l) = 0;
-	} 
+	}
 	else { // path one survives
 	  temp_sum_metric(s) = temp_metric_one;
 	  path_memory(s, l) = 1;
@@ -836,14 +836,14 @@ namespace itpp {
       for (int s = 0; s < no_states; s++) { // all states
 	// S0 and S1 are the states that expanded end at state s
 	previous_state(s, S0, S1);
-	temp_metric_zero = sum_metric(S0) 
+	temp_metric_zero = sum_metric(S0)
 	  + delta_metrics(output_reverse_int(s, 0));
-	temp_metric_one = sum_metric(S1) 
+	temp_metric_one = sum_metric(S1)
 	  + delta_metrics(output_reverse_int(s, 1));
 	if (temp_metric_zero < temp_metric_one) { // path zero survives
 	  temp_sum_metric(s) = temp_metric_zero;
 	  path_memory(s, l) = 0;
-	} 
+	}
 	else { // path one survives
 	  temp_sum_metric(s) = temp_metric_one;
 	  path_memory(s, l) = 1;
@@ -857,7 +857,7 @@ namespace itpp {
     // trace back to remove tail of zeros
     for (int l = block_length - 1; l > block_length - 1 - m; l--) {
       // previous state calculation
-      min_metric_state = previous_state(min_metric_state, 
+      min_metric_state = previous_state(min_metric_state,
 					path_memory(min_metric_state, l));
     }
 
@@ -865,7 +865,7 @@ namespace itpp {
     for (int l = block_length - 1 - m; l >= 0; l--) {
       output(l) = get_input(min_metric_state);
       // previous state calculation
-      min_metric_state = previous_state(min_metric_state, 
+      min_metric_state = previous_state(min_metric_state,
 					path_memory(min_metric_state, l));
     }
   }
@@ -874,11 +874,11 @@ namespace itpp {
   /*
     Decode a block of encoded data where encode_tailbite has been used.
   */
-  void Convolutional_Code::decode_tailbite(const vec &received_signal, 
+  void Convolutional_Code::decode_tailbite(const vec &received_signal,
 					   bvec &output)
   {
     int block_length = received_signal.size() / n; // no input symbols
-    it_error_if(block_length <= 0, 
+    it_error_if(block_length <= 0,
 		"Convolutional_Code::decode_tailbite(): Input sequence to short");
     int S0, S1;
     vec temp_sum_metric(no_states), temp_rec(n), delta_metrics;
@@ -910,25 +910,25 @@ namespace itpp {
 	  // S0 and S1 are the states that expanded end at state s
 	  previous_state(s, S0, S1);
 	  if (visited_state(S0)) { // expand trellis if state S0 is visited
-	    temp_metric_zero = sum_metric(S0) 
+	    temp_metric_zero = sum_metric(S0)
 	      + delta_metrics(output_reverse_int(s, 0));
 	    temp_visited_state(s) = true;
-	  } 
+	  }
 	  else {
 	    temp_metric_zero = std::numeric_limits<double>::max();
 	  }
 	  if (visited_state(S1)) { // expand trellis if state S0 is visited
-	    temp_metric_one = sum_metric(S1) 
+	    temp_metric_one = sum_metric(S1)
 	      + delta_metrics(output_reverse_int(s, 1));
 	    temp_visited_state(s) = true;
-	  } 
+	  }
 	  else {
 	    temp_metric_one = std::numeric_limits<double>::max();
 	  }
 	  if (temp_metric_zero < temp_metric_one) { // path zero survives
 	    temp_sum_metric(s) = temp_metric_zero;
 	    path_memory(s, l) = 0;
-	  } 
+	  }
 	  else { // path one survives
 	    temp_sum_metric(s) = temp_metric_one;
 	    path_memory(s, l) = 1;
@@ -945,7 +945,7 @@ namespace itpp {
       for (int l = block_length - 1; l >= 0; l--) {
 	temp_output(l) = get_input(min_metric_state);
 	// previous state calculation
-	min_metric_state = previous_state(min_metric_state, 
+	min_metric_state = previous_state(min_metric_state,
 					  path_memory(min_metric_state, l));
       }
       if (sum_metric(ss) < best_metric) {
@@ -960,11 +960,11 @@ namespace itpp {
   /*
     Viterbi decoding using truncation of memory (default = 5*K)
   */
-  void Convolutional_Code::decode_trunc(const vec &received_signal, 
+  void Convolutional_Code::decode_trunc(const vec &received_signal,
 					bvec &output)
   {
     int block_length = received_signal.size() / n; // no input symbols
-    it_error_if(block_length <= 0, 
+    it_error_if(block_length <= 0,
 		"Convolutional_Code::decode_trunc(): Input sequence to short");
     int S0, S1;
     vec temp_sum_metric(no_states), temp_rec(n), delta_metrics;
@@ -989,25 +989,25 @@ namespace itpp {
 	// the states that expanded end at state s
 	previous_state(s, S0, S1);
 	if (visited_state(S0)) { // expand trellis if state S0 is visited
-	  temp_metric_zero = sum_metric(S0) 
+	  temp_metric_zero = sum_metric(S0)
 	    + delta_metrics(output_reverse_int(s, 0));
 	  temp_visited_state(s) = true;
-	} 
+	}
 	else {
 	  temp_metric_zero = std::numeric_limits<double>::max();
 	}
 	if (visited_state(S1)) { // expand trellis if state S0 is visited
-	  temp_metric_one = sum_metric(S1) 
+	  temp_metric_one = sum_metric(S1)
 	    + delta_metrics(output_reverse_int(s, 1));
 	  temp_visited_state(s) = true;
-	} 
+	}
 	else {
 	  temp_metric_one = std::numeric_limits<double>::max();
 	}
 	if (temp_metric_zero < temp_metric_one) { // path zero survives
 	  temp_sum_metric(s) = temp_metric_zero;
 	  path_memory(s, trunc_ptr) = 0;
-	} 
+	}
 	else { // path one survives
 	  temp_sum_metric(s) = temp_metric_one;
 	  path_memory(s, trunc_ptr) = 1;
@@ -1027,9 +1027,9 @@ namespace itpp {
 	// trace back to calculate the output symbol
 	for (int j = trunc_length; j > 0; j--) {
 	  // previous state calculation
-	  min_metric_state = 
-	    previous_state(min_metric_state, 
-			   path_memory(min_metric_state, 
+	  min_metric_state =
+	    previous_state(min_metric_state,
+			   path_memory(min_metric_state,
 				       (trunc_ptr + j) % trunc_length));
 	}
 	output.ins(output.size(), get_input(min_metric_state));
@@ -1039,8 +1039,8 @@ namespace itpp {
       }
     } // end for (int i = 0; i < block_length; l++)
   }
-  
-  
+
+
   /*
     Calculate the inverse sequence
 

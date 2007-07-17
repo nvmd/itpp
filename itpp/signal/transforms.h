@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Fourier, Hadamard, Walsh-Hadamard, and 2D Hadamard transforms -
- *        header file 
+ *        header file
  * \author Tony Ottosson, Thomas Eriksson, Simon Wood and Adam Piatyszek
  *
  * $Date$
@@ -41,7 +41,7 @@
 
 namespace itpp {
 
-  /*! 
+  /*!
     \addtogroup fft
     \brief One dimensional fast fourier transform
     \author Tony Ottosson and Adam Piatyszek
@@ -59,11 +59,11 @@ namespace itpp {
     \code Y = fft(X, N) \endcode performs zero-padding up to size N and then
     performs an N-size fft.
 
-    The implementation is built upon one of the following libraries: 
+    The implementation is built upon one of the following libraries:
     - FFTW (version 3.0.0 or higher)
-    - MKL (version 8.0.0 or higher) 
+    - MKL (version 8.0.0 or higher)
     - ACML (version 2.5.3 or higher).
-    
+
     \note FFTW-based implementation is the fastest for powers of two.
     Furthermore, the second time you call the routine with the same size,
     the calculation is much faster due to many things were calculated and
@@ -112,14 +112,14 @@ namespace itpp {
   //!@}
 
 
-  /*! 
+  /*!
     \addtogroup dct
     \brief One dimensional Dicrete Cosine Transform
     \author Tony Ottosson and Adam Piatyszek
 
     The functions \code X = dct(x) \endcode and \code x = idct(X) \endcode
     are the dicrete cosine and inverse discrete cosine transforms of size \a
-    N defined as: 
+    N defined as:
     \f[
     X(k) = w(k) \sum_{j=0}^{N-1} x(j) \cos \left(\frac{(2j+1)k \pi}{2N} \right)
     \f]
@@ -127,12 +127,12 @@ namespace itpp {
     \f[
     x(j) = \sum_{k=0}^{N-1} w(k) X(k) \cos \left(\frac{(2j+1)k \pi}{2N} \right)
     \f]
-    where \f$w(k) = 1/sqrt{N}\f$ for \f$k=0\f$ and 
+    where \f$w(k) = 1/sqrt{N}\f$ for \f$k=0\f$ and
     \f$w(k) = sqrt{2/N}\f$ for \f$k\geq 1\f$.
 
-    The implementation is built upon one of the following libraries: 
+    The implementation is built upon one of the following libraries:
     - FFTW (version 3.0.0 or higher)
-    - MKL (version 8.0.0 or higher) 
+    - MKL (version 8.0.0 or higher)
     - ACML (version 2.5.3 or higher).
 
     \note FFTW-based implementation is the fastest for powers of two.
@@ -165,7 +165,7 @@ namespace itpp {
   //! Inverse Discrete Cosine Transform (IDCT)
   vec idct(const vec &in);
   //!@}
-  
+
 
   //!\addtogroup fht
   //!@{
@@ -183,7 +183,7 @@ namespace itpp {
   template <class T> void dwht(const Vec<T> &vin, Vec<T> &vout);
   //! Fast Walsh Hadamard Transform - memory efficient (result in \c v)
   template <class T> void self_dwht(Vec<T> &v);
-  
+
   //! Fast 2D Hadamard Transform
   template <class T> Mat<T> dht2(const Mat<T> &m);
   //! Fast 2D Walsh Hadamard Transform
@@ -200,7 +200,7 @@ namespace itpp {
 
   //! Bit reverse
   template <class T>
-  void bitrv(Vec<T> &out) 
+  void bitrv(Vec<T> &out)
   {
     int N = out.size();
     int j = 0;
@@ -236,7 +236,7 @@ namespace itpp {
     }
     N /= 2;
 
-    int l = 2;    
+    int l = 2;
     for (int i = 1; i < m; ++i) {
       N /= 2;
       int ib = 0;

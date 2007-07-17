@@ -1,9 +1,9 @@
 /*!
  * \file
  * \brief Fourier, Cosine, Hadamard, Walsh-Hadamard, and 2D Hadamard
- *        transforms - source file 
+ *        transforms - source file
  * \author Tony Ottosson, Thomas Eriksson, Simon Wood and Adam Piatyszek
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -48,7 +48,7 @@
 #include <itpp/signal/transforms.h>
 
 
-namespace itpp { 
+namespace itpp {
 
 #ifdef HAVE_FFT_MKL
 
@@ -56,7 +56,7 @@ namespace itpp {
   // FFT/IFFT based on MKL
   //---------------------------------------------------------------------------
 
-  void fft(const cvec &in, cvec &out) 
+  void fft(const cvec &in, cvec &out)
   {
     static DFTI_DESCRIPTOR* fft_handle = NULL;
     static int N;
@@ -165,7 +165,7 @@ namespace itpp {
 	  * std::sqrt(2.0 * N);
       }
       for (int i = N - 1; i >= 1; i--) {
-	c(c.size() - i) = c(i) * std::complex<double>(std::cos(pi*i/N), 
+	c(c.size() - i) = c(i) * std::complex<double>(std::cos(pi*i/N),
 						      std::sin(-pi*i/N));
       }
       out = ifft_real(c);
@@ -179,7 +179,7 @@ namespace itpp {
   // FFT/IFFT based on ACML
   //---------------------------------------------------------------------------
 
-  void fft(const cvec &in, cvec &out) 
+  void fft(const cvec &in, cvec &out)
   {
     static int N = 0;
     static cvec *comm_ptr = NULL;
@@ -191,16 +191,16 @@ namespace itpp {
       if (comm_ptr != NULL)
 	delete comm_ptr;
       comm_ptr = new cvec(5 * in.size() + 100);
-      zfft1dx(0, 1.0, false, N, (doublecomplex *)in._data(), 1, 
-	      (doublecomplex *)out._data(), 1, 
+      zfft1dx(0, 1.0, false, N, (doublecomplex *)in._data(), 1,
+	      (doublecomplex *)out._data(), 1,
 	      (doublecomplex *)comm_ptr->_data(), &info);
     }
-    zfft1dx(-1, 1.0, false, N, (doublecomplex *)in._data(), 1, 
-	    (doublecomplex *)out._data(), 1, 
+    zfft1dx(-1, 1.0, false, N, (doublecomplex *)in._data(), 1,
+	    (doublecomplex *)out._data(), 1,
 	    (doublecomplex *)comm_ptr->_data(), &info);
   }
 
-  void ifft(const cvec &in, cvec &out) 
+  void ifft(const cvec &in, cvec &out)
   {
     static int N = 0;
     static cvec *comm_ptr = NULL;
@@ -212,12 +212,12 @@ namespace itpp {
       if (comm_ptr != NULL)
 	delete comm_ptr;
       comm_ptr = new cvec(5 * in.size() + 100);
-      zfft1dx(0, 1.0/N, false, N, (doublecomplex *)in._data(), 1, 
-	      (doublecomplex *)out._data(), 1, 
+      zfft1dx(0, 1.0/N, false, N, (doublecomplex *)in._data(), 1,
+	      (doublecomplex *)out._data(), 1,
 	      (doublecomplex *)comm_ptr->_data(), &info);
     }
-    zfft1dx(1, 1.0/N, false, N, (doublecomplex *)in._data(), 1, 
-	    (doublecomplex *)out._data(), 1, 
+    zfft1dx(1, 1.0/N, false, N, (doublecomplex *)in._data(), 1,
+	    (doublecomplex *)out._data(), 1,
 	    (doublecomplex *)comm_ptr->_data(), &info);
   }
 
@@ -313,7 +313,7 @@ namespace itpp {
 	  * std::sqrt(2.0 * N);
       }
       for (int i = N - 1; i >= 1; i--) {
-	c(c.size() - i) = c(i) * std::complex<double>(std::cos(pi*i/N), 
+	c(c.size() - i) = c(i) * std::complex<double>(std::cos(pi*i/N),
 						      std::sin(-pi*i/N));
       }
       out = ifft_real(c);
@@ -342,7 +342,7 @@ namespace itpp {
      data, or (iii) force the IT++/FFTW interface function to recreate
      the FFT plan whenever memory alignment has changed.  None of
      these solutions was found attractive.
-     
+
   */
 
   void fft(const cvec &in, cvec &out)
@@ -426,11 +426,11 @@ namespace itpp {
     if (N != in.size()) {
       N = in.size();
       inv_N = 1.0/N;
-      if (p != NULL) 
+      if (p != NULL)
 	fftw_destroy_plan(p); // destroy the previous plan
 
       // create a new plan
-      p = fftw_plan_dft_c2r_1d(N, (fftw_complex *)in._data(), (double *)out._data(), 
+      p = fftw_plan_dft_c2r_1d(N, (fftw_complex *)in._data(), (double *)out._data(),
 			       FFTW_ESTIMATE | FFTW_UNALIGNED | FFTW_PRESERVE_INPUT);
     }
 
@@ -456,7 +456,7 @@ namespace itpp {
 	fftw_destroy_plan(p); // destroy the previous plan
 
       // create a new plan
-      p = fftw_plan_r2r_1d(N, (double *)in._data(), (double *)out._data(), 
+      p = fftw_plan_r2r_1d(N, (double *)in._data(), (double *)out._data(),
 			   FFTW_REDFT10, FFTW_ESTIMATE | FFTW_UNALIGNED);
     }
 
@@ -483,7 +483,7 @@ namespace itpp {
       N = in.size();
       if (p != NULL)
 	fftw_destroy_plan(p); // destroy the previous plan
-      
+
       // create a new plan
       p = fftw_plan_r2r_1d(N, (double *)out._data(), (double *)out._data(),
 			   FFTW_REDFT01, FFTW_ESTIMATE | FFTW_UNALIGNED);
@@ -527,82 +527,82 @@ namespace itpp {
 
 #endif // HAVE_FFT_MKL or HAVE_FFT_ACML or HAVE_FFTW3
 
-  cvec fft(const cvec &in) 
-  { 
-    cvec out; 
-    fft(in, out); 
-    return out; 
+  cvec fft(const cvec &in)
+  {
+    cvec out;
+    fft(in, out);
+    return out;
   }
 
-  cvec fft(const cvec &in, const int N)  
-  { 
+  cvec fft(const cvec &in, const int N)
+  {
     cvec in2 = in;
     cvec out;
-    in2.set_size(N, true); 
-    fft(in2, out); 
-    return out; 
+    in2.set_size(N, true);
+    fft(in2, out);
+    return out;
   }
 
-  cvec ifft(const cvec &in)  
-  { 
+  cvec ifft(const cvec &in)
+  {
     cvec out;
     ifft(in, out);
-    return out; 
+    return out;
   }
 
-  cvec ifft(const cvec &in, const int N)  
-  { 
+  cvec ifft(const cvec &in, const int N)
+  {
     cvec in2 = in;
     cvec out;
-    in2.set_size(N, true); 
-    ifft(in2, out); 
-    return out; 
+    in2.set_size(N, true);
+    ifft(in2, out);
+    return out;
   }
 
-  cvec fft_real(const vec& in)  
-  { 
+  cvec fft_real(const vec& in)
+  {
     cvec out;
     fft_real(in, out);
-    return out; 
+    return out;
   }
 
-  cvec fft_real(const vec& in, const int N)  
-  { 
+  cvec fft_real(const vec& in, const int N)
+  {
     vec in2 = in;
     cvec out;
-    in2.set_size(N, true); 
+    in2.set_size(N, true);
     fft_real(in2, out);
-    return out; 
+    return out;
   }
 
-  vec ifft_real(const cvec &in) 
+  vec ifft_real(const cvec &in)
   {
     vec out;
     ifft_real(in, out);
-    return out; 
+    return out;
   }
 
-  vec ifft_real(const cvec &in, const int N) 
+  vec ifft_real(const cvec &in, const int N)
   {
-    cvec in2 = in; 
+    cvec in2 = in;
     in2.set_size(N, true);
     vec out;
     ifft_real(in2, out);
-    return out; 
+    return out;
   }
 
   vec dct(const vec &in)
-  { 
+  {
     vec out;
     dct(in, out);
-    return out; 
+    return out;
   }
 
-  vec idct(const vec &in) 
-  { 
+  vec idct(const vec &in)
+  {
     vec out;
     idct(in, out);
-    return out; 
+    return out;
   }
 
 

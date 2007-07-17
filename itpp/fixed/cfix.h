@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definitions of a complex fixed-point data type CFix
  * \author Johan Bergman
  *
@@ -47,7 +47,7 @@ namespace itpp {
 
   /*!
     \brief Complex fixed-point data type.
-  
+
     See the Detailed Description in the \ref fixed module.
   */
   class CFix : public Fix_Base {

@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definitions of eigenvalue decomposition functions
  * \author Tony Ottosson
  *

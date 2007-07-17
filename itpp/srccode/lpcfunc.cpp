@@ -1,6 +1,6 @@
 /*!
- * \file 
- * \brief Implementations of linear prediction functions, and conversion 
+ * \file
+ * \brief Implementations of linear prediction functions, and conversion
  * between common representations of linear predictive parameters
  * \author Thomas Eriksson
  *
@@ -43,7 +43,7 @@ using std::endl;
 
 namespace itpp {
 
-  // Autocorrelation sequence to reflection coefficients conversion. 
+  // Autocorrelation sequence to reflection coefficients conversion.
   vec ac2rc(const vec &ac);
   // Autocorrelation sequence to prediction polynomial conversion.
   vec ac2poly(const vec &ac);
@@ -57,11 +57,11 @@ namespace itpp {
   vec autocorr(const vec &x, int order)
   {
     if (order<0) order=x.size();
-	
+
     vec R(order+1);
     double sum;
     int i,j;
-	
+
     for (i=0;i<order+1;i++) {
       sum=0;
       for (j=0;j<x.size()-i;j++) {
@@ -82,7 +82,7 @@ namespace itpp {
     double	*a=new double[order+1];
     int	j,m;
     vec	out(order+1);
-	
+
     a[0]=1;
     alfa=R[0];
     if (alfa<=0) {
@@ -164,7 +164,7 @@ namespace itpp {
     int    order=a.size()-1;
     vec k(order);
     vec any(order+1),aold(a);
-    
+
     for (m=order-1;m>0;m--) {
       k[m]=aold[m+1] ;
       if (fabs(k[m])>1) k[m]=1.0/k[m];
@@ -182,7 +182,7 @@ namespace itpp {
   {
     int		m,i;
     vec	a(k.length()+1),any(k.length()+1);
-    
+
     a[0]=1;any[0]=1;
     a[1]=k[0];
     for (m=1;m<k.size();m++) {
@@ -199,7 +199,7 @@ namespace itpp {
   {
     short	m;
     vec LAR(k.size());
-    
+
     for (m=0;m<k.size();m++) {
 		LAR[m]=std::log((1+k[m])/(1-k[m]));
     }
@@ -210,7 +210,7 @@ namespace itpp {
   {
     short	m;
     vec k(LAR.size());
-    
+
     for (m=0;m<LAR.size();m++) {
 		k[m]=(std::exp(LAR[m])-1)/(std::exp(LAR[m])+1);
     }
@@ -221,7 +221,7 @@ namespace itpp {
   {
     int i;
     double b0=0.0, b1=0.0, b2=0.0;
-	
+
     for (i = n - 1; i >= 0; --i) {
       b2 = b1;
       b1 = b0;
@@ -234,7 +234,7 @@ namespace itpp {
   {
     int i;
     double b0=0.0, b1=0.0, b2=0.0;
-	
+
     for (i = n - 1; i >= 0; --i) {
       b2 = b1;
       b1 = b0;
@@ -247,7 +247,7 @@ namespace itpp {
   {
     int np=pc.length()-1;
     vec lsf(np);
-	
+
     vec fa((np+1)/2+1), fb((np+1)/2+1);
     vec ta((np+1)/2+1), tb((np+1)/2+1);
     double *t;
@@ -261,7 +261,7 @@ namespace itpp {
     double ss, aa;
     double	DW=(0.02 * pi);
     int		NBIS=4;
-	
+
     odd = (np % 2 != 0);
     if (odd) {
       nb = (np + 1) / 2;
@@ -271,15 +271,15 @@ namespace itpp {
       nb = np / 2 + 1;
       na = nb;
     }
-	
+
     fa[0] = 1.0;
     for (i = 1, j = np; i < na; ++i, --j)
       fa[i] = pc[i] + pc[j];
-	
+
     fb[0] = 1.0;
     for (i = 1, j = np; i < nb; ++i, --j)
       fb[i] = pc[i] - pc[j];
-	
+
     if (odd) {
       for (i = 2; i < nb; ++i)
 	fb[i] = fb[i] + fb[i-2];
@@ -290,23 +290,23 @@ namespace itpp {
 	fb[i] = fb[i] + fb[i-1];
       }
     }
-	
+
     ta[0] = fa[na-1];
     for (i = 1, j = na - 2; i < na; ++i, --j)
       ta[i] = 2.0 * fa[j];
-	
+
     tb[0] = fb[nb-1];
     for (i = 1, j = nb - 2; i < nb; ++i, --j)
       tb[i] = 2.0 * fb[j];
-	
+
     nf = 0;
     t = ta._data();
     n = na;
     xroot = 2.0;
     xlow = 1.0;
     ylow = FNevChebP_double(xlow, t, n);
-	
-	
+
+
     ss = std::sin (DW);
     aa = 4.0 - 4.0 * std::cos (DW)  - ss;
     while (xlow > -1.0 && nf < np) {
@@ -367,7 +367,7 @@ namespace itpp {
     double	c1, c2, *a;
     vec		p(m+1), q(m+1);
     int	mq, n, i, nor;
-	
+
     it_error_if(m%2!=0,"lsf2poly: THIS ROUTINE WORKS ONLY FOR EVEN m");
     pc[0] = 1.0;
     a = pc._data() + 1;
@@ -391,14 +391,14 @@ namespace itpp {
     a[0] = 0.5 * (p[1] + q[1]);
     for(i=1, n=2; i < m ; i++, n++)
       a[i] = 0.5 * (p[i] + p[n] + q[n] - q[i]);
-	
+
     return pc;
   }
 
   vec poly2cepstrum(const vec &a)
   {
     vec	c(a.length()-1);
-    
+
     for (int n=1;n<=c.length();n++) {
       c[n-1]=a[n];
       for (int k=1;k<n;k++) {
@@ -413,7 +413,7 @@ namespace itpp {
     it_error_if(num<a.length(),"a2cepstrum : not allowed cepstrum length");
     vec	c(num);
     int	n;
-    
+
     for (n=1;n<a.length();n++) {
       c[n-1]=a[n];
       for (int k=1;k<n;k++) {
@@ -432,7 +432,7 @@ namespace itpp {
   vec cepstrum2poly(const vec &c)
   {
     vec	a(c.length()+1);
-    
+
     a[0]=1;
     for (int n=1;n<=c.length();n++) {
       a[n]=c[n-1];
@@ -448,7 +448,7 @@ namespace itpp {
     vec    temp(a.length());
     int    i;
     double   f=factor;
-    
+
     it_error_if(a[0]!=1,"chirp : a[0] should be 1");
     temp[0]=a[0];
     for (i=1;i<a.length();i++) {
@@ -463,16 +463,16 @@ namespace itpp {
     if (order==-1) order=R.length()-1;
 
     vec    k(order), scratch(2*order+2);
-    
+
     int m;
     int h;
     double ex;
     double *ep;
     double *en;
-    
+
     ep = scratch._data();
     en = scratch._data() + order + 1;
-    
+
     m = 0;
     while( m < order){
       m++;
@@ -504,14 +504,14 @@ namespace itpp {
   vec lerouxguegenrc(const vec &R, int order)
   {
     vec    k(order);
-    
+
     double 	*r,*rny;
     int	j,m;
     int	M=order;
-    
+
     r=new double[2*M+1];
     rny=new double[2*M+1];
-    
+
     for (j=0;j<=M;j++) {
       r[M-j]=r[M+j]=R[j];
     }

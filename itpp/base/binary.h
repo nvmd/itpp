@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Binary class definition
  * \author Tony Ottosson
  *
@@ -38,7 +38,7 @@
 
 namespace itpp {
 
-  /*! 
+  /*!
     \brief Binary arithmetic (boolean) class
     \author Tony Ottosson
 
@@ -60,7 +60,7 @@ namespace itpp {
   public:
     //! Default constructor
     bin() { b=0; }
-    
+
     //! Set the binary object equal to \c value. Either "0" or "1".
     bin(const short value) {
       it_assert_debug(value==0 || value==1, "bin(value): value must be 0 or 1");
@@ -103,7 +103,7 @@ namespace itpp {
     bin operator-(const bin &inbin) const {return bin(b^inbin.b); }
     //! Dummy definition to be able to use vec<bin>
     bin operator-() const { return bin(b); }
-	
+
     //! AND
     void operator*=(const bin &inbin) { b=b&inbin.b; }
     //! AND
@@ -112,7 +112,7 @@ namespace itpp {
     bin operator*(const bin &inbin) const { return bin(b&inbin.b); }
     //! AND
     bin operator&(const bin &inbin) const { return bin(b&inbin.b); }
-	
+
     //! NOT
     bin operator!(void) const { return bin(b^1); }
     //! NOT
@@ -137,7 +137,7 @@ namespace itpp {
     bool operator>(const bin &inbin) const  { return b > inbin.b; }
     //! Greater than equal (interpret the binary values {0,1} as integers)
     bool operator>=(const bin &inbin) const { return b >= inbin.b; }
-	
+
     //! Convert \c bin to \c short
     operator short() const  { return static_cast<short>(b); }
     //! Convert \c bin to \c int
@@ -158,19 +158,19 @@ namespace itpp {
     char b;
   };
 
-  /*! 
+  /*!
     \relatesalso bin
     \brief Output stream of bin
   */
   std::ostream &operator<<(std::ostream &output, const bin &inbin);
 
-  /*! 
+  /*!
     \relatesalso bin
     \brief Input stream of bin
   */
   std::istream &operator>>(std::istream &input, bin &outbin);
 
-  /*! 
+  /*!
     \relatesalso bin
     \brief absolute value of bin
   */
@@ -179,7 +179,7 @@ namespace itpp {
 } // namespace itpp
 
 namespace std{     // added 11/2005, EGL
-  /*! 
+  /*!
     \relatesalso itpp::bin
     \brief absolute value of bin
   */

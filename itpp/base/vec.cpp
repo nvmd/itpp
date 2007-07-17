@@ -44,10 +44,10 @@ namespace itpp {
     bool c_parsed = false;
     bool comma = true;
     int pos = 0, maxpos = 10;
-    
+
     free();
     alloc(maxpos);
-    
+
     while (buffer.peek()!=EOF) {
 
       switch (buffer.peek()) {
@@ -92,7 +92,7 @@ namespace itpp {
 	    }
 	    it_assert(c_parsed, "Vec<double>::set(): Improper data string (a:b:c)");
 	    break;
-	    
+
 	  default:
 	    it_assert(!b_parsed, "Vec<double>::set(): Improper data string (a:b)");
 	    buffer.clear();
@@ -129,10 +129,10 @@ namespace itpp {
 	  else if (b == 0 && c == data[pos-1]) {
 	    break;
 	  }
-	  else { 
+	  else {
 	    it_error("Vec<double>::set(): Improper data string (a:b:c)");
 	  }
-	} // end if (c_parsed) 
+	} // end if (c_parsed)
 	else if (b_parsed) {
 	  eps_margin = std::fabs(b - data[pos-1]) * eps;
 	  if (b < data[pos-1]) {
@@ -187,7 +187,7 @@ namespace itpp {
 
     free();
     alloc(maxpos);
-    
+
     while (buffer.peek() != EOF) {
       switch (buffer.peek()) {
       case ':':
@@ -213,7 +213,7 @@ namespace itpp {
     }
     it_assert(!comma || (pos == 0), "Vec<complex>::set(): Improper data string");
     set_size(pos, true);
-		
+
     return true;
   }
 
@@ -270,12 +270,12 @@ namespace itpp {
     int pos = 0;
     int maxpos = 10;
     std::streamoff offset = 0;
- 
+
     free();
     alloc(maxpos);
 
     while (buffer.peek() != EOF) {
-      
+
       switch (buffer.peek()) {
       case ' ': case '\t':
 	buffer.seekg(1, std::ios_base::cur);
@@ -315,9 +315,9 @@ namespace itpp {
 		it_error("Vec<int>::set(): Improper data string (hex)");
 	      }
 	    } while (buffer.peek() != EOF && buffer.peek() != ',' &&
-		     buffer.peek() != ' ' && buffer.peek() != '\t' && 
+		     buffer.peek() != ' ' && buffer.peek() != '\t' &&
 		     buffer.peek() != ':');
-	    
+
 	    buffer.clear();
 	    buffer.seekg(offset, std::ios_base::cur);
 	    offset = 0;
@@ -416,7 +416,7 @@ namespace itpp {
 	buffer >> std::dec >> data[pos-1];
 	comma = false;
 	break;
-      
+
 	// parse format a:b:c or a:b
       case ':':
 	it_assert(pos == 1, "Vec<int>::set(): Improper data string (a:b)");
@@ -427,13 +427,13 @@ namespace itpp {
 	  case ' ': case '\t':
 	    buffer.seekg(1, std::ios_base::cur);
 	    break;
-	  
+
 	  case '+': case '-':
 	    it_assert(!b_parsed, "Vec<int>::set(): Improper data string (a:b)");
 	    buffer.seekg(1, std::ios_base::cur);
 	    offset--;
 	    break;
-	  
+
 	    // hexadecimal number or octal number or zero
 	  case '0':
 	    it_assert(!b_parsed, "Vec<int>::set(): Improper data string (a:b)");
@@ -515,7 +515,7 @@ namespace itpp {
 	      comma = false;
 	    }
 	    break;
-	  
+
 	    // decimal number
 	  case '1': case '2': case '3': case '4': case '5':
 	  case '6': case '7': case '8': case '9':
@@ -551,13 +551,13 @@ namespace itpp {
 	      case ' ': case '\t':
 		buffer.seekg(1, std::ios_base::cur);
 		break;
-	  
+
 	      case '+': case '-':
 		it_assert(!c_parsed, "Vec<int>::set(): Improper data string (a:b:c)");
 		buffer.seekg(1, std::ios_base::cur);
 		offset--;
 		break;
-	  
+
 		// hexadecimal number or octal number or zero
 	      case '0':
 		it_assert(!c_parsed, "Vec<int>::set(): Improper data string (a:b:c)");
@@ -640,7 +640,7 @@ namespace itpp {
 		  comma = false;
 		}
 		break;
-		
+
 		// decimal number
 	      case '1': case '2': case '3': case '4': case '5':
 	      case '6': case '7': case '8': case '9':
@@ -673,7 +673,7 @@ namespace itpp {
 	    } // while (buffer.peek() != EOF)
 	    it_assert(c_parsed, "Vec<int>::set(): Improper data string (a:b:c)");
 	    break;
-      
+
 	  default:
 	    it_error("Vec<int>::set(): Improper data string (a:b)");
 	  } // switch (buffer.peek())
@@ -701,10 +701,10 @@ namespace itpp {
 	  else if (b == 0 && c == data[pos-1]) {
 	    break;
 	  }
-	  else { 
+	  else {
 	    it_error("Vec<int>::set(): Improper data string (a:b:c)");
 	  }
-	} // if (c_parsed) 
+	} // if (c_parsed)
 	else if (b_parsed) {
 	  if (b < data[pos-1]) {
 	    while (data[pos-1] > b) {
@@ -729,7 +729,7 @@ namespace itpp {
 	  it_error("Vec<int>::set(): Improper data string (a:b)");
 	}
 	break;
-      
+
       default:
 	it_error("Vec<int>::set(): Improper data string");
       }
@@ -753,12 +753,12 @@ namespace itpp {
     int pos = 0;
     int maxpos = 10;
     std::streamoff offset = 0;
- 
+
     free();
     alloc(maxpos);
 
     while (buffer.peek() != EOF) {
-      
+
       switch (buffer.peek()) {
       case ' ': case '\t':
 	buffer.seekg(1, std::ios_base::cur);
@@ -798,9 +798,9 @@ namespace itpp {
 		it_error("Vec<short>::set(): Improper data string (hex)");
 	      }
 	    } while (buffer.peek() != EOF && buffer.peek() != ',' &&
-		     buffer.peek() != ' ' && buffer.peek() != '\t' && 
+		     buffer.peek() != ' ' && buffer.peek() != '\t' &&
 		     buffer.peek() != ':');
-	    
+
 	    buffer.clear();
 	    buffer.seekg(offset, std::ios_base::cur);
 	    offset = 0;
@@ -899,7 +899,7 @@ namespace itpp {
 	buffer >> std::dec >> data[pos-1];
 	comma = false;
 	break;
-      
+
 	// parse format a:b:c or a:b
       case ':':
 	it_assert(pos == 1, "Vec<short>::set(): Improper data string (a:b)");
@@ -910,13 +910,13 @@ namespace itpp {
 	  case ' ': case '\t':
 	    buffer.seekg(1, std::ios_base::cur);
 	    break;
-	  
+
 	  case '+': case '-':
 	    it_assert(!b_parsed, "Vec<short>::set(): Improper data string (a:b)");
 	    buffer.seekg(1, std::ios_base::cur);
 	    offset--;
 	    break;
-	  
+
 	    // hexadecimal number or octal number or zero
 	  case '0':
 	    it_assert(!b_parsed, "Vec<short>::set(): Improper data string (a:b)");
@@ -998,7 +998,7 @@ namespace itpp {
 	      comma = false;
 	    }
 	    break;
-	  
+
 	    // decimal number
 	  case '1': case '2': case '3': case '4': case '5':
 	  case '6': case '7': case '8': case '9':
@@ -1034,13 +1034,13 @@ namespace itpp {
 	      case ' ': case '\t':
 		buffer.seekg(1, std::ios_base::cur);
 		break;
-	  
+
 	      case '+': case '-':
 		it_assert(!c_parsed, "Vec<short>::set(): Improper data string (a:b:c)");
 		buffer.seekg(1, std::ios_base::cur);
 		offset--;
 		break;
-	  
+
 		// hexadecimal number or octal number or zero
 	      case '0':
 		it_assert(!c_parsed, "Vec<short>::set(): Improper data string (a:b:c)");
@@ -1123,7 +1123,7 @@ namespace itpp {
 		  comma = false;
 		}
 		break;
-		
+
 		// decimal number
 	      case '1': case '2': case '3': case '4': case '5':
 	      case '6': case '7': case '8': case '9':
@@ -1156,7 +1156,7 @@ namespace itpp {
 	    } // while (buffer.peek() != EOF)
 	    it_assert(c_parsed, "Vec<short>::set(): Improper data string (a:b:c)");
 	    break;
-      
+
 	  default:
 	    it_error("Vec<short>::set(): Improper data string (a:b)");
 	  } // switch (buffer.peek())
@@ -1184,10 +1184,10 @@ namespace itpp {
 	  else if (b == 0 && c == data[pos-1]) {
 	    break;
 	  }
-	  else { 
+	  else {
 	    it_error("Vec<short>::set(): Improper data string (a:b:c)");
 	  }
-	} // if (c_parsed) 
+	} // if (c_parsed)
 	else if (b_parsed) {
 	  if (b < data[pos-1]) {
 	    while (data[pos-1] > b) {
@@ -1212,7 +1212,7 @@ namespace itpp {
 	  it_error("Vec<short>::set(): Improper data string (a:b)");
 	}
 	break;
-      
+
       default:
 	it_error("Vec<short>::set(): Improper data string");
       }
@@ -1229,7 +1229,7 @@ namespace itpp {
   template<> inline
   const cmat outer_product(const cvec &v1, const cvec &v2, bool hermitian)
   {
-    it_assert_debug((v1.datasize > 0) && (v2.datasize > 0), 
+    it_assert_debug((v1.datasize > 0) && (v2.datasize > 0),
 		    "Vec::outer_product():: Input vector of zero size");
 
     cmat out(v1.datasize, v2.datasize);
@@ -1251,49 +1251,49 @@ namespace itpp {
   }
 
 
-  template<> 
+  template<>
   bvec Vec<std::complex<double> >::operator==(const std::complex<double>) const
-  { 
+  {
     it_error("operator==: not implemented for complex");
     bvec temp;
     return temp;
   }
 
-  template<> 
+  template<>
   bvec Vec<std::complex<double> >::operator!=(const std::complex<double>) const
-  { 
+  {
     it_error("operator!=: not implemented for complex");
     bvec temp;
     return temp;
   }
 
-  template<> 
+  template<>
   bvec Vec<std::complex<double> >::operator<=(const std::complex<double>) const
-  { 
+  {
     it_error("operator<=: not implemented for complex");
     bvec temp;
     return temp;
   }
 
-  template<> 
+  template<>
   bvec Vec<std::complex<double> >::operator>(const std::complex<double>) const
-  { 
+  {
     it_error("operator>: not implemented for complex");
     bvec temp;
     return temp;
   }
 
-  template<> 
+  template<>
   bvec Vec<std::complex<double> >::operator<(const std::complex<double>) const
-  { 
+  {
     it_error("operator<: not implemented for complex");
     bvec temp;
     return temp;
   }
 
-  template<> 
+  template<>
   bvec Vec<std::complex<double> >::operator>=(const std::complex<double>) const
-  { 
+  {
     it_error("operator>=: not implemented for complex");
     bvec temp;
     return temp;
@@ -1462,7 +1462,7 @@ namespace itpp {
   template int elem_mult_sum(const ivec &a, const ivec &b);
   template short elem_mult_sum(const svec &a, const svec &b);
   template bin elem_mult_sum(const bvec &a, const bvec &b);
-  
+
   //------------- Division operator ----------
 
   template const vec operator/(const vec &v, double t);

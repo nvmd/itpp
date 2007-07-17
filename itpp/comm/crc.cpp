@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of a CRC code class
  * \author Tony Ottosson
  *
@@ -35,7 +35,7 @@
 #include <itpp/base/matfunc.h>
 
 
-namespace itpp { 
+namespace itpp {
 
   void CRC_Code::set_generator(const bvec &poly)
   {
@@ -95,10 +95,10 @@ namespace itpp {
       if (temp(i) == 1) {
         temp.set_subvector(i,i+no_parity, temp(i,i+no_parity) + polynomial);
       }
-    }   
+    }
 
     out = temp(temp.size()-no_parity,temp.size()-1);
-  
+
     if (reverse_parity) {
       out = reverse( out );
     }
@@ -117,12 +117,12 @@ namespace itpp {
       temp = coded_bits;
     }
 
-    for (int i=0; i<temp.size()-polynomial.size()+1; i++) { 
+    for (int i=0; i<temp.size()-polynomial.size()+1; i++) {
       if (temp(i) == 1) {
         temp.set_subvector(i,i+no_parity, temp(i,i+no_parity) + polynomial);
       }
-    }   
-  
+    }
+
     if ( temp(temp.size()-no_parity,temp.size()-1) == zeros_b(no_parity) )
       return true;
     else
@@ -133,7 +133,7 @@ namespace itpp {
   {
     bvec p;
     parity(in_bits, p);
-    out = concat(in_bits, p); 
+    out = concat(in_bits, p);
   }
 
   bvec CRC_Code::encode(const bvec &in_bits) const
@@ -145,7 +145,7 @@ namespace itpp {
 
   bool CRC_Code::decode(const bvec &coded_bits, bvec &out) const
   {
-    out = coded_bits(0, coded_bits.size()-no_parity-1); 
+    out = coded_bits(0, coded_bits.size()-no_parity-1);
     if (check_parity(coded_bits)) {
       return true;
     } else

@@ -2,7 +2,7 @@
  * \file
  * \brief Definition of numerical integration
  * \author Tony Ottosson
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -38,11 +38,11 @@
 
 namespace itpp {
 
-  /*! 
+  /*!
     \addtogroup integration
     \brief Numerical integration routines
   */
-  
+
   //@{
 
   /*!
@@ -76,17 +76,17 @@ namespace itpp {
     \endcode
 
     References:
-    
+
     [Gander] Gander, W. and W. Gautschi, "Adaptive Quadrature -
-    Revisited", BIT, Vol. 40, 2000, pp. 84-101.  
+    Revisited", BIT, Vol. 40, 2000, pp. 84-101.
 		This document is also available at http://www.inf.ethz.ch/personal/gander.
   */
-  double quad(double (*f)(double), double a, double b, 
+  double quad(double (*f)(double), double a, double b,
 	      double tol = std::numeric_limits<double>::epsilon());
 
   /*!
     1-dimensional numerical adaptive Lobatto quadrature integration
-    
+
     Calculate the 1-dimensional integral
     \f[
     \int_a^b f(x) dx
@@ -115,16 +115,16 @@ namespace itpp {
     \endcode
 
     References:
-    
+
     [Gander] Gander, W. and W. Gautschi, "Adaptive Quadrature -
     Revisited", BIT, Vol. 40, 2000, pp. 84-101.
   	This document is also available at http:// www.inf.ethz.ch/personal/gander.
   */
-  double quadl(double (*f)(double), double a, double b, 
+  double quadl(double (*f)(double), double a, double b,
 	       double tol = std::numeric_limits<double>::epsilon());
 
   //@}
-  
+
 } // namespace itpp
 
 #endif // #ifndef INTEGRATION_H

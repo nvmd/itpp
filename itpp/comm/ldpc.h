@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of Low-Density Parity Check (LDPC) codes
  * \author Erik G. Larsson, Mattias Andersson and Adam Piatyszek
  *
@@ -41,11 +41,11 @@
 #include <itpp/comm/channel_code.h>
 
 namespace itpp {
-  
+
   // ---------------------------------------------------------------------------
   // LDPC_Parity
   // ---------------------------------------------------------------------------
-  
+
   /*!
     \brief LDPC parity check matrix generic class
 
@@ -67,25 +67,25 @@ namespace itpp {
 
     Please refer to the tutorial \ref ldpc_gen_codes for some examples
     of code generation.
-    
+
     \author Erik G. Larsson, Mattias Andersson and Adam Piatyszek
   */
   class LDPC_Parity {
     friend class LDPC_Code;
-  public:     
+  public:
     //! Default constructor
     LDPC_Parity(): init_flag(false) {}
 
     //! Constructor that gives an empty matrix of size ncheck x nvar
     LDPC_Parity(int ncheck, int nvar);
 
-    /*! 
+    /*!
       \brief Load an LDPC parity check matrix from a file
 
-      \param filename file name 
+      \param filename file name
       \param format file format
 
-      \note Currently, only "alist" format is supported (see 
+      \note Currently, only "alist" format is supported (see
       \c GF2mat_sparse_alist for its definition).
 
       \sa \c load_alist() and \c save_alist()
@@ -104,7 +104,7 @@ namespace itpp {
     //! Get the parity check matrix, optionally its transposed form
     GF2mat_sparse get_H(bool transpose = false) const {
       return (transpose ? Ht : H);
-    } 
+    }
 
     //! Get a specific column from the matrix
     Sparse_Vec<bin> get_col(int c) const { return H.get_col(c); }
@@ -112,13 +112,13 @@ namespace itpp {
     //! Get a specific row from the matrix
     Sparse_Vec<bin> get_row(int r) const { return Ht.get_col(r); }
 
-    //! Get the number of variable nodes (number of columns) 
+    //! Get the number of variable nodes (number of columns)
     int get_nvar() const {
       it_assert_debug(H.cols() == nvar,
 		      "LDPC_Parity::get_nvar(): Internal error");
       it_assert_debug(Ht.rows() == nvar,
-		      "LDPC_Parity::get_nvar(): Internal error");    
-      return nvar; 
+		      "LDPC_Parity::get_nvar(): Internal error");
+      return nvar;
     }
 
     //! Get the number of check nodes (number of rows)
@@ -134,24 +134,24 @@ namespace itpp {
     void set(int i, int j, bin value);
 
     //! Get element (i,j) of the parity check matrix
-    bin get(int i, int j) const {   
+    bin get(int i, int j) const {
       it_assert_debug(H(i,j) == Ht(j,i), "LDPC_Parity::get(): Internal error");
-      return H(i,j);  
+      return H(i,j);
     }
 
     //! Get element (i,j) of the parity check matrix
-    bin operator()(int i, int j) const {   
-      it_assert_debug(H(i,j) == Ht(j,i), 
+    bin operator()(int i, int j) const {
+      it_assert_debug(H(i,j) == Ht(j,i),
 		      "LDPC_Parity::operator(): Internal error");
-      return H(i,j);  
+      return H(i,j);
     }
 
     //! Display some information about the matrix
     virtual void display_stats() const;
 
     //! Get the code rate
-    double get_rate() const { 
-      return   (1.0 - static_cast<double>(ncheck) / nvar); 
+    double get_rate() const {
+      return   (1.0 - static_cast<double>(ncheck) / nvar);
     }
 
     //! Import matrix from \c GF2mat_sparse_alist format
@@ -165,7 +165,7 @@ namespace itpp {
 
     //! Save matrix to \c alist_file text file in alist format
     void save_alist(const std::string& alist_file) const;
-  
+
   protected:
     //! Flag that indicates proper initialization
     bool init_flag;
@@ -176,16 +176,16 @@ namespace itpp {
     //! The transposed parity check matrix
     GF2mat_sparse Ht;
     //! Number of variable nodes
-    int nvar; 
+    int nvar;
     //! Number of check nodes
     int ncheck;
     //! Actual number of ones in each column
     ivec sumX1;
     //! Actual number of ones in each row
     ivec sumX2;
-     
-    /*! 
-      \brief Check for cycles of length L 
+
+    /*!
+      \brief Check for cycles of length L
 
       This function implements a recursive routine to find loops. The
       function is mainly a tool for testing and debugging more sophisticated
@@ -201,9 +201,9 @@ namespace itpp {
     */
     int check_for_cycles(int L) const;
 
-    /*! 
+    /*!
       \brief Check for connectivity between nodes
-	
+
       This function examines whether the point (to_m, to_n) in the matrix
       can be reached from the point (from_m, from_n) using at most L steps.
       A recursive search is used.
@@ -216,13 +216,13 @@ namespace itpp {
       \param to_m goal coordinate, row number
       \param from_n starting coordinate, column number
       \param to_n goal coordinate, row number
-      \param g direction: 1=start going vertically, 2=start 
+      \param g direction: 1=start going vertically, 2=start
       going horizontally
       \param L number of permitted steps
-     
+
       \return
-      - -1 or -3 : destination unreachable 
-      - -2       : meaningless search (started in a "0" point), 
+      - -1 or -3 : destination unreachable
+      - -2       : meaningless search (started in a "0" point),
       - -4       : meaningless search
       - >=0      : destination reached with certain number of steps left
 
@@ -247,10 +247,10 @@ namespace itpp {
     int check_connectivity(int from_m, int from_n, int to_m, int to_n,
 			   int g, int L) const;
 
-    //      inline int get_cmax() const {   return (max(sumX1));  } 
-    //      inline int get_vmax() const {   return (max(sumX2));  } 
-    //      ivec get_coldegree() const; 
-    //      ivec get_rowdegree() const; 
+    //      inline int get_cmax() const {   return (max(sumX1));  }
+    //      inline int get_vmax() const {   return (max(sumX2));  }
+    //      ivec get_coldegree() const;
+    //      ivec get_rowdegree() const;
   };
 
 
@@ -260,13 +260,13 @@ namespace itpp {
 
   /*!
     \brief Pure abstract class for unstructured LDPC matrices
-    
+
     This class provides a common set of methods for unstructured LDPC
     matrices. For unstructured codes the parity checks are distributed
     at random rather than according to a specific pattern, and the
     generation of a parity matrix can be viewed as drawing a random
     sample from an ensemble of graphs (matrices) that are described by
-    a specific degree distribution. 
+    a specific degree distribution.
 
     This class is used as base for the \c LDPC_Parity_Irregular and \c
     LDPC_Parity_Regular generator classes.
@@ -315,23 +315,23 @@ namespace itpp {
   class LDPC_Parity_Irregular : public LDPC_Parity_Unstructured {
   public:
     //! Default constructor
-    LDPC_Parity_Irregular() {} 
+    LDPC_Parity_Irregular() {}
     //! Constructor that invokes \c generate() method
     LDPC_Parity_Irregular(int Nvar, const vec& var_deg, const vec& chk_deg,
-			  const std::string& method = "rand", 
+			  const std::string& method = "rand",
 			  const ivec& options = "200 6");
 
-    /*! 
+    /*!
       \brief Generate an irregular LDPC code
-       
+
       \param Nvar number of variable nodes
       \param var_deg vector of variable degree distributions, from an edge
       perspective
       \param chk_deg vector of check degree distributions, from an edge
       perspective
       \param method currently the only provided method is "rand" (see below)
-      \param options Determines the level of matrix optimization.  
-      
+      \param options Determines the level of matrix optimization.
+
       The "rand" method generates a fully unstructured random
       matrix. Some stochastic optimization is performed to avoid
       cycles. This optimization is controlled via the parameter \c
@@ -359,8 +359,8 @@ namespace itpp {
       \note Alternative (user-defined) methods for code generation can
       be implemented by inheriting \c LDPC_Parity_Irregular.
     */
-    void generate(int Nvar, const vec& var_deg, const vec& chk_deg, 
-		  const std::string& method = "rand", 
+    void generate(int Nvar, const vec& var_deg, const vec& chk_deg,
+		  const std::string& method = "rand",
 		  const ivec& options = "200 6");
 
     //! Display some information about the matrix
@@ -379,14 +379,14 @@ namespace itpp {
   class LDPC_Parity_Regular : public LDPC_Parity_Unstructured {
   public:
     //! Default constructor
-    LDPC_Parity_Regular() {} 
+    LDPC_Parity_Regular() {}
     //! Constructor that invokes \c generate() method
-    LDPC_Parity_Regular(int Nvar, int k, int l, 
+    LDPC_Parity_Regular(int Nvar, int k, int l,
 			const std::string& method = "rand",
 			const ivec& options = "200 6");
 
     /*!
-      \brief Generate a (k,l) regular LDPC code 
+      \brief Generate a (k,l) regular LDPC code
 
       \param Nvar  number of variable nodes
       \param k number of ones per column
@@ -397,7 +397,7 @@ namespace itpp {
       \note Alternative (user-defined) methods for code generation can
       be implemented by inheriting \c LDPC_Parity_Regular.
     */
-    void generate(int Nvar, int k, int l, 
+    void generate(int Nvar, int k, int l,
 		  const std::string& method = "rand",
 		  const ivec& options = "200 6");
 
@@ -415,7 +415,7 @@ namespace itpp {
 
     Block LDPC Codes (B-LDPC) are a special class of Quasi-Cyclic LDPC Codes
     (QC-LDPC). Linear encoding properties and memory efficiency are their
-    main advantages. 
+    main advantages.
 
     B-LDPC codes' parity-check matrix is constructed from so-called base
     matrix by expansion of each single value with a zero matrix or
@@ -428,7 +428,7 @@ namespace itpp {
 
     Please refer to [MYK05] for more details.
 
-    References: 
+    References:
 
     [MYK05] S. Myung, K. Yang, J. Kim, "Quasi-Cyclic LDPC Codes for Fast
     Encoding", IEEE Trans. on Inform. Theory, vol. 51, no. 8, August 2005
@@ -497,11 +497,11 @@ namespace itpp {
 
     \author Adam Piatyszek
   */
-  class LDPC_Generator { 
+  class LDPC_Generator {
     friend class LDPC_Code;
   public:
     //! Default constructor
-    LDPC_Generator(const std::string& type_in = ""): init_flag(false), 
+    LDPC_Generator(const std::string& type_in = ""): init_flag(false),
 						     type(type_in) {}
     //! Virtual destructor
     virtual ~LDPC_Generator() {}
@@ -538,13 +538,13 @@ namespace itpp {
 
     \author Erik G. Larsson and Adam Piatyszek
   */
-  class LDPC_Generator_Systematic : public LDPC_Generator { 
+  class LDPC_Generator_Systematic : public LDPC_Generator {
   public:
     //! Default constructor
     LDPC_Generator_Systematic(): LDPC_Generator("systematic"), G() {}
     //! Parametrized constructor
-    LDPC_Generator_Systematic(LDPC_Parity* const H, 
-			      bool natural_ordering = false, 
+    LDPC_Generator_Systematic(LDPC_Parity* const H,
+			      bool natural_ordering = false,
 			      const ivec& ind = "");
 
     //! Virtual destructor
@@ -553,7 +553,7 @@ namespace itpp {
     //! Generator specific encode function
     virtual void encode(const bvec &input, bvec &output);
 
-    /*!  
+    /*!
       \brief Construct systematic generator matrix
 
       This function constructs a systematic generator matrix from a parity
@@ -562,7 +562,7 @@ namespace itpp {
       parameter.
 
       \param H A pointer to the parity check matrix \c H
-      
+
       \param natural_ordering If this flag is true, the columns are not
       randomly reordered (no interleaving applied), i.e. the function tries
       so far as possible to avoid permuting columns at all. The permutation
@@ -586,7 +586,7 @@ namespace itpp {
       \c H2 is square and invertible. The computed generator then satisfies
       <tt>[H1 H2][I; G'] = 0<tt>.
     */
-    ivec construct(LDPC_Parity* const H, bool natural_ordering = false, 
+    ivec construct(LDPC_Parity* const H, bool natural_ordering = false,
 		   const ivec& ind = "");
 
   protected:
@@ -594,7 +594,7 @@ namespace itpp {
     virtual void save(const std::string& filename) const;
     //! Read generator data from a file
     virtual void load(const std::string& filename);
-    
+
   private:
     GF2mat G; // the matrix is stored in transposed form
   };
@@ -614,10 +614,10 @@ namespace itpp {
   class BLDPC_Generator : public LDPC_Generator {
   public:
     //! Default constructor
-    BLDPC_Generator(const std::string type = "BLDPC"): 
+    BLDPC_Generator(const std::string type = "BLDPC"):
       LDPC_Generator(type), H_enc(), N(0), M(0), K(0), Z(0) {}
     //! Parametrized constructor
-    BLDPC_Generator(const BLDPC_Parity* const H, 
+    BLDPC_Generator(const BLDPC_Parity* const H,
 		    const std::string type = "BLDPC");
 
     //! Get expansion factor
@@ -625,7 +625,7 @@ namespace itpp {
 
     //! Generator specific encode function
     void encode(const bvec &input, bvec &output);
-  
+
     //! Construct the BLDPC generator
     void construct(const BLDPC_Parity* const H);
 
@@ -649,7 +649,7 @@ namespace itpp {
 
   /*!
     \ingroup fec
-    \brief Low-density parity check (LDPC) codec  
+    \brief Low-density parity check (LDPC) codec
 
     This class provides the functionality for encoding and decoding of LDPC
     codes defined via \c LDPC_Parity and \c LDPC_Generator classes.
@@ -671,10 +671,10 @@ namespace itpp {
     //! Default constructor
     LDPC_Code();
 
-    /*! 
+    /*!
       \brief Constructor, from a parity check matrix and optionally a
       generator
-    
+
       This constructor simply calls \c set_code().
     */
     LDPC_Code(const LDPC_Parity* const H, LDPC_Generator* const G = 0);
@@ -689,7 +689,7 @@ namespace itpp {
     //! Destructor
     virtual ~LDPC_Code() {}
 
-  
+
     /*!
       \brief Set the codec, from a parity check matrix and optionally a
       generator
@@ -698,15 +698,15 @@ namespace itpp {
       \param G A pointer to the optional generator object
     */
     void set_code(const LDPC_Parity* const H, LDPC_Generator* const G = 0);
-      
-    /*! 
+
+    /*!
       \brief Set the codec, by reading from a saved file
 
       The file format is defined in the source code. LDPC codecs can
       be saved with the function \c save_code().
 
       \param filename Name of the file where the codec is stored
-      \param G A pointer to the optional generator object 
+      \param G A pointer to the optional generator object
 
       \note If \c G points at \c 0 (default), the generator date is not
       read from the saved file. This means that the encoding can not be
@@ -717,7 +717,7 @@ namespace itpp {
     /*!
       \brief Save the codec to a file
 
-      \param filename Name of the file where to store the codec     
+      \param filename Name of the file where to store the codec
 
       \note The decoder parameters (\c max_iters, \c syndr_check_each_iter,
       \c syndr_check_at_start and \c llrcalc) are not saved to a file.
@@ -727,17 +727,17 @@ namespace itpp {
 
     /*!
       \brief Set the decoding method
-      
+
       Currently only a belief propagation method ("BP" or "bp") is
       supported.
 
       \note The default method set in the class constructors is "BP".
-    */ 
+    */
     void set_decoding_method(const std::string& method);
 
     /*!
       \brief Set the decoding loop exit conditions
-      
+
       \param max_iters Maximum number of the decoding iterations
       \param stop_if_valid If true, break the decoding loop as soon as
       valid codeword is found. Recommended value: \c true.
@@ -746,18 +746,18 @@ namespace itpp {
       set LLRout = LLRin. Recommended value: \c false.
 
       \note The default values set in the class constructor are: "50",
-      "true" and "false", respectively. 
+      "true" and "false", respectively.
     */
-    void set_exit_conditions(int max_iters, 
+    void set_exit_conditions(int max_iters,
 			     bool syndr_check_each_iter = true,
-			     bool syndr_check_at_start = false); 
+			     bool syndr_check_at_start = false);
 
     //! Set LLR calculation unit
     void set_llrcalc(const LLR_calc_unit& llrcalc);
-  
+
 
     // ------------ Encoding  ---------------------
-  
+
     /*!
       \brief Encode codeword
 
@@ -769,22 +769,22 @@ namespace itpp {
     */
     virtual void encode(const bvec &input, bvec &output);
     //! \brief Encode codeword
-    virtual bvec encode(const bvec &input); 
+    virtual bvec encode(const bvec &input);
 
 
     // ------------ Decoding  ---------------------
-      
+
     //! Inherited from the base class - not implemented here
     virtual void decode(const bvec &coded_bits, bvec &decoded_bits)
-    { 
-      it_error("LDPC_Code::decode(): Hard input decoding not implemented"); 
-    }  
+    {
+      it_error("LDPC_Code::decode(): Hard input decoding not implemented");
+    }
     //! Inherited from the base class - not implemented here
     virtual bvec decode(const bvec &coded_bits)
-    { 
-      it_error("LDPC_Code::decode(): Hard input decoding not implemented"); 
+    {
+      it_error("LDPC_Code::decode(): Hard input decoding not implemented");
       return bvec();
-    } 
+    }
 
     //! This function outputs systematic bits of the decoded codeword
     virtual void decode(const vec &llr_in, bvec &syst_bits);
@@ -796,12 +796,12 @@ namespace itpp {
     //! This function is a wrapper for \c bp_decode()
     vec decode_soft_out(const vec &llr_in);
 
-    /*! \brief Belief propagation decoding.  
+    /*! \brief Belief propagation decoding.
 
       This function implements the sum-product message passing decoder
       (Pearl's belief propagation) using LLR values as messages.  A
       fast update mechanism is used for nodes with large degrees.
-    
+
       \param LLRin  vector of \c nvar input LLR values
       \param LLRout vector of \c nvar output LLR values
 
@@ -819,7 +819,7 @@ namespace itpp {
       LLR_calc_unit for details on how to do this.
     */
     int bp_decode(const QLLRvec &LLRin, QLLRvec &LLRout);
-   
+
     /*! \brief Syndrome check, on QLLR vector
 
       This function performs a syndrome check on a softbit (LLR
@@ -834,17 +834,17 @@ namespace itpp {
     bool syndrome_check(const bvec &b) const;
 
     // ------------ Basic information gathering functions ------
-  
+
     //! Get the coderate
     double get_rate() const
-    { 
-      return (1.0 - static_cast<double>(ncheck) / nvar); 
+    {
+      return (1.0 - static_cast<double>(ncheck) / nvar);
     }
 
-    //! Get the number of variable nodes 
+    //! Get the number of variable nodes
     int get_nvar() const { return nvar; }
 
-    //! Get the number of check nodes 
+    //! Get the number of check nodes
     int get_ncheck() const { return ncheck; }
 
     //! Return the decoding method
@@ -867,31 +867,31 @@ namespace itpp {
     LDPC_Generator *G;		//!< Generator object pointer
 
     // decoder parameters
-    std::string dec_method;	//!< Decoding method 
+    std::string dec_method;	//!< Decoding method
     int max_iters;		//!< Maximum number of iterations
     bool psc;			//!< check syndrom after each iteration
     bool pisc;			//!< check syndrom before first iteration
-    LLR_calc_unit llrcalc;	//!< LLR calculation unit 
+    LLR_calc_unit llrcalc;	//!< LLR calculation unit
 
-    //! Function to compute decoder parameterization 
+    //! Function to compute decoder parameterization
     void decoder_parameterization(const LDPC_Parity* const H);
 
     //! Function to check the integrity of the parity check matrix and generator
     void integrity_check();
 
     //! Initialize decoder
-    void setup_decoder(); 
+    void setup_decoder();
 
   private:
-    // Parity check matrix parameterization 
-    ivec C, V, sumX1, sumX2, iind, jind;  
+    // Parity check matrix parameterization
+    ivec C, V, sumX1, sumX2, iind, jind;
 
     // temporary storage for decoder (memory allocated when codec defined)
     QLLRvec mvc, mcv;
   };
 
 
-  /*! 
+  /*!
     \relatesalso LDPC_Code
     \brief Print some properties of the LDPC codec in plain text.
   */

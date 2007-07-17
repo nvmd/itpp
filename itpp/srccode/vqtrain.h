@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definitions of a vector quantizer training functions
  * \author Thomas Eriksson
  *
@@ -48,7 +48,7 @@ namespace itpp {
   mat lbg(Array<vec> &DB, int SIZE, int NOITER=9999, bool VERBOSE=true);
 
 
-  /*! 
+  /*!
     \ingroup sourcecoding
     \brief Function for vector quantization training
 
@@ -72,7 +72,7 @@ namespace itpp {
   vec sqtrain(const vec &inDB, int SIZE);
 
   //!
-  ivec bitalloc(const vec& variances, int nobits); 
+  ivec bitalloc(const vec& variances, int nobits);
 } // namespace itpp
 
 #endif // #ifndef VQTRAIN_H

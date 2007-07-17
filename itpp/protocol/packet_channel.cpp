@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of a Packet channel class
  * \author Anders Persson and Tony Ottosson
  *
@@ -83,10 +83,10 @@ namespace itpp {
     else
       lose = randu() < pr;
     if(lose){
-      delete M;  
+      delete M;
     }
     else
-      output(M, delay);  
+      output(M, delay);
     lose = false;
   }
 
@@ -100,7 +100,7 @@ namespace itpp {
   void Packet_Channel::handle_start(const bool run) {
     it_assert(parameters_ok,"Packet_Channel::handle_start(): ");
     if(run&&!keep_running)// Channel is in 'stop' state. Start it and keep running.
-      Event_Queue::add(new Event<Packet_Channel>(this, &Packet_Channel::block_rate_loop, block_time));  
+      Event_Queue::add(new Event<Packet_Channel>(this, &Packet_Channel::block_rate_loop, block_time));
     keep_running = run;
   }
 
@@ -168,7 +168,7 @@ namespace itpp {
     if(lose)
       delete M;
     else
-      output(M, delay);  
+      output(M, delay);
     lose = false;
   }
 

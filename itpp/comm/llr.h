@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Class for numerically efficient log-likelihood algebra
  * \author Erik G. Larsson
  *
@@ -41,29 +41,29 @@
 #include <limits>
 
 namespace itpp {
-  
-  /*! \relates LLR_calc_unit 
+
+  /*! \relates LLR_calc_unit
     The quantized log-likelihood ratio (QLLR) representation, scalar form. See \c LLR_calc_unit.
   */
   typedef signed int QLLR;
 
-  /*!  \relates LLR_calc_unit 
+  /*!  \relates LLR_calc_unit
     The quantized log-likelihood ratio (QLLR) representation, vector form. See \c LLR_calc_unit.
   */
   typedef Vec<QLLR> QLLRvec;
 
-  /*!  \relates LLR_calc_unit 
+  /*!  \relates LLR_calc_unit
     The quantized log-likelihood ratio (QLLR) representation, matrix form. See \c LLR_calc_unit.
   */
   typedef Mat<QLLR> QLLRmat;
-  
-  /*!  \relates LLR_calc_unit 
+
+  /*!  \relates LLR_calc_unit
     The largest possible QLLR value
   */
   const QLLR QLLR_MAX = (std::numeric_limits<QLLR>::max() >> 4);
   // added some margin to make sure the sum of two LLR is still permissible
 
-  /*! 
+  /*!
     \brief Log-likelihood algebra calculation unit.
 
     This class contains functions for algebra with log-likelihood
@@ -73,7 +73,7 @@ namespace itpp {
 
     An LLR for an information bit b is defined according to \f[ L =
     \log \frac{P(b=0)}{P(b=1)} \f] and it is in general a real number.
-    
+
     LLR values are represented via the special type, "quantized
     LLR" (QLLR).  The relation between the quantized representation
     and the real (floating-point) LLR value is \f[ \mbox{QLLR} = \mbox{round}
@@ -117,7 +117,7 @@ namespace itpp {
     //! Constructor, using the default table resolution
     LLR_calc_unit();
 
-    /*! \brief Constructor, using a specific table resolution. 
+    /*! \brief Constructor, using a specific table resolution.
 
     See init_llr_tables() for more detail on the parameters.
      */
@@ -132,14 +132,14 @@ namespace itpp {
       \param Dint2 Number of entries in the table. If this is zero,
       then logmap becomes logmax.
 
-      \param Dint3 Determines the table resolution. The spacing between each 
+      \param Dint3 Determines the table resolution. The spacing between each
       entry is \f[ 2^{-(Dint1-Dint3)} \f]
 
       The default parameter values are chosen to give a performance
       practically indistinguishable from that of using floating point
       calculations.
 
-      Example: (recommended settings with "exact" computation via high 
+      Example: (recommended settings with "exact" computation via high
       resolution lookup table)
       \code
       LLR_calc_unit lcalc(12,300,7);
@@ -150,9 +150,9 @@ namespace itpp {
       LLR_calc_unit lcalc(12,0,7);
       \endcode
     */
-    void init_llr_tables(short int Dint1 = 12, short int Dint2 = 300, 
+    void init_llr_tables(short int Dint1 = 12, short int Dint2 = 300,
 			 short int Dint3 = 7);
-    // void init_llr_tables(const short int d1=10, const short int d2=300, 
+    // void init_llr_tables(const short int d1=10, const short int d2=300,
     //            const short int d3=5);
 
     //! Convert a "real" LLR value to an LLR type
@@ -163,25 +163,25 @@ namespace itpp {
 
     //! Convert a matrix of "real" LLR values to an LLR type
     QLLRmat to_qllr(const mat &l) const;
-  
-    //! Convert an LLR type to a "real" LLR 
+
+    //! Convert an LLR type to a "real" LLR
     inline double to_double(const QLLR &l) const { return ( ((double) l) / ((double) (1<<Dint1))); };
 
-    //! Convert a vector of LLR types to a "real" LLR 
+    //! Convert a vector of LLR types to a "real" LLR
     vec to_double(const QLLRvec &l) const;
 
-    //! Convert a matrix of LLR types to a "real" LLR 
+    //! Convert a matrix of LLR types to a "real" LLR
     mat to_double(const QLLRmat &l) const;
 
-    /*! \brief Jacobian logarithm. 
+    /*! \brief Jacobian logarithm.
 
     This function computes \f[ \log(\exp(a)+\exp(b)) \f]
     */
     inline QLLR jaclog(QLLR a, QLLR b) const;
     // Note: a version of this function taking "double" values as input
-    // is deliberately omitted, because this is rather slow. 
+    // is deliberately omitted, because this is rather slow.
 
-    /*! \brief Hagenauer's "Boxplus" operator.  
+    /*! \brief Hagenauer's "Boxplus" operator.
 
       This function computes
       \f[ \mbox{sign}(a)*\mbox{sign}(b)*\mbox{min}(|a|,|b|)+f(|a+b|)-f(|a-b|) \f]
@@ -196,20 +196,20 @@ namespace itpp {
 
     //! Retrieve the table resolution values
     ivec get_Dint();
-  
-    //! Assignment operator for LLR_calc_unit 
+
+    //! Assignment operator for LLR_calc_unit
     void operator=(const LLR_calc_unit&);
 
     //!  Print some properties of the LLR calculation unit (i.e., the lookup table parameters) in plain text
     friend std::ostream &operator<<(std::ostream &os, const LLR_calc_unit &lcu);
-    
+
   private:
     //! Compute the table for \f[ f(x) = \log(1+\exp(-x)) \f]
     ivec construct_logexp_table();
-    
+
     //! The lookup tables for the decoder
     ivec logexp_table;
-    
+
     //! Decoder (lookup-table) parameters
     short int Dint1, Dint2, Dint3;
 
@@ -221,15 +221,15 @@ namespace itpp {
   */
   std::ostream &operator<<(std::ostream &os, const LLR_calc_unit &lcu);
 
-  // ================ IMPLEMENTATIONS OF SOME LIKELIHOOD ALGEBRA FUNCTIONS =========== 
+  // ================ IMPLEMENTATIONS OF SOME LIKELIHOOD ALGEBRA FUNCTIONS ===========
 
   inline QLLR LLR_calc_unit::to_qllr(const double &l) const
-    { 
+    {
       it_assert_debug(l<=to_double(QLLR_MAX),"LLR_calc_unit::to_qllr(): overflow");
       it_assert_debug(l>=-to_double(QLLR_MAX),"LLR_calc_unit::to_qllr(): overflow");
-      return ( (int) std::floor(0.5+(1<<Dint1)*l) ); 
+      return ( (int) std::floor(0.5+(1<<Dint1)*l) );
     };
-  
+
   inline QLLR LLR_calc_unit::Boxplus(QLLR a, QLLR b) const
     {
       it_assert_debug(a<QLLR_MAX,"LLR_calc_unit::Boxplus(): owerflow");
@@ -271,7 +271,7 @@ namespace itpp {
       it_assert_debug(ind>=0,"LLR_calc_unit::logexp() internal error");
       it_assert_debug(ind<Dint2,"LLR_calc_unit::logexp() internal error");
 
-      // With interpolation 
+      // With interpolation
       // int delta=x-(ind<<Dint3);
       // return ((delta*logexp_table(ind+1) + ((1<<Dint3)-delta)*logexp_table(ind)) >> Dint3);
 
@@ -282,7 +282,7 @@ namespace itpp {
   inline QLLR LLR_calc_unit::jaclog(QLLR a, QLLR b ) const
     {
       QLLR x,maxab;
-  
+
       if (a>b) {
 	maxab = a;
 	x=a-b;
@@ -290,9 +290,9 @@ namespace itpp {
 	maxab = b;
 	x=b-a;
       }
- 
+
       if (maxab>=QLLR_MAX) {
-	return QLLR_MAX; 
+	return QLLR_MAX;
       } else {
 	return (maxab + logexp(x));
       }

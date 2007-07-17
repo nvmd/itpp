@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of converters between different vector and matrix types
  * \author Tony Ottosson, Tobias Ringstrom, Pal Frenger and Adam Piatyszek
  *
@@ -101,7 +101,7 @@ namespace itpp {
       temp(i) = std::complex<double>(static_cast<double>(real(i)),
 				     static_cast<double>(imag(i)));
     }
-		
+
     return temp;
   }
 
@@ -262,7 +262,7 @@ namespace itpp {
     //remove zeros if keepzeros = 0
     if (keepzeros == 0) {
       for (i=0; i<out.length(); i++) {
-	if ( (short)out(i) != 0) { 
+	if ( (short)out(i) != 0) {
 	  return out.right(out.length()-i);
 	  break;
 	}
@@ -342,7 +342,7 @@ namespace itpp {
     ss << i;
     return ss.str();
   }
-  
+
   // ---------------------- Instantiations -----------------------------------------
 
   template bvec to_bvec(const svec &v);

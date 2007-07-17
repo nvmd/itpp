@@ -2,7 +2,7 @@
  * \file
  * \brief Newton Search optimization algorithms - header file
  * \author Tony Ottosson
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -40,7 +40,7 @@
 
 namespace itpp {
 
-  /*! 
+  /*!
     \brief Numerical optimization routines
     \addtogroup optimization
   */
@@ -168,7 +168,7 @@ namespace itpp {
     double stop_epsilon_1; // opts(2)
     double stop_epsilon_2; // opt(3)
     int max_evaluations; // opts(4)
-    
+
     // output parameters
     int no_feval; // number of function evaluations
     int no_iter; // number of iterations
@@ -246,7 +246,7 @@ namespace itpp {
     //! Do the line search and return solution
     bool search(vec &xn, double &Fn, vec &gn);
     //! Set starting point, do the line search, and return the solution
-    bool search(const vec &x, double F, const vec &g, const vec &h, vec &xn, 
+    bool search(const vec &x, double F, const vec &g, const vec &h, vec &xn,
 		double &Fn, vec &gn);
 
 
@@ -325,18 +325,18 @@ namespace itpp {
 
   /*!
     \brief Unconstrained minimization
-    
+
     Unconstrained minimization using a Newton or Quasi-Newton optimization method
     that try to minimize the objective function \f$f(\mathbf{x})\f$ given an initial guess \f$\mathbf{x}\f$.
 
     The function and the gradient need to be known and supplied.
 
-    The default algorithm is a Quasi-Newton search using BFGS updates of the inverse Hessian matrix.    
+    The default algorithm is a Quasi-Newton search using BFGS updates of the inverse Hessian matrix.
   */
   vec fminunc(double(*function)(const vec&), vec(*gradient)(const vec&), const vec &x0);
 
   //@}
-  
+
 } // namespace itpp
 
 #endif // #ifndef NEWTON_SEARCH_H

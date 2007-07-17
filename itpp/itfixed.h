@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Include file for the IT++ fixed-point module
  * \author Tony Ottosson
  *

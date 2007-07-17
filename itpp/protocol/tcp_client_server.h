@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definitions of TCP Client and Server Applications
  * \author Krister Norlund
  *
@@ -81,8 +81,8 @@ namespace itpp {
 
 		Slot<TCP_Client_Application, int> select;
 
-		void read_from_net(unsigned byte_size) { 
-      nbr_bytes_to_receive = byte_size; 
+		void read_from_net(unsigned byte_size) {
+      nbr_bytes_to_receive = byte_size;
       seq_num_val.set_size(10+byte_size/1460);
       seq_num_val.zeros();
       seq_num_time.set_size(10+byte_size/1460);
@@ -103,7 +103,7 @@ namespace itpp {
 		int seq_num_index;
 
 		void TCP_Client_Application::received_packet_indication(int label) {
-      
+
       itpp::Packet &packet = tcp_receiver_p->get_user_message();
       nbr_bytes_received = nbr_bytes_received + packet.bit_size()/8;
       delete &packet;
@@ -118,10 +118,10 @@ namespace itpp {
       seq_num_index++;
 
       std::cout << "### sequence number: " << nbr_bytes_received
-                << " ### time:" << Event_Queue::now() << std::endl;      
+                << " ### time:" << Event_Queue::now() << std::endl;
 
       if (nbr_bytes_received >= nbr_bytes_to_receive) {
-				std::cout << "###### Stop sender and receiver" << std::endl;      
+				std::cout << "###### Stop sender and receiver" << std::endl;
 				tcp_receiver_p->release();
 				tcp_sender_p->release();
 				tcp_sender_p->save_trace("seq_num.it");
@@ -140,9 +140,9 @@ namespace itpp {
       ff2.flush();
       ff2.close();
 		}
-	
+
 	};
 
   //@}
-	
+
 } // namespace itpp
