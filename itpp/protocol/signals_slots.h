@@ -3,9 +3,6 @@
  * \brief Definitions of Signals and Slots classes
  * \author Anders Persson
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

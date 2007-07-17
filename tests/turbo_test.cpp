@@ -3,9 +3,6 @@
 * \brief Turbo encoder/decoder class test program
 * \author Pal Frenger and Erik G. Larsson.
 *
-* $Date$
-* $Revision$
-*
 * -------------------------------------------------------------------------
 *
 * IT++ - C++ library of mathematical, signal processing, speech processing,

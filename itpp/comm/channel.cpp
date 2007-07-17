@@ -4,9 +4,6 @@
  * \author Tony Ottosson, Pal Frenger, Adam Piatyszek and Zbigniew Dlugaszewski
  *
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

@@ -3,9 +3,6 @@
  * \brief Implementation of a Front Drop Queue class
  * \author Anders Persson and Tony Ottosson
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

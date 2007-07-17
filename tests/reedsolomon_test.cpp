@@ -3,9 +3,6 @@
  * \brief Reed-Solomon encoder/decoder class test program
  * \author Steve Peters and Adam Piatyszek
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

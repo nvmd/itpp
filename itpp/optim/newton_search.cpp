@@ -3,9 +3,6 @@
  * \brief Newton Search optimization algorithms - source file
  * \author Tony Ottosson
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

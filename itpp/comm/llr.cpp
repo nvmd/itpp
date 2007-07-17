@@ -4,9 +4,6 @@
  * \brief Class for numerically efficient log-likelihood algebra
  * \author Erik G. Larsson
  *
- * $Date$
- * $Revision $
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

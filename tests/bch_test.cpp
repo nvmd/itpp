@@ -3,9 +3,6 @@
  * \brief BCH encoder/decoder class test program
  * \author Pal Frenger, Steve Peters and Adam Piatyszek
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

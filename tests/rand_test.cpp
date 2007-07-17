@@ -3,9 +3,6 @@
  * \brief Random number generator test program
  * \author Adam Piatyszek
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

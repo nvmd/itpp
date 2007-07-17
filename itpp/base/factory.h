@@ -3,9 +3,6 @@
  * \brief Base class for class factories
  * \author Johan Bergman
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

@@ -3,9 +3,6 @@
  * \brief Definition of a Packet channel class
  * \author Anders Persson and Tony Ottosson
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

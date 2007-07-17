@@ -3,9 +3,6 @@
 * \brief Transforms test program
 * \author Tony Ottosson, Thomas Eriksson, Simon Wood and Adam Piatyszek
 *
-* $Date$
-* $Revision$
-*
 * -------------------------------------------------------------------------
 *
 * IT++ - C++ library of mathematical, signal processing, speech processing,

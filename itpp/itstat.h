@@ -3,9 +3,6 @@
  * \brief Include file for the IT++ statistics module
  * \author Adam Piatyszek and Conrad Sanderson
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

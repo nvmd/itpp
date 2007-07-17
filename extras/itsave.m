@@ -2,11 +2,8 @@
 % Brief:  Saves Matlab/Octave workspace variables to an IT++ itfile
 % Author: Tony Ottosson and Adam Piatyszek
 %
-% $Date$
-% $Revision$
-%
 % Usage: itsave("fname.it", var1, [var2], ...)
-% 
+%
 % This function saves a set of Matlab/Octave workspace variables to an IT++
 % file format. Currently, only vectors and 2-D matrices can be saved. The
 % type of data saved is detected automatically and can be one of the
@@ -54,7 +51,7 @@ if (fid == -1)
 end
 
 % Write a file header consisting of "IT++" and a char containing the file
-% version number 
+% version number
 fprintf(fid, 'IT++%c', file_version);
 
 for ai=1:nargs
@@ -67,7 +64,7 @@ for ai=1:nargs
 
   is_scalar = all(size(v) == 1); % true if scalar (for future use)
   is_vector = (sum(size(v) > 1) <= 1); % true if a vector (or a scalar)
-  
+
   if (~imag(v) && (v == round(v))) % binary or integer type
     if ((max(v) <= 1) && (min(v) >= 0)) % binary type
       % Calculate sizes
@@ -86,7 +83,7 @@ for ai=1:nargs
       fwrite(fid, [hdr_bytes data_bytes block_bytes], 'uint64');
       % Write variable name as string
       fprintf(fid, '%s%c', vname); fwrite(fid, 0, 'char');
-      
+
       % Write data type string, empty description string and data size
       if (is_vector)
 	fprintf(fid, 'bvec'); fwrite(fid, 0, 'char'); fwrite(fid, 0, 'char');
@@ -97,7 +94,7 @@ for ai=1:nargs
       end
       % Write data
       fwrite(fid, v, 'char');
-      
+
     else % integer type
       % Calculate sizes
       if (is_vector)
@@ -127,7 +124,7 @@ for ai=1:nargs
       % Write data
       fwrite(fid, v, 'int32');
     end % binary or integer
-      
+
   elseif (isa(v, 'double')) % double precision floating point type
     if (isreal(v)) % Check if real values
       % Calculate sizes
@@ -156,17 +153,17 @@ for ai=1:nargs
 	fwrite(fid, size(v), 'uint64');
       end
       fwrite(fid, v, 'float64');
-      
+
     else % complex values
       % Calculate sizes
       if (is_vector)
 	hdr_bytes = 3 * sizeof(uint64(0)) + size(vname,2)+1 ...
-	    + sizeof('dcvec')+1 + 1; 
+	    + sizeof('dcvec')+1 + 1;
 	data_bytes = sizeof(uint64(0)) + 2 * sizeof(double(0)) ...
 	    * prod(size(v));
       else % a matrix
 	hdr_bytes = 3 * sizeof(uint64(0)) + size(vname,2)+1 ...
-	    + sizeof('dcmat')+1 + 1; 
+	    + sizeof('dcmat')+1 + 1;
 	data_bytes = 2 * sizeof(uint64(0)) + 2 * sizeof(double(0)) ...
 	    * prod(size(v));
       end
@@ -202,7 +199,7 @@ for ai=1:nargs
   else
       warning(['Variable ''' vname ''' is neither a vector nor matrix. Not saved.']);
   end
-    
+
 end
 
 fclose(fid);

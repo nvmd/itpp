@@ -2,9 +2,6 @@
 % Brief:  Load an IT++ itfile content to Matlab/Octave workspace
 % Author: Tony Ottosson and Adam Piatyszek
 %
-% $Date$
-% $Revision$
-%
 % Usage: itload("fname.it")
 %
 % This functions loads all variables from an IT++ file format to the
@@ -66,7 +63,7 @@ while (1)
   name = fgetstr(fid); % Read current variable name
   type = fgetstr(fid); % Read current variable type
   fseek(fid, p+d1(1), 'bof'); % Skip header bytes
-  
+
   if (length(type) == 0) % A deleted entry -> skip it
 
   % --- bin ---
@@ -343,7 +340,7 @@ while (1)
 
   if (p + d1(3) >= file_size)
     break;
-  else 
+  else
     fseek(fid, p+d1(3), 'bof');
   end
 
@@ -351,7 +348,7 @@ end
 
 fclose(fid);
 
-  
+
 
 function str = fgetstr(fid)
 str = '';

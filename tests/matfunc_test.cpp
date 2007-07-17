@@ -3,9 +3,6 @@
  * \brief Test program of various functions on vectors and matrices
  * \author Tony Ottosson and Adam Piatyszek
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

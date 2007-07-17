@@ -3,9 +3,6 @@
  * \brief Implementation of Freq_Filt Class
  * \author Simon Wood
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

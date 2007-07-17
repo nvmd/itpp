@@ -3,9 +3,6 @@
  * \brief Implementation of a fixed-point data type Fixed
  * \author Johan Bergman
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

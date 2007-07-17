@@ -3,9 +3,6 @@
  * \brief Implementation of Low-Density Parity Check (LDPC) codes
  * \author Erik G. Larsson, Mattias Andersson and Adam Piatyszek
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

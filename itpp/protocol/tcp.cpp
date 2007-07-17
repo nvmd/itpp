@@ -3,9 +3,6 @@
  * \brief Implementation of Transport Control Protocol (TCP)
  * \author Krister Norlund
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

@@ -3,9 +3,6 @@
  * \brief Definition of vector ("MIMO") modulator classes
  * \author  Erik G. Larsson
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

@@ -3,9 +3,6 @@
  * \brief Minimum and maximum functions on vectors and matrices
  * \author Tony Ottosson, Johan Bergman and Adam Piatyszek
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

@@ -3,9 +3,6 @@
  * \brief Definitions of a base class for fixed-point data types
  * \author Johan Bergman
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

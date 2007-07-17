@@ -3,9 +3,6 @@
  * \brief Deterministic sources - source file
  * \author Tobias Ringstrom and Tony Ottosson
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

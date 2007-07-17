@@ -3,9 +3,6 @@
  * \brief Definitions of a Reed-Solomon codec class
  * \author Pal Frenger, Steve Peters and Adam Piatyszek
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

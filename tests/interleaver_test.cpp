@@ -3,9 +3,6 @@
  * \brief Interleaver classes test program
  * \author Pal Frenger and Adam Piatyszek
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

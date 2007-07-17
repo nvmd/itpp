@@ -3,9 +3,6 @@
  * \brief Implementation of PNM graphics format I/O function
  * \author
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

@@ -3,9 +3,6 @@
  * \brief Histogram class - header file
  * \author Andy Panov and Adam Piatyszek
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

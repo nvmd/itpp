@@ -3,9 +3,6 @@
  * \brief Implementation of classes for the IT++ file format
  * \author Tony Ottosson, Tobias Ringstrom and Adam Piatyszek
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

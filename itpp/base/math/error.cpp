@@ -3,9 +3,6 @@
  * \brief Error functions - source file
  * \author Tony Ottosson, Pal Frenger and Adam Piatyszek
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

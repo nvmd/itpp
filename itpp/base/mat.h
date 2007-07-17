@@ -3,9 +3,6 @@
  * \brief Matrix Class Definitions
  * \author Tony Ottosson, Tobias Ringstrom, Adam Piatyszek and Conrad Sanderson
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

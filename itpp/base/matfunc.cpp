@@ -4,9 +4,6 @@
  * \author Tony Ottosson, Adam Piatyszek, Conrad Sanderson, Mark Dobossy
  *         and Martin Senst
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

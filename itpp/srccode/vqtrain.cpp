@@ -3,9 +3,6 @@
  * \brief Implementation of a vector quantizer training functions
  * \author Thomas Eriksson
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,
