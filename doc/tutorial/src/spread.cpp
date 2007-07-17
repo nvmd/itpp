@@ -33,7 +33,7 @@ int main()
   spread_codesI.set_size(Ncode, SF, false);
   spread_codesQ.set_size(Ncode, SF, false);
   for (sc = 0; sc<Ncode; sc++) {
-    spread_codesI.set_row(sc, all_codes.get_row(sc)); 
+    spread_codesI.set_row(sc, all_codes.get_row(sc));
     spread_codesQ.set_row(sc, all_codes.get_row(sc));
   }
   mc_spread.set_codes(to_mat(spread_codesI), to_mat(spread_codesQ));
@@ -60,22 +60,22 @@ int main()
     channel.set_noise(N0(i)/2.0);
 
     for (j=0; j<MaxIterations; j++) {
-	     
-      transmited_bits = randb(NumOfBits);		      
+
+      transmited_bits = randb(NumOfBits);
       transmited_symbols  = qpsk.modulate_bits(transmited_bits);
 
       //This is where we do the multi-code spreading:
-      transmited_chips =  mc_spread.spread(transmited_symbols); 
-  
+      transmited_chips =  mc_spread.spread(transmited_symbols);
+
       received_chips = channel(transmited_chips);
 
       //The multi-code despreading:
-      //The second argument tells the despreader that the offset is zero chips. 
+      //The second argument tells the despreader that the offset is zero chips.
       //This offset is usefull on channels with delay.
-      received_symbols = mc_spread.despread(received_chips, 0); 
+      received_symbols = mc_spread.despread(received_chips, 0);
 
       received_bits = qpsk.demodulate_bits(received_symbols);
-		      
+
       berc.count(transmited_bits,received_bits);
       ber(i) = berc.get_errorrate();
 
@@ -86,7 +86,7 @@ int main()
 
     }
 
-    if (berc.get_errors() < MinNrOfErrors) { 
+    if (berc.get_errors() < MinNrOfErrors) {
       cout << "Exiting Simulation on point " << i+1 << endl; break;
     }
 

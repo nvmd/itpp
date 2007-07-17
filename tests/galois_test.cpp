@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Galois Field algebra classes test program
  * \author Tony Ottosson and Adam Piatyszek
  *

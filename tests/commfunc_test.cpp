@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Commfunc test program
  * \author Erik G. Larsson
  *

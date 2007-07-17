@@ -1,5 +1,5 @@
 /*!
-* \file 
+* \file
 * \brief IT file endianness test program
 * \author Adam Piatyszek
 *
@@ -80,7 +80,7 @@ int main()
     "[(1.1,2) (7,-4e-5); (0,2) (1.5,7.2)]}";
 
   it_file ff;
-#ifdef SAVE_DATA  
+#ifdef SAVE_DATA
   ff.open(string(ITFILE_TEST_FILE), true);
   ff << Name("c", "char variable") << c_ref;
   ff << Name("bo", "bool variable") << bo_ref;
@@ -118,7 +118,7 @@ int main()
   ff.open(string(ITFILE_TEST_FILE), false);
   while (ff.seek(n++)) {
     ff.info(name, type, desc, size);
-    cout << setw(4) << name << setw(12) << type << setw(7) << size 
+    cout << setw(4) << name << setw(12) << type << setw(7) << size
 	 << "   " << desc << endl;
   }
   cout << "------------------------------------------------\n\n";
@@ -220,7 +220,7 @@ int main()
   while (ff2.seek(n++)) {
     ff2.info(name, type, desc, size);
     ff2 >> iv1;
-    cout << "Name = " << name << "  Type = " << type << "  Size = " << size 
+    cout << "Name = " << name << "  Type = " << type << "  Size = " << size
 	 << "  Desc = \"" << desc << "\"  Data = " << iv1 << endl;
   }
   ff2.close();

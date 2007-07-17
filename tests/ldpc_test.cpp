@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief LDPC class test program
  * \author Erik G. Larsson
  *
@@ -49,13 +49,13 @@ int main()
   bvec bitsout;
   C.encode(bitsin,bitsout);
   it_assert(C.syndrome_check(bitsout),"syndrome check failed");
- 
+
   double EbN0db=1.5;
   double N0 = pow(10.0,-EbN0db/10.0) / C.get_rate();
   double sigma=sqrt(N0/2.0);
   vec x = 1.0+sigma*randn(C.get_nvar());
   QLLRvec LLRin = C.get_llrcalc().to_qllr(2.0*x/(N0/2.0));
   QLLRvec LLRout(C.get_nvar());
-  C.bp_decode(LLRin,LLRout); 
+  C.bp_decode(LLRin,LLRout);
   cout << LLRout.left(25) << endl;
 }

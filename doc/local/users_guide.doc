@@ -1,4 +1,4 @@
-/*! 
+/*!
 \page users_guide Users Guide
 
 \section toc Table of Contents
@@ -149,7 +149,7 @@ length_of_vector = my_vector.size();
 length_of_vector = length(my_vector);
 \endcode
 
-To assign values to a vector 
+To assign values to a vector
 
 \code
 vec  a = "0 0.7 5 9.3";        // that is a = [0 0.7 5 9.3]
@@ -194,7 +194,7 @@ may write
 
 \code
 // this gives a vector containing all elements in index_list
-a(index_list); 
+a(index_list);
 \endcode
 
 If you have a \c bvec called e.g. \a bin_list you may write
@@ -239,16 +239,16 @@ of course this will work for other vector types as well.
 \code
 // Shift in scalar data (10) at position 0
 my_ivec.shift_right(10);
-     
+
 // Shift in vector at position 0
-my_ivec.shift_right("10 4"); 
+my_ivec.shift_right("10 4");
 \endcode
 
 - \c shift_left:
 \code
 // Shift in scalar data (10) at position Size()-1
 my_ivec.shift_left(10);
-     
+
 // Shift in vector at position Size()-1
 my_ivec.shift_left("10 4");
 \endcode
@@ -256,7 +256,7 @@ my_ivec.shift_left("10 4");
 - \c replace_mid:
 \code
 // Replace part of vector from position (10) with the vector "11 13"
-my_ivec.replace_mid(10,"11 13"); 
+my_ivec.replace_mid(10,"11 13");
 \endcode
 
 - \c del:
@@ -273,7 +273,7 @@ my_ivec.ins(10);
 
 - \c split:
 \code
-// Splits vector at pos (10). Returns first part, keep second part. 
+// Splits vector at pos (10). Returns first part, keep second part.
 ivec first_part = my_ivec.split(10);
 \endcode
 
@@ -329,14 +329,14 @@ In order to convert e.g an \c ivec to a \c vec we can write some thing like
 
 \subsection vector_functions Vector Functions
 
-There are several functions that operate on vectors. Some examples are: 
-\c max, \c max_index, \c min, \c min_index, \c product, \c energy, 
-\c geometric_mean, \c mean, \c median, \c norm, \c round, \c variance, 
+There are several functions that operate on vectors. Some examples are:
+\c max, \c max_index, \c min, \c min_index, \c product, \c energy,
+\c geometric_mean, \c mean, \c median, \c norm, \c round, \c variance,
 \c ceil_i, \c floor_i, \c round_i, \c find.
 
-Examples of functions that generate different kinds of vectors are: 
-\c linspace, \c ones_b, \c ones_c, \c ones_i, \c ones \c zeros_b. There 
-are several more than these. Please refer to the IT++ reference manual 
+Examples of functions that generate different kinds of vectors are:
+\c linspace, \c ones_b, \c ones_c, \c ones_i, \c ones \c zeros_b. There
+are several more than these. Please refer to the IT++ reference manual
 for a description of these.
 
 
@@ -348,8 +348,8 @@ similar to that of vectors. The predefined matrix types are:
 - \c mat,
 - \c cmat,
 - \c imat,
-- \c smat, 
-- \c bmat. 
+- \c smat,
+- \c bmat.
 
 Below follows some examples that are specific for matrices only:
 
@@ -358,7 +358,7 @@ Below follows some examples that are specific for matrices only:
 \code
 mat a(3,4);
 \endcode
-</li> 
+</li>
 
 <li> Define a matrix of type \c int with 2 rows and 3 columns. A comma (,)
 or space is used to separate columns and a semicolon (;) is used to separate
@@ -366,21 +366,21 @@ rows.
 \code
 imat a = "1 2 3;4 5 6";
 \endcode
-</li> 
+</li>
 
 <li> Access to rows and columns with \c get_row and \c get_col
 \code
 a.get_row(1); // Returns the second row of the matrix b
 a.get_col(0); // Returns the first column of the matrix b
 \endcode
-</li> 
+</li>
 
 <li> Set rows and columns with \c set_row and \c set_col
 \code
 a.set_row(1,"9 8 7"); // Set second row to "9 8 7"
 a.set_col(0,"7 2");   // Set first column to "7 2"
 \endcode
-</li> 
+</li>
 
 <li> The size of a matrix
 \code
@@ -389,7 +389,7 @@ a.set_size(4,5,false);
 int nr_of_rows = a.rows();    // return the number of rows
 int nr_of_columns = a.cols(); // return the number of columns
 \endcode
-</li>   
+</li>
 
 <li> Access to parts of a matrix
 \code
@@ -399,7 +399,7 @@ a(i);   // Access to a single element. Linear addressing, by rows.
 // Returns the sub-matrix from rows r1 to r2 and columns c1 to c2.
 a(r1,r2,c1,c2);
 \endcode
-</li> 
+</li>
 
 <li> Copy rows and columns
 \code
@@ -407,9 +407,9 @@ a(r1,r2,c1,c2);
 a.copy_row(to,from)
 
 // Copy column number "from" to column number "to"
-a.copy_col(to,from) 
+a.copy_col(to,from)
 \endcode
-</li> 
+</li>
 
 <li> Swap rows and columns
 \code
@@ -417,9 +417,9 @@ a.copy_col(to,from)
 a.swap_row(r1,r2)
 
 // Swap columns number c1 and c2
-a.swap_col(c1,c2) 
+a.swap_col(c1,c2)
 \endcode
-</li> 
+</li>
 
 <li> Horizontal and vertical concatenation
 \code
@@ -429,7 +429,7 @@ c = concat_horizontal(a,b);
 // Equivalent to the MATLAB command c = [a;b]
 c = concat_vertical(a,b);
 \endcode
-</li>    
+</li>
 </ul>
 
 
@@ -503,7 +503,7 @@ The following continuous valued random number generators are available.
 - \c Rayleigh_RNG
 - \c Rice_RNG
 
-  
+
 \section deterministic_sources Deterministic Sources
 
 The following deterministic sources are available:
@@ -576,7 +576,7 @@ int main() {
 \section itfile_class Reading and Writing to Files
 
 The following example saves the variable \a a to the file
-\c my_file_name.it: 
+\c my_file_name.it:
 
 \code
 #include <itpp/itbase.h>
@@ -593,7 +593,7 @@ int main() {
 \endcode
 
 The following example reads the variable \a a from the file
-\c my_file_name.it and prints it: 
+\c my_file_name.it and prints it:
 \code
 #include <itpp/itbase.h>
 

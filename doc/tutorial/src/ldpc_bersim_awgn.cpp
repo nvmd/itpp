@@ -5,12 +5,12 @@ using namespace std;
 using namespace itpp;
 
 int main(int argc, char **argv)
-{ 
+{
   if (argc < 2) {
     it_info("Usage: " << argv[0] << " codec_file.it [EbN0_dB]");
     return 1;
   }
-    
+
   int64_t Nbits = 1000*1000*5000;  // maximum number of bits simulated for any SNR point
   int Nbers = 2000;            // target number of bit errors per SNR point
   double BERmin = 1e-6;        // BER at which to terminate simulation
@@ -19,7 +19,7 @@ int main(int argc, char **argv)
   LDPC_Code C(argv[1]);
   bool single_snr_mode = false;
   if (argc == 3) {
-    istringstream ss(argv[2]); 
+    istringstream ss(argv[2]);
     double x;
     ss >> x;
     EbN0db = x;
@@ -29,10 +29,10 @@ int main(int argc, char **argv)
   cout << "Running with Eb/N0: " << EbN0db << endl;
 
   // High performance: 2500 iterations, high resolution LLR algebra
-  C.set_exit_conditions(2500);  
+  C.set_exit_conditions(2500);
 
   // Alternate high speed settings: 50 iterations, logmax approximation
-  // C.set_llrcalc(LLR_calc_unit(12,0,7));  
+  // C.set_llrcalc(LLR_calc_unit(12,0,7));
 
   cout << C << endl;
 
@@ -40,7 +40,7 @@ int main(int argc, char **argv)
   BPSK Mod;
   bvec bitsin = zeros_b(N);
   vec s = Mod.modulate_bits(bitsin);
-  
+
   RNG_randomize();
 
   for (int j = 0; j < length(EbN0db); j++) {
@@ -54,7 +54,7 @@ int main(int argc, char **argv)
     for (int64_t i = 0; i < Nbits; i += C.get_nvar()) {
       // Received data
       vec x = chan(s);
-      
+
       // Demodulate
       vec softbits = Mod.demodulate_soft_bits(x, N0);
 
@@ -63,31 +63,31 @@ int main(int argc, char **argv)
 
       // Count the number of errors
       berc.count(bitsin, bitsout);
-      ferc.count(bitsin, bitsout);      
+      ferc.count(bitsin, bitsout);
 
       if (single_snr_mode) {
-	cout << "Eb/N0 = " << EbN0db(j) << "  Simulated " 
-	     << ferc.get_total_blocks() << " frames and " 
-	     << berc.get_total_bits() << " bits. "  
-	     << "Obtained " << berc.get_errors() << " bit errors. " 
-	     << " BER: " << berc.get_errorrate() 
+	cout << "Eb/N0 = " << EbN0db(j) << "  Simulated "
+	     << ferc.get_total_blocks() << " frames and "
+	     << berc.get_total_bits() << " bits. "
+	     << "Obtained " << berc.get_errors() << " bit errors. "
+	     << " BER: " << berc.get_errorrate()
 	     << " FER: " << ferc.get_errorrate() << endl << flush;
       }
       else {
-	if (berc.get_errors() > Nbers) 
-	  break;	
+	if (berc.get_errors() > Nbers)
+	  break;
       }
     }
 
-    cout << "Eb/N0 = " << EbN0db(j) << "  Simulated " 
-	 << ferc.get_total_blocks() << " frames and " 
-	 << berc.get_total_bits() << " bits. " 
-	 << "Obtained " << berc.get_errors() << " bit errors. " 
-	 << " BER: " << berc.get_errorrate() 
+    cout << "Eb/N0 = " << EbN0db(j) << "  Simulated "
+	 << ferc.get_total_blocks() << " frames and "
+	 << berc.get_total_bits() << " bits. "
+	 << "Obtained " << berc.get_errors() << " bit errors. "
+	 << " BER: " << berc.get_errorrate()
 	 << " FER: " << ferc.get_errorrate() << endl << flush;
-    if (berc.get_errorrate() < BERmin) 
+    if (berc.get_errorrate() < BERmin)
       break;
   }
-  
+
   return 0;
 }

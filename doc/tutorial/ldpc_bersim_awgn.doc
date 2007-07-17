@@ -1,4 +1,4 @@
-/*! 
+/*!
 \page ldpc_bersim_awgn Simulation of LDPC codes the AWGN channel
 
 This program simulates the performance of LDPC codes on the AWGN channel. Since the channel is symmetric, the zero codeword is used.

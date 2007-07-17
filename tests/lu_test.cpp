@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief LU factorization routines test program
  * \author Tony Ottosson and Adam Piatyszek
  *
@@ -50,7 +50,7 @@ int main(void)
 
     mat P = to_mat(permutation_matrix(p));
     cout << "X = " << round_to_zero(X) << endl;
-    cout << "norm(X - P^T*L*U) = " 
+    cout << "norm(X - P^T*L*U) = "
 	 << round_to_zero(norm(X - transpose(P) * L * U)) << endl;
   }
   {
@@ -62,7 +62,7 @@ int main(void)
 
     mat P = to_mat(permutation_matrix(p));
     cout << "X = " << round_to_zero(X) << endl;
-    cout << "norm(X - P^H*L*U = " 
+    cout << "norm(X - P^H*L*U = "
 	 << round_to_zero(norm(X - hermitian_transpose(P) * L * U)) << endl;
   }
 
@@ -71,8 +71,8 @@ int main(void)
 
 #else
 
-int main() { 
-  cerr << "Error: LAPACK library is needed to run this test program" << endl; 
+int main() {
+  cerr << "Error: LAPACK library is needed to run this test program" << endl;
   return 1;
 }
 

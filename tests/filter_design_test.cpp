@@ -1,5 +1,5 @@
 /*!
-* \file 
+* \file
 * \brief Filter design test program
 * \author Tony Ottosson and Adam Piatyszek
 *
@@ -96,7 +96,7 @@ int main()
    cout << "m = " << m << endl;
    cout << "filter_design_autocorrelation(32, f, m, R): " << endl;
    filter_design_autocorrelation(256, f, m, R);
-   
+
    cout << "R = " << R << endl;
 
    cout << "arma_estimator(8, 8, R, b, a): " << endl;
@@ -112,7 +112,7 @@ int main()
    cout << "arma_estimator(8, 8, R, b, a): " << endl;
    cout << "a = " << a << endl;
    cout << "b = " << b << endl;
-   
+
  }
 
  return 0;
@@ -120,8 +120,8 @@ int main()
 
 #else
 
-int main() { 
- cerr << "Error: FFT and LAPACK libraries are needed to run this test program" 
+int main() {
+ cerr << "Error: FFT and LAPACK libraries are needed to run this test program"
       << endl;
  return 1;
 }

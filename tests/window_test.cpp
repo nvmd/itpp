@@ -2,7 +2,7 @@
  * \file
  * \brief Windowing functions test program
  * \author Tony Ottosson, Tobias Ringstrom, Pal Frenger and Adam Piatyszek
- * 
+ *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief SVD decomposition test program
  * \author Tony Ottosson and Adam Piatyszek
  *
@@ -49,7 +49,7 @@ int main()
     svd(A, U, S, V);
 
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "norm(A - U*diag(S)*V^T) = " 
+    cout << "norm(A - U*diag(S)*V^T) = "
 	 << round_to_zero(norm(A - U * diag(S) * transpose(V))) << endl;
 
   }
@@ -61,8 +61,8 @@ int main()
     svd(A, U, S, V);
 
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "norm(A - U*diag(S)*V^H) = " 
-	 << round_to_zero(norm(A - U * diag(S) * hermitian_transpose(V))) 
+    cout << "norm(A - U*diag(S)*V^H) = "
+	 << round_to_zero(norm(A - U * diag(S) * hermitian_transpose(V)))
 	 << endl;
   }
 
@@ -71,7 +71,7 @@ int main()
 
 #else
 
-int main() { 
+int main() {
   cerr << "Error: LAPACK library is needed to run this test program" << endl;
   return 1;
 }

@@ -42,7 +42,7 @@ GF2mat random_matrix(int m, int n)
  for (int j=0; j<n; j++) {
    for (int i=0; i<m; i++) {
      Z.set(i,j,(rand()%2==0 ? 1 : 0));
-   } 
+   }
  }
  return Z;
 }
@@ -93,10 +93,10 @@ int main()
  alist.write(file);
  GF2mat_sparse_alist alist2(file);
  it_assert(GF2mat(alist2.to_sparse())==A,"Alist test failed");
- 
+
 #ifdef EXTENSIVE_TESTS
-    
- // ========== EXTENSIVE RANDOM TESTS ========== 
+
+ // ========== EXTENSIVE RANDOM TESTS ==========
 
  // The following code can be used to verify the behavior of the GF2
  // class for large matrix dimensions.  Note that with debugging
@@ -110,7 +110,7 @@ int main()
  f1 << Name("Z") << Z;
  f1.close();
  cout << "Saved successfully." << endl;
- 
+
  it_ifile f2("gf2mat_test.it");
  GF2mat Z_temp;
  f2 >> Name("Z") >> Z_temp;
@@ -122,7 +122,7 @@ int main()
  bvec b=randb(Z.cols());
  it_assert(GF2mat(Z*b,1)==Z*GF2mat(b,1),"error");
  cout << "Passed matrix-vector multiplication test" << endl;
- 
+
  // Multiplication test
  GF2mat W = random_matrix(139,Z.rows());
  GF2mat temp1=W*Z;
@@ -132,7 +132,7 @@ int main()
  Z=Z.transpose();
  it_assert(W*Z.transpose()==mult_trans(W,Z),"error");
  cout << "Passed matrix-matrix multiplication test" << endl;
- 
+
  // Transpose
  it_assert(GF2mat(b,0)==GF2mat(b,1).transpose(),"error");
  it_assert(GF2mat(b,1)==GF2mat(b,0).transpose(),"error");
@@ -146,7 +146,7 @@ int main()
  it_assert(Z == Z.get_submatrix(0,0,m-1,27).concatenate_horizontal(Z.get_submatrix(0,28,m-1,n-1)),"error");
  it_assert(Z == Z.get_submatrix(0,0,13,n-1).concatenate_vertical(Z.get_submatrix(14,0,m-1,n-1)),"error");
  cout << "Passed concatenation test." << endl;
- 
+
  // Assignment operator
  GF2mat P=Z;
  it_assert(P==Z,"error");
@@ -157,7 +157,7 @@ int main()
  GF2mat_sparse As(Z.rows(),Z.cols());
  for (int i=0; i<Z.rows(); i++) {
    for (int j=0; j<Z.cols(); j++) {
-     if (Z.get(i,j)==1) { 
+     if (Z.get(i,j)==1) {
 	As.set(i,j,1);
      }
    }
@@ -179,7 +179,7 @@ int main()
 
  // Test of T-factorization
  int dim=250;
- 
+
  for (int trial=0; trial<100; trial++) {
    cout << "Testing T-factorization, realization: " << trial << endl;
    GF2mat X=random_matrix(rand()%dim+1,rand()%dim+1);
@@ -197,11 +197,11 @@ int main()
    GF2mat X=random_matrix(dim,dim);
    while (X.row_rank()!=dim) {
      X.set(rand()%dim,rand()%dim,rand()%2);
-   }    
+   }
    it_assert(X*X.inverse() == gf2dense_eye(dim),"error");
    it_assert(X.inverse()*X == gf2dense_eye(dim),"error");
  }
- 
+
  // Test of the T-factorization bitflip update
  for (int trial=0; trial<100; trial++) {
    cout << "Testing the T-factorization bitflip update, realization: " << trial;
@@ -244,8 +244,8 @@ int main()
      //      cout << GF2mat(c,1) << endl;
      GF2mat Xtemp = X.concatenate_horizontal(GF2mat(c,1));
      int success = Xtemp.T_fact_update_addcol(T,U,perm,c);
-     if (success==1)	{ 
-	X=Xtemp; 
+     if (success==1)	{
+	X=Xtemp;
      }
      //      cout << "rank was: " << X.row_rank() << endl;
 

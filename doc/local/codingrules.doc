@@ -1,4 +1,4 @@
-/*! 
+/*!
 \page codingrules Coding Rules
 
 In the following sections we describe the naming conventions which are
@@ -32,7 +32,7 @@ instance the following common names and prefixes should be used:
 
 Files are named using lower-case letters and words are separated using
 under-score. Abbreviations, when used in file names, are also written
-with lower-case letters. 
+with lower-case letters.
 
 Source files are named using <tt>`.cpp'</tt> suffix, whereas header
 files end with <tt>`.h'</tt> extension. Examples:
@@ -76,9 +76,9 @@ All classes that are configured by input parameters should include:
 <ul>
 <li> default empty constructor </li>
 <li> one or more additional constructor(s) that takes input parameters
-and initializes the class instance </li> 
+and initializes the class instance </li>
 <li> setup function, preferably named \c `setup' or \c
-`set_parameters' </li>  
+`set_parameters' </li>
 </ul>
 
 Explicit destructor functions are not required, unless they are

@@ -65,25 +65,25 @@ lots of functions for vectors and matrices. Such a kernel makes IT++ library
 similar to Matlab.
 
 IT++ makes an extensive use of existing open-source libraries (but not
-only) for increased functionality, speed and accuracy. In particular 
+only) for increased functionality, speed and accuracy. In particular
 <a href="http://www.netlib.org/blas/">BLAS</a>,
-<a href="http://www.netlib.org/blas/">CBLAS</a>, 
-<a href="http://www.netlib.org/lapack/">LAPACK</a> and 
-<a href="http://www.fftw.org/">FFTW</a> libraries might be used. 
+<a href="http://www.netlib.org/blas/">CBLAS</a>,
+<a href="http://www.netlib.org/lapack/">LAPACK</a> and
+<a href="http://www.fftw.org/">FFTW</a> libraries might be used.
 Instead of NetLib's reference BLAS and LAPACK, some optimized
 platform-specific libraries can be used as well, i.e.:
 - <a href="http://math-atlas.sourceforge.net/">ATLAS</a> (<em>Automatically
   Tuned Linear Algebra Software</em>) - includes optimised BLAS, CBLAS and a
   limited set of LAPACK routines
-- <a href="http://www.intel.com/cd/software/products/asmo-na/eng/perflib/mkl/">MKL</a>  
+- <a href="http://www.intel.com/cd/software/products/asmo-na/eng/perflib/mkl/">MKL</a>
   (<em>Intel Math Kernel Library</em>) - includes all required BLAS, CBLAS,
   LAPACK and FFT routines (FFTW not required)
 - <a href="http://developer.amd.com/acml.aspx">ACML</a> (<em>AMD Core Math
-  Library</em>) - includes BLAS, LAPACK and FFT routines (FFTW not required) 
+  Library</em>) - includes BLAS, LAPACK and FFT routines (FFTW not required)
 .
 It is possible to compile and use IT++ without any of the above
-listed libraries, but the functionality will be reduced. 
-      
+listed libraries, but the functionality will be reduced.
+
 The IT++ library originates from the former department of Information
 Theory at the <a href="http://www.chalmers.se/en/">Chalmers University of
 Technology</a>, Gothenburg, Sweden. Because the library is coded in C++, the
@@ -92,12 +92,12 @@ go, IT++ have developed a life of its' own and is now released under the
 terms of the <a href="http://www.gnu.org/copyleft/gpl.html">GNU General
 Public License</a> (GPL) for you to enjoy.
 
-IT++ should work on 
-<a href="http://en.wikipedia.org/wiki/GNU/Linux">GNU/Linux</a>, 
+IT++ should work on
+<a href="http://en.wikipedia.org/wiki/GNU/Linux">GNU/Linux</a>,
 <a href="http://www.sun.com/software/solaris/">Sun Solaris</a>,
-Microsoft Windows (with <a href="http://www.cygwin.com/">Cygwin</a>, 
+Microsoft Windows (with <a href="http://www.cygwin.com/">Cygwin</a>,
 <a href="http://www.mingw.org/">MinGW/MSYS</a>, or
-<a href="http://msdn.microsoft.com/visualc/">Microsoft Visual C++ .NET</a>) 
+<a href="http://msdn.microsoft.com/visualc/">Microsoft Visual C++ .NET</a>)
 and <a href="http://www.apple.com/macosx/">Mac OS X</a> operating systems.
 
 \htmlonly

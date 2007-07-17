@@ -2,7 +2,7 @@
  * \file
  * \brief Fixed-point classes test program
  * \author Johan Bergman and Adam Piatyszek
- * 
+ *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,
@@ -56,7 +56,7 @@ int main()
   cout << "For Fix and CFix:" << endl;
   Fix the_fix(real_value, shift, wordlen, emode, omode, qmode, stat_ptr);
   cout << "  the_fix = " << double(the_fix) << endl;
-  CFix the_cfix(complex_value, 0.0, shift, wordlen, emode, omode, qmode, 
+  CFix the_cfix(complex_value, 0.0, shift, wordlen, emode, omode, qmode,
 		stat_ptr);
   cout << "  the_cfix = " << complex<double>(the_cfix) << endl;
 
@@ -91,13 +91,13 @@ int main()
   cfixvec the_cfixvec(vec_length, FIX20);
   the_cfixvec = CFix(complex_value, 0.0, shift);
   cout << "  the_cfixvec = " << to_cvec(the_cfixvec) << endl;
-  cout << "  the_cfixvec + the_fixvec = " << to_cvec(the_cfixvec + the_fixvec) 
+  cout << "  the_cfixvec + the_fixvec = " << to_cvec(the_cfixvec + the_fixvec)
        << endl;
-  cout << "  the_cfixvec - the_fixvec = " << to_cvec(the_cfixvec - the_fixvec) 
+  cout << "  the_cfixvec - the_fixvec = " << to_cvec(the_cfixvec - the_fixvec)
        << endl;
-  cout << "  the_cfixvec * the_fixvec = " 
+  cout << "  the_cfixvec * the_fixvec = "
        << complex<double>(the_cfixvec * the_fixvec) << endl;
-  cout << "  the_cfixvec / the_fix = " << to_cvec(the_cfixvec / the_fix) 
+  cout << "  the_cfixvec / the_fix = " << to_cvec(the_cfixvec / the_fix)
        << endl << endl;
 
   cout << "Testing functions" << endl;
@@ -105,36 +105,36 @@ int main()
 
   cout << "Function is_fix:" << endl;
   Array<Array<fixvec> > the_array2d_fixvec;
-  cout << "  is_fix(the_array2d_fixvec) = " << is_fix(the_array2d_fixvec) 
+  cout << "  is_fix(the_array2d_fixvec) = " << is_fix(the_array2d_fixvec)
        << endl;
 
   cout << "Function set_fix:" << endl;
   vec original_float = "0:7";
   fixvec resulting_fix(FIX3);
   set_fix(resulting_fix, original_float, 0);
-  cout << "  original_float = " << original_float << " => resulting_fix = " 
+  cout << "  original_float = " << original_float << " => resulting_fix = "
        << resulting_fix << endl;
   vec resulting_float(FIX3);
   set_fix(resulting_float, original_float, 0);
-  cout << "  original_float = " << original_float << " => resulting_float = " 
+  cout << "  original_float = " << original_float << " => resulting_float = "
        << resulting_float << endl;
 
   cout << "Function lshift_fix:" << endl;
   Fix fix_to_be_lshifted(FIX16);
   fix_to_be_lshifted = 77;
-  cout << "  before lshift: " << fix_to_be_lshifted << " , rep: " 
+  cout << "  before lshift: " << fix_to_be_lshifted << " , rep: "
        << fix_to_be_lshifted.get_re() << endl;
   lshift_fix(fix_to_be_lshifted, 1);
-  cout << "  after lshift: " << fix_to_be_lshifted << " , rep: " 
+  cout << "  after lshift: " << fix_to_be_lshifted << " , rep: "
        << fix_to_be_lshifted.get_re() << endl;
 
   cout << "Function rshift_fix:" << endl;
   Fix fix_to_be_rshifted(FIX16);
   fix_to_be_rshifted = Fix(3.14, 8);
-  cout << "  before rshift: " << fix_to_be_rshifted << " , rep: " 
+  cout << "  before rshift: " << fix_to_be_rshifted << " , rep: "
        << fix_to_be_rshifted.get_re() << endl;
   rshift_fix(fix_to_be_rshifted, 6, RND);
-  cout << "  after rshift: " << fix_to_be_rshifted << " , rep: " 
+  cout << "  after rshift: " << fix_to_be_rshifted << " , rep: "
        << fix_to_be_rshifted.get_re() << endl;
 
   return 0;

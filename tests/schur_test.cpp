@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Schur decomposition test program
  * \author Adam Piatyszek
  *
@@ -39,7 +39,7 @@ int main()
 {
   int size = 5;
   double thres = 1e-13;
- 
+
   cout << "==========================================" << endl;
   cout << "   Test of Schur decomposition routines   " << endl;
   cout << "==========================================" << endl;
@@ -48,18 +48,18 @@ int main()
     mat A = randn(size, size);
     mat T, U;
     schur(A, U, T);
-   
+
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "norm(A - U*T*U^T) = " 
+    cout << "norm(A - U*T*U^T) = "
 	 << round_to_zero(norm(A - (U * T * transpose(U))), thres) << endl;
-    cout << "norm(I - U*U^T) = " 
+    cout << "norm(I - U*U^T) = "
 	 << round_to_zero(norm(eye(size) - (U * transpose(U))), thres) << endl;
     double temp_sum = 0;
     for (int i = 2; i < size; i++)
       for (int j = 0; j < i-1; j++)
 	temp_sum += sqr(T(i, j));
-    cout << "norm(lower triangular part of T) = " 
-	 << round_to_zero(sqrt(temp_sum), thres) << endl; 
+    cout << "norm(lower triangular part of T) = "
+	 << round_to_zero(sqrt(temp_sum), thres) << endl;
   }
   {
     cout << endl << "Complex matrix" << endl;
@@ -68,17 +68,17 @@ int main()
     schur(A, U, T);
 
     cout << "A = " << round_to_zero(A) << endl;
-    cout << "norm(A - U*T*U^H) = " 
+    cout << "norm(A - U*T*U^H) = "
 	 << round_to_zero(norm(A - (U * T * hermitian_transpose(U))), thres)
 	 << endl;
-    cout << "norm(I - U*U^H) = " 
+    cout << "norm(I - U*U^H) = "
 	 << round_to_zero(norm(eye(size) - (U * hermitian_transpose(U))), thres)
 	 << endl;
     double temp_sum = 0;
     for (int i = 1; i < size; i++)
       for (int j = 0; j < i; j++)
 	temp_sum += sqr(T(i, j));
-    cout << "norm(lower triangular part of T) = " 
+    cout << "norm(lower triangular part of T) = "
 	 << round_to_zero(sqrt(temp_sum), thres) << endl;
   }
 
@@ -87,7 +87,7 @@ int main()
 
 #else
 
-int main() { 
+int main() {
   cerr << "Error: LAPACK library is needed to run this test program" << endl;
   return 1;
 }

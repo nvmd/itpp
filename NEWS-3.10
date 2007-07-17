@@ -43,7 +43,7 @@ Modifications:
 * Test programs are linked to the optimised library by default.
 
 * A separate MSVC++ project file created to simplify linking the IT++
-  library with ACML (PGI build) under Windows. Documentation updated 
+  library with ACML (PGI build) under Windows. Documentation updated
   accordingly.
 
 * Speed and portability improvements in the configuration scripts backported
@@ -317,7 +317,7 @@ Bug-fixes:
 
 * Fixed a problem with different line endings on Windows based platforms.
   Now, sed program is necessary for performing tests.
-  
+
 * Fixed bug [1483125]. Now a complex dot product is properly returned by a
   `dot' function when using ACML blas libraries. Thanks to Danilo Zanatta
   for reporting this bug.
@@ -336,7 +336,7 @@ Bug-fixes:
   to Jordy Potman for reporting this bug.
 
 * A few other minor bug-fixes. For a full list of them, please check the
-  ChangeLog file. 
+  ChangeLog file.
 
 
 ===============================================================================
@@ -351,7 +351,7 @@ Bug-fixes:
 
 * Fixed a bug caused by improper wrapping of backslash functions using
   it_assert1() macro.
- 
+
 * Fixed bug [1468011], so AR_Filter now works when using a single
   coefficient value, e.g. a = "0.5".
 
@@ -371,7 +371,7 @@ Bug-fixes:
 * Fixes in configuration scripts due to linking problems uder Cygwin.
 
 * A few other minor bug-fixes. For a full list of them, please check the
-  ChangeLog file. 
+  ChangeLog file.
 
 
 ===============================================================================
@@ -386,7 +386,7 @@ was released:
 New features:
 -------------
 
-* Documentation improvements: 
+* Documentation improvements:
   - added a list of features of IT++
   - added first draft of how a Matlab/IT++ conversion table can look like;
     more to be added later
@@ -405,7 +405,7 @@ New features:
 
 * New Log-Likelihood Ratio (LLR) algebra class added.
 
-* The turbo decoders can use table-lookup based computation of Jacobian 
+* The turbo decoders can use table-lookup based computation of Jacobian
   logarithm (set metric to "TABLE")
 
 * New blackman() windowing function added.
@@ -443,19 +443,19 @@ Modifications:
 * Matlab/Octave itload.m and itsave.m scripts are now installed in
   $PREFIX/share/doc.
 
-* Major redesign of the configuration scripts. The following things changed: 
+* Major redesign of the configuration scripts. The following things changed:
   - checks for BLAS now detect MKL, ACML, ATLAS and reference (NetLib's)
-    BLAS implementations; if found, HAVE_BLAS is defined 
+    BLAS implementations; if found, HAVE_BLAS is defined
   - checks for LAPACK also detect MKL, ACML, ATLAS and reference LAPACK
-    library; if found, HAVE_LAPACK is defined 
+    library; if found, HAVE_LAPACK is defined
   - checks for CBLAS detect MKL, ATLAS and reference implementation, however
     CBLAS is fully optional; if found, HAVE_CBLAS is defined
   - new checks for FFT: detects MKL or FFTW3 implementation; if found,
     HAVE_FFT and either HAVE_FFTW3 or HAVE_FFT_MKL8 are defined
   - new checks for <mkl_dfti.h> and <fftw3.h> header files provided by
-    external libraries; not using <itpp/base/fftw3.h> any more. 
+    external libraries; not using <itpp/base/fftw3.h> any more.
   It is now possible to mix various implementation of BLAS, LAPACK and FFT
-  routines, e.g.: 
+  routines, e.g.:
   - use MKL's BLAS, reference NetLib's LAPACK and FFTW3,
   - use ACML for BLAS and LAPACK, reference NetLib's CBLAS and FFTW3.
 
@@ -482,7 +482,7 @@ Bug-fixes:
 
 * Small fix in the automatic MKL's LAPACK library detection. Now using
   shared libraries `-lmkl_lapack32' and `-lmkl_lapack64' instead of a static
-  one by default. 
+  one by default.
 
 * Small fix that solves MSVC++ .NET compilation problem (#include <ctime>)
 
@@ -492,4 +492,4 @@ Bug-fixes:
   that use SSE and SSE2 instructions.
 
 * A lot of other minor bug-fixes. For a full list of them, please check the
-  ChangeLog file. 
+  ChangeLog file.

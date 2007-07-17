@@ -1,4 +1,4 @@
-/*! 
+/*!
 \page bpsk BPSK modulation over an AWGN channel
 
 As a first example we will generate a sequence of 500000 random bits {0,1} and

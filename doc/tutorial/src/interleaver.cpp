@@ -12,7 +12,7 @@ int main()
   int rows, cols;
   ivec input, output, deinterleaved;
 
-  //Declare the interleaver. The interleaver classes are templated, and therefore we must specify 
+  //Declare the interleaver. The interleaver classes are templated, and therefore we must specify
   //the type of the data elements. In this example we are using integers:
   Block_Interleaver<int> my_interleaver;
 

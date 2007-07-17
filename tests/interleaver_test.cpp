@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Interleaver classes test program
  * \author Pal Frenger and Adam Piatyszek
  *

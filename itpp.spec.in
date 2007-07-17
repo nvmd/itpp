@@ -13,7 +13,7 @@ BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-buildroot
 Prereq:         /sbin/ldconfig
 #BuildRequires:  fftw-devel
 
-%description 
+%description
 IT++ is a C++ library of mathematical, signal processing, speech
 processing, and communications classes and functions.  The kernel of
 the IT++ library is built upon templated vector and matrix classes
@@ -46,7 +46,7 @@ make install DESTDIR=$RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/%{_docdir}/%{name}-%{version}
 cp -p AUTHORS ChangeLog ChangeLog-2005 ChangeLog-2006 INSTALL NEWS \
   NEWS-3.10 NEWS-3.9 README TODO \
-  $RPM_BUILD_ROOT/%{_docdir}/%{name}-%{version} 
+  $RPM_BUILD_ROOT/%{_docdir}/%{name}-%{version}
 
 
 %clean
@@ -76,8 +76,8 @@ cp -p AUTHORS ChangeLog ChangeLog-2005 ChangeLog-2006 INSTALL NEWS \
 
 %changelog
 * Tue Apr  4 2007  Adam Piatyszek  <ediap@users.sourceforge.net>
-- Minor cleanups and changes according to the latest itpp.spec from 
-  Fedora Extras 
+- Minor cleanups and changes according to the latest itpp.spec from
+  Fedora Extras
 
 * Mon Feb 13 2006  Adam Piatyszek  <ediap@users.sourceforge.net>
 - Created subpackage itpp-html-doc with HTML documentation

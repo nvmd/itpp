@@ -1,5 +1,5 @@
 /*!
-* \file 
+* \file
 * \brief Turbo encoder/decoder class test program
 * \author Pal Frenger and Erik G. Larsson.
 *
@@ -46,8 +46,8 @@ int main()
   string metric = "LOGMAX";
   double logmax_scale_factor = 0.7;
   bool adaptive_stop = true;
-  turbo.set_parameters(gen, gen, constraint_length, interleaver_sequence, 
-		       iterations, metric, logmax_scale_factor, 
+  turbo.set_parameters(gen, gen, constraint_length, interleaver_sequence,
+		       iterations, metric, logmax_scale_factor,
 		       adaptive_stop);
   int num_blocks = 50;
 
@@ -63,7 +63,7 @@ int main()
   ivec nrof_used_iterations;
   int i;
 
-  vec symbols, received; 
+  vec symbols, received;
   bvec input, coded_bits, decoded_bits, transmitted;
 
   Normal_RNG noise_src;
@@ -86,8 +86,8 @@ int main()
 
   mat err = zeros(4,EbN0db.length());
   mat cor = zeros(4,EbN0db.length());
-  mat ber = zeros(4,EbN0db.length()); 
-  mat avg_nrof_iterations = zeros(4,EbN0db.length()); 
+  mat ber = zeros(4,EbN0db.length());
+  mat avg_nrof_iterations = zeros(4,EbN0db.length());
   LLR_calc_unit lowresllrcalc(10,7,9);  // table with low resolution
   Array<Real_Timer> timer(4);
   for (int i=0; i<4; i++) { timer(i).reset(); }
@@ -162,8 +162,8 @@ int main()
   cout << "err = " << err << endl;
   cout << "Number of correct bits counted: " << endl;
   cout << "cor = " << cor << endl;
-   
-  /*  
+
+  /*
   // The test program cannot print this out, but on my system
   // the QLLR based decoder is about 8 times faster than logmap. -EGL
   cout << "Timers: ";

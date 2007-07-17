@@ -43,15 +43,15 @@ int main() {
   var(2) = "0.3, 0.1, 0.2";
   var(3) = "0.1, 0.2, 0.3";
   var(4) = "0.2, 0.3, 0.1";
-  
+
   cout << fixed << setprecision(3);
   cout << "user configured means and variances:" << endl;
   cout << "mu = " << mu << endl;
   cout << "var = " << var << endl;
-  
+
   // randomise the order of Gaussians "generating" the vectors
   I_Uniform_RNG rnd_uniform(0, K-1);
-  ivec gaus_id = rnd_uniform(N); 
+  ivec gaus_id = rnd_uniform(N);
 
   ivec gaus_count(K); gaus_count = 0;
   Array<vec> mu_test(K);  for(int k=0;k<K;k++) { mu_test(k).set_size(D); mu_test(k) = 0.0; }
@@ -59,14 +59,14 @@ int main() {
 
   Normal_RNG rnd_normal;
   for(int n=0;n<N;n++) {
-    
+
     int k = gaus_id(n);
     gaus_count(k)++;
-   
+
     for(int d=0;d<D;d++) {
       rnd_normal.setup( mu(k)(d), var(k)(d) );
       double tmp = rnd_normal();
-      X(n)(d) = tmp; 
+      X(n)(d) = tmp;
       mu_test(k)(d) += tmp;
     }
   }
@@ -78,26 +78,26 @@ int main() {
 
   for(int n=0;n<N;n++) {
     int k = gaus_id(n);
-    
+
     for(int d=0;d<D;d++) {
       double tmp = X(n)(d) - mu_test(k)(d);
-      var_test(k)(d) += tmp*tmp;  
+      var_test(k)(d) += tmp*tmp;
     }
   }
 
-  for(int k=0;k<K;k++)  var_test(k) /= (gaus_count(k)-1.0); 
+  for(int k=0;k<K;k++)  var_test(k) /= (gaus_count(k)-1.0);
 
   cout << endl << endl;
   cout << fixed << setprecision(3);
   cout << "stats for X:" << endl;
-  
+
   for(int k=0;k<K;k++) {
-    cout << "k = " << k << "  count = " << gaus_count(k) << "  weight = " << gaus_count(k)/double(N) << endl; 
-    for(int d=0;d<D;d++) cout << "  d = " << d << "  mu_test = " << mu_test(k)(d) << "  var_test = " << var_test(k)(d) << endl; 
+    cout << "k = " << k << "  count = " << gaus_count(k) << "  weight = " << gaus_count(k)/double(N) << endl;
+    for(int d=0;d<D;d++) cout << "  d = " << d << "  mu_test = " << mu_test(k)(d) << "  var_test = " << var_test(k)(d) << endl;
     cout << endl;
   }
- 
-  
+
+
   // make a model with initial values (zero mean and unit variance)
   // the number of gaussians and dimensions of the model is specified here
 
@@ -112,24 +112,24 @@ int main() {
 
   cout << endl << endl;
   cout << "running kmeans optimiser" << endl << endl;
-  
+
   MOG_diag_kmeans(mog, X, 10, 0.5, true, print_progress);
-  
+
   cout << fixed << setprecision(3);
-  cout << "mog.get_means() = " << endl << mog.get_means() << endl; 
+  cout << "mog.get_means() = " << endl << mog.get_means() << endl;
   cout << "mog.get_diag_covs() = " << endl << mog.get_diag_covs() << endl;
   cout << "mog.get_weights() = " << endl << mog.get_weights() << endl;
 
   cout << endl;
   cout << "mog.avg_log_lhood(X) = " << mog.avg_log_lhood(X) << endl;
 
-  
+
   //
   // EM ML based optimisation
 
   cout << endl << endl;
   cout << "running ML optimiser" << endl << endl;
-  
+
   MOG_diag_ML(mog, X, 10, 0.0, 0.0, print_progress);
 
   cout << fixed << setprecision(3);

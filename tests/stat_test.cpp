@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Miscellaneous statistical routines test program
  * \author Tony Ottosson and Adam Piatyszek
  *

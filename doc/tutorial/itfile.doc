@@ -1,4 +1,4 @@
-/*! 
+/*!
 \page itfile Writing and reading data from files
 
 Here we will use the \c it_file class to store some data. The program \c
@@ -18,11 +18,11 @@ plot(a)
 
 Note: Make sure that <tt>$PREFIX/share/itpp</tt> is in your Matlab/Octave
 path and that you run the code above from the directory where \c
-it_file_test.it is located (\c $PREFIX is the IT++ installation prefix; 
-<tt>/usr/local</tt> by default).  
+it_file_test.it is located (\c $PREFIX is the IT++ installation prefix;
+<tt>/usr/local</tt> by default).
 
 The IT++ program \c read_it_file.cpp that reads the file and prints its
-content can look like this: 
+content can look like this:
 
 \include read_it_file.cpp
 

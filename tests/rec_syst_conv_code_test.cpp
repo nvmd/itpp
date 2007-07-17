@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Recursive systematic convolutional codes class test program
  * \author Pal Frenger
  *

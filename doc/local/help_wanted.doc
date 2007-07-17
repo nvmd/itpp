@@ -1,20 +1,20 @@
 /*!
-\page help_wanted Make a Difference            
+\page help_wanted Make a Difference
 
 <b>Do not ask what IT++ can do for you. Ask what you can do for IT++.</b>
 
-You can help us to develop the IT++ library. There are always a lot of things 
+You can help us to develop the IT++ library. There are always a lot of things
 you can do:
 
 - Start using IT++
-- Tell your friends about IT++ and help them to get started using it  
+- Tell your friends about IT++ and help them to get started using it
 - If you find a bug, report it to us. Without your help we can never hope to
-produce a bug free code. 
+produce a bug free code.
 - Help us to improve the documentation by providing information about
-documentation bugs 
+documentation bugs
 - Answer support requests in the IT++ discussion forums on SourceForge. If
 you know the answer to a question, help others to overcome their IT++
-problems. 
+problems.
 - Help us to improve our algorithms. If you know of a better way (e.g. that
 is faster or requires less memory) to implement some of our algorithms, then
 let us know.

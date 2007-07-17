@@ -30,16 +30,16 @@ void ZF_demod(ND_UQAM &channel, ivec &LLR_apr,  ivec &LLR_apost, double sigma2, 
 
 
 extern int main(int argc, char **argv)
-{ 
+{
   // -- modulation and channel parameters (taken from command line input) --
   int nC;                    // type of constellation  (1=QPSK, 2=16-QAM, 3=64-QAM)
   int nRx;                   // number of receive antennas
-  int nTx;                   // number of transmit antennas 
+  int nTx;                   // number of transmit antennas
   int Tc;                    // coherence time (number of channel vectors with same H)
 
   if (argc!=5) {
     cout << "Usage: cm nTx nRx nC Tc" << endl << "Example: cm 2 2 1 100000 (2x2 QPSK MIMO on slow fading channel)" << endl;
-    exit(1); 
+    exit(1);
   } else {
     sscanf(argv[1],"%i",&nTx);
     sscanf(argv[2],"%i",&nRx);
@@ -47,7 +47,7 @@ extern int main(int argc, char **argv)
     sscanf(argv[4],"%i",&Tc);
   }
 
-  cout << "Initializing.. " << nTx << " TX antennas, " << nRx << " RX antennas, " 
+  cout << "Initializing.. " << nTx << " TX antennas, " << nRx << " RX antennas, "
        << (1<<nC) << "-PAM per dimension, coherence time " << Tc << endl;
 
   // -- simulation control parameters --
@@ -58,7 +58,7 @@ extern int main(int argc, char **argv)
 
   int Nbers, Nfers;              // target number of bit/frame errors per SNR point
   double BERmin, FERmin;         // BER/FER at which to terminate simulation
-  if (Tc==1) {           // Fast fading channel, BER is of primary interest 
+  if (Tc==1) {           // Fast fading channel, BER is of primary interest
     BERmin = 0.001;      // stop simulating a given method if BER<this value
     FERmin = 1.0e-10;    // stop simulating a given method if FER<this value
     Nbers = 1000;        // move to next SNR point after counting 1000 bit errors
@@ -84,13 +84,13 @@ extern int main(int argc, char **argv)
 
   // ============= Initialize ====================================
 
-  const int Nctx = (int) (2*nC*nTx*ceil(double(Nc)/double(2*nC*nTx)));   // Total number of bits to transmit   
+  const int Nctx = (int) (2*nC*nTx*ceil(double(Nc)/double(2*nC*nTx)));   // Total number of bits to transmit
   const int Nvec = Nctx/(2*nC*nTx);          // Number of channel vectors to transmit
   const int Nbitspvec = 2*nC*nTx;            // Number of bits per channel vector
 
   // initialize MIMO channel with uniform QAM per complex dimension and Gray coding
   ND_UQAM chan;
-  chan.set_Gray_QAM(nTx,1<<(2*nC));  
+  chan.set_Gray_QAM(nTx,1<<(2*nC));
   cout << chan << endl;
 
   // initialize interleaver
@@ -106,17 +106,17 @@ extern int main(int argc, char **argv)
 
   ivec Contflag = ones_i(Nmethods);   // flag to determine whether to run a given demodulator
   if (pow(2.0,nC*2.0*nTx)>256) {      // ML decoder too complex..
-    Contflag(1)=0;  
+    Contflag(1)=0;
   }
   if (nTx>nRx) {
     Contflag(0)=0;                    // ZF not for underdetermined systems
   }
   cout << "Running methods: " << Contflag << endl;
 
-  cout.setf(ios::fixed, ios::floatfield); 
-  cout.setf(ios::showpoint); 
-  cout.precision(5);    
-  
+  cout.setf(ios::fixed, ios::floatfield);
+  cout.setf(ios::showpoint);
+  cout.precision(5);
+
   // ================== Run simulation =======================
   for (int nsnr=0; nsnr<length(EbN0db); nsnr++) {
     const double Eb=1.0; // transmitted energy per information bit
@@ -145,7 +145,7 @@ extern int main(int argc, char **argv)
       code.encode_tail(inputbits, txbits);
       // coded block length is not always a multiple of the number of
       // bits per channel vector
-      txbits=concat(txbits,randb(Nctx-Nc));   
+      txbits=concat(txbits,randb(Nctx-Nc));
       txbits = sequence_interleaver_b.interleave(txbits);
 
       // -- generate channel and data ----
@@ -158,36 +158,36 @@ extern int main(int argc, char **argv)
 	if (k%Tc==0) {       // generate a new channel realization every Tc intervals
 	  H(k/Tc) = Ess*randn_c(nRx,nTx);
 	}
-	
+
 	// modulate and transmit bits
 	bvec bitstmp = txbits(k*2*nTx*nC,(k+1)*2*nTx*nC-1);
 	cvec x=chan.modulate_bits(bitstmp);
-	cvec e=sqrt(sigma2)*randn_c(nRx);  
+	cvec e=sqrt(sigma2)*randn_c(nRx);
 	Y(k) = H(k/Tc)*x+e;
       }
 
       // -- demodulate --
-      Array<QLLRvec> LLRin(Nmethods);     
+      Array<QLLRvec> LLRin(Nmethods);
       for (int i=0; i<Nmethods; i++) {
 	LLRin(i) = zeros_i(Nctx);
       }
 
       QLLRvec llr_apr =zeros_i(nC*2*nTx);  // no a priori input to demodulator
       QLLRvec llr_apost=zeros_i(nC*2*nTx);
-      for (int k=0; k<Nvec; k++) {                
+      for (int k=0; k<Nvec; k++) {
 	// zero forcing demodulation
 	if (Contflag(0)) {
 	  ZF_demod(chan,llr_apr,llr_apost,sigma2,H(k/Tc),Y(k));
 	  LLRin(0).set_subvector(k*Nbitspvec,(k+1)*Nbitspvec-1,llr_apost);
 	}
-	  
+
 	// ML demodulation
-	if (Contflag(1)) { 
+	if (Contflag(1)) {
 	  chan.map_demod(llr_apr, llr_apost, sigma2, H(k/Tc), Y(k));
 	  LLRin(1).set_subvector(k*Nbitspvec,(k+1)*Nbitspvec-1,llr_apost);
-	}	  
+	}
       }
-            
+
       // -- decode and count errors --
       for (int i=0; i<Nmethods; i++) {
 	bvec decoded_bits;
@@ -195,14 +195,14 @@ extern int main(int argc, char **argv)
 	  bercu(i).count(txbits(0,Nc-1),LLRin(i)(0,Nc-1)<0);  // uncoded BER
 	  LLRin(i) = sequence_interleaver_i.deinterleave(LLRin(i),0);
 	  // QLLR values must be converted to real numbers since the convolutional decoder wants this
-	  vec llr=chan.get_llrcalc().to_double(LLRin(i).left(Nc)); 
+	  vec llr=chan.get_llrcalc().to_double(LLRin(i).left(Nc));
 	  //	  llr=-llr; // UNCOMMENT THIS LINE IF COMPILING WITH 3.10.5 OR EARLIER (BEFORE HARMONIZING LLR CONVENTIONS)
 	  code.decode_tail(llr,decoded_bits);
 	  berc(i).count(inputbits(0,Nu-1),decoded_bits(0,Nu-1));  // coded BER
 	  ferc(i).count(inputbits(0,Nu-1),decoded_bits(0,Nu-1));  // coded FER
 	}
-      }	
-      
+      }
+
       /* Check whether it is time to terminate the simulation.
        Terminate when all demodulators that are still running have
        counted at least Nbers or Nfers bit/frame errors. */
@@ -210,14 +210,14 @@ extern int main(int argc, char **argv)
       int minfer=1000000;
       for (int i=0; i<Nmethods; i++) {
 	if (Contflag(i)) {
-	  minber=min(minber,round_i(berc(i).get_errors()));   
-	  minfer=min(minfer,round_i(ferc(i).get_errors()));  
+	  minber=min(minber,round_i(berc(i).get_errors()));
+	  minfer=min(minfer,round_i(ferc(i).get_errors()));
 	}
       }
       if (Nbers>0 && minber>Nbers) { break;}
       if (Nfers>0 && minfer>Nfers) { break;}
     }
-    
+
     cout << "-----------------------------------------------------" << endl;
     cout << "Eb/N0: " << EbN0db(nsnr) << " dB. Simulated " << nbits << " bits." << endl;
     cout << " Uncoded BER: " << bercu(0).get_errorrate() << " (ZF);     " << bercu(1).get_errorrate() << " (ML)" << endl;
@@ -230,12 +230,12 @@ extern int main(int argc, char **argv)
     int contflag=0;
     for (int i=0; i<Nmethods; i++) {
       if (Contflag(i)) {
-	if (berc(i).get_errorrate()>BERmin)  {  contflag=1;  } else { Contflag(i)= 0; } 
-	if (ferc(i).get_errorrate()>FERmin)  {  contflag=1;  } else { Contflag(i)= 0; } 
+	if (berc(i).get_errorrate()>BERmin)  {  contflag=1;  } else { Contflag(i)= 0; }
+	if (ferc(i).get_errorrate()>FERmin)  {  contflag=1;  } else { Contflag(i)= 0; }
       }
     }
     if (contflag) { continue; } else {break; }
   }
-  
+
   return 0;
 }

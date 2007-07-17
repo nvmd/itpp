@@ -1,5 +1,5 @@
 /*!
-* \file 
+* \file
 * \brief Newton search test program
 * \author Tony Ottosson
 *
@@ -32,7 +32,7 @@
 
 using namespace std;
 using namespace itpp;
- 
+
 
 double rosenbrock(const vec &x)
 {
@@ -52,7 +52,7 @@ vec rosenbrock_gradient(const vec &x)
   return g;
 }
 
- 
+
 
 int main(void)
 {
@@ -61,7 +61,7 @@ int main(void)
   cout << "    Test of Numerical optimization " << endl;
   cout << "=====================================" << endl;
 
-  cout << setprecision(6);  
+  cout << setprecision(6);
   {
     cout << "    Line_Search " << endl;
     cout << "--------------------" << endl;
@@ -141,7 +141,7 @@ int main(void)
     cout << "norm(dx) = " << newton.get_stop_2() << endl;
     cout << "no_feval = " << newton.get_no_function_evaluations() << endl;
     cout << "no_iter = " << newton.get_no_iterations() << endl;
-    
+
     Array<vec> xv;
     vec Fv, ngv, dv;
     newton.get_trace(xv, Fv, ngv, dv);
@@ -160,7 +160,7 @@ int main(void)
     cout << "x0 = " << x0 << endl;
     cout << "xn = " << xn << endl;
   }
-  
+
   return 0;
 
 }
