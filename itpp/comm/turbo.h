@@ -3,9 +3,6 @@
  * \brief Definition of a turbo encoder/decoder class
  * \author Pal Frenger. QLLR support by Erik G. Larsson.
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

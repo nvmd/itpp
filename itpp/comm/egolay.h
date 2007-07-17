@@ -3,9 +3,6 @@
  * \brief Definition of the Extended Golay Code (24, 12, 8)
  * \author Tony Ottosson
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

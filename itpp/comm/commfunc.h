@@ -3,9 +3,6 @@
  * \brief Definitions of some specific functions useful in communications
  * \author Tony Ottosson and Erik G. Larsson
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

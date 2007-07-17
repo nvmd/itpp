@@ -3,9 +3,6 @@
  * \brief Deterministic sources test program
  * \author Tobias Ringstrom, Tony Ottosson and Adam Piatyszek
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

@@ -3,9 +3,6 @@
  * \brief Definition of a Gaussian Mixture Model Class
  * \author Thomas Eriksson
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

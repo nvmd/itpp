@@ -3,9 +3,6 @@
  * \brief Help functions to make functions with vec and mat as arguments
  * \author Tony Ottosson and Adam Piatyszek
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

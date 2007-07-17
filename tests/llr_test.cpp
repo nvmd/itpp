@@ -3,9 +3,6 @@
  * \brief Test program for the LLR class
  * \author Erik G. Larsson
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

@@ -3,9 +3,6 @@
  * \brief Circular_Buffer class (container)
  * \author Tobias Tynderfeldt
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

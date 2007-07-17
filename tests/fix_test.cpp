@@ -3,9 +3,6 @@
  * \brief Fixed-point classes test program
  * \author Johan Bergman and Adam Piatyszek
  * 
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

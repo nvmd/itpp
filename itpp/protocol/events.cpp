@@ -3,9 +3,6 @@
  * \brief Implementation of an event-based simulation class
  * \author Anders Persson
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

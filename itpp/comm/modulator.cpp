@@ -3,9 +3,6 @@
  * \brief One- and two-dimensional modulators - source file
  * \author Tony Ottosson and Adam Piatyszek
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

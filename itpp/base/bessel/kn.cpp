@@ -3,9 +3,6 @@
  * \brief Implementation of modified Bessel functions of third kind
  * \author Tony Ottosson
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

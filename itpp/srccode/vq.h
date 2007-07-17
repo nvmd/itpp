@@ -3,9 +3,6 @@
  * \brief Definition of a vector quantizer class (unconstrained)
  * \author Thomas Eriksson
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

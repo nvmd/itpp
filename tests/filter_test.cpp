@@ -3,9 +3,6 @@
  * \brief Filter classes test program
  * \author Hakan Eriksson, Thomas Eriksson, Tony Ottosson and Adam Piatyszek
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

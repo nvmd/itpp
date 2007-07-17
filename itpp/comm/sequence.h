@@ -3,9 +3,6 @@
  * \brief Definitions of binary sequence classes and functions
  * \author Tony Ottosson and Pal Frenger
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

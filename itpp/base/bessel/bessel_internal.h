@@ -3,9 +3,6 @@
  * \brief Bessel help functions header. For internal use only.
  * \author Tony Ottosson
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

@@ -3,9 +3,6 @@
  * \brief Definition of FastICA (Independent Component Analysis) for IT++
  * \author Francois Cayre and Teddy Furon
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

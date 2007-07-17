@@ -3,9 +3,6 @@
  * \brief Generic Mixture of Gaussians (MOG) class - header file
  * \author Conrad Sanderson
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

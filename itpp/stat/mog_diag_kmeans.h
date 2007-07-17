@@ -3,9 +3,6 @@
  * \brief K-means based optimiser for Mixture of Gaussians - header file
  * \author Conrad Sanderson
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

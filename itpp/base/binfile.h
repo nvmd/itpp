@@ -3,9 +3,6 @@
  * \brief Binary file formats definitions
  * \author Tony Ottosson, Thomas Eriksson and Adam Piatyszek
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

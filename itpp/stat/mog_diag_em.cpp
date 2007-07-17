@@ -3,9 +3,6 @@
  * \brief Expectation Maximisation based optimisers for Mixture of Gaussians - source file
  * \author Conrad Sanderson
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

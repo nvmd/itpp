@@ -4,9 +4,6 @@
  *        BLock Error Rate Counter (BLERC) classes
  * \author Pal Frenger and Adam Piatyszek
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

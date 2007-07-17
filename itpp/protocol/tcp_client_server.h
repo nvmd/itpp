@@ -3,9 +3,6 @@
  * \brief Definitions of TCP Client and Server Applications
  * \author Krister Norlund
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

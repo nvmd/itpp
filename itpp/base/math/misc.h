@@ -3,9 +3,6 @@
  * \brief Miscellaneous functions - header file
  * \author Tony Ottosson, Adam Piatyszek and Conrad Sanderson
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

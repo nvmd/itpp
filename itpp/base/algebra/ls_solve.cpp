@@ -3,9 +3,6 @@
  * \brief Implementation of functions for solving linear equation systems
  * \author Tony Ottosson
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

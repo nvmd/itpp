@@ -3,9 +3,6 @@
  * \brief Implementation of converters between different vector and matrix types
  * \author Tony Ottosson, Tobias Ringstrom, Pal Frenger and Adam Piatyszek
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

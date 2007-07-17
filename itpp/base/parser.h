@@ -3,9 +3,6 @@
  * \brief Definition of an argument parser class
  * \author Thomas Eriksson, Pal Frenger and Johan Bergman
  *
- * $Date$
- * $Revision$
- *
  * Thanks to Svante Signell for valuable input
  *
  * -------------------------------------------------------------------------

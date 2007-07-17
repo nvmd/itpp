@@ -3,9 +3,6 @@
  * \brief Definition of a class for algebra on GF(2) (binary) matrices
  * \author Erik G. Larsson and Adam Piatyszek
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

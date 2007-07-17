@@ -3,9 +3,6 @@
  * \brief Implementation of special vectors and matrices
  * \author Tony Ottosson, Tobias Ringstrom, Pal Frenger, Adam Piatyszek and Erik G. Larsson
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

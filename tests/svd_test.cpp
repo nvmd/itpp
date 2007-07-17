@@ -3,9 +3,6 @@
  * \brief SVD decomposition test program
  * \author Tony Ottosson and Adam Piatyszek
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

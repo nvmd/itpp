@@ -4,9 +4,6 @@
  * optimized for speed
  * \author Tony Ottosson and Tobias Ringstrom
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

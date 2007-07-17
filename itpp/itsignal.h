@@ -3,9 +3,6 @@
  * \brief Include file for the IT++ signal-processing module
  * \author Adam Piatyszek
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

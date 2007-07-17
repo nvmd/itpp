@@ -3,9 +3,6 @@
  * \brief Implementation of a complex fixed-point data type CFixed
  * \author Johan Bergman
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

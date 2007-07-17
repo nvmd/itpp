@@ -3,9 +3,6 @@
  * \brief C interface for a limited set of BLAS functions from ACML
  * \author Adam Piatyszek
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,

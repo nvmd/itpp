@@ -3,9 +3,6 @@
  * \brief Implementation of audio Audio classes and functions
  * \author Tobias Ringstrom and Adam Piatyszek
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,
