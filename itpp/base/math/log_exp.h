@@ -2,7 +2,7 @@
  * \file
  * \brief Logarithmic and exponenential functions - header file
  * \author Tony Ottosson, Adam Piatyszek and Conrad Sanderson
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -43,7 +43,7 @@
 #include <limits>
 
 
-// Undefine log2 macro - IT++ has its own inline function 
+// Undefine log2 macro - IT++ has its own inline function
 #if defined (log2)
 #undef log2
 #endif
@@ -72,15 +72,15 @@ namespace itpp {
   // ----------------------------------------------------------------------
 
   //! Base-2 logarithm
-  inline double log2(double x) 
-  { 
-    return (std::log(x) / 0.693147180559945309417); 
+  inline double log2(double x)
+  {
+    return (std::log(x) / 0.693147180559945309417);
   }
 
   //! Base-b logarithm
-  inline double logb(double b, double x) 
-  { 
-    return (std::log(x) / std::log(b)); 
+  inline double logb(double b, double x)
+  {
+    return (std::log(x) / std::log(b));
   }
 
   //! Calculate two to the power of x (2^x); x is integer
@@ -105,13 +105,13 @@ namespace itpp {
       return 1;
 
     int b = 0;
-    while (n) { 
-      n >>= 1; 
-      ++b; 
+    while (n) {
+      n >>= 1;
+      ++b;
     }
     return b;
   }
-  
+
   //! Calculate the number of bits needed to represent \c n different values (levels).
   inline int levels2bits(int n)
   {
@@ -159,7 +159,7 @@ namespace itpp {
 
     This truncated function provides a solution in the case when the
     exponent function results in infinity. The function checks for an
-    extreme value and use truncation (saturation) before calculating 
+    extreme value and use truncation (saturation) before calculating
     the result.
 
     The truncated exponential function can be used  when numerical
@@ -177,7 +177,7 @@ namespace itpp {
   //! Safe substitute for <tt>log(exp(log_a) + exp(log_b))</tt>
   inline double log_add(double log_a, double log_b)
   {
-    if (log_a < log_b) { 
+    if (log_a < log_b) {
       double tmp = log_a;
       log_a = log_b;
       log_b = tmp;
@@ -195,23 +195,23 @@ namespace itpp {
   // ----------------------------------------------------------------------
 
   //! Exp of the elements of a vector \c x
-  inline vec exp(const vec &x) 
-  { 
-    return apply_function<double>(std::exp, x); 
+  inline vec exp(const vec &x)
+  {
+    return apply_function<double>(std::exp, x);
   }
   //! Exp of the elements of a complex vector \c x
-  inline cvec exp(const cvec &x) 
+  inline cvec exp(const cvec &x)
   {
     return apply_function<std::complex<double> >(std::exp, x);
   }
   //! Exp of the elements of a matrix \c m
-  inline mat exp(const mat &m) 
-  { 
-    return apply_function<double>(std::exp, m); 
+  inline mat exp(const mat &m)
+  {
+    return apply_function<double>(std::exp, m);
   }
   //! Exp of the elements of a complex matrix \c m
-  inline cmat exp(const cmat &m) 
-  { 
+  inline cmat exp(const cmat &m)
+  {
     return apply_function<std::complex<double> >(std::exp, m);
   }
 
@@ -259,96 +259,96 @@ namespace itpp {
   }
 
   //! The natural logarithm of the elements
-  inline vec log(const vec &x) 
+  inline vec log(const vec &x)
   {
     return apply_function<double>(std::log, x);
   }
   //! The natural logarithm of the elements
-  inline mat log(const mat &x) 
+  inline mat log(const mat &x)
   {
     return apply_function<double>(std::log, x);
   }
   //! The natural logarithm of the elements
-  inline cvec log(const cvec &x) 
+  inline cvec log(const cvec &x)
   {
     return apply_function<std::complex<double> >(std::log, x);
   }
   //! The natural logarithm of the elements
-  inline cmat log(const cmat &x) 
+  inline cmat log(const cmat &x)
   {
     return apply_function<std::complex<double> >(std::log, x);
   }
 
   //! log-2 of the elements
-  inline vec log2(const vec &x) 
+  inline vec log2(const vec &x)
   {
     return apply_function<double>(itpp::log2, x);
   }
   //! log-2 of the elements
-  inline mat log2(const mat &x) 
+  inline mat log2(const mat &x)
   {
     return apply_function<double>(itpp::log2, x);
   }
 
   //! log-10 of the elements
-  inline vec log10(const vec &x) 
+  inline vec log10(const vec &x)
   {
     return apply_function<double>(std::log10, x);
   }
   //! log-10 of the elements
-  inline mat log10(const mat &x) 
+  inline mat log10(const mat &x)
   {
     return apply_function<double>(std::log10, x);
   }
 
   //! log-b of \c x
-  inline vec logb(double b, const vec &x) 
+  inline vec logb(double b, const vec &x)
   {
     return apply_function<double>(itpp::logb, b, x);
   }
   //! log-b of \c x
-  inline mat logb(double b, const mat &x) 
+  inline mat logb(double b, const mat &x)
   {
     return apply_function<double>(itpp::logb, b, x);
   }
 
   //! Calculates 10*log10(x)
-  inline vec dB(const vec &x) 
+  inline vec dB(const vec &x)
   {
     return apply_function<double>(dB, x);
   }
   //! Calculates 10*log10(x)
-  inline mat dB(const mat &x) 
+  inline mat dB(const mat &x)
   {
     return apply_function<double>(dB, x);
   }
 
   //! Calulates the inverse of dB, 10^(x/10)
-  inline vec inv_dB(const vec &x) 
+  inline vec inv_dB(const vec &x)
   {
     return apply_function<double>(inv_dB, x);
   }
   //! Calculates the inverse of dB, 10^(x/10)
-  inline mat inv_dB(const mat &x) 
+  inline mat inv_dB(const mat &x)
   {
     return apply_function<double>(inv_dB, x);
   }
 
   //! Deprecated function. Please use int2bits() or levels2bits() instead.
-  inline ivec needed_bits(const ivec& v) 
+  inline ivec needed_bits(const ivec& v)
   {
     it_warning("needed_bits(): This function is depreceted. Depending on your needs, please use int2bits() or levels2bits() instead.");
     return apply_function<int>(int2bits, v);
   }
 
   //! Calculate the number of bits needed to represent each inteager in a vector
-  inline ivec int2bits(const ivec& v) 
+  inline ivec int2bits(const ivec& v)
   {
     return apply_function<int>(int2bits, v);
   }
 
   //! Calculate the number of bits needed to represent a numer of levels saved in a vector
-  inline ivec levels2bits(const ivec& v) 
+  inline ivec levels2bits(const ivec& v)
   {
     return apply_function<int>(levels2bits, v);
   }

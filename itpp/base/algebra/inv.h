@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definitions of matrix inversion routines
  * \author Tony Ottosson
  *

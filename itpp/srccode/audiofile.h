@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definitions of audio Audio classes and functions
  * \author Tobias Ringstrom and Adam Piatyszek
  *
@@ -47,11 +47,11 @@ namespace itpp {
 
 #endif /* DOXYGEN_SHOULD_SKIP_THIS */
 
-  /*! 
+  /*!
     \addtogroup audio
   */
 
-  /*! 
+  /*!
     \brief Base class - do not use this one!
     \ingroup audio
 
@@ -66,7 +66,7 @@ namespace itpp {
 
     //!Returns true if everything is OK.
     bool good() { return is_valid && file.good(); }
-    
+
   protected:
     //! ACTION: Add documentation for this protected member
     std::fstream file;
@@ -74,7 +74,7 @@ namespace itpp {
     bool is_valid;
   };
 
-  /*! 
+  /*!
     \brief Base class for SND reading classes (the .au format)
     \ingroup audio
 
@@ -91,9 +91,9 @@ namespace itpp {
 			 enc_linear24 =  4,
 			 enc_linear32 =  5,
 			 enc_float    =  6,
-			 enc_double   =  7 
+			 enc_double   =  7
     };
-    
+
     //! ACTION: ADD DOCUMENTATION FOR THIS MEMBER!!!!!!!!!!!
     int samples() const { return header.data_size / sample_size(); }
     //! ACTION: ADD DOCUMENTATION FOR THIS MEMBER!!!!!!!!!!!
@@ -104,27 +104,27 @@ namespace itpp {
     void set_rate(int r) { header.sample_rate = r; }
     //! ACTION: ADD DOCUMENTATION FOR THIS MEMBER!!!!!!!!!!!
     int channels() const { return header.channels; }
-    
+
   protected:
-    
+
     //! Definition of the header structure
     struct {
       //! Magic number
-      unsigned magic;          
+      unsigned magic;
       //! Size of this header
-      unsigned hdr_size;       
+      unsigned hdr_size;
       //! Length of data (optional)
-      unsigned data_size;      
-      //! Data encoding format 
-      unsigned encoding;     
+      unsigned data_size;
+      //! Data encoding format
+      unsigned encoding;
       //! Samples per second
-      unsigned sample_rate;   
+      unsigned sample_rate;
       //! Number of interleaved channels
-      unsigned channels;       
+      unsigned channels;
       //! Info string
-      char info[SND_INFO_LEN]; 
+      char info[SND_INFO_LEN];
     } header;
-    
+
     //! ACTION: Add documentation for this protected member
     int sample_size() const;
     //! ACTION: Add documentation for this protected member
@@ -133,7 +133,7 @@ namespace itpp {
     bool write_header(std::ostream &f);
   };
 
-  /*!   
+  /*!
     \brief A class to read SND-files (the .au format)
     \ingroup audio
 
@@ -187,17 +187,17 @@ namespace itpp {
 
     //! Close the file.
     virtual void close();
-    
+
     //! Go to sample number {\em pos}.
     bool seek_write(int pos);
     //! Return the current sample position in the file.
     int tell_write();
-    
+
     //! Write the vector {\em v}.
     virtual bool write(const vec &v);
   };
 
-  /*! 
+  /*!
     \brief This class is capable of doing both input and output.
     \ingroup audio
 
@@ -211,14 +211,14 @@ namespace itpp {
     SND_IO_File(const char *fname) { open(fname); }
     //! Destructor
     virtual ~SND_IO_File() { close(); }
-    
+
     //! Open the file {\em fname}.
     virtual bool open(const char *fname);
     //! Close the file.
     virtual void close();
   };
 
-  /* 
+  /*
      \brief SAP audio file input class
      \ingroup audio
 
@@ -233,7 +233,7 @@ namespace itpp {
     SAP_In_File(const char *fname);
     // Destructor
     virtual ~SAP_In_File() { close(); }
-    
+
     // Open the file {\em fname}.
     virtual bool open(const char *fname);
     // Close the file.
@@ -251,7 +251,7 @@ namespace itpp {
 
     // ADD DOCUMENTATION FOR THIS MEMBER!!!!!!!!!!!
     const char *get_header() { return header; }
-    
+
     protected:
     char header[SAP_HEADER_SIZE];
     };
@@ -278,15 +278,15 @@ namespace itpp {
 
     // Old def. Removed since Sun CC gave warning.
     //virtual bool open(const char *fname, const char *hdr);
-    
+
     // Close the file
     virtual void close();
-    
+
     // ADD DOCUMENTATION FOR THIS MEMBER!!!!!!!!!!!
     bool seek_write(int pos);
     // ADD DOCUMENTATION FOR THIS MEMBER!!!!!!!!!!!
     int tell_write();
-    
+
     // ADD DOCUMENTATION FOR THIS MEMBER!!!!!!!!!!!
     virtual bool write(const vec &v);
     };
@@ -307,7 +307,7 @@ namespace itpp {
     SAP_IO_File(const char *fname) { open(fname); }
     // Destructor
     virtual ~SAP_IO_File() { close(); }
-    
+
     // Open the file {\em fname}.
     virtual bool open(const char *fname);
     // Close the file
@@ -364,7 +364,7 @@ namespace itpp {
     }
     return data;
   }
- 
+
   //! Write binary data and optionally switch endianness
   template<typename T>
   inline void write_endian(std::ostream &s, T data, bool switch_endian = false)

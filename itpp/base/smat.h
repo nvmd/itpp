@@ -2,7 +2,7 @@
  * \file
  * \brief Sparse Matrix Class Definitions
  * \author Tony Ottosson and Tobias Ringstrom
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -49,7 +49,7 @@ namespace itpp {
 
   // ------------------------ Sparse_Mat Friends -------------------------------------
 
-  //! m1+m2 where m1 and m2 are sparse matrices  
+  //! m1+m2 where m1 and m2 are sparse matrices
   template <class T>
     Sparse_Mat<T> operator+(const Sparse_Mat<T> &m1, const Sparse_Mat<T> &m2);
 
@@ -93,13 +93,13 @@ namespace itpp {
   template <class T>
     Sparse_Mat<T> mult_trans(const Sparse_Mat<T> &m1, const Sparse_Mat<T> &m2);
 
-  /*! 
+  /*!
     \brief Templated Sparse Matrix Class
     \author Tony Ottosson and Tobias Ringstrom
 
     A sparse matrix is a matrix where most elements are zero. The
     maximum number of non-zero elements in each column is a parameter
-    to the constructor.  
+    to the constructor.
 
     The implementation is based on representing all columns as sparse
     vectors. Thus, column access generally is much faster than row
@@ -113,7 +113,7 @@ namespace itpp {
     //! Default constructor
     Sparse_Mat();
 
-    /*! 
+    /*!
       \brief Initiate an empty sparse matrix
 
       A Sparse_Mat consists of colums that have the type Sparse_Vec. The maximum number of non-zero elements is each column
@@ -131,17 +131,17 @@ namespace itpp {
     //! Initiate a new sparse matrix from a dense matrix. The elements of \c m are copied into the new sparse matrix
     Sparse_Mat(const Mat<T> &m);
 
-    /*! 
+    /*!
       \brief Initiate a new sparse matrix from a dense matrix. Elements of \c m larger than \c epsilon are copied into the new sparse matrix.
-    
+
       \note If the type T is double complex, then the elements of \c m larger than \c abs(epsilon) are copied into the new sparse matrix.
     */
     Sparse_Mat(const Mat<T> &m, T epsilon);
 
     //! Destructor
     ~Sparse_Mat();
-  
-    /*! 
+
+    /*!
       \brief Set the size of the sparse matrix
 
       A Sparse_Mat consists of colums that have the type Sparse_Vec. The maximum number of non-zero elements is each column
@@ -152,7 +152,7 @@ namespace itpp {
       \param row_data_init The maximum number of non-zero elements in each column (default value -1 \c => allocated size for the data is not changed)
     */
     void set_size(int rows, int cols, int row_data_init=-1);
-  
+
     //! Returns the number of rows of the sparse matrix
     int rows() const { return n_rows; }
 
@@ -164,16 +164,16 @@ namespace itpp {
 
     //! Returns the density of the sparse matrix: (number of non-zero elements)/(total number of elements)
     double density();
-  
+
     //! Set the maximum number of non-zero elements in each column equal to the actual number of non-zero elements in each column
     void compact();
-  
+
     //! Returns a full, dense matrix in \c m
     void full(Mat<T> &m) const;
 
-    //! Returns a full, dense matrix 
+    //! Returns a full, dense matrix
     Mat<T> full() const;
-  
+
     //! Returns element of row \c r and column \c c
     T operator()(int r, int c) const;
 
@@ -213,13 +213,13 @@ namespace itpp {
     //! Returns column \c c of the Sparse_Mat in the Sparse_Vec \c v
     void get_col(int c, Sparse_Vec<T> &v) const;
 
-    //! Returns column \c c of the Sparse_Mat 
+    //! Returns column \c c of the Sparse_Mat
     Sparse_Vec<T> get_col(int c) const;
 
-    //! Set column \c c of the Sparse_Mat 
+    //! Set column \c c of the Sparse_Mat
     void set_col(int c, const Sparse_Vec<T> &v);
-  
-    /*! Transpose the sparse matrix, return the result in \c m 
+
+    /*! Transpose the sparse matrix, return the result in \c m
 
     Note: this function can be slow for large matrices.
      */
@@ -236,37 +236,37 @@ namespace itpp {
     Note: this function can be slow for large matrices.
     */
     // Sparse_Mat<T> T() const { return this->transpose(); };
-  
+
     //! Assign sparse matrix the value and dimensions of the sparse matrix \c m
     void operator=(const Sparse_Mat<T> &m);
 
     //! Assign sparse matrix the value and dimensions of the dense matrix \c m
     void operator=(const Mat<T> &m);
-  
+
     //! Returns the sign inverse of all elements in the sparse matrix
     Sparse_Mat<T> operator-() const;
-  
+
     //! Compare two sparse matricies. False if wrong sizes or different values
     bool operator==(const Sparse_Mat<T> &m) const;
-  
+
     //! Add sparse matrix \c v to all non-zero elements of the sparse matrix
     void operator+=(const Sparse_Mat<T> &v);
-  
+
     //! Add matrix \c v to all non-zero elements of the sparse matrix
     void operator+=(const Mat<T> &v);
-  
+
     //! Subtract sparse matrix \c v from all non-zero elements of the sparse matrix
     void operator-=(const Sparse_Mat<T> &v);
-  
+
     //! Subtract matrix \c v from all non-zero elements of the sparse matrix
     void operator-=(const Mat<T> &v);
-  
+
     //! Multiply all non-zero elements of the sparse matrix with the scalar \c v
     void operator*=(const T &v);
-  
+
     //! Divide all non-zero elements of the sparse matrix with the scalar \c v
     void operator/=(const T &v);
-  
+
     //! Addition m1+m2 where m1 and m2 are sparse matrices
     friend Sparse_Mat<T> operator+<>(const Sparse_Mat<T> &m1, const Sparse_Mat<T> &m2);
 
@@ -305,24 +305,24 @@ namespace itpp {
     void alloc_empty();
     void alloc(int row_data_size=200);
     void free();
-  
+
     int n_rows, n_cols;
     Sparse_Vec<T> *col;
   };
 
-  /*! 
+  /*!
     \relates Sparse_Mat
     \brief Sparse integer matrix
   */
   typedef Sparse_Mat<int> sparse_imat;
 
-  /*! 
+  /*!
     \relates Sparse_Mat
     \brief Sparse double matrix
   */
   typedef Sparse_Mat<double> sparse_mat;
 
-  /*! 
+  /*!
     \relates Sparse_Mat
     \brief Sparse complex<double> matrix
   */
@@ -387,7 +387,7 @@ namespace itpp {
       n_rows = m.n_rows;
       n_cols = m.n_cols;
       alloc_empty();
-    
+
       for (int c=0; c<n_cols; c++)
 	col[c] = m.col[c];
     }
@@ -521,7 +521,7 @@ namespace itpp {
     void Sparse_Mat<T>::zeros()
     {
       for (int c=0; c<n_cols; c++)
-	col[c].zeros();      
+	col[c].zeros();
     }
 
   template <class T>
@@ -535,7 +535,7 @@ namespace itpp {
     void Sparse_Mat<T>::clear()
     {
       for (int c=0; c<n_cols; c++)
-	col[c].clear();      
+	col[c].clear();
     }
 
   template <class T>
@@ -546,7 +546,7 @@ namespace itpp {
     }
 
   template <class T>
-    void Sparse_Mat<T>::set_submatrix(int r1, int r2, int c1, int c2, const Mat<T>& m) 
+    void Sparse_Mat<T>::set_submatrix(int r1, int r2, int c1, int c2, const Mat<T>& m)
   {
     if (r1 == -1) r1 = n_rows-1;
     if (r2 == -1) r2 = n_rows-1;
@@ -567,7 +567,7 @@ namespace itpp {
   }
 
   template <class T>
-    void Sparse_Mat<T>::set_submatrix(int r, int c, const Mat<T>& m) 
+    void Sparse_Mat<T>::set_submatrix(int r, int c, const Mat<T>& m)
   {
     it_assert_debug(r>=0 && r+m.rows()<=n_rows &&
                c>=0 && c+m.cols()<=n_cols, "Sparse_Mat<Num_T>::set_submatrix(): index out of range");
@@ -584,7 +584,7 @@ namespace itpp {
     {
       it_assert_debug(r1<=r2 && r1>=0 && r1<n_rows && c1<=c2 && c1>=0 && c1<n_cols,
 		"Sparse_Mat<T>::get_submatrix(): illegal input variables");
-    
+
       Sparse_Mat<T> r(r2-r1+1, c2-c1+1);
 
       for (int c=c1; c<=c2; c++)
@@ -653,7 +653,7 @@ namespace itpp {
       n_rows = m.n_rows;
       n_cols = m.n_cols;
       alloc_empty();
-    
+
       for (int c=0; c<n_cols; c++)
 	col[c] = m.col[c];
     }
@@ -762,7 +762,7 @@ namespace itpp {
     Sparse_Mat<T> operator+(const Sparse_Mat<T> &m1, const Sparse_Mat<T> &m2)
     {
       it_assert_debug(m1.n_cols == m2.n_cols && m1.n_rows == m2.n_rows , "Sparse_Mat<T> + Sparse_Mat<T>");
-    
+
       Sparse_Mat<T> m(m1.n_rows, m1.n_cols, 0);
 
       for (int c=0; c<m.n_cols; c++)
@@ -791,9 +791,9 @@ namespace itpp {
     Sparse_Mat<T> operator*(const Sparse_Mat<T> &m1, const Sparse_Mat<T> &m2)
     {
       it_assert_debug(m1.n_cols == m2.n_rows, "Sparse_Mat<T> * Sparse_Mat<T>");
-      
+
       Sparse_Mat<T> ret(m1.n_rows, m2.n_cols);
-      
+
       for (int c=0; c<m2.n_cols; c++) {
 	Sparse_Vec<T> &m2colc=m2.col[c];
 	for (int p2=0; p2<m2colc.nnz(); p2++) {
@@ -827,7 +827,7 @@ namespace itpp {
 /*     Sparse_Mat<T> operator*(const Sparse_Mat<T> &m1, const Sparse_Mat<T> &m2) */
 /*     { */
 /*       it_assert_debug(m1.n_cols == m2.n_rows, "Sparse_Mat<T> * Sparse_Mat<T>"); */
-    
+
 /*       Sparse_Mat<T> ret(m1.n_rows, m2.n_cols); */
 /*       ivec occupied_by(ret.n_rows), pos(ret.n_rows); */
 /*       for (int rp=0; rp<m1.n_rows; rp++) */
@@ -888,7 +888,7 @@ namespace itpp {
     Vec<T> operator*(const Sparse_Mat<T> &m, const Vec<T> &v)
     {
       it_assert_debug(m.n_cols == v.size(), "Sparse_Mat<T> * Vec<T>");
-    
+
       Vec<T> r(m.n_rows);
       r.clear();
 
@@ -896,7 +896,7 @@ namespace itpp {
 	for (int p=0; p<m.col[c].nnz(); p++)
 	  r(m.col[c].get_nz_index(p)) += m.col[c].get_nz_data(p) * v(c);
       }
-      
+
       return r;
     }
 
@@ -904,7 +904,7 @@ namespace itpp {
     Vec<T> operator*(const Vec<T> &v, const Sparse_Mat<T> &m)
     {
       it_assert_debug(v.size() == m.n_rows, "Vec<T> * Sparse_Mat<T>");
-    
+
       Vec<T> r(m.n_cols);
       r.clear();
 
@@ -959,7 +959,7 @@ namespace itpp {
     Sparse_Mat<T> trans_mult(const Sparse_Mat<T> &m1, const Sparse_Mat<T> &m2)
     {
       it_assert_debug(m1.n_rows == m2.n_rows, "trans_mult()");
-    
+
       Sparse_Mat<T> ret(m1.n_cols, m2.n_cols);
       Vec<T> col;
       for (int c=0; c<ret.n_cols; c++) {

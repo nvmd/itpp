@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of an Orthogonal Frequency Division Multiplex
  * (OFDM) class
  * \author Pal Frenger, Anders Persson and Tony Ottosson
@@ -38,7 +38,7 @@
 #include <itpp/signal/transforms.h>
 
 
-namespace itpp { 
+namespace itpp {
 
   OFDM::OFDM(int inNfft, int inNcp, int inNupsample)
   {
@@ -50,7 +50,7 @@ namespace itpp {
     it_assert(inNcp >= 0 && inNcp <= inNfft, "OFDM: Ncp must be >=0 and <=Nfft.");
     it_assert(inNupsample >= 1 && inNupsample <= 100, "OFDM: Ncp must be >=1 and <=100.");
     Nfft = inNfft;
-    Ncp = inNcp;  
+    Ncp = inNcp;
     Nupsample = inNupsample;
     norm_factor = std::sqrt(static_cast<double>(Nupsample*Nfft*Nfft) / (Nfft+Ncp));
     setup_done = true;
@@ -65,7 +65,7 @@ namespace itpp {
     cvec outtemp(Nfft);
 
     for (int i = 0; i < N; i++) {
-			outtemp = ifft(concat(input.mid(i*Nfft, Nfft/2), zeros_c(Nfft*(Nupsample-1)), 
+			outtemp = ifft(concat(input.mid(i*Nfft, Nfft/2), zeros_c(Nfft*(Nupsample-1)),
 														input.mid(i*Nfft+Nfft/2, Nfft/2))) * norm_factor;
       output.replace_mid(Nupsample*(Nfft+Ncp)*i, concat(outtemp.right(Nupsample*Ncp), outtemp));
     }

@@ -1,8 +1,8 @@
 /*!
  * \file
  * \brief Implementation of an argument parser class
- * \author Thomas Eriksson, Pal Frenger and Johan Bergman 
- * 
+ * \author Thomas Eriksson, Pal Frenger and Johan Bergman
+ *
  * $Date$
  * $Revision$
  *
@@ -40,7 +40,7 @@
 using std::cout;
 using std::endl;
 
-namespace itpp { 
+namespace itpp {
 
   Parser::Parser()
   {
@@ -54,7 +54,7 @@ namespace itpp {
   }
 
   Parser::Parser(int argc, char *argv[])
-  {	
+  {
     VERBOSE=true;
     init(argc,argv);
   }
@@ -170,7 +170,7 @@ namespace itpp {
       SetupStrings(i) = NewLine;
     }
 
-    // Split lines with several expressions (i.e. a=3;b=[1 2 3],c="Hello World") on the same line 
+    // Split lines with several expressions (i.e. a=3;b=[1 2 3],c="Hello World") on the same line
     // (separated by comma or semicolon)
     TempSetupStrings.set_size(size,false);
     count = 0; //Counter in TempSetupStrings
@@ -256,7 +256,7 @@ namespace itpp {
     std::string Line;
     SetupStrings.set_size(0,false);
     std::ifstream SetupFile(filename.c_str());
-    it_assert(SetupFile.is_open(), 
+    it_assert(SetupFile.is_open(),
 	      "Parser::init(): Could not open `" + filename + "' file");
 
     while (getline(SetupFile,Line,'\n')) {
@@ -284,7 +284,7 @@ namespace itpp {
     std::string Line;
     int i;
     std::ifstream SetupFile(filename.c_str());
-    it_assert(SetupFile.is_open(), 
+    it_assert(SetupFile.is_open(),
 	      "Parser::init(): Could not open `" + filename + "' file");
 
     //Read the command line parameters:
@@ -425,8 +425,8 @@ namespace itpp {
     it_assert(!error_flag, "Parser::get_int(): Can not find variable: " + name);
     it_assert(out.size() == 1, "Parser::get_int(): Improper variable string: "
 	      + name);
-    if (print_flag) { 
-      cout << "Parsing int   : " << name << " = " << out(0) << endl; 
+    if (print_flag) {
+      cout << "Parsing int   : " << name << " = " << out(0) << endl;
     }
     return out(0);
   }

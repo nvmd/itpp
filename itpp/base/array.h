@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definition of Array class (container)
  * \author Tobias Ringstrom and Adam Piatyszek
  *
@@ -51,11 +51,11 @@ namespace itpp {
   template<class T> const Array<T> concat(const Array<T> &a1,
 					  const Array<T> &a2);
   //! Concat Arrays \c a1, \c a2 and \c a3
-  template<class T> const Array<T> concat(const Array<T> &a1, 
+  template<class T> const Array<T> concat(const Array<T> &a1,
 					  const Array<T> &a2,
 					  const Array<T> &a3);
 
-  /*! 
+  /*!
     \ingroup arr_vec_mat
     \brief General array class
     \author Tobias Ringstrom and Adam Piatyszek
@@ -63,7 +63,7 @@ namespace itpp {
     This class is a general linear array class for arbitrary types. The
     operations and functions are the same as for the vector \c Vec class
     (except for the arithmetics).
-  
+
     For rarely used types you will need to instantiate the class by
     \code
     template class Array<type>;
@@ -91,7 +91,7 @@ namespace itpp {
 
     // Declare an Array of Arrays of vectors
     Array<Array<ivec> > an_array;
-    
+
     // Assign with an Array containing 2 Arrays,
     // the first Array containing [1 2] and
     // the second Array containing [3 4 5] and [6 7]
@@ -161,7 +161,7 @@ namespace itpp {
     void set_size(int n, bool copy = false);
     //! Resizing an Array<T>.
     void set_length(int n, bool copy = false) { set_size(n, copy); }
-    
+
     //! Shift in data at position 0. Return data from the last position.
     T shift_right(const T& e);
     //! Shift in array at position 0. Return data from the last position.
@@ -226,7 +226,7 @@ namespace itpp {
   }
 
   template<class T> inline
-  Array<T>::Array(const Array<T> &a, const Factory &f) 
+  Array<T>::Array(const Array<T> &a, const Factory &f)
     : ndata(0), data(0), factory(f)
   {
     alloc(a.ndata);
@@ -235,7 +235,7 @@ namespace itpp {
   }
 
   template<class T> inline
-  Array<T>::Array(const std::string& values, const Factory &f) 
+  Array<T>::Array(const std::string& values, const Factory &f)
     : ndata(0), data(0), factory(f)
   {
     std::istringstream buffer(values);
@@ -243,7 +243,7 @@ namespace itpp {
   }
 
   template<class T> inline
-  Array<T>::Array(const char* values, const Factory &f) 
+  Array<T>::Array(const char* values, const Factory &f)
     : ndata(0), data(0), factory(f)
   {
     std::istringstream buffer(values);
@@ -260,7 +260,7 @@ namespace itpp {
   void Array<T>::set_size(int size, bool copy)
   {
     it_assert_debug(size >= 0, "Array::set_size(): New size must not be negative");
-    if (ndata == size) 
+    if (ndata == size)
       return;
     if (copy) {
       T* tmp = data;
@@ -269,7 +269,7 @@ namespace itpp {
       for (int i = 0; i < min; ++i)
 	data[i] = tmp[i];
       delete[] tmp;
-    } 
+    }
     else {
       free();
       alloc(size);
@@ -278,7 +278,7 @@ namespace itpp {
 
 
   template<class T> inline
-  T& Array<T>::operator()(int i) 
+  T& Array<T>::operator()(int i)
   {
     it_assert_debug(in_range(i), "Array::operator(): Improper index");
     return data[i];
@@ -294,7 +294,7 @@ namespace itpp {
   template<class T> inline
   const Array<T> Array<T>::operator()(int i1, int i2) const
   {
-    it_assert_debug(in_range(i1) && in_range(i2) && (i2 >= i1), 
+    it_assert_debug(in_range(i1) && in_range(i2) && (i2 >= i1),
 	       "Array::operator()(i1, i2): Improper indexes.");
     Array<T> s(i2-i1+1);
     for (int i = 0; i < s.ndata; i++)
@@ -328,7 +328,7 @@ namespace itpp {
   template<class T> inline
   Array<T>& Array<T>::operator=(const T &e)
   {
-    if (ndata == 0) 
+    if (ndata == 0)
       set_size(1);
     for (int i = 0; i < ndata; i++)
       data[i] = e;
@@ -385,7 +385,7 @@ namespace itpp {
     for (int i = ndata-1; i > 0; i--)
       data[i] = data[i-1];
     data[0] = x;
-	
+
     return ret;
   }
 
@@ -402,7 +402,7 @@ namespace itpp {
       data[i] = data[i-a.ndata];
     for (int i = 0; i < a.ndata; i++)
       data[i] = a.data[i];
-	
+
     return out;
   }
 
@@ -410,11 +410,11 @@ namespace itpp {
   T Array<T>::shift_left(const T& x)
   {
     T temp = data[0];
-	
+
     for (int i = 0; i < ndata-1; i++)
       data[i] = data[i+1];
     data[ndata-1] = x;
-	
+
     return temp;
   }
 
@@ -430,7 +430,7 @@ namespace itpp {
       data[i] = data[i+a.ndata];
     for (int i = ndata-a.ndata; i < ndata; i++)
       data[i] = a.data[i-ndata+a.ndata];
-	
+
     return out;
   }
 
@@ -439,7 +439,7 @@ namespace itpp {
   {
     it_assert_debug(in_range(i) && in_range(j),
 	       "Array::swap(): Indices out of range.");
-    
+
     T temp = data[i];
     data[i] = data[j];
     data[j] = temp;
@@ -450,8 +450,8 @@ namespace itpp {
   {
     if (i1 == -1) i1 = ndata-1;
     if (i2 == -1) i2 = ndata-1;
-  
-    it_assert_debug(in_range(i1) && in_range(i2), 
+
+    it_assert_debug(in_range(i1) && in_range(i2),
 	       "Array<T>::set_subarray(): Indices out of range.");
     it_assert_debug(i2 >= i1, "Array<T>::set_subarray(): i2 >= i1 necessary.");
     it_assert_debug(i2-i1+1 == a.ndata, "Array<T>::set_subarray(): Wrong sizes.");
@@ -464,8 +464,8 @@ namespace itpp {
   {
     if (i1 == -1) i1 = ndata-1;
     if (i2 == -1) i2 = ndata-1;
-  
-    it_assert_debug(in_range(i1) && in_range(i2), 
+
+    it_assert_debug(in_range(i1) && in_range(i2),
 	       "Array<T>::set_subarray(): Indices out of range");
     it_assert_debug(i2 >= i1, "Array<T>::set_subarray(): i2 >= i1 necessary");
 
@@ -528,7 +528,7 @@ namespace itpp {
     return temp;
   }
 
-  /*! 
+  /*!
     \relates Array
     \brief Output stream for Array<T>. T must have ostream operator<< defined.
   */
@@ -545,7 +545,7 @@ namespace itpp {
     return os;
   }
 
-  /*! 
+  /*!
     \relates Array
     \brief Input stream for Array<T>. T must have istream operator>> defined.
   */
@@ -581,7 +581,7 @@ namespace itpp {
     return is;
   }
 
-  /*! 
+  /*!
     \relates Array
     \brief Assign a C-style string to an Array<T>. T must have istream
     operator>> defined.
@@ -593,9 +593,9 @@ namespace itpp {
     buffer >> a;
   }
 
-  /*! 
+  /*!
     \relates Array
-    \brief Assign a string to an Array<T>. T must have istream operator>> 
+    \brief Assign a string to an Array<T>. T must have istream operator>>
     defined.
   */
   template<class T>

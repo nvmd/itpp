@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of binary sequence classes and functions
  * \author Tony Ottosson and Pal Frenger
  *
@@ -35,7 +35,7 @@
 #include <itpp/base/math/log_exp.h>
 
 
-namespace itpp { 
+namespace itpp {
 
   LFSR::LFSR(const bvec &connections)
   {
@@ -162,7 +162,7 @@ namespace itpp {
     codes.set_row(0,mseq1.shift(N));
     codes.set_row(1,mseq2.shift(N));
     // The sum of mseq1 and all time shifts of mseq2
-    for (int i=0;i<N;i++) {    
+    for (int i=0;i<N;i++) {
       codes.set_row( i+2,codes.get_row(0) + concat((codes.get_row(1)).right(i), (codes.get_row(1)).left(N-i)) );
     }
     return codes;

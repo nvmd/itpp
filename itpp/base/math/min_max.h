@@ -68,7 +68,7 @@ namespace itpp {
     return maxdata;
   }
 
-  /*! 
+  /*!
    * Maximum values over each row/column in the matrix \c m
    *
    * <tt>max(m) = max(m, 1)</tt> returns a vector where the elements are
@@ -84,7 +84,7 @@ namespace itpp {
       out.set_size(m.cols(), false);
       for (int i = 0; i < m.cols(); i++)
 	out(i) = max(m.get_col(i));
-    } 
+    }
     else {
       out.set_size(m.rows(), false);
       for (int i = 0; i < m.rows(); i++)
@@ -93,7 +93,7 @@ namespace itpp {
     return out;
   }
 
-  /*! 
+  /*!
    * Maximum values over each row/column in the matrix \c m
    *
    * <tt>max(m) = max(m, 1)</tt> returns a vector where the elements are
@@ -113,7 +113,7 @@ namespace itpp {
       index.set_size(m.cols(), false);
       for (int i = 0; i < m.cols(); i++)
 	out(i) = max(m.get_col(i), index(i));
-    } 
+    }
     else {
       out.set_size(m.rows(), false);
       index.set_size(m.rows(), false);
@@ -149,7 +149,7 @@ namespace itpp {
   }
 
 
-  /*! 
+  /*!
    * Minimum values over each row/column in the matrix \c m
    *
    * <tt>min(m) = min(m, 1)</tt> returns a vector where the elements are
@@ -175,7 +175,7 @@ namespace itpp {
   }
 
 
-  /*! 
+  /*!
    * Minimum values over each row/column in the matrix \c m
    *
    * <tt>min(m) = min(m, 1)</tt> returns a vector where the elements are

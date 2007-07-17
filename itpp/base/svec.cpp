@@ -2,7 +2,7 @@
  * \file
  * \brief Sparse Vector Class implementation
  * \author Tony Ottosson and Tobias Ringstrom
- * 
+ *
  * $Date$
  * $Revision$
  *

@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Binary file formats implementations
  * \author Tony Ottosson, Thomas Eriksson and Adam Piatyszek
  *
@@ -40,7 +40,7 @@ using std::fstream;
 using std::ios;
 
 
-namespace itpp { 
+namespace itpp {
 
   //! Read binary data and optionally switch endianness
   template<typename T1, typename T2> inline
@@ -85,10 +85,10 @@ namespace itpp {
   // bfstream_base
   // ----------------------------------------------------------------------
 
-  bfstream_base::bfstream_base(endian e): 
-    switch_endianity(false), 
+  bfstream_base::bfstream_base(endian e):
+    switch_endianity(false),
     native_endianity(check_big_endianness() ? b_endian : l_endian)
-  { 
+  {
     if (native_endianity != e)
       switch_endianity = true;
   }
@@ -104,7 +104,7 @@ namespace itpp {
 
   void bofstream::open(const std::string& name, endian e)
   {
-    if (native_endianity != e) 
+    if (native_endianity != e)
       switch_endianity = true;
     else
       switch_endianity = false;
@@ -194,7 +194,7 @@ namespace itpp {
 
   void bifstream::open(const std::string& name, endian e)
   {
-    if (native_endianity != e) 
+    if (native_endianity != e)
       switch_endianity = true;
     else
       switch_endianity = false;
@@ -289,7 +289,7 @@ namespace itpp {
   // bfstream
   // ----------------------------------------------------------------------
 
-  bfstream::bfstream(const std::string& name, endian e) : 
+  bfstream::bfstream(const std::string& name, endian e) :
     bfstream_base(e), fstream(name.c_str(), ios::in | ios::out | ios::binary)
   {}
 
@@ -297,13 +297,13 @@ namespace itpp {
 
   void bfstream::open(const std::string& name, bool trnc, endian e)
   {
-    if (native_endianity != e) 
+    if (native_endianity != e)
       switch_endianity = true;
     else
       switch_endianity = false;
-    
+
     if (trnc)
-      fstream::open(name.c_str(), ios::in | ios::out | ios::binary 
+      fstream::open(name.c_str(), ios::in | ios::out | ios::binary
 		    | ios::trunc);
     else
       fstream::open(name.c_str(), ios::in | ios::out | ios::binary);
@@ -311,7 +311,7 @@ namespace itpp {
 
   void bfstream::open_readonly(const std::string& name, endian e)
   {
-    if (native_endianity != e) 
+    if (native_endianity != e)
       switch_endianity = true;
     else
       switch_endianity = false;

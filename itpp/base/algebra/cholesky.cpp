@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of Cholesky factorisation functions
  * \author Tony Ottosson
  *
@@ -43,7 +43,7 @@
 #include <itpp/base/algebra/cholesky.h>
 
 
-namespace itpp { 
+namespace itpp {
 
 #if defined(HAVE_LAPACK)
 

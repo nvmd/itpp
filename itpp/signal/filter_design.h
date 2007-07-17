@@ -2,7 +2,7 @@
  * \file
  * \brief Filter design functions
  * \author Tony Ottosson
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -59,12 +59,12 @@ namespace itpp {
   void polystab(const cvec &a, cvec &out);
   inline cvec polystab(const cvec &a) { cvec temp; polystab(a, temp); return temp; }
   /*! @} */
-  
+
   /*!
     \brief Frequency response of filter
     \ingroup filters
     \author Tony Ottosson
-    
+
     Calculates the N-point frequency response of the supplied digital filter over the frequencies w.
     If w is not given the response is evaluated over the range 0 to \f$\pi\f$ with N values.
     The default value of N is 512.
@@ -88,11 +88,11 @@ namespace itpp {
     \brief Calculate autocorrelation from the specified frequency-response (suitable for filter design)
     \ingroup filters
     \author Tony Ottosson
-    
+
     Calculates the autocorrelation function of size \c N corresponding to the specified frequency response.
     Useful as a first step in designing filters.
 
-    The vectors \c f and \c m is the frequency response. The frequencies should be between 0 and 1.0 
+    The vectors \c f and \c m is the frequency response. The frequencies should be between 0 and 1.0
     (equal to half the sample rate) in increasing order. Both 0.0 and 1.0 must be included. The frequency
     response is upsampled to 512 points and the autocorrelation is ifft of the power
     magnitude response of the upsampled frequency response.
@@ -104,7 +104,7 @@ namespace itpp {
     \brief Estimation of AR-part in an ARMA model given the autocorrelation
     \ingroup filters
     \author Tony Ottosson
-    
+
     Estimates the AR-part of an ARMA model from the given autocorrelation. The AR part is of order \c n.
     The overdetermined modified Yule-Walker equations are used.
 
@@ -126,7 +126,7 @@ namespace itpp {
     \brief Estimation of ARMA model given the autocorrelation
     \ingroup filters
     \author Tony Ottosson
-    
+
     Estimates an ARMA model from the given autocorrelation. The AR part is of order \c n and the MA part
     is of order \c m.
 
@@ -139,9 +139,9 @@ namespace itpp {
 
     References:
     [1] Stoica and Moses, Introduction to spectral analysis, Prentice Hall, 1997.
-    [2] B. Friedlander and B. Porat, The modified Yule-Walker method of ARMA spectral estimation, 
+    [2] B. Friedlander and B. Porat, The modified Yule-Walker method of ARMA spectral estimation,
     IEEE Trans. Aerospace and Electronic Systems, Vol. AES-20, No. 2, pp. 158--173, March 1984.
-    
+
   */
   void arma_estimator(const int m, const int n, const vec &R, vec &b, vec &a);
 
@@ -150,10 +150,10 @@ namespace itpp {
     \brief ARMA filter design using a least-squares fit to the specified frequency-response
     \ingroup filters
     \author Tony Ottosson
-    
+
     The arma_estimator() function is used to calculate the a and b coefficients.
 
-    The vectors \c f and \c m is the frequency response. The frequencies should be between 0 and 1.0 
+    The vectors \c f and \c m is the frequency response. The frequencies should be between 0 and 1.0
     (equal to half the sample rate) in increasing order. Both 0.0 and 1.0 must be included. The
     filter_design_autocorrelation() fucnction is used to interpolate the frequency response and calculate
     the corresponding autocorrelation.

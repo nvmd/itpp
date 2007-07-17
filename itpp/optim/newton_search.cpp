@@ -2,7 +2,7 @@
  * \file
  * \brief Newton Search optimization algorithms - source file
  * \author Tony Ottosson
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -38,7 +38,7 @@
 namespace itpp {
 
 
-  Newton_Search::Newton_Search() 
+  Newton_Search::Newton_Search()
   {
     method = BFGS;
 
@@ -68,7 +68,7 @@ namespace itpp {
     df_dx = gradient;
   }
 
-  void Newton_Search::set_start_point(const vec &x, const mat &D) 
+  void Newton_Search::set_start_point(const vec &x, const mat &D)
   {
     // check that parameters are valid???
     x_start = x;
@@ -79,7 +79,7 @@ namespace itpp {
     init = true;
   }
 
-  void Newton_Search::set_start_point(const vec &x) 
+  void Newton_Search::set_start_point(const vec &x)
   {
     // check that parameters are valid???
     x_start = x;
@@ -133,9 +133,9 @@ namespace itpp {
 
     Line_Search ls;
     ls.set_functions(f, df_dx);
-    
+
     if  (ng <= stop_epsilon_1)
-      stop = true; 
+      stop = true;
     else {
       h = zeros(n);
       nh = 0;
@@ -157,14 +157,14 @@ namespace itpp {
 
       h = D*(-g);
       nh = norm(h);
-      bool red = false; 
-      
+      bool red = false;
+
       if  (nh <= stop_epsilon_2*(stop_epsilon_2 + nx)) // stop criterion
- 	stop = true;  
+ 	stop = true;
       else {
  	if  (fst || nh > Delta) { // Scale to ||h|| = Delta
   	  h = (Delta / nh) * h;
-	  nh = Delta;   
+	  nh = Delta;
   	  fst = false;
  	  red = true;
  	}
@@ -181,7 +181,7 @@ namespace itpp {
  	    Delta = .35 * Delta;
  	  else if  (red && (ls.get_slope_ratio() > .7))  // Increase Delta
  	    Delta = 3*Delta;
-      
+
 	  //  Update ||g||
 	  ng = max(abs(g)); // norm(g,inf);
 
@@ -197,7 +197,7 @@ namespace itpp {
  	  nh = norm(h);
 
 	  //if  (nh == 0)
- 	  //  found = 4; 
+ 	  //  found = 4;
  	  //else {
 	  y = g - gp;
 	  yh = dot(y,h);
@@ -219,7 +219,7 @@ namespace itpp {
 	    stop = true; // stop = 3, number of function evaluations exeeded
 	  else
 	    Delta = std::max(Delta, 2*thrx);
-	  //} found =4 
+	  //} found =4
   	}  // Nonzero h
       } // nofail
     }  // iteration
@@ -238,18 +238,18 @@ namespace itpp {
     return true;
   }
 
-  bool Newton_Search::search(vec &xn) 
-  { 
-    bool state = search(); 
-    xn = get_solution(); 
-    return state; 
+  bool Newton_Search::search(vec &xn)
+  {
+    bool state = search();
+    xn = get_solution();
+    return state;
   }
 
   bool Newton_Search::search(const vec &x0, vec &xn)
-  { 
-    set_start_point(x0); 
-    bool state = search(); 
-    xn = get_solution(); 
+  {
+    set_start_point(x0);
+    bool state = search();
+    xn = get_solution();
     return state;
   }
 
@@ -326,7 +326,7 @@ namespace itpp {
 
   //================================== Line_Search =============================================
 
-  Line_Search::Line_Search() 
+  Line_Search::Line_Search()
   {
     method = Soft;
 
@@ -368,7 +368,7 @@ namespace itpp {
 
 
   void Line_Search::set_start_point(const vec &x, double F, const vec &g, const vec &h)
-  { 
+  {
     // check values ???
     x_start = x;
     F_start = F;
@@ -432,7 +432,7 @@ namespace itpp {
       return false;
     }
 
-    // Finish initialization 
+    // Finish initialization
     double F0 = F_start, slope0, slopethr;
 
     if (method == Soft) {
@@ -488,7 +488,7 @@ namespace itpp {
 
 
     if (stop)  // OK so far.  Check stopping criteria
-      stop = (no_feval >= max_iterations) 
+      stop = (no_feval >= max_iterations)
 	|| (b >= max_stepsize && dFb < slopethr)
 	|| (a > 0 && dFb >= slopethr);
     // Commented by ediap 2006-07-17: redundant check
@@ -509,7 +509,7 @@ namespace itpp {
       //c = interpolate(xfd,n);
       double C = Fb-Fa - (b-a)*dFa;
       if (C >= 5*n*eps*b) {
-	double A = a - 0.5*dFa*(sqr(b-a)/C);  
+	double A = a - 0.5*dFa*(sqr(b-a)/C);
 	c = std::min(std::max(a+0.1*(b-a), A), b-0.1*(b-a));  // % Ensure significant resuction
       } else
 	c = (a+b)/2;
@@ -536,19 +536,19 @@ namespace itpp {
 	  a = c; Fa = Fc; dFa = dFc; // xfd(:,1) = xfd(:,3);
 	  stop = (dFc > slopethr);
 	} else { // new upper bound
-	  b = c; Fb = Fc; dFb = dFc; // xfd(:,2) = xfd(:,3);  
+	  b = c; Fb = Fc; dFb = dFc; // xfd(:,2) = xfd(:,3);
 	}
 
       } else { // Exact line search
 	if  (Fc < F_end) { // better approximant
 	  alpha = c;
 	  slope_ratio = dFc/dF0;
-	  x_end = x_start + c*h_start;  F_end = Fc;  g_end = g; 
-	} 
+	  x_end = x_start + c*h_start;  F_end = Fc;  g_end = g;
+	}
 	if  (dFc < 0) { // new lower bound
 	  a = c; Fa = Fc; dFa = dFc; // xfd(:,1) = xfd(:,3);
 	} else { //new upper bound
-	  b = c; Fb = Fc; dFb = dFc; // xfd(:,2) = xfd(:,3);  
+	  b = c; Fb = Fc; dFb = dFc; // xfd(:,2) = xfd(:,3);
 	}
 	stop = (std::abs(dFc) <= slopethr) | ((b-a) < stop_beta*b);
       }
@@ -567,18 +567,18 @@ namespace itpp {
     return true;
   }
 
-  bool Line_Search::search(vec &xn, double &Fn, vec &gn) 
-  { 
-    bool state = search(); 
-    get_solution(xn, Fn, gn); 
+  bool Line_Search::search(vec &xn, double &Fn, vec &gn)
+  {
+    bool state = search();
+    get_solution(xn, Fn, gn);
     return state;
   }
 
-  bool Line_Search::search(const vec &x, double F, const vec &g, const vec &h, 
+  bool Line_Search::search(const vec &x, double F, const vec &g, const vec &h,
 			   vec &xn, double &Fn, vec &gn)
-  { 
-    set_start_point(x, F, g, h);   
-    bool state = search(); 
+  {
+    set_start_point(x, F, g, h);
+    bool state = search();
     get_solution(xn, Fn, gn);
     return state;
   }
@@ -664,7 +664,7 @@ namespace itpp {
 
     vec xn;
     newton.search(x0, xn);
-	   
+
     return xn;
   }
 

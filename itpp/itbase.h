@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Include file for the IT++ base module
  * \author Tony Ottosson
  *
@@ -43,7 +43,7 @@
 
 /*!
  * \defgroup math Basic and Miscellaneous Math Functions
- * @{ 
+ * @{
  */
 
 //! \defgroup errorfunc Error Functions
@@ -66,7 +66,7 @@
 
 /*!
  * \defgroup algebra Linear Algebra
- * @{ 
+ * @{
  */
 
 //! \defgroup determinant Determinant

@@ -2,7 +2,7 @@
  * \file
  * \brief Implementation of Timing classes
  * \author Thomas Eriksson, Tony Ottosson, Tobias Ringstrom and Adam Piatyszek
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -71,10 +71,10 @@ int gettimeofday(struct timeval* p, void* tz)
 #endif
 
 
-namespace itpp { 
+namespace itpp {
 
   //! Global object for tic and toc functions
-  Real_Timer __tic_toc_timer; 
+  Real_Timer __tic_toc_timer;
 
   //----------------------------------------------------------------------------
   //	class Timer

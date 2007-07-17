@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of a base class for fixed-point data types
  * \author Johan Bergman
  *
@@ -92,7 +92,7 @@ namespace itpp {
   {
     fixrep ret = x;
     bool overflow = false;
-  
+
     if (ret < min) {
       overflow = true;
       switch (omode) {
@@ -121,7 +121,7 @@ namespace itpp {
         break;
       }
     }
-  
+
     if (stat_ptr != 0)
       stat_ptr->sample(double(ret), overflow);
 

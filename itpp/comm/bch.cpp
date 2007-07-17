@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of a BCH encoder/decoder class
  * \author Pal Frenger, Steve Peters and Adam Piatyszek
  *
@@ -34,11 +34,11 @@
 #include <itpp/base/binary.h>
 #include <itpp/base/specmat.h>
 
-namespace itpp { 
+namespace itpp {
 
   //---------------------- BCH -----------------------------------
 
-  BCH::BCH(int in_n, int in_k, int in_t, ivec genpolynom, bool sys) : 
+  BCH::BCH(int in_n, int in_k, int in_t, ivec genpolynom, bool sys) :
     n(in_n), k(in_k), t(in_t), systematic(sys)
   {
     //fix the generator polynomial g(x).
@@ -52,7 +52,7 @@ namespace itpp {
 
   void BCH::encode(const bvec &uncoded_bits, bvec &coded_bits)
   {
-    int i, j, degree, 
+    int i, j, degree,
       itterations = floor_i(static_cast<double>(uncoded_bits.length()) / k);
     GFX m(n+1, k);
     GFX c(n+1, n);
@@ -75,7 +75,7 @@ namespace itpp {
 	  c[j] = m[j];
 	  uncoded_shifted[j+n-k] = m[j];
 	}
-      }  
+      }
       //Fix the outputbits cbit.
       if (systematic) {
 	r = modgfx(uncoded_shifted, g);
@@ -105,12 +105,12 @@ namespace itpp {
 
   void BCH::decode(const bvec &coded_bits, bvec &decoded_bits)
   {
-    int j, i, degree, kk, foundzeros, cisvalid, 
+    int j, i, degree, kk, foundzeros, cisvalid,
       itterations = floor_i(static_cast<double>(coded_bits.length()) / n);
     bvec rbin(n), mbin(k);
     decoded_bits.set_size(itterations*k, false);
 
-    GFX r(n+1, n-1), c(n+1, n-1), m(n+1, k-1), S(n+1, 2*t), Lambda(n+1), 
+    GFX r(n+1, n-1), c(n+1, n-1), m(n+1, k-1), S(n+1, 2*t), Lambda(n+1),
       OldLambda(n+1), T(n+1), Ohmega(n+1), One(n+1, (char*)"0");
     GF delta(n+1), temp(n+1);
     ivec errorpos;
@@ -129,9 +129,9 @@ namespace itpp {
       }
       if (S.get_true_degree() >= 1) { //Errors in the received word
 	//Itterate to find Lambda(x).
-	kk = 0;                
-	Lambda = GFX(n+1, (char*)"0"); 
-	T = GFX(n+1, (char*)"0");      
+	kk = 0;
+	Lambda = GFX(n+1, (char*)"0");
+	T = GFX(n+1, (char*)"0");
 	while (kk < t) {
 	  Ohmega = Lambda * (S + One);
 	  delta = Ohmega[2*kk+1];
@@ -141,9 +141,9 @@ namespace itpp {
 	    T = GFX(n+1, (char*)"-1 -1 0") * T;
 	  } else {
 	    T = (GFX(n+1, (char*)"-1 0") * OldLambda) / delta;
-	  } 
+	  }
 	  kk = kk + 1;
-	}   
+	}
 	//Find the zeros to Lambda(x).
 	errorpos.set_size(Lambda.get_true_degree(), true);
 	foundzeros = 0;
@@ -172,13 +172,13 @@ namespace itpp {
 	  S[j] =  c(GF(n+1, j));
 	}
 	if (S.get_true_degree() <= 0) { //c(x) is a valid codeword.
-	  cisvalid = true;  
+	  cisvalid = true;
 	} else {
 	  cisvalid = false;
 	}
       } else {
 	c = r;
-	cisvalid = true; 
+	cisvalid = true;
       }
       //Construct the message bit vector.
       if (cisvalid) { //c(x) is a valid codeword.
@@ -186,8 +186,8 @@ namespace itpp {
 	  if (systematic) {
 	    for (j = 0; j < k; j++)
 	      m[j] = c[j];
-	  } else { 
-	    m = divgfx(c, g); 
+	  } else {
+	    m = divgfx(c, g);
 	  }
 	  mbin.clear();
 	  for (j = 0; j <= m.get_true_degree(); j++) {
@@ -197,7 +197,7 @@ namespace itpp {
 	  }
 	} else { //The zero word was transmitted
 	  mbin = zeros_b(k);
-	  m = GFX(n+1, (char*)"-1"); 
+	  m = GFX(n+1, (char*)"-1");
 	}
       } else { //Decoder failure.
 	mbin = zeros_b(k);

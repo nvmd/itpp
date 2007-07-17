@@ -69,11 +69,11 @@ namespace itpp {
   // ----------------------------------------------------------------------
   // Alist parameterization of sparse GF(2) matrix class
   // ----------------------------------------------------------------------
-  
+
   /*!
     \relatesalso GF2mat_sparse
     \brief Parameterized "alist" representation of sparse GF(2) matrix
-    \author Adam Piatyszek and Erik G. Larsson 
+    \author Adam Piatyszek and Erik G. Larsson
 
     This class is used to provide a parameterized representation of a \c
     GF2mat_sparse class. The format is compatible with the "alist" format
@@ -90,29 +90,29 @@ namespace itpp {
     GF2mat_sparse_alist() : data_ok(false) {}
     //! Constructor, which reads alist data from a file named \c fname
     GF2mat_sparse_alist(const std::string &fname);
-    
+
     //! Read alist data from a file named \c fname
     void read(const std::string &fname);
     //! Write alist data to a file named \c fname
     void write(const std::string &fname) const;
-    
-    /*! 
+
+    /*!
       \brief Convert "alist" representation to \c GF2mat_sparse
 
       \param transpose Indicates whether a matrix should be transposed
       during the conversion process
     */
     GF2mat_sparse to_sparse(bool transpose = false) const;
-    
-    /*! 
+
+    /*!
       \brief Import "alist" representation from \c GF2mat_sparse
-	
+
       \param mat Matrix to import
       \param transpose Indicates whether a matrix should be transposed
       during the conversion process
     */
     void from_sparse(const GF2mat_sparse &mat, bool transpose = false);
-    
+
   protected:
     //! Flag indicating that "alist" matrix data are properly set
     bool data_ok;
@@ -131,18 +131,18 @@ namespace itpp {
     //! Maximum weight of rows
     int max_num_m;
     //! Maximum weight of columns
-    int max_num_n; 
+    int max_num_n;
   };
 
 
   // ----------------------------------------------------------------------
   // Dense GF(2) matrix class
   // ----------------------------------------------------------------------
-   
-  /*! 
+
+  /*!
     \relatesalso bmat
     \brief Class for dense GF(2) matrices
-    \author Erik G. Larsson 
+    \author Erik G. Larsson
 
     This class can be used as an alternative to \c bmat to represent
     GF(2) matrices. It extends the functionality of \c bmat in two ways:
@@ -158,36 +158,36 @@ namespace itpp {
   */
   class GF2mat {
   public:
-  
+
     // ----------- Constructors -----------
 
     //! Default constructor (gives an empty 1 x 1 matrix)
     GF2mat();
-  
-    //! Construct an empty (all-zero) m x n matrix 
+
+    //! Construct an empty (all-zero) m x n matrix
     GF2mat(int m, int n);
 
     //! Construct a dense GF(2) matrix from a sparse GF(2) matrix
     GF2mat(const GF2mat_sparse &X);
-  
+
     /*! \brief Constructor, from subset of sparse GF(2) matrix
-      
+
     This constructor forms a dense GF(2) matrix from a subset (m1,n1)
     to (m2,n2) of a sparse GF(2) matrix */
-    GF2mat(const GF2mat_sparse &X, int m1, int n1, int m2, int n2);  
+    GF2mat(const GF2mat_sparse &X, int m1, int n1, int m2, int n2);
 
     /*! \brief Constructor, from subset of sparse GF(2) matrix
 
     This constructor forms a dense GF(2) matrix from a subset of
     columns in sparse GF(2) matrix
-      
+
     \param X matrix to copy from
-    \param columns subset of columns to copy    
-    */ 
+    \param columns subset of columns to copy
+    */
     GF2mat(const GF2mat_sparse &X, const ivec &columns);
 
-    /*!  
-      \brief Create a dense GF(2) matrix from a single vector. 
+    /*!
+      \brief Create a dense GF(2) matrix from a single vector.
 
       \param x The input vector
       \param is_column A parameter that indicates whether the result should
@@ -217,7 +217,7 @@ namespace itpp {
 
     //! Set element i,j to s (0 or 1)
     inline void set(int i, int j, bin s);
-  
+
     //! Add s (0 or 1) to element (i,j)
     inline void addto_element(int i, int j, bin s);
 
@@ -239,7 +239,7 @@ namespace itpp {
     /*! \brief Multiply from left with permutation matrix (permute rows).
 
     \param perm Permutation vector
-    \param I Parameter that determines permutation.   
+    \param I Parameter that determines permutation.
     I=0: apply permutation, I=1: apply inverse permutation
     */
     void permute_rows(ivec &perm, bool I);
@@ -248,12 +248,12 @@ namespace itpp {
       (i.e., permute the columns).
 
     \param perm Permutation vector
-    \param I Parameter that determines permutation.   
+    \param I Parameter that determines permutation.
     I=0: apply permutation, I=1: apply inverse permutation
     */
-    void permute_cols(ivec &perm, bool I); 
+    void permute_cols(ivec &perm, bool I);
 
-    //! Transpose 
+    //! Transpose
     GF2mat transpose() const;
 
     //! Submatrix from (m1,n1) to (m2,n2)
@@ -264,13 +264,13 @@ namespace itpp {
 
     //! Concatenate vertically (append X underneath)
     GF2mat concatenate_vertical(const GF2mat &X) const;
-  
+
     //! Get row
     bvec get_row(int i) const;
-  
+
     //! Get column
     bvec get_col(int j) const;
-  
+
     //! Compute the matrix density (fraction of elements equal to "1")
     double density() const;
 
@@ -283,7 +283,7 @@ namespace itpp {
     /*! \brief Add (or equivalently, subtract) rows
 
     This function updates row i according to row_i = row_i+row_j
-    
+
     \param i Row to add to. This row will be modified
     \param j Row to add. This row will <b>not</b> be modified.
     */
@@ -291,17 +291,17 @@ namespace itpp {
 
     // ---------- Linear algebra --------------
 
-    /*!  \brief Inversion. 
+    /*!  \brief Inversion.
 
     The matrix must be invertible, otherwise the
-      function will terminate with an error.  
-    */ 
+      function will terminate with an error.
+    */
     GF2mat inverse() const;
 
-    //! Returns the number of linearly independent rows 
+    //! Returns the number of linearly independent rows
     int row_rank() const;
 
-    /*! \brief TXP factorization. 
+    /*! \brief TXP factorization.
 
     Given X, compute a factorization of the form U=TXP, where U is
       upper triangular, T is square and invertible, and P is a
@@ -318,7 +318,7 @@ namespace itpp {
       m*n matrix.
     */
     int T_fact(GF2mat &T, GF2mat &U, ivec &P) const;
-  
+
     /*! \brief TXP factorization update, when bit is flipped.
 
     Update upper triangular factor U in the TXP-factorization (U=TXP)
@@ -329,18 +329,18 @@ namespace itpp {
     is called. The function also assumes that the rank provided is
     correct. The function updates T, U and P these matrices.  The
     function returns the new rank of the matrix after the bitflip.
-    
+
     \note T, U, P and the rank value supplied to the function must be
     correct one. This is not checked by the function (for reasons of
     efficiency).
-    
+
     The function works by performing permutations to bring the matrix
     to a form where the Gaussian eliminated can be restarted from the
     point (rank-1,rank-1). The function is very fast for matrices with
     close to full rank but it is generally slower for non-full rank
     matrices.
     */
-    int T_fact_update_bitflip(GF2mat &T, GF2mat &U, 
+    int T_fact_update_bitflip(GF2mat &T, GF2mat &U,
 			      ivec &P, int rank, int r, int c) const;
 
     /*!  \brief TXP factorization update, when column is added
@@ -352,7 +352,7 @@ namespace itpp {
     adds the column if it improves the rank of the matrix (nothing is
     done otherwise).  The function returns "true" if the column was
     added, and "false" otherwise.
-    
+
     \note This function does not actually add the column newcol to the
     GF2 matrix. It only checks whether doing so would increase the
     rank, and if this is the case, it updates the T-factorization.  A
@@ -361,10 +361,10 @@ namespace itpp {
     bool rank_will_improve =  X.T_fact_update_addcol(T,U,perm,c);
     if (rank_will_improve) { X = X.concatenate_horizontal(c); }
     \endcode
-   
+
     The complexity is O(m^2) for an m*n matrix.
     */
-    bool T_fact_update_addcol(GF2mat &T, GF2mat &U, 
+    bool T_fact_update_addcol(GF2mat &T, GF2mat &U,
 			      ivec &P, bvec newcol) const;
 
     // ----- Operators -----------
@@ -373,7 +373,7 @@ namespace itpp {
     void operator=(const GF2mat &X);
 
     //! Check if equal
-    bool operator==(const GF2mat &X) const; 
+    bool operator==(const GF2mat &X) const;
 
     // ----- Friends ------
 
@@ -383,7 +383,7 @@ namespace itpp {
     //! Multiplication operator with binary vector
     friend bvec operator*(const GF2mat &X, const bvec &y);
 
-    /*! \brief Addition operator 
+    /*! \brief Addition operator
 
     Subtraction is not implemented because it is
       equivalent to addition. */
@@ -411,7 +411,7 @@ namespace itpp {
     static const unsigned char shift_divisor = 3;
 
     // This value is used as a mask when computing the bit position of the
-    // division remainder 
+    // division remainder
     static const unsigned char rem_mask = (1 << shift_divisor) - 1;
   };
 
@@ -420,21 +420,21 @@ namespace itpp {
   // GF2mat related functions
   // ----------------------------------------------------------------------
 
-  /*!  
-    /relatesalso GF2mat 
+  /*!
+    /relatesalso GF2mat
     /brief Write GF(2) matrix to file.
   */
   it_file &operator<<(it_file &f, const GF2mat &X);
 
-  /*!  
-    /relatesalso GF2mat 
+  /*!
+    /relatesalso GF2mat
     /brief Read GF(2) matrix from file.
   */
   it_ifile &operator>>(it_ifile &f, GF2mat &X);
 
   /*!
     \relatesalso GF2mat
-    \brief GF(2) matrix multiplication 
+    \brief GF(2) matrix multiplication
   */
   GF2mat operator*(const GF2mat &X, const GF2mat &Y);
 
@@ -446,7 +446,7 @@ namespace itpp {
 
   /*!
     \relatesalso GF2mat
-    \brief GF(2) matrix addition 
+    \brief GF(2) matrix addition
   */
   GF2mat operator+(const GF2mat &X, const GF2mat &Y);
 
@@ -473,22 +473,22 @@ namespace itpp {
   // Inline implementations
   // ----------------------------------------------------------------------
 
-  inline void GF2mat::addto_element(int i, int j, bin s) 
+  inline void GF2mat::addto_element(int i, int j, bin s)
   {
     it_assert_debug(i >= 0 && i < nrows, "GF2mat::addto_element()");
     it_assert_debug(j >= 0 && j < ncols, "GF2mat::addto_element()");
     if (s == 1)
-      data(i, (j >> shift_divisor)) ^= (1 << (j & rem_mask)); 
+      data(i, (j >> shift_divisor)) ^= (1 << (j & rem_mask));
   }
 
-  inline bin GF2mat::get(int i, int j) const 
+  inline bin GF2mat::get(int i, int j) const
   {
     it_assert_debug(i >= 0 && i < nrows, "GF2mat::get_element()");
     it_assert_debug(j >= 0 && j < ncols, "GF2mat::get_element()");
-    return (data(i, (j >> shift_divisor)) >> (j & rem_mask)) & 1; 
+    return (data(i, (j >> shift_divisor)) >> (j & rem_mask)) & 1;
   }
 
-  inline void GF2mat::set(int i, int j, bin s) 
+  inline void GF2mat::set(int i, int j, bin s)
   {
     it_assert_debug(i >= 0 && i < nrows, "GF2mat::set_element()");
     it_assert_debug(j >= 0 && j < ncols, "GF2mat::set_element()");

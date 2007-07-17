@@ -2,7 +2,7 @@
  * \file
  * \brief Help functions to make functions with vec and mat as arguments
  * \author Tony Ottosson and Adam Piatyszek
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -62,8 +62,8 @@ namespace itpp {
   // Template instantiation of apply_function
   template vec apply_function(double (*f)(double, double), const double& x, const vec &v);
   // Template instantiation of apply_function
-  template cvec apply_function(std::complex<double> (*f)(const std::complex<double> &, 
-							 const std::complex<double> &), 
+  template cvec apply_function(std::complex<double> (*f)(const std::complex<double> &,
+							 const std::complex<double> &),
 			       const std::complex<double>& x, const cvec &v);
   // Template instantiation of apply_function
   template svec apply_function(short (*f)(short, short), const short& x, const svec &v);
@@ -75,8 +75,8 @@ namespace itpp {
   // Template instantiation of apply_function
   template mat apply_function(double (*f)(double, double), const double& x, const mat &m);
   // Template instantiation of apply_function
-  template cmat apply_function(std::complex<double> (*f)(const std::complex<double> &, 
-							 const std::complex<double> &), 
+  template cmat apply_function(std::complex<double> (*f)(const std::complex<double> &,
+							 const std::complex<double> &),
 			       const std::complex<double>& x, const cmat &m);
   // Template instantiation of apply_function
   template smat apply_function(short (*f)(short, short), const short& x, const smat &m);
@@ -101,8 +101,8 @@ namespace itpp {
   // Template instantiation of apply_function
   template mat apply_function(double (*f)(double, double), const mat &m, const double& x);
   // Template instantiation of apply_function
-  template cmat apply_function(std::complex<double> (*f)(const std::complex<double> &, 
-							 const std::complex<double> &), 
+  template cmat apply_function(std::complex<double> (*f)(const std::complex<double> &,
+							 const std::complex<double> &),
 			       const cmat &m, const std::complex<double>& x);
   // Template instantiation of apply_function
   template smat apply_function(short (*f)(short, short), const smat &m, const short& x);

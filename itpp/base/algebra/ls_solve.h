@@ -2,7 +2,7 @@
  * \file
  * \brief Definitions of functions for solving linear equation systems
  * \author Tony Ottosson
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -58,14 +58,14 @@ namespace itpp {
   vec ls_solve(const mat &A, const vec &b);
 
   /*! \brief Solve multiple linear equations by LU factorisation.
-  
+
   Solves the linear system \f$AX=B\f$. Here \f$A\f$ is a nonsingular \f$n \times n\f$ matrix.
   Uses the LAPACK routine DGESV.
   */
   bool ls_solve(const mat &A, const mat &B, mat &X);
 
   /*! \brief Solve multiple linear equations by LU factorisation.
-  
+
   Solves the linear system \f$AX=B\f$. Here \f$A\f$ is a nonsingular \f$n \times n\f$ matrix.
   Uses the LAPACK routine DGESV.
   */
@@ -87,14 +87,14 @@ namespace itpp {
   cvec ls_solve(const cmat &A, const cvec &b);
 
   /*! \brief Solve multiple linear equations by LU factorisation.
-  
+
   Solves the linear system \f$AX=B\f$. Here \f$A\f$ is a nonsingular \f$n \times n\f$ matrix.
   Uses the LAPACK routine ZGESV.
   */
   bool ls_solve(const cmat &A, const cmat &B, cmat &X);
 
   /*! \brief Solve multiple linear equations by LU factorisation.
-  
+
   Solves the linear system \f$AX=B\f$. Here \f$A\f$ is a nonsingular \f$n \times n\f$ matrix.
   Uses the LAPACK routine ZGESV.
   */
@@ -102,28 +102,28 @@ namespace itpp {
 
 
   /*! \brief Solve linear equation system by Cholesky factorisation.
-  
+
   Solves the linear system \f$Ax=b\f$, where \f$A\f$ is a symmetric postive definite \f$n \times n\f$ matrix.
   Uses the LAPACK routine DPOSV.
   */
   bool ls_solve_chol(const mat &A, const vec &b, vec &x);
 
   /*! \brief Solve linear equation system by Cholesky factorisation.
-  
+
   Solves the linear system \f$Ax=b\f$, where \f$A\f$ is a symmetric postive definite \f$n \times n\f$ matrix.
   Uses the LAPACK routine DPOSV.
   */
   vec ls_solve_chol(const mat &A, const vec &b);
 
   /*! \brief Solve linear equation system by Cholesky factorisation.
-  
+
   Solves the linear system \f$AX=B\f$, where \f$A\f$ is a symmetric postive definite \f$n \times n\f$ matrix.
   Uses the LAPACK routine DPOSV.
   */
   bool ls_solve_chol(const mat &A, const mat &B, mat &X);
 
   /*! \brief Solve linear equation system by Cholesky factorisation.
-  
+
   Solves the linear system \f$AX=B\f$, where \f$A\f$ is a symmetric postive definite \f$n \times n\f$ matrix.
   Uses the LAPACK routine DPOSV.
   */
@@ -131,28 +131,28 @@ namespace itpp {
 
 
   /*! \brief Solve linear equation system by Cholesky factorisation.
-  
+
   Solves the linear system \f$Ax=b\f$, where \f$A\f$ is a Hermitian postive definite \f$n \times n\f$ matrix.
   Uses the LAPACK routine ZPOSV.
   */
   bool ls_solve_chol(const cmat &A, const cvec &b, cvec &x);
 
   /*! \brief Solve linear equation system by Cholesky factorisation.
-  
+
   Solves the linear system \f$Ax=b\f$, where \f$A\f$ is a Hermitian postive definite \f$n \times n\f$ matrix.
   Uses the LAPACK routine ZPOSV.
   */
   cvec ls_solve_chol(const cmat &A, const cvec &b);
 
   /*! \brief Solve linear equation system by Cholesky factorisation.
-  
+
   Solves the linear system \f$AX=B\f$, where \f$A\f$ is a Hermitian postive definite \f$n \times n\f$ matrix.
   Uses the LAPACK routine ZPOSV.
   */
   bool ls_solve_chol(const cmat &A, const cmat &B, cmat &X);
 
   /*! \brief Solve linear equation system by Cholesky factorisation.
-  
+
   Solves the linear system \f$AX=B\f$, where \f$A\f$ is a Hermitian postive definite \f$n \times n\f$ matrix.
   Uses the LAPACK routine ZPOSV.
   */
@@ -337,7 +337,7 @@ namespace itpp {
 
 
   /*! \brief Forward substitution of square matrix.
-  
+
   Solves Lx=b, where L is a lower triangular n by n matrix.
   Assumes that L is nonsingular. Requires n^2 flops.
   Uses Alg. 3.1.1 in Golub & van Loan "Matrix computations", 3rd ed., p. 89.
@@ -345,7 +345,7 @@ namespace itpp {
   vec forward_substitution(const mat &L, const vec &b);
 
   /*! \brief Forward substitution of square matrix.
-  
+
   Solves Lx=b, where L is a lower triangular n by n matrix.
   Assumes that L is nonsingular. Requires n^2 flops.
   Uses Alg. 3.1.1 in Golub & van Loan "Matrix computations", 3rd ed., p. 89.
@@ -353,7 +353,7 @@ namespace itpp {
   void forward_substitution(const mat &L, const vec &b, vec &x);
 
   /*! \brief Forward substitution of band matricies.
-  
+
   Solves Lx=b, where L is a lower triangular n by n band-matrix with lower
   bandwidth p.
   Assumes that L is nonsingular. Requires about 2np flops (if n >> p).
@@ -362,7 +362,7 @@ namespace itpp {
   vec forward_substitution(const mat &L, int p, const vec &b);
 
   /*! \brief Forward substitution of band matricies.
-  
+
   Solves Lx=b, where L is a lower triangular n by n band-matrix with
   lower bandwidth p.
   Assumes that L is nonsingular. Requires about 2np flops (if n >> p).
@@ -371,7 +371,7 @@ namespace itpp {
   void forward_substitution(const mat &L, int p, const vec &b, vec &x);
 
   /*! \brief Backward substitution of square matrix.
-  
+
   Solves Ux=b, where U is a upper triangular n by n matrix.
   Assumes that U is nonsingular. Requires n^2 flops.
   Uses Alg. 3.1.2 in Golub & van Loan "Matrix computations", 3rd ed., p. 89.
@@ -379,7 +379,7 @@ namespace itpp {
   vec backward_substitution(const mat &U, const vec &b);
 
   /*! \brief Backward substitution of square matrix.
-  
+
   Solves Ux=b, where U is a upper triangular n by n matrix.
   Assumes that U is nonsingular. Requires n^2 flops.
   Uses Alg. 3.1.2 in Golub & van Loan "Matrix computations", 3rd ed., p. 89.
@@ -387,7 +387,7 @@ namespace itpp {
   void backward_substitution(const mat &U, const vec &b, vec &x);
 
   /*! \brief Backward substitution of band matrix.
-  
+
   Solves Ux=b, where U is a upper triangular n by n matrix band-matrix with
   upper bandwidth q.
   Assumes that U is nonsingular. Requires about 2nq flops (if n >> q).
@@ -396,7 +396,7 @@ namespace itpp {
   vec backward_substitution(const mat &U, int q, const vec &b);
 
   /*! \brief Backward substitution of band matrix.
-  
+
   Solves Ux=b, where U is a upper triangular n by n matrix band-matrix with
   upper bandwidth q.
   Assumes that U is nonsingular. Requires about 2nq flops (if n >> q).

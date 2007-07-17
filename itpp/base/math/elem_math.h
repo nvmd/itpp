@@ -2,7 +2,7 @@
  * \file
  * \brief Elementary mathematical functions - header file
  * \author Tony Ottosson and Adam Piatyszek
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -76,16 +76,16 @@ namespace itpp {
   //! Square of x
   inline double sqr(double x) { return (x * x); }
   //! Square of complex-valued x, ||x||^2
-  inline double sqr(const std::complex<double>& x) 
-  { 
-    return (x.real() * x.real() + x.imag() * x.imag()); 
+  inline double sqr(const std::complex<double>& x)
+  {
+    return (x.real() * x.real() + x.imag() * x.imag());
   }
   //! Square of elements
   inline vec sqr(const vec &x) { return apply_function<double>(sqr, x); }
   //! Square of elements
   inline mat sqr(const mat &x) { return apply_function<double>(sqr, x); }
   //! Square of elements
-  vec sqr(const cvec &x); 
+  vec sqr(const cvec &x);
   //! Square of elements
   mat sqr(const cmat &x);
 
@@ -107,10 +107,10 @@ namespace itpp {
 
 
   // -------------------- sign/sgn functions --------------------
-  
+
   //! The sign of x
   inline double sign(double x)
-  { 
+  {
     return (x == 0.0 ? 0.0 : (x < 0.0 ? -1.0 : 1.0));
   }
   //! Signum function
@@ -119,7 +119,7 @@ namespace itpp {
   inline mat sign(const mat &x) { return apply_function<double>(sign, x); }
   //! The sign of x
   inline double sgn(double x)
-  { 
+  {
     return (x == 0.0 ? 0.0 : (x < 0.0 ? -1.0 : 1.0));
   }
   //! Signum function
@@ -145,28 +145,28 @@ namespace itpp {
   //! The gamma function
   inline mat gamma(const mat &x) { return apply_function<double>(gamma, x); }
 
-  
+
   // -------------------- rem function --------------------
 
   //! The reminder of the division x/y
   inline double rem(double x, double y) { return fmod(x, y); }
   //! Elementwise reminder of the division x/y for vec and double
-  inline vec rem(const vec &x, double y) 
-  { 
-    return apply_function<double>(rem, x, y); 
+  inline vec rem(const vec &x, double y)
+  {
+    return apply_function<double>(rem, x, y);
   }
   //! Elementwise reminder of the division x/y for double and vec
-  inline vec rem(double x, const vec &y) 
+  inline vec rem(double x, const vec &y)
   {
     return apply_function<double>(rem, x, y);
   }
   //! Elementwise reminder of the division x/y for mat and double
-  inline mat rem(const mat &x, double y) 
+  inline mat rem(const mat &x, double y)
   {
     return apply_function<double>(rem, x, y);
   }
   //! Elementwise reminder of the division x/y for double and mat
-  inline mat rem(double x, const mat &y) 
+  inline mat rem(double x, const mat &y)
   {
     return apply_function<double>(rem, x, y);
   }
@@ -235,13 +235,13 @@ namespace itpp {
 #ifndef _MSC_VER
   //! Conjugate of complex value
   inline cvec conj(const cvec &x)
-  { 
-    return apply_function<std::complex<double> >(std::conj, x); 
+  {
+    return apply_function<std::complex<double> >(std::conj, x);
   }
   //! Conjugate of complex value
   inline cmat conj(const cmat &x)
-  { 
-    return apply_function<std::complex<double> >(std::conj, x); 
+  {
+    return apply_function<std::complex<double> >(std::conj, x);
   }
 #else
   //! Conjugate of complex value

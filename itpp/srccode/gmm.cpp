@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of a Gaussian Mixture Model Class
  * \author Thomas Eriksson
  *
@@ -140,8 +140,8 @@ namespace itpp {
 
   void GMM::set_mean(int i, const vec &means, bool compflag)
   {
-    m.replace_mid(i*length(means),means); 
-    if (compflag) compute_internals(); 
+    m.replace_mid(i*length(means),means);
+    if (compflag) compute_internals();
   }
 
   void GMM::set_covariance(const mat &sigma_in)
@@ -160,10 +160,10 @@ namespace itpp {
     compute_internals();
   }
 
-  void GMM::set_covariance(int i, const vec &covariances, bool compflag) 
+  void GMM::set_covariance(int i, const vec &covariances, bool compflag)
   {
-    sigma.replace_mid(i*length(covariances),covariances); 
-    if (compflag) compute_internals(); 
+    sigma.replace_mid(i*length(covariances),covariances);
+    if (compflag) compute_internals();
   }
 
   void GMM::marginalize(int d_new)
@@ -183,7 +183,7 @@ namespace itpp {
     sigma=sigmanew;
     d=d_new;
 
-    compute_internals(); 
+    compute_internals();
   }
 
   void GMM::join(const GMM &newgmm)
@@ -204,7 +204,7 @@ namespace itpp {
 
       M=M+newgmm.M;
     }
-    compute_internals(); 
+    compute_internals();
   }
 
   void GMM::clear()
@@ -254,19 +254,19 @@ namespace itpp {
     w.set_length(M);
     for (i=0;i<M;i++) {
       GMMFile >> w(i) ;
-    }	
+    }
     m.set_length(M*d);
     for (i=0;i<M;i++) {
       for (j=0;j<d;j++) {
 	GMMFile >> m(i*d+j) ;
       }
-    }	
+    }
     sigma.set_length(M*d);
     for (i=0;i<M;i++) {
       for (j=0;j<d;j++) {
 	GMMFile >> sigma(i*d+j) ;
       }
-    }	
+    }
     compute_internals();
     std::cout << "  mixtures:" << M << "  dim:" << d << std::endl ;
   }

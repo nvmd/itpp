@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of modified Bessel functions of third kind
  * \author Tony Ottosson
  *
@@ -30,7 +30,7 @@
  * -------------------------------------------------------------------------
  *
  * This is slightly modified routine from the Cephes library:
- * http://www.netlib.org/cephes/ 
+ * http://www.netlib.org/cephes/
  */
 
 #include <itpp/base/bessel/bessel_internal.h>
@@ -41,7 +41,7 @@ using namespace itpp;
 
 /*
  * Modified Bessel function, third kind, order one (should be second kind?)
- * 
+ *
  * double x, y, k1();
  *
  * y = k1( x );
@@ -99,7 +99,7 @@ using namespace itpp;
 
 /* Chebyshev coefficients for x(K1(x) - log(x/2) I1(x))
  * in the interval [0,2].
- * 
+ *
  * lim(x->0){ x(K1(x) - log(x/2) I1(x)) } = 1.
  */
 

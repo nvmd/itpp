@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Pulse shaping classes - header file
  * \author Tony Ottosson, Hakan Eriksson and Adam Piatyszek
  *
@@ -42,15 +42,15 @@
 
 namespace itpp {
 
-  /*! 
+  /*!
     \brief General FIR Pulse Shape
-    
+
     Upsamples and shapes symbols according to a given FIR filter.
     Observe that since the shaping is done with a FIR filter, the
     first samples in the output are zero or small before the memory of
     the filter is filled.
-  
-    The class is templated as follows: 
+
+    The class is templated as follows:
     <ul>
     <li> \c T1 is the type of the input samples</li>
     <li> \c T2 is the type of the filter coefficients</li>
@@ -58,7 +58,7 @@ namespace itpp {
     </ul>
 
     An example of usage is:
-  
+
     \code
     #include "itpp/itcomm.h"
 
@@ -67,7 +67,7 @@ namespace itpp {
     Pulse_Shape<double,double,double> shaper(filter_response, 4);
     BPSK bpsk;
     vec symbols, samples;
-    
+
     symbols = bpsk.modulate_bits(randb(20));
     samples = shaper.shape_symbols(symbols);
     \endcode
@@ -81,9 +81,9 @@ namespace itpp {
     Pulse_Shape(const Vec<T2> &impulse_response, int upsampling_factor);
     //! Destructor
     virtual ~Pulse_Shape() {}
-    /*! 
+    /*!
       \brief Set the general impulse response of the FIR filter
-      
+
       Observe that the pulse shape must have a duration of an integer
       number of symbols. Thus the length of the impulse response-1
       modulo over sampling is an integer.
@@ -97,10 +97,10 @@ namespace itpp {
     int get_pulse_length() const;
     //! Get the length of the internal FIR filter
     int get_filter_length() const;
-  
+
     //! Shape the input symbols performing upsampling
     void shape_symbols(const Vec<T1> &input, Vec<T3> &output);
-    //! Shape the input symbols performing upsampling 
+    //! Shape the input symbols performing upsampling
     Vec<T3> shape_symbols(const Vec<T1> &input);
 
     //! Shape the input samples already upsampled
@@ -124,14 +124,14 @@ namespace itpp {
     bool setup_done;
   };
 
-  /*! 
+  /*!
     \brief Raised Cosine (RC) Pulse Shaper
 
     Upsamples and shapes symbols as raised cosine pulses with a given
     roll-off factor \f$ \alpha \f$.
     The raised cosine pulse shape is defined as:
     \f[
-    p(t) = \frac{\sin(\pi t / T)}{\pi t / T} 
+    p(t) = \frac{\sin(\pi t / T)}{\pi t / T}
     \frac{\cos(\alpha \pi t / T)}{1 - (2 \alpha t / T)^2}
     \f]
     For more details see e.g. Lee & Messerschmitt, p. 190. Observe
@@ -143,19 +143,19 @@ namespace itpp {
     What is important, when using RC shaping in a transmission system
     with the AWGN channel, the mean power of the output samples is not
     normalised, so the channel noise variance (or shaped signal)
-    should be scaled appropriately.  
+    should be scaled appropriately.
 
     The class is templated as follows: \c T1 is the type of the input
     and the output samples.
     An example of usage is:
-  
+
     \code
     #include "itpp/itcomm.h"
-  
+
     Raised_Cosine<double> rc(0.5, 6, 8);
     BPSK bpsk;
     vec symbols, samples;
-    
+
     symbols = bpsk.modulate_bits(randb(20));
     samples = rc.shape_symbols(symbols);
     \endcode
@@ -178,16 +178,16 @@ namespace itpp {
     //! The roll off factor (i.e. alpha)
     double roll_off_factor;
   };
-  
-  /*! 
+
+  /*!
     \brief (Square) Root Raised Cosine (RRC) Pulse Shaper
 
     Upsamples and shapes symbols as square root raised cosine pulses
-    with a given roll-off factor \f$ \alpha \f$ (zero is not allowed 
+    with a given roll-off factor \f$ \alpha \f$ (zero is not allowed
     - use raised cosine instead).
     The Root Raised Cosine pulse shape is defined as:
     \f[
-    p(t) = \frac{4 \alpha}{\pi \sqrt{T}} \frac{\cos((1+\alpha)\pi t / T) 
+    p(t) = \frac{4 \alpha}{\pi \sqrt{T}} \frac{\cos((1+\alpha)\pi t / T)
     + T \sin((1-\alpha)\pi t / T) / (4 \alpha t) }{1 - (4 \pi t / T)^2}
     \f]
 
@@ -206,19 +206,19 @@ namespace itpp {
     What is important, when using RRC shaping in a transmission system
     with the AWGN channel, the mean power of the output samples is not
     normalised, so the channel noise variance (or shaped signal)
-    should be scaled appropriately.  
-  
+    should be scaled appropriately.
+
     The class is templated as follows: \c T1 is the type of the input
-    and the output samples.  
+    and the output samples.
     An example of usage is:
-  
+
     \code
     #include "itpp/itcomm.h"
-  
+
     Root_Raised_Cosine<double> rrc(0.5,6,8);
     BPSK bpsk;
     vec symbols, samples;
-    
+
     symbols = bpsk.modulate_bits(randb(20));
     samples = rrc.shape_symbols(symbols);
     \endcode
@@ -255,7 +255,7 @@ namespace itpp {
     upsampling_factor = 0;
   }
 
-  
+
   template<class T1, class T2,class T3>
   Pulse_Shape<T1, T2, T3>::Pulse_Shape(const Vec<T2> &impulse_response, int upsampling_factor) {
     set_pulse_shape(impulse_response, upsampling_factor);
@@ -265,10 +265,10 @@ namespace itpp {
   void Pulse_Shape<T1, T2, T3>::set_pulse_shape(const Vec<T2> &impulse_response_in, int upsampling_factor_in) {
     it_error_if(impulse_response_in.size() == 0, "Pulse_Shape: impulse response is zero length");
     it_error_if(upsampling_factor_in < 1, "Pulse_Shape: incorrect upsampling factor");
-  
+
     pulse_length = (impulse_response_in.size() - 1) / upsampling_factor_in;
     upsampling_factor = upsampling_factor_in;
-  
+
     impulse_response = impulse_response_in;
     shaping_filter.set_coeffs(impulse_response);
     shaping_filter.clear();
@@ -300,8 +300,8 @@ namespace itpp {
     it_assert(setup_done, "Pulse_Shape must be set up before using");
     it_error_if(pulse_length == 0, "Pulse_Shape: impulse response is zero length");
     it_error_if(input.size() == 0, "Pulse_Shape: input is zero length");
-  
-    if (upsampling_factor > 1)        
+
+    if (upsampling_factor > 1)
       output = shaping_filter(upsample(input, upsampling_factor));
     else
       output = input;
@@ -320,8 +320,8 @@ namespace itpp {
     it_assert(setup_done, "Pulse_Shape must be set up before using");
     it_error_if(pulse_length == 0, "Pulse_Shape: impulse response is zero length");
     it_error_if(input.size() == 0, "Pulse_Shape: input is zero length");
-  
-    if (upsampling_factor > 1)        
+
+    if (upsampling_factor > 1)
       output = shaping_filter(input);
     else
       output = input;
@@ -352,39 +352,39 @@ namespace itpp {
   void Raised_Cosine<T1>::set_pulse_shape(double roll_off_factor_in, int filter_length, int upsampling_factor_in) {
     it_error_if(roll_off_factor_in < 0 || roll_off_factor_in > 1, "Raised_Cosine: roll-off out of range");
     roll_off_factor = roll_off_factor_in;
-  
+
     it_assert(is_even(filter_length), "Raised_Cosine: Filter length not even");
-  
+
     int i;
     double t, den;
     this->upsampling_factor = upsampling_factor_in;
     this->pulse_length = filter_length;
-    this->impulse_response.set_size(filter_length * upsampling_factor_in + 1, 
+    this->impulse_response.set_size(filter_length * upsampling_factor_in + 1,
 				    false);
-  
+
     for (i = 0; i < this->impulse_response.size(); i++) {
       // delayed to be casual
-      t = (double)(i - filter_length * upsampling_factor_in / 2) 
+      t = (double)(i - filter_length * upsampling_factor_in / 2)
 	/ upsampling_factor_in;
       den = 1 - sqr(2 * roll_off_factor * t);
       if (den == 0) {
 	// exception according to "The Care and feeding of digital,
 	// pulse-shaping filters" by Ken Gentile,
-        // the limit of raised cosine impulse responce function, 
+        // the limit of raised cosine impulse responce function,
         // as (alpha * t / tau) approaches (+- 0.5) is given as:
 	this->impulse_response(i) = sinc(t) * pi / 4;
       }
       else {
-	this->impulse_response(i) = std::cos(roll_off_factor * pi * t) 
+	this->impulse_response(i) = std::cos(roll_off_factor * pi * t)
 	  * sinc(t) / den;
       }
     }
-    
+
     // BUGFIX: Commented out to achieve similar results to Matlab
     // rcosfil function. Now the concatenation of two root-raised
     // cosine filters gives tha same results as a one raised cosine
     // shaping function.
-    // this->impulse_response /= std::sqrt(double(this->upsampling_factor));  
+    // this->impulse_response /= std::sqrt(double(this->upsampling_factor));
     this->shaping_filter.set_coeffs(this->impulse_response);
     this->shaping_filter.clear();
     this->setup_done = true;
@@ -405,27 +405,27 @@ namespace itpp {
 
   template<class T1>
   void Root_Raised_Cosine<T1>::set_pulse_shape(double roll_off_factor_in, int filter_length, int upsampling_factor_in) {
-    it_error_if(roll_off_factor_in <= 0 || roll_off_factor_in > 1, 
+    it_error_if(roll_off_factor_in <= 0 || roll_off_factor_in > 1,
 		"Root_Raised_Cosine: roll-off out of range");
     roll_off_factor = roll_off_factor_in;
-  
-    it_assert(is_even(filter_length), 
+
+    it_assert(is_even(filter_length),
 	      "Root_Raised_Cosine: Filter length not even");
-   
+
     int i;
     double t, num, den, tmp_arg;
     this->upsampling_factor = upsampling_factor_in;
     this->pulse_length = filter_length;
-    this->impulse_response.set_size(filter_length * upsampling_factor_in + 1, 
+    this->impulse_response.set_size(filter_length * upsampling_factor_in + 1,
 				    false);
-  
+
     for (i = 0; i < this->impulse_response.size(); i++) {
-      // delayed to be casual      
+      // delayed to be casual
       t = (double)(i - filter_length * upsampling_factor_in / 2)
 	/ upsampling_factor_in;
       den = 1 - sqr(4 * roll_off_factor * t);
       if (t == 0) {
-	this->impulse_response(i) = 1 + (4 * roll_off_factor / pi)  
+	this->impulse_response(i) = 1 + (4 * roll_off_factor / pi)
 	  - roll_off_factor;
       }
       else if (den == 0) {
@@ -440,7 +440,7 @@ namespace itpp {
       }
     }
 
-    this->impulse_response /= std::sqrt(double(upsampling_factor_in));  
+    this->impulse_response /= std::sqrt(double(upsampling_factor_in));
     this->shaping_filter.set_coeffs(this->impulse_response);
     this->shaping_filter.clear();
     this->setup_done = true;
@@ -458,16 +458,16 @@ namespace itpp {
 #ifndef _MSC_VER
   //! Template instantiation of \c double, \c double and \c double of Pulse_Shape<T1,T2,T3>
   extern template class Pulse_Shape<double, double, double>;
-  //! Template instantiation of \c complex<double>, \c double and \c complex<double> of Pulse_Shape<T1,T2,T3> 
+  //! Template instantiation of \c complex<double>, \c double and \c complex<double> of Pulse_Shape<T1,T2,T3>
   extern template class Pulse_Shape<std::complex<double>, double, std::complex<double> >;
-  //! Template instantiation of \c complex<double>, \c complex<double> an \c complex<double> of Pulse_Shape<T1,T2,T3> 
+  //! Template instantiation of \c complex<double>, \c complex<double> an \c complex<double> of Pulse_Shape<T1,T2,T3>
   extern template class Pulse_Shape<std::complex<double>, std::complex<double>, std::complex<double> >;
 
   //! Template instantiation of \c double of Root_Raised_Cosine<T1>
   extern template class Root_Raised_Cosine<double>;
   //! Template instantiation of \c complex<double> of Root_Raised_Cosine<T1>
   extern template class Root_Raised_Cosine<std::complex<double> >;
-  
+
   //! Template instantiation of \c double of Raised_Cosine<T1>
   extern template class Raised_Cosine<double>;
   //! Template instantiation of \c complex<double> of Raised_Cosine<T1>

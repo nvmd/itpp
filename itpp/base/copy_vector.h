@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Vector copy functions for internal use
  * \author Tony Ottosson
  *

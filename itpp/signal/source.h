@@ -2,7 +2,7 @@
  * \file
  * \brief Deterministic sources - header file
  * \author Tobias Ringstrom and Tony Ottosson
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -40,7 +40,7 @@ namespace itpp {
 
   //! \addtogroup detsource
 
-  /*! 
+  /*!
     \brief Sine-wave source
     \ingroup detsource
   */
@@ -60,12 +60,12 @@ namespace itpp {
     double m, A, theta, dtheta;
   };
 
-  /*! 
+  /*!
     \brief Square-wave source
     \ingroup detsource
   */
   class Square_Source {
-  public: 
+  public:
     //! Constructor. Set frequency, mean, amplitude, and start phase
     Square_Source(double freq, double mean=0.0, double ampl=1.0, double inphase=0.0);
     //! Return a single sample
@@ -80,7 +80,7 @@ namespace itpp {
     double m, A, theta, dtheta;
   };
 
-  /*! 
+  /*!
     \brief Triangle-wave source
     \ingroup detsource
   */
@@ -100,7 +100,7 @@ namespace itpp {
     double m, A, theta, dtheta;
   };
 
-  /*! 
+  /*!
     \brief Sawtooth-wave source
     \ingroup detsource
   */
@@ -120,7 +120,7 @@ namespace itpp {
     double m, A, theta, dtheta;
   };
 
-  /*! 
+  /*!
     \brief Impulse source
     \ingroup detsource
   */
@@ -140,7 +140,7 @@ namespace itpp {
     double A, pos, dtheta;
   };
 
-  /*! 
+  /*!
     \brief Pattern source
     \ingroup detsource
   */

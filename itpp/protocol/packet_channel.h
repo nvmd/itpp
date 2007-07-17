@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definition of a Packet channel class
  * \author Anders Persson and Tony Ottosson
  *
@@ -46,7 +46,7 @@ namespace itpp {
 
   */
   class Packet_Channel {
-  public:  
+  public:
     Packet_Channel();
     Packet_Channel(const double Pr, const Ttype Delay, const double Block_rate, const int Max_slots = 0);
 
@@ -66,7 +66,7 @@ namespace itpp {
 
     void set_errors(const ivec &Lost);
 
-  private:    
+  private:
     void block_rate_loop();
     void handle_input(Link_Packet* M);
     void handle_start(const bool start);
@@ -89,7 +89,7 @@ namespace itpp {
 
   */
   class ACK_Channel {
-  public:  
+  public:
     ACK_Channel();
 
     ACK_Channel(const double Pr, const Ttype Delay);
@@ -105,7 +105,7 @@ namespace itpp {
     void set_parameters(const double Pr, const Ttype Delay);
     void set_errors(const ivec& Lost);
 
-  private:    
+  private:
     void handle_input(ACK* M);
 
     bool parameters_ok;

@@ -2,7 +2,7 @@
  * \file
  * \brief Miscellaneous functions - header file
  * \author Tony Ottosson, Adam Piatyszek and Conrad Sanderson
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -113,10 +113,10 @@ namespace itpp {
   //!@{
 
   //! Return true if x is an integer
-  inline bool is_int(double x) 
-  { 
-    double dummy; 
-    return (modf(x, &dummy) == 0.0); 
+  inline bool is_int(double x)
+  {
+    double dummy;
+    return (modf(x, &dummy) == 0.0);
   }
 
   //! Return true if x is an even integer
@@ -141,10 +141,10 @@ namespace itpp {
 #ifndef HAVE_ISNAN
 /*!
  * \brief Check if \c x is NaN (Not a Number)
- * \note Emulation of a C99 function via the IEEE 754 standard 
+ * \note Emulation of a C99 function via the IEEE 754 standard
  */
 inline int isnan(double x)
-{ 
+{
   if (x != x) return 1;
   else return 0;
 }
@@ -155,12 +155,12 @@ inline int isnan(double x)
  * \brief Check if \c x is either -Inf or +Inf
  *
  * Returns -1 if \c x is -Inf or +1 if \c x is +Inf. Otherwise returns 0.
- * 
- * \note Emulation of a C99 function via the IEEE 754 standard 
+ *
+ * \note Emulation of a C99 function via the IEEE 754 standard
  */
-inline int isinf(double x) 
-{ 
-  if ((x == x) && ((x - x) != 0.0)) 
+inline int isinf(double x)
+{
+  if ((x == x) && ((x - x) != 0.0))
     return (x < 0.0 ? -1 : 1);
   else return 0;
 }
@@ -169,10 +169,10 @@ inline int isinf(double x)
 #ifndef HAVE_FINITE
 /*!
  * \brief Check if \c x is a finite floating point number
- * \note Emulation of a C99 function via the IEEE 754 standard 
+ * \note Emulation of a C99 function via the IEEE 754 standard
  */
-inline int finite(double x) 
-{ 
+inline int finite(double x)
+{
   if (!isnan(x) && !isinf(x)) return 1;
   else return 0;
 }
@@ -181,7 +181,7 @@ inline int finite(double x)
 #ifndef HAVE_ISFINITE
 /*!
  * \brief Check if \c x is a finite floating point number
- * \note Emulation of a C99 function via the IEEE 754 standard 
+ * \note Emulation of a C99 function via the IEEE 754 standard
  */
 inline int isfinite(double x) { return finite(x); }
 #endif

@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of Galois Field algebra classes and functions
  * \author Tony Ottosson
  *
@@ -59,12 +59,12 @@ namespace itpp {
     m=mtemp;
     if (alphapow.size() <  (m+1) ) {
       alphapow.set_size(m+1);
-      logalpha.set_size(m+1);	
+      logalpha.set_size(m+1);
     }
-	
+
     if (alphapow(m).size() == 0) {
       alphapow(m).set_size(qvalue);
-      logalpha(m).set_size(qvalue);	
+      logalpha(m).set_size(qvalue);
       alphapow(m) = 0;
       logalpha(m) = 0;
       if (m == 1) { // GF(2), special case
@@ -80,7 +80,7 @@ namespace itpp {
 						alphapow(m)(n)=(temp & ~(1<<m))^reduce;
 					else
 						alphapow(m)(n)=temp; // if no alpha**m term, store as is
-		
+
 					// create table to go in opposite direction
 					logalpha(m)(0)=-1; // special case, actually log(0)=-inf
 				}
@@ -148,7 +148,7 @@ namespace itpp {
   }
 
   //! Modulo function of two GFX (local help function)
-  GFX modgfx(const GFX &a, const GFX &b) 
+  GFX modgfx(const GFX &a, const GFX &b)
   {
     int q = a.get_size();
     GFX temp = a;

@@ -2,7 +2,7 @@
  * \file
  * \brief Sparse Matrix Class implementation
  * \author Tony Ottosson and Tobias Ringstrom
- * 
+ *
  * $Date$
  * $Revision$
  *

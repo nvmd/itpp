@@ -2,7 +2,7 @@
  * \file
  * \brief Implementation of QR factorisation functions
  * \author Tony Ottosson
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -43,7 +43,7 @@
 #include <itpp/base/algebra/qr.h>
 
 
-namespace itpp { 
+namespace itpp {
 
 #if defined(HAVE_LAPACK)
 
@@ -142,7 +142,7 @@ namespace itpp {
     cvec tau(k);
     cvec work(lwork);
     vec rwork(std::max(1, 2*n));
-    ivec jpvt(n); 
+    ivec jpvt(n);
     jpvt.zeros();
 
     R = A;

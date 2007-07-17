@@ -2,7 +2,7 @@
  * \file
  * \brief Sparse Vector Class definitions
  * \author Tony Ottosson and Tobias Ringstrom
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -83,7 +83,7 @@ namespace itpp {
   template <class T>
     Sparse_Vec<T> elem_mult_s(const Vec<T> &v1, const Sparse_Vec<T> &v2);
 
-  /*! 
+  /*!
     \brief Templated sparse vector class
     \author Tony Ottosson and Tobias Ringstrom
 
@@ -91,7 +91,7 @@ namespace itpp {
     maximum number of none-zero elements is a parameter to the
     constructor. The elements are stored in random order, i.e. they
     are not sorted.
-    
+
   */
   template <class T>
     class Sparse_Vec {
@@ -109,37 +109,37 @@ namespace itpp {
     Sparse_Vec(int sz, int data_init=200);
 
     /*!
-      \brief Initiate a new sparse vector. 
+      \brief Initiate a new sparse vector.
 
       \param v The elements of \c v are copied into the new sparse vector
     */
     Sparse_Vec(const Sparse_Vec<T> &v);
 
-    /*! 
-      \brief Initiate a new sparse vector from a dense vector. 
+    /*!
+      \brief Initiate a new sparse vector from a dense vector.
 
       \param v The elements of \c v are copied into the new sparse vector
     */
     Sparse_Vec(const Vec<T> &v);
 
-    /*! 
+    /*!
       \brief Initiate a new sparse vector from a dense vector. Elements of \c v larger than \c epsilon are copied into the new sparse vector.
-    
+
       \note If the type T is complex<double>, then the elements of \c v larger than \c abs(epsilon) are copied into the new sparse vector.
     */
     Sparse_Vec(const Vec<T> &v, T epsilon);
 
     //! Destructor
     ~Sparse_Vec();
-  
-    /*! 
+
+    /*!
       \brief Set the size \c sz of the sparse vector. Default value \c data_init=-1 \c => allocated size for the data is not changed.
 
       \param sz Size of the sparse vector (i.e. maximum index is (\c sz - 1))
       \param data_init Maximum number of non-zero elements in the sparse vector (default value -1 \c => allocated size for the data is not changed)
     */
     void set_size(int sz, int data_init=-1);
-  
+
     //! Returns the size of the sparse vector
     int size() const { return v_size; }
 
@@ -154,7 +154,7 @@ namespace itpp {
 
     //! Returns the density of the sparse vector: (number of non-zero elements)/(size of the vector)
     double density();
-  
+
     //! Set that all elements smaller than \a epsilon should be set to zero.
     void set_small_element(const T& epsilon);
 
@@ -164,8 +164,8 @@ namespace itpp {
       \note The small element \a epsilon can be set by the member function set_small_element. If no small value is set, the default value is always \c epsilon=0.
     */
     void remove_small_elements();
-  
-    /*! 
+
+    /*!
       \brief Set the maximum number of non-zero elements to \c new_size
 
       \param new_size The new maximum number of non-zero elements.
@@ -174,13 +174,13 @@ namespace itpp {
 
     //! Set the maximum number of non-zero elements equal to the actual number of non-zero elements
     void compact();
-  
+
     //! Returns a full, dense vector in \c v
     void full(Vec<T> &v) const;
 
     //! Returns a full, dense vector
     Vec<T> full() const;
-  
+
     //! Returns the element with index \c i
     T operator()(int i) const;
 
@@ -214,7 +214,7 @@ namespace itpp {
     //! Clear the i-th element (if it contains a non-zero value)
     void clear_elem(const int i);
 
-    /*! 
+    /*!
       \brief Extract the reference to the p-th non-zero data element
     */
     inline void get_nz_data(int p, T& data_out)
@@ -258,39 +258,39 @@ namespace itpp {
 
     //! Return sparse subvector from index \c i1 to index \c i2
     Sparse_Vec<T> get_subvector(int i1, int i2) const;
-  
+
     //! Returns the sum of all values squared
     T sqr() const;
-  
+
     //! Assign sparse vector the value and length of the sparse vector \c v
     void operator=(const Sparse_Vec<T> &v);
     //! Assign sparse vector the value and length of the dense vector \c v
     void operator=(const Vec<T> &v);
-   
+
    //! Returns the sign inverse of all elements in the sparse vector
     Sparse_Vec<T> operator-() const;
 
     //! Compare two sparse vectors. False if wrong sizes or different values
     bool operator==(const Sparse_Vec<T> &v);
-  
+
     //! Add sparse vector \c v to all non-zero elements of the sparse vector
     void operator+=(const Sparse_Vec<T> &v);
-  
+
     //! Add vector \c v to all non-zero elements of the sparse vector
     void operator+=(const Vec<T> &v);
-  
+
     //! Subtract sparse vector \c v from all non-zero elements of the sparse vector
     void operator-=(const Sparse_Vec<T> &v);
-  
+
     //! Subtract vector \c v from all non-zero elements of the sparse vector
     void operator-=(const Vec<T> &v);
-  
+
     //! Multiply the scalar \c v to all non-zero elements of the sparse vector
     void operator*=(const T &v);
-  
+
     //! Divide all non-zero elements of the sparse vector with the scalar \c v
     void operator/=(const T &v);
-  
+
    //! Addition v1+v2 where v1 and v2 are sparse vector
     friend Sparse_Vec<T> operator+<>(const Sparse_Vec<T> &v1, const Sparse_Vec<T> &v2);
     //! Scalar product v1*v2 where v1 and v2 are sparse vectors
@@ -314,12 +314,12 @@ namespace itpp {
 
     //! Element wise multiplication of a a dense vector and a sparse vector returning a sparse vector
     friend Sparse_Vec<T> elem_mult_s <>(const Vec<T> &v1, const Sparse_Vec<T> &v2);
-  
+
     private:
     void init();
     void alloc();
     void free();
-  
+
     int v_size, used_size, data_size;
     T *data;
     int *index;
@@ -328,19 +328,19 @@ namespace itpp {
   };
 
 
-  /*! 
+  /*!
     \relates Sparse_Vec
     \brief Type definition of an integer sparse vector
   */
   typedef Sparse_Vec<int> sparse_ivec;
 
-  /*! 
+  /*!
     \relates Sparse_Vec
     \brief Type definition of a double sparse vector
   */
   typedef Sparse_Vec<double> sparse_vec;
 
-  /*! 
+  /*!
     \relates Sparse_Vec
     \brief Type definition of a complex<double> sparse vector
   */
@@ -404,7 +404,7 @@ namespace itpp {
       eps = v.eps;
       check_small_elems_flag = v.check_small_elems_flag;
       alloc();
-    
+
       for (int i=0; i<used_size; i++) {
 	data[i] = v.data[i];
 	index[i] = v.index[i];
@@ -489,7 +489,7 @@ namespace itpp {
       eps=epsilon;
       remove_small_elements();
     }
- 
+
   template <class T>
     void Sparse_Vec<T>::remove_small_elements()
     {
@@ -521,7 +521,7 @@ namespace itpp {
     void Sparse_Vec<T>::resize_data(int new_size)
     {
       it_assert(new_size>=used_size, "Sparse_Vec<T>::resize_data(int new_size): New size is to small");
-  
+
       if (new_size != data_size) {
 	if (new_size == 0)
 	  free();
@@ -553,7 +553,7 @@ namespace itpp {
     void Sparse_Vec<T>::full(Vec<T> &v) const
     {
       v.set_size(v_size);
-  
+
       v = T(0);
       for (int p=0; p<used_size; p++)
 	v(index[p]) = data[p];
@@ -572,7 +572,7 @@ namespace itpp {
     T Sparse_Vec<T>::operator()(int i) const
     {
       it_assert_debug(i >= 0 && i < v_size, "The index of the element is out of range");
-  
+
       bool found = false;
       int p;
       for (p=0; p<used_size; p++) {
@@ -588,7 +588,7 @@ namespace itpp {
     void Sparse_Vec<T>::set(int i, T v)
     {
       it_assert_debug(i >= 0 && i < v_size, "The index of the element is out of range");
-  
+
       bool found = false;
       bool larger_than_eps;
       int p;
@@ -623,7 +623,7 @@ namespace itpp {
     void Sparse_Vec<T>::set_new(int i, T v)
     {
       it_assert_debug(v_size > i, "The index of the element exceeds the size of the sparse vector");
-  
+
       //Check that the new element is larger than eps!
       if (std::abs(v) > std::abs(eps)) {
 	if (used_size == data_size)
@@ -641,7 +641,7 @@ namespace itpp {
       int p;
 
       it_assert_debug(v_size > i, "The index of the element exceeds the size of the sparse vector");
-  
+
       for (p=0; p<used_size; p++) {
 	if (index[p] == i) {
 	  found = true;
@@ -710,7 +710,7 @@ namespace itpp {
       int p;
 
       it_assert_debug(v_size > i, "The index of the element exceeds the size of the sparse vector");
-  
+
       for (p=0; p<used_size; p++) {
 	if (index[p] == i) {
 	  found = true;
@@ -738,7 +738,7 @@ namespace itpp {
       int p;
 
       it_assert_debug(v_size > i, "The index of the element exceeds the size of the sparse vector");
-  
+
       for (p=0; p<used_size; p++) {
 	if (index[p] == i) {
 	  found = true;
@@ -801,9 +801,9 @@ namespace itpp {
     Sparse_Vec<T> Sparse_Vec<T>::get_subvector(int i1, int i2) const
     {
       it_assert_debug(v_size > i1 && v_size > i2 && i1<=i2 && i1>=0, "The index of the element exceeds the size of the sparse vector");
-  
+
       Sparse_Vec<T> r(i2-i1+1);
-  
+
       for (int p=0; p<used_size; p++) {
 	if (index[p] >= i1 && index[p] <= i2) {
 	  if (r.used_size == r.data_size)
@@ -816,7 +816,7 @@ namespace itpp {
       r.eps = eps;
       r.check_small_elems_flag = check_small_elems_flag;
       r.compact();
-  
+
       return r;
     }
 
@@ -826,7 +826,7 @@ namespace itpp {
       T sum(0);
       for (int p=0; p<used_size; p++)
 	sum += data[p] * data[p];
-  
+
       return sum;
     }
 
@@ -840,7 +840,7 @@ namespace itpp {
       eps = v.eps;
       check_small_elems_flag = v.check_small_elems_flag;
       alloc();
-  
+
       for (int i=0; i<used_size; i++) {
 	data[i] = v.data[i];
 	index[i] = v.index[i];
@@ -857,7 +857,7 @@ namespace itpp {
       eps = T(0);
       check_small_elems_flag = false;
       alloc();
-  
+
       for (int i=0; i<v_size; i++) {
 	if (v(i) != T(0)) {
 	  if (used_size == data_size)
@@ -874,13 +874,13 @@ namespace itpp {
     Sparse_Vec<T> Sparse_Vec<T>::operator-() const
     {
       Sparse_Vec r(v_size, used_size);
-  
+
       for (int p=0; p<used_size; p++) {
 	r.data[p] = -data[p];
 	r.index[p] = index[p];
       }
       r.used_size = used_size;
-  
+
       return r;
     }
 
@@ -916,8 +916,8 @@ namespace itpp {
 	    found = false;
 	}
       }
-      
-      /*Special handling if sizes do not match. 
+
+      /*Special handling if sizes do not match.
 	Required since v may need to do remove_small_elements() for true comparison*/
       if (used_size!=v.used_size) {
 	if (used_size > v.used_size) {
@@ -940,7 +940,7 @@ namespace itpp {
       //All elements checks => return true
       return true;
     }
-  
+
   template <class T>
     void Sparse_Vec<T>::operator+=(const Sparse_Vec<T> &v)
     {
@@ -949,7 +949,7 @@ namespace itpp {
       int nrof_nz_v=v.used_size;
 
       it_assert_debug(v_size == v.size(), "Attempted addition of unequal sized sparse vectors");
-  
+
       for (p=0; p<nrof_nz_v; p++) {
 	i = v.index[p];
 	tmp_data = v.data[p];
@@ -966,14 +966,14 @@ namespace itpp {
       int i;
 
       it_assert_debug(v_size == v.size(), "Attempted addition of unequal sized sparse vectors");
-  
+
       for (i=0; i<v.size(); i++)
 	if (v(i)!=T(0))
 	  add_elem(i,v(i));
 
       check_small_elems_flag = true;
     }
-  
+
 
   template <class T>
     void Sparse_Vec<T>::operator-=(const Sparse_Vec<T> &v)
@@ -983,7 +983,7 @@ namespace itpp {
       int nrof_nz_v=v.used_size;
 
       it_assert_debug(v_size == v.size(), "Attempted subtraction of unequal sized sparse vectors");
-  
+
       for (p=0; p<nrof_nz_v; p++) {
 	i = v.index[p];
 	tmp_data = v.data[p];
@@ -1000,7 +1000,7 @@ namespace itpp {
       int i;
 
       it_assert_debug(v_size == v.size(), "Attempted subtraction of unequal sized sparse vectors");
-  
+
       for (i=0; i<v.size(); i++)
 	if (v(i)!=T(0))
 	  add_elem(i,-v(i));
@@ -1025,7 +1025,7 @@ namespace itpp {
       int p;
       for (p=0; p<used_size; p++) {
 	data[p]/=v;}
-      
+
       if (std::abs(eps) > 0) {
 	check_small_elems_flag = true;
       }
@@ -1035,7 +1035,7 @@ namespace itpp {
     T operator*(const Sparse_Vec<T> &v1, const Sparse_Vec<T> &v2)
     {
       it_assert_debug(v1.v_size == v2.v_size, "Sparse_Vec<T> * Sparse_Vec<T>");
-  
+
       T sum(0);
       Vec<T> v1f(v1.v_size);
       v1.full(v1f);
@@ -1043,7 +1043,7 @@ namespace itpp {
 	if (v1f[v2.index[p]] != T(0))
 	  sum += v1f[v2.index[p]] * v2.data[p];
       }
-  
+
       return sum;
     }
 
@@ -1051,11 +1051,11 @@ namespace itpp {
     T operator*(const Sparse_Vec<T> &v1, const Vec<T> &v2)
     {
       it_assert_debug(v1.size() == v2.size(), "Multiplication of unequal sized vectors attempted");
-  
+
       T sum(0);
       for (int p1=0; p1<v1.used_size; p1++)
 	sum += v1.data[p1] * v2[v1.index[p1]];
-  
+
       return sum;
     }
 
@@ -1063,11 +1063,11 @@ namespace itpp {
     T operator*(const Vec<T> &v1, const Sparse_Vec<T> &v2)
     {
       it_assert_debug(v1.size() == v2.size(), "Multiplication of unequal sized vectors attempted");
-  
+
       T sum(0);
       for (int p2=0; p2<v2.used_size; p2++)
 	sum += v1[v2.index[p2]] * v2.data[p2];
-  
+
       return sum;
     }
 
@@ -1075,7 +1075,7 @@ namespace itpp {
     Sparse_Vec<T> elem_mult(const Sparse_Vec<T> &v1, const Sparse_Vec<T> &v2)
     {
       it_assert_debug(v1.v_size == v2.v_size, "elem_mult(Sparse_Vec<T>, Sparse_Vec<T>)");
-  
+
       Sparse_Vec<T> r(v1.v_size);
       ivec pos(v1.v_size);
       pos = -1;
@@ -1091,7 +1091,7 @@ namespace itpp {
 	}
       }
       r.compact();
-  
+
       return r;
     }
 
@@ -1099,12 +1099,12 @@ namespace itpp {
     Vec<T> elem_mult(const Sparse_Vec<T> &v1, const Vec<T> &v2)
     {
       it_assert_debug(v1.v_size == v2.size(), "elem_mult(Sparse_Vec<T>, Vec<T>)");
-  
+
       Vec<T> r(v1.v_size);
       r = T(0);
       for (int p1=0; p1<v1.used_size; p1++)
 	r[v1.index[p1]] = v1.data[p1] * v2[v1.index[p1]];
-  
+
       return r;
     }
 
@@ -1112,7 +1112,7 @@ namespace itpp {
     Sparse_Vec<T> elem_mult_s(const Sparse_Vec<T> &v1, const Vec<T> &v2)
     {
       it_assert_debug(v1.v_size == v2.size(), "elem_mult(Sparse_Vec<T>, Vec<T>)");
-  
+
       Sparse_Vec<T> r(v1.v_size);
       for (int p1=0; p1<v1.used_size; p1++) {
 	if (v2[v1.index[p1]] != T(0)) {
@@ -1124,7 +1124,7 @@ namespace itpp {
 	}
       }
       r.compact();
-  
+
       return r;
     }
 
@@ -1132,12 +1132,12 @@ namespace itpp {
     Vec<T> elem_mult(const Vec<T> &v1, const Sparse_Vec<T> &v2)
     {
       it_assert_debug(v1.size() == v2.v_size, "elem_mult(Vec<T>, Sparse_Vec<T>)");
-  
+
       Vec<T> r(v2.v_size);
       r = T(0);
       for (int p2=0; p2<v2.used_size; p2++)
 	r[v2.index[p2]] = v1[v2.index[p2]] * v2.data[p2];
-  
+
       return r;
     }
 
@@ -1145,7 +1145,7 @@ namespace itpp {
     Sparse_Vec<T> elem_mult_s(const Vec<T> &v1, const Sparse_Vec<T> &v2)
     {
       it_assert_debug(v1.size() == v2.v_size, "elem_mult(Vec<T>, Sparse_Vec<T>)");
-  
+
       Sparse_Vec<T> r(v2.v_size);
       for (int p2=0; p2<v2.used_size; p2++) {
 	if (v1[v2.index[p2]] != T(0)) {
@@ -1155,9 +1155,9 @@ namespace itpp {
 	  r.index[r.used_size] = v2.index[p2];
 	  r.used_size++;
 	}
-      }  
+      }
       r.compact();
-  
+
       return r;
     }
 
@@ -1165,7 +1165,7 @@ namespace itpp {
     Sparse_Vec<T> operator+(const Sparse_Vec<T> &v1, const Sparse_Vec<T> &v2)
     {
       it_assert_debug(v1.v_size == v2.v_size, "Sparse_Vec<T> + Sparse_Vec<T>");
-  
+
       Sparse_Vec<T> r(v1);
       ivec pos(v1.v_size);
       pos = -1;
@@ -1184,7 +1184,7 @@ namespace itpp {
       }
       r.check_small_elems_flag = true;  // added dec 7, 2006
       r.compact();
-  
+
       return r;
     }
 

@@ -2,7 +2,7 @@
  * \file
  * \brief Implementation of Singular Value Decompositions
  * \author Tony Ottosson
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -43,7 +43,7 @@
 #include <itpp/base/algebra/svd.h>
 
 
-namespace itpp { 
+namespace itpp {
 
 #if defined(HAVE_LAPACK)
 
@@ -148,7 +148,7 @@ namespace itpp {
   }
 
   bool svd(const mat &A, mat &U, vec &S, mat &V)
-  {   
+  {
     it_error("LAPACK library is needed to use svd() function");
     return false;
   }
@@ -156,7 +156,7 @@ namespace itpp {
   bool svd(const cmat &A, cmat &U, vec &S, cmat &V)
   {
     it_error("LAPACK library is needed to use svd() function");
-    return false;   
+    return false;
   }
 
 #endif // HAVE_LAPACK

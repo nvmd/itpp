@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definition of a BCH encoder/decoder class
  * \author Pal Frenger, Steve Peters and Adam Piatyszek
  *
@@ -45,16 +45,16 @@ namespace itpp {
 
   //---------------------- BCH --------------------------------------
 
-  /*! 
+  /*!
     \ingroup fec
     \brief Class for binary, narrow-sense BCH codes.
-  
+
     The notation used is found in S. B. Wicker, "Error control systems for
     digital communication and storage", Appendix E, Prentice-Hall, 1995.
 
-    Example: 
-    \code BCH bch(31,21,2,"3 5 5 1") 
-    \endcode 
+    Example:
+    \code BCH bch(31,21,2,"3 5 5 1")
+    \endcode
     uses the generator polynomial
     \f$g(x) = x^{10} + x^9 + x^8 + x^6 + x^5 + x^3 + 1\f$, and is capable of
     correcting 2 errors with \a n = 31 and \a k = 21.

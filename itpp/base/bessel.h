@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definitions of Bessel functions
  * \author Tony Ottosson
  *
@@ -41,7 +41,7 @@ namespace itpp {
   /*! \addtogroup besselfunctions
    */
 
-  /*! 
+  /*!
     \ingroup besselfunctions
     \brief Bessel function of first kind of order \a nu for \a nu integer
 
@@ -53,55 +53,55 @@ namespace itpp {
   */
   double besselj(int nu, double x);
 
-  /*! 
+  /*!
     \ingroup besselfunctions
     \brief Bessel function of first kind of order \a nu for \a nu integer
   */
   vec besselj(int nu, const vec &x);
 
-  /*! 
+  /*!
     \ingroup besselfunctions
     \brief Bessel function of first kind of order \a nu. \a nu is real.
   */
   double besselj(double nu, double x);
 
-  /*! 
+  /*!
     \ingroup besselfunctions
     \brief Bessel function of first kind of order \a nu. \a nu is real.
   */
   vec besselj(double nu, const vec &x);
 
-  /*! 
+  /*!
     \ingroup besselfunctions
     \brief Bessel function of second kind of order \a nu. \a nu is integer.
 
     The Bessel function of second kind is defined as:
     \f[
-    Y_{\nu}(x) = \frac{J_{\nu}(x) \cos(\nu\pi) - J_{-\nu}(x)}{\sin(\nu\pi)} 
+    Y_{\nu}(x) = \frac{J_{\nu}(x) \cos(\nu\pi) - J_{-\nu}(x)}{\sin(\nu\pi)}
     \f]
     where \f$\nu\f$ is the order and \f$ 0 < x < \infty \f$.
   */
   double bessely(int nu, double x);
 
-  /*! 
+  /*!
     \ingroup besselfunctions
     \brief Bessel function of second kind of order \a nu. \a nu is integer.
   */
   vec bessely(int nu, const vec &x);
 
-  /*!   
+  /*!
     \ingroup besselfunctions
     \brief Bessel function of second kind of order \a nu. \a nu is real.
   */
   double bessely(double nu, double x);
 
-  /*!   
+  /*!
     \ingroup besselfunctions
     \brief Bessel function of second kind of order \a nu. \a nu is real.
   */
   vec bessely(double nu, const vec &x);
 
-  /*! 
+  /*!
     \ingroup besselfunctions
     \brief Modified Bessel function of first kind of order \a nu. \a nu is \a double. \a x is \a double.
 
@@ -113,13 +113,13 @@ namespace itpp {
   */
   double besseli(double nu, double x);
 
-  /*! 
+  /*!
     \ingroup besselfunctions
     \brief Modified Bessel function of first kind of order \a nu. \a nu is \a double. \a x is \a double.
   */
   vec besseli(double nu, const vec &x);
 
-  /*! 
+  /*!
     \ingroup besselfunctions
     \brief Modified Bessel function of second kind of order \a nu. \a nu is double. \a x is double.
 
@@ -131,7 +131,7 @@ namespace itpp {
   */
   double besselk(int nu, double x);
 
-  /*! 
+  /*!
     \ingroup besselfunctions
     \brief Modified Bessel function of second kind of order \a nu. \a nu is double. \a x is double.
   */

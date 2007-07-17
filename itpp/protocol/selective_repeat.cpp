@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of Selective Repeat ARQ classes
  * \author Anders Persson and Tony Ottosson
  *
@@ -44,26 +44,26 @@ bool in_sequence(const int a, const int b, const int L){
 
 Selective_Repeat_ARQ_Sender::Selective_Repeat_ARQ_Sender() {
   parameters_ok = false;
-  packet_input.set_name("Selective_Repeat_ARQ_Sender packet_input Slot");  
+  packet_input.set_name("Selective_Repeat_ARQ_Sender packet_input Slot");
   packet_input.forward(this, &Selective_Repeat_ARQ_Sender::handle_packet_input);
-  ack_input.set_name("Selective_Repeat_ARQ_Sender ack_input Slot");  
+  ack_input.set_name("Selective_Repeat_ARQ_Sender ack_input Slot");
   ack_input.forward(this, &Selective_Repeat_ARQ_Sender::handle_ack_input);
-  query_nof_ready_packets.set_name("Selective_Repeat_ARQ_Sender query_nof_ready_packets Slot");  
+  query_nof_ready_packets.set_name("Selective_Repeat_ARQ_Sender query_nof_ready_packets Slot");
   query_nof_ready_packets.forward(this, &Selective_Repeat_ARQ_Sender::handle_query_nof_ready_packets);
-  packet_output_request.set_name("Selective_Repeat_ARQ_Sender packet_output_request Slot");  
+  packet_output_request.set_name("Selective_Repeat_ARQ_Sender packet_output_request Slot");
   packet_output_request.forward(this, &Selective_Repeat_ARQ_Sender::handle_packet_output_request);
 
 }
 
 Selective_Repeat_ARQ_Sender::Selective_Repeat_ARQ_Sender(const int Seq_no_size, const int Buffer_size_factor, const int Link_packet_size, const Ttype Time_out){
   set_parameters(Seq_no_size, Buffer_size_factor, Link_packet_size, Time_out);
-  packet_input.set_name("Selective_Repeat_ARQ_Sender packet_input Slot");  
+  packet_input.set_name("Selective_Repeat_ARQ_Sender packet_input Slot");
   packet_input.forward(this, &Selective_Repeat_ARQ_Sender::handle_packet_input);
-  ack_input.set_name("Selective_Repeat_ARQ_Sender ack_input Slot");  
+  ack_input.set_name("Selective_Repeat_ARQ_Sender ack_input Slot");
   ack_input.forward(this, &Selective_Repeat_ARQ_Sender::handle_ack_input);
-  query_nof_ready_packets.set_name("Selective_Repeat_ARQ_Sender query_nof_ready_packets Slot");  
+  query_nof_ready_packets.set_name("Selective_Repeat_ARQ_Sender query_nof_ready_packets Slot");
   query_nof_ready_packets.forward(this, &Selective_Repeat_ARQ_Sender::handle_query_nof_ready_packets);
-  packet_output_request.set_name("Selective_Repeat_ARQ_Sender packet_output_request Slot");  
+  packet_output_request.set_name("Selective_Repeat_ARQ_Sender packet_output_request Slot");
   packet_output_request.forward(this, &Selective_Repeat_ARQ_Sender::handle_packet_output_request);
 }
 
@@ -71,9 +71,9 @@ Selective_Repeat_ARQ_Sender::~Selective_Repeat_ARQ_Sender(){
   std::cout << "no_retransmit = "<<no_retransmit << std::endl;
 }
 
-void Selective_Repeat_ARQ_Sender::set_parameters(const int Seq_no_size, 
-			   const int Buffer_size_factor, 
-			   const int Link_packet_size, 
+void Selective_Repeat_ARQ_Sender::set_parameters(const int Seq_no_size,
+			   const int Buffer_size_factor,
+			   const int Link_packet_size,
 			   const Ttype Time_out){
   it_assert((0 < Seq_no_size) && (Seq_no_size <= 30),
 	    "Selective_Repeat_ARQ_Sender::set_parameters(): ");
@@ -87,13 +87,13 @@ void Selective_Repeat_ARQ_Sender::set_parameters(const int Seq_no_size,
   input_buffer_size = seq_no_max*Buffer_size_factor;
   input_buffer.set_size(input_buffer_size);
   for(int l=0; l<input_buffer_size; input_buffer(l++) = NULL);
-  input_free_space = input_buffer_size;  
+  input_free_space = input_buffer_size;
   input_next = 0;
   tx_next = 0;
   tx_last = 0;
   time_out = Time_out;
   timer.set_size(seq_no_max);
-  for(int l=0; l<seq_no_max; timer(l++).forward(this, &Selective_Repeat_ARQ_Sender::retransmit)); 
+  for(int l=0; l<seq_no_max; timer(l++).forward(this, &Selective_Repeat_ARQ_Sender::retransmit));
   outstanding = 0;
   seq_no = 0;
   output_indexes.set_size(seq_no_max);
@@ -116,8 +116,8 @@ void Selective_Repeat_ARQ_Sender::handle_ack_input(Array<Packet*> packet_array){
   Packet *packet = packet_array(0);
   ACK *A = (ACK *) packet;
 
-  it_assert(parameters_ok,"Selective_Repeat_ARQ_Sender::handle_ack_input(): ");  
-  it_assert(A,"Selective_Repeat_ARQ_Sender::handle_ack_input(): ");  
+  it_assert(parameters_ok,"Selective_Repeat_ARQ_Sender::handle_ack_input(): ");
+  it_assert(A,"Selective_Repeat_ARQ_Sender::handle_ack_input(): ");
   it_assert(A->seq_no>=0 && A->seq_no<seq_no_max,"Selective_Repeat_ARQ_Sender::handle_ack_input(): ");
   if(outstanding){
     if(in_sequence(tx_last%seq_no_max, A->seq_no, seq_no_max))
@@ -129,7 +129,7 @@ void Selective_Repeat_ARQ_Sender::handle_ack_input(Array<Packet*> packet_array){
     }
   }
   delete A;
-  fill_output();    
+  fill_output();
 }
 
 void Selective_Repeat_ARQ_Sender::handle_packet_input(Packet *packet){
@@ -145,7 +145,7 @@ int Selective_Repeat_ARQ_Sender::feasable_blocks(){
   div_t q = div(ip_pkt_queue.byte_size(),link_packet_size);
   int blocks_in_ip_queue = (q.rem) ? q.quot+1 : q.quot;
   return std::min(free_sequence_numbers(),
-                  buffered_non_outstanding() + 
+                  buffered_non_outstanding() +
                   std::min(blocks_in_ip_queue, input_free_space));
 }
 
@@ -165,7 +165,7 @@ void Selective_Repeat_ARQ_Sender::handle_packet_output_request(const int nbr_blo
      it_warning("Number of requested blocks is more than what is possible to transmitt");
      nbr_blocks_to_tx = scheduled_total+feasable_blks;
   }
-  
+
   //int nbr_ip_pkts_in_q = ip_pkt_queue.size();
   while (nbr_blocks_to_tx > scheduled_total) {
     it_assert(!ip_pkt_queue.empty(),"Selective_Repeat_ARQ_Sender::handle_packet_output_request(): ");
@@ -205,7 +205,7 @@ void Selective_Repeat_ARQ_Sender::push_packet_on_tx_buffer(Packet *packet){
 void Selective_Repeat_ARQ_Sender::fill_output(){
   int packets_2_output = std::min(free_sequence_numbers(), buffered_non_outstanding());
   while(packets_2_output){
-    input_buffer(tx_next)->seq_no = seq_no; 
+    input_buffer(tx_next)->seq_no = seq_no;
     outstanding++;
     schedule_output(tx_next, seq_no, false);
     seq_no = (seq_no + 1) % seq_no_max;
@@ -220,19 +220,19 @@ void Selective_Repeat_ARQ_Sender::schedule_output(const int Buffer_index, const 
     scheduled_total++;
   output_indexes(Sequence_number) = Buffer_index;
   if(Retransmission){
-    if(retransmission_indexes(Sequence_number) != 1) // This is a new retransmission. 
+    if(retransmission_indexes(Sequence_number) != 1) // This is a new retransmission.
       scheduled_retransmissions++;
     retransmission_indexes(Sequence_number) = 1; // Mark packet (index) for retransmission.
   }
   else // Mark packet (index) for first time transmission.
-    retransmission_indexes(Sequence_number) = 0;  
+    retransmission_indexes(Sequence_number) = 0;
 }
 
 void Selective_Repeat_ARQ_Sender::get_link_packets(const int K, Array<Packet*> &pa){
   int packets_2_retransmit = std::min(K, scheduled_retransmissions);
   int new_packets_2_transmit = std::min(K, scheduled_total)-packets_2_retransmit;
   scheduled_retransmissions -= packets_2_retransmit;
-  scheduled_total -= packets_2_retransmit + new_packets_2_transmit;  
+  scheduled_total -= packets_2_retransmit + new_packets_2_transmit;
   pa.set_size(packets_2_retransmit+new_packets_2_transmit);
   int l=0;
   while(packets_2_retransmit){ // Retransmissions have priority over ...
@@ -244,14 +244,14 @@ void Selective_Repeat_ARQ_Sender::get_link_packets(const int K, Array<Packet*> &
       packets_2_retransmit--;
     }
     rt_pos = (rt_pos + 1) % seq_no_max;
-  }  
+  }
   while(new_packets_2_transmit){ // new packets.
     if(output_indexes(rd_pos) != -1){
       timer(rd_pos).set(rd_pos, time_out);
-      pa(l++) = (Packet *) new Link_Packet(*input_buffer(output_indexes(rd_pos)));    
+      pa(l++) = (Packet *) new Link_Packet(*input_buffer(output_indexes(rd_pos)));
       output_indexes(rd_pos) = -1;
       new_packets_2_transmit--;
-    }    
+    }
     rd_pos = (rd_pos + 1) % seq_no_max;
   }
 }
@@ -259,14 +259,14 @@ void Selective_Repeat_ARQ_Sender::get_link_packets(const int K, Array<Packet*> &
 void Selective_Repeat_ARQ_Sender::remove(const int Sequence_number){
   if(output_indexes(Sequence_number)!=-1){
     output_indexes(Sequence_number)=-1;
-    scheduled_total--;    
+    scheduled_total--;
     if(retransmission_indexes(Sequence_number) == 1)
       scheduled_retransmissions--;
-    retransmission_indexes(Sequence_number)=-1;    
+    retransmission_indexes(Sequence_number)=-1;
   }
   const int i = sequence_number_2_buffer_index(Sequence_number);
   if(input_buffer(i)){
-    timer(Sequence_number).cancel(); // Cancel the retransmission timer.    
+    timer(Sequence_number).cancel(); // Cancel the retransmission timer.
     it_assert(input_buffer(i)->seq_no==Sequence_number,"Selective_Repeat_ARQ_Sender::remove(): ");
     delete input_buffer(i);
     input_buffer(i) = NULL;
@@ -353,7 +353,7 @@ void Selective_Repeat_ARQ_Receiver::set_parameters(const int Seq_no_size){
 
 void Selective_Repeat_ARQ_Receiver::handle_packet_input(Array<Packet*> packet_array){
    it_assert(parameters_ok,"Selective_Repeat_ARQ_Receiver::handle_packet_input(): ");
-   
+
    int nbr_pkts = packet_array.length();
    Link_Packet *packet;
    for (int i=0;i<nbr_pkts;i++) {
@@ -367,9 +367,9 @@ void Selective_Repeat_ARQ_Receiver::handle_packet_input(Array<Packet*> packet_ar
       if(in_sequence(Rnext, packet->seq_no, seq_no_max)&&!rx_buffer(packet->seq_no)) // Is this a new packet in-sequence packet?
          rx_buffer(packet->seq_no) = packet; // This is a new in-sequence packet.
       else // This either is a duplicate packet or an out-of-sequence packet.
-         delete packet;    
+         delete packet;
       while(rx_buffer(Rnext)){ // Is there an unbroken sequence of packets that we can output?
-         
+
          if(rx_buffer(Rnext)->link_packet_id==0){
             packet_output(rx_buffer(Rnext)->l3_pkt_info_p->pkt_pointer);
             delete rx_buffer(Rnext)->l3_pkt_info_p;

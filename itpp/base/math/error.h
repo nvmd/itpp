@@ -2,7 +2,7 @@
  * \file
  * \brief Error functions - header file
  * \author Tony Ottosson and Adam Piatyszek
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -72,7 +72,7 @@ namespace itpp {
    * implementation for Octave. Here is a part of the author's note
    * from original sources:
    *
-   * Put together by John Smith john at arrows dot demon dot co dot uk, 
+   * Put together by John Smith john at arrows dot demon dot co dot uk,
    * using ideas by others.
    *
    * Calculate \c erf(z) for complex \c z.
@@ -80,7 +80,7 @@ namespace itpp {
    *
    * The code includes some hard coded constants that are intended to
    * give about 14 decimal places of accuracy. This is appropriate for
-   * 64-bit floating point numbers. 
+   * 64-bit floating point numbers.
    */
   std::complex<double> erf(const std::complex<double>& z);
 
@@ -96,56 +96,56 @@ namespace itpp {
   // ----------------------------------------------------------------------
 
   //! Error function
-  inline vec erf(const vec &x) 
+  inline vec erf(const vec &x)
   {
     return apply_function<double>(::erf, x);
   }
   //! Error function
-  inline mat erf(const mat &x) 
+  inline mat erf(const mat &x)
   {
     return apply_function<double>(::erf, x);
   }
   //! Error function
-  inline cvec erf(const cvec &x) 
+  inline cvec erf(const cvec &x)
   {
     return apply_function<std::complex<double> >(erf, x);
   }
   //! Error function
-  inline cmat erf(const cmat &x) 
-  { 
+  inline cmat erf(const cmat &x)
+  {
     return apply_function<std::complex<double> >(erf, x);
   }
 
   //! Inverse of error function
-  inline vec erfinv(const vec &x) 
+  inline vec erfinv(const vec &x)
   {
     return apply_function<double>(erfinv, x);
   }
   //! Inverse of error function
-  inline mat erfinv(const mat &x) 
+  inline mat erfinv(const mat &x)
   {
     return apply_function<double>(erfinv, x);
   }
 
   //! Complementary error function
-  inline vec erfc(const vec &x) 
+  inline vec erfc(const vec &x)
   {
     return apply_function<double>(::erfc, x);
   }
   //! Complementary error function
-  inline mat erfc(const mat &x) 
+  inline mat erfc(const mat &x)
   {
     return apply_function<double>(::erfc, x);
   }
 
   //! Q-function
-  inline vec Qfunc(const vec &x) 
+  inline vec Qfunc(const vec &x)
   {
     return apply_function<double>(Qfunc, x);
   }
 
   //! Q-function
-  inline mat Qfunc(const mat &x) 
+  inline mat Qfunc(const mat &x)
   {
     return apply_function<double>(Qfunc, x);
   }

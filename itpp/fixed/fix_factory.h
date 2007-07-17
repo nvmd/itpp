@@ -1,6 +1,6 @@
 /*!
- * \file 
- * \brief Definitions of a class factory for fixed-point data types Fix 
+ * \file
+ * \brief Definitions of a class factory for fixed-point data types Fix
  * and CFix
  * \author Johan Bergman
  *
@@ -49,33 +49,33 @@ namespace itpp {
 
   /*!
     \brief Class factory for fixed-point data types Fix and CFix
-  
+
     For an introduction to factories, see the Detailed Description for Factory.
     For more information on the fixed-point data types, see the Detailed
     Description in the \ref fixed module.
-  
+
     This example shows how to declare a Fix_Factory:
     \code
     // Declare UFIX32, a factory for 32-bit unsigned Fix/CFix with wrap-around
     // i.e. a factory for Fix(0.0, 0, 32, US, WRAP) and CFix(0.0, 0, 32, US, WRAP)
     Fix_Factory UFIX32(32, US, WRAP);
     \endcode
-  
+
     However, the user does not need to declare \c UFIX32 since it is one of the
     already declared factories in fix_factory.h (which is included by itbase.h):
     \code
     Fix_Factory FIX1(1, TC, WRAP);  // for Fix/CFix with 1 bit
     ...
     Fix_Factory FIX64(64, TC, WRAP);  // for Fix/CFix with 64 bits
-  
+
     Fix_Factory UFIX1(1, US, WRAP);  // for Unsigned Fix/CFix with 1 bit
     ...
     Fix_Factory UFIX64(64, US, WRAP);  // for Unsigned Fix/CFix with 64 bits
-  
+
     Fix_Factory SFIX1(1, TC, SAT);  // for Saturated Fix/CFix with 1 bit
     ...
     Fix_Factory SFIX64(64, TC, SAT);  // for Saturated Fix/CFix with 64 bits
-  
+
     Fix_Factory SUFIX1(1, US, SAT);  // for Saturated Unsigned Fix/CFix with 1 bit
     ...
     Fix_Factory SUFIX64(64, US, SAT);  // for Saturated Unsigned Fix/CFix with 64 bits
@@ -83,38 +83,38 @@ namespace itpp {
     This means that it is only necessary for the user to declare a Fix_Factory if
     it is desired to have some other overflow mode than \c WRAP or \c SAT, or some
     other quantization mode than \c TRN, or a non-zero statistics object pointer.
-  
+
     \note U stands for Unsigned but S stands for Saturated, NOT for Signed.
-  
+
     The Array/Vec/Mat constructors can take a Fix_Factory as an argument:
     \code
     // Declare a Vec<Fix> with size 10 that will use
     // Fix(0.0, 0, 32, US, WRAP) for element creation
     Vec<Fix> vf(10, UFIX32);
-  
+
     // Declare an Array<Array<Mat<CFix> > > with size 10 that will use
     // CFix(0.0, 0, 32, US, WRAP) for element creation
     Array<Array<Mat<CFix> > > aamcf(10, UFIX32);
     \endcode
-  
+
     Even a Fix/CFix declaration can take a Fix_Factory as a constructor argument:
     \code
     // Equivalent to
     // Fix f(0.0, 0, 32, US, WRAP);
     Fix f(UFIX32);
     \endcode
-  
+
     This syntax is also legal if Fix is replaced with \c double and CFix is
     replaced with <tt>complex<double></tt>, i.e.
     \code
     // The factory will be ignored
     Vec<double> vd(10, UFIX32);
-  
+
     // The factory will be ignored
     Array<Array<Mat<complex<double> > > > aamcd(10, UFIX32);
-  
+
     // The factory will be converted to double(0.0) i.e. innocent initialization
-    double d(UFIX32);                     
+    double d(UFIX32);
     \endcode
     which can be useful in templated code, e.g. when the same code should support
     both floating- and fixed-point data types.

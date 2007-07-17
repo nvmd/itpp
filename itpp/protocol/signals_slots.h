@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definitions of Signals and Slots classes
  * \author Anders Persson
  *
@@ -55,7 +55,7 @@ namespace itpp {
 
   A simple example where to objects A and B are communicating through signals and slots. Each object has one signal
   and one slot. The A_signal is used to send a signal to the B_slot and vice versa. When a signal is received by the B_slot
-  it is forwarded to the function forward(). The class definition includes the definition of the signals, slots and 
+  it is forwarded to the function forward(). The class definition includes the definition of the signals, slots and
   forward functions including a name and the type of data to transmit.
 
 
@@ -94,18 +94,18 @@ namespace itpp {
     Signal<double> B_signal;
     Slot<B, int> B_slot;
   private:
-    void member(const int k){ B_signal.arm(23.2, M_PI); }  
+    void member(const int k){ B_signal.arm(23.2, M_PI); }
   };
 
   int main(){
     A a; // class A does not know anything about class B.
     B b; // class B does not know anything about class A.
-  
+
     a.A_signal.connect(&b.B_slot); // Connect a to b.
     b.B_signal.connect(&a.A_slot); // Connect b to a.
 
     a.A_signal.arm(56.2, 3); // First event in 56.2 seconds carrying data = 3
-  
+
     Event_Queue::start(); // start the event-based simulation
   }
 
@@ -156,7 +156,7 @@ namespace itpp {
     std::string name;
 
   private:
-    bool armed; 
+    bool armed;
     bool debug;
     bool single;
     Data_Event<Signal, DataType> *e;
@@ -167,7 +167,7 @@ namespace itpp {
     \brief Base Slot class
 
   */
-  template<class DataType> 
+  template<class DataType>
     class Base_Slot{
   public:
     friend class Signal<DataType>;
@@ -205,7 +205,7 @@ namespace itpp {
 
     //!
     void forward(ObjectType *object_pointer, void(ObjectType::*object_function_pointer)(DataType u));
-    
+
     //!
     ~Slot();
 
@@ -216,7 +216,7 @@ namespace itpp {
 
   private:
     ObjectType *po;
-    void(ObjectType::*pm)(DataType signal); 
+    void(ObjectType::*pm)(DataType signal);
   };
 
 
@@ -227,10 +227,10 @@ namespace itpp {
     class ATimer {
   public:
     //!
-    ATimer(const std::string Name = "Unamed ATimer") {    
+    ATimer(const std::string Name = "Unamed ATimer") {
       time_out_signal = new Signal<DataType>(Name, true);
       time_out_slot = new Slot<ObjectType, DataType>(Name);
-      time_out_signal->connect(time_out_slot); 
+      time_out_signal->connect(time_out_slot);
       set_name(Name);
     }
 
@@ -262,12 +262,12 @@ namespace itpp {
 
 
 
-  /*! 
+  /*!
     TTimer is a class that can be set in order to be
     remembered at a future instance of time. The
     difference to "generic event" is the easy usage
     that already take care about posting and canceling
-    events 
+    events
     @ingroup EventHandling
   */
   template <class THandler>
@@ -285,17 +285,17 @@ namespace itpp {
       slot.forward(this, &TTimer<THandler>::HandleProcessEvent);
       slot.set_name("timer_slot");
       signal.set_debug(false);
-      signal.connect(&slot);  
+      signal.connect(&slot);
     }
 
     virtual ~TTimer() {
       if (fPending)
-	signal.cancel();   
+	signal.cancel();
     }
-    
+
     void  Set(Ttype time, bool relative = true) {
 	if (fPending)
-	  signal.cancel();   
+	  signal.cancel();
 
 	fPending = true;
 	double current_time = Event_Queue::now();
@@ -333,7 +333,7 @@ namespace itpp {
 
     virtual void HandleCancelEvent (Ttype) {
 	if (fPending)
-	  signal.cancel();   
+	  signal.cancel();
 
 	fPending = false;
       }
@@ -357,7 +357,7 @@ namespace itpp {
     // -----------------------------------------------------------------------------------------------
 
     template<class DataType>
-      Signal<DataType>::Signal(const std::string signal_name, const bool single_shot, const bool enable_debug) 
+      Signal<DataType>::Signal(const std::string signal_name, const bool single_shot, const bool enable_debug)
       {
 	armed = false;
 	e = NULL;
@@ -376,15 +376,15 @@ namespace itpp {
 
 	for(i=begin; i!=end; i++)
 	  (*i)->_disconnect(this);
-  
+
 	connected_slots.clear();
 
 	if(e!=NULL) // Cancel a possibly pending event since we are about to die!
-	  e->cancel();  
+	  e->cancel();
       }
 
     template<class DataType>
-      void Signal<DataType>::set_name(const std::string &signal_name) 
+      void Signal<DataType>::set_name(const std::string &signal_name)
       {
 	name = signal_name;
       }
@@ -401,19 +401,19 @@ namespace itpp {
 	Base_Slot_Iterator
 	  begin = connected_slots.begin(),
 	  end   = connected_slots.end(),
-	  i;  
+	  i;
 
 	bool is_already_connected = false;
 
 	for(i=begin; i!=end; i++)
 	  if((*i) == slot)
-	    is_already_connected = true;  
+	    is_already_connected = true;
 
 	if(!is_already_connected) { // Multiple connections is meaningless.
 	  connected_slots.push_back(slot);
 	  slot->_connect(this); // Needed if a connected slot is deleted during run time.
 	} else {
-	  std::cout<<"Signal '"<< name <<"' and Slot '"<< slot->name<<"' are already connected. Multiple connections have no effect!"<< std::endl;    
+	  std::cout<<"Signal '"<< name <<"' and Slot '"<< slot->name<<"' are already connected. Multiple connections have no effect!"<< std::endl;
 	}
       }
 
@@ -430,7 +430,7 @@ namespace itpp {
 	    (*i)->_disconnect(this);
 	    connected_slots.erase(i);
 	    break;
-	  }                
+	  }
       }
 
     template<class DataType>
@@ -446,12 +446,12 @@ namespace itpp {
 	  } else {
 	    e = new Data_Event<Signal, DataType>(this, &Signal<DataType>::trigger, signal, delta_time);
 	    armed = true;
-	    Event_Queue::add(e);    
+	    Event_Queue::add(e);
 	  }
 	} else { // Continious mode (cancel() has no effect).
 	  e = new Data_Event<Signal, DataType>(this, &Signal<DataType>::trigger, signal, delta_time);
 	  armed = true;
-	  Event_Queue::add(e);       
+	  Event_Queue::add(e);
 	}
 	return e;
       }
@@ -480,7 +480,7 @@ namespace itpp {
 	for(i=begin; i!=end; i++) { // Execute all the functions of the connected slots.
 	  if(debug)
 	    std::cout << "Time = " << Event_Queue::now() << ". Signal '" << name << "' was sent to Slot '" << (*i)->name<< "'." << std::endl;
-	  (*i)->operator()(u);      
+	  (*i)->operator()(u);
 	}
       }
 
@@ -496,7 +496,7 @@ namespace itpp {
 	  if((*i) == slot) {
 	    connected_slots.erase(i);
 	    break;
-	  }                
+	  }
       }
 
 
@@ -522,8 +522,8 @@ namespace itpp {
 	  i;
 
 	for(i=begin; i!=end; i++)
-	  (*i)->_disconnect(this);  
-  
+	  (*i)->_disconnect(this);
+
 	connected_signals.clear();
       }
 
@@ -552,8 +552,8 @@ namespace itpp {
     template<class ObjectType, class DataType>
       Slot<ObjectType, DataType>::Slot(const std::string slot_name) : Base_Slot<DataType>(slot_name)
       {
-	pm = NULL;    
-	po = NULL;      
+	pm = NULL;
+	po = NULL;
       }
 
       template<class ObjectType, class DataType>
@@ -562,20 +562,20 @@ namespace itpp {
       template<class ObjectType, class DataType>
 	void Slot<ObjectType, DataType>::forward(ObjectType *object_pointer, void(ObjectType::*object_function_pointer)(DataType u))
 	{
-	  pm = object_function_pointer;    
+	  pm = object_function_pointer;
 	  po = object_pointer;
 	}
 
       // template<class ObjectType, class DataType>
       // void Slot<ObjectType, DataType>::exec(DataType signal){
-      //   if(pm&&po) 
+      //   if(pm&&po)
       //     (*po.*pm)(signal);
-      // } 
+      // }
 
       template<class ObjectType, class DataType>
 	void Slot<ObjectType, DataType>::operator()(DataType signal)
 	{
-	  if(pm&&po) 
+	  if(pm&&po)
 	    (*po.*pm)(signal);
 	}
 

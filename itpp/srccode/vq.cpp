@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of a vector quantizer class (unconstrained)
  * \author Thomas Eriksson
  *
@@ -104,7 +104,7 @@ ivec Vector_Quantizer::encode(const vec &x, int num)
 			S+=a*a;
 			if (S>=MinS[num-1]) goto sune;
 		}
-		for (index=num-2;(index>=0) && (S<MinS[index]);index--); 
+		for (index=num-2;(index>=0) && (S<MinS[index]);index--);
 		for (j=MinS.length()-2;j>index;j--) {
 			MinS[j+1]=MinS[j];// memcpy, memmov
 			MinIndex[j+1]=MinIndex[j];
@@ -224,7 +224,7 @@ void Vector_Quantizer::modify_codevector(int no, double mul, const vec &add)
 	for (int i=0;i<Dim;i++) {
 		CodeBook._elem(pos+i)*=mul;
 		CodeBook._elem(pos+i)+=add[i];
-	}	
+	}
 }
 
 vec Vector_Quantizer::get_codevector(int Index) const

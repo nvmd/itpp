@@ -2,7 +2,7 @@
  * \file
  * \brief Implementation of numerical integration
  * \author Tony Ottosson
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -40,7 +40,7 @@
 namespace itpp {
 
   //! quadstep function
-  double quadstep(double (*f)(double), double a, double b, 
+  double quadstep(double (*f)(double), double a, double b,
 		  double fa, double fm, double fb, double is)
   {
     double Q, m, h, fml, fmr, i1, i2;
@@ -76,7 +76,7 @@ namespace itpp {
     x = vec_3(a, (a+b)/2, b);
     y = apply_function<double>(f, x);
     fa = y(0); fm = y(1); fb = y(2);
-    yy = apply_function<double>(f, a + vec(".9501 .2311 .6068 .4860 .8913") 
+    yy = apply_function<double>(f, a + vec(".9501 .2311 .6068 .4860 .8913")
 				* (b - a));
     is = (b-a)/8*(sum(y)+sum(yy));
 
@@ -93,10 +93,10 @@ namespace itpp {
   //--------------------- quadl() ----------------------------------------
 
   //! quadlstep function
-  double quadlstep(double (*f)(double), double a, double b, 
+  double quadlstep(double (*f)(double), double a, double b,
 		   double fa, double fb, double is)
   {
-    double Q, h, m, alpha, beta, mll, ml, mr, mrr, fmll, fml, fm, fmr, fmrr, 
+    double Q, h, m, alpha, beta, mll, ml, mr, mrr, fmll, fml, fm, fmr, fmrr,
       i1, i2;
     vec x(5), y(5);
 
@@ -106,9 +106,9 @@ namespace itpp {
     x(0)=mll; x(1) = ml; x(2) = m; x(3) = mr; x(4) = mrr;
 
     y = apply_function<double>(f, x);
-    
+
     fmll=y(0); fml=y(1); fm=y(2); fmr=y(3); fmrr=y(4);
-    
+
     i2 = (h/6)*(fa+fb+5*(fml+fmr));
     i1 = (h/1470)*(77*(fa+fb)+432*(fmll+fmrr)+625*(fml+fmr)+672*fm);
 
@@ -132,13 +132,13 @@ namespace itpp {
     double tol2 = tol;
 
     m=(a+b)/2; h=(b-a)/2;
-    
+
     alpha = std::sqrt(2.0/3); beta = 1.0/std::sqrt(5.0);
 
     x1=.942882415695480; x2=.641853342345781; x3=.236383199662150;
     x(0)=a; x(1)=m-x1*h; x(2)=m-alpha*h; x(3)=m-x2*h;
-    x(4)=m-beta*h; x(5)=m-x3*h; x(6)=m; x(7)=m+x3*h; 
-    x(8)=m+beta*h; x(9)=m+x2*h; x(10)=m+alpha*h; 
+    x(4)=m-beta*h; x(5)=m-x3*h; x(6)=m; x(7)=m+x3*h;
+    x(8)=m+beta*h; x(9)=m+x2*h; x(10)=m+alpha*h;
     x(11)=m+x1*h; x(12)=b;
 
     y = apply_function<double>(f, x);
@@ -147,13 +147,13 @@ namespace itpp {
     i2=(h/6)*(y(0)+y(12)+5*(y(4)+y(8)));
     i1=(h/1470)*(77*(y(0)+y(12))+432*(y(2)+y(10))+ 625*(y(4)+y(8))+672*y(6));
 
-    is=h*(.0158271919734802*(y(0)+y(12))+.0942738402188500*(y(1)+y(11))+.155071987336585*(y(2)+y(10))+ 
+    is=h*(.0158271919734802*(y(0)+y(12))+.0942738402188500*(y(1)+y(11))+.155071987336585*(y(2)+y(10))+
 	  .188821573960182*(y(3)+y(9))+.199773405226859 *(y(4)+y(8))+.224926465333340*(y(5)+y(7))+.242611071901408*y(6));
 
     s = sign(is);
     if (s == 0.0)
       s = 1;
-    
+
     erri1 = std::abs(i1-is);
     erri2 = std::abs(i2-is);
 

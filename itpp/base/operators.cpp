@@ -1,9 +1,9 @@
 /*!
  * \file
- * \brief Implementation of operators for vectors and matricies of different 
+ * \brief Implementation of operators for vectors and matricies of different
  * types
  * \author Tony Ottosson
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -178,7 +178,7 @@ namespace itpp {
 
     cvec temp = v;
     for (int i=0;i<v.size();i++) {
-      temp(i) *= (double)s; 
+      temp(i) *= (double)s;
     }
     return temp;
   }
@@ -235,7 +235,7 @@ namespace itpp {
 
     cmat temp = m;
     for (int i=0;i<m._datasize();i++) {
-      temp._data()[i] *= (double)s; 
+      temp._data()[i] *= (double)s;
     }
     return temp;
   }
@@ -247,7 +247,7 @@ namespace itpp {
     cmat temp(m.rows(), m.cols());
 
     for (int i=0;i<m._datasize();i++) {
-      temp._data()[i] = s*m._data()[i]; 
+      temp._data()[i] = s*m._data()[i];
     }
     return temp;
   }

@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definitions of a Hamming code class
  * \author Tony Ottosson
  *
@@ -40,7 +40,7 @@
 
 namespace itpp {
 
-  /*! 
+  /*!
     \ingroup fec
     \brief Binary Hamming codes
   */
@@ -78,7 +78,7 @@ namespace itpp {
     //! Gets the generator matrix for the code.
     bmat get_G() const { return G; };
   private:
-    short n, k; 
+    short n, k;
     bmat H, G;
     void generate_H(void);
     void generate_G(void);

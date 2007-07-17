@@ -1,6 +1,6 @@
 /*!
- * \file 
- * \brief Implementation of linear prediction functions, and conversion 
+ * \file
+ * \brief Implementation of linear prediction functions, and conversion
  * between common representations of linear predictive parameters
  * \author Thomas Eriksson
  *
@@ -35,7 +35,7 @@
  * representations of the lpc polynomial coefficients. The
  * functionality is the same as in the MATLAB functions with the same
  * names.
- * 
+ *
  * The short term for the various parameter types are:
  * poly - LPC polynomial coefficients
  * ac - autocorrelation coefficients
@@ -44,7 +44,7 @@
  * is - inverse sine parameters
  * lsf - line spectral frequencies
  */
- 
+
 #ifndef LPCFUNC_H
 #define LPCFUNC_H
 
@@ -73,7 +73,7 @@ namespace itpp {
   vec lpc(const vec &x, int order);
   //!    schurrc     - Schur algorithm.
   vec schurrc(const vec &R, int order);
-  //!    ac2rc       - Autocorrelation sequence to reflection coefficients conversion. 
+  //!    ac2rc       - Autocorrelation sequence to reflection coefficients conversion.
   vec ac2rc(const vec &ac);
   //!    ac2poly     - Autocorrelation sequence to prediction polynomial conversion.
   vec ac2poly(const vec &ac);
@@ -83,7 +83,7 @@ namespace itpp {
   vec lar2rc(const vec &lar);
   //!    lsf2poly    - Line spectral frequencies to prediction polynomial conversion.
   vec lsf2poly(const vec &lsf);
-  //!    poly2ac     - Prediction polynomial to autocorrelation sequence conversion. 
+  //!    poly2ac     - Prediction polynomial to autocorrelation sequence conversion.
   vec poly2ac(const vec &poly);
   //!    poly2lsf    - Prediction polynomial to line spectral frequencies conversion.
   vec poly2lsf(const vec &poly);

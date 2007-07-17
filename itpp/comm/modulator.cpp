@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief One- and two-dimensional modulators - source file
  * \author Tony Ottosson and Adam Piatyszek
  *
@@ -47,7 +47,7 @@ namespace itpp {
   {
     k = levels2bits(Mary);
     M = Mary;
-    it_assert((pow2i(k) == M) && (is_even(k)), 
+    it_assert((pow2i(k) == M) && (is_even(k)),
 	      "QAM::set_M(): M = " << M << " is not an even power of 2");
     L = round_i(std::sqrt(static_cast<double>(M)));
 
@@ -64,7 +64,7 @@ namespace itpp {
       for (int j = 0; j < L; j++) {
 	symbols(i*L+j) = std::complex<double>(((L-1) - j*2) / scaling_factor,
 					      ((L-1) - i*2) / scaling_factor);
-	bitmap.set_row(i*L+j, concat(gray_code.get_row(i), 
+	bitmap.set_row(i*L+j, concat(gray_code.get_row(i),
 				     gray_code.get_row(j)));
 	bits2symbols(bin2dec(bitmap.get_row(i*L+j))) = i*L+j;
       }
@@ -88,13 +88,13 @@ namespace itpp {
 				   + (L-1)) / 2.0);
       temp_imag = round_i((L-1) - (std::imag(signal(i) * scaling_factor)
 				   + (L-1)) / 2.0);
-      if (temp_real < 0) 
-	temp_real = 0; 
-      else if (temp_real > (L-1)) 
+      if (temp_real < 0)
+	temp_real = 0;
+      else if (temp_real > (L-1))
 	temp_real = (L-1);
-      if (temp_imag < 0) 
-	temp_imag = 0; 
-      else if (temp_imag > (L-1)) 
+      if (temp_imag < 0)
+	temp_imag = 0;
+      else if (temp_imag > (L-1))
 	temp_imag = (L-1);
       out.replace_mid(k*i, bitmap.get_row(temp_imag * L + temp_real));
     }
@@ -127,14 +127,14 @@ namespace itpp {
     std::complex<double> symb;
     for (int i = 0; i < M; i++) {
       symb = std::complex<double>(std::polar(1.0, delta * i));
-      if (std::fabs(std::real(symb)) < epsilon) { 
-	symbols(i) = std::complex<double>(0.0, std::imag(symb)); 
+      if (std::fabs(std::real(symb)) < epsilon) {
+	symbols(i) = std::complex<double>(0.0, std::imag(symb));
       }
-      else if (std::fabs(std::imag(symb)) < epsilon) { 
+      else if (std::fabs(std::imag(symb)) < epsilon) {
 	symbols(i) = std::complex<double>(std::real(symb), 0.0);
       }
-      else { 
-	symbols(i) = symb; 
+      else {
+	symbols(i) = symb;
       }
 
       bits2symbols(bin2dec(bitmap.get_row(i))) = i;
@@ -180,7 +180,7 @@ namespace itpp {
     soft_bits.set_size(k * rx_symbols.size());
     std::complex<double> temp;
     double factor = 2 * std::sqrt(2.0) / N0;
-    std::complex<double> exp_pi4 = std::complex<double>(std::cos(pi/4), 
+    std::complex<double> exp_pi4 = std::complex<double>(std::cos(pi/4),
 							std::sin(pi/4));
     for (int i = 0; i < rx_symbols.size(); i++) {
       temp = rx_symbols(i) * exp_pi4;
@@ -230,7 +230,7 @@ namespace itpp {
   void BPSK_c::modulate_bits(const bvec &bits, cvec &out) const
   {
     out.set_size(bits.size(), false);
-    for (int i = 0; i < bits.size(); i++) { 
+    for (int i = 0; i < bits.size(); i++) {
       out(i) = (bits(i) == 0 ? 1.0 : -1.0);
     }
   }
@@ -246,8 +246,8 @@ namespace itpp {
   void BPSK_c::demodulate_bits(const cvec &signal, bvec &out) const
   {
     out.set_size(signal.size(), false);
-    for (int i = 0; i < signal.length(); i++) { 
-      out(i) = (std::real(signal(i)) > 0) ? bin(0) : bin(1); 
+    for (int i = 0; i < signal.length(); i++) {
+      out(i) = (std::real(signal(i)) > 0) ? bin(0) : bin(1);
     }
   }
 
@@ -308,7 +308,7 @@ namespace itpp {
   void BPSK::modulate_bits(const bvec &bits, vec &out) const
   {
     out.set_size(bits.size(), false);
-    for (int i = 0; i < bits.size(); i++) { 
+    for (int i = 0; i < bits.size(); i++) {
       out(i) = (bits(i) == 0 ? 1.0 : -1.0);
     }
   }
@@ -324,8 +324,8 @@ namespace itpp {
   void BPSK::demodulate_bits(const vec &signal, bvec &out) const
   {
     out.set_size(signal.size(), false);
-    for (int i = 0; i < signal.length(); i++) { 
-      out(i) = (signal(i) > 0) ? bin(0) : bin(1); 
+    for (int i = 0; i < signal.length(); i++) {
+      out(i) = (signal(i) > 0) ? bin(0) : bin(1);
     }
   }
 
@@ -413,7 +413,7 @@ namespace itpp {
     out.set_size(k*signal.size(), false);
 
     for (int i = 0; i < signal.size(); i++) {
-      est_symbol = round_i((M-1) - (std::real(signal(i)) * scaling_factor 
+      est_symbol = round_i((M-1) - (std::real(signal(i)) * scaling_factor
 				    + (M-1)) / 2);
       if (est_symbol < 0)
 	est_symbol = 0;
@@ -450,7 +450,7 @@ namespace itpp {
 	  P0 = P1 = 0;
 	  for (int j = 0; j < (M >> 1); j++) {
 	    P0 += metric(S0(i, j));
-	    P1 += metric(S1(i, j));  
+	    P1 += metric(S1(i, j));
 	  }
 	  soft_bits(l*k+i) = trunc_log(P0) - trunc_log(P1);
 	}
@@ -497,14 +497,14 @@ namespace itpp {
     if (method == LOGMAP) {
       for (int l = 0; l < rx_symbols.size(); l++) {
 	for (int j = 0; j < M; j++) {
-	  metric(j) = std::exp(-sqr(std::real(rx_symbols(l) 
+	  metric(j) = std::exp(-sqr(std::real(rx_symbols(l)
 					      - channel(l) * symbols(j))) / N0);
 	}
 	for (int i = 0; i < k; i++) {
 	  P0 = P1 = 0;
 	  for (int j = 0; j < (M >> 1); j++) {
 	    P0 += metric(S0(i, j));
-	    P1 += metric(S1(i, j));  
+	    P1 += metric(S1(i, j));
 	  }
 	  soft_bits(l*k+i) = trunc_log(P0) - trunc_log(P1);
 	}
@@ -573,9 +573,9 @@ namespace itpp {
 
     for (int i = 0; i < signal.size(); i++) {
       est_symbol = round_i((M-1) - (signal(i) * scaling_factor + (M-1)) / 2);
-      if (est_symbol < 0) 
+      if (est_symbol < 0)
 	est_symbol = 0;
-      else if (est_symbol > (M-1)) 
+      else if (est_symbol > (M-1))
 	est_symbol = M-1;
       out.replace_mid(i*k, bitmap.get_row(est_symbol));
     }

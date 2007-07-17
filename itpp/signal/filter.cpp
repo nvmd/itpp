@@ -2,7 +2,7 @@
  * \file
  * \brief Implementation of Filter classes and functions
  * \author Hakan Eriksson, Thomas Eriksson, Tony Ottosson and Adam Piatyszek
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -40,7 +40,7 @@ namespace itpp {
 
 
   vec filter(const vec &b, const vec &a, const vec &input)
-  { 
+  {
     ARMA_Filter<double, double, double> f(b, a);
     return f(input);
   }
@@ -125,7 +125,7 @@ namespace itpp {
 
 
   vec filter(const vec &b, const vec &a, const vec &input, const vec &state_in, vec &state_out)
-  { 
+  {
     ARMA_Filter<double, double, double> f(b, a);
     f.set_state(state_in);
     vec output = f(input);

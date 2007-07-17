@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definitions of a base class for fixed-point data types
  * \author Johan Bergman
  *
@@ -43,9 +43,9 @@ namespace itpp {
     \addtogroup fixed
     \brief Fixed-Point Data Types
     \author Johan Bergman
-  
+
     \section fix_contents Contents
-  
+
     <ul>
     <li> \ref fix_intro
     <li> \ref fix_base
@@ -82,9 +82,9 @@ namespace itpp {
     <li> \ref fix_fcn_other
     </ul>
     </ul>
-  
+
     \section fix_intro Introduction
-    
+
     How to include the support for fixed-point data types in your program:
     \code
     #include <itpp/itbase.h>
@@ -92,7 +92,7 @@ namespace itpp {
 
     using namespace itpp;
     \endcode
-    
+
     Fixed-point data types in IT++:
     <ul>
     <li> itpp::Fix (real-valued, restrictions specified as constructor arguments)
@@ -122,7 +122,7 @@ namespace itpp {
     used for checking that both terms have been shifted the same amount in
     additions and subtractions. Also, it is used to "un-shift" the data when a
     fixed-point number is converted to floating point.
-  
+
     Names of classes and enums have been aligned with the fixed-point data types
     in SystemC to some extent, but the fixed-point data types in IT++ and SystemC
     are quite different. In fact, the fixed-point data types in IT++ probably
@@ -135,7 +135,7 @@ namespace itpp {
     should be able to use some other data type than the ones presented here,
     assuming that a proper itpp::Factory is created for the data type, just like
     itpp::Fix_Factory has been created for these data types.
-  
+
     Sometimes the documentation for the IT++ fixed-point data types states that
     a function is "useful in templated code". This means that the function
     facilitates writing templated code where the template argument is meant to be
@@ -145,15 +145,15 @@ namespace itpp {
     CFix, but not for double and complex<double>, so it might be a better idea to
     use the function rshift_fix which is defined for Fix and CFix as well as
     double and complex<double>.
-  
+
     For an example program, take a look at tests/fix_test.cpp.
-  
+
     \section fix_base Fix_Base
 
     \subsection fix_base_shift Shift factor
 
     Supported shift factors: -64 ... +63 bit-shifts. 0 is \e default.
-  
+
     An IT++ fixed-point number consists of a bit representation and a shift
     factor. The shift factor is a member of Fix_Base, while the bit representation
     is a member of the inherited class (Fix or CFix). The shift factor indicates
@@ -161,7 +161,7 @@ namespace itpp {
     shift factor means that the data has been left-shifted while a negative shift
     factor means that the data has been right-shifted. For information about how
     the shift factor is affected by different operators, see section \ref fix_ops.
-  
+
     \subsection fix_base_wordlen Word length
 
     Supported word lengths: 1 ... 64 bits. 64 is \e default.
@@ -169,10 +169,10 @@ namespace itpp {
     \warning Fix, Fixed, CFix and CFixed always use \e signed 64-bit integers to
     represent the fixed-point data. Therefore it is not recommended to declare
     variables with 64 bits and sign encoding mode US.
-  
+
     \subsection fix_base_emode Sign encoding mode
 
-    Supported sign encoding modes (itpp::e_mode): 
+    Supported sign encoding modes (itpp::e_mode):
     <ul>
     <li> TC (Two's complement)
     <li> US (Unsigned)
@@ -183,7 +183,7 @@ namespace itpp {
     \warning Fix, Fixed, CFix and CFixed always use \e signed 64-bit integers to
     represent the fixed-point data. Therefore it is not recommended to declare
     variables with 64 bits and sign encoding mode US.
-  
+
     \subsection fix_base_omode Overflow mode
 
     Supported overflow modes (itpp::o_mode):
@@ -196,7 +196,7 @@ namespace itpp {
 
     \note Fix, Fixed, CFix and CFixed apply this restriction during initialization
     and assignments only.
-  
+
     \subsection fix_base_qmode Quantization mode
 
     Supported quantization modes (itpp::q_mode), with definitions borrowed from
@@ -233,16 +233,16 @@ namespace itpp {
 
     \note Fix, Fixed, CFix and CFixed apply this restriction during initialization
     and right-shift operations only.
-  
+
     \subsection fix_base_stat Statistics object pointer
 
     Supported statistics object pointer values: either a pointer to an itpp::Stat
     object or 0. 0 is \e default.
-  
+
     The sample method in the statistics object is called during initializations
     and assignments. A single statistics object can collect statistics from more
     than one fixed-point variable.
-  
+
     \subsection fix_base_outputmode Output mode
 
     Supported output modes (itpp::output_mode), used by the output stream operator
@@ -262,27 +262,27 @@ namespace itpp {
     Fix_Base::set_output_mode(OUTPUT_FIX_SHIFT);
     Fix_Base::set_output_mode(OUTPUT_FLOAT);
     Fix_Base::set_output_mode(OUTPUT_FLOAT_SHIFT);
-    
+
     // Alternative using a string parameter
     Fix_Base::set_output_mode("OUTPUT_FIX");
     Fix_Base::set_output_mode("OUTPUT_FIX_SHIFT");
     Fix_Base::set_output_mode("OUTPUT_FLOAT");
     Fix_Base::set_output_mode("OUTPUT_FLOAT_SHIFT");
-    
+
     // Alternative using an ostream modifier
     cout << OUTPUT_FIX;
     cout << OUTPUT_FIX_SHIFT;
     cout << OUTPUT_FLOAT;
     cout << OUTPUT_FLOAT_SHIFT;
     \endcode
-    
+
     \section fix_real Fix and Fixed
 
     Fix and Fixed are real-valued fixed-point data types primarily intended to
     replace \c double when a design is refined from floating- to fixed-point
     implementation. The data is stored in the least significant bits of a 64-bit
     integer variable.
-  
+
     The following example shows how to declare a two's complement (i.e. a signed)
     20-bit variable with wrap-around as overflow handling with the initial value
     3.14 shifted up 10 bits:
@@ -290,7 +290,7 @@ namespace itpp {
     Fix a(3.14, 10, 20, TC, WRAP);
     Fixed<20, TC, WRAP> b(3.14, 10);
     \endcode
-  
+
     Note that Fix takes the initial values as well as the fixed-point restrictions
     as constructor arguments. Fixed also takes the initial values as constructor
     arguments but it takes the fixed-point restrictions as template arguments.
@@ -309,22 +309,22 @@ namespace itpp {
     functions for Fix can be used for Fixed as well. However, the functions for
     Vec<Fix> (fixvec) and Mat<Fix> (fixmat) cannot be used for Vec<Fixed> and
     Mat<Fixed>.
-  
+
     If you choose Fix, you should also read the section \ref fix_factory. If you
     choose Fixed, you may find it convenient to use the following typedefs:
     \code
     typedef Fixed<1, TC, WRAP> fixed1;  // for Fixed with 1 bit
     ...
     typedef Fixed<64, TC, WRAP> fixed64;  // for Fixed with 64 bits
-  
+
     typedef Fixed<1, US, WRAP> ufixed1;  // for Unsigned Fixed with 1 bit
     ...
     typedef Fixed<64, US, WRAP> ufixed64;  // for Unsigned Fixed with 64 bits
-  
+
     typedef Fixed<1, TC, SAT> sfixed1;  // for Saturated Fixed with 1 bit
     ...
     typedef Fixed<64, TC, SAT> sfixed64;  // for Saturated Fixed with 64 bits
-  
+
     typedef Fixed<1, US, SAT> sufixed1;  // for Saturated Unsigned Fixed with 1 bit
     ...
     typedef Fixed<64, US, SAT> sufixed64;  // for Saturated Unsigned Fixed with 64 bits
@@ -333,13 +333,13 @@ namespace itpp {
     \note These typedefs use the default values for quantization mode (TRN) and
     statistics object pointer value (0). Also note that U stands for Unsigned but
     S stands for Saturated, NOT for Signed.
-  
+
     Declaration corresponding to the above Fixed example but using one of the
     typedefs:
     \code
     fixed20 b(3.14, 10);
     \endcode
-  
+
     \section fix_complex CFix and CFixed
 
     CFix and CFixed are complex-valued fixed-point data types primarily intended
@@ -348,36 +348,36 @@ namespace itpp {
     of two 64-bit integer variables: one for the real part and one for the
     imaginary part. The two parts have a common shift factor (the one inherited
     from Fix_Base), so it is not possible to shift only one of them.
-  
+
     The following example shows two ways to declare a two's complement (i.e. a
     signed) 20-bit variable with wrap-around as overflow handling with the initial
     value 1.11 + 2.22i shifted up 10 bits:
     \code
-    CFix a(1.11, 2.22, 10, 20, TC, WRAP);  
+    CFix a(1.11, 2.22, 10, 20, TC, WRAP);
     CFixed<20, TC, WRAP> b(1.11, 2.22, 10);
-  
-    CFix c(complex<double>(1.11, 2.22), 0.0, 10, 20, TC, WRAP);  
+
+    CFix c(complex<double>(1.11, 2.22), 0.0, 10, 20, TC, WRAP);
     CFixed<20, TC, WRAP> d(complex<double>(1.11, 2.22), 0.0, 10);
     \endcode
 
     \note The shift factor is passed as the third argument to the CFix/CFixed
     constructors. If the first argument is complex, the second argument is a
     dummy (that was set to 0.0 in the examples above).
-  
+
     Choose CFix or CFixed depending on your needs; see section \ref fix_real. If
     you choose CFix, you should also read the section \ref fix_factory.
     \note CFixed is derived from CFix, which means that operators, methods and
     functions for CFix can be used for CFixed as well. However, the functions for
     Vec<CFix> (cfixvec) and Mat<CFix> (cfixmat) cannot be used for Vec<CFixed> and
     Mat<CFixed>.
-  
+
     If you choose CFixed, you may find it convenient to use the following
     typedefs, which are predefined in IT++:
     \code
     typedef CFixed<1, TC, WRAP> cfixed1;  // for CFixed with 1 bit
     ...
     typedef CFixed<64, TC, WRAP> cfixed64;  // for CFixed with 64 bits
-  
+
     typedef CFixed<1, TC, SAT> scfixed1;  // for Saturated CFixed with 1 bit
     ...
     typedef CFixed<64, TC, SAT> scfixed64;  // for Saturated CFixed with 64 bits
@@ -386,15 +386,15 @@ namespace itpp {
     \note These typedefs use the default values for sign encoding mode (TC),
     quantization mode (TRN) and statistics object pointer value (0). Also note
     that S stands for Saturated, NOT for Signed.
-  
+
     Declarations corresponding to the above CFixed examples but using one of the
     typedefs:
     \code
     cfixed20 b(1.11, 2.22, 10);
-  
+
     cfixed20 d(complex<double>(1.11, 2.22), 0.0, 10);
     \endcode
-  
+
     \section fix_factory Fix_Factory
 
     IF you choose to use Fix/CFix (instead of Fixed/CFixed) AND you want to
@@ -414,7 +414,7 @@ namespace itpp {
     Note that a Fix_Factory can create both Fix and CFix objects. For information
     on Factory in general and Fix_Factory in particular, see the Detailed
     Descriptions for itpp::Factory and itpp::Fix_Factory, respectively.
-  
+
     The following example shows how to declare a vector of length 7 with Fix
     elements that are two's complement 20-bit variables with wrap-around as
     overflow handling:
@@ -424,7 +424,7 @@ namespace itpp {
 
     FIX20 is one of many predefined Fix_Factory; see the Detailed Description for
     itpp::Fix_Factory.
-  
+
     \note One might wonder why the Array/Vec/Mat classes themselves cannot take
     the fixed-point restrictions as parameters directly and create the Fix/CFix
     elements without help from a Fix_Factory. The main benefit with the chosen
@@ -434,7 +434,7 @@ namespace itpp {
     known by IT++) as the Array/Vec/Mat element type, this should work fine as
     long as he or she creates a corresponding Factory. And this is exactly the
     way that Fix/CFix and Fix_Factory work.
-  
+
     Fix/CFix should not need to know about Fix_Factory, but for the sake of
     uniform syntax in declarations, an exception has been made:
     \code
@@ -445,7 +445,7 @@ namespace itpp {
 
     \note All declarations with a Fix_Factory as a constructor argument also work
     in templated code; see the Detailed Description for itpp::Fix_Factory.
-  
+
     \section fix_ops Operators and methods
 
     \subsection fix_ops_asn Initialization and assignment
@@ -456,7 +456,7 @@ namespace itpp {
     // Initialize a with the floating-point value double(3.14*pow2(10))
     // and word length 20, two's complement, wrap-around and rounding
     Fix a(3.14, 10, 20, TC, WRAP, RND);
-  
+
     // Initialize b with the fixed-point value a
     // and word length 7, two's complement, wrap-around and rounding
     Fix b(a, 7, TC, WRAP, RND);
@@ -478,7 +478,7 @@ namespace itpp {
     other hand, the default constructor gives certain fixed-point restrictions,
     but note that it may still be necessary to introduce other fixed-point
     restrictions as well as new temporary variables in the function.
-  
+
     The assignment operators =, +=, -=, *=, /=, <<= and >>= are supported. For =,
     +=, -=, *= and /=, the right-hand operand can be another fixed-point variable
     or an integer value. If it is an integer value, it is interpreted as a
@@ -486,22 +486,22 @@ namespace itpp {
     shift factor from the right side to the left side. For information on how the
     other operators treat the shift factor, see sections \ref fix_ops_add,
     \ref fix_ops_mult and \ref fix_ops_shift.
-  
+
     If assignment to a scaled \c double is desired (when initialization has
     already taken place), the itpp::Fix::set method can be used.
     \code
     // Initialize c with the floating-point value double(3.14*pow2(10))
     // The shift factor is set to 10
     Fix c(3.14, 10);
-  
+
     // Set c equal to 123. The shift factor is set to 0
     // Note that the old shift factor 10 is discarded
     c = 123;
-  
+
     // Set c equal to the integer portion of double(3.14*pow2(10))
     // The shift factor is set to 10 (again)
     c.set(3.14, 10);
-  
+
     // Achieve the same result using a temporary variable
     // Note that the assignment operator copies the shift factor
     c = Fix(3.14, 10);
@@ -517,11 +517,11 @@ namespace itpp {
 
     \note If you write templated code, you are better off if you use the set_fix
     function described in section \ref fix_fcn_setfix instead of the set method.
-  
+
     There are also methods for setting data representation and shift directly:
     itpp::Fix::set_re, itpp::CFix::set_im and itpp::Fix_Base::set_shift. They are
     mainly intended for internal use.
-  
+
     \subsection fix_ops_add Addition and subtraction
 
     Addition and subtraction between two fixed-point variables as well as between
@@ -532,13 +532,13 @@ namespace itpp {
     // Declare a fixed-point vector with 7 elements
     // (using the predefined Fix_Factory FIX20)
     Vec<Fix> d(7, FIX20);
-  
+
     // Set all 7 elements equal to 77 with shift factor 0
     d = Fix(77);
-  
+
     // Declare an integer vector with 7 elements
     ivec e = "1 2 3 4 5 6 7";
-  
+
     // Add fixed-point vector d and integer vector e. Both have shift factor 0
     Vec<Fix> f(d + e, FIX20);
     \endcode
@@ -549,7 +549,7 @@ namespace itpp {
     (and ASSERT_LEVEL > 0), the addition <tt>d + e</tt> would have failed,
     resulting in termination with the error message "assert_shifts: Different
     shifts not allowed!".
-  
+
     As hinted earlier, the fixed-point restrictions are applied during
     initialization, assignment and bit-shifting operations only. This means that
     the result of an addition or subtraction is unrestricted (64 bits).
@@ -558,16 +558,16 @@ namespace itpp {
     Fix h(100, 0, 8, TC, SAT);
     Fix i(100, 0, 8, TC, SAT);
     Fix j(-100, 0, 8, TC, SAT);
-  
+
     // The result of h + i is unrestricted (64 bits) but when it is assigned to g,
     // it is restricted according to the fixed-point restrictions of g (8 bits).
     // We get overflow, since 100+100=200 doesn't fit in an 8-bit signed variable.
     // The saturated result will be 127
     g = h + i;
-  
+
     // But now we don't get overflow since 100+100-100=100 does fit!
     g = h + i + j;
-  
+
     // If we do want the temporary result to be restricted, we have to make
     // an explicit temporary variable (with appropriate restrictions) for it
     Fix tmp(0, 0, 8, TC, SAT);
@@ -577,18 +577,18 @@ namespace itpp {
     // result when we introduced a restricted temporary variable
     g = tmp + j;
     \endcode
-  
+
     \subsection fix_ops_mult Multiplication and division
 
     Multiplication and division between two fixed-point variables as well as
     between a fixed-point variable and an integer variable is supported. For Fix
     and CFix, several vector and matrix operations are also supported.
-  
+
     As stated earlier, the fixed-point restrictions are applied during
     initialization, assignment and bit-shifting operations only. This means that
     the result of a multiplication or division is unrestricted (64 bits) in the
     same way as for an addition or subtraction; see section \ref fix_ops_add.
-  
+
     The resulting shift factor after a multiplication is the sum of the two shift
     factors, while the resulting shift factor after a division is the difference
     between the numerator shift factor and the denominator shift factor. The
@@ -599,7 +599,7 @@ namespace itpp {
 
     \warning Complex multiplications and divisions are supported, but they utilize
     temporary variables with full word length (64 bits).
-  
+
     \subsection fix_ops_shift Bit-shifting
 
     The <<= and >>= operators are defined for the fixed-point data types. As an
@@ -612,10 +612,10 @@ namespace itpp {
     \code
     // Declare a fixed-point variable with the default quantization mode (TRN)
     Fix a(3.14, 10);
-  
+
     // Right shift 5 bits using the quantization mode of a (i.e. TRN)
     a.rshift(5);
-  
+
     // Right shift 5 bits using the specified quantization mode (i.e. RND)
     a.rshift(5, RND);
     \endcode
@@ -623,21 +623,21 @@ namespace itpp {
     \note If you write templated code, you are better off if you use the
     lshift_fix and rshift_fix functions described in section \ref fix_fcn_shiftfix
     instead of the <<= and >>= operators and the lshift and rshift methods.
-  
+
     The << and >> operators are not defined for the fixed-point data types since
     it is not clear what quantization mode that should be applied for the >>
     operator.
-  
+
     \subsection fix_ops_conv Conversion
 
     Fix and Fixed can be converted to double, while CFix and CFixed can be
     converted to complex<double>. The conversion operators "un-shift" the data by
     multiplying the fixed-point bit representation with pow2(-shift).
-  
+
     The itpp::Fix::unfix and itpp::CFix::unfix methods can always be used:
     \code
     Fix a(3.14, 5);
-  
+
     cout << a.unfix() << endl;
     \endcode
     The resulting output is 3.125.
@@ -645,40 +645,40 @@ namespace itpp {
     \note If you write templated code, you are better off if you use the
     functions unfix or to<T> described in sections \ref fix_fcn_unfix and
     \ref fix_fcn_to instead of the unfix method.
-  
+
     Equivalently, the double(Fix&) and complex<double>(CFix&) operators can be
     used, unless you define NO_IMPLICIT_FIX_CONVERSION before you include IT++
     in your program.
     \code
     Fix a(3.14, 5);
-  
+
     cout << double(a) << endl;
     \endcode
     The resulting output is 3.125.
-  
+
     Finally, Fix/Fixed can be converted to CFix/CFixed using the appropriate
     CFix/CFixed constructors.
-  
+
     \subsection fix_ops_get Get data members
 
     This example shows how to get the data members of fixed-point variables:
     \code
     Fix a;
-  
+
     int64_t the_bit_representation = a.get_re();
     int the_shift_factor = a.get_shift();
     int the_word_length = a.get_wordlen();
     e_mode the_sign_encoding_mode = a.get_e_mode();
     o_mode the_overflow_mode = a.get_o_mode();
     q_mode the_quantization_mode = a.get_q_mode();
-  
+
     int64_t max_bit_representation = a.get_max();
     int64_t min_bit_representation = a.get_min();
     \endcode
 
     \note For CFix and CFixed, you get the bit representation for the imaginary
     part with the method get_im().
-  
+
     \subsection fix_ops_io Input and output
 
     The print() method outputs the entire state; see section \ref fix_ops_get.
@@ -686,12 +686,12 @@ namespace itpp {
     Fix a;
     a.print();
     \endcode
-  
+
     This code example shows how to input and output fixed-point numbers:
     \code
     CFix a(FIX8);
     a.set(0.0, 0.0, 4);
-  
+
     cout << "Old a: " << a << endl;
     cout << "New a? ";
     cin >> a;
@@ -712,7 +712,7 @@ namespace itpp {
 
     \note The output_mode is OUTPUT_FIX_SHIFT in these examples; see section
     \ref fix_base_outputmode.
-  
+
     In the above examples, only the data representation was changed, while the
     shift (4) was kept. It is however possible to enter another (positive or
     negative) shift factor as well:
@@ -733,10 +733,10 @@ namespace itpp {
 
     The resulting data representation is the entered floating-point value 1+2i
     multiplied by 2^5.
-  
+
     \note In order to enter a negative shift, write 1+2i<<-5. It is not possible
     to write 1+2i>>5.
-  
+
     Vectors and matrices support the same formats for fixed-point numbers.
     However, all old elements are assumed to have the same shift factor, and the
     shift factor of the first old element becomes the default shift factor for all
@@ -744,7 +744,7 @@ namespace itpp {
     i.e. the shift factor of the first old element in each vector becomes the
     default shift factor for all elements of that vector. The default shift factor
     in an empty vector or matrix is zero.
-  
+
     \section fix_fcn Functions
 
     \subsection fix_fcn_isfix Function is_fix
@@ -758,7 +758,7 @@ namespace itpp {
 
     \warning Unfortunately, the function is_fix returns false if the argument is
     of type Fixed or CFixed.
-  
+
     \subsection fix_fcn_setfix Function set_fix
 
     The function itpp::set_fix sets <tt>y = x * pow2(n)</tt> if the first argument
@@ -769,7 +769,7 @@ namespace itpp {
     Fix fix_var(FIX20);
     set_fix(fix_var, 3.14, 10);
     // fix_var will equal the integer portion of 3.14 * pow2(10)
-  
+
     double double_var(FIX20);
     set_fix(double_var, 3.14, 10);
     // double_var will just equal 3.14
@@ -782,7 +782,7 @@ namespace itpp {
     \code
     set_fix(fix_var, 3.14, 10, RND);
     \endcode
-  
+
     \subsection fix_fcn_shiftfix Functions lshift_fix and rshift_fix
 
     The functions itpp::lshift_fix and itpp::rshift_fix perform left and right
@@ -793,8 +793,8 @@ namespace itpp {
     \code
     // This will right-shift fix_var 10 bits
     rshift_fix(fix_var, 10);
-  
-    // This will not affect double_var 
+
+    // This will not affect double_var
     rshift_fix(double_var, 10);
     \endcode
 
@@ -808,24 +808,24 @@ namespace itpp {
 
     When a fixed-point value is left-shifted using lshift_fix, on the other hand,
     the overflow mode of the first argument is always used.
-  
+
     \subsection fix_fcn_assert Function assert_fixshift
 
     The itpp::assert_fixshift function can be used to verify that the shift factor
     has the expected value:
     \code
     Fix a(3.14, 5);
-  
+
     // We will pass this check since 5 = 5
     assert_fixshift(a, 5);
-  
+
     // The program will terminate (if ASSERT_LEVEL > 0) since 5 != 6
     assert_fixshift(a, 6);
     \endcode
 
     If the first argument is of type double or complex<double> instead, no test
     will be performed (since they have no shift factors).
-  
+
     \subsection fix_fcn_unfix Function unfix
 
     The itpp::unfix function converts a fixed-point variable to a floating-point
@@ -835,7 +835,7 @@ namespace itpp {
     \code
     Fix a(3.14, 5);
     double b = unfix(a);
-  
+
     Array<Mat<CFix> > c(FIX40);
     cin >> c;
     Array<cmat> d = unfix(c);
@@ -843,7 +843,7 @@ namespace itpp {
 
     If the argument is a floating-point variable (or an Array/Vec/Mat of
     floating-point variables) instead, the function just returns the argument.
-  
+
     \subsection fix_fcn_to Function to<T>
 
     The itpp::to<T> function is a very general conversion function. It converts a
@@ -856,7 +856,7 @@ namespace itpp {
     Vec<double> e = "1.0 2.0 3.0";
     Vec<Fix> f;
     f = to<Fix>(e);  // convert e "to Fix"
-  
+
     // Convert an Array<Array<Mat<Fix> > > called g to
     // an Array<Array<Mat<CFix> > > and assign it to h
     Array<Array<Mat<CFix> > > h;
@@ -865,12 +865,12 @@ namespace itpp {
 
     \note The variants to<double>(x) and to<complex<double> >(x) provide the same
     functionality as unfix(x).
-  
+
     \warning Be aware that the variants to<Fix>(x) and to<CFix>(x) will return
     a fixed-point variable with the shift factor(s) set to zero if x is a
     floating-point variable. However, if x is a fixed-point variable, the shift
     will be copied to the return variable.
-  
+
     \subsection fix_fcn_other Other functions
 
     <ul>
@@ -977,7 +977,7 @@ namespace itpp {
 
   /*!
     \brief Base class for fixed-point data types
-  
+
     See the Detailed Description in the \ref fixed module.
   */
   class Fix_Base {

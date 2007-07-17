@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Include file for the IT++ source coding module
  * \author Tony Ottosson
  *

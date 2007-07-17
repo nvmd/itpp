@@ -2,7 +2,7 @@
  * \file
  * \brief Definitions of signal processing functions
  * \author Tony Ottosson, Thomas Eriksson, Pal Frenger, and Tobias Ringstrom
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -29,7 +29,7 @@
  *
  * -------------------------------------------------------------------------
  */
- 
+
 #ifndef SIGFUN_H
 #define SIGFUN_H
 
@@ -43,10 +43,10 @@ namespace itpp {
    * @{
    */
 
-  /*! 
+  /*!
     \brief Cross-correlation calculation
 
-    \c z=xcorr(x,y,max_lag), where \a x and \a y are length \a M vectors \a (M>1), returns the length \c 2*max_lag+1 
+    \c z=xcorr(x,y,max_lag), where \a x and \a y are length \a M vectors \a (M>1), returns the length \c 2*max_lag+1
     cross-correlation sequence \a z. (lags: \c -max_lag,...,0,...,max_lag)
 
     For \c max_lag=-1 the cross-correlation sequence is of length \c 2*M-1, i.e., the cross-correlation for all possible lags.
@@ -63,7 +63,7 @@ namespace itpp {
     \param x (Input) Vector of samples
     \param y (Input) Vector of samples
     \param out (Output) The cross correlation between \a x and \a y.
-    \param max_lag (Input) Maximum lag for which the cross-correlation is calculated. The output vector is of size \c 2*maxlag+1. 
+    \param max_lag (Input) Maximum lag for which the cross-correlation is calculated. The output vector is of size \c 2*maxlag+1.
     Default value: \c max_lag=-1 calculates the cross-correlations for all possible lags
     \param scaleopt (Input) Indicates how the cross-correlation function should be scaled. Default value: \c "none" indicates that no scaling is done
 
@@ -73,10 +73,10 @@ namespace itpp {
   void xcorr(const vec &x, const vec &y, vec &out, const int max_lag=-1, const std::string scaleopt="none");
   /*! @} */
 
-  /*! 
+  /*!
     \brief Cross-correlation calculation
 
-    \c z=xcorr(x,y,max_lag), where \a x and \a y are length \a M vectors \a (M>1), returns the length \c 2*max_lag+1 
+    \c z=xcorr(x,y,max_lag), where \a x and \a y are length \a M vectors \a (M>1), returns the length \c 2*max_lag+1
     cross-correlation sequence \a z. (lags: \c -max_lag,...,0,...,max_lag)
 
     For \c max_lag=-1 the cross-correlation sequence is of length \c 2*M-1, i.e., the cross-correlation for all possible lags.
@@ -92,9 +92,9 @@ namespace itpp {
 
     \param x (Input) Vector of samples
     \param y (Input) Vector of samples
-    \param max_lag (Input) Maximum lag for which the cross-correlation is calculated. The output vector is of size \c 2*maxlag+1. 
+    \param max_lag (Input) Maximum lag for which the cross-correlation is calculated. The output vector is of size \c 2*maxlag+1.
     Default value: \c max_lag=-1 calculates the cross-correlations for all possible lags
-    \param scaleopt (Input) Indicates how the cross-correlation function should be scaled. Default 
+    \param scaleopt (Input) Indicates how the cross-correlation function should be scaled. Default
     value: \c "none" indicates that no scaling is done
     \returns The cross correlation between \a x and \a y.
 
@@ -112,10 +112,10 @@ namespace itpp {
   cvec xcorr(const cvec &x, const cvec &y,const int max_lag=-1,const std::string scaleopt="none");
 
 
-  /*! 
+  /*!
     \brief Auto-correlation calculation
 
-    \c z=xcorr(x,max_lag), where \a x and is a length \a M vector \a (M>1), returns the length \c 2*max_lag+1 auto-correlation 
+    \c z=xcorr(x,max_lag), where \a x and is a length \a M vector \a (M>1), returns the length \c 2*max_lag+1 auto-correlation
     sequence \a z. (lags: \c -max_lag,...,0,...,max_lag)
 
     For \c max_lag=-1 the auto-correlation sequence is of length \c 2*M-1, i.e., the cross correlation for all possible lags.
@@ -129,9 +129,9 @@ namespace itpp {
     \note \c max_lag \c <= \c M-1
 
     \param x (Input) Vector of samples
-    \param max_lag (Input) Maximum lag for which the auto-correlation is calculated. The output vector is of size \c 2*maxlag+1. 
+    \param max_lag (Input) Maximum lag for which the auto-correlation is calculated. The output vector is of size \c 2*maxlag+1.
     Default value \c max_lag=-1 calculates the auto-correlations for all possible lags.
-    \param scaleopt (Input) Indicates how the auto-correlation function should be scaled. 
+    \param scaleopt (Input) Indicates how the auto-correlation function should be scaled.
     Default value: \c "none" indicates that no scaling is done.
     \returns The auto-correlation of \a x.
 
@@ -156,9 +156,9 @@ namespace itpp {
   void xcorr(const cvec &x, const cvec &y, cvec &out, const int max_lag=-1,const std::string scaleopt="none",
 	     bool autoflag=true);
 
-  /*! 
+  /*!
     \brief Covariance matrix calculation
-    
+
     Calculates the covariance matrix of the observations in the matrix \f$X\f$. Each
     row is an observation and each column represents a variable.
 
@@ -173,26 +173,26 @@ namespace itpp {
 
   /*!
     \brief Power spectrum calculation
-    
+
     Calculates the power spectrum using the Welch method and a Hanning window.
   */
   vec spectrum(const vec &v, int nfft=256, int noverlap=0);
 
-  /*! 
+  /*!
     \brief Power spectrum calculation
-    
+
     Calculates the power spectrum using using the Welch method and the supplied window w.
   */
   vec spectrum(const vec &v, const vec &w, int noverlap=0);
 
-  /*! 
+  /*!
     \brief Power spectrum calculation of a filter
 
     Calculates the power spectrum of a filter with transfer function a(z)
   */
   vec filter_spectrum(const vec &a, int nfft=256);
 
-  /*! 
+  /*!
     \brief Power spectrum calculation of a filter
 
     Calculates the power spectrum of a filter with transfer function a(z)/b(z)

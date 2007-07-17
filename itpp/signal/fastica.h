@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definition of FastICA (Independent Component Analysis) for IT++
  * \author Francois Cayre and Teddy Furon
  *
@@ -58,7 +58,7 @@
  * Differences with the original Matlab implementation:
  * - no GUI
  * - return something even in the case of a convergence problem
- * - optimization of SVD decomposition (performed 2 times in Matlab, 
+ * - optimization of SVD decomposition (performed 2 times in Matlab,
  *   only 1 time in IT++)
  * - default approach is SYMM with non-linearity POW3
  */
@@ -70,23 +70,23 @@
 
 
 //! Use deflation approach : compute IC one-by-one in a Gram-Schmidt-like fashion
-#define FICA_APPROACH_DEFL 2 
+#define FICA_APPROACH_DEFL 2
 //! Use symmetric approach : compute all ICs at a time
-#define FICA_APPROACH_SYMM 1 
+#define FICA_APPROACH_SYMM 1
 
 //! Use x^3 non-linearity
-#define FICA_NONLIN_POW3 10 
+#define FICA_NONLIN_POW3 10
 //! Use tanh(x) non-linearity
-#define FICA_NONLIN_TANH 20 
+#define FICA_NONLIN_TANH 20
 //! Use Gaussian non-linearity
-#define FICA_NONLIN_GAUSS 30 
+#define FICA_NONLIN_GAUSS 30
 //! Use skew non-linearity
-#define FICA_NONLIN_SKEW 40 
+#define FICA_NONLIN_SKEW 40
 
 //! Set random start for Fast_ICA
-#define FICA_INIT_RAND  0 
+#define FICA_INIT_RAND  0
 //! Set predefined start for Fast_ICA
-#define FICA_INIT_GUESS 1 
+#define FICA_INIT_GUESS 1
 
 //! Eigenvalues of the covariance matrix lower than FICA_TOL are discarded for analysis
 #define FICA_TOL 1e-9
@@ -107,8 +107,8 @@ namespace itpp {
 		A. Hyvarinen. Fast and Robust Fixed-Point Algorithms for
 		Independent Component Analysis.  IEEE Transactions on Neural
 		Networks, 10(3), pp. 626-634, 1999.
-  
-		Example: 
+
+		Example:
 		\code
 		FastICA fastica(sources);
 		fastica.set_nrof_independent_components(sources.rows());
@@ -116,16 +116,16 @@ namespace itpp {
 		fastica.set_approach( FICA_APPROACH_DEFL );
 		fastica.separate();
 		mat ICs = fastica.get_independent_components();
-		\endcode 
+		\endcode
   */
   class Fast_ICA {
 
-  public: 
+  public:
 
     /*!
-      \brief Constructor 
+      \brief Constructor
 
-      Construct a Fast_ICA object with mixed signals to separate. 
+      Construct a Fast_ICA object with mixed signals to separate.
 
       \param ma_mixed_sig (Input) Mixed signals to separate
 		*/
@@ -134,246 +134,246 @@ namespace itpp {
     /*!
       \brief Explicit launch of main FastICA function
 
-      Explicit launch of the Fast_ICA algorithm. 
+      Explicit launch of the Fast_ICA algorithm.
 		*/
     void separate( void );
 
     /*!
-      \brief Set approach : FICA_APPROACH_DEFL or FICA_APPROACH_SYMM (default) 
+      \brief Set approach : FICA_APPROACH_DEFL or FICA_APPROACH_SYMM (default)
 
-      Set approach to use : FICA_APPROACH_SYMM (symmetric) or FICA_APPROACH_DEFL (deflation). The symmetric approach computes all ICs at a time, whereas the deflation approach computes them one by one. 
+      Set approach to use : FICA_APPROACH_SYMM (symmetric) or FICA_APPROACH_DEFL (deflation). The symmetric approach computes all ICs at a time, whereas the deflation approach computes them one by one.
 
-      \param in_approach (Input) Type of approach to use 
+      \param in_approach (Input) Type of approach to use
 		*/
-    void set_approach( int in_approach ); 
+    void set_approach( int in_approach );
 
     /*!
       \brief Set number of independent components to separate
 
-      Set the number of ICs to compute. 
+      Set the number of ICs to compute.
 
       \param in_nrIC (Input) Number of ICs to compute
 		*/
-    void set_nrof_independent_components( int in_nrIC ); 
+    void set_nrof_independent_components( int in_nrIC );
 
     /*!
-      \brief Set non-linearity 
+      \brief Set non-linearity
 
       Set non-linearity to use : FICA_NONLIN_POW3 (default),  FICA_NONLIN_TANH, FICA_NONLIN_GAUSS, FICA_NONLIN_SKEW
 
-      \param in_g (Input) Non-linearity. Can be selected from FICA_NONLIN_POW3, FICA_NONLIN_TANH, FICA_NONLIN_GAUSS or FICA_NONLIN_SKEW 
+      \param in_g (Input) Non-linearity. Can be selected from FICA_NONLIN_POW3, FICA_NONLIN_TANH, FICA_NONLIN_GAUSS or FICA_NONLIN_SKEW
 		*/
-    void set_non_linearity( int in_g ); 
+    void set_non_linearity( int in_g );
 
     /*!
-      \brief Set fine tuning 
+      \brief Set fine tuning
 
-      Set fine tuning true or false. 
-      
+      Set fine tuning true or false.
+
       \param in_finetune (Input) Boolean (true or false)
 		*/
-    void set_fine_tune( bool in_finetune ); 
+    void set_fine_tune( bool in_finetune );
 
     /*!
       \brief Set \f$a_1\f$ parameter
 
-      Set internal parameter \f$a_1\f$ of Fast_ICA (See reference paper). 
+      Set internal parameter \f$a_1\f$ of Fast_ICA (See reference paper).
 
       \param fl_a1 (Input) Parameter \f$a_1\f$ from reference paper
 		*/
-    void set_a1( double fl_a1 ); 
+    void set_a1( double fl_a1 );
 
     /*!
       \brief Set \f$a_2\f$ parameter
 
-      Set internal parameter \f$a_2\f$ of Fast_ICA (See reference paper). 
+      Set internal parameter \f$a_2\f$ of Fast_ICA (See reference paper).
 
       \param fl_a2 (Input) Parameter \f$a_2\f$ from reference paper
 		*/
-    void set_a2( double fl_a2 ); 
+    void set_a2( double fl_a2 );
 
     /*!
       \brief Set \f$\mu\f$ parameter
 
-      Set internal parameter \f$\mu\f$ of Fast_ICA (See reference paper). 
+      Set internal parameter \f$\mu\f$ of Fast_ICA (See reference paper).
 
       \param fl_mu (Input) Parameter \f$\mu\f$ from reference paper
 		*/
-    void set_mu( double fl_mu ); 
+    void set_mu( double fl_mu );
 
     /*!
-      \brief Set convergence parameter \f$\epsilon\f$ 
+      \brief Set convergence parameter \f$\epsilon\f$
 
-      Set \f$\epsilon\f$ parameter for convergence precision. 
+      Set \f$\epsilon\f$ parameter for convergence precision.
 
       \param fl_epsilon (Input) \f$\epsilon\f$ is convergence precision
 		*/
-    void set_epsilon( double fl_epsilon ); 
+    void set_epsilon( double fl_epsilon );
 
     /*!
       \brief Set sample size
 
-      Set the percentage of samples to take into account at every iteration. 
+      Set the percentage of samples to take into account at every iteration.
 
       \param fl_sampleSize (Input) Percentage of data to take into account at every iteration
 		*/
-    void set_sample_size( double fl_sampleSize ); 
+    void set_sample_size( double fl_sampleSize );
 
     /*!
       \brief Set stabilization mode true or off
 
-      Set stabilization mode. 
+      Set stabilization mode.
 
       \param in_stabilization (Input) Set stabilization true or false
 		*/
-    void set_stabilization( bool in_stabilization ); 
+    void set_stabilization( bool in_stabilization );
 
     /*!
       \brief Set maximum number of iterations
 
-      Set maximum number of iterations for Fast_ICA. 
+      Set maximum number of iterations for Fast_ICA.
 
       \param in_maxNumIterations (Input) Maximum number of iterations to go through
 		*/
-    void set_max_num_iterations( int in_maxNumIterations ); 
+    void set_max_num_iterations( int in_maxNumIterations );
 
     /*!
       \brief Set maximum number of iterations for fine tuning
 
-      Set maximum numberr of iterations for fine tuning. 
+      Set maximum numberr of iterations for fine tuning.
 
-      \param in_maxFineTune (Input) Maximum number of iterations for fine tuning stage 
+      \param in_maxFineTune (Input) Maximum number of iterations for fine tuning stage
 		*/
-    void set_max_fine_tune( int in_maxFineTune ); 
+    void set_max_fine_tune( int in_maxFineTune );
 
     /*!
       \brief Set first eigenvalue index to take into account
 
-      Set first eigenvalue index to take into account. 
+      Set first eigenvalue index to take into account.
 
-      \param in_firstEig (Input) First eigenvalue index to take into account 
+      \param in_firstEig (Input) First eigenvalue index to take into account
 		*/
-    void set_first_eig( int in_firstEig ); 
+    void set_first_eig( int in_firstEig );
 
     /*!
       \brief Set last eigenvalue index to take into account
 
-      Set last eigenvalue index to take into account. 
+      Set last eigenvalue index to take into account.
 
-      \param in_lastEig (Input) Last eigenvalue index to take into account 
+      \param in_lastEig (Input) Last eigenvalue index to take into account
 		*/
-    void set_last_eig( int in_lastEig ); 
+    void set_last_eig( int in_lastEig );
 
     /*!
       \brief If true, only perform Principal Component Analysis (default = false)
 
-      Wether to perform PCA only or PCA+ICA. 
+      Wether to perform PCA only or PCA+ICA.
 
-      \param in_PCAonly (Input) True = PCA only, false = PCA+ICA (default) 
+      \param in_PCAonly (Input) True = PCA only, false = PCA+ICA (default)
 		*/
-    void set_pca_only( bool in_PCAonly ); 
+    void set_pca_only( bool in_PCAonly );
 
     /*!
       \brief Set initial guess matrix instead of random (default)
 
-      Set initial matrix instead of random matrix. 
+      Set initial matrix instead of random matrix.
 
-      \param ma_initGuess (Input) Initial guess matrix 
+      \param ma_initGuess (Input) Initial guess matrix
 		*/
-    void set_init_guess( mat ma_initGuess ); 
+    void set_init_guess( mat ma_initGuess );
 
 
     /*!
       \brief Get mixing matrix
 
-      Return mixing matrix. 
+      Return mixing matrix.
 
-      \return Mixing matrix 
+      \return Mixing matrix
 		*/
-    mat get_mixing_matrix(); 
+    mat get_mixing_matrix();
 
     /*!
       \brief Get separating matrix
 
-      Return separating matrix. 
+      Return separating matrix.
 
-      \return Separating matrix 
+      \return Separating matrix
 		*/
-    mat get_separating_matrix(); 
+    mat get_separating_matrix();
 
     /*!
       \brief Get separated signals
 
-      Return separated signals (Independent Components). 
+      Return separated signals (Independent Components).
 
-      \return ICs 
+      \return ICs
 		*/
-    mat get_independent_components(); 
+    mat get_independent_components();
 
     /*!
       \brief Get number of independent components
 
-      Return number of ICs. 
+      Return number of ICs.
 
-      \return Number of ICs 
+      \return Number of ICs
 		*/
-    int get_nrof_independent_components(); 
+    int get_nrof_independent_components();
 
     /*!
       \brief Get nrIC first columns of the de-whitening matrix
-      
-      Return principal eigenvectors. 
 
-      \return Principal eigenvectors 
+      Return principal eigenvectors.
+
+      \return Principal eigenvectors
 		*/
-    mat get_principal_eigenvectors(); 
+    mat get_principal_eigenvectors();
 
     /*!
       \brief Get the whitening matrix
 
-      Return whitening matrix. 
+      Return whitening matrix.
 
-      \return Whitening matrix 
+      \return Whitening matrix
 		*/
-    mat get_whitening_matrix(); 
+    mat get_whitening_matrix();
 
     /*!
       \brief Get the de-whitening matrix
 
-      Return dewhitening matrix. 
+      Return dewhitening matrix.
 
-      \return Dewhitening matrix 
+      \return Dewhitening matrix
 		*/
-    mat get_dewhitening_matrix(); 
+    mat get_dewhitening_matrix();
 
     /*!
       \brief Get whitened signals
 
-      Return whitened signals. 
+      Return whitened signals.
 
-      \return Whitened signals 
+      \return Whitened signals
 		*/
-    mat get_white_sig(); 
+    mat get_white_sig();
 
   private:
 
-    int approach, numOfIC, g, initState; 
+    int approach, numOfIC, g, initState;
     bool finetune, stabilization, PCAonly;
-    double a1, a2, mu, epsilon, sampleSize; 
-    int maxNumIterations, maxFineTune; 
+    double a1, a2, mu, epsilon, sampleSize;
+    int maxNumIterations, maxFineTune;
 
-    int firstEig, lastEig; 
+    int firstEig, lastEig;
 
-    mat initGuess; 
+    mat initGuess;
 
-    mat mixedSig, A, W, icasig; 
+    mat mixedSig, A, W, icasig;
 
     mat whiteningMatrix;
-    mat dewhiteningMatrix; 
+    mat dewhiteningMatrix;
     mat whitesig;
 
-    mat E, VecPr; 
-    vec D; 
+    mat E, VecPr;
+    vec D;
 
   }; // class Fast_ICA
 

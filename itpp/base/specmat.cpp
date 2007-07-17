@@ -2,7 +2,7 @@
  * \file
  * \brief Implementation of special vectors and matrices
  * \author Tony Ottosson, Tobias Ringstrom, Pal Frenger, Adam Piatyszek and Erik G. Larsson
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -36,7 +36,7 @@
 #include <itpp/base/matfunc.h>
 
 
-namespace itpp { 
+namespace itpp {
 
   ivec find(const bvec &invector)
   {
@@ -77,7 +77,7 @@ namespace itpp {
       t(i,i) = one;				\
     return t;					\
   }
-  
+
   CREATE_SET_FUNS(vec, mat, ones, 1.0)
   CREATE_SET_FUNS(bvec, bmat, ones_b, bin(1))
   CREATE_SET_FUNS(ivec, imat, ones_i, 1)
@@ -127,12 +127,12 @@ namespace itpp {
       return output;
     }
   }
-    
+
   vec zigzag_space(double t0, double t1, int K)
   {
     it_assert(K>0,"zigzag_space:() K must be positive");
     ivec N="0 1";
-    
+
     int n=2;
     for (int k=0; k<K; k++) {
       ivec Nn=2*N;
@@ -142,7 +142,7 @@ namespace itpp {
       }
       N=Nn;
     }
-    
+
     vec T0=linspace(t0,t1,n);
     vec Tt=zeros(n);
     for (int i=0; i<n; i++) {
@@ -153,12 +153,12 @@ namespace itpp {
 
   // Construct a Hadamard-imat of size "size"
   imat hadamard(int size) {
-    it_assert(size > 0, "hadamard(): size is not a power of 2"); 
+    it_assert(size > 0, "hadamard(): size is not a power of 2");
     int logsize = ceil_i(log2(static_cast<double>(size)));
     it_assert(pow2i(logsize) == size, "hadamard(): size is not a power of 2");
 
-    imat H(size, size); H(0,0) = 1; 
-	
+    imat H(size, size); H(0,0) = 1;
+
     for (int i = 0; i < logsize; ++i) {
       int pow2 = 1 << i;
       for (int k = 0; k < pow2; ++k) {
@@ -180,12 +180,12 @@ namespace itpp {
     int i, j;
 
     out = -1; // start with all elements equal to "-1"
-  
+
     // Generate a complete list of quadratic residues
     for (i=0; i<(p-1)/2; i++) {
       quadratic_residue=((i+1)*(i+1))%p;
       // set this element in all rows (col-row) = quadratic_residue
-      for (j=0; j<p; j++) { 
+      for (j=0; j<p; j++) {
 	out(j, (j+quadratic_residue)%p)=1;
       }
     }
@@ -213,7 +213,7 @@ namespace itpp {
 
   cmat toeplitz(const cvec &c, const cvec &r) {
     int size = c.size();
-    it_assert(size == r.size(), 
+    it_assert(size == r.size(),
 	      "toeplitz(): Incorrect sizes of input vectors.");
     cmat output(size, size);
     cvec c_conj = conj(c);
@@ -286,7 +286,7 @@ namespace itpp {
   {
     mat m;
     double c = std::cos(angle), s = std::sin(angle);
-  
+
     it_assert(plane1>=0 && plane2>=0 &&
 	      plane1<dim && plane2<dim && plane1!=plane2,
 	      "Invalid arguments to rotation_matrix()");
@@ -333,7 +333,7 @@ namespace itpp {
   void givens(double a, double b, double &c, double &s)
   {
     double t;
-    
+
     if (b == 0) {
       c = 1.0;
       s = 0.0;
@@ -357,7 +357,7 @@ namespace itpp {
     double t, c, s;
 
     m.set_size(2,2);
-    
+
     if (b == 0) {
       m(0,0) = 1.0;
       m(1,1) = 1.0;
@@ -395,7 +395,7 @@ namespace itpp {
     double t, c, s;
 
     m.set_size(2,2);
-    
+
     if (b == 0) {
       m(0,0) = 1.0;
       m(1,1) = 1.0;

@@ -2,7 +2,7 @@
  * \file
  * \brief Error functions - source file
  * \author Tony Ottosson, Pal Frenger and Adam Piatyszek
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -120,13 +120,13 @@ double erf(double x)
 #endif
 
 
-namespace itpp { 
+namespace itpp {
 
   /*!
    * Abramowitz and Stegun: Eq. (7.1.14) gives this continued fraction
    * for erfc(z)
    *
-   * erfc(z) = sqrt(pi).exp(-z^2).  1   1/2   1   3/2   2   5/2  
+   * erfc(z) = sqrt(pi).exp(-z^2).  1   1/2   1   3/2   2   5/2
    *                               ---  ---  ---  ---  ---  --- ...
    *                               z +  z +  z +  z +  z +  z +
    *
@@ -141,9 +141,9 @@ namespace itpp {
   {
     const double tiny = std::numeric_limits<double>::min();
 
-    // first calculate z+ 1/2   1 
+    // first calculate z+ 1/2   1
     //                    ---  --- ...
-    //                    z +  z + 
+    //                    z +  z +
     std::complex<double> f(z);
     std::complex<double> C(f);
     std::complex<double> D(0.0);
@@ -212,8 +212,8 @@ namespace itpp {
   {
     double h = 0.2; // numerical experiment suggests this is small enough
 
-    // choose an even n0, and then shift z->z-n0.h and n->n-h. 
-    // n0 is chosen so that real((z-n0.h)^2) is as small as possible. 
+    // choose an even n0, and then shift z->z-n0.h and n->n-h.
+    // n0 is chosen so that real((z-n0.h)^2) is as small as possible.
     int n0 = 2 * static_cast<int>(z.imag() / (2 * h) + 0.5);
 
     std::complex<double> z0(0.0, n0 * h);
@@ -221,11 +221,11 @@ namespace itpp {
     std::complex<double> sum(0.0, 0.0);
 
     // limits of sum chosen so that the end sums of the sum are
-    // fairly small. In this case exp(-(35.h)^2)=5e-22 
+    // fairly small. In this case exp(-(35.h)^2)=5e-22
     for (int np = -35; np <= 35; np += 2) {
       std::complex<double> t(zp.real(), zp.imag() - np * h);
       std::complex<double> b(exp(t * t) / static_cast<double>(np + n0));
-      sum += b; 
+      sum += b;
     }
 
     sum *= 2.0 * exp(-z * z) / pi;
@@ -236,11 +236,11 @@ namespace itpp {
   /*
    * This function calculates a well known error function erf(z) for
    * complex z. Three methods are implemented. Which one is used
-   * depends on z. 
+   * depends on z.
    */
   std::complex<double> erf(const std::complex<double>& z)
   {
-    // Use the method appropriate to size of z - 
+    // Use the method appropriate to size of z -
     // there probably ought to be an extra option for NaN z, or infinite z
     if (abs(z) < 2.0)
       return cerf_series(z);

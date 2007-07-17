@@ -2,7 +2,7 @@
  * \file
  * \brief Matrix Class Definitions
  * \author Tony Ottosson, Tobias Ringstrom, Adam Piatyszek and Conrad Sanderson
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -84,8 +84,8 @@ namespace itpp {
   template<class Num_T> const Mat<Num_T> operator*(const Mat<Num_T> &m, Num_T t);
   //! Multiplication of scalar and matrix
   template<class Num_T> const Mat<Num_T> operator*(Num_T t, const Mat<Num_T> &m);
-  
-  //! Element wise multiplication of two matrices. Same functionality as Matlab/Octave expression A .* B 
+
+  //! Element wise multiplication of two matrices. Same functionality as Matlab/Octave expression A .* B
   template<class Num_T> const Mat<Num_T> elem_mult(const Mat<Num_T> &A, const Mat<Num_T> &B);
   //! Element wise multiplication of two matrices, storing the result in matrix \c out (which is re-sized if necessary)
   template<class Num_T> void elem_mult_out(const Mat<Num_T> &A, const Mat<Num_T> &B, Mat<Num_T> &out);
@@ -95,15 +95,15 @@ namespace itpp {
   template<class Num_T> void elem_mult_out(const Mat<Num_T> &A, const Mat<Num_T> &B, const Mat<Num_T> &C, const Mat<Num_T> &D, Mat<Num_T> &out);
   //! In-place element wise multiplication of two matrices. Fast version of B = elem_mult(A,B)
   template<class Num_T> void elem_mult_inplace(const Mat<Num_T> &A, Mat<Num_T> &B);
-  //! Element wise multiplication of two matrices, followed by summation of the resultant elements. Fast version of sumsum(elem_mult(A,B))  
+  //! Element wise multiplication of two matrices, followed by summation of the resultant elements. Fast version of sumsum(elem_mult(A,B))
   template<class Num_T> Num_T elem_mult_sum(const Mat<Num_T> &A, const Mat<Num_T> &B);
 
   //! Division of matrix and scalar
   template<class Num_T> const Mat<Num_T> operator/(const Mat<Num_T> &m, Num_T t);
-  
+
   //! Element wise division of two matrices. Same functionality as Matlab/Octave expression A ./ B
   template<class Num_T> const Mat<Num_T> elem_div(const Mat<Num_T> &A, const Mat<Num_T> &B);
-  //! Element wise division of two matrices, storing the result in matrix \c out (which is re-sized if necessary) 
+  //! Element wise division of two matrices, storing the result in matrix \c out (which is re-sized if necessary)
   template<class Num_T> void elem_div_out(const Mat<Num_T> &A, const Mat<Num_T> &B, Mat<Num_T> &out);
   //! Element wise division of two matrices, followed by summation of the resultant elements. Fast version of sumsum(elem_div(A,B))
   template<class Num_T> Num_T elem_div_sum(const Mat<Num_T> &A, const Mat<Num_T> &B);
@@ -123,7 +123,7 @@ namespace itpp {
     and \c cmat. \c double and \c complex<double> are usually \c double and
     \c complex<double> respectively. However, this can be changed when
     compiling the it++ (see installation notes for more details). (Note: for
-    binary matrices, an alternative to the bmat class is \c GF2mat and 
+    binary matrices, an alternative to the bmat class is \c GF2mat and
     \c GF2mat_dense, which offer a more memory efficient representation and
     additional functions for linear algebra.)
 
@@ -363,8 +363,8 @@ namespace itpp {
     friend const Mat<Num_T> operator*<>(const Mat<Num_T> &m, Num_T t);
     //! Multiplication of scalar and matrix
     friend const Mat<Num_T> operator*<>(Num_T t, const Mat<Num_T> &m);
-    
-    //! Element wise multiplication of two matrices. Same functionality as Matlab expression A .* B 
+
+    //! Element wise multiplication of two matrices. Same functionality as Matlab expression A .* B
     friend const Mat<Num_T> elem_mult <>(const Mat<Num_T> &A, const Mat<Num_T> &B);
     //! Element wise multiplication of two matrices, storing the result in matrix \c out (which is re-sized if necessary)
     friend void elem_mult_out <>(const Mat<Num_T> &A, const Mat<Num_T> &B, Mat<Num_T> &out);
@@ -374,7 +374,7 @@ namespace itpp {
     friend void elem_mult_out <>(const Mat<Num_T> &A, const Mat<Num_T> &B, const Mat<Num_T> &C, const Mat<Num_T> &D, Mat<Num_T> &out);
     //! In-place element wise multiplication of two matrices. Fast version of B = elem_mult(A,B)
     friend void elem_mult_inplace <>(const Mat<Num_T> &A, Mat<Num_T> &B);
-    //! Element wise multiplication of two matrices, followed by summation of the resultant elements. Fast version of sumsum(elem_mult(A,B))  
+    //! Element wise multiplication of two matrices, followed by summation of the resultant elements. Fast version of sumsum(elem_mult(A,B))
     friend Num_T elem_mult_sum <>(const Mat<Num_T> &A, const Mat<Num_T> &B);
 
     //! Division by a scalar
@@ -383,10 +383,10 @@ namespace itpp {
     friend const Mat<Num_T> operator/<>(const Mat<Num_T> &m, Num_T t);
     //! Elementwise division with the current matrix
     Mat<Num_T>& operator/=(const Mat<Num_T> &m);
-    
+
     //! Element wise division of two matrices. Same functionality as Matlab expression A ./ B
     friend const Mat<Num_T> elem_div <>(const Mat<Num_T> &A, const Mat<Num_T> &B);
-    //! Element wise division of two matrices, storing the result in matrix \c out (which is re-sized if necessary) 
+    //! Element wise division of two matrices, storing the result in matrix \c out (which is re-sized if necessary)
     friend void elem_div_out <>(const Mat<Num_T> &A, const Mat<Num_T> &B, Mat<Num_T> &out);
     //! Element wise division of two matrices, followed by summation of the resultant elements. Fast version of sumsum(elem_div(A,B))
     friend Num_T elem_div_sum <>(const Mat<Num_T> &A, const Mat<Num_T> &B);
@@ -513,7 +513,7 @@ namespace itpp {
       datasize = 0;
       no_rows = 0;
       no_cols = 0;
-    } 
+    }
     else {
       datasize = rows * cols;
       create_elements(data, datasize, factory);
@@ -523,9 +523,9 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-  void Mat<Num_T>::free() 
-  { 
-    delete[] data; 
+  void Mat<Num_T>::free()
+  {
+    delete[] data;
     data = 0;
     datasize = 0;
     no_rows = 0;
@@ -534,19 +534,19 @@ namespace itpp {
 
 
   template<class Num_T> inline
-  Mat<Num_T>::Mat(const Factory &f) : 
+  Mat<Num_T>::Mat(const Factory &f) :
     datasize(0), no_rows(0), no_cols(0), data(0), factory(f) {}
 
   template<class Num_T> inline
-  Mat<Num_T>::Mat(int inrow, int incol, const Factory &f) : 
+  Mat<Num_T>::Mat(int inrow, int incol, const Factory &f) :
     datasize(0), no_rows(0), no_cols(0), data(0), factory(f)
   {
     it_assert_debug((inrow >= 0) && (incol >= 0), "The rows and columns must be >= 0");
-    alloc(inrow, incol); 
+    alloc(inrow, incol);
   }
 
   template<class Num_T> inline
-  Mat<Num_T>::Mat(const Mat<Num_T> &m) : 
+  Mat<Num_T>::Mat(const Mat<Num_T> &m) :
     datasize(0), no_rows(0), no_cols(0), data(0), factory(m.factory)
   {
     alloc(m.no_rows, m.no_cols);
@@ -554,7 +554,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-  Mat<Num_T>::Mat(const Mat<Num_T> &m, const Factory &f) : 
+  Mat<Num_T>::Mat(const Mat<Num_T> &m, const Factory &f) :
     datasize(0), no_rows(0), no_cols(0), data(0), factory(f)
   {
     alloc(m.no_rows, m.no_cols);
@@ -630,7 +630,7 @@ namespace itpp {
 	  data[i+j*inrow] = Num_T(0);
       // free the previous data memory
       delete[] tmp;
-    } 
+    }
     else {
       free();
       alloc(inrow, incol);
@@ -653,7 +653,7 @@ namespace itpp {
 
   template<class Num_T> inline
   const Num_T& Mat<Num_T>::operator()(int R,int C) const
-  { 
+  {
     it_assert_debug((R >= 0) && (R < no_rows) && (C >= 0) && (C < no_cols),
 	       "Mat<Num_T>::operator(): index out of range");
     return data[R+C*no_rows];
@@ -661,7 +661,7 @@ namespace itpp {
 
   template<class Num_T> inline
   Num_T& Mat<Num_T>::operator()(int R,int C)
-  { 
+  {
     it_assert_debug((R >= 0) && (R < no_rows) && (C >= 0) && (C < no_cols),
 	       "Mat<Num_T>::operator(): index out of range");
     return data[R+C*no_rows];
@@ -669,7 +669,7 @@ namespace itpp {
 
   template<class Num_T> inline
   Num_T& Mat<Num_T>::operator()(int index)
-  { 
+  {
     it_assert_debug((index < no_rows*no_cols) && (index >= 0),
 	       "Mat<Num_T>::operator(): index out of range");
     return data[index];
@@ -685,9 +685,9 @@ namespace itpp {
 
   template<class Num_T> inline
   const Num_T& Mat<Num_T>::get(int R,int C) const
-  { 
+  {
     it_assert_debug((R >= 0) && (R < no_rows) && (C >= 0) && (C < no_cols),
-	       "Mat<Num_T>::get(): index out of range"); 
+	       "Mat<Num_T>::get(): index out of range");
     return data[R+C*no_rows];
   }
 
@@ -695,7 +695,7 @@ namespace itpp {
   void Mat<Num_T>::set(int R, int C, const Num_T &v)
   {
     it_assert_debug((R >= 0) && (R < no_rows) && (C >= 0) && (C < no_cols),
-	       "Mat<Num_T>::set(): index out of range"); 
+	       "Mat<Num_T>::set(): index out of range");
     data[R+C*no_rows] = v;
   }
 
@@ -706,9 +706,9 @@ namespace itpp {
     std::istringstream buffer(values);
     int rows = 0, maxrows = 10, cols = 0, nocols = 0, maxcols = 10;
     bool comma = true;
-    
+
     free();
-    alloc(maxrows, maxcols); 
+    alloc(maxrows, maxcols);
     zeros();
 
     while (buffer.peek() != EOF) {
@@ -798,7 +798,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-  const Mat<Num_T> Mat<Num_T>::get(int r1, int r2, int c1, int c2) const 
+  const Mat<Num_T> Mat<Num_T>::get(int r1, int r2, int c1, int c2) const
   {
     return (*this)(r1, r2, c1, c2);
   }
@@ -1010,7 +1010,7 @@ namespace itpp {
     for (int i=r ; i < no_rows ; i++) {
       copy_vector(no_cols, &Temp.data[i+1], no_rows+1, &data[i], no_rows);
     }
-	  
+
   }
 
   template<class Num_T> inline
@@ -1032,18 +1032,18 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-  void Mat<Num_T>::del_col(int c) 
+  void Mat<Num_T>::del_col(int c)
   {
     it_assert_debug(c>=0 && c<no_cols, "Mat<Num_T>::del_col(): index out of range");
     Mat<Num_T> Temp(*this);
-	  
+
     set_size(no_rows, no_cols-1, false);
     copy_vector(c*no_rows, Temp.data, data);
     copy_vector((no_cols - c)*no_rows, &Temp.data[(c+1)*no_rows], &data[c*no_rows]);
   }
 
   template<class Num_T> inline
-  void Mat<Num_T>::del_cols(int c1, int c2) 
+  void Mat<Num_T>::del_cols(int c1, int c2)
   {
     it_assert_debug(c1>=0 && c2<no_cols && c1<=c2, "Mat<Num_T>::del_cols(): index out of range");
     Mat<Num_T> Temp(*this);
@@ -1054,7 +1054,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-  void Mat<Num_T>::ins_row(int r, const Vec<Num_T> &in) 
+  void Mat<Num_T>::ins_row(int r, const Vec<Num_T> &in)
   {
     it_assert_debug(r>=0 && r<=no_rows, "Mat<Num_T>::ins_row(): index out of range");
     it_assert_debug((in.size() == no_cols) || no_rows==0, "Mat<Num_T>::ins_row(): vector size does not match");
@@ -1076,7 +1076,7 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-  void Mat<Num_T>::ins_col(int c, const Vec<Num_T> &in) 
+  void Mat<Num_T>::ins_col(int c, const Vec<Num_T> &in)
   {
     it_assert_debug(c>=0 && c<=no_cols, "Mat<Num_T>::ins_col(): index out of range");
     it_assert_debug(in.size() == no_rows || no_cols==0, "Mat<Num_T>::ins_col(): vector size does not match");
@@ -1094,13 +1094,13 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-  void Mat<Num_T>::append_row(const Vec<Num_T> &in) 
+  void Mat<Num_T>::append_row(const Vec<Num_T> &in)
   {
     ins_row(no_rows, in);
   }
 
   template<class Num_T> inline
-  void Mat<Num_T>::append_col(const Vec<Num_T> &in) 
+  void Mat<Num_T>::append_col(const Vec<Num_T> &in)
   {
     ins_col(no_cols, in);
   }
@@ -1117,7 +1117,7 @@ namespace itpp {
   }
 
   //! Specialization of \c hermitian_transpose() method for std::complex<double>
-  template<> 
+  template<>
   const cmat Mat<std::complex<double> >::hermitian_transpose() const;
 
   template<class Num_T>
@@ -1191,18 +1191,18 @@ namespace itpp {
   {
     it_assert_debug( (no_rows == 1 && no_cols == v.size()) || (no_cols == 1 && no_rows == v.size()),
 		"Mat<Num_T>::operator=(vec); wrong size");
-		
+
     // construct a 1-d column of the vector
     set_size(v.size(), 1, false);
     set_col(0, v);
-		
+
     return *this;
   }
 
   template<class Num_T> inline
   Mat<Num_T>& Mat<Num_T>::operator=(const char *values)
-  { 
-    set(values); 
+  {
+    set(values);
     return *this;
   }
 
@@ -1525,28 +1525,28 @@ namespace itpp {
   void elem_mult_out(const Mat<Num_T> &A, const Mat<Num_T> &B, Mat<Num_T> &out)
   {
     it_assert_debug( (A.no_rows==B.no_rows) && (A.no_cols==B.no_cols), "Mat<Num_T>::elem_mult_out: wrong sizes");
-    
+
     if( (out.no_rows != A.no_rows) || (out.no_cols != A.no_cols) )
       out.set_size(A.no_rows, A.no_cols);
 
     for(int i=0; i<out.datasize; i++)
       out.data[i] = A.data[i] * B.data[i];
   }
-  
+
   template<class Num_T> inline
   void elem_mult_out(const Mat<Num_T> &A, const Mat<Num_T> &B, const Mat<Num_T> &C, Mat<Num_T> &out)
   {
     it_assert_debug( (A.no_rows==B.no_rows==C.no_rows) \
                 && (A.no_cols==B.no_cols==C.no_cols), \
                 "Mat<Num_T>::elem_mult_out: wrong sizes" );
-    
+
     if( (out.no_rows != A.no_rows) || (out.no_cols != A.no_cols) )
       out.set_size(A.no_rows, A.no_cols);
 
     for(int i=0; i<out.datasize; i++)
       out.data[i] = A.data[i] * B.data[i] * C.data[i];
   }
-  
+
   template<class Num_T> inline
   void elem_mult_out(const Mat<Num_T> &A, const Mat<Num_T> &B, const Mat<Num_T> &C, const Mat<Num_T> &D, Mat<Num_T> &out)
   {
@@ -1559,7 +1559,7 @@ namespace itpp {
     for(int i=0; i<out.datasize; i++)
       out.data[i] = A.data[i] * B.data[i] * C.data[i] * D.data[i];
   }
-  
+
   template<class Num_T> inline
   void elem_mult_inplace(const Mat<Num_T> &A, Mat<Num_T> &B)
   {
@@ -1569,20 +1569,20 @@ namespace itpp {
     for(int i=0; i<B.datasize; i++)
       B.data[i] *= A.data[i];
   }
-  
+
   template<class Num_T> inline
   Num_T elem_mult_sum(const Mat<Num_T> &A, const Mat<Num_T> &B)
   {
     it_assert_debug( (A.no_rows==B.no_rows) && (A.no_cols==B.no_cols), "Mat<Num_T>::elem_mult_sum: wrong sizes" );
 
     Num_T acc = 0;
-    
+
     for(int i=0; i<A.datasize; i++)
       acc += A.data[i] * B.data[i];
-    
+
     return acc;
   }
-  
+
   template<class Num_T> inline
   Mat<Num_T>& Mat<Num_T>::operator/=(Num_T t)
   {
@@ -1624,27 +1624,27 @@ namespace itpp {
   void elem_div_out(const Mat<Num_T> &A, const Mat<Num_T> &B, Mat<Num_T> &out)
   {
     it_assert_debug( (A.no_rows==B.no_rows) && (A.no_cols==B.no_cols), "Mat<Num_T>::elem_div_out: wrong sizes");
-    
+
     if( (out.no_rows != A.no_rows) || (out.no_cols != A.no_cols) )
       out.set_size(A.no_rows, A.no_cols);
 
     for(int i=0; i<out.datasize; i++)
       out.data[i] = A.data[i] / B.data[i];
   }
-  
+
   template<class Num_T> inline
   Num_T elem_div_sum(const Mat<Num_T> &A, const Mat<Num_T> &B)
   {
     it_assert_debug( (A.no_rows==B.no_rows) && (A.no_cols==B.no_cols), "Mat<Num_T>::elem_div_sum: wrong sizes" );
 
     Num_T acc = 0;
-    
+
     for(int i=0; i<A.datasize; i++)
       acc += A.data[i] / B.data[i];
-    
+
     return acc;
   }
-  
+
   template<class Num_T>
   bool Mat<Num_T>::operator==(const Mat<Num_T> &m) const
   {
@@ -1950,7 +1950,7 @@ namespace itpp {
   extern template void elem_mult_out(const smat &A, const smat &B, smat &out);
   //! Template instantiation of elem_mult_out
   extern template void elem_mult_out(const bmat &A, const bmat &B, bmat &out);
-  
+
   //! Template instantiation of elem_mult_out
   extern template void elem_mult_out(const mat &A, const mat &B, const mat &C, mat &out);
   //! Template instantiation of elem_mult_out
@@ -1961,7 +1961,7 @@ namespace itpp {
   extern template void elem_mult_out(const smat &A, const smat &B, const smat &C, smat &out);
   //! Template instantiation of elem_mult_out
   extern template void elem_mult_out(const bmat &A, const bmat &B, const bmat &C, bmat &out);
-  
+
   //! Template instantiation of elem_mult_out
   extern template void elem_mult_out(const mat &A, const mat &B, const mat &C, const mat &D, mat &out);
   //! Template instantiation of elem_mult_out
@@ -1972,7 +1972,7 @@ namespace itpp {
   extern template void elem_mult_out(const smat &A, const smat &B, const smat &C, const smat &D, smat &out);
   //! Template instantiation of elem_mult_out
   extern template void elem_mult_out(const bmat &A, const bmat &B, const bmat &C, const bmat &D, bmat &out);
-  
+
   //! Template instantiation of elem_mult_inplace
   extern template void elem_mult_inplace(const mat &A, mat &B);
   //! Template instantiation of elem_mult_inplace
@@ -1983,7 +1983,7 @@ namespace itpp {
   extern template void elem_mult_inplace(const smat &A, smat &B);
   //! Template instantiation of elem_mult_inplace
   extern template void elem_mult_inplace(const bmat &A, bmat &B);
-  
+
   //! Template instantiation of elem_mult_sum
   extern template double elem_mult_sum(const mat &A, const mat &B);
   //! Template instantiation of elem_mult_sum
@@ -2031,7 +2031,7 @@ namespace itpp {
   extern template void elem_div_out(const smat &A, const smat &B, smat &out);
   //! Template instantiation of elem_div_out
   extern template void elem_div_out(const bmat &A, const bmat &B, bmat &out);
-  
+
   //! Template instantiation of elem_div_sum
   extern template double elem_div_sum(const mat &A, const mat &B);
   //! Template instantiation of elem_div_sum
@@ -2042,7 +2042,7 @@ namespace itpp {
   extern template short elem_div_sum(const smat &A, const smat &B);
   //! Template instantiation of elem_div_sum
   extern template bin elem_div_sum(const bmat &A, const bmat &B);
-  
+
   // ------------- Concatenations -----------------
 
   //! Template instantiation of concat_horizontal

@@ -1,6 +1,6 @@
 /*!
- * \file 
- * \brief Definitions of a set of operators for Fix, Fixed, CFix and 
+ * \file
+ * \brief Definitions of a set of operators for Fix, Fixed, CFix and
  * CFixed classes
  * \author Johan Bergman
  *

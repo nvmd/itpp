@@ -1,6 +1,6 @@
 /*!
- * \file 
- * \brief Implementation of a set of functions for Fix, Fixed, CFix and 
+ * \file
+ * \brief Implementation of a set of functions for Fix, Fixed, CFix and
  * CFixed classes
  * \author Johan Bergman
  *

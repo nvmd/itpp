@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definitions of a fixed-point data type Fixed
  * \author Johan Bergman
  *
@@ -43,7 +43,7 @@ namespace itpp {
 
   /*!
     \brief Templated fixed-point data type
-  
+
     See the Detailed Description in the \ref fixed module.
   */
   template<int w, e_mode e=TC, o_mode o=WRAP, q_mode q=TRN>
@@ -79,7 +79,7 @@ namespace itpp {
   };
 
   //!@}
-  
+
   //! Typedefs for Fixed (fixed1, fixed2, ..., fixed64)
   typedef Fixed<1, TC, WRAP> fixed1;
 #ifndef DOXYGEN_SHOULD_SKIP_THIS

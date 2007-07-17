@@ -2,7 +2,7 @@
  * \file
  * \brief Definitions of Filter classes and functions
  * \author Hakan Eriksson, Thomas Eriksson, Tony Ottosson and Adam Piatyszek
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -65,7 +65,7 @@ namespace itpp {
     //! Virtual destructor.
     virtual ~Filter() {}
   protected:
-    /*! 
+    /*!
       \brief Pure virtual filter function. This is where the real
       filtering is done. Implement this function to create a new filter.
     */
@@ -187,10 +187,10 @@ namespace itpp {
     This class implements a autoregressive moving average (ARMA) filter
     according to
     \f[
-    a(0)*y(n) = b(0)*x(n) + b(1)*x(n-1) + \ldots + b(N_b)*x(n-N_b) 
+    a(0)*y(n) = b(0)*x(n) + b(1)*x(n-1) + \ldots + b(N_b)*x(n-N_b)
       - a(1)*y(n-1) - \ldots - a(N_a)*y(n-N_a)
     \f]
-    
+
     where \a a and \a b are the filter coefficients, \a x is the input
     and \a y is the output.
 
@@ -248,18 +248,18 @@ namespace itpp {
     These functions implements a autoregressive moving average (ARMA) filter
     according to
     \f[
-    a(0)*y(n) = b(0)*x(n) + b(1)*x(n-1) + \ldots + b(N_b)*x(n-N_b) 
+    a(0)*y(n) = b(0)*x(n) + b(1)*x(n-1) + \ldots + b(N_b)*x(n-N_b)
       - a(1)*y(n-1) - \ldots - a(N_a)*y(n-N_a)
     \f]
 
     where \a a and \a b are the filter coefficients, \a x is the input
-    and \a y is the output. 
+    and \a y is the output.
 
 		Setting a=1 gives a MA filter and b=1 gives a AR filter. The
     length of the output vector equals the length of the input
     vector. The state vectors \a state_in and \a state_out is of
     length \f$max(N_a, n_b) - 1\f$.
-    
+
     If no start state \a state_in is given it is set to zero.
 
     @{
@@ -273,7 +273,7 @@ namespace itpp {
   cvec filter(const vec &b, const int one, const cvec &input);
   cvec filter(const cvec &b, const int one, const cvec &input);
   cvec filter(const cvec &b, const int one, const vec &input);
-  
+
   vec filter(const int one, const vec &a, const vec &input);
   cvec filter(const int one, const vec &a, const cvec &input);
   cvec filter(const int one, const cvec &a, const cvec &input);
@@ -289,7 +289,7 @@ namespace itpp {
   cvec filter(const vec &b, const int one, const cvec &input, const cvec &state_in, cvec &state_out);
   cvec filter(const cvec &b, const int one, const cvec &input, const cvec &state_in, cvec &state_out);
   cvec filter(const cvec &b, const int one, const vec &input, const cvec &state_in, cvec &state_out);
-  
+
   vec filter(const int one, const vec &a, const vec &input, const vec &state_in, vec &state_out);
   cvec filter(const int one, const vec &a, const cvec &input, const cvec &state_in, cvec &state_out);
   cvec filter(const int one, const cvec &a, const cvec &input, const cvec &state_in, cvec &state_out);
@@ -297,9 +297,9 @@ namespace itpp {
   /*! @} */
 
 
-  /*!  
+  /*!
     \brief Design a Nth order FIR filter with cut-off frequency \c
-    cutoff using the window method.  
+    cutoff using the window method.
     \ingroup filters
   */
   vec fir1(int N, double cutoff);
@@ -330,7 +330,7 @@ namespace itpp {
     inptr = 0;
     init = false;
   }
-    
+
   template <class T1, class T2,class T3>
   MA_Filter<T1,T2,T3>::MA_Filter(const Vec<T2> &b) : Filter<T1,T2,T3>()
   {
@@ -362,7 +362,7 @@ namespace itpp {
       state(n) = mem(offset);
       offset = (offset + 1) % mem.size();
     }
-    
+
     return state;
   }
 
@@ -391,11 +391,11 @@ namespace itpp {
     for (int i = 0; i < inptr; i++) {
       s += coeffs(L + i) * mem(i);
     }
-    
+
     inptr--;
-    if (inptr < 0) 
+    if (inptr < 0)
       inptr += mem.length();
- 
+
     return s;
   }
 
@@ -472,12 +472,12 @@ namespace itpp {
     for (int i = 0; i < inptr; i++) {
       s -= mem(i) * coeffs(L + i + 1); // All coeffs except a(0)
     }
-    
+
     inptr--;
     if (inptr < 0)
       inptr += mem.size();
     mem(inptr) = s;
-      
+
     return (s / a0);
   }
 
@@ -523,7 +523,7 @@ namespace itpp {
       state(n) = mem(offset);
       offset = (offset + 1) % mem.size();
     }
-      
+
     return state;
   }
 

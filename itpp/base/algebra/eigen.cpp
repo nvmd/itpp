@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Eigenvalue decomposition functions.
  * \author Tony Ottosson
  *
@@ -44,7 +44,7 @@
 #include <itpp/base/converters.h>
 
 
-namespace itpp { 
+namespace itpp {
 
 #if defined(HAVE_LAPACK)
 
@@ -250,50 +250,50 @@ namespace itpp {
   bool eig_sym(const mat &A, vec &d, mat &V)
   {
     it_error("LAPACK library is needed to use eig_sym() function");
-    return false;   
+    return false;
   }
 
   bool eig_sym(const mat &A, vec &d)
   {
     it_error("LAPACK library is needed to use eig_sym() function");
-    return false;   
+    return false;
   }
 
   bool eig_sym(const cmat &A, vec &d, cmat &V)
-  { 
+  {
     it_error("LAPACK library is needed to use eig_sym() function");
-    return false;   
+    return false;
   }
 
   bool eig_sym(const cmat &A, vec &d)
   {
     it_error("LAPACK library is needed to use eig_sym() function");
-    return false;   
+    return false;
   }
 
 
   bool eig(const mat &A, cvec &d, cmat &V)
   {
     it_error("LAPACK library is needed to use eig() function");
-    return false;   
+    return false;
   }
 
   bool eig(const mat &A, cvec &d)
   {
     it_error("LAPACK library is needed to use eig() function");
-    return false;   
+    return false;
   }
 
   bool eig(const cmat &A, cvec &d, cmat &V)
   {
     it_error("LAPACK library is needed to use eig() function");
-    return false;   
+    return false;
   }
 
   bool eig(const cmat &A, cvec &d)
   {
     it_error("LAPACK library is needed to use eig() function");
-    return false;   
+    return false;
   }
 
 #endif // HAVE_LAPACK

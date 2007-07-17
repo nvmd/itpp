@@ -2,7 +2,7 @@
  * \file
  * \brief Miscellaneous functions - source file
  * \author Tony Ottosson and Adam Piatyszek
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -33,7 +33,7 @@
 #include <itpp/base/math/misc.h>
 
 
-namespace itpp { 
+namespace itpp {
 
   std::string itpp_version(void)
   {
@@ -53,5 +53,5 @@ namespace itpp {
     else
       return true; // BIG_ENDIAN
   }
-  
+
 } //namespace itpp

@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definitions of determinant calculations
  * \author Tony Ottosson
  *

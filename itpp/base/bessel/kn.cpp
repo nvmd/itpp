@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of modified Bessel functions of third kind
  * \author Tony Ottosson
  *
@@ -30,7 +30,7 @@
  * -------------------------------------------------------------------------
  *
  * This is slightly modified routine from the Cephes library:
- * http://www.netlib.org/cephes/ 
+ * http://www.netlib.org/cephes/
  */
 
 #include <itpp/base/bessel/bessel_internal.h>
@@ -75,7 +75,7 @@ using namespace itpp;
 
 /*
 Algorithm for Kn.
-                       n-1 
+                       n-1
                    -n   -  (n-k-1)!    2   k
 K (x)  =  0.5 (x/2)     >  -------- (-x /4)
  n                      -     k!
@@ -191,7 +191,7 @@ double kn(int nn, double x)
 	      kf = kf * i;
 	      zn *= z;
 	      t = nk1f * zn / kf;
-	      s += t;   
+	      s += t;
 	      if( (MAXNUM - fabs(t)) < fabs(s) )
 		goto overf;
 	      if( (tox > 1.0) && ((MAXNUM/tox) < zmn) )

@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definitions of a Reed-Solomon codec class
  * \author Pal Frenger, Steve Peters and Adam Piatyszek
  *
@@ -42,10 +42,10 @@ namespace itpp {
 
   //---------------------- Reed-Solomon --------------------------------------
 
-  /*! 
+  /*!
     \ingroup fec
     \brief Reed-Solomon Codes.
-  
+
     Uses the Berlkamp-Massey algorithm for decoding as described in: S. B. Wicker,
     "Error Control Systems for digital communication and storage," Prentice Hall.
 

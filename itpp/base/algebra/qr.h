@@ -2,7 +2,7 @@
  * \file
  * \brief Definitions of QR factorisation functions
  * \author Tony Ottosson
- * 
+ *
  * $Date$
  * $Revision$
  *

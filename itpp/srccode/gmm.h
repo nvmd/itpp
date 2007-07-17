@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definition of a Gaussian Mixture Model Class
  * \author Thomas Eriksson
  *
@@ -38,7 +38,7 @@
 
 namespace itpp {
 
-  /*! 
+  /*!
     \ingroup sourcecoding
     \brief Gaussian Mixture Model Class
     \author Thomas Eriksson
@@ -89,7 +89,7 @@ namespace itpp {
   inline void GMM::set_weight(int i, double weight, bool compflag) {w(i)=weight; if (compflag) compute_internals(); }
   inline void GMM::set_mean(const vec &means, bool compflag) {m=means; if (compflag) compute_internals(); }
   inline void GMM::set_covariance(const vec &covariances, bool compflag) {sigma=covariances; if (compflag) compute_internals(); }
-  inline int GMM::get_no_mixtures() 
+  inline int GMM::get_no_mixtures()
   {
     it_warning("GMM::get_no_mixtures(): This function is depreceted and might be removed from feature releases. Please use get_no_gaussians() instead.");
     return M;

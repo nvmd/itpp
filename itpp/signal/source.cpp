@@ -2,7 +2,7 @@
  * \file
  * \brief Deterministic sources - source file
  * \author Tobias Ringstrom and Tony Ottosson
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -33,7 +33,7 @@
 #include <itpp/signal/source.h>
 
 
-namespace itpp { 
+namespace itpp {
 
   ///////////////////////////////////////////////
   // Sine_Source
@@ -50,7 +50,7 @@ namespace itpp {
   double Sine_Source::sample()
   {
     double samp = m + A * sin(theta);
-    
+
     theta += dtheta;
     if (theta >= 2.0 * pi)
       theta -= 2.0 * pi;
@@ -95,7 +95,7 @@ namespace itpp {
   double Square_Source::sample()
   {
     double samp = theta < 0.5 ? 1.0 : -1.0;
-    
+
     theta += dtheta;
     if (theta >= 1.0)
       theta -= 1.0;
@@ -140,7 +140,7 @@ namespace itpp {
   double Triangle_Source::sample()
   {
     double samp = m + 4.0 * A * (theta < 0.25 ? theta : 0.5 - theta);
-    
+
     theta += dtheta;
     if (theta >= 0.75)
       theta -= 1.0;
@@ -185,7 +185,7 @@ namespace itpp {
   double Sawtooth_Source::sample()
   {
     double samp = 2.0 * A * theta;
-    
+
     theta += dtheta;
     if (theta >= 0.5)
       theta -= 1.0;
@@ -229,7 +229,7 @@ namespace itpp {
   double Impulse_Source::sample()
   {
     double samp;
-    
+
     if (pos >= 1.0) {
       samp = A;
       pos -= 1.0;
@@ -288,7 +288,7 @@ namespace itpp {
   double Pattern_Source::sample()
   {
     double samp = pat(pos);
-    
+
     if (pos >= pat.size()-1)
       pos = 0;
     else

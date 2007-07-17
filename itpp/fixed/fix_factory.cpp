@@ -1,6 +1,6 @@
 /*!
- * \file 
- * \brief Implementation of a class factory for fixed-point data types Fix 
+ * \file
+ * \brief Implementation of a class factory for fixed-point data types Fix
  * and CFix
  * \author Johan Bergman
  *

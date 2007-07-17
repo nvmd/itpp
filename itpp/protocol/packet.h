@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definition of a Packet class
  * \author Krister Norlund, Anders Persson and Tony Ottosson
  *

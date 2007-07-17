@@ -40,12 +40,12 @@ namespace itpp {
 
   // ====== IMPLEMENTATION OF THE ALIST CLASS ==========
 
-  GF2mat_sparse_alist::GF2mat_sparse_alist(const std::string &fname) 
-    : data_ok(false) 
+  GF2mat_sparse_alist::GF2mat_sparse_alist(const std::string &fname)
+    : data_ok(false)
   {
     read(fname);
   }
-  
+
   void GF2mat_sparse_alist::read(const std::string &fname)
   {
     std::ifstream file;
@@ -53,17 +53,17 @@ namespace itpp {
     std::stringstream ss;
 
     file.open(fname.c_str());
-    it_assert(file.is_open(), 
-	      "GF2mat_sparse_alist::read(): Could not open file \"" 
-	      << fname << "\" for reading"); 
-    
+    it_assert(file.is_open(),
+	      "GF2mat_sparse_alist::read(): Could not open file \""
+	      << fname << "\" for reading");
+
     // parse N and M:
     getline(file, line);
     ss << line;
     ss >> N >> M;
-    it_assert(!ss.fail(), 
+    it_assert(!ss.fail(),
 	      "GF2mat_sparse_alist::read(): Wrong alist data (N or M)");
-    it_assert((N > 0) && (M > 0), 
+    it_assert((N > 0) && (M > 0),
 	      "GF2mat_sparse_alist::read(): Wrong alist data");
     ss.seekg(0, std::ios::end);
     ss.clear();
@@ -72,7 +72,7 @@ namespace itpp {
     getline(file, line);
     ss << line;
     ss >> max_num_n >> max_num_m;
-    it_assert(!ss.fail(), 
+    it_assert(!ss.fail(),
 	      "GF2mat_sparse_alist::read(): Wrong alist data (max_num_{n,m})");
     it_assert((max_num_n >= 0) && (max_num_n <= N) &&
 	      (max_num_m >= 0) && (max_num_m <= M),
@@ -87,11 +87,11 @@ namespace itpp {
     ss << line;
     for (int i = 0; i < N; i++) {
       ss >> num_nlist(i);
-      it_assert(!ss.fail(), 
-		"GF2mat_sparse_alist::read(): Wrong alist data (num_nlist(" 
+      it_assert(!ss.fail(),
+		"GF2mat_sparse_alist::read(): Wrong alist data (num_nlist("
 		<< i << "))");
       it_assert((num_nlist(i) >= 0) && (num_nlist(i) <= M),
-		"GF2mat_sparse_alist::read(): Wrong alist data (num_nlist(" 
+		"GF2mat_sparse_alist::read(): Wrong alist data (num_nlist("
 		<< i << "))");
     }
     ss.seekg(0, std::ios::end);
@@ -104,11 +104,11 @@ namespace itpp {
     ss << line;
     for (int i = 0; i < M; i++) {
       ss >> num_mlist(i);
-      it_assert(!ss.fail(), 
-		"GF2mat_sparse_alist::read(): Wrong alist data (num_mlist(" 
+      it_assert(!ss.fail(),
+		"GF2mat_sparse_alist::read(): Wrong alist data (num_mlist("
 		<< i << "))");
       it_assert((num_mlist(i) >= 0) && (num_mlist(i) <= N),
-		"GF2mat_sparse_alist::read(): Wrong alist data (num_mlist(" 
+		"GF2mat_sparse_alist::read(): Wrong alist data (num_mlist("
 		<< i << "))");
     }
     ss.seekg(0, std::ios::end);
@@ -122,11 +122,11 @@ namespace itpp {
       ss << line;
       for (int j = 0; j < num_nlist(i); j++) {
 	ss >> nlist(i, j);
-	it_assert(!ss.fail(), 
-		  "GF2mat_sparse_alist::read(): Wrong alist data (nlist(" 
+	it_assert(!ss.fail(),
+		  "GF2mat_sparse_alist::read(): Wrong alist data (nlist("
 		  << i << "," << j << "))");
 	it_assert((nlist(i, j) >= 0) && (nlist(i, j) <= M),
-		  "GF2mat_sparse_alist::read(): Wrong alist data (nlist(" 
+		  "GF2mat_sparse_alist::read(): Wrong alist data (nlist("
 		  << i << "," << j << "))");
       }
       ss.seekg(0, std::ios::end);
@@ -141,11 +141,11 @@ namespace itpp {
       ss << line;
       for (int j = 0; j < num_mlist(i); j++) {
 	ss >> mlist(i, j);
-	it_assert(!ss.fail(), 
-		  "GF2mat_sparse_alist::read(): Wrong alist data (mlist(" 
+	it_assert(!ss.fail(),
+		  "GF2mat_sparse_alist::read(): Wrong alist data (mlist("
 		  << i << "," << j << "))");
 	it_assert((mlist(i, j) >= 0) && (mlist(i, j) <= N),
-		  "GF2mat_sparse_alist::read(): Wrong alist data (mlist(" 
+		  "GF2mat_sparse_alist::read(): Wrong alist data (mlist("
 		  << i << "," << j << "))");
       }
       ss.seekg(0, std::ios::end);
@@ -158,13 +158,13 @@ namespace itpp {
 
   void GF2mat_sparse_alist::write(const std::string &fname) const
   {
-    it_assert(data_ok, 
+    it_assert(data_ok,
 	      "GF2mat_sparse_alist::write(): alist data not ready for writing");
 
     std::ofstream file(fname.c_str(), std::ofstream::out);
-    it_assert(file.is_open(), 
+    it_assert(file.is_open(),
 	      "GF2mat_sparse_alist::write(): Could not open file \""
-	      << fname << "\" for writing"); 
+	      << fname << "\" for writing");
 
     file << N << " " << M << std::endl;
     file << max_num_n << " " << max_num_m << std::endl;
@@ -204,10 +204,10 @@ namespace itpp {
     }
     sbmat.compact();
 
-    if (transpose) { 
-      return sbmat.transpose(); 
+    if (transpose) {
+      return sbmat.transpose();
     } else {
-      return sbmat; 
+      return sbmat;
     }
   }
 
@@ -216,8 +216,8 @@ namespace itpp {
   // WARNING: This method is very slow. Sparse_Mat has to be extended with
   // some extra functions to improve the performance of this.
   // ----------------------------------------------------------------------
-  void GF2mat_sparse_alist::from_sparse(const GF2mat_sparse &sbmat, 
-					bool transpose) 
+  void GF2mat_sparse_alist::from_sparse(const GF2mat_sparse &sbmat,
+					bool transpose)
   {
     if (transpose) {
       from_sparse(sbmat.transpose(), false);
@@ -245,7 +245,7 @@ namespace itpp {
 	num_mlist(i) = temp_row.length();
       }
       max_num_m = max(num_mlist);
-  
+
       // fill nlist matrix, num_nlist vector and max_num_n
       nlist.set_size(0, 0);
       for (int j = 0; j < N; j++) {
@@ -271,7 +271,7 @@ namespace itpp {
   // Implementation of a dense GF2 matrix class
   // ----------------------------------------------------------------------
 
-  GF2mat::GF2mat(int i, int j): nrows(i), ncols(j), 
+  GF2mat::GF2mat(int i, int j): nrows(i), ncols(j),
 				nwords((j >> shift_divisor) + 1)
   {
     data.set_size(nrows, nwords);
@@ -306,7 +306,7 @@ namespace itpp {
       }
     }
   }
-  
+
 
   GF2mat::GF2mat(const bmat &X): nrows(X.rows()), ncols(X.cols())
   {
@@ -347,7 +347,7 @@ namespace itpp {
     it_assert(X.cols()>n2,"GF2mat(): indexes out of range");
     it_assert(m1>=0 && n1>=0 && m2>=m1 && n2>=n1,
 	      "GF2mat::GF2mat(): indexes out of range");
-  
+
     nrows=m2-m1+1;
     ncols=n2-n1+1;
     nwords = (ncols >> shift_divisor) + 1;
@@ -358,7 +358,7 @@ namespace itpp {
 	data(i,j) = 0;
       }
     }
-  
+
     for (int i=0; i<nrows; i++) {
       for (int j=0; j<ncols; j++)   {
 	bin b = X(i+m1,j+n1);
@@ -374,7 +374,7 @@ namespace itpp {
 	      "GF2mat::GF2mat(): index out of range");
     it_assert(min(columns)>=0,
 	      "GF2mat::GF2mat(): column index must be positive");
-  
+
     nrows=X.rows();
     ncols=length(columns);
     nwords = (ncols >> shift_divisor) + 1;
@@ -385,7 +385,7 @@ namespace itpp {
 	data(i,j) = 0;
       }
     }
-  
+
     for (int j=0; j<ncols; j++) {
       for (int i=0; i<X.get_col(columns(j)).nnz(); i++)   {
 	bin b = X.get_col(columns(j)).get_nz_data(i);
@@ -416,7 +416,7 @@ namespace itpp {
 	}
       }
     }
-  
+
     return Z;
   }
 
@@ -447,7 +447,7 @@ namespace itpp {
       set(i,j,x(j));
     }
   }
- 
+
   void GF2mat::set_col(int j, bvec x)
   {
     it_assert(length(x)==nrows,
@@ -469,7 +469,7 @@ namespace itpp {
 
   GF2mat GF2mat::get_submatrix(int m1, int n1, int m2, int n2) const
   {
-    it_assert(m1>=0 && n1>=0 && m2>=m1 && n2>=n1 
+    it_assert(m1>=0 && n1>=0 && m2>=m1 && n2>=n1
 	      && m2<nrows && n2<ncols,
 	      "GF2mat::get_submatrix() index out of range");
     GF2mat result(m2-m1+1,n2-n1+1);
@@ -490,7 +490,7 @@ namespace itpp {
 	      "GF2mat::concatenate_vertical(): dimension mismatch");
     it_assert(X.nwords==nwords,
 	      "GF2mat::concatenate_vertical(): dimension mismatch");
-  
+
     GF2mat result(nrows+X.nrows,ncols);
     for (int i=0; i<nrows; i++) {
       for (int j=0; j<nwords; j++) {
@@ -503,7 +503,7 @@ namespace itpp {
 	result.data(i+nrows,j) = X.data(i,j);
       }
     }
-  
+
     return result;
   }
 
@@ -511,7 +511,7 @@ namespace itpp {
   {
     it_assert(X.nrows==nrows,
 	      "GF2mat::concatenate_horizontal(): dimension mismatch");
-    
+
     GF2mat result(nrows,X.ncols+ncols);
     for (int i=0; i<nrows; i++) {
       for (int j=0; j<ncols; j++) {
@@ -544,10 +544,10 @@ namespace itpp {
     for (int i=0; i<nrows; i++) {
       result(i) = get(i,j);
     }
-  
+
     return result;
   }
-  
+
 
   int GF2mat::T_fact(GF2mat &T, GF2mat &U, ivec &perm) const
   {
@@ -558,9 +558,9 @@ namespace itpp {
     for (int i=0; i<ncols; i++) {
       perm(i) = i;
     }
-  
+
     if (nrows>250) {     // avoid cluttering output ...
-      it_info_debug("Performing T-factorization of GF(2) matrix...  rows: " 
+      it_info_debug("Performing T-factorization of GF(2) matrix...  rows: "
 		    << nrows << " cols: "  << ncols << " .... " << std::endl);
     }
     int pdone=0;
@@ -575,21 +575,21 @@ namespace itpp {
       }
 
       return j;
-    
-    found: 
+
+    found:
       U.swap_rows(i1,j);
       T.swap_rows(i1,j);
       U.swap_cols(j1,j);
-    
+
       int temp = perm(j);
       perm(j) = perm(j1);
       perm(j1) = temp;
-    
+
       // now subtract row i from remaining rows
       for (int i1=j+1; i1<nrows; i1++)  {
-	if (U.get(i1,j)==1) { 
+	if (U.get(i1,j)==1) {
 	  int ptemp = floor_i(100.0*(i1+j*nrows)/(nrows*nrows));
-	  if (nrows>250 && ptemp>pdone+10) {    
+	  if (nrows>250 && ptemp>pdone+10) {
 	    it_info_debug(ptemp << "% done.");
 	    pdone=ptemp;
 	  }
@@ -602,8 +602,8 @@ namespace itpp {
   }
 
 
-  int GF2mat::T_fact_update_bitflip(GF2mat &T, GF2mat &U, 
-				    ivec &perm, int rank, 
+  int GF2mat::T_fact_update_bitflip(GF2mat &T, GF2mat &U,
+				    ivec &perm, int rank,
 				    int r, int c) const
   {
     // First, update U (before re-triangulization)
@@ -613,7 +613,7 @@ namespace itpp {
 	goto foundidx;
       }
     }
-    it_error("GF2mat::T_fact_update_bitflip() - internal error");  
+    it_error("GF2mat::T_fact_update_bitflip() - internal error");
 
   foundidx:
     for (int i=0; i<nrows; i++) {
@@ -632,60 +632,60 @@ namespace itpp {
     U.set_col(ncols-1,lastcol);
     perm(ncols-1) = temp_perm;
 
-    // then, if the matrix is tall, also move row c to the end 
+    // then, if the matrix is tall, also move row c to the end
     if (nrows>=ncols) {
-      bvec lastrow_U = U.get_row(c);    
+      bvec lastrow_U = U.get_row(c);
       bvec lastrow_T = T.get_row(c);
       for (int i=c; i<nrows-1; i++) {
 	U.set_row(i,U.get_row(i+1));
-	T.set_row(i,T.get_row(i+1));      
+	T.set_row(i,T.get_row(i+1));
       }
       U.set_row(nrows-1,lastrow_U);
       T.set_row(nrows-1,lastrow_T);
-    
-      // Do Gaussian elimination on the last row 
-      for (int j=c; j<ncols; j++)  {       
-	if (U.get(nrows-1,j)==1) { 
+
+      // Do Gaussian elimination on the last row
+      for (int j=c; j<ncols; j++)  {
+	if (U.get(nrows-1,j)==1) {
 	  U.add_rows(nrows-1,j);
 	  T.add_rows(nrows-1,j);
 	}
       }
     }
- 
+
     // Now, continue T-factorization from the point (rank-1,rank-1)
-    for (int j=rank-1; j<nrows; j++) { 
+    for (int j=rank-1; j<nrows; j++) {
       int i1,j1;
       for (i1=j; i1<nrows; i1++) {
 	for (j1=j; j1<ncols; j1++) {
-	  if (U.get(i1,j1)==1) { 
-	    goto found; 
+	  if (U.get(i1,j1)==1) {
+	    goto found;
 	  }
 	}
       }
-    
+
       return j;
-    
-    found: 
+
+    found:
       U.swap_rows(i1,j);
       T.swap_rows(i1,j);
       U.swap_cols(j1,j);
-    
+
       int temp = perm(j);
       perm(j) = perm(j1);
       perm(j1) = temp;
-    
+
       for (int i1=j+1; i1<nrows; i1++)  {
-	if (U.get(i1,j)==1) { 
+	if (U.get(i1,j)==1) {
 	  U.add_rows(i1,j);
 	  T.add_rows(i1,j);
 	}
       }
     }
-  
+
     return nrows;
   }
 
-  bool GF2mat::T_fact_update_addcol(GF2mat &T, GF2mat &U, 
+  bool GF2mat::T_fact_update_addcol(GF2mat &T, GF2mat &U,
 				    ivec &perm, bvec newcol) const
   {
     int i0 = T.rows();
@@ -701,7 +701,7 @@ namespace itpp {
 	      "GF2mat::T_fact_update_addcol(): dimension mismatch");
     // The following test is VERY TIME-CONSUMING
     it_assert_debug(U.row_rank()==j0,
-       "GF2mat::T_fact_update_addcol(): factorization has incorrect rank"); 
+       "GF2mat::T_fact_update_addcol(): factorization has incorrect rank");
 
     bvec z = T*newcol;
     GF2mat Utemp = U.concatenate_horizontal(GF2mat(z,1));
@@ -721,9 +721,9 @@ namespace itpp {
 
     Utemp.swap_rows(i,j0);
     T.swap_rows(i,j0);
-  
+
     for (int i1=j0+1; i1<i0; i1++)  {
-      if (Utemp.get(i1,j0)==1) { 
+      if (Utemp.get(i1,j0)==1) {
 	Utemp.add_rows(i1,j0);
 	T.add_rows(i1,j0);
       }
@@ -744,8 +744,8 @@ namespace itpp {
     GF2mat T,U;
     ivec perm;
     int rank = T_fact(T,U,perm);
-    it_assert(rank==ncols,"GF2mat::inverse(): Matrix is not full rank"); 
- 
+    it_assert(rank==ncols,"GF2mat::inverse(): Matrix is not full rank");
+
     // backward substitution
     for (int i=ncols-2; i>=0; i--) {
       for (int j=ncols-1; j>i; j--) {
@@ -764,15 +764,15 @@ namespace itpp {
     GF2mat T,U;
     ivec perm;
     int rank = T_fact(T,U,perm);
-    return rank;  
+    return rank;
   }
 
   bool GF2mat::is_zero() const
   {
     for (int i=0; i<nrows; i++) {
       for (int j=0; j<nwords; j++) {
-	if (data(i,j)!=0) { 
-	  return false; 
+	if (data(i,j)!=0) {
+	  return false;
 	}
       }
     }
@@ -784,16 +784,16 @@ namespace itpp {
     if (X.nrows!=nrows) { return false; }
     if (X.ncols!=ncols) { return false; }
     it_assert(X.nwords==nwords,"GF2mat::operator==() dimension mismatch");
- 
+
     for (int i=0; i<nrows; i++) {
       for (int j=0; j<nwords; j++) {
-	//      if (X.get(i,j)!=get(i,j)) { 
+	//      if (X.get(i,j)!=get(i,j)) {
 	if (X.data(i,j)!=data(i,j)) {
-	  return false; 
+	  return false;
 	}
       }
     }
-    return true;  
+    return true;
   }
 
 
@@ -802,8 +802,8 @@ namespace itpp {
     it_assert(i>=0 && i<nrows,"GF2mat::add_rows(): out of range");
     it_assert(j>=0 && j<nrows,"GF2mat::add_rows(): out of range");
     for (int k=0; k<nwords; k++)   {
-      data(i,k) ^= data(j,k);    
-    }  
+      data(i,k) ^= data(j,k);
+    }
   }
 
   void GF2mat::swap_rows(int i, int j)
@@ -841,7 +841,7 @@ namespace itpp {
     it_assert(X.nwords>0,"Gfmat::operator*(): dimension mismatch");
     it_assert(Y.nwords>0,"Gfmat::operator*(): dimension mismatch");
 
-    /*  
+    /*
     // this can be done more efficiently?
     GF2mat result(X.nrows,Y.ncols);
     for (int i=0; i<X.nrows; i++) {
@@ -861,22 +861,22 @@ namespace itpp {
     return mult_trans(X,Y.transpose());
   }
 
-  bvec operator*(const GF2mat &X, const bvec &y) 
+  bvec operator*(const GF2mat &X, const bvec &y)
   {
     it_assert(length(y)==X.ncols,"GF2mat::operator*(): dimension mismatch");
     it_assert(X.nwords>0,"Gfmat::operator*(): dimension mismatch");
 
-    /*  
+    /*
     // this can be done more efficiently?
     bvec result = zeros_b(X.nrows);
     for (int i=0; i<X.nrows; i++) {
     // do the nwords-1 data columns first
     for (int j=0; j<X.nwords-1; j++) {
     int ind = j<<shift_divisor;
-    unsigned char r=X.data(i,j); 
+    unsigned char r=X.data(i,j);
     while (r) {
     result(i) ^= (r & y(ind));
-    r >>= 1;    
+    r >>= 1;
     ind++;
     }
     }
@@ -884,7 +884,7 @@ namespace itpp {
     for (int j=(X.nwords-1)<<shift_divisor; j<X.ncols; j++) {
     result(i) ^= (X.get(i,j) & y(j));
     }
-    }      
+    }
     return result; */
 
     // is this better?
@@ -897,13 +897,13 @@ namespace itpp {
     it_assert(X.nwords>0,"GF2mat::mult_trans(): dimension mismatch");
     it_assert(Y.nwords>0,"GF2mat::mult_trans(): dimension mismatch");
     it_assert(X.nwords==Y.nwords,"GF2mat::mult_trans(): dimension mismatch");
-  
+
     GF2mat result(X.nrows,Y.nrows);
 
     for (int i=0; i<X.nrows; i++) {
       for (int j=0; j<Y.nrows; j++) {
 	bin b=0;
-	int kindx =i; 
+	int kindx =i;
 	int kindy =j;
 	for (int k=0; k<X.nwords; k++) {
 	  unsigned char r = X.data(kindx) & Y.data(kindy);
@@ -927,7 +927,7 @@ namespace itpp {
   {
     // CAN BE SPEEDED UP
     GF2mat result(ncols,nrows);
-  
+
     for (int i=0; i<nrows; i++) {
       for (int j=0; j<ncols; j++) {
 	result.set(j,i,get(i,j));
@@ -942,7 +942,7 @@ namespace itpp {
     it_assert(X.ncols==Y.ncols,"GF2mat::operator+(): dimension mismatch");
     it_assert(X.nwords==Y.nwords,"GF2mat::operator+(): dimension mismatch");
     GF2mat result(X.nrows,X.ncols);
-  
+
     for (int i=0; i<X.nrows; i++) {
       for (int j=0; j<X.nwords; j++) {
 	result.data(i,j) = X.data(i,j) ^ Y.data(i,j);
@@ -961,7 +961,7 @@ namespace itpp {
     for (int j=0; j<ncols; j++) {
       if (I==0) {
 	set_col(j,temp.get_col(perm(j)));
-      }  else { 
+      }  else {
 	set_col(perm(j),temp.get_col(j));
       }
     }
@@ -978,14 +978,14 @@ namespace itpp {
 	for (int j=0; j<nwords; j++) {
 	  data(i,j) = temp.data(perm(i),j);
 	}
-      }  else { 
+      }  else {
 	for (int j=0; j<nwords; j++) {
 	  data(perm(i),j) = temp.data(i,j);
 	}
       }
     }
   }
-  
+
 
   std::ostream &operator<<(std::ostream &os, const GF2mat &X)
   {
@@ -1021,7 +1021,7 @@ namespace itpp {
   it_file &operator<<(it_file &f, const GF2mat &X)
   {
     // 3 64-bit unsigned words for: nrows, ncols and nwords + rest for char data
-    uint64_t bytecount = 3 * sizeof(uint64_t) 
+    uint64_t bytecount = 3 * sizeof(uint64_t)
       + X.nrows * X.nwords * sizeof(char);
     f.write_data_header("GF2mat", bytecount);
 
@@ -1033,7 +1033,7 @@ namespace itpp {
 	f.low_level_write(static_cast<char>(X.data(i,j)));
       }
     }
-    return f; 
+    return f;
   }
 
   it_ifile &operator>>(it_ifile &f, GF2mat &X)
@@ -1043,7 +1043,7 @@ namespace itpp {
     f.read_data_header(h);
     if (h.type == "GF2mat") {
       uint64_t tmp;
-      f.low_level_read(tmp); X.nrows = static_cast<int>(tmp); 
+      f.low_level_read(tmp); X.nrows = static_cast<int>(tmp);
       f.low_level_read(tmp); X.ncols = static_cast<int>(tmp);
       f.low_level_read(tmp); X.nwords = static_cast<int>(tmp);
       X.data.set_size(X.nrows,X.nwords);

@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of a fixed-point data type Fixed
  * \author Johan Bergman
  *

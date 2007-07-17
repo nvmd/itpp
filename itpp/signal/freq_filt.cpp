@@ -2,7 +2,7 @@
  * \file
  * \brief Implementation of Freq_Filt Class
  * \author Simon Wood
- * 
+ *
  * $Date$
  * $Revision$
  *

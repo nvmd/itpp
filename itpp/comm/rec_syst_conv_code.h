@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definitions of a Recursive Systematic Convolutional codec class
  * \author Pal Frenger. QLLR support by Erik G. Larsson.
  *
@@ -41,15 +41,15 @@
 
 namespace itpp {
 
-  /*! 
+  /*!
     \ingroup fec
     \brief A Recursive Systematic Convolutional Encoder/Decoder class
-  
+
     The main purpose of this class is to be used by the Turbo_Codec class which uses two recursive systematic
     convolutional encoders. It can however be used as a stand alone class. The map_decode
-    member function implementation follows the paper "A Turbo Code Tutorial" by William 
+    member function implementation follows the paper "A Turbo Code Tutorial" by William
     E. Ryan, New Mexico State University. This paper was found on the web and is probably
-    unpublished. 
+    unpublished.
   */
   class Rec_Syst_Conv_Code {
   public:
@@ -60,8 +60,8 @@ namespace itpp {
     //! Class constructor
     virtual ~Rec_Syst_Conv_Code() {}
 
-    /*! 
-      \brief Set generator polynomials. 
+    /*!
+      \brief Set generator polynomials.
 
       The generator polynomials are given in Proakis integer form. First generator (gen(0)) is the recursive polynomial.
 
@@ -78,7 +78,7 @@ namespace itpp {
     */
     void set_awgn_channel_parameters(double Ec, double N0);
 
-    /*! 
+    /*!
       \brief Set scaling factor for the decoder
 
       \param in_Lc is the channel reliability factor (i.e. \a Lc = 4 x sqrt( \a Ec ) / \a N0)
@@ -88,7 +88,7 @@ namespace itpp {
     /*!
       \brief Set the lookup table for algebra with quantized LLR values (see \c LLR_calc_unit class)
     */
-    void set_llrcalc(LLR_calc_unit in_llrcalc); 
+    void set_llrcalc(LLR_calc_unit in_llrcalc);
 
     /*!
       \brief Encode a binary vector of inputs and also adds a tail of \a K-1 zeros to force the encoder into the zero state.
@@ -109,17 +109,17 @@ namespace itpp {
 
       The extrinsic_input is the a priori information on each systematic bit. If no a priori information is available, this vector should
       contain only zeros. The extrinsic_output term may be passed to a subsequent decoder in a Turbo
-      scheme. The decision variable is \code L = Lc*rec_systematic + extrinsic_output + extrinsic_input \endcode where \code Lc = 4*sqrt(Ec)/N0 \endcode 
+      scheme. The decision variable is \code L = Lc*rec_systematic + extrinsic_output + extrinsic_input \endcode where \code Lc = 4*sqrt(Ec)/N0 \endcode
 
       \param rec_systematic Including both systematic bits and tail bits (if any)
       \param rec_parity Matrix including all parity bits from all polynomials as well as parity bits from the tail (if terminated)
       \param extrinsic_input For all systematic bits
       \param extrinsic_output For all systematic bits
-      \param set_terminated Equal to \a true if the trellis was terminated by the encoder and false otherwise 
+      \param set_terminated Equal to \a true if the trellis was terminated by the encoder and false otherwise
 
       <b>Note:</b> It is recommended to use the log_decode() decoder instead, as it is much faster and more numerically stable.
     */
-    virtual void map_decode(const vec &rec_systematic, const mat &rec_parity, const vec &extrinsic_input, vec &extrinsic_output, 
+    virtual void map_decode(const vec &rec_systematic, const mat &rec_parity, const vec &extrinsic_input, vec &extrinsic_output,
 			    bool set_terminated = false);
 
     /*!
@@ -127,20 +127,20 @@ namespace itpp {
 
       The extrinsic_input is the a priori information on each systematic bit. If no a priori information is available, this vector should
       contain only zeros. The extrinsic_output term may be passed to a subsequent decoder in a Turbo
-      scheme. The decision variable is \code L = Lc*rec_systematic + extrinsic_output + extrinsic_input \endcode where \code Lc = 4*sqrt(Ec)/N0 \endcode 
+      scheme. The decision variable is \code L = Lc*rec_systematic + extrinsic_output + extrinsic_input \endcode where \code Lc = 4*sqrt(Ec)/N0 \endcode
 
       \param rec_systematic Including both systematic bits and tail bits (if any)
       \param rec_parity Matrix including all parity bits from all polynomials as well as parity bits from the tail (if terminated)
       \param extrinsic_input For all systematic bits
       \param extrinsic_output For all systematic bits
-      \param set_terminated Equal to \a true if the trellis was terminated by the encoder and false otherwise 
+      \param set_terminated Equal to \a true if the trellis was terminated by the encoder and false otherwise
       \param metric May be "LOGMAP", "LOGMAX" (default), or "TABLE"
 
       <b>Note:</b> Unless LOGMAX decoding is desired, it is
       recommended to use the TABLE metric instead of LOGMAP as the
       table-based decoder is much faster and numerically stable.
     */
-    virtual void log_decode(const vec &rec_systematic, const mat &rec_parity, const vec &extrinsic_input, 
+    virtual void log_decode(const vec &rec_systematic, const mat &rec_parity, const vec &extrinsic_input,
 			    vec &extrinsic_output, bool set_terminated = false, std::string metric = "LOGMAX");
 
     /*!
@@ -150,18 +150,18 @@ namespace itpp {
       \param rec_parity Matrix including all parity bits from all polynomials as well as parity bits from the tail (if terminated)
       \param extrinsic_input For all systematic bits
       \param extrinsic_output For all systematic bits
-      \param set_terminated Equal to \a true if the trellis was terminated by the encoder and false otherwise 
+      \param set_terminated Equal to \a true if the trellis was terminated by the encoder and false otherwise
       \param metric May be "LOGMAP", "LOGMAX" (default), or "TABLE"
 
       <b>Note:</b> Unless LOGMAX decoding is desired, it is
       recommended to use the TABLE metric instead of LOGMAP as the
       table-based decoder is much faster and numerically stable.
     */
-    virtual void log_decode_n2(const vec &rec_systematic, 
+    virtual void log_decode_n2(const vec &rec_systematic,
 			       const vec &rec_parity,
-			       const vec &extrinsic_input, 
-			       vec &extrinsic_output, 
-			       bool set_terminated = false, 
+			       const vec &extrinsic_input,
+			       vec &extrinsic_output,
+			       bool set_terminated = false,
 			       std::string metric = "LOGMAX");
 
     // ===== EGL: ADDED FUNCTIONS NOV 2005 (THESE ARE DERIVATIVES OF EXISTING FUNCTIONS) ======
@@ -171,17 +171,17 @@ namespace itpp {
       LLR_calc_unit class).
 
       \param rec_systematic Including both systematic bits and tail bits (if any)
-      \param rec_parity Matrix including all parity bits from all polynomials as well 
+      \param rec_parity Matrix including all parity bits from all polynomials as well
       as parity bits from the tail (if terminated)
       \param extrinsic_input For all systematic bits
       \param extrinsic_output For all systematic bits
-      \param set_terminated Equal to \a true if the trellis was terminated by the encoder and false otherwise 
+      \param set_terminated Equal to \a true if the trellis was terminated by the encoder and false otherwise
 
     */
-    virtual void log_decode(const QLLRvec &rec_systematic, 
-			    const QLLRmat &rec_parity, 
-			    const QLLRvec &extrinsic_input, 
-			    QLLRvec &extrinsic_output, 
+    virtual void log_decode(const QLLRvec &rec_systematic,
+			    const QLLRmat &rec_parity,
+			    const QLLRvec &extrinsic_input,
+			    QLLRvec &extrinsic_output,
 			    bool set_terminated = false);
 
     /*!  \brief Implementation of the log-map decoder for the n=2 case
@@ -189,17 +189,17 @@ namespace itpp {
       (using the \c LLR_calc_unit class).
 
       \param rec_systematic Including both systematic bits and tail bits (if any)
-      \param rec_parity Matrix including all parity bits from all polynomials as well 
+      \param rec_parity Matrix including all parity bits from all polynomials as well
       as parity bits from the tail (if terminated)
       \param extrinsic_input For all systematic bits
       \param extrinsic_output For all systematic bits
-      \param set_terminated Equal to \a true if the trellis was terminated by the encoder and false otherwise 
+      \param set_terminated Equal to \a true if the trellis was terminated by the encoder and false otherwise
 
      */
-    virtual void log_decode_n2(const QLLRvec &rec_systematic, 
-			       const QLLRvec &rec_parity, 
-			       const QLLRvec &extrinsic_input, 
-			       QLLRvec &extrinsic_output, 
+    virtual void log_decode_n2(const QLLRvec &rec_systematic,
+			       const QLLRvec &rec_parity,
+			       const QLLRvec &extrinsic_input,
+			       QLLRvec &extrinsic_output,
 			       bool set_terminated = false);
 
     // ========================================================
@@ -220,11 +220,11 @@ namespace itpp {
     QLLRvec denom_q;
     double ln2;
 
-    /*! 
+    /*!
       This instance of an \c LLR_calc_unit contains the tables used for table lookup
       in the table-based map decoder.
     */
-    LLR_calc_unit llrcalc;  
+    LLR_calc_unit llrcalc;
 
     // This const value replaces INT definition used previously
     const double infinity;

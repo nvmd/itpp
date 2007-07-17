@@ -1,6 +1,6 @@
 
 /*!
- * \file 
+ * \file
  * \brief Class for numerically efficient log-likelihood algebra
  * \author Erik G. Larsson
  *
@@ -58,9 +58,9 @@ namespace itpp {
 
 
   ivec LLR_calc_unit::get_Dint()
-  { 
+  {
     ivec r(3);
-    r(0) = Dint1; 
+    r(0) = Dint1;
     r(1) = Dint2;
     r(2) = Dint3;
     return r;
@@ -71,7 +71,7 @@ namespace itpp {
     Dint1 = d1;      // 1<<Dint1 determines how integral LLRs relate to real LLRs (to_double=(1<<Dint)*int_llr)
     Dint2 = d2;      // number of entries in table for LLR operations
     Dint3 = d3;      // table resolution is 2^(-(Dint1-Dint3))
-    //    cerr << "Initializing LLR tables, Dint1=" << Dint1 << "   Dint2=" << Dint2 << "  Dint3=" << Dint3  
+    //    cerr << "Initializing LLR tables, Dint1=" << Dint1 << "   Dint2=" << Dint2 << "  Dint3=" << Dint3
     //	 << "  resoltion: " << pow(2.0,((double) (Dint3-Dint1))) << endl;
     logexp_table = construct_logexp_table();
   }
@@ -96,7 +96,7 @@ namespace itpp {
     }
     return result;
   }
-  
+
   vec LLR_calc_unit::to_double(const QLLRvec &l) const {
     int n=length(l);
     vec result(n);
@@ -117,7 +117,7 @@ namespace itpp {
     }
     return result;
   }
-  
+
   mat LLR_calc_unit::to_double(const QLLRmat &l) const {
     int m=l.rows();
     int n=l.cols();
@@ -129,21 +129,21 @@ namespace itpp {
     }
     return result;
   }
-  
+
   std::ostream &operator<<(std::ostream &os, const LLR_calc_unit &lcu)
   {
     os << "---------- LLR calculation unit -----------------" << std::endl;
     os << "LLR_calc_unit table properties:" << std::endl;
-    os << "The granularity in the LLR representation is " 
+    os << "The granularity in the LLR representation is "
        << pow2(static_cast<double>(-lcu.Dint1)) << std::endl;
     os << "The LLR scale factor is " << (1 << lcu.Dint1) << std::endl;
-    os << "The largest LLR that can be represented is " 
+    os << "The largest LLR that can be represented is "
        << lcu.to_double(QLLR_MAX) << std::endl;
-    os << "The table resolution is " 
+    os << "The table resolution is "
        << pow2(static_cast<double>(lcu.Dint3 - lcu.Dint1)) << std::endl;
     os << "The number of entries in the table is " << lcu.Dint2 << std::endl;
     os << "The tables truncates at the LLR value "
-       << pow2(static_cast<double>(lcu.Dint3 - lcu.Dint1)) * lcu.Dint2 
+       << pow2(static_cast<double>(lcu.Dint3 - lcu.Dint1)) * lcu.Dint2
        << std::endl;
     os << "-------------------------------------------------" << std::endl;
     return os;

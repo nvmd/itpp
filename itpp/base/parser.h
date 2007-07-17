@@ -1,8 +1,8 @@
 /*!
  * \file
  * \brief Definition of an argument parser class
- * \author Thomas Eriksson, Pal Frenger and Johan Bergman 
- * 
+ * \author Thomas Eriksson, Pal Frenger and Johan Bergman
+ *
  * $Date$
  * $Revision$
  *
@@ -45,7 +45,7 @@
 
 namespace itpp {
 
-  /*! 
+  /*!
     \addtogroup parser
 
     \brief Argument Parser
@@ -82,7 +82,7 @@ namespace itpp {
     // Declare and initialize a variable
     Array<ivec> var;
     set_array(var, "{[1] [2 3] [4 5 6]}");
-    
+
     // Let the Parser p get the variable named my_var_name
     bool my_var_name_was_found = p.get(var, "my_var_name");
     \endcode
@@ -96,7 +96,7 @@ namespace itpp {
     \ingroup parser
     \brief Argument Parser Class
     \author Thomas Eriksson and Pal Frenger (Thanks to Svante Signell for
-    valuable input)  
+    valuable input)
 
     This class parses strings to variables. The syntax is compatible with Matlab
     and Octave. It can be used in several different ways. See the Detailed Description
@@ -228,7 +228,7 @@ namespace itpp {
   //! Specialization of \c get() for bool
   template<>
   bool Parser::get(bool &var, const std::string &name, int num);
-  
+
 } // namespace itpp
 
 #endif // #ifndef PARSER_H

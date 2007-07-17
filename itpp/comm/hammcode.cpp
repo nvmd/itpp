@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of a Hamming code class
  * \author Tony Ottosson
  *
@@ -35,14 +35,14 @@
 #include <itpp/base/converters.h>
 
 
-namespace itpp { 
+namespace itpp {
 
   Hamming_Code::Hamming_Code(short m)
   {
     n = pow2i(m) - 1;
     k = pow2i(m) - m - 1;
-    H.set_size(n-k, n); 	
-    G.set_size(k, n);	
+    H.set_size(n-k, n);
+    G.set_size(k, n);
     generate_H(); // generate_H must be run before generate_G
     generate_G();
   }
@@ -54,17 +54,17 @@ namespace itpp {
     bvec temp;
     svec indexes(n);
     indexes.zeros();
-	
+
     for (i=1; i<=n-k; i++) { indexes(i-1) = pow2i(n-k-i); }
     NextPos = n-k;
     for (i=1; i<=n; i++) {
       NotUsed = 1;
-      for (j=0; j<n; j++) 
+      for (j=0; j<n; j++)
 	if (i == indexes(j)) { NotUsed = 0; }
       if (NotUsed) { indexes(NextPos) = i; NextPos = NextPos + 1; }
     }
-			
-    for (i=0; i<n; i++) {	
+
+    for (i=0; i<n; i++) {
       temp = dec2bin(n-k,indexes(i)); //<-CHECK THIS OUT!!!!
       for (j = 0; j < (n-k); j++) {
 	H(j,i) = temp(j);
@@ -76,15 +76,15 @@ namespace itpp {
   {
     short i, j;
     for (i=0; i<k; i++) {
-      for(j=0; j<n-k; j++) 
+      for(j=0; j<n-k; j++)
 	G(i,j) = H(j,i+n-k);
     }
-	
+
     for (i=0; i<k; i++) {
-      for (j=n-k; j<n; j++) 
+      for (j=n-k; j<n; j++)
 	G(i,j) = 0;
     }
-	
+
     for (i=0; i<k; i++)
       G(i,i+n-k) = 1;
   }
@@ -95,10 +95,10 @@ namespace itpp {
     int Itterations = floor_i(static_cast<double>(length) / k);
     bmat Gt = G.T();
     int i;
-    
+
     coded_bits.set_size(Itterations * n, false);
     //Code all codewords
-    for (i=0; i<Itterations; i++) 
+    for (i=0; i<Itterations; i++)
       coded_bits.replace_mid(n*i, Gt * uncoded_bits.mid(i*k,k) );
   }
 
@@ -118,22 +118,22 @@ namespace itpp {
     bvec coded(n), syndrome(n-k);
     short  isynd, errorpos=0;
     int i, j;
-    
+
     decoded_bits.set_size(Itterations*k, false);
 
     for (i=0; i<n; i++) {
-      for (j=0; j<n-k; j++) 
+      for (j=0; j<n-k; j++)
 	temp(j) = H(j,i);
-      Hindexes(i) = bin2dec(temp); 
+      Hindexes(i) = bin2dec(temp);
     }
-	
+
     //Decode all codewords
     for (i=0; i<Itterations; i++) {
       coded = coded_bits.mid(i*n,n);
       syndrome = H * coded;
-      isynd = bin2dec(syndrome); 
+      isynd = bin2dec(syndrome);
       if (isynd != 0) {
-	for (j=0; j<n; j++) 
+	for (j=0; j<n; j++)
 	  if (Hindexes(j) == isynd) { errorpos = j; };
 	coded(errorpos) += 1;
       }

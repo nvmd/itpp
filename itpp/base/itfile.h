@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Definition of classes for the IT++ file format
  * \author Tony Ottosson, Tobias Ringstrom and Adam Piatyszek
  *
@@ -228,7 +228,7 @@ namespace itpp {
     //! Find the variable number \c n
     bool seek(int n);
     //! Get information about the current variable
-    void info(std::string& name, std::string& type, std::string& desc, 
+    void info(std::string& name, std::string& type, std::string& desc,
 	      uint64_t& bytes);
 
   protected:
@@ -282,8 +282,8 @@ namespace itpp {
     bool get_low_precision() const { return low_prec; }
 
     //! Set the name and optionally description of the next variable to be saved
-    void set_next_name(const std::string& name, 
-		       const std::string& description = "") 
+    void set_next_name(const std::string& name,
+		       const std::string& description = "")
     { next_name = name; next_desc = description; }
 
     //! Write the header for the \c it_file
@@ -396,7 +396,7 @@ namespace itpp {
     f << Name("v") << v1 << flush;
     \endcode
   */
-  inline it_file& flush(it_file& f) 
+  inline it_file& flush(it_file& f)
   {
     f.flush();
     return f;
@@ -407,7 +407,7 @@ namespace itpp {
     \ingroup itfile
 
     An easy way to give a variable a name and optionally description when
-    saving. Usage: 
+    saving. Usage:
     \code
     vec v1("1 2 3"), v2;
     it_file f("file.it");
@@ -637,7 +637,7 @@ namespace itpp {
 #define it_save_var(v) it_save_var_as(v,#v)
   //! A convenient macro. Calling it_load_var(M) loads M as 'M' in the file 'M.it'.
 #define it_load_var(v) it_load_var_as(v,#v)
-  
+
   //!@}
 
 

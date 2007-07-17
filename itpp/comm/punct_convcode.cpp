@@ -1,5 +1,5 @@
 /*!
- * \file 
+ * \file
  * \brief Implementation of a Binary Punctured Convolutional Encoder class
  * \author Tony Ottosson
  *
@@ -33,7 +33,7 @@
 #include <itpp/comm/punct_convcode.h>
 
 
-namespace itpp { 
+namespace itpp {
 
   // --------------------- Punctured_Conv_Code --------------------------------
 
@@ -124,7 +124,7 @@ namespace itpp {
     puncture_matrix = pmatrix;
     Period = puncture_matrix.cols();
 
-    int p, j; 
+    int p, j;
     total = 0;
 
     for (j = 0; j < n; j++) {
@@ -244,13 +244,13 @@ namespace itpp {
   // Viterbi decoder using TruncLength (=5*K if not specified)
   void Punctured_Convolutional_Code::decode_trunc(const vec &received_signal, bvec &output)
   {
-    int nn = 0, i = 0, p = received_signal.size() / total, j; 
+    int nn = 0, i = 0, p = received_signal.size() / total, j;
 
     int temp_size = p * Period * n;
-    // number of punctured bits in a fraction of the puncture matrix 
-    // correcponding to the end of the received_signal vector 
+    // number of punctured bits in a fraction of the puncture matrix
+    // correcponding to the end of the received_signal vector
     p = received_signal.size() - p * total;
-    // precise calculation of the number of unpunctured bits 
+    // precise calculation of the number of unpunctured bits
     // (in the above fraction of the puncture matrix)
     while (p > 0) {
       for (j = 0; j < n; j++) {
@@ -258,11 +258,11 @@ namespace itpp {
 	  p--;
       }
       nn++;
-    } 
+    }
     temp_size += n * nn;
     if (p != 0)
       it_warning("Punctured_Convolutional_Code::decode(): Improper length of the received punctured block, dummy bits have been added");
-    
+
     vec temp(temp_size);
     nn = 0;
     j = 0;
@@ -291,13 +291,13 @@ namespace itpp {
   // Viterbi decoder using TruncLength (=5*K if not specified)
   void Punctured_Convolutional_Code::decode_tail(const vec &received_signal, bvec &output)
   {
-    int nn = 0, i = 0, p = received_signal.size() / total, j; 
+    int nn = 0, i = 0, p = received_signal.size() / total, j;
 
     int temp_size = p * Period * n;
-    // number of punctured bits in a fraction of the puncture matrix 
-    // correcponding to the end of the received_signal vector 
+    // number of punctured bits in a fraction of the puncture matrix
+    // correcponding to the end of the received_signal vector
     p = received_signal.size() - p * total;
-    // precise calculation of the number of unpunctured bits 
+    // precise calculation of the number of unpunctured bits
     // (in the above fraction of the puncture matrix)
     while (p > 0) {
       for (j = 0; j < n; j++) {
@@ -305,11 +305,11 @@ namespace itpp {
 	  p--;
       }
       nn++;
-    } 
+    }
     temp_size += n * nn;
     if (p != 0)
       it_warning("Punctured_Convolutional_Code::decode_tail(): Improper length of the received punctured block, dummy bits have been added");
- 
+
     vec temp(temp_size);
 
     nn = 0;
@@ -337,15 +337,15 @@ namespace itpp {
   }
 
   // Decode a block of encoded data where encode_tailbite has been used. Tries all start states.
-  void Punctured_Convolutional_Code::decode_tailbite(const vec &received_signal, bvec &output) 
+  void Punctured_Convolutional_Code::decode_tailbite(const vec &received_signal, bvec &output)
   {
-    int nn = 0, i = 0, p = received_signal.size() / total, j; 
+    int nn = 0, i = 0, p = received_signal.size() / total, j;
 
     int temp_size = p * Period * n;
-    // number of punctured bits in a fraction of the puncture matrix 
-    // correcponding to the end of the received_signal vector 
+    // number of punctured bits in a fraction of the puncture matrix
+    // correcponding to the end of the received_signal vector
     p = received_signal.size() - p * total;
-    // precise calculation of the number of unpunctured bits 
+    // precise calculation of the number of unpunctured bits
     // (in the above fraction of the puncture matrix)
     while (p > 0) {
       for (j = 0; j < n; j++) {
@@ -353,11 +353,11 @@ namespace itpp {
 	  p--;
       }
       nn++;
-    } 
+    }
     temp_size += n * nn;
     if (p != 0)
       it_warning("Punctured_Convolutional_Code::decode_tailbite(): Improper length of the received punctured block, dummy bits have been added");
- 
+
     vec temp(temp_size);
 
     nn = 0;
@@ -388,8 +388,8 @@ namespace itpp {
   /*
     Calculate the inverse sequence
 
-    Assumes that encode_tail is used in the encoding process. Returns false if there is an 
-    error in the coded sequence (not a valid codeword). Does not check that the tail forces 
+    Assumes that encode_tail is used in the encoding process. Returns false if there is an
+    error in the coded sequence (not a valid codeword). Does not check that the tail forces
     the encoder into the zeroth state.
   */
   bool Punctured_Convolutional_Code::inverse_tail(const bvec coded_sequence, bvec &input)
@@ -437,9 +437,9 @@ namespace itpp {
 
 
 
-  /* 
+  /*
      It is possible to do this more efficiently by registrating all (inputs,states,Periods)
-     that has zero metric (just and with the generators). After that build paths from a input=1 state. 
+     that has zero metric (just and with the generators). After that build paths from a input=1 state.
   */
   bool Punctured_Convolutional_Code::catastrophic(void)
   {
@@ -573,7 +573,7 @@ namespace itpp {
     }
   }
 
-  int Punctured_Convolutional_Code::fast(Array<ivec> &spectrum, int start_time, int dfree, int no_terms, 
+  int Punctured_Convolutional_Code::fast(Array<ivec> &spectrum, int start_time, int dfree, int no_terms,
 					 int d_best_so_far, bool test_catastrophic)
   {
     int cat_treshold = (1 << m) * Period;

@@ -2,7 +2,7 @@
  * \file
  * \brief Implementation of signal processing functions
  * \author Tony Ottosson, Thomas Eriksson, Pal Frenger, and Tobias Ringstrom
- * 
+ *
  * $Date$
  * $Revision$
  *
@@ -40,7 +40,7 @@
 #include <itpp/stat/misc_stat.h>
 
 
-namespace itpp { 
+namespace itpp {
 
   vec xcorr_old(const vec &x, const int max_lag, const std::string scaleopt) {
     vec out;
@@ -131,11 +131,11 @@ namespace itpp {
       }
       else if (scaleopt == "biased"){
 	out(N+m-1) = s_plus/M_double;
-	out(N-m-1) = s_minus/M_double; 
+	out(N-m-1) = s_minus/M_double;
       }
       else if (scaleopt == "unbiased"){
 	out(N+m-1) = s_plus/double(M-m);
-	out(N-m-1) = s_minus/double(M-m); 	
+	out(N-m-1) = s_minus/double(M-m);
       }
       else if (scaleopt == "coeff") {
 	out(N+m-1) = s_plus/coeff_scale;
@@ -250,7 +250,7 @@ namespace itpp {
 	  for (int k = 0; k < n; k++) {
 	    R(i,j) += m2(k,i) * m2(k,j);
 	  }
-	  R(j,i) = R(i,j); // When i=j this is unnecassary work 
+	  R(j,i) = R(i,j); // When i=j this is unnecassary work
 	}
       }
     }
@@ -261,7 +261,7 @@ namespace itpp {
 	  for (int k = 0; k < n; k++) {
 	    R(i,j) += X(k,i) * X(k,j);
 	  }
-	  R(j,i) = R(i,j); // When i=j this is unnecassary work 
+	  R(j,i) = R(i,j); // When i=j this is unnecassary work
 	}
       }
     }
@@ -274,13 +274,13 @@ namespace itpp {
   {
     it_assert_debug(pow2i(levels2bits(nfft)) == nfft,
 	       "nfft must be a power of two in spectrum()!");
-    
+
     vec P(nfft/2+1), w(nfft), wd(nfft);
 
     P = 0.0;
     w = hanning(nfft);
     double w_energy = nfft==1 ? 1 : (nfft+1)*.375; // Hanning energy
-    
+
     if (nfft > v.size()) {
       P = sqr(abs( fft(to_cvec(elem_mult(zero_pad(v, nfft), w)))(0, nfft/2) ));
       P /= w_energy;
@@ -294,7 +294,7 @@ namespace itpp {
       }
       P /= k * w_energy;
     }
-    
+
     P.set_size(nfft/2+1, true);
     return P;
   }
@@ -304,12 +304,12 @@ namespace itpp {
     int nfft = w.size();
     it_assert_debug(pow2i(levels2bits(nfft)) == nfft,
 	       "The window size must be a power of two in spectrum()!");
-    
+
     vec P(nfft/2+1), wd(nfft);
 
     P = 0.0;
     double w_energy = energy(w);
-    
+
     if (nfft > v.size()) {
       P = sqr(abs( fft(to_cvec(elem_mult(zero_pad(v, nfft), w)))(0, nfft/2) ));
       P /= w_energy;
@@ -323,7 +323,7 @@ namespace itpp {
       }
       P /= k * w_energy;
     }
-    
+
     P.set_size(nfft/2+1, true);
     return P;
   }
