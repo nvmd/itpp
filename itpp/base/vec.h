@@ -385,7 +385,15 @@ namespace itpp {
     //! Concat vectors \c v1 and \c v2
     friend const Vec<Num_T> concat<>(const Vec<Num_T> &v1,const Vec<Num_T> &v2);
     //! Concat vectors \c v1, \c v2 and \c v3
-    friend const Vec<Num_T> concat<>(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3);
+    friend const Vec<Num_T> concat<>(const Vec<Num_T> &v1, const Vec<Num_T> &v2,
+				     const Vec<Num_T> &v3);
+    //! Concat vectors \c v1, \c v2, \c v3 and \c v4
+    friend const Vec<Num_T> concat<>(const Vec<Num_T> &v1, const Vec<Num_T> &v2,
+				     const Vec<Num_T> &v3, const Vec<Num_T> &v4);
+    //! Concat vectors \c v1, \c v2, \c v3, \c v4 and \c v5
+    friend const Vec<Num_T> concat<>(const Vec<Num_T> &v1, const Vec<Num_T> &v2,
+				     const Vec<Num_T> &v3, const Vec<Num_T> &v4,
+				     const Vec<Num_T> &v5);
 
     //! Set subvector defined by indicies \c i1 to \c i2 to vector \c v
     void set_subvector(int i1, int i2, const Vec<Num_T> &v);
@@ -528,17 +536,14 @@ namespace itpp {
   template<class Num_T> inline
   void Vec<Num_T>::alloc(int size)
   {
-//     if (datasize == size) return;
-//     free(); // Free memory (if any allocated)
-    if (size == 0) {
-      data = 0;
-      datasize = 0;
-    }
-    else {
+    if (size > 0) {
       create_elements(data, size, factory);
       datasize = size;
     }
-    //    it_assert_debug(data, "Vec::alloc(): Out of memory");
+    else {
+      data = 0;
+      datasize = 0;
+    }
   }
 
   template<class Num_T> inline
@@ -609,8 +614,7 @@ namespace itpp {
       Num_T* tmp = data;
       int min = datasize < size ? datasize : size;
       alloc(size);
-      for (int i = 0; i < min; ++i)
-	data[i] = tmp[i];
+      copy_vector(min, tmp, data);
       for (int i = min; i < size; ++i)
 	data[i] = Num_T(0);
       delete[] tmp;
@@ -747,9 +751,7 @@ namespace itpp {
   Mat<Num_T> Vec<Num_T>::transpose() const
   {
     Mat<Num_T> temp(1, datasize);
-    for (int i=0; i<datasize; i++)
-      temp(i) = data[i];
-
+    copy_vector(datasize, data, temp._data());
     return temp;
   }
 
@@ -760,9 +762,7 @@ namespace itpp {
   Mat<Num_T> Vec<Num_T>::hermitian_transpose() const
   {
     Mat<Num_T> temp(1, datasize);
-    for (int i=0; i<datasize; i++)
-      temp(i) = data[i];
-
+    copy_vector(datasize, data, temp._data());
     return temp;
   }
 
@@ -772,8 +772,7 @@ namespace itpp {
     if (datasize == 0) { // if not assigned a size.
       if (this != &v) { // check for self addition
 	alloc(v.datasize);
-	for (int i = 0; i < v.datasize; i++)
-	  data[i] = v.data[i];
+	copy_vector(datasize, v.data, data);
       }
     } else {
       it_assert_debug(datasize == v.datasize, "Vec::operator+=: Wrong sizes");
@@ -1107,9 +1106,15 @@ namespace itpp {
   Vec<Num_T>& Vec<Num_T>::operator/=(const Vec<Num_T> &v)
   {
     if (this != &v) {
-      it_assert_debug(datasize==v.datasize, "Vec::operator/=: wrong sizes");
+      it_assert_debug(datasize==v.datasize, "Vec::operator/=(): wrong sizes");
       for (int i=0; i<datasize; i++)
-	      data[i] /= v.data[i];
+	data[i] /= v.data[i];
+    }
+    else {
+      for (int i = 0; i < datasize; ++i) {
+	it_assert_debug(data[i] != 0, "Vec::operator/=(): Division by zero");
+	data[i] = Num_T(1);
+      }
     }
     return *this;
   }
@@ -1162,13 +1167,13 @@ namespace itpp {
   template<class Num_T>
   Vec<Num_T> Vec<Num_T>::get(const Vec<bin> &binlist) const
   {
-    it_assert_debug(datasize == binlist.size(), "Vec::get(bvec &): wrong sizes");
-    Vec<Num_T> temp(binlist.length());
-    int j=0;
-
-    for (int i=0;i<binlist.length();i++) {
+    int size = binlist.size();
+    it_assert_debug(datasize == size, "Vec::get(bvec &): wrong sizes");
+    Vec<Num_T> temp(size);
+    int j = 0;
+    for (int i = 0; i < size; ++i) {
       if (binlist(i) == bin(1)) {
-	temp(j)=data[i];
+	temp(j) = data[i];
 	j++;
       }
     }
@@ -1179,10 +1184,10 @@ namespace itpp {
   template<class Num_T> inline
   Vec<Num_T> Vec<Num_T>::right(int nr) const
   {
-    it_assert_debug(nr<=datasize, "Vec::right: index out of range");
+    it_assert_debug(nr <= datasize, "Vec::right(): index out of range");
     Vec<Num_T> temp(nr);
-    if (nr!=0) {
-      copy_vector(nr, &data[datasize-nr], &temp[0]);
+    if (nr > 0) {
+      copy_vector(nr, &data[datasize-nr], temp.data);
     }
     return temp;
   }
@@ -1190,10 +1195,10 @@ namespace itpp {
   template<class Num_T> inline
   Vec<Num_T> Vec<Num_T>::left(int nr) const
   {
-    it_assert_debug(nr<=datasize, "Vec::left: index out of range");
+    it_assert_debug(nr <= datasize, "Vec::left(): index out of range");
     Vec<Num_T> temp(nr);
-    if (nr!=0) {
-      copy_vector(nr, &data[0], &temp[0]);
+    if (nr > 0) {
+      copy_vector(nr, data, temp.data);
     }
     return temp;
   }
@@ -1201,31 +1206,25 @@ namespace itpp {
   template<class Num_T> inline
   Vec<Num_T> Vec<Num_T>::mid(int start, int nr) const
   {
-    it_assert_debug((start>=0)&& ((start+nr)<=datasize), "Vec::mid: indexing out of range");
+    it_assert_debug((start >= 0) && ((start+nr) <= datasize),
+		    "Vec::mid(): indexing out of range");
     Vec<Num_T> temp(nr);
-
-    if (nr!=0) {
-      copy_vector(nr, &data[start], &temp[0]);
+    if (nr > 0) {
+      copy_vector(nr, &data[start], temp.data);
     }
     return temp;
   }
 
   template<class Num_T>
-  Vec<Num_T> Vec<Num_T>::split(int Position)
+  Vec<Num_T> Vec<Num_T>::split(int pos)
   {
-    it_assert_debug((Position>=0) && (Position<=datasize), "Vec::split: index out of range");
-    Vec<Num_T> Temp1(Position);
-    Vec<Num_T> Temp2(datasize-Position);
-    int	 i;
-
-    for (i=0;i<Position;i++) {
-      Temp1[i]=data[i];
-    }
-    for (i=Position;i<datasize;i++) {
-      Temp2[i-Position]=data[i];
-    }
-    (*this)=Temp2;
-    return Temp1;
+    it_assert_debug((pos >= 0) && (pos <= datasize), "Vec::split(): index out of range");
+    Vec<Num_T> temp1(pos);
+    Vec<Num_T> temp2(datasize-pos);
+    copy_vector(pos, data, temp1.data);
+    copy_vector(datasize-pos, &data[pos], temp2.data);
+    (*this) = temp2;
+    return temp1;
   }
 
   template<class Num_T>
@@ -1277,106 +1276,80 @@ namespace itpp {
   template<class Num_T>
   const Vec<Num_T> concat(const Vec<Num_T> &v, const Num_T a)
   {
-    Vec<Num_T> temp(v.size()+1);
-
-    for (int i=0; i<v.size(); i++)
-      temp(i) = v(i);
-    temp(v.size()) = a;
-
+    int size = v.size();
+    Vec<Num_T> temp(size+1);
+    copy_vector(size, v.data, temp.data);
+    temp(size) = a;
     return temp;
   }
 
   template<class Num_T>
   const Vec<Num_T> concat(const Num_T a, const Vec<Num_T> &v)
   {
-    Vec<Num_T> temp(v.size()+1);
-
+    int size = v.size();
+    Vec<Num_T> temp(size+1);
     temp(0) = a;
-
-    for (int i=0; i<v.size(); i++)
-      temp(i+1) = v(i);
-
+    copy_vector(size, v.data, &temp.data[1]);
     return temp;
   }
 
   template<class Num_T>
   const Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
   {
-    int i;
-    Vec<Num_T> temp(v1.size()+v2.size());
-
-    for (i=0;i<v1.size();i++) {
-      temp[i] = v1[i];
-    }
-    for (i=0;i<v2.size();i++) {
-      temp[v1.size()+i] = v2[i];
-    }
+    int size1 = v1.size();
+    int size2 = v2.size();
+    Vec<Num_T> temp(size1+size2);
+    copy_vector(size1, v1.data, temp.data);
+    copy_vector(size2, v2.data, &temp.data[size1]);
     return temp;
   }
 
   template<class Num_T>
-  const Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3)
+  const Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2,
+			  const Vec<Num_T> &v3)
   {
-    // There should be some error control?
-    int i;
-    Vec<Num_T> temp(v1.size()+v2.size()+v3.size());
-
-    for (i=0;i<v1.size();i++) {
-      temp[i] = v1[i];
-    }
-    for (i=0;i<v2.size();i++) {
-      temp[v1.size()+i] = v2[i];
-    }
-    for (i=0;i<v3.size();i++) {
-      temp[v1.size()+v2.size()+i] = v3[i];
-    }
+    int size1 = v1.size();
+    int size2 = v2.size();
+    int size3 = v3.size();
+    Vec<Num_T> temp(size1+size2+size3);
+    copy_vector(size1, v1.data, temp.data);
+    copy_vector(size2, v2.data, &temp.data[size1]);
+    copy_vector(size3, v3.data, &temp.data[size1+size2]);
     return temp;
   }
 
   template<class Num_T>
-  const Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3, const Vec<Num_T> &v4)
+  const Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2,
+			  const Vec<Num_T> &v3, const Vec<Num_T> &v4)
   {
-    // There should be some error control?
-    int i;
-    Vec<Num_T> temp(v1.size()+v2.size()+v3.size()+v4.size());
-
-    for (i=0;i<v1.size();i++) {
-      temp[i] = v1[i];
-    }
-    for (i=0;i<v2.size();i++) {
-      temp[v1.size()+i] = v2[i];
-    }
-    for (i=0;i<v3.size();i++) {
-      temp[v1.size()+v2.size()+i] = v3[i];
-    }
-    for (i=0;i<v4.size();i++) {
-      temp[v1.size()+v2.size()+v3.size()+i] = v4[i];
-    }
+    int size1 = v1.size();
+    int size2 = v2.size();
+    int size3 = v3.size();
+    int size4 = v4.size();
+    Vec<Num_T> temp(size1+size2+size3+size4);
+    copy_vector(size1, v1.data, temp.data);
+    copy_vector(size2, v2.data, &temp.data[size1]);
+    copy_vector(size3, v3.data, &temp.data[size1+size2]);
+    copy_vector(size4, v4.data, &temp.data[size1+size2+size3]);
     return temp;
   }
 
   template<class Num_T>
-  const Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2, const Vec<Num_T> &v3, const Vec<Num_T> &v4, const Vec<Num_T> &v5)
+  const Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2,
+			  const Vec<Num_T> &v3, const Vec<Num_T> &v4,
+			  const Vec<Num_T> &v5)
   {
-    // There should be some error control?
-    int i;
-    Vec<Num_T> temp(v1.size()+v2.size()+v3.size()+v4.size()+v5.size());
-
-    for (i=0;i<v1.size();i++) {
-      temp[i] = v1[i];
-    }
-    for (i=0;i<v2.size();i++) {
-      temp[v1.size()+i] = v2[i];
-    }
-    for (i=0;i<v3.size();i++) {
-      temp[v1.size()+v2.size()+i] = v3[i];
-    }
-    for (i=0;i<v4.size();i++) {
-      temp[v1.size()+v2.size()+v3.size()+i] = v4[i];
-    }
-    for (i=0;i<v5.size();i++) {
-      temp[v1.size()+v2.size()+v3.size()+v4.size()+i] = v5[i];
-    }
+    int size1 = v1.size();
+    int size2 = v2.size();
+    int size3 = v3.size();
+    int size4 = v4.size();
+    int size5 = v5.size();
+    Vec<Num_T> temp(size1+size2+size3+size4+size5);
+    copy_vector(size1, v1.data, temp.data);
+    copy_vector(size2, v2.data, &temp.data[size1]);
+    copy_vector(size3, v3.data, &temp.data[size1+size2]);
+    copy_vector(size4, v4.data, &temp.data[size1+size2+size3]);
+    copy_vector(size5, v5.data, &temp.data[size1+size2+size3+size4]);
     return temp;
   }
 
@@ -1424,29 +1397,24 @@ namespace itpp {
   template<class Num_T>
   void Vec<Num_T>::del(int index)
   {
-    it_assert_debug((index>=0) && (index<datasize), "Vec::del: index out of range");
-    Vec<Num_T> Temp(*this);
-    int i;
-
+    it_assert_debug((index >= 0) && (index < datasize),
+		    "Vec::del(): index out of range");
+    Vec<Num_T> temp(*this);
     set_size(datasize-1, false);
-    for (i=0;i<index;i++) {
-      data[i]=Temp[i];
-    }
-    for (i=index;i<datasize;i++) {
-      data[i]=Temp[i+1];
-    }
+    copy_vector(index, temp.data, data);
+    copy_vector(datasize-index, &temp.data[index+1], &data[index]);
   }
 
   template<class Num_T>
   void  Vec<Num_T>::del(int i1, int i2)
   {
-    it_assert_debug((i1>=0) && (i2<datasize) && (i1<i2), "Vec::del: index out of range");
-
-    Vec<Num_T> Temp(*this);
+    it_assert_debug((i1 >= 0) && (i2 < datasize) && (i1 < i2),
+		    "Vec::del(): index out of range");
+    Vec<Num_T> temp(*this);
     int new_size = datasize-(i2-i1+1);
     set_size(new_size, false);
-    copy_vector(i1, Temp.data, data);
-    copy_vector(datasize-i1, &Temp.data[i2+1], &data[i1]);
+    copy_vector(i1, temp.data, data);
+    copy_vector(datasize-i1, &temp.data[i2+1], &data[i1]);
   }
 
   template<class Num_T>

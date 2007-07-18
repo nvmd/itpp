@@ -1,3 +1,15 @@
+2007-07-18  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/vec.h: Use copy_vector() where possible
+
+	This patch improves the consistency and possibly the performance
+	of various Vec's methods by using copy_vector() instead of
+	explicit copying of elements in a loop. It also fixes a minor bug
+	in "/=" operator for the case of division of a vector with itself,
+	i.e. "v /= v;". Finally, this patch adds missing friend
+	declarations for concat() functions and improves if statements in
+	the alloc() function.
+
 2007-07-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* **/*: Removed trailing whitespace
