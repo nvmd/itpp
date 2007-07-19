@@ -505,17 +505,17 @@ namespace itpp {
 //       return;
 //     }
 //     free();  // Free memory (if any allocated)
-    if (rows == 0 || cols == 0) {
+    if ((rows > 0) && (cols > 0)) {
+      datasize = rows * cols;
+      no_rows = rows;
+      no_cols = cols;
+      create_elements(data, datasize, factory);
+    }
+    else {
       data = 0;
       datasize = 0;
       no_rows = 0;
       no_cols = 0;
-    }
-    else {
-      datasize = rows * cols;
-      create_elements(data, datasize, factory);
-      no_rows = rows;
-      no_cols = cols;
     }
   }
 
@@ -562,8 +562,9 @@ namespace itpp {
   Mat<Num_T>::Mat(const Vec<Num_T> &invector, const Factory &f) :
     datasize(0), no_rows(0), no_cols(0), data(0), factory(f)
   {
-    set_size(invector.length(), 1, false);
-    set_col(0,invector);
+    int size = invector.size();
+    alloc(size, 1);
+    copy_vector(size, invector._data(), data);
   }
 
   template<class Num_T> inline
@@ -606,28 +607,41 @@ namespace itpp {
   template<class Num_T> inline
   void Mat<Num_T>::set_size(int inrow, int incol, bool copy)
   {
-    it_assert_debug((inrow >= 0) && (incol >= 0), "Mat<Num_T>::set_size: The rows and columns must be >= 0");
+    it_assert_debug((inrow >= 0) && (incol >= 0), "Mat<Num_T>::set_size: "
+		    "The number of rows and columns must be >= 0");
+    // check if we have to resize the current matrix
     if ((no_rows == inrow) && (no_cols == incol))
       return;
+    // conditionally copy previous matrix content
     if (copy) {
-      // backup information about previous data
+      // backup access to the current matrix
       Num_T* tmp = data;
       int tmp_rows = no_rows;
+      // check the boundaries of the copied data
       int min_r = (no_rows < inrow) ? no_rows : inrow;
       int min_c = (no_cols < incol) ? no_cols : incol;
       // allocate new memory
       alloc(inrow, incol);
       // copy the previous data into the allocated memory
-      for (int i = 0; i < min_r; ++i)
-	for (int j = 0; j < min_c; ++j)
-	  data[i+j*inrow] = tmp[i+j*tmp_rows];
+      for (int i = 0; i < min_c; ++i) {
+	copy_vector(min_r, &tmp[i*tmp_rows], &data[i*no_rows]);
+      }
       // fill-in the rest of matrix with zeros
       for (int i = min_r; i < inrow; ++i)
-	for (int j = min_c; j < incol; ++j)
+	for (int j = 0; j < incol; ++j)
+	  data[i+j*inrow] = Num_T(0);
+      for (int j = min_c; j < incol; ++j)
+	for (int i = 0; i < min_r; ++i)
 	  data[i+j*inrow] = Num_T(0);
       // free the previous data memory
       delete[] tmp;
     }
+    // if possible, reuse the allocated memory
+    else if (datasize == inrow * incol) {
+      no_rows = inrow;
+      no_cols = incol;
+    }
+    // finally release old memory and allocate a new one
     else {
       free();
       alloc(inrow, incol);
@@ -1106,10 +1120,9 @@ namespace itpp {
   const Mat<Num_T> Mat<Num_T>::transpose() const
   {
     Mat<Num_T> temp(no_cols, no_rows);
-    for (int i=0; i<no_rows; i++)
-      for (int j=0; j<no_cols; j++)
-	temp(j,i) = operator()(i,j);
-
+    for (int i = 0; i < no_rows; ++i) {
+      copy_vector(no_cols, &data[i], no_rows, &temp.data[i * no_cols], 1);
+    }
     return temp;
   }
 
@@ -1121,46 +1134,42 @@ namespace itpp {
   const Mat<Num_T> Mat<Num_T>::hermitian_transpose() const
   {
     Mat<Num_T> temp(no_cols, no_rows);
-    for (int i=0; i<no_rows; i++)
-      for (int j=0; j<no_cols; j++)
-	temp(j,i) = operator()(i,j);
-
+    for (int i = 0; i < no_rows; ++i) {
+      copy_vector(no_cols, &data[i], no_rows, &temp.data[i * no_cols], 1);
+    }
     return temp;
   }
 
   template<class Num_T>
   const Mat<Num_T> concat_horizontal(const Mat<Num_T> &m1, const Mat<Num_T> &m2)
   {
-    it_assert_debug(m1.no_rows == m2.no_rows, "Mat<Num_T>::concat_horizontal; wrong sizes");
-
-    Mat<Num_T> temp(m1.no_rows, m1.no_cols+m2.no_cols);
-    int i;
-
-    for (i=0; i<m1.no_cols; i++) {
-      temp.set_col(i, m1.get_col(i));
+    it_assert_debug(m1.no_rows == m2.no_rows,
+		    "Mat<Num_T>::concat_horizontal(): wrong sizes");
+    int no_rows = m1.no_rows;
+    Mat<Num_T> temp(no_rows, m1.no_cols + m2.no_cols);
+    for (int i = 0; i < m1.no_cols; ++i) {
+      copy_vector(no_rows, &m1.data[i * no_rows], &temp.data[i * no_rows]);
     }
-    for (i=0; i<m2.no_cols; i++) {
-      temp.set_col(i+m1.no_cols, m2.get_col(i));
+    for (int i = 0; i < m2.no_cols; ++i) {
+      copy_vector(no_rows, &m2.data[i * no_rows], &temp.data[(m1.no_cols + i)
+							     * no_rows]);
     }
-
     return temp;
   }
 
   template<class Num_T>
   const Mat<Num_T> concat_vertical(const Mat<Num_T> &m1, const Mat<Num_T> &m2)
   {
-    it_assert_debug(m1.no_cols == m2.no_cols, "Mat<Num_T>::concat_vertical; wrong sizes");
-
-    Mat<Num_T> temp(m1.no_rows+m2.no_rows, m1.no_cols);
-    int i;
-
-    for (i=0; i<m1.no_rows; i++) {
-      temp.set_row(i, m1.get_row(i));
+    it_assert_debug(m1.no_cols == m2.no_cols,
+		    "Mat<Num_T>::concat_vertical; wrong sizes");
+    int no_cols = m1.no_cols;
+    Mat<Num_T> temp(m1.no_rows + m2.no_rows, no_cols);
+    for (int i = 0; i < no_cols; ++i) {
+      copy_vector(m1.no_rows, &m1.data[i * m1.no_rows],
+		  &temp.data[i * temp.no_rows]);
+      copy_vector(m2.no_rows, &m2.data[i * m2.no_rows],
+		  &temp.data[i * temp.no_rows + m1.no_rows]);
     }
-    for (i=0; i<m2.no_rows; i++) {
-      temp.set_row(i+m1.no_rows, m2.get_row(i));
-    }
-
     return temp;
   }
 
@@ -1186,13 +1195,11 @@ namespace itpp {
   template<class Num_T> inline
   Mat<Num_T>& Mat<Num_T>::operator=(const Vec<Num_T> &v)
   {
-    it_assert_debug( (no_rows == 1 && no_cols == v.size()) || (no_cols == 1 && no_rows == v.size()),
-		"Mat<Num_T>::operator=(vec); wrong size");
-
-    // construct a 1-d column of the vector
+    it_assert_debug((no_rows == 1 && no_cols == v.size())
+		    || (no_cols == 1 && no_rows == v.size()),
+		    "Mat<Num_T>::operator=(): Wrong size of the argument");
     set_size(v.size(), 1, false);
-    set_col(0, v);
-
+    copy_vector(v.size(), v._data(), data);
     return *this;
   }
 
