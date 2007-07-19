@@ -1112,7 +1112,8 @@ namespace itpp {
     }
     else {
       for (int i = 0; i < datasize; ++i) {
-	it_assert_debug(data[i] != 0, "Vec::operator/=(): Division by zero");
+	it_assert_debug(data[i] != Num_T(0),
+			"Vec::operator/=(): Division by zero");
 	data[i] = Num_T(1);
       }
     }
