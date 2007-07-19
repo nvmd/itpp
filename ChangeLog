@@ -1,4 +1,17 @@
-2007-07-19  Adam Piątyszek  <ediap@users.sourceforge.net>
+2007-07-19  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/mat.h: Fixed a bug in set_size() method
+
+	When resizing a smaller matrix into a bigger one with copying the
+	content, the unused entries were not initialised to zeros
+	properly.
+
+	Besides, the use of a copy_vector() function instead of nested
+	loops with element by element copying increases the overall
+	performance of various operations on matrices. Therefore, this
+	patch improves performance of set_size(), transpose(),
+	hermitian_transpose(), concat_horizontal() and concat_vertical()
+	functions.
 
 	* itpp/base/vec.h : Fixed assertion check in operator "/="
 
