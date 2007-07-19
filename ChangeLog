@@ -1,3 +1,7 @@
+2007-07-19  Adam Piątyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/vec.h : Fixed assertion check in operator "/="
+
 2007-07-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/vec.h: Use copy_vector() where possible
