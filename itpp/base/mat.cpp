@@ -29,8 +29,8 @@
 
 #include <itpp/base/mat.h>
 
-#if defined (HAVE_CBLAS)
-#  include <itpp/base/cblas.h>
+#if defined (HAVE_BLAS)
+#  include <itpp/base/blas.h>
 #endif
 
 
@@ -473,16 +473,18 @@ namespace itpp {
 
   // -------- Multiplication operator -------------
 
-#if defined(HAVE_CBLAS)
+#if defined(HAVE_BLAS)
+
   template<>
   mat& Mat<double>::operator*=(const mat &m)
   {
     it_assert_debug(no_cols == m.no_rows,"mat::operator*=: wrong sizes");
     mat r(no_rows, m.no_cols); // unnecessary memory??
-
-    cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, no_rows, m.no_cols, no_cols, 1.0,
-		data, no_rows, m.data, m.no_rows, 0.0, r.data, r.no_rows);
-
+    double alpha = 1.0;
+    double beta = 0.0;
+    char trans = 'n';
+    blas::dgemm_(&trans, &trans, &no_rows, &m.no_cols, &no_cols, &alpha, data,
+		 &no_rows, m.data, &m.no_rows, &beta, r.data, &r.no_rows);
     operator=(r); // time consuming
     return *this;
   }
@@ -491,12 +493,12 @@ namespace itpp {
   cmat& Mat<std::complex<double> >::operator*=(const cmat &m)
   {
     it_assert_debug(no_cols == m.no_rows,"cmat::operator*=: wrong sizes");
-    std::complex<double> alpha = std::complex<double>(1.0), beta = std::complex<double>(0.0);
     cmat r(no_rows, m.no_cols); // unnecessary memory??
-
-    cblas_zgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, no_rows, m.no_cols, no_cols, (const void *)&alpha,
-		data, no_rows, m.data, m.no_rows, (const void*)&beta, &r.data, r.no_rows);
-
+    std::complex<double> alpha = std::complex<double>(1.0);
+    std::complex<double> beta = std::complex<double>(0.0);
+    char trans = 'n';
+    blas::zgemm_(&trans, &trans, &no_rows, &m.no_cols, &no_cols, &alpha, data,
+		 &no_rows, m.data, &m.no_rows, &beta, r.data, &r.no_rows);
     operator=(r); // time consuming
     return *this;
   }
@@ -506,10 +508,12 @@ namespace itpp {
   {
     it_assert_debug(m1.no_cols == m2.no_rows,"mat::operator*: wrong sizes");
     mat r(m1.no_rows, m2.no_cols);
-
-    cblas_dgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, m1.no_rows, m2.no_cols, m1.no_cols, 1.0,
-		m1.data, m1.no_rows, m2.data, m2.no_rows, 0.0, r.data, r.no_rows);
-
+    double alpha = 1.0;
+    double beta = 0.0;
+    char trans = 'n';
+    blas::dgemm_(&trans, &trans, &m1.no_rows, &m2.no_cols, &m1.no_cols, &alpha,
+		 m1.data, &m1.no_rows, m2.data, &m2.no_rows, &beta, r.data,
+		 &r.no_rows);
     return r;
   }
 
@@ -517,42 +521,45 @@ namespace itpp {
   const cmat operator*(const cmat &m1, const cmat &m2)
   {
     it_assert_debug(m1.no_cols == m2.no_rows,"cmat::operator*: wrong sizes");
-    std::complex<double> alpha = std::complex<double>(1.0), beta = std::complex<double>(0.0);
     cmat r(m1.no_rows, m2.no_cols);
-
-    cblas_zgemm(CblasColMajor, CblasNoTrans, CblasNoTrans, m1.no_rows, m2.no_cols, m1.no_cols, (const void *)&alpha,
-		m1.data, m1.no_rows, m2.data, m2.no_rows, (const void*)&beta, r.data, r.no_rows);
-
+    std::complex<double> alpha = std::complex<double>(1.0);
+    std::complex<double> beta = std::complex<double>(0.0);
+    char trans = 'n';
+    blas::zgemm_(&trans, &trans, &m1.no_rows, &m2.no_cols, &m1.no_cols, &alpha,
+		 m1.data, &m1.no_rows, m2.data, &m2.no_rows, &beta, r.data,
+		 &r.no_rows);
     return r;
   }
 
   template<>
   const Vec<double> operator*(const mat &m, const Vec<double> &v)
   {
-    it_assert_debug(m.no_cols == v.size(),"mat::operator*: wrong sizes");
+    it_assert_debug(m.no_cols == v.size(), "mat::operator*: wrong sizes");
     vec r(m.no_rows);
-
-    cblas_dgemv(CblasColMajor, CblasNoTrans, m.no_rows, m.no_cols, 1.0, m.data, m.no_rows, v._data(), 1,
-		0.0, r._data(), 1);
-
+    double alpha = 1.0;
+    double beta = 0.0;
+    char trans = 'n';
+    int incr = 1;
+    blas::dgemv_(&trans, &m.no_rows, &m.no_cols, &alpha, m.data, &m.no_rows,
+		 v._data(), &incr, &beta, r._data(), &incr);
     return r;
   }
 
   template<>
   const Vec<std::complex<double> > operator*(const cmat &m, const Vec<std::complex<double> > &v)
   {
-    it_assert_debug(m.no_cols == v.size(),"cmat::operator*: wrong sizes");
-    std::complex<double> alpha = std::complex<double>(1.0), beta = std::complex<double>(0.0);
+    it_assert_debug(m.no_cols == v.size(), "cmat::operator*: wrong sizes");
     cvec r(m.no_rows);
-
-    cblas_zgemv(CblasColMajor, CblasNoTrans, m.no_rows, m.no_cols, (const void *)&alpha, m.data, m.no_rows,
-		v._data(), 1, (const void*)&beta, r._data(), 1);
-
+    std::complex<double> alpha = std::complex<double>(1.0);
+    std::complex<double> beta = std::complex<double>(0.0);
+    char trans = 'n';
+    int incr = 1;
+    blas::zgemv_(&trans, &m.no_rows, &m.no_cols, &alpha, m.data, &m.no_rows,
+		 v._data(), &incr, &beta, r._data(), &incr);
     return r;
   }
 
-#endif // HAVE_CBLAS
-
+#endif // HAVE_BLAS
 
   // ---------------------- Instantiations --------------------------------
 
@@ -563,9 +570,6 @@ namespace itpp {
   template class Mat<int>;
   template class Mat<short int>;
   template class Mat<bin>;
-
-
-  //-------------------- Operator instantiations --------------------
 
   //-------- Addition operators ---------------
 
@@ -617,7 +621,7 @@ namespace itpp {
 
   //-------- Multiplication operators ---------------
 
-#if !defined(HAVE_CBLAS)
+#if !defined(HAVE_BLAS)
   template const mat operator*(const mat &m1, const mat &m2);
   template const cmat operator*(const cmat &m1, const cmat &m2);
 #endif
@@ -625,7 +629,7 @@ namespace itpp {
   template const smat operator*(const smat &m1, const smat &m2);
   template const bmat operator*(const bmat &m1, const bmat &m2);
 
-#if !defined(HAVE_CBLAS)
+#if !defined(HAVE_BLAS)
   template const vec operator*(const mat &m, const vec &v);
   template const cvec operator*(const cmat &m, const cvec &v);
 #endif

@@ -3,7 +3,7 @@ h_base_sources = \
 	$(top_srcdir)/itpp/base/bessel.h \
 	$(top_srcdir)/itpp/base/binary.h \
 	$(top_srcdir)/itpp/base/binfile.h \
-	$(top_srcdir)/itpp/base/cblas.h \
+	$(top_srcdir)/itpp/base/blas.h \
 	$(top_srcdir)/itpp/base/circular_buffer.h \
 	$(top_srcdir)/itpp/base/converters.h \
 	$(top_srcdir)/itpp/base/copy_vector.h \
@@ -31,7 +31,6 @@ cpp_base_sources = \
 	$(top_srcdir)/itpp/base/bessel.cpp \
 	$(top_srcdir)/itpp/base/binary.cpp \
 	$(top_srcdir)/itpp/base/binfile.cpp \
-	$(top_srcdir)/itpp/base/cblas.cpp \
 	$(top_srcdir)/itpp/base/converters.cpp \
 	$(top_srcdir)/itpp/base/fastmath.cpp \
 	$(top_srcdir)/itpp/base/gf2mat.cpp \

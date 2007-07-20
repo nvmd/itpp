@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Vector copy functions for internal use
- * \author Tony Ottosson
+ * \author Tony Ottosson and Adam Piatyszek
  *
  * -------------------------------------------------------------------------
  *
@@ -36,17 +36,17 @@
 #  include <itpp/config_msvc.h>
 #endif
 
-#if defined (HAVE_CBLAS)
-#  include <itpp/base/cblas.h>
+#if defined (HAVE_BLAS)
+#  include <itpp/base/blas.h>
 #endif
 
 #include <itpp/base/binary.h>
-#include <complex>
 
+
+#ifndef DOXYGEN_SHOULD_SKIP_THIS
 
 namespace itpp {
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   /*
     Copy vector x to vector y. Both vectors are of size n
@@ -57,9 +57,18 @@ namespace itpp {
   inline void copy_vector(const int n, const float *x, float *y) { memcpy(y, x, (unsigned int)n*sizeof(float)); }
   inline void copy_vector(const int n, const std::complex<float> *x, std::complex<float> *y) { memcpy(y, x, (unsigned int)n*sizeof(std::complex<float>)); }
 
-#if defined (HAVE_CBLAS)
-  inline void copy_vector(const int n, const double *x, double *y) { cblas_dcopy(n, x, 1, y, 1); }
-  inline void copy_vector(const int n, const std::complex<double> *x, std::complex<double> *y) { cblas_zcopy(n, x, 1, y, 1); }
+#if defined (HAVE_BLAS)
+  inline void copy_vector(const int n, const double *x, double *y)
+  {
+    int incr = 1;
+    blas::dcopy_(&n, x, &incr, y, &incr);
+  }
+  inline void copy_vector(const int n, const std::complex<double> *x,
+			  std::complex<double> *y)
+  {
+    int incr = 1;
+    blas::zcopy_(&n, x, &incr, y, &incr);
+  }
 #else
   inline void copy_vector(const int n, const double *x, double *y) { memcpy(y, x, (unsigned int)n*sizeof(double)); }
   inline void copy_vector(const int n, const std::complex<double> *x, std::complex<double> *y) { memcpy(y, x, (unsigned int)n*sizeof(std::complex<double>)); }
@@ -80,9 +89,18 @@ namespace itpp {
     vector x elements are stored linearly with element increament incx
     vector y elements are stored linearly with element increament incx
   */
-#if defined (HAVE_CBLAS)
-  inline void copy_vector(const int n, const double *x, const int incx, double *y, const int incy) { cblas_dcopy(n, x, incx, y, incy); }
-  inline void copy_vector(const int n, const std::complex<double> *x, const int incx, std::complex<double> *y, const int incy) { cblas_zcopy(n, x, incx, y, incy); }
+#if defined (HAVE_BLAS)
+  inline void copy_vector(const int n, const double *x, const int incx,
+			  double *y, const int incy)
+  {
+    blas::dcopy_(&n, x, &incx, y, &incy);
+  }
+  inline void copy_vector(const int n, const std::complex<double> *x,
+			  const int incx, std::complex<double> *y,
+			  const int incy)
+  {
+    blas::zcopy_(&n, x, &incx, y, &incy);
+  }
 #endif
 
   template<class T> inline
@@ -102,9 +120,18 @@ namespace itpp {
   inline void swap_vector(const int n, float *x, float *y) { for (int i=0; i<n; i++) std::swap(x[i], y[i]); }
   inline void swap_vector(const int n, std::complex<float> *x, std::complex<float> *y) { for (int i=0; i<n; i++) std::swap(x[i], y[i]); }
 
-#if defined (HAVE_CBLAS)
-  inline void swap_vector(const int n, double *x, double *y) { cblas_dswap(n, x, 1, y, 1); }
-  inline void swap_vector(const int n, std::complex<double> *x, std::complex<double> *y) { cblas_zswap(n, x, 1, y, 1); }
+#if defined (HAVE_BLAS)
+  inline void swap_vector(const int n, double *x, double *y)
+  {
+    int incr = 1;
+    blas::dswap_(&n, x, &incr, y, &incr);
+  }
+  inline void swap_vector(const int n, std::complex<double> *x,
+			  std::complex<double> *y)
+  {
+    int incr = 1;
+    blas::zswap_(&n, x, &incr, y, &incr);
+  }
 #else
   inline void swap_vector(const int n, double *x, double *y) { for (int i=0; i<n; i++) std::swap(x[i], y[i]); }
   inline void swap_vector(const int n, std::complex<double> *x, std::complex<double> *y) { for (int i=0; i<n; i++) std::swap(x[i], y[i]); }
@@ -133,9 +160,17 @@ namespace itpp {
   inline void swap_vector(const int n, float *x, const int incx, float *y, const int incy) { for (int i=0; i<n; i++) std::swap(x[i*incx], y[i*incy]); }
   inline void swap_vector(const int n, std::complex<float> *x, const int incx, std::complex<float> *y, const int incy) { for (int i=0; i<n; i++) std::swap(x[i*incx], y[i*incy]); }
 
-#if defined (HAVE_CBLAS)
-  inline void swap_vector(const int n, double *x, const int incx, double *y, const int incy) { cblas_dswap(n, x, incx, y, incy); }
-  inline void swap_vector(const int n, std::complex<double> *x, const int incx, std::complex<double> *y, const int incy) { cblas_zswap(n, x, incx, y, incy); }
+#if defined (HAVE_BLAS)
+  inline void swap_vector(const int n, double *x, const int incx, double *y,
+			  const int incy)
+  {
+    blas::dswap_(&n, x, &incx, y, &incy);
+  }
+  inline void swap_vector(const int n, std::complex<double> *x, const int incx,
+			  std::complex<double> *y, const int incy)
+  {
+    blas::zswap_(&n, x, &incx, y, &incy);
+  }
 #else
   inline void swap_vector(const int n, double *x, const int incx, double *y, const int incy) { for (int i=0; i<n; i++) std::swap(x[i*incx], y[i*incy]); }
   inline void swap_vector(const int n, std::complex<double> *x, const int incx, std::complex<double> *y, const int incy) { for (int i=0; i<n; i++) std::swap(x[i*incx], y[i*incy]); }
@@ -153,8 +188,8 @@ namespace itpp {
   }
 
 
-#endif // #ifndef DOXYGEN_SHOULD_SKIP_THIS
-
 } // namespace itpp
+
+#endif // #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
 #endif // #ifndef COPY_VECTOR_H

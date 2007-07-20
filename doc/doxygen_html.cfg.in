@@ -486,8 +486,7 @@ RECURSIVE              = NO
 
 EXCLUDE                = @top_builddir@/@PACKAGE@/config.h \
                          @top_srcdir@/@PACKAGE@/config_msvc.h \
-                         @top_srcdir@/@PACKAGE@/base/cblas.h \
-                         @top_srcdir@/@PACKAGE@/base/cblas.cpp \
+                         @top_srcdir@/@PACKAGE@/base/blas.h \
                          @top_srcdir@/@PACKAGE@/base/algebra/lapack.h
 
 # The EXCLUDE_SYMLINKS tag can be used select whether or not files or
