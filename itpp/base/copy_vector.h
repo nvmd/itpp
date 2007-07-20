@@ -188,6 +188,130 @@ namespace itpp {
   }
 
 
+  /*
+   * Realise scaling operation: x = alpha*x
+   */
+#if defined(HAVE_BLAS)
+  inline void scal_vector(int n, double alpha, double *x)
+  {
+    int incr = 1;
+    blas::dscal_(&n, &alpha, x, &incr);
+  }
+  inline void scal_vector(int n, std::complex<double> alpha,
+			  std::complex<double> *x)
+  {
+    int incr = 1;
+    blas::zscal_(&n, &alpha, x, &incr);
+  }
+#endif
+
+  template<typename T> inline
+  void scal_vector(int n, T alpha, T *x)
+  {
+    if (alpha != T(1)) {
+      for (int i = 0; i < n; ++i) {
+	x[i] *= alpha;
+      }
+    }
+  }
+
+
+  /*
+   * Realise scaling operation: x = alpha*x
+   * Elements of x are stored linearly with increament incx
+   */
+#if defined(HAVE_BLAS)
+  inline void scal_vector(int n, double alpha, double *x, int incx)
+  {
+    blas::dscal_(&n, &alpha, x, &incx);
+  }
+  inline void scal_vector(int n, std::complex<double> alpha,
+			  std::complex<double> *x, int incx)
+  {
+    blas::zscal_(&n, &alpha, x, &incx);
+  }
+#endif
+
+  template<typename T> inline
+  void scal_vector(int n, T alpha, T *x, int incx)
+  {
+    if (alpha != T(1)) {
+      for (int i = 0; i < n; ++i) {
+	x[i*incx] *= alpha;
+      }
+    }
+  }
+
+
+  /*
+   * Realise the following equation on vectors: y = alpha*x + y
+   */
+#if defined(HAVE_BLAS)
+  inline void axpy_vector(int n, double alpha, const double *x, double *y)
+  {
+    int incr = 1;
+    blas::daxpy_(&n, &alpha, x, &incr, y, &incr);
+  }
+  inline void axpy_vector(int n, std::complex<double> alpha,
+			  const std::complex<double> *x,
+			  std::complex<double> *y)
+  {
+    int incr = 1;
+    blas::zaxpy_(&n, &alpha, x, &incr, y, &incr);
+  }
+#endif
+
+  template<typename T> inline
+  void axpy_vector(int n, T alpha, const T *x, T *y)
+  {
+    if (alpha != T(1)) {
+      for (int i = 0; i < n; ++i) {
+	y[i] += alpha * x[i];
+      }
+    }
+    else {
+      for (int i = 0; i < n; ++i) {
+	y[i] += x[i];
+      }
+    }
+  }
+
+
+  /*
+   * Realise the following equation on vectors: y = alpha*x + y
+   * Elements of x are stored linearly with increament incx
+   * and elements of y are stored linearly with increament incx
+   */
+#if defined(HAVE_BLAS)
+  inline void axpy_vector(int n, double alpha, const double *x, int incx,
+			  double *y, int incy)
+  {
+    blas::daxpy_(&n, &alpha, x, &incx, y, &incy);
+  }
+  inline void axpy_vector(int n, std::complex<double> alpha,
+			  const std::complex<double> *x, int incx,
+			  std::complex<double> *y, int incy)
+  {
+    blas::zaxpy_(&n, &alpha, x, &incx, y, &incy);
+  }
+#endif
+
+  template<typename T> inline
+  void axpy_vector(int n, T alpha, const T *x, int incx, T *y, int incy)
+  {
+    if (alpha != T(1)) {
+      for (int i = 0; i < n; ++i) {
+	y[i*incy] += alpha * x[i*incx];
+      }
+    }
+    else {
+      for (int i = 0; i < n; ++i) {
+	y[i*incy] += x[i*incx];
+      }
+    }
+  }
+
+
 } // namespace itpp
 
 #endif // #ifndef DOXYGEN_SHOULD_SKIP_THIS

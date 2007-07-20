@@ -1,5 +1,15 @@
 2007-07-20  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/blas.h, itpp/base/copy_vector.h, itpp/base/vec.h:
+	Added scal_vector() and axpy_vector() low level functions
+
+	These two functions uses BLAS methods for double and
+	std::complex<double> types of a vector. The function scal_vector()
+	realizes "x *= alpha", whereas axpy_vector() realizes
+	"y = alpha*x + y". Vector x and y are of the same size.
+	BTW, improved performance of Vec's "*=" and "/=" operators with
+	scalar arguments by using scal_vector() method.
+
 	* INSTALL, README, configure.ac, doc/doxygen_html.cfg.in,
 	doc/local/index.doc.in, doc/local/installation.doc,
 	itpp/base/blas.h, itpp/base/copy_vector.h, itpp/base/mat.cpp,

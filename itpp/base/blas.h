@@ -3,9 +3,6 @@
  * \brief BLAS header functions. For internal use only.
  * \author Adam Piatyszek
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,
@@ -57,6 +54,22 @@ extern "C" {
   // BLAS 1 functions
   // ----------------------------------------------------------------------
 
+  void dswap_(const int *n,
+	      double *x, const int *incx,
+	      double *y, const int *incy);
+
+  void zswap_(const int *n,
+	      std::complex<double> *x, const int *incx,
+	      std::complex<double> *y, const int *incy);
+
+  void dscal_(const int *n,
+	      const double *alpha,
+	      double *x, const int *incx);
+
+  void zscal_(const int *n,
+	      const std::complex<double> *alpha,
+	      std::complex<double> *x, const int *incx);
+
   void dcopy_(const int *n,
 	      const double *x, const int *incx,
 	      double *y, const int *incy);
@@ -65,12 +78,14 @@ extern "C" {
 	      const std::complex<double> *x, const int *incx,
 	      std::complex<double> *y, const int *incy);
 
-  void dswap_(const int *n,
-	      double *x, const int *incx,
+  void daxpy_(const int *n,
+	      const double *alpha,
+	      const double *x, const int *incx,
 	      double *y, const int *incy);
 
-  void zswap_(const int *n,
-	      std::complex<double> *x, const int *incx,
+  void zaxpy_(const int *n,
+	      const std::complex<double> *alpha,
+	      const std::complex<double> *x, const int *incx,
 	      std::complex<double> *y, const int *incy);
 
   double ddot_(const int *n,

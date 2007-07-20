@@ -900,8 +900,7 @@ namespace itpp {
   template<class Num_T> inline
   Vec<Num_T>& Vec<Num_T>::operator*=(const Num_T t)
   {
-    for (int i=0;i<datasize;i++)
-      data[i] *= t;
+    scal_vector(datasize, t, data);
     return *this;
   }
 
@@ -1023,7 +1022,6 @@ namespace itpp {
   {
     int i;
     Vec<Num_T> r(v.datasize);
-
     for (i=0; i<v.datasize; i++)
       r.data[i] = v.data[i] * t;
 
@@ -1151,8 +1149,11 @@ namespace itpp {
   template<class Num_T> inline
   Vec<Num_T>& Vec<Num_T>::operator/=(const Num_T t)
   {
-    for (int i=0;i<datasize;i++)
-      data[i]/=t;
+    if (t != Num_T(1)) {
+      for (int i = 0; i < datasize; ++i) {
+	data[i] /= t;
+      }
+    }
     return *this;
   }
 
