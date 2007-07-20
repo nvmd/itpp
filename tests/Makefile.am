@@ -23,6 +23,7 @@ BASE_TESTS = \
 	qr_test \
 	rand_test \
 	schur_test \
+	sort_test \
 	sparse_test \
 	svd_test \
 	timer_test \
@@ -127,6 +128,7 @@ rec_syst_conv_code_test_SOURCES = rec_syst_conv_code_test.cpp
 reedsolomon_test_SOURCES = reedsolomon_test.cpp
 schur_test_SOURCES = schur_test.cpp
 sigfun_test_SOURCES = sigfun_test.cpp
+sort_test_SOURCES = sort_test.cpp
 source_test_SOURCES = source_test.cpp
 sparse_test_SOURCES = sparse_test.cpp
 stat_test_SOURCES = stat_test.cpp
