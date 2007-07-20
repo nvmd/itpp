@@ -35,9 +35,13 @@
 #endif
 
 #if defined(HAVE_FFT_MKL)
+namespace mkl {
 #  include <mkl_dfti.h>
+}
 #elif defined(HAVE_FFT_ACML)
+namespace acml {
 #  include <acml.h>
+}
 #elif defined(HAVE_FFTW3)
 #  include <fftw3.h>
 #endif
@@ -47,7 +51,7 @@
 
 namespace itpp {
 
-#ifdef HAVE_FFT_MKL
+#if defined(HAVE_FFT_MKL)
 
   //---------------------------------------------------------------------------
   // FFT/IFFT based on MKL
@@ -55,51 +59,51 @@ namespace itpp {
 
   void fft(const cvec &in, cvec &out)
   {
-    static DFTI_DESCRIPTOR* fft_handle = NULL;
+    static mkl::DFTI_DESCRIPTOR* fft_handle = NULL;
     static int N;
 
     out.set_size(in.size(), false);
     if (N != in.size()) {
       N = in.size();
-      if (fft_handle != NULL) DftiFreeDescriptor(&fft_handle);
-      DftiCreateDescriptor(&fft_handle, DFTI_DOUBLE, DFTI_COMPLEX, 1, N);
-      DftiSetValue(fft_handle, DFTI_PLACEMENT, DFTI_NOT_INPLACE);
-      DftiCommitDescriptor(fft_handle);
+      if (fft_handle != NULL) mkl::DftiFreeDescriptor(&fft_handle);
+      mkl::DftiCreateDescriptor(&fft_handle, mkl::DFTI_DOUBLE, mkl::DFTI_COMPLEX, 1, N);
+      mkl::DftiSetValue(fft_handle, mkl::DFTI_PLACEMENT, mkl::DFTI_NOT_INPLACE);
+      mkl::DftiCommitDescriptor(fft_handle);
     }
-    DftiComputeForward(fft_handle, (void *)in._data(), out._data());
+    mkl::DftiComputeForward(fft_handle, (void *)in._data(), out._data());
   }
 
   void ifft(const cvec &in, cvec &out)
   {
-    static DFTI_DESCRIPTOR* fft_handle = NULL;
+    static mkl::DFTI_DESCRIPTOR* fft_handle = NULL;
     static int N;
 
     out.set_size(in.size(), false);
     if (N != in.size()) {
       N = in.size();
-      if (fft_handle != NULL) DftiFreeDescriptor(&fft_handle);
-      DftiCreateDescriptor(&fft_handle, DFTI_DOUBLE, DFTI_COMPLEX, 1, N);
-      DftiSetValue(fft_handle, DFTI_PLACEMENT, DFTI_NOT_INPLACE);
-      DftiSetValue(fft_handle, DFTI_BACKWARD_SCALE, 1.0/N);
-      DftiCommitDescriptor(fft_handle);
+      if (fft_handle != NULL) mkl::DftiFreeDescriptor(&fft_handle);
+      mkl::DftiCreateDescriptor(&fft_handle, mkl::DFTI_DOUBLE, mkl::DFTI_COMPLEX, 1, N);
+      mkl::DftiSetValue(fft_handle, mkl::DFTI_PLACEMENT, mkl::DFTI_NOT_INPLACE);
+      mkl::DftiSetValue(fft_handle, mkl::DFTI_BACKWARD_SCALE, 1.0/N);
+      mkl::DftiCommitDescriptor(fft_handle);
     }
-    DftiComputeBackward(fft_handle, (void *)in._data(), out._data());
+    mkl::DftiComputeBackward(fft_handle, (void *)in._data(), out._data());
   }
 
   void fft_real(const vec &in, cvec &out)
   {
-    static DFTI_DESCRIPTOR* fft_handle = NULL;
+    static mkl::DFTI_DESCRIPTOR* fft_handle = NULL;
     static int N;
 
     out.set_size(in.size(), false);
     if (N != in.size()) {
       N = in.size();
-      if (fft_handle != NULL) DftiFreeDescriptor(&fft_handle);
-      DftiCreateDescriptor(&fft_handle, DFTI_DOUBLE, DFTI_REAL, 1, N);
-      DftiSetValue(fft_handle, DFTI_PLACEMENT, DFTI_NOT_INPLACE);
-      DftiCommitDescriptor(fft_handle);
+      if (fft_handle != NULL) mkl::DftiFreeDescriptor(&fft_handle);
+      mkl::DftiCreateDescriptor(&fft_handle, mkl::DFTI_DOUBLE, mkl::DFTI_REAL, 1, N);
+      mkl::DftiSetValue(fft_handle, mkl::DFTI_PLACEMENT, mkl::DFTI_NOT_INPLACE);
+      mkl::DftiCommitDescriptor(fft_handle);
     }
-    DftiComputeForward(fft_handle, (void *)in._data(), out._data());
+    mkl::DftiComputeForward(fft_handle, (void *)in._data(), out._data());
 
     // Real FFT does not compute the 2nd half of the FFT points because it
     // is redundant to the 1st half. However, we want all of the data so we
@@ -112,65 +116,25 @@ namespace itpp {
 
   void ifft_real(const cvec &in, vec &out)
   {
-    static DFTI_DESCRIPTOR* fft_handle = NULL;
+    static mkl::DFTI_DESCRIPTOR* fft_handle = NULL;
     static int N;
 
     out.set_size(in.size(), false);
     if (N != in.size()) {
       N = in.size();
-      if (fft_handle != NULL) DftiFreeDescriptor(&fft_handle);
-      DftiCreateDescriptor( &fft_handle, DFTI_DOUBLE, DFTI_REAL, 1, N);
-      DftiSetValue(fft_handle, DFTI_PLACEMENT, DFTI_NOT_INPLACE);
-      DftiSetValue(fft_handle, DFTI_BACKWARD_SCALE, 1.0/N);
-      DftiCommitDescriptor(fft_handle);
+      if (fft_handle != NULL) mkl::DftiFreeDescriptor(&fft_handle);
+      mkl::DftiCreateDescriptor( &fft_handle, mkl::DFTI_DOUBLE, mkl::DFTI_REAL, 1, N);
+      mkl::DftiSetValue(fft_handle, mkl::DFTI_PLACEMENT, mkl::DFTI_NOT_INPLACE);
+      mkl::DftiSetValue(fft_handle, mkl::DFTI_BACKWARD_SCALE, 1.0/N);
+      mkl::DftiCommitDescriptor(fft_handle);
     }
-    DftiComputeBackward(fft_handle, (void *)in._data(), out._data());
+    mkl::DftiComputeBackward(fft_handle, (void *)in._data(), out._data());
   }
 
-  //---------------------------------------------------------------------------
-  // DCT/IDCT based on MKL
-  //---------------------------------------------------------------------------
+#endif // #ifdef HAVE_FFT_MKL
 
-  void dct(const vec &in, vec &out)
-  {
-    int N = in.size();
-    if (N == 1)
-      out = in;
-    else {
-      cvec c = fft_real(concat(in, reverse(in)));
-      c.set_size(N, true);
-      for (int i = 0; i < N; i++) {
-	c(i) *= std::complex<double>(std::cos(pi*i/N/2), std::sin(-pi*i/N/2))
-	  / std::sqrt(2.0 * N);
-      }
-      out = real(c);
-      out(0) /= std::sqrt(2.0);
-    }
-  }
 
-  void idct(const vec &in, vec &out)
-  {
-    int N = in.size();
-    if (N == 1)
-      out = in;
-    else {
-      cvec c = to_cvec(in);
-      c.set_size(2*N, true);
-      c(0) *= std::sqrt(2.0);
-      for (int i = 0; i < N; i++) {
-	c(i) *= std::complex<double>(std::cos(pi*i/N/2), std::sin(pi*i/N/2))
-	  * std::sqrt(2.0 * N);
-      }
-      for (int i = N - 1; i >= 1; i--) {
-	c(c.size() - i) = c(i) * std::complex<double>(std::cos(pi*i/N),
-						      std::sin(-pi*i/N));
-      }
-      out = ifft_real(c);
-      out.set_size(N, true);
-    }
-  }
-
-#elif defined(HAVE_FFT_ACML)
+#if defined(HAVE_FFT_ACML)
 
   //---------------------------------------------------------------------------
   // FFT/IFFT based on ACML
@@ -188,13 +152,13 @@ namespace itpp {
       if (comm_ptr != NULL)
 	delete comm_ptr;
       comm_ptr = new cvec(5 * in.size() + 100);
-      zfft1dx(0, 1.0, false, N, (doublecomplex *)in._data(), 1,
-	      (doublecomplex *)out._data(), 1,
-	      (doublecomplex *)comm_ptr->_data(), &info);
+      acml::zfft1dx(0, 1.0, false, N, (acml::doublecomplex *)in._data(), 1,
+		    (acml::doublecomplex *)out._data(), 1,
+		    (acml::doublecomplex *)comm_ptr->_data(), &info);
     }
-    zfft1dx(-1, 1.0, false, N, (doublecomplex *)in._data(), 1,
-	    (doublecomplex *)out._data(), 1,
-	    (doublecomplex *)comm_ptr->_data(), &info);
+    acml::zfft1dx(-1, 1.0, false, N, (acml::doublecomplex *)in._data(), 1,
+		  (acml::doublecomplex *)out._data(), 1,
+		  (acml::doublecomplex *)comm_ptr->_data(), &info);
   }
 
   void ifft(const cvec &in, cvec &out)
@@ -209,13 +173,13 @@ namespace itpp {
       if (comm_ptr != NULL)
 	delete comm_ptr;
       comm_ptr = new cvec(5 * in.size() + 100);
-      zfft1dx(0, 1.0/N, false, N, (doublecomplex *)in._data(), 1,
-	      (doublecomplex *)out._data(), 1,
-	      (doublecomplex *)comm_ptr->_data(), &info);
+      acml::zfft1dx(0, 1.0/N, false, N, (acml::doublecomplex *)in._data(), 1,
+		    (acml::doublecomplex *)out._data(), 1,
+		    (acml::doublecomplex *)comm_ptr->_data(), &info);
     }
-    zfft1dx(1, 1.0/N, false, N, (doublecomplex *)in._data(), 1,
-	    (doublecomplex *)out._data(), 1,
-	    (doublecomplex *)comm_ptr->_data(), &info);
+    acml::zfft1dx(1, 1.0/N, false, N, (acml::doublecomplex *)in._data(), 1,
+		  (acml::doublecomplex *)out._data(), 1,
+		  (acml::doublecomplex *)comm_ptr->_data(), &info);
   }
 
   void fft_real(const vec &in, cvec &out)
@@ -232,9 +196,9 @@ namespace itpp {
       if (comm_ptr != NULL)
 	delete comm_ptr;
       comm_ptr = new vec(5 * in.size() + 100);
-      dzfft(0, N, out_re._data(), comm_ptr->_data(), &info);
+      acml::dzfft(0, N, out_re._data(), comm_ptr->_data(), &info);
     }
-    dzfft(1, N, out_re._data(), comm_ptr->_data(), &info);
+    acml::dzfft(1, N, out_re._data(), comm_ptr->_data(), &info);
 
     // Normalise output data
     out_re *= factor;
@@ -266,59 +230,19 @@ namespace itpp {
       if (comm_ptr != NULL)
 	delete comm_ptr;
       comm_ptr = new vec(5 * in.size() + 100);
-      zdfft(0, N, out._data(), comm_ptr->_data(), &info);
+      acml::zdfft(0, N, out._data(), comm_ptr->_data(), &info);
     }
-    zdfft(1, N, out._data(), comm_ptr->_data(), &info);
+    acml::zdfft(1, N, out._data(), comm_ptr->_data(), &info);
     out.set_subvector(1, reverse(out(1, N-1)));
 
     // Normalise output data
     out *= factor;
   }
 
-  //---------------------------------------------------------------------------
-  // DCT/IDCT based on ACML
-  //---------------------------------------------------------------------------
+#endif // defined(HAVE_FFT_ACML)
 
-  void dct(const vec &in, vec &out)
-  {
-    int N = in.size();
-    if (N == 1)
-      out = in;
-    else {
-      cvec c = fft_real(concat(in, reverse(in)));
-      c.set_size(N, true);
-      for (int i = 0; i < N; i++) {
-	c(i) *= std::complex<double>(std::cos(pi*i/N/2), std::sin(-pi*i/N/2))
-	  / std::sqrt(2.0 * N);
-      }
-      out = real(c);
-      out(0) /= std::sqrt(2.0);
-    }
-  }
 
-  void idct(const vec &in, vec &out)
-  {
-    int N = in.size();
-    if (N == 1)
-      out = in;
-    else {
-      cvec c = to_cvec(in);
-      c.set_size(2*N, true);
-      c(0) *= std::sqrt(2.0);
-      for (int i = 0; i < N; i++) {
-	c(i) *= std::complex<double>(std::cos(pi*i/N/2), std::sin(pi*i/N/2))
-	  * std::sqrt(2.0 * N);
-      }
-      for (int i = N - 1; i >= 1; i--) {
-	c(c.size() - i) = c(i) * std::complex<double>(std::cos(pi*i/N),
-						      std::sin(-pi*i/N));
-      }
-      out = ifft_real(c);
-      out.set_size(N, true);
-    }
-  }
-
-#elif defined(HAVE_FFTW3)
+#if defined(HAVE_FFTW3)
 
   //---------------------------------------------------------------------------
   // FFT/IFFT based on FFTW
@@ -353,12 +277,15 @@ namespace itpp {
       if (p != NULL)
 	fftw_destroy_plan(p); // destroy the previous plan
       // create a new plan
-      p = fftw_plan_dft_1d(N, (fftw_complex *)in._data(), (fftw_complex *)out._data(),
-			   FFTW_FORWARD, FFTW_ESTIMATE | FFTW_UNALIGNED);
+      p = fftw_plan_dft_1d(N, (fftw_complex *)in._data(),
+				 (fftw_complex *)out._data(),
+				 FFTW_FORWARD,
+				 FFTW_ESTIMATE | FFTW_UNALIGNED);
     }
 
     // compute FFT using the GURU FFTW interface
-    fftw_execute_dft(p, (fftw_complex *)in._data(), (fftw_complex *)out._data());
+    fftw_execute_dft(p, (fftw_complex *)in._data(),
+			   (fftw_complex *)out._data());
   }
 
   void ifft(const cvec &in, cvec &out)
@@ -374,12 +301,15 @@ namespace itpp {
       if (p != NULL)
 	fftw_destroy_plan(p); // destroy the previous plan
       // create a new plan
-      p = fftw_plan_dft_1d(N, (fftw_complex *)in._data(), (fftw_complex *)out._data(),
-			   FFTW_BACKWARD, FFTW_ESTIMATE | FFTW_UNALIGNED);
+      p = fftw_plan_dft_1d(N, (fftw_complex *)in._data(),
+				 (fftw_complex *)out._data(),
+				 FFTW_BACKWARD,
+				 FFTW_ESTIMATE | FFTW_UNALIGNED);
     }
 
     // compute IFFT using the GURU FFTW interface
-    fftw_execute_dft(p, (fftw_complex *)in._data(), (fftw_complex *)out._data());
+    fftw_execute_dft(p, (fftw_complex *)in._data(),
+			   (fftw_complex *)out._data());
 
     // scale output
     out *= inv_N;
@@ -397,12 +327,14 @@ namespace itpp {
 	fftw_destroy_plan(p); //destroy the previous plan
 
       // create a new plan
-      p = fftw_plan_dft_r2c_1d(N, (double *)in._data(), (fftw_complex *)out._data(),
-			       FFTW_ESTIMATE | FFTW_UNALIGNED);
+      p = fftw_plan_dft_r2c_1d(N, (double *)in._data(),
+				     (fftw_complex *)out._data(),
+				     FFTW_ESTIMATE | FFTW_UNALIGNED);
     }
 
     // compute FFT using the GURU FFTW interface
-    fftw_execute_dft_r2c(p, (double *)in._data(), (fftw_complex *)out._data());
+    fftw_execute_dft_r2c(p, (double *)in._data(),
+			       (fftw_complex *)out._data());
 
     // Real FFT does not compute the 2nd half of the FFT points because it
     // is redundant to the 1st half. However, we want all of the data so we
@@ -427,12 +359,15 @@ namespace itpp {
 	fftw_destroy_plan(p); // destroy the previous plan
 
       // create a new plan
-      p = fftw_plan_dft_c2r_1d(N, (fftw_complex *)in._data(), (double *)out._data(),
-			       FFTW_ESTIMATE | FFTW_UNALIGNED | FFTW_PRESERVE_INPUT);
+      p = fftw_plan_dft_c2r_1d(N, (fftw_complex *)in._data(),
+				     (double *)out._data(),
+				     FFTW_ESTIMATE | FFTW_UNALIGNED
+				     | FFTW_PRESERVE_INPUT);
     }
 
     // compute IFFT using the GURU FFTW interface
-    fftw_execute_dft_c2r(p, (fftw_complex *)in._data(), (double *)out._data());
+    fftw_execute_dft_c2r(p, (fftw_complex *)in._data(),
+			       (double *)out._data());
 
     out *= inv_N;
   }
@@ -453,8 +388,10 @@ namespace itpp {
 	fftw_destroy_plan(p); // destroy the previous plan
 
       // create a new plan
-      p = fftw_plan_r2r_1d(N, (double *)in._data(), (double *)out._data(),
-			   FFTW_REDFT10, FFTW_ESTIMATE | FFTW_UNALIGNED);
+      p = fftw_plan_r2r_1d(N, (double *)in._data(),
+				 (double *)out._data(),
+				 FFTW_REDFT10,
+				 FFTW_ESTIMATE | FFTW_UNALIGNED);
     }
 
     // compute FFT using the GURU FFTW interface
@@ -482,15 +419,68 @@ namespace itpp {
 	fftw_destroy_plan(p); // destroy the previous plan
 
       // create a new plan
-      p = fftw_plan_r2r_1d(N, (double *)out._data(), (double *)out._data(),
-			   FFTW_REDFT01, FFTW_ESTIMATE | FFTW_UNALIGNED);
+      p = fftw_plan_r2r_1d(N, (double *)out._data(),
+				 (double *)out._data(),
+				 FFTW_REDFT01,
+				 FFTW_ESTIMATE | FFTW_UNALIGNED);
     }
 
     // compute FFT using the GURU FFTW interface
     fftw_execute_r2r(p, (double *)out._data(), (double *)out._data());
   }
 
-#else
+#endif // defined(HAVE_FFTW3)
+
+
+#if defined(HAVE_FFT_MKL) || defined(HAVE_FFT_ACML)
+
+  //---------------------------------------------------------------------------
+  // DCT/IDCT based on MKL or ACML
+  //---------------------------------------------------------------------------
+
+  void dct(const vec &in, vec &out)
+  {
+    int N = in.size();
+    if (N == 1)
+      out = in;
+    else {
+      cvec c = fft_real(concat(in, reverse(in)));
+      c.set_size(N, true);
+      for (int i = 0; i < N; i++) {
+	c(i) *= std::complex<double>(std::cos(pi*i/N/2), std::sin(-pi*i/N/2))
+	  / std::sqrt(2.0 * N);
+      }
+      out = real(c);
+      out(0) /= std::sqrt(2.0);
+    }
+  }
+
+  void idct(const vec &in, vec &out)
+  {
+    int N = in.size();
+    if (N == 1)
+      out = in;
+    else {
+      cvec c = to_cvec(in);
+      c.set_size(2*N, true);
+      c(0) *= std::sqrt(2.0);
+      for (int i = 0; i < N; i++) {
+	c(i) *= std::complex<double>(std::cos(pi*i/N/2), std::sin(pi*i/N/2))
+	  * std::sqrt(2.0 * N);
+      }
+      for (int i = N - 1; i >= 1; i--) {
+	c(c.size() - i) = c(i) * std::complex<double>(std::cos(pi*i/N),
+						      std::sin(-pi*i/N));
+      }
+      out = ifft_real(c);
+      out.set_size(N, true);
+    }
+  }
+
+#endif // defined(HAVE_FFT_MKL) || defined(HAVE_FFT_ACML)
+
+
+#if !defined(HAVE_FFT)
 
   void fft(const cvec &in, cvec &out)
   {
@@ -522,7 +512,7 @@ namespace itpp {
     it_error("FFT library is needed to use idct() function");
   }
 
-#endif // HAVE_FFT_MKL or HAVE_FFT_ACML or HAVE_FFTW3
+#endif // !defined(HAVE_FFT)
 
   cvec fft(const cvec &in)
   {

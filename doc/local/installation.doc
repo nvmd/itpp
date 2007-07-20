@@ -43,27 +43,25 @@ recommended that you have some external libraries compiled and installed in
 your computer. The basic set of them is:
 <a href="http://www.netlib.org/blas/">BLAS</a>,
 <a href="http://www.netlib.org/lapack/">LAPACK</a> and
-<a href="http://www.fftw.org/">FFTW</a> (version 3.0.0 or later). To improve
-some vector based operations a C interface of BLAS, namely
-<a href="http://www.netlib.org/blas/">CBLAS</a>, is also recommended.
+<a href="http://www.fftw.org/">FFTW</a> (version 3.0.0 or later).
 
-Instead of NetLib's reference BLAS, CBLAS and LAPACK implementations, some
+Instead of NetLib's reference BLAS and LAPACK implementations, some
 optimized platform-specific libraries can be used as well, i.e.:
 - <a href="http://math-atlas.sourceforge.net/">ATLAS</a> (<em>Automatically
-  Tuned Linear Algebra Software</em>) - includes optimised BLAS, CBLAS and a
+  Tuned Linear Algebra Software</em>) - includes optimised BLAS and a
   limited set of LAPACK routines (version 3.6.0 or later)
 - <a href="http://www.intel.com/cd/software/products/asmo-na/eng/perflib/mkl/">MKL</a>
-  (<em>Intel Math Kernel Library</em>) - includes all required BLAS, CBLAS,
+  (<em>Intel Math Kernel Library</em>) - includes all required BLAS,
   LAPACK and FFT routines (version 8.0.0 or later; FFTW not required)
 - <a href="http://developer.amd.com/acml.aspx">ACML</a> (<em>AMD Core Math
-  Library</em>) - includes BLAS, CBLAS, LAPACK and FFT routines (version
+  Library</em>) - includes BLAS, LAPACK and FFT routines (version
   2.5.3 or later; FFTW not required)
 
 It is possible to compile and use IT++ without these libraries, but the
-functionality will be reduced. We therefore recommend that you take some
-time and effort to provide these external libraries in your system. Please
-note, that some of them (FFTW, BLAS and LAPACK) are usually included in
-most modern Linux distributions.
+functionality will be reduced. Therefore, we recommend that you take some time
+and effort to provide these external libraries in your system. Please note,
+that some of them (FFTW, BLAS and LAPACK) are usually included in most modern
+Linux distributions.
 
 
 \section download Obtaining the IT++ Source Codes
@@ -137,28 +135,23 @@ components. Here is a list of them:
 
 By default, the \c `configure' script checks for a few external libraries,
 which might be used by the IT++ library (cf. \ref requirements). BLAS and
-LAPACK libraries require a fortran compiler for linking. Therefore, if no
-fortran compiler can be found, only some FFT library is searched.
+LAPACK libraries require a Fortran compiler for linking. Therefore, if no
+Fortran compiler can be found, only FFT libraries are being searched.
 Otherwise, the detection procedure is as follows:
--# First, the presence of a BLAS library among the MKL, ACML, ATLAS and
+-# First, the presence of a BLAS library among MKL, ACML, ATLAS and
    NetLib's reference BLAS is checked. If one of the above mentioned can be
    used, \c HAVE_BLAS is defined.
--# If the BLAS library can be found, the C interface of BLAS, namely CBLAS,
-   is detected. The CBLAS is provided by default by the MKL, ATLAS and
-   NetLib's reference CBLAS libraries. The ACML has also a C interface of
-   BLAS, which can be used, but it is not compatible with the standard
-   CBLAS. On success, \c HAVE_CBLAS is defined.
--# Next, some LAPACK library is searched, but only if a BLAS library
-   is available. Full set of LAPACK routines can be found in the MKL, ACML
-   and NetLib's reference LAPACK libraries. Besides, the ATLAS contains a
-   subset of optimised LAPACK routines, which can be used with NetLib's LAPACK
-   library (this is described in the ATLAS documentation). If a LAPACK
-   library can be found, \c HAVE_LAPACK is defined.
--# Finally, a set of separate checks for some FFT library is executed.
+-# Next, some LAPACK library is being searched, but only if BLAS is
+   available. Full set of LAPACK routines can be found in the MKL, ACML and
+   NetLib's reference LAPACK libraries. Besides, ATLAS contains a subset of
+   optimised LAPACK routines, which can be used with NetLib's LAPACK library
+   (this is described in the ATLAS documentation). If some LAPACK library
+   can be found, \c HAVE_LAPACK is defined.
+-# Finally, a set of separate checks for FFT libraries is executed.
    Currently three different libraries providing FFT/IFFT routines can be
    used: MKL, ACML and FFTW. If at least one of them is found, \c HAVE_FFT
    id defined. Besides, one of the following: \c HAVE_FFT_MKL, \c
-   HAVE_FFT_ACML or \c HAVE_FFTW3 is defined.
+   HAVE_FFT_ACML or \c HAVE_FFTW3 is defined, respectively.
 
 If some external libraries are installed in a non-standard location in your
 system, e.g. MKL in <tt>`/opt/intel/mkl/8.0.1'</tt>, the \c `configure' script
@@ -176,10 +169,10 @@ following commands:
 \endverbatim
 
 In the case that external libraries have non-standard names, e.g.
-<tt>`libcblas-3.a'</tt> for CBLAS, you might specify them to the configure
+<tt>`libblas3.a'</tt> for BLAS, you might specify them to the configure
 using \c `--with-\<LIBNAME\>' switches, where \c \<LIBNAME\> is one of the
-following: \c `blas', \c `cblas', \c `lapack' or \c `fft'. You might use
-more then one library names by quoting them with doublequotes, e.g.
+following: \c `blas', \c `lapack' or \c `fft'. You might use
+more than one library names by quoting them, e.g.
 
 \verbatim
 % ./configure --with-blas="-latlas -lblas"
@@ -197,13 +190,13 @@ some external libraries. To do this you should use \c
 % ./configure --without-cblas --without-lapack
 \endverbatim
 
-It is recommended to set a CXXFLAGS environment variable with some compiler-
-and platform-specific optimisation flags, before invoking the \c `configure'
-command. Additionally, \c `-DNDEBUG' should be included in the optimised
-CXXFLAGS, because it turns off all conditionall assertion checks. This will
-improve the computation performance of many IT++ functions. For example, in
-the case of using the Intel Pentium 4 processor one might employ the
-following flags:
+It is recommended to set the CXXFLAGS environment variable with some
+compiler- and platform-specific optimisation flags, before invoking the \c
+`configure' command. Additionally, \c `-DNDEBUG' should be included in the
+optimised CXXFLAGS, because it turns off all conditional assertion checks.
+This will improve the computation performance of many IT++ functions. For
+example, in the case of using the Intel Pentium 4 processor one might employ
+the following flags:
 
 \verbatim
 % CXXFLAGS="-DNDEBUG -O3 -pipe -march=pentium4" ./configure
@@ -218,11 +211,11 @@ might be set as follows:
 \endverbatim
 
 If CXXFLAGS is not set in the environment, it will be initialised with
-the default flags, i.e. <tt>"-DNDEBUG -O3 -fno-exceptions -pipe"</tt>.
+the default flags, i.e. <tt>"-DNDEBUG -O3 -pipe"</tt>.
 
 When the configuration process is finished, a status message is displayed.
-For instance, after having invoked the following configuration
-command on a recent Gentoo Linux system:
+For instance, after having invoked the following configuration command on a
+recent Gentoo Linux system:
 
 \verbatim
 % ./configure --with-blas="-lblas"
@@ -232,7 +225,7 @@ one can observe something like this:
 
 \verbatim
 ------------------------------------------------------------------------------
-itpp-3.99.1 library configuration:
+itpp-3.99.3 library configuration:
 ------------------------------------------------------------------------------
 
 Directories:
@@ -240,7 +233,7 @@ Directories:
   - exec_prefix .... : ${prefix}
   - includedir ..... : ${prefix}/include
   - libdir ......... : ${exec_prefix}/lib
-  - docdir ......... : ${prefix}/share/doc/itpp-3.99.1
+  - docdir ......... : ${prefix}/share/doc/itpp-3.99.3
 
 Switches:
   - debug .......... : no
@@ -272,7 +265,6 @@ External libs:
     * MKL .......... : no
     * ACML ......... : no
     * ATLAS ........ : yes
-  - CBLAS .......... : yes
   - LAPACK ......... : yes
   - FFT ............ : yes
     * MKL .......... : no
@@ -282,33 +274,33 @@ External libs:
 Compiler/linker flags/libs/defs:
   - CXX ............ : g++
   - F77 ............ : gfortran
-  - CXXFLAGS ....... : -DNDEBUG -O3 -fno-exceptions -pipe
+  - CXXFLAGS ....... : -DNDEBUG -O3 -pipe
   - CXXFLAGS_DEBUG . :
   - CPPFLAGS ....... :
   - LDFLAGS ........ :
-  - LIBS ........... : -lfftw3 -llapack -lcblas -lblas -lgfortran
+  - LIBS ........... : -lfftw3 -llapack -lblas
 
 ------------------------------------------------------------------------------
-Now type 'make && make install' to build and install itpp-3.99.1 library
+Now type 'make && make install' to build and install itpp-3.99.3 library
 ------------------------------------------------------------------------------
 
 \endverbatim
 
-Now, it is time for compiling and linking the IT++ library. To do so,
-please simply run the following command:
+Now, it is time for compiling and linking the IT++ library. To do so, please
+simply run the following command:
 
 \verbatim
 % make
 \endverbatim
 
-IT++ should compile without any errors or warnings. If this is not the
-case, please submit a bug-report on the IT++ project page at SourceForge.
-Please include information about your OS, compiler version, external
-libraries and their versions, etc.
+IT++ should compile without any errors or warnings. If this is not the case,
+please submit a bug-report on the IT++ project page at SourceForge. Please
+include information about your OS, compiler version, external libraries and
+their versions, etc.
 
-It is recommended that you check if your library has been compiled and
-linked properly and works as expected. To do so, you should execute the
-testing process:
+It is recommended that you check if your library has been compiled and linked
+properly and works as expected. To do so, you should execute the testing
+process:
 
 \verbatim
 % make check

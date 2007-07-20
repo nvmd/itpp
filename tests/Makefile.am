@@ -5,6 +5,7 @@ AM_CXXFLAGS = $(CXXFLAGS_OPT)
 BASE_TESTS = \
 	array_test \
 	bessel_test \
+	blas_test \
 	cholesky_test \
 	circular_buffer_test \
 	det_test \
@@ -84,6 +85,7 @@ endif
 array_test_SOURCES = array_test.cpp
 bch_test_SOURCES = bch_test.cpp
 bessel_test_SOURCES = bessel_test.cpp
+blas_test_SOURCES = blas_test.cpp
 channel_test_SOURCES = channel_test.cpp
 itfile_test_SOURCES = itfile_test.cpp
 itfile_test_CPPFLAGS = -DITFILE_TEST_FILE=\"$(srcdir)/itfile_test_data.it\" $(AM_CPPFLAGS)

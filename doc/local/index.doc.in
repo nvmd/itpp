@@ -39,7 +39,7 @@
 
 <b>External Libraries:</b>
 <ul>
-<li><a href="http://www.netlib.org/blas/">BLAS and CBLAS (NetLib)</a></li>
+<li><a href="http://www.netlib.org/blas/">BLAS (NetLib)</a></li>
 <li><a href="http://www.netlib.org/lapack/">LAPACK (NetLib)</a></li>
 <li><a href="http://www.fftw.org/">FFTW</a></li>
 <li><a href="http://math-atlas.sourceforge.net/">ATLAS</a></li>
@@ -56,7 +56,7 @@
 IT++ is a C++ library of mathematical, signal processing, speech processing,
 and communications classes and functions. It is being developed by
 researchers in these areas and is widely used by researchers, both in the
-communications industry and universities. Since 2004, IT++ is also being
+communications industry and universities. In 2005, 2006 and 2007, IT++ was
 developed as a part of the European Network of Excellence in Wireless
 Communications (<a href="http://newcom.ismb.it/">NEWCOM</a>).
 
@@ -67,17 +67,16 @@ similar to Matlab.
 IT++ makes an extensive use of existing open-source libraries (but not
 only) for increased functionality, speed and accuracy. In particular
 <a href="http://www.netlib.org/blas/">BLAS</a>,
-<a href="http://www.netlib.org/blas/">CBLAS</a>,
 <a href="http://www.netlib.org/lapack/">LAPACK</a> and
 <a href="http://www.fftw.org/">FFTW</a> libraries might be used.
 Instead of NetLib's reference BLAS and LAPACK, some optimized
 platform-specific libraries can be used as well, i.e.:
 - <a href="http://math-atlas.sourceforge.net/">ATLAS</a> (<em>Automatically
-  Tuned Linear Algebra Software</em>) - includes optimised BLAS, CBLAS and a
+  Tuned Linear Algebra Software</em>) - includes optimised BLAS and a
   limited set of LAPACK routines
 - <a href="http://www.intel.com/cd/software/products/asmo-na/eng/perflib/mkl/">MKL</a>
-  (<em>Intel Math Kernel Library</em>) - includes all required BLAS, CBLAS,
-  LAPACK and FFT routines (FFTW not required)
+  (<em>Intel Math Kernel Library</em>) - includes all required BLAS, LAPACK
+  and FFT routines (FFTW not required)
 - <a href="http://developer.amd.com/acml.aspx">ACML</a> (<em>AMD Core Math
   Library</em>) - includes BLAS, LAPACK and FFT routines (FFTW not required)
 .

@@ -1,3 +1,20 @@
+2007-07-20  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* INSTALL, README, configure.ac, doc/doxygen_html.cfg.in,
+	doc/local/index.doc.in, doc/local/installation.doc,
+	itpp/base/blas.h, itpp/base/copy_vector.h, itpp/base/mat.cpp,
+	itpp/base/mat.h, itpp/base/sources.mk, itpp/base/vec.cpp,
+	itpp/base/vec.h, itpp/config_msvc.h, itpp/signal/transforms.cpp,
+	tests/Makefile.am, tests/blas_test.cpp, tests/blas_test.ref,
+	win32/itpp_acml.vcproj, win32/itpp_mkl.vcproj: Removed CBLAS
+	dependency
+
+	To limit the number of external libraries required by IT++ CBLAS
+	interfaces have been replaced with a Fortran BLAS. Besides, vec
+	and cvec specialisation of the outer_product() method using BLAS
+	functions has been added. To verify BLAS-aided routines, an extra
+	blas_test has been added.
+
 2007-07-19  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/mat.h: Fixed a bug in set_size() method

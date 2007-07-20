@@ -4,7 +4,7 @@ Introduction
 IT++ is a C++ library of mathematical, signal processing, speech processing,
 and communications classes and functions. It is being developed by
 researchers in these areas and is widely used by researchers, both in the
-communications industry and universities. Since 2004, IT++ is also being
+communications industry and universities. In 2005, 2006 and 2007, IT++ was
 developed as a part of the European Network of Excellence in Wireless
 Communications (NEWCOM).
 
@@ -13,15 +13,15 @@ lots of functions for vectors and matrices. Such a kernel makes IT++ library
 similar to Matlab.
 
 IT++ makes an extensive use of existing open-source libraries (but not only)
-for increased functionality, speed and accuracy. In particular BLAS, CBLAS,
-LAPACK and FFTW libraries might be used. Instead of NetLib's reference BLAS
-and LAPACK, some optimized platform-specific libraries can be used as well,
+for increased functionality, speed and accuracy. In particular BLAS, LAPACK
+and FFTW libraries might be used. Instead of NetLib's reference BLAS and
+LAPACK, some optimized platform-specific libraries can be used as well,
 i.e.:
 
   o ATLAS (Automatically Tuned Linear Algebra Software) - includes optimised
-    BLAS, CBLAS and a limited set of LAPACK routines
-  o MKL (Intel Math Kernel Library) - includes all required BLAS, CBLAS,
-    LAPACK and FFT routines (FFTW not required)
+    BLAS and a limited set of LAPACK routines
+  o MKL (Intel Math Kernel Library) - includes all required BLAS, LAPACK and
+    FFT routines (FFTW not required)
   o ACML (AMD Core Math Library) - includes BLAS, LAPACK and FFT routines
     (FFTW not required)
 

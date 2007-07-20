@@ -170,10 +170,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\cblas.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\itpp\base\converters.cpp"
 					>
 				</File>
@@ -676,7 +672,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\cblas.h"
+					RelativePath="..\itpp\base\blas.h"
 					>
 				</File>
 				<File

@@ -1223,31 +1223,6 @@ namespace itpp {
   }
 
 
-  template<> inline
-  const cmat outer_product(const cvec &v1, const cvec &v2, bool hermitian)
-  {
-    it_assert_debug((v1.datasize > 0) && (v2.datasize > 0),
-		    "Vec::outer_product():: Input vector of zero size");
-
-    cmat out(v1.datasize, v2.datasize);
-    if (hermitian) {
-      for (int i = 0; i < v1.datasize; ++i) {
-	for (int j = 0; j < v2.datasize; ++j) {
-	  out(i, j) = v1.data[i] * conj(v2.data[j]);
-	}
-      }
-    }
-    else {
-      for (int i = 0; i < v1.datasize; ++i) {
-	for (int j = 0; j < v2.datasize; ++j) {
-	  out(i, j) = v1.data[i] * v2.data[j];
-	}
-      }
-    }
-    return out;
-  }
-
-
   template<>
   bvec Vec<std::complex<double> >::operator==(const std::complex<double>) const
   {
@@ -1369,7 +1344,7 @@ namespace itpp {
 
   //------------- Multiplication operator ----------
 
-#if !defined(HAVE_CBLAS)
+#if !defined(HAVE_BLAS)
   template double dot(const vec &v1, const vec &v2);
   template std::complex<double> dot(const cvec &v1, const cvec &v2);
 #endif
@@ -1381,8 +1356,10 @@ namespace itpp {
   template short operator*(const svec &v1, const svec &v2);
   template bin operator*(const bvec &v1, const bvec &v2);
 
+#if !defined(HAVE_BLAS)
   template const mat outer_product(const vec &v1, const vec &v2,
 				   bool hermitian);
+#endif
   template const imat outer_product(const ivec &v1, const ivec &v2,
 				    bool hermitian);
   template const smat outer_product(const svec &v1, const svec &v2,

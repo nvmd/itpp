@@ -240,13 +240,8 @@ AC_CHECK_SIZEOF(unsigned long long)
 
 # Check if we have Fortran compiler
 if test "x$F77" != x; then
-
   # Checks for BLAS (ACML, MKL, ATLAS or NETLIB)
   ACX_BLAS
-
-  # Checks for CBLAS (ACML, MKL, ATLAS or NETLIB)
-  ACX_CBLAS
-
   # Checks for LAPACK (ACML, MKL, ATLAS or NETLIB)
   ACX_LAPACK
 else
@@ -254,7 +249,6 @@ else
   blas_mkl_ok=no;
   blas_acml_ok=no;
   blas_atlas_ok=no;
-  acx_cblas_ok=noblas;
   acx_lapack_ok=noblas;
 fi
 
@@ -264,9 +258,6 @@ ACX_FFT
 # Set LIBS
 if test $acx_blas_ok = yes; then
   LIBS="$BLAS_LIBS $LIBS"
-  if test "x$CBLAS_LIBS" != x; then
-    LIBS="$CBLAS_LIBS $LIBS"
-  fi
   if test "x$LAPACK_LIBS" != x; then
     LIBS="$LAPACK_LIBS $LIBS"
   fi
@@ -403,7 +394,6 @@ External libs:
     * MKL .......... : ${blas_mkl_ok}
     * ACML ......... : ${blas_acml_ok}
     * ATLAS ........ : ${blas_atlas_ok}
-  - CBLAS .......... : ${acx_cblas_ok}
   - LAPACK ......... : ${acx_lapack_ok}
   - FFT ............ : ${acx_fft_ok}
     * MKL .......... : ${fft_mkl_ok}

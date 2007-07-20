@@ -36,10 +36,6 @@
 #  include <itpp/config_msvc.h>
 #endif
 
-#if defined (HAVE_CBLAS)
-#  include <itpp/base/cblas.h>
-#endif
-
 #include <itpp/base/itassert.h>
 #include <itpp/base/math/misc.h>
 #include <itpp/base/copy_vector.h>
@@ -909,24 +905,25 @@ namespace itpp {
     return *this;
   }
 
-#if defined(HAVE_CBLAS)
+#if defined(HAVE_BLAS)
   template<> inline
   double dot(const vec &v1, const vec &v2)
   {
     it_assert_debug(v1.datasize == v2.datasize, "vec::dot: wrong sizes");
-    return cblas_ddot(v1.datasize, v1.data, 1, v2.data, 1);;
+    int incr = 1;
+    return blas::ddot_(&v1.datasize, v1.data, &incr, v2.data, &incr);
   }
 
   template<> inline
   std::complex<double> dot(const cvec &v1, const cvec &v2)
   {
     it_assert_debug(v1.datasize == v2.datasize, "cvec::dot: wrong sizes");
-    std::complex<double> r = 0.0;
-    cblas_zdotu_sub(v1.datasize, v1.data, 1, v2.data, 1, &r);
-
-    return r;
+    int incr = 1;
+    blas::cdouble result = blas::zdotu_(&v1.datasize, v1.data, &incr, v2.data,
+					&incr);
+    return std::complex<double>(result.re, result.im);
   }
-#endif // HAVE_CBLAS
+#endif // HAVE_BLAS
 
   template<class Num_T> inline
   Num_T dot(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
@@ -941,9 +938,66 @@ namespace itpp {
     return r;
   }
 
+#if defined(HAVE_BLAS)
   template<> inline
-  const cmat outer_product(const cvec &v1, const cvec &v2,
-			   bool hermitian);
+  const mat outer_product(const vec &v1, const vec &v2, bool hermitian)
+  {
+    it_assert_debug((v1.datasize > 0) && (v2.datasize > 0),
+		    "Vec::outer_product():: Input vector of zero size");
+
+    mat out(v1.datasize, v2.datasize);
+    out.zeros(); // 2007-07-11 ediap: This seems to be necessary here!
+    double alpha = 1.0;
+    int incr = 1;
+    blas::dger_(&v1.datasize, &v2.datasize, &alpha, v1.data, &incr,
+		v2.data, &incr, out._data(), &v1.datasize);
+    return out;
+  }
+
+  template<> inline
+  const cmat outer_product(const cvec &v1, const cvec &v2, bool hermitian)
+  {
+    it_assert_debug((v1.datasize > 0) && (v2.datasize > 0),
+		    "Vec::outer_product():: Input vector of zero size");
+
+    cmat out(v1.datasize, v2.datasize);
+    std::complex<double> alpha(1.0);
+    int incr = 1;
+    if (hermitian) {
+      blas::zgerc_(&v1.datasize, &v2.datasize, &alpha, v1.data, &incr,
+		   v2.data, &incr, out._data(), &v1.datasize);
+    }
+    else {
+      blas::zgeru_(&v1.datasize, &v2.datasize, &alpha, v1.data, &incr,
+		   v2.data, &incr, out._data(), &v1.datasize);
+    }
+    return out;
+  }
+#else
+  template<> inline
+  const cmat outer_product(const cvec &v1, const cvec &v2, bool hermitian)
+  {
+    it_assert_debug((v1.datasize > 0) && (v2.datasize > 0),
+		    "Vec::outer_product():: Input vector of zero size");
+
+    cmat out(v1.datasize, v2.datasize);
+    if (hermitian) {
+      for (int i = 0; i < v1.datasize; ++i) {
+	for (int j = 0; j < v2.datasize; ++j) {
+	  out(i, j) = v1.data[i] * conj(v2.data[j]);
+	}
+      }
+    }
+    else {
+      for (int i = 0; i < v1.datasize; ++i) {
+	for (int j = 0; j < v2.datasize; ++j) {
+	  out(i, j) = v1.data[i] * v2.data[j];
+	}
+      }
+    }
+    return out;
+  }
+#endif // HAVE_BLAS
 
   template<class Num_T> inline
   const Mat<Num_T> outer_product(const Vec<Num_T> &v1, const Vec<Num_T> &v2,
@@ -1789,7 +1843,7 @@ namespace itpp {
 
   //------------- Multiplication operator ----------
 
-#if !defined(HAVE_CBLAS)
+#if !defined(HAVE_BLAS)
   //! Template instantiation of dot
   extern template double dot(const vec &v1, const vec &v2);
   //! Template instantiation of dot
@@ -1809,9 +1863,11 @@ namespace itpp {
   //! Template instantiation of operator*
   extern template bin operator*(const bvec &v1, const bvec &v2);
 
+#if !defined(HAVE_BLAS)
   //! Template instantiation of outer_product
   extern template const mat outer_product(const vec &v1, const vec &v2,
 					  bool hermitian);
+#endif
   //! Template instantiation of outer_product
   extern template const imat outer_product(const ivec &v1, const ivec &v2,
 					   bool hermitian);
