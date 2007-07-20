@@ -1,3 +1,19 @@
+2007-07-21  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* AUTHORS, doc/local/authors.doc, itpp/base/sort.h,
+	tests/Makefile.am, tests/sort_test.cpp, tests/sort_test.ref:
+	Sorting functions revised
+
+	The sort() and sort_index() functions can now use four different
+	algorithms: Introsort, Quicksort, Heapsort and Insertion Sort,
+	which are implemented in a common Sort class. The Introsort is
+	the default method. The revised implementation is much faster
+	because it uses pointers for accessing the data to be sorted.
+	Sorting test program is included in this commit as well.
+
+	Thanks to Mark Dobossy for this improved implementation.
+	This commit closes feature request [1746876].
+
 2007-07-20  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/blas.h, itpp/base/copy_vector.h, itpp/base/vec.h:
@@ -24,6 +40,8 @@
 	and cvec specialisation of the outer_product() method using BLAS
 	functions has been added. To verify BLAS-aided routines, an extra
 	blas_test has been added.
+
+	This commit closes feature request [1746876].
 
 2007-07-19  Adam Piatyszek  <ediap@users.sourceforge.net>
 
