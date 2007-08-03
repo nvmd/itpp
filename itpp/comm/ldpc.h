@@ -651,12 +651,40 @@ namespace itpp {
     This class provides the functionality for encoding and decoding of LDPC
     codes defined via \c LDPC_Parity and \c LDPC_Generator classes.
 
-    LDPC codecs are constructed from parity check and generator matrices.
-    Since the procedure of constructing the codec can be time-consuming (for
-    example, due to optimization of the parity matrix and computation of the
-    generator matrix), codecs can be saved to a file for later use. This
-    class provides functionality and a special file format (the file format
-    is designed to optimize the operation of the decoder) to do this.
+    LDPC codecs are constructed from parity check and generator
+    matrices.  Since the procedure of constructing the codec can be
+    time-consuming (for example, due to optimization of the parity
+    matrix and computation of the generator matrix), codecs can be
+    saved to a file for later use. This class provides functionality
+    and a special file format (the file format is designed to optimize
+    the operation of the decoder) to do this. Some examples of load
+    and save operations follow:
+
+    Saving a codec without generator matrix:
+    \code
+    // assume the parity matrix is already defined and stored in H
+    LDPC_Code C(&H);      
+    C.save_code("filename.it");
+    \endcode
+
+    Saving a codec with generator matrix (for the example of systematic generator):
+    \code
+    // assume the parity matrix is already defined and stored in H
+    LDPC_Generator_Systematic G(H);   // create generator
+    LDPC_Code C(&H,&G);
+    C.save_code("filename.it");
+    \endcode
+
+    Loading a codec without a generator:
+    \code
+    LDPC_Code("filename.it");
+    \endcode
+
+    Loading a codec with a generator (systematic in this example):
+    \code
+    LDPC_Generator_Systematic G;     // the generator must be created first
+    LDPC_Code("filename.it",&G);
+    \endcode
 
     \note Please refer to the tutorials \ref ldpc_gen_codes and \ref
     ldpc_bersim_awgn for extensive examples of how to use LDPC codes.
@@ -705,7 +733,7 @@ namespace itpp {
       \param filename Name of the file where the codec is stored
       \param G A pointer to the optional generator object
 
-      \note If \c G points at \c 0 (default), the generator date is not
+      \note If \c G points at \c 0 (default), the generator data is not
       read from the saved file. This means that the encoding can not be
       performed.
     */
