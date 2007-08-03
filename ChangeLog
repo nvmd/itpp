@@ -1,3 +1,7 @@
+2007-08-03  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/comm/ldpc.h: Documentation updates
+
 2007-07-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* AUTHORS, doc/local/authors.doc, itpp/base/sort.h,
