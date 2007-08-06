@@ -1,5 +1,10 @@
 2007-08-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/vec_test.cpp, tests/vec_test.ref: Improvements in vec_test
+
+	Perform more consistent tests of the templated Vec class for bin,
+	int, double and std::complex<double> arguments.
+
 	* itpp/base/mat.h, itpp/base/vec.h: Code cleanup in Vec/Mat's
 	multiply and division operators
 
