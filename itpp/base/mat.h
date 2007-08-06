@@ -1422,8 +1422,7 @@ namespace itpp {
   template<class Num_T> inline
   Mat<Num_T>& Mat<Num_T>::operator*=(Num_T t)
   {
-    for (int i=0; i<datasize; i++)
-      data[i] *= t;
+    scal_vector(datasize, t, data);
     return *this;
   }
 
@@ -1509,12 +1508,7 @@ namespace itpp {
   template<class Num_T> inline
   const Mat<Num_T> operator*(Num_T t, const Mat<Num_T> &m)
   {
-    Mat<Num_T> r(m.no_rows, m.no_cols);
-
-    for (int i=0; i<r.datasize; i++)
-      r.data[i] = m.data[i] * t;
-
-    return r;
+    return operator*(m, t);
   }
 
   template<class Num_T> inline

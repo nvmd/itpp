@@ -1,5 +1,14 @@
 2007-08-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/mat.h, itpp/base/vec.h: Code cleanup in Vec/Mat's
+	multiply and division operators
+
+	Used BLAS-aided scal_vector() method in multiplication by constant
+	operator in Mat class. Replaced duplicated implementation with
+	executions of inlined multiplication operators in both Vec and Mat
+	classes. Simplified Vec's division operators by removal of
+	unnecessary checks for special cases.
+
 	* itpp/base/vec.h: Added missing initialization command
 
 	Output matrix has to be initialised with zeros in BLAS-based

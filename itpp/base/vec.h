@@ -1032,13 +1032,7 @@ namespace itpp {
   template<class Num_T> inline
   const Vec<Num_T> operator*(const Num_T t, const Vec<Num_T> &v)
   {
-    int i;
-    Vec<Num_T> r(v.datasize);
-
-    for (i=0; i<v.datasize; i++)
-      r.data[i] = t * v.data[i];
-
-    return r;
+    return operator*(v, t);
   }
 
   template<class Num_T> inline
@@ -1150,10 +1144,8 @@ namespace itpp {
   template<class Num_T> inline
   Vec<Num_T>& Vec<Num_T>::operator/=(const Num_T t)
   {
-    if (t != Num_T(1)) {
-      for (int i = 0; i < datasize; ++i) {
-	data[i] /= t;
-      }
+    for (int i = 0; i < datasize; ++i) {
+      data[i] /= t;
     }
     return *this;
   }
@@ -1161,17 +1153,9 @@ namespace itpp {
   template<class Num_T> inline
   Vec<Num_T>& Vec<Num_T>::operator/=(const Vec<Num_T> &v)
   {
-    if (this != &v) {
-      it_assert_debug(datasize==v.datasize, "Vec::operator/=(): wrong sizes");
-      for (int i=0; i<datasize; i++)
-	data[i] /= v.data[i];
-    }
-    else {
-      for (int i = 0; i < datasize; ++i) {
-	it_assert_debug(data[i] != Num_T(0),
-			"Vec::operator/=(): Division by zero");
-	data[i] = Num_T(1);
-      }
+    it_assert_debug(datasize == v.datasize, "Vec::operator/=(): wrong sizes");
+    for (int i = 0; i < datasize; ++i) {
+      data[i] /= v.data[i];
     }
     return *this;
   }
