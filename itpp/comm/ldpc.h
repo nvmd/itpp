@@ -652,7 +652,7 @@ namespace itpp {
     codes defined via \c LDPC_Parity and \c LDPC_Generator classes.
 
     LDPC codecs are constructed from parity check and generator
-    matrices.  Since the procedure of constructing the codec can be
+    matrices. Since the procedure of constructing the codec can be
     time-consuming (for example, due to optimization of the parity
     matrix and computation of the generator matrix), codecs can be
     saved to a file for later use. This class provides functionality
@@ -663,15 +663,15 @@ namespace itpp {
     Saving a codec without generator matrix:
     \code
     // assume the parity matrix is already defined and stored in H
-    LDPC_Code C(&H);      
+    LDPC_Code C(&H);
     C.save_code("filename.it");
     \endcode
 
     Saving a codec with generator matrix (for the example of systematic generator):
     \code
     // assume the parity matrix is already defined and stored in H
-    LDPC_Generator_Systematic G(H);   // create generator
-    LDPC_Code C(&H,&G);
+    LDPC_Generator_Systematic G(&H); // create generator
+    LDPC_Code C(&H, &G);
     C.save_code("filename.it");
     \endcode
 
@@ -682,8 +682,8 @@ namespace itpp {
 
     Loading a codec with a generator (systematic in this example):
     \code
-    LDPC_Generator_Systematic G;     // the generator must be created first
-    LDPC_Code("filename.it",&G);
+    LDPC_Generator_Systematic G; // the generator object must be created first
+    LDPC_Code("filename.it", &G);
     \endcode
 
     \note Please refer to the tutorials \ref ldpc_gen_codes and \ref
