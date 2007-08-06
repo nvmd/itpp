@@ -1,5 +1,12 @@
 2007-08-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* AUTHORS, doc/Makefile.am, doc/images/Makefile.am,
+	doc/images/newcom_logo.png, doc/local/authors.doc,
+	doc/local/itpp_header.html: NEWCOM logo removed
+
+	Since the NEWCOM project ended in March 2007, the existence of its
+	logo in IT++ HTML documentation is not necessary any more.
+
 	* tests/vec_test.cpp, tests/vec_test.ref: Improvements in vec_test
 
 	Perform more consistent tests of the templated Vec class for bin,
