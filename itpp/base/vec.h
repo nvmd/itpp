@@ -945,7 +945,7 @@ namespace itpp {
 		    "Vec::outer_product():: Input vector of zero size");
 
     mat out(v1.datasize, v2.datasize);
-    out.zeros(); // 2007-07-11 ediap: This seems to be necessary here!
+    out.zeros();
     double alpha = 1.0;
     int incr = 1;
     blas::dger_(&v1.datasize, &v2.datasize, &alpha, v1.data, &incr,
@@ -960,6 +960,7 @@ namespace itpp {
 		    "Vec::outer_product():: Input vector of zero size");
 
     cmat out(v1.datasize, v2.datasize);
+    out.zeros();
     std::complex<double> alpha(1.0);
     int incr = 1;
     if (hermitian) {
