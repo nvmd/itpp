@@ -1,3 +1,10 @@
+2007-08-06  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/vec.h: Added missing initialization command
+
+	Output matrix has to be initialised with zeros in BLAS-based
+	Vec::outer_product() function specializations.
+
 2007-08-03  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/comm/ldpc.h: Documentation updates
