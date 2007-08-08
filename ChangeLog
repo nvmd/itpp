@@ -1,3 +1,10 @@
+2007-08-08  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* tests/mat_test.cpp, tests/mat_test.ref: Improvements in mat_test
+
+	Perform more consistent tests of the templated Mat class for bin,
+	int, double and std::complex<double> arguments.
+
 2007-08-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* AUTHORS, doc/Makefile.am, doc/images/Makefile.am,
