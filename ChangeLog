@@ -1,3 +1,26 @@
+2007-08-09  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac, win32/Makefile.am,
+	win32/itpp_acml_tests/Makefile.am,
+	win32/itpp_acml_tests/array_test.vcproj,
+	win32/itpp_acml_tests/bch_test.vcproj,
+	win32/itpp_acml_tests/bessel_test.vcproj,
+	win32/itpp_acml_tests/blas_test.vcproj,
+	win32/itpp_acml_tests/itpp_acml_tests.sln, win32/itpp_mkl.vcproj,
+	win32/itpp_mkl_tests/Makefile.am,
+	win32/itpp_mkl_tests/array_test.vcproj,
+	win32/itpp_mkl_tests/bch_test.vcproj,
+	win32/itpp_mkl_tests/bessel_test.vcproj,
+	win32/itpp_mkl_tests/blas_test.vcproj,
+	win32/itpp_mkl_tests/itpp_mkl_tests.sln: Added MSVC++ project
+	files for test programs
+
+	This patch includes MSVC++ project files for easy building and
+	linking a few test programs with IT++ and MKL or ACML libraries.
+	The project files are configured to use 32-bit versions of MKL
+	9.1.025 and ACML 3.6.0 PGI libraries installed into their default
+	locations on Windows platforms.
+
 2007-08-08  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/blas.h, itpp/base/vec.h, tests/blas_test.cpp,

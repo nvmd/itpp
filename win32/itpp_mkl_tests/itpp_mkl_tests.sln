@@ -1,0 +1,28 @@
+Microsoft Visual Studio Solution File, Format Version 9.00
+# Visual C++ Express 2005
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "array_test", "array_test.vcproj", "{F680E2E1-48D2-4721-9FFC-F570AD40B47A}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bch_test", "bch_test.vcproj", "{2E264EFA-4646-4BA6-8C07-5D152C3D2F53}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "bessel_test", "bessel_test.vcproj", "{37339973-FEAB-479D-B664-2906ACED9EB6}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "blas_test", "blas_test.vcproj", "{BBD214C4-370B-4CCD-B847-9D7B9E37FFB3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Release|Win32 = Release|Win32
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F680E2E1-48D2-4721-9FFC-F570AD40B47A}.Release|Win32.ActiveCfg = Release|Win32
+		{F680E2E1-48D2-4721-9FFC-F570AD40B47A}.Release|Win32.Build.0 = Release|Win32
+		{2E264EFA-4646-4BA6-8C07-5D152C3D2F53}.Release|Win32.ActiveCfg = Release|Win32
+		{2E264EFA-4646-4BA6-8C07-5D152C3D2F53}.Release|Win32.Build.0 = Release|Win32
+		{37339973-FEAB-479D-B664-2906ACED9EB6}.Release|Win32.ActiveCfg = Release|Win32
+		{37339973-FEAB-479D-B664-2906ACED9EB6}.Release|Win32.Build.0 = Release|Win32
+		{BBD214C4-370B-4CCD-B847-9D7B9E37FFB3}.Release|Win32.ActiveCfg = Release|Win32
+		{BBD214C4-370B-4CCD-B847-9D7B9E37FFB3}.Release|Win32.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
