@@ -40,16 +40,6 @@ namespace blas {
 extern "C" {
 #endif /* __cplusplus */
 
-  // This struct is used as a return type of zdotu_ function. This is a
-  // workaround for MSVC++ warning C4190: 'zdotu_' has C-linkage specified,
-  // but returns UDT 'std::complex<double>' which is incompatible with C
-  // c:\path_to_msvc_8\include\complex(778): see declaration of
-  // 'std::complex<double>'
-  struct cdouble {
-    double re;
-    double im;
-  };
-
   // ----------------------------------------------------------------------
   // BLAS 1 functions
   // ----------------------------------------------------------------------
@@ -92,9 +82,10 @@ extern "C" {
 	       const double *x, const int *incx,
 	       const double *y, const int *incy);
 
-  cdouble zdotu_(const int *n,
-		 const std::complex<double> *x, const int *incx,
-		 const std::complex<double> *y, const int *incy);
+  void zdotu_(std::complex<double> *output,
+	      const int *n,
+	      const std::complex<double> *x, const int *incx,
+	      const std::complex<double> *y, const int *incy);
 
   // ----------------------------------------------------------------------
   // BLAS 2 functions
