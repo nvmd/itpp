@@ -1,5 +1,14 @@
 2007-08-08  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/blas.h, itpp/base/vec.h, tests/blas_test.cpp,
+	tests/blas_test.ref: Fixed a bug in dot() for complex arguments
+
+	Declaration of BLAS zdotu_() method changed so, the first argument
+	now passes the complex result. This fixes segmentation fault of
+	blas_test and vec_test when using GCC 3.4.5 under SunOS 5.9 on
+	SPARC. It also makes workaround for MSVC++ warning C4190
+	redundant.
+
 	* tests/mat_test.cpp, tests/mat_test.ref: Improvements in mat_test
 
 	Perform more consistent tests of the templated Mat class for bin,

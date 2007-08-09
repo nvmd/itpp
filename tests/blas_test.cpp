@@ -3,9 +3,6 @@
  * \brief BLAS aided routines test program
  * \author Adam Piatyszek
  *
- * $Date$
- * $Revision$
- *
  * -------------------------------------------------------------------------
  *
  * IT++ - C++ library of mathematical, signal processing, speech processing,
@@ -47,7 +44,7 @@ int main()
     vec b = randn(10);
     cout << "a = " << a << endl;
     cout << "b = " << b << endl;
-    cout << "s = dot(a,b) = " << dot(a, b) << endl << endl;
+    cout << "dot(a,b) = " << dot(a, b) << endl << endl;
 
     cvec c = randn_c(6);
     cvec d = randn_c(6);
