@@ -16,8 +16,8 @@
 	<Configurations>
 		<Configuration
 			Name="Debug|Win32"
-			OutputDirectory="Debug"
-			IntermediateDirectory="Debug"
+			OutputDirectory="$(SolutionDir)\lib"
+			IntermediateDirectory="$(ProjectName)_build\$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;&quot;C:\Program Files\Intel\MKL\8.1\include&quot;"
+				AdditionalIncludeDirectories="..;&quot;C:\Program Files\Intel\MKL\9.1.025\include&quot;"
 				PreprocessorDefinitions="_WIN32;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;HAVE_MKL"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -63,7 +63,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="libs\itpp_debug.lib"
+				OutputFile="$(SolutionDir)\lib\itpp_debug.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"
@@ -83,8 +83,8 @@
 		</Configuration>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="Release"
-			IntermediateDirectory="Release"
+			OutputDirectory="$(SolutionDir)\lib"
+			IntermediateDirectory="$(ProjectName)_build\$(ConfigurationName)"
 			ConfigurationType="4"
 			InheritedPropertySheets="$(VCInstallDir)VCProjectDefaults\UpgradeFromVC71.vsprops"
 			CharacterSet="2"
@@ -106,7 +106,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..;&quot;C:\Program Files\Intel\MKL\8.1\include&quot;"
+				AdditionalIncludeDirectories="..;&quot;C:\Program Files\Intel\MKL\9.1.025\include&quot;"
 				PreprocessorDefinitions="_WIN32;NDEBUG;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;HAVE_MKL"
 				RuntimeLibrary="0"
 				RuntimeTypeInfo="true"
@@ -127,7 +127,7 @@
 			/>
 			<Tool
 				Name="VCLibrarianTool"
-				OutputFile="libs\itpp.lib"
+				OutputFile="$(SolutionDir)\lib\itpp.lib"
 			/>
 			<Tool
 				Name="VCALinkTool"

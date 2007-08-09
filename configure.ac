@@ -345,6 +345,8 @@ AC_CONFIG_FILES([Makefile \
   extras/Makefile \
   tests/Makefile \
   win32/Makefile \
+  win32/itpp_acml_tests/Makefile \
+  win32/itpp_mkl_tests/Makefile \
   itpp.pc \
   itpp-config \
   itpp-config.1 \
