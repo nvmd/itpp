@@ -1,4 +1,66 @@
 ===============================================================================
+IT++ version 3.99.3                                        Released: 2007-08-10
+-------------------------------------------------------------------------------
+
+This is the last development release of IT++ 3.99.x series. The upcoming
+4.0.0 stable release will be based on this version after a certain
+stabilisation period. Therefore we encourage everyone to switch to this
+version and report any problems and bugs on the IT++ Help forum. The
+interface of this release should be compatible with the planned 4.0.x stable
+releases. Below you can find a short summary of the recent additions,
+modifications and bug-fixes included in this release.
+
+
+New features:
+-------------
+
+* New Sort class implementation included with four different algorithms:
+  Introsort, Heap sort, Quick sort and Insertion sort. The implementation of
+  the new sorting functions is much faster than our previous QS()
+  implementation due to the use of low level pointer arithmetic (feature
+  request [1746876]).
+
+* Added repmat() functions, which expand an input matrix or vector to a
+  larger one by concatenating multiple copies of the input one.
+
+* Added low level functions scal_vector() and axpy_vector(), which use BLAS
+  methods for double and complex<double> vector arguments. The scal_vector()
+  function is now used by "*=" and "/=" operators.
+
+* Added support for reading and writing bool variables in it_file class
+
+* Added a few MSVC++ project files for test programs. The project files are
+  configured to use 32-bit versions of MKL 9.1.025 and ACML 3.6.0 PGI
+  libraries installed into their default locations on Windows platforms.
+
+
+Modifications:
+--------------
+
+* Removed dependency on the external CBLAS library by providing direct
+  interfaces to Fortran BLAS routines (feature request [1746876]).
+
+* General performance improvements of various operators in Vec and Mat
+  classes by using a copy_vector() function where possible. The
+  copy_vector() function use BLAS 1 routines for double and complex<double>
+  arguments.
+
+* BLAS-aided specialisation of the Vec::outer_product() method for vec and
+  cvec arguments added.
+
+* More consistent test programs for Mat and Vec classes. Now all operators
+  and methods are tested.
+
+
+Bug-fixes:
+----------
+
+* Fixed a bug in Mat::set_size() method. When resizing a smaller matrix into
+  a bigger one with copying the content, the unused entries were not
+  initialised to zeros properly.
+
+
+===============================================================================
 IT++ version 3.99.2                                        Released: 2007-06-20
 -------------------------------------------------------------------------------
 
@@ -7,6 +69,7 @@ a list of the most important features, modifications and bug-fixes, since
 version 3.99.1 was released. As this is a development version, some
 interfaces have changed. Therefore, you might need to update your programs
 using this library.
+
 
 New features:
 -------------

@@ -1,3 +1,7 @@
+2007-08-10  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* NEWS: Updated to reflect recent changes
+
 2007-08-09  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac, win32/Makefile.am,
