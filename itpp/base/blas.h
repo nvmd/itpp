@@ -82,10 +82,10 @@ extern "C" {
 	       const double *x, const int *incx,
 	       const double *y, const int *incy);
 
-  void zdotu_(std::complex<double> *output,
-	      const int *n,
-	      const std::complex<double> *x, const int *incx,
-	      const std::complex<double> *y, const int *incy);
+  void zdotusub_(const int *n,
+		 const std::complex<double> *x, const int *incx,
+		 const std::complex<double> *y, const int *incy,
+		 std::complex<double> *dot);
 
   // ----------------------------------------------------------------------
   // BLAS 2 functions

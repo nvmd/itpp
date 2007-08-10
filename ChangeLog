@@ -1,5 +1,19 @@
 2007-08-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac, itpp/base/Makefile.am, itpp/base/blas.h,
+	itpp/base/sources.mk, itpp/base/vec.h, itpp/base/zdotusub.f: Fixed
+	a bug related to zdotu_() BLAS function
+
+	Wrong declaration of zdotu_() BLAS function interface caused
+	segmentation faults when IT++ was compiled with
+	"-fomit-frame-pointer" flag. To fix this problem a Fortran wrapper
+	function zdotusub_() has been added to IT++. This wrapper function
+	comes from NetLib's CBLAS package.
+
+==============================================================================
+
+2007-08-10  Adam Piatyszek  <ediap@users.sourceforge.net>
+
 	* IT++ 3.99.3 released (SVN tag: release-3-99-3)
 
 	* NEWS: Updated to reflect recent changes
