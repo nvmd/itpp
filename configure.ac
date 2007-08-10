@@ -48,6 +48,9 @@ AC_PROG_LIBTOOL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
 
+# Pass HAVE_F77 conditional to Makefiles
+AM_CONDITIONAL([HAVE_F77], [test "x$F77" != x])
+
 # Set default language to C++
 AC_LANG([C++])
 

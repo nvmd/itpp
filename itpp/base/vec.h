@@ -919,7 +919,7 @@ namespace itpp {
     it_assert_debug(v1.datasize == v2.datasize, "cvec::dot: wrong sizes");
     int incr = 1;
     std::complex<double> output;
-    blas::zdotu_(&output, &v1.datasize, v1.data, &incr, v2.data, &incr);
+    blas::zdotusub_(&v1.datasize, v1.data, &incr, v2.data, &incr, &output);
     return output;
   }
 #endif // HAVE_BLAS
