@@ -1,5 +1,11 @@
 2007-08-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* IT++ 3.99.3.1 released (SVN tag: release-3-99-3-1)
+
+	* NEWS: Updated to reflect recent changes
+
+	* configure.ac: Version bump
+
 	* configure.ac, itpp/base/Makefile.am, itpp/base/blas.h,
 	itpp/base/sources.mk, itpp/base/vec.h, itpp/base/zdotusub.f: Fixed
 	a bug related to zdotu_() BLAS function

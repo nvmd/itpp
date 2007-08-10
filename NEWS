@@ -1,4 +1,18 @@
 ===============================================================================
+IT++ version 3.99.3.1                                      Released: 2007-08-10
+-------------------------------------------------------------------------------
+
+This minor bug-fix release fixes a serious regression, which appeared in
+just released 3.99.3 development version. Here is a short description of the
+fixed problem:
+
+* Wrong declaration of zdotu_() BLAS function interface caused segmentation
+  faults when IT++ was compiled with "-fomit-frame-pointer" flag. To fix
+  this problem a Fortran wrapper function zdotusub_() has been added to
+  IT++. This wrapper function comes from NetLib's CBLAS package.
+
+
+===============================================================================
 IT++ version 3.99.3                                        Released: 2007-08-10
 -------------------------------------------------------------------------------
 
