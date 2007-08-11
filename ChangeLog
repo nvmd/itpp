@@ -1,5 +1,7 @@
 2007-08-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* Makefile.am: Added NEWS-3.99 to EXTRA_DIST
+
 	* tests/stat_test.cpp: Check for LAPACK
 
 	This test requires svd() function, which is provided by an
