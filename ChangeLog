@@ -1,5 +1,7 @@
 2007-08-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac: Version bump
+
 	* NEWS, NEWS-3.99: Renamed NEWS file to NEWS-3.99
 
 	* NEWS-3.10: Updated to include 3.10.12 release notes
