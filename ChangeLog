@@ -1,5 +1,11 @@
 2007-08-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/stat_test.cpp: Check for LAPACK
+
+	This test requires svd() function, which is provided by an
+	external LAPACK library. Therefore we have to check for
+	HAVE_LAPACK definition like in other LAPACK-related test programs.
+
 	* configure.ac: Version bump
 
 	* NEWS, NEWS-3.99: Renamed NEWS file to NEWS-3.99

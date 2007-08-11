@@ -34,6 +34,8 @@ using namespace itpp;
 using namespace std;
 
 
+#if defined(HAVE_LAPACK)
+
 int main()
 {
   cout << "=================================" << endl;
@@ -79,3 +81,12 @@ int main()
 
   return 0;
 }
+
+#else
+
+int main() {
+  cerr << "Error: LAPACK library is needed to run this test program" << endl;
+  return 1;
+}
+
+#endif
