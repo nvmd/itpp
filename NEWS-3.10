@@ -1,4 +1,45 @@
 ===============================================================================
+IT++ version 3.10.12                                       Released: 2007-07-12
+-------------------------------------------------------------------------------
+
+This bug-fix release is intended to be the final release of 3.10.x stable
+branch. The current development branch 3.99.x will soon become a new stable
+branch, starting from version 4.0.0. Therefore, we recommend to start using
+3.99.x releases instead of 3.10.x ones.
+As usual, this release includes only bug-fixes and minor modifications that
+do not change the interface.
+
+Modifications:
+--------------
+
+* Improvements in MKL detection macros: MKL release 9.1.018 has different
+  naming of a lapack shared library (-lmkl_lapack32 and -lmkl_lapack64
+  replaced with -lmkl_lapack).
+
+* Not setting "-fno-exceptions" flag in CXXFLAGS and CXXFLAGS_DEBUG, even if
+  "--disable-exceptions" switch is used.
+
+Bug-fixes:
+----------
+
+* Fixed bug [1752576] in operators "+=" and "-=", which gave wrong
+  results when adding or substracting a vector from itself.
+
+* Fixed bug [1739500] in hadamard() function. The initial recursion for
+  creating Hadamard matrices has to start with a 1x1 matrix H = [1], not
+  with a 2x2 matrix.
+
+* Fixed bug [1739267] in binom() and binom_i() functions, which gave wrong
+  results for n=k.
+
+* Fixed bug [1738716] by correcting the MSVC++ project files to include
+  proper source and header files
+
+* Fixed bug [1730610] by using binary mode when opening *.pnm and *.pgm
+  image files for reading (Source coding module)
+
+
+===============================================================================
 IT++ version 3.10.11                                       Released: 2007-06-02
 -------------------------------------------------------------------------------
 
