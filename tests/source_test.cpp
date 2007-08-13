@@ -38,14 +38,9 @@ using namespace std;
 #define THRESHOLD 1e-13
 
 #define REALRUN(name,s)					\
-  for (i = 0; i < LOOP_SIZE; i++)			\
+  for (int i = 0; i < LOOP_SIZE; i++)			\
     real_result(i) = s();				\
   show(name, mean(real_result), variance(real_result));
-
-#define COMPLEXRUN(name,s)					\
-  for (i = 0; i < LOOP_SIZE; i++)				\
-    complex_result(i) = s();					\
-  show(name, mean(complex_result), variance(complex_result));
 
 
 void show(const char *name, double sm, double sv)
@@ -56,29 +51,8 @@ void show(const char *name, double sm, double sv)
 }
 
 
-void show(const char *name, complex<double> sm, double sv)
-{
-  cout << setw(18) << name << "  "
-       << setw(20) << round_to_zero(sm, THRESHOLD) << "  "
-       << setw(20) << round_to_zero(sv, THRESHOLD) << endl;
-}
-
-
 int main()
 {
-  int i;
-  vec real_result;
-  cvec complex_result;
-
-  Uniform_RNG        s0;
-  Exponential_RNG    s1;
-  Normal_RNG         s2;
-  Weibull_RNG        s3;
-  Rayleigh_RNG       s4;
-  I_Uniform_RNG      s5(3, 8);
-  AR1_Normal_RNG     s6(2.0, 1.0, 0.95);
-  Complex_Normal_RNG s7;
-
   Sine_Source      s10(20.0/LOOP_SIZE);
   Square_Source    s11(20.0/LOOP_SIZE);
   Triangle_Source  s12(20.0/LOOP_SIZE);
@@ -89,23 +63,13 @@ int main()
   RNG_reset(12345);
 
   cout.setf(ios::fixed);
-
+  cout.precision(8);
   cout << setw(18) << "Source" << "  "
        << setw(20) << "sim mean" << "  "
        << setw(20) << "sim var" << endl
        << "============================================================================" << endl;
 
-  real_result.set_size(LOOP_SIZE, false);
-  complex_result.set_size(LOOP_SIZE, false);
-
-  REALRUN("Uniform",        s0);
-  REALRUN("Exponential",    s1);
-  REALRUN("Normal",         s2);
-  REALRUN("Weibull",        s3);
-  REALRUN("Rayleigh",       s4);
-  REALRUN("I_Uniform",      s5);
-  REALRUN("AR1_Normal",     s6);
-  COMPLEXRUN("Complex_Normal", s7);
+  vec real_result(LOOP_SIZE);
 
   REALRUN("Sine",        s10);
   REALRUN("Square",      s11);

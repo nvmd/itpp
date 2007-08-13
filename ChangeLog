@@ -1,3 +1,15 @@
+2007-08-13  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/random.cpp, itpp/base/random.h, tests/rand_test.cpp,
+	tests/rand_test.ref, tests/source_test.cpp, tests/source_test.ref:
+	Simplified and optimised RNG implementations
+
+	Rayleigh_RNG and Rice_RNG now use Normal_RNG for efficient
+	generation of samples (new implementation is about 4 times
+	faster). Minor code optimisations in Laplace_RNG, Weibull_RNG and
+	AR1_Normal_RNG. Test programs for RNG and deterministic sources
+	updated accordingly.
+
 2007-08-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* Makefile.am: Added NEWS-3.99 to EXTRA_DIST

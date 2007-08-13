@@ -487,19 +487,12 @@ namespace itpp {
       out.set_size(rows, cols, false);
       for (int i=0; i<rows*cols; i++) out(i) = sample();
     }
-  protected:
   private:
-    //!
     double mean, sigma;
-    //!
     static const double ytab[128];
-    //!
     static const unsigned int ktab[128];
-    //!
     static const double wtab[128];
-    //!
     static const double PARAM_R;
-    //!
     Random_Generator RNG;
   };
 
@@ -510,7 +503,7 @@ namespace itpp {
   class Laplace_RNG {
   public:
     //! Constructor. Set mean and variance.
-    Laplace_RNG(double meanval=0.0, double variance=1.0);
+    Laplace_RNG(double meanval = 0.0, double variance = 1.0);
     //! Set mean and variance
     void setup(double meanval, double variance);
     //! Get mean and variance
@@ -524,22 +517,16 @@ namespace itpp {
     //! Returns a single sample
     double sample()
     {
-      u=RNG.random_01();
-      if(u<0.5)
-	l=std::log(2.0*u);
+      double u = RNG.random_01();
+      double l = sqrt_12var;
+      if (u < 0.5)
+	l *= std::log(2.0 * u);
       else
-	l=-std::log(2.0*(1-u));
-
-      l *= std::sqrt(var/2.0);
-      l += mean;
-
-      return l;
+	l *= -std::log(2.0 * (1-u));
+      return (l + mean);
     }
-  protected:
   private:
-    //!
-    double mean, var, u, l;
-    //!
+    double mean, var, sqrt_12var;
     Random_Generator RNG;
   };
 
@@ -618,7 +605,8 @@ namespace itpp {
   class AR1_Normal_RNG {
   public:
     //! Constructor. Set mean, variance, and correlation.
-    AR1_Normal_RNG(double meanval=0.0, double variance=1.0, double rho=0.0);
+    AR1_Normal_RNG(double meanval = 0.0, double variance = 1.0,
+		   double rho = 0.0);
     //! Set mean, variance, and correlation
     void setup(double meanval, double variance, double rho);
     //! Get mean, variance and correlation
@@ -631,16 +619,23 @@ namespace itpp {
     vec operator()(int n);
     //! Get a sample matrix.
     mat operator()(int h, int w);
-
-  protected:
   private:
-    //!
-    double sample();
-    //!
-    double my_mean, mem, r, factr, mean, var, r1, r2;
-    //!
+    double sample()
+    {
+      mem *= r;
+      if (odd) {
+	r1 = m_2pi * RNG.random_01();
+	r2 = std::sqrt(factr * std::log(RNG.random_01()));
+	mem += r2 * std::cos(r1);
+      }
+      else {
+	mem += r2 * std::sin(r1);
+      }
+      odd = !odd;
+      return (mem + mean);
+    }
+    double mem, r, factr, mean, var, r1, r2;
     bool odd;
-    //!
     Random_Generator RNG;
   };
 
@@ -663,27 +658,24 @@ namespace itpp {
   class Weibull_RNG {
   public:
     //! Constructor. Set lambda and beta.
-    Weibull_RNG(double lambda=1.0, double beta=1.0);
-
+    Weibull_RNG(double lambda = 1.0, double beta = 1.0);
     //! Set lambda, and beta
     void setup(double lambda, double beta);
     //! Get lambda and beta
-    void get_setup(double &lambda, double &beta) { lambda=l; beta=b; }
+    void get_setup(double &lambda, double &beta) { lambda = l; beta = b; }
     //! Get one sample.
     double operator()() { return sample(); }
     //! Get a sample vector.
     vec operator()(int n);
     //! Get a sample matrix.
     mat operator()(int h, int w);
-  protected:
   private:
-    //!
-    double sample();
-    //!
+    double sample()
+    {
+      return (std::pow(-std::log(RNG.random_01()), 1.0/b) / l);
+    }
     double l, b;
-    //!
     double mean, var;
-    //!
     Random_Generator RNG;
   };
 
@@ -694,10 +686,9 @@ namespace itpp {
   class Rayleigh_RNG {
   public:
     //! Constructor. Set sigma.
-    Rayleigh_RNG(double sigma=1.0);
-
+    Rayleigh_RNG(double sigma = 1.0);
     //! Set sigma
-    void setup(double sigma) { sig=sigma; }
+    void setup(double sigma) { sig = sigma; }
     //! Get sigma
     double get_setup() { return sig; }
     //! Get one sample.
@@ -706,14 +697,16 @@ namespace itpp {
     vec operator()(int n);
     //! Get a sample matrix.
     mat operator()(int h, int w);
-  protected:
   private:
-    //!
-    double sample();
-    //!
+    double sample()
+    {
+      double s1 = nRNG.sample();
+      double s2 = nRNG.sample();
+      // s1 and s2 are N(0,1) and independent
+      return (sig * std::sqrt(s1*s1 + s2*s2));
+    }
     double sig;
-    //!
-    Random_Generator RNG;
+    Normal_RNG nRNG;
   };
 
   /*!
@@ -722,26 +715,28 @@ namespace itpp {
   */
   class Rice_RNG {
   public:
-    //! Constructor. Set sigma, and s.
-    Rice_RNG(double sigma=1.0, double _s=1.0);
-    //! Set sigma, and s
-    void setup(double sigma, double _s) { sig=sigma; s=_s; }
+    //! Constructor. Set sigma, and v (if v = 0, Rice -> Rayleigh).
+    Rice_RNG(double sigma = 1.0, double v = 1.0);
+    //! Set sigma, and v (if v = 0, Rice -> Rayleigh).
+    void setup(double sigma, double v) { sig = sigma; s = v; }
     //! Get parameters
-    void get_setup(double &sigma, double &_s) { sigma=sig; _s=s; }
-    //! Get one sample.
+    void get_setup(double &sigma, double &v) { sigma = sig; v = s; }
+    //! Get one sample
     double operator()() { return sample(); }
-    //! Get a sample vector.
+    //! Get a sample vector
     vec operator()(int n);
-    //! Get a sample matrix.
+    //! Get a sample matrix
     mat operator()(int h, int w);
-  protected:
   private:
-    //!
-    double sample();
-    //!
+    double sample()
+    {
+      double s1 = nRNG.sample() + s;
+      double s2 = nRNG.sample();
+      // s1 and s2 are N(0,1) and independent
+      return (sig * std::sqrt(s1*s1 + s2*s2));
+    }
     double sig, s;
-    //!
-    Random_Generator RNG;
+    Normal_RNG nRNG;
   };
 
   //! \addtogroup randgen
@@ -811,64 +806,6 @@ namespace itpp {
   inline cmat randn_c(int rows, int cols) { cmat temp; randn_c(rows, cols, temp); return temp; }
 
   //!@}
-
-  // -------------------- INLINES ----------------------------------------------
-
-  inline double AR1_Normal_RNG::sample()
-  {
-    double s;
-
-    if (odd) {
-      r1 = RNG.random_01();
-      r2 = RNG.random_01();
-      s = std::sqrt(factr * std::log(r2)) * std::cos(m_2pi * r1);
-    } else
-      s = std::sqrt(factr * std::log(r2)) * std::sin(m_2pi * r1);
-
-    odd = !odd;
-
-    mem = s + r * mem;
-    s = mem + mean;
-
-    return s;
-  }
-
-  inline double Weibull_RNG::sample()
-  {
-    return ( std::pow(-std::log(RNG.random_01()), 1.0/b) / l );
-  }
-
-  inline double Rayleigh_RNG::sample()
-  {
-    double r1, r2;
-    double s1, s2, samp;
-
-    r1 = RNG.random_01();
-    r2 = RNG.random_01();
-    s1 = std::sqrt(-2.0 * std::log(r2)) * std::cos(m_2pi * r1);
-    s2 = std::sqrt(-2.0 * std::log(r2)) * std::sin(m_2pi * r1);
-    // s1 and s2 are N(0,1) and independent
-    samp = sig * std::sqrt(s1*s1 + s2*s2);
-
-    return samp;
-  }
-
-  inline double Rice_RNG::sample()
-  {
-    double r1, r2;
-    double s1, s2, samp;
-    double m1 = 0.0;
-    double m2 = std::sqrt(s*s - m1*m1);
-
-    r1 = RNG.random_01();
-    r2 = RNG.random_01();
-    s1 = std::sqrt(-2.0 * std::log(r2)) * std::cos(m_2pi * r1);
-    s2 = std::sqrt(-2.0 * std::log(r2)) * std::sin(m_2pi * r1);
-    // s1 and s2 are N(0,1) and independent
-    samp = std::sqrt((sig*s1+m1) * (sig*s1+m1) + (sig*s2+m2) * (sig*s2+m2));
-
-    return samp;
-  }
 
 } // namespace itpp
 

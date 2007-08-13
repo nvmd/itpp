@@ -368,6 +368,7 @@ namespace itpp {
   {
     mean = meanval;
     var = variance;
+    sqrt_12var = std::sqrt(variance / 2.0);
   }
 
   void Laplace_RNG::get_setup(double &meanval, double &variance) const
@@ -406,12 +407,7 @@ namespace itpp {
 
   AR1_Normal_RNG::AR1_Normal_RNG(double meanval, double variance, double rho)
   {
-    mean = meanval;
-    var = variance;
-    r = rho;
-    mem = 0.0;
-    factr = -2.0 * var * (1.0 - rho*rho);
-    odd = true;
+    setup(meanval, variance, rho);
   }
 
   void AR1_Normal_RNG::setup(double meanval, double variance, double rho)
@@ -424,7 +420,8 @@ namespace itpp {
     odd = true;
   }
 
-  void AR1_Normal_RNG::get_setup(double &meanval, double &variance, double &rho) const
+  void AR1_Normal_RNG::get_setup(double &meanval, double &variance,
+				 double &rho) const
   {
     meanval = mean;
     variance = var;
