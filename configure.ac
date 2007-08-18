@@ -134,10 +134,12 @@ PACKAGE_DEBUG="$PACKAGE"
 # Set debug flags
 if test "x$enable_debug" = xyes; then
   PACKAGE_DEBUG="$PACKAGE"_debug
-  CXXFLAGS_DEBUG="-g"
-  # Only for GCC compiler
-  if test "x$GXX" = xyes; then
-    CXXFLAGS_DEBUG="-Wall $CXXFLAGS_DEBUG -pipe"
+  if test "x$CXXFLAGS_DEBUG" = x; then
+    CXXFLAGS_DEBUG="-g"
+    # Only for GCC compiler
+    if test "x$GXX" = xyes; then
+      CXXFLAGS_DEBUG="-Wall -Werror $CXXFLAGS_DEBUG -pipe"
+    fi
   fi
 fi
 AC_SUBST(CXXFLAGS_DEBUG)
