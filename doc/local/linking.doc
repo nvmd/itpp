@@ -12,39 +12,53 @@
 \section intro Introduction
 
 Since version 3.9.0, there are two convenient methods of linking your
-programs with the IT++ library. The first one employs the \c
-`pkg-config' command (see <a href="http://pkgconfig.freedesktop.org/">
-http://pkgconfig.freedesktop.org/</a>), wheres the second one uses \c
+programs with the IT++ library. The first one employs the \c `pkg-config'
+command (see <a href="http://pkg-config.freedesktop.org/">
+http://pkg-config.freedesktop.org/</a>), wheres the second one uses the \c
 `itpp-config' script. These methods are shortly described below.
 
 
 \section pkgconfig Using the pkg-config command
 
-\c `pkg-config' is a helper tool used when compiling applications and
-libraries. It helps you insert the correct compiler and linker
-options. The syntax of the \c `pkg-config' is as follows:
+\c `pkg-config' is a helper tool used when compiling and linking programs or
+libraries. It provides correct compiler and linker options (flags). The
+syntax of the \c `pkg-config' command is as follows:
 
 \code
 % pkg-config <options> <library_name>
 \endcode
 
 For instance, assuming that you need to compile an IT++ based program
-<tt>`my_prog.cpp'</tt>, you should use the following command:
+<tt>`my_prog.cpp'</tt>, you might use the following command:
 
 \code
 % g++ `pkg-config --cflags itpp` -o my_prog my_prog.cpp `pkg-config --libs itpp`
 \endcode
 
-For more information see the \c `pkg-config' man pages.
+Alternatively, when you have to use static linking only (e.g. in Cygwin or
+MinGW/MSYS), you should add the `--static' switch to your command:
+
+\code
+% export CXXFLAGS=`pkg-config --static --cflags itpp`
+% export LIBS=`pkg-config --static --libs`
+% g++ $CXXFLAGS -o my_prog my_prog.cpp $LIBS
+\endcode
+
+If `pkg-config' can not find the itpp library information, you might need to
+set the PKG_CONFIG_PATH environment variable with the directory where the
+`itpp.pc' file is installed (<tt>`$prefix/lib/pkgconfig'</tt> by
+default).
+
+For more information please refer to the \c `pkg-config' documentation.
 
 
 \section itppconfig Using the itpp-config script
 
-IT++ provides a shell script called \c `itpp-config`, which is
-installed by default in <tt>`$prefix/bin'</tt>
-(<tt>`/usr/local/bin'</tt>) directory. It can be used to simplify
-compilation and linking of IT++ based programs. The usage of this
-script is quite similar to the usage of the \c `pkg-config' command.
+IT++ also provides a shell script called \c `itpp-config`, which is
+installed by default in a <tt>`$prefix/bin'</tt> (<tt>`/usr/local/bin'</tt>)
+directory. It can be used to simplify compilation and linking of IT++ based
+programs. The usage of this script is quite similar to the usage of the \c
+`pkg-config' command.
 
 Assuming that you need to compile the program <tt>`my_prog.cpp'</tt>
 you can now do that with the following command:
@@ -60,9 +74,10 @@ used for compiling the IT++ library, you might try the following command:
 % g++ `itpp-config --cflags-opt` -o my_prog_opt my_prog.cpp `itpp-config --libs-opt`
 \endcode
 
-Moreover, if you compiled and installed the \c `libitpp_debug.*' library by
-using \c `--enable-debug' swich to configure, you can compile and link your
-program with debugging options using the following command instead:
+Moreover, if you compiled and installed the debugging IT++ library (\c
+`libitpp_debug.*') by using \c `--enable-debug' swich to configure, you can
+compile and link your program with debugging options using the following
+command instead:
 
 \code
 % g++ `itpp-config --cflags-debug` -o my_prog_debug my_prog.cpp `itpp-config --libs-debug`
@@ -84,17 +99,18 @@ its location <tt>`$prefix/bin'</tt> to the PATH environment variable, e.g.:
 
 \section dynamiclinking Using IT++ with dynamic linking
 
-When using static linking some of the library routines in IT++ are
-copied into your executable program. This can lead to unnecessary
-large executables. To avoid having too large executable files you may
-use dynamic linking instead. Dynamic linking means that the actual
-linking is performed when the program is executed. This requires that
-the system is able to locate the shared IT++ library file during your
-program execution. If you install the IT++ library using a non-standard
-prefix, the \c `LD_LIBRARY_PATH' environment variable might be used to
-inform the linker of the dynamic library location, e.g.:
+When using a static linking some of the IT++ library routines are copied
+into your executable program. This can lead to unnecessary large
+executables. To avoid having too large executable files you may use dynamic
+linking instead. Dynamic linking means that the actual linking is performed
+when the program is executed. This requires that the system is able to
+locate the shared IT++ library during the program execution. If you install
+the IT++ library using a non-standard prefix, the \c `LD_LIBRARY_PATH'
+environment variable might be used to inform the linker about the location
+of the shared library object (<tt>`$prefix/lib'</tt>), e.g.:
+
 \code
-export LD_LIBRARY_PATH=<IT++ installation prefix>/lib:$LD_LIBRARY_PATH
+% export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
 \endcode
 
 
@@ -144,19 +160,17 @@ depending on the installed library.
 Please note that Project settings for your program must be made for both the
 Debug and Release modes.
 
-*/
 
-=============================================
-!!! The following parts has to be revised !!!
-=============================================
+\section matlab_load_and_save Using IT++ file format in Matlab/Octave
 
-\section matlab_load_and_save Information for Matlab users
-
-In the IT++ \c matlab folder there are two m-files: \c `load_it.m' and
-\c `save_it.m'.  These files are used for reading and writing IT++ data
-files from and to Matlab. To ensure that Matlab finds these two files
-you should add the following line to your \c ~/matlab/startup.m file:
+IT++ provides two m-files \c `itload.m' and \c `itsave.m', which can be used
+for reading and writing IT++ data files in Matlab or GNU Octave. To ensure
+that Matlab/Octave finds these two files you should add the following
+directory <tt>`$prefix/share/itpp'</tt> to the default path in
+Matlab/Octave, e.g.:
 
 \code
-p=path; path(p,<Path to your IT++ directory>/matlab);
+p = path; path(p, "/usr/local/share/itpp");
 \endcode
+
+*/

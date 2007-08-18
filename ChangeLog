@@ -1,5 +1,11 @@
 2007-08-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/local/linking.doc: Documentation updated
+
+	Reflected recent changes in the pkg-config's itpp.pc file in the
+	"Linking with IT++" documentation. BTW, revised the section about
+	using itload.m and itsave.m m-files in Matlab/Octave.
+
 	* itpp/base/vec.cpp, itpp/base/vec.h: Fixed regressions related to
 	the specialised operator*()
 
