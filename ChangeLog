@@ -1,5 +1,13 @@
 2007-08-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/rand_test.cpp, tests/rand_test.ref: Fixed a bug in
+	rand_test program
+
+	The rand_test implementation was not deterministic, which resulted
+	in a failed test result on SunOS SPARC platform. Generation of
+	scalars, vectors and matrices of random numbers in separate "cout"
+	commands fixes this problem.
+
 	* doc/local/linking.doc: Documentation updated
 
 	Reflected recent changes in the pkg-config's itpp.pc file in the
