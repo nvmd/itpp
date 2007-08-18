@@ -74,8 +74,7 @@ namespace itpp {
   //! Inner (dot) product of two vectors v1 and v2
   template<class Num_T> Num_T dot(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
   //! Inner (dot) product of two vectors v1 and v2
-  template<class Num_T> Num_T operator*(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
-  { return dot(v1, v2); }
+  template<class Num_T> Num_T operator*(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
   /*!
    * \brief Outer product of two vectors v1 and v2
    *
@@ -936,6 +935,13 @@ namespace itpp {
 
     return r;
   }
+
+  template<class Num_T> inline
+  Num_T operator*(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
+  {
+    return dot(v1, v2);
+  }
+
 
 #if defined(HAVE_BLAS)
   template<> inline
@@ -1842,6 +1848,13 @@ namespace itpp {
   //! Template instantiation of dot
   extern template bin dot(const bvec &v1, const bvec &v2);
 
+#if !defined(HAVE_BLAS)
+  //! Template instantiation of operator*
+  extern template double operator*(const vec &v1, const vec &v2);
+  //! Template instantiation of operator*
+  extern template std::complex<double> operator*(const cvec &v1,
+						 const cvec &v2);
+#endif
   //! Template instantiation of operator*
   extern template int operator*(const ivec &v1, const ivec &v2);
   //! Template instantiation of operator*

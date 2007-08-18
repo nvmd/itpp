@@ -1352,6 +1352,10 @@ namespace itpp {
   template short dot(const svec &v1, const svec &v2);
   template bin dot(const bvec &v1, const bvec &v2);
 
+#if !defined(HAVE_BLAS)
+  template double operator*(const vec &v1, const vec &v2);
+  template std::complex<double> operator*(const cvec &v1, const cvec &v2);
+#endif
   template int operator*(const ivec &v1, const ivec &v2);
   template short operator*(const svec &v1, const svec &v2);
   template bin operator*(const bvec &v1, const bvec &v2);
