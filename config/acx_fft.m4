@@ -34,7 +34,7 @@ if test "x$FFT_LIBS" != x; then
   AC_TRY_LINK_FUNC(DftiComputeForward, [acx_fft_ok=yes])
   AC_MSG_RESULT($acx_fft_ok)
   if test "$acx_fft_ok" = yes; then
-    AC_CHECK_HEADER([mkl_dfti.h], [fft_mkl_ok=yes; blas_mkl_ok=yes], 
+    AC_CHECK_HEADER([mkl_dfti.h], [fft_mkl_ok=yes; blas_mkl_ok=yes],
       [acx_fft_ok=no])
   fi
   if test "$acx_fft_ok" = no; then
@@ -62,7 +62,7 @@ if test "$acx_fft_ok" = no; then
   save_LIBS="$LIBS"; LIBS="$LIBS $BLAS_LIBS"
   AC_CHECK_FUNC(DftiComputeForward, [acx_fft_ok=yes])
   if test "$acx_fft_ok" = yes; then
-    AC_CHECK_HEADER([mkl_dfti.h], [fft_mkl_ok=yes; blas_mkl_ok=yes], 
+    AC_CHECK_HEADER([mkl_dfti.h], [fft_mkl_ok=yes; blas_mkl_ok=yes],
       [acx_fft_ok=no])
   fi
   LIBS="$save_LIBS"
@@ -73,7 +73,7 @@ if test "$acx_fft_ok" = no; then
   save_LIBS="$LIBS"; LIBS="$LIBS $BLAS_LIBS"
   AC_CHECK_FUNC(zfft1dx, [acx_fft_ok=yes])
   if test "$acx_fft_ok" = yes; then
-    AC_CHECK_HEADER([acml.h], [fft_acml_ok=yes; blas_acml_ok=yes], 
+    AC_CHECK_HEADER([acml.h], [fft_acml_ok=yes; blas_acml_ok=yes],
       [acx_fft_ok=no])
   fi
   LIBS="$save_LIBS"
@@ -83,7 +83,7 @@ fi
 if test "$acx_fft_ok" = no; then
   AC_CHECK_LIB(fftw3, fftw_plan_dft_1d, [acx_fft_ok=yes])
   if test "$acx_fft_ok" = yes; then
-    AC_CHECK_HEADER([fftw3.h], [fftw3_ok=yes; FFT_LIBS="-lfftw3"], 
+    AC_CHECK_HEADER([fftw3.h], [fftw3_ok=yes; FFT_LIBS="-lfftw3"],
       [acx_fft_ok=no])
   fi
 fi
@@ -92,19 +92,19 @@ fi
 if test "$acx_fft_ok" = no; then
   AC_CHECK_LIB(fftw3, fftw_plan_dft_1d, [acx_fft_ok=yes], [], [-lm])
   if test "$acx_fft_ok" = yes; then
-    AC_CHECK_HEADER([fftw3.h], [fftw3_ok=yes; FFT_LIBS="-lfftw3 -lm"], 
+    AC_CHECK_HEADER([fftw3.h], [fftw3_ok=yes; FFT_LIBS="-lfftw3 -lm"],
       [acx_fft_ok=no])
   fi
 fi
 
 # FFT in MKL library?
 if test "$acx_fft_ok" = no; then
-  save_LIBS="$LIBS"; LIBS="$LIBS $FLIBS"
-  AC_CHECK_LIB(mkl, DftiComputeForward, [acx_fft_ok=yes], [], 
+  save_LIBS="$LIBS"; LIBS="$LIBS"
+  AC_CHECK_LIB(mkl, DftiComputeForward, [acx_fft_ok=yes], [],
     [-lguide -lpthread])
   if test "$acx_fft_ok" = yes; then
     AC_CHECK_HEADER([mkl_dfti.h],
-      [fft_mkl_ok=yes; blas_mkl_ok=yes; FFT_LIBS="-lmkl -lguide -lpthread"], 
+      [fft_mkl_ok=yes; blas_mkl_ok=yes; FFT_LIBS="-lmkl -lguide -lpthread"],
       [acx_fft_ok=no])
   fi
   LIBS="$save_LIBS"
@@ -115,7 +115,7 @@ if test "$acx_fft_ok" = no; then
   save_LIBS="$LIBS"; LIBS="$LIBS$MY_FLIBS"
   AC_CHECK_LIB(acml, zfft1dx, [acx_fft_ok=yes])
   if test "$acx_fft_ok" = yes; then
-    AC_CHECK_HEADER([acml.h], 
+    AC_CHECK_HEADER([acml.h],
       [fft_acml_ok=yes; blas_acml_ok=yes; FFT_LIBS="-lacml$MY_FLIBS"],
       [acx_fft_ok=no])
   fi
