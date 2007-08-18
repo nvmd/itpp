@@ -1,3 +1,11 @@
+2007-08-17  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac: Let the user override the default CXXFLAGS_DEBUG
+
+	The CXXFLAGS_DEBUG environment variable can be used to override
+	the default settings of this flag. BTW, added "-Werror" to the
+	default debug flags.
+
 2007-08-13  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/random.cpp, itpp/base/random.h, tests/rand_test.cpp,
