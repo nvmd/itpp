@@ -60,8 +60,8 @@ if test "$acx_blas_ok" = no; then
     if test "$acx_blas_ok" = no; then
       LIBS="$LIBS$MY_FLIBS"
       AC_MSG_CHECKING([for $sgemm in $BLAS_LIBS$MY_FLIBS])
-      AC_TRY_LINK_FUNC($sgemm, 
-        [acx_blas_ok=yes; BLAS_LIBS="$BLAS_LIBS$MY_FLIBS"], 
+      AC_TRY_LINK_FUNC($sgemm,
+        [acx_blas_ok=yes; BLAS_LIBS="$BLAS_LIBS$MY_FLIBS"],
         [BLAS_LIBS=""])
       AC_MSG_RESULT($acx_blas_ok)
     fi
@@ -82,13 +82,13 @@ fi
 #   LIBS="$save_LIBS"
 # fi
 
-# BLAS in MKL library? 
+# BLAS in MKL library?
 # (http://www.intel.com/cd/software/products/asmo-na/eng/perflib/mkl/index.htm)
 if test "$acx_blas_ok" = no; then
-  AC_CHECK_LIB(mkl, $sgemm, 
-    [acx_blas_ok=yes; blas_mkl_ok=yes; BLAS_LIBS="-lmkl"], 
+  AC_CHECK_LIB(mkl, $sgemm,
+    [acx_blas_ok=yes; blas_mkl_ok=yes; BLAS_LIBS="-lmkl"],
     [AC_CHECK_LIB(mkl, $dgemm,
-      [acx_blas_ok=yes; blas_mkl_ok=yes; BLAS_LIBS="-lmkl -lpthread"], 
+      [acx_blas_ok=yes; blas_mkl_ok=yes; BLAS_LIBS="-lmkl -lpthread"],
       [], [-lpthread])],
     [])
 fi
@@ -96,10 +96,10 @@ fi
 # BLAS in ACML library? (http://developer.amd.com/acml.aspx)
 if test "$acx_blas_ok" = no; then
   save_LIBS="$LIBS"; LIBS="$LIBS$MY_FLIBS"
-  AC_CHECK_LIB(acml, $sgemm, 
+  AC_CHECK_LIB(acml, $sgemm,
     [acx_blas_ok=yes; blas_acml_ok=yes; BLAS_LIBS="-lacml$MY_FLIBS"],
     [AC_CHECK_LIB(acml, $dgemm,
-      [acx_blas_ok=yes; blas_acml_ok=yes; 
+      [acx_blas_ok=yes; blas_acml_ok=yes;
         BLAS_LIBS="-lacml -lacml_mv$MY_FLIBS"],
       [], [-lacml_mv])],
     [])
@@ -109,9 +109,9 @@ fi
 # BLAS in ATLAS library? (http://math-atlas.sourceforge.net/)
 if test "$acx_blas_ok" = no; then
   save_LIBS="$LIBS"; LIBS="$LIBS$MY_FLIBS"
-  AC_CHECK_LIB(atlas, ATL_xerbla,	
-    [AC_CHECK_LIB(f77blas, $sgemm, 
-      [AC_CHECK_LIB(cblas, cblas_dgemm, 
+  AC_CHECK_LIB(atlas, ATL_xerbla,
+    [AC_CHECK_LIB(f77blas, $sgemm,
+      [AC_CHECK_LIB(cblas, cblas_dgemm,
         [acx_blas_ok=yes; blas_atlas_ok=yes;
           BLAS_LIBS="-lcblas -lf77blas -latlas$MY_FLIBS"],
         [], [-lf77blas -latlas])],
@@ -144,7 +144,7 @@ fi
 #   if test "x$GCC" != xyes; then # only works with Sun CC
 #     AC_CHECK_LIB(sunmath, acosp,
 #       [AC_CHECK_LIB(sunperf, $sgemm,
-#         [acx_blas_ok=yes; BLAS_LIBS="-xlic_lib=sunperf -lsunmath"], [], 
+#         [acx_blas_ok=yes; BLAS_LIBS="-xlic_lib=sunperf -lsunmath"], [],
 #           [-lsunmath])])
 #   fi
 # fi

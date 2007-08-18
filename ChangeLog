@@ -1,5 +1,8 @@
 2007-08-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* config/acx_blas.m4, config/acx_fft.m4, config/acx_lapack.m4:
+	Cosmetic changes - deleted trailing whitespace
+
 	* configure.ac: Let the user override the default CXXFLAGS_DEBUG
 
 	The CXXFLAGS_DEBUG environment variable can be used to override
