@@ -1,4 +1,14 @@
-2007-08-17  Adam Piatyszek  <ediap@users.sourceforge.net>
+2007-08-18  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/vec.cpp, itpp/base/vec.h: Fixed regressions related to
+	the specialised operator*()
+
+	The templated friend operator*() for two vectors, which calculates
+	the dot product, needs to be instantiated in the same way as the
+	dot() function. Besides, the declaration of the friend operator*()
+	included the definition. This definition is now moved below dot()
+	function definition. Without these two changes, a segmentation
+	fault occurred in vec_test under Cygwin.
 
 	* itpp.pc.in: Improvements in pkg-config's itpp.pc script
 
