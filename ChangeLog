@@ -1,5 +1,11 @@
 2007-08-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp.pc.in: Improvements in pkg-config's itpp.pc script
+
+	"Libs" variable settings in the itpp.pc pkg-config's file are now
+	split into "Libs" and "Libs.private". The latter one is only used
+	when doing a static linking (using "--static" pkg-config switch).
+
 	* config/acx_blas.m4, config/acx_fft.m4, config/acx_lapack.m4:
 	Cosmetic changes - deleted trailing whitespace
 
