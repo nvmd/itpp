@@ -3,19 +3,21 @@
 	ProjectType="Visual C++"
 	Version="8,00"
 	Name="array_test"
-	ProjectGUID="{F680E2E1-48D2-4721-9FFC-F570AD40B47A}"
+	ProjectGUID="{AB324343-29E3-431D-BC7E-ACC0F120EA1F}"
 	RootNamespace="array_test"
 	Keyword="Win32Proj"
 	>
 	<Platforms>
-		<Platform Name="Win32"/>
+		<Platform
+			Name="Win32"
+		/>
 	</Platforms>
 	<ToolFiles>
 	</ToolFiles>
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)\bin"
+			OutputDirectory="$(SolutionDir)\..\bin"
 			IntermediateDirectory="$(ProjectName)_build\$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
@@ -39,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\.."
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;HAVE_ACML"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -60,7 +62,7 @@
 				AdditionalDependencies="itpp.lib libacml_dll.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;C:\Program Files\AMD\acml3.6.0\pgi32\lib&quot;;..\lib"
-				IgnoreDefaultLibraryNames=""
+				IgnoreDefaultLibraryNames="uuid.lib"
 				GenerateDebugInformation="false"
 				SubSystem="1"
 				OptimizeReferences="2"
@@ -96,7 +98,10 @@
 	<References>
 	</References>
 	<Files>
-	<File RelativePath="..\..\tests\array_test.cpp"></File>
+		<File
+			RelativePath="..\..\tests\array_test.cpp"
+			>
+		</File>
 	</Files>
 	<Globals>
 	</Globals>

@@ -3,7 +3,7 @@
 	ProjectType="Visual C++"
 	Version="8,00"
 	Name="blas_test"
-	ProjectGUID="{BBD214C4-370B-4CCD-B847-9D7B9E37FFB3}"
+	ProjectGUID="{EEE76A9C-DA87-4AA4-8D4B-F8D7AA262B94}"
 	RootNamespace="blas_test"
 	Keyword="Win32Proj"
 	>
@@ -17,7 +17,7 @@
 	<Configurations>
 		<Configuration
 			Name="Release|Win32"
-			OutputDirectory="$(SolutionDir)\bin"
+			OutputDirectory="$(SolutionDir)\..\bin"
 			IntermediateDirectory="$(ProjectName)_build\$(ConfigurationName)"
 			ConfigurationType="1"
 			CharacterSet="1"
@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\.."
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;HAVE_ACML"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -62,7 +62,7 @@
 				AdditionalDependencies="itpp.lib libacml_dll.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="&quot;C:\Program Files\AMD\acml3.6.0\pgi32\lib&quot;;..\lib"
-				IgnoreDefaultLibraryNames=""
+				IgnoreDefaultLibraryNames="uuid.lib"
 				GenerateDebugInformation="false"
 				SubSystem="1"
 				OptimizeReferences="2"
