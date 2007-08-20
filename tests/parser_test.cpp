@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Parser test program
- * \author Pal Frenger
+ * \author Pal Frenger and Adam Piatyszek
  *
  * -------------------------------------------------------------------------
  *
@@ -29,15 +29,14 @@
 
 #include <itpp/itbase.h>
 
-using std::cout;
-using std::endl;
-using std::string;
 using namespace itpp;
+using namespace std;
 
 
 #ifndef PARSER_TEST_FILE
 int main() {
-  cout << "PARSER_TEST_FILE not defined. Test skipped." << endl;
+  cerr << "PARSER_TEST_FILE not defined. Test skipped." << endl;
+  return 1;
 }
 #else
 int main(int argc, char *argv[])

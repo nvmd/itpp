@@ -1,31 +1,31 @@
 /*!
-* \file
-* \brief IT file endianness test program
-* \author Adam Piatyszek
-*
-* -------------------------------------------------------------------------
-*
-* IT++ - C++ library of mathematical, signal processing, speech processing,
-*        and communications classes and functions
-*
-* Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
-*
-* This program is free software; you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation; either version 2 of the License, or
-* (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program; if not, write to the Free Software
-* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
-*
-* -------------------------------------------------------------------------
-*/
+ * \file
+ * \brief IT file endianness test program
+ * \author Adam Piatyszek
+ *
+ * -------------------------------------------------------------------------
+ *
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ *
+ * -------------------------------------------------------------------------
+ */
 
 #include <itpp/itbase.h>
 #include <iomanip>
@@ -41,7 +41,8 @@ using namespace std;
 #ifndef ITFILE_TEST_FILE
 
 int main() {
-  cout << "ITFILE_TEST_FILE not defined. Test skipped." << endl;
+  cerr << "ITFILE_TEST_FILE not defined. Test skipped." << endl;
+  return 1;
 }
 
 #else
@@ -53,7 +54,7 @@ int main()
   bin b, b_ref = 0;
   short s, s_ref = 1234;
   int i, i_ref = -1234567890;
-  float f, f_ref = -12345.6;
+  float f, f_ref = -12345.6f;
   double d, d_ref = 2.1e-8;
   complex<double> cd, cd_ref = std::complex<double>(1.0, -1.5);
   string st, st_ref = "abcdefghij 0123456789";
