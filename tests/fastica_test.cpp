@@ -180,7 +180,7 @@ int main() {
 #else
 
 int main() {
-  cerr << "Error: FASTICA_TEST_FILE has to be defined" << endl;
+  cerr << "FASTICA_TEST_FILE not defined. Test skipped." << endl;
   return 1;
 }
 

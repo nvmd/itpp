@@ -1,33 +1,32 @@
 /*!
-* \file
-* \brief Turbo encoder/decoder class test program
-* \author Pal Frenger and Erik G. Larsson.
-*
-* -------------------------------------------------------------------------
-*
-* IT++ - C++ library of mathematical, signal processing, speech processing,
-*        and communications classes and functions
-*
-* Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
-*
-* This program is free software; you can redistribute it and/or modify
-* it under the terms of the GNU General Public License as published by
-* the Free Software Foundation; either version 2 of the License, or
-* (at your option) any later version.
-*
-* This program is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-* GNU General Public License for more details.
-*
-* You should have received a copy of the GNU General Public License
-* along with this program; if not, write to the Free Software
-* Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
-*
-* -------------------------------------------------------------------------
-*/
+ * \file
+ * \brief Turbo encoder/decoder class test program
+ * \author Pal Frenger and Erik G. Larsson
+ *
+ * -------------------------------------------------------------------------
+ *
+ * IT++ - C++ library of mathematical, signal processing, speech processing,
+ *        and communications classes and functions
+ *
+ * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ *
+ * -------------------------------------------------------------------------
+ */
 
-#include <itpp/itbase.h>
 #include <itpp/itcomm.h>
 
 using namespace itpp;
@@ -61,7 +60,6 @@ int main()
   vec N0 = Eb * pow(EbN0, -1.0);
   vec sigma2 = N0 / 2;
   ivec nrof_used_iterations;
-  int i;
 
   vec symbols, received;
   bvec input, coded_bits, decoded_bits, transmitted;
@@ -90,9 +88,11 @@ int main()
   mat avg_nrof_iterations = zeros(4,EbN0db.length());
   LLR_calc_unit lowresllrcalc(10,7,9);  // table with low resolution
   Array<Real_Timer> timer(4);
-  for (int i=0; i<4; i++) { timer(i).reset(); }
+  for (int i = 0; i < 4; i++) { 
+    timer(i).reset();
+  }
 
-  for (i = 0; i < EbN0db.length(); i++) {
+  for (int i = 0; i < EbN0db.length(); i++) {
     cout << "Now simulating EbN0db = " << EbN0db(i) << endl;
 
     noise_src.setup(0.0, sigma2(i));
