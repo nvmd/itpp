@@ -220,7 +220,7 @@ namespace itpp {
     //! Set matrix equal to the all one matrix
     void ones();
     //! Set matrix equal to values in \c values
-    bool set(const char *values);
+    bool set(const char *str);
     //! Set matrix equal to values in the string \c str
     bool set(const std::string &str);
 
@@ -712,79 +712,69 @@ namespace itpp {
 
 
   template<class Num_T>
-  bool Mat<Num_T>::set(const char *values)
+  bool Mat<Num_T>::set(const std::string &str)
   {
-    std::istringstream buffer(values);
-    int rows = 0, maxrows = 10, cols = 0, nocols = 0, maxcols = 10;
-    bool comma = true;
+    // actual row counter
+    int rows = 0;
+    // number of rows to allocate next time (8, 16, 32, 64, etc.)
+    int maxrows = 8;
 
+    // clean the current matrix content
     free();
-    alloc(maxrows, maxcols);
-    zeros();
 
-    while (buffer.peek() != EOF) {
-      if (++rows > maxrows) {
-	maxrows <<= 1;
-	set_size(maxrows, maxcols, true);
-      }
+    // variable to store the start of a current vector
+    std::string::size_type beg = 0;
+    std::string::size_type end = 0;
+    while (end != std::string::npos) {
+      // find next occurence of a semicolon in string str
+      end = str.find(';', beg);
+      // parse first row into a vector v
+      Vec<Num_T> v(str.substr(beg, end-beg));
+      int v_size = v.size();
 
-      cols = 0;
-      while ((buffer.peek() != ';') && (buffer.peek() != EOF)) {
-	switch (buffer.peek()) {
-	  // first remove value separators
-	case ',':
-	  it_assert(!comma, "Mat<Num_T>::set(): Improper matrix string");
-	  buffer.seekg(1, std::ios_base::cur);
-	  comma = true;
-	  break;
-	case ' ': case '\t':
-	  buffer.seekg(1, std::ios_base::cur);
-	  break;
-
-	default:
-	  if (++cols > nocols) {
-	    nocols = cols;
-	    if (cols > maxcols) {
-	      maxcols <<= 1;
-	      set_size(maxrows, maxcols, true);
+      // this check is necessary to parse the following two strings as the
+      // same matrix: "1 0 1; ; 1 1; " and "1 0 1; 0 0 0; 1 1 0"
+      if ((end != std::string::npos) || (v_size > 0)) {
+	// matrix empty -> insert v as a first row and allocate maxrows
+	if (rows == 0) {
+	  set_size(maxrows, v_size, true);
+	  set_row(rows++, v);
+	}
+	else {
+	  // check if we need to resize the matrix
+	  if ((rows == maxrows) || (v_size != no_cols)) {
+	    // we need to add new rows
+	    if (rows == maxrows) {
+	      maxrows *= 2;
+	    }
+	    // check if ne need to add new colums
+	    if (v_size > no_cols) {
+	      set_size(maxrows, v_size, true);
+	    }
+	    else {
+	      set_size(maxrows, no_cols, true);
+	      // set the size of the parsed vector to the number of colums
+	      v.set_size(no_cols, true);
 	    }
 	  }
-	  buffer >> this->operator()(rows-1, cols-1);
-	  it_assert(!buffer.fail(), "Mat<Num_T>::set(): Stream operation failed (buffer >> data)");
-	  comma = false;
+	  // set the parsed vector as the next row
+	  set_row(rows++, v);
 	}
       }
+      // update the starting position of the next vector in the parsed
+      // string
+      beg = end + 1;
+    } // if ((end != std::string::npos) || (v.size > 0))
 
-      if (buffer.peek() == ';') {
-	// remove row separator...
-	buffer.seekg(1, std::ios_base::cur);
-	// ... but also check if it was at the end of buffer
-	while (buffer.peek() == ' ' || buffer.peek() == '\t') {
-	  buffer.seekg(1, std::ios_base::cur);
-	}
-	comma = false;
-	// it_assert(buffer.peek() != EOF, "Mat<double>::set(): Improper data string");
-      }
-
-      it_assert(!comma || (nocols == 0), "Mat<Num_T>::set(): Improper matrix string");
-
-    }
-    set_size(rows, nocols, true);
+    set_size(rows, no_cols, true);
 
     return true;
   }
 
-  //! Specialization of \c set() method for int
-  template<>
-  bool Mat<int>::set(const char *values);
-  //! Specialization of \c set() method for short int
-  template<>
-  bool Mat<short int>::set(const char *values);
-
   template<class Num_T>
-  bool Mat<Num_T>::set(const std::string &str)
+  bool Mat<Num_T>::set(const char *str)
   {
-    return set(str.c_str());
+    return set(std::string(str));
   }
 
   template<class Num_T> inline

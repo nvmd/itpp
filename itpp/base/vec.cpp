@@ -32,14 +32,31 @@
 
 namespace itpp {
 
-  template<>
-  bool Vec<double>::set(const char *values)
+
+  template<class Num_T>
+  std::string Vec<Num_T>::replace_commas(const std::string &str_in)
   {
-    std::istringstream buffer(values);
+    // copy an input sting into a local variable str
+    std::string str(str_in);
+    // find first occurence of comma in string str
+    std::string::size_type index = str.find(',', 0);
+    while (index != std::string::npos) {
+      // replace character at position index with space
+      str.replace(index, 1, 1, ' ');
+      // find next occurence of comma in string str
+      index = str.find(',', index);
+    }
+    return str;
+  }
+
+
+  template<>
+  bool Vec<double>::set(const std::string &str)
+  {
+    std::istringstream buffer(replace_commas(str));
     double b, c, eps_margin;
     bool b_parsed = false;
     bool c_parsed = false;
-    bool comma = true;
     int pos = 0, maxpos = 10;
 
     free();
@@ -48,12 +65,6 @@ namespace itpp {
     while (buffer.peek()!=EOF) {
 
       switch (buffer.peek()) {
-      case ',':
-	it_assert(!comma, "Vec<double>::set(): Improper data string");
-	buffer.seekg(1, std::ios_base::cur);
-	comma = true;
-	break;
-
       case ' ': case '\t':
 	buffer.seekg(1, std::ios_base::cur);
 	break;
@@ -84,7 +95,6 @@ namespace itpp {
 		buffer >> c;
 		it_assert(!buffer.fail(), "Vec<double>::set(): Stream operation failed (buffer >> c)");
 		c_parsed = true;
-		comma = false;
 	      }
 	    }
 	    it_assert(c_parsed, "Vec<double>::set(): Improper data string (a:b:c)");
@@ -96,7 +106,6 @@ namespace itpp {
 	    buffer >> b;
 	    it_assert(!buffer.fail(), "Vec<double>::set(): Stream operation failed (buffer >> b)");
 	    b_parsed = true;
-	    comma = false;
 	  }
 	}
 	it_assert(b_parsed, "Vec<double>::set(): Improper data string (a:b)");
@@ -163,12 +172,9 @@ namespace itpp {
 	}
 	buffer >> data[pos-1];
 	it_assert(!buffer.fail(), "Vec<double>::set(): Stream operation failed (buffer >> data)");
-	comma = false;
 	break;
       }
     }
-    it_assert(!comma || (pos == 0), "Vec<double>::set(): Improper data string");
-
     set_size(pos, true);
 
     return true;
@@ -176,9 +182,9 @@ namespace itpp {
 
 
   template<>
-  bool Vec<std::complex<double> >::set(const char *values)
+  bool Vec<std::complex<double> >::set(const std::string &str)
   {
-    std::istringstream buffer(values);
+    std::istringstream buffer(str);
     int pos = 0, maxpos = 10;
     bool comma = true;
 
@@ -216,11 +222,10 @@ namespace itpp {
 
 
   template<>
-  bool Vec<bin>::set(const char *values)
+  bool Vec<bin>::set(const std::string &str)
   {
-    std::istringstream buffer(values);
+    std::istringstream buffer(replace_commas(str));
     int pos = 0, maxpos = 10;
-    bool comma = true;
 
     free();
     alloc(maxpos);
@@ -229,11 +234,6 @@ namespace itpp {
       switch (buffer.peek()) {
       case ':':
         it_error("Vec<bin>::set(): a:b:c and a:b expressions not valid for bvec");
-	break;
-      case ',':
-	it_assert(!comma, "Vec<bin>::set(): Improper data string");
-	buffer.seekg(1, std::ios_base::cur);
-	comma = true;
 	break;
       case ' ': case '\t':
 	buffer.seekg(1, std::ios_base::cur);
@@ -245,11 +245,8 @@ namespace itpp {
 	}
 	buffer >> data[pos-1];
 	it_assert(!buffer.fail(), "Vec<bin>::set(): Stream operation failed (buffer >> data)");
-	comma = false;
       }
     }
-    it_assert(!comma || (pos == 0), "Vec<bin>::set(): Improper data string");
-
     set_size(pos, true);
 
     return true;
@@ -257,13 +254,12 @@ namespace itpp {
 
 
   template<>
-  bool Vec<int>::set(const char *values)
+  bool Vec<int>::set(const std::string &str)
   {
-    std::istringstream buffer(values);
+    std::istringstream buffer(replace_commas(str));
     int b, c;
     bool b_parsed = false;
     bool c_parsed = false;
-    bool comma = true;
     int pos = 0;
     int maxpos = 10;
     std::streamoff offset = 0;
@@ -276,12 +272,6 @@ namespace itpp {
       switch (buffer.peek()) {
       case ' ': case '\t':
 	buffer.seekg(1, std::ios_base::cur);
-	break;
-
-      case ',':
-	it_assert(!comma, "Vec<int>::set(): Improper data string");
-	buffer.seekg(1, std::ios_base::cur);
-	comma = true;
 	break;
 
       case '+': case '-':
@@ -323,7 +313,6 @@ namespace itpp {
 	      set_size(maxpos, true);
 	    }
 	    buffer >> std::hex >> data[pos-1];
-	    comma = false;
 	    break;
 
 	    // octal number
@@ -352,7 +341,6 @@ namespace itpp {
 	      set_size(maxpos, true);
 	    }
 	    buffer >> std::oct >> data[pos-1];
-	    comma = false;
 	    break;
 
 	    // zero
@@ -365,7 +353,6 @@ namespace itpp {
 	      set_size(maxpos, true);
 	    }
 	    buffer >> std::dec >> data[pos-1];
-	    comma = false;
 	    break;
 
 	  default:
@@ -381,7 +368,6 @@ namespace itpp {
 	    set_size(maxpos, true);
 	  }
 	  buffer >> std::dec >> data[pos-1];
-	  comma = false;
 	}
 	break;
 
@@ -411,7 +397,6 @@ namespace itpp {
 	  set_size(maxpos, true);
 	}
 	buffer >> std::dec >> data[pos-1];
-	comma = false;
 	break;
 
 	// parse format a:b:c or a:b
@@ -461,7 +446,6 @@ namespace itpp {
 		offset = 0;
 		buffer >> std::hex >> b;
 		b_parsed = true;
-		comma = false;
 		break;
 
 		// octal number
@@ -486,7 +470,6 @@ namespace itpp {
 		offset = 0;
 		buffer >> std::oct >> b;
 		b_parsed = true;
-		comma = false;
 		break;
 
 		// zero
@@ -496,7 +479,6 @@ namespace itpp {
 		offset = 0;
 		buffer >> std::dec >> b;
 		b_parsed = true;
-		comma = false;
 		break;
 
 	      default:
@@ -509,7 +491,6 @@ namespace itpp {
 	      offset = 0;
 	      buffer >> std::dec >> b;
 	      b_parsed = true;
-	      comma = false;
 	    }
 	    break;
 
@@ -536,7 +517,6 @@ namespace itpp {
 	    offset = 0;
 	    buffer >> std::dec >> b;
 	    b_parsed = true;
-	    comma = false;
 	    break;
 
 	  case ':':
@@ -586,7 +566,6 @@ namespace itpp {
 		    offset = 0;
 		    buffer >> std::hex >> c;
 		    c_parsed = true;
-		    comma = false;
 		    break;
 
 		    // octal number
@@ -611,7 +590,6 @@ namespace itpp {
 		    offset = 0;
 		    buffer >> std::oct >> c;
 		    c_parsed = true;
-		    comma = false;
 		    break;
 
 		    // zero
@@ -621,7 +599,6 @@ namespace itpp {
 		    offset = 0;
 		    buffer >> std::dec >> c;
 		    c_parsed = true;
-		    comma = false;
 		    break;
 
 		  default:
@@ -634,7 +611,6 @@ namespace itpp {
 		  offset = 0;
 		  buffer >> std::dec >> c;
 		  c_parsed = true;
-		  comma = false;
 		}
 		break;
 
@@ -661,7 +637,6 @@ namespace itpp {
 		offset = 0;
 		buffer >> std::dec >> c;
 		c_parsed = true;
-		comma = false;
 		break;
 
 	      default:
@@ -731,8 +706,6 @@ namespace itpp {
 	it_error("Vec<int>::set(): Improper data string");
       }
     }
-    it_assert(!comma || (pos == 0), "Vec<int>::set(): Improper data string");
-
     // resize the parsed vector to its final length
     set_size(pos, true);
 
@@ -740,13 +713,12 @@ namespace itpp {
   }
 
   template<>
-  bool Vec<short int>::set(const char *values)
+  bool Vec<short int>::set(const std::string &str)
   {
-    std::istringstream buffer(values);
+    std::istringstream buffer(replace_commas(str));
     short int b, c;
     bool b_parsed = false;
     bool c_parsed = false;
-    bool comma = true;
     int pos = 0;
     int maxpos = 10;
     std::streamoff offset = 0;
@@ -759,12 +731,6 @@ namespace itpp {
       switch (buffer.peek()) {
       case ' ': case '\t':
 	buffer.seekg(1, std::ios_base::cur);
-	break;
-
-      case ',':
-	it_assert(!comma, "Vec<short>::set(): Improper data string");
-	buffer.seekg(1, std::ios_base::cur);
-	comma = true;
 	break;
 
       case '+': case '-':
@@ -806,7 +772,6 @@ namespace itpp {
 	      set_size(maxpos, true);
 	    }
 	    buffer >> std::hex >> data[pos-1];
-	    comma = false;
 	    break;
 
 	    // octal number
@@ -835,7 +800,6 @@ namespace itpp {
 	      set_size(maxpos, true);
 	    }
 	    buffer >> std::oct >> data[pos-1];
-	    comma = false;
 	    break;
 
 	    // zero
@@ -848,7 +812,6 @@ namespace itpp {
 	      set_size(maxpos, true);
 	    }
 	    buffer >> std::dec >> data[pos-1];
-	    comma = false;
 	    break;
 
 	  default:
@@ -864,7 +827,6 @@ namespace itpp {
 	    set_size(maxpos, true);
 	  }
 	  buffer >> std::dec >> data[pos-1];
-	  comma = false;
 	}
 	break;
 
@@ -894,7 +856,6 @@ namespace itpp {
 	  set_size(maxpos, true);
 	}
 	buffer >> std::dec >> data[pos-1];
-	comma = false;
 	break;
 
 	// parse format a:b:c or a:b
@@ -944,7 +905,6 @@ namespace itpp {
 		offset = 0;
 		buffer >> std::hex >> b;
 		b_parsed = true;
-		comma = false;
 		break;
 
 		// octal number
@@ -969,7 +929,6 @@ namespace itpp {
 		offset = 0;
 		buffer >> std::oct >> b;
 		b_parsed = true;
-		comma = false;
 		break;
 
 		// zero
@@ -979,7 +938,6 @@ namespace itpp {
 		offset = 0;
 		buffer >> std::dec >> b;
 		b_parsed = true;
-		comma = false;
 		break;
 
 	      default:
@@ -992,7 +950,6 @@ namespace itpp {
 	      offset = 0;
 	      buffer >> std::dec >> b;
 	      b_parsed = true;
-	      comma = false;
 	    }
 	    break;
 
@@ -1019,7 +976,6 @@ namespace itpp {
 	    offset = 0;
 	    buffer >> std::dec >> b;
 	    b_parsed = true;
-	    comma = false;
 	    break;
 
 	  case ':':
@@ -1069,7 +1025,6 @@ namespace itpp {
 		    offset = 0;
 		    buffer >> std::hex >> c;
 		    c_parsed = true;
-		    comma = false;
 		    break;
 
 		    // octal number
@@ -1094,7 +1049,6 @@ namespace itpp {
 		    offset = 0;
 		    buffer >> std::oct >> c;
 		    c_parsed = true;
-		    comma = false;
 		    break;
 
 		    // zero
@@ -1104,7 +1058,6 @@ namespace itpp {
 		    offset = 0;
 		    buffer >> std::dec >> c;
 		    c_parsed = true;
-		    comma = false;
 		    break;
 
 		  default:
@@ -1117,7 +1070,6 @@ namespace itpp {
 		  offset = 0;
 		  buffer >> std::dec >> c;
 		  c_parsed = true;
-		  comma = false;
 		}
 		break;
 
@@ -1144,7 +1096,6 @@ namespace itpp {
 		offset = 0;
 		buffer >> std::dec >> c;
 		c_parsed = true;
-		comma = false;
 		break;
 
 	      default:
@@ -1214,8 +1165,6 @@ namespace itpp {
 	it_error("Vec<short>::set(): Improper data string");
       }
     }
-    it_assert(!comma || (pos == 0), "Vec<short>::set(): Improper data string");
-
     // resize the parsed vector to its final length
     set_size(pos, true);
 

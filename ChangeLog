@@ -1,5 +1,17 @@
 2007-08-20  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/mat.cpp, itpp/base/mat.h, itpp/base/vec.cpp,
+	itpp/base/vec.h: Fixed problems with comma in Vec::set() parser
+
+	The previous string parser implementation in Vec class was not
+	fully functional when using MSVC++ compiler. The problem was that
+	commas just after a parsed value caused application crash. For
+	instance "1 , 0 1 " was parsed fine, but parsing "1, 0,1" resulted
+	in a crash. Fixed this issue by replacing all commas with spaces
+	before actual parsing is done, except the complex vector case,
+	where "(1,0.2)" are valid complex values. BTW, the Mat::set()
+	parsing function was rewritten to reuse the Vec::set() method.
+
 	* extras/acml_tests_vcproj.template, extras/gen_vcproj_tests.sh,
 	extras/mkl_tests_vcproj.template, win32/itpp_acml.vcproj,
 	win32/itpp_acml_tests/*.vcproj, win32/itpp_acml_tests/Makefile.am,
