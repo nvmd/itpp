@@ -1,3 +1,40 @@
+2007-08-20  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* extras/acml_tests_vcproj.template, extras/gen_vcproj_tests.sh,
+	extras/mkl_tests_vcproj.template, win32/itpp_acml.vcproj,
+	win32/itpp_acml_tests/*.vcproj, win32/itpp_acml_tests/Makefile.am,
+	win32/itpp_acml_tests/itpp_acml_tests.sln, win32/itpp_mkl.vcproj,
+	win32/itpp_mkl_tests/*.vcproj, win32/itpp_mkl_tests/Makefile.am,
+	win32/itpp_mkl_tests/itpp_mkl_tests.sln: Prepared MSVC++ project
+	files for test programs
+
+	These project files were generated from two template files with
+	"gen_vcproj_tests.sh" script. Then, they were included in
+	appropriate solutions: "itpp_acml_tests.sln" and
+	"itpp_mkl_tests.sln", for external ACML and MKL libraries
+	respectively.
+
+	* itpp/base/blas.h, itpp/base/vec.cpp, itpp/base/vec.h,
+	itpp/base/zdotusub.f: Modified zdotusub_() function to match ACML
+	interface
+
+	The Fortran wrapper zdodusub_() of BLAS zdotu_() function used
+	CBLAS inteface, which was incompatible with ACML implementation.
+	Fixed this, so the native ACML function can be used under MSVC++
+	compiler. Besides, disabled this function when using IT++ with
+	Intel MKL under MSVC++.
+
+	* tests/fastica_test.cpp, tests/itfile_test.cpp,
+	tests/parser_test.cpp, tests/turbo_test.cpp: Cosmetic changes in a
+	few test programs
+
+	Compilation of turbo_test and itfile_test programs under MSVC++
+	resulted in some warnings related to the use of variable `i' and
+	initialisation of a float variable `f_ref'. These issues are now
+	fixed. BTW, error messages in fastica_test, itfile_test and
+	parser_test were changed to use `cerr' output stream, instead of
+	`cout'.
+
 2007-08-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/rand_test.cpp, tests/rand_test.ref: Fixed a bug in
