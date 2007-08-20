@@ -456,6 +456,9 @@ namespace itpp {
     Num_T *data;
     //! Element factory (set to DEFAULT_FACTORY to use Num_T default constructors only)
     const Factory &factory;
+  private:
+    // This function is used in set() methods to replace commas with spaces
+    std::string replace_commas(const std::string &str);
   };
 
   //-----------------------------------------------------------------------------------
@@ -714,31 +717,31 @@ namespace itpp {
 
   //! Specialization of \c set() for double
   template<>
-  bool Vec<double>::set(const char *values);
+  bool Vec<double>::set(const std::string &str);
   //! Specialization of \c set() for std::complex<double>
   template<>
-  bool Vec<std::complex<double> >::set(const char *values);
-  //! Specialization of \c set() for itpp::bin
-  template<>
-  bool Vec<bin>::set(const char *values);
+  bool Vec<std::complex<double> >::set(const std::string &str);
   //! Specialization of \c set() for int
   template<>
-  bool Vec<int>::set(const char *values);
+  bool Vec<int>::set(const std::string &str);
   //! Specialization of \c set() for short int
   template<>
-  bool Vec<short int>::set(const char *values);
+  bool Vec<short int>::set(const std::string &str);
+  //! Specialization of \c set() for itpp::bin
+  template<>
+  bool Vec<bin>::set(const std::string &str);
 
   template<class Num_T>
-  bool Vec<Num_T>::set(const char *values)
+  bool Vec<Num_T>::set(const std::string &str)
   {
     it_error("Vec::set(): Only `double', `complex<double>', `int', `short int' and `bin' types supported");
     return true;
   }
 
   template<class Num_T>
-  bool Vec<Num_T>::set(const std::string &str)
+  bool Vec<Num_T>::set(const char *str)
   {
-    return set(str.c_str());
+    return set(std::string(str));
   }
 
 
