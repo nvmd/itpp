@@ -42,7 +42,7 @@
 	 Name="VCLinkerTool"
 	 AdditionalDependencies="itpp.lib mkl_c_dll.lib"
 	 LinkIncremental="1"
-	 AdditionalLibraryDirectories="&quot;C:\Program Files\Intel\MKL\9.1.025\ia32\lib&quot;;..\lib"
+	 AdditionalLibraryDirectories="&quot;C:\Program Files\Intel\MKL\ia32\lib&quot;;..\lib"
 	 IgnoreDefaultLibraryNames="uuid.lib"
 	 GenerateDebugInformation="false"
 	 SubSystem="1"

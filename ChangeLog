@@ -1,5 +1,16 @@
 2007-08-20  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* extras/acml_tests_vcproj.template,
+	extras/mkl_tests_vcproj.template, win32/**/*.vcproj: Removed
+	versions from MKL and ACML directories
+
+	To prevent unnecessary updates of MSVC++ project files, the
+	installation directories of MKL and ACML libraries under windows
+	do not contain version numbers, i.e. "C:\Program Files\Intel\MKL"
+	and "C:\Program Files\AMD\acml". MKL and ACML libraries should be
+	installed into these directories in order to work with the
+	prepared project files without any modifications.
+
 	* itpp/base/mat.cpp, itpp/base/mat.h, itpp/base/vec.cpp,
 	itpp/base/vec.h: Fixed problems with comma in Vec::set() parser
 
