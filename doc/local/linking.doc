@@ -114,35 +114,37 @@ of the shared library object (<tt>`$prefix/lib'</tt>), e.g.:
 \endcode
 
 
-\section msvc_linking Linking your own programs with IT++ using MSVC++ .NET
+\section msvc_linking Linking your own programs with IT++ using MSVC++
 
 It is assumed here that the IT++ library is already compiled and linked with
-either ACML or MKL, using Microsoft Visual C++ .NET compiler (cf. \ref msvc).
+either ACML or MKL, using Microsoft Visual C++ .NET (or Express) compiler
+(cf. \ref msvc).
 
 To link your own programs with IT++ and ACML or MKL, several things need to
-be correctly set up in your project:
+be correctly set up in your MSVC++ project:
 
 - The IT++ include directory must be defined. Settings for this can be found
-in the menu <tt>"Tools -&gt; Options -&gt; Projects and Solutions -&gt; VC++
-Directories -&gt; Include files"</tt>. Add a path to
+in the <tt>"Tools -&gt; Options -&gt; Projects and Solutions -&gt; VC++
+Directories -&gt; Include files"</tt> menu. Add path to
 <tt>"<IT++ source directory>"</tt>, e.g. <tt>"C:\itpp-3.10.10"</tt>.
 
 - The IT++ library directory must be defined. Settings for this can be found
-in the menu <tt>"Tools -&gt; Options -&gt; Projects and Solutions -&gt; VC++
-Directories -&gt; Library files"</tt>. Add a path to
-<tt>"<IT++ source directory>\win32\libs"</tt>, e.g.
-<tt>"C:\itpp-3.10.10\win32\libs"</tt>.
+in the <tt>"Tools -&gt; Options -&gt; Projects and Solutions -&gt; VC++
+Directories -&gt; Library files"</tt> menu. Add path to
+<tt>"<IT++ source directory>\win32\lib"</tt>, e.g.
+<tt>"C:\itpp-3.10.10\win32\lib"</tt>.
 
 - The ACML or MKL library directory must be defined. Add another library
-path with <tt>"C:\Program Files\AMD\acml<VERSION>\pgi32\lib"</tt> or
-<tt>"C:\Program Files\Intel\MKL\<VERSION>\ia32\lib"</tt>.
+path with <tt>"C:\Program Files\AMD\acml\pgi32\lib"</tt> or
+<tt>"C:\Program Files\Intel\MKL\ia32\lib"</tt>.
 
 - Linking with IT++ and ACML or MKL must be set up. Do this by marking your
-project and go to the menu <tt>"Project -&gt; Properties -&gt; Configuration
-Properties -&gt; Linker -&gt; Input -&gt; Additional Dependencies"</tt>.
-There you need to add <tt>itpp_debug.lib</tt> or <tt>itpp.lib</tt> depending
-on whether the Debug or Release mode are being used. Furthermore, you need to
-add <tt>libacml_dll.lib</tt> or <tt>mkl_c_dll.lib</tt>, respectively.
+project and go to the <tt>"Project -&gt; Properties -&gt; Configuration
+Properties -&gt; Linker -&gt; Input -&gt; Additional Dependencies"</tt>
+menu. There you need to add <tt>itpp_debug.lib</tt> or <tt>itpp.lib</tt>
+depending on whether the Debug or Release mode are being used. Furthermore,
+you need to add <tt>libacml_dll.lib</tt> or <tt>mkl_c_dll.lib</tt>,
+respectively.
 
 - The runtime library for linking needs to be set to <tt>Multi-threaded
 Debug</tt> or <tt>Multi-threaded</tt>. This option can be set in the menu
@@ -157,8 +159,8 @@ Library and POSIX-compilant function names, might be also added in
 <tt>HAVE_ACML</tt> or <tt>HAVE_MKL</tt> definitions should be set up,
 depending on the installed library.
 
-Please note that Project settings for your program must be made for both the
-Debug and Release modes.
+Please note that similar project settings for your program must be made for
+both the Debug and Release modes.
 
 
 \section matlab_load_and_save Using IT++ file format in Matlab/Octave
