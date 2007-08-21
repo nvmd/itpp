@@ -526,11 +526,11 @@ guarantees that you start with a clean directory, in the event you would
 repeat the installation procedure.
 
 
-\section msvc IT++ Compilation and Installation using Microsoft Visual C++ .NET
+\section msvc IT++ Compilation and Installation using Microsoft Visual C++
 
 It is possible to compile and link the IT++ library using the
 <a href="http://msdn.microsoft.com/visualc/">Microsoft Visual C++ .NET</a>
-compiler and either
+(or Express) compiler and either
 <a href="http://www.intel.com/cd/software/products/asmo-na/eng/perflib/mkl/">
 Intel Math Kernel Library (MKL)</a> or
 <a href="http://developer.amd.com/acml.aspx">AMD Core Math Library (ACML)</a>.
@@ -538,35 +538,38 @@ Intel Math Kernel Library (MKL)</a> or
 First, you need to install ACML or MKL in your system. If you decided to use
 ACML, please download the library built with PGI compiler for Windows, e.g.
 <tt>acml3.6.0-32-pgi.exe</tt> file for 32-bit systems. Please follow the
-default installation steps of the ACML or MKL installer. Intel's library is
-installed by default in the following directory:
-<tt>"C:\Program Files\Intel\MKL\<VERSION>"</tt>.
-During the installation procedure, the installer ask if PATH, LIB and
-INCLUDE environment variables should be set appropriately. Check this
-option, since this step is required for for Windows to find the MKL dll
-files. The ACML is installed in
-<tt>"C:\Program Files\AMD\acml<VERSION>"</tt> by default. After waiting a
-few dozens of seconds you should have the external libraries installed on
-your computer.
+default installation steps of the ACML or MKL installer, except for the
+installation directories. For MKL, use the following directory:
+<tt>"C:\Program Files\Intel\MKL"</tt> (without version number). For ACML:
+<tt>"C:\Program Files\AMD\acml"</tt>. After waiting a few dozens of seconds
+you should have the chosen external libraries installed on your computer.
+Finally, you should add the directory with dll files to the PATH environment
+variable, e.g. <tt>"C:\Program Files\Intel\MKL\ia32\bin"</tt>
+or <tt>"C:\Program Files\AMD\acml\pgi32\lib"</tt>.
 
 The next step is to compile and link the IT++ library. Assuming that you
 have already downloaded and unpacked the IT++ package, you should find
-MSVC++ .NET project files <tt>itpp_acml.vcproj</tt> and
-<tt>itpp_mkl.vcproj</tt> in the <tt>win32</tt> directory. Depending on the
-installed external libraries (ACML or MKL), open one of these project files
-in the MSVC++ .NET environment. There are two default targets prepared for
-compilation and linking: <tt>Debug</tt> and <tt>Release</tt>. The former can
-be used to compile a non-optimised version of the library for debugging
-purposes, named <tt>itpp_debug.lib</tt>, whereas the latter one should
-produce an optimised library named <tt>itpp.lib</tt>. Both libraries are
-static ones and they should be created in <tt>win32/libs</tt> directory. The
-current project files are configured for the MKL in version 8.1 and ACML in
-version 3.6.0. If you have different versions or/and you installed them in
-non-standard locations, please update the include paths in the relevant
-project files.
+the <tt>itpp_acml.vcproj</tt> and <tt>itpp_mkl.vcproj</tt> MSVC++ project
+files in the <tt>win32</tt> directory. Depending on the installed external
+library (ACML or MKL), open one of these project files in the MSVC++ IDE
+environment. There are two default targets prepared for compilation and
+linking: <tt>Debug</tt> and <tt>Release</tt>. The former can be used to
+compile a non-optimised version of the library for debugging purposes,
+named <tt>itpp_debug.lib</tt>, whereas the latter one should produce an
+optimised library named <tt>itpp.lib</tt>, which is also used by test
+programs. Both libraries are static ones and they should be created
+in <tt>win32\\lib</tt> directory. IT++ should compile and link without any
+warnings or errors.
 
-IT++ should compile and link without any warnings or errors. To learn how to
-set up your own project for linking with the IT++ library and ACML or MKL,
-please read the following manual: \ref msvc_linking.
+Last but not least, test programs can be compiled and linked to IT++ with
+MKL or ACML by using the project files included
+in <tt>win32\\itpp_mkl_tests</tt> or <tt>win32\\itpp_acml_tests</tt>
+respectively. The resulting executable test files should be created
+in <tt>win32\\bin</tt> directory. Currently there is no automated method for
+comparing the output of these test programs with the reference files
+(<tt>*.ref</tt>) located in <tt>tests</tt> directory.
+
+To learn how to set up your own project for linking with the IT++ library
+and ACML or MKL, please read the following manual: \ref msvc_linking.
 
 */

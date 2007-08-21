@@ -1,5 +1,8 @@
 2007-08-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/local/installation.doc, doc/local/linking.doc: Documentation
+	updated to reflect recent changes
+
 	* win32/itpp_acml_tests/fastica_test.vcproj,
 	win32/itpp_acml_tests/itfile_test.vcproj,
 	win32/itpp_acml_tests/parser_test.vcproj,
