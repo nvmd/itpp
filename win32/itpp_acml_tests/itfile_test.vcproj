@@ -41,7 +41,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\.."
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;HAVE_ACML"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;HAVE_ACML;ITFILE_TEST_FILE=\&quot;../../tests/itfile_test_data.it\&quot;"
 				RuntimeLibrary="0"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
