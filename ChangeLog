@@ -1,3 +1,12 @@
+2007-08-23  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* tests/Makefile.am: Return non-zero exit status on make check
+	failure
+
+	If not all test programs pass, output a short status message with
+	the number of tests failed and return non-zero exit status to
+	make.
+
 2007-08-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* doc/local/installation.doc, doc/local/linking.doc: Documentation
