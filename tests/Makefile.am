@@ -145,20 +145,34 @@ tmp_files = $(USED_TESTS:=.tmp)
 ref_files = $(ALL_TESTS:=.ref)
 
 EXTRA_DIST = itfile_test_data.it fastica_test_data.txt parser_test_data.txt \
-	$(ref_files) 
+	$(ref_files)
 
 check-local: $(check_PROGRAMS) $(ref_files)
-	@for i in $(USED_TESTS); do \
-		echo ------------------------------------------------------------------------------; \
-		./$$i$(EXEEXT) 2> /dev/null | sed 's/^M$$//' | sed 's/\(-\?[0-9]\+\.\?[0-9]*e[+-]\)0\([0-9][0-9]\)/\1\2/g' > $$i.tmp; \
-		diff $$i.tmp $(srcdir)/$$i.ref > /dev/null; \
-		if test "x$$?" = "x0"; then \
+	@total=0; failed=0; \
+	for i in $(USED_TESTS); \
+	do \
+		echo "------------------------------------------------------------------------------"; \
+		./$$i$(EXEEXT) 2>/dev/null | sed -e 's/^M$$//' -e 's/\(-\?[0-9]\+\.\?[0-9]*e[+-]\)0\([0-9][0-9]\)/\1\2/g' > $$i.tmp; \
+		diff $(srcdir)/$$i.ref $$i.tmp >/dev/null; \
+		if [ "x$$?" = "x0" ]; \
+		then \
 			echo "Test \`$$i' PASSED."; \
 		else \
 			echo "Test \`$$i' FAILED!!!"; \
+			failed=$$(($$failed + 1)); \
 		fi; \
+		total=$$(($$total + 1)); \
 	done; \
-	echo ------------------------------------------------------------------------------
+	echo "------------------------------------------------------------------------------"; \
+	if [ $$failed -gt 0 ]; \
+	then \
+		echo ""; \
+		echo "******************************************************************************"; \
+		echo "*** ERROR: $$failed/52 tests failed!!!"; \
+		echo "******************************************************************************"; \
+		echo ""; \
+		exit 1; \
+	fi
 
 clean-local:
 	-rm -f $(tmp_files) gf2mat_test.alist ldpc_test.codec
