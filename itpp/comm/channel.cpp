@@ -1546,14 +1546,22 @@ namespace itpp {
 
   cvec AWGN_Channel::operator()(const cvec &input)
   {
-    cvec output = input + sigma*randn_c(input.size());
-    return output;
+    int n = input.size();
+    cvec noise(n);
+    rng_cn.sample_vector(n, noise);
+    noise *= sigma;
+    noise += input;
+    return noise;
   }
 
   vec AWGN_Channel::operator()(const vec &input)
   {
-    vec output = input + sigma*randn(input.size());
-    return output;
+    int n = input.size();
+    vec noise(n);
+    rng_n.sample_vector(n, noise);
+    noise *= sigma;
+    noise += input;
+    return noise;
   }
 
 
