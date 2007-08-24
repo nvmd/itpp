@@ -32,6 +32,7 @@
 %
 % -------------------------------------------------------------------------
 
+
 function itsave(fname, varargin)
 
 if (nargin > 1)
@@ -57,25 +58,28 @@ fprintf(fid, 'IT++%c', file_version);
 for ai=1:nargs
   if (exist('OCTAVE_VERSION')) % check for octave
       vname = deblank(argn(ai+1,:)); % octave way of getting parameter name
+      is_octave=1; %used by function itsizeof to identify octave
   else
       vname = inputname(ai+1); % matlab way of getting parameter name
+      is_octave=0; %used by function itsizeof to identify matlab
   end
   v = vars{ai};
 
   is_scalar = all(size(v) == 1); % true if scalar (for future use)
   is_vector = (sum(size(v) > 1) <= 1); % true if a vector (or a scalar)
+  is_intbin = min(min(v == round(v))); % true if integer or binary
 
-  if (~imag(v) && (v == round(v))) % binary or integer type
-    if ((max(v) <= 1) && (min(v) >= 0)) % binary type
+  if ( isreal(v) && is_intbin ) % binary or integer type
+    if (max(max(v)) == 1 && min(min(v)) == 0) % binary type
       % Calculate sizes
       if (is_vector)
-	hdr_bytes = 3 * sizeof(uint64(0)) + size(vname,2)+1 ...
-	    + sizeof('bvec')+1 +1;
-	data_bytes = sizeof(uint64(0)) + sizeof(char(0)) * prod(size(v));
+ 	hdr_bytes = 3 * itsizeof(uint64(0),is_octave) + size(vname,2)+1 ...
+	    + itsizeof('bvec',is_octave)+1 +1;
+	data_bytes = itsizeof(uint64(0),is_octave) + itsizeof(char(0),is_octave) * prod(size(v));
       else % a matrix
-	hdr_bytes = 3 * sizeof(uint64(0)) + size(vname,2)+1 ...
-	    + sizeof('bmat')+1 +1;
-	data_bytes = 2 * sizeof(uint64(0)) + sizeof(char(0)) * prod(size(v));
+	hdr_bytes = 3 * itsizeof(uint64(0),is_octave) + size(vname,2)+1 ...
+	    + itsizeof('bmat',is_octave)+1 +1;
+	data_bytes = 2 * itsizeof(uint64(0),is_octave) + itsizeof(char(0),is_octave) * prod(size(v));
       end
       block_bytes = hdr_bytes + data_bytes;
 
@@ -98,13 +102,13 @@ for ai=1:nargs
     else % integer type
       % Calculate sizes
       if (is_vector)
-	hdr_bytes = 3 * sizeof(uint64(0)) + size(vname,2)+1 ...
-	    + sizeof('ivec')+1 +1;
-	data_bytes = sizeof(uint64(0)) + sizeof(int32(0)) * prod(size(v));
+	hdr_bytes = 3 * itsizeof(uint64(0),is_octave) + size(vname,2)+1 ...
+	    + itsizeof('ivec',is_octave)+1 +1;
+	data_bytes = itsizeof(uint64(0),is_octave) + itsizeof(int32(0),is_octave) * prod(size(v));
       else % a matrix
-	hdr_bytes = 3 * sizeof(uint64(0)) + size(vname,2)+1 ...
-	    + sizeof('imat')+1 +1;
-	data_bytes = 2 * sizeof(uint64(0)) + sizeof(int32(0)) * prod(size(v));
+	hdr_bytes = 3 * itsizeof(uint64(0),is_octave) + size(vname,2)+1 ...
+	    + itsizeof('imat',is_octave)+1 +1;
+	data_bytes = 2 * itsizeof(uint64(0),is_octave) + itsizeof(int32(0),is_octave) * prod(size(v));
       end
       block_bytes = hdr_bytes + data_bytes;
 
@@ -129,13 +133,13 @@ for ai=1:nargs
     if (isreal(v)) % Check if real values
       % Calculate sizes
       if (is_vector)
-	hdr_bytes = 3 * sizeof(uint64(0)) + size(vname,2)+1 ...
-	    + sizeof('dvec')+1 + 1;
-	data_bytes = sizeof(uint64(0)) + sizeof(double(0)) * prod(size(v));
+	hdr_bytes = 3 * itsizeof(uint64(0),is_octave) + size(vname,2)+1 ...
+	    + itsizeof('dvec',is_octave)+1 + 1;
+	data_bytes = itsizeof(uint64(0),is_octave) + itsizeof(double(0),is_octave) * prod(size(v));
       else % a matrix
-	hdr_bytes = 3 * sizeof(uint64(0)) + size(vname,2)+1 ...
-	    + sizeof('dmat')+1 + 1;
-	data_bytes = 2 * sizeof(uint64(0)) + sizeof(double(0)) ...
+	hdr_bytes = 3 * itsizeof(uint64(0),is_octave) + size(vname,2)+1 ...
+	    + itsizeof('dmat',is_octave)+1 + 1;
+	data_bytes = 2 * itsizeof(uint64(0),is_octave) + itsizeof(double(0),is_octave) ...
 	    * prod(size(v));
       end
       block_bytes = hdr_bytes + data_bytes;
@@ -157,14 +161,14 @@ for ai=1:nargs
     else % complex values
       % Calculate sizes
       if (is_vector)
-	hdr_bytes = 3 * sizeof(uint64(0)) + size(vname,2)+1 ...
-	    + sizeof('dcvec')+1 + 1;
-	data_bytes = sizeof(uint64(0)) + 2 * sizeof(double(0)) ...
+	hdr_bytes = 3 * itsizeof(uint64(0),is_octave) + size(vname,2)+1 ...
+	    + itsizeof('dcvec',is_octave)+1 + 1;
+	data_bytes = itsizeof(uint64(0),is_octave) + 2 * itsizeof(double(0),is_octave) ...
 	    * prod(size(v));
       else % a matrix
-	hdr_bytes = 3 * sizeof(uint64(0)) + size(vname,2)+1 ...
-	    + sizeof('dcmat')+1 + 1;
-	data_bytes = 2 * sizeof(uint64(0)) + 2 * sizeof(double(0)) ...
+	hdr_bytes = 3 * itsizeof(uint64(0),is_octave) + size(vname,2)+1 ...
+	    + itsizeof('dcmat',is_octave)+1 + 1;
+	data_bytes = 2 * itsizeof(uint64(0),is_octave) + 2 * itsizeof(double(0),is_octave) ...
 	    * prod(size(v));
       end
       block_bytes = hdr_bytes + data_bytes;
@@ -203,3 +207,20 @@ for ai=1:nargs
 end
 
 fclose(fid);
+
+
+% sizeof function (like C-style sizeof)
+% returns no. bytes used by a variable
+function nbytes=itsizeof(in,is_octave)
+  if (~is_octave)
+    tmp=whos('in');
+    nbytes=tmp.bytes;
+
+    % matlab uses 2 bytes by default for char
+    % overwrite using 1 byte for file format
+    if (ischar(in))
+      nbytes=size(in,2);
+    end;
+  else
+    nbytes=sizeof(in);
+  end;
