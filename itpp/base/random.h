@@ -355,13 +355,25 @@ namespace itpp {
     //! get parameters
     void get_setup(double &min, double &max) const;
     //! Get one sample.
-    double operator()() { return ( sample()* (hi_bound - lo_bound) + lo_bound ); }
+    double operator()() { return (sample() * (hi_bound - lo_bound) + lo_bound); }
     //! Get a sample vector.
     vec operator()(int n)
-    { vec temp(n); sample_vector(n, temp); return (temp *(hi_bound - lo_bound) + lo_bound); }
+    {
+      vec temp(n);
+      sample_vector(n, temp);
+      temp *= hi_bound - lo_bound;
+      temp += lo_bound;
+      return temp;
+    }
     //! Get a sample matrix.
     mat operator()(int h, int w)
-    { mat temp(h,w); sample_matrix(h,w, temp); return (temp *(hi_bound - lo_bound) + lo_bound); }
+    {
+      mat temp(h, w);
+      sample_matrix(h, w, temp);
+      temp *= hi_bound - lo_bound;
+      temp += lo_bound;
+      return temp;
+    }
     //! Get a Uniformly distributed (0,1) sample
     double sample() {  return RNG.random_01(); }
     //! Get a Uniformly distributed (0,1) vector
@@ -429,9 +441,10 @@ namespace itpp {
   class Normal_RNG {
   public:
     //! Constructor. Set mean and variance.
-    Normal_RNG(double meanval, double variance) { setup(meanval, variance); };
+    Normal_RNG(double meanval, double variance):
+      mean(meanval), sigma(std::sqrt(variance)) {}
     //! Constructor. Set mean and variance.
-    Normal_RNG() { mean = 0.0; sigma = 1.0; }
+    Normal_RNG(): mean(0.0), sigma(1.0) {}
     //! Set mean, and variance
     void setup(double meanval, double variance)
     { mean = meanval; sigma = std::sqrt(variance); }
@@ -440,9 +453,23 @@ namespace itpp {
     //! Get one sample.
     double operator()() { return (sigma*sample()+mean); }
     //! Get a sample vector.
-    vec operator()(int n) { vec temp(n); sample_vector(n, temp); return (sigma*temp+mean); }
+    vec operator()(int n)
+    {
+      vec temp(n);
+      sample_vector(n, temp);
+      temp *= sigma;
+      temp += mean;
+      return temp;
+    }
     //! Get a sample matrix.
-    mat operator()(int h, int w) { mat temp(h,w); sample_matrix(h,w, temp); return (sigma*temp+mean); }
+    mat operator()(int h, int w)
+    {
+      mat temp(h, w);
+      sample_matrix(h, w, temp);
+      temp *= sigma;
+      temp += mean;
+      return temp;
+    }
     //! Get a Normal distributed (0,1) sample
     double sample()
     {
@@ -561,14 +588,18 @@ namespace itpp {
     {
       cvec temp(n);
       sample_vector(n, temp);
-      return (sigma*temp+m);
+      temp *= sigma;
+      temp += m;
+      return temp;
     }
     //! Get a sample matrix.
     cmat operator()(int h, int w)
     {
       cmat temp(h, w);
       sample_matrix(h, w, temp);
-      return (sigma*temp+m);
+      temp *= sigma;
+      temp += m;
+      return temp;
     }
     //! Get a Complex Normal (0,1) distributed sample
     std::complex<double> sample()
