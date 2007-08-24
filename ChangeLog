@@ -1,3 +1,13 @@
+2007-08-24  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/channel.cpp, itpp/comm/channel.h: Fine tuning of
+	AWGN_Channel operator() performance
+
+	Instead of using randn() and randn_c() global functions,
+	Normal_RNG and Complex_Normal_RNG generators are declared as class
+	objects. This reduces the number of generator's constructor
+	executions to minimum.
+
 2007-08-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/Makefile.am: Return non-zero exit status on make check

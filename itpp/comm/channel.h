@@ -1031,17 +1031,18 @@ namespace itpp {
   class AWGN_Channel {
   public:
     //! Class constructor. Sets the noise variance (for complex-valued channels the sum of real and imaginary parts)
-    AWGN_Channel(double noisevar = 0.0) { sigma = std::sqrt(noisevar); }
+    AWGN_Channel(double noisevar = 0.0): sigma(std::sqrt(noisevar)) {}
     //! Set noise variance (for complex-valued channels the sum of real and imaginary parts)
     void set_noise(double noisevar) { sigma = std::sqrt(noisevar); }
     //! Get noise variance (for complex-valued channels the sum of real and imaginary parts)
-    double get_noise() { return sqr(sigma); }
+    double get_noise() const { return sqr(sigma); }
     //! Feed the complex input \a input through the complex-valued AWGN channel
     cvec operator()(const cvec &input);
     //! Feed the input \a through the real-valued AWGN channel
     vec operator()(const vec &input);
-  protected:
-    //! Standard deviation of the AWGN
+  private:
+    Complex_Normal_RNG rng_cn;
+    Normal_RNG rng_n;
     double sigma;
   };
 
