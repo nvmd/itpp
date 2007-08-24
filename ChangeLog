@@ -1,4 +1,14 @@
-2007-08-24  Adam Piatyszek  <ediap@users.sourceforge.net>
+2007-08-24  Andreas Wolfgang  <andreas-w@users.sourceforge.net>
+
+	* extras/itsave.m Fixed script to be compatible with Matlab V7.3
+
+	Since Matlab does not support sizeof(...), it was replaced by a new
+	function itsizeof(...). In addition logical expressions have been
+	made Matlab compatible (only variables with identical dimensions
+	are used in logical expressions). The patch was tested using
+	Matlab V7.3 and Octave V2.9.9.
+
+l2007-08-24  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/random.h: Fine tuning of random generators
 
