@@ -1,5 +1,13 @@
 2007-08-24  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/random.h: Fine tuning of random generators
+
+	When generating a vector or matrix of random samples, it is more
+	efficient to use "*=" and "+=" operators on the same allocated
+	memory pool than create temporary copies of vectors and matrices.
+	Moreover, for double and complex<double> types, "*=" operator can
+	employ optimised BLAS implementation.
+
 	* itpp/comm/channel.cpp, itpp/comm/channel.h: Fine tuning of
 	AWGN_Channel operator() performance
 
