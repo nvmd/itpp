@@ -1,3 +1,11 @@
+2007-08-25  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/mat.h, tests/mat_test.cpp, tests/mat_test.ref:
+	Added set_rows() and set_cols() methods to Mat
+
+	These new set functions match existing get_rows() and get_cols()
+	methods. This patch fixes feature request [711263].
+
 2007-08-24  Andreas Wolfgang  <andreas-w@users.sourceforge.net>
 
 	* extras/itsave.m Fixed script to be compatible with Matlab V7.3
