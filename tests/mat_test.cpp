@@ -81,7 +81,11 @@ void common_operators(const Mat<T> &A, const Mat<T> &B, const Mat<T> &C,
   D.set_row(1, v);
   cout << "D.set_row(1, v); D =\n" << D << endl;
   D.set_col(2, u);
-  cout << "D.set_col(2, u): D=\n" << D << endl;
+  cout << "D.set_col(2, u): D =\n" << D << endl;
+  D.set_rows(0, B.get_rows(1,2));
+  cout << "D.set_rows(0, B.get_rows(1,2)); D =\n" << D << endl;
+  D.set_cols(2, B.get_cols(0,1));
+  cout << "D.set_cols(2, B.get_cols(0,1)); D =\n" << D << endl;
   D.copy_row(1, 2);
   cout << "D.copy_row(1, 2); D =\n" << D << endl;
   D.copy_col(2, 3);

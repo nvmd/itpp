@@ -266,6 +266,10 @@ namespace itpp {
     void set_row(int Index, const Vec<Num_T> &invector);
     //! Set column \c Index to \c invector
     void set_col(int Index, const Vec<Num_T> &invector);
+    //! Set rows to matrix \c m, staring from row \c r
+    void set_rows(int r, const Mat<Num_T> &m);
+    //! Set colums to matrix \c m, starting from column \c c
+    void set_cols(int c, const Mat<Num_T> &m);
     //! Copy row \c from onto row \c to
     void copy_row(int to, int from);
     //! Copy column \c from onto column \c to
@@ -892,6 +896,38 @@ namespace itpp {
 
     copy_vector(v.size(), v._data(), data+Index*no_rows);
   }
+
+
+  template<class Num_T> inline
+  void Mat<Num_T>::set_rows(int r, const Mat<Num_T> &m)
+  {
+    it_assert_debug((r >= 0) && (r < no_rows),
+		    "Mat<>::set_rows(): Index out of range");
+    it_assert_debug(no_cols == m.cols(),
+		    "Mat<>::set_rows(): Column sizes do not match");
+    it_assert_debug(m.rows() + r <= no_rows,
+		    "Mat<>::set_rows(): Not enough rows");
+
+    for (int i = 0; i < m.rows(); ++i) {
+      copy_vector(no_cols, m.data+i, m.no_rows, data+i+r, no_rows);
+    }
+  }
+
+  template<class Num_T> inline
+  void Mat<Num_T>::set_cols(int c, const Mat<Num_T> &m)
+  {
+    it_assert_debug((c >= 0) && (c < no_cols),
+		    "Mat<>::set_cols(): Index out of range");
+    it_assert_debug(no_rows == m.rows(),
+		    "Mat<>::set_cols(): Row sizes do not match");
+    it_assert_debug(m.cols() + c <= no_cols,
+		    "Mat<>::set_cols(): Not enough colums");
+
+    for (int i = 0; i < m.cols(); ++i) {
+      copy_vector(no_rows, m.data+i*no_rows, data+(i+c)*no_rows);
+    }
+  }
+
 
   template<class Num_T> inline
   void Mat<Num_T>::copy_row(int to, int from)
