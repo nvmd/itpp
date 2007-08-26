@@ -220,9 +220,9 @@ namespace itpp {
     //! Set matrix equal to the all one matrix
     void ones();
     //! Set matrix equal to values in \c values
-    bool set(const char *str);
+    void set(const char *str);
     //! Set matrix equal to values in the string \c str
-    bool set(const std::string &str);
+    void set(const std::string &str);
 
     //! Get element (R,C) from matrix
     const Num_T &operator()(int R, int C) const;
@@ -716,7 +716,7 @@ namespace itpp {
 
 
   template<class Num_T>
-  bool Mat<Num_T>::set(const std::string &str)
+  void Mat<Num_T>::set(const std::string &str)
   {
     // actual row counter
     int rows = 0;
@@ -771,14 +771,12 @@ namespace itpp {
     } // if ((end != std::string::npos) || (v.size > 0))
 
     set_size(rows, no_cols, true);
-
-    return true;
   }
 
   template<class Num_T>
-  bool Mat<Num_T>::set(const char *str)
+  void Mat<Num_T>::set(const char *str)
   {
-    return set(std::string(str));
+    set(std::string(str));
   }
 
   template<class Num_T> inline

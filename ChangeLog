@@ -1,3 +1,16 @@
+2007-08-26  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/mat.h, itpp/base/vec.cpp, itpp/base/vec.h,
+	itpp/fixed/cfix.cpp, itpp/fixed/cfix.h, itpp/fixed/fix.cpp,
+	itpp/fixed/fix.h: Improvements in string parsers
+
+	Added support for NaN (not a number) and Inf (infinity) for parsed
+	Vec<double> arguments. This fixes feature request [1066711].
+	Changed "bool Vec<>::set()" into "void Vec<>::set(), because
+	returned value was always true. Reused Vec<int>::set()
+	specialisation in Vec<short int>::set() implementation. Simplified
+	implementation of Vec<int>::set() specialisation.
+
 2007-08-25  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/mat.h, tests/mat_test.cpp, tests/mat_test.ref:

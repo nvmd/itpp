@@ -153,9 +153,9 @@ namespace itpp {
   typedef Mat<Fix> fixmat;
 
   // Specialization of template definition in vec.cpp
-  template<> bool fixvec::set(const char *values);
+  template<> void fixvec::set(const char *values);
   // Specialization of template definition in mat.cpp
-  template<> bool fixmat::set(const char *values);
+  template<> void fixmat::set(const char *values);
 
   //!@}
 
