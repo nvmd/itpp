@@ -179,9 +179,9 @@ namespace itpp {
   typedef Mat<CFix> cfixmat;
 
   // Specialization of template definition in vec.cpp
-  template<> bool cfixvec::set(const char *values);
+  template<> void cfixvec::set(const char *values);
   // Specialization of template definition in mat.cpp
-  template<> bool cfixmat::set(const char *values);
+  template<> void cfixmat::set(const char *values);
 
   //!@}
 

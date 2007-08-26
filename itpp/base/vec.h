@@ -244,9 +244,9 @@ namespace itpp {
     //! Set the vector to the all one vector
     void ones();
     //! Set the vector equal to the values in the \c str string
-    bool set(const char *str);
+    void set(const char *str);
     //! Set the vector equal to the values in the \c str string
-    bool set(const std::string &str);
+    void set(const std::string &str);
 
     //! C-style index operator. First element is 0
     const Num_T &operator[](int i) const;
@@ -717,31 +717,31 @@ namespace itpp {
 
   //! Specialization of \c set() for double
   template<>
-  bool Vec<double>::set(const std::string &str);
+  void Vec<double>::set(const std::string &str);
   //! Specialization of \c set() for std::complex<double>
   template<>
-  bool Vec<std::complex<double> >::set(const std::string &str);
+  void Vec<std::complex<double> >::set(const std::string &str);
   //! Specialization of \c set() for int
   template<>
-  bool Vec<int>::set(const std::string &str);
+  void Vec<int>::set(const std::string &str);
   //! Specialization of \c set() for short int
   template<>
-  bool Vec<short int>::set(const std::string &str);
+  void Vec<short int>::set(const std::string &str);
   //! Specialization of \c set() for itpp::bin
   template<>
-  bool Vec<bin>::set(const std::string &str);
+  void Vec<bin>::set(const std::string &str);
 
   template<class Num_T>
-  bool Vec<Num_T>::set(const std::string &str)
+  void Vec<Num_T>::set(const std::string &str)
   {
-    it_error("Vec::set(): Only `double', `complex<double>', `int', `short int' and `bin' types supported");
-    return true;
+    it_error("Vec::set(): Only `double', `complex<double>', `int', "
+	     "`short int' and `bin' types supported");
   }
 
   template<class Num_T>
-  bool Vec<Num_T>::set(const char *str)
+  void Vec<Num_T>::set(const char *str)
   {
-    return set(std::string(str));
+    set(std::string(str));
   }
 
 

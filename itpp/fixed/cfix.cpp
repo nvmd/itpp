@@ -340,7 +340,7 @@ namespace itpp {
 
   // Specialization of template definition in vec.cpp
   template<>
-  bool cfixvec::set(const char *values)
+  void cfixvec::set(const char *values)
   {
     std::istringstream buffer(values);
     int default_shift=0, pos=0, maxpos=10;
@@ -370,12 +370,11 @@ namespace itpp {
       }
     }
     set_size(pos, true);
-    return true;
   }
 
   // Specialization of template definition in mat.cpp
   template<>
-  bool cfixmat::set(const char *values)
+  void cfixmat::set(const char *values)
   {
     std::istringstream buffer(values);
     int default_shift=0, rows=0, maxrows=10, cols=0, nocols=0, maxcols=10;
@@ -412,7 +411,6 @@ namespace itpp {
         buffer.get();
     }
     set_size(rows, nocols, true);
-    return true;
   }
 
 } // namespace itpp
