@@ -248,24 +248,6 @@ namespace itpp {
   // FFT/IFFT based on FFTW
   //---------------------------------------------------------------------------
 
-  /* Note: The FFTW_UNALIGNED flag is set when calling the FFTW
-     library, as memory alignment may change between calls (this was
-     done to fix bug 1418707).
-
-     Setting the FFTW_UNALIGNED flag fixes bug 1418707 for the time
-     being but it does not result in maximum possible performance in
-     all cases. It appears that a solution that achieves maximum
-     performance from FFTW in IT++ would require either to (i)
-     redefine IT++ memory management functions to use the type of
-     memory alignment required by FFTW, (ii) implement a memory
-     re-allocation and data copying mechanism in the IT++/FFTW
-     interface function to ensure FFTW is called with properly aligned
-     data, or (iii) force the IT++/FFTW interface function to recreate
-     the FFT plan whenever memory alignment has changed.  None of
-     these solutions was found attractive.
-
-  */
-
   void fft(const cvec &in, cvec &out)
   {
     static int N = 0;
@@ -278,14 +260,13 @@ namespace itpp {
 	fftw_destroy_plan(p); // destroy the previous plan
       // create a new plan
       p = fftw_plan_dft_1d(N, (fftw_complex *)in._data(),
-				 (fftw_complex *)out._data(),
-				 FFTW_FORWARD,
-				 FFTW_ESTIMATE | FFTW_UNALIGNED);
+			   (fftw_complex *)out._data(),
+			   FFTW_FORWARD, FFTW_ESTIMATE);
     }
 
     // compute FFT using the GURU FFTW interface
     fftw_execute_dft(p, (fftw_complex *)in._data(),
-			   (fftw_complex *)out._data());
+		     (fftw_complex *)out._data());
   }
 
   void ifft(const cvec &in, cvec &out)
@@ -302,14 +283,13 @@ namespace itpp {
 	fftw_destroy_plan(p); // destroy the previous plan
       // create a new plan
       p = fftw_plan_dft_1d(N, (fftw_complex *)in._data(),
-				 (fftw_complex *)out._data(),
-				 FFTW_BACKWARD,
-				 FFTW_ESTIMATE | FFTW_UNALIGNED);
+			   (fftw_complex *)out._data(),
+			   FFTW_BACKWARD, FFTW_ESTIMATE);
     }
 
     // compute IFFT using the GURU FFTW interface
     fftw_execute_dft(p, (fftw_complex *)in._data(),
-			   (fftw_complex *)out._data());
+		     (fftw_complex *)out._data());
 
     // scale output
     out *= inv_N;
@@ -328,21 +308,22 @@ namespace itpp {
 
       // create a new plan
       p = fftw_plan_dft_r2c_1d(N, (double *)in._data(),
-				     (fftw_complex *)out._data(),
-				     FFTW_ESTIMATE | FFTW_UNALIGNED);
+			       (fftw_complex *)out._data(),
+			       FFTW_ESTIMATE);
     }
 
     // compute FFT using the GURU FFTW interface
     fftw_execute_dft_r2c(p, (double *)in._data(),
-			       (fftw_complex *)out._data());
+			 (fftw_complex *)out._data());
 
     // Real FFT does not compute the 2nd half of the FFT points because it
     // is redundant to the 1st half. However, we want all of the data so we
     // fill it in. This is consistent with Matlab's functionality
-    int istart = ceil_i(in.size() / 2.0);
-    int iend = in.size() - 1;
-    int idelta = iend - istart + 1;
-    out.set_subvector(istart, iend, reverse(conj(out(1, idelta))));
+    int offset = ceil_i(in.size() / 2.0);
+    int n_elem = in.size() - offset;
+    for (int i = 0; i < n_elem; ++i) {
+      out(offset + i) = std::conj(out(n_elem - i));
+    }
   }
 
   void ifft_real(const cvec &in, vec & out)
@@ -360,14 +341,13 @@ namespace itpp {
 
       // create a new plan
       p = fftw_plan_dft_c2r_1d(N, (fftw_complex *)in._data(),
-				     (double *)out._data(),
-				     FFTW_ESTIMATE | FFTW_UNALIGNED
-				     | FFTW_PRESERVE_INPUT);
+			       (double *)out._data(),
+			       FFTW_ESTIMATE | FFTW_PRESERVE_INPUT);
     }
 
     // compute IFFT using the GURU FFTW interface
     fftw_execute_dft_c2r(p, (fftw_complex *)in._data(),
-			       (double *)out._data());
+			 (double *)out._data());
 
     out *= inv_N;
   }
@@ -389,9 +369,8 @@ namespace itpp {
 
       // create a new plan
       p = fftw_plan_r2r_1d(N, (double *)in._data(),
-				 (double *)out._data(),
-				 FFTW_REDFT10,
-				 FFTW_ESTIMATE | FFTW_UNALIGNED);
+			   (double *)out._data(),
+			   FFTW_REDFT10, FFTW_ESTIMATE);
     }
 
     // compute FFT using the GURU FFTW interface
@@ -420,9 +399,8 @@ namespace itpp {
 
       // create a new plan
       p = fftw_plan_r2r_1d(N, (double *)out._data(),
-				 (double *)out._data(),
-				 FFTW_REDFT01,
-				 FFTW_ESTIMATE | FFTW_UNALIGNED);
+			   (double *)out._data(),
+			   FFTW_REDFT01, FFTW_ESTIMATE);
     }
 
     // compute FFT using the GURU FFTW interface

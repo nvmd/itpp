@@ -1,7 +1,7 @@
 /*!
  * \file
- * \brief Base class for class factories
- * \author Johan Bergman
+ * \brief Base class for class factories and memory allocation functions
+ * \author Johan Bergman and Adam Piatyszek
  *
  * -------------------------------------------------------------------------
  *
@@ -30,6 +30,7 @@
 #ifndef FACTORY_H
 #define FACTORY_H
 
+#include <complex>
 
 namespace itpp {
 
@@ -139,6 +140,13 @@ namespace itpp {
     ptr = new T[n];
   }
 
+  //! Specialization for 16-byte aligned double data arrays
+  template<>
+  void create_elements(double* &ptr, const int n, const Factory &);
+  //! Specialization for 16-byte aligned complex double data arrays
+  template<>
+  void create_elements(std::complex<double>* &ptr, const int n, const Factory &);
+
   //! Create an n-length array of Array<T> to be used as Array elements
   template<class T>
   void create_elements(Array<T>* &ptr, const int n, const Factory &f)
@@ -188,6 +196,14 @@ namespace itpp {
     delete [] ptr;
     ptr = 0;
   }
+
+  //! Specialisation for 16-byte aligned double data arrays
+  template<>
+  void destroy_elements(double* &ptr);
+  //! Specialisation for 16-byte aligned complex double data arrays
+  template<>
+  void destroy_elements(std::complex<double>* &ptr);
+
 
 } // namespace itpp
 

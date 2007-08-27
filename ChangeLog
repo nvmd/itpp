@@ -1,5 +1,18 @@
 2007-08-27  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/factory.cpp, itpp/base/factory.h,
+	itpp/base/sources.mk, itpp/signal/transforms.cpp,
+	win32/itpp_acml.vcproj, win32/itpp_mkl.vcproj: Solved FFTW
+	alignment issue
+
+	By implementing new specialisations of create_elements() and
+	destroy_elements() functions, 16-byte memory alignment of Array,
+	Vec and Mat data is used for double and complex<double> types.
+	With this new implementation, fft(), ifft(), dct() and idct()
+	functions using FFTW external library run up to 30% faster than
+	with non-aligned data structures. This fix closes feature
+	request [1418707].
+
 	* itpp/base/array.h, itpp/base/factory.h, itpp/base/mat.h,
 	itpp/base/vec.h: Added destroy_elements() function
 
