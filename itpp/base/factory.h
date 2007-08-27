@@ -181,6 +181,14 @@ namespace itpp {
     }
   }
 
+  //! Destroy an array of Array, Vec or Mat elements
+  template<class T>
+  void destroy_elements(T* &ptr)
+  {
+    delete [] ptr;
+    ptr = 0;
+  }
+
 } // namespace itpp
 
 #endif // #ifndef FACTORY_H

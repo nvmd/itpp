@@ -501,14 +501,9 @@ namespace itpp {
   // Implementation of templated Mat members and friends
   // ----------------------------------------------------------------------
 
-  template<class Num_T> inline
+  template<class Num_T>
   void Mat<Num_T>::alloc(int rows, int cols)
   {
-//     if (datasize == rows * cols) { // Reuse the memory
-//       no_rows = rows; no_cols = cols;
-//       return;
-//     }
-//     free();  // Free memory (if any allocated)
     if ((rows > 0) && (cols > 0)) {
       datasize = rows * cols;
       no_rows = rows;
@@ -523,11 +518,10 @@ namespace itpp {
     }
   }
 
-  template<class Num_T> inline
+  template<class Num_T>
   void Mat<Num_T>::free()
   {
-    delete[] data;
-    data = 0;
+    destroy_elements(data);
     datasize = 0;
     no_rows = 0;
     no_cols = 0;
@@ -608,7 +602,7 @@ namespace itpp {
   }
 
 
-  template<class Num_T> inline
+  template<class Num_T>
   void Mat<Num_T>::set_size(int inrow, int incol, bool copy)
   {
     it_assert_debug((inrow >= 0) && (incol >= 0), "Mat<Num_T>::set_size: "
@@ -638,7 +632,7 @@ namespace itpp {
 	for (int i = 0; i < min_r; ++i)
 	  data[i+j*inrow] = Num_T(0);
       // free the previous data memory
-      delete[] tmp;
+      destroy_elements(tmp);
     }
     // if possible, reuse the allocated memory
     else if (datasize == inrow * incol) {
