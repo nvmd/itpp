@@ -531,7 +531,7 @@ namespace itpp {
   // Implementation of templated Vec members and friends
   //-----------------------------------------------------------------------------------
 
-  template<class Num_T>
+  template<class Num_T> inline
   void Vec<Num_T>::alloc(int size)
   {
     if (size > 0) {
@@ -544,10 +544,10 @@ namespace itpp {
     }
   }
 
-  template<class Num_T>
+  template<class Num_T> inline
   void Vec<Num_T>::free()
   {
-    destroy_elements(data);
+    destroy_elements(data, datasize);
     datasize = 0;
   }
 
@@ -608,13 +608,21 @@ namespace itpp {
     if (datasize == size)
       return;
     if (copy) {
+      // create a temporary pointer to the allocated data
       Num_T* tmp = data;
+      // store the current number of elements
+      int old_datasize = datasize;
+      // check how many elements we need to copy
       int min = datasize < size ? datasize : size;
+      // allocate new memory
       alloc(size);
+      // copy old elements into a new memory region
       copy_vector(min, tmp, data);
+      // initialize the rest of resized vector
       for (int i = min; i < size; ++i)
 	data[i] = Num_T(0);
-      destroy_elements(tmp);
+      // delete old elements
+      destroy_elements(tmp, old_datasize);
     }
     else {
       free();
