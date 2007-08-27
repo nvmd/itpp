@@ -1,3 +1,16 @@
+2007-08-27  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/array.h, itpp/base/factory.h, itpp/base/mat.h,
+	itpp/base/vec.h: Added destroy_elements() function
+
+	The destroy_elements() function accompanies create_elements() used
+	for memory allocation. Future changes to memory allocation
+	scheme (e.g. memory alignment) for Array, Vec and Mat classes will
+	only require redefinition of these two methods.
+	BTW, removed inlining of alloc(), free(), create_elements() and
+	destroy_elements() functions, which does not give any real
+	performance gain but the code is bigger than necessary.
+
 2007-08-26  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/mat.h, itpp/base/vec.cpp, itpp/base/vec.h,
@@ -29,7 +42,7 @@
 	are used in logical expressions). The patch was tested using
 	Matlab V7.3 and Octave V2.9.9.
 
-l2007-08-24  Adam Piatyszek  <ediap@users.sourceforge.net>
+2007-08-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/random.h: Fine tuning of random generators
 

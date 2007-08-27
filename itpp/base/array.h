@@ -192,24 +192,23 @@ namespace itpp {
 
   // -------------------- Implementation starts here --------------------
 
-  template<class T> inline
+  template<class T>
   void Array<T>::alloc(int n)
   {
-    if (n == 0) {
-      data = 0;
-      ndata = 0;
-    }
-    else {
+    if (n > 0) {
       create_elements(data, n, factory);
       ndata = n;
     }
+    else {
+      data = 0;
+      ndata = 0;
+    }
   }
 
-  template<class T> inline
+  template<class T>
   void Array<T>::free()
   {
-    delete[] data;
-    data = 0;
+    destroy_elements(data);
     ndata = 0;
   }
 
@@ -253,7 +252,7 @@ namespace itpp {
     free();
   }
 
-  template<class T> inline
+  template<class T>
   void Array<T>::set_size(int size, bool copy)
   {
     it_assert_debug(size >= 0, "Array::set_size(): New size must not be negative");
@@ -265,7 +264,7 @@ namespace itpp {
       alloc(size);
       for (int i = 0; i < min; ++i)
 	data[i] = tmp[i];
-      delete[] tmp;
+      destroy_elements(tmp);
     }
     else {
       free();
