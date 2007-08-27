@@ -192,7 +192,7 @@ namespace itpp {
 
   // -------------------- Implementation starts here --------------------
 
-  template<class T>
+  template<class T> inline
   void Array<T>::alloc(int n)
   {
     if (n > 0) {
@@ -205,10 +205,10 @@ namespace itpp {
     }
   }
 
-  template<class T>
+  template<class T> inline
   void Array<T>::free()
   {
-    destroy_elements(data);
+    destroy_elements(data, ndata);
     ndata = 0;
   }
 
@@ -259,12 +259,24 @@ namespace itpp {
     if (ndata == size)
       return;
     if (copy) {
+      // create a temporary pointer to the allocated data
       T* tmp = data;
+      // store the current number of elements
+      int old_ndata = ndata;
+      // check how many elements we need to copy
       int min = (ndata < size) ? ndata : size;
+      // allocate new memory
       alloc(size);
-      for (int i = 0; i < min; ++i)
+      // copy old elements into a new memory region
+      for (int i = 0; i < min; ++i) {
 	data[i] = tmp[i];
-      destroy_elements(tmp);
+      }
+      // initialize the rest of resized array
+      for (int i = min; i < size; ++i) {
+	data[i] = T();
+      }
+      // delete old elements
+      destroy_elements(tmp, old_ndata);
     }
     else {
       free();

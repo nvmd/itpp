@@ -1,5 +1,19 @@
 2007-08-27  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/array.h, itpp/base/factory.cpp, itpp/base/factory.h,
+	itpp/base/mat.h, itpp/base/vec.h, itpp/fixed/fix_factory.cpp:
+	Improved memory allocation routines
+
+	Following the idea proposed in feature request [1277721]
+	implementation of create_elements() functions was improved. First
+	the memory for an Array, Vec or Mat is allocated and then the
+	constructor of each element is executed, but only if necessary.
+	For simple types like bin, int, double, etc., the constructor is
+	not invoked. Moreover, in the previous implementation the
+	constructor of each Array<Array>, Array<Vec> or Array<Mat> element
+	was invoked twice. Now this is fixed. Thanks to George Jongren for
+	submitting this feature request.
+
 	* itpp/base/factory.cpp, itpp/base/factory.h,
 	itpp/base/sources.mk, itpp/signal/transforms.cpp,
 	win32/itpp_acml.vcproj, win32/itpp_mkl.vcproj: Solved FFTW

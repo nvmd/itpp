@@ -31,6 +31,7 @@
 #define FACTORY_H
 
 #include <complex>
+#include <itpp/base/binary.h>
 
 namespace itpp {
 
@@ -89,14 +90,14 @@ namespace itpp {
     // Destructor
     virtual ~My_Factory() {}
     // Create an n-length array of My_Type
-    virtual void create(My_Type* &ptr, const int n) const {ptr = new My_Type[n](init_data);}
+    virtual void create(My_Type* &ptr, int n) const {ptr = new My_Type[n](init_data);}
     protected:
     int init_data;
     };
 
     // Create an n-length array of My_Type using My_Factory f
     template<>
-    void create_elements<My_Type>(My_Type* &ptr, const int n, const Factory &f)
+    void create_elements<My_Type>(My_Type* &ptr, int n, const Factory &f)
     {
     if (const My_Factory *my_factory_ptr = dynamic_cast<const My_Factory*>(&f)) {
     // Yes, f seems to be a My_Factory. Now call the My_Factory::create method
@@ -133,77 +134,106 @@ namespace itpp {
   //! Default (dummy) factory
   const Factory DEFAULT_FACTORY;
 
+
   //! Create an n-length array of T to be used as Array, Vec or Mat elements
   template<class T>
-  void create_elements(T* &ptr, const int n, const Factory &)
+  void create_elements(T* &ptr, int n, const Factory &)
   {
-    ptr = new T[n];
+    char* data_char = new char[sizeof(T) * n];
+    ptr = reinterpret_cast<T*>(data_char);
+    for (int i = 0; i < n; i++) {
+      new (ptr + i) T();
+    }
   }
 
+
+  //! Specialization for unsigned char data arrays (used in GF2Mat)
+  template<>
+  void create_elements<unsigned char>(unsigned char* &ptr, int n,
+				      const Factory &);
+  //! Specialization for binary data arrays
+  template<>
+  void create_elements<bin>(bin* &ptr, int n, const Factory &);
+  //! Specialization for short integer data arrays
+  template<>
+  void create_elements<short int>(short int* &ptr, int n, const Factory &);
+  //! Specialization for integer data arrays
+  template<>
+  void create_elements<int>(int* &ptr, int n, const Factory &);
   //! Specialization for 16-byte aligned double data arrays
   template<>
-  void create_elements(double* &ptr, const int n, const Factory &);
+  void create_elements<double>(double* &ptr, int n, const Factory &);
   //! Specialization for 16-byte aligned complex double data arrays
   template<>
-  void create_elements(std::complex<double>* &ptr, const int n, const Factory &);
+  void create_elements<std::complex<double> >(std::complex<double>* &ptr, int n, const Factory &);
+
+
+  //! Destroy an array of Array, Vec or Mat elements
+  template<class T>
+  void destroy_elements(T* &ptr, int n)
+  {
+    if (ptr) {
+      for (int i = 0; i < n; ++i) {
+	ptr[i].~T();
+      }
+      delete [] reinterpret_cast<char*>(ptr);
+      ptr = 0;
+    }
+  }
+
+  //! Specialization for unsigned char data arrays (used in GF2Mat)
+  template<>
+  void destroy_elements<unsigned char>(unsigned char* &ptr, int n);
+  //! Specialization for binary data arrays
+  template<>
+  void destroy_elements<bin>(bin* &ptr, int n);
+  //! Specialization for short integer data arrays
+  template<>
+  void destroy_elements<short int>(short int* &ptr, int n);
+  //! Specialization for integer data arrays
+  template<>
+  void destroy_elements<int>(int* &ptr, int n);
+  //! Specialisation for 16-byte aligned double data arrays
+  template<>
+  void destroy_elements<double>(double* &ptr, int n);
+  //! Specialisation for 16-byte aligned complex double data arrays
+  template<>
+  void destroy_elements<std::complex<double> >(std::complex<double>* &ptr,
+					       int n);
+
 
   //! Create an n-length array of Array<T> to be used as Array elements
   template<class T>
-  void create_elements(Array<T>* &ptr, const int n, const Factory &f)
+  void create_elements(Array<T>* &ptr, int n, const Factory &f)
   {
-    ptr = new Array<T>[n];
-    if (ptr) {
-      // Set factory
-      for (int i=0; i<n; i++) {
-        // Note: explicit destructor call intentionally omitted (to save time)
-        new (ptr + i) Array<T>(f);
-      }
+    char* data_char = new char[sizeof(Array<T>) * n];
+    ptr = reinterpret_cast<Array<T>*>(data_char);
+    for (int i = 0; i < n; ++i) {
+      new (ptr + i) Array<T>(f);
     }
   }
 
   //! Create an n-length array of Mat<T> to be used as Array elements
   template<class T>
-  void create_elements(Mat<T>* &ptr, const int n, const Factory &f)
+  void create_elements(Mat<T>* &ptr, int n, const Factory &f)
   {
-    ptr = new Mat<T>[n];
-    if (ptr) {
-      // Set factory
-      for (int i=0; i<n; i++) {
-        // Note: explicit destructor call intentionally omitted (to save time)
-        new (ptr + i) Mat<T>(f);
-      }
+    char* data_char = new char[sizeof(Mat<T>) * n];
+    ptr = reinterpret_cast<Mat<T>*>(data_char);
+    for (int i = 0; i < n; ++i) {
+      new (ptr + i) Mat<T>(f);
     }
   }
 
   //! Create an n-length array of Vec<T> to be used as Array elements
   template<class T>
-  void create_elements(Vec<T>* &ptr, const int n, const Factory &f)
+  void create_elements(Vec<T>* &ptr, int n, const Factory &f)
   {
-    ptr = new Vec<T>[n];
-    if (ptr) {
-      // Set factory
-      for (int i=0; i<n; i++) {
-        // Note: explicit destructor call intentionally omitted (to save time)
-        new (ptr + i) Vec<T>(f);
-      }
+    char* data_char = new char[sizeof(Vec<T>) * n];
+    ptr = reinterpret_cast<Vec<T>*>(data_char);
+    for (int i = 0; i < n; ++i) {
+      new (ptr + i) Vec<T>(f);
     }
   }
-
-  //! Destroy an array of Array, Vec or Mat elements
-  template<class T>
-  void destroy_elements(T* &ptr)
-  {
-    delete [] ptr;
-    ptr = 0;
-  }
-
-  //! Specialisation for 16-byte aligned double data arrays
-  template<>
-  void destroy_elements(double* &ptr);
-  //! Specialisation for 16-byte aligned complex double data arrays
-  template<>
-  void destroy_elements(std::complex<double>* &ptr);
-
 
 } // namespace itpp
 

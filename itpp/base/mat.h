@@ -501,7 +501,7 @@ namespace itpp {
   // Implementation of templated Mat members and friends
   // ----------------------------------------------------------------------
 
-  template<class Num_T>
+  template<class Num_T> inline
   void Mat<Num_T>::alloc(int rows, int cols)
   {
     if ((rows > 0) && (cols > 0)) {
@@ -518,10 +518,10 @@ namespace itpp {
     }
   }
 
-  template<class Num_T>
+  template<class Num_T> inline
   void Mat<Num_T>::free()
   {
-    destroy_elements(data);
+    destroy_elements(data, datasize);
     datasize = 0;
     no_rows = 0;
     no_cols = 0;
@@ -612,9 +612,11 @@ namespace itpp {
       return;
     // conditionally copy previous matrix content
     if (copy) {
-      // backup access to the current matrix
+      // create a temporary pointer to the allocated data
       Num_T* tmp = data;
-      int tmp_rows = no_rows;
+      // store the current number of elements and number of rows
+      int old_datasize = datasize;
+      int old_rows = no_rows;
       // check the boundaries of the copied data
       int min_r = (no_rows < inrow) ? no_rows : inrow;
       int min_c = (no_cols < incol) ? no_cols : incol;
@@ -622,7 +624,7 @@ namespace itpp {
       alloc(inrow, incol);
       // copy the previous data into the allocated memory
       for (int i = 0; i < min_c; ++i) {
-	copy_vector(min_r, &tmp[i*tmp_rows], &data[i*no_rows]);
+	copy_vector(min_r, &tmp[i*old_rows], &data[i*no_rows]);
       }
       // fill-in the rest of matrix with zeros
       for (int i = min_r; i < inrow; ++i)
@@ -631,8 +633,8 @@ namespace itpp {
       for (int j = min_c; j < incol; ++j)
 	for (int i = 0; i < min_r; ++i)
 	  data[i+j*inrow] = Num_T(0);
-      // free the previous data memory
-      destroy_elements(tmp);
+      // delete old elements
+      destroy_elements(tmp, old_datasize);
     }
     // if possible, reuse the allocated memory
     else if (datasize == inrow * incol) {
