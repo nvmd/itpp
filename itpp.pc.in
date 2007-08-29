@@ -8,5 +8,5 @@ Description: @PACKAGE_NAME@ is a C++ library of mathematical, signal processing,
 Version: @PACKAGE_VERSION@
 URL: http://itpp.sourceforge.net/
 Libs: -L${libdir} -l@PACKAGE@
-Libs.private: @LDFLAGS@ @LIBS@
+Libs.private: @LDLIBS@
 Cflags: -I${includedir}

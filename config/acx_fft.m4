@@ -13,6 +13,13 @@ dnl specific FFT library <lib>.
 
 AC_DEFUN([ACX_FFT], [
 
+# Initialise local variables
+acx_fft_ok=no
+fft_mkl_ok=no
+fft_acml_ok=no
+fftw3_ok=no
+
+# Parse "--with-fft=<lib>" option
 AC_ARG_WITH(fft, [AC_HELP_STRING([--with-fft=<lib>], [use FFT library <lib>])])
 case $with_fft in
   yes | "") ;;
@@ -20,12 +27,6 @@ case $with_fft in
   -* | */* | *.a | *.so | *.so.* | *.o) FFT_LIBS="$with_fft" ;;
   *) FFT_LIBS="-l$with_fft" ;;
 esac
-
-test "$acx_fft_ok" != disabled && acx_fft_ok=no
-
-fft_mkl_ok=no
-fft_acml_ok=no
-fftw3_ok=no
 
 # First, check FFT_LIBS environment variable
 if test "x$FFT_LIBS" != x; then
@@ -135,6 +136,12 @@ if test "$acx_fft_ok" = yes; then
   fi
   if test "$fftw3_ok" = yes; then
     AC_DEFINE(HAVE_FFTW3, 1, [Define if you have FFTW3 library.])
+  fi
+else
+  if test "$acx_fft_ok" != disabled; then
+    AC_MSG_ERROR([cannot find any FFT library.
+You can override this error by using "--without-fft" option, but the
+functionality of the IT++ library will be limited. You have been warned!])
   fi
 fi
 

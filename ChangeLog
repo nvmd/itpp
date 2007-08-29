@@ -1,3 +1,16 @@
+2007-08-28  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* config/acx_blas.m4, config/acx_fft.m4, config/acx_lapack.m4,
+	configure.ac, itpp-config.in, itpp.pc.in: Break configuration when
+	BLAS, LAPACK or FFT not found
+
+	If the required external libraries are not found, stop
+	configuration process and print an error message informing that
+	one can use "--without-{blas,lapack,fft}" option, but IT++
+	functionality will be limited. BTW, removal of redundant spaces
+	from CXXFLAGS_OPT, CXXFLAGS_DEBUG CPPFLAGS, LDFLAGS and LIBS has
+	been implemented in the configure script.
+
 2007-08-27  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac, tests/Makefile.am, tests/cholesky_test.cpp,

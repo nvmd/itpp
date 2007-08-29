@@ -25,6 +25,13 @@ AC_DEFUN([ACX_BLAS], [
 AC_PREREQ(2.50)
 AC_REQUIRE([AC_F77_LIBRARY_LDFLAGS])
 
+# Initialise local variables
+acx_blas_ok=no
+blas_mkl_ok=no
+blas_acml_ok=no
+blas_atlas_ok=no
+
+# Parse "--with-blas=<lib>" option
 AC_ARG_WITH(blas,
   [AC_HELP_STRING([--with-blas=<lib>], [use BLAS library <lib>])])
 case $with_blas in
@@ -33,12 +40,6 @@ case $with_blas in
   -* | */* | *.a | *.so | *.so.* | *.o) BLAS_LIBS="$with_blas" ;;
   *) BLAS_LIBS="-l$with_blas" ;;
 esac
-
-test "$acx_blas_ok" != disabled && acx_blas_ok=no
-
-blas_mkl_ok=no
-blas_acml_ok=no
-blas_atlas_ok=no
 
 # Clean up -L/../.. paths from FLIBS
 MY_FLIBS="`echo "$FLIBS" | sed 's/-L[[^ ]]* //g'`"
@@ -179,6 +180,12 @@ AC_SUBST(BLAS_LIBS)
 # Finally, define HAVE_BLAS
 if test "$acx_blas_ok" = yes; then
   AC_DEFINE(HAVE_BLAS, 1, [Define if you have a BLAS library.])
+else
+  if test "$acx_blas_ok" != disabled; then
+    AC_MSG_ERROR([cannot find any BLAS library, which is required by LAPACK.
+You can override this error by using "--without-blas" option, but the
+functionality of the IT++ library will be limited. You have been warned!])
+  fi
 fi
 
 ])dnl ACX_BLAS

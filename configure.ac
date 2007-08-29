@@ -142,6 +142,8 @@ if test "x$enable_debug" = xyes; then
     fi
   fi
 fi
+# Remove unnecesary white spaces from LIBS
+CXXFLAGS_DEBUG="`echo \"$CXXFLAGS_DEBUG\" | sed -e 's/  */ /g' -e 's/^ //' -e 's/ $//'`"
 AC_SUBST(CXXFLAGS_DEBUG)
 AC_SUBST(PACKAGE_DEBUG)
 
@@ -156,6 +158,7 @@ else
   CXXFLAGS_OPT="$CXXFLAGS"
   CXXFLAGS=""
 fi
+CXXFLAGS_OPT="`echo \"$CXXFLAGS_OPT\" | sed -e 's/  */ /g' -e 's/^ //' -e 's/ $//'`"
 AC_SUBST(CXXFLAGS_OPT)
 
 
@@ -270,6 +273,13 @@ fi
 if test "x$FFT_LIBS" != x; then
   LIBS="$FFT_LIBS $LIBS"
 fi
+
+# Remove unnecesary white spaces from CPPFLAGS, LDFLAGS and LIBS
+CPPFLAGS="`echo \"$CPPFLAGS\" | sed -e 's/  */ /g' -e 's/^ //' -e 's/ $//'`"
+LDFLAGS="`echo \"$LDFLAGS\" | sed -e 's/  */ /g' -e 's/^ //' -e 's/ $//'`"
+LIBS="`echo \"$LIBS\" | sed -e 's/  */ /g' -e 's/^ //' -e 's/ $//'`"
+LDLIBS="`echo \"$LDFLAGS $LIBS\" | sed -e 's/^ //' -e 's/ $//'`"
+AC_SUBST(LDLIBS)
 
 # Set conditionals for runing test programs
 AM_CONDITIONAL([RUN_LAPACK_TESTS], [test "x$acx_lapack_ok" = xyes])
