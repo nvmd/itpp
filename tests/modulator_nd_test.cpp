@@ -27,14 +27,11 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/itbase.h>
 #include <itpp/itcomm.h>
 
 using namespace std;
 using namespace itpp;
 
-
-#if defined(HAVE_LAPACK)
 
 int main()
 {
@@ -149,13 +146,6 @@ int main()
       cout << "diagonal channel: " << chan.get_llrcalc().to_double(LLR) << endl;
     }
   }
+
+  return 0;
 }
-
-#else
-
-int main() {
-  cerr << "Error: LAPACK library is needed to run this test program" << endl;
-  return 1;
-}
-
-#endif

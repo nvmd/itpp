@@ -73,7 +73,6 @@
  * - default approach is SYMM wit non-linearity POW3                                      *
  *----------------------------------------------------------------------------------------*/
 
-#include <itpp/itbase.h>
 #include <itpp/itsignal.h>
 #include <cstdio>
 
@@ -82,8 +81,6 @@ using namespace std;
 
 
 #if defined(FASTICA_TEST_FILE)
-
-#if defined(HAVE_LAPACK)
 
 int main()
 {
@@ -168,15 +165,6 @@ int main()
   return 0;
 }
 
-#else
-
-int main() {
-  cerr << "Error: LAPACK library is needed to run this test program"
-       << endl;
-  return 1;
-}
-
-#endif // defined(HAVE_LAPACK)
 #else
 
 int main() {

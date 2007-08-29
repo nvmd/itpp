@@ -271,6 +271,9 @@ if test "x$FFT_LIBS" != x; then
   LIBS="$FFT_LIBS $LIBS"
 fi
 
+# Set conditionals for runing test programs
+AM_CONDITIONAL([RUN_LAPACK_TESTS], [test "x$acx_lapack_ok" = xyes])
+AM_CONDITIONAL([RUN_FFT_TESTS], [test "x$acx_fft_ok" = xyes])
 
 # config.h top and bottom
 AH_TOP([
