@@ -1,5 +1,21 @@
 2007-08-27  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac, tests/Makefile.am, tests/cholesky_test.cpp,
+	tests/det_test.cpp, tests/eigen_test.cpp, tests/fastica_test.cpp,
+	tests/filter_design_test.cpp, tests/freq_filt_test.cpp,
+	tests/inv_test.cpp, tests/ls_solve_test.cpp, tests/lu_test.cpp,
+	tests/matfunc_test.cpp, tests/modulator_nd_test.cpp,
+	tests/poly_test.cpp, tests/qr_test.cpp, tests/schur_test.cpp,
+	tests/sigfun_test.cpp, tests/stat_test.cpp, tests/svd_test.cpp,
+	tests/transforms_test.cpp: Made LAPACK and FFT dependent tests
+	conditional
+
+	If linking to an optional LAPACK or FFT external library is not
+	configured, do not compile and run the test programs that depends
+	on these libraries. This results in all tests passed when
+	"--without-{blas,lapack,fft}" configure switch is intentionally
+	used.
+
 	* itpp/base/factory.cpp, itpp/base/factory.h,
 	itpp/fixed/fix_factory.cpp: Cosmetic changes in memory allocation
 

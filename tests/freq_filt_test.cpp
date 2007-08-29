@@ -27,14 +27,11 @@
  * -------------------------------------------------------------------------
  */
 
-#include <itpp/itbase.h>
 #include <itpp/itsignal.h>
 
 using namespace itpp;
 using namespace std;
 
-
-#if defined(HAVE_FFT)
 
 int main()
 {
@@ -68,12 +65,3 @@ int main()
 
   return 0;
 }
-
-#else
-
-int main() {
-  cerr << "Error: FFT library is needed to run this test program" << endl;
-  return 1;
-}
-
-#endif

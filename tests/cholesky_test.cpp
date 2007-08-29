@@ -33,69 +33,58 @@ using namespace itpp;
 using namespace std;
 
 
-#if defined(HAVE_LAPACK)
-
 int main()
 {
- cout << "================================" << endl;
- cout << "    Test of Cholesky routines   " << endl;
- cout << "================================" << endl;
+  cout << "================================" << endl;
+  cout << "    Test of Cholesky routines   " << endl;
+  cout << "================================" << endl;
 
- {
-   cout << "Real matrix" << endl;
-   mat X, F;
-   bool ok = false;
+  {
+    cout << "Real matrix" << endl;
+    mat X, F;
+    bool ok = false;
 
-   while (!ok) {
-     X = randn(5, 5);
-     X = transpose(X) * X; // create a symmetric matrix
-     // Make diagonal real and positive
-     for (int i = 0; i < X.cols(); i++)
+    while (!ok) {
+      X = randn(5, 5);
+      X = transpose(X) * X; // create a symmetric matrix
+      // Make diagonal real and positive
+      for (int i = 0; i < X.cols(); i++)
 	X(i, i) = std::abs(X(i, i));
 
-     ok = chol(X, F);
-     cout << "X = " << round_to_zero(X) << endl;
-     if (!ok)
+      ok = chol(X, F);
+      cout << "X = " << round_to_zero(X) << endl;
+      if (!ok)
 	cout << "matrix is not positive definite" << endl;
-     else {
+      else {
 	cout << "norm(X - F^T*F) = "
 	     << round_to_zero(norm(X - transpose(F) * F)) << endl;
-     }
-   }
- }
+      }
+    }
+  }
 
- {
-   cout << endl << "Complex matrix" << endl;
-   cmat X, F;
-   bool ok = false;
+  {
+    cout << endl << "Complex matrix" << endl;
+    cmat X, F;
+    bool ok = false;
 
-   while (!ok) {
-     X = randn_c(5, 5);
-     X = hermitian_transpose(X) * X; // create a symmetric matrix
-     // Make diagonal real and positive
-     for (int i = 0; i < X.cols(); i++)
+    while (!ok) {
+      X = randn_c(5, 5);
+      X = hermitian_transpose(X) * X; // create a symmetric matrix
+      // Make diagonal real and positive
+      for (int i = 0; i < X.cols(); i++)
 	X(i, i) = std::abs(real(X(i, i)))
-;
-     ok = chol(X, F);
-     cout << "X = " << round_to_zero(X) << endl;
+	  ;
+      ok = chol(X, F);
+      cout << "X = " << round_to_zero(X) << endl;
 
-     if (!ok)
+      if (!ok)
 	cout << "matrix is not positive definite" << endl;
-     else {
+      else {
 	cout << "norm(X - F^H*F) = "
 	     << round_to_zero(norm(X - hermitian_transpose(F) * F)) << endl;
-     }
-   }
- }
+      }
+    }
+  }
 
- return 0;
+  return 0;
 }
-
-#else
-
-int main() {
- cerr << "Error: LAPACK library is needed to run this test program" << endl;
- return 1;
-}
-
-#endif

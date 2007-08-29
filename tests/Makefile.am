@@ -2,69 +2,47 @@ include $(top_srcdir)/Makefile.common
 LDADD = $(top_builddir)/itpp/libitpp.la
 AM_CXXFLAGS = $(CXXFLAGS_OPT)
 
-BASE_TESTS = \
-	array_test \
-	bessel_test \
-	blas_test \
-	cholesky_test \
-	circular_buffer_test \
-	det_test \
-	eigen_test \
-	fastmath_test \
-	gf2mat_test \
-	integration_test \
-	inv_test \
-	itfile_test \
-	ls_solve_test \
-	lu_test \
-	matfunc_test \
-	mat_test \
-	parser_test \
-	qr_test \
-	rand_test \
-	schur_test \
-	sort_test \
-	sparse_test \
-	svd_test \
-	timer_test \
-	vec_test
+BASE_TESTS = array_test bessel_test blas_test circular_buffer_test	\
+  fastmath_test gf2mat_test integration_test itfile_test mat_test	\
+  parser_test rand_test sort_test sparse_test timer_test vec_test
 
-COMM_TESTS = \
-	bch_test \
-	channel_test \
-	commfunc_test \
-	convcode_test \
-	galois_test \
-	interleaver_test \
-	ldpc_test \
-	llr_test \
-	modulator_test \
-	modulator_nd_test \
-	pulse_shape_test \
-	rec_syst_conv_code_test \
-	reedsolomon_test \
-	turbo_test
+if RUN_LAPACK_TESTS
+  BASE_TESTS += cholesky_test det_test eigen_test inv_test ls_solve_test \
+    lu_test matfunc_test qr_test schur_test svd_test
+endif
 
-FIXED_TESTS = \
-	fix_test
+COMM_TESTS = bch_test commfunc_test convcode_test galois_test		\
+  interleaver_test ldpc_test llr_test modulator_test pulse_shape_test	\
+  rec_syst_conv_code_test reedsolomon_test turbo_test
 
-OPTIM_TESTS = \
-	newton_search_test
+if RUN_LAPACK_TESTS
+  COMM_TESTS += modulator_nd_test
+endif
+if RUN_FFT_TESTS
+  COMM_TESTS += channel_test
+endif
 
-SIGNAL_TESTS = \
-	fastica_test \
-	filter_test \
-	filter_design_test \
-	freq_filt_test \
-	poly_test \
-	sigfun_test \
-	source_test \
-	transforms_test \
-	window_test
+FIXED_TESTS = fix_test
 
-STAT_TESTS = \
-	histogram_test \
-	stat_test
+OPTIM_TESTS = newton_search_test
+
+SIGNAL_TESTS = filter_test source_test window_test
+
+if RUN_LAPACK_TESTS
+  SIGNAL_TESTS += fastica_test poly_test
+if RUN_FFT_TESTS
+  SIGNAL_TESTS += filter_design_test
+endif # RUN_FFT_TESTS
+endif # RUN_LAPACK_TESTS
+if RUN_FFT_TESTS
+  SIGNAL_TESTS += freq_filt_test sigfun_test transforms_test
+endif
+
+STAT_TESTS = histogram_test
+
+if RUN_LAPACK_TESTS
+  STAT_TESTS += stat_test
+endif
 
 ALL_TESTS = $(BASE_TESTS) $(COMM_TESTS) $(FIXED_TESTS) $(OPTIM_TESTS) \
 	$(SIGNAL_TESTS) $(STAT_TESTS)
@@ -168,7 +146,7 @@ check-local: $(check_PROGRAMS) $(ref_files)
 	then \
 		echo ""; \
 		echo "******************************************************************************"; \
-		echo "*** ERROR: $$failed/52 tests failed!!!"; \
+		echo "*** ERROR: $$failed/$$total tests failed!!!"; \
 		echo "******************************************************************************"; \
 		echo ""; \
 		exit 1; \
