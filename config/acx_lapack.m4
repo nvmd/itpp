@@ -24,6 +24,15 @@ dnl used to compile the LAPACK and BLAS libraries.
 AC_DEFUN([ACX_LAPACK], [
 AC_REQUIRE([ACX_BLAS])
 
+# Initialise local variables
+# We cannot use LAPACK if BLAS is not found
+if test "$acx_blas_ok" != yes; then
+  acx_lapack_ok=noblas
+else
+  acx_lapack_ok=no
+fi
+
+# Parse "--with-lapack=<lib>" option
 AC_ARG_WITH(lapack,
   [AC_HELP_STRING([--with-lapack=<lib>], [use LAPACK library <lib>])])
 case $with_lapack in
@@ -32,11 +41,6 @@ case $with_lapack in
   -* | */* | *.a | *.so | *.so.* | *.o) LAPACK_LIBS="$with_lapack" ;;
   *) LAPACK_LIBS="-l$with_lapack" ;;
 esac
-
-test "$acx_lapack_ok" != disabled && acx_lapack_ok=no
-
-# We cannot use LAPACK if BLAS is not found
-test "$acx_blas_ok" != yes && acx_lapack_ok=noblas
 
 # Get fortran linker name of LAPACK function to check for.
 if test "$acx_lapack_ok" = no; then
@@ -85,6 +89,12 @@ AC_SUBST(LAPACK_LIBS)
 # Finally, define HAVE_LAPACK
 if test "$acx_lapack_ok" = yes; then
   AC_DEFINE(HAVE_LAPACK, 1, [Define if you have LAPACK library.])
+else
+  if test "$acx_lapack_ok" != disabled; then
+    AC_MSG_ERROR([cannot find any LAPACK library.
+You can override this error by using "--without-lapack" option, but the
+functionality of the IT++ library will be limited. You have been warned!])
+  fi
 fi
 
 ])dnl ACX_LAPACK
