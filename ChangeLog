@@ -1,5 +1,14 @@
 2007-08-27  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/factory.cpp, itpp/base/factory.h,
+	itpp/fixed/fix_factory.cpp: Cosmetic changes in memory allocation
+
+	Instead of using "new char[size]" for raw memory allocation, use
+	more generic "operator new(size)". Similarly, use "operator
+	delete(p)" instead of "delete [] (p)". This makes the code
+	consistent with 16-byte aligned create_elements() and
+	destroy_elements() specialisations.
+
 	* itpp/base/array.h, itpp/base/factory.cpp, itpp/base/factory.h,
 	itpp/base/mat.h, itpp/base/vec.h, itpp/fixed/fix_factory.cpp:
 	Improved memory allocation routines

@@ -139,8 +139,8 @@ namespace itpp {
   template<class T>
   void create_elements(T* &ptr, int n, const Factory &)
   {
-    char* data_char = new char[sizeof(T) * n];
-    ptr = reinterpret_cast<T*>(data_char);
+    void *p = operator new(sizeof(T) * n);
+    ptr = reinterpret_cast<T*>(p);
     for (int i = 0; i < n; i++) {
       new (ptr + i) T();
     }
@@ -176,7 +176,8 @@ namespace itpp {
       for (int i = 0; i < n; ++i) {
 	ptr[i].~T();
       }
-      delete [] reinterpret_cast<char*>(ptr);
+      void *p = reinterpret_cast<void*>(ptr);
+      operator delete(p);
       ptr = 0;
     }
   }
@@ -206,8 +207,8 @@ namespace itpp {
   template<class T>
   void create_elements(Array<T>* &ptr, int n, const Factory &f)
   {
-    char* data_char = new char[sizeof(Array<T>) * n];
-    ptr = reinterpret_cast<Array<T>*>(data_char);
+    void *p = operator new(sizeof(Array<T>) * n);
+    ptr = reinterpret_cast<Array<T>*>(p);
     for (int i = 0; i < n; ++i) {
       new (ptr + i) Array<T>(f);
     }
@@ -217,8 +218,8 @@ namespace itpp {
   template<class T>
   void create_elements(Mat<T>* &ptr, int n, const Factory &f)
   {
-    char* data_char = new char[sizeof(Mat<T>) * n];
-    ptr = reinterpret_cast<Mat<T>*>(data_char);
+    void *p = operator new(sizeof(Mat<T>) * n);
+    ptr = reinterpret_cast<Mat<T>*>(p);
     for (int i = 0; i < n; ++i) {
       new (ptr + i) Mat<T>(f);
     }
@@ -228,8 +229,8 @@ namespace itpp {
   template<class T>
   void create_elements(Vec<T>* &ptr, int n, const Factory &f)
   {
-    char* data_char = new char[sizeof(Vec<T>) * n];
-    ptr = reinterpret_cast<Vec<T>*>(data_char);
+    void *p = operator new(sizeof(Vec<T>) * n);
+    ptr = reinterpret_cast<Vec<T>*>(p);
     for (int i = 0; i < n; ++i) {
       new (ptr + i) Vec<T>(f);
     }

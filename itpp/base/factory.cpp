@@ -34,36 +34,36 @@ namespace itpp {
   template<>
   void create_elements(unsigned char* &ptr, int n, const Factory &)
   {
-    char* data_char = new char[sizeof(unsigned char) * n];
-    ptr = reinterpret_cast<unsigned char*>(data_char);
+    void *p = operator new(sizeof(unsigned char) * n);
+    ptr = reinterpret_cast<unsigned char*>(p);
   }
 
   template<>
   void create_elements(bin* &ptr, int n, const Factory &)
   {
-    char* data_char = new char[sizeof(bin) * n];
-    ptr = reinterpret_cast<bin*>(data_char);
+    void *p = operator new(sizeof(bin) * n);
+    ptr = reinterpret_cast<bin*>(p);
   }
 
   template<>
   void create_elements(short int* &ptr, int n, const Factory &)
   {
-    char* data_char = new char[sizeof(short int) * n];
-    ptr = reinterpret_cast<short int*>(data_char);
+    void *p = operator new(sizeof(short int) * n);
+    ptr = reinterpret_cast<short int*>(p);
   }
 
   template<>
   void create_elements(int* &ptr, int n, const Factory &)
   {
-    char* data_char = new char[sizeof(int) * n];
-    ptr = reinterpret_cast<int*>(data_char);
+    void *p = operator new(sizeof(int) * n);
+    ptr = reinterpret_cast<int*>(p);
   }
 
   // The following specialisation allocate memory using 16-byte alignment
   template<>
   void create_elements(double* &ptr, int n, const Factory &)
   {
-    void *p0 = ::operator new(sizeof(double) * n + 16);
+    void *p0 = operator new(sizeof(double) * n + 16);
     void *p1 = reinterpret_cast<void*>((reinterpret_cast<std::size_t>(p0) + 16)
 				       & (~(std::size_t(15))));
     *(reinterpret_cast<void**>(p1) - 1) = p0;
@@ -74,7 +74,7 @@ namespace itpp {
   template<>
   void create_elements(std::complex<double>* &ptr, int n, const Factory &)
   {
-    void *p0 = ::operator new(sizeof(std::complex<double>) * n + 16);
+    void *p0 = operator new(sizeof(std::complex<double>) * n + 16);
     void *p1 = reinterpret_cast<void*>((reinterpret_cast<std::size_t>(p0) + 16)
 				       & (~(std::size_t(15))));
     *(reinterpret_cast<void**>(p1) - 1) = p0;
@@ -86,8 +86,8 @@ namespace itpp {
   void destroy_elements(unsigned char* &ptr, int n)
   {
     if (ptr) {
-      delete [] reinterpret_cast<char*>(ptr);
-      ptr = 0;
+      void *p = reinterpret_cast<void*>(ptr);
+      operator delete(p);
     }
   }
 
@@ -95,7 +95,8 @@ namespace itpp {
   void destroy_elements(bin* &ptr, int n)
   {
     if (ptr) {
-      delete [] reinterpret_cast<char*>(ptr);
+      void *p = reinterpret_cast<void*>(ptr);
+      operator delete(p);
       ptr = 0;
     }
   }
@@ -104,7 +105,8 @@ namespace itpp {
   void destroy_elements(short int* &ptr, int n)
   {
     if (ptr) {
-      delete [] reinterpret_cast<char*>(ptr);
+      void *p = reinterpret_cast<void*>(ptr);
+      operator delete(p);
       ptr = 0;
     }
   }
@@ -113,7 +115,8 @@ namespace itpp {
   void destroy_elements(int* &ptr, int n)
   {
     if (ptr) {
-      delete [] reinterpret_cast<char*>(ptr);
+      void *p = reinterpret_cast<void*>(ptr);
+      operator delete(p);
       ptr = 0;
     }
   }
@@ -124,7 +127,7 @@ namespace itpp {
   {
     if (ptr) {
       void *p = *(reinterpret_cast<void**>(ptr) - 1);
-      ::operator delete(p);
+      operator delete(p);
       ptr = 0;
     }
   }
@@ -134,7 +137,7 @@ namespace itpp {
   {
     if (ptr) {
       void *p = *(reinterpret_cast<void**>(ptr) - 1);
-      ::operator delete(p);
+      operator delete(p);
       ptr = 0;
     }
   }
