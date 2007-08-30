@@ -1,3 +1,22 @@
+2007-08-30  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/local/linking.doc, extras/itpp-config.t2t, itpp-config.1.in,
+	itpp-config.in, itpp.pc.in: Improvements in itpp-config and
+	pkg-config's itpp.pc scripts
+
+	These changes are intended to follow the distinction between
+	linking to a static and shared version of the library, which is
+	used in pkg-config's itpp.pc file. By default "itpp-config --libs"
+	returns "-I${prefix}/lib -litpp", whereas when "--static" is added
+	in front of "--libs", the returned string is extended with a set
+	of external library names required for proper static linking.
+	Moreover, an additional "--debug" switch has been added, which
+	changes the output of "itpp-config --cflags" and "itpp-config
+	--libs" by providing debugging flags and debugging library name.
+	For backward compatibility "--cflags-opt", "--cflags-debug",
+	"--libs-opt" and "--libs-debug" still exist, but they are not
+	documented and their use is deprecated.
+
 2007-08-28  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* config/acx_blas.m4, config/acx_fft.m4, config/acx_lapack.m4,
