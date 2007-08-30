@@ -40,23 +40,28 @@
 #include <limits>
 
 
-// Undefine log2 macro - IT++ has its own inline function
-#if defined (log2)
-#undef log2
-#endif
-
-
-#ifndef HAVE_LOG1P
 /*!
  * \addtogroup logexpfunc
  * @{
  */
+
+#ifndef HAVE_LOG1P
 //! Lograrithm of an argument \c x plus one
 inline double log1p(double x) { return std::log(1.0 + x); }
+#endif
+
+#ifndef HAVE_LOG2
+#undef log2                     // This is required at least for Cygwin
+//! Base-2 logarithm
+inline double log2(double x)
+{
+  return (std::log(x) * 1.442695040888963387004650940070860087871551513671875);
+}
+#endif
+
 /*!
  * @}
  */
-#endif
 
 
 namespace itpp {
@@ -67,12 +72,6 @@ namespace itpp {
   // ----------------------------------------------------------------------
   // scalar functions
   // ----------------------------------------------------------------------
-
-  //! Base-2 logarithm
-  inline double log2(double x)
-  {
-    return (std::log(x) / 0.693147180559945309417);
-  }
 
   //! Base-b logarithm
   inline double logb(double b, double x)
@@ -279,12 +278,12 @@ namespace itpp {
   //! log-2 of the elements
   inline vec log2(const vec &x)
   {
-    return apply_function<double>(itpp::log2, x);
+    return apply_function<double>(::log2, x);
   }
   //! log-2 of the elements
   inline mat log2(const mat &x)
   {
-    return apply_function<double>(itpp::log2, x);
+    return apply_function<double>(::log2, x);
   }
 
   //! log-10 of the elements

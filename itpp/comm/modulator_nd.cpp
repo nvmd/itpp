@@ -450,7 +450,7 @@ namespace itpp {
     spacing.set_size(nt);
 
     for (int i=0; i<nt; i++) {
-      k(i) = round_i(log2(double(M(i))));
+      k(i) = round_i(::log2(static_cast<double>(M(i))));
       it_assert( ((k(i)>0) && ((1<<k(i))==M(i))),"ND_UPAM::set_Gray_PAM(): M is not a power of 2.");
 
       symbols(i).set_size(M(i)+1);
@@ -656,7 +656,7 @@ namespace itpp {
     bits2symbols.set_size(nt);
 
     for (int i=0; i<nt; i++) {
-      k(i) = round_i(log2(double(M(i))));
+      k(i) = round_i(::log2(static_cast<double>(M(i))));
       it_assert( ((k(i)>0) && ((1<<k(i))==M(i))),"ND_UQAM::set_Gray_QAM(): M is not a power of 2.");
 
       L(i) = round_i(std::sqrt((double)M(i)));
@@ -719,7 +719,7 @@ namespace itpp {
     bits2symbols.set_size(nt);
 
     for (int i=0; i<nt; i++) {
-      k(i) = round_i(log2(double(M(i))));
+      k(i) = round_i(::log2(static_cast<double>(M(i))));
       it_assert( ((k(i)>0) && ((1<<k(i))==M(i))),"ND_UPSK::set_Gray_PSK(): M is not a power of 2.");
 
       symbols(i).set_size(M(i)+1);
