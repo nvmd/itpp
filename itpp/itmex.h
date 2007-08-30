@@ -99,7 +99,8 @@ namespace itpp {
   double mxArray2double(const mxArray *in);
   //! Convert the matlab-format mxArray to complex<double>
   std::complex<double> mxArray2double_complex(const mxArray *in);
-  //string mxArray2string(const mxArray *in);
+  //! Convert the matlab-format mxArray to string
+  std::string mxArray2string(const mxArray *in);
 
   //! Convert the matlab-format mxArray to bvec
   bvec mxArray2bvec(const mxArray *in);
@@ -137,7 +138,8 @@ namespace itpp {
   void double2mxArray(const double &in, mxArray *out);
   //! Convert complex<double> to the matlab-format mxArray
   void double_complex2mxArray(const std::complex<double> &in, mxArray *out);
-  //void string2mxArray(const string &in, mxArray *out);
+  //! Convert string to the matlab-format mxArray
+  void string2mxArray(const std::string &in, mxArray* &out);
 
   //! Convert bvec to the matlab-format mxArray
   void bvec2mxArray(const bvec &in, mxArray *out);
@@ -273,6 +275,16 @@ namespace itpp {
       return std::complex<double>( (*tempR), (*tempI) );
     }
 
+  }
+
+  std::string mxArray2string(const mxArray *in)
+  {
+    if (in == 0)
+      mexErrMsgTxt("mxArray2string: Pointer to data is NULL");
+    std::string str = mxArrayToString(in);
+    if (str.data() == 0)
+      mexErrMsgTxt("mxArray2string: Could not convert mxArray to string");
+    return str;
   }
 
   bvec mxArray2bvec(const mxArray *in)
@@ -519,6 +531,15 @@ namespace itpp {
 
     *tempR= (double) in.real();
     *tempI= (double) in.imag();
+  }
+
+  void string2mxArray(const std::string &in, mxArray* &out)
+  {
+    if (in.data() == 0)
+      mexErrMsgTxt("string2mxArray: Pointer to string is NULL");
+    out = mxCreateString(in.data());
+    if (out == 0)
+      mexErrMsgTxt("string2mxArray: Could not convert string to mxArray");
   }
 
   void bvec2mxArray(const bvec &in, mxArray *out)
