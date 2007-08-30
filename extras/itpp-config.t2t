@@ -13,11 +13,8 @@ prefix, compiler flags and its version
 
 = SYNOPSIS =
 
-**itpp-config** [--prefix] [--exec-prefix]
-            [--libs] [--libs-opt] [--libs-debug]
-            [--cflags] [--cflags-opt] [--cflags-debug]
-            [--help]
-            [--version]
+**itpp-config** [--prefix] [--exec-prefix] [--debug] [--static]
+            [--cflags] [--libs] [--help] [--version]
 
 
 = DESCRIPTION =
@@ -31,25 +28,22 @@ It can be also used for checking the intalled libitpp library version.
 
 //itpp-config// accepts the following options:
 : **--prefix**
-print libitpp installation prefix
+output libitpp installation prefix
 : **--exec-prefix**
-print libitpp installation exec prefix
-: **--libs**
-print library linking information (same as **--libs-opt**)
-: **--libs-opt**
-print optimised library linking information
-: **--libs-debug**
-print debugging library linking information
+output libitpp installation exec prefix
+: **--debug**
+use debugging pre-processor, compiler and linker flags (needs to be used
+in front of **--cflags** and **--libs**)
+: **--static**
+use static linker flags (needs to be used in front of **--libs**)
 : **--cflags**
-print pre-processor and compiler flags (same as **--cflags-opt**)
-: **--cflags-opt**
-print optimised pre-processor and compiler flags
-: **--cflags-debug**
-print debugging pre-processor and compiler flags
+output pre-processor and compiler flags
+: **--libs**
+output linker flags
 : **--help**
 display brief help and exit
 : **--version**
-print libitpp version number
+output version number
 
 
 = AUTHOR =

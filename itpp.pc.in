@@ -9,4 +9,4 @@ Version: @PACKAGE_VERSION@
 URL: http://itpp.sourceforge.net/
 Libs: -L${libdir} -l@PACKAGE@
 Libs.private: @LDLIBS@
-Cflags: -I${includedir}
+Cflags: -I${includedir} @CXXFLAGS_OPT@

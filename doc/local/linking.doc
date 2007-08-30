@@ -39,7 +39,7 @@ Alternatively, when you have to use static linking only (e.g. in Cygwin or
 MinGW/MSYS), you should add the `--static' switch to your command:
 
 \code
-% export CXXFLAGS=`pkg-config --static --cflags itpp`
+% export CXXFLAGS=`pkg-config --cflags itpp`
 % export LIBS=`pkg-config --static --libs`
 % g++ $CXXFLAGS -o my_prog my_prog.cpp $LIBS
 \endcode
@@ -55,23 +55,29 @@ For more information please refer to the \c `pkg-config' documentation.
 \section itppconfig Using the itpp-config script
 
 IT++ also provides a shell script called \c `itpp-config`, which is
-installed by default in a <tt>`$prefix/bin'</tt> (<tt>`/usr/local/bin'</tt>)
-directory. It can be used to simplify compilation and linking of IT++ based
-programs. The usage of this script is quite similar to the usage of the \c
-`pkg-config' command.
+installed in a <tt>`$prefix/bin'</tt> (<tt>`/usr/local/bin'</tt>) directory
+by default. It can be used to simplify the compilation and linking of IT++
+based programs. The usage of this script is quite similar to the usage of
+the \c `pkg-config' command.
 
-Assuming that you need to compile the program <tt>`my_prog.cpp'</tt>
-you can now do that with the following command:
+Assuming that you need to compile the program <tt>`my_prog.cpp'</tt>,
+you can do that with the following command:
 
 \code
 % g++ `itpp-config --cflags` -o my_prog my_prog.cpp `itpp-config --libs`
 \endcode
 
-If you would like to use the same optimisation flags (CXXFLAGS), as those
-used for compiling the IT++ library, you might try the following command:
+The above command will result in an optimised binary \c `my_prog', and
+optimisation flags (CXXFLAGS) will be the same as those used when compiling
+the IT++ library.
+
+When you need to use static linking, you should prepend the `--libs' switch
+with `--static', e.g.:
 
 \code
-% g++ `itpp-config --cflags-opt` -o my_prog_opt my_prog.cpp `itpp-config --libs-opt`
+% export CXXFLAGS=`itpp-config --cflags`
+% export LIBS=`itpp-config --static --libs`
+% g++ $CXXFLAGS -o my_prog my_prog.cpp $LIBS
 \endcode
 
 Moreover, if you compiled and installed the debugging IT++ library (\c
@@ -80,10 +86,10 @@ compile and link your program with debugging options using the following
 command instead:
 
 \code
-% g++ `itpp-config --cflags-debug` -o my_prog_debug my_prog.cpp `itpp-config --libs-debug`
+% g++ `itpp-config --debug --cflags` -o my_prog_debug my_prog.cpp `itpp-config --debug --libs`
 \endcode
 
-A list of \c `itpp-config' options can be obtained by typing:
+Full list of \c `itpp-config' options can be obtained by typing:
 
 \code
 % itpp-config --help
@@ -99,19 +105,24 @@ its location <tt>`$prefix/bin'</tt> to the PATH environment variable, e.g.:
 
 \section dynamiclinking Using IT++ with dynamic linking
 
-When using a static linking some of the IT++ library routines are copied
-into your executable program. This can lead to unnecessary large
-executables. To avoid having too large executable files you may use dynamic
-linking instead. Dynamic linking means that the actual linking is performed
-when the program is executed. This requires that the system is able to
-locate the shared IT++ library during the program execution. If you install
-the IT++ library using a non-standard prefix, the \c `LD_LIBRARY_PATH'
-environment variable might be used to inform the linker about the location
-of the shared library object (<tt>`$prefix/lib'</tt>), e.g.:
+When using static linking some of the IT++ library routines are copied into
+your executable program. This can lead to unnecessary large executables. To
+avoid this you may use dynamic linking instead. Dynamic linking means that
+the actual linking is performed when the program is executed. This requires
+that the system is able to locate the shared IT++ library file
+(<tt>`libitpp.so'</tt> or <tt>`libittp_debug.so</tt>) during the program
+execution. If you have to install the IT++ library using non-standard
+prefix, the \c `LD_LIBRARY_PATH' environment variable might be used to
+inform the linker about the location of the shared library object
+(<tt>`$prefix/lib'</tt>), e.g.:
 
 \code
-% export LD_LIBRARY_PATH=/usr/local/lib:$LD_LIBRARY_PATH
+% export LD_LIBRARY_PATH="/usr/local/lib:$LD_LIBRARY_PATH"
 \endcode
+
+This environment variable can be also used to set dynamic linking library
+paths for external libraries which are used by IT++, e.g. ATLAS, MKL, ACML
+and others.
 
 
 \section msvc_linking Linking your own programs with IT++ using MSVC++
