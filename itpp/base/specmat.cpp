@@ -151,7 +151,7 @@ namespace itpp {
   // Construct a Hadamard-imat of size "size"
   imat hadamard(int size) {
     it_assert(size > 0, "hadamard(): size is not a power of 2");
-    int logsize = ceil_i(log2(static_cast<double>(size)));
+    int logsize = ceil_i(::log2(static_cast<double>(size)));
     it_assert(pow2i(logsize) == size, "hadamard(): size is not a power of 2");
 
     imat H(size, size); H(0,0) = 1;

@@ -1,5 +1,15 @@
 2007-08-30  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac, itpp/base/math/log_exp.h, itpp/base/specmat.cpp,
+	itpp/comm/galois.cpp, itpp/comm/modulator_nd.cpp,
+	itpp/signal/sigfun.cpp: Improved log2() and log1p() portability
+
+	Additional checks for log2() and log1p() functions have been added
+	to the configure script. If they are not found, local
+	implementations are used. Besides, log2() is now in a global
+	scope, not in the "itpp" namespace, which is consistent with GCC.
+	BTW, removed unnecessary checks for C++ standard header files.
+
 	* itpp/itmex.h: Added missing mxArray2string() and
 	string2mxArray() functions
 

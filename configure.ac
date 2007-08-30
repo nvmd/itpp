@@ -191,16 +191,7 @@ AC_HEADER_STDC
 AC_HEADER_TIME
 AC_CHECK_HEADERS([cmath \
   complex \
-  deque \
-  fstream \
-  ieeefp.h \
-  iomanip \
-  iostream \
-  limits \
-  list \
-  queue \
-  stdexcept \
-  string])
+  ieeefp.h])
 
 
 # Checks for global declarations
@@ -221,6 +212,7 @@ AC_CHECK_FUNCS([asinh \
   isnan \
   lgamma \
   log1p \
+  log2 \
   rint \
   tgamma])
 

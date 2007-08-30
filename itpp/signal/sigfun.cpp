@@ -156,7 +156,7 @@ namespace itpp {
     int N = std::max(x.length(),y.length());
 
     //Compute the FFT size as the "next power of 2" of the input vector's length (max)
-    int b = static_cast<int>(std::ceil(log2(2*N-1)));
+    int b = ceil_i(::log2(2.0*N-1));
     int fftsize = pow2i(b);
 
     int end = fftsize - 1;

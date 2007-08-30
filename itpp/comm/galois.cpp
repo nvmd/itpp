@@ -43,7 +43,7 @@ namespace itpp {
   {
     int mtemp;
 
-    mtemp = round_i(log2(double(qvalue)));
+    mtemp = round_i(::log2(static_cast<double>(qvalue)));
     it_assert((1<<mtemp)==qvalue, "GF::setsize : q is not a power of 2");
     it_assert(mtemp<=16, "GF::setsize : q must be less than or equal to 2^16");
 

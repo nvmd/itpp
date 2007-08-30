@@ -40,9 +40,6 @@
    don't. */
 /* #undef HAVE_DECL_SIGNGAM */
 
-/* Define to 1 if you have the <deque> header file. */
-#define HAVE_DEQUE 1
-
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #define HAVE_DLFCN_H 1
 
@@ -76,20 +73,11 @@
 /* Define to 1 if you have the `fpclass' function. */
 /* #undef HAVE_FPCLASS */
 
-/* Define to 1 if you have the <fstream> header file. */
-#define HAVE_FSTREAM 1
-
 /* Define to 1 if you have the <ieeefp.h> header file. */
 /* #undef HAVE_IEEEFP_H */
 
 /* Define to 1 if you have the <inttypes.h> header file. */
 /* #undef HAVE_INTTYPES_H */
-
-/* Define to 1 if you have the <iomanip> header file. */
-#define HAVE_IOMANIP 1
-
-/* Define to 1 if you have the <iostream> header file. */
-#define HAVE_IOSTREAM 1
 
 /* Define to 1 if you have the `isfinite' function. */
 /* #undef HAVE_ISFINITE */
@@ -108,20 +96,14 @@
 /* Define to 1 if you have the `lgamma' function. */
 /* #undef HAVE_LGAMMA */
 
-/* Define to 1 if you have the <limits> header file. */
-#define HAVE_LIMITS 1
-
-/* Define to 1 if you have the <list> header file. */
-#define HAVE_LIST 1
-
 /* Define to 1 if you have the `log1p' function. */
 /* #undef HAVE_LOG1P */
 
+/* Define to 1 if you have the `log2' function. */
+/* #undef HAVE_LOG2 */
+
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
-
-/* Define to 1 if you have the <queue> header file. */
-#define HAVE_QUEUE 1
 
 /* Define to 1 if you have the `rint' function. */
 /* #undef HAVE_RINT */
@@ -134,9 +116,6 @@
 
 /* Define to 1 if you have the <stdlib.h> header file. */
 #define HAVE_STDLIB_H 1
-
-/* Define to 1 if you have the <string> header file. */
-#define HAVE_STRING 1
 
 /* Define to 1 if you have the <strings.h> header file. */
 #define HAVE_STRINGS_H 1
@@ -169,13 +148,13 @@
 #define PACKAGE_NAME "IT++"
 
 /* Define to the full name and version of this package. */
-#define PACKAGE_STRING "IT++ 3.99.1"
+#define PACKAGE_STRING "IT++ 4.0.0"
 
 /* Define to the one symbol short name of this package. */
 #define PACKAGE_TARNAME "itpp"
 
 /* Define to the version of this package. */
-#define PACKAGE_VERSION "3.99.1"
+#define PACKAGE_VERSION "4.0.0"
 
 /* The size of `int', as computed by sizeof. */
 #define SIZEOF_INT 4
@@ -208,7 +187,7 @@
 /* #undef TIME_WITH_SYS_TIME */
 
 /* Version number of package */
-#define VERSION "3.99.1"
+#define VERSION "4.0.0"
 
 
 #if defined(HAVE_CMATH)
