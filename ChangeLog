@@ -1,5 +1,11 @@
 2007-08-30  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/itmex.h: Added missing mxArray2string() and
+	string2mxArray() functions
+
+	Thanks to Bogdan Cristea for reporting this issue and providing
+	the patch.
+
 	* doc/local/linking.doc, extras/itpp-config.t2t, itpp-config.1.in,
 	itpp-config.in, itpp.pc.in: Improvements in itpp-config and
 	pkg-config's itpp.pc scripts
