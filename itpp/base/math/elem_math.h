@@ -105,7 +105,7 @@ namespace itpp {
 
   // -------------------- sign/sgn functions --------------------
 
-  //! The sign of x
+  //! Signum function
   inline double sign(double x)
   {
     return (x == 0.0 ? 0.0 : (x < 0.0 ? -1.0 : 1.0));
@@ -114,16 +114,35 @@ namespace itpp {
   inline vec sign(const vec &x) { return apply_function<double>(sign, x); }
   //! Signum function
   inline mat sign(const mat &x) { return apply_function<double>(sign, x); }
-  //! The sign of x
-  inline double sgn(double x)
+
+  //! Signum function
+  inline double sgn(double x) { return sign(x); }
+  //! Signum function
+  inline vec sgn(const vec &x) { return apply_function<double>(sign, x); }
+  //! Signum function
+  inline mat sgn(const mat &x) { return apply_function<double>(sign, x); }
+
+  //! Signum function
+  inline int sign_i(int x)
   {
-    return (x == 0.0 ? 0.0 : (x < 0.0 ? -1.0 : 1.0));
+    return (x == 0 ? 0 : (x < 0 ? -1 : 1));
   }
   //! Signum function
-  inline vec sgn(const vec &x) { return apply_function<double>(sgn, x); }
+  inline ivec sign_i(const ivec &x) { return apply_function<int>(sign_i, x); }
   //! Signum function
-  inline mat sgn(const mat &x) { return apply_function<double>(sgn, x); }
+  inline imat sign_i(const imat &x) { return apply_function<int>(sign_i, x); }
 
+  //! Signum function
+  inline int sgn_i(int x) { return sign_i(x); }
+  //! Signum function
+  inline ivec sgn_i(const ivec &x) { return apply_function<int>(sign_i, x); }
+  //! Signum function
+  inline imat sgn_i(const imat &x) { return apply_function<int>(sign_i, x); }
+
+  inline int sign_i(double x)
+  {
+    return (x == 0.0 ? 0 : (x < 0.0 ? -1 : 1));
+  }
 
   // -------------------- sqrt function --------------------
 
