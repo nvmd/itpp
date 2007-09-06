@@ -999,11 +999,12 @@ namespace itpp {
   /*!
     \brief Ordinary AWGN Channel for cvec or vec inputs and outputs.
 
-    For real signals, the input parameter (\a noisevar) should be set to
-    \f$ N_0/2 \f$, where \f$ N_0 \f$ is the noise spectral density.
-    However, in case of complex signals, the input parameter (\a noisevar)
-    represents the total noise variance of both real and imaginary parts,
-    and thus is equal to \f$ N_0 \f$.
+    For real signals, the input parameter (\a noisevar) denotes the noise
+    variance per real dimension. Therefore, it should be set to \f$N_0/2\f$,
+    where \f$N_0\f$ is the noise power spectral density. However, in case of
+    complex signals, the input parameter (\a noisevar) represents the
+    noise variance per complex dimension, i.e. the sum of the variances in
+    the real and imaginary parts, and thus is equal to \f$N_0\f$.
 
     Example:
     \code

@@ -1,3 +1,10 @@
+2007-09-06  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/channel.h: Documentation improvements in AWGN_Channel
+
+	Described clearly what is the meaning of the AWGN_Channel's
+	"noisevar" input parameter for real- and complex-valued signals.
+
 2007-09-04  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/math/elem_math.h: Added sign_i() and sgn_i() functions
