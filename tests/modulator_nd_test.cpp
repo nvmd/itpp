@@ -50,7 +50,7 @@ int main()
       cout << "================== ND-U" << (1<<np) << "PAM =========== "
 	   << endl;
 
-      chan.set_Gray_PAM(nt,1<<np);
+      chan.set_M(nt,1<<np);
       cout << chan << endl;
       bvec b=randb(nt*np);
       QLLRvec LLR_ap = zeros_i(nt*np);
@@ -64,11 +64,11 @@ int main()
       vec y= H*x;
       y+=sqrt(sigma2)*randn(nt);
       //      cout << y << endl;
-      chan.map_demod(LLR_ap, LLR, sigma2, H, y);
+      chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR);
       cout << "full channel:" << chan.get_llrcalc().to_double(LLR) << endl;
 
       vec h =diag(H);
-      chan.map_demod(LLR_ap, LLR, sigma2, h, y);
+      chan.demodulate_soft_bits(y, h, sigma2, LLR_ap, LLR);
       cout << "diagonal channel: " << chan.get_llrcalc().to_double(LLR) << endl;
 
       //       int bit=0;
@@ -80,7 +80,7 @@ int main()
       // 	Y0(0)=y(i);
       // 	QLLRvec llrapr = LLR_ap.mid(bit,chan.get_k()(i));
       // 	QLLRvec llrapost(chan.get_k()(i));
-      // 	scalchan.map_demod(llrapr,llrapost, sigma2, H0, Y0);
+      // 	scalchan.demodulate_soft_bits(llrapr,llrapost, sigma2, H0, Y0);
       // 	bit+=chan.get_k()(i);
       // 	cout << chan.get_llrcalc().to_double(llrapost) << endl;
       //       }
@@ -99,7 +99,7 @@ int main()
       cout << "================== ND-U" << ((1<<(2*np))) << "QAM =========== "
 	   << endl;
 
-      chan.set_Gray_QAM(nt,(1<<(2*np)));
+      chan.set_M(nt,(1<<(2*np)));
       cout << chan << endl;
       bvec b=randb(nt*np*2);
       cout << b << endl;
@@ -110,11 +110,11 @@ int main()
       cmat H = randn_c(nt,nt);
       cvec y= H*x;
       y+=sqrt(sigma2)*randn_c(nt);
-      chan.map_demod(LLR_ap, LLR, sigma2, H, y);
+      chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR);
       cout << "full channel:" << chan.get_llrcalc().to_double(LLR) << endl;
 
       cvec h =diag(H);
-      chan.map_demod(LLR_ap, LLR, sigma2, h, y);
+      chan.demodulate_soft_bits(y, h, sigma2, LLR_ap, LLR);
       cout << "diagonal channel: " << chan.get_llrcalc().to_double(LLR) << endl;
     }
   }
@@ -127,7 +127,7 @@ int main()
       cout << "================== ND-U" << ((1<<(2*np))) << "PSK =========== "
 	   << endl;
 
-      chan.set_Gray_PSK(nt,(1<<(2*np)));
+      chan.set_M(nt,(1<<(2*np)));
       cout << chan << endl;
       bvec b=randb(nt*np*2);
       cout << b << endl;
@@ -138,11 +138,11 @@ int main()
       cmat H = randn_c(nt,nt);
       cvec y= H*x;
       y+=sqrt(sigma2)*randn_c(nt);
-      chan.map_demod(LLR_ap, LLR, sigma2, H, y);
+      chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR);
       cout << "full channel:" << chan.get_llrcalc().to_double(LLR) << endl;
 
       cvec h =diag(H);
-      chan.map_demod(LLR_ap, LLR, sigma2, h, y);
+      chan.demodulate_soft_bits(y, h, sigma2, LLR_ap, LLR);
       cout << "diagonal channel: " << chan.get_llrcalc().to_double(LLR) << endl;
     }
   }

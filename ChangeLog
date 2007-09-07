@@ -1,3 +1,14 @@
+2007-09-07  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/modulator_nd.cpp, itpp/comm/modulator_nd.h,
+	tests/modulator_nd_test.cpp: Interface improvements in
+	Modulator_ND classes
+
+	The interfaces of Modulator_ND class and its descendants were
+	redesigned to be more similar to 1D and 2D modulators' interfaces.
+	BTW, revised the documentation and performed a set of cosmetic
+	changes.
+
 2007-09-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/channel.h: Documentation improvements in AWGN_Channel
