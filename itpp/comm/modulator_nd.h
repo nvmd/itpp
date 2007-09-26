@@ -57,6 +57,14 @@ namespace itpp {
    */
   class Modulator_ND {
   public:
+    //! Soft demodulation method
+    enum Soft_Demod_Method {
+      //! Log-MAP demodulation by "brute-force" enumeration of all points
+      FULL_ENUM_LOGMAP,
+      //! Zero-Forcing Log-MAP approximated demodulation
+      ZF_LOGMAP
+    };
+
     //! Default constructor
     Modulator_ND(LLR_calc_unit llrcalc_in = LLR_calc_unit()):
       llrcalc(llrcalc_in) {}
@@ -188,6 +196,51 @@ namespace itpp {
     vec modulate_bits(const bvec &bits) const;
 
     /*!
+     * \brief Soft demodulation wrapper function for various methods
+     *
+     * Currently the following two demodulation methods are supported:
+     * - FULL_ENUM_LOGMAP - exact demodulation, which use "brute-force"
+     *   enumeration of all constellation points
+     * - ZF_LOGMAP - approximated methods with Zero-Forcing preprocessing,
+     *   which sometimes tends to perform poorly, especially for poorly
+     *   conditioned H
+     *
+     * \param[in]   y                Received vector
+     * \param[in]   H                Channel matrix
+     * \param[in]   sigma2           Noise variance per real dimension
+     *                               (typically \f$N_0/2\f$)
+     * \param[in]   LLR_apriori      Vector of a priori LLR values per bit
+     * \param[out]  LLR_aposteriori  Vector of a posteriori LLR values
+     * \param[in]   method           Soft demodulation method
+     */
+    void demodulate_soft_bits(const vec &y, const mat &H, double sigma2,
+                              const QLLRvec &LLR_apriori,
+                              QLLRvec &LLR_aposteriori,
+                              Soft_Demod_Method method);
+
+    /*!
+     * \brief Soft demodulation wrapper function for various methods
+     *
+     * Currently the following two demodulation methods are supported:
+     * - FULL_ENUM_LOGMAP - exact demodulation, which use "brute-force"
+     *   enumeration of all constellation points
+     * - ZF_LOGMAP - approximated methods with Zero-Forcing preprocessing,
+     *   which sometimes tends to perform poorly, especially for poorly
+     *   conditioned H
+     *
+     * \param[in]   y                Received vector
+     * \param[in]   H                Channel matrix
+     * \param[in]   sigma2           Noise variance per real dimension
+     *                               (typically \f$N_0/2\f$)
+     * \param[in]   LLR_apriori      Vector of a priori LLR values per bit
+     * \param[in]   method           Soft demodulation method
+     * \return                       Vector of a posteriori LLR values
+     */
+    QLLRvec demodulate_soft_bits(const vec &y, const mat &H, double sigma2,
+                                 const QLLRvec &LLR_apriori,
+                                 Soft_Demod_Method method);
+
+    /*!
      * \brief Soft MAP demodulation for multidimensional channel, by
      * "brute-force" enumeration of all constellation points.
      *
@@ -203,8 +256,8 @@ namespace itpp {
      * real-valued. Complex-valued channels can be handled using the \c
      * Modulator_NCD class.
      *
-     * \param[in]   H                Channel matrix
      * \param[in]   y                Received vector
+     * \param[in]   H                Channel matrix
      * \param[in]   sigma2           Noise variance per real dimension
      *                               (typically \f$N_0/2\f$)
      * \param[in]   LLR_apriori      Vector of a priori LLR values per bit
@@ -293,6 +346,54 @@ namespace itpp {
     //! Modulation of bits
     cvec modulate_bits(const bvec &bits) const;
 
+    //! Soft demodulation wrapper function for various methods
+    /*!
+     * \brief Soft demodulation wrapper function for various methods
+     *
+     * Currently the following two demodulation methods are supported:
+     * - FULL_ENUM_LOGMAP - exact demodulation, which use "brute-force"
+     *   enumeration of all constellation points
+     * - ZF_LOGMAP - approximated methods with Zero-Forcing preprocessing,
+     *   which sometimes tends to perform poorly, especially for poorly
+     *   conditioned H
+     *
+     * \param[in]   y                Received vector
+     * \param[in]   H                Channel matrix
+     * \param[in]   sigma2           Noise variance per complex dimension,
+     *                               i.e. the sum of real and imaginary parts
+     *                               (typically \f$N_0\f$)
+     * \param[in]   LLR_apriori      Vector of a priori LLR values per bit
+     * \param[out]  LLR_aposteriori  Vector of a posteriori LLR values
+     * \param[in]   method           Soft demodulation method
+     */
+    void demodulate_soft_bits(const cvec &y, const cmat &H, double sigma2,
+                              const QLLRvec &LLR_apriori,
+                              QLLRvec &LLR_aposteriori,
+                              Soft_Demod_Method method);
+
+    /*!
+     * \brief Soft demodulation wrapper function for various methods
+     *
+     * Currently the following two demodulation methods are supported:
+     * - FULL_ENUM_LOGMAP - exact demodulation, which use "brute-force"
+     *   enumeration of all constellation points
+     * - ZF_LOGMAP - approximated methods with Zero-Forcing preprocessing,
+     *   which sometimes tends to perform poorly, especially for poorly
+     *   conditioned H
+     *
+     * \param[in]   y                Received vector
+     * \param[in]   H                Channel matrix
+     * \param[in]   sigma2           Noise variance per complex dimension,
+     *                               i.e. the sum of real and imaginary parts
+     *                               (typically \f$N_0\f$)
+     * \param[in]   LLR_apriori      Vector of a priori LLR values per bit
+     * \param[in]   method           Soft demodulation method
+     * \return                       Vector of a posteriori LLR values
+     */
+    QLLRvec demodulate_soft_bits(const cvec &y, const cmat &H, double sigma2,
+                                 const QLLRvec &LLR_apriori,
+                                 Soft_Demod_Method method);
+
     /*!
      * \brief Soft MAP demodulation for multidimensional channel, by
      * "brute-force" enumeration of all constellation points.
@@ -308,8 +409,8 @@ namespace itpp {
      * without approximations. It is assumed that H, y and s are
      * complex-valued.
      *
-     * \param[in]   H                Channel matrix
      * \param[in]   y                Received vector
+     * \param[in]   H                Channel matrix
      * \param[in]   sigma2           Noise variance per complex dimension, i.e.
      *                               the sum of real and imaginary parts
      *                               (typically \f$N_0\f$)

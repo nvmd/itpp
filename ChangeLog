@@ -1,3 +1,14 @@
+2007-09-26  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/modulator_nd.cpp, itpp/comm/modulator_nd.h:
+	Implemented Zero-Forcing (ZF) Log-MAP soft demodulation method
+
+	Zero-Forcing approximate demodulation method can be used instead
+	of a brute-force optimum enumeration of all constellation points
+	in both real- and complex-valued MIMO demodulators. Thanks to Erik
+	G. Larsson, who provided the draft implementation and reviewed the
+	code.
+
 2007-09-07  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/modulator_nd.cpp, itpp/comm/modulator_nd.h,
