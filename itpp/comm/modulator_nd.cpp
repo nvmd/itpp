@@ -144,6 +144,50 @@ namespace itpp {
   }
 
 
+  void Modulator_NRD::demodulate_soft_bits(const vec &y, const mat &H,
+                                           double sigma2,
+                                           const QLLRvec &LLR_apriori,
+                                           QLLRvec &LLR_aposteriori,
+                                           Soft_Demod_Method method)
+  {
+    switch (method) {
+    case FULL_ENUM_LOGMAP:
+      demodulate_soft_bits(y, H, sigma2, LLR_apriori, LLR_aposteriori);
+      break;
+    case ZF_LOGMAP:
+      {
+        it_assert(H.rows() >= H.cols(), "Modulator_NRD::demodulate_soft_bits():"
+                  " ZF demodulation impossible for undetermined systems");
+        // Set up the ZF detector
+        mat Ht = H.T();
+        mat inv_HtH = inv(Ht * H);
+        vec shat = inv_HtH * Ht * y;
+        vec h = ones(shat.size());
+        for (int i = 0; i < shat.size(); ++i) {
+          // noise covariance of shat
+          double sigma_zf = std::sqrt(inv_HtH(i, i) * sigma2);
+          shat(i) /= sigma_zf;
+          h(i) /= sigma_zf;
+        }
+        demodulate_soft_bits(shat, h, 1.0, zeros_i(sum(k)), LLR_aposteriori);
+      }
+      break;
+    default:
+      it_error("Modulator_NRD::demodulate_soft_bits(): Improper soft "
+               "demodulation method");
+    }
+  }
+
+  QLLRvec Modulator_NRD::demodulate_soft_bits(const vec &y, const mat &H,
+                                              double sigma2,
+                                              const QLLRvec &LLR_apriori,
+                                              Soft_Demod_Method method)
+  {
+    QLLRvec result;
+    demodulate_soft_bits(y, H, sigma2, LLR_apriori, result, method);
+    return result;
+  }
+
   void Modulator_NRD::demodulate_soft_bits(const vec &y, const vec &h,
                                            double sigma2,
                                            const QLLRvec &LLR_apriori,
@@ -163,7 +207,7 @@ namespace itpp {
     int b = 0;
     for (int i = 0; i < nt; ++i) {
       QLLRvec bnum = -QLLR_MAX * ones_i(k(i));
-      QLLRvec bdenom = -QLLR_MAX * ones_i(k(i));
+      QLLRvec bdenom = bnum;
       Array<QLLRvec> logP_apriori = probabilities(LLR_apriori(b, b+k(i)-1));
       for (int j = 0; j < M(i); ++j) {
 	double norm2 = moo2s2 * sqr(y(i) - h(i) * symbols(i)(j));
@@ -198,18 +242,19 @@ namespace itpp {
       // differential update only pays off for larger dimensions
       if (nt * M(i) > 4) {
         diff_update = true;
+        break;
       }
     }
 
     Array<QLLRvec> logP_apriori = probabilities(LLR_apriori);
 
-    mat HtH = H.transpose() * H;
-    vec ytH = H.transpose() * y;
+    mat Ht = H.T();
+    mat HtH = Ht * H;
+    vec ytH = Ht * y;
 
     QLLRvec bnum = -QLLR_MAX * ones_i(np);
-    QLLRvec bdenom = -QLLR_MAX * ones_i(np);
-    ivec s(nt);
-    s.clear();
+    QLLRvec bdenom = bnum;
+    ivec s = zeros_i(nt);
     double norm = 0.0;
 
     // Go over all constellation points  (r=dimension, s=vector of symbols)
@@ -318,6 +363,51 @@ namespace itpp {
     modulate_bits(bits, result);
     return result;
   }
+
+
+  void Modulator_NCD::demodulate_soft_bits(const cvec &y, const cmat &H,
+                                           double sigma2,
+                                           const QLLRvec &LLR_apriori,
+                                           QLLRvec &LLR_aposteriori,
+                                           Soft_Demod_Method method)
+  {
+    switch (method) {
+    case FULL_ENUM_LOGMAP:
+      demodulate_soft_bits(y, H, sigma2, LLR_apriori, LLR_aposteriori);
+      break;
+    case ZF_LOGMAP:
+      {
+        it_assert(H.rows() >= H.cols(), "Modulator_NCD::demodulate_soft_bits():"
+                  " ZF demodulation impossible for undetermined systems");
+        // Set up the ZF detector
+        cmat Hht = H.H();
+        cmat inv_HhtH = inv(Hht * H);
+        cvec shat = inv_HhtH * Hht * y;
+        cvec h = ones_c(shat.size());
+        for (int i = 0; i < shat.size(); ++i) {
+          double sigma_zf = std::sqrt(real(inv_HhtH(i, i)) * sigma2);
+          shat(i) /= sigma_zf;
+          h(i) /= sigma_zf;
+        }
+        demodulate_soft_bits(shat, h, 1.0, zeros_i(sum(k)), LLR_aposteriori);
+      }
+      break;
+    default:
+      it_error("Modulator_NCD::demodulate_soft_bits(): Improper soft "
+               "demodulation method");
+    }
+  }
+
+  QLLRvec Modulator_NCD::demodulate_soft_bits(const cvec &y, const cmat &H,
+                                              double sigma2,
+                                              const QLLRvec &LLR_apriori,
+                                              Soft_Demod_Method method)
+  {
+    QLLRvec result;
+    demodulate_soft_bits(y, H, sigma2, LLR_apriori, result, method);
+    return result;
+  }
+
 
   void Modulator_NCD::demodulate_soft_bits(const cvec &y, const cvec &h,
                                            double sigma2,
