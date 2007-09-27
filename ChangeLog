@@ -1,3 +1,8 @@
+2007-09-27  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* tests/modulator_nd_test.cpp, tests/modulator_nd_test.ref: Test
+	program updated to use ZF Log-MAP demodulation method
+
 2007-09-26  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/modulator_nd.cpp, itpp/comm/modulator_nd.h:
