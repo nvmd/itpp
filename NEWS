@@ -1,0 +1,221 @@
+===============================================================================
+IT++ version 4.0.0-rc1                                     Released: 2007-09-28
+-------------------------------------------------------------------------------
+
+IT++ 4.0.0-rc1 is the first release candidate of our next stable series
+based on itpp-3-99 development branch. It supersedes our previous 3.10.x
+stable series. After almost one and a half year of intensive development it
+includes a lot of new features and improvements with respect to IT++ 3.10.12
+release (the last stable release of 3.10.x series).
+
+A brief summary of the most important additions and changes is listed below.
+Should you need more detailed history of changes that are new in this stable
+release, please have a look at the NEWS-3.99 and ChangeLog files.
+
+
+New features:
+-------------
+
+### Base module: ###
+
+* New functions for initializing vectors and matrices from strings
+  implemented. Main features of the improved parser are as follows:
+  - Decimal, octal and hexadecimal notation support according to C/C++
+    conventions, i.e. octal numbers starts with `0' (e.g. `0133', `077'),
+    decimal numbers starts with `1-9' or are single `0' digits, hexadecimal
+    numbers starts with `0x' or `0X' prefix and have at least one `0-9',
+    `a-f' or `A-F' digit after (e.g. 0xFF, 0x0, 0x070).
+  - Mixing of various representations in one string
+  - Signed numbers supported, i.e. with leading `+', `-' signs, e.g.
+    `-1000', `+0133', `-0x1'
+  - Vector values separated with spaces ` ', tabs `\t' or comma `,'
+  - Matlab's "a:b" or "a:b:c" notation for increasing and decreasing
+    values, e.g. "0:2:10", "-9:-18", "4:-1:0", "0x0:0x8:0xFF"
+  - Matrix rows separated with a single semicolon `;'
+  - `NaN' (not a number) and `Inf' (infinity) values properly interpreted
+  - Detection of syntax errors during parsing
+
+* New features of the communication channels:
+  - Implemented missing "Gauss I" and "Gauss II" Doppler spectra required by
+    a few COST207 channel models
+  - Channel_Specification and TDL_Channel classes extended with support of
+    LOS (Rice) fading for any tap. Removed Doppler spectrum of type `Rice',
+    since its generation method was the same as of the `Jakes' one. To
+    obtain the `Rice' spectrum, a relative power, and optionally relative
+    Doppler, needs to be defined for certain taps.
+  - Implemented exponential channel profile generation function
+
+* New implementation of the Normal_RNG and Complex_Normal_RNG classes, which
+  uses so-called Ziggurat algorithm. The new generators are about 4-5 times
+  faster than the previous ones using Box-Mueller method (feature request
+  [1707969] and [1711727]).
+
+* New Sort class implementation included with four different algorithms:
+  Introsort, Heap sort, Quick sort and Insertion sort. The implementation of
+  the new sorting functions is much faster than our previous QS()
+  implementation due to the use of low level pointer arithmetic (feature
+  request [1746876]).
+
+* Added repmat() functions, which expand an input matrix or vector to a
+  larger one by concatenating multiple copies of the input one.
+
+* New methods in Vec and Mat classes: elem_mult_inplace(), elem_mult_out(),
+  elem_div_out(), elem_mult_sum(), elem_div_sum() and sumsum()
+
+* New methods: set_rows() and set_cols() implemented in the Mat class
+
+* Added missing left(), right() and mid() methods to the Array class
+
+### Communications module: ###
+
+* Added new classes for Low-Density Parity Check (LDPC) codes. So-called
+  Block LDPC (B-LDPC) codes, or Quasi-Cyclic LDPC codes are supported as
+  well.
+
+* Added support for MacKay's "alist" representation of sparse GF(2)
+  matrices
+
+* Added systematic codewords support in BCH and RS encoder/decoder classes
+  (feature request [1418250])
+
+* Added a new function waterfilling() to solve water-filling problems
+
+### Statistics module: ###
+
+* Created a new set of Mixture of Gaussians (MOG) classes (Statistics
+  module)
+
+* Added templated Histogram class provided (feature request [1451288])
+
+### Other: ###
+
+* MS Visual C++ .NET project file for linking IT++ with ACML added. Also
+  added MSVC++ project files for building test programs.
+
+
+Modifications:
+--------------
+
+### Base module: ###
+
+* Major changes in IT++ file format related classes:
+  - the new file format (version 3) is incompatible with version 2, which
+    was used in IT++ 3.10.x series; for backward compatibility the previous
+    format can be handled using the it_file_old and it_ifile_old classes,
+    which are considered as deprecated and will be removed from the library
+    in future
+  - data is always saved using a little endian byte ordering; files files
+    written on machines using big or little endian ordering should be
+    identical; endianity variable removed from the data_header structure
+  - all size variables are stored using fixed-width 64-bit unsigned integer
+    type, and therefore are independent of the architecture word size (32-
+    or 64-bit)
+  - short and int data types are explicitly casted to fixed-with types
+    int16_t, uint16_t, int32_t and uint32_t, since C/C++ standards do not
+    assume fixed widths of these types
+  - cleaner and more efficient implementation of the write_data_header()
+    function
+  - added missing implementation of a pack() function, which compacts an
+    opened it_file by removing free space between data blocks
+  - added optional description filed which can be saved with each variable
+  - added missing operators and methods for reading and writing svec and
+    smat data types
+  - test program improved
+  - itload.m and itsave.m M-files updated to be compatible with the latest
+    IT++ file format
+
+* Improved and reorganised existing error handling macros:
+  - using standard NDEBUG flag for controlling it_assert_debug() macro,
+    which replaced a three-level ASSERT_LEVEL definition
+  - for backward compatibility it_assert0() and it_assert1() now behaves the
+    same as it_assert_debug()
+  - added new it_info() and it_info_debug() macros for printing information
+    messages; it_info_debug() is also dependent on the NDEBUG compile-time
+    definition
+  - added it_error_msg_style() function for changing the format of
+    it_assert(), it_error() and it_warning() messages; if style is set to
+    Minimum, file name and line number of the error/assert/warning macro is
+    not printed
+  - error functions extended to handle stream operators like `<<' or
+    `std::endl' in concatenation with strings (feature request [1569867])
+
+* Improved the consistency of the alloc(), free() and set_size() methods in
+  the Array, Mat and Vec classes
+
+* General performance improvements of various operators in Vec and Mat
+  classes by using a copy_vector() function where possible. The
+  copy_vector() function use BLAS 1 routines for double and complex<double>
+  arguments.
+
+* The outer_product() function now uses an extra argument "hermitian", which
+  controls the calculation for complex vectors. By default "hermitian" is
+  set to false, which results in (x * y^T) calculation. If "hermitian" is
+  true, (x * y^H) is calculated. This solution is backward compatible with
+  3.10.x interface of outer_product(). Final fix for bug [1727923].
+
+### Communications module: ###
+
+* Major redesign of 1D and 2D modulator classes. From now, there is only one
+  templated base class Modulator, which can handle 1D (real) and 2D
+  (complex) constellations. Other modulators inherits from this base class.
+  BPSK and PAM modulators are split into: BPSK_c/PAM_c classes which have
+  complex-valued interfaces, and BPSK/PAM that have real-valued interfaces.
+  Besides, demodulate_soft_bits() functions take an additional parameter
+  "method" to switch between Log-MAP or approximate demodulation. The input
+  signal for the Modulator_2D has now a slightly different meaning. Also an
+  improper definition of the QPSK constellation is fixed (it was a 4-QAM
+  modulator previously).
+
+* Important updates in the communication channels:
+  - Fading generators inheritance model redesigned. Now there are three
+    types of fading: Independent, Static and Correlated. The Correlated
+    fading can be generated using Rice (MEDS), FIR or IFFT methods. The
+    default fading type is set to `Independent'.
+  - The delay profile discretization function is improved and moved to the
+    TDL_Channel class. An additional parameter `sampling_time' is required
+    when setting the channel profile using the Channel_Specification object.
+    It is now possible to discretize the channel with too low sampling
+    frequency, but only if the taps being merged into a new single tap use
+    the same Doppler spectrum type.
+  - Cleaned up the interfaces of various fading generator classes
+
+* Improved interfaces of Modulator_ND classes, so they are now more similar
+  to 1D and 2D modulators. BTW, implemented Zero-Forcing (ZF) Log-MAP soft
+  demodulator.
+
+### Signal processing module: ###
+
+* Memory allocation for double and complex<double> based vectors and
+  matrices uses 16-byte alignment. This results in much better performance
+  (up to 30% improvement) of FFT/IFFT and DCT/IDCT operations when using
+  FFTW external library (feature request [1418707]).
+
+### Other: ###
+
+* Removed dependency on the external CBLAS library by providing direct
+  interfaces to Fortran BLAS routines (feature request [1746876]).
+
+* New "Signal Processing", "Statistics" and "Numerical Optimization" modules
+  created from a subset of classes and functions from the "Base" module
+
+* Restructuring of the source files in the "Base" module. Some of the
+  functions grouped in "Linear Algebra" and "Mathematical and Miscellaneous
+  Functions" sub-modules.
+
+* Modularization added to the configuration scripts. It is now possible to
+  select a limited set of modules, which will be built and installed as the
+  IT++ library.
+
+* Improvements in itpp-config and pkg-config's itpp.pc scripts. The changes
+  are intended to follow the distinction between linking to a static and
+  shared version of the library, which is used in pkg-config's itpp.pc file.
+  By default "itpp-config --libs" returns "-I${prefix}/lib -litpp", whereas
+  when "--static" is added in front of "--libs", the returned string is
+  extended with a set of external library names required for proper static
+  linking. Moreover, an additional "--debug" switch has been added, which
+  changes the output of "itpp-config --cflags" and "itpp-config --libs" by
+  providing debugging flags and debugging library name. For backward
+  compatibility "--cflags-opt", "--cflags-debug", "--libs-opt" and
+  "--libs-debug" still exist, but they are not documented and their use is
+  deprecated.
+

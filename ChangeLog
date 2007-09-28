@@ -1,4 +1,10 @@
+==============================================================================
+
 2007-09-28  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* IT++ 4.0.0-rc1 released (SVN tag: release-4-0-0-rc1)
+
+	* NEWS: Updated to reflect recent changes
 
 	* tests/itfile_test.cpp: Fixed a minor bug in itfile_test program
 
