@@ -1,3 +1,12 @@
+2007-09-28  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* tests/itfile_test.cpp: Fixed a minor bug in itfile_test program
+
+	This test program opened the reference data file from source
+	directory in read/write mode, which was wrong, because source
+	directory can be located on read-only file system. This patch
+	fixes this bug.
+
 2007-09-27  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/modulator_nd_test.cpp, tests/modulator_nd_test.ref: Test

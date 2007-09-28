@@ -80,35 +80,35 @@ int main()
   Array<cmat> acm, acm_ref = "{[(0,2) (0.5,-0.5); (2,1) (0,0)] "
     "[(1.1,2) (7,-4e-5); (0,2) (1.5,7.2)]}";
 
-  it_file ff;
 #ifdef SAVE_DATA
-  ff.open(string(ITFILE_TEST_FILE), true);
-  ff << Name("c", "char variable") << c_ref;
-  ff << Name("bo", "bool variable") << bo_ref;
-  ff << Name("b", "bin variable") << b_ref;
-  ff << Name("s", "short int variable") << s_ref;
-  ff << Name("i", "int variable") << i_ref;
-  ff << Name("f") << f_ref;
-  ff << Name("d") << d_ref;
-  ff << Name("cd") << cd_ref;
-  ff << Name("st") << st_ref;
-  ff << Name("bv") << bv_ref;
-  ff << Name("iv") << iv_ref;
-  ff << Name("v") << v_ref;
-  ff << Name("cv") << cv_ref;
-  ff << Name("bm") << bm_ref;
-  ff << Name("im") << im_ref;
-  ff << Name("m") << m_ref;
-  ff << Name("cm") << cm_ref;
-  ff << Name("abv") << abv_ref;
-  ff << Name("aiv") << aiv_ref;
-  ff << Name("av") << av_ref;
-  ff << Name("acv") << acv_ref;
-  ff << Name("abm") << abm_ref;
-  ff << Name("aim") << aim_ref;
-  ff << Name("am") << am_ref;
-  ff << Name("acm") << acm_ref;
-  ff.close();
+  it_file fw;
+  fw.open(string(ITFILE_TEST_FILE), true);
+  fw << Name("c", "char variable") << c_ref;
+  fw << Name("bo", "bool variable") << bo_ref;
+  fw << Name("b", "bin variable") << b_ref;
+  fw << Name("s", "short int variable") << s_ref;
+  fw << Name("i", "int variable") << i_ref;
+  fw << Name("f") << f_ref;
+  fw << Name("d") << d_ref;
+  fw << Name("cd") << cd_ref;
+  fw << Name("st") << st_ref;
+  fw << Name("bv") << bv_ref;
+  fw << Name("iv") << iv_ref;
+  fw << Name("v") << v_ref;
+  fw << Name("cv") << cv_ref;
+  fw << Name("bm") << bm_ref;
+  fw << Name("im") << im_ref;
+  fw << Name("m") << m_ref;
+  fw << Name("cm") << cm_ref;
+  fw << Name("abv") << abv_ref;
+  fw << Name("aiv") << aiv_ref;
+  fw << Name("av") << av_ref;
+  fw << Name("acv") << acv_ref;
+  fw << Name("abm") << abm_ref;
+  fw << Name("aim") << aim_ref;
+  fw << Name("am") << am_ref;
+  fw << Name("acm") << acm_ref;
+  fw.close();
 #endif
   std::string name, type, desc;
   uint64_t size;
@@ -116,7 +116,7 @@ int main()
   cout.setf(ios::fixed);
   cout << "Name |      Type | Size | Description\n";
   cout << "------------------------------------------------\n";
-  ff.open(string(ITFILE_TEST_FILE), false);
+  it_ifile ff(string(ITFILE_TEST_FILE));
   while (ff.seek(n++)) {
     ff.info(name, type, desc, size);
     cout << setw(4) << name << setw(12) << type << setw(7) << size
