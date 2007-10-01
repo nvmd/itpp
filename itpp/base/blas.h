@@ -30,6 +30,16 @@
 #ifndef BLAS_H
 #define BLAS_H
 
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
+
+#ifdef HAVE_BLAS_MKL
+#  define zdotusub_ zdotu_
+#endif
+
 #include <complex>
 
 #ifndef DOXYGEN_SHOULD_SKIP_THIS

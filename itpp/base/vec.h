@@ -923,7 +923,6 @@ namespace itpp {
   }
 
   // zdotusub_ is not available in MKL
-#if !defined(HAVE_MKL) || !defined(_MSC_VER)
   template<> inline
   std::complex<double> dot(const cvec &v1, const cvec &v2)
   {
@@ -933,7 +932,6 @@ namespace itpp {
     blas::zdotusub_(&output, &v1.datasize, v1.data, &incr, v2.data, &incr);
     return output;
   }
-#endif // ! HAVE_MKL || ! _MSC_VER
 #endif // HAVE_BLAS
 
   template<class Num_T> inline

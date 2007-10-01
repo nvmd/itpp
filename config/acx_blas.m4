@@ -66,12 +66,6 @@ if test "$acx_blas_ok" = no; then
         [BLAS_LIBS=""])
       AC_MSG_RESULT($acx_blas_ok)
     fi
-    # if BLAS is found check for ATLAS
-    if test "$acx_blas_ok" = yes; then
-      AC_MSG_CHECKING([for ATL_xerbla in $BLAS_LIBS])
-      AC_TRY_LINK_FUNC(ATL_xerbla, [blas_atlas_ok=yes])
-      AC_MSG_RESULT($blas_atlas_ok)
-    fi
     LIBS="$save_LIBS"
   fi
 fi
@@ -175,11 +169,40 @@ if test "$acx_blas_ok" = no; then
       [], [$MY_FLIBS])])
 fi
 
+# if BLAS is found check what kind of BLAS it is
+if test "$acx_blas_ok" = yes && test "$blas_mkl_ok" = no \
+    && test "$blas_acml_ok" = no && test "$blas_atlas_ok" = no; then
+  save_LIBS="$LIBS"; LIBS="$BLAS_LIBS $LIBS"
+  AC_MSG_CHECKING([for MKLGetVersion in $BLAS_LIBS])
+  AC_TRY_LINK_FUNC(MKLGetVersion, [blas_mkl_ok=yes])
+  AC_MSG_RESULT($blas_mkl_ok)
+  if test "$blas_mkl_ok" = no; then
+    AC_MSG_CHECKING([for acmlversion in $BLAS_LIBS])
+    AC_TRY_LINK_FUNC(acmlversion, [blas_acml_ok=yes])
+    AC_MSG_RESULT($blas_acml_ok)
+  fi
+  if test "$blas_mkl_ok" = no && test "$blas_acml_ok" = no; then
+    AC_MSG_CHECKING([for ATL_xerbla in $BLAS_LIBS])
+    AC_TRY_LINK_FUNC(ATL_xerbla, [blas_atlas_ok=yes])
+    AC_MSG_RESULT($blas_atlas_ok)
+  fi
+  LIBS="$save_LIBS"
+fi
+
 AC_SUBST(BLAS_LIBS)
 
 # Finally, define HAVE_BLAS
 if test "$acx_blas_ok" = yes; then
   AC_DEFINE(HAVE_BLAS, 1, [Define if you have a BLAS library.])
+  if test "$blas_mkl_ok" = yes; then
+    AC_DEFINE(HAVE_BLAS_MKL, 1, [Define if you have an MKL BLAS library.])
+  fi
+  if test "$blas_acml_ok" = yes; then
+    AC_DEFINE(HAVE_BLAS_ACML, 1, [Define if you have an ACML BLAS library.])
+  fi
+  if test "$blas_atlas_ok" = yes; then
+    AC_DEFINE(HAVE_BLAS_ATLAS, 1, [Define if you have an ATLAS BLAS library.])
+  fi
 else
   if test "$acx_blas_ok" != disabled; then
     AC_MSG_ERROR([cannot find any BLAS library, which is required by LAPACK.

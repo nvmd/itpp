@@ -27,6 +27,19 @@
 #  define HAVE_BLAS 1
 #endif
 
+#ifdef HAVE_ACML
+/* Define if you have an ACML BLAS library. */
+#  define HAVE_BLAS_ACML 1
+#endif
+
+/* Define if you have an ATLAS BLAS library. */
+/* #undef HAVE_BLAS_ATLAS */
+
+#ifdef HAVE_MKL
+/* Define if you have an MKL BLAS library. */
+#  define HAVE_BLAS_MKL 1
+#endif
+
 /* Define to 1 if you have the `cbrt' function. */
 /* #undef HAVE_CBRT */
 
