@@ -1,5 +1,17 @@
 2007-10-01  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* config/acx_blas.m4, itpp/base/blas.h, itpp/base/vec.h,
+	itpp/config_msvc.h: Fixed failing blas_test and vec_test when
+	linking with MKL
+
+	There was a problem with using zdotusub_ Fortran wrapper with
+	Intel's MKL library, which resulted in segmentation faults in
+	blas_test and vec_test programs. Now zdotusub_ is defined as
+	zdotu_ when MKL BLAS is used, and zdotusub.f is not built in such
+	a case. BTW, the detection of MKL, ACML and ATLAS BLAS libraries
+	is improved (additional HAVE_BLAS_MKL, HAVE_BLAS_ACML and
+	HAVE_BLAS_ATLAS definitions are available).
+
 	* configure.ac, itpp/base/Makefile.am: Fixed linking problem with
 	zdotu_ when not using BLAS
 
