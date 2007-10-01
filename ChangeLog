@@ -1,3 +1,12 @@
+2007-10-01  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac, itpp/base/Makefile.am: Fixed linking problem with
+	zdotu_ when not using BLAS
+
+	If an external BLAS library is not used, do not compile and link
+	the zdotusub_ Fortran wrapper, since it requires an external
+	zdotu_ function to exist.
+
 ==============================================================================
 
 2007-09-28  Adam Piatyszek  <ediap@users.sourceforge.net>
