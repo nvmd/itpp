@@ -35,16 +35,14 @@ if test "x$FFT_LIBS" != x; then
   AC_TRY_LINK_FUNC(DftiComputeForward, [acx_fft_ok=yes])
   AC_MSG_RESULT($acx_fft_ok)
   if test "$acx_fft_ok" = yes; then
-    AC_CHECK_HEADER([mkl_dfti.h], [fft_mkl_ok=yes; blas_mkl_ok=yes],
-      [acx_fft_ok=no])
+    AC_CHECK_HEADER([mkl_dfti.h], [fft_mkl_ok=yes], [acx_fft_ok=no])
   fi
   if test "$acx_fft_ok" = no; then
     AC_MSG_CHECKING([for zfft1dx in $FFT_LIBS])
     AC_TRY_LINK_FUNC(zfft1dx, [acx_fft_ok=yes])
     AC_MSG_RESULT($acx_fft_ok)
     if test "$acx_fft_ok" = yes; then
-      AC_CHECK_HEADER([acml.h], [fft_acml_ok=yes; blas_acml_ok=yes],
-        [acx_fft_ok=no])
+      AC_CHECK_HEADER([acml.h], [fft_acml_ok=yes], [acx_fft_ok=no])
     fi
   fi
   if test "$acx_fft_ok" = no; then
@@ -63,8 +61,7 @@ if test "$acx_fft_ok" = no; then
   save_LIBS="$LIBS"; LIBS="$LIBS $BLAS_LIBS"
   AC_CHECK_FUNC(DftiComputeForward, [acx_fft_ok=yes])
   if test "$acx_fft_ok" = yes; then
-    AC_CHECK_HEADER([mkl_dfti.h], [fft_mkl_ok=yes; blas_mkl_ok=yes],
-      [acx_fft_ok=no])
+    AC_CHECK_HEADER([mkl_dfti.h], [fft_mkl_ok=yes], [acx_fft_ok=no])
   fi
   LIBS="$save_LIBS"
 fi
@@ -74,8 +71,7 @@ if test "$acx_fft_ok" = no; then
   save_LIBS="$LIBS"; LIBS="$LIBS $BLAS_LIBS"
   AC_CHECK_FUNC(zfft1dx, [acx_fft_ok=yes])
   if test "$acx_fft_ok" = yes; then
-    AC_CHECK_HEADER([acml.h], [fft_acml_ok=yes; blas_acml_ok=yes],
-      [acx_fft_ok=no])
+    AC_CHECK_HEADER([acml.h], [fft_acml_ok=yes], [acx_fft_ok=no])
   fi
   LIBS="$save_LIBS"
 fi
@@ -105,8 +101,7 @@ if test "$acx_fft_ok" = no; then
     [-lguide -lpthread])
   if test "$acx_fft_ok" = yes; then
     AC_CHECK_HEADER([mkl_dfti.h],
-      [fft_mkl_ok=yes; blas_mkl_ok=yes; FFT_LIBS="-lmkl -lguide -lpthread"],
-      [acx_fft_ok=no])
+      [fft_mkl_ok=yes; FFT_LIBS="-lmkl -lguide -lpthread"], [acx_fft_ok=no])
   fi
   LIBS="$save_LIBS"
 fi
@@ -117,8 +112,7 @@ if test "$acx_fft_ok" = no; then
   AC_CHECK_LIB(acml, zfft1dx, [acx_fft_ok=yes])
   if test "$acx_fft_ok" = yes; then
     AC_CHECK_HEADER([acml.h],
-      [fft_acml_ok=yes; blas_acml_ok=yes; FFT_LIBS="-lacml$MY_FLIBS"],
-      [acx_fft_ok=no])
+      [fft_acml_ok=yes; FFT_LIBS="-lacml$MY_FLIBS"], [acx_fft_ok=no])
   fi
   LIBS="$save_LIBS"
 fi
