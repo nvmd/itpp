@@ -1,5 +1,14 @@
 2007-10-01  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* config/acx_fft.m4: Do not set blas_xxx_ok=yes when detecting FFT
+	libraries
+
+	This patch fixes FFT library detection macros, so they do not set
+	blas_mkl_ok or blas_acml_ok variables. Without this fix, it might
+	happened that even if BLAS detection was disabled (e.g. by using
+	`--without-blas'), an ACML or MKL BLAS library was indicated as
+	found.
+
 	* config/acx_blas.m4, itpp/base/blas.h, itpp/base/vec.h,
 	itpp/config_msvc.h: Fixed failing blas_test and vec_test when
 	linking with MKL
