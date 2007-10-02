@@ -5,61 +5,63 @@ AM_CXXFLAGS = $(CXXFLAGS_OPT)
 BASE_TESTS = array_test bessel_test blas_test circular_buffer_test	\
   fastmath_test gf2mat_test integration_test itfile_test mat_test	\
   parser_test rand_test sort_test sparse_test timer_test vec_test
-
-if RUN_LAPACK_TESTS
-  BASE_TESTS += cholesky_test det_test eigen_test inv_test ls_solve_test \
-    lu_test matfunc_test qr_test schur_test svd_test
-endif
+BASE_LAP_TESTS = cholesky_test det_test eigen_test inv_test ls_solve_test \
+  lu_test matfunc_test qr_test schur_test svd_test
 
 COMM_TESTS = bch_test commfunc_test convcode_test galois_test		\
   interleaver_test ldpc_test llr_test modulator_test pulse_shape_test	\
   rec_syst_conv_code_test reedsolomon_test turbo_test
-
-if RUN_LAPACK_TESTS
-  COMM_TESTS += modulator_nd_test
-endif
-if RUN_FFT_TESTS
-  COMM_TESTS += channel_test
-endif
+COMM_LAP_TESTS = modulator_nd_test
+COMM_FFT_TESTS = channel_test
 
 FIXED_TESTS = fix_test
 
 OPTIM_TESTS = newton_search_test
 
 SIGNAL_TESTS = filter_test source_test window_test
-
-if RUN_LAPACK_TESTS
-  SIGNAL_TESTS += fastica_test poly_test
-if RUN_FFT_TESTS
-  SIGNAL_TESTS += filter_design_test
-endif # RUN_FFT_TESTS
-endif # RUN_LAPACK_TESTS
-if RUN_FFT_TESTS
-  SIGNAL_TESTS += freq_filt_test sigfun_test transforms_test
-endif
+SIGNAL_LAP_TESTS = fastica_test poly_test
+SIGNAL_FFT_TESTS = freq_filt_test sigfun_test transforms_test
+SIGNAL_LAP_FFT_TESTS = filter_design_test
 
 STAT_TESTS = histogram_test
+STAT_LAP_TESTS = stat_test
 
-if RUN_LAPACK_TESTS
-  STAT_TESTS += stat_test
-endif
-
-ALL_TESTS = $(BASE_TESTS) $(COMM_TESTS) $(FIXED_TESTS) $(OPTIM_TESTS) \
-	$(SIGNAL_TESTS) $(STAT_TESTS)
+ALL_TESTS = $(BASE_TESTS) $(BASE_LAP_TESTS) $(COMM_TESTS) $(COMM_LAP_TESTS) \
+  $(COMM_FFT_TESTS) $(FIXED_TESTS) $(OPTIM_TESTS) $(SIGNAL_TESTS) \
+  $(SIGNAL_LAP_TESTS) $(SIGNAL_FFT_TESTS) $(SIGNAL_LAP_FFT_TESTS) \
+  $(STAT_TESTS) $(STAT_LAP_TESTS)
 
 USED_TESTS = $(BASE_TESTS) $(STAT_TESTS)
+if RUN_LAPACK_TESTS
+  USED_TESTS += $(BASE_LAP_TESTS) $(STAT_LAP_TESTS)
+endif # RUN_LAPACK_TESTS
 if ENABLE_COMM
   USED_TESTS += $(COMM_TESTS)
-endif
+if RUN_LAPACK_TESTS
+  USED_TESTS += $(COMM_LAP_TESTS)
+endif # RUN_LAPACK_TESTS
+if RUN_FFT_TESTS
+  USED_TESTS += $(COMM_FFT_TESTS)
+endif # RUN_FFT_TESTS
+endif # ENABLE_COMM
 if ENABLE_FIXED
   USED_TESTS += $(FIXED_TESTS)
-endif
+endif # ENABLE_FIXED
 if ENABLE_OPTIM
   USED_TESTS += $(OPTIM_TESTS)
-endif
+endif # ENABLE_OPTIM
 if ENABLE_SIGNAL
   USED_TESTS += $(SIGNAL_TESTS)
-endif
+if RUN_LAPACK_TESTS
+  USED_TESTS += $(SIGNAL_LAP_TESTS)
+endif # RUN_LAPACK_TESTS
+if RUN_FFT_TESTS
+  USED_TESTS += $(SIGNAL_FFT_TESTS)
+if RUN_LAPACK_TESTS
+  USED_TESTS += $(SIGNAL_LAP_FFT_TESTS)
+endif # RUN_LAPACK_TESTS
+endif # RUN_FFT_TESTS
+endif # ENABLE_SIGNAL
 
 array_test_SOURCES = array_test.cpp
 bch_test_SOURCES = bch_test.cpp

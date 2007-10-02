@@ -1,5 +1,12 @@
 2007-10-01  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/Makefile.am: All test programs needs to be declared in
+	ALL_TESTS
+
+	Without this change, some reference files (*.ref) might not have
+	been included in the distribution package when --without-lapack or
+	--without-fft switch was used.
+
 	* config/acx_fft.m4: Do not set blas_xxx_ok=yes when detecting FFT
 	libraries
 
