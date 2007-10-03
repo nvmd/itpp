@@ -34,7 +34,7 @@ fi
 
 # Parse "--with-lapack=<lib>" option
 AC_ARG_WITH(lapack,
-  [AC_HELP_STRING([--with-lapack=<lib>], [use LAPACK library <lib>])])
+  [AC_HELP_STRING([--with-lapack@<:@=LIB@:>@], [use LAPACK library, optionally specified by LIB])])
 case $with_lapack in
   yes | "") ;;
   no) acx_lapack_ok=disabled ;;
