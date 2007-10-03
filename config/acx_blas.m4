@@ -33,7 +33,7 @@ blas_atlas_ok=no
 
 # Parse "--with-blas=<lib>" option
 AC_ARG_WITH(blas,
-  [AC_HELP_STRING([--with-blas=<lib>], [use BLAS library <lib>])])
+  [AC_HELP_STRING([--with-blas@<:@=LIB@:>@], [use BLAS library, optionally specified by LIB])])
 case $with_blas in
   yes | "") ;;
   no) acx_blas_ok=disabled ;;

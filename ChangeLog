@@ -1,3 +1,9 @@
+2007-10-02  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* config/acx_blas.m4, config/acx_fft.m4, config/acx_lapack.m4:
+	Cosmetic changes in --with-PACKAGE strings of the configure
+	command
+
 2007-10-01  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/Makefile.am: All test programs needs to be declared in

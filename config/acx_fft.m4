@@ -19,8 +19,9 @@ fft_mkl_ok=no
 fft_acml_ok=no
 fftw3_ok=no
 
+
 # Parse "--with-fft=<lib>" option
-AC_ARG_WITH(fft, [AC_HELP_STRING([--with-fft=<lib>], [use FFT library <lib>])])
+AC_ARG_WITH(fft, [AC_HELP_STRING([--with-fft@<:@=LIB@:>@], [use FFT library, optionally specified by LIB])])
 case $with_fft in
   yes | "") ;;
   no) acx_fft_ok=disabled ;;
