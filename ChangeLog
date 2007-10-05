@@ -1,3 +1,14 @@
+2007-10-04  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/binary.cpp, itpp/base/binary.h: Check for allowed 0 or
+	1 values in ">>" operator of bin class
+
+	Without this patch it was possible to initialise binary vectors or
+	matrices with values other than 0 or 1, when linking to the IT++
+	library build without "-DNDEBUG" flag.
+	BTW, performed a set of cosmetic changes in bin class operators
+	and constructors.
+
 2007-10-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* config/acx_blas.m4, config/acx_fft.m4, config/acx_lapack.m4:
