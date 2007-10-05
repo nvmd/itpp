@@ -149,6 +149,10 @@ commands:
   % export CPPFLAGS="-I/opt/intel/mkl/8.0.1/include"
   % ./configure
 
+Instead of CPPFLAGS, one can use `--with-fft-include=\<PATH\>' configure
+option to set path to header files that provide FFT functionality, i.e. to
+`fftw3.h', `mkl_dft.h' or `acml.h'.
+
 In the case that external libraries have non-standard names, e.g.
 `libblas3.a' for BLAS, you might specify them to the configure using
 `--with-<LIBNAME>' switches, where <LIBNAME> is one of the following:

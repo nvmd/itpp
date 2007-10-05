@@ -11,6 +11,13 @@
 
 2007-10-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* INSTALL, doc/local/installation.doc, config/acx_fft.m4: Added
+	--with-fft-include=DIR option to the configure command
+
+	This option can be used instead of CPPFLAGS to pass non standard
+	paths to include files required by IT++ FFT routines (using ACML,
+	MKL or FFTW).
+
 	* config/acx_blas.m4, config/acx_fft.m4, config/acx_lapack.m4:
 	Cosmetic changes in --with-PACKAGE strings of the configure
 	command
