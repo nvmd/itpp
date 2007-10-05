@@ -56,59 +56,60 @@ namespace itpp {
   class bin {
   public:
     //! Default constructor
-    bin() { b=0; }
+    bin(): b(0) {}
 
     //! Set the binary object equal to \c value. Either "0" or "1".
-    bin(const short value) {
-      it_assert_debug(value==0 || value==1, "bin(value): value must be 0 or 1");
-      b = static_cast<char>(value);
+    bin(const int &value): b(static_cast<char>(value)) {
+      it_assert_debug((value == 0) || (value == 1),
+                      "bin::bin(): value must be 0 or 1");
     }
 
     //! Copy constructor
-    bin(const bin &inbin) { b=inbin.b; }
+    bin(const bin &inbin): b(inbin.b) {}
 
     //! Assign a value
-    void operator=(const short &value) {
-      it_assert_debug(value==0 || value==1, "bin(value): value must be 0 or 1");
+    void operator=(const int &value) {
+      it_assert_debug((value == 0) || (value == 1),
+                      "bin::operator=(): value must be 0 or 1");
       b = static_cast<char>(value);
     }
 
     //! Assign a value
-    void operator=(const bin &inbin)   { b=inbin.b; }
+    void operator=(const bin &inbin) { b = inbin.b; }
 
     //! OR
-    void operator/=(const bin &inbin) { b=b|inbin.b; }
+    void operator/=(const bin &inbin) { b |= inbin.b; }
 
     //! OR
-    void operator|=(const bin &inbin) { b=b|inbin.b; }
+    void operator|=(const bin &inbin) { b |= inbin.b; }
     //! OR
-    bin operator/(const bin &inbin) const { return bin(b|inbin.b); }
+    bin operator/(const bin &inbin) const { return bin(b | inbin.b); }
     //! OR
-    bin operator|(const bin &inbin) const { return bin(b|inbin.b); }
+    bin operator|(const bin &inbin) const { return bin(b | inbin.b); }
 
     //! XOR
-    void operator+=(const bin &inbin) { b=b^inbin.b; }
+    void operator+=(const bin &inbin) { b ^= inbin.b; }
     //! XOR
-    void operator^=(const bin &inbin) { b=b^inbin.b; }
+    void operator^=(const bin &inbin) { b ^= inbin.b; }
     //! XOR
-    bin operator+(const bin &inbin) const { return bin(b^inbin.b); }
+    bin operator+(const bin &inbin) const { return bin(b ^ inbin.b); }
     //! XOR
-    bin operator^(const bin &inbin) const { return bin(b^inbin.b); }
+    bin operator^(const bin &inbin) const { return bin(b ^ inbin.b); }
     //! XOR
-    void operator-=(const bin &inbin) { b=b^inbin.b; }
+    void operator-=(const bin &inbin) { b ^= inbin.b; }
     //! XOR
-    bin operator-(const bin &inbin) const {return bin(b^inbin.b); }
+    bin operator-(const bin &inbin) const { return bin(b ^ inbin.b); }
     //! Dummy definition to be able to use vec<bin>
     bin operator-() const { return bin(b); }
 
     //! AND
-    void operator*=(const bin &inbin) { b=b&inbin.b; }
+    void operator*=(const bin &inbin) { b &= inbin.b; }
     //! AND
-    void operator&=(const bin &inbin) { b=b&inbin.b; }
+    void operator&=(const bin &inbin) { b &= inbin.b; }
     //! AND
-    bin operator*(const bin &inbin) const { return bin(b&inbin.b); }
+    bin operator*(const bin &inbin) const { return bin(b & inbin.b); }
     //! AND
-    bin operator&(const bin &inbin) const { return bin(b&inbin.b); }
+    bin operator&(const bin &inbin) const { return bin(b & inbin.b); }
 
     //! NOT
     bin operator!(void) const { return bin(b^1); }
@@ -118,12 +119,12 @@ namespace itpp {
     //! Check if equal
     bool operator==(const bin &inbin) const { return b == inbin.b; }
     //! Check if equal
-    bool operator==(const int &inbin) const { return b == inbin; }
+    bool operator==(const int &i) const { return b == i; }
 
     //! Check if not equal
     bool operator!=(const bin &inbin) const { return b != inbin.b; }
     //! Check if not equal
-    bool operator!=(const int &inbin) const { return b != inbin; }
+    bool operator!=(const int &i) const { return b != i; }
 
     //! Less than (interpret the binary values {0,1} as integers)
     bool operator<(const bin &inbin) const  { return b < inbin.b; }
@@ -140,7 +141,7 @@ namespace itpp {
     //! Convert \c bin to \c int
     operator int() const    { return static_cast<int>(b); }
     //! Convert \c bin to \c bool
-    operator bool() const   { return b!=0; }
+    operator bool() const   { return b != 0; }
     //! Convert \c bin to \c float
     operator float() const  { return static_cast<float>(b); }
     //! Convert \c bin to \c double
@@ -148,8 +149,6 @@ namespace itpp {
 
     //! Output the binary value of the object
     char value() const { return b; }
-
-  protected:
 
   private:
     char b;
@@ -175,14 +174,16 @@ namespace itpp {
 
 } // namespace itpp
 
-namespace std{     // added 11/2005, EGL
+
+namespace std { // added 11/2005, EGL
+
   /*!
     \relatesalso itpp::bin
     \brief absolute value of bin
   */
-  inline short abs(const itpp::bin &inbin) { return inbin; }
-}
+  inline int abs(const itpp::bin &inbin) { return inbin; }
+
+} // namespace std
 
 #endif // #ifndef BINARY_H
-
 
