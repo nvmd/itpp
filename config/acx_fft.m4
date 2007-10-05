@@ -29,6 +29,11 @@ case $with_fft in
   *) FFT_LIBS="-l$with_fft" ;;
 esac
 
+# Parse "--with-fft-include=<path>" option
+AC_ARG_WITH(fft_include, [AC_HELP_STRING([--with-fft-include=DIR],
+    [path to FFT header files])],
+  [CPPFLAGS="$CPPFLAGS -I$with_fft_include"])
+
 # First, check FFT_LIBS environment variable
 if test "x$FFT_LIBS" != x; then
   save_LIBS="$LIBS"; LIBS="$FFT_LIBS $LIBS"

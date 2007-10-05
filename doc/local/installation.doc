@@ -168,6 +168,10 @@ following commands:
 % ./configure
 \endverbatim
 
+Instead of CPPFLAGS, one can use `--with-fft-include=\<PATH\>' configure
+option to set path to header files that provide FFT functionality, i.e. to
+\c `fftw3.h', \c `mkl_dft.h' or \c `acml.h'.
+
 In the case that external libraries have non-standard names, e.g.
 <tt>`libblas3.a'</tt> for BLAS, you might specify them to the configure
 using \c `--with-\<LIBNAME\>' switches, where \c \<LIBNAME\> is one of the
