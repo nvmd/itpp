@@ -1,3 +1,8 @@
+2007-10-05  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* INSTALL, doc/local/installation.doc: Installation manual updated
+	to reflect recent changes
+
 2007-10-04  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/binary.cpp, itpp/base/binary.h: Check for allowed 0 or

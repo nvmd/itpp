@@ -4,8 +4,8 @@ IT++ Installation
 IT++ Requirements
 =================
 
-IT++ should compile without errors or warnings on most GNU/Linux systems, on
-UNIX systems like Solaris SunOS, and on POSIX based environments for
+IT++ should compile without errors or warnings on most GNU/Linux systems,
+on UNIX systems like Solaris SunOS, and on POSIX based environments for
 Microsoft Windows like Cygwin or MinGW with MSYS. It can be also built on
 Microsoft Windows NT/2000/XP using Microsoft's Visual C++ .NET, but our
 support for this compiler is limited. For GNU/Linux, SunOS, Cygwin and MinGW
@@ -57,14 +57,14 @@ IT++ source code, visit the project pages on SourceForge:
   o http://itpp.sourceforge.net/
 
 and download the file named itpp-<VERSION>.tar.gz or itpp-<VERSION>.tar.bz2,
-where <VERSION> is the latest release number, e.g. 3.9.0.
+where <VERSION> is the latest release number, e.g. 4.0.0.
 
 
 IT++ Configuration, Compilation and Installation
 ================================================
 
-Assuming that you have already downloaded the latest IT++ sources, untar and
-unpack the sources, and enter the unpacked directory. Depending on the
+Assuming that you have already downloaded the latest IT++ sources, untar
+and unpack the sources, and enter the unpacked directory. Depending on the
 package type you have downloaded, use the following commands:
 
   % gzip -cd itpp-<VERSION>.tar.gz | tar xf -
@@ -73,9 +73,9 @@ package type you have downloaded, use the following commands:
   % bzip2 -cd itpp-<VERSION>.tar.bz2 | tar xf -
   % cd itpp-<VERSION>
 
-Since version 3.9.0, the IT++ library uses autoconf, automake and libtool for
-preparing Makefiles and configuration script, so the compilation procedure
-resembles a standard, well-known GNU method, i.e.
+Since version 3.9.0, the IT++ library uses autoconf, automake and libtool
+for preparing Makefiles and configuration script, so the compilation
+procedure resembles a standard, well-known GNU method, i.e.
 
   % ./configure
   % make
@@ -137,16 +137,16 @@ detection procedure is as follows:
     HAVE_FFTW3 is defined, respectively.
 
 If some external libraries are installed in a non-standard location in your
-system, e.g. MKL in `/opt/intel/mkl/8.0.1', the `configure' script will not
+system, e.g. MKL in `/opt/intel/mkl/9.1', the `configure' script will not
 detect them automatically. In such a case, you should use LDFLAGS and
 CPPFLAGS environment variables to define additional directories to be
 searched for libraries (LDFLAGS) and include files (CPPFLAGS). For instance,
-to configure IT++ to link to the MKL 8.0.1 external library, which is
-installed in `/opt/intel/mkl/8.0.1' directory, you should use the following
+to configure IT++ to link to the MKL 9.1 external library, which is
+installed in `/opt/intel/mkl/9.1' directory, you should use the following
 commands:
 
-  % export LDFLAGS="-L/opt/intel/mkl/8.0.1/lib/32"
-  % export CPPFLAGS="-I/opt/intel/mkl/8.0.1/include"
+  % export LDFLAGS="-L/opt/intel/mkl/9.1/lib/32"
+  % export CPPFLAGS="-I/opt/intel/mkl/9.1/include"
   % ./configure
 
 Instead of CPPFLAGS, one can use `--with-fft-include=\<PATH\>' configure
@@ -184,12 +184,6 @@ the following flags:
 In the case of Sun's UltraSPARC 64-bit platform and GCC compiler, the flags
 might be set as follows:
 
-  % export CXXFLAGS="-O3 -pipe -mcpu=v9 -m64"
-  % ./confiugre
-
-In the case of Sun's UltraSPARC 64-bit platform and GCC compiler, the flags
-might be set as follows:
-
   % export CXXFLAGS="-DNDEBUG -O3 -pipe -mcpu=v9 -m64"
   % ./confiugre
 
@@ -205,7 +199,7 @@ recent Gentoo Linux system:
 one can observe something like this:
 
 ------------------------------------------------------------------------------
-itpp-3.99.3 library configuration:
+itpp-4.0.0 library configuration:
 ------------------------------------------------------------------------------
 
 Directories:
@@ -213,7 +207,7 @@ Directories:
   - exec_prefix .... : ${prefix}
   - includedir ..... : ${prefix}/include
   - libdir ......... : ${exec_prefix}/lib
-  - docdir ......... : ${prefix}/share/doc/itpp-3.99.3
+  - docdir ......... : ${prefix}/share/doc/itpp-4.0.0
 
 Switches:
   - debug .......... : no
@@ -261,7 +255,7 @@ Compiler/linker flags/libs/defs:
   - LIBS ........... : -lfftw3 -llapack -lblas
 
 ------------------------------------------------------------------------------
-Now type 'make && make install' to build and install itpp-3.99.3 library
+Now type 'make && make install' to build and install itpp-4.0.0 library
 ------------------------------------------------------------------------------
 
 
