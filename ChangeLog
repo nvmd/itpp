@@ -1,5 +1,13 @@
 2007-10-05  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/matfunc.h, tests/matfunc_test.cpp,
+	tests/matfunc_test.ref: Added templated rank() function
+
+	The rank() function calculates the rank of a matrix by counting
+	the number of non-zero singular values. LAPACK's SVD function is
+	thus required by this function. Thanks to Martin Senst for
+	submitting the patch.
+
 	* INSTALL, doc/local/installation.doc: Installation manual updated
 	to reflect recent changes
 

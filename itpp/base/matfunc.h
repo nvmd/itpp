@@ -34,6 +34,7 @@
 #include <itpp/base/mat.h>
 #include <itpp/base/math/log_exp.h>
 #include <itpp/base/math/elem_math.h>
+#include <itpp/base/algebra/svd.h>
 
 
 namespace itpp {
@@ -474,6 +475,55 @@ namespace itpp {
    * \author Adam Piatyszek
    */
   cmat sqrtm(const mat& A);
+
+
+ /*!
+  * \brief Calculate the rank of matrix \c m
+  * \author Martin Senst
+  *
+  * \param m Input matrix
+  * \param tol Tolerance used for comparing the singular values with zero.
+  */
+  template<class T>
+  int rank(const Mat<T>& m, double tol = -1.0)
+  {
+    int rows = m.rows();
+    int cols = m.cols();
+    if ((rows == 0) || (cols == 0))
+      return 0;
+
+    vec sing_val = svd(m);
+
+    if (tol <= 0.0) { // Calculate default tolerance
+      tol = eps * sing_val(0) * (rows > cols ? rows : cols);
+    }
+
+    // Count number of nonzero singular values
+    int r = 0;
+    while ((sing_val(r) > tol) && r < sing_val.length()) {
+      r++;
+    }
+
+    return r;
+  }
+
+  template<> inline
+  int rank(const imat& m, double tol)
+  {
+    return rank(to_mat(m), tol);
+  }
+
+  template<> inline
+  int rank(const smat& m, double tol)
+  {
+    return rank(to_mat(m), tol);
+  }
+
+  template<> inline
+  int rank(const bmat& m, double tol)
+  {
+    return rank(to_mat(m), tol);
+  }
 
   //!@}
 

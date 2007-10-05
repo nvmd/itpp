@@ -92,7 +92,21 @@ int main()
   cmat B_sqrtm = sqrtm(B);
   cout << "B = " << B << endl;
   cout << "norm(sqrtm(B) * sqrtm(B) - B) = "
-       << round_to_zero(norm(B_sqrtm * B_sqrtm - B), 1e-13) << endl;
+       << round_to_zero(norm(B_sqrtm * B_sqrtm - B), 1e-13) << endl << endl;
+
+  cout << "Rank test" << endl;
+  A = randn(3,3);
+  cout << "A = " << A << endl;
+  cout << "rank(A) = " << rank(A) << endl;
+  A.set_row(1, 3.0 * A.get_row(0));
+  cout << "A2 = " << A << endl;
+  cout << "rank(A2) = " << rank(A) << endl;
+  B = randn_c(3,3);
+  cout << "B = " << B << endl;
+  cout << "rank(B) = " << rank(B) << endl;
+  B.set_col(1, B.get_col(0));
+  cout << "B2 = " << B << endl;
+  cout << "rank(B2) = " << rank(B) << endl;
 
   return 0;
 }
