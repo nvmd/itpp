@@ -1,5 +1,10 @@
 2007-10-05  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac: Changed version number of the trunk sources
+
+	The version number of SVN trunk sources is now of the form:
+	"major.minor-dev", e.g. "4.1-dev".
+
 	* itpp/base/matfunc.h, tests/matfunc_test.cpp,
 	tests/matfunc_test.ref: Added templated rank() function
 

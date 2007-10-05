@@ -2,7 +2,7 @@
 #-------------------------------------------------------------------
 AC_PREREQ(2.59)
 AC_COPYRIGHT([Copyright (C) 2006, 2007  Adam Piatyszek <ediap@users.sourceforge.net>])
-AC_INIT([IT++],[4.1.0],[ediap@users.sourceforge.net],[itpp])
+AC_INIT([IT++],[4.1-dev],[ediap@users.sourceforge.net],[itpp])
 AC_CONFIG_HEADER([itpp/config.h])
 AC_CONFIG_SRCDIR([itpp/base/vec.cpp])
 AC_CONFIG_AUX_DIR([config])
