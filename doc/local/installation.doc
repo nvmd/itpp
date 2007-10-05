@@ -73,7 +73,7 @@ the IT++ source code, visit the project pages on SourceForge:
 .
 and download the file named \c itpp-\<VERSION\>.tar.gz or
 \c itpp-\<VERSION\>.tar.bz2, where \c \<VERSION\> is the latest release
-number, e.g. 3.9.0.
+number, e.g. 4.0.0.
 
 
 \section compilation General IT++ Configuration, Compilation and Installation Instructions
@@ -154,17 +154,17 @@ Otherwise, the detection procedure is as follows:
    HAVE_FFT_ACML or \c HAVE_FFTW3 is defined, respectively.
 
 If some external libraries are installed in a non-standard location in your
-system, e.g. MKL in <tt>`/opt/intel/mkl/8.0.1'</tt>, the \c `configure' script
+system, e.g. MKL in <tt>`/opt/intel/mkl/9.1'</tt>, the \c `configure' script
 will not detect them automatically. In such a case, you should use LDFLAGS
 and CPPFLAGS environment variables to define additional directories to be
 searched for libraries (LDFLAGS) and include files (CPPFLAGS). For instance,
-to configure IT++ to link to the MKL 8.0.1 external library, which is
-installed in <tt>`/opt/intel/mkl/8.0.1'</tt> directory, you should use the
+to configure IT++ to link to the MKL 9.1 external library, which is
+installed in <tt>`/opt/intel/mkl/9.1'</tt> directory, you should use the
 following commands:
 
 \verbatim
-% export LDFLAGS="-L/opt/intel/mkl/8.0.1/lib/32"
-% export CPPFLAGS="-I/opt/intel/mkl/8.0.1/include"
+% export LDFLAGS="-L/opt/intel/mkl/9.1/lib/32"
+% export CPPFLAGS="-I/opt/intel/mkl/9.1/include"
 % ./configure
 \endverbatim
 
@@ -191,7 +191,7 @@ some external libraries. To do this you should use \c
 `--without-\<LIBNAME\>' or \c `--with-\<LIBNAME\>=no', e.g.:
 
 \verbatim
-% ./configure --without-cblas --without-lapack
+% ./configure --without-blas --without-lapack
 \endverbatim
 
 It is recommended to set the CXXFLAGS environment variable with some
@@ -229,7 +229,7 @@ one can observe something like this:
 
 \verbatim
 ------------------------------------------------------------------------------
-itpp-3.99.3 library configuration:
+itpp-4.0.0 library configuration:
 ------------------------------------------------------------------------------
 
 Directories:
@@ -237,7 +237,7 @@ Directories:
   - exec_prefix .... : ${prefix}
   - includedir ..... : ${prefix}/include
   - libdir ......... : ${exec_prefix}/lib
-  - docdir ......... : ${prefix}/share/doc/itpp-3.99.3
+  - docdir ......... : ${prefix}/share/doc/itpp-4.0.0
 
 Switches:
   - debug .......... : no
@@ -285,7 +285,7 @@ Compiler/linker flags/libs/defs:
   - LIBS ........... : -lfftw3 -llapack -lblas
 
 ------------------------------------------------------------------------------
-Now type 'make && make install' to build and install itpp-3.99.3 library
+Now type 'make && make install' to build and install itpp-4.0.0 library
 ------------------------------------------------------------------------------
 
 \endverbatim
@@ -415,52 +415,49 @@ and one for maximum runtime efficiency. See the Makefile below for an
 example.
 
 The philosophy behind this installation is:
-- to locally compile and install all required external libraries (lapack,
-  cblas, blas and fftw) from sources; this is because not all systems
+- to locally compile and install all required external libraries (LAPACK,
+  BLAS and FFTW) from sources; this is because not all systems
   provide these libraries as ready to use binaries
 - to install two parallel IT++ libraries: one optimized and one for
   debugging
 - to use static linking only (this gives larger executables but is sometimes
   useful for debugging purposes)
 
-The source code will reside in the directories itpp-external-2.3.0 and
-itpp-3.10.5. The libraries will be created in the directories
-it++external-2.3.0 and it++3.10.5.
+The source code will reside in the directories itpp-external-3.0.0 and
+itpp-4.0.0. The libraries will be created in the directories
+it++external-3.0.0 and it++4.0.0.
 
 The installation procedure goes as follows (\c $HOME can be replaced by any
 directory where you have write access):
 <ol>
-<li> Download itpp-external-2.3.0.tar.gz and itpp-3.10.5.tar.gz. Save
+<li> Download itpp-external-3.0.0.tar.bz2 and itpp-4.0.0.tar.bz2. Save
 them in your \c $HOME directory, and unpack them:
 \verbatim
 % cd $HOME
-% tar xzf itpp-external-2.3.0.tar.gz
-% tar xzf itpp-3.10.5.tar.gz
+% tar jzf itpp-external-3.0.0.tar.bz2
+% tar jzf itpp-4.0.0.tar.bz2
 \endverbatim
 </li>
 
 <li> Compile and install the external libs
 \verbatim
-% cd $HOME/itpp-external-2.3.0
+% cd $HOME/itpp-external-3.0.0
 % make distclean
-% ./configure --prefix=$HOME/it++external-2.3.0 --disable-shared [--enable-atlas]
+% ./configure --prefix=$HOME/it++external-3.0.0 --disable-shared --enable-static
 % make && make install
 \endverbatim
 </li>
 
 <li> Compile and install the optimized and debugging IT++ libraries:
 \verbatim
-% export LDFLAGS=-L$HOME/it++external-2.3.0/lib
-% export CPPFLAGS=-I$HOME/it++external-2.3.0/include
-% cd $HOME/itpp-3.10.5
+% export LDFLAGS=-L$HOME/it++external-3.0.0/lib
+% export CPPFLAGS=-I$HOME/it++external-3.0.0/include
+% cd $HOME/itpp-4.0.0
 % make distclean
-% ./configure --disable-shared --enable-static --enable-debug --prefix=$HOME/it++3.10.5
-% make && make install
-% make check
+% ./configure --disable-shared --enable-static --enable-debug --prefix=$HOME/it++4.0.0
+% make && make check && make install
 \endverbatim
 </li>
-
-<li> Check that all tests resulted in "PASSED" </li>
 
 <li> Go to a temporary directory, and create the following program \c
 example.cpp:
@@ -478,21 +475,21 @@ int main()
   }
 
   for (int i = 0; i < 10; i++) {
-    cvec a = fft(to_cvec(randn(10000)));
+    cvec a = fft(randn_c(10000));
     cout << a(5) << endl;
   }
 
-  it_assert0(1==0,"Debugging was on!");
+  it_assert_debug(1 == 0, "Debugging is on!");
 }
 \endcode
 
 Also, in the same directory, create the following \c Makefile:
 \verbatim
-FLAGS_DEBUG = `$(HOME)/it++3.10.5/bin/itpp-config --cflags-debug`
-FLAGS_OPT   = `$(HOME)/it++3.10.5/bin/itpp-config --cflags-opt`
+FLAGS_DEBUG = `$(HOME)/it++4.0.0/bin/itpp-config --debug --cflags`
+FLAGS_OPT   = `$(HOME)/it++4.0.0/bin/itpp-config --cflags`
 
-LIBS_DEBUG  = `$(HOME)/it++3.10.5/bin/itpp-config --libs-debug`
-LIBS_OPT    = `$(HOME)/it++3.10.5/bin/itpp-config --libs-opt`
+LIBS_DEBUG  = `$(HOME)/it++4.0.0/bin/itpp-config --debug --static --libs`
+LIBS_OPT    = `$(HOME)/it++4.0.0/bin/itpp-config --static --libs`
 
 example: example.cpp
 	g++ $(FLAGS_DEBUG) example.cpp -o example_debug  $(LIBS_DEBUG)
@@ -510,16 +507,16 @@ exit with an assertion error.) </li>
 
 <li> If you want to conserve disk space, clean up all temporary files:
 \verbatim
-% cd $HOME/itpp-external-2.3.0
+% cd $HOME/itpp-external-3.0.0
 % make distclean
-% cd $HOME/itpp-3.10.5
+% cd $HOME/itpp-4.0.0
 % make distclean
 \endverbatim
 
 To conserve even more diskspace (remove all sources) then do
 \verbatim
-% rm -rf $HOME/itpp-external-2.3.0
-% rm -rf $HOME/itpp-3.10.5
+% rm -rf $HOME/itpp-external-3.0.0
+% rm -rf $HOME/itpp-4.0.0
 \endverbatim
 </li>
 </ol>
