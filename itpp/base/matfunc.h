@@ -483,9 +483,10 @@ namespace itpp {
   *
   * \param m Input matrix
   * \param tol Tolerance used for comparing the singular values with zero.
+  *            If negative, it is automatically determined.
   */
   template<class T>
-  int rank(const Mat<T>& m, double tol = -1.0)
+  int rank(const Mat<T> &m, double tol = -1.0)
   {
     int rows = m.rows();
     int cols = m.cols();
@@ -494,7 +495,7 @@ namespace itpp {
 
     vec sing_val = svd(m);
 
-    if (tol <= 0.0) { // Calculate default tolerance
+    if (tol < 0.0) { // Calculate default tolerance
       tol = eps * sing_val(0) * (rows > cols ? rows : cols);
     }
 
@@ -508,21 +509,22 @@ namespace itpp {
   }
 
   template<> inline
-  int rank(const imat& m, double tol)
+  int rank(const imat &m, double tol)
   {
     return rank(to_mat(m), tol);
   }
 
   template<> inline
-  int rank(const smat& m, double tol)
+  int rank(const smat &m, double tol)
   {
     return rank(to_mat(m), tol);
   }
 
   template<> inline
-  int rank(const bmat& m, double tol)
+  int rank(const bmat &m, double tol)
   {
-    return rank(to_mat(m), tol);
+    it_error("rank(bmat): Function not implemented for GF(2) algebra");
+    return 0;
   }
 
   //!@}

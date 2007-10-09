@@ -1,3 +1,14 @@
+2007-10-09  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/matfunc.h: Disabled incorrect specialisation of rank()
+	function
+
+	The rank() function specialisation for binary GF(2) matrices
+	returned incorrect results. Now it is disabled - the
+	specialisation results in an error message.
+
+------------------------------------------------------------------------------
+
 2007-10-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* IT++ 4.0.0-rc2 released (SVN tag: release-4-0-0-rc2)
@@ -83,7 +94,7 @@
 	the zdotusub_ Fortran wrapper, since it requires an external
 	zdotu_ function to exist.
 
-==============================================================================
+------------------------------------------------------------------------------
 
 2007-09-28  Adam Piatyszek  <ediap@users.sourceforge.net>
 
@@ -457,7 +468,7 @@
 
 	* NEWS-3.10: Updated to include 3.10.12 release notes
 
-==============================================================================
+------------------------------------------------------------------------------
 
 2007-08-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
@@ -477,7 +488,7 @@
 	function zdotusub_() has been added to IT++. This wrapper function
 	comes from NetLib's CBLAS package.
 
-==============================================================================
+------------------------------------------------------------------------------
 
 2007-08-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
@@ -718,7 +729,7 @@
 	classes. Boolean variables are stored in a binary file using a
 	char datatype.
 
-==============================================================================
+------------------------------------------------------------------------------
 
 2007-06-20  Adam Piatyszek  <ediap@users.sourceforge.net>
 
@@ -790,7 +801,7 @@
 	images have to use binary mode when opening files. This fixes bug
 	[1730610]. Thanks to Thomas Andersson for reporting this problem.
 
-==============================================================================
+------------------------------------------------------------------------------
 
 2007-06-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
@@ -931,7 +942,7 @@
 	* itpp/base/itassert.cpp: Fixed a problem with not displayed
 	assert and error messages, which was introduced in rev. 982.
 
-==============================================================================
+------------------------------------------------------------------------------
 
 2007-04-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
@@ -1037,7 +1048,7 @@
 
 	* configure.ac: Version bump
 
-==============================================================================
+------------------------------------------------------------------------------
 
 2007-03-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
@@ -1167,7 +1178,7 @@
 	* doc/Makefile.am, Makefile.am: Changed the naming scheme of
 	snapshots to "itpp-VERSION_preYYYYMMDD"
 
-==============================================================================
+------------------------------------------------------------------------------
 
 2007-02-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
@@ -1448,7 +1459,7 @@
 	* itpp/comm/modulator.cpp: Fixed wrong assertion check in QAM
 	modulator set_M() function
 
-==============================================================================
+------------------------------------------------------------------------------
 
 2007-01-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
@@ -1521,7 +1532,7 @@
 	to NEWS-3.10. Preliminary information for 3.99.x
 	development releases prepared in NEWS.
 
-==============================================================================
+------------------------------------------------------------------------------
 
 2007-01-14  Adam Piatyszek  <ediap@users.sourceforge.net>
 
@@ -1534,7 +1545,7 @@
 	(merged rev. 828:830 from the itpp-3-10 branch)
 
 	* itpp/comm/ldpc.cpp, itpp/comm/ldpc.h, tests/channel_test.cpp,
-	tests/ldpc_test.cpp: Added missing SVN properities
+	tests/ldpc_test.cpp: Added missing SVN properties
 
 2007-01-13  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
