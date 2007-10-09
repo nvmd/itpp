@@ -15,8 +15,6 @@ include $(top_srcdir)/itpp/stat/sources.mk
 
 SUBDIRS = images tutorial local
 
-docdir = @docdir@
-
 distdir_html = @PACKAGE@-html-doc-@VERSION@
 
 all-local: html-local

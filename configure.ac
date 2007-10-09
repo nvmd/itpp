@@ -113,19 +113,6 @@ AM_CONDITIONAL([ENABLE_PROTOCOL], [test "x$enable_protocol" = xyes])
 AM_CONDITIONAL([ENABLE_SIGNAL], [test "x$enable_signal" = xyes])
 AM_CONDITIONAL([ENABLE_SRCCODE], [test "x$enable_srccode" = xyes])
 
-# Provide --with-docdir
-AC_ARG_WITH(docdir,
-            [AS_HELP_STRING([--with-docdir=DIR],
-                            [set documentation directory to DIR])],
-            [DOC_DIR="$withval"],
-            [DOC_DIR=""])
-if test "x$DOC_DIR" != x; then
-  docdir="$DOC_DIR"
-else
-  docdir="${datadir}/doc/$PACKAGE-$VERSION"
-fi
-AC_SUBST(docdir)
-
 
 PACKAGE_DEBUG="$PACKAGE"
 # Set debug flags
@@ -375,6 +362,7 @@ Directories:
   - exec_prefix .... : ${exec_prefix}
   - includedir ..... : ${includedir}
   - libdir ......... : ${libdir}
+  - datarootdir .... : ${datarootdir}
   - docdir ......... : ${docdir}
 
 Switches:

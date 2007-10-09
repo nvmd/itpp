@@ -1,5 +1,14 @@
 2007-10-09  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* INSTALL, configure.ac, doc/Makefile.am,
+	doc/local/installation.doc: Removed redundant "--with-docdir=DIR"
+	switch
+
+	This switch is not needed any more, because recent autoconf
+	provides "--docdir=DIR" switch with the same functionality by
+	default. Installation manual updated accordingly. Thanks to
+	Guenter Dannoritzer for reporting this problem.
+
 	* itpp/base/matfunc.h: Disabled incorrect specialisation of rank()
 	function
 
