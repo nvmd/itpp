@@ -207,7 +207,8 @@ Directories:
   - exec_prefix .... : ${prefix}
   - includedir ..... : ${prefix}/include
   - libdir ......... : ${exec_prefix}/lib
-  - docdir ......... : ${prefix}/share/doc/itpp-4.0.0
+  - datarootdir .... : ${prefix}/share
+  - docdir ......... : ${datarootdir}/doc/${PACKAGE_TARNAME}
 
 Switches:
   - debug .......... : no
