@@ -39,28 +39,37 @@ namespace itpp {
   //! \addtogroup protocol
   //@{
 
-  /*!
-
-  */
+  //! ADD DOCUMENTATION HERE
   class Packet_Channel {
   public:
+    //! ADD DOCUMENTATION HERE
     Packet_Channel();
+    //! ADD DOCUMENTATION HERE
     Packet_Channel(const double Pr, const Ttype Delay, const double Block_rate, const int Max_slots = 0);
 
+    //! ADD DOCUMENTATION HERE
     ~Packet_Channel();
 
     // -- Slots -- //
+    //! ADD DOCUMENTATION HERE
     Slot<Packet_Channel, bool> start;
+    //! ADD DOCUMENTATION HERE
     Slot<Packet_Channel, Link_Packet*> input;
+    //! ADD DOCUMENTATION HERE
     Slot<Packet_Channel, int> nof_inputs;
 
     // -- Signals -- //
+    //! ADD DOCUMENTATION HERE
     Signal<Link_Packet*> output;
+    //! ADD DOCUMENTATION HERE
     Signal<int> input_request;
+    //! ADD DOCUMENTATION HERE
     Signal<void*> get_nof_inputs;
 
+    //! ADD DOCUMENTATION HERE
     void set_parameters(const double Pr, const Ttype Delay, const double Block_rate, const int Max_slots);
 
+    //! ADD DOCUMENTATION HERE
     void set_errors(const ivec &Lost);
 
   private:
@@ -82,24 +91,29 @@ namespace itpp {
   };
 
 
-  /*!
-
-  */
+  //! ADD DOCUMENTATION HERE
   class ACK_Channel {
   public:
+    //! ADD DOCUMENTATION HERE
     ACK_Channel();
 
+    //! ADD DOCUMENTATION HERE
     ACK_Channel(const double Pr, const Ttype Delay);
 
+    //! ADD DOCUMENTATION HERE
     ~ACK_Channel();
 
     // -- Slots -- //
+    //! ADD DOCUMENTATION HERE
     Slot<ACK_Channel, ACK*> input;
 
     // -- Signals -- //
+    //! ADD DOCUMENTATION HERE
     Signal<ACK*> output;
 
+    //! ADD DOCUMENTATION HERE
     void set_parameters(const double Pr, const Ttype Delay);
+    //! ADD DOCUMENTATION HERE
     void set_errors(const ivec& Lost);
 
   private:

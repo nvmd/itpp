@@ -36,6 +36,7 @@
 #include <cstdlib>
 #include <ctime>
 
+//! \cond
 
 #ifdef _MSC_VER
 #pragma warning(disable:4355)
@@ -1885,3 +1886,5 @@ namespace itpp {
 #ifdef _MSC_VER
 #pragma warning(default:4355)
 #endif
+
+//! \endcond

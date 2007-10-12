@@ -35,10 +35,10 @@ namespace itpp {
   //! Pointer to logarithmic branch metric function
   double (*com_log) (double, double) = NULL;
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
+  //! \cond
   // This wrapper is because "com_log = std::max;" below caused an error
   inline double max(double x, double y) { return std::max(x, y); }
-#endif
+  //! \endcond
 
   // ----------------- Protected functions -----------------------------
 

@@ -1,5 +1,37 @@
 2007-10-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/local/authors.doc, itpp/base/bessel/bessel_internal.h,
+	itpp/base/blas.h, itpp/base/converters.cpp,
+	itpp/base/converters.h, itpp/base/copy_vector.h,
+	itpp/base/factory.cpp, itpp/base/help_functions.cpp,
+	itpp/base/help_functions.h, itpp/base/itassert.cpp,
+	itpp/base/mat.cpp, itpp/base/mat.h, itpp/base/matfunc.h,
+	itpp/base/math/elem_math.h, itpp/base/specmat.cpp,
+	itpp/base/vec.cpp, itpp/base/vec.h, itpp/comm/convcode.cpp,
+	itpp/comm/crc.cpp, itpp/comm/ldpc.h,
+	itpp/comm/rec_syst_conv_code.cpp, itpp/fixed/cfixed.h,
+	itpp/fixed/fix_factory.h, itpp/fixed/fix_functions.h,
+	itpp/fixed/fixed.h, itpp/protocol/events.h,
+	itpp/protocol/front_drop_queue.h, itpp/protocol/packet.h,
+	itpp/protocol/packet_channel.h, itpp/protocol/packet_generator.h,
+	itpp/protocol/selective_repeat.cpp,
+	itpp/protocol/selective_repeat.h, itpp/protocol/signals_slots.h,
+	itpp/protocol/tcp.cpp, itpp/protocol/tcp.h,
+	itpp/protocol/tcp_client_server.h, itpp/signal/freq_filt.cpp,
+	itpp/srccode/audiofile.cpp, itpp/srccode/audiofile.h,
+	itpp/srccode/gmm.cpp, itpp/srccode/gmm.h,
+	itpp/srccode/lpcfunc.cpp, itpp/srccode/pnm.cpp,
+	itpp/srccode/pnm.h, itpp/srccode/vq.cpp, itpp/srccode/vq.h,
+	itpp/srccode/vqtrain.cpp, itpp/srccode/vqtrain.h,
+	itpp/stat/mog_diag.h, itpp/stat/mog_diag_em.h,
+	itpp/stat/mog_diag_kmeans.h, itpp/stat/mog_generic.h: Cleanup of
+	Doxygen documentation
+
+	Missing documentation reported by Doxygen have been marked by "ADD
+	DOCUMENTATION HERE" string. Besides, code fragments that do not
+	require documentation have been disabled from parsing by using
+	"\cond" and "\endcond" Doxygen's commands.
+
 	* itpp/base/converters.cpp, itpp/base/converters.h: Moved
 	templated functions' definitions into a header file
 

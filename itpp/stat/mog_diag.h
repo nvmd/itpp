@@ -63,7 +63,7 @@ namespace itpp {
     MOG_diag() { zero_all_ptrs(); init(); }
 
     /*! \brief Construct the MOG_diag object by loading the parameters from a model file
-        \param name_in The model's filename
+        \param name The model's filename
     */
     MOG_diag(const std::string &name) { zero_all_ptrs(); load(name); }
 
@@ -93,7 +93,7 @@ namespace itpp {
 
     /*! \brief Construct a model using user supplied parameters (full covariance version)
         \param means_in Array of mean vectors
-        \param diag_covs_in Array of full covariance matrices
+        \param full_covs_in Array of full covariance matrices
         \param weights_in vector of weights
         \note  The full covariance matrices are converted to be diagonal.
                The number of mean vectors, covariance matrices and weights must be the same.
@@ -150,11 +150,17 @@ namespace itpp {
     void setup_weights();
     void setup_misc();
 
+    //! ADD DOCUMENTATION HERE
     double log_lhood_single_gaus_internal(const double * c_x_in, const int k) const;
+    //! ADD DOCUMENTATION HERE
     double log_lhood_single_gaus_internal(const vec &x_in, const int k) const;
+    //! ADD DOCUMENTATION HERE
     double log_lhood_internal(const double * c_x_in);
+    //! ADD DOCUMENTATION HERE
     double log_lhood_internal(const vec &x_in);
+    //! ADD DOCUMENTATION HERE
     double lhood_internal(const double * c_x_in);
+    //! ADD DOCUMENTATION HERE
     double lhood_internal(const vec &x_in);
 
     //! Enable C style access to an Array of vectors (vec)
@@ -181,7 +187,9 @@ namespace itpp {
     //! Disable C style access to a vector (ivec)
     int * disable_c_access(int * v_in);
 
+    //! ADD DOCUMENTATION HERE
     void zero_all_ptrs();
+    //! ADD DOCUMENTATION HERE
     void free_all_ptrs();
 
     //! pointers to the mean vectors

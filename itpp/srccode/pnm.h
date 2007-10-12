@@ -118,7 +118,9 @@ namespace itpp {
     \ingroup image
     \brief Create an image file from the matrix of integer
     \param filename The name of the image file to create
-    \param m The matrix of integer representing the image.
+    \param m The matrix of integer representing the image
+    \param comments Comments included in the file
+
     Coefficients greater than 255 and smaller than 0 are clipped.
   */
   bool pgm_write(const std::string & filename,

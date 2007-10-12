@@ -34,6 +34,7 @@
 #include <itpp/stat/misc_stat.h>
 #include <iostream>
 
+//! \cond
 
 using std::cout;
 using std::endl;
@@ -544,3 +545,5 @@ namespace itpp {
   }
 
 } // namespace itpp
+
+//! \endcond

@@ -30,6 +30,7 @@
 #include <itpp/protocol/selective_repeat.h>
 #include <cstdlib>
 
+//! \cond
 
 namespace itpp {
 
@@ -380,3 +381,5 @@ void Selective_Repeat_ARQ_Receiver::handle_packet_input(Array<Packet*> packet_ar
 
 
 } //namespace itpp
+
+//! \endcond

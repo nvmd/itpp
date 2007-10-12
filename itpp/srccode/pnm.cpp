@@ -31,6 +31,8 @@
 #include <itpp/base/itassert.h>
 #include <fstream>
 
+//! \cond
+
 using std::istream;
 using std::ostream;
 using std::endl;
@@ -523,3 +525,5 @@ namespace itpp {
   }
 
 } // namespace itpp
+
+//! \endcond

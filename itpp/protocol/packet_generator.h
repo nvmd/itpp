@@ -39,19 +39,27 @@ namespace itpp {
   //! \addtogroup protocol
   //@{
 
-  /*!
+  /*! ADD DOCUMENTATION HERE
 
-  */
+   */
   class Packet_Generator {
   public:
+    //! ADD DOCUMENTATION HERE
     Packet_Generator(const int Packet_size = 150, const unsigned long int Max_packets = 0);
+    //! ADD DOCUMENTATION HERE
     virtual ~Packet_Generator();
+    //! ADD DOCUMENTATION HERE
     Signal<Packet*> output;
+    //! ADD DOCUMENTATION HERE
     Slot<Packet_Generator, bool> start;
+    //! ADD DOCUMENTATION HERE
     void set_parameters(const int Packet_size, const unsigned long int Max_packets);
+    //! ADD DOCUMENTATION HERE
     int get_packet_size();
+    //! ADD DOCUMENTATION HERE
     int get_max_packets();
   protected:
+    //! ADD DOCUMENTATION HERE
     virtual Ttype delta_t() = 0;
   private:
     Slot<Packet_Generator, Packet*> next;
@@ -64,56 +72,79 @@ namespace itpp {
   };
 
 
-  /*!
+  /*! ADD DOCUMENTATION HERE
 
-  */
+   */
   class Poisson_Packet_Generator : public Packet_Generator {
   public:
+    //! ADD DOCUMENTATION HERE
     Poisson_Packet_Generator(const double Avg_bit_rate = 1.0, const int Packet_size = 150, const unsigned long int Max_packets = 0);
+    //! ADD DOCUMENTATION HERE
     virtual ~Poisson_Packet_Generator();
+    //! ADD DOCUMENTATION HERE
     void set_parameters(const double Avg_bit_rate, const int Packet_size, const unsigned long int Max_packets);
+    //! ADD DOCUMENTATION HERE
     double get_avg_bit_rate();
   protected:
+    //! ADD DOCUMENTATION HERE
     virtual Ttype delta_t();
+    //! ADD DOCUMENTATION HERE
     double avg_delta_t;
+    //! ADD DOCUMENTATION HERE
     double avg_bit_rate;
+    //! ADD DOCUMENTATION HERE
     Exponential_RNG ee;
   };
 
 
-  /*!
+  /*! ADD DOCUMENTATION HERE
 
-  */
+   */
   class Constant_Rate_Packet_Generator : public Poisson_Packet_Generator {
   public:
+    //! ADD DOCUMENTATION HERE
     Constant_Rate_Packet_Generator(const double Avg_bit_rate = 1.0, const int Packet_size = 150, const unsigned long int Max_packets = 0);
+    //! ADD DOCUMENTATION HERE
     virtual ~Constant_Rate_Packet_Generator();
   protected:
+    //! ADD DOCUMENTATION HERE
     virtual Ttype delta_t();
   };
 
-  /*!
+  /*! ADD DOCUMENTATION HERE
 
-  */
+   */
   class Burst_WWW_Packet_Generator : public Poisson_Packet_Generator {
   public:
+    //! ADD DOCUMENTATION HERE
     Burst_WWW_Packet_Generator(const double Avg_bit_rate = 1.0, const int Packet_size = 150, const int Max_packets = 0);
+    //! ADD DOCUMENTATION HERE
     virtual ~Burst_WWW_Packet_Generator();
   protected:
+    //! ADD DOCUMENTATION HERE
     virtual Ttype delta_t();
-    int N, Navg;
-    double Ti, Tr;
+    //! ADD DOCUMENTATION HERE
+    int N;
+    //! ADD DOCUMENTATION HERE
+    int Navg;
+    //! ADD DOCUMENTATION HERE
+    double Ti;
+    //! ADD DOCUMENTATION HERE
+    double Tr;
   };
 
 
-  /*!
+  /*! ADD DOCUMENTATION HERE
 
-  */
+   */
   class Sink {
   public:
+    //! ADD DOCUMENTATION HERE
     Sink(const unsigned long int Max_packets = 1000);
+    //! ADD DOCUMENTATION HERE
     ~Sink();
     // -- Slots -- //
+    //! ADD DOCUMENTATION HERE
     Slot<Sink, Packet*> packet_input;
   private:
     void handle_packet_input(Packet* packet);

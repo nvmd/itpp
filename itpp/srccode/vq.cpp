@@ -34,6 +34,7 @@
 #include <iostream>
 #include <cstdlib>
 
+//! \cond
 
 using std::ifstream;
 using std::ofstream;
@@ -125,8 +126,6 @@ Array<vec> Vector_Quantizer::decode(const ivec &Index) const
 }
 
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-
 ifstream &operator>>( ifstream &ifs, vec &v)
 {
 	int    i;
@@ -170,7 +169,6 @@ ifstream &operator>>( ifstream &ifs, vec &v)
 	return ifs;
 }
 
-#endif //DOXYGEN_SHOULD_SKIP_THIS
 
 void Vector_Quantizer::load(const char *Name)
 {
@@ -345,3 +343,5 @@ ivec scalar_encode(vec &x, vec &Levels)
 }
 
 } // namespace itpp
+
+//! \endcond

@@ -30,7 +30,7 @@
 #ifndef BESSEL_INTERNAL_H
 #define BESSEL_INTERNAL_H
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
+//! \cond
 
 extern "C" {
 
@@ -55,9 +55,8 @@ extern "C" {
   double yv(double nu, double x);
   double kn(int n, double x);
 
-
 } // extern C
 
-#endif //DOXYGEN_SHOULD_SKIP_THIS
+//! \endcond
 
 #endif // #ifndef BESSEL_INTERNAL_H

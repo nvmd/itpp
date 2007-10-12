@@ -31,6 +31,9 @@
 #include <itpp/base/converters.h>
 #include <iostream>
 
+//! \cond
+
+#define SND_MAGIC    0x2e736e64
 
 using std::istream;
 using std::ostream;
@@ -39,12 +42,6 @@ using std::ofstream;
 using std::ios;
 
 namespace itpp {
-
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-
-#define SND_MAGIC    0x2e736e64
-
-#endif // #ifndef DOXYGEN_SHOULD_SKIP_THIS
 
   inline static short double_to_short(double x)
   {
@@ -528,3 +525,5 @@ namespace itpp {
   }
 
 } // namespace itpp
+
+//! \endcond

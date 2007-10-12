@@ -37,12 +37,9 @@
 
 namespace itpp {
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
-
-#define SND_INFO_LEN       8
-  //#define SAP_HEADER_SIZE  512
-
-#endif /* DOXYGEN_SHOULD_SKIP_THIS */
+  //! \cond
+#define SND_INFO_LEN 8
+  //! \endcond
 
   /*!
     \addtogroup audio

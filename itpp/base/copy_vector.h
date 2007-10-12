@@ -43,7 +43,7 @@
 #include <itpp/base/binary.h>
 
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
+//! \cond
 
 namespace itpp {
 
@@ -314,6 +314,6 @@ namespace itpp {
 
 } // namespace itpp
 
-#endif // #ifndef DOXYGEN_SHOULD_SKIP_THIS
+//! \endcond
 
 #endif // #ifndef COPY_VECTOR_H

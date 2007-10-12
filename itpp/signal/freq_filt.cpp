@@ -31,6 +31,7 @@
 #include <itpp/signal/transforms.h>
 #include <itpp/base/math/elem_math.h>
 
+//! \cond
 
 namespace itpp {
 
@@ -93,3 +94,5 @@ namespace itpp {
   }
 
 } // namespace itpp
+
+//! \endcond

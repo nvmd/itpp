@@ -50,51 +50,51 @@ namespace itpp {
     \brief Signals and slots
 
 
-  A simple example where to objects A and B are communicating through signals and slots. Each object has one signal
-  and one slot. The A_signal is used to send a signal to the B_slot and vice versa. When a signal is received by the B_slot
-  it is forwarded to the function forward(). The class definition includes the definition of the signals, slots and
-  forward functions including a name and the type of data to transmit.
+    A simple example where to objects A and B are communicating through signals and slots. Each object has one signal
+    and one slot. The A_signal is used to send a signal to the B_slot and vice versa. When a signal is received by the B_slot
+    it is forwarded to the function forward(). The class definition includes the definition of the signals, slots and
+    forward functions including a name and the type of data to transmit.
 
 
-  \code
-  #include "signals_slots.h"
-  class A;
-  class B;
+    \code
+    #include "signals_slots.h"
+    class A;
+    class B;
 
-  class A {
-  public:
+    class A {
+    public:
     A(){
-      A_slot.forward(this, &A::member);
-      A_signal.set_name("A_signal");
-      A_signal.set_debug(true);
-      A_slot.set_name("A_slot");
-      N = 10;
+    A_slot.forward(this, &A::member);
+    A_signal.set_name("A_signal");
+    A_signal.set_debug(true);
+    A_slot.set_name("A_slot");
+    N = 10;
     }
     Signal<int> A_signal;
     Slot<A, double> A_slot;
-  private:
+    private:
     int N;
     void member(const double x) {
-      if(N)
-        A_signal.arm(3.4, N--);
+    if(N)
+    A_signal.arm(3.4, N--);
     }
-  };
+    };
 
-  class B {
-  public:
+    class B {
+    public:
     B(){
-      B_slot.forward(this, &B::member);
-      B_signal.set_name("B_signal");
-      B_signal.set_debug();
-      B_slot.set_name("B_slot");
+    B_slot.forward(this, &B::member);
+    B_signal.set_name("B_signal");
+    B_signal.set_debug();
+    B_slot.set_name("B_slot");
     }
     Signal<double> B_signal;
     Slot<B, int> B_slot;
-  private:
+    private:
     void member(const int k){ B_signal.arm(23.2, M_PI); }
-  };
+    };
 
-  int main(){
+    int main(){
     A a; // class A does not know anything about class B.
     B b; // class B does not know anything about class A.
 
@@ -104,22 +104,22 @@ namespace itpp {
     a.A_signal.arm(56.2, 3); // First event in 56.2 seconds carrying data = 3
 
     Event_Queue::start(); // start the event-based simulation
-  }
+    }
 
-  \endcode
+    \endcode
 
   */
   template<class DataType>
-    class Signal {
+  class Signal {
   public:
     friend class Base_Slot<DataType>;
 
-    //!
+    //! Default constructor
     Signal(const std::string signal_name = "Unamed Signal", const bool single_shot = false, const bool enable_debug = false);
 
     //  Signal(const std::string signal_name = "Unamed Signal", const bool single_shot = false, const bool enable_debug = true);
 
-    //!
+    //! Destructor
     ~Signal();
 
     //! Connect a slot to the signal
@@ -143,13 +143,17 @@ namespace itpp {
     //! Set debug mode. If true all signals are printed to stdout
     void set_debug(const bool enable_debug = true);
 
-    //!
+    //! ADD DOCUMENTATION HERE
     void trigger(DataType u);
 
   protected:
+    //! ADD DOCUMENTATION HERE
     typedef typename std::list<Base_Slot<DataType>*, std::allocator< Base_Slot<DataType>* > >::iterator Base_Slot_Iterator;
+    //! ADD DOCUMENTATION HERE
     void _disconnect(Base_Slot<DataType>* slot);
+    //! ADD DOCUMENTATION HERE
     std::list<Base_Slot<DataType>*, std::allocator<Base_Slot<DataType>* > > connected_slots;
+    //! ADD DOCUMENTATION HERE
     std::string name;
 
   private:
@@ -165,28 +169,33 @@ namespace itpp {
 
   */
   template<class DataType>
-    class Base_Slot{
+  class Base_Slot{
   public:
     friend class Signal<DataType>;
 
-    //!
+    //! Default Constructor
     Base_Slot(const std::string slot_name = "Unamed Base_Slot");
 
-    //!
+    //! Desctuctor
     virtual ~Base_Slot();
 
     //! set slot name
     void set_name(const std::string &slot_name);
 
-    //!
+    //! ADD DOCUMENTATION HERE
     virtual void operator()(DataType signal) = 0;
 
   protected:
     //   virtual void exec(DataType signal) = 0;
+    //! ADD DOCUMENTATION HERE
     typedef typename std::list<Signal<DataType>*, std::allocator< Signal<DataType>* > >::iterator Signal_Iterator;
+    //! ADD DOCUMENTATION HERE
     std::string name;
+    //! ADD DOCUMENTATION HERE
     void _connect(Signal<DataType>* signal);
+    //! ADD DOCUMENTATION HERE
     void _disconnect(Signal<DataType>* signal);
+    //! ADD DOCUMENTATION HERE
     std::list<Signal<DataType>*, std::allocator<Signal<DataType>* > > connected_signals;
   };
 
@@ -195,18 +204,18 @@ namespace itpp {
 
   */
   template<class ObjectType, class DataType>
-    class Slot : public Base_Slot<DataType> {
+  class Slot : public Base_Slot<DataType> {
   public:
-    //!
+    //! Default constructor
     Slot(const std::string _name = "Unamed Slot");
 
-    //!
+    //! ADD DOCUMENTATION HERE
     void forward(ObjectType *object_pointer, void(ObjectType::*object_function_pointer)(DataType u));
 
-    //!
+    //! Destructor
     ~Slot();
 
-    //!
+    //! ADD DOCUMENTATION HERE
     void operator()(DataType u);
 
     //void exec(DataType signal);
@@ -219,11 +228,11 @@ namespace itpp {
 
   /*!
 
-  */
+   */
   template<class ObjectType, class DataType>
-    class ATimer {
+  class ATimer {
   public:
-    //!
+    //! Default constructor
     ATimer(const std::string Name = "Unamed ATimer") {
       time_out_signal = new Signal<DataType>(Name, true);
       time_out_slot = new Slot<ObjectType, DataType>(Name);
@@ -231,18 +240,18 @@ namespace itpp {
       set_name(Name);
     }
 
-    //!
+    //! ADD DOCUMENTATION HERE
     void forward(ObjectType *po, void(ObjectType::*pm)(DataType u)) { time_out_slot->forward(po, pm); }
 
-    //!
+    //! ADD DOCUMENTATION HERE
     void set(DataType u, const Ttype delta_t) {
       time_out_signal->operator()(u, delta_t);
     }
 
-    //!
+    //! ADD DOCUMENTATION HERE
     void cancel() { time_out_signal->cancel(); }
 
-    //!
+    //! ADD DOCUMENTATION HERE
     void set_name(const std::string Name) {
       name = Name;
       time_out_signal->set_name(name);
@@ -250,6 +259,7 @@ namespace itpp {
     }
 
   protected:
+    //! ADD DOCUMENTATION HERE
     std::string name;
 
   private:
@@ -268,8 +278,9 @@ namespace itpp {
     @ingroup EventHandling
   */
   template <class THandler>
-    class TTimer {
+  class TTimer {
   public:
+    //! Default constructor
     TTimer(THandler & handler, void (THandler::*handlerFunction) (Ttype time)) :
       signal("timer_signal", true)
     {
@@ -285,57 +296,66 @@ namespace itpp {
       signal.connect(&slot);
     }
 
+    //! Destructor
     virtual ~TTimer() {
       if (fPending)
 	signal.cancel();
     }
 
+    //! ADD DOCUMENTATION HERE
     void  Set(Ttype time, bool relative = true) {
-	if (fPending)
-	  signal.cancel();
+      if (fPending)
+        signal.cancel();
 
-	fPending = true;
-	double current_time = Event_Queue::now();
-	double delta_time;
-	if (relative) {
-	  fExpirationTime = current_time + time;
-	  delta_time = time;
-	} else {
-	  fExpirationTime = time;
-	  delta_time = time - current_time;
-	}
-	signal(fExpirationTime, delta_time);
+      fPending = true;
+      double current_time = Event_Queue::now();
+      double delta_time;
+      if (relative) {
+        fExpirationTime = current_time + time;
+        delta_time = time;
+      } else {
+        fExpirationTime = time;
+        delta_time = time - current_time;
       }
+      signal(fExpirationTime, delta_time);
+    }
 
+    //! ADD DOCUMENTATION HERE
     void  Reset() {
-	if (fPending) {
-	  signal.cancel();
-	  fPending = false; // TODO: Added this myself. Didn't work otherwise.
-	}
+      if (fPending) {
+        signal.cancel();
+        fPending = false; // TODO: Added this myself. Didn't work otherwise.
       }
+    }
 
+    //! ADD DOCUMENTATION HERE
     Ttype  ExpirationTime() const
     {
       it_assert(fPending, "TTimer<>::ExpirationTime: timer not set");
       return fExpirationTime;
     }
 
+    //! ADD DOCUMENTATION HERE
     bool  IsPending() const { return fPending; }
 
   protected:
+    //! ADD DOCUMENTATION HERE
     virtual void HandleProcessEvent (Ttype currentTime) {
-	fPending = false;
-	(*registered_handler.*registered_handler_function)(currentTime);
-      }
+      fPending = false;
+      (*registered_handler.*registered_handler_function)(currentTime);
+    }
 
+    //! ADD DOCUMENTATION HERE
     virtual void HandleCancelEvent (Ttype) {
-	if (fPending)
-	  signal.cancel();
+      if (fPending)
+        signal.cancel();
 
-	fPending = false;
-      }
+      fPending = false;
+    }
 
-    bool  fPending;    /**< \brief is timer set */
+    //! Flag denoting if timer is set
+    bool  fPending;
+    //! ADD DOCUMENTATION HERE
     Ttype  fExpirationTime;
 
   private:
@@ -351,230 +371,230 @@ namespace itpp {
 
 
 
-    // -----------------------------------------------------------------------------------------------
+  // -----------------------------------------------------------------------------------------------
 
-    template<class DataType>
-      Signal<DataType>::Signal(const std::string signal_name, const bool single_shot, const bool enable_debug)
-      {
-	armed = false;
-	e = NULL;
-	single = single_shot;
-	set_name(signal_name);
-	set_debug(enable_debug);
+  template<class DataType>
+  Signal<DataType>::Signal(const std::string signal_name, const bool single_shot, const bool enable_debug)
+  {
+    armed = false;
+    e = NULL;
+    single = single_shot;
+    set_name(signal_name);
+    set_debug(enable_debug);
+  }
+
+  template<class DataType>
+  Signal<DataType>::~Signal()
+  {
+    Base_Slot_Iterator
+      begin = connected_slots.begin(),
+      end   = connected_slots.end(),
+      i;
+
+    for(i=begin; i!=end; i++)
+      (*i)->_disconnect(this);
+
+    connected_slots.clear();
+
+    if(e!=NULL) // Cancel a possibly pending event since we are about to die!
+      e->cancel();
+  }
+
+  template<class DataType>
+  void Signal<DataType>::set_name(const std::string &signal_name)
+  {
+    name = signal_name;
+  }
+
+  template<class DataType>
+  void Signal<DataType>::set_debug(const bool enable_debug)
+  {
+    debug = enable_debug;
+  }
+
+  template<class DataType>
+  void Signal<DataType>::connect(Base_Slot<DataType>* slot)
+  {
+    Base_Slot_Iterator
+      begin = connected_slots.begin(),
+      end   = connected_slots.end(),
+      i;
+
+    bool is_already_connected = false;
+
+    for(i=begin; i!=end; i++)
+      if((*i) == slot)
+        is_already_connected = true;
+
+    if(!is_already_connected) { // Multiple connections is meaningless.
+      connected_slots.push_back(slot);
+      slot->_connect(this); // Needed if a connected slot is deleted during run time.
+    } else {
+      std::cout<<"Signal '"<< name <<"' and Slot '"<< slot->name<<"' are already connected. Multiple connections have no effect!"<< std::endl;
+    }
+  }
+
+  template<class DataType>
+  void Signal<DataType>::disconnect(Base_Slot<DataType>* slot)
+  {
+    Base_Slot_Iterator
+      begin = connected_slots.begin(),
+      end   = connected_slots.end(),
+      i;
+
+    for(i=begin; i!=end; i++)
+      if((*i) == slot) {
+        (*i)->_disconnect(this);
+        connected_slots.erase(i);
+        break;
       }
+  }
 
-    template<class DataType>
-      Signal<DataType>::~Signal()
-      {
-	Base_Slot_Iterator
-	  begin = connected_slots.begin(),
-	  end   = connected_slots.end(),
-	  i;
-
-	for(i=begin; i!=end; i++)
-	  (*i)->_disconnect(this);
-
-	connected_slots.clear();
-
-	if(e!=NULL) // Cancel a possibly pending event since we are about to die!
-	  e->cancel();
+  template<class DataType>
+  Base_Event* Signal<DataType>::operator()(DataType signal, const Ttype delta_time)
+  {
+    // Signal will trigger in 'delta_time' time units.
+    if(single){ // We are operating in single-shot mode.
+      if(armed){ // Cancel and schedule again with the new 'delta_time'.
+        if(debug)
+          std::cout<<"Warning: Changing time for Signal '"<<name<<"'."<< std::endl;
+        cancel();
+        operator()(signal, delta_time);
+      } else {
+        e = new Data_Event<Signal, DataType>(this, &Signal<DataType>::trigger, signal, delta_time);
+        armed = true;
+        Event_Queue::add(e);
       }
+    } else { // Continious mode (cancel() has no effect).
+      e = new Data_Event<Signal, DataType>(this, &Signal<DataType>::trigger, signal, delta_time);
+      armed = true;
+      Event_Queue::add(e);
+    }
+    return e;
+  }
 
-    template<class DataType>
-      void Signal<DataType>::set_name(const std::string &signal_name)
-      {
-	name = signal_name;
+  template<class DataType>
+  void Signal<DataType>::cancel()
+  {
+    if(armed&&single){
+      e->cancel();
+      e = NULL;
+      armed = false;
+    }
+  }
+
+
+  template<class DataType>
+  void Signal<DataType>::trigger(DataType u)
+  {
+    armed = false;
+    e = NULL;
+    Base_Slot_Iterator
+      begin = connected_slots.begin(),
+      end   = connected_slots.end(),
+      i;
+
+    for(i=begin; i!=end; i++) { // Execute all the functions of the connected slots.
+      if(debug)
+        std::cout << "Time = " << Event_Queue::now() << ". Signal '" << name << "' was sent to Slot '" << (*i)->name<< "'." << std::endl;
+      (*i)->operator()(u);
+    }
+  }
+
+  template<class DataType>
+  void Signal<DataType>::_disconnect(Base_Slot<DataType>* slot)
+  {
+    Base_Slot_Iterator
+      begin = connected_slots.begin(),
+      end   = connected_slots.end(),
+      i;
+
+    for(i=begin; i!=end; i++)
+      if((*i) == slot) {
+        connected_slots.erase(i);
+        break;
       }
+  }
 
-    template<class DataType>
-      void Signal<DataType>::set_debug(const bool enable_debug)
-      {
-	debug = enable_debug;
+
+  template<class DataType>
+  Base_Slot<DataType>::Base_Slot(const std::string slot_name)
+  {
+    set_name(slot_name);
+  }
+
+  template<class DataType>
+  void Base_Slot<DataType>::set_name(const std::string &slot_name)
+  {
+    name = slot_name;
+  }
+
+  template<class DataType>
+  Base_Slot<DataType>::~Base_Slot()
+  { // Notify all signals connect that we are being deleted ...
+
+    Signal_Iterator
+      begin = connected_signals.begin(),
+      end   = connected_signals.end(),
+      i;
+
+    for(i=begin; i!=end; i++)
+      (*i)->_disconnect(this);
+
+    connected_signals.clear();
+  }
+
+  template<class DataType>
+  void Base_Slot<DataType>::_connect(Signal<DataType>* signal)
+  { // A signal is being connected to us.
+    connected_signals.push_back(signal);
+  }
+
+  template<class DataType>
+  void Base_Slot<DataType>::_disconnect(Signal<DataType>* signal)
+  { // A signal is being disconnected from us.
+
+    Signal_Iterator
+      begin = connected_signals.begin(),
+      end   = connected_signals.end(),
+      i;
+
+    for(i=begin; i!=end; i++)
+      if((*i) == signal) {
+        connected_signals.erase(i);
+        break;
       }
+  }
 
-    template<class DataType>
-      void Signal<DataType>::connect(Base_Slot<DataType>* slot)
-      {
-	Base_Slot_Iterator
-	  begin = connected_slots.begin(),
-	  end   = connected_slots.end(),
-	  i;
+  template<class ObjectType, class DataType>
+  Slot<ObjectType, DataType>::Slot(const std::string slot_name) : Base_Slot<DataType>(slot_name)
+  {
+    pm = NULL;
+    po = NULL;
+  }
 
-	bool is_already_connected = false;
+  template<class ObjectType, class DataType>
+  Slot<ObjectType, DataType>::~Slot(){}
 
-	for(i=begin; i!=end; i++)
-	  if((*i) == slot)
-	    is_already_connected = true;
+  template<class ObjectType, class DataType>
+  void Slot<ObjectType, DataType>::forward(ObjectType *object_pointer, void(ObjectType::*object_function_pointer)(DataType u))
+  {
+    pm = object_function_pointer;
+    po = object_pointer;
+  }
 
-	if(!is_already_connected) { // Multiple connections is meaningless.
-	  connected_slots.push_back(slot);
-	  slot->_connect(this); // Needed if a connected slot is deleted during run time.
-	} else {
-	  std::cout<<"Signal '"<< name <<"' and Slot '"<< slot->name<<"' are already connected. Multiple connections have no effect!"<< std::endl;
-	}
-      }
+  // template<class ObjectType, class DataType>
+  // void Slot<ObjectType, DataType>::exec(DataType signal){
+  //   if(pm&&po)
+  //     (*po.*pm)(signal);
+  // }
 
-    template<class DataType>
-      void Signal<DataType>::disconnect(Base_Slot<DataType>* slot)
-      {
-	Base_Slot_Iterator
-	  begin = connected_slots.begin(),
-	  end   = connected_slots.end(),
-	  i;
-
-	for(i=begin; i!=end; i++)
-	  if((*i) == slot) {
-	    (*i)->_disconnect(this);
-	    connected_slots.erase(i);
-	    break;
-	  }
-      }
-
-    template<class DataType>
-      Base_Event* Signal<DataType>::operator()(DataType signal, const Ttype delta_time)
-      {
-	// Signal will trigger in 'delta_time' time units.
-	if(single){ // We are operating in single-shot mode.
-	  if(armed){ // Cancel and schedule again with the new 'delta_time'.
-	    if(debug)
-	      std::cout<<"Warning: Changing time for Signal '"<<name<<"'."<< std::endl;
-	    cancel();
-	    operator()(signal, delta_time);
-	  } else {
-	    e = new Data_Event<Signal, DataType>(this, &Signal<DataType>::trigger, signal, delta_time);
-	    armed = true;
-	    Event_Queue::add(e);
-	  }
-	} else { // Continious mode (cancel() has no effect).
-	  e = new Data_Event<Signal, DataType>(this, &Signal<DataType>::trigger, signal, delta_time);
-	  armed = true;
-	  Event_Queue::add(e);
-	}
-	return e;
-      }
-
-    template<class DataType>
-      void Signal<DataType>::cancel()
-      {
-	if(armed&&single){
-	  e->cancel();
-	  e = NULL;
-	  armed = false;
-	}
-      }
-
-
-    template<class DataType>
-      void Signal<DataType>::trigger(DataType u)
-      {
-	armed = false;
-	e = NULL;
-	Base_Slot_Iterator
-	  begin = connected_slots.begin(),
-	  end   = connected_slots.end(),
-	  i;
-
-	for(i=begin; i!=end; i++) { // Execute all the functions of the connected slots.
-	  if(debug)
-	    std::cout << "Time = " << Event_Queue::now() << ". Signal '" << name << "' was sent to Slot '" << (*i)->name<< "'." << std::endl;
-	  (*i)->operator()(u);
-	}
-      }
-
-    template<class DataType>
-      void Signal<DataType>::_disconnect(Base_Slot<DataType>* slot)
-      {
-	Base_Slot_Iterator
-	  begin = connected_slots.begin(),
-	  end   = connected_slots.end(),
-	  i;
-
-	for(i=begin; i!=end; i++)
-	  if((*i) == slot) {
-	    connected_slots.erase(i);
-	    break;
-	  }
-      }
-
-
-    template<class DataType>
-      Base_Slot<DataType>::Base_Slot(const std::string slot_name)
-      {
-	set_name(slot_name);
-      }
-
-    template<class DataType>
-      void Base_Slot<DataType>::set_name(const std::string &slot_name)
-      {
-	name = slot_name;
-      }
-
-    template<class DataType>
-      Base_Slot<DataType>::~Base_Slot()
-      { // Notify all signals connect that we are being deleted ...
-
-	Signal_Iterator
-	  begin = connected_signals.begin(),
-	  end   = connected_signals.end(),
-	  i;
-
-	for(i=begin; i!=end; i++)
-	  (*i)->_disconnect(this);
-
-	connected_signals.clear();
-      }
-
-    template<class DataType>
-      void Base_Slot<DataType>::_connect(Signal<DataType>* signal)
-      { // A signal is being connected to us.
-	connected_signals.push_back(signal);
-      }
-
-    template<class DataType>
-      void Base_Slot<DataType>::_disconnect(Signal<DataType>* signal)
-      { // A signal is being disconnected from us.
-
-	Signal_Iterator
-	  begin = connected_signals.begin(),
-	  end   = connected_signals.end(),
-	  i;
-
-	for(i=begin; i!=end; i++)
-	  if((*i) == signal) {
-	    connected_signals.erase(i);
-	    break;
-	  }
-      }
-
-    template<class ObjectType, class DataType>
-      Slot<ObjectType, DataType>::Slot(const std::string slot_name) : Base_Slot<DataType>(slot_name)
-      {
-	pm = NULL;
-	po = NULL;
-      }
-
-      template<class ObjectType, class DataType>
-	Slot<ObjectType, DataType>::~Slot(){}
-
-      template<class ObjectType, class DataType>
-	void Slot<ObjectType, DataType>::forward(ObjectType *object_pointer, void(ObjectType::*object_function_pointer)(DataType u))
-	{
-	  pm = object_function_pointer;
-	  po = object_pointer;
-	}
-
-      // template<class ObjectType, class DataType>
-      // void Slot<ObjectType, DataType>::exec(DataType signal){
-      //   if(pm&&po)
-      //     (*po.*pm)(signal);
-      // }
-
-      template<class ObjectType, class DataType>
-	void Slot<ObjectType, DataType>::operator()(DataType signal)
-	{
-	  if(pm&&po)
-	    (*po.*pm)(signal);
-	}
+  template<class ObjectType, class DataType>
+  void Slot<ObjectType, DataType>::operator()(DataType signal)
+  {
+    if(pm&&po)
+      (*po.*pm)(signal);
+  }
 
   //@}
 

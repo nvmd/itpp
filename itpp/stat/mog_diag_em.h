@@ -49,8 +49,9 @@ namespace itpp {
     //! Default destructor
     ~MOG_diag_EM_sup() { }
 
-
+    //! ADD DOCUMENTATION HERE
     void ml(MOG_diag &model_in, Array<vec> &X_in, int max_iter_in=10, double var_floor_in=0.0, double weight_floor_in=0.0, bool verbose_in=false);
+    //! ADD DOCUMENTATION HERE
     void map(MOG_diag &model_in, MOG_diag &prior_model, Array<vec> &X_in, int max_iter_in=10, double alpha_in=0.5, double var_floor_in=0.0, double weight_floor_in=0.0, bool verbose_in=false);
 
     protected:
@@ -67,12 +68,18 @@ namespace itpp {
     //! 'C' pointers to training vectors
     double ** c_X;
 
+    //! ADD DOCUMENTATION HERE
     double var_floor;
+    //! ADD DOCUMENTATION HERE
     double weight_floor;
 
+    //! ADD DOCUMENTATION HERE
     void inline update_internals();
+    //! ADD DOCUMENTATION HERE
     void inline sanitise_params();
+    //! ADD DOCUMENTATION HERE
     double ml_update_params();
+    //! ADD DOCUMENTATION HERE
     void ml_iterate();
 
     private:
@@ -137,6 +144,7 @@ namespace itpp {
     \param alpha_in Coefficient for combining the parameters with the prior.  0 <= _alpha <= 1.
     \param var_floor_in Variance floor (lowest allowable variance).  Set to 0.0 to use the default.
     \param weight_floor_in  Weight floor (lowest allowable weight).  Set to 0.0 to use the default.
+    \param verbose_in ADD DOCUMENTATION HERE
 
     \note NOT YET IMPLEMENTED.
     \note The variance and weight floors are set to std::numeric_limits<double>::min()

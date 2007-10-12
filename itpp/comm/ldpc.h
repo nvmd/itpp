@@ -579,9 +579,9 @@ namespace itpp {
       column of the rearranged \c H.
 
       \note This function modifies the parity check matrix \c H. Its columns
-      may be sorted so that it gets the structure <tt>H = [H1 H2]</tt> where
-      \c H2 is square and invertible. The computed generator then satisfies
-      <tt>[H1 H2][I; G'] = 0<tt>.
+      may be sorted so that it gets the structure \f$ H = [H_{1} H_{2}] \f$
+      where \f$ H_{2} \f$ is square and invertible. The computed generator
+      then satisfies \f$ [H_{1} H_{2}][I; G'] = 0 \f$.
     */
     ivec construct(LDPC_Parity* const H, bool natural_ordering = false,
 		   const ivec& ind = "");
@@ -764,8 +764,8 @@ namespace itpp {
       \brief Set the decoding loop exit conditions
 
       \param max_iters Maximum number of the decoding iterations
-      \param stop_if_valid If true, break the decoding loop as soon as
-      valid codeword is found. Recommended value: \c true.
+      \param syndr_check_each_iter If true, break the decoding loop as soon
+      as valid codeword is found. Recommended value: \c true.
       \param syndr_check_at_start If true, perform a syndrome check before
       entering the decoding loop. If LLRin corresponds to a valid codeword,
       set LLRout = LLRin. Recommended value: \c false.

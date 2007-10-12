@@ -193,86 +193,63 @@ namespace itpp {
 
   //!@}
 
-  // ---------------------- Instantiations ------------------------------------
+  //! \cond
+
+  // ----------------------------------------------------------------------
+  // Instantiations
+  // ----------------------------------------------------------------------
+
 #ifndef _MSC_VER
 
-  //! Extern Template instantiation of apply_function
   extern template vec apply_function(double (*f)(double), const vec &v);
-  //! Extern Template instantiation of apply_function
   extern template cvec apply_function(std::complex<double> (*f)(const std::complex<double> &),
-				      const cvec &v);
-  //! Extern Template instantiation of apply_function
+                                      const cvec &v);
   extern template svec apply_function(short (*f)(short), const svec &v);
-  //! Extern Template instantiation of apply_function
   extern template ivec apply_function(int (*f)(int), const ivec &v);
-  //! Extern Template instantiation of apply_function
   extern template bvec apply_function(bin (*f)(bin), const bvec &v);
 
-  //! Extern Template instantiation of apply_function
   extern template mat apply_function(double (*f)(double), const mat &m);
-  //! Extern Template instantiation of apply_function
   extern template cmat apply_function(std::complex<double> (*f)(const std::complex<double> &),
-				      const cmat &m);
-  //! Extern Template instantiation of apply_function
+                                      const cmat &m);
   extern template smat apply_function(short (*f)(short), const smat &m);
-  //! Extern Template instantiation of apply_function
   extern template imat apply_function(int (*f)(int), const imat &m);
-  //! Extern Template instantiation of apply_function
   extern template bmat apply_function(bin (*f)(bin), const bmat &m);
 
-  //! Extern Template instantiation of apply_function
   extern template vec apply_function(double (*f)(double, double), const double& x, const vec &v);
-  //! Extern Template instantiation of apply_function
   extern template cvec apply_function(std::complex<double> (*f)(const std::complex<double> &,
-								const std::complex<double> &),
-				      const std::complex<double>& x, const cvec &v);
-  //! Extern Template instantiation of apply_function
+                                                                const std::complex<double> &),
+                                      const std::complex<double>& x, const cvec &v);
   extern template svec apply_function(short (*f)(short, short), const short& x, const svec &v);
-  //! Extern Template instantiation of apply_function
   extern template ivec apply_function(int (*f)(int, int), const int& x, const ivec &v);
-  //! Extern Template instantiation of apply_function
   extern template bvec apply_function(bin (*f)(bin, bin), const bin& x, const bvec &v);
 
-  //! Extern Template instantiation of apply_function
   extern template mat apply_function(double (*f)(double, double), const double& x, const mat &m);
-  //! Extern Template instantiation of apply_function
   extern template cmat apply_function(std::complex<double> (*f)(const std::complex<double> &,
-								const std::complex<double> &),
-				      const std::complex<double>& x, const cmat &m);
-  //! Extern Template instantiation of apply_function
+                                                                const std::complex<double> &),
+                                      const std::complex<double>& x, const cmat &m);
   extern template smat apply_function(short (*f)(short, short), const short& x, const smat &m);
-  //! Extern Template instantiation of apply_function
   extern template imat apply_function(int (*f)(int, int), const int& x, const imat &m);
-  //! Extern Template instantiation of apply_function
   extern template bmat apply_function(bin (*f)(bin, bin), const bin& x, const bmat &m);
 
-  //! Extern Template instantiation of apply_function
   extern template vec apply_function(double (*f)(double, double), const vec &v, const double& x);
-  //! Extern Template instantiation of apply_function
   extern template cvec apply_function(std::complex<double> (*f)(const std::complex<double> &,
-								const std::complex<double> &),
-				      const cvec &v, const std::complex<double>& x);
-  //! Extern Template instantiation of apply_function
+                                                                const std::complex<double> &),
+                                      const cvec &v, const std::complex<double>& x);
   extern template svec apply_function(short (*f)(short, short), const svec &v, const short& x);
-  //! Extern Template instantiation of apply_function
   extern template ivec apply_function(int (*f)(int, int), const ivec &v, const int& x);
-  //! Extern Template instantiation of apply_function
   extern template bvec apply_function(bin (*f)(bin, bin), const bvec &v, const bin& x);
 
-  //! Extern Template instantiation of apply_function
   extern template mat apply_function(double (*f)(double, double), const mat &m, const double& x);
-  //! Extern Template instantiation of apply_function
   extern template cmat apply_function(std::complex<double> (*f)(const std::complex<double> &,
-								const std::complex<double> &),
-				      const cmat &m, const std::complex<double>& x);
-  //! Extern Template instantiation of apply_function
+                                                                const std::complex<double> &),
+                                      const cmat &m, const std::complex<double>& x);
   extern template smat apply_function(short (*f)(short, short), const smat &m, const short& x);
-  //! Extern Template instantiation of apply_function
   extern template imat apply_function(int (*f)(int, int), const imat &m, const int& x);
-  //! Extern Template instantiation of apply_function
   extern template bmat apply_function(bin (*f)(bin, bin), const bmat &m, const bin& x);
 
 #endif // #ifndef _MSC_VER
+
+  //! \endcond
 
 } // namespace itpp
 

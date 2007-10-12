@@ -49,22 +49,36 @@ namespace itpp {
     //! Default destructor
     ~MOG_diag_kmeans_sup() { }
 
+    //! ADD DOCUMENTATION HERE
     void run(MOG_diag &model_in, Array<vec> &X_in, int max_iter_in=10, double trust_in=0.5, bool normalise_in=true, bool verbose_in=false);
 
     protected:
 
+    //! ADD DOCUMENTATION HERE
     inline double dist(const double * x, const double * y) const;
+    //! ADD DOCUMENTATION HERE
     void assign_to_means();
+    //! ADD DOCUMENTATION HERE
     void recalculate_means();
+    //! ADD DOCUMENTATION HERE
     bool dezombify_means();
+    //! ADD DOCUMENTATION HERE
     double measure_change() const;
+    //! ADD DOCUMENTATION HERE
     void initial_means();
+    //! ADD DOCUMENTATION HERE
     void iterate();
+    //! ADD DOCUMENTATION HERE
     void calc_means();
+    //! ADD DOCUMENTATION HERE
     void calc_covs();
+    //! ADD DOCUMENTATION HERE
     void calc_weights();
+    //! ADD DOCUMENTATION HERE
     void normalise_vectors();
+    //! ADD DOCUMENTATION HERE
     void unnormalise_vectors();
+    //! ADD DOCUMENTATION HERE
     void unnormalise_means();
 
     //! Maximum number of iterations

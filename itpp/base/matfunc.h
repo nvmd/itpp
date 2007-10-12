@@ -411,7 +411,7 @@ namespace itpp {
    * \brief Returns a matrix with \c m by \c n copies of the vector \c data
    * \author Adam Piatyszek
    *
-   * \param data Vector to be repeated
+   * \param v Vector to be repeated
    * \param m Number of times to repeat data vertically
    * \param n Number of times to repeat data horizontally
    * \param transpose Specifies the input vector orientation (column vector
@@ -508,18 +508,21 @@ namespace itpp {
     return r;
   }
 
+  //! Specialisation of rank() function
   template<> inline
   int rank(const imat &m, double tol)
   {
     return rank(to_mat(m), tol);
   }
 
+  //! Specialisation of rank() function
   template<> inline
   int rank(const smat &m, double tol)
   {
     return rank(to_mat(m), tol);
   }
 
+  //! Specialisation of rank() function
   template<> inline
   int rank(const bmat &m, double tol)
   {

@@ -42,7 +42,7 @@
 
 #include <complex>
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
+//! \cond
 
 namespace blas {
 
@@ -159,6 +159,6 @@ extern "C" {
 
 } // namespace blas
 
-#endif // #ifndef DOXYGEN_SHOULD_SKIP_THIS
+//! \endcond
 
 #endif // #ifndef BLAS_H

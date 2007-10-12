@@ -1146,9 +1146,10 @@ namespace itpp {
     return temp;
   }
 
-  //! Specialization of \c hermitian_transpose() method for std::complex<double>
+  //! \cond
   template<>
   const cmat Mat<std::complex<double> >::hermitian_transpose() const;
+  //! \endcond
 
   template<class Num_T>
   const Mat<Num_T> Mat<Num_T>::hermitian_transpose() const
@@ -1777,338 +1778,215 @@ namespace itpp {
     return is;
   }
 
-#ifndef _MSC_VER
+  //! \cond
 
   //---------------------------------------------------------------------
   // Instantiations
   //---------------------------------------------------------------------
 
-  //------- class instantiations --------
+#ifndef _MSC_VER
 
-  //! Template instantiation of Mat<double>
+  // class instantiations
+
   extern template class Mat<double>;
-  //! Template instantiation of Mat<std::complex<double> >
   extern template class Mat<std::complex<double> >;
-  //! Template instantiation of Mat<int>
   extern template class Mat<int>;
-  //! Template instantiation of Mat<short int>
   extern template class Mat<short int>;
-  //! Template instantiation of Mat<bin>
   extern template class Mat<bin>;
 
-  //-------- Addition operators ---------------
+  // addition operators
 
-  //! Template instantiation of operator+
   extern template const mat operator+(const mat &m1, const mat &m2);
-  //! Template instantiation of operator+
   extern template const cmat operator+(const cmat &m1, const cmat &m2);
-  //! Template instantiation of operator+
   extern template const imat operator+(const imat &m1, const imat &m2);
-  //! Template instantiation of operator+
   extern template const smat operator+(const smat &m1, const smat &m2);
-  //! Template instantiation of operator+
   extern template const bmat operator+(const bmat &m1, const bmat &m2);
 
-  //! Template instantiation of operator+
   extern template const mat operator+(const mat &m, double t);
-  //! Template instantiation of operator+
   extern template const cmat operator+(const cmat &m, std::complex<double> t);
-  //! Template instantiation of operator+
   extern template const imat operator+(const imat &m, int t);
-  //! Template instantiation of operator+
   extern template const smat operator+(const smat &m, short t);
-  //! Template instantiation of operator+
   extern template const bmat operator+(const bmat &m, bin t);
 
-  //! Template instantiation of operator+
   extern template const mat operator+(double t, const mat &m);
-  //! Template instantiation of operator+
   extern template const cmat operator+(std::complex<double> t, const cmat &m);
-  //! Template instantiation of operator+
   extern template const imat operator+(int t, const imat &m);
-  //! Template instantiation of operator+
   extern template const smat operator+(short t, const smat &m);
-  //! Template instantiation of operator+
   extern template const bmat operator+(bin t, const bmat &m);
 
-  //-------- Subraction operators ---------------
+  // subraction operators
 
-  //! Template instantiation of operator-
   extern template const mat operator-(const mat &m1, const mat &m2);
-  //! Template instantiation of operator-
   extern template const cmat operator-(const cmat &m1, const cmat &m2);
-  //! Template instantiation of operator-
   extern template const imat operator-(const imat &m1, const imat &m2);
-  //! Template instantiation of operator-
   extern template const smat operator-(const smat &m1, const smat &m2);
-  //! Template instantiation of operator-
   extern template const bmat operator-(const bmat &m1, const bmat &m2);
 
-  //! Template instantiation of operator-
   extern template const mat operator-(const mat &m, double t);
-  //! Template instantiation of operator-
   extern template const cmat operator-(const cmat &m, std::complex<double> t);
-  //! Template instantiation of operator-
   extern template const imat operator-(const imat &m, int t);
-  //! Template instantiation of operator-
   extern template const smat operator-(const smat &m, short t);
-  //! Template instantiation of operator-
   extern template const bmat operator-(const bmat &m, bin t);
 
-  //! Template instantiation of operator-
   extern template const mat operator-(double t, const mat &m);
-  //! Template instantiation of operator-
   extern template const cmat operator-(std::complex<double> t, const cmat &m);
-  //! Template instantiation of operator-
   extern template const imat operator-(int t, const imat &m);
-  //! Template instantiation of operator-
   extern template const smat operator-(short t, const smat &m);
-  //! Template instantiation of operator-
   extern template const bmat operator-(bin t, const bmat &m);
 
-  //--------- Unary minus ---------------
+  // unary minus
 
-  //! Template instantiation of operator-
   extern template const mat operator-(const mat &m);
-  //! Template instantiation of operator-
   extern template const cmat operator-(const cmat &m);
-  //! Template instantiation of operator-
   extern template const imat operator-(const imat &m);
-  //! Template instantiation of operator-
   extern template const smat operator-(const smat &m);
-  //! Template instantiation of operator-
   extern template const bmat operator-(const bmat &m);
 
-  //-------- Multiplication operators ---------------
+  // multiplication operators
 
 #if !defined(HAVE_BLAS)
-  //! Template instantiation of operator*
   extern template const mat operator*(const mat &m1, const mat &m2);
-  //! Template instantiation of operator*
   extern template const cmat operator*(const cmat &m1, const cmat &m2);
 #endif
-  //! Template instantiation of operator*
   extern template const imat operator*(const imat &m1, const imat &m2);
-  //! Template instantiation of operator*
   extern template const smat operator*(const smat &m1, const smat &m2);
-  //! Template instantiation of operator*
   extern template const bmat operator*(const bmat &m1, const bmat &m2);
 
 #if !defined(HAVE_BLAS)
-  //! Template instantiation of operator*
   extern template const vec operator*(const mat &m, const vec &v);
-  //! Template instantiation of operator*
   extern template const cvec operator*(const cmat &m, const cvec &v);
 #endif
-  //! Template instantiation of operator*
   extern template const ivec operator*(const imat &m, const ivec &v);
-  //! Template instantiation of operator*
   extern template const svec operator*(const smat &m, const svec &v);
-  //! Template instantiation of operator*
   extern template const bvec operator*(const bmat &m, const bvec &v);
 
-  //! Template instantiation of operator*
   extern template const mat operator*(const vec &v, const mat &m);
-  //! Template instantiation of operator*
   extern template const cmat operator*(const cvec &v, const cmat &m);
-  //! Template instantiation of operator*
   extern template const imat operator*(const ivec &v, const imat &m);
-  //! Template instantiation of operator*
   extern template const smat operator*(const svec &v, const smat &m);
-  //! Template instantiation of operator*
   extern template const bmat operator*(const bvec &v, const bmat &m);
 
-  //! Template instantiation of operator*
   extern template const mat operator*(const mat &m, double t);
-  //! Template instantiation of operator*
   extern template const cmat operator*(const cmat &m, std::complex<double> t);
-  //! Template instantiation of operator*
   extern template const imat operator*(const imat &m, int t);
-  //! Template instantiation of operator*
   extern template const smat operator*(const smat &m, short t);
-  //! Template instantiation of operator*
   extern template const bmat operator*(const bmat &m, bin t);
 
-  //! Template instantiation of operator*
   extern template const mat operator*(double t, const mat &m);
-  //! Template instantiation of operator*
   extern template const cmat operator*(std::complex<double> t, const cmat &m);
-  //! Template instantiation of operator*
   extern template const imat operator*(int t, const imat &m);
-  //! Template instantiation of operator*
   extern template const smat operator*(short t, const smat &m);
-  //! Template instantiation of operator*
   extern template const bmat operator*(bin t, const bmat &m);
 
-  // ------------ Elementwise multiplication -----------
+  // elementwise multiplication
 
-  //! Template instantiation of elem_mult
   extern template const mat elem_mult(const mat &A, const mat &B);
-  //! Template instantiation of elem_mult
   extern template const cmat elem_mult(const cmat &A, const cmat &B);
-  //! Template instantiation of elem_mult
   extern template const imat elem_mult(const imat &A, const imat &B);
-  // Extern Template Const instantiation of elem_mult
-  //extern template const llmat elem_mult(const llmat &A, const llmat &B);
-  //! Template instantiation of elem_mult
   extern template const smat elem_mult(const smat &A, const smat &B);
-  //! Template instantiation of elem_mult
   extern template const bmat elem_mult(const bmat &A, const bmat &B);
 
-  //! Template instantiation of elem_mult_out
   extern template void elem_mult_out(const mat &A, const mat &B, mat &out);
-  //! Template instantiation of elem_mult_out
   extern template void elem_mult_out(const cmat &A, const cmat &B, cmat &out);
-  //! Template instantiation of elem_mult_out
   extern template void elem_mult_out(const imat &A, const imat &B, imat &out);
-  //! Template instantiation of elem_mult_out
   extern template void elem_mult_out(const smat &A, const smat &B, smat &out);
-  //! Template instantiation of elem_mult_out
   extern template void elem_mult_out(const bmat &A, const bmat &B, bmat &out);
 
-  //! Template instantiation of elem_mult_out
-  extern template void elem_mult_out(const mat &A, const mat &B, const mat &C, mat &out);
-  //! Template instantiation of elem_mult_out
-  extern template void elem_mult_out(const cmat &A, const cmat &B, const cmat &C, cmat &out);
-  //! Template instantiation of elem_mult_out
-  extern template void elem_mult_out(const imat &A, const imat &B, const imat &C, imat &out);
-  //! Template instantiation of elem_mult_out
-  extern template void elem_mult_out(const smat &A, const smat &B, const smat &C, smat &out);
-  //! Template instantiation of elem_mult_out
-  extern template void elem_mult_out(const bmat &A, const bmat &B, const bmat &C, bmat &out);
+  extern template void elem_mult_out(const mat &A, const mat &B, const mat &C,
+                                     mat &out);
+  extern template void elem_mult_out(const cmat &A, const cmat &B,
+                                     const cmat &C, cmat &out);
+  extern template void elem_mult_out(const imat &A, const imat &B,
+                                     const imat &C, imat &out);
+  extern template void elem_mult_out(const smat &A, const smat &B,
+                                     const smat &C, smat &out);
+  extern template void elem_mult_out(const bmat &A, const bmat &B,
+                                     const bmat &C, bmat &out);
 
-  //! Template instantiation of elem_mult_out
-  extern template void elem_mult_out(const mat &A, const mat &B, const mat &C, const mat &D, mat &out);
-  //! Template instantiation of elem_mult_out
-  extern template void elem_mult_out(const cmat &A, const cmat &B, const cmat &C, const cmat &D, cmat &out);
-  //! Template instantiation of elem_mult_out
-  extern template void elem_mult_out(const imat &A, const imat &B, const imat &C, const imat &D, imat &out);
-  //! Template instantiation of elem_mult_out
-  extern template void elem_mult_out(const smat &A, const smat &B, const smat &C, const smat &D, smat &out);
-  //! Template instantiation of elem_mult_out
-  extern template void elem_mult_out(const bmat &A, const bmat &B, const bmat &C, const bmat &D, bmat &out);
+  extern template void elem_mult_out(const mat &A, const mat &B, const mat &C,
+                                     const mat &D, mat &out);
+  extern template void elem_mult_out(const cmat &A, const cmat &B,
+                                     const cmat &C, const cmat &D, cmat &out);
+  extern template void elem_mult_out(const imat &A, const imat &B,
+                                     const imat &C, const imat &D, imat &out);
+  extern template void elem_mult_out(const smat &A, const smat &B,
+                                     const smat &C, const smat &D, smat &out);
+  extern template void elem_mult_out(const bmat &A, const bmat &B,
+                                     const bmat &C, const bmat &D, bmat &out);
 
-  //! Template instantiation of elem_mult_inplace
   extern template void elem_mult_inplace(const mat &A, mat &B);
-  //! Template instantiation of elem_mult_inplace
   extern template void elem_mult_inplace(const cmat &A, cmat &B);
-  //! Template instantiation of elem_mult_inplace
   extern template void elem_mult_inplace(const imat &A, imat &B);
-  //! Template instantiation of elem_mult_inplace
   extern template void elem_mult_inplace(const smat &A, smat &B);
-  //! Template instantiation of elem_mult_inplace
   extern template void elem_mult_inplace(const bmat &A, bmat &B);
 
-  //! Template instantiation of elem_mult_sum
   extern template double elem_mult_sum(const mat &A, const mat &B);
-  //! Template instantiation of elem_mult_sum
-  extern template std::complex<double> elem_mult_sum(const cmat &A, const cmat &B);
-  //! Template instantiation of elem_mult_sum
+  extern template std::complex<double> elem_mult_sum(const cmat &A,
+                                                     const cmat &B);
   extern template int elem_mult_sum(const imat &A, const imat &B);
-  //! Template instantiation of elem_mult_sum
   extern template short elem_mult_sum(const smat &A, const smat &B);
-  //! Template instantiation of elem_mult_sum
   extern template bin elem_mult_sum(const bmat &A, const bmat &B);
 
-  // ------------ Division operator -----------
+  // division operator
 
-  //! Template instantiation of operator/
   extern template const mat operator/(const mat &m, double t);
-  //! Template instantiation of operator/
   extern template const cmat operator/(const cmat &m, std::complex<double> t);
-  //! Template instantiation of operator/
   extern template const imat operator/(const imat &m, int t);
-  //! Template instantiation of operator/
   extern template const smat operator/(const smat &m, short t);
-  //! Template instantiation of operator/
   extern template const bmat operator/(const bmat &m, bin t);
 
-  // ------------ Elementwise division -----------
+  // elementwise division
 
-  //! Template instantiation of elem_div
   extern template const mat elem_div(const mat &A, const mat &B);
-  //! Template instantiation of elem_div
   extern template const cmat elem_div(const cmat &A, const cmat &B);
-  //! Template instantiation of elem_div
   extern template const imat elem_div(const imat &A, const imat &B);
-  //! Template instantiation of elem_div
   extern template const smat elem_div(const smat &A, const smat &B);
-  //! Template instantiation of elem_div
   extern template const bmat elem_div(const bmat &A, const bmat &B);
 
-  //! Template instantiation of elem_div_out
   extern template void elem_div_out(const mat &A, const mat &B, mat &out);
-  //! Template instantiation of elem_div_out
   extern template void elem_div_out(const cmat &A, const cmat &B, cmat &out);
-  //! Template instantiation of elem_div_out
   extern template void elem_div_out(const imat &A, const imat &B, imat &out);
-  //! Template instantiation of elem_div_out
   extern template void elem_div_out(const smat &A, const smat &B, smat &out);
-  //! Template instantiation of elem_div_out
   extern template void elem_div_out(const bmat &A, const bmat &B, bmat &out);
 
-  //! Template instantiation of elem_div_sum
   extern template double elem_div_sum(const mat &A, const mat &B);
-  //! Template instantiation of elem_div_sum
-  extern template std::complex<double> elem_div_sum(const cmat &A, const cmat &B);
-  //! Template instantiation of elem_div_sum
+  extern template std::complex<double> elem_div_sum(const cmat &A,
+                                                    const cmat &B);
   extern template int elem_div_sum(const imat &A, const imat &B);
-  //! Template instantiation of elem_div_sum
   extern template short elem_div_sum(const smat &A, const smat &B);
-  //! Template instantiation of elem_div_sum
   extern template bin elem_div_sum(const bmat &A, const bmat &B);
 
-  // ------------- Concatenations -----------------
+  // concatenation
 
-  //! Template instantiation of concat_horizontal
   extern template const mat concat_horizontal(const mat &m1, const mat &m2);
-  //! Template instantiation of concat_horizontal
   extern template const cmat concat_horizontal(const cmat &m1, const cmat &m2);
-  //! Template instantiation of concat_horizontal
   extern template const imat concat_horizontal(const imat &m1, const imat &m2);
-  //! Template instantiation of concat_horizontal
   extern template const smat concat_horizontal(const smat &m1, const smat &m2);
-  //! Template instantiation of concat_horizontal
   extern template const bmat concat_horizontal(const bmat &m1, const bmat &m2);
 
-  //! Template instantiation of concat_vertical
   extern template const mat concat_vertical(const mat &m1, const mat &m2);
-  //! Template instantiation of concat_vertical
   extern template const cmat concat_vertical(const cmat &m1, const cmat &m2);
-  //! Template instantiation of concat_vertical
   extern template const imat concat_vertical(const imat &m1, const imat &m2);
-  //! Template instantiation of concat_vertical
   extern template const smat concat_vertical(const smat &m1, const smat &m2);
-  //! Template instantiation of concat_vertical
   extern template const bmat concat_vertical(const bmat &m1, const bmat &m2);
 
-  //----------- Output stream --------------
+  // I/O streams
 
-  //! Template instantiation of output stream
   extern template std::ostream &operator<<(std::ostream &os, const mat  &m);
-  //! Template instantiation of output stream
   extern template std::ostream &operator<<(std::ostream &os, const cmat &m);
-  //! Template instantiation of output stream
   extern template std::ostream &operator<<(std::ostream &os, const imat  &m);
-  //! Template instantiation of output stream
   extern template std::ostream &operator<<(std::ostream &os, const smat  &m);
-  //! Template instantiation of output stream
   extern template std::ostream &operator<<(std::ostream &os, const bmat  &m);
 
-  //----------- Input stream -------------
-
-  //! Template instantiation of input stream
   extern template std::istream &operator>>(std::istream &is, mat  &m);
-  //! Template instantiation of input stream
   extern template std::istream &operator>>(std::istream &is, cmat &m);
-  //! Template instantiation of input stream
   extern template std::istream &operator>>(std::istream &is, imat  &m);
-  //! Template instantiation of input stream
   extern template std::istream &operator>>(std::istream &is, smat  &m);
-  //! Template instantiation of input stream
   extern template std::istream &operator>>(std::istream &is, bmat  &m);
 
 #endif // #ifndef _MSC_VER
+
+  //! \endcond
 
 } // namespace itpp
 

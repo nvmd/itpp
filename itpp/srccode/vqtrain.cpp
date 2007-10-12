@@ -36,6 +36,7 @@
 #include <itpp/stat/misc_stat.h>
 #include <iostream>
 
+//! \cond
 
 namespace itpp {
 
@@ -286,3 +287,5 @@ namespace itpp {
   }
 
 } // namespace itpp
+
+//! \endcond

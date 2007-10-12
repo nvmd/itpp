@@ -105,7 +105,7 @@ namespace itpp {
 
   //! Typedefs for CFixed (cfixed1, cfixed2, ..., cfixed64)
   typedef CFixed<1, TC, WRAP> cfixed1;
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
+//! \cond
   typedef CFixed<2, TC, WRAP> cfixed2;
   typedef CFixed<3, TC, WRAP> cfixed3;
   typedef CFixed<4, TC, WRAP> cfixed4;
@@ -169,11 +169,11 @@ namespace itpp {
   typedef CFixed<62, TC, WRAP> cfixed62;
   typedef CFixed<63, TC, WRAP> cfixed63;
   typedef CFixed<64, TC, WRAP> cfixed64;
-#endif
+  //! \endcond
 
   //! Typedefs for saturated CFixed (scfixed1, scfixed2, ..., scfixed64)
   typedef CFixed<1, TC, WRAP> cfixed1;
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
+  //! \cond
   typedef CFixed<1, TC, SAT> scfixed1;
   typedef CFixed<2, TC, SAT> scfixed2;
   typedef CFixed<3, TC, SAT> scfixed3;
@@ -238,12 +238,14 @@ namespace itpp {
   typedef CFixed<62, TC, SAT> scfixed62;
   typedef CFixed<63, TC, SAT> scfixed63;
   typedef CFixed<64, TC, SAT> scfixed64;
-#endif
 
   // Template instantiations
 #ifndef _MSC_VER
   extern template class CFixed<64, TC, WRAP>;
 #endif
+
+  //! \endcond
+
 } // namespace itpp
 
 #endif // #ifndef CFIXED_H

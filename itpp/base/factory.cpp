@@ -29,6 +29,8 @@
 
 #include <itpp/base/factory.h>
 
+//! \cond
+
 namespace itpp {
 
   template<>
@@ -143,3 +145,5 @@ namespace itpp {
   }
 
 }
+
+//! \endcond
