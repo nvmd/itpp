@@ -1,5 +1,8 @@
 2007-10-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/doxygen_html.cfg.in: Doxygen configuration updated with
+	Doxygen 1.4.7
+
 	* doc/local/authors.doc, itpp/base/bessel/bessel_internal.h,
 	itpp/base/blas.h, itpp/base/converters.cpp,
 	itpp/base/converters.h, itpp/base/copy_vector.h,
