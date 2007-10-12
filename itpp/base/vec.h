@@ -922,7 +922,6 @@ namespace itpp {
     return blas::ddot_(&v1.datasize, v1.data, &incr, v2.data, &incr);
   }
 
-  // zdotusub_ is not available in MKL
   template<> inline
   std::complex<double> dot(const cvec &v1, const cvec &v2)
   {
@@ -1849,10 +1848,8 @@ namespace itpp {
 #if !defined(HAVE_BLAS)
   //! Template instantiation of dot
   extern template double dot(const vec &v1, const vec &v2);
-#if defined(HAVE_MKL) && defined(_MSC_VER)
   //! Template instantiation of dot
   extern template std::complex<double> dot(const cvec &v1, const cvec &v2);
-#endif
 #endif
   //! Template instantiation of dot
   extern template int dot(const ivec &v1, const ivec &v2);
@@ -1864,11 +1861,9 @@ namespace itpp {
 #if !defined(HAVE_BLAS)
   //! Template instantiation of operator*
   extern template double operator*(const vec &v1, const vec &v2);
-#if defined(HAVE_MKL) && defined(_MSC_VER)
   //! Template instantiation of operator*
   extern template std::complex<double> operator*(const cvec &v1,
-						 const cvec &v2);
-#endif
+                                                 const cvec &v2);
 #endif
   //! Template instantiation of operator*
   extern template int operator*(const ivec &v1, const ivec &v2);

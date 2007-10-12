@@ -804,9 +804,7 @@ namespace itpp {
 
 #if !defined(HAVE_BLAS)
   template double dot(const vec &v1, const vec &v2);
-#if defined(HAVE_MKL) && defined(_MSC_VER)
   template std::complex<double> dot(const cvec &v1, const cvec &v2);
-#endif
 #endif
   template int dot(const ivec &v1, const ivec &v2);
   template short dot(const svec &v1, const svec &v2);
@@ -814,9 +812,7 @@ namespace itpp {
 
 #if !defined(HAVE_BLAS)
   template double operator*(const vec &v1, const vec &v2);
-#if defined(HAVE_MKL) && defined(_MSC_VER)
   template std::complex<double> operator*(const cvec &v1, const cvec &v2);
-#endif
 #endif
   template int operator*(const ivec &v1, const ivec &v2);
   template short operator*(const svec &v1, const svec &v2);
