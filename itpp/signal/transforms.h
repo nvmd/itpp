@@ -31,6 +31,12 @@
 #ifndef TRANSFORMS_H
 #define TRANSFORMS_H
 
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
+
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/matfunc.h>
@@ -340,53 +346,39 @@ namespace itpp {
     return transpose(ret);
   }
 
+  //! \cond
 
   // ----------------------------------------------------------------------
-  // template instantiation
+  // Instantiations
   // ----------------------------------------------------------------------
-#ifndef _MSC_VER
 
-  //! Template instantiation of dht
+#ifdef HAVE_EXTERN_TEMPLATE
+
   extern template vec dht(const vec &v);
-  //! Template instantiation of dht
   extern template cvec dht(const cvec &v);
-
-  //! Template instantiation of dht
   extern template void dht(const vec &vin, vec &vout);
-  //! Template instantiation of dht
   extern template void dht(const cvec &vin, cvec &vout);
 
-  //! Template instantiation of self_dht
   extern template void self_dht(vec &v);
-  //! Template instantiation of self_dht
   extern template void self_dht(cvec &v);
 
-  //! Template instantiation of dwht
   extern template vec dwht(const vec &v);
-  //! Template instantiation of dwht
   extern template cvec dwht(const cvec &v);
-
-  //! Template instantiation of dwht
   extern template void dwht(const vec &vin, vec &vout);
-  //! Template instantiation of dwht
   extern template void dwht(const cvec &vin, cvec &vout);
 
-  //! Template instantiation of self_dwht
   extern template void self_dwht(vec &v);
-  //! Template instantiation of self_dwht
   extern template void self_dwht(cvec &v);
 
-  //! Template instantiation of dht2
   extern template mat  dht2(const mat &m);
-  //! Template instantiation of dht2
   extern template cmat dht2(const cmat &m);
 
-  //! Template instantiation of dht2
   extern template mat  dwht2(const mat &m);
-  //! Template instantiation of dht2
   extern template cmat dwht2(const cmat &m);
 
-#endif // #ifndef _MSC_VER
+#endif // HAVE_EXTERN_TEMPLATE
+
+  //! \endcond
 
 } // namespace itpp
 

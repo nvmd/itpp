@@ -250,40 +250,27 @@ namespace itpp {
     return a;
   }
 
-  //-----------------------------------------------------------------------
-  //  class Filter
-  //-----------------------------------------------------------------------
+  template class MA_Filter<double, double, double>;
+  template class MA_Filter<double, std::complex<double>,
+                           std::complex<double> >;
+  template class MA_Filter<std::complex<double>, double,std::complex<double> >;
+  template class MA_Filter<std::complex<double>, std::complex<double>,
+                           std::complex<double> >;
 
-  //template class Filter<double,double,double>;
-  //template class Filter<double,std::complex<double>,std::complex<double> >;
-  //template class Filter<std::complex<double>,double,std::complex<double> >;
-  //template class Filter<std::complex<double>,std::complex<double>,std::complex<double> >;
+  template class AR_Filter<double, double, double>;
+  template class AR_Filter<double, std::complex<double>,
+                           std::complex<double> >;
+  template class AR_Filter<std::complex<double>, double,
+                           std::complex<double> >;
+  template class AR_Filter<std::complex<double>, std::complex<double>,
+                           std::complex<double> >;
 
-  //-----------------------------------------------------------------------
-  //  class MA_Filter
-  //-----------------------------------------------------------------------
-
-  template class MA_Filter<double,double,double>;
-  template class MA_Filter<double,std::complex<double>,std::complex<double> >;
-  template class MA_Filter<std::complex<double>,double,std::complex<double> >;
-  template class MA_Filter<std::complex<double>,std::complex<double>,std::complex<double> >;
-
-  //-----------------------------------------------------------------------
-  //  class AR_Filter
-  //-----------------------------------------------------------------------
-
-  template class AR_Filter<double,double,double>;
-  template class AR_Filter<double,std::complex<double>,std::complex<double> >;
-  template class AR_Filter<std::complex<double>,double,std::complex<double> >;
-  template class AR_Filter<std::complex<double>,std::complex<double>,std::complex<double> >;
-
-  //-----------------------------------------------------------------------
-  //  class ARMA_Filter
-  //-----------------------------------------------------------------------
-
-  template class ARMA_Filter<double,double,double>;
-  template class ARMA_Filter<double,std::complex<double>,std::complex<double> >;
-  template class ARMA_Filter<std::complex<double>,double,std::complex<double> >;
-  template class ARMA_Filter<std::complex<double>,std::complex<double>,std::complex<double> >;
+  template class ARMA_Filter<double, double, double>;
+  template class ARMA_Filter<double, std::complex<double>,
+                             std::complex<double> >;
+  template class ARMA_Filter<std::complex<double>, double,
+                             std::complex<double> >;
+  template class ARMA_Filter<std::complex<double>, std::complex<double>,
+                             std::complex<double> >;
 
 } // namespace itpp

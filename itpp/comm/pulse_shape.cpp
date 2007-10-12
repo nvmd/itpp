@@ -32,13 +32,15 @@
 
 namespace itpp {
 
-  //---------------------------------------------------------------------------
-  // Template instantiations
-  //---------------------------------------------------------------------------
+  // ----------------------------------------------------------------------
+  // Instantiations
+  // ----------------------------------------------------------------------
 
   template class Pulse_Shape<double, double, double>;
-  template class Pulse_Shape<std::complex<double>, double, std::complex<double> >;
-  template class Pulse_Shape<std::complex<double>, std::complex<double>, std::complex<double> >;
+  template class Pulse_Shape<std::complex<double>, double,
+                             std::complex<double> >;
+  template class Pulse_Shape<std::complex<double>, std::complex<double>,
+                             std::complex<double> >;
 
   template class Root_Raised_Cosine<double>;
   template class Root_Raised_Cosine<std::complex<double> >;

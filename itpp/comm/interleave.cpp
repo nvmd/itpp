@@ -32,7 +32,9 @@
 
 namespace itpp {
 
-  // ------------------------ Instantiations --------------------------------
+  // ----------------------------------------------------------------------
+  // Instantiations
+  // ----------------------------------------------------------------------
 
   template class Block_Interleaver<double>;
   template class Block_Interleaver<short>;

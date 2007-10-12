@@ -1,3 +1,17 @@
+2007-10-12  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/converters.h, itpp/base/help_functions.h,
+	itpp/base/mat.h, itpp/base/matfunc.cpp, itpp/base/matfunc.h,
+	itpp/base/smat.cpp, itpp/base/smat.h, itpp/base/svec.cpp,
+	itpp/base/svec.h, itpp/base/vec.cpp, itpp/base/vec.h,
+	itpp/comm/error_counters.cpp, itpp/comm/interleave.cpp,
+	itpp/comm/interleave.h, itpp/comm/pulse_shape.cpp,
+	itpp/comm/pulse_shape.h, itpp/fixed/cfixed.h,
+	itpp/fixed/fix_operators.h, itpp/fixed/fixed.h,
+	itpp/signal/filter.cpp, itpp/signal/filter.h,
+	itpp/signal/transforms.cpp, itpp/signal/transforms.h: Use
+	HAVE_EXTERN_TEMPLATE where necessary
+
 2007-10-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* config/ac_cxx_extern_template.m4, configure.ac,
@@ -6,7 +20,7 @@
 
 	Previously, it was assumed that all C++ compilers except MSVC++
 	support extern template instantiation. Now this feature is checked
-	with the configure script and HAVE_EXTERN_TEMPLATES is defined
+	with the configure script and HAVE_EXTERN_TEMPLATE is defined
 	accordingly.
 
 	* doc/doxygen_html.cfg.in: Doxygen configuration updated with

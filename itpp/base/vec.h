@@ -1739,439 +1739,301 @@ namespace itpp {
     return is;
   }
 
-#ifndef _MSC_VER
+  //! \cond
 
-  //---------------------------------------------------------------------
+  // ----------------------------------------------------------------------
   // Instantiations
-  //---------------------------------------------------------------------
+  // ----------------------------------------------------------------------
 
-  //--------- class instantiations -------------
+#ifdef HAVE_EXTERN_TEMPLATE
 
-  //! Template instantiation of Vec<double>
   extern template class Vec<double>;
-  //! Template instantiation of Vec<int>
   extern template class Vec<int>;
-  //! Template instantiation of Vec<short int>
   extern template class Vec<short int>;
-  //! Template instantiation of Vec<complex<double> >
   extern template class Vec<std::complex<double> >;
-  //! Template instantiation of Vec<bin>
   extern template class Vec<bin>;
 
-  //------------- Addition operator ----------
+  // addition operator
 
-  //! Template instantiation of operator+
   extern template const vec operator+(const vec &v1, const vec &v2);
-  //! Template instantiation of operator+
   extern template const cvec operator+(const cvec &v1, const cvec &v2);
-  //! Template instantiation of operator+
   extern template const ivec operator+(const ivec &v1, const ivec &v2);
-  //! Template instantiation of operator+
   extern template const svec operator+(const svec &v1, const svec &v2);
-  //! Template instantiation of operator+
   extern template const bvec operator+(const bvec &v1, const bvec &v2);
 
-  //! Template instantiation of operator+
   extern template const vec operator+(const vec &v1, double t);
-  //! Template instantiation of operator+
   extern template const cvec operator+(const cvec &v1, std::complex<double> t);
-  //! Template instantiation of operator+
   extern template const ivec operator+(const ivec &v1, int t);
-  //! Template instantiation of operator+
   extern template const svec operator+(const svec &v1, short t);
-  //! Template instantiation of operator+
   extern template const bvec operator+(const bvec &v1, bin t);
 
-  //! Template instantiation of operator+
   extern template const vec operator+(double t, const vec &v1);
-  //! Template instantiation of operator+
   extern template const cvec operator+(std::complex<double> t, const cvec &v1);
-  //! Template instantiation of operator+
   extern template const ivec operator+(int t, const ivec &v1);
-  //! Template instantiation of operator+
   extern template const svec operator+(short t, const svec &v1);
-  //! Template instantiation of operator+
   extern template const bvec operator+(bin t, const bvec &v1);
 
-  //------------- Subraction operator ----------
+  // subraction operator
 
-  //! Template instantiation of operator-
   extern template const vec operator-(const vec &v1, const vec &v2);
-  //! Template instantiation of operator-
   extern template const cvec operator-(const cvec &v1, const cvec &v2);
-  //! Template instantiation of operator-
   extern template const ivec operator-(const ivec &v1, const ivec &v2);
-  //! Template instantiation of operator-
   extern template const svec operator-(const svec &v1, const svec &v2);
-  //! Template instantiation of operator-
   extern template const bvec operator-(const bvec &v1, const bvec &v2);
 
-  //! Template instantiation of operator-
   extern template const vec operator-(const vec &v, double t);
-  //! Template instantiation of operator-
   extern template const cvec operator-(const cvec &v, std::complex<double> t);
-  //! Template instantiation of operator-
   extern template const ivec operator-(const ivec &v, int t);
-  //! Template instantiation of operator-
   extern template const svec operator-(const svec &v, short t);
-  //! Template instantiation of operator-
   extern template const bvec operator-(const bvec &v, bin t);
 
-  //! Template instantiation of operator-
   extern template const vec operator-(double t, const vec &v);
-  //! Template instantiation of operator-
   extern template const cvec operator-(std::complex<double> t, const cvec &v);
-  //! Template instantiation of operator-
   extern template const ivec operator-(int t, const ivec &v);
-  //! Template instantiation of operator-
   extern template const svec operator-(short t, const svec &v);
-  //! Template instantiation of operator-
   extern template const bvec operator-(bin t, const bvec &v);
 
-  //---------- Unary minus -------------
+  // unary minus
 
-  //! Template instantiation of operator-
   extern template const vec operator-(const vec &v);
-  //! Template instantiation of operator-
   extern template const cvec operator-(const cvec &v);
-  //! Template instantiation of operator-
   extern template const ivec operator-(const ivec &v);
-  //! Template instantiation of operator-
   extern template const svec operator-(const svec &v);
-  //! Template instantiation of operator-
   extern template const bvec operator-(const bvec &v);
 
-  //------------- Multiplication operator ----------
+  // multiplication operator
 
 #if !defined(HAVE_BLAS)
-  //! Template instantiation of dot
   extern template double dot(const vec &v1, const vec &v2);
-  //! Template instantiation of dot
   extern template std::complex<double> dot(const cvec &v1, const cvec &v2);
 #endif
-  //! Template instantiation of dot
   extern template int dot(const ivec &v1, const ivec &v2);
-  //! Template instantiation of dot
   extern template short dot(const svec &v1, const svec &v2);
-  //! Template instantiation of dot
   extern template bin dot(const bvec &v1, const bvec &v2);
 
 #if !defined(HAVE_BLAS)
-  //! Template instantiation of operator*
   extern template double operator*(const vec &v1, const vec &v2);
-  //! Template instantiation of operator*
   extern template std::complex<double> operator*(const cvec &v1,
                                                  const cvec &v2);
 #endif
-  //! Template instantiation of operator*
   extern template int operator*(const ivec &v1, const ivec &v2);
-  //! Template instantiation of operator*
   extern template short operator*(const svec &v1, const svec &v2);
-  //! Template instantiation of operator*
   extern template bin operator*(const bvec &v1, const bvec &v2);
 
 #if !defined(HAVE_BLAS)
-  //! Template instantiation of outer_product
   extern template const mat outer_product(const vec &v1, const vec &v2,
 					  bool hermitian);
 #endif
-  //! Template instantiation of outer_product
   extern template const imat outer_product(const ivec &v1, const ivec &v2,
 					   bool hermitian);
-  //! Template instantiation of outer_product
   extern template const smat outer_product(const svec &v1, const svec &v2,
 					   bool hermitian);
-  //! Template instantiation of outer_product
   extern template const bmat outer_product(const bvec &v1, const bvec &v2,
 					   bool hermitian);
 
-  //! Template instantiation of operator*
   extern template const vec operator*(const vec &v, double t);
-  //! Template instantiation of operator*
   extern template const cvec operator*(const cvec &v, std::complex<double> t);
-  //! Template instantiation of operator*
   extern template const ivec operator*(const ivec &v, int t);
-  //! Template instantiation of operator*
   extern template const svec operator*(const svec &v, short t);
-  //! Template instantiation of operator*
   extern template const bvec operator*(const bvec &v, bin t);
 
-  //! Template instantiation of operator*
   extern template const vec operator*(double t, const vec &v);
-  //! Template instantiation of operator*
   extern template const cvec operator*(std::complex<double> t, const cvec &v);
-  //! Template instantiation of operator*
   extern template const ivec operator*(int t, const ivec &v);
-  //! Template instantiation of operator*
   extern template const svec operator*(short t, const svec &v);
-  //! Template instantiation of operator*
   extern template const bvec operator*(bin t, const bvec &v);
 
-  //------------- Elementwise Multiplication operator (two vectors) ----------
+  // elementwise multiplication
 
-  //! Template instantiation of elem_mult
   extern template const vec elem_mult(const vec &a, const vec &b);
-  //! Template instantiation of elem_mult
   extern template const cvec elem_mult(const cvec &a, const cvec &b);
-  //! Template instantiation of elem_mult
   extern template const ivec elem_mult(const ivec &a, const ivec &b);
-  //! Template instantiation of elem_mult
   extern template const svec elem_mult(const svec &a, const svec &b);
-  //! Template instantiation of elem_mult
   extern template const bvec elem_mult(const bvec &a, const bvec &b);
 
-  //! Template instantiation of elem_mult_out
   extern template void elem_mult_out(const vec &a, const vec &b, vec &out);
-  //! Template instantiation of elem_mult_out
   extern template void elem_mult_out(const cvec &a, const cvec &b, cvec &out);
-  //! Template instantiation of elem_mult_out
   extern template void elem_mult_out(const ivec &a, const ivec &b, ivec &out);
-  //! Template instantiation of elem_mult_out
   extern template void elem_mult_out(const svec &a, const svec &b, svec &out);
-  //! Template instantiation of elem_mult_out
   extern template void elem_mult_out(const bvec &a, const bvec &b, bvec &out);
 
-  //------------- Elementwise Multiplication operator (three vectors) ----------
+  extern template const vec elem_mult(const vec &a, const vec &b,
+                                      const vec &c);
+  extern template const cvec elem_mult(const cvec &a, const cvec &b,
+                                       const cvec &c);
+  extern template const ivec elem_mult(const ivec &a, const ivec &b,
+                                       const ivec &c);
+  extern template const svec elem_mult(const svec &a, const svec &b,
+                                       const svec &c);
+  extern template const bvec elem_mult(const bvec &a, const bvec &b,
+                                       const bvec &c);
 
-  //! Template instantiation of elem_mult
-  extern template const vec elem_mult(const vec &a, const vec &b, const vec &c);
-  //! Template instantiation of elem_mult
-  extern template const cvec elem_mult(const cvec &a, const cvec &b, const cvec &c);
-  //! Template instantiation of elem_mult
-  extern template const ivec elem_mult(const ivec &a, const ivec &b, const ivec &c);
-  //! Template instantiation of elem_mult
-  extern template const svec elem_mult(const svec &a, const svec &b, const svec &c);
-  //! Template instantiation of elem_mult
-  extern template const bvec elem_mult(const bvec &a, const bvec &b, const bvec &c);
+  extern template void elem_mult_out(const vec &a, const vec &b, const vec &c,
+                                     vec &out);
+  extern template void elem_mult_out(const cvec &a, const cvec &b,
+                                     const cvec &c, cvec &out);
+  extern template void elem_mult_out(const ivec &a, const ivec &b,
+                                     const ivec &c, ivec &out);
+  extern template void elem_mult_out(const svec &a, const svec &b,
+                                     const svec &c, svec &out);
+  extern template void elem_mult_out(const bvec &a, const bvec &b,
+                                     const bvec &c, bvec &out);
 
-  //! Template instantiation of elem_mult_out
-  extern template void elem_mult_out(const vec &a, const vec &b, const vec &c, vec &out);
-  //! Template instantiation of elem_mult_out
-  extern template void elem_mult_out(const cvec &a, const cvec &b, const cvec &c, cvec &out);
-  //! Template instantiation of elem_mult_out
-  extern template void elem_mult_out(const ivec &a, const ivec &b, const ivec &c, ivec &out);
-  //! Template instantiation of elem_mult_out
-  extern template void elem_mult_out(const svec &a, const svec &b, const svec &c, svec &out);
-  //! Template instantiation of elem_mult_out
-  extern template void elem_mult_out(const bvec &a, const bvec &b, const bvec &c, bvec &out);
+  extern template const vec elem_mult(const vec &a, const vec &b, const vec &c,
+                                      const vec &d);
+  extern template const cvec elem_mult(const cvec &a, const cvec &b,
+                                       const cvec &c, const cvec &d);
+  extern template const ivec elem_mult(const ivec &a, const ivec &b,
+                                       const ivec &c, const ivec &d);
+  extern template const svec elem_mult(const svec &a, const svec &b,
+                                       const svec &c, const svec &d);
+  extern template const bvec elem_mult(const bvec &a, const bvec &b,
+                                       const bvec &c, const bvec &d);
 
-  //------------- Elementwise Multiplication operator (four vectors) ----------
+  extern template void elem_mult_out(const vec &a, const vec &b, const vec &c,
+                                     const vec &d, vec &out);
+  extern template void elem_mult_out(const cvec &a, const cvec &b,
+                                     const cvec &c, const cvec &d, cvec &out);
+  extern template void elem_mult_out(const ivec &a, const ivec &b,
+                                     const ivec &c, const ivec &d, ivec &out);
+  extern template void elem_mult_out(const svec &a, const svec &b,
+                                     const svec &c, const svec &d, svec &out);
+  extern template void elem_mult_out(const bvec &a, const bvec &b,
+                                     const bvec &c, const bvec &d, bvec &out);
 
-  //! Template instantiation of elem_mult
-  extern template const vec elem_mult(const vec &a, const vec &b, const vec &c, const vec &d);
-  //! Template instantiation of elem_mult
-  extern template const cvec elem_mult(const cvec &a, const cvec &b, const cvec &c, const cvec &d);
-  //! Template instantiation of elem_mult
-  extern template const ivec elem_mult(const ivec &a, const ivec &b, const ivec &c, const ivec &d);
-  //! Template instantiation of elem_mult
-  extern template const svec elem_mult(const svec &a, const svec &b, const svec &c, const svec &d);
-  //! Template instantiation of elem_mult
-  extern template const bvec elem_mult(const bvec &a, const bvec &b, const bvec &c, const bvec &d);
+  // in-place elementwise multiplication
 
-  //! Template instantiation of elem_mult_out
-  extern template void elem_mult_out(const vec &a, const vec &b, const vec &c, const vec &d, vec &out);
-  //! Template instantiation of elem_mult_out
-  extern template void elem_mult_out(const cvec &a, const cvec &b, const cvec &c, const cvec &d, cvec &out);
-  //! Template instantiation of elem_mult_out
-  extern template void elem_mult_out(const ivec &a, const ivec &b, const ivec &c, const ivec &d, ivec &out);
-  //! Template instantiation of elem_mult_out
-  extern template void elem_mult_out(const svec &a, const svec &b, const svec &c, const svec &d, svec &out);
-  //! Template instantiation of elem_mult_out
-  extern template void elem_mult_out(const bvec &a, const bvec &b, const bvec &c, const bvec &d, bvec &out);
-
-  //------------- In-place element-wise multiplication  ----------
-
-  //! Template instantiation of elem_mult_inplace
   extern template void elem_mult_inplace(const vec &a, vec &b);
-  //! Template instantiation of elem_mult_inplace
   extern template void elem_mult_inplace(const cvec &a, cvec &b);
-  //! Template instantiation of elem_mult_inplace
   extern template void elem_mult_inplace(const ivec &a, ivec &b);
-  //! Template instantiation of elem_mult_inplace
   extern template void elem_mult_inplace(const svec &a, svec &b);
-  //! Template instantiation of elem_mult_inplace
   extern template void elem_mult_inplace(const bvec &a, bvec &b);
 
-  //------------- Element-wise multiplication followed by summation ----------
+  // elementwise multiplication followed by summation
 
-  //! Template instantiation of elem_mult_sum
   extern template double elem_mult_sum(const vec &a, const vec &b);
-  //! Template instantiation of elem_mult_sum
-  extern template std::complex<double> elem_mult_sum(const cvec &a, const cvec &b);
-  //! Template instantiation of elem_mult_sum
+  extern template std::complex<double> elem_mult_sum(const cvec &a,
+                                                     const cvec &b);
   extern template int elem_mult_sum(const ivec &a, const ivec &b);
-  //! Template instantiation of elem_mult_sum
   extern template short elem_mult_sum(const svec &a, const svec &b);
-  //! Template instantiation of elem_mult_sum
   extern template bin elem_mult_sum(const bvec &a, const bvec &b);
 
-  //------------- Division operator ----------
+  // division operator
 
-  //! Template instantiation of operator/
   extern template const vec operator/(const vec &v, double t);
-  //! Template instantiation of operator/
   extern template const cvec operator/(const cvec &v, std::complex<double> t);
-  //! Template instantiation of operator/
   extern template const ivec operator/(const ivec &v, int t);
-  //! Template instantiation of operator/
   extern template const svec operator/(const svec &v, short t);
-  //! Template instantiation of operator/
   extern template const bvec operator/(const bvec &v, bin t);
 
-  //! Template instantiation of operator/
   extern template const vec operator/(double t, const vec &v);
-  //! Template instantiation of operator/
   extern template const cvec operator/(std::complex<double> t, const cvec &v);
-  //! Template instantiation of operator/
   extern template const ivec operator/(int t, const ivec &v);
-  //! Template instantiation of operator/
   extern template const svec operator/(short t, const svec &v);
-  //! Template instantiation of operator/
   extern template const bvec operator/(bin t, const bvec &v);
 
-  //------------- Elementwise Division operator ----------
+  // elementwise division operator
 
-  //! Template instantiation of elem_div
   extern template const vec elem_div(const vec &a, const vec &b);
-  //! Template instantiation of elem_div
   extern template const cvec elem_div(const cvec &a, const cvec &b);
-  //! Template instantiation of elem_div
   extern template const ivec elem_div(const ivec &a, const ivec &b);
-  //! Template instantiation of elem_div
   extern template const svec elem_div(const svec &a, const svec &b);
-  //! Template instantiation of elem_div
   extern template const bvec elem_div(const bvec &a, const bvec &b);
 
-  //! Template instantiation of elem_div
   extern template const vec elem_div(double t, const vec &v);
-  //! Template instantiation of elem_div
   extern template const cvec elem_div(std::complex<double> t, const cvec &v);
-  //! Template instantiation of elem_div
   extern template const ivec elem_div(int t, const ivec &v);
-  //! Template instantiation of elem_div
   extern template const svec elem_div(short t, const svec &v);
-  //! Template instantiation of elem_div
   extern template const bvec elem_div(bin t, const bvec &v);
 
-  //! Template instantiation of elem_div_out
   extern template void elem_div_out(const vec &a, const vec &b, vec &out);
-  //! Template instantiation of elem_div_out
   extern template void elem_div_out(const cvec &a, const cvec &b, cvec &out);
-  //! Template instantiation of elem_div_out
   extern template void elem_div_out(const ivec &a, const ivec &b, ivec &out);
-  //! Template instantiation of elem_div_out
   extern template void elem_div_out(const svec &a, const svec &b, svec &out);
-  //! Template instantiation of elem_div_out
   extern template void elem_div_out(const bvec &a, const bvec &b, bvec &out);
 
-  //------------- Element-wise division followed by summation ----------
+  // elementwise division followed by summation
 
-  //! Template instantiation of elem_div_sum
   extern template double elem_div_sum(const vec &a, const vec &b);
-  //! Template instantiation of elem_div_sum
-  extern template std::complex<double> elem_div_sum(const cvec &a, const cvec &b);
-  //! Template instantiation of elem_div_sum
+  extern template std::complex<double> elem_div_sum(const cvec &a,
+                                                    const cvec &b);
   extern template int elem_div_sum(const ivec &a, const ivec &b);
-  //! Template instantiation of elem_div_sum
   extern template short elem_div_sum(const svec &a, const svec &b);
-  //! Template instantiation of elem_div_sum
   extern template bin elem_div_sum(const bvec &a, const bvec &b);
 
-  //--------------------- concat operator -----------------
+  // concat operator
 
-  //! Template instantiation of concat
   extern template const vec concat(const vec &v, double a);
-  //! Template instantiation of concat
   extern template const cvec concat(const cvec &v, std::complex<double> a);
-  //! Template instantiation of concat
   extern template const ivec concat(const ivec &v, int a);
-  //! Template instantiation of concat
   extern template const svec concat(const svec &v, short a);
-  //! Template instantiation of concat
   extern template const bvec concat(const bvec &v, bin a);
 
-  //! Template instantiation of concat
   extern template const vec concat(double a, const vec &v);
-  //! Template instantiation of concat
   extern template const cvec concat(std::complex<double> a, const cvec &v);
-  //! Template instantiation of concat
   extern template const ivec concat(int a, const ivec &v);
-  //! Template instantiation of concat
   extern template const svec concat(short a, const svec &v);
-  //! Template instantiation of concat
   extern template const bvec concat(bin a, const bvec &v);
 
-  //! Template instantiation of concat
   extern template const vec concat(const vec &v1, const vec &v2);
-  //! Template instantiation of concat
   extern template const cvec concat(const cvec &v1, const cvec &v2);
-  //! Template instantiation of concat
   extern template const ivec concat(const ivec &v1, const ivec &v2);
-  //! Template instantiation of concat
   extern template const svec concat(const svec &v1, const svec &v2);
-  //! Template instantiation of concat
   extern template const bvec concat(const bvec &v1, const bvec &v2);
 
-  //! Template instantiation of concat
-  extern template const vec concat(const vec &v1, const vec &v2, const vec &v3);
-  //! Template instantiation of concat
-  extern template const cvec concat(const cvec &v1, const cvec &v2, const cvec &v3);
-  //! Template instantiation of concat
-  extern template const ivec concat(const ivec &v1, const ivec &v2, const ivec &v3);
-  //! Template instantiation of concat
-  extern template const svec concat(const svec &v1, const svec &v2, const svec &v3);
-  //! Template instantiation of concat
-  extern template const bvec concat(const bvec &v1, const bvec &v2, const bvec &v3);
+  extern template const vec concat(const vec &v1, const vec &v2,
+                                   const vec &v3);
+  extern template const cvec concat(const cvec &v1, const cvec &v2,
+                                    const cvec &v3);
+  extern template const ivec concat(const ivec &v1, const ivec &v2,
+                                    const ivec &v3);
+  extern template const svec concat(const svec &v1, const svec &v2,
+                                    const svec &v3);
+  extern template const bvec concat(const bvec &v1, const bvec &v2,
+                                    const bvec &v3);
 
-  //! Template instantiation of concat
-  extern template const vec concat(const vec &v1, const vec &v2, const vec &v3, const vec &v4);
-  //! Template instantiation of concat
-  extern template const cvec concat(const cvec &v1, const cvec &v2, const cvec &v3, const cvec &v4);
-  //! Template instantiation of concat
-  extern template const ivec concat(const ivec &v1, const ivec &v2, const ivec &v3, const ivec &v4);
-  //! Template instantiation of concat
-  extern template const svec concat(const svec &v1, const svec &v2, const svec &v3, const svec &v4);
-  //! Template instantiation of concat
-  extern template const bvec concat(const bvec &v1, const bvec &v2, const bvec &v3, const bvec &v4);
+  extern template const vec concat(const vec &v1, const vec &v2, const vec &v3,
+                                   const vec &v4);
+  extern template const cvec concat(const cvec &v1, const cvec &v2,
+                                    const cvec &v3, const cvec &v4);
+  extern template const ivec concat(const ivec &v1, const ivec &v2,
+                                    const ivec &v3, const ivec &v4);
+  extern template const svec concat(const svec &v1, const svec &v2,
+                                    const svec &v3, const svec &v4);
+  extern template const bvec concat(const bvec &v1, const bvec &v2,
+                                    const bvec &v3, const bvec &v4);
 
-  //! Template instantiation of concat
-  extern template const vec concat(const vec &v1, const vec &v2, const vec &v3, const vec &v4, const vec &v5);
-  //! Template instantiation of concat
-  extern template const cvec concat(const cvec &v1, const cvec &v2, const cvec &v3, const cvec &v4, const cvec &v5);
-  //! Template instantiation of concat
-  extern template const ivec concat(const ivec &v1, const ivec &v2, const ivec &v3, const ivec &v4, const ivec &v5);
-  //! Template instantiation of concat
-  extern template const svec concat(const svec &v1, const svec &v2, const svec &v3, const svec &v4, const svec &v5);
-  //! Template instantiation of concat
-  extern template const bvec concat(const bvec &v1, const bvec &v2, const bvec &v3, const bvec &v4, const bvec &v5);
+  extern template const vec concat(const vec &v1, const vec &v2, const vec &v3,
+                                   const vec &v4, const vec &v5);
+  extern template const cvec concat(const cvec &v1, const cvec &v2,
+                                    const cvec &v3, const cvec &v4,
+                                    const cvec &v5);
+  extern template const ivec concat(const ivec &v1, const ivec &v2,
+                                    const ivec &v3, const ivec &v4,
+                                    const ivec &v5);
+  extern template const svec concat(const svec &v1, const svec &v2,
+                                    const svec &v3, const svec &v4,
+                                    const svec &v5);
+  extern template const bvec concat(const bvec &v1, const bvec &v2,
+                                    const bvec &v3, const bvec &v4,
+                                    const bvec &v5);
 
-  // -------------- output stream --------------------
+  // I/O streams
 
-  //! Template instantiation of output stream
   extern template std::ostream &operator<<(std::ostream& os, const vec &vect);
-  //! Template instantiation of output stream
   extern template std::ostream &operator<<(std::ostream& os, const cvec &vect);
-  //! Template instantiation of output stream
   extern template std::ostream &operator<<(std::ostream& os, const svec &vect);
-  //! Template instantiation of output stream
   extern template std::ostream &operator<<(std::ostream& os, const ivec &vect);
-  //! Template instantiation of output stream
   extern template std::ostream &operator<<(std::ostream& os, const bvec &vect);
-
-  // -------------- input stream --------------------
-
-  //! Template instantiation of input stream
   extern template std::istream &operator>>(std::istream& is, vec &vect);
-  //! Template instantiation of input stream
   extern template std::istream &operator>>(std::istream& is, cvec &vect);
-  //! Template instantiation of input stream
   extern template std::istream &operator>>(std::istream& is, svec &vect);
-  //! Template instantiation of input stream
   extern template std::istream &operator>>(std::istream& is, ivec &vect);
-  //! Template instantiation of input stream
   extern template std::istream &operator>>(std::istream& is, bvec &vect);
 
-#endif // #ifndef _MSC_VER
+#endif // HAVE_EXTERN_TEMPLATE
+
+  //! \endcond
 
 } // namespace itpp
 

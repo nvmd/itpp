@@ -449,27 +449,29 @@ namespace itpp {
     return roll_off_factor;
   }
 
-  //---------------------------------------------------------------------------
-  // Template instantiations
-  //---------------------------------------------------------------------------
-#ifndef _MSC_VER
-  //! Template instantiation of \c double, \c double and \c double of Pulse_Shape<T1,T2,T3>
-  extern template class Pulse_Shape<double, double, double>;
-  //! Template instantiation of \c complex<double>, \c double and \c complex<double> of Pulse_Shape<T1,T2,T3>
-  extern template class Pulse_Shape<std::complex<double>, double, std::complex<double> >;
-  //! Template instantiation of \c complex<double>, \c complex<double> an \c complex<double> of Pulse_Shape<T1,T2,T3>
-  extern template class Pulse_Shape<std::complex<double>, std::complex<double>, std::complex<double> >;
+  //! \cond
 
-  //! Template instantiation of \c double of Root_Raised_Cosine<T1>
+  // ----------------------------------------------------------------------
+  // Instantiations
+  // ----------------------------------------------------------------------
+
+#ifdef HAVE_EXTERN_TEMPLATE
+
+  extern template class Pulse_Shape<double, double, double>;
+  extern template class Pulse_Shape<std::complex<double>, double,
+                                    std::complex<double> >;
+  extern template class Pulse_Shape<std::complex<double>, std::complex<double>,
+                                    std::complex<double> >;
+
   extern template class Root_Raised_Cosine<double>;
-  //! Template instantiation of \c complex<double> of Root_Raised_Cosine<T1>
   extern template class Root_Raised_Cosine<std::complex<double> >;
 
-  //! Template instantiation of \c double of Raised_Cosine<T1>
   extern template class Raised_Cosine<double>;
-  //! Template instantiation of \c complex<double> of Raised_Cosine<T1>
   extern template class Raised_Cosine<std::complex<double> >;
-#endif
+
+#endif // HAVE_EXTERN_TEMPLATE
+
+  //! \endcond
 
 } // namespace itpp
 

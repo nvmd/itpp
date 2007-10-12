@@ -417,11 +417,11 @@ namespace itpp {
 
   //! \cond
 
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
   // Instantiations
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
 
-#ifndef _MSC_VER
+#ifdef HAVE_EXTERN_TEMPLATE
 
   extern template bvec to_bvec(const svec &v);
   extern template bvec to_bvec(const ivec &v);
@@ -473,7 +473,7 @@ namespace itpp {
   extern template cmat to_cmat(const imat &real, const imat &imag);
   extern template cmat to_cmat(const mat &real, const mat &imag);
 
-#endif
+#endif // HAVE_EXTERN_TEMPLATE
 
   //! \endcond
 

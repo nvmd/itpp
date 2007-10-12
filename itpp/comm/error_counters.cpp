@@ -89,11 +89,7 @@ namespace itpp {
     double correlation;
     double bestcorr = 0;
     for (int i = mindelay; i < maxdelay; i++) {
-      // #ifdef _MSC_VER
-      // num = min_input_length - abs(i) - ignorefirst - ignorelast;
-      // #else
       num = min_input_length - std::abs(i) - ignorefirst - ignorelast;
-      // #endif
       start1 = (i < 0) ? -i : 0;
       start2 = (i > 0) ?  i : 0;
       correlation = fabs(sum(to_vec(elem_mult(in1.mid(start1, num),

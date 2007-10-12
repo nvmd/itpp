@@ -100,11 +100,6 @@ namespace itpp {
   //! fixmat / int using quantization mode \c TRN
   inline fixmat operator/(const fixmat &v, const int s) {return v / Fix(s);}
 
-  //#ifdef _MSC_VER
-  // These operators are not defined when using the Microsoft Developer Studio compiler due
-  // to internal compiling error. Hopefully this compiler-bug will be fixed in the near future.
-  //#else
-
   //! fixvec + ivec
   fixvec operator+(const fixvec &a, const ivec &b);
   //! ivec + fixvec
@@ -130,8 +125,6 @@ namespace itpp {
   fixmat operator*(const fixmat &a, const imat &b);
   //! imat * fixmat
   inline fixmat operator*(const imat &a, const fixmat &b) {return b*a;}
-
-  //#endif // _MSC_VER ifdef
 
   ///////////////////////////////////
   // Operators for CFix and CFixed //
@@ -300,11 +293,6 @@ namespace itpp {
   //! cfixmat / int using quantization mode \c TRN
   inline cfixmat operator/(const cfixmat &m, const int s) {return m / CFix(s);}
 
-  //#ifdef _MSC_VER
-  // These operators are not defined when using the Microsoft Developer Studio compiler due
-  // to internal compiling error. Hopefully this compiler-bug will be fixed in the near future.
-  //#else
-
   //! cfixvec + fixvec
   cfixvec operator+(const cfixvec &a, const fixvec &b);
   //! fixvec + cfixvec
@@ -356,8 +344,6 @@ namespace itpp {
   cfixmat operator*(const cfixmat &a, const imat &b);
   //! imat * cfixmat
   inline cfixmat operator*(const imat &a, const cfixmat &b) {return b*a;}
-
-  //#endif // _MSC_VER ifdef
 
   //!@}
 

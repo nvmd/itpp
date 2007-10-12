@@ -29,12 +29,13 @@
 
 #include <itpp/base/smat.h>
 
+//! \cond
 
 namespace itpp {
 
-  /*--------------------------------------------------------------
-   * Explicit initializations
-   *--------------------------------------------------------------*/
+  // ---------------------------------------------------------------------
+  // Instantiations
+  // ---------------------------------------------------------------------
 
   template class Sparse_Mat<int>;
   template class Sparse_Mat<double>;
@@ -77,3 +78,5 @@ namespace itpp {
   template sparse_cmat mult_trans(const sparse_cmat &, const sparse_cmat &);
 
 } // namespace itpp
+
+//! \endcond

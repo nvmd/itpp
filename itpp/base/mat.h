@@ -1780,11 +1780,11 @@ namespace itpp {
 
   //! \cond
 
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
   // Instantiations
-  //---------------------------------------------------------------------
+  // ---------------------------------------------------------------------
 
-#ifndef _MSC_VER
+#ifdef HAVE_EXTERN_TEMPLATE
 
   // class instantiations
 
@@ -1984,7 +1984,7 @@ namespace itpp {
   extern template std::istream &operator>>(std::istream &is, smat  &m);
   extern template std::istream &operator>>(std::istream &is, bmat  &m);
 
-#endif // #ifndef _MSC_VER
+#endif // HAVE_EXTERN_TEMPLATE
 
   //! \endcond
 

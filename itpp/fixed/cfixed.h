@@ -30,6 +30,12 @@
 #ifndef CFIXED_H
 #define CFIXED_H
 
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
+
 #include <itpp/fixed/cfix.h>
 
 
@@ -239,10 +245,12 @@ namespace itpp {
   typedef CFixed<63, TC, SAT> scfixed63;
   typedef CFixed<64, TC, SAT> scfixed64;
 
-  // Template instantiations
-#ifndef _MSC_VER
+  // ----------------------------------------------------------------------
+  // Instantiations
+  // ----------------------------------------------------------------------
+#ifdef HAVE_EXTERN_TEMPLATE
   extern template class CFixed<64, TC, WRAP>;
-#endif
+#endif // HAVE_EXTERN_TEMPLATE
 
   //! \endcond
 
