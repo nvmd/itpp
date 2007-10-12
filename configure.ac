@@ -222,6 +222,10 @@ AC_CHECK_SIZEOF(long long)
 AC_CHECK_SIZEOF(unsigned long long)
 
 
+# Check if C++ compiler supports "extern template"
+AC_CXX_EXTERN_TEMPLATE
+
+
 # Check if we have Fortran compiler
 if test "x$F77" != x; then
   # Checks for BLAS (ACML, MKL, ATLAS or NETLIB)
