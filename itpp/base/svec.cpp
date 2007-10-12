@@ -29,12 +29,13 @@
 
 #include <itpp/base/svec.h>
 
+//! \cond
 
 namespace itpp {
 
-  /*--------------------------------------------------------------
-   * Explicit initializations
-   *--------------------------------------------------------------*/
+  // ---------------------------------------------------------------------
+  // Instantiations
+  // ---------------------------------------------------------------------
 
   template class Sparse_Vec<int>;
   template class Sparse_Vec<double>;
@@ -77,3 +78,5 @@ namespace itpp {
   template sparse_cvec elem_mult_s(const cvec &, const sparse_cvec &);
 
 } // namespace itpp
+
+//! \endcond

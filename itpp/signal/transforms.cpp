@@ -48,6 +48,7 @@ namespace acml {
 
 #include <itpp/signal/transforms.h>
 
+//! \cond
 
 namespace itpp {
 
@@ -572,7 +573,7 @@ namespace itpp {
 
 
   // ----------------------------------------------------------------------
-  // template instantiation
+  // Instantiation
   // ----------------------------------------------------------------------
 
   template vec dht(const vec &v);
@@ -600,3 +601,5 @@ namespace itpp {
   template cmat dwht2(const cmat &m);
 
 } // namespace itpp
+
+//! \endcond

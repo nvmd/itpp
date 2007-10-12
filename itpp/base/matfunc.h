@@ -854,377 +854,212 @@ namespace itpp {
   //! Returns \a true if any element is one and \a false otherwise
   bool any(const bvec &testvec);
 
-
-#ifndef _MSC_VER
+  //! \cond
 
   // ----------------------------------------------------------------------
   // Instantiations
   // ----------------------------------------------------------------------
 
-  //! Extern Template instantiation of length
+#ifdef HAVE_EXTERN_TEMPLATE
+
   extern template int length(const vec &v);
-  //! Extern Template instantiation of length
   extern template int length(const cvec &v);
-  //! Extern Template instantiation of length
   extern template int length(const svec &v);
-  //! Extern Template instantiation of length
   extern template int length(const ivec &v);
-  //! Extern Template instantiation of length
   extern template int length(const bvec &v);
 
-  //! Extern Template instantiation of sum
   extern template double sum(const vec &v);
-  //! Extern Template instantiation of sum
   extern template std::complex<double> sum(const cvec &v);
-  //! Extern Template instantiation of sum
   extern template short sum(const svec &v);
-  //! Extern Template instantiation of sum
   extern template int sum(const ivec &v);
-  //! Extern Template instantiation of sum
   extern template bin sum(const bvec &v);
 
-  //! Extern Template instantiation of sum_sqr
   extern template double sum_sqr(const vec &v);
-  //! Extern Template instantiation of sum_sqr
   extern template std::complex<double> sum_sqr(const cvec &v);
-  //! Extern Template instantiation of sum_sqr
   extern template short sum_sqr(const svec &v);
-  //! Extern Template instantiation of sum_sqr
   extern template int sum_sqr(const ivec &v);
-  //! Extern Template instantiation of sum_sqr
   extern template bin sum_sqr(const bvec &v);
 
-  //! Extern Template instantiation of cumsum
   extern template vec cumsum(const vec &v);
-  //! Extern Template instantiation of cumsum
   extern template cvec cumsum(const cvec &v);
-  //! Extern Template instantiation of cumsum
   extern template svec cumsum(const svec &v);
-  //! Extern Template instantiation of cumsum
   extern template ivec cumsum(const ivec &v);
-  //! Extern Template instantiation of cumsum
   extern template bvec cumsum(const bvec &v);
 
-  //! Extern Template instantiation of product
   extern template double prod(const vec &v);
-  //! Extern Template instantiation of product
   extern template std::complex<double> prod(const cvec &v);
-  //! Extern Template instantiation of product
   extern template short prod(const svec &v);
-  //! Extern Template instantiation of product
   extern template int prod(const ivec &v);
-  //! Extern Template instantiation of product
   extern template bin prod(const bvec &v);
 
-  //! Extern Template instantiation of cross
   extern template vec cross(const vec &v1, const vec &v2);
-  //! Extern Template instantiation of cross
   extern template cvec cross(const cvec &v1, const cvec &v2);
-  //! Extern Template instantiation of cross
   extern template ivec cross(const ivec &v1, const ivec &v2);
-  //! Extern Template instantiation of cross
   extern template svec cross(const svec &v1, const svec &v2);
-  //! Extern Template instantiation of cross
   extern template bvec cross(const bvec &v1, const bvec &v2);
 
-  //! Extern Template instantiation of reverse
   extern template vec reverse(const vec &in);
-  //! Extern Template instantiation of reverse
   extern template cvec reverse(const cvec &in);
-  //! Extern Template instantiation of reverse
   extern template svec reverse(const svec &in);
-  //! Extern Template instantiation of reverse
   extern template ivec reverse(const ivec &in);
-  //! Extern Template instantiation of reverse
   extern template bvec reverse(const bvec &in);
 
-  //! Extern Template instantiation of zero_pad
   extern template vec zero_pad(const vec &v, int n);
-  //! Extern Template instantiation of zero_pad
   extern template cvec zero_pad(const cvec &v, int n);
-  //! Extern Template instantiation of zero_pad
   extern template ivec zero_pad(const ivec &v, int n);
-  //! Extern Template instantiation of zero_pad
   extern template svec zero_pad(const svec &v, int n);
-  //! Extern Template instantiation of zero_pad
   extern template bvec zero_pad(const bvec &v, int n);
 
-  //! Extern Template instantiation of zero_pad
   extern template vec zero_pad(const vec &v);
-  //! Extern Template instantiation of zero_pad
   extern template cvec zero_pad(const cvec &v);
-  //! Extern Template instantiation of zero_pad
   extern template ivec zero_pad(const ivec &v);
-  //! Extern Template instantiation of zero_pad
   extern template svec zero_pad(const svec &v);
-  //! Extern Template instantiation of zero_pad
   extern template bvec zero_pad(const bvec &v);
 
-  //! Extern Template instantiation of zero_pad
   extern template mat zero_pad(const mat &, int, int);
-  //! Extern Template instantiation of zero_pad
   extern template cmat zero_pad(const cmat &, int, int);
-  //! Extern Template instantiation of zero_pad
   extern template imat zero_pad(const imat &, int, int);
-  //! Extern Template instantiation of zero_pad
   extern template smat zero_pad(const smat &, int, int);
-  //! Extern Template instantiation of zero_pad
   extern template bmat zero_pad(const bmat &, int, int);
 
-  //! Extern Template instantiation of sum
   extern template vec sum(const mat &m, int dim);
-  //! Extern Template instantiation of sum
   extern template cvec sum(const cmat &m, int dim);
-  //! Extern Template instantiation of sum
   extern template svec sum(const smat &m, int dim);
-  //! Extern Template instantiation of sum
   extern template ivec sum(const imat &m, int dim);
-  //! Extern Template instantiation of sum
   extern template bvec sum(const bmat &m, int dim);
 
-  //! Extern Template instantiation of sumsum
   extern template double sumsum(const mat &X);
-  //! Extern Template instantiation of sumsum
   extern template std::complex<double> sumsum(const cmat &X);
-  //! Extern Template instantiation of sumsum
   extern template short sumsum(const smat &X);
-  //! Extern Template instantiation of sumsum
   extern template int sumsum(const imat &X);
-  //! Extern Template instantiation of sumsum
   extern template bin sumsum(const bmat &X);
 
-  //! Extern Template instantiation of sum_sqr
   extern template vec sum_sqr(const mat & m, int dim);
-  //! Extern Template instantiation of sum_sqr
   extern template cvec sum_sqr(const cmat &m, int dim);
-  //! Extern Template instantiation of sum_sqr
   extern template svec sum_sqr(const smat &m, int dim);
-  //! Extern Template instantiation of sum_sqr
   extern template ivec sum_sqr(const imat &m, int dim);
-  //! Extern Template instantiation of sum_sqr
   extern template bvec sum_sqr(const bmat &m, int dim);
 
-  //! Extern Template instantiation of cumsum
   extern template mat cumsum(const mat &m, int dim);
-  //! Extern Template instantiation of cumsum
   extern template cmat cumsum(const cmat &m, int dim);
-  //! Extern Template instantiation of cumsum
   extern template smat cumsum(const smat &m, int dim);
-  //! Extern Template instantiation of cumsum
   extern template imat cumsum(const imat &m, int dim);
-  //! Extern Template instantiation of cumsum
   extern template bmat cumsum(const bmat &m, int dim);
 
-  //! Extern Template instantiation of product
   extern template vec prod(const mat &m, int dim);
-  //! Extern Template instantiation of product
   extern template cvec prod(const cmat &v, int dim);
-  //! Extern Template instantiation of product
   extern template svec prod(const smat &m, int dim);
-  //! Extern Template instantiation of product
   extern template ivec prod(const imat &m, int dim);
-  //! Extern Template instantiation of product
   extern template bvec prod(const bmat &m, int dim);
 
-  //! Extern Template instantiation of diag
   extern template vec diag(const mat &in);
-  //! Extern Template instantiation of diag
   extern template cvec diag(const cmat &in);
-
-  //! Extern Template instantiation of diag
   extern template void diag(const vec &in, mat &m);
-  //! Extern Template instantiation of diag
   extern template void diag(const cvec &in, cmat &m);
-
-  //! Extern Template instantiation of diag
   extern template mat diag(const vec &v, const int K);
-  //! Extern Template instantiation of diag
   extern template cmat diag(const cvec &v, const int K);
 
-  //! Extern Template instantiation of bidiag
   extern template mat bidiag(const vec &, const vec &);
-  //! Extern Template instantiation of bidiag
   extern template cmat bidiag(const cvec &, const cvec &);
-
-  //! Extern Template instantiation of bidiag
   extern template void bidiag(const vec &, const vec &, mat &);
-  //! Extern Template instantiation of bidiag
   extern template void bidiag(const cvec &, const cvec &, cmat &);
-
-  //! Extern Template instantiation of bidiag
   extern template void bidiag(const mat &, vec &, vec &);
-  //! Extern Template instantiation of bidiag
   extern template void bidiag(const cmat &, cvec &, cvec &);
 
-  //! Extern Template instantiation of tridiag
   extern template mat tridiag(const vec &main, const vec &, const vec &);
-  //! Extern Template instantiation of tridiag
   extern template cmat tridiag(const cvec &main, const cvec &, const cvec &);
-
-  //! Extern Template instantiation of tridiag
   extern template void tridiag(const vec &main, const vec &, const vec &, mat &);
-  //! Extern Template instantiation of tridiag
   extern template void tridiag(const cvec &main, const cvec &, const cvec &, cmat &);
-
-  //! Extern Template instantiation of tridiag
   extern template void tridiag(const mat &m, vec &, vec &, vec &);
-  //! Extern Template instantiation of tridiag
   extern template void tridiag(const cmat &m, cvec &, cvec &, cvec &);
 
-  //! Extern Template instantiation of trace
   extern template double trace(const mat &in);
-  //! Extern Template instantiation of trace
   extern template std::complex<double> trace(const cmat &in);
-  //! Extern Template instantiation of trace
   extern template short trace(const smat &in);
-  //! Extern Template instantiation of trace
   extern template int trace(const imat &in);
-  //! Extern Template instantiation of trace
   extern template bin trace(const bmat &in);
 
-  //! Extern Template instantiation of transpose
   extern template void transpose(const mat &m, mat &out);
-  //! Extern Template instantiation of transpose
   extern template void transpose(const cmat &m, cmat &out);
-  //! Extern Template instantiation of transpose
   extern template void transpose(const smat &m, smat &out);
-  //! Extern Template instantiation of transpose
   extern template void transpose(const imat &m, imat &out);
-  //! Extern Template instantiation of transpose
   extern template void transpose(const bmat &m, bmat &out);
 
-  //! Extern Template instantiation of transpose
   extern template mat transpose(const mat &m);
-  //! Extern Template instantiation of transpose
   extern template cmat transpose(const cmat &m);
-  //! Extern Template instantiation of transpose
   extern template smat transpose(const smat &m);
-  //! Extern Template instantiation of transpose
   extern template imat transpose(const imat &m);
-  //! Extern Template instantiation of transpose
   extern template bmat transpose(const bmat &m);
 
-  //! Extern Template instantiation of hermitian transpose
   extern template void hermitian_transpose(const mat &m, mat &out);
-  //! Extern Template instantiation of hermitian transpose
   extern template void hermitian_transpose(const cmat &m, cmat &out);
-  //! Extern Template instantiation of hermitian transpose
   extern template void hermitian_transpose(const smat &m, smat &out);
-  //! Extern Template instantiation of hermitian transpose
   extern template void hermitian_transpose(const imat &m, imat &out);
-  //! Extern Template instantiation of hermitian transpose
   extern template void hermitian_transpose(const bmat &m, bmat &out);
 
-  //! Extern Template instantiation of hermitian transpose
   extern template mat hermitian_transpose(const mat &m);
-  //! Extern Template instantiation of hermitian transpose
   extern template cmat hermitian_transpose(const cmat &m);
-  //! Extern Template instantiation of hermitian transpose
   extern template smat hermitian_transpose(const smat &m);
-  //! Extern Template instantiation of hermitian transpose
   extern template imat hermitian_transpose(const imat &m);
-  //! Extern Template instantiation of hermitian transpose
   extern template bmat hermitian_transpose(const bmat &m);
 
-  //! Extern Template instantiation of is_hermitian
   extern template bool is_hermitian(const mat &X);
-  //! Extern Template instantiation of is_hermitian
   extern template bool is_hermitian(const cmat &X);
 
-  //! Extern Template instantiation of is_unitary
   extern template bool is_unitary(const mat &X);
-  //! Extern Template instantiation of is_unitary
   extern template bool is_unitary(const cmat &X);
 
-  //! Extern Template instantiation of rvectorize
   extern template vec rvectorize(const mat &m);
-  //! Extern Template instantiation of rvectorize
   extern template cvec rvectorize(const cmat &m);
-  //! Extern Template instantiation of rvectorize
   extern template ivec rvectorize(const imat &m);
-  //! Extern Template instantiation of rvectorize
   extern template svec rvectorize(const smat &m);
-  //! Extern Template instantiation of rvectorize
   extern template bvec rvectorize(const bmat &m);
 
-  //! Extern Template instantiation of cvectorize
   extern template vec cvectorize(const mat &m);
-  //! Extern Template instantiation of cvectorize
   extern template cvec cvectorize(const cmat &m);
-  //! Extern Template instantiation of cvectorize
   extern template ivec cvectorize(const imat &m);
-  //! Extern Template instantiation of cvectorize
   extern template svec cvectorize(const smat &m);
-  //! Extern Template instantiation of cvectorize
   extern template bvec cvectorize(const bmat &m);
 
-  //! Extern Template instantiation of reshape
   extern template mat reshape(const mat &m, int rows, int cols);
-  //! Extern Template instantiation of reshape
   extern template cmat reshape(const cmat &m, int rows, int cols);
-  //! Extern Template instantiation of reshape
   extern template imat reshape(const imat &m, int rows, int cols);
-  //! Extern Template instantiation of reshape
   extern template smat reshape(const smat &m, int rows, int cols);
-  //! Extern Template instantiation of reshape
   extern template bmat reshape(const bmat &m, int rows, int cols);
 
-  //! Extern Template instantiation of reshape
   extern template mat reshape(const vec &m, int rows, int cols);
-  //! Extern Template instantiation of reshape
   extern template cmat reshape(const cvec &m, int rows, int cols);
-  //! Extern Template instantiation of reshape
   extern template imat reshape(const ivec &m, int rows, int cols);
-  //! Extern Template instantiation of reshape
   extern template smat reshape(const svec &m, int rows, int cols);
-  //! Extern Template instantiation of reshape
   extern template bmat reshape(const bvec &m, int rows, int cols);
 
-  //! Extern Template instantiation of kron
   extern template mat kron(const mat &X, const mat &Y);
-  //! Extern Template instantiation of kron
   extern template cmat kron(const cmat &X, const cmat &Y);
-  //! Extern Template instantiation of kron
   extern template imat kron(const imat &X, const imat &Y);
-  //! Extern Template instantiation of kron
   extern template smat kron(const smat &X, const smat &Y);
-  //! Extern Template instantiation of kron
   extern template bmat kron(const bmat &X, const bmat &Y);
 
-  //! Extern Template instantiation of repmat
   extern template vec repmat(const vec &v, int n);
-  //! Extern Template instantiation of repmat
   extern template cvec repmat(const cvec &v, int n);
-  //! Extern Template instantiation of repmat
   extern template ivec repmat(const ivec &v, int n);
-  //! Extern Template instantiation of repmat
   extern template svec repmat(const svec &v, int n);
-  //! Extern Template instantiation of repmat
   extern template bvec repmat(const bvec &v, int n);
 
-  //! Extern Template instantiation of repmat
   extern template mat repmat(const vec &v, int m, int n, bool transpose);
-  //! Extern Template instantiation of repmat
   extern template cmat repmat(const cvec &v, int m, int n, bool transpose);
-  //! Extern Template instantiation of repmat
   extern template imat repmat(const ivec &v, int m, int n, bool transpose);
-  //! Extern Template instantiation of repmat
   extern template smat repmat(const svec &v, int m, int n, bool transpose);
-  //! Extern Template instantiation of repmat
   extern template bmat repmat(const bvec &v, int m, int n, bool transpose);
 
-  //! Extern Template instantiation of repmat
   extern template mat repmat(const mat &data, int m, int n);
-  //! Extern Template instantiation of repmat
   extern template cmat repmat(const cmat &data, int m, int n);
-  //! Extern Template instantiation of repmat
   extern template imat repmat(const imat &data, int m, int n);
-  //! Extern Template instantiation of repmat
   extern template smat repmat(const smat &data, int m, int n);
-  //! Extern Template instantiation of repmat
   extern template bmat repmat(const bmat &data, int m, int n);
 
-#endif
+#endif // HAVE_EXTERN_TEMPLATE
+
+  //! \endcond
 
 } // namespace itpp
 

@@ -30,6 +30,12 @@
 #ifndef SVEC_H
 #define SVEC_H
 
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
+
 #include <itpp/base/vec.h>
 #include <itpp/base/math/min_max.h>
 #include <cstdlib>
@@ -1210,82 +1216,65 @@ namespace itpp {
       return v;
     }
 
-  /*--------------------------------------------------------------
-   * Explicit initializations
-   *--------------------------------------------------------------*/
-#ifndef _MSC_VER
+  //! \cond
 
-  //! Template instantiation of Sparse_Vec<int>
+  // ---------------------------------------------------------------------
+  // Instantiations
+  // ---------------------------------------------------------------------
+
+#ifdef HAVE_EXTERN_TEMPLATE
+
   extern template class Sparse_Vec<int>;
-  //! Template instantiation of Sparse_Vec<double>
   extern template class Sparse_Vec<double>;
-  //! Template instantiation of Sparse_Vec<complex<double> >
   extern template class Sparse_Vec<std::complex<double> >;
 
+  extern template sparse_ivec operator+(const sparse_ivec &,
+                                        const sparse_ivec &);
+  extern template sparse_vec operator+(const sparse_vec &,
+                                       const sparse_vec &);
+  extern template sparse_cvec operator+(const sparse_cvec &,
+                                        const sparse_cvec &);
 
-  //! Template instantiation of operator+
-  extern template sparse_ivec operator+(const sparse_ivec &, const sparse_ivec &);
-  //! Template instantiation of operator+
-  extern template sparse_vec operator+(const sparse_vec &, const sparse_vec &);
-  //! Template instantiation of operator+
-  extern template sparse_cvec operator+(const sparse_cvec &, const sparse_cvec &);
-
-  //! Template instantiation of operator*
   extern template int operator*(const sparse_ivec &, const sparse_ivec &);
-  //! Template instantiation of operator*
   extern template double operator*(const sparse_vec &, const sparse_vec &);
-  //! Template instantiation of operator*
-  extern template std::complex<double> operator*(const sparse_cvec &, const sparse_cvec &);
+  extern template std::complex<double> operator*(const sparse_cvec &,
+                                                 const sparse_cvec &);
 
-  //! Template instantiation of operator*
   extern template int operator*(const sparse_ivec &, const ivec &);
-  //! Template instantiation of operator*
   extern template double operator*(const sparse_vec &, const vec &);
-  //! Template instantiation of operator*
-  extern template std::complex<double> operator*(const sparse_cvec &, const cvec &);
+  extern template std::complex<double> operator*(const sparse_cvec &,
+                                                 const cvec &);
 
-  //! Template instantiation of operator*
   extern template int operator*(const ivec &, const sparse_ivec &);
-  //! Template instantiation of operator*
   extern template double operator*(const vec &, const sparse_vec &);
-  //! Template instantiation of operator*
-  extern template std::complex<double> operator*(const cvec &, const sparse_cvec &);
+  extern template std::complex<double> operator*(const cvec &,
+                                                 const sparse_cvec &);
 
-  //! Template instantiation of elem_mult
-  extern template sparse_ivec elem_mult(const sparse_ivec &, const sparse_ivec &);
-  //! Template instantiation of elem_mult
+  extern template sparse_ivec elem_mult(const sparse_ivec &,
+                                        const sparse_ivec &);
   extern template sparse_vec elem_mult(const sparse_vec &, const sparse_vec &);
-  //! Template instantiation of elem_mult
-  extern template sparse_cvec elem_mult(const sparse_cvec &, const sparse_cvec &);
+  extern template sparse_cvec elem_mult(const sparse_cvec &,
+                                        const sparse_cvec &);
 
-  //! Template instantiation of elem_mult
   extern template ivec elem_mult(const sparse_ivec &, const ivec &);
-  //! Template instantiation of elem_mult
   extern template vec elem_mult(const sparse_vec &, const vec &);
-  //! Template instantiation of elem_mult
   extern template cvec elem_mult(const sparse_cvec &, const cvec &);
 
-  //! Template instantiation of elem_mult_s
   extern template sparse_ivec elem_mult_s(const sparse_ivec &, const ivec &);
-  //! Template instantiation of elem_mult_s
   extern template sparse_vec elem_mult_s(const sparse_vec &, const vec &);
-  //! Template instantiation of elem_mult_s
   extern template sparse_cvec elem_mult_s(const sparse_cvec &, const cvec &);
 
-  //! Template instantiation of elem_mult
   extern template ivec elem_mult(const ivec &, const sparse_ivec &);
-  //! Template instantiation of elem_mult
   extern template vec elem_mult(const vec &, const sparse_vec &);
-  //! Template instantiation of elem_mult
   extern template cvec elem_mult(const cvec &, const sparse_cvec &);
 
-  //! Template instantiation of elem_mult_s
   extern template sparse_ivec elem_mult_s(const ivec &, const sparse_ivec &);
-  //! Template instantiation of elem_mult_s
   extern template sparse_vec elem_mult_s(const vec &, const sparse_vec &);
-  //! Template instantiation of elem_mult_s
   extern template sparse_cvec elem_mult_s(const cvec &, const sparse_cvec &);
-#endif
+
+#endif // HAVE_EXTERN_TEMPLATE
+
+  //! \endcond
 
 } // namespace itpp
 

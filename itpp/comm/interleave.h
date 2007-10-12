@@ -30,6 +30,12 @@
 #ifndef INTERLEAVE_H
 #define INTERLEAVE_H
 
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
+
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/random.h>
@@ -531,42 +537,35 @@ namespace itpp {
       interleaver_depth = interleaver_sequence.size();
     }
 
-  // ------------------------ Instantiations --------------------------------
-#ifndef _MSC_VER
+  //! \cond
 
-  //! Template instantiation of Block_Interleaver
+  // ----------------------------------------------------------------------
+  // Instantiations
+  // ----------------------------------------------------------------------
+
+#ifdef HAVE_EXTERN_TEMPLATE
+
   extern template class Block_Interleaver<double>;
-  //! Template instantiation of Block_Interleaver
   extern template class Block_Interleaver<short>;
-  //! Template instantiation of Block_Interleaver
   extern template class Block_Interleaver<int>;
-  //! Template instantiation of Block_Interleaver
   extern template class Block_Interleaver<std::complex<double> >;
-  //! Template instantiation of Block_Interleaver
   extern template class Block_Interleaver<bin>;
 
-  //! Template instantiation of Cross_Interleaver
   extern template class Cross_Interleaver<double>;
-  //! Template instantiation of Cross_Interleaver
   extern template class Cross_Interleaver<short>;
-  //! Template instantiation of Cross_Interleaver
   extern template class Cross_Interleaver<int>;
-  //! Template instantiation of Cross_Interleaver
   extern template class Cross_Interleaver<std::complex<double> >;
-  //! Template instantiation of Cross_Interleaver
   extern template class Cross_Interleaver<bin>;
 
-  //! Template instantiation of Sequence_Interleaver
   extern template class Sequence_Interleaver<double>;
-  //! Template instantiation of Sequence_Interleaver
   extern template class Sequence_Interleaver<short>;
-  //! Template instantiation of Sequence_Interleaver
   extern template class Sequence_Interleaver<int>;
-  //! Template instantiation of Sequence_Interleaver
   extern template class Sequence_Interleaver<std::complex<double> >;
-  //! Template instantiation of Sequence_Interleaver
   extern template class Sequence_Interleaver<bin>;
-#endif
+
+#endif // HAVE_EXTERN_TEMPLATE
+
+  //! \endcond
 
 } // namespace itpp
 

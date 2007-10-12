@@ -30,6 +30,12 @@
 #ifndef FILTER_H
 #define FILTER_H
 
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
+
 #include <itpp/base/vec.h>
 
 
@@ -560,49 +566,41 @@ namespace itpp {
     return s;
   }
 
+  //! \cond
 
-#ifndef _MSC_VER
+  // ----------------------------------------------------------------------
+  // Instantiations
+  // ----------------------------------------------------------------------
 
-  //-----------------------------------------------------------------------
-  //  class MA_Filter
-  //-----------------------------------------------------------------------
+#ifdef HAVE_EXTERN_TEMPLATE
 
-  //! Template instatiation of MA_Filter
-  extern template class MA_Filter<double,double,double>;
-  //! Template instatiation of MA_Filter
-  extern template class MA_Filter<double,std::complex<double>,std::complex<double> >;
-  //! Template instatiation of MA_Filter
-  extern template class MA_Filter<std::complex<double>,double,std::complex<double> >;
-  //! Template instatiation of MA_Filter
-  extern template class MA_Filter<std::complex<double>,std::complex<double>,std::complex<double> >;
+  extern template class MA_Filter<double, double, double>;
+  extern template class MA_Filter<double, std::complex<double>,
+                                  std::complex<double> >;
+  extern template class MA_Filter<std::complex<double>, double,
+                                  std::complex<double> >;
+  extern template class MA_Filter<std::complex<double>, std::complex<double>,
+                                  std::complex<double> >;
 
-  //-----------------------------------------------------------------------
-  //  class AR_Filter
-  //-----------------------------------------------------------------------
+  extern template class AR_Filter<double, double, double>;
+  extern template class AR_Filter<double, std::complex<double>,
+                                  std::complex<double> >;
+  extern template class AR_Filter<std::complex<double>,
+                                  double,std::complex<double> >;
+  extern template class AR_Filter<std::complex<double>, std::complex<double>,
+                                  std::complex<double> >;
 
-  //! Template instatiation of AR_Filter
-  extern template class AR_Filter<double,double,double>;
-  //! Template instatiation of AR_Filter
-  extern template class AR_Filter<double,std::complex<double>,std::complex<double> >;
-  //! Template instatiation of AR_Filter
-  extern template class AR_Filter<std::complex<double>,double,std::complex<double> >;
-  //! Template instatiation of AR_Filter
-  extern template class AR_Filter<std::complex<double>,std::complex<double>,std::complex<double> >;
+  extern template class ARMA_Filter<double, double, double>;
+  extern template class ARMA_Filter<double, std::complex<double>,
+                                    std::complex<double> >;
+  extern template class ARMA_Filter<std::complex<double>,
+                                    double,std::complex<double> >;
+  extern template class ARMA_Filter<std::complex<double>, std::complex<double>,
+                                    std::complex<double> >;
 
-  //-----------------------------------------------------------------------
-  //  class ARMA_Filter
-  //-----------------------------------------------------------------------
+#endif // HAVE_EXTERN_TEMPLATE
 
-  //! Template instatiation of AR_Filter
-  extern template class ARMA_Filter<double,double,double>;
-  //! Template instatiation of AR_Filter
-  extern template class ARMA_Filter<double,std::complex<double>,std::complex<double> >;
-  //! Template instatiation of AR_Filter
-  extern template class ARMA_Filter<std::complex<double>,double,std::complex<double> >;
-  //! Template instatiation of AR_Filter
-  extern template class ARMA_Filter<std::complex<double>,std::complex<double>,std::complex<double> >;
-
-#endif // MSC_VER
+  //! \endcond
 
 } // namespace itpp
 

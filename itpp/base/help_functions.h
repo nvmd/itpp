@@ -30,6 +30,12 @@
 #ifndef HELP_FUNCTIONS_H
 #define HELP_FUNCTIONS_H
 
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
+
 #include <itpp/base/mat.h>
 
 
@@ -199,7 +205,7 @@ namespace itpp {
   // Instantiations
   // ----------------------------------------------------------------------
 
-#ifndef _MSC_VER
+#ifdef HAVE_EXTERN_TEMPLATE
 
   extern template vec apply_function(double (*f)(double), const vec &v);
   extern template cvec apply_function(std::complex<double> (*f)(const std::complex<double> &),
@@ -247,7 +253,7 @@ namespace itpp {
   extern template imat apply_function(int (*f)(int, int), const imat &m, const int& x);
   extern template bmat apply_function(bin (*f)(bin, bin), const bmat &m, const bin& x);
 
-#endif // #ifndef _MSC_VER
+#endif // HAVE_EXTERN_TEMPLATE
 
   //! \endcond
 

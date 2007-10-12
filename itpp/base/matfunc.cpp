@@ -33,6 +33,7 @@
 #include <itpp/base/converters.h>
 #include <limits>
 
+//! \cond
 
 namespace itpp {
 
@@ -290,3 +291,5 @@ namespace itpp {
   template bmat repmat(const bmat &data, int m, int n);
 
 } // namespace itpp
+
+//! \endcond

@@ -30,6 +30,12 @@
 #ifndef SMAT_H
 #define SMAT_H
 
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
+
 #include <itpp/base/svec.h>
 
 
@@ -1010,84 +1016,57 @@ namespace itpp {
       return m;
     }
 
-  /*--------------------------------------------------------------
-   * Explicit initializations
-   *--------------------------------------------------------------*/
+  //! \cond
 
-#ifndef _MSC_VER
+  // ---------------------------------------------------------------------
+  // Instantiations
+  // ---------------------------------------------------------------------
 
-  //! Template instantiation of Sparse_Mat<int>
+#ifdef HAVE_EXTERN_TEMPLATE
+
   extern template class Sparse_Mat<int>;
-  //! Template instantiation of Sparse_Mat<double>
   extern template class Sparse_Mat<double>;
-  //! Template instantiation of Sparse_Mat<complex<double> >
   extern template class Sparse_Mat<std::complex<double> >;
 
-
-  //! Template instantiation of operator+
   extern template sparse_imat operator+(const sparse_imat &, const sparse_imat &);
-  //! Template instantiation of operator+
   extern template sparse_mat operator+(const sparse_mat &, const sparse_mat &);
-  //! Template instantiation of operator+
   extern template sparse_cmat operator+(const sparse_cmat &, const sparse_cmat &);
 
-  //! Template instantiation of operator*
   extern template sparse_imat operator*(const sparse_imat &, const sparse_imat &);
-  //! Template instantiation of operator*
   extern template sparse_mat operator*(const sparse_mat &, const sparse_mat &);
-  //! Template instantiation of operator*
   extern template sparse_cmat operator*(const sparse_cmat &, const sparse_cmat &);
 
-  //! Template instantiation of operator*
   extern template ivec operator*(const ivec &, const sparse_imat &);
-  //! Template instantiation of operator*
   extern template vec operator*(const vec &, const sparse_mat &);
-  //! Template instantiation of operator*
   extern template cvec operator*(const cvec &, const sparse_cmat &);
 
-  //! Template instantiation of operator*
   extern template ivec operator*(const sparse_imat &, const ivec &);
-  //! Template instantiation of operator*
   extern template vec operator*(const sparse_mat &, const vec &);
-  //! Template instantiation of operator*
   extern template cvec operator*(const sparse_cmat &, const cvec &);
 
-  //! Template instantiation of trans_mult
   extern template imat trans_mult(const sparse_imat &);
-  //! Template instantiation of trans_mult
   extern template mat trans_mult(const sparse_mat &);
-  //! Template instantiation of trans_mult
   extern template cmat trans_mult(const sparse_cmat &);
 
-  //! Template instantiation of trans_mult_s
   extern template sparse_imat trans_mult_s(const sparse_imat &);
-  //! Template instantiation of trans_mult_s
   extern template sparse_mat trans_mult_s(const sparse_mat &);
-  //! Template instantiation of trans_mult_s
   extern template sparse_cmat trans_mult_s(const sparse_cmat &);
 
-  //! Template instantiation of trans_mult
   extern template sparse_imat trans_mult(const sparse_imat &, const sparse_imat &);
-  //! Template instantiation of trans_mult
   extern template sparse_mat trans_mult(const sparse_mat &, const sparse_mat &);
-  //! Template instantiation of trans_mult
   extern template sparse_cmat trans_mult(const sparse_cmat &, const sparse_cmat &);
 
-  //! Template instantiation of trans_mult
   extern template ivec trans_mult(const sparse_imat &, const ivec &);
-  //! Template instantiation of trans_mult
   extern template vec trans_mult(const sparse_mat &, const vec &);
-  //! Template instantiation of trans_mult
   extern template cvec trans_mult(const sparse_cmat &, const cvec &);
 
-  //! Template instantiation of mult_trans
   extern template sparse_imat mult_trans(const sparse_imat &, const sparse_imat &);
-  //! Template instantiation of mult_trans
   extern template sparse_mat mult_trans(const sparse_mat &, const sparse_mat &);
-  //! Template instantiation of mult_trans
   extern template sparse_cmat mult_trans(const sparse_cmat &, const sparse_cmat &);
 
-#endif
+#endif // HAVE_EXTERN_TEMPLATE
+
+  //! \endcond
 
 } // namespace itpp
 
