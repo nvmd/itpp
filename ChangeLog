@@ -1,5 +1,14 @@
 2007-10-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* config/ac_cxx_extern_template.m4, configure.ac,
+	itpp/config_msvc.h: Check for C++ "extern template" when
+	configuring IT++
+
+	Previously, it was assumed that all C++ compilers except MSVC++
+	support extern template instantiation. Now this feature is checked
+	with the configure script and HAVE_EXTERN_TEMPLATES is defined
+	accordingly.
+
 	* doc/doxygen_html.cfg.in: Doxygen configuration updated with
 	Doxygen 1.4.7
 

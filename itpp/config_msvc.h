@@ -62,6 +62,9 @@
 /* Define to 1 if you have the `erfc' function. */
 /* #undef HAVE_ERFC */
 
+/* Define if the compiler supports extern template */
+/* #undef HAVE_EXTERN_TEMPLATE */
+
 #if defined(HAVE_ACML) || defined(HAVE_MKL)
 /* Define if you have FFT library. */
 #  define HAVE_FFT 1
