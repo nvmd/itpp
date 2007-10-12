@@ -327,7 +327,7 @@ namespace itpp {
   //! Converts a cfixmat to cmat
   cmat to_cmat(const cfixmat &m);
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
+  //! \cond
 
   //! Help class used by the conversion function to<T>(const Array<...> &x). To be merged with Convert?
   template<class T, class U>
@@ -354,7 +354,7 @@ namespace itpp {
     typedef Mat<T> result;
   };
 
-#endif
+  //! \endcond
 
   //! Convert double to T
   template<class T> inline T to(const double x) {return T(x);}
@@ -480,7 +480,7 @@ namespace itpp {
   //! Convert cmat to cmat i.e. do nothing
   inline cmat unfix(const cmat &x) {return x;}
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
+  //! \cond
 
   //! Help class used by the conversion function unfix(const Array<T> &x)
   template<class T>
@@ -519,7 +519,7 @@ namespace itpp {
     typedef Mat<typename Convert<T>::to_double> to_double;  // Recursive
   };
 
-#endif //DOXYGEN_SHOULD_SKIP_THIS
+  //! \endcond
 
   //! Convert floating- or fixed-point Array to floating-point Array
   template<class T>

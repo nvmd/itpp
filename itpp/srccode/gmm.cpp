@@ -37,6 +37,7 @@
 #include <iostream>
 #include <fstream>
 
+//! \cond
 
 namespace itpp {
 
@@ -92,14 +93,6 @@ namespace itpp {
     compute_internals();
   }
 
-  //void GMM::init(const vec &m_in, const vec &sigma_in, const vec &w_in)
-  //{
-  //	m=m_in;
-  //	sigma=sigma_in;
-  //	w=w_in;
-  //
-  //	compute_internals();
-  //}
   void GMM::init(const vec &w_in, const mat &m_in, const mat &sigma_in)
   {
     int		i,j;
@@ -455,3 +448,5 @@ namespace itpp {
   }
 
 } // namespace itpp
+
+//! \endcond

@@ -31,6 +31,7 @@
 #include <itpp/base/converters.h>
 #include <limits>
 
+//! \cond
 
 namespace itpp {
 
@@ -996,3 +997,5 @@ namespace itpp {
   template std::istream &operator>>(std::istream& is, bvec &vect);
 
 } // namespace itpp
+
+//! \endcond

@@ -79,7 +79,7 @@ namespace itpp {
 
   //! Typedefs for Fixed (fixed1, fixed2, ..., fixed64)
   typedef Fixed<1, TC, WRAP> fixed1;
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
+  //! \cond
   typedef Fixed<2, TC, WRAP> fixed2;
   typedef Fixed<3, TC, WRAP> fixed3;
   typedef Fixed<4, TC, WRAP> fixed4;
@@ -143,11 +143,11 @@ namespace itpp {
   typedef Fixed<62, TC, WRAP> fixed62;
   typedef Fixed<63, TC, WRAP> fixed63;
   typedef Fixed<64, TC, WRAP> fixed64;
-#endif
+  //! \endcond
 
   //! Typedefs for unsigned Fixed (ufixed1, ufixed2, ..., ufixed64)
   typedef Fixed<1, US, WRAP> ufixed1;
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
+  //! \cond
   typedef Fixed<2, US, WRAP> ufixed2;
   typedef Fixed<3, US, WRAP> ufixed3;
   typedef Fixed<4, US, WRAP> ufixed4;
@@ -211,11 +211,11 @@ namespace itpp {
   typedef Fixed<62, US, WRAP> ufixed62;
   typedef Fixed<63, US, WRAP> ufixed63;
   typedef Fixed<64, US, WRAP> ufixed64;
-#endif
+  //! \endcond
 
   //! Typedefs for saturated Fixed (sfixed1, sfixed2, ..., sfixed64)
   typedef Fixed<1, TC, SAT> sfixed1;
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
+  //! \cond
   typedef Fixed<2, TC, SAT> sfixed2;
   typedef Fixed<3, TC, SAT> sfixed3;
   typedef Fixed<4, TC, SAT> sfixed4;
@@ -279,11 +279,11 @@ namespace itpp {
   typedef Fixed<62, TC, SAT> sfixed62;
   typedef Fixed<63, TC, SAT> sfixed63;
   typedef Fixed<64, TC, SAT> sfixed64;
-#endif
+  //! \endcond
 
   //! Typedefs for saturated unsigned Fixed (sufixed1, sufixed2, ..., sufixed64)
   typedef Fixed<1, US, SAT> sufixed1;
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
+  //! \cond
   typedef Fixed<2, US, SAT> sufixed2;
   typedef Fixed<3, US, SAT> sufixed3;
   typedef Fixed<4, US, SAT> sufixed4;
@@ -347,12 +347,14 @@ namespace itpp {
   typedef Fixed<62, US, SAT> sufixed62;
   typedef Fixed<63, US, SAT> sufixed63;
   typedef Fixed<64, US, SAT> sufixed64;
-#endif
 
 #ifndef _MSC_VER
   // Template instantiations
   extern template class Fixed<64, TC, WRAP>;
 #endif
+
+  //! \endcond
+
 } // namespace itpp
 
 #endif // #ifndef FIXED_H

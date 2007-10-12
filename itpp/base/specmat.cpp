@@ -49,7 +49,7 @@ namespace itpp {
     return temp;
   }
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
+//! \cond
 
 #define CREATE_SET_FUNS(typef,typem,name,value)	\
   typef name(int size)				\
@@ -99,7 +99,7 @@ namespace itpp {
       m(i,i) = T(1);
   }
 
-#endif //DOXYGEN_SHOULD_SKIP_THIS
+//! \endcond
 
   vec impulse(int size) {
     vec	t(size);

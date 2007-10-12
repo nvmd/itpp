@@ -60,41 +60,59 @@ namespace itpp {
   */
   class Sequence_Number {
   public:
-    //construction and assignment
+    //! Default constructor
     Sequence_Number() : seq(0) { }
+    //! ADD DOCUMENTATION HERE
+    Sequence_Number(const Sequence_Number &n) : seq(n.seq) { }
+    //! ADD DOCUMENTATION HERE
+    Sequence_Number &operator=(const Sequence_Number &n) { seq = n.seq; return *this; }
+    //! ADD DOCUMENTATION HERE
+    Sequence_Number &operator=(const int &rep) { seq = rep; return *this; }
 
-		Sequence_Number(const Sequence_Number &n) : seq(n.seq) { }
-		Sequence_Number &operator=(const Sequence_Number &n) { seq = n.seq; return *this; }
-		Sequence_Number &operator=(const int &rep) { seq = rep; return *this; }
+    //relational operators
+    //! ADD DOCUMENTATION HERE
+    bool operator==(const Sequence_Number &n) const { return seq == n.seq; }
+    //! ADD DOCUMENTATION HERE
+    bool operator!=(const Sequence_Number &n) const { return seq != n.seq; }
+    //! ADD DOCUMENTATION HERE
+    bool operator>(const Sequence_Number &n) const { return (seq - n.seq) > 0; }
+    //! ADD DOCUMENTATION HERE
+    bool operator>=(const Sequence_Number &n) const { return (seq - n.seq) >= 0; }
+    //! ADD DOCUMENTATION HERE
+    bool operator<(const Sequence_Number &n) const { return (seq - n.seq) < 0; }
+    //! ADD DOCUMENTATION HERE
+    bool operator<=(const Sequence_Number &n) const { return (seq - n.seq) <= 0; }
 
-		//relational operators
-		bool operator==(const Sequence_Number &n) const { return seq == n.seq; }
-		bool operator!=(const Sequence_Number &n) const { return seq != n.seq; }
-		bool operator>(const Sequence_Number &n) const { return (seq - n.seq) > 0; }
-		bool operator>=(const Sequence_Number &n) const { return (seq - n.seq) >= 0; }
-		bool operator<(const Sequence_Number &n) const { return (seq - n.seq) < 0; }
-		bool operator<=(const Sequence_Number &n) const { return (seq - n.seq) <= 0; }
+    //addition and subtraction
+    //! ADD DOCUMENTATION HERE
+    Sequence_Number operator+(const int n) const { return Sequence_Number(seq + n); }
+    //! ADD DOCUMENTATION HERE
+    Sequence_Number &operator+=(const int n) { seq += n; return *this; }
+    //! ADD DOCUMENTATION HERE
+    Sequence_Number operator-(const int n) const { return Sequence_Number(seq - n); }
+    //! ADD DOCUMENTATION HERE
+    Sequence_Number &operator-=(const int n) { seq -= n; return *this; }
+    //! ADD DOCUMENTATION HERE
+    int operator-(const Sequence_Number &n) const { return seq - n.seq; }
 
-		//addition and subtraction
-		Sequence_Number operator+(const int n) const { return Sequence_Number(seq + n); }
-		Sequence_Number &operator+=(const int n) { seq += n; return *this; }
-		Sequence_Number operator-(const int n) const { return Sequence_Number(seq - n); }
-		Sequence_Number &operator-=(const int n) { seq -= n; return *this; }
-		int operator-(const Sequence_Number &n) const { return seq - n.seq; }
+    //! Access to internal representation
+    int value() const { return seq; }
 
-		//access to internal representation
-		int value() const { return seq; }
-
-		friend Sequence_Number operator+(const int n1, const Sequence_Number &n2) { return Sequence_Number(n1 + n2.seq); }
-		friend std::ostream &operator<<(std::ostream &os, const Sequence_Number &n) { os << n.seq; return os; }
+    //! ADD DOCUMENTATION HERE
+    friend Sequence_Number operator+(const int n1, const Sequence_Number &n2) { return Sequence_Number(n1 + n2.seq); }
+    //! ADD DOCUMENTATION HERE
+    friend std::ostream &operator<<(std::ostream &os, const Sequence_Number &n) { os << n.seq; return os; }
 
   protected:
-		Sequence_Number(int n) : seq(n) {}
-	  int seq;
+    //! ADD DOCUMENTATION HERE
+    Sequence_Number(int n) : seq(n) {}
+    //! ADD DOCUMENTATION HERE
+    int seq;
   };
 
-
+  //! ADD DOCUMENTATION HERE
   inline const Sequence_Number & min(const Sequence_Number &n1, const Sequence_Number &n2) { return (n1 < n2)? n1 : n2; }
+  //! ADD DOCUMENTATION HERE
   inline const Sequence_Number & max(const Sequence_Number &n1, const Sequence_Number &n2) { return (n1 > n2)? n1 : n2; }
 
 
@@ -115,25 +133,40 @@ namespace itpp {
   */
   class TCP_Segment {
   public:
+    //! ADD DOCUMENTATION HERE
     TCP_Segment();
+    //! ADD DOCUMENTATION HERE
     TCP_Segment(const Sequence_Number &sn_begin, const Sequence_Number &sn_end);
+    //! ADD DOCUMENTATION HERE
     TCP_Segment(const TCP_Segment &segment);
 
     //modification
+    //! ADD DOCUMENTATION HERE
     TCP_Segment &operator=(const TCP_Segment &segment);
+    //! ADD DOCUMENTATION HERE
     void set_begin(const Sequence_Number &sn);
+    //! ADD DOCUMENTATION HERE
     void set_end(const Sequence_Number &sn);
+    //! ADD DOCUMENTATION HERE
     void combine(const TCP_Segment &segment);
 
     //query
+    //! ADD DOCUMENTATION HERE
     bool operator==(const TCP_Segment &segment) const;
+    //! ADD DOCUMENTATION HERE
     bool operator!=(const TCP_Segment &segment) const;
+    //! ADD DOCUMENTATION HERE
     bool can_be_combined(const TCP_Segment &segment) const;
+    //! ADD DOCUMENTATION HERE
     bool is_contained(const TCP_Segment &segment) const;
+    //! ADD DOCUMENTATION HERE
     unsigned length() const;
+    //! ADD DOCUMENTATION HERE
     Sequence_Number begin() const { return seq_begin; }
+    //! ADD DOCUMENTATION HERE
     Sequence_Number end() const { return seq_end; }
 
+    //! ADD DOCUMENTATION HERE
     friend std::ostream & operator<<(std::ostream &os, const TCP_Segment &segment);
 
   protected:
@@ -165,33 +198,53 @@ namespace itpp {
   */
   class TCP_Packet : public itpp::Packet {
   public:
+    //! ADD DOCUMENTATION HERE
     TCP_Packet();
+    //! ADD DOCUMENTATION HERE
     TCP_Packet(const TCP_Packet &packet);
+    //! ADD DOCUMENTATION HERE
     virtual ~TCP_Packet();
+    //! ADD DOCUMENTATION HERE
     virtual TCP_Packet &clone() const;
 
     //TCP window mechanism
+    //! ADD DOCUMENTATION HERE
     void set_segment(const TCP_Segment &seg) {  fSegment = seg; }
+    //! ADD DOCUMENTATION HERE
     TCP_Segment get_segment() const { return fSegment; }
+    //! ADD DOCUMENTATION HERE
     void set_wnd(unsigned val) { fWnd = val; }
+    //! ADD DOCUMENTATION HERE
     unsigned get_wnd() const { return fWnd; }
+    //! ADD DOCUMENTATION HERE
     void set_ACK(Sequence_Number val) { fACK = val; }
+    //! ADD DOCUMENTATION HERE
     Sequence_Number get_ACK() const { return fACK; }
 
     //session control
+    //! ADD DOCUMENTATION HERE
     void set_session_id(int val) { fSessionId = val; }
+    //! ADD DOCUMENTATION HERE
     int get_session_id() const {  return fSessionId; }
 
     //debugging support
+    //! ADD DOCUMENTATION HERE
     void set_destination_port(unsigned val) { fDestinationPort = val; }
+    //! ADD DOCUMENTATION HERE
     unsigned get_destination_port() const { return fDestinationPort; }
+    //! ADD DOCUMENTATION HERE
     void set_source_port(unsigned val) { fSourcePort = val; }
+    //! ADD DOCUMENTATION HERE
     unsigned get_source_port() const { return fSourcePort; }
+    //! ADD DOCUMENTATION HERE
     void set_info(unsigned ssThresh, unsigned recWnd, unsigned cWnd, double estRTT, Sequence_Number sndUna, Sequence_Number sndNxt, bool isRtx);
+    //! ADD DOCUMENTATION HERE
     virtual void print_header (std::ostream &out) const;
 
   protected:
+    //! ADD DOCUMENTATION HERE
     unsigned             fDestinationPort;
+    //! ADD DOCUMENTATION HERE
     unsigned             fSourcePort;
 
     TCP_Segment 		fSegment;    	/**< \brief data segment to be transmitted */
@@ -201,18 +254,21 @@ namespace itpp {
 
     //Tracing
 
+    //! ADD DOCUMENTATION HERE
     struct TDebugInfo {
-      unsigned  	fSSThresh;
-      unsigned  	fRecWnd;
-      unsigned  	fCWnd;
-      double    	fRTTEstimate;
-      Sequence_Number  	fSndUna;
-      Sequence_Number  	fSndNxt;
-      bool 		fRtxFlag;
+      unsigned  	fSSThresh; //!< ADD DOCUMENTATION HERE
+      unsigned  	fRecWnd; //!< ADD DOCUMENTATION HERE
+      unsigned  	fCWnd; //!< ADD DOCUMENTATION HERE
+      double    	fRTTEstimate; //!< ADD DOCUMENTATION HERE
+      Sequence_Number  	fSndUna; //!< ADD DOCUMENTATION HERE
+      Sequence_Number  	fSndNxt; //!< ADD DOCUMENTATION HERE
+      bool 		fRtxFlag; //!< ADD DOCUMENTATION HERE
     };
 
+    //! ADD DOCUMENTATION HERE
     TDebugInfo  *fInfo;
 
+    //! ADD DOCUMENTATION HERE
     friend std::ostream & operator<<(std::ostream &, TCP_Packet &);
   };
 
@@ -253,25 +309,37 @@ namespace itpp {
   */
   class TCP_Sender {
   public:
+    //! ADD DOCUMENTATION HERE
     TCP_Sender(int label);
 
+    //! ADD DOCUMENTATION HERE
     virtual ~TCP_Sender();
 
     //connection control
+    //! ADD DOCUMENTATION HERE
     virtual void setup();
+    //! ADD DOCUMENTATION HERE
     virtual void release(std::string trace_filename="");
 
-    // print support
+    //! Print support
     virtual void print_item(std::ostream &, const std::string &);
 
+    //! ADD DOCUMENTATION HERE
     virtual void set_debug(const bool enable_debug = true);
+    //! ADD DOCUMENTATION HERE
     virtual void set_debug(bool enable_debug, bool enable_signal_debug);
+    //! ADD DOCUMENTATION HERE
     virtual void set_trace(const bool enable_trace = true);
+    //! ADD DOCUMENTATION HERE
     virtual void save_trace(std::string filename);
 
+    //! ADD DOCUMENTATION HERE
     Signal<itpp::Packet*> tcp_send;
+    //! ADD DOCUMENTATION HERE
     Slot<TCP_Sender, itpp::Packet*> tcp_receive_ack;
+    //! ADD DOCUMENTATION HERE
     Slot<TCP_Sender, itpp::Packet*> tcp_socket_write;
+    //! ADD DOCUMENTATION HERE
     Slot<TCP_Sender, std::string> tcp_release;
 
 
@@ -436,8 +504,11 @@ namespace itpp {
   */
   class TCP_Receiver_Buffer {
   public:
+    //! ADD DOCUMENTATION HERE
     TCP_Receiver_Buffer();
+    //! ADD DOCUMENTATION HERE
     TCP_Receiver_Buffer(const TCP_Receiver_Buffer &);
+    //! ADD DOCUMENTATION HERE
     ~TCP_Receiver_Buffer();
 
     void reset(); /**< \brief clears internal list structure */
@@ -449,6 +520,7 @@ namespace itpp {
     Sequence_Number first_byte() const;      /**< \brief first byte stored or missing */
     Sequence_Number last_byte() const;       /**< \brief highest byte received (+1) */
     Sequence_Number next_expected() const;   /**< \brief first byte missing */
+    //! ADD DOCUMENTATION HERE
     unsigned window() const;
 
     std::ostream &info(std::ostream &os, int detail = 0) const;	/**< \brief print info */
@@ -456,6 +528,7 @@ namespace itpp {
   protected:
     Sequence_Number fFirstByte;         /**< \brief first byte stored or missing */
 
+    //! ADD DOCUMENTATION HERE
     std::list <TCP_Segment> fBufList;
   };
 
@@ -494,25 +567,36 @@ namespace itpp {
   class TCP_Receiver {
   public:
 
+    //! ADD DOCUMENTATION HERE
     TCP_Receiver(int label);
+    //! ADD DOCUMENTATION HERE
     virtual ~TCP_Receiver ();
 
     //name  connection control
+    //! ADD DOCUMENTATION HERE
     virtual void setup();
+    //! ADD DOCUMENTATION HERE
     virtual void release(std::string trace_filename="");
 
     //message handling
     itpp::Packet & get_user_message(); /**< \brief called by higher layer */
     bool is_user_message_available(); /**< \brief called by higher layer */
 
+    //! ADD DOCUMENTATION HERE
     virtual void set_debug(const bool enable_debug = true);
+    //! ADD DOCUMENTATION HERE
     virtual void set_debug(bool enable_debug, bool enable_signal_debug);
+    //! ADD DOCUMENTATION HERE
     virtual void set_trace(const bool enable_trace = true);
+    //! ADD DOCUMENTATION HERE
     virtual void save_trace(std::string filename);
 
+    //! ADD DOCUMENTATION HERE
     Signal<itpp::Packet*> tcp_send_ack;
+    //! ADD DOCUMENTATION HERE
     Slot<TCP_Receiver, itpp::Packet*> tcp_receive;
     Signal<int> tcp_new_data; /**< \brief indicate new data to higher layer */
+    //! ADD DOCUMENTATION HERE
     Slot<TCP_Receiver, std::string> tcp_release;
 
   private:
@@ -583,71 +667,71 @@ namespace itpp {
 
 
   inline Sequence_Number TCP_Receiver_Buffer::first_byte() const
-	{
-		return fFirstByte;
-	}
+  {
+    return fFirstByte;
+  }
 
 
   inline Sequence_Number TCP_Receiver_Buffer::last_byte() const
-	{
-		if (fBufList.empty()) {
-			return fFirstByte;
-		} else {
-			return fBufList.back().end();
-		}
-	}
+  {
+    if (fBufList.empty()) {
+      return fFirstByte;
+    } else {
+      return fBufList.back().end();
+    }
+  }
 
 
   inline Sequence_Number TCP_Receiver_Buffer::next_expected() const
-	{
-		return fFirstByte + first_block_size();
-	}
+  {
+    return fFirstByte + first_block_size();
+  }
 
 
   inline void TCP_Segment::set_begin(const Sequence_Number &sn)
-	{
-		seq_begin = sn;
+  {
+    seq_begin = sn;
 
-		it_assert(seq_begin <= seq_end, "TCP_Segment::begin, end byte " + to_str(seq_end.value()) + " < begin byte " + to_str(seq_begin.value()));
-	}
+    it_assert(seq_begin <= seq_end, "TCP_Segment::begin, end byte " + to_str(seq_end.value()) + " < begin byte " + to_str(seq_begin.value()));
+  }
 
 
   inline void TCP_Segment::set_end(const Sequence_Number &sn)
-	{
-		seq_end = sn;
+  {
+    seq_end = sn;
 
-		it_assert(seq_begin <= seq_end, "TCP_Segment::set_begin, end byte " + to_str(seq_end.value()) + " < begin byte " + to_str(seq_begin.value()));
-	}
+    it_assert(seq_begin <= seq_end, "TCP_Segment::set_begin, end byte " + to_str(seq_end.value()) + " < begin byte " + to_str(seq_begin.value()));
+  }
 
 
   inline bool TCP_Segment::operator==(const TCP_Segment &segment) const
-	{
-		return (this->seq_begin == segment.seq_begin) && (this->seq_end == segment.seq_end);
-	}
+  {
+    return (this->seq_begin == segment.seq_begin) && (this->seq_end == segment.seq_end);
+  }
 
 
   inline bool TCP_Segment::operator!=(const TCP_Segment &segment) const
-	{
-		return (this->seq_begin != segment.seq_begin) || (this->seq_end != segment.seq_end);
-	}
+  {
+    return (this->seq_begin != segment.seq_begin) || (this->seq_end != segment.seq_end);
+  }
 
 
   inline bool TCP_Segment::can_be_combined(const TCP_Segment &segment) const
-	{
-		return (this->seq_begin <= segment.seq_end) && (segment.seq_begin <= this->seq_end);
-	}
+  {
+    return (this->seq_begin <= segment.seq_end) && (segment.seq_begin <= this->seq_end);
+  }
 
 
   inline bool TCP_Segment::is_contained(const TCP_Segment &segment) const
-	{
-		return (segment.seq_begin <= this->seq_begin) && (this->seq_end <= segment.seq_end);
-	}
+  {
+    return (segment.seq_begin <= this->seq_begin) && (this->seq_end <= segment.seq_end);
+  }
 
 
   inline unsigned TCP_Segment::length() const
-	{
-		return seq_end - seq_begin;
-	}
+  {
+    return seq_end - seq_begin;
+  }
 
   //@}
 

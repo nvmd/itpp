@@ -37,13 +37,12 @@
 
 namespace itpp {
 
-  //!
+  //! ADD DOCUMENTATION HERE
   double kmeansiter(Array<vec> &DB, mat &codebook);
-  //!
+  //! ADD DOCUMENTATION HERE
   mat kmeans(Array<vec> &DB, int SIZE, int NOITER=9999, bool VERBOSE=true);
-  //!
+  //! ADD DOCUMENTATION HERE
   mat lbg(Array<vec> &DB, int SIZE, int NOITER=9999, bool VERBOSE=true);
-
 
   /*!
     \ingroup sourcecoding
@@ -65,11 +64,13 @@ namespace itpp {
     \endcode
   */
   mat vqtrain(Array<vec> &DB, int SIZE, int NOITER, double STARTSTEP=0.2, bool VERBOSE=true);
-  //!
+
+  //! ADD DOCUMENTATION HERE
   vec sqtrain(const vec &inDB, int SIZE);
 
-  //!
+  //! ADD DOCUMENTATION HERE
   ivec bitalloc(const vec& variances, int nobits);
+
 } // namespace itpp
 
 #endif // #ifndef VQTRAIN_H

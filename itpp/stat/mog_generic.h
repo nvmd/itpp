@@ -95,7 +95,7 @@ namespace itpp {
 
     /*! \brief Construct a model using user supplied parameters (full covariance version)
         \param means_in Array of mean vectors
-        \param diag_covs_in Array of full covariance matrices
+        \param full_covs_in Array of full covariance matrices
         \param weights_in vector of weights
         \note  The number of mean vectors, covariance matrices and weights must be the same
     */
@@ -136,7 +136,7 @@ namespace itpp {
 
     /*! \brief Initialise the model using user supplied parameters (full covariance version)
         \param means_in Array of mean vectors
-        \param diag_covs_in Array of covariance matrices
+        \param full_covs_in Array of covariance matrices
         \param weights_in vector of weights
         \note  The number of mean vectors, covariance matrices and weights must be the same
     */
@@ -212,7 +212,7 @@ namespace itpp {
     void set_checks(bool do_checks_in) { do_checks = do_checks_in; }
 
     /*! \brief Enable/disable paranoia about numerical stability
-        \param _paranoid If true, calculate likelihoods using a safer, but slower method.
+        \param paranoid_in If true, calculate likelihoods using a safer, but slower method.
     */
     void set_paranoid(bool paranoid_in) { paranoid = paranoid_in; }
 
@@ -332,17 +332,27 @@ namespace itpp {
     //! Check if all vectors in Array \c X_in have the same dimensionality
     bool check_array_uniformity(const Array<vec> & A) const;
 
+    //! ADD DOCUMENTATION HERE
     void set_means_internal(Array<vec> &means_in);
+    //! ADD DOCUMENTATION HERE
     void set_diag_covs_internal(Array<vec> &diag_covs_in);
+    //! ADD DOCUMENTATION HERE
     void set_full_covs_internal(Array<mat> &full_covs_in);
+    //! ADD DOCUMENTATION HERE
     void set_weights_internal(vec &_weigths);
 
+    //! ADD DOCUMENTATION HERE
     void set_means_zero_internal();
+    //! ADD DOCUMENTATION HERE
     void set_diag_covs_unity_internal();
+    //! ADD DOCUMENTATION HERE
     void set_full_covs_unity_internal();
+    //! ADD DOCUMENTATION HERE
     void set_weights_uniform_internal();
 
+    //! ADD DOCUMENTATION HERE
     void convert_to_diag_internal();
+    //! ADD DOCUMENTATION HERE
     void convert_to_full_internal();
 
     //! additional processing of mean vectors, done as the last step of mean initialisation
@@ -357,8 +367,11 @@ namespace itpp {
     //! additional processing of miscellaneous parameters, done as the last step of overall initialisation
     virtual void setup_misc();
 
+    //! ADD DOCUMENTATION HERE
     virtual double log_lhood_single_gaus_internal(const vec &x_in, const int k);
+    //! ADD DOCUMENTATION HERE
     virtual double log_lhood_internal(const vec &x_in);
+    //! ADD DOCUMENTATION HERE
     virtual double lhood_internal(const vec &x_in);
 
   private:

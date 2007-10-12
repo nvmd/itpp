@@ -35,6 +35,8 @@
 
 namespace itpp {
 
+  //! \cond
+
   /*!
     \ingroup sourcecoding
     \brief Gaussian Mixture Model Class
@@ -100,6 +102,8 @@ namespace itpp {
   inline vec GMM::get_covariance(int i) {return sigma.mid(i*d,d);}
 
   GMM gmmtrain(Array<vec> &TrainingData, int M, int NOITER=30, bool VERBOSE=true);
+
+  //! \endcond
 
 } // namespace itpp
 

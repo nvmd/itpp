@@ -260,7 +260,7 @@ namespace itpp {
     }
   }
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
+//! \cond
 
   // MFD codes R=1/2
   int Conv_Code_MFD_2[15][2] = {
@@ -525,7 +525,7 @@ namespace itpp {
     }
   }
 
-#endif /* DOXYGEN_SHOULD_SKIP_THIS */
+//! \endcond
 
   // --------------- Public functions -------------------------
 

@@ -42,7 +42,7 @@ namespace itpp {
     no_parity = polynomial.size()-1;
   }
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
+//! \cond
 
   std::string crccode[18][2] = {
     {"CRC-4","1 1 1 1 1"},
@@ -65,7 +65,7 @@ namespace itpp {
     {"SDLC-16","1 1 0 1 0 0 0 0 0 1 0 0 1 0 1 1 1"},
   };
 
-#endif /* DOXYGEN_SHOULD_SKIP_THIS */
+//! \endcond
 
   void CRC_Code::set_code(const std::string &code)
   {

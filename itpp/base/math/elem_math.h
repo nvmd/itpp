@@ -139,6 +139,7 @@ namespace itpp {
   //! Signum function
   inline imat sgn_i(const imat &x) { return apply_function<int>(sign_i, x); }
 
+  //! Signum function
   inline int sign_i(double x)
   {
     return (x == 0.0 ? 0 : (x < 0.0 ? -1 : 1));

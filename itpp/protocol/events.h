@@ -40,9 +40,9 @@ namespace itpp {
   //! \addtogroup protocol
   //@{
 
-  //typedef long double Ttype; // 128-bit floating point time.
-  typedef double Ttype; // 64-bit floating point time.
-  //typedef long unsigned int Ttype; // 64-bit unsigned integer time.
+  // typedef long double Ttype; //!< 128-bit floating point time
+  typedef double Ttype; //!< 64-bit floating point time
+  // typedef long unsigned int Ttype; //!< 64-bit unsigned integer time
 
   class Event_Queue;
   class Base_Event;
@@ -79,17 +79,23 @@ namespace itpp {
     void cancel(){ active = false; }
 
   protected:
+    //! ADD DOCUMENTATION HERE
     virtual void exec(void) = 0;
+    //! ADD DOCUMENTATION HERE
     Ttype delta_t;
+    //! ADD DOCUMENTATION HERE
     Ttype expire_t;
+    //! ADD DOCUMENTATION HERE
     bool active;
+    //! ADD DOCUMENTATION HERE
     unsigned long long int id;
+    //! ADD DOCUMENTATION HERE
     static unsigned long long int global_id;
   };
 
   //! Compare to events, Returns true if expire time of event1 is larger than the expire time of event2
   struct Compare_Base_Event_Times {
-    //!
+    //! ADD DOCUMENTATION HERE
     bool operator()(Base_Event *event1, Base_Event *event2) {
       if(event1->expire_t == event2->expire_t) // Equal expire times.
 	return (event1->id > event2->id); // Base comparison on the event id.

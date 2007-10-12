@@ -722,21 +722,18 @@ namespace itpp {
     data[i] = v;
   }
 
-  //! Specialization of \c set() for double
+  //! \cond
   template<>
   void Vec<double>::set(const std::string &str);
-  //! Specialization of \c set() for std::complex<double>
   template<>
   void Vec<std::complex<double> >::set(const std::string &str);
-  //! Specialization of \c set() for int
   template<>
   void Vec<int>::set(const std::string &str);
-  //! Specialization of \c set() for short int
   template<>
   void Vec<short int>::set(const std::string &str);
-  //! Specialization of \c set() for itpp::bin
   template<>
   void Vec<bin>::set(const std::string &str);
+  //! \endcond
 
   template<class Num_T>
   void Vec<Num_T>::set(const std::string &str)
@@ -990,6 +987,7 @@ namespace itpp {
     return out;
   }
 #else
+  //! Outer product of two vectors v1 and v2
   template<> inline
   const cmat outer_product(const cvec &v1, const cvec &v2, bool hermitian)
   {

@@ -41,11 +41,11 @@
 
 namespace itpp {
 
-#ifndef DOXYGEN_SHOULD_SKIP_THIS
+//! \cond
   static bool warnings_enabled = true;
   static bool file_line_info_enabled = true;
   static std::ostream *warn = &std::cerr;
-#endif //DOXYGEN_SHOULD_SKIP_THIS
+//! \endcond
 
   void it_assert_f(std::string ass, std::string msg, std::string file, int line)
   {

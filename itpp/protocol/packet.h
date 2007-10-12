@@ -38,14 +38,14 @@ namespace itpp {
   //! \addtogroup protocol
   //@{
 
-  /*! \brief Packet
+  /*! ADD DOCUMENTATION HERE
 
-  */
+   */
   class Packet {
   public:
-    //!
+    //! ADD DOCUMENTATION HERE
     Packet(const int packet_size=0) { set_bit_size(packet_size); }
-    //!
+    //! ADD DOCUMENTATION HERE
     virtual ~Packet() {}
 
     //! set size of packet in bits
@@ -59,45 +59,58 @@ namespace itpp {
   };
 
 
-  /*!
+  /*! ADD DOCUMENTATION HERE
 
-  */
+   */
   class L3_Packet_Info{
   public:
+    //! ADD DOCUMENTATION HERE
     L3_Packet_Info(Packet *packet) { timestamp = 0; pkt_pointer = packet; }
 
+    //! ADD DOCUMENTATION HERE
     ~L3_Packet_Info() {}
 
+    //! ADD DOCUMENTATION HERE
     Ttype timestamp;
 
+    //! ADD DOCUMENTATION HERE
     Packet *pkt_pointer;
   };
 
 
-  /*!
+  /*! ADD DOCUMENTATION HERE
 
-  */
+   */
   class Link_Packet : public Packet {
   public:
+    //! ADD DOCUMENTATION HERE
     Link_Packet(const int Seq_no, const unsigned long int Link_packet_id, L3_Packet_Info *Cp) { seq_no = Seq_no; link_packet_id = Link_packet_id; l3_pkt_info_p = Cp; }
 
+    //! ADD DOCUMENTATION HERE
     ~Link_Packet() {}
 
+    //! ADD DOCUMENTATION HERE
     unsigned long int link_packet_id;
+    //! ADD DOCUMENTATION HERE
     int seq_no;
+    //! ADD DOCUMENTATION HERE
     L3_Packet_Info *l3_pkt_info_p;
   };
 
-  /*!
+  /*! ADD DOCUMENTATION HERE
 
-  */
+   */
   class ACK : public Packet {
   public:
+    //! ADD DOCUMENTATION HERE
     ACK(const int Seq_no=-1, const int Id=0) { seq_no = Seq_no; id = Id; }
 
+    //! ADD DOCUMENTATION HERE
     ~ACK() {}
 
+    //! ADD DOCUMENTATION HERE
     int id;
+    //! ADD DOCUMENTATION HERE
     int seq_no;
   };
 

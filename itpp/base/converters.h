@@ -477,6 +477,6 @@ namespace itpp {
 
   //! \endcond
 
-} //namespace itpp
+} // namespace itpp
 
-#endif // #ifndef CONVERTERS_H
+#endif // CONVERTERS_H
