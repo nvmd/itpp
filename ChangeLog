@@ -1,3 +1,11 @@
+------------------------------------------------------------------------------
+
+2007-10-14  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* IT++ 4.0.0 released (SVN tag: release-4-0-0)
+
+	* NEWS: Updated for 4.0.0 stable release
+
 2007-10-12  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/converters.h, itpp/base/help_functions.h,
