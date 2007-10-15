@@ -1,12 +1,12 @@
 ===============================================================================
-IT++ version 4.0.0-rc2                                     Released: 2007-10-06
+IT++ version 4.0.0                                         Released: 2007-10-14
 -------------------------------------------------------------------------------
 
-IT++ 4.0.0-rc2 is the second release candidate of our new stable series
-based on itpp-3-99 development branch. It supersedes our previous 3.10.x
-stable series. After almost one and a half year of intensive development it
-includes a lot of new features and improvements with respect to IT++ 3.10.12
-release (the last stable release of 3.10.x series).
+IT++ 4.0.0 is the new stable release based on itpp-3-99 development branch.
+It supersedes our previous 3.10.x stable versions. After over one and a half
+year of intensive development it includes a lot of new features and
+improvements with respect to IT++ 3.10.12 release (the previous stable
+version).
 
 A brief summary of the most important additions and changes is listed below.
 Should you need more detailed history of changes that are new in this
