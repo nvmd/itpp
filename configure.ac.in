@@ -2,14 +2,14 @@
 #-------------------------------------------------------------------
 AC_PREREQ(2.59)
 AC_COPYRIGHT([Copyright (C) 2006, 2007  Adam Piatyszek <ediap@users.sourceforge.net>])
-AC_INIT([IT++],[4.1-dev],[ediap@users.sourceforge.net],[itpp])
+AC_INIT([IT++],[@PACKAGE_VERSION@],[ediap@users.sourceforge.net],[itpp])
 AC_CONFIG_HEADER([itpp/config.h])
 AC_CONFIG_SRCDIR([itpp/base/vec.cpp])
 AC_CONFIG_AUX_DIR([config])
 AM_INIT_AUTOMAKE
 
 # Shared library versioning
-GENERIC_LIBRARY_VERSION="7:0:0"
+GENERIC_LIBRARY_VERSION="@LIBRARY_VERSION@"
 #                        | | |
 #                 +------+ | +---+
 #                 |        |     |
@@ -350,9 +350,7 @@ AC_CONFIG_FILES([Makefile \
   win32/itpp_acml_tests/Makefile \
   win32/itpp_mkl_tests/Makefile \
   itpp.pc \
-  itpp-config \
-  itpp-config.1 \
-  itpp.spec])
+  itpp-config])
 
 AC_OUTPUT
 

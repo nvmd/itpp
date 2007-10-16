@@ -1,3 +1,16 @@
+2007-10-16  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* Makefile.am, VERSION, autogen.sh, configure.ac.in
+	extras/itpp-config.t2t, itpp-config.1.in, itpp.spec.in:
+	Changed the way version numbers are handled
+
+	This patch fixes the problem of removing the "itpp.spec" and
+	"itpp-config.1" files during "make distclean". These files should
+	not be removed, since they are distributed in packages. Since now,
+	version numbers in these two files and in "configure.ac" are
+	updated according to a VERSION file content, when "autogen.sh"
+	bootstrapping script is executed.
+
 ------------------------------------------------------------------------------
 
 2007-10-14  Adam Piatyszek  <ediap@users.sourceforge.net>
