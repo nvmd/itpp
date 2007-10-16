@@ -1,6 +1,6 @@
 itpp-config
 IT++ @PACKAGE_VERSION@
-%%date(%B %Y)
+@PACKAGE_DATE@
 
 %!target: man
 

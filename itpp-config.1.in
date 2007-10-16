@@ -1,4 +1,4 @@
-.TH "itpp-config" 1 "August 2007" "IT++ @PACKAGE_VERSION@"
+.TH "itpp-config" 1 "@PACKAGE_DATE@" "IT++ @PACKAGE_VERSION@"
 
 .SH NAME
 .P
