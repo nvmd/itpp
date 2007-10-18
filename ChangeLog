@@ -1,3 +1,11 @@
+2007-10-18  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/doxygen_html.cfg.in: Reset TAB_SIZE to 8 spaces
+
+	Some of the IT++ codes still use tabs of 8 spaces for indenting.
+	Thus this patch resets the TAB_SIZE to 8 (default value) in
+	Doxygen's configuration file.
+
 2007-10-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* Makefile.am, VERSION, autogen.sh, configure.ac.in
