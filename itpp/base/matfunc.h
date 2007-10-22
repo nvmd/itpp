@@ -501,7 +501,7 @@ namespace itpp {
 
     // Count number of nonzero singular values
     int r = 0;
-    while ((sing_val(r) > tol) && r < sing_val.length()) {
+    while ((r < sing_val.length()) && (sing_val(r) > tol)) {
       r++;
     }
 
