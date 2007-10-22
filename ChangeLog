@@ -1,3 +1,11 @@
+2007-10-22  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/matfunc.h: Fixed a bug in rank() function
+
+	The order of checks in a while loop was wrong and it caused
+	assertion when accessing a non-existing element in a vector of
+	singular values. This patch fixes this problem.
+
 2007-10-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* doc/doxygen_html.cfg.in: Reset TAB_SIZE to 8 spaces
