@@ -540,12 +540,15 @@ namespace itpp {
   //!@{
 
   /*!
-    \brief Returns a diagonal matrix whith the elements of the vector \c v
-    on the diagonal and zeros elsewhere.
-
-    The size of the return matrix will be \f$n \times n\f$, where \f$n\f$ is
-    the length of the input vector \c v.
-  */
+   * \brief Create a diagonal matrix using vector \c v as its diagonal
+   *
+   * All other matrix elements except the ones on its diagonal are set to
+   * zero. An optional parameter \c K can be used to shift the diagonal in
+   * the resulting matrix. By default \c K is equal to zero.
+   *
+   * The size of the diagonal matrix will be \f$n+|K| \times n+|K|\f$, where
+   * \f$n\f$ is the length of the input vector \c v.
+   */
   template<class T>
   Mat<T> diag(const Vec<T> &v, const int K = 0)
   {
@@ -562,12 +565,14 @@ namespace itpp {
   }
 
   /*!
-    \brief Returns in the output wariable \c m a diagonal matrix whith the
-    elements of the vector \c v on the diagonal and zeros elsewhere.
-
-    The size of the output matrix \c m will be \f$n \times n\f$, where
-    \f$n\f$ is the length of the input vector \c v.
-  */
+   * \brief Create a diagonal matrix using vector \c v as its diagonal
+   *
+   * All other matrix elements except the ones on its diagonal are set to
+   * zero.
+   *
+   * The size of the diagonal matrix will be \f$n \times n\f$, where \f$n\f$
+   * is the length of the input vector \c v.
+   */
   template<class T>
   void diag(const Vec<T> &v, Mat<T> &m)
   {
@@ -578,10 +583,11 @@ namespace itpp {
   }
 
   /*!
-    \brief Returns the diagonal elements of the input matrix \c m.
-
-    The input matrix \c m must be a square \f$n \times n\f$ matrix. The size
-    of the output vector will be \f$n\f$.
+   * \brief Get the diagonal elements of the input matrix \c m
+   *
+   * The size of the output vector with diagonal elements will be
+   * \f$n = min(r, c)\f$, where \f$r \times c\f$ are the dimensions of
+   * matrix \c m.
   */
   template<class T>
   Vec<T> diag(const Mat<T> &m)
@@ -594,7 +600,6 @@ namespace itpp {
     return t;
   }
 
-  //
   /*!
     \brief Returns a matrix with the elements of the input vector \c main on
     the diagonal and the elements of the input vector \c sup on the diagonal

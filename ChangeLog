@@ -1,5 +1,8 @@
 2007-10-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/algebra/svd.h, itpp/base/matfunc.h: Documentation of
+	diag() and svd() updated
+
 	* itpp/base/matfunc.h: Fixed a bug in rank() function
 
 	The order of checks in a while loop was wrong and it caused
