@@ -212,7 +212,9 @@ namespace itpp {
   template svec to_svec(const ivec &v);
   template svec to_svec(const vec &v);
 
+#if (GCC_VERSION >= 30400)
   template ivec to_ivec(const bvec &v);
+#endif
   template ivec to_ivec(const svec &v);
   template ivec to_ivec(const vec &v);
 
@@ -242,8 +244,10 @@ namespace itpp {
   template imat to_imat(const mat &m);
 
   template mat to_mat(const bmat &m);
+#if (GCC_VERSION >= 30400)
   template mat to_mat(const smat &m);
   template mat to_mat(const imat &m);
+#endif
 
   template cmat to_cmat(const bmat &m);
   template cmat to_cmat(const smat &m);
