@@ -32,9 +32,9 @@
 
 #include <itpp/itbase.h>
 
-using std::cout;
-using std::endl;
 using namespace itpp;
+using namespace std;
+
 
 GF2mat random_matrix(int m, int n)
 {
@@ -87,7 +87,7 @@ int main()
  cout << "p=" << p << endl;
 
  // Test Alist functionality
- char *file = "gf2mat_test.alist";
+ string file = "gf2mat_test.alist";
  GF2mat_sparse_alist alist;
  alist.from_sparse(A.sparsify());
  alist.write(file);
