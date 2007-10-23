@@ -39,6 +39,9 @@
 #include <itpp/base/help_functions.h>
 #include <itpp/base/math/misc.h>
 
+#define GCC_VERSION (__GNUC__ * 10000           \
+                     + __GNUC_MINOR__ * 100     \
+                     + __GNUC_PATCHLEVEL__)
 
 namespace itpp {
 
@@ -430,7 +433,10 @@ namespace itpp {
   extern template svec to_svec(const ivec &v);
   extern template svec to_svec(const vec &v);
 
+  // Workaround for GCC 3.3.x error when using -finine-functions or -O3 flag
+#if (GCC_VERSION >= 30400)
   extern template ivec to_ivec(const bvec &v);
+#endif
   extern template ivec to_ivec(const svec &v);
   extern template ivec to_ivec(const vec &v);
 
@@ -460,8 +466,10 @@ namespace itpp {
   extern template imat to_imat(const mat &m);
 
   extern template mat to_mat(const bmat &m);
+#if (GCC_VERSION >= 30400)
   extern template mat to_mat(const smat &m);
   extern template mat to_mat(const imat &m);
+#endif
 
   extern template cmat to_cmat(const bmat &m);
   extern template cmat to_cmat(const smat &m);
