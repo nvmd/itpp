@@ -1,5 +1,7 @@
 2007-10-25  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* AUTHORS, doc/local/authors.doc: List of authors updated
+
 	* configure.ac.in: Do not use "-Werror" flag for debugging library
 	by default
 
