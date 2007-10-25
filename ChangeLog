@@ -1,3 +1,12 @@
+2007-10-25  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac.in: Do not use "-Werror" flag for debugging library
+	by default
+
+	This flag was propagated into itpp-config and itpp.pc scripts and
+	this resulted in reporting each warning in users' programs as an
+	error.
+
 2007-10-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/gf2mat_test.cpp: Suppress compilation warning about string
