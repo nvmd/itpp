@@ -122,7 +122,7 @@ if test "x$enable_debug" = xyes; then
     CXXFLAGS_DEBUG="-g"
     # Only for GCC compiler
     if test "x$GXX" = xyes; then
-      CXXFLAGS_DEBUG="-Wall -Werror $CXXFLAGS_DEBUG -pipe"
+      CXXFLAGS_DEBUG="-Wall $CXXFLAGS_DEBUG -pipe"
     fi
   fi
 fi
