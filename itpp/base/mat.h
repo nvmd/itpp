@@ -358,8 +358,19 @@ namespace itpp {
     friend const Mat<Num_T> operator*<>(const Mat<Num_T> &m1, const Mat<Num_T> &m2);
     //! Multiplication of matrix \c m and vector \c v (column vector)
     friend const Vec<Num_T> operator*<>(const Mat<Num_T> &m, const Vec<Num_T> &v);
-    //! Multiplication of transposed vector \c v and matrix \c m
-    friend const Mat<Num_T> operator*<>(const Vec<Num_T> &v, const Mat<Num_T> &m);
+    /*!
+     * \brief Multiplication of vector \c v and matrix \c m with only one row
+     *
+     * This operator multiplies a column vector \c v times matrix \c m that
+     * consists of only one row. Thus, the result of this operator is
+     * exactly the same as the result of the outer product of two vectors,
+     * i.e.: <tt>outer_product(v, m.get_col(0))</tt>.
+     *
+     * \note This operator is deprecated and might be removed or changed in
+     * future releases of IT++.
+     */
+    friend const Mat<Num_T> operator*<>(const Vec<Num_T> &v,
+                                        const Mat<Num_T> &m);
     //! Multiplication of matrix and scalar
     friend const Mat<Num_T> operator*<>(const Mat<Num_T> &m, Num_T t);
     //! Multiplication of scalar and matrix
@@ -1505,14 +1516,10 @@ namespace itpp {
   template<class Num_T> inline
   const Mat<Num_T> operator*(const Vec<Num_T> &v, const Mat<Num_T> &m)
   {
-    it_assert_debug(m.no_rows == 1,"Mat<Num_T>::operator*: wrong sizes");
-    Mat<Num_T> r(v.size(), m.no_cols);
-
-    for (int i = 0; i < v.size(); ++i)
-      for (int j = 0; j < m.no_cols; ++j)
-	r(i,j) = v(i) * m.data[j];
-
-    return r;
+    it_assert((m.no_rows == 1),"Mat<Num_T>::operator*(): wrong sizes");
+    it_warning("Mat<Num_T>::operator*(v, m): This operator is deprecated. "
+               "Please use outer_product(v, m.get_row(0)) instead.");
+    return outer_product(v, m.get_row(0));
   }
 
   template<class Num_T> inline
