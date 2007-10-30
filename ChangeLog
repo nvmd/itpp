@@ -1,3 +1,14 @@
+2007-10-30  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/mat.h: operator*(Vec &v, Mat &m) documented as
+	deprecated
+
+	The existence of this operator in IT++ is questionable, since its
+	behaviour is equivalent to "outer_product(v, m.get_row(0))".
+	Moreover, the documentation was wrong so many users had problems
+	using it correctly. This patch marks this operator as deprecated,
+	both in the documentation and through a run-time warning message.
+
 2007-10-25  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* AUTHORS, doc/local/authors.doc: List of authors updated
