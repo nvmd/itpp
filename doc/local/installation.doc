@@ -464,6 +464,8 @@ them in your \c $HOME directory, and unpack them:
 example.cpp:
 \code
 #include <itpp/itbase.h>
+#include <itpp/itsignal.h>
+
 using namespace itpp;
 using namespace std;
 

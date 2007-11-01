@@ -1,3 +1,8 @@
+2007-11-01  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* doc/loca/installation.doc: Updated the "no root" installation
+	description
+
 2007-10-30  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/mat.h: operator*(Vec &v, Mat &m) documented as
