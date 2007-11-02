@@ -1,35 +1,10 @@
-
 #include <itpp/itcomm.h>
 
-using std::cout;
-using std::endl;
 using namespace itpp;
 using namespace std;
 
-/* Zero-forcing detector with ad hoc soft information. This function
-   applies the ZF (pseudoinverse) linear filter to the received
-   data. This results in effective noise with covariance matrix
-   inv(H'H)*sigma2.  The diagonal elements of this noise covariance
-   matrix are taken as noise variances per component in the processed
-   received data but the noise correlation is ignored.
 
- */
-
-void ZF_demod(ND_UQAM &channel, ivec &LLR_apr,  ivec &LLR_apost, double sigma2, cmat &H, cvec &y)
-{
-  it_assert(H.rows()>=H.cols(),"ZF_demod() - underdetermined systems not tolerated");
-  cvec shat=ls_solve_od(H,y);                     // the ZF solution
-  vec Sigma2=real(diag(inv(H.hermitian_transpose()*H)))*sigma2;  // noise covariance of shat
-  cvec h(length(shat));
-  for (int i=0; i<length(shat); i++) {
-    shat(i) = shat(i)/sqrt(Sigma2(i));
-    h(i) = 1.0/sqrt(Sigma2(i));
-  }
-  channel.map_demod(LLR_apr,LLR_apost,1.0,h,shat);
-}
-
-
-extern int main(int argc, char **argv)
+int main(int argc, char **argv)
 {
   // -- modulation and channel parameters (taken from command line input) --
   int nC;                    // type of constellation  (1=QPSK, 2=16-QAM, 3=64-QAM)
@@ -52,8 +27,8 @@ extern int main(int argc, char **argv)
 
   // -- simulation control parameters --
   const vec EbN0db = "-5:0.5:50";        // SNR range
-  const int Nmethods =2;                 // number of demodulators to try
-  const long int Nbitsmax=50*1000*1000;  // maximum number of bits to ever simulate per SNR point
+  const int Nmethods = 2;                 // number of demodulators to try
+  const int Nbitsmax = 50000000;  // maximum number of bits to ever simulate per SNR point
   const int Nu = 1000;                   // length of data packet (before applying channel coding)
 
   int Nbers, Nfers;              // target number of bit/frame errors per SNR point
@@ -90,7 +65,7 @@ extern int main(int argc, char **argv)
 
   // initialize MIMO channel with uniform QAM per complex dimension and Gray coding
   ND_UQAM chan;
-  chan.set_Gray_QAM(nTx,1<<(2*nC));
+  chan.set_M(nTx, 1<<(2*nC));
   cout << chan << endl;
 
   // initialize interleaver
@@ -120,7 +95,7 @@ extern int main(int argc, char **argv)
   // ================== Run simulation =======================
   for (int nsnr=0; nsnr<length(EbN0db); nsnr++) {
     const double Eb=1.0; // transmitted energy per information bit
-    const double N0 = pow(10.0,-EbN0db(nsnr)/10.0);
+    const double N0 = inv_dB(-EbN0db(nsnr));
     const double sigma2=N0;   // Variance of each scalar complex noise sample
     const double Es=rate*2*nC*Eb; // Energy per complex scalar symbol
     // (Each transmitted scalar complex symbol contains rate*2*nC
@@ -177,13 +152,14 @@ extern int main(int argc, char **argv)
       for (int k=0; k<Nvec; k++) {
 	// zero forcing demodulation
 	if (Contflag(0)) {
-	  ZF_demod(chan,llr_apr,llr_apost,sigma2,H(k/Tc),Y(k));
+	  chan.demodulate_soft_bits(Y(k), H(k/Tc), sigma2, llr_apr, llr_apost,
+                                    ND_UQAM::ZF_LOGMAP);
 	  LLRin(0).set_subvector(k*Nbitspvec,(k+1)*Nbitspvec-1,llr_apost);
 	}
 
 	// ML demodulation
 	if (Contflag(1)) {
-	  chan.map_demod(llr_apr, llr_apost, sigma2, H(k/Tc), Y(k));
+	  chan.demodulate_soft_bits(Y(k), H(k/Tc), sigma2, llr_apr, llr_apost);
 	  LLRin(1).set_subvector(k*Nbitspvec,(k+1)*Nbitspvec-1,llr_apost);
 	}
       }
