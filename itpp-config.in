@@ -5,9 +5,9 @@ exec_prefix=@exec_prefix@
 libdir=@libdir@
 includedir=@includedir@
 
-exec_prefix_flag=no
 debug_flag=no
 static_flag=no
+flags=""
 
 usage()
 {
@@ -41,24 +41,17 @@ while test $# -gt 0; do
   esac
 
   case $1 in
-    --prefix=*)
-      prefix="$optarg"
-      if test "x$exec_prefix_flag" = xno; then
-        exec_prefix="$optarg"
-      fi
-      ;;
     --prefix)
       echo "$prefix"
-      ;;
-    --exec-prefix=*)
-      exec_prefix="$optarg"
-      exec_prefix_flag=yes
+      exit 0
       ;;
     --exec-prefix)
       echo "$exec_prefix"
+      exit 0
       ;;
     --version)
       echo "@VERSION@"
+      exit 0
       ;;
     --help)
       usage 0
@@ -70,37 +63,39 @@ while test $# -gt 0; do
       static_flag=yes
       ;;
     --cflags)
-      cflags_str="-I${includedir}"
+      flags="${flags} -I${includedir}"
       if test "x$debug_flag" = xyes; then
-        cflags_str="${cflags_str} @CXXFLAGS_DEBUG@"
+        flags="${flags} @CXXFLAGS_DEBUG@"
       else
-        cflags_str="${cflags_str} @CXXFLAGS_OPT@"
+        flags="${flags} @CXXFLAGS_OPT@"
       fi
-      echo "${cflags_str}"
       ;;
     --cflags-deb*)
       echo "-I${includedir} @CXXFLAGS_DEBUG@"
+      exit 0
       ;;
     --cflags-opt*)
       echo "-I${includedir} @CXXFLAGS_OPT@"
+      exit 0
       ;;
     --libs)
-      libs_str="-L${libdir}"
+      flags="${flags} -L${libdir}"
       if test "x$debug_flag" = xno; then
-        libs_str="${libs_str} -l@PACKAGE@"
+        flags="${flags} -l@PACKAGE@@EXPLICIT_LIBS@"
       else
-        libs_str="${libs_str} -l@PACKAGE_DEBUG@"
+        flags="${flags} -l@PACKAGE_DEBUG@@EXPLICIT_LIBS@"
       fi
       if test "x$static_flag" = xyes; then
-        libs_str="${libs_str} @LDLIBS@"
+        flags="${flags}@PRIVATE_LIBS@"
       fi
-      echo "${libs_str}"
       ;;
     --libs-deb*)
-      echo "${libs_str} -l@PACKAGE_DEBUG@ @LDLIBS@"
+      echo "-L${libdir} -l@PACKAGE_DEBUG@@EXPLICIT_LIBS@"
+      exit 0
       ;;
     --libs-opt*)
-      echo "-L${libdir} -l@PACKAGE@ @LDLIBS@"
+      echo "-L${libdir} -l@PACKAGE@@EXPLICIT_LIBS@"
+      exit 0
       ;;
     *)
       usage 1
@@ -108,3 +103,7 @@ while test $# -gt 0; do
   esac
   shift
 done
+
+if test "x${flags}" != x; then
+  echo "${flags}"
+fi

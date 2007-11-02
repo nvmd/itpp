@@ -1,5 +1,16 @@
 2007-11-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac.in, itpp-config.in, itpp.pc.in: Improved
+	itpp-config and itpp.pc scripts
+
+	This patch adds an additional configure check to see whether
+	external libraries' dependencies need to be explicitly added to
+	the output of "itpp-config --libs" command. As a result it should
+	be always possible to use "itpp-config --libs" or "pkg-config itpp
+	--libs" without adding an extra --static switch. Besides,
+	"itpp-config --libs" should now return exactly the same libraries
+	as "pkg-config itpp --libs" on Mac OS X.
+
 	* doc/tutorial/src/mimoconv.cpp: Updated MIMO with convolutional
 	coding example program
 
