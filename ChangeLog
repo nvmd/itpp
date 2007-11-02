@@ -1,3 +1,8 @@
+2007-11-02  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/tutorial/src/mimoconv.cpp: Updated MIMO with convolutional
+	coding example program
+
 2007-11-01  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* doc/local/installation.doc: Updated the "no root" installation
