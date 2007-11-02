@@ -390,7 +390,8 @@ AC_CONFIG_FILES([Makefile \
 
 AC_OUTPUT
 
-echo "
+# Create configuration summary file
+cat <<EOF | tee config_summary.log
 ------------------------------------------------------------------------------
 $PACKAGE-$VERSION library configuration:
 ------------------------------------------------------------------------------
@@ -451,4 +452,4 @@ Compiler/linker flags/libs/defs:
 ------------------------------------------------------------------------------
 Now type 'make && make install' to build and install $PACKAGE-$VERSION library
 ------------------------------------------------------------------------------
-"
+EOF

@@ -26,6 +26,9 @@ bin_SCRIPTS = itpp-config
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = itpp.pc
 
+clean-local:
+	rm -f config_summary.log
+
 uninstall-local:
 	rm -rf $(DESTDIR)$(includedir)/itpp
 
