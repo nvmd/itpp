@@ -1,3 +1,11 @@
+2007-11-12  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/binfile.h: Fixed invalid cast from bool to enum
+
+	The Apple's g++3.3 compiler from Mac Developer Tools v1.2 reports
+	an error on a static cast from bool to enum. This patch changes
+	the problematic code, so it should be accepted by older compilers.
+
 2007-11-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* Makefile.am, configure.ac.in: Save configuration summary to
