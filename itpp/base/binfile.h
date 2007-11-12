@@ -80,8 +80,14 @@ namespace itpp {
     */
     endian get_endianity() const
     {
-      return switch_endianity
-	? static_cast<endian>(!native_endianity) : native_endianity;
+      if (switch_endianity) {
+        if (native_endianity == l_endian)
+          return b_endian;
+        else
+          return l_endian;
+      }
+      else
+        return native_endianity;
     }
 
     /*!
@@ -97,8 +103,10 @@ namespace itpp {
     */
     void set_endianity(endian e)
     {
-      (native_endianity == e)
-	? switch_endianity = false : switch_endianity = true;
+      if (native_endianity == e)
+        switch_endianity = false;
+      else
+        switch_endianity = true;
     }
 
     /*!
