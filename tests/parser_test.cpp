@@ -87,12 +87,12 @@ int main(int argc, char *argv[])
   cout << "------------------------------------------------------------" << endl;
 
   cout << "Use the Parser class on a char pointer (usually the command line input):" << endl;
-  char *argv1[4];
-  int  argc1= 4;
-  argv1[0] = "a=345";
-  argv1[1] = "b=1.001";
-  argv1[2] = "c=\"Hello Bird\"";
-  argv1[3] = "d=[1,2,3,-1,-2,-3]";
+  char argv1_0[] = "a=345";
+  char argv1_1[] = "b=1.001";
+  char argv1_2[] = "c=\"Hello Bird\"";
+  char argv1_3[] = "d=[1,2,3,-1,-2,-3]";
+  int  argc1 = 4;
+  char *argv1[4] = { argv1_0, argv1_1, argv1_2, argv1_3 };
   p.init(argc1,argv1);
   a = p.get_int("a");
   b = p.get_double("b");
@@ -103,10 +103,10 @@ int main(int argc, char *argv[])
   cout << "Use the Parser class on a parameter file and a char pointer:" << endl;
   // The data in the char pointer are selected first. The data in the
   // file are used as default values
-  char *argv2[2];
+  char argv2_0[] = "a=345";
+  char argv2_1[] = "d=[1,-2,3,-4,5,-6,7,-8]";
   int argc2 = 2;
-  argv2[0] = "a=345";
-  argv2[1] = "d=[1,-2,3,-4,5,-6,7,-8]";
+  char *argv2[2] = { argv2_0, argv2_1 };
   if (argc==0) {
     p.init(string(PARSER_TEST_FILE), argc2, argv2);
   } else {

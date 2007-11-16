@@ -1,3 +1,13 @@
+2007-11-16  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* tests/parser_test.cpp: Prevent warnings about string to char*
+	conversions
+
+	GCC >=4.2 uses "-Wwrite-string" in when "-Wall" flag is used and
+	this results in warnings about deprecated conversions from
+	constant strings to char*. This patch workarounds this problem by
+	a bit different initialisation of arrays of char* strings.
+
 2007-11-12  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/binfile.h: Fixed invalid cast from bool to enum
