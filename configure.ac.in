@@ -1,6 +1,6 @@
 # Process this file with autoconf to produce a configure script
 #-------------------------------------------------------------------
-AC_PREREQ(2.59)
+AC_PREREQ(2.60)
 AC_COPYRIGHT([Copyright (C) 2006, 2007  Adam Piatyszek <ediap@users.sourceforge.net>])
 AC_INIT([IT++],[@PACKAGE_VERSION@],[ediap@users.sourceforge.net],[itpp])
 AC_CONFIG_HEADER([itpp/config.h])
@@ -47,6 +47,7 @@ AC_PROG_INSTALL
 AC_PROG_LIBTOOL
 AC_PROG_LN_S
 AC_PROG_MAKE_SET
+AC_PROG_SED
 
 # See whether to include shared library dependencies (taken from gtk+)
 AC_ARG_ENABLE(explicit-deps,
@@ -57,7 +58,6 @@ AC_ARG_ENABLE(explicit-deps,
 AC_MSG_CHECKING([whether use explicit library dependencies])
 case $enable_explicit_deps in
   auto)
-    export SED
     deplibs_check_method=`(./libtool --config; echo 'eval echo $deplibs_check_method') | sh`
     if test "x$deplibs_check_method" != xpass_all || \
        test "x$enable_shared" = xno ; then
@@ -152,7 +152,7 @@ if test "x$enable_debug" = xyes; then
   fi
 fi
 # Remove unnecesary white spaces from LIBS
-CXXFLAGS_DEBUG="`echo \"$CXXFLAGS_DEBUG\" | sed -e 's/  */ /g' -e 's/^ //' -e 's/ $//'`"
+CXXFLAGS_DEBUG="`echo \"$CXXFLAGS_DEBUG\" | $SED -e 's/  */ /g' -e 's/^ //' -e 's/ $//'`"
 AC_SUBST(CXXFLAGS_DEBUG)
 AC_SUBST(PACKAGE_DEBUG)
 
@@ -167,7 +167,7 @@ else
   CXXFLAGS_OPT="$CXXFLAGS"
   CXXFLAGS=""
 fi
-CXXFLAGS_OPT="`echo \"$CXXFLAGS_OPT\" | sed -e 's/  */ /g' -e 's/^ //' -e 's/ $//'`"
+CXXFLAGS_OPT="`echo \"$CXXFLAGS_OPT\" | $SED -e 's/  */ /g' -e 's/^ //' -e 's/ $//'`"
 AC_SUBST(CXXFLAGS_OPT)
 
 
@@ -187,12 +187,10 @@ AM_CONDITIONAL([HTML_DOC], [test "x$enable_html_doc" = xyes])
 
 
 # Check for diff program used for tests
-AC_CHECK_PROG([diff_ok], [diff], [yes], [no])
-AC_CHECK_PROG([sed_ok], [sed], [yes], [no])
-enable_tests=yes
-test "x$diff_ok" != xyes && enable_tests=no
-test "x$sed_ok" != xyes && enable_tests=no
-AM_CONDITIONAL([RUN_TESTS], [test "x$enable_tests" = xyes])
+AC_PATH_PROGS(DIFF, [gdiff gnudiff diff], [no])
+diff_ok=no
+test "$DIFF" != no && diff_ok=yes
+AM_CONDITIONAL([RUN_TESTS], [test "$DIFF" != no])
 
 
 # Checks for header files
@@ -419,7 +417,6 @@ Documentation tools:
 
 Testing tools:
   - diff ........... : ${diff_ok}
-  - sed ............ : ${sed_ok}
 
 Optional modules:
   - comm ........... : ${enable_comm}

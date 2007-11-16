@@ -1,5 +1,15 @@
 2007-11-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac.in, tests/Makefile.am: Bump autoconf requirement to
+	2.60 and use AC_PROG_SED
+
+	The $datarootdir and $docdir variables, which are used for HTML
+	documentation installation, were introduced in autoconf 2.60.
+	Therefore we need to check for this version. Besides, manual check
+	for sed program is now replaced with AC_PROG_SED macro, which
+	makes sed as a required dependency. Additionally, gdiff and
+	gnudiff are searched as diff replacement.
+
 	* tests/parser_test.cpp: Prevent warnings about string to char*
 	conversions
 

@@ -133,7 +133,7 @@ check-local: $(check_PROGRAMS) $(ref_files)
 	do \
 		echo "------------------------------------------------------------------------------"; \
 		./$$i$(EXEEXT) 2>/dev/null | sed -e 's/^M$$//' -e 's/\(-\?[0-9]\+\.\?[0-9]*e[+-]\)0\([0-9][0-9]\)/\1\2/g' > $$i.tmp; \
-		diff $(srcdir)/$$i.ref $$i.tmp >/dev/null; \
+		$(DIFF) $(srcdir)/$$i.ref $$i.tmp >/dev/null; \
 		if [ "x$$?" = "x0" ]; \
 		then \
 			echo "Test \`$$i' PASSED."; \
