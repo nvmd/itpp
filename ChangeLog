@@ -1,5 +1,7 @@
 2007-11-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* autogen.sh: On error return the exit code of the failing command
+
 	* autogen.sh: Allow runing autogen.sh using an absolute path
 
 	After checking the necessary tools the script now enters the

@@ -27,17 +27,17 @@ LV="`cat VERSION | cut -d' ' -f2`"
 PD="`LC_ALL=C date +\"%B %Y\"`"
 
 sed -e "s/@PACKAGE_VERSION@/${PV}/" -e "s/@LIBRARY_VERSION@/${LV}/" \
-	< configure.ac.in > configure.ac || exit;
+	< configure.ac.in > configure.ac || exit $?
 sed -e "s/@PACKAGE_VERSION@/${PV}/" \
-	< itpp.spec.in > itpp.spec || exit;
+	< itpp.spec.in > itpp.spec || exit $?
 sed -e "s/@PACKAGE_VERSION@/${PV}/" -e "s/@PACKAGE_DATE@/${PD}/" \
-	< itpp-config.1.in > itpp-config.1 || exit;
+	< itpp-config.1.in > itpp-config.1 || exit $?
 
-aclocal -I config || exit;
-libtoolize --copy --force --automake || exit;
-aclocal -I config || exit;
-autoconf || exit;
-autoheader || exit;
-automake --add-missing --copy || exit;
+aclocal -I config || exit $?
+libtoolize --copy --force --automake || exit $?
+aclocal -I config || exit $?
+autoconf || exit $?
+autoheader || exit $?
+automake --add-missing --copy || exit $?
 
 cd "$ORIGDIR" || exit $?
