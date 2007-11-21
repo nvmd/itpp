@@ -49,6 +49,10 @@
 /* Define to 1 if you have the <complex> header file. */
 #define HAVE_COMPLEX 1
 
+/* Define to 1 if you have the declaration of `isnan', and to 0 if you don't.
+   */
+/* #undef HAVE_DECL_ISNAN */
+
 /* Define to 1 if you have the declaration of `signgam', and to 0 if you
    don't. */
 /* #undef HAVE_DECL_SIGNGAM */
@@ -242,11 +246,6 @@
 #if (! defined (HAVE_FINITE) && defined (HAVE_ISFINITE))
 #  define HAVE_FINITE 1
 #  define finite(a) isfinite(a)
-#endif
-
-#if (! defined(HAVE_FINITE) && defined(HAVE_ISNAN) && defined(HAVE_ISINF))
-#  define HAVE_FINITE 1
-#  define finite(a) (! isnan(a) && ! isinf(a))
 #endif
 
 #endif /* #ifndef CONFIG_H */

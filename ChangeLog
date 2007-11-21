@@ -1,5 +1,13 @@
 2007-11-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac.in, itpp/base/math/misc.h, itpp/config_msvc.h:
+	Clean up checks for finite(), isfinite() and isnan()
+
+	isnan() is defined as a macro on some systems in <math.h>, so we
+	should check for it. BTW, removed macro definition of finite(),
+	which is also defined as inline function in
+	"itpp/base/math/misc.h".
+
 	* configure.ac.in: Removed duplicated checks
 
 	AC_HEADER_STDC is invoked when AC_LANG([C++]) is used, whereas
