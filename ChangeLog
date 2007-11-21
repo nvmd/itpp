@@ -1,3 +1,11 @@
+2007-11-21  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac.in: Report all automake warnings and treat them as
+	errors
+
+	This should give the maintainer and people building IT++ from SVN
+	a better detection of possible bugs in Makefiles.
+
 2007-11-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac.in, tests/Makefile.am: Bump autoconf requirement to
