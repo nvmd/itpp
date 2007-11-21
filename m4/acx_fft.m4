@@ -21,7 +21,7 @@ fftw3_ok=no
 
 
 # Parse "--with-fft=<lib>" option
-AC_ARG_WITH(fft, [AC_HELP_STRING([--with-fft@<:@=LIB@:>@], [use FFT library, optionally specified by LIB])])
+AC_ARG_WITH(fft, [AS_HELP_STRING([--with-fft@<:@=LIB@:>@], [use FFT library, optionally specified by LIB])])
 case $with_fft in
   yes | "") ;;
   no) acx_fft_ok=disabled ;;
@@ -30,7 +30,7 @@ case $with_fft in
 esac
 
 # Parse "--with-fft-include=<path>" option
-AC_ARG_WITH(fft_include, [AC_HELP_STRING([--with-fft-include=DIR],
+AC_ARG_WITH(fft_include, [AS_HELP_STRING([--with-fft-include=DIR],
     [path to FFT header files])],
   [CPPFLAGS="$CPPFLAGS -I$with_fft_include"])
 
