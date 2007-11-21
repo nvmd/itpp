@@ -35,9 +35,9 @@ sed -e "s/@PACKAGE_VERSION@/${PV}/" -e "s/@PACKAGE_DATE@/${PD}/" \
 
 test ! -d build-aux && (mkdir build-aux || exit $?)
 
-aclocal -I config || exit $?
+aclocal -I m4 || exit $?
 libtoolize --copy --force --automake || exit $?
-aclocal -I config || exit $?
+aclocal -I m4 || exit $?
 autoconf || exit $?
 autoheader || exit $?
 automake --add-missing --copy || exit $?
