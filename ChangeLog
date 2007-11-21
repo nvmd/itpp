@@ -1,5 +1,12 @@
 2007-11-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* autogen.sh, configure.ac.in: Use "build-aux" directory for
+	auxiliary building scripts
+
+	This directory name is suggested in the autoconf manual as a
+	standard placeholder for auxiliary build scripts. If this
+	directory does not exist, create it before invoking autotools.
+
 	* autogen.sh: On error return the exit code of the failing command
 
 	* autogen.sh: Allow runing autogen.sh using an absolute path

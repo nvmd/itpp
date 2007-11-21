@@ -33,6 +33,8 @@ sed -e "s/@PACKAGE_VERSION@/${PV}/" \
 sed -e "s/@PACKAGE_VERSION@/${PV}/" -e "s/@PACKAGE_DATE@/${PD}/" \
 	< itpp-config.1.in > itpp-config.1 || exit $?
 
+test ! -d build-aux && (mkdir build-aux || exit $?)
+
 aclocal -I config || exit $?
 libtoolize --copy --force --automake || exit $?
 aclocal -I config || exit $?
