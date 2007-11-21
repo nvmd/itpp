@@ -1,6 +1,6 @@
 include $(top_srcdir)/Makefile.common
 
-ACLOCAL_AMFLAGS = -I config
+ACLOCAL_AMFLAGS = -I m4
 
 AUTOMAKE_OPTIONS = dist-bzip2
 

@@ -1,5 +1,10 @@
 2007-11-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* Makefile.am, autogen.sh, configure.ac.in,
+	m4/ac_cxx_extern_template.m4, m4/acx_blas.m4, m4/acx_lapack.m4,
+	m4/acx_fft.m4: Renamed "config" directory to "m4" to reflect its
+	contents
+
 	* autogen.sh, configure.ac.in: Use "build-aux" directory for
 	auxiliary building scripts
 
