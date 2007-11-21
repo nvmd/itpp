@@ -1,5 +1,10 @@
 2007-11-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac.in: Removed duplicated checks
+
+	AC_HEADER_STDC is invoked when AC_LANG([C++]) is used, whereas
+	AC_PROG_MAKE_SET is executed by AM_INIT_AUTOMAKE.
+
 	* m4/ac_cxx_extern_template.m4: Obsolete macros replaced with the
 	ones recommended by autoconf
 
