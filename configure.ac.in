@@ -52,7 +52,7 @@ AC_PROG_SED
 
 # See whether to include shared library dependencies (taken from gtk+)
 AC_ARG_ENABLE(explicit-deps,
-  [AC_HELP_STRING([--enable-explicit-deps=@<:@yes/no/auto@:>@],
+  [AS_HELP_STRING([--enable-explicit-deps=@<:@yes/no/auto@:>@],
                   [use explicit dependencies in .pc files [default=auto]])],,
   [enable_explicit_deps=auto])
 
