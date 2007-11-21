@@ -135,16 +135,12 @@ namespace itpp {
 //!\addtogroup miscfunc
 //!@{
 
-#ifndef HAVE_ISNAN
+#if (!defined(HAVE_ISNAN) && !defined(HAVE_DECL_ISNAN))
 /*!
  * \brief Check if \c x is NaN (Not a Number)
  * \note Emulation of a C99 function via the IEEE 754 standard
  */
-inline int isnan(double x)
-{
-  if (x != x) return 1;
-  else return 0;
-}
+inline int isnan(double x) { return ((x != x) ? 1 : 0; }
 #endif
 
 #ifndef HAVE_ISINF
@@ -152,13 +148,11 @@ inline int isnan(double x)
  * \brief Check if \c x is either -Inf or +Inf
  *
  * Returns -1 if \c x is -Inf or +1 if \c x is +Inf. Otherwise returns 0.
- *
  * \note Emulation of a C99 function via the IEEE 754 standard
  */
 inline int isinf(double x)
 {
-  if ((x == x) && ((x - x) != 0.0))
-    return (x < 0.0 ? -1 : 1);
+  if ((x == x) && ((x - x) != 0.0)) return (x < 0.0 ? -1 : 1);
   else return 0;
 }
 #endif
@@ -168,11 +162,7 @@ inline int isinf(double x)
  * \brief Check if \c x is a finite floating point number
  * \note Emulation of a C99 function via the IEEE 754 standard
  */
-inline int finite(double x)
-{
-  if (!isnan(x) && !isinf(x)) return 1;
-  else return 0;
-}
+inline int finite(double x) { return ((!isnan(x) && !isinf(x)) ? 1 : 0); }
 #endif
 
 #ifndef HAVE_ISFINITE
