@@ -47,7 +47,6 @@ AC_PROG_F77
 AC_PROG_INSTALL
 AC_PROG_LIBTOOL
 AC_PROG_LN_S
-AC_PROG_MAKE_SET
 AC_PROG_SED
 
 # See whether to include shared library dependencies (taken from gtk+)
@@ -195,7 +194,6 @@ AM_CONDITIONAL([RUN_TESTS], [test "$DIFF" != no])
 
 
 # Checks for header files
-AC_HEADER_STDC
 AC_HEADER_TIME
 AC_CHECK_HEADERS([cmath \
   complex \
