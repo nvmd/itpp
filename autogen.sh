@@ -1,28 +1,26 @@
 #!/bin/sh
+# Run this to generate all the initial makefiles, etc.
 
-[ -f configure.ac.in ] || {
-	echo "'./autogen.sh' has to be run in the IT++ source directory";
-	echo;
-	exit;
+DIE=no
+
+check_tool() {
+    ($1 --version) </dev/null >/dev/null 2>&1 || {
+	echo "*** Error: You must have \"$1\" installed to compile IT++ SVN sources"
+        DIE=yes
+    }
 }
 
-(libtoolize --version) < /dev/null > /dev/null 2>&1 || {
-	echo "You must have libtool installed to compile IT++";
-	echo;
-	exit;
-}
+check_tool "autoconf"
+check_tool "automake"
+check_tool "libtoolize"
 
-(automake --version) < /dev/null > /dev/null 2>&1 || {
-	echo "You must have automake installed to compile IT++";
-	echo;
-	exit;
-}
+test "$DIE" = yes && exit 1
 
-(autoconf --version) < /dev/null > /dev/null 2>&1 || {
-	echo "You must have autoconf installed to compile IT++";
-	echo;
-	exit;
-}
+srcdir=`dirname $0`
+test -z "$srcdir" && srcdir=.
+ORIGDIR=`pwd`
+cd "$srcdir" || exit $?
+
 
 PV="`cat VERSION | cut -d' ' -f1`"
 LV="`cat VERSION | cut -d' ' -f2`"
@@ -42,3 +40,4 @@ autoconf || exit;
 autoheader || exit;
 automake --add-missing --copy || exit;
 
+cd "$ORIGDIR" || exit $?
