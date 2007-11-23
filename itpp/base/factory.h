@@ -127,6 +127,8 @@ namespace itpp {
   */
   class Factory {
   public:
+    //! Default constructor
+    Factory() {}
     //! Destructor
     virtual ~Factory() {}
   };
