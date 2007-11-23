@@ -160,6 +160,12 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
+/* Define if zdotu_ can return result like a function. */
+/* #undef HAVE_ZDOTU_RETURN */
+
+/* Define if zdotu_ can pass result as its first argument. */
+#define HAVE_ZDOTU_VOID 1
+
 /* Define if you want exceptions handling */
 /* #undef ITPP_EXCEPTIONS */
 

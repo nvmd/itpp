@@ -36,10 +36,6 @@
 #  include <itpp/config_msvc.h>
 #endif
 
-#ifdef HAVE_BLAS_MKL
-#  define zdotusub_ zdotu_
-#endif
-
 #include <complex>
 
 //! \cond
@@ -92,10 +88,21 @@ extern "C" {
 	       const double *x, const int *incx,
 	       const double *y, const int *incy);
 
+#if defined(HAVE_ZDOTU_RETURN)
+  std::complex<double> zdotu_(const int *n,
+                              const std::complex<double> *x, const int *incx,
+                              const std::complex<double> *y, const int *incy);
+#elif defined(HAVE_ZDOTU_VOID)
+  void zdotu_(std::complex<double> *dot,
+              const int *n,
+              const std::complex<double> *x, const int *incx,
+              const std::complex<double> *y, const int *incy);
+#else
   void zdotusub_(std::complex<double> *dot,
-		 const int *n,
-		 const std::complex<double> *x, const int *incx,
-		 const std::complex<double> *y, const int *incy);
+                 const int *n,
+                 const std::complex<double> *x, const int *incx,
+                 const std::complex<double> *y, const int *incy);
+#endif
 
   // ----------------------------------------------------------------------
   // BLAS 2 functions
