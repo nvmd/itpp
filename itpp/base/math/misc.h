@@ -143,7 +143,7 @@ namespace itpp {
 inline int isnan(double x) { return ((x != x) ? 1 : 0; }
 #endif
 
-#ifndef HAVE_ISINF
+#if (!defined(HAVE_ISINF) && !defined(HAVE_DECL_ISINF))
 /*!
  * \brief Check if \c x is either -Inf or +Inf
  *
@@ -163,14 +163,6 @@ inline int isinf(double x)
  * \note Emulation of a C99 function via the IEEE 754 standard
  */
 inline int finite(double x) { return ((!isnan(x) && !isinf(x)) ? 1 : 0); }
-#endif
-
-#ifndef HAVE_ISFINITE
-/*!
- * \brief Check if \c x is a finite floating point number
- * \note Emulation of a C99 function via the IEEE 754 standard
- */
-inline int isfinite(double x) { return finite(x); }
 #endif
 
 //!@}

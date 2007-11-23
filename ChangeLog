@@ -1,3 +1,13 @@
+2007-11-23  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac.in, itpp/base/math/misc.h, itpp/config_msvc.h: Add
+	additional checks for isinf() and isfinite() macros
+
+	Without these new checks the compilation might fail on
+	redeclaration of these macros with inline functions in
+	itpp/base/math/misc.h. This problem occurs for instance on a
+	HP-UX system.
+
 2007-11-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac.in, itpp/base/math/misc.h, itpp/config_msvc.h:

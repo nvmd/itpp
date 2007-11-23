@@ -201,7 +201,7 @@ AC_CHECK_HEADERS([cmath \
 
 
 # Checks for global declarations
-AC_CHECK_DECLS([signgam, isnan],,,
+AC_CHECK_DECLS([signgam, isfinite, isinf, isnan],,,
 [#if defined(HAVE_CMATH)
 #  include <cmath>
 #endif
@@ -334,12 +334,12 @@ AH_BOTTOM([
 #  define j1(a) _j1(a)
 #endif /* defined(_MSC_VER) */
 
-#if (!defined(HAVE_ISINF) && defined(HAVE_FPCLASS))
+#if (!defined(HAVE_ISINF) && !defined(HAVE_DECL_ISINF) && defined(HAVE_FPCLASS))
 #  define HAVE_ISINF 1
 #  define isinf(a) (fpclass(a) == FP_NINF || fpclass(a) == FP_PINF)
 #endif
 
-#if (!defined(HAVE_FINITE) && defined(HAVE_ISFINITE))
+#if (!defined(HAVE_FINITE) && (defined(HAVE_ISFINITE) || defined(HAVE_DECL_ISFINITE)))
 #  define HAVE_FINITE 1
 #  define finite(a) isfinite(a)
 #endif
