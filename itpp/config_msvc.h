@@ -49,13 +49,21 @@
 /* Define to 1 if you have the <complex> header file. */
 #define HAVE_COMPLEX 1
 
+/* Define to 1 if you have the declaration of `isfinite', and to 0 if you
+   don't. */
+#define HAVE_DECL_ISFINITE 0
+
+/* Define to 1 if you have the declaration of `isinf', and to 0 if you don't.
+   */
+#define HAVE_DECL_ISINF 0
+
 /* Define to 1 if you have the declaration of `isnan', and to 0 if you don't.
    */
-/* #undef HAVE_DECL_ISNAN */
+#define HAVE_DECL_ISNAN 0
 
 /* Define to 1 if you have the declaration of `signgam', and to 0 if you
    don't. */
-/* #undef HAVE_DECL_SIGNGAM */
+#define HAVE_DECL_SIGNGAM 0
 
 /* Define to 1 if you have the <dlfcn.h> header file. */
 #define HAVE_DLFCN_H 1
@@ -127,9 +135,6 @@
 
 /* Define to 1 if you have the `rint' function. */
 /* #undef HAVE_RINT */
-
-/* Define to 1 if you have the <stdexcept> header file. */
-#define HAVE_STDEXCEPT 1
 
 /* Define to 1 if you have the <stdint.h> header file. */
 /* #undef HAVE_STDINT_H */
@@ -238,12 +243,12 @@
 #  define j1(a) _j1(a)
 #endif /* defined(_MSC_VER) */
 
-#if (! defined(HAVE_ISINF) && defined(HAVE_FPCLASS))
+#if (!defined(HAVE_ISINF) && !defined(HAVE_DECL_ISINF) && defined(HAVE_FPCLASS))
 #  define HAVE_ISINF 1
 #  define isinf(a) (fpclass(a) == FP_NINF || fpclass(a) == FP_PINF)
 #endif
 
-#if (! defined (HAVE_FINITE) && defined (HAVE_ISFINITE))
+#if (!defined(HAVE_FINITE) && (defined(HAVE_ISFINITE) || defined(HAVE_DECL_ISFINITE)))
 #  define HAVE_FINITE 1
 #  define finite(a) isfinite(a)
 #endif
