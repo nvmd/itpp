@@ -291,8 +291,7 @@ AC_SUBST(PRIVATE_LIBS)
 
 
 # Set conditional BUILD_ZDOTUSUB flag for ZDOTU Fortran wrapper
-AM_CONDITIONAL([BUILD_ZDOTUSUB],
-  [test "x$acx_blas_ok" = xyes && test "x$blas_mkl_ok" = xno])
+AM_CONDITIONAL([BUILD_ZDOTUSUB], [test "x$ax_build_zdotusub" = xyes])
 
 # Set conditionals for runing test programs
 AM_CONDITIONAL([RUN_LAPACK_TESTS], [test "x$acx_lapack_ok" = xyes])
