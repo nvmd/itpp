@@ -1,5 +1,12 @@
 2007-11-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/factory.h: Add explicit constructor definition in a
+	default Factory class
+
+	Without this explicit empty constructor in the Factory class, some
+	compilers (PGI, HP C/aC++) give warnings or errors on a constant
+	DEFAULT_FACTORY.
+
 	* configure.ac.in, itpp/base/math/misc.h, itpp/config_msvc.h: Add
 	additional checks for isinf() and isfinite() macros
 
