@@ -1,5 +1,13 @@
 2007-11-26  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac.in, itpp/config_msvc.h: Get rid of "min" and "max"
+	macro definitions
+
+	MSVC++ compiler defines these two macros and they might clash with
+	our proper C++ code using std::min() and std::max() functions
+	only. This patch removes such macros conditionally in the
+	generated config.h and config_msvc.h header files.
+
 	* m4/ax_func_zdotu.m4: Cosmetic changes in printed messages
 
 2007-11-23  Adam Piatyszek  <ediap@users.sourceforge.net>
