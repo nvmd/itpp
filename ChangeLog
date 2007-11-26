@@ -1,3 +1,7 @@
+2007-11-26  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* m4/ax_func_zdotu.m4: Cosmetic changes in printed messages
+
 2007-11-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/factory.h: Add explicit constructor definition in a

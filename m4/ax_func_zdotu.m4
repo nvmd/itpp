@@ -1,5 +1,5 @@
 AC_DEFUN([AX_FUNC_ZDOTU_RETURN],
-[AC_CACHE_CHECK([zdotu_ can return result like a function],
+[AC_CACHE_CHECK([whether zdotu_ returns result],
                 [ax_cv_zdotu_ret_complex],
 [AC_LANG_PUSH([C++])
  AC_RUN_IFELSE([AC_LANG_SOURCE(
@@ -25,11 +25,11 @@ int main() {
 AC_LANG_POP([C++])])
 if test "$ax_cv_zdotu_ret_complex" = yes; then
   AC_DEFINE([HAVE_ZDOTU_RETURN], 1,
-            [Define if zdotu_ can return result like a function.])
+            [Define if zdotu_ returns result.])
 fi]) # AX_FUNC_ZDOTU_RETURN
 
 AC_DEFUN([AX_FUNC_ZDOTU_VOID],
-[AC_CACHE_CHECK([zdotu_ can pass result as its first argument],
+[AC_CACHE_CHECK([whether zdotu_ passes result as its first argument],
                 [ax_cv_zdotu_ret_void],
 [AC_LANG_PUSH([C++])
  AC_RUN_IFELSE([AC_LANG_SOURCE(
@@ -56,5 +56,5 @@ int main() {
  AC_LANG_POP([C++])])
 if test "$ax_cv_zdotu_ret_void" = yes; then
   AC_DEFINE([HAVE_ZDOTU_VOID], 1,
-            [Define if zdotu_ can pass result as its first argument.])
+            [Define if zdotu_ passes result as its first argument.])
 fi]) # AX_FUNC_ZDOTU_VOID
