@@ -12,6 +12,26 @@
 
 2007-11-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac.in, itpp/base/blas.h, itpp/base/vec.h,
+	itpp/config_msvc.h, m4/acx_blas.m4, m4/ax_func_zdotu.m4: Detect
+	incompatible g77/gfortran calling conventions of zdotu_
+
+	The calling conventions of zdotu_ BLAS function are different
+	for g77 and gfortran compilers. In the case of g77, the result
+	is passed using a first argument of zdotu_ function, whereas for
+	gfortran the result is simply returned.
+
+	To avoid building an extra Fortran wrapper, which workarounds
+	this issue, IT++ needs to know which calling convention should be
+	used. This patch adds two macros to the configure scripts that
+	compile and try to run simple C++ programs using zdotu_ BLAS
+	function, As a result of these checks the correct calling convention
+	is used in itpp::dot() function. The Fortran zdotusub_ wrapper
+	function can still be linked and used as a fallback solution.
+
+	For more information on this issue, please have a look at this
+	bug report: http://gcc.gnu.org/bugzilla/show_bug.cgi?id=20178
+
 	* itpp/base/factory.h: Add explicit constructor definition in a
 	default Factory class
 
