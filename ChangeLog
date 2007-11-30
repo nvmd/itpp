@@ -1,3 +1,12 @@
+2007-11-30  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* m4/acx_blas.m4: Add support for MKL 10
+
+	MKL 10 requires explicit linking to -lguide and -lpthread
+	libraries. With this patch MKL 8.1.1 or newer versions should be
+	automatically detected on both 32- and 64-bit (em64t) Linux
+	systems.
+
 2007-11-26  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac.in, itpp/config_msvc.h: Get rid of "min" and "max"
