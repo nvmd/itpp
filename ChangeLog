@@ -1,5 +1,13 @@
 2007-11-30  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac.in, m4/acx_blas.m4, m4/acx_lapack.m4: Do not
+	require Fortran compiler for BLAS/LAPACK linking
+
+	BLAS and LAPACK libraries should be checked even if no Fortran
+	compiler is available. For instance, BLAS/LAPACK routines from MKL
+	can be used without additional Fortran libraries. This patch
+	changes IT++ configuration scripts to make this possible.
+
 	* m4/acx_blas.m4: Add support for MKL 10
 
 	MKL 10 requires explicit linking to -lguide and -lpthread

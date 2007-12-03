@@ -23,7 +23,9 @@ dnl This macro requires autoconf 2.50 or later.
 
 AC_DEFUN([ACX_BLAS], [
 AC_PREREQ(2.50)
-AC_REQUIRE([AC_F77_LIBRARY_LDFLAGS])
+
+test "x$sgemm" = x && sgemm=sgemm_
+test "x$dgemm" = x && dgemm=dgemm_
 
 # Initialise local variables
 acx_blas_ok=no
@@ -41,14 +43,6 @@ case $with_blas in
   *) BLAS_LIBS="-l$with_blas" ;;
 esac
 
-# Clean up -L/../.. paths from FLIBS
-MY_FLIBS="`echo "$FLIBS" | sed 's/-L[[^ ]]* //g'`"
-
-# Get fortran linker names of BLAS functions to check for.
-if test "$acx_blas_ok" = no; then
-  AC_F77_FUNC(sgemm)
-  AC_F77_FUNC(dgemm)
-fi
 
 # First, check BLAS_LIBS environment variable
 if test "$acx_blas_ok" = no; then
