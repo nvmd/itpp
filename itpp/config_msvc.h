@@ -249,12 +249,12 @@
 #  define j1(a) _j1(a)
 #endif /* defined(_MSC_VER) */
 
-#if (!defined(HAVE_ISINF) && !defined(HAVE_DECL_ISINF) && defined(HAVE_FPCLASS))
+#if (!defined(HAVE_ISINF) && (HAVE_DECL_ISINF != 1) && defined(HAVE_FPCLASS))
 #  define HAVE_ISINF 1
 #  define isinf(a) (fpclass(a) == FP_NINF || fpclass(a) == FP_PINF)
 #endif
 
-#if (!defined(HAVE_FINITE) && (defined(HAVE_ISFINITE) || defined(HAVE_DECL_ISFINITE)))
+#if (!defined(HAVE_FINITE) && (defined(HAVE_ISFINITE) || (HAVE_DECL_ISFINITE == 1)))
 #  define HAVE_FINITE 1
 #  define finite(a) isfinite(a)
 #endif
