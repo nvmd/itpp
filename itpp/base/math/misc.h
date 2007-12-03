@@ -135,7 +135,7 @@ namespace itpp {
 //!\addtogroup miscfunc
 //!@{
 
-#if (!defined(HAVE_ISNAN) && !defined(HAVE_DECL_ISNAN))
+#if (!defined(HAVE_ISNAN) && (HAVE_DECL_ISNAN != 1))
 /*!
  * \brief Check if \c x is NaN (Not a Number)
  * \note Emulation of a C99 function via the IEEE 754 standard
@@ -143,7 +143,7 @@ namespace itpp {
 inline int isnan(double x) { return ((x != x) ? 1 : 0; }
 #endif
 
-#if (!defined(HAVE_ISINF) && !defined(HAVE_DECL_ISINF))
+#if (!defined(HAVE_ISINF) && (HAVE_DECL_ISINF != 1))
 /*!
  * \brief Check if \c x is either -Inf or +Inf
  *
