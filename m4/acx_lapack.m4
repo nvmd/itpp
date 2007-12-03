@@ -24,6 +24,8 @@ dnl used to compile the LAPACK and BLAS libraries.
 AC_DEFUN([ACX_LAPACK], [
 AC_REQUIRE([ACX_BLAS])
 
+test "x$cheev" = x && cheev=cheev_
+
 # Initialise local variables
 # We cannot use LAPACK if BLAS is not found
 if test "$acx_blas_ok" != yes; then
@@ -41,11 +43,6 @@ case $with_lapack in
   -* | */* | *.a | *.so | *.so.* | *.o) LAPACK_LIBS="$with_lapack" ;;
   *) LAPACK_LIBS="-l$with_lapack" ;;
 esac
-
-# Get fortran linker name of LAPACK function to check for.
-if test "$acx_lapack_ok" = no; then
-  AC_F77_FUNC(cheev)
-fi
 
 # First, check LAPACK_LIBS environment variable
 if test "x$LAPACK_LIBS" != x; then
