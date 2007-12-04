@@ -140,7 +140,7 @@ namespace itpp {
  * \brief Check if \c x is NaN (Not a Number)
  * \note Emulation of a C99 function via the IEEE 754 standard
  */
-inline int isnan(double x) { return ((x != x) ? 1 : 0; }
+inline int isnan(double x) { return ((x != x) ? 1 : 0); }
 #endif
 
 #if (!defined(HAVE_ISINF) && (HAVE_DECL_ISINF != 1))
