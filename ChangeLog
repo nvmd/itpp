@@ -1,5 +1,8 @@
 2007-12-04  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/optim/newton_search.cpp: Initialize variables with zeros to
+	suppress compiler warnings
+
 	* itpp/base/math/misc.h: Add missing right parenthesis in isnan()
 	definition
 

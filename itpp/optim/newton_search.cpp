@@ -441,7 +441,7 @@ namespace itpp {
     // Get an initial interval for am
     double a = 0, Fa = F_end, dFa = dF0;
     bool stop = false;
-    double b = std::min(1.0, max_stepsize), Fb, dFb;
+    double b = std::min(1.0, max_stepsize), Fb = 0, dFb = 0;
 
 
     while  (!stop) {
