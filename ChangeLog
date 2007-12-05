@@ -1,5 +1,14 @@
 2007-12-05  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac.in: Enable explicit library dependencies on Mac
+	OS X
+
+	Dynamic linking on Mac OS X requires passing explicit library
+	dependencies to the linker, even if libtool thinks it is not
+	necessary. Therefore "enable_explicit_deps" is set to "yes"
+	for this operating system. The solution is taken from pkg-config
+	Portfile from macports.
+
 	* itpp/base/random.cpp: Use tgamma() function instead of
 	deprecated ambiguous gamma()
 
