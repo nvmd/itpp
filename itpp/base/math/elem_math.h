@@ -155,12 +155,12 @@ namespace itpp {
 
   // -------------------- gamma function --------------------
 
-  //! Gamma function
+  //! Deprecated gamma function - please use tgamma() instead
   inline double gamma(double x) { return tgamma(x); }
-  //! The gamma function
-  inline vec gamma(const vec &x) { return apply_function<double>(gamma, x); }
-  //! The gamma function
-  inline mat gamma(const mat &x) { return apply_function<double>(gamma, x); }
+  //! Deprecated gamma function for vectors. Will be changed to tgamma().
+  inline vec gamma(const vec &x) { return apply_function<double>(tgamma, x); }
+  //! Deprecated gamma function for matrices. Will be changed to tgamma().
+  inline mat gamma(const mat &x) { return apply_function<double>(tgamma, x); }
 
 
   // -------------------- rem function --------------------

@@ -1,5 +1,11 @@
 2007-12-05  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/math/elem_math.h: Make sure itpp::gamma() use correct
+	gamma implementation
+
+	BTW, denote that this function name is deprecated due to its
+	different implementation (and meaning) in BSD and glibc.
+
 	* configure.ac.in: std::isfinite, std::isinf and std::isnan are
 	broken on FreeBSD
 
