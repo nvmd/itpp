@@ -1,5 +1,14 @@
 2007-12-05  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac.in: std::isfinite, std::isinf and std::isnan are
+	broken on FreeBSD
+
+	The use of these functions on FreeBSD with GCC 3.4.x compilers
+	causes infinite loops or segmentation faults in bessel_test.
+	Therefore, do not check for these functions and override them
+	with local inlined implementations defined in
+	itpp/base/math/main.h.
+
 	* configure.ac.in, itpp/base/bessel/gamma.cpp
 	itpp/base/math/misc.h itpp/config_msvc.h
 	itpp/stat/mog_generic.cpp: Add full support of std::isfinite(),

@@ -32,6 +32,11 @@ case $host in
     AC_DISABLE_SHARED
     AC_ENABLE_STATIC
     ;;
+  *-*-freebsd5* | *-*-freebsd6*)
+    AC_ENABLE_SHARED
+    AC_DISABLE_STATIC
+    freebsd_broken_std_isnan=yes
+    ;;
   *)
     AC_ENABLE_SHARED
     AC_DISABLE_STATIC
@@ -211,25 +216,28 @@ AC_CHECK_DECLS([signgam, isfinite, isinf, isnan],,,
 ])
 
 # Check for isfinite, isnan and isinf in std namespace
-for f in std::isfinite std::isinf std::isnan; do
-  AC_MSG_CHECKING([for $f])
-  AC_LINK_IFELSE([AC_LANG_SOURCE(
+# except FreeBSD 5-6, where these functions are broken
+if test "x$freebsd_broken_std_isnan" != xyes; then
+  for f in std::isfinite std::isinf std::isnan; do
+    AC_MSG_CHECKING([for $f])
+    AC_LINK_IFELSE([AC_LANG_SOURCE(
 [[#include <cmath>
 int main() { return $f(0.7) ? 1 : 0; }
 ]])],
-    [AC_MSG_RESULT([yes])
-     if test $f = "std::isfinite"; then
-       AC_DEFINE(HAVE_STD_ISFINITE, 1,
-		 [Define to 1 if you have the `std::isfinite' function.])
-     elif test $f = "std::isinf"; then
-       AC_DEFINE(HAVE_STD_ISINF, 1,
-		 [Define to 1 if you have the `std::isinf' function.])
-     elif test $f = "std::isnan"; then
-       AC_DEFINE(HAVE_STD_ISNAN, 1,
-		 [Define to 1 if you have the `std::isnan' function.])
-     fi],
-    [AC_MSG_RESULT([no])])
-done
+      [AC_MSG_RESULT([yes])
+       if test $f = "std::isfinite"; then
+         AC_DEFINE(HAVE_STD_ISFINITE, 1,
+		   [Define to 1 if you have the `std::isfinite' function.])
+       elif test $f = "std::isinf"; then
+         AC_DEFINE(HAVE_STD_ISINF, 1,
+                   [Define to 1 if you have the `std::isinf' function.])
+       elif test $f = "std::isnan"; then
+         AC_DEFINE(HAVE_STD_ISNAN, 1,
+	           [Define to 1 if you have the `std::isnan' function.])
+       fi],
+      [AC_MSG_RESULT([no])])
+  done
+fi
 
 # Checks for functions
 AC_CHECK_FUNCS([asinh \
