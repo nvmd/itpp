@@ -142,6 +142,15 @@
 /* Define to 1 if you have the <stdlib.h> header file. */
 #define HAVE_STDLIB_H 1
 
+/* Define to 1 if you have the `std::isfinite' function. */
+/* #undef HAVE_STD_ISFINITE */
+
+/* Define to 1 if you have the `std::isinf' function. */
+/* #undef HAVE_STD_ISINF */
+
+/* Define to 1 if you have the `std::isnan' function. */
+/* #undef HAVE_STD_ISNAN */
+
 /* Define to 1 if you have the <strings.h> header file. */
 #define HAVE_STRINGS_H 1
 
@@ -235,10 +244,14 @@
 #  include <cfloat>
 #  define HAVE_FINITE 1
 #  define finite(x) _finite(x)
+#  define HAVE_ISFINITE 1
+#  define isfinite(x) _finite(x)
 #  define HAVE_ISNAN 1
 #  define isnan(x) _isnan(x)
 #  define HAVE_FPCLASS 1
 #  define fpclass(x) _fpclass(x)
+#  define FP_NINF _FPCLASS_NINF
+#  define FP_PINF _FPCLASS_PINF
 #  define HAVE_JN 1
 #  define jn(a, b) _jn(a, b)
 #  define HAVE_YN 1
@@ -248,16 +261,6 @@
 #  define HAVE_J1 1
 #  define j1(a) _j1(a)
 #endif /* defined(_MSC_VER) */
-
-#if (!defined(HAVE_ISINF) && (HAVE_DECL_ISINF != 1) && defined(HAVE_FPCLASS))
-#  define HAVE_ISINF 1
-#  define isinf(a) (fpclass(a) == FP_NINF || fpclass(a) == FP_PINF)
-#endif
-
-#if (!defined(HAVE_FINITE) && (defined(HAVE_ISFINITE) || (HAVE_DECL_ISFINITE == 1)))
-#  define HAVE_FINITE 1
-#  define finite(a) isfinite(a)
-#endif
 
 /* IT++ uses only std::min() and std::max() functions, not macros */
 #ifdef min

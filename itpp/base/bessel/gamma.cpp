@@ -198,12 +198,12 @@
     int i;
 
     sgngam = 1;
-    if( isnan(x) )
+    if( std::isnan(x) )
       return(x);
 
-    if( isinf(x) == 1 )
+    if( std::isinf(x) == 1 )
       return(x);
-    if( isinf(x) == -1 )
+    if( std::isinf(x) == -1 )
       return(NAN);
 
     q = fabs(x);
@@ -323,10 +323,10 @@
     int i;
 
     sgngam = 1;
-    if( isnan(x) )
+    if( std::isnan(x) )
       return(x);
 
-    if( !finite(x) )
+    if( !std::isfinite(x) )
       return(INFINITY);
 
     if( x < -34.0 )

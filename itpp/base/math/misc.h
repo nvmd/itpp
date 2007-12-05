@@ -43,6 +43,50 @@
 
 namespace std {
 
+#ifndef HAVE_STD_ISINF
+#if (HAVE_DECL_ISINF == 1) || defined(HAVE_ISINF)
+  inline int isinf(double x) { return ::isinf(x); }
+#elif defined(FPCLASS)
+  inline int isinf(double x)
+  {
+    if (::fpclass(a) == FP_NINF) return -1;
+    else if (::fpclass(a) == FP_PINF) return 1;
+    else return 0;
+  }
+#else
+  inline int isinf(double x)
+  {
+    if ((x == x) && ((x - x) != 0.0)) return (x < 0.0 ? -1 : 1);
+    else return 0;
+  }
+#endif // #if (HAVE_DECL_ISINF == 1) || defined(HAVE_ISINF)
+#  define HAVE_STD_ISINF 1
+#endif // #ifndef HAVE_STD_ISINF
+
+#ifndef HAVE_STD_ISNAN
+#if (HAVE_DECL_ISNAN == 1) || defined(HAVE_ISNAN)
+  inline int isnan(double x) { return ::isnan(x); }
+#else
+  inline int isnan(double x) { return ((x != x) ? 1 : 0); }
+#endif // #if (HAVE_DECL_ISNAN == 1) || defined(HAVE_ISNAN)
+#  define HAVE_STD_ISNAN 1
+#endif // #ifndef HAVE_STD_ISNAN
+
+#ifndef HAVE_STD_ISFINITE
+#if (HAVE_DECL_ISFINITE == 1) || defined(HAVE_ISFINITE)
+  inline int isfinite(double x) { return ::isfinite(x); }
+#elif defined(HAVE_FINITE)
+  inline int isfinite(double x) { return ::finite(x); }
+#else
+  inline int isfinite(double x)
+  {
+    return ((!std::isnan(x) && !std::isinf(x)) ? 1 : 0);
+  }
+#endif // #if (HAVE_DECL_ISFINITE == 1) || defined(HAVE_ISFINITE)
+#  define HAVE_STD_ISFINITE 1
+#endif // #ifndef HAVE_STD_ISFINITE
+
+
   //! Output stream operator for complex numbers
   template <class T>
   std::ostream& operator<<(std::ostream &os, const std::complex<T> &x)
@@ -130,42 +174,6 @@ namespace itpp {
   //!@}
 
 } //namespace itpp
-
-
-//!\addtogroup miscfunc
-//!@{
-
-#if (!defined(HAVE_ISNAN) && (HAVE_DECL_ISNAN != 1))
-/*!
- * \brief Check if \c x is NaN (Not a Number)
- * \note Emulation of a C99 function via the IEEE 754 standard
- */
-inline int isnan(double x) { return ((x != x) ? 1 : 0); }
-#endif
-
-#if (!defined(HAVE_ISINF) && (HAVE_DECL_ISINF != 1))
-/*!
- * \brief Check if \c x is either -Inf or +Inf
- *
- * Returns -1 if \c x is -Inf or +1 if \c x is +Inf. Otherwise returns 0.
- * \note Emulation of a C99 function via the IEEE 754 standard
- */
-inline int isinf(double x)
-{
-  if ((x == x) && ((x - x) != 0.0)) return (x < 0.0 ? -1 : 1);
-  else return 0;
-}
-#endif
-
-#ifndef HAVE_FINITE
-/*!
- * \brief Check if \c x is a finite floating point number
- * \note Emulation of a C99 function via the IEEE 754 standard
- */
-inline int finite(double x) { return ((!isnan(x) && !isinf(x)) ? 1 : 0); }
-#endif
-
-//!@}
 
 
 #endif // #ifndef MISC_H

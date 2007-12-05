@@ -1,5 +1,14 @@
 2007-12-05  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac.in, itpp/base/bessel/gamma.cpp
+	itpp/base/math/misc.h itpp/config_msvc.h
+	itpp/stat/mog_generic.cpp: Add full support of std::isfinite(),
+	std::isinf() and std::isnan()
+
+	Instead of using isnan(), isinf() C99 macros and deprecated
+	finite() function switch to their equivalents in std library. This
+	should solve recent portability problems under MinGW/MSYS.
+
 	* itpp/base/bessel/hyperg.cpp, itpp/base/bessel/iv.cpp,
 	itpp/base/bessel/jv.cpp, itpp/base/bessel/k1.cpp,
 	itpp/base/bessel/kn.cpp: Unify warning messages

@@ -210,6 +210,26 @@ AC_CHECK_DECLS([signgam, isfinite, isinf, isnan],,,
 #endif
 ])
 
+# Check for isfinite, isnan and isinf in std namespace
+for f in std::isfinite std::isinf std::isnan; do
+  AC_MSG_CHECKING([for $f])
+  AC_LINK_IFELSE([AC_LANG_SOURCE(
+[[#include <cmath>
+int main() { return $f(0.7) ? 1 : 0; }
+]])],
+    [AC_MSG_RESULT([yes])
+     if test $f = "std::isfinite"; then
+       AC_DEFINE(HAVE_STD_ISFINITE, 1,
+		 [Define to 1 if you have the `std::isfinite' function.])
+     elif test $f = "std::isinf"; then
+       AC_DEFINE(HAVE_STD_ISINF, 1,
+		 [Define to 1 if you have the `std::isinf' function.])
+     elif test $f = "std::isnan"; then
+       AC_DEFINE(HAVE_STD_ISNAN, 1,
+		 [Define to 1 if you have the `std::isnan' function.])
+     fi],
+    [AC_MSG_RESULT([no])])
+done
 
 # Checks for functions
 AC_CHECK_FUNCS([asinh \
@@ -317,10 +337,14 @@ AH_BOTTOM([
 #  include <cfloat>
 #  define HAVE_FINITE 1
 #  define finite(x) _finite(x)
+#  define HAVE_ISFINITE 1
+#  define isfinite(x) _finite(x)
 #  define HAVE_ISNAN 1
 #  define isnan(x) _isnan(x)
 #  define HAVE_FPCLASS 1
 #  define fpclass(x) _fpclass(x)
+#  define FP_NINF _FPCLASS_NINF
+#  define FP_PINF _FPCLASS_PINF
 #  define HAVE_JN 1
 #  define jn(a, b) _jn(a, b)
 #  define HAVE_YN 1
@@ -330,16 +354,6 @@ AH_BOTTOM([
 #  define HAVE_J1 1
 #  define j1(a) _j1(a)
 #endif /* defined(_MSC_VER) */
-
-#if (!defined(HAVE_ISINF) && (HAVE_DECL_ISINF != 1) && defined(HAVE_FPCLASS))
-#  define HAVE_ISINF 1
-#  define isinf(a) (fpclass(a) == FP_NINF || fpclass(a) == FP_PINF)
-#endif
-
-#if (!defined(HAVE_FINITE) && (defined(HAVE_ISFINITE) || (HAVE_DECL_ISFINITE == 1)))
-#  define HAVE_FINITE 1
-#  define finite(a) isfinite(a)
-#endif
 
 /* IT++ uses only std::min() and std::max() functions, not macros */
 #ifdef min
