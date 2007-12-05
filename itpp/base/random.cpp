@@ -468,8 +468,8 @@ namespace itpp {
   {
     l=lambda;
     b=beta;
-    mean = gamma(1.0 + 1.0 / b) / l;
-    var = gamma(1.0+2.0/b)/(l*l) - mean;
+    mean = tgamma(1.0 + 1.0 / b) / l;
+    var = tgamma(1.0 + 2.0 / b) / (l*l) - mean;
   }
 
 

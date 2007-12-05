@@ -1,5 +1,8 @@
 2007-12-05  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/random.cpp: Use tgamma() function instead of
+	deprecated ambiguous gamma()
+
 	* itpp/base/math/elem_math.h: Make sure itpp::gamma() use correct
 	gamma implementation
 
