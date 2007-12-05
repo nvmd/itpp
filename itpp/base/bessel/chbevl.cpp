@@ -30,6 +30,9 @@
  * http://www.netlib.org/cephes/
  */
 
+#include <itpp/base/bessel/bessel_internal.h>
+
+
 /*
  * Evaluate Chebyshev series
  *
@@ -77,7 +80,6 @@
   Copyright 1985, 1987 by Stephen L. Moshier
 */
 
-#include <itpp/base/bessel/bessel_internal.h>
 
 double chbevl(double x, double array[], int n)
 {
