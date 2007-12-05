@@ -1,3 +1,23 @@
+2007-12-05  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/bessel/bessel_internal.h, itpp/base/bessel/gamma.cpp,
+	itpp/base/bessel/hyperg.cpp, itpp/base/bessel/iv.cpp,
+	itpp/base/bessel/jv.cpp, itpp/base/bessel/sources.mk,
+	itpp/base/bessel/struve.cpp, win32/itpp_acml.vcproj,
+	win32/itpp_mkl.vcproj: Fixed wrong calculation of bessely()
+	detected on Intel C++ compiler
+
+	When IT++ was compiled with Intel C++ (icpc) compiler, the
+	bessel_test failed on calculation of bessely() function for
+	non-integer orders. This bug was caused by the fact that the
+	ported bessel functions from Cephes Math Library should use
+	a gamma function, which sets "signgam" global variable. But
+	instead C99 tgamma() was used, which does not set "signgam".
+
+	This patch adds explicit gam() and lgam() definitions, ported
+	from the original Cephes Math Library, so all bessel functions
+	in IT++ now use the proper gamma implementations.
+
 2007-12-04  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/optim/newton_search.cpp: Initialize variables with zeros to

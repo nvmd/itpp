@@ -31,13 +31,7 @@
  */
 
 #include <itpp/base/bessel/bessel_internal.h>
-#include <itpp/base/math/elem_math.h>
 
-#ifndef _MSC_VER
-#  include <itpp/config.h>
-#else
-#  include <itpp/config_msvc.h>
-#endif
 
 /*
  * Struve function
@@ -236,13 +230,13 @@ double struve(double v, double x)
 
   if( onef2err <= threef0err )
     {
-      g = itpp::gamma( v + 1.5 );
+      g = gam( v + 1.5 );
       y = y * h * t / ( 0.5 * f * g );
       return(y);
     }
   else
     {
-      g = itpp::gamma( v + 0.5 );
+      g = gam( v + 0.5 );
       ya = ya * h / ( f * g );
       ya = ya + yv( v, x );
       return(ya);

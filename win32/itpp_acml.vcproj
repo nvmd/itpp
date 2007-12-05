@@ -249,6 +249,10 @@
 						>
 					</File>
 					<File
+						RelativePath="..\itpp\base\bessel\gamma.cpp"
+						>
+					</File>
+					<File
 						RelativePath="..\itpp\base\bessel\hyperg.cpp"
 						>
 					</File>

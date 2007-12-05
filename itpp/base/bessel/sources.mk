@@ -4,6 +4,7 @@ noinst_h_base_bessel_sources = \
 cpp_base_bessel_sources = \
 	$(top_srcdir)/itpp/base/bessel/airy.cpp \
 	$(top_srcdir)/itpp/base/bessel/chbevl.cpp \
+	$(top_srcdir)/itpp/base/bessel/gamma.cpp \
 	$(top_srcdir)/itpp/base/bessel/hyperg.cpp \
 	$(top_srcdir)/itpp/base/bessel/i0.cpp \
 	$(top_srcdir)/itpp/base/bessel/i1.cpp \
