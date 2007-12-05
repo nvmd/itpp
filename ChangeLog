@@ -1,5 +1,9 @@
 2007-12-05  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/bessel/hyperg.cpp, itpp/base/bessel/iv.cpp,
+	itpp/base/bessel/jv.cpp, itpp/base/bessel/k1.cpp,
+	itpp/base/bessel/kn.cpp: Unify warning messages
+
 	* itpp/base/bessel/airy.cpp, itpp/base/bessel/bessel_internal.h,
 	itpp/base/bessel/chbevl.cpp, itpp/base/bessel/hyperg.cpp,
 	itpp/base/bessel/i0.cpp, itpp/base/bessel/i1.cpp,

@@ -101,8 +101,7 @@ double iv(double v, double x)
     {
       if( t != v )
 	{
-	  it_warning("besseli:: argument domain error");
-	  //mtherr( "iv", DOMAIN );
+	  it_warning("iv(): argument domain error");
 	  return( 0.0 );
 	}
       if( v != 2.0 * floor(v/2.0) )
@@ -116,8 +115,7 @@ double iv(double v, double x)
 	return( 1.0 );
       if( v < 0.0 )
 	{
-	  it_warning("besseli:: overflow");
-	  //mtherr( "iv", OVERFLOW );
+	  it_warning("iv(): overflow range error");
 	  return( MAXNUM );
 	}
       else

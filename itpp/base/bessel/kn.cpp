@@ -128,19 +128,16 @@ double kn(int nn, double x)
   if( n > MAXFAC )
     {
     overf:
-      it_warning("besselk:: Overflow");
-      //mtherr( "kn", OVERFLOW );
+      it_warning("kn(): overflow range error");
       return( MAXNUM );
     }
 
   if( x <= 0.0 )
     {
       if( x < 0.0 )
-	it_warning("besselk:: Argument domain error");
-      //mtherr( "kn", DOMAIN );
+	it_warning("kn(): argument domain error");
       else
-	it_warning("besselk:: function singularity");
-      //mtherr( "kn", SING );
+	it_warning("kn(): function singularity");
       return( MAXNUM );
     }
 
@@ -244,8 +241,7 @@ double kn(int nn, double x)
 
   if( x > MAXLOG )
     {
-      it_warning("besselk:: Underflow");
-      //mtherr( "kn", UNDERFLOW );
+      it_warning("kn(): underflow range error");
       return(0.0);
     }
   k = n;

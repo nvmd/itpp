@@ -244,7 +244,7 @@ double jv(double n, double x)
 
       if( n < 0.0 )
 	{
-	  it_warning("besselj:: partial loss of precision");
+	  it_warning("jv(): partial loss of precision");
 	  y = 0.0;
 	  goto done;
 	}
@@ -309,8 +309,7 @@ static double recur(double *n, double x, double *newn, int cancel)
 
       if( ++ctr > 1000 )
 	{
-	  it_warning("besselj:: Underflow");
-	  //mtherr( "jv", UNDERFLOW );
+	  it_warning("recur(): underflow range error");
 	  goto done;
 	}
 
@@ -450,8 +449,7 @@ static double jvs(double n, double x)
 
       if( t > MAXLOG )
 	{
-	  it_warning("besselj:: Overflow");
-	  //mtherr( "Jv", OVERFLOW );
+	  it_warning("jvs(): overflow range error");
 	  return( MAXNUM );
 	}
       y = sgngam * exp( t );

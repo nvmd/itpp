@@ -125,8 +125,7 @@ double hyperg(double a, double b, double x)
 
  done:
   if( pcanc > 1.0e-12 )
-    it_warning("besselj::Potential precision loss");
-  //mtherr( "hyperg", PLOSS );
+    it_warning("hyperg(): partial loss of precision");
 
   return( psum );
 }
@@ -153,8 +152,7 @@ static double hy1f1p(double a, double b, double x, double *err)
     {
       if( bn == 0 )			/* check bn first since if both	*/
 	{
-	  it_warning("besselj::Function singularity");
-	  //mtherr( "hyperg", SING );
+	  it_warning("hy1f1p(): function singularity");
 	  return( MAXNUM );	/* an and bn are zero it is	*/
 	}
       if( an == 0 )			/* a singularity		*/
@@ -381,7 +379,6 @@ double hyp2f0(double a, double b, double x, int type, double *err)
   /* series blew up: */
  error:
   *err = MAXNUM;
-  it_warning("besselj:: Potential precision loss");
-  //mtherr( "hyperg", TLOSS );
+  it_warning("hy1f1a(): total loss of precision");
   return( sum );
 }
