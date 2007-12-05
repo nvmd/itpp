@@ -1,5 +1,8 @@
 2007-12-05  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac.in: Use "host_os" instead of "host" to simplify
+	case statements
+
 	* configure.ac.in: Enable explicit library dependencies on Mac
 	OS X
 
