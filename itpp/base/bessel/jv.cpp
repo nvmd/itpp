@@ -31,6 +31,7 @@
  */
 
 #include <itpp/base/bessel/bessel_internal.h>
+#include <itpp/base/math/elem_math.h>
 #include <itpp/base/itassert.h>
 
 

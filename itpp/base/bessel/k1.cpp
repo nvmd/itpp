@@ -32,9 +32,7 @@
 
 #include <itpp/base/bessel/bessel_internal.h>
 #include <itpp/base/itassert.h>
-#include <cmath>
 
-using namespace itpp;
 
 /*
  * Modified Bessel function, third kind, order one (should be second kind?)
