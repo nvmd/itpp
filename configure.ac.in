@@ -37,6 +37,11 @@ case $host in
     AC_DISABLE_STATIC
     freebsd_broken_std_isnan=yes
     ;;
+  *-*-darwin*)
+    AC_ENABLE_SHARED
+    AC_DISABLE_STATIC
+    enable_explicit_deps=yes
+    ;;
   *)
     AC_ENABLE_SHARED
     AC_DISABLE_STATIC
