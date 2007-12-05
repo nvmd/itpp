@@ -160,7 +160,7 @@ namespace itpp {
 
     for(int k=0; k<K; k++)
       for(int d=0; d<D; d++)
-	      it_assert( finite(means_in(k)(d)), "MOG_generic::set_means_internal(): 'means' has a non-finite value" );
+        it_assert( std::isfinite(means_in(k)(d)), "MOG_generic::set_means_internal(): 'means' has a non-finite value" );
 
     means = means_in;
     setup_means();
@@ -176,7 +176,7 @@ namespace itpp {
     for(int k=0; k<K; k++)
       for(int d=0; d<D; d++) {
 	      it_assert( (diag_covs_in(k)(d) > 0.0), "MOG_generic::set_diag_covs_internal(): 'diag_covs' has a zero or negative value" );
-	      it_assert( finite(diag_covs_in(k)(d)), "MOG_generic::set_diag_covs_internal(): 'diag_covs' has a non-finite value" );
+	      it_assert( std::isfinite(diag_covs_in(k)(d)), "MOG_generic::set_diag_covs_internal(): 'diag_covs' has a non-finite value" );
       }
 
     full_covs.set_size(0);
@@ -194,7 +194,7 @@ namespace itpp {
 
     for(int k=0; k<K; k++)
       for(int i=0; i<D; i++) for(int j=0; j<D; j++) {
-	      it_assert( finite(full_covs_in(k)(i,j)), "MOG_generic::set_full_covs_internal(): 'full_covs' has a non-finite value" );
+          it_assert( std::isfinite(full_covs_in(k)(i,j)), "MOG_generic::set_full_covs_internal(): 'full_covs' has a non-finite value" );
 	      if(i==j) it_assert( (full_covs_in(k)(i,j) > 0.0), "MOG_generic::set_full_covs_internal(): 'full_covs' has a zero or negative value on a diagonal" );
 	    }
 
@@ -211,7 +211,7 @@ namespace itpp {
 
     for(int k=0; k<K; k++) {
       it_assert( (weights_in(k) >= 0), "MOG_generic::set_weights_internal(): 'weights' has a negative value" );
-      it_assert( finite(weights_in(k)), "MOG_generic::set_weights_internal(): 'weights' has a non-finite value" );
+      it_assert( std::isfinite(weights_in(k)), "MOG_generic::set_weights_internal(): 'weights' has a non-finite value" );
       }
 
     weights = weights_in;
