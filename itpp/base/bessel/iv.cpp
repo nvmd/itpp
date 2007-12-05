@@ -31,10 +31,7 @@
  */
 
 #include <itpp/base/bessel/bessel_internal.h>
-#include <itpp/base/math/elem_math.h>
-//#include <cmath>
-
-using namespace itpp;
+#include <itpp/base/itassert.h>
 
 /*
  * Modified Bessel function of noninteger order
@@ -128,7 +125,7 @@ double iv(double v, double x)
 
   ax = fabs(x);
   t = v * log( 0.5 * ax )  -  x;
-  t = sign * exp(t) / itpp::gamma( v + 1.0 );
+  t = sign * exp(t) / gam( v + 1.0 );
   ax = v + 0.5;
   return( t * hyperg( ax,  2.0 * ax,  2.0 * x ) );
 }

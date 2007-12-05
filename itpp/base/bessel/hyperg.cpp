@@ -31,10 +31,7 @@
  */
 
 #include <itpp/base/bessel/bessel_internal.h>
-#include <itpp/base/math/elem_math.h>
-
-
-using namespace itpp;
+#include <itpp/base/itassert.h>
 
 /*
  * Confluent hypergeometric function
@@ -239,23 +236,23 @@ static double hy1f1a(double a, double b, double x, double *err)
 
   if( b > 0 )
     {
-      temp = lgamma(b);
+      temp = lgam(b);
       t += temp;
       u += temp;
     }
 
   h1 = hyp2f0( a, a-b+1, -1.0/x, 1, &err1 );
 
-  temp = exp(u) / itpp::gamma(b-a);
+  temp = exp(u) / gam(b-a);
   h1 *= temp;
   err1 *= temp;
 
   h2 = hyp2f0( b-a, 1.0-a, 1.0/x, 2, &err2 );
 
   if( a < 0 )
-    temp = exp(t) / itpp::gamma(a);
+    temp = exp(t) / gam(a);
   else
-    temp = exp( t - lgamma(a) );
+    temp = exp( t - lgam(a) );
 
   h2 *= temp;
   err2 *= temp;
@@ -270,7 +267,7 @@ static double hy1f1a(double a, double b, double x, double *err)
 
   if( b < 0 )
     {
-      temp = itpp::gamma(b);
+      temp = gam(b);
       asum *= temp;
       acanc *= fabs(temp);
     }

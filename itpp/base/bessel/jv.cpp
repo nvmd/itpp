@@ -31,15 +31,8 @@
  */
 
 #include <itpp/base/bessel/bessel_internal.h>
-#include <itpp/base/math/elem_math.h>
+#include <itpp/base/itassert.h>
 
-#ifndef _MSC_VER
-#  include <itpp/config.h>
-#else
-#  include <itpp/config_msvc.h>
-#endif
-
-using namespace itpp;
 
 /*
  * Bessel function of noninteger order
@@ -435,16 +428,16 @@ static double jvs(double n, double x)
        && (n > 0.0)
        && (n < (MAXGAM-1.0)) )
     {
-      t = pow( 0.5*x, n ) / itpp::gamma( n + 1.0 );
+      t = pow( 0.5*x, n ) / gam( n + 1.0 );
 
       y *= t;
     }
   else
     {
-      t = n * log(0.5*x) - lgamma(n + 1.0);
+      t = n * log(0.5*x) - lgam(n + 1.0);
       if( y < 0 )
 	{
-	  signgam = -signgam;
+	  sgngam = -sgngam;
 	  y = -y;
 	}
       t += log(y);
@@ -460,7 +453,7 @@ static double jvs(double n, double x)
 	  //mtherr( "Jv", OVERFLOW );
 	  return( MAXNUM );
 	}
-      y = signgam * exp( t );
+      y = sgngam * exp( t );
     }
   return(y);
 }

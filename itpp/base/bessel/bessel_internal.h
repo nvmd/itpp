@@ -32,6 +32,8 @@
 
 //! \cond
 
+#include <cmath>
+
 extern "C" {
 
   double chbevl(double x, double array[], int n);
@@ -54,6 +56,10 @@ extern "C" {
   double jv(double nu, double x);
   double yv(double nu, double x);
   double kn(int n, double x);
+
+  double gam(double x);
+  double lgam(double x);
+  extern int sgngam;
 
 } // extern C
 
