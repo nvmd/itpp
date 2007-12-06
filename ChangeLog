@@ -1,5 +1,12 @@
 2007-12-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac.in: Use AC_MSG_NOTICE for printing configuration
+	summary
+
+	Thanks to this change, the configuration summary is automatically
+	included in config.log, so there is no need to create a separate
+	config_summary.log file.
+
 	* configure.ac.in: Simplify detection of explicit library
 	dependencies
 

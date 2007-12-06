@@ -410,8 +410,9 @@ AC_CONFIG_FILES([Makefile \
 
 AC_OUTPUT
 
-# Create configuration summary file
-cat <<EOF | tee config_summary.log
+# Display configuration summary
+AC_MSG_NOTICE([displaying configuration summary
+
 ------------------------------------------------------------------------------
 $PACKAGE-$VERSION library configuration:
 ------------------------------------------------------------------------------
@@ -430,6 +431,7 @@ Switches:
   - html-doc ....... : ${enable_html_doc}
   - shared ......... : ${enable_shared}
   - static ......... : ${enable_static}
+  - explicit deps .. : ${enable_explicit_deps}
 
 Documentation tools:
   - doxygen ........ : ${doxygen_ok}
@@ -471,4 +473,4 @@ Compiler/linker flags/libs/defs:
 ------------------------------------------------------------------------------
 Now type 'make && make install' to build and install $PACKAGE-$VERSION library
 ------------------------------------------------------------------------------
-EOF
+])
