@@ -43,6 +43,8 @@
 
 namespace std {
 
+  //! \cond
+
 #ifndef HAVE_STD_ISINF
 #if (HAVE_DECL_ISINF == 1) || defined(HAVE_ISINF)
   inline int isinf(double x) { return ::isinf(x); }
@@ -86,6 +88,7 @@ namespace std {
 #  define HAVE_STD_ISFINITE 1
 #endif // #ifndef HAVE_STD_ISFINITE
 
+  //! \endcond
 
   //! Output stream operator for complex numbers
   template <class T>
