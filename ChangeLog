@@ -1,5 +1,8 @@
 2007-12-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/math/misc.h, itpp/srccode/audiofile.h: Fix minor
+	Doxygen warnings
+
 	* configure.ac.in, itpp/base/converters.h, itpp/config_msvc.h:
 	Move GCC_VERSION macro to the generated config.h file
 

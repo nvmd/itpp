@@ -101,7 +101,6 @@ namespace itpp {
 
   protected:
 
-    //! Definition of the header structure
     struct {
       //! Magic number
       unsigned magic;
@@ -117,7 +116,8 @@ namespace itpp {
       unsigned channels;
       //! Info string
       char info[SND_INFO_LEN];
-    } header;
+    } header; //!< Definition of the header structure
+
 
     //! ACTION: Add documentation for this protected member
     int sample_size() const;
