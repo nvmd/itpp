@@ -1,3 +1,13 @@
+2007-12-06  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac.in: Simplify detection of explicit library
+	dependencies
+
+	There is no need to check for "deplibs_check_method" by executing
+	the "./libtool --config" command. This information is already
+	available in a cached variable "lt_cv_deplibs_check_method"
+	provided by the AC_PROG_LIBTOOL macro.
+
 2007-12-05  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac.in: Use "host_os" instead of "host" to simplify
