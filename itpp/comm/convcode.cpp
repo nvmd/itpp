@@ -975,8 +975,8 @@ namespace itpp {
     temp_visited_state = visited_state;
 
     for (int i = 0; i < block_length; i++) {
-      // updated trunc memory pointer
-      trunc_ptr = ++(trunc_ptr) % trunc_length;
+      // update path memory pointer
+      trunc_ptr = (trunc_ptr + 1) % trunc_length;
 
       temp_rec = received_signal.mid(i * n, n);
       // calculate all metrics for all codewords at the same time
