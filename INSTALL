@@ -1,50 +1,69 @@
 IT++ Installation
 *****************
 
+
 IT++ Requirements
 =================
 
-IT++ should compile without errors or warnings on most GNU/Linux systems,
-on UNIX systems like Solaris SunOS, and on POSIX based environments for
-Microsoft Windows like Cygwin or MinGW with MSYS. It can be also built on
-Microsoft Windows NT/2000/XP using Microsoft's Visual C++ .NET, but our
-support for this compiler is limited. For GNU/Linux, SunOS, Cygwin and MinGW
+IT++ should compile without errors or warnings on most GNU/Linux, BSD and
+UNIX systems, and on POSIX based environments for Microsoft Windows like
+Cygwin or MinGW with MSYS. It can be also built on Microsoft Windows NT/2000/
+XP using Microsoft's Visual C++ .NET (or Express), but our support for this
+compiler is limited. For GNU/Linux, FreeBSD, Solaris SunOS, Cygwin and MinGW
 we assume that you have at least the following GNU software installed on your
 computer:
 
-  o GNU make, version 3.72.1 or later (check version with `make --version')
-  o GCC - GNU Compilers Collection (gcc, g++ and g77 or gfortran), version
-    3.3.x or later (check version with `gcc --version')
+  o GNU make, version 3.77 or later (check version with `make --version' or
+    `gmake --version`)
+  o GCC - GNU Compilers Collection including C (gcc) and C++ (g++) compilers,
+    version 3.3.x or later (check version with `gcc --version')
 
-To perform tests, two command line programs: sed and diff are required.
-Optionally, you might need a few additional programs, i.e. Doxygen, LaTeX,
-Dvips and Ghostscript, to generate the HTML documentation.
+In most cases, a Fortran compiler is also required for proper linking of IT++
+with external BLAS and LAPACK libraries. GCC provides g77 (versions 3.x.x) or
+gfortran (versions 4.x.x) compilers.
 
 We strongly recommend that you use recent stable releases of the GCC, if
 possible. We do not actively work on supporting older versions of the GCC,
 and they may therefore (without prior notice) become unsupported in future
 releases of IT++.
 
+Instead of using GCC, you might try to build and link the IT++ library using
+other C/C++/Fortran compilers. For instance, Intel C++ (icpc) and Fortran
+(ifc) compilers are known to work well.
+
+To perform tests, two command line programs: sed and diff are required.
+Optionally, you might need a few additional programs, i.e. Doxygen, LaTeX,
+Dvips and Ghostscript, to generate the HTML documentation. The HTML
+documentation for each release is also available as separate packages for
+download, so you do not need to generate it during the installation.
+
 In order to use all functionality provided by the IT++ library, it is
 recommended that you have some external libraries compiled and installed in
 your computer. The basic set of them is: BLAS, LAPACK and FFTW (version 3.0.0
 or later).
 
-Instead of NetLib's reference BLAS and LAPACK implementations, some
-optimized platform-specific libraries can be used as well, i.e.:
+Instead of NetLib's reference BLAS and LAPACK implementations, some optimized
+platform-specific libraries can be used as well, i.e.:
 
   o ATLAS (Automatically Tuned Linear Algebra Software) - includes optimised
     BLAS and a limited set of LAPACK routines (version 3.6.0 or later)
   o MKL (Intel Math Kernel Library) - includes all required BLAS, LAPACK and
-    FFT routines (version 8.0.0 or later; FFTW not required)
+    FFT routines (version 8.1.1 or later; FFTW not required)
   o ACML (AMD Core Math Library) - includes BLAS, LAPACK and FFT routines
     (version 2.5.3 or later; FFTW not required)
 
-It is possible to compile and use IT++ without these libraries, but the
-functionality will be reduced. Therefore, we recommend that you take some time
-and effort to provide these external libraries in your system. Please note,
-that some of them (FFTW, BLAS and LAPACK) are usually included in most modern
-Linux distributions.
+Except the Intel MKL, the above mentioned BLAS/LAPACK implementations require
+additional support libraries provided by a Fortran compiler. To use them with
+IT++, please make sure that you have the compatible Fortran compiler
+installed. For instance, if your system BLAS and LAPACK libraries were
+compiled and linked with GNU g77, you should have the same compiler installed
+on your system before starting the IT++ configuration process.
+
+It is possible to compile and use IT++ without these external libraries, but
+the functionality will be reduced. Therefore, we recommend that you take some
+time and effort to provide these external libraries in your system. Please
+note that the basic set of them (FFTW, BLAS and LAPACK) is usually included
+in most modern Linux distributions.
 
 
 Obtaining the IT++ Source Codes
@@ -60,11 +79,11 @@ and download the file named itpp-<VERSION>.tar.gz or itpp-<VERSION>.tar.bz2,
 where <VERSION> is the latest release number, e.g. 4.0.0.
 
 
-IT++ Configuration, Compilation and Installation
+IT++ Configuration and Installation Instructions
 ================================================
 
-Assuming that you have already downloaded the latest IT++ sources, untar
-and unpack the sources, and enter the unpacked directory. Depending on the
+Assuming that you have already downloaded the latest IT++ sources, untar and
+unpack the sources, and enter the unpacked directory. Depending on the
 package type you have downloaded, use the following commands:
 
   % gzip -cd itpp-<VERSION>.tar.gz | tar xf -
@@ -73,15 +92,16 @@ package type you have downloaded, use the following commands:
   % bzip2 -cd itpp-<VERSION>.tar.bz2 | tar xf -
   % cd itpp-<VERSION>
 
-Since version 3.9.0, the IT++ library uses autoconf, automake and libtool
-for preparing Makefiles and configuration script, so the compilation
-procedure resembles a standard, well-known GNU method, i.e.
+Since version 3.9.0, the IT++ library uses autoconf, automake and libtool for
+preparing Makefiles and configuration script, so the compilation procedure
+resembles a standard, well-known GNU method, i.e.
 
   % ./configure
   % make
 
 The `configure' command can be invoked with additional switches and options
-(run `./configure --help' to get a list of them). The most important are:
+(run `./configure --help' to get a full list of them). The most important
+are:
 
   o `--prefix=PREFIX' - set top installation directory to a certain PREFIX
     value. By default it is set to `/usr/local', so `make install' will
@@ -101,6 +121,10 @@ The `configure' command can be invoked with additional switches and options
 Plese note that each `--enable-<OPTION>' switch can be replaced with its
 opposite switch `--disable-<OPTION>'.
 
+
+Modularization
+--------------
+
 Since version 3.99.0, a modularization of the library has been introduced.
 Therefore, several additional switches have been added to the configure
 script, which can be used to disable building some of the library components.
@@ -113,22 +137,24 @@ Here is a list of them:
   o `--disable-signal' - do not build the `Signal processing' module
   o `--disable-srccode' - do not build the `Source coding' module
 
-By default, the `configure' script checks for a few external libraries, which
-might be used by the IT++ library (cf. IT++ Requirements). BLAS and LAPACK
-libraries require a Fortran compiler for linking. Therefore, if no Fortran
-compiler can be found, only FFT libraries are being searched. Otherwise, the
-detection procedure is as follows:
 
- 1. First, the presence of a BLAS library among MKL, ACML, ATLAS and
-    NetLib's reference BLAS is checked. If one of the above mentioned can be
-    used, HAVE_BLAS is defined.
+External Libraries
+------------------
+
+By default, the `configure' script checks for a few external libraries, which
+might be used by the IT++ library (cf. IT++ Requirements). The detection
+procedure is as follows:
+
+ 1. First, the presence of a BLAS library among MKL, ACML, ATLAS and NetLib's
+    reference BLAS is checked. If one of the above mentioned can be used,
+    HAVE_BLAS is defined.
 
  2. Next, some LAPACK library is being searched, but only if BLAS is
     available. Full set of LAPACK routines can be found in the MKL, ACML and
     NetLib's reference LAPACK libraries. Besides, ATLAS contains a subset of
-    optimised LAPACK routines, which can be used with NetLib's LAPACK
-    library (this is described in the ATLAS documentation). If some LAPACK
-    library can be found, HAVE_LAPACK is defined.
+    optimised LAPACK routines, which can be used with NetLib's LAPACK library
+    (this is described in the ATLAS documentation). If some LAPACK library
+    can be found, HAVE_LAPACK is defined.
 
  3. Finally, a set of separate checks for FFT libraries is executed.
     Currently three different libraries providing FFT/IFFT routines can be
@@ -141,16 +167,16 @@ system, e.g. MKL in `/opt/intel/mkl/9.1', the `configure' script will not
 detect them automatically. In such a case, you should use LDFLAGS and
 CPPFLAGS environment variables to define additional directories to be
 searched for libraries (LDFLAGS) and include files (CPPFLAGS). For instance,
-to configure IT++ to link to the MKL 9.1 external library, which is
-installed in `/opt/intel/mkl/9.1' directory, you should use the following
-commands:
+to configure IT++ to link to 32-bit versions of MKL 9.1 external libraries,
+which is installed in `/opt/intel/mkl/9.1' directory, you should use the
+following commands:
 
   % export LDFLAGS="-L/opt/intel/mkl/9.1/lib/32"
   % export CPPFLAGS="-I/opt/intel/mkl/9.1/include"
   % ./configure
 
-Instead of CPPFLAGS, one can use `--with-fft-include=\<PATH\>' configure
-option to set path to header files that provide FFT functionality, i.e. to
+Instead of CPPFLAGS, one can use `--with-fft-include=<PATH>' configure option
+to set path to header files that provide FFT functionality, i.e. to
 `fftw3.h', `mkl_dft.h' or `acml.h'.
 
 In the case that external libraries have non-standard names, e.g.
@@ -165,30 +191,42 @@ If there is only one library specified, you can use a simplified notation
 without the preceding `-l', e.g. `--with-fft=fftw3' instead of `--with-fftw=
 -lfftw3'.
 
+Please refer to the documentation of your external libraries, to find out
+what are the correct library names and paths on your architecture, operating
+system, etc.
+
 Although it is not recommended, you can intentionally prevent detection of
 some external libraries. To do this you should use `--without-<LIBNAME>' or
 `--with-<LIBNAME>=no', e.g.:
 
   % ./configure --without-blas --without-lapack
 
+
+Optimisation Flags
+------------------
+
 It is recommended to set the CXXFLAGS environment variable with some
-compiler- and platform-specific optimisation flags before invoking the
+compiler- and platform-specific optimisation flags, before invoking the
 `configure' command. Additionally, `-DNDEBUG' should be included in the
 optimised CXXFLAGS, because it turns off all conditional assertion checks.
 This will improve the computation performance of many IT++ functions.For
 example, in the case of using the Intel Pentium 4 processor one might employ
 the following flags:
 
-  % CXXFLAGS="-DNDEBUG -O3 -pipe -march=pentium4" ./configure
+  % CXXFLAGS="-DNDEBUG -O3 -march=pentium4 -pipe" ./configure
 
 In the case of Sun's UltraSPARC 64-bit platform and GCC compiler, the flags
 might be set as follows:
 
-  % export CXXFLAGS="-DNDEBUG -O3 -pipe -mcpu=v9 -m64"
+  % export CXXFLAGS="-DNDEBUG -O3 -mcpu=v9 -m64 -pipe"
   % ./confiugre
 
 If CXXFLAGS is not set in the environment, it will be initialised with the
 default flags, i.e. "-DNDEBUG -O3 -pipe".
+
+
+Configuration Status
+--------------------
 
 When the configuration process is finished, a status message is displayed.
 For instance, after having invoked the following configuration command on a
@@ -199,7 +237,7 @@ recent Gentoo Linux system:
 one can observe something like this:
 
 ------------------------------------------------------------------------------
-itpp-4.0.0 library configuration:
+itpp-4.0.1 library configuration:
 ------------------------------------------------------------------------------
 
 Directories:
@@ -216,6 +254,7 @@ Switches:
   - html-doc ....... : yes
   - shared ......... : yes
   - static ......... : no
+  - explicit deps .. : no
 
 Documentation tools:
   - doxygen ........ : yes
@@ -225,7 +264,6 @@ Documentation tools:
 
 Testing tools:
   - diff ........... : yes
-  - sed ............ : yes
 
 Optional modules:
   - comm ........... : yes
@@ -256,9 +294,12 @@ Compiler/linker flags/libs/defs:
   - LIBS ........... : -lfftw3 -llapack -lblas
 
 ------------------------------------------------------------------------------
-Now type 'make && make install' to build and install itpp-4.0.0 library
+Now type 'make && make install' to build and install itpp-4.0.1 library
 ------------------------------------------------------------------------------
 
+
+Compilation
+-----------
 
 Now, it is time for compiling and linking the IT++ library. To do so, please
 simply run the following command:
@@ -266,9 +307,13 @@ simply run the following command:
   % make
 
 IT++ should compile without any errors or warnings. If this is not the case,
-please submit a bug-report on the IT++ project page at SourceForge. Please
+please report the problem on the IT++ Help forum at SourceForge. Please
 include information about your OS, compiler version, external libraries and
 their versions, etc.
+
+
+Testing the Compiled Library
+----------------------------
 
 It is recommended that you check if your library has been compiled and linked
 properly and works as expected. To do so, you should execute the testing
@@ -294,11 +339,15 @@ Test `histogram_test' PASSED.
 Test `stat_test' PASSED.
 ------------------------------------------------------------------------------
 
-Check if all the executed tests PASSED. If not, please contact us by filling
-a bug-report.
+Check if all the executed tests PASSED. If not, please report the problem on
+the IT++ Help forum.
+
+
+Installation
+------------
 
 Finally, you should install the compiled and linked library, include files
-and (optionally) HTML documentation by typing:
+and HTML documentation (optionally) by typing:
 
   % make install
 

@@ -1,5 +1,8 @@
 2007-12-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* INSTALL, doc/local/installation.doc: Installation manual updated
+	to reflect recent changes
+
 	* itpp/base/math/misc.h, itpp/srccode/audiofile.h: Fix minor
 	Doxygen warnings
 
