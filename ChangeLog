@@ -1,5 +1,12 @@
 2007-12-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/comm/convcode.cpp: Replace ambiguous expression with a
+	correct one
+
+	"i = ++i;" is ambiguous in C/C++. For more information, see
+	question 3.3 of the comp.lang.c FAQ list:
+	http://c-faq.com/expr/ieqiplusplus.html
+
 	* configure.ac.in: Use AC_MSG_NOTICE for printing configuration
 	summary
 
