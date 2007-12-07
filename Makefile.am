@@ -25,6 +25,9 @@ bin_SCRIPTS = itpp-config
 
 pkgconfigdir = $(libdir)/pkgconfig
 pkgconfig_DATA = itpp.pc
+if ENABLE_DEBUG
+  pkgconfig_DATA += itpp_debug.pc
+endif
 
 clean-local:
 	rm -f config_summary.log
