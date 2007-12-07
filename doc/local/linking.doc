@@ -35,8 +35,18 @@ For instance, assuming that you need to compile an IT++ based program
 % g++ `pkg-config --cflags itpp` -o my_prog my_prog.cpp `pkg-config --libs itpp`
 \endcode
 
+If you have installed a debugging version of the IT++ library in parallel,
+you can ask the \c `pkg-config' command to provide flags for it as well.
+Just use \c `itpp_debug' name instead of \c `itpp' in the arguments:
+
+\code
+% export CXXFLAGS_DEBUG=`pkg-config --cflags itpp_debug`
+% export LIBS_DEBUG=`pkg-config --libs itpp_debug`
+% g++ $CXXFLAGS_DEBUG -o my_prog my_prog.cpp $LIBS_DEBUG
+\endcode
+
 Alternatively, when you have to use static linking only (e.g. in Cygwin or
-MinGW/MSYS), you should add the `--static' switch to your command:
+MinGW/MSYS), you might need to add the `--static' switch to your command:
 
 \code
 % export CXXFLAGS=`pkg-config --cflags itpp`
@@ -46,8 +56,13 @@ MinGW/MSYS), you should add the `--static' switch to your command:
 
 If `pkg-config' can not find the itpp library information, you might need to
 set the PKG_CONFIG_PATH environment variable with the directory where the
-`itpp.pc' file is installed (<tt>`$prefix/lib/pkgconfig'</tt> by
-default).
+<tt>`itpp.pc'</tt> file is installed (<tt>`$prefix/lib/pkgconfig'</tt> by
+default). Alternatively you can use the full path to the <tt>`itpp.pc'</tt> or
+<tt>`itpp_debug.pc'</tt> file, e.g.:
+
+\code
+% pkg-config --libs /usr/local/lib/pkgconfig/itpp.pc
+\endcode
 
 For more information please refer to the \c `pkg-config' documentation.
 
@@ -71,8 +86,8 @@ The above command will result in an optimised binary \c `my_prog', and
 optimisation flags (CXXFLAGS) will be the same as those used when compiling
 the IT++ library.
 
-When you need to use static linking, you should prepend the `--libs' switch
-with `--static', e.g.:
+When you need to use static linking, you might need to prepend the `--libs'
+switch with `--static', e.g.:
 
 \code
 % export CXXFLAGS=`itpp-config --cflags`

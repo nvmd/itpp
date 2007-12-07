@@ -1,3 +1,12 @@
+2007-12-07  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* Makefile.am, configure.ac.in, doc/local/linking.doc,
+	itpp_debug.pc.in: Provide itpp_debug.pc pkg-config's file
+
+	This additional file can be used to obtain the debugging compiler
+	flags and libraries. It is only installed, when IT++ is configured
+	with the --enable-debug option.
+
 2007-12-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* INSTALL, doc/local/installation.doc: Installation manual updated
