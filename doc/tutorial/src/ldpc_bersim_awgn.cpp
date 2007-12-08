@@ -16,7 +16,8 @@ int main(int argc, char **argv)
   double BERmin = 1e-6;        // BER at which to terminate simulation
   vec EbN0db = "0.6:0.2:5";
 
-  LDPC_Code C(argv[1]);
+  LDPC_Generator_Systematic G; // for codes created with ldpc_gen_codes since generator exists
+  LDPC_Code C(argv[1],&G);
   bool single_snr_mode = false;
   if (argc == 3) {
     istringstream ss(argv[2]);
@@ -49,7 +50,7 @@ int main(int argc, char **argv)
     AWGN_Channel chan(N0/2);
     BERC berc;  // Counters for coded and uncoded BER
     BLERC ferc; // Counter for coded FER
-    ferc.set_blocksize(N);
+    ferc.set_blocksize(C.get_nvar()-C.get_ncheck());
 
     for (int64_t i = 0; i < Nbits; i += C.get_nvar()) {
       // Received data
@@ -59,7 +60,7 @@ int main(int argc, char **argv)
       vec softbits = Mod.demodulate_soft_bits(x, N0);
 
       // Decode the received bits
-      bvec bitsout = C.decode(softbits);
+      bvec bitsout = C.decode(softbits); // (only systematic bits)
 
       // Count the number of errors
       berc.count(bitsin, bitsout);

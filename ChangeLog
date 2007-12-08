@@ -1,3 +1,8 @@
+2007-12-08  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* doc/tutorial/src/ldpc_bersim_awgn.cpp: Fixes in tutorial
+	examples.
+	
 2007-12-07  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* Makefile.am, configure.ac.in, doc/local/linking.doc,
