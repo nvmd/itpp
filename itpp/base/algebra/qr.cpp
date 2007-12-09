@@ -53,6 +53,12 @@ namespace itpp {
     k = std::min(m,n);
     vec tau(k);
     vec work(lwork);
+    
+    // Perform work space query for optimum lwork value
+    lwork = -1;
+    dgeqrf_(&m, &n, R._data(), &m, tau._data(), work._data(), &lwork, &info);
+    lwork = static_cast<int>(work(0));
+    work.set_size(lwork,false);
 
     R = A;
     dgeqrf_(&m, &n, R._data(), &m, tau._data(), work._data(), &lwork, &info);
@@ -79,6 +85,12 @@ namespace itpp {
     vec tau(k);
     vec work(lwork);
     ivec jpvt(n); jpvt.zeros();
+
+    // Perform work space query for optimum lwork value
+    lwork = -1;
+    dgeqp3_(&m, &n, R._data(), &m, jpvt._data(), tau._data(), work._data(), &lwork, &info);
+    lwork = static_cast<int>(work(0));
+    work.set_size(lwork,false);
 
     R = A;
     P.set_size(n, n, false); P.zeros();
@@ -112,6 +124,12 @@ namespace itpp {
     cvec tau(k);
     cvec work(lwork);
 
+    // Perform work space query for optimum lwork value
+    lwork = -1;
+    zgeqrf_(&m, &n, R._data(), &m, tau._data(), work._data(), &lwork, &info);
+    lwork = static_cast<int>(real(work(0)));
+    work.set_size(lwork,false);
+
     R = A;
 
     zgeqrf_(&m, &n, R._data(), &m, tau._data(), work._data(), &lwork, &info);
@@ -141,6 +159,12 @@ namespace itpp {
     vec rwork(std::max(1, 2*n));
     ivec jpvt(n);
     jpvt.zeros();
+
+    // Perform work space query for optimum lwork value
+    lwork = -1;
+    zgeqp3_(&m, &n, R._data(), &m, jpvt._data(), tau._data(), work._data(), &lwork, rwork._data(), &info);
+    lwork = static_cast<int>(real(work(0)));
+    work.set_size(lwork,false);
 
     R = A;
     P.set_size(n, n, false); P.zeros();
