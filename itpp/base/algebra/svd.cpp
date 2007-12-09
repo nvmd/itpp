@@ -58,7 +58,18 @@ namespace itpp {
 
     mat B(A);
 
-    dgesvd_(&jobu, &jobvt, &m, &n, B._data(), &lda, S._data(), U._data(), &ldu, V._data(), &ldvt, work._data(), &lwork, &info);
+    // The theoretical calculation of lwork above results in the minimum size
+    // needed for dgesvd_ to run to completion without having memory errors.
+    // For speed improvement it is best to set lwork=-1 and have dgesvd_
+    // calculate the best work space requirement.
+    lwork = -1;
+    dgesvd_(&jobu, &jobvt, &m, &n, B._data(), &lda, S._data(), U._data(), &ldu, 
+        V._data(), &ldvt, work._data(), &lwork, &info);
+    lwork = static_cast<int>(work(0));
+    work.set_size(lwork,false);
+
+    dgesvd_(&jobu, &jobvt, &m, &n, B._data(), &lda, S._data(), U._data(), &ldu, 
+        V._data(), &ldvt, work._data(), &lwork, &info);
 
     return (info==0);
   }
@@ -80,7 +91,18 @@ namespace itpp {
 
     cmat B(A);
 
-    zgesvd_(&jobu, &jobvt, &m, &n, B._data(), &lda, S._data(), U._data(), &ldu, V._data(), &ldvt, work._data(), &lwork, rwork._data(), &info);
+    // The theoretical calculation of lwork above results in the minimum size
+    // needed for zgesvd_ to run to completion without having memory errors.
+    // For speed improvement it is best to set lwork=-1 and have zgesvd_
+    // calculate the best work space requirement.
+    lwork = -1;
+    zgesvd_(&jobu, &jobvt, &m, &n, B._data(), &lda, S._data(), U._data(), &ldu, 
+        V._data(), &ldvt, work._data(), &lwork, rwork._data(), &info);
+    lwork = static_cast<int>(real(work(0)));
+    work.set_size(lwork,false);
+
+    zgesvd_(&jobu, &jobvt, &m, &n, B._data(), &lda, S._data(), U._data(), &ldu, 
+        V._data(), &ldvt, work._data(), &lwork, rwork._data(), &info);
 
     return (info==0);
   }
@@ -100,7 +122,18 @@ namespace itpp {
 
     mat B(A);
 
-    dgesvd_(&jobu, &jobvt, &m, &n, B._data(), &lda, S._data(), U._data(), &ldu, V._data(), &ldvt, work._data(), &lwork, &info);
+    // The theoretical calculation of lwork above results in the minimum size
+    // needed for dgesvd_ to run to completion without having memory errors.
+    // For speed improvement it is best to set lwork=-1 and have dgesvd_
+    // calculate the best work space requirement.
+    lwork = -1;
+    dgesvd_(&jobu, &jobvt, &m, &n, B._data(), &lda, S._data(), U._data(), &ldu, 
+        V._data(), &ldvt, work._data(), &lwork, &info);
+    lwork = static_cast<int>(work(0));
+    work.set_size(lwork,false);
+
+    dgesvd_(&jobu, &jobvt, &m, &n, B._data(), &lda, S._data(), U._data(), &ldu, 
+        V._data(), &ldvt, work._data(), &lwork, &info);
 
     V = V.T(); // This is probably slow!!!
 
@@ -123,7 +156,18 @@ namespace itpp {
 
     cmat B(A);
 
-    zgesvd_(&jobu, &jobvt, &m, &n, B._data(), &lda, S._data(), U._data(), &ldu, V._data(), &ldvt, work._data(), &lwork, rwork._data(), &info);
+    // The theoretical calculation of lwork above results in the minimum size
+    // needed for zgesvd_ to run to completion without having memory errors.
+    // For speed improvement it is best to set lwork=-1 and have zgesvd_
+    // calculate the best work space requirement.
+    lwork = -1;
+    zgesvd_(&jobu, &jobvt, &m, &n, B._data(), &lda, S._data(), U._data(), &ldu, 
+        V._data(), &ldvt, work._data(), &lwork, rwork._data(), &info);
+    lwork = static_cast<int>(real(work(0)));
+    work.set_size(lwork,false);
+
+    zgesvd_(&jobu, &jobvt, &m, &n, B._data(), &lda, S._data(), U._data(), &ldu, 
+        V._data(), &ldvt, work._data(), &lwork, rwork._data(), &info);
 
     V = V.H(); // This is slow!!!
 
