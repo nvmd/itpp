@@ -1,5 +1,14 @@
 2007-12-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/algebra/qr.cpp: Fix incorrect precalculation of the
+	workspace size for QR decomp.
+
+	The size of the workspace memory is now checked for each of
+	[dz]gerf_, [dz]orgqr_, [dz]geqp3_ and [dz]ungqr_ funcitions
+	separately, because they operate on different matrices. Besides,
+	R is now correctly initialised with A before quering for the
+	workspace size.
+
 	* itpp/base/algebra/svd.cpp: Improvements in calculation of the
 	SVD workspace size
 
