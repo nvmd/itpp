@@ -1,3 +1,10 @@
+2007-12-10  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* doc/tutorial/src/ldpc_bersim_awgn.cpp: Changed tutorial so it
+	counts bit errors in entire block, not only systematic bits
+
+	* itpp/comm/ldpc.cpp, tests/ldpc_test.ref: Fixed spelling error
+	
 2007-12-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* m4/acx_blas.m4: Improve autodetection of ACML libraries
