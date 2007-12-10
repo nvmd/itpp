@@ -81,14 +81,25 @@ if test "$acx_blas_ok" = no; then
 fi
 
 # BLAS in ACML library? (http://developer.amd.com/acml.aspx)
+# +------------+-----------+---------------------+
+# |            |  32-bit   |       64-bit        |
+# +------------+-----------+---------------------+
+# | GCC <  4.2 | -lacml    | -lacml -lacml_mv    |
+# | GCC >= 4.2 | -lacml_mp | -lacml_mp -lacml_mv |
+# +------------+-----------+---------------------+
 if test "$acx_blas_ok" = no; then
   save_LIBS="$LIBS"; LIBS="$LIBS$MY_FLIBS"
-  AC_CHECK_LIB(acml, $sgemm,
+  AC_CHECK_LIB([acml], [$sgemm],
     [acx_blas_ok=yes; blas_acml_ok=yes; BLAS_LIBS="-lacml$MY_FLIBS"],
-    [AC_CHECK_LIB(acml, $dgemm,
-      [acx_blas_ok=yes; blas_acml_ok=yes;
-        BLAS_LIBS="-lacml -lacml_mv$MY_FLIBS"],
-      [], [-lacml_mv])],
+    [AC_CHECK_LIB([acml_mp], [$sgemm],
+       [acx_blas_ok=yes; blas_acml_ok=yes; BLAS_LIBS="-lacml_mp$MY_FLIBS"],
+       [AC_CHECK_LIB([acml], [$dgemm],
+          [acx_blas_ok=yes; blas_acml_ok=yes; BLAS_LIBS="-lacml -lacml_mv$MY_FLIBS"],
+          [AC_CHECK_LIB([acml_mp], [$dgemm],
+             [acx_blas_ok=yes; blas_acml_ok=yes; BLAS_LIBS="-lacml_mp -lacml_mv$MY_FLIBS"],
+             [], [-lacml_mv])],
+          [], [-lacml_mv])],
+       [])],
     [])
   LIBS="$save_LIBS"
 fi
