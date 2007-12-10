@@ -60,7 +60,10 @@ int main(int argc, char **argv)
       vec softbits = Mod.demodulate_soft_bits(x, N0);
 
       // Decode the received bits
-      bvec bitsout = C.decode(softbits); // (only systematic bits)
+      QLLRvec llr;
+      C.bp_decode(C.get_llrcalc().to_qllr(softbits),llr);
+      bvec bitsout = llr<0;
+      //      bvec bitsout = C.decode(softbits); // (only systematic bits)
 
       // Count the number of errors
       berc.count(bitsin, bitsout);

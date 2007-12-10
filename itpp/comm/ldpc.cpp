@@ -1328,7 +1328,7 @@ namespace itpp {
     it_assert(G_defined, "LDPC_Code::encode(): LDPC Generator is required "
 	      "for encoding");
     G->encode(input, output);
-    it_assert_debug(syndrome_check(output), "LDPC_Code::encode(): Syndrom "
+    it_assert_debug(syndrome_check(output), "LDPC_Code::encode(): Syndrome "
 		    "check failed");
   }
 
@@ -1949,7 +1949,7 @@ namespace itpp {
       for (int i = 0; i < nvar-ncheck; i++) {
 	G->encode(bv, cw);
 	it_assert(syndrome_check(cw),
-		  "LDPC_Code::integrity_check(): Syndrom check failed");
+		  "LDPC_Code::integrity_check(): Syndrome check failed");
 	bv.shift_right(bv(nvar-ncheck-1));
       }
     }
@@ -1985,8 +1985,8 @@ namespace itpp {
        << "Decoder parameters:\n"
        << " - method : " << C.dec_method << "\n"
        << " - max. iterations : " << C.max_iters << "\n"
-       << " - syndrom check at each iteration : " << C.psc << "\n"
-       << " - syndrom check at start : " << C.pisc << "\n"
+       << " - syndrome check at each iteration : " << C.psc << "\n"
+       << " - syndrome check at start : " << C.pisc << "\n"
        << "-------------------------------------------------\n"
        << C.llrcalc << "\n";
     return os;

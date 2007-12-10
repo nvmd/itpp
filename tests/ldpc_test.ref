@@ -9,8 +9,8 @@ Row degrees (node perspective): [0 0 0 0 0 0 100]
 Decoder parameters:
  - method : BP
  - max. iterations : 50
- - syndrom check at each iteration : 1
- - syndrom check at start : 0
+ - syndrome check at each iteration : 1
+ - syndrome check at start : 0
 -------------------------------------------------
 ---------- LLR calculation unit -----------------
 LLR_calc_unit table properties:
