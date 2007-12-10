@@ -1,3 +1,12 @@
+2007-12-10  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/algebra/svd.cpp: Improvements in calculation of the
+	SVD workspace size
+
+	Before resizing the current memory allocated for SVD workspace,
+	check if the workspace query was sucessful. If not, use the
+	default, but not optimum workspace size.
+
 2007-12-09  Simon Wood  <sgwoodjr@users.sourceforge.net>
 
 	* itpp/base/algebra/qr.cpp, itpp/base/algebra/svd.cpp: Added a
