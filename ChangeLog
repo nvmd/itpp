@@ -1,8 +1,17 @@
+2007-12-09  Simon Wood  <sgwoodjr@users.sourceforge.net>
+
+	* itpp/base/algebra/qr.cpp, itpp/base/algebra/svd.cpp: Added a
+	workspace query for each of the SVD and QR routines
+
+	The query returns the optimal value of the memory workspace size
+	used in SVD and QR decompositions. Setting the workspace size to
+	an optimum value greatly improves the speed of calculations.
+
 2007-12-08  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* doc/tutorial/src/ldpc_bersim_awgn.cpp: Fixes in tutorial
 	examples.
-	
+
 2007-12-07  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* Makefile.am, configure.ac.in, doc/local/linking.doc,
