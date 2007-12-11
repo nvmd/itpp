@@ -298,6 +298,23 @@ namespace itpp {
   protected:
     //! Generate a random parity check matrix
     void generate_random_H(const ivec& C, const ivec& R, const ivec& cycopt);
+    
+    /*! \brief Compute target number of columns (C) and rows (R) with
+        a specific number of ones.
+
+      \param var_deg vector of variable degree distributions, from an edge
+      perspective
+      \param chk_deg vector of check degree distributions, from an edge
+      perspective
+      \param Nvar number of variable nodes
+      \param C number of columns with a specific number of ones
+      \param R number of rows with a specific number of ones
+
+      The result is passed by reference and saved in C and R. 
+    */
+    void compute_CR(const vec& var_deg, const vec& chk_deg, const int Nvar,
+		    ivec &C, ivec &R);
+
   };
 
 
