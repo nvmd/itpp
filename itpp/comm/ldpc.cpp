@@ -146,6 +146,7 @@ namespace itpp {
 	    << vdegedge/edges);
     it_info("Check node degree distribution from edge perspective:\n"
 	    << cdegedge/edges);
+    it_info("Rate: " << get_rate());
     it_info("--------------------------------");
   }
 
@@ -581,72 +582,22 @@ namespace itpp {
 	}
       }
     }
-
-    display_stats();
   }
 
-
-  // ----------------------------------------------------------------------
-  // LDPC_Parity_Regular
-  // ----------------------------------------------------------------------
-
-  LDPC_Parity_Regular::LDPC_Parity_Regular(int Nvar, int k, int l,
-					   const std::string& method,
-					   const ivec& options)
-  {
-    generate(Nvar, k, l, method, options);
-  }
-
-  void LDPC_Parity_Regular::generate(int Nvar, int k, int l,
-				     const std::string& method,
-				     const ivec& options)
-  {
-    int Ncheck_actual = round_i(Nvar * k / static_cast<double>(l));
-    // C, R: Target number of columns/rows with certain number of ones
-    ivec C = zeros_i(Nmax);
-    ivec R = zeros_i(Nmax);
-    C(k) = Nvar;
-    R(l) = Ncheck_actual;
-
-    // ---------------
-
-    if (method=="rand") {
-      generate_random_H(C,R,options);
-    } else {
-      it_error("not implemented");
-    };
-  }
-
-
-  // ----------------------------------------------------------------------
-  // LDPC_Parity_Irregular
-  // ----------------------------------------------------------------------
-
-  LDPC_Parity_Irregular::LDPC_Parity_Irregular(int Nvar,
-					       const vec& var_deg,
-					       const vec& chk_deg,
-					       const std::string& method,
-					       const ivec& options)
-  {
-    generate(Nvar, var_deg, chk_deg, method, options);
-  }
-
-  void LDPC_Parity_Irregular::generate(int Nvar, const vec& var_deg,
-				       const vec& chk_deg,
-				       const std::string& method,
-				       const ivec& options)
+  void LDPC_Parity_Unstructured::compute_CR(const vec& var_deg, const vec& chk_deg, const int Nvar,
+					     ivec &C, ivec &R)
   {
     // compute the degree distributions from a node perspective
     vec Vi = linspace(1,length(var_deg),length(var_deg));
     vec Ci = linspace(1,length(chk_deg),length(chk_deg));
     // Compute number of cols with n 1's
     // C, R: Target number of columns/rows with certain number of ones
-    ivec C = to_ivec(round(Nvar*elem_div(var_deg,Vi)
+    C = to_ivec(round(Nvar*elem_div(var_deg,Vi)
 			   /sum(elem_div(var_deg,Vi))));
     C = concat(0,C);
     int edges = sum(elem_mult(to_ivec(linspace(0,C.length()-1,
 					       C.length())),C));
-    ivec R = to_ivec(round(edges*elem_div(chk_deg,Ci)));
+    R = to_ivec(round(edges*elem_div(chk_deg,Ci)));
     R = concat(0,R);
     vec Ri = linspace(0,length(R)-1,length(R));
     vec Coli = linspace(0,length(C)-1,length(C));
@@ -686,7 +637,64 @@ namespace itpp {
     C = concat(C, zeros_i(Nmax-length(C)));
     R = concat(R, zeros_i(Nmax-length(R)));
 
-    // -------------------
+    it_info_debug("C=" << C << std::endl);
+    it_info_debug("R=" << R << std::endl);
+
+  }
+
+  // ----------------------------------------------------------------------
+  // LDPC_Parity_Regular
+  // ----------------------------------------------------------------------
+
+  LDPC_Parity_Regular::LDPC_Parity_Regular(int Nvar, int k, int l,
+					   const std::string& method,
+					   const ivec& options)
+  {
+    generate(Nvar, k, l, method, options);
+  }
+
+  void LDPC_Parity_Regular::generate(int Nvar, int k, int l,
+				     const std::string& method,
+				     const ivec& options)
+  {
+    vec var_deg=zeros(k);
+    vec chk_deg=zeros(l);
+    var_deg(k-1)=1;
+    chk_deg(l-1)=1;
+
+    ivec C, R;
+    compute_CR(var_deg,chk_deg,Nvar,C,R);
+    it_info_debug("sum(C)=" << sum(C) << "  Nvar=" << Nvar);
+    it_info_debug("sum(R)=" << sum(R) << "  approximate target=" << round_i(Nvar * k / static_cast<double>(l)));
+
+    if (method=="rand") {
+      generate_random_H(C,R,options);
+    } else {
+      it_error("not implemented");
+    };
+  }
+
+
+  // ----------------------------------------------------------------------
+  // LDPC_Parity_Irregular
+  // ----------------------------------------------------------------------
+
+  LDPC_Parity_Irregular::LDPC_Parity_Irregular(int Nvar,
+					       const vec& var_deg,
+					       const vec& chk_deg,
+					       const std::string& method,
+					       const ivec& options)
+  {
+    generate(Nvar, var_deg, chk_deg, method, options);
+  }
+
+  void LDPC_Parity_Irregular::generate(int Nvar, const vec& var_deg,
+				       const vec& chk_deg,
+				       const std::string& method,
+				       const ivec& options)
+  {
+    ivec C, R;
+    compute_CR(var_deg,chk_deg,Nvar,C,R);
 
     if (method=="rand") {
       generate_random_H(C,R,options);

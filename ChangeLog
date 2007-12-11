@@ -1,3 +1,8 @@
+2007-12-11  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/comm/ldpc.h, itpp/comm/ldpc.cpp: Improvements to the
+	generation of regular LDPC codes
+
 2007-12-10  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* doc/tutorial/src/ldpc_bersim_awgn.cpp: Changed tutorial so it
