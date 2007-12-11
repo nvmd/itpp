@@ -410,6 +410,12 @@ namespace itpp {
 
       \note Alternative (user-defined) methods for code generation can
       be implemented by inheriting \c LDPC_Parity_Regular.
+
+      \note In some cases it may be impossible to construct a
+      perfectly regular parity check matrix with the desired
+      (k,l,Nvar) parameters. The degree distribution will then be
+      automatically adjusted so that the matrix can be constructed and
+      in this event the resulting code will not be perfectly regular.
     */
     void generate(int Nvar, int k, int l,
 		  const std::string& method = "rand",
