@@ -1,5 +1,13 @@
 2007-12-13  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* win32/itpp_acml.vcproj, win32/itpp_acml_tests/*.vcproj,
+	win32/itpp_mkl.vcproj, win32/itpp_mkl_tests/*.vcproj: Replace
+	explicit paths with LIB and INCLUDE environment variables
+
+	With this change the user is responsible for setting the LIB and
+	INCLUDE environment variables with proper directories to MKL or
+	ACML librarary and include files.
+
 	* itpp/base/binfile.cpp, itpp/base/copy_vector.h: Include missing
 	header files to fix compilation using GCC 4.3
 
