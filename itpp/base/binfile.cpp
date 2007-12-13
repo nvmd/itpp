@@ -29,6 +29,7 @@
 
 #include <itpp/base/binfile.h>
 #include <itpp/base/math/misc.h>
+#include <cstring>
 
 
 using std::ofstream;
