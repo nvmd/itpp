@@ -1,5 +1,12 @@
 2007-12-13  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/Makefile.am, doc/tutorial/src/Makefile.am: Build tutorial
+	examples when doing "make check"
+
+	Compile and link time incompatibilities between the library
+	interfaces and tutorial example programs should now be detected
+	during the standard check procedure.
+
 	* doc/local/installation.doc, doc/local/linking.doc: Documentation
 	updated to reflect changes in MSVC++ project files
 

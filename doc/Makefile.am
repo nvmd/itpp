@@ -1,6 +1,5 @@
 include $(top_srcdir)/doc/local/sources.mk
 include $(top_srcdir)/doc/tutorial/sources.mk
-include $(top_srcdir)/doc/tutorial/src/sources.mk
 include $(top_srcdir)/itpp/sources.mk
 include $(top_srcdir)/itpp/base/sources.mk
 include $(top_srcdir)/itpp/base/algebra/sources.mk
@@ -23,7 +22,7 @@ html-local: html/index.html
 
 html/index.html: doxygen_html.cfg \
 	$(doc_local_sources) $(html_local_sources) \
-	$(doc_tutorial_sources) $(cpp_tutorial_sources) \
+	$(doc_tutorial_sources) \
 	$(h_sources) $(cpp_sources) \
 	$(h_base_sources) $(cpp_base_sources) \
 	$(h_base_algebra_sources) $(cpp_base_algebra_sources) \
