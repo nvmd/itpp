@@ -144,46 +144,40 @@ and others.
 
 It is assumed here that the IT++ library is already compiled and linked with
 either ACML or MKL, using Microsoft Visual C++ .NET (or Express) compiler
-(cf. \ref msvc).
+(see \ref msvc).
 
 To link your own programs with IT++ and ACML or MKL, several things need to
 be correctly set up in your MSVC++ project:
 
 - The IT++ include directory must be defined. Settings for this can be found
-in the <tt>"Tools -&gt; Options -&gt; Projects and Solutions -&gt; VC++
-Directories -&gt; Include files"</tt> menu. Add path to
-<tt>"<IT++ source directory>"</tt>, e.g. <tt>"C:\itpp-3.10.10"</tt>.
+  in the <tt>"Tools -&gt; Options -&gt; Projects and Solutions -&gt; VC++
+  Directories -&gt; Include files"</tt> menu. Add path to <tt>"<IT++ source
+  directory>"</tt>, e.g. <tt>"C:\itpp-4.0.1"</tt>.
 
 - The IT++ library directory must be defined. Settings for this can be found
-in the <tt>"Tools -&gt; Options -&gt; Projects and Solutions -&gt; VC++
-Directories -&gt; Library files"</tt> menu. Add path to
-<tt>"<IT++ source directory>\win32\lib"</tt>, e.g.
-<tt>"C:\itpp-3.10.10\win32\lib"</tt>.
+  in the <tt>"Tools -&gt; Options -&gt; Projects and Solutions -&gt; VC++
+  Directories -&gt; Library files"</tt> menu. Add path to <tt>"<IT++ source
+  directory>\win32\lib"</tt>, e.g. <tt>"C:\itpp-4.0.1\win32\lib"</tt>.
 
-- The ACML or MKL library directory must be defined. Add another library
-path with <tt>"C:\Program Files\AMD\acml\pgi32\lib"</tt> or
-<tt>"C:\Program Files\Intel\MKL\ia32\lib"</tt>.
+- The ACML or MKL library directory must be defined. If you properly set up
+  the \c LIB environment variable after the installation of ACML or MKL (see
+  \ref msvc), you can just add <tt>\$(LIB)</tt> as an another library path.
 
 - Linking with IT++ and ACML or MKL must be set up. Do this by marking your
-project and go to the <tt>"Project -&gt; Properties -&gt; Configuration
-Properties -&gt; Linker -&gt; Input -&gt; Additional Dependencies"</tt>
-menu. There you need to add <tt>itpp_debug.lib</tt> or <tt>itpp.lib</tt>
-depending on whether the Debug or Release mode are being used. Furthermore,
-you need to add <tt>libacml_dll.lib</tt> or <tt>mkl_c_dll.lib</tt>,
-respectively.
-
-- The runtime library for linking needs to be set to <tt>Multi-threaded
-Debug</tt> or <tt>Multi-threaded</tt>. This option can be set in the menu
-<tt>"Project -&gt; Properties -&gt; Configuration Properties -&gt; C/C++
--&gt; Code Generation -&gt; Runtime Library"</tt>.
+  project and go to the <tt>"Project -&gt; Properties -&gt; Configuration
+  Properties -&gt; Linker -&gt; Input -&gt; Additional Dependencies"</tt>
+  menu. There you need to add <tt>itpp_debug.lib</tt> or <tt>itpp.lib</tt>
+  depending on whether the Debug or Release mode are being used.
+  Furthermore, you need to add <tt>libacml_dll.lib</tt> or
+  <tt>mkl_c_dll.lib</tt>, respectively.
 
 - Two additional definitions: <tt>_CRT_SECURE_NO_DEPRECATE</tt> and
-<tt>_CRT_NONSTDC_NO_DEPRECATE</tt>, which disable warnings on C Standard
-Library and POSIX-compilant function names, might be also added in
-<tt>"Project -&gt; Properties -&gt; Configuration Properties -&gt; C/C++
--&gt; Preprocessor -&gt; Preprocessor Definitions"</tt>. Moreover,
-<tt>HAVE_ACML</tt> or <tt>HAVE_MKL</tt> definitions should be set up,
-depending on the installed library.
+  <tt>_CRT_NONSTDC_NO_DEPRECATE</tt>, which disable warnings on Standard C
+  Library and POSIX-compilant function names, might be also added in
+  <tt>"Project -&gt; Properties -&gt; Configuration Properties -&gt; C/C++
+  -&gt; Preprocessor -&gt; Preprocessor Definitions"</tt>. Moreover,
+  <tt>HAVE_ACML</tt> or <tt>HAVE_MKL</tt> definitions should be set up,
+  depending on the installed library.
 
 Please note that similar project settings for your program must be made for
 both the Debug and Release modes.
