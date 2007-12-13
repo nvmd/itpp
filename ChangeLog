@@ -1,5 +1,8 @@
 2007-12-13  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/local/installation.doc, doc/local/linking.doc: Documentation
+	updated to reflect changes in MSVC++ project files
+
 	* win32/itpp_acml.vcproj, win32/itpp_acml_tests/*.vcproj,
 	win32/itpp_mkl.vcproj, win32/itpp_mkl_tests/*.vcproj: Replace
 	explicit paths with LIB and INCLUDE environment variables

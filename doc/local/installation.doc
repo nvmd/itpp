@@ -541,17 +541,28 @@ It is possible to compile and link the IT++ library using the
 Intel Math Kernel Library (MKL)</a> or
 <a href="http://developer.amd.com/acml.aspx">AMD Core Math Library (ACML)</a>.
 
-First, you need to install ACML or MKL in your system. If you decided to use
+First, you need to install ACML or MKL in your system. If you decide to use
 ACML, please download the library built with PGI compiler for Windows, e.g.
 <tt>acml3.6.0-32-pgi.exe</tt> file for 32-bit systems. Please follow the
-default installation steps of the ACML or MKL installer, except for the
-installation directories. For MKL, use the following directory:
-<tt>"C:\Program Files\Intel\MKL"</tt> (without version number). For ACML:
-<tt>"C:\Program Files\AMD\acml"</tt>. After waiting a few dozens of seconds
-you should have the chosen external libraries installed on your computer.
-Finally, you should add the directory with dll files to the PATH environment
-variable, e.g. <tt>"C:\Program Files\Intel\MKL\ia32\bin"</tt>
-or <tt>"C:\Program Files\AMD\acml\pgi32\lib"</tt>.
+default installation steps of the ACML or MKL installer. After waiting a few
+dozens of seconds you should have the chosen external libraries installed on
+your computer. Finally, you need to set up a few environment variables, so
+the library and include files can be found during compilation and linking of
+the IT++ library. These environment variables are as follows:
+- \c INCLUDE - specifies the path to header files, e.g.
+  <tt>INCLUDE="C:\\Program Files\\AMD\\acml3.6.0\\pgi32\\include"</tt> for
+  ACML 3.6.0 or
+  <tt>INCLUDE="C:\\Program Files\\Intel\\MKL\\9.1\\include"</tt> for MKL 9.1
+- \c LIB - specifies the path to library files, e.g.
+  <tt>LIB="C:\\Program Files\\AMD\\acml3.6.0\\pgi32\\lib"</tt> or
+  <tt>LIB="C:\\Program Files\\Intel\\MKL\\9.1\\ia32\\lib"</tt>
+- \c PATH - specifies the runtime path to DLL libraries, e.g.
+  <tt>PATH="C:\\Program Files\\AMD\\acml3.6.0\\pgi32\\lib"</tt> or
+  <tt>PATH="C:\\Program Files\\Intel\\MKL\\9.1\\ia32\\bin"</tt>
+.
+Please note that the \c PATH environment variable is usually already defined,
+so you should just append the runtime path to DLL libraries to the existing
+\c PATH, using a semicolon as a separation character.
 
 The next step is to compile and link the IT++ library. Assuming that you
 have already downloaded and unpacked the IT++ package, you should find
@@ -563,9 +574,8 @@ linking: <tt>Debug</tt> and <tt>Release</tt>. The former can be used to
 compile a non-optimised version of the library for debugging purposes,
 named <tt>itpp_debug.lib</tt>, whereas the latter one should produce an
 optimised library named <tt>itpp.lib</tt>, which is also used by test
-programs. Both libraries are static ones and they should be created
-in <tt>win32\\lib</tt> directory. IT++ should compile and link without any
-warnings or errors.
+programs. Both libraries will be created in <tt>win32\\lib</tt> directory.
+IT++ should compile and link without any warnings or errors.
 
 Last but not least, test programs can be compiled and linked to IT++ with
 MKL or ACML by using the project files included
