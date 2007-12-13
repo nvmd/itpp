@@ -1,3 +1,8 @@
+2007-12-13  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/binfile.cpp, itpp/base/copy_vector.h: Include missing
+	header files to fix compilation using GCC 4.3
+
 2007-12-11  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/comm/ldpc.h, itpp/comm/ldpc.cpp: Improvements to the
@@ -9,7 +14,7 @@
 	counts bit errors in entire block, not only systematic bits
 
 	* itpp/comm/ldpc.cpp, tests/ldpc_test.ref: Fixed spelling error
-	
+
 2007-12-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* m4/acx_blas.m4: Improve autodetection of ACML libraries

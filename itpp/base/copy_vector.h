@@ -41,6 +41,7 @@
 #endif
 
 #include <itpp/base/binary.h>
+#include <cstring>
 
 
 //! \cond
