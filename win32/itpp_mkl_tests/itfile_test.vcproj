@@ -42,7 +42,7 @@
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\.."
 				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;HAVE_MKL;ITFILE_TEST_FILE=\&quot;../../tests/itfile_test_data.it\&quot;"
-				RuntimeLibrary="0"
+				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
 				Detect64BitPortabilityProblems="true"

@@ -8,6 +8,8 @@
 	INCLUDE environment variables with proper directories to MKL or
 	ACML librarary and include files.
 
+	Besides, build multi-threaded DLL libraries by default.
+
 	* itpp/base/binfile.cpp, itpp/base/copy_vector.h: Include missing
 	header files to fix compilation using GCC 4.3
 
