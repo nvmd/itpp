@@ -40,7 +40,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				Optimization="0"
-				AdditionalIncludeDirectories="..;&quot;C:\Program Files\AMD\acml\pgi32\include&quot;"
+				AdditionalIncludeDirectories="..;$(INCLUDE)"
 				PreprocessorDefinitions="_WIN32;_DEBUG;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;HAVE_ACML"
 				MinimalRebuild="true"
 				BasicRuntimeChecks="3"
@@ -106,7 +106,7 @@
 			/>
 			<Tool
 				Name="VCCLCompilerTool"
-				AdditionalIncludeDirectories="..;&quot;C:\Program Files\AMD\acml\pgi32\include&quot;"
+				AdditionalIncludeDirectories="..;$(INCLUDE)"
 				PreprocessorDefinitions="_WIN32;NDEBUG;_CRT_SECURE_NO_DEPRECATE;_CRT_NONSTDC_NO_DEPRECATE;HAVE_ACML"
 				RuntimeLibrary="0"
 				RuntimeTypeInfo="true"

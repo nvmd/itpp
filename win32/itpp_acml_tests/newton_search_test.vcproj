@@ -61,7 +61,7 @@
 				Name="VCLinkerTool"
 				AdditionalDependencies="itpp.lib libacml_dll.lib"
 				LinkIncremental="1"
-				AdditionalLibraryDirectories="&quot;C:\Program Files\AMD\acml\pgi32\lib&quot;;..\lib"
+				AdditionalLibraryDirectories="..\lib;$(LIB)"
 				IgnoreDefaultLibraryNames="uuid.lib"
 				GenerateDebugInformation="false"
 				SubSystem="1"
