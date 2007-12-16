@@ -1,3 +1,7 @@
+2007-12-15  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* NEWS: Release notes for IT++ 4.0.1 added
+
 2007-12-13  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* doc/Makefile.am, doc/tutorial/src/Makefile.am: Build tutorial
