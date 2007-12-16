@@ -1,4 +1,85 @@
 ===============================================================================
+IT++ version 4.0.1                                         Released: 2007-12-15
+-------------------------------------------------------------------------------
+
+This is the first bug-fix release of the current stable itpp-4-0 branch. As
+usual, the maintenance release of the IT++ library is backward compatible
+with previous versions from the same branch (4.0.x), because only bug-fixes
+and modifications that do not break the interface have been included.
+
+Here is a brief summary of the most important changes included in this
+release:
+
+
+Modifications:
+--------------
+
+* Fortran compiler is no longer required for detection of some BLAS/LAPACK
+  implementations. For instance, the BLAS and LAPACK libraries provided by
+  Intel MKL or Apple's Accelerate Framework can be used without Fortran
+  compiler installed.
+
+* Flags and libraries returned by itpp-config and "pkg-config itpp" commands
+  are adjusted to the linker requirements of a particular platform and
+  library type. With this change, the use of "--static" switch should be no
+  longer necessary. This should also fix linking problems to a shared
+  library on Mac OS X.
+
+* Major improvement in calculation performance of SVD and QR decomposition
+  routines, especially for larger matrices.
+
+* "operator*(Vec &v, Mat &m)" documented as deprecated, because its
+  behaviour is equivalent to "outer_product(v, m.get_row(0))".
+
+* "-Werror" flag is not used any more by default when compiling the
+  debugging library.
+
+* Documentation improvements of svd() and diag() functions
+
+* Latest MKL and ACML libraries should be automatically detected on both 32-
+  and 64-bit systems.
+
+* The MS Visual C++ project files now use environment variables (INCLUDE,
+  LIB and PATH) to find the location of header and library files of MKL and
+  ACML. Besides, multi-threaded DLL libraries are built by default.
+
+* "min" and "max" macros are now unconditionally undefined in config.h and
+  config_msvc.h. IT++ uses std::min() and std::max() functions.
+
+* Autoconf 2.60 is now required when building from SVN.
+
+* Improved configure checks for isfinite(), isinf() and isnan() functions.
+  This should improve portability of the library on other UNIX and BSD
+  systems.
+
+* The configuration summary is logged in the config.log file.
+
+* Added "itpp_debug.pc" pkg-config's file for linking with the debugging
+  library.
+
+
+Bug-fixes:
+----------
+
+* Fixed compilation errors when using GCC 4.3 (bug-report [1848375])
+
+* Fixed LDPC tutorial examples (bug-report [1827041])
+
+* Added a workaround for a compilation error of a few explicit
+  instantiations in converters.cpp when using GCC 3.3.x with
+  "-finline-functions" flag enabled (bug-report [1818395])
+
+* The distributed files "itpp.spec" and "itpp-config.1" are no longer
+  removed when invoking a "make distclean" command (bug-report [1818391]).
+
+* Fixed wrong calculation of bessely() caused by incompatible
+  implementations of gamma() and lgamma() functions. This problem was only
+  visible when using an Intel C++ compiler.
+
+* Prevent warnings about string to char* conversions when using GCC >= 4.2
+
+
+===============================================================================
 IT++ version 4.0.0                                         Released: 2007-10-14
 -------------------------------------------------------------------------------
 
