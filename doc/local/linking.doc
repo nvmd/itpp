@@ -151,13 +151,14 @@ be correctly set up in your MSVC++ project:
 
 - The IT++ include directory must be defined. Settings for this can be found
   in the <tt>"Tools -&gt; Options -&gt; Projects and Solutions -&gt; VC++
-  Directories -&gt; Include files"</tt> menu. Add path to <tt>"<IT++ source
-  directory>"</tt>, e.g. <tt>"C:\itpp-4.0.1"</tt>.
+  Directories -&gt; Include files"</tt> menu. Add path to
+  <tt>"<IT++ source directory>"</tt>, e.g. <tt>"C:\itpp-4.0.1"</tt>.
 
 - The IT++ library directory must be defined. Settings for this can be found
   in the <tt>"Tools -&gt; Options -&gt; Projects and Solutions -&gt; VC++
-  Directories -&gt; Library files"</tt> menu. Add path to <tt>"<IT++ source
-  directory>\win32\lib"</tt>, e.g. <tt>"C:\itpp-4.0.1\win32\lib"</tt>.
+  Directories -&gt; Library files"</tt> menu. Add path to
+  <tt>"<IT++ source directory>\win32\lib"</tt>, e.g.
+  <tt>"C:\itpp-4.0.1\win32\lib"</tt>.
 
 - The ACML or MKL library directory must be defined. If you properly set up
   the \c LIB environment variable after the installation of ACML or MKL (see
@@ -185,10 +186,10 @@ both the Debug and Release modes.
 
 \section matlab_load_and_save Using IT++ file format in Matlab/Octave
 
-IT++ provides two m-files \c `itload.m' and \c `itsave.m', which can be used
-for reading and writing IT++ data files in Matlab or GNU Octave. To ensure
-that Matlab/Octave finds these two files you should add the following
-directory <tt>`$prefix/share/itpp'</tt> to the default path in
+IT++ provides two m-files <tt>`itload.m'</tt> and <tt>`itsave.m'</tt>, which
+can be used for reading and writing IT++ data files in Matlab or GNU Octave.
+To ensure that Matlab/Octave finds these two files you should add the
+following directory <tt>`$prefix/share/itpp'</tt> to the default path in
 Matlab/Octave, e.g.:
 
 \code
