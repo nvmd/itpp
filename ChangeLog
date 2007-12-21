@@ -1,3 +1,20 @@
+2007-12-21  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/blas.h, itpp/base/vec.h: Fix wrong zdotu_ calling
+	convention on Debian amd64
+
+	This patch promotes the calling convention of BLAS zdotu_ function
+	that returns its result through the first function argument. This
+	is the default method used by older GCC Fortran
+	compiler (version 3).
+
+	On Debian amd64, the configure-time detection of the proper
+	calling convention results in both methods working. However, the
+	method that returns the complex result by value, like standard
+	C/C++ functions, causes failures of blas_test and vec_test.
+
+	This patch fixes bug report [1855481].
+
 2007-12-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* doc/local/linking.doc: Cosmetic documentation fixes
