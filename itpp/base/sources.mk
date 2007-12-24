@@ -48,6 +48,3 @@ cpp_base_sources = \
 	$(top_srcdir)/itpp/base/svec.cpp \
 	$(top_srcdir)/itpp/base/timing.cpp \
 	$(top_srcdir)/itpp/base/vec.cpp
-
-f_base_sources = \
-	$(top_srcdir)/itpp/base/zdotusub.f

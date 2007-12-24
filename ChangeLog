@@ -1,3 +1,14 @@
+2007-12-24  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac.in, itpp/base/Makefile.am, itpp/base/sources.mk,
+	itpp/base/zdotusub.f, m4/acx_blas.m4: Removed redundant zdotusub_
+	Fortran wrapper to zdotu_ function
+
+	Now, the proper calling conventions of zdotu_ Fortran function
+	should be detected properly in all cases. Therefore, the zdotusub_
+	wrapper function, which was a temporary workaround solution,
+	should not be required any more.
+
 2007-12-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* m4/ax_func_zdotu.m4: Improved zdotu_ calling convention tests
