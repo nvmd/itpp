@@ -11,15 +11,16 @@ extern "C" {
 }
 int main() {
   const int incr = 1;
-  const int size = 3;
-  cdouble a[size], b[size];
-  for (int i = 0; i < size; ++i) {
-    a[i] = cdouble(i+1.5, -i);
-    b[i] = cdouble(2, 0.5-i);
-  }
-  cdouble x_ref(11.5, -11.75);
+  const int size = 6;
+  cdouble a[size] = {cdouble( 0.7219, 0.8871), cdouble( 0.7073,-0.7953),
+                     cdouble( 0.2610, 0.4325), cdouble(-0.0565,-0.0719),
+                     cdouble( 0.7277,-0.9754), cdouble(-0.3780, 1.0718)};
+  cdouble b[size] = {cdouble(-0.0821,+0.8410), cdouble(-0.0749, 0.0729),
+                     cdouble(-0.6094,-0.2975), cdouble( 0.2106,-0.2026),
+                     cdouble( 0.1043,-0.8300), cdouble( 0.0806, 0.3698)};
+  cdouble x_ref(-2.01767031,-0.45861365);
   cdouble x = zdotu_(&size, a, &incr, b, &incr);
-  return (x == x_ref) ? 0 : 1;
+  return (std::abs(x - x_ref) < 1e-6) ? 0 : 1;
 }]])],
   [ax_cv_zdotu_ret_complex=yes], [ax_cv_zdotu_ret_complex=no])
 AC_LANG_POP([C++])])
@@ -41,16 +42,17 @@ extern "C" {
 }
 int main() {
   const int incr = 1;
-  const int size = 3;
-  cdouble a[size], b[size];
-  for (int i = 0; i < size; ++i) {
-    a[i] = cdouble(i+1.5, -i);
-    b[i] = cdouble(2, 0.5-i);
-  }
-  cdouble x_ref(11.5, -11.75);
+  const int size = 6;
+  cdouble a[size] = {cdouble( 0.7219, 0.8871), cdouble( 0.7073,-0.7953),
+                     cdouble( 0.2610, 0.4325), cdouble(-0.0565,-0.0719),
+                     cdouble( 0.7277,-0.9754), cdouble(-0.3780, 1.0718)};
+  cdouble b[size] = {cdouble(-0.0821,+0.8410), cdouble(-0.0749, 0.0729),
+                     cdouble(-0.6094,-0.2975), cdouble( 0.2106,-0.2026),
+                     cdouble( 0.1043,-0.8300), cdouble( 0.0806, 0.3698)};
+  cdouble x_ref(-2.01767031,-0.45861365);
   cdouble x;
   zdotu_(&x, &size, a, &incr, b, &incr);
-  return (x == x_ref) ? 0 : 1;
+  return (std::abs(x - x_ref) < 1e-6) ? 0 : 1;
 }]])],
    [ax_cv_zdotu_ret_void=yes], [ax_cv_zdotu_ret_void=no])
  AC_LANG_POP([C++])])
