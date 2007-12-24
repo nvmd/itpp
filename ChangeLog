@@ -1,3 +1,11 @@
+2007-12-23  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* m4/ax_func_zdotu.m4: Improved zdotu_ calling convention tests
+
+	The previous tests did not work properly on Debian unstable (sid)
+	and SUSE 10.0 64-bit architectures. The improved tests work as
+	expected.
+
 2007-12-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/blas.h, itpp/base/vec.h: Fix wrong zdotu_ calling
