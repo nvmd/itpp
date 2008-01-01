@@ -90,9 +90,9 @@ included in most modern Linux distributions.
 
 \section download Obtaining the IT++ Source Codes
 
-IT++ is released under the GNU General Public License (GPL) and hence the
-source code of the IT++ library is available for free download. To obtain
-the IT++ source code, visit the project pages on SourceForge:
+IT++ is released under the terms of the GNU General Public License (GPL) and
+hence the source code of the IT++ library is available for free download. To
+obtain the IT++ source code, visit the project pages on SourceForge:
 - <a href="http://itpp.sourceforge.net/">http://itpp.sourceforge.net/</a>
 .
 and download the file named \c itpp-\<VERSION\>.tar.gz or

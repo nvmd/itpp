@@ -1,5 +1,9 @@
 2008-01-01  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* License change: GPLv2 -> GPLv3
+
+	BTW, update Copyright years to `1995-2008'
+
 	* configure.ac.in: Add support for building a DLL library on
 	Cygwin
 
