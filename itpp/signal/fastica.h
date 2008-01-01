@@ -5,24 +5,23 @@
  *
  * -------------------------------------------------------------------------
  *
- * IT++ - C++ library of mathematical, signal processing, speech processing,
- *        and communications classes and functions
+ * Copyright (C) 1995-2008  (see AUTHORS file for a list of contributors)
  *
- * Copyright (C) 1995-2007  (see AUTHORS file for a list of contributors)
+ * This file is part of IT++ - a C++ library of mathematical, signal
+ * processing, speech processing, and communications classes and functions.
  *
- * This program is free software; you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation; either version 2 of the License, or
- * (at your option) any later version.
+ * IT++ is free software: you can redistribute it and/or modify it under the
+ * terms of the GNU General Public License as published by the Free Software
+ * Foundation, either version 3 of the License, or (at your option) any
+ * later version.
  *
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+ * IT++ is distributed in the hope that it will be useful, but WITHOUT ANY
+ * WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more
+ * details.
  *
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA
+ * You should have received a copy of the GNU General Public License along
+ * with IT++.  If not, see <http://www.gnu.org/licenses/>.
  *
  * -------------------------------------------------------------------------
  *
@@ -35,18 +34,18 @@
  *   Campus Universitaire de Beaulieu
  *   35042 RENNES cedex FRANCE
  *
- * Email : firstname.lastname@irisa.fr
+ * Email: firstname.lastname@irisa.fr
  *
  * Matlab package is Copyright (C) 1998 by:
  *   Jarmo HURRI, Hugo GAVERT, Jaakko SARELA and Aapo HYVARINEN
  *   Laboratory of Information and Computer Science
- *   Helsinki University of Technology              *
+ *   Helsinki University of Technology
  *
- * URL : http://www.cis.hut.fi/projects/ica/fastica/about.shtml
+ * URL: http://www.cis.hut.fi/projects/ica/fastica/about.shtml
  *
  * If you use results given by this FastICA software in an article for
  * a scientific journal, conference proceedings or similar, please
- * include the following original reference in the bibliography :
+ * include the following original reference in the bibliography:
  *
  *   A. Hyvarinen, Fast and Robust Fixed-Point Algorithms for
  *   Independent Component Analysis, IEEE Transactions on Neural
