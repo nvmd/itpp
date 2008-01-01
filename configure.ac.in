@@ -27,24 +27,21 @@ AC_SUBST(GENERIC_LIBRARY_VERSION)
 
 # Check for host and disable building a shared library in Windows
 AC_CANONICAL_HOST
+AC_ENABLE_SHARED
+AC_DISABLE_STATIC
 case $host_os in
-  cygwin* | mingw* | pw32*)
+  cygwin* | mingw*)
     AC_DISABLE_SHARED
     AC_ENABLE_STATIC
+    if test "x$enable_shared" = xyes; then
+      LDFLAGS="$LDFLAGS -no-undefined"
+    fi
     ;;
   freebsd5* | freebsd6*)
-    AC_ENABLE_SHARED
-    AC_DISABLE_STATIC
     freebsd_broken_std_isnan=yes
     ;;
   darwin*)
-    AC_ENABLE_SHARED
-    AC_DISABLE_STATIC
     enable_explicit_deps=yes
-    ;;
-  *)
-    AC_ENABLE_SHARED
-    AC_DISABLE_STATIC
     ;;
 esac
 
