@@ -1,3 +1,12 @@
+2008-01-01  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac.in: Add support for building a DLL library on
+	Cygwin
+
+	When libblas and liblapack are installed from Cygwin repository,
+	it is possible to build IT++ as a DLL library. This requires
+	"-no-undefined" flag to be passed to the linker.
+
 2007-12-30  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* doc/local/verification.doc: Documentation update
