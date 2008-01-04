@@ -141,6 +141,7 @@ namespace std {
 } // namespace std
 
 
+//! itpp namespace
 namespace itpp {
 
   //! Constant Pi
