@@ -1,3 +1,11 @@
+2008-01-06  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/math/log_exp.h: Fix bug [1863940] in log_add()
+	function for infinite arguments
+
+	When both arguments of log_add() function were either inf or -inf,
+	the result was NaN instead of +/-inf. This patch fixes this issue.
+
 2008-01-04  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/math/misc.h: Add missing itpp namespace description

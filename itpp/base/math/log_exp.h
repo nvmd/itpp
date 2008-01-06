@@ -36,6 +36,7 @@
 #endif
 
 #include <itpp/base/help_functions.h>
+#include <itpp/base/math/misc.h>
 #include <limits>
 
 
@@ -178,7 +179,7 @@ namespace itpp {
       log_b = tmp;
     }
     double negdelta = log_b - log_a;
-    if (negdelta < log_double_min)
+    if ((negdelta < log_double_min) || std::isnan(negdelta))
       return log_a;
     else
       return (log_a + log1p(std::exp(negdelta)));
