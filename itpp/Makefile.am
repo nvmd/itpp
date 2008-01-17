@@ -49,8 +49,9 @@ endif
 
 # Dummy C++ source to cause C++ linking
 nodist_EXTRA_lib@PACKAGE@_la_SOURCES = dummy.cxx
-lib@PACKAGE@_la_SOURCES = 
-lib@PACKAGE@_la_LDFLAGS = -version-info $(GENERIC_LIBRARY_VERSION)
+lib@PACKAGE@_la_SOURCES =
+lib@PACKAGE@_la_LDFLAGS = -version-info $(GENERIC_LIBRARY_VERSION) \
+	$(NO_UNDEFINED)
 lib@PACKAGE@_la_LIBADD = $(top_builddir)/@PACKAGE@/base/libbase.la \
 	$(top_builddir)/@PACKAGE@/stat/libstat.la \
 	$(COMM_LIB) $(FIXED_LIB) $(OPTIM_LIB) $(PROTOCOL_LIB) $(SIGNAL_LIB) \
@@ -58,8 +59,9 @@ lib@PACKAGE@_la_LIBADD = $(top_builddir)/@PACKAGE@/base/libbase.la \
 
 # Dummy C++ source to cause C++ linking
 nodist_EXTRA_lib@PACKAGE@_debug_la_SOURCES = dummy.cxx
-lib@PACKAGE@_debug_la_SOURCES = 
-lib@PACKAGE@_debug_la_LDFLAGS = -version-info $(GENERIC_LIBRARY_VERSION)
+lib@PACKAGE@_debug_la_SOURCES =
+lib@PACKAGE@_debug_la_LDFLAGS = -version-info $(GENERIC_LIBRARY_VERSION) \
+	$(NO_UNDEFINED)
 lib@PACKAGE@_debug_la_LIBADD = $(top_builddir)/@PACKAGE@/base/libbase_debug.la \
 	$(top_builddir)/@PACKAGE@/stat/libstat_debug.la \
 	$(COMM_D_LIB) $(FIXED_D_LIB) $(OPTIM_D_LIB) $(PROTOCOL_D_LIB) \
