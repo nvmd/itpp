@@ -1,5 +1,19 @@
 2008-01-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/signal/window.cpp, itpp/signal/window.h,
+	tests/window_test.cpp, tests/window_test.ref: Add Dolph-Chebyshev
+	window
+
+	Add the chebwin() function to evaluate the coefficients of the
+	Dolph-Chebyshev window. Testing routines implemented as well.
+
+	The tests check the values output by the Dolph-Chebyshev window
+	function for lengths 32 and 33 for 50 dB suppression and for
+	lengths 127 and 128 at 25 dB suppression.
+
+	Thanks to Kumar Appaiah for providing and improving the patches.
+	This commit closes feature request [1869927].
+
 	* itpp/signal/poly.cpp, itpp/signal/poly.h, tests/poly_test.cpp,
 	tests/poly_test.ref: Add cheb() functions - first order Chebyshev
 	polynomial

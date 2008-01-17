@@ -1,7 +1,8 @@
 /*!
  * \file
  * \brief Windowing functions test program
- * \author Tony Ottosson, Tobias Ringstrom, Pal Frenger and Adam Piatyszek
+ * \author Tony Ottosson, Tobias Ringstrom, Pal Frenger, Adam Piatyszek
+ *         and Kumar Appaiah
  *
  * -------------------------------------------------------------------------
  *
@@ -55,6 +56,11 @@ int main(void)
 
   cout << "triang(32) = " << round_to_zero(triang(32)) << endl;
   cout << "triang(128) = " << round_to_zero(triang(128)) << endl;
+
+  cout << "chebwin(32) = " << round_to_zero(chebwin(32, 50)) << endl;
+  cout << "chebwin(33) = " << round_to_zero(chebwin(33, 20)) << endl;
+  cout << "chebwin(127) = " << round_to_zero(chebwin(127, 25)) << endl;
+  cout << "chebwin(128) = " << round_to_zero(chebwin(128, 25)) << endl;
 
   return 0;
 }
