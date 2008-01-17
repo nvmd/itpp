@@ -1,7 +1,8 @@
 /*!
  * \file
  * \brief Definitions of window functions
- * \author Tony Ottosson, Tobias Ringstrom, Pal Frenger and Adam Piatyszek
+ * \author Tony Ottosson, Tobias Ringstrom, Pal Frenger, Adam Piatyszek
+ *         and Kumar Appaiah
  *
  * -------------------------------------------------------------------------
  *
@@ -105,6 +106,26 @@ namespace itpp {
   sqrt_win(n) = sqrt(triang(n))
   */
   vec sqrt_win(int n);
+
+
+  /*!
+    \brief Dolph-Chebyshev window
+
+    The length \c n Dolph-Chebyshev window is a vector \f$w\f$ whose \f$i\f$th
+    transform component is given by
+    \f[
+    W[k] = \frac{T_M\left(\beta \cos\left(\frac{\pi k}{M}\right)
+    \right)}{T_M(\beta)},k = 0, 1, 2, \ldots, M - 1
+    \f]
+    where \c T_n(x) is the order \c n Chebyshev polynomial of the first kind.
+
+    \param n length of the Doplh-Chebyshev window
+    \param at attenutation of side lobe (in dB)
+    \return symmetric length \c n Doplh-Chebyshev window
+
+    \author Kumar Appaiah and Adam Piatyszek (code review)
+  */
+  vec chebwin(int n, double at);
   //!@}
 
 

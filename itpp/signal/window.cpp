@@ -1,7 +1,8 @@
 /*!
  * \file
  * \brief Implementation of window functions
- * \author Tony Ottosson, Tobias Ringstrom, Pal Frenger and Adam Piatyszek
+ * \author Tony Ottosson, Tobias Ringstrom, Pal Frenger, Adam Piatyszek
+ *         and Kumar Appaiah
  *
  * -------------------------------------------------------------------------
  *
@@ -27,7 +28,12 @@
  */
 
 #include <itpp/signal/window.h>
-
+#include <itpp/signal/poly.h>
+#include <itpp/base/specmat.h>
+#include <itpp/base/converters.h>
+#include <itpp/base/math/trig_hyp.h>
+#include <itpp/signal/transforms.h>
+#include <itpp/base/operators.h>
 
 namespace itpp {
 
@@ -106,6 +112,38 @@ namespace itpp {
     return t;
   }
 
+  vec chebwin(int n, double at)
+  {
+    it_assert((n > 0), "chebwin(): need a positive order n!");
+
+    if (n == 1) {
+      return vec("1");
+    }
+
+    at = at < 0 ? -at : at;
+    // compute the parameter beta
+    double beta = std::cosh(::acosh(pow10(at / 20)) / (n - 1));
+    vec k = (pi / n) * linspace(0, n - 1, n);
+    vec cos_k = cos(k);
+    // find the window's DFT coefficients
+    vec p = cheb(n - 1, beta * cos_k);
+
+    vec w(n); // the window vector
+    // Appropriate IDFT and filling up depending on even/odd n
+    if (is_even(n)) {
+      w = ifft_real(to_cvec(elem_mult(p, cos_k), elem_mult(p, -sin(k))));
+      int half_length = n / 2 + 1;
+      w = w.left(half_length) / w(1);
+      w = concat(reverse(w), w.right(n - half_length));
+    }
+    else {
+      w = ifft_real(to_cvec(p));
+      int half_length = (n + 1) / 2;
+      w = w.left(half_length) / w(0);
+      w = concat(reverse(w), w.right(n - half_length));
+    }
+    return w;
+  }
 
 
 } // namespace itpp
