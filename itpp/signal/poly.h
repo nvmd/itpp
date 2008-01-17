@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Polynomial functions
- * \author Tony Ottosson
+ * \author Tony Ottosson, Kumar Appaiah and Adam Piatyszek
  *
  * -------------------------------------------------------------------------
  *
@@ -82,6 +82,77 @@ namespace itpp {
   cvec polyval(const cvec &p, const cvec &x);
   /*! @} */
 
+  /*!
+    \brief Chebyshev polynomial of the first kind
+    \ingroup poly
+
+    Chebyshev polynomials of the first kind can be defined as follows:
+    \f[
+    T(x) = \left\{
+    \begin{array}{ll}
+    \cos(n\arccos(x)),& |x| \leq 0 \\
+    \cosh(n\mathrm{arccosh}(x)),& x > 1 \\
+    (-1)^n \cosh(n\mathrm{arccosh}(-x)),& x < -1
+    \end{array}
+    \right.
+    \f]
+
+    \param n order of the Chebyshev polynomial
+    \param x value at which the Chebyshev polynomial is to be evaluated
+
+    \author Kumar Appaiah, Adam Piatyszek (code review)
+  */
+  double cheb(int n, double x);
+
+  /*!
+    \brief Chebyshev polynomial of the first kind
+    \ingroup poly
+
+    Chebyshev polynomials of the first kind can be defined as follows:
+    \f[
+    T(x) = \left\{
+    \begin{array}{ll}
+    \cos(n\arccos(x)),& |x| \leq 0 \\
+    \cosh(n\mathrm{arccosh}(x)),& x > 1 \\
+    (-1)^n \cosh(n\mathrm{arccosh}(-x)),& x < -1
+    \end{array}
+    \right.
+    \f]
+
+    \param n order of the Chebyshev polynomial
+    \param x vector of values at which the Chebyshev polynomial is to
+    be evaluated
+    \return values of the Chebyshev polynomial evaluated for each
+    element of \c x
+
+    \author Kumar Appaiah, Adam Piatyszek (code review)
+  */
+  vec cheb(int n, const vec &x);
+
+  /*!
+    \brief Chebyshev polynomial of the first kind
+    \ingroup poly
+
+    Chebyshev polynomials of the first kind can be defined as follows:
+    \f[
+    T(x) = \left\{
+    \begin{array}{ll}
+    \cos(n\arccos(x)),& |x| \leq 0 \\
+    \cosh(n\mathrm{arccosh}(x)),& x > 1 \\
+    (-1)^n \cosh(n\mathrm{arccosh}(-x)),& x < -1
+    \end{array}
+    \right.
+    \f]
+
+    \param n order of the Chebyshev polynomial
+    \param x matrix of values at which the Chebyshev polynomial is to
+    be evaluated
+    \return values of the Chebyshev polynomial evaluated for each
+    element in \c x.
+
+    \author Kumar Appaiah, Adam Piatyszek (code review)
+  */
+  mat cheb(int n, const mat &x);
 } // namespace itpp
 
 #endif // #ifndef POLY_H
