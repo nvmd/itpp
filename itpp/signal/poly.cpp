@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Polynomial functions
- * \author Tony Ottosson
+ * \author Tony Ottosson, Kumar Appaiah and Adam Piatyszek
  *
  * -------------------------------------------------------------------------
  *
@@ -186,6 +186,42 @@ namespace itpp {
     return out;
   }
 
+  double cheb(int n, double x)
+  {
+    it_assert((n >= 0), "cheb(): need a non-negative order n!");
 
+    if (x < 1.0 && x > -1.0) {
+      return std::cos(n * std::acos(x));
+    }
+    else if (x <= -1) {
+      return (is_even(n) ? std::cosh(n * ::acosh(-x))
+              : -std::cosh(n * ::acosh(-x)));
+    }
+    return std::cosh(n * ::acosh(x));
+  }
+
+  vec cheb(int n, const vec &x)
+  {
+    it_assert_debug(x.size() > 0, "cheb(): empty vector");
+
+    vec out(x.size());
+    for (int i = 0; i < x.size(); ++i) {
+      out(i) = cheb(n, x(i));
+    }
+    return out;
+  }
+
+  mat cheb(int n, const mat &x)
+  {
+    it_assert_debug((x.rows() > 0) && (x.cols() > 0), "cheb(): empty matrix");
+
+    mat out(x.rows(), x.cols());
+    for (int i = 0; i < x.rows(); ++i) {
+      for (int j = 0; j < x.cols(); ++j) {
+        out(i, j) = cheb(n, x(i, j));
+      }
+    }
+    return out;
+  }
 
 } // namespace itpp

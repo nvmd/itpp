@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Polynomial routines test program
- * \author Tony Ottosson and Adam Piatyszek
+ * \author Tony Ottosson, Adam Piatyszek and Kumar Appaiah
  *
  * -------------------------------------------------------------------------
  *
@@ -27,6 +27,7 @@
  */
 
 #include <itpp/itsignal.h>
+#include <iomanip>
 
 using namespace itpp;
 using namespace std;
@@ -34,10 +35,12 @@ using namespace std;
 
 int main()
 {
-
   cout << "===================================" << endl;
   cout << "    Test of polynomial routines    " << endl;
   cout << "===================================" << endl;
+
+  cout.setf(ios::fixed);
+  cout.precision(8);
 
   {
     cout << "Real polynomials" << endl;
@@ -81,6 +84,14 @@ int main()
     cvec y = polyval(p, x);
     cout << "x = " << x << endl;
     cout << "polyval(p, x) = " << y << endl;
+  }
+
+  {
+    cout << "Chebyshev polynomial" << endl;
+    vec x = randn(8);
+    cout << "x = " << x << endl;
+    cout << "cheb(10, x) = " << cheb(10, x) << endl;
+    cout << "cheb(15, x) = " << cheb(15, x) << endl;
   }
 
   return 0;
