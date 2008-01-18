@@ -40,7 +40,7 @@ int main()
   cout << "===================================" << endl;
 
   cout.setf(ios::fixed);
-  cout.precision(8);
+  cout.precision(6);
 
   {
     cout << "Real polynomials" << endl;
