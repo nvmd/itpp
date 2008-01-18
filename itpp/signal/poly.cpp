@@ -31,6 +31,7 @@
 #include <itpp/base/algebra/eigen.h>
 #include <itpp/base/specmat.h>
 #include <itpp/base/matfunc.h>
+#include <itpp/base/math/trig_hyp.h>
 
 
 namespace itpp {
