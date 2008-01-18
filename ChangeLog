@@ -1,5 +1,14 @@
 2008-01-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/poly_test.cpp, tests/poly_test.ref, tests/window_test.cpp,
+	tests/window_test.ref: Change cout format to "fixed" and
+	workaround precision problem on MinGW
+
+	With this change, we can get rid of round_to_zero() workaround
+	functions preventing precision differences when using MinGW. BTW,
+	limit precision to 6 in poly_test to workaround precision problems
+	when using MinGW/MSYS.
+
 	* itpp/signal/poly.cpp: Add missing include file required when
 	using MSVC++
 
