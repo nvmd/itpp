@@ -13,6 +13,7 @@ check_tool() {
 check_tool "autoconf"
 check_tool "automake"
 check_tool "libtoolize"
+check_tool "sed"
 
 test "$DIE" = yes && exit 1
 
@@ -24,7 +25,18 @@ cd "$srcdir" || exit $?
 
 PV="`cat VERSION | cut -d' ' -f1`"
 LV="`cat VERSION | cut -d' ' -f2`"
+if test "x`cat VERSION | cut -d' ' -f3`" = "xsvn"; then
+    if test -d ".git/svn"; then
+	PV="${PV}.r`LC_ALL=C git svn find-rev HEAD`"
+    elif test -d ".svn"; then
+	PV="${PV}.r`LC_ALL=C svn info $0 | sed -n 's/^Revision: //p'`"
+    else
+	PV="${PV}.d`LC_ALL=C date +%Y%m%d`"
+    fi
+fi
 PD="`LC_ALL=C date +\"%B %Y\"`"
+
+echo "Bootstapping IT++ version ${PV}"
 
 sed -e "s/@PACKAGE_VERSION@/${PV}/" -e "s/@LIBRARY_VERSION@/${LV}/" \
 	< configure.ac.in > configure.ac || exit $?
