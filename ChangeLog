@@ -1,3 +1,15 @@
+2008-01-23  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* Makefile.am, VERSION, autogen.sh: Optionally append SVN revision
+	to IT++ package version
+
+	When bootstrapping IT++ sources from SVN or Git repositories
+	append the SVN revision number to the package version string. This
+	feature is triggered by including the additional "svn" keyword in
+	at the end of the first line of the VERSION file.
+
+	BTW, remove snapshot and snapshot-html top Makefile's targets.
+
 2008-01-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/poly_test.cpp, tests/poly_test.ref, tests/window_test.cpp,
