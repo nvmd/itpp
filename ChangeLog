@@ -1,3 +1,15 @@
+2008-01-31  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/gf2mat.cpp: Fix GF2mat_sparse_alist::from_sparse()
+	conversion function
+
+	The conversion function from GF2mat_sparse format to "alist" text
+	file format could incorrectly create the "mlist" and "nlist"
+	matrices with indexes of non-zero entries. This patch fixes this
+	bug and also improves the conversion speed by using the
+	get_nz_indices() function from Sparse_Vec class and set_row()
+	instead of append_row() where possible.
+
 2008-01-23  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* Makefile.am, VERSION, autogen.sh: Optionally append SVN revision

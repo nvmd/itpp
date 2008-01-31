@@ -228,33 +228,42 @@ namespace itpp {
 
       // fill mlist matrix, num_mlist vector and max_num_m
       mlist.set_size(0, 0);
+      int tmp_cols = 0; // initial number of allocated columns
       for (int i = 0; i < M; i++) {
-	ivec temp_row(0);
-	for (int j = 0; j < N; j++) {
-	  if (sbmat(i, j) == bin(1)) {
-	    temp_row = concat(temp_row, j + 1);
-	  }
-	}
-	mlist.set_size(mlist.rows(), std::max(mlist.cols(), temp_row.size()),
-		       true);
-	mlist.append_row(temp_row);
-	num_mlist(i) = temp_row.length();
+        ivec temp_row(0);
+        for (int j = 0; j < N; j++) {
+          if (sbmat(i, j) == bin(1)) {
+            temp_row = concat(temp_row, j + 1);
+          }
+        }
+        int trs = temp_row.size();
+        if (trs > tmp_cols) {
+          tmp_cols = trs;
+          mlist.set_size(M, tmp_cols, true);
+        }
+        else if (trs < tmp_cols) {
+          temp_row.set_size(tmp_cols, true);
+        }
+        mlist.set_row(i, temp_row);
+        num_mlist(i) = trs;
       }
       max_num_m = max(num_mlist);
 
       // fill nlist matrix, num_nlist vector and max_num_n
       nlist.set_size(0, 0);
+      tmp_cols = 0; // initial number of allocated columns
       for (int j = 0; j < N; j++) {
-	ivec temp_row(0);
-	for (int i = 0; i < M; i++) {
-	  if (sbmat(i, j) == bin(1)) {
-	    temp_row = concat(temp_row, i + 1);
-	  }
-	}
-	nlist.set_size(nlist.rows(), std::max(nlist.cols(), temp_row.size()),
-		       true);
-	nlist.append_row(temp_row);
-	num_nlist(j) = temp_row.length();
+        ivec temp_row = sbmat.get_col(j).get_nz_indices() + 1;
+        int trs = temp_row.size();
+        if (trs > tmp_cols) {
+          tmp_cols = trs;
+          nlist.set_size(N, tmp_cols, true);
+        }
+        else if (trs < tmp_cols) {
+          temp_row.set_size(tmp_cols, true);
+        }
+        nlist.set_row(j, temp_row);
+        num_nlist(j) = trs;
       }
       max_num_n = max(num_nlist);
 
