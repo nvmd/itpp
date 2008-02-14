@@ -56,7 +56,7 @@ int main(int argc, char *argv[])
   string n;
   Array<Array<cvec> > o, q;
 
-  cout << "Use the Parser class on a parameter file:" << endl;
+  cout << "Use the Parser class on a parameter file:" << boolalpha << endl;
   p.init(string(PARSER_TEST_FILE));
   a  = p.get_int("a");      cout << "a  = " << a  << endl;
   b0 = p.get_double("b");   //The default value of b
@@ -148,9 +148,19 @@ int main(int argc, char *argv[])
   p.get(l, "l");
   p.get(m, "m");
   p.get(n, "n");
-  p.get(o, "o");                        //Get a more complex type
-  set_array(q, "{{[1][2 3][4 5 6]}}");  //Initialize q
-  p.get(q, "q");                        //Try (and fail) to get q
+  p.get(o, "o");
+  // The following tries can not be found in the data file, so their initial
+  // values should not be changed:
+  set_array(q, "{{[1][2 3][4 5 6]}}");
+  p.get(q, "q");
+  bool r = true;
+  p.get(r, "r");
+  int s = 7;
+  p.get(s, "s");
+  double t = 3.14;
+  p.get(t, "t");
+  std::string u = "test string";
+  p.get(u, "u");
   cout << "------------------------------------------------------------" << endl;
 
   cout << "Check if variables exist in the Parser:" << endl;

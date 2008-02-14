@@ -18,8 +18,8 @@ k  = [[0 1 0 1]
  [1 0 1 0]
  [0 0 0 0]
  [1 1 1 1]]
-l  = 0
-m  = 1
+l  = false
+m  = true
 n  = Hello World
 ------------------------------------------------------------
 Use the Parser class on the command line input:
@@ -70,13 +70,17 @@ k = [[0 1 0 1]
  [1 0 1 0]
  [0 0 0 0]
  [1 1 1 1]];
-l = 0;
-m = 1;
+l = false;
+m = true;
 n = 'Hello World';
 o = {{[1+2i 3+4i] [5+6i]} {[7+0i 8+0i 9+0i]}}
 q = {{[1+0i] [2+0i 3+0i] [4+0i 5+0i 6+0i]}};
+r = true;
+s = 7;
+t = 3.14;
+u = 'test string';
 ------------------------------------------------------------
 Check if variables exist in the Parser:
-p.exist("a") = 1
-p.exist("aa") = 0
+p.exist("a") = true
+p.exist("aa") = false
 ------------------------------------------------------------
