@@ -1,5 +1,33 @@
 2008-02-14  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/parser.cpp, tests/parser_test.cpp,
+	tests/parser_test.ref: Fix wrong verbose output of Parser's get()
+	function for int and bool types
+
+	When Parser was used to scan an already defined int or bool
+	variable and the parsed variable was not found, the verbose
+	output was wrong. Here is a minimum example:
+
+          Parser p(argc, argv);
+	  int i = 5;
+	  bool b = true;
+          p.get(a, "a");
+	  p.get(b, "b");
+
+	The wrong output of this program was:
+
+	  i = [];
+	  b = ;
+
+	instead of:
+
+	  i = 5;
+	  b = 1;
+
+	This patch fixes this problem and also improves the parser_test
+	program, to detect such issues in future. Thanks to Jia-Yin for
+	reporting this problem.
+
 	* itpp/comm/convcode.h: Documentation improvements related to
 	encoder state.
 

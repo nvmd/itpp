@@ -349,7 +349,7 @@ namespace itpp {
     out = ivec(findname(name, error_flag, print_flag, num));
     if (error_flag) {
       if (VERBOSE) {
-	cout << name << " = " << out << ";" << endl;
+	cout << name << " = " << var << ";" << endl;
       }
     } else {
       it_assert(out.size() == 1, "Parser::get(int): Improper variable string: "
@@ -372,7 +372,7 @@ namespace itpp {
     ss = findname(name, error_flag, print_flag, num);
     if (error_flag) {
       if (VERBOSE) {
-	cout << name << " = " << ss << ";" << endl;
+	cout << name << " = " << var << ";" << endl;
       }
     } else {
       if ((ss == "true") || (ss == "1")) {
