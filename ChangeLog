@@ -1,5 +1,13 @@
 2008-02-14  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/comm/convcode.h: Documentation improvements related to
+	encoder state.
+
+	This patch improves the documentation of the encoding and decoding
+	functions. Especially, it clarifies why set_start_state() and
+	init_encoder() methods have no effect on encode_tail() and
+	encode_tailbite() functions.
+
 	* itpp/comm/modulator.h: Improve the documentation of
 	Modulator::get_bits2symbols() function
 

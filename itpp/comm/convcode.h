@@ -68,7 +68,7 @@ namespace itpp {
     the set_method() function.
 
     Example of use: (rate 1/3 constraint length K=7 ODS code using BPSK
-		over AWGN)
+    over AWGN)
     \code
     BPSK bpsk;
     Convolutional_Code code;
@@ -93,7 +93,7 @@ namespace itpp {
     Information Theory, Scool of Electrical and Computer Engineering,
     Chalmers University of Technology, Goteborg 1997.
 
-    It is also possible to set the generatorpolynomials directly using
+    It is also possible to set the generator polynomials directly using
     the builtin tables which consists of: Maximum Free Distance (MFD)
     Codes of rates R=1/2 through R=1/8 and Optimum Distance Spectrum
     (ODS) Codes of rates R=1/2 through R=1/4.
@@ -136,7 +136,7 @@ namespace itpp {
 
 
     //@{
-    //! Encode a binary vector of inputs using specified method
+    //! Encode an input binary vector using specified method (Tail by default)
     virtual void encode(const bvec &input, bvec &output);
     virtual bvec encode(const bvec &input)
     {
@@ -145,7 +145,12 @@ namespace itpp {
     //@}
 
     //@{
-    //! Encode a binary vector starting from the previous encoder state
+    /*!
+     * \brief Encode a binary vector starting from the previous encoder state
+     *
+     * The initial encoder state can be changed using set_start_state()
+     * and init_encoder() functions.
+     */
     void encode_trunc(const bvec &input, bvec &output);
     bvec encode_trunc(const bvec &input)
     {
@@ -155,12 +160,15 @@ namespace itpp {
 
     //@{
     /*!
-      \brief Encoding that starts and ends in the zero state
-
-      Encode a binary vector of inputs starting from zero state and
-      also adds a tail of K-1 zeros to force the encoder into the zero
-      state. Well suited for packet transmission.
-    */
+     * \brief Encoding that starts and ends in the zero state
+     *
+     * Encode a binary vector of inputs starting from zero state and also
+     * adds a tail of K-1 zeros to force the encoder into the zero state.
+     * Well suited for packet transmission.
+     *
+     * \note The init_encoder() function has no effect on the starting state
+     * for this method.
+     */
     void encode_tail(const bvec &input, bvec &output);
     bvec encode_tail(const bvec &input)
     {
@@ -169,7 +177,20 @@ namespace itpp {
     //@}
 
     //@{
-    //! Encode a binary vector of inputs using tailbiting
+    /*!
+     * \brief Encode an input binary vector using tailbiting
+     *
+     * In the Tailbiting method the starting state of the encoder is
+     * initialised with the last K-1 bits of the input vector. This gives an
+     * additional information to the decoder that the starting and ending
+     * states are identical, although not known a priori.
+     *
+     * Well suited for packet transmission with small packets, because there
+     * is no tail overhead as in the Tail method.
+     *
+     * \note The init_encoder() function has no effect on the starting state
+     * for this method.
+     */
     void encode_tailbite(const bvec &input, bvec &output);
     bvec encode_tailbite(const bvec &input)
     {
@@ -190,12 +211,12 @@ namespace itpp {
     }
     //@}
 
-    // ------------ Hard-decision decoding is not implemented -------------------
+    // ------------ Hard-decision decoding is not implemented ----------------
     virtual void decode(const bvec &coded_bits, bvec &decoded_bits);
     virtual bvec decode(const bvec &coded_bits);
 
     //@{
-    //! Decode a block of encoded data using specified method
+    //! Decode a block of encoded data using specified method (Tail by default)
     virtual void decode(const vec &received_signal, bvec &output);
     virtual bvec decode(const vec &received_signal)
     {
@@ -218,8 +239,14 @@ namespace itpp {
     //@}
 
     //@{
-    //! \brief Decode a block of encoded data where encode_tailbite has been
-    //!        used. Tries all start states.
+    /*!
+     * \brief Decode a block of encoded data where encode_tailbite has been
+     * used.
+     *
+     * The decoding algorithm tries all start states, so the
+     * decode_tailbite() is \f$2^{K-1}\f$ times more complex than the
+     * decode_tail method.
+     */
     virtual void decode_tailbite(const vec &received_signal, bvec &output);
     virtual bvec decode_tailbite(const vec &received_signal)
     {
@@ -241,7 +268,7 @@ namespace itpp {
     virtual double get_rate(void) const { return rate; }
 
 
-    //! Set encoder default start state
+    //! Set encoder default start state.
     void set_start_state(int state)
     {
       it_error_if((state < 0) || ((state >= (1 << m)) && m != 0),
@@ -249,7 +276,10 @@ namespace itpp {
       start_state = state;
     }
 
-    //! Initialise internal encoder state with start state
+    /*!
+     * \brief Initialise internal encoder state with start state. Has no
+     * effect on \c Tail and \c Tailbite methods.
+     */
     void init_encoder() { encoder_state = start_state; }
 
     //!  Get the current encoder state
@@ -259,7 +289,8 @@ namespace itpp {
     //! Set memory truncation length. Must be at least K.
     void set_truncation_length(const int length)
     {
-      it_error_if(length < K, "Convolutional_Code::set_truncation_length(): Truncation length shorter than K");
+      it_error_if(length < K, "Convolutional_Code::set_truncation_length(): "
+                  "Truncation length shorter than K");
       trunc_length = length;
     }
 
