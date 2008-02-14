@@ -1,3 +1,8 @@
+2008-02-14  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/modulator.h: Improve the documentation of
+	Modulator::get_bits2symbols() function
+
 2008-01-31  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/gf2mat.cpp: Fix GF2mat_sparse_alist::from_sparse()

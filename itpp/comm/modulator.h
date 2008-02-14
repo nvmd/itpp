@@ -84,9 +84,25 @@ namespace itpp {
 
     //! Returns number of bits per symbol
     virtual int bits_per_symbol() const { return k; }
-    //! Get the symbol values used in the modulator.
+    //! Get the symbol values used in the modulator
     virtual Vec<T> get_symbols() const { return symbols; }
-    //! Get the bitmap in the decimal form
+    /*!
+     * \brief Get the bitmap, which maps input bits into symbols
+     *
+     * The mapping is done as follows. An input bit sequence in decimal
+     * notation is used for indexing the \c bits2symbols table. The indexing
+     * result denotes the symbol to be used from the \c symbols table, e.g.:
+     *
+     * \code
+     * PSK mod(8); // assume 8-PSK modulator
+     * cvec sym =  mod.get_symbols();
+     * ivec bits2sym = mod.get_bits2symbols();
+     * bvec in_bits = "100" // input bits
+     * int d = bin2dec(in_bits); // decimal representation of in_bits = 4
+     * // mapping of d into PSK symbol using bits2sym and sym tables
+     * std::complex<double> out_symbol = sym(bits2sym(d));
+     * \endcode
+     */
     virtual ivec get_bits2symbols() const { return bits2symbols; }
 
     //! Modulation of symbols
