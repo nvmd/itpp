@@ -14,9 +14,9 @@ endif
 
 SUBDIRS = itpp extras win32 $(HTML_DOC_DIR) $(TEST_DIR)
 
-EXTRA_DIST = autogen.sh ChangeLog-2005 ChangeLog-2006 configure.ac.in \
-	itpp-config.1.in itpp.spec itpp.spec.in Makefile.common NEWS-3.10 \
-	NEWS-3.9 NEWS-3.99 TODO VERSION
+EXTRA_DIST = autogen.sh ChangeLog-2005 ChangeLog-2006 ChangeLog-2007	\
+	configure.ac.in itpp-config.1.in itpp.spec itpp.spec.in		\
+	Makefile.common NEWS-3.10 NEWS-3.9 NEWS-3.99 TODO VERSION
 
 man_MANS = itpp-config.1
 dist_man_MANS = itpp-config.1
