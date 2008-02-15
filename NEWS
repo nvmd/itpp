@@ -1,4 +1,46 @@
 ===============================================================================
+IT++ version 4.0.2                                         Released: 2008-02-15
+-------------------------------------------------------------------------------
+
+This is the second bug-fix release of the current IT++ stable branch
+(itpp-4-0). A brief list of modifications and bug-fixes in this maintenance
+release is as follows:
+
+
+Modifications:
+--------------
+
+* Documentation improvements:
+  - better description of the encoding/decoding and encoder state setting
+    functions of the Convolutional_Code class
+  - detailed description added to the get_bits2symbols() method of the
+    Modulator base class
+  - missing itpp namespace documentation is now generated (due to the
+    Doxygen's changes)
+
+* Added support for building a DLL library on Cygwin (IT++ has to be linked
+  to Cygwin's libblas and liblapack DLLs).
+
+
+Bug-fixes:
+----------
+
+* Fixed wrong result of the log_add() function for infinite arguments
+  (bug report [1863940])
+
+* Fixed GF2mat_sparse_alist::from_sparse() conversion function, which was
+  not usable for most of non-regular sparse matrices.
+
+* Fixed wrong verbose output of the Parser::get() function for "int" and
+  "bool" types of the parsed variables
+
+* Improved zdotu_ calling convention tests, which should solve problems with
+  blas_test and vec_test reported for 64-bit versions of Debian and SUSE
+  Linux systems (bug report [1855481]). A Fortran wrapper function zdotusub_
+  is no longer distributed with IT++.
+
+
+===============================================================================
 IT++ version 4.0.1                                         Released: 2007-12-15
 -------------------------------------------------------------------------------
 
