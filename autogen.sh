@@ -17,33 +17,36 @@ check_tool "sed"
 
 test "$DIE" = yes && exit 1
 
-srcdir=`dirname $0`
-test -z "$srcdir" && srcdir=.
-ORIGDIR=`pwd`
-cd "$srcdir" || exit $?
+srcdir=$(dirname $0)
+test -z "${srcdir}" && srcdir=.
+ORIGDIR=$(pwd)
+cd "${srcdir}" || exit $?
 
 
-PV="`cat VERSION | cut -d' ' -f1`"
-LV="`cat VERSION | cut -d' ' -f2`"
-if test "x`cat VERSION | cut -d' ' -f3`" = "xsvn"; then
+PV=$(cat VERSION | cut -d' ' -f1)
+LV=$(cat VERSION | cut -d' ' -f2)
+if test "x$(cat VERSION | cut -d' ' -f3)" = "xsvn"; then
     if test -d ".git/svn"; then
-	PV="${PV}.r`LC_ALL=C git svn find-rev HEAD`"
+        REV=$(LC_ALL=C git svn find-rev HEAD)
     elif test -d ".svn"; then
-	PV="${PV}.r`LC_ALL=C svn info $0 | sed -n 's/^Revision: //p'`"
+        REV=$(LC_ALL=C svn info $0 | sed -n 's/^Revision: //p')
+    fi
+    if test "x${REV}" != x; then
+        PV="${PV}.r${REV}"
     else
-	PV="${PV}.d`LC_ALL=C date +%Y%m%d`"
+        PV="${PV}.d`LC_ALL=C date +%Y%m%d`"
     fi
 fi
-PD="`LC_ALL=C date +\"%B %Y\"`"
+PD=$(LC_ALL=C date +"%B %Y")
 
 echo "Bootstapping IT++ version ${PV}"
 
 sed -e "s/@PACKAGE_VERSION@/${PV}/" -e "s/@LIBRARY_VERSION@/${LV}/" \
-	< configure.ac.in > configure.ac || exit $?
+    < configure.ac.in > configure.ac || exit $?
 sed -e "s/@PACKAGE_VERSION@/${PV}/" \
-	< itpp.spec.in > itpp.spec || exit $?
+    < itpp.spec.in > itpp.spec || exit $?
 sed -e "s/@PACKAGE_VERSION@/${PV}/" -e "s/@PACKAGE_DATE@/${PD}/" \
-	< itpp-config.1.in > itpp-config.1 || exit $?
+    < itpp-config.1.in > itpp-config.1 || exit $?
 
 test ! -d build-aux && (mkdir build-aux || exit $?)
 
@@ -54,4 +57,4 @@ autoconf || exit $?
 autoheader || exit $?
 automake --add-missing --copy || exit $?
 
-cd "$ORIGDIR" || exit $?
+cd "${ORIGDIR}" || exit $?

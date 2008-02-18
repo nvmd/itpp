@@ -1,5 +1,10 @@
 2008-02-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* autogen.sh: Cosmetic improvements
+
+	Replace back-ticks `...` with POSIX shell syntax $(...). BTW,
+	improve generation of a snapshot version string.
+
 	* itpp/base/blas.h, itpp/base/vec.cpp, itpp/base/vec.h,
 	itpp/config_msvc.h, m4/acx_blas.m4, m4/ax_func_zdotu.m4: Use
 	zdotusub_ Fortran wrapper by default
