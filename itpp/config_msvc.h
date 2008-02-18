@@ -133,6 +133,9 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
 
+/* Define if zdotu_ is not usable. */
+/* #undef HAVE_NO_ZDOTU */
+
 /* Define to 1 if you have the `rint' function. */
 /* #undef HAVE_RINT */
 
@@ -169,11 +172,8 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
-/* Define if zdotu_ can return result like a function. */
-/* #undef HAVE_ZDOTU_RETURN */
-
-/* Define if zdotu_ can pass result as its first argument. */
-#define HAVE_ZDOTU_VOID 1
+/* Define if you use ZDOTUSUB wrapper function. */
+/* #undef HAVE_ZDOTUSUB */
 
 /* Define if you want exceptions handling */
 /* #undef ITPP_EXCEPTIONS */

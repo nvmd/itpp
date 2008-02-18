@@ -1,4 +1,19 @@
-2008-02-17  Adam Piatyszek  <ediap@users.sourceforge.net>
+2008-02-18  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/blas.h, itpp/base/vec.cpp, itpp/base/vec.h,
+	itpp/config_msvc.h, m4/acx_blas.m4, m4/ax_func_zdotu.m4: Use
+	zdotusub_ Fortran wrapper by default
+
+	This patch removes the run-time checks for correct zdotu_ calling
+	conventions, which caused a lot of portability problems in IT++
+	4.0.1 and 4.0.2 releases. The preferred method is now to use the
+	locally provided zdotusub_ Fortran wrapper (as in 4.0.0 release).
+	This requires the availability of a Fortran compiler, unless an
+	Intel MKL library is used, in which zdotu_ can be called directly
+	from C++ without any problems. If no Fortran compiler is available
+	and Intel MKL is not used, the zdotu_ function is not called at
+	all. In such case, a relevant warning message is printed during
+	the configuration step.
 
 	* configure.ac.in, itpp/base/Makefile.am, itpp/base/sources.mk,
 	itpp/base/zdotusub.f, m4/acx_blas.m4: Revert "Removed redundant

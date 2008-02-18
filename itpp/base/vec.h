@@ -918,21 +918,17 @@ namespace itpp {
     return blas::ddot_(&v1.datasize, v1.data, &incr, v2.data, &incr);
   }
 
+#if !defined(HAVE_NO_ZDOTU)
   template<> inline
   std::complex<double> dot(const cvec &v1, const cvec &v2)
   {
     it_assert_debug(v1.datasize == v2.datasize, "cvec::dot: wrong sizes");
     int incr = 1;
     std::complex<double> output;
-#if defined(HAVE_ZDOTU_VOID)
-    blas::zdotu_(&output, &v1.datasize, v1.data, &incr, v2.data, &incr);
-#elif defined(HAVE_ZDOTU_RETURN)
-    output = blas::zdotu_(&v1.datasize, v1.data, &incr, v2.data, &incr);
-#else
     blas::zdotusub_(&output, &v1.datasize, v1.data, &incr, v2.data, &incr);
-#endif // HAVE_ZDOTU_VOID
     return output;
   }
+#endif // HAVE_NO_ZDOTU
 #endif // HAVE_BLAS
 
   template<class Num_T> inline
@@ -1810,8 +1806,10 @@ namespace itpp {
 
 #if !defined(HAVE_BLAS)
   extern template double dot(const vec &v1, const vec &v2);
+#if defined(HAVE_NO_ZDOTU)
   extern template std::complex<double> dot(const cvec &v1, const cvec &v2);
-#endif
+#endif // HAVE_NO_ZDOTU
+#endif // HAVE_BLAS
   extern template int dot(const ivec &v1, const ivec &v2);
   extern template short dot(const svec &v1, const svec &v2);
   extern template bin dot(const bvec &v1, const bvec &v2);
