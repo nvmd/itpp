@@ -200,11 +200,21 @@ if test "$acx_blas_ok" = yes; then
   LIBS="$save_LIBS"
   if test "x$ax_cv_zdotu_ret_complex" = xno \
      && test "x$ax_cv_zdotu_ret_void" = xno; then
-    AC_MSG_ERROR([could not detect proper calling conventions of zdotu_
-BLAS function.
+    if test "x$F77" = x; then
+      AC_MSG_ERROR([could not detect calling conventions to the zdotu_
+function in your BLAS library.
 If your BLAS is a shared library, please make sure that it can be found at
 runtime. You can use LD_LIBRARY_PATH environment variable for this purpose.
 ])
+    fi
+    AC_MSG_WARN([could not detect calling conventions to the zdotu_
+function in your BLAS library.
+If your BLAS is a shared library, please make sure that it can be found at
+runtime. You can use LD_LIBRARY_PATH environment variable for this purpose.
+As a workaround, I will compile and use a local Fortran zdotusub_ wrapper.
+])
+    # This variable is used in AM_CONDITIONAL([BUILD_ZDOTUSUB], ...)
+    ax_build_zdotusub=yes
   fi
 fi
 
