@@ -87,21 +87,15 @@ extern "C" {
 	       const double *x, const int *incx,
 	       const double *y, const int *incy);
 
-#if defined(HAVE_ZDOTU_VOID)
-  void zdotu_(std::complex<double> *dot,
-              const int *n,
-              const std::complex<double> *x, const int *incx,
-              const std::complex<double> *y, const int *incy);
-#elif defined(HAVE_ZDOTU_RETURN)
-  std::complex<double> zdotu_(const int *n,
-                              const std::complex<double> *x, const int *incx,
-                              const std::complex<double> *y, const int *incy);
-#else
+#if !defined(HAVE_NO_ZDOTU)
+#if !defined(HAVE_ZDOTUSUB)
+#  define zdotusub_ zdotu_
+#endif
   void zdotusub_(std::complex<double> *dot,
                  const int *n,
                  const std::complex<double> *x, const int *incx,
                  const std::complex<double> *y, const int *incy);
-#endif // HAVE_ZDOTU_VOID
+#endif // HAVE_NO_ZDOTU
 
   // ----------------------------------------------------------------------
   // BLAS 2 functions
@@ -128,16 +122,16 @@ extern "C" {
 	     double *A, const int *ldA);
 
   void zgeru_(const int *m, const int *n,
-	     const std::complex<double> *alpha,
-	     const std::complex<double> *x, const int *inxx,
-	     const std::complex<double> *y, const int *incy,
-	     std::complex<double> *A, const int *ldA);
+              const std::complex<double> *alpha,
+              const std::complex<double> *x, const int *inxx,
+              const std::complex<double> *y, const int *incy,
+              std::complex<double> *A, const int *ldA);
 
   void zgerc_(const int *m, const int *n,
-	     const std::complex<double> *alpha,
-	     const std::complex<double> *x, const int *inxx,
-	     const std::complex<double> *y, const int *incy,
-	     std::complex<double> *A, const int *ldA);
+              const std::complex<double> *alpha,
+              const std::complex<double> *x, const int *inxx,
+              const std::complex<double> *y, const int *incy,
+              std::complex<double> *A, const int *ldA);
 
   // ----------------------------------------------------------------------
   // BLAS 3 functions

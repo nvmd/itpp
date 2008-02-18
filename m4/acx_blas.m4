@@ -192,29 +192,24 @@ if test "$acx_blas_ok" = yes && test "$blas_mkl_ok" = no \
   LIBS="$save_LIBS"
 fi
 
-# Check if ZDOTU returning a complex value works
+# Check if zdotusub_ Fortran wrapper should be used
 if test "$acx_blas_ok" = yes; then
-  save_LIBS="$LIBS"; LIBS="$BLAS_LIBS $LIBS"
-  AX_FUNC_ZDOTU_RETURN
-  AX_FUNC_ZDOTU_VOID
-  LIBS="$save_LIBS"
-  if test "x$ax_cv_zdotu_ret_complex" = xno \
-     && test "x$ax_cv_zdotu_ret_void" = xno; then
-    if test "x$F77" = x; then
-      AC_MSG_ERROR([could not detect calling conventions to the zdotu_
-function in your BLAS library.
-If your BLAS is a shared library, please make sure that it can be found at
-runtime. You can use LD_LIBRARY_PATH environment variable for this purpose.
-])
+  if test "x$F77" != x; then
+    if test "$blas_mkl_ok" = no; then
+      AC_DEFINE(HAVE_ZDOTUSUB, 1, [Define if you use zdotusub_ Fortran wrapper.])
+      # This variable is used in AM_CONDITIONAL([BUILD_ZDOTUSUB], ...)
+      ax_build_zdotusub=yes
+      AC_MSG_NOTICE([using zdotusub_ Fortran wrapper.])
     fi
-    AC_MSG_WARN([could not detect calling conventions to the zdotu_
-function in your BLAS library.
-If your BLAS is a shared library, please make sure that it can be found at
-runtime. You can use LD_LIBRARY_PATH environment variable for this purpose.
-As a workaround, I will compile and use a local Fortran zdotusub_ wrapper.
-])
-    # This variable is used in AM_CONDITIONAL([BUILD_ZDOTUSUB], ...)
-    ax_build_zdotusub=yes
+  else
+    if test "$blas_mkl_ok" = no; then
+      # Do not try to use zdotu_ function in untested way, which could break
+      # the calculations
+      AC_DEFINE(HAVE_NO_ZDOTU, 1, [Define if zdotu_ is not usable.])
+      AC_MSG_WARN([do not know how to call the zdotu_ BLAS function.
+Not using this function in the Vec::dot() method. Please report this
+problem on the IT++ Help forum.])
+    fi
   fi
 fi
 
