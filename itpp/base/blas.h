@@ -87,14 +87,21 @@ extern "C" {
 	       const double *x, const int *incx,
 	       const double *y, const int *incy);
 
-#if !defined(HAVE_NO_ZDOTU)
-#if !defined(HAVE_ZDOTUSUB)
+#if defined(HAVE_ZDOTUSUB) || defined(HAVE_ZDOTU_VOID)
+#if defined(HAVE_ZDOTU_VOID)
 #  define zdotusub_ zdotu_
-#endif
+#endif // HAVE_ZDOTU_VOID
   void zdotusub_(std::complex<double> *dot,
                  const int *n,
                  const std::complex<double> *x, const int *incx,
                  const std::complex<double> *y, const int *incy);
+#elif defined(HAVE_ZDOTU)
+  typedef struct {
+    double real, imag;
+  } dcomplex;
+  dcomplex zdotu_(const int *n,
+                  const std::complex<double> *x, const int *incx,
+                  const std::complex<double> *y, const int *incy);
 #endif // HAVE_NO_ZDOTU
 
   // ----------------------------------------------------------------------

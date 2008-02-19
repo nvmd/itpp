@@ -133,9 +133,6 @@
 /* Define to 1 if you have the <memory.h> header file. */
 #define HAVE_MEMORY_H 1
 
-/* Define if zdotu_ is not usable. */
-/* #undef HAVE_NO_ZDOTU */
-
 /* Define to 1 if you have the `rint' function. */
 /* #undef HAVE_RINT */
 
@@ -172,8 +169,14 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
-/* Define if you use ZDOTUSUB wrapper function. */
+/* Define if "complex zdotu_()" should be used. */
+/* #undef HAVE_ZDOTU */
+
+/* Define if you use zdotusub_ Fortran wrapper. */
 /* #undef HAVE_ZDOTUSUB */
+
+/* Define if "void zdotu_()" should be used. */
+#define HAVE_ZDOTU_VOID 1
 
 /* Define if you want exceptions handling */
 /* #undef ITPP_EXCEPTIONS */

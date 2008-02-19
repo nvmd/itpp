@@ -802,9 +802,9 @@ namespace itpp {
 
 #if !defined(HAVE_BLAS)
   template double dot(const vec &v1, const vec &v2);
-#if defined(HAVE_NO_ZDOTU)
+#if !(defined(HAVE_ZDOTUSUB) || defined(HAVE_ZDOTU_VOID) || defined(HAVE_ZDOTU))
   template std::complex<double> dot(const cvec &v1, const cvec &v2);
-#endif // HAVE_NO_ZDOTU
+#endif // !(HAVE_ZDOTUSUB || HAVE_ZDOTU_VOID || HAVE_ZDOTU)
 #endif // HAVE_BLAS
   template int dot(const ivec &v1, const ivec &v2);
   template short dot(const svec &v1, const svec &v2);

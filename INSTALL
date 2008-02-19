@@ -195,6 +195,21 @@ Please refer to the documentation of your external libraries, to find out
 what are the correct library names and paths on your architecture, operating
 system, etc.
 
+Since IT++ 4.0.3 release, the configure script provides a new `--with-zdotu=
+<method>' option. It can be used to change the default calling convention of
+BLAS zdotu_ Fortran function. The BLAS libraries built with g77 compiler do
+not return the complex result of a function, but pass it via the first
+argument of the function. The implementations compiled with gfortran and
+other vendor compilers return complex result as a typical function. By using
+a `void' method with the `--with-zdotu=<method>' option, the former approach
+is used (g77 compatible). To use the zdotu_ call that returns the result by
+value, a `complex' method should be passed. Without setting any of the two
+methods explicitly, IT++ tries to guess the proper method based on the
+detected BLAS implementation. Otherwise, a Fortran wrapper function
+zdotusub_ is used, which requires a working Fortran compiler. Finally, if
+this is not the case, the zdotu_ BLAS method is not used at all and a
+relevant warning message is displayed during the configuration step.
+
 Although it is not recommended, you can intentionally prevent detection of
 some external libraries. To do this you should use `--without-<LIBNAME>' or
 `--with-<LIBNAME>=no', e.g.:
@@ -229,15 +244,15 @@ Configuration Status
 --------------------
 
 When the configuration process is finished, a status message is displayed.
-For instance, after having invoked the following configuration command on a
-recent Gentoo Linux system:
+For instance, after having invoked the following configuration command
 
   % ./configure --with-blas="-lblas"
 
-one can observe something like this:
+on a recent Gentoo Linux system with blas-atlas, lapack-atlas and fftw
+packages installed, one can observe something like this:
 
 ------------------------------------------------------------------------------
-itpp-4.0.1 library configuration:
+itpp-4.0.3 library configuration:
 ------------------------------------------------------------------------------
 
 Directories:
@@ -255,6 +270,7 @@ Switches:
   - shared ......... : yes
   - static ......... : no
   - explicit deps .. : no
+  - zdotu .......... : zdotusub
 
 Documentation tools:
   - doxygen ........ : yes
@@ -294,7 +310,7 @@ Compiler/linker flags/libs/defs:
   - LIBS ........... : -lfftw3 -llapack -lblas
 
 ------------------------------------------------------------------------------
-Now type 'make && make install' to build and install itpp-4.0.1 library
+Now type 'make && make install' to build and install itpp-4.0.3 library
 ------------------------------------------------------------------------------
 
 

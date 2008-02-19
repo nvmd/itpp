@@ -196,9 +196,9 @@ use the following commands:
 % ./configure
 \endverbatim
 
-Instead of CPPFLAGS, one can use `--with-fft-include=\<PATH\>' configure
+Instead of CPPFLAGS, one can use \c `--with-fft-include=\<PATH\>' configure
 option to set path to header files that provide FFT functionality, i.e. to
-\c `fftw3.h', \c `mkl_dft.h' or \c `acml.h'.
+<tt>`fftw3.h'</tt>, <tt>`mkl_dft.h'</tt> or <tt>`acml.h'</tt>.
 
 In the case that external libraries have non-standard names, e.g.
 <tt>`libblas3.a'</tt> for BLAS, you might specify them to the configure
@@ -217,6 +217,22 @@ without the preceding `-l', e.g. \c `--with-fft=fftw3' instead of \c
 Please refer to the documentation of your external libraries, to find out
 what are the correct library names and paths on your architecture, operating
 system, etc.
+
+Since IT++ 4.0.3 release, the configure script provides a new \c
+`--with-zdotu=\<method\>' option. It can be used to change the default
+calling convention of BLAS \c zdotu_ Fortran function. The BLAS libraries
+built with g77 compiler do not return the complex result of a function, but
+pass it via the first argument of the function. The implementations compiled
+with gfortran and other vendor compilers return complex result as a typical
+function. By using a \c `void' method with the \c `--with-zdotu=\<method\>'
+option, the former approach is used (g77 compatible). To use the \c zdotu_
+call that returns the result by value, a \c `complex' method should be
+passed. Without setting any of the two methods explicitly, IT++ tries to
+guess the proper method based on the detected BLAS implementation.
+Otherwise, a Fortran wrapper function \c zdotusub_ is used, which requires a
+working Fortran compiler. Finally, if this is not the case, the \c zdotu_
+BLAS method is not used at all and a relevant warning message is displayed
+during the configuration step.
 
 Although it is not recommended, you can intentionally prevent detection of
 some external libraries. To do this you should use \c
@@ -256,18 +272,18 @@ the default flags, i.e. <tt>"-DNDEBUG -O3 -pipe"</tt>.
 \subsection config_status Configuration Status
 
 When the configuration process is finished, a status message is displayed.
-For instance, after having invoked the following configuration command on a
-recent Gentoo Linux system:
+For instance, after having invoked the following configuration command
 
 \verbatim
 % ./configure --with-blas="-lblas"
 \endverbatim
 
-one can observe something like this:
+on a recent Gentoo Linux system with blas-atlas, lapack-atlas and fftw
+packages installed, one can observe something like this:
 
 \verbatim
 ------------------------------------------------------------------------------
-itpp-4.0.1 library configuration:
+itpp-4.0.3 library configuration:
 ------------------------------------------------------------------------------
 
 Directories:
@@ -285,6 +301,7 @@ Switches:
   - shared ......... : yes
   - static ......... : no
   - explicit deps .. : no
+  - zdotu .......... : zdotusub
 
 Documentation tools:
   - doxygen ........ : yes
@@ -324,7 +341,7 @@ Compiler/linker flags/libs/defs:
   - LIBS ........... : -lfftw3 -llapack -lblas
 
 ------------------------------------------------------------------------------
-Now type 'make && make install' to build and install itpp-4.0.1 library
+Now type 'make && make install' to build and install itpp-4.0.3 library
 ------------------------------------------------------------------------------
 
 \endverbatim
