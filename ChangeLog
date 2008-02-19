@@ -1,3 +1,27 @@
+2008-02-19  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* INSTALL, configure.ac.in, doc/local/installation.doc,
+	itpp/base/blas.h, itpp/base/vec.cpp, itpp/base/vec.h,
+	itpp/config_msvc.h, m4/acx_blas.m4: Add "--with-zdotu" option to
+	select zdotu_ calling convention
+
+	The "--with-zdotu=<method>" option can be used to change the
+	default calling convention of BLAS zdotu_ Fortran function. The
+	BLAS libraries built with g77 compiler do not return the complex
+	result of a function, but pass it via the first argument of the
+	function. The implementations compiled with gfortran and other
+	vendor compilers return complex result as a typical function. By
+	using a "void" method with the "--with-zdotu=<method>" option, the
+	former approach is used (g77 compatible). To use the zdotu_ call
+	that returns the result by value, a "complex" method should be
+	passed. Without setting any of the two methods explicitly, IT++
+	tries to guess the proper method based on the detected BLAS
+	implementation. Otherwise, a Fortran wrapper function zdotusub_ is
+	used, which requires a working Fortran compiler. Finally, if this
+	is not the case, the zdotu_ BLAS method is not used at all and a
+	relevant warning message is displayed during the configuration
+	step.
+
 2008-02-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* autogen.sh: Cosmetic improvements
