@@ -95,14 +95,7 @@ extern "C" {
                  const int *n,
                  const std::complex<double> *x, const int *incx,
                  const std::complex<double> *y, const int *incy);
-#elif defined(HAVE_ZDOTU)
-  typedef struct {
-    double real, imag;
-  } dcomplex;
-  dcomplex zdotu_(const int *n,
-                  const std::complex<double> *x, const int *incx,
-                  const std::complex<double> *y, const int *incy);
-#endif // HAVE_NO_ZDOTU
+#endif // HAVE_ZDOTUSUB || HAVE_ZDOTU_VOID
 
   // ----------------------------------------------------------------------
   // BLAS 2 functions
