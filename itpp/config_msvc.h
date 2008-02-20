@@ -169,9 +169,6 @@
 /* Define to 1 if you have the <unistd.h> header file. */
 #define HAVE_UNISTD_H 1
 
-/* Define if "complex zdotu_()" should be used. */
-/* #undef HAVE_ZDOTU */
-
 /* Define if you use zdotusub_ Fortran wrapper. */
 /* #undef HAVE_ZDOTUSUB */
 

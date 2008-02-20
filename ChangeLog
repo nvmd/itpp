@@ -1,3 +1,19 @@
+2008-02-20  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* INSTALL, doc/local/installation.doc, itpp/base/blas.h,
+	itpp/base/vec.cpp, itpp/base/vec.h, itpp/config_msvc.h,
+	m4/acx_blas.m4: Removed non-portable "--with-zdotu=complex" method
+
+	It seems that there is no portable solution for calling from C++
+	the Fortran functions that returns a complex value. C99 introduces
+	"double _Complex" type, which is compatible with Fortran COMPLEX.
+	But this C99 type is not a valid C++ type. Therefore this patch
+	removes the "complex" method from "--with-zdotu" option. The valid
+	methods are now:
+	- "zdotusub" - use a zdotusub_ Fortran wrapper function
+	- "void" - compatible with BLAS libraries built with g77 compiler
+	- "none" - do not use zdotu_ function at all
+
 2008-02-19  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* INSTALL, configure.ac.in, doc/local/installation.doc,

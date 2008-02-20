@@ -218,21 +218,23 @@ Please refer to the documentation of your external libraries, to find out
 what are the correct library names and paths on your architecture, operating
 system, etc.
 
-Since IT++ 4.0.3 release, the configure script provides a new \c
-`--with-zdotu=\<method\>' option. It can be used to change the default
-calling convention of BLAS \c zdotu_ Fortran function. The BLAS libraries
+Since 4.0.3 release, the configure script provides a new \c
+`--with-zdotu=\<method\>' option. It can be used to force the default
+calling convention of BLAS \c `zdotu_' Fortran function. The BLAS libraries
 built with g77 compiler do not return the complex result of a function, but
-pass it via the first argument of the function. The implementations compiled
-with gfortran and other vendor compilers return complex result as a typical
-function. By using a \c `void' method with the \c `--with-zdotu=\<method\>'
-option, the former approach is used (g77 compatible). To use the \c zdotu_
-call that returns the result by value, a \c `complex' method should be
-passed. Without setting any of the two methods explicitly, IT++ tries to
-guess the proper method based on the detected BLAS implementation.
-Otherwise, a Fortran wrapper function \c zdotusub_ is used, which requires a
-working Fortran compiler. Finally, if this is not the case, the \c zdotu_
-BLAS method is not used at all and a relevant warning message is displayed
-during the configuration step.
+pass it via the first argument of the function. By using \c
+`--with-zdotu=void' option, this approach can be forced (g77 compatible). On
+the other hand, the libraries built with a newer gfortran compiler return
+the complex result like a normal function does, but calling such interface
+from C++ is not portable, due to incompatibilities between C++
+complex<double> and Fortran's COMPLEX. Therefore in such case a Fortran
+wrapper function \c `zdotusub_' can be used (\c `--with-zdotu=zdotusub'),
+however it requires a working Fortran compiler. By default, IT++ tries to
+guess the proper method based on the detected BLAS implementation. For
+instance, the BLAS library provided by Intel MKL works fine with the `void'
+method. Eventually, if no Fortran compiler is available and the `void'
+method can not be used, the \c zdotu_ BLAS function is not used at all and a
+relevant warning message is displayed during the configuration step.
 
 Although it is not recommended, you can intentionally prevent detection of
 some external libraries. To do this you should use \c
