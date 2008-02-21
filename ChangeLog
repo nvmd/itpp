@@ -1,3 +1,8 @@
+2008-02-21  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/vec.h: Minor documentation fixes to prevent warnings
+	of the Doxygen
+
 2008-02-20  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* INSTALL, doc/local/installation.doc, itpp/base/blas.h,
