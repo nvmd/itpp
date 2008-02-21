@@ -1,4 +1,30 @@
 ===============================================================================
+IT++ version 4.0.3                                         Released: 2008-02-21
+-------------------------------------------------------------------------------
+
+This bug-fix release is only intended to fix the wrong calling method of
+BLAS zdotu_ function, used in IT++ 4.0.1 and 4.0.2 releases. The problem is
+due to the fact that a std::complex<double> C++ type is not compatible with
+COMPLEX in Fortran. This appears to be especially visible when calling the
+Fortran functions that return a complex result.
+
+Therefore, the most portable solution to call such functions from C++ is to
+use a Fortran wrapper function that passes the complex result as the
+function argument. For this particular problem, the zdotusub_ wrapper
+function is provided. Besides, the configure script provides a new
+"--with-zdotu=<method>" option to override the default calling method of
+zdotu_ function. The valid options are as follows:
+- "zdotusub" - use the zdotusub_ Fortran wrapper function (default, if a
+   Fortran compiler is available)
+- "void" - compatible with BLAS libraries built with g77 compiler and BLAS
+  provided by Intel MKL
+- "none" - not using the zdotu_ function at all
+
+Please note that if IT++ 4.0.2 release works fine for you (all tests pass),
+you do not need to update IT++ to version 4.0.3.
+
+
+===============================================================================
 IT++ version 4.0.2                                         Released: 2008-02-15
 -------------------------------------------------------------------------------
 
