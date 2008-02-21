@@ -1,3 +1,5 @@
+-------------------------------------------------------------------------------
+
 2008-02-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* IT++ 4.0.3 released (SVN tag: release-4-0-3)
@@ -73,6 +75,8 @@
 	* configure.ac.in, itpp/base/Makefile.am, itpp/base/sources.mk,
 	itpp/base/zdotusub.f, m4/acx_blas.m4: Revert "Removed redundant
 	zdotusub_ Fortran wrapper to zdotu_ function"
+
+-------------------------------------------------------------------------------
 
 2008-02-15  Adam Piatyszek  <ediap@users.sourceforge.net>
 
