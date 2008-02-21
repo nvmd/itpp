@@ -1,5 +1,8 @@
 2008-02-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* NEWS, VERSION: Release notes added and version number updated
+	for IT++ 4.0.3
+
 	* itpp/base/vec.h: Minor documentation fixes to prevent warnings
 	of the Doxygen
 
