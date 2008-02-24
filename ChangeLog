@@ -1,5 +1,13 @@
 2008-02-24  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/comm/modulator.h: Remove the deprecated
+	demodulate_soft_bits_approx() functions
+
+	Since IT++ 3.99.0 was releases, these functions have been marked
+	as deprecated. The demodulate_soft_bits() functions should be used
+	instead. This patch removes them from the current development
+	branch.
+
 	* itpp/base/mat.cpp, itpp/base/mat.h, tests/mat_test.cpp,
 	tests/mat_test.ref: Remove the deprecated multiplication operator
 

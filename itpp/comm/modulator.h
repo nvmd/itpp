@@ -172,19 +172,6 @@ namespace itpp {
 				     Soft_Method method = LOGMAP) const;
 
     /*!
-      \brief Deprecated soft demodulator for AWGN channels. Please use
-      demodulate_soft_bits() with method = APPROX instead.
-    */
-    virtual void demodulate_soft_bits_approx(const Vec<T>& rx_symbols,
-					     double N0, vec& soft_bits) const;
-    /*!
-      \brief Deprecated soft demodulator for AWGN channels. Please use
-      demodulate_soft_bits() with method = APPROX instead.
-    */
-    virtual vec demodulate_soft_bits_approx(const Vec<T>& rx_symbols,
-					    double N0) const;
-
-    /*!
       \brief Soft demodulator for fading channels
 
       This function calculates the log-likelihood ratio (LLR) of the
@@ -231,21 +218,6 @@ namespace itpp {
 				     const Vec<T>& channel,
 				     double N0,
 				     Soft_Method method = LOGMAP) const;
-
-    /*!
-      \brief Deprecated soft demodulator for AWGN channels. Please use
-      demodulate_soft_bits() with method = APPROX instead.
-    */
-    virtual void demodulate_soft_bits_approx(const Vec<T>& rx_symbols,
-					     const Vec<T>& channel,
-					     double N0, vec& soft_bits) const;
-    /*!
-      \brief Deprecated soft demodulator for AWGN channels. Please use
-      demodulate_soft_bits() with method = APPROX instead.
-    */
-    virtual vec demodulate_soft_bits_approx(const Vec<T>& rx_symbols,
-					    const Vec<T>& channel,
-					    double N0) const;
 
   protected:
     //! Setup indicator
@@ -486,26 +458,6 @@ namespace itpp {
   }
 
   template<typename T>
-  void Modulator<T>::demodulate_soft_bits_approx(const Vec<T> &rx_symbols,
-						 double N0,
-						 vec &soft_bits) const
-  {
-    it_warning("Modulator<T>::demodulate_soft_bits_approx(): This function is deprecated. Please use demodulate_soft_bits() with method=APPROX instead.");
-    demodulate_soft_bits(rx_symbols, N0, soft_bits, APPROX);
-  }
-
-  template<typename T>
-  vec Modulator<T>::demodulate_soft_bits_approx(const Vec<T> &rx_symbols,
-						double N0) const
-  {
-    it_warning("Modulator<T>::demodulate_soft_bits_approx(): This function is deprecated. Please use demodulate_soft_bits() with method=APPROX instead.");
-    vec output;
-    demodulate_soft_bits(rx_symbols, N0, output, APPROX);
-    return output;
-  }
-
-
-  template<typename T>
   void Modulator<T>::demodulate_soft_bits(const Vec<T> &rx_symbols,
 					  const Vec<T> &channel, double N0,
 					  vec &soft_bits,
@@ -562,28 +514,6 @@ namespace itpp {
     demodulate_soft_bits(rx_symbols, channel, N0, output, method);
     return output;
   }
-
-  template<typename T>
-  void Modulator<T>::demodulate_soft_bits_approx(const Vec<T> &rx_symbols,
-						 const Vec<T> &channel,
-						 double N0,
-						 vec &soft_bits) const
-  {
-    it_warning("Modulator<T>::demodulate_soft_bits_approx(): This function is deprecated. Please use demodulate_soft_bits() with method=APPROX instead.");
-    demodulate_soft_bits(rx_symbols, channel, N0, soft_bits, APPROX);
-  }
-
-  template<typename T>
-  vec Modulator<T>::demodulate_soft_bits_approx(const Vec<T> &rx_symbols,
-						const Vec<T> &channel,
-						double N0) const
-  {
-    it_warning("Modulator<T>::demodulate_soft_bits_approx(): This function is deprecated. Please use demodulate_soft_bits() with method=APPROX instead.");
-    vec output;
-    demodulate_soft_bits(rx_symbols, channel, N0, output, APPROX);
-    return output;
-  }
-
 
   template<typename T>
   void Modulator<T>::calculate_softbit_matrices(const ivec& in_bits2symbols)
