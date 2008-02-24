@@ -74,8 +74,6 @@ namespace itpp {
   template<class Num_T> const Mat<Num_T> operator*(const Mat<Num_T> &m1, const Mat<Num_T> &m2);
   //! Multiplication of matrix and vector
   template<class Num_T> const Vec<Num_T> operator*(const Mat<Num_T> &m, const Vec<Num_T> &v);
-  //! Multiplication of vector and matrix (only works for a matrix that is a row vector)
-  template<class Num_T> const Mat<Num_T> operator*(const Vec<Num_T> &v, const Mat<Num_T> &m);
   //! Multiplication of matrix and scalar
   template<class Num_T> const Mat<Num_T> operator*(const Mat<Num_T> &m, Num_T t);
   //! Multiplication of scalar and matrix
@@ -357,19 +355,6 @@ namespace itpp {
     friend const Mat<Num_T> operator*<>(const Mat<Num_T> &m1, const Mat<Num_T> &m2);
     //! Multiplication of matrix \c m and vector \c v (column vector)
     friend const Vec<Num_T> operator*<>(const Mat<Num_T> &m, const Vec<Num_T> &v);
-    /*!
-     * \brief Multiplication of vector \c v and matrix \c m with only one row
-     *
-     * This operator multiplies a column vector \c v times matrix \c m that
-     * consists of only one row. Thus, the result of this operator is
-     * exactly the same as the result of the outer product of two vectors,
-     * i.e.: <tt>outer_product(v, m.get_col(0))</tt>.
-     *
-     * \note This operator is deprecated and might be removed or changed in
-     * future releases of IT++.
-     */
-    friend const Mat<Num_T> operator*<>(const Vec<Num_T> &v,
-                                        const Mat<Num_T> &m);
     //! Multiplication of matrix and scalar
     friend const Mat<Num_T> operator*<>(const Mat<Num_T> &m, Num_T t);
     //! Multiplication of scalar and matrix
@@ -1513,15 +1498,6 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-  const Mat<Num_T> operator*(const Vec<Num_T> &v, const Mat<Num_T> &m)
-  {
-    it_assert((m.no_rows == 1),"Mat<Num_T>::operator*(): wrong sizes");
-    it_warning("Mat<Num_T>::operator*(v, m): This operator is deprecated. "
-               "Please use outer_product(v, m.get_row(0)) instead.");
-    return outer_product(v, m.get_row(0));
-  }
-
-  template<class Num_T> inline
   const Mat<Num_T> operator*(const Mat<Num_T> &m, Num_T t)
   {
     Mat<Num_T> r(m.no_rows, m.no_cols);
@@ -1865,12 +1841,6 @@ namespace itpp {
   extern template const ivec operator*(const imat &m, const ivec &v);
   extern template const svec operator*(const smat &m, const svec &v);
   extern template const bvec operator*(const bmat &m, const bvec &v);
-
-  extern template const mat operator*(const vec &v, const mat &m);
-  extern template const cmat operator*(const cvec &v, const cmat &m);
-  extern template const imat operator*(const ivec &v, const imat &m);
-  extern template const smat operator*(const svec &v, const smat &m);
-  extern template const bmat operator*(const bvec &v, const bmat &m);
 
   extern template const mat operator*(const mat &m, double t);
   extern template const cmat operator*(const cmat &m, std::complex<double> t);

@@ -160,8 +160,6 @@ void common_operators(const Mat<T> &A, const Mat<T> &B, const Mat<T> &C,
   A2 = A; A2 *= c;
   cout << "A*=c; A =\n" << A2 << endl;
   cout << "A*v = " << A*v << endl;
-  A2 = A; A2.set_size(1, A2.cols(), true);
-  cout << "A2 = "<< A2 << "; u*A2 =\n" << u*A2 << endl;
   cout << "elem_mult(A,B) =\n" << elem_mult(A,B) << endl;
   elem_mult_out(A,B,A2);
   cout << "elem_mult_out(A,B,out); out =\n" << A2 << endl;

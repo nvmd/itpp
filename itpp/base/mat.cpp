@@ -217,12 +217,6 @@ namespace itpp {
   template const svec operator*(const smat &m, const svec &v);
   template const bvec operator*(const bmat &m, const bvec &v);
 
-  template const mat operator*(const vec &v, const mat &m);
-  template const cmat operator*(const cvec &v, const cmat &m);
-  template const imat operator*(const ivec &v, const imat &m);
-  template const smat operator*(const svec &v, const smat &m);
-  template const bmat operator*(const bvec &v, const bmat &m);
-
   template const mat operator*(const mat &m, double t);
   template const cmat operator*(const cmat &m, std::complex<double> t);
   template const imat operator*(const imat &m, int t);
