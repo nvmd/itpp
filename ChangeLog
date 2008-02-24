@@ -1,3 +1,13 @@
+2008-02-24  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/mat.cpp, itpp/base/mat.h, tests/mat_test.cpp,
+	tests/mat_test.ref: Remove the deprecated multiplication operator
+
+	The multiplication operator of a vector times a matrix with only one
+	row was marked as deprecated in the current stable branch (itpp-4-0).
+	Its functionality is identical to the outer_product of two vectors.
+	It is time to remove it from our development branch.
+
 -------------------------------------------------------------------------------
 
 2008-02-21  Adam Piatyszek  <ediap@users.sourceforge.net>
