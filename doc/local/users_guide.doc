@@ -253,10 +253,10 @@ my_ivec.shift_left(10);
 my_ivec.shift_left("10 4");
 \endcode
 
-- \c replace_mid:
+- \c set_subvector:
 \code
 // Replace part of vector from position (10) with the vector "11 13"
-my_ivec.replace_mid(10,"11 13");
+my_ivec.set_subvector(10,"11 13");
 \endcode
 
 - \c del:

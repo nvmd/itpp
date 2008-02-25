@@ -89,7 +89,7 @@ namespace itpp {
 
     for (int i=0; i<temp.size()-polynomial.size()+1; i++) {
       if (temp(i) == 1) {
-        temp.set_subvector(i,i+no_parity, temp(i,i+no_parity) + polynomial);
+        temp.set_subvector(i, temp(i,i+no_parity) + polynomial);
       }
     }
 
@@ -115,7 +115,7 @@ namespace itpp {
 
     for (int i=0; i<temp.size()-polynomial.size()+1; i++) {
       if (temp(i) == 1) {
-        temp.set_subvector(i,i+no_parity, temp(i,i+no_parity) + polynomial);
+        temp.set_subvector(i, temp(i,i+no_parity) + polynomial);
       }
     }
 

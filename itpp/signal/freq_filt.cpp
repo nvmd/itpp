@@ -52,9 +52,9 @@ namespace itpp {
 
 	X = fft(x(istart,iend),fftsize);
 	Y = ifft(elem_mult(X,B));
-	Y.set_subvector(0,nb-2,Y(0,nb-2) + zfinal);
+	Y.set_subvector(0, Y(0,nb-2) + zfinal);
 	int yend = std::min(nx-1,istart+fftsize-1);
-	y.set_subvector(istart,yend,Y(0,yend-istart));
+	y.set_subvector(istart, Y(0,yend-istart));
 	zfinal = Y(fftsize-(nb-1),fftsize-1);
 	istart += L;
       }

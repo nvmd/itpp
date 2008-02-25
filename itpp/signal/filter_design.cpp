@@ -257,7 +257,7 @@ namespace itpp {
     cvec q = ifft(cepstrum);
 
     // keep only causal part of spectrum (windowing)
-    q.set_subvector(N_fft/2, N_fft-1, zeros_c(N_fft/2) );
+    q.set_subvector(N_fft/2, zeros_c(N_fft/2));
     q(0) *= 0.5;
 
     cvec h = ifft(exp(fft(q))); // convert back to frequency domain, from cepstrum and do inverse transform to calculate impulse response

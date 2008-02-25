@@ -255,7 +255,7 @@ namespace itpp {
   {
     it_assert(n >= v.size(), "zero_pad() cannot shrink the vector!");
     Vec<T> v2(n);
-    v2.set_subvector(0, v.size()-1, v);
+    v2.set_subvector(0, v);
     if (n > v.size())
       v2.set_subvector(v.size(), n-1, T(0));
 
