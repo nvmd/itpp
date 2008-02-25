@@ -389,13 +389,13 @@ namespace itpp {
 				     const Vec<Num_T> &v3, const Vec<Num_T> &v4,
 				     const Vec<Num_T> &v5);
 
-    //! Set subvector defined by indicies \c i1 to \c i2 to vector \c v
+    //! This function is deprecated. Please use set_subvector(i, v) instead.
     void set_subvector(int i1, int i2, const Vec<Num_T> &v);
     //! Set subvector defined by first index \c i and size of vector \c v to \c v
     void set_subvector(int i, const Vec<Num_T> &v);
     //! Set subvector defined by indicies i1 to i2 to constant t
     void set_subvector(int i1, int i2, const Num_T t);
-    //! Replace the elements from \c pos by the vector \c v
+    //! This function is deprecated. Please use set_subvector(i, v) instead.
     void replace_mid(int pos, const Vec<Num_T> &v);
     //! Delete element number \c index
     void del(int index);
@@ -1414,14 +1414,10 @@ namespace itpp {
   template<class Num_T> inline
   void Vec<Num_T>::set_subvector(int i1, int i2, const Vec<Num_T> &v)
   {
-    if (i1 == -1) i1 = datasize-1;
-    if (i2 == -1) i2 = datasize-1;
-
-    it_assert_debug(i1>=0 && i2>=0 && i1<datasize && i2<datasize, "Vec::set_subvector(): indicies out of range");
-    it_assert_debug(i2>=i1, "Vec::set_subvector(): i2 >= i1 necessary");
-    it_assert_debug(i2-i1+1 == v.datasize, "Vec::set_subvector(): wrong sizes");
-
-    copy_vector(v.datasize, v.data, data+i1);
+    it_warning("Vec<>::set_subvector(int, int, const Vec<> &): This function "
+               "is deprecated and might be removed from future IT++ releases. "
+               "Please use Vec<>::set_subvector(int, const Vec<> &) instead.");
+    set_subvector(i1, v);
   }
 
   template<class Num_T> inline
@@ -1448,8 +1444,10 @@ namespace itpp {
   template<class Num_T>
   void Vec<Num_T>::replace_mid(int pos, const Vec<Num_T> &v)
   {
-    it_assert_debug((pos>=0) && ((pos+v.length())<=datasize), "Vec::replace_mid: indexing out of range");
-    copy_vector(v.datasize, v.data, &data[pos]);
+    it_warning("Vec<>::replace_mid(): This function is deprecated and might "
+               "be removed from future IT++ releases. Please use "
+               "Vec<>::set_subvector(int, const Vec<>&) instead.");
+    set_subvector(pos, v);
   }
 
   template<class Num_T>
