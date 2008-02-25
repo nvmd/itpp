@@ -1,5 +1,15 @@
 2008-02-25  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/vec.h: Add support for "-1" indexing in
+	Vec<>::del(i1, i2) method
+
+	The indexing operator(i1, i2) of Vec class supports "-1" indexes
+	denoting the last element of a vector. This feature was missing
+	in the del(i1, i2) method, and this patch fixes this. It also
+	fixes the incorrect range check (i1 <= i2).
+	By the way, remove the redundant local variables ii1 and ii2
+	from the operator(i1, i2) method.
+
 	* itpp/base/vec.h: Deprecate set_subvector(i1, i2, &v) and
 	replace_mid(i, &v) functions
 

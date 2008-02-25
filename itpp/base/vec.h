@@ -660,16 +660,14 @@ namespace itpp {
   template<class Num_T> inline
   const Vec<Num_T> Vec<Num_T>::operator()(int i1, int i2) const
   {
-    int ii1=i1, ii2=i2;
+    if (i1 == -1) i1 = datasize-1;
+    if (i2 == -1) i2 = datasize-1;
 
-    if (ii1 == -1) ii1 = datasize-1;
-    if (ii2 == -1) ii2 = datasize-1;
+    it_assert_debug(i1>=0 && i2>=0 && i1<datasize && i2<datasize, "Vec::operator()(i1,i2): indicies out of range");
+    it_assert_debug(i2>=i1, "Vec::op(i1,i2): i2 >= i1 necessary");
 
-    it_assert_debug(ii1>=0 && ii2>=0 && ii1<datasize && ii2<datasize, "Vec::operator()(i1,i2): indicies out of range");
-    it_assert_debug(ii2>=ii1, "Vec::op(i1,i2): i2 >= i1 necessary");
-
-    Vec<Num_T> s(ii2-ii1+1);
-    copy_vector(s.datasize, data+ii1, s.data);
+    Vec<Num_T> s(i2-i1+1);
+    copy_vector(s.datasize, data+i1, s.data);
 
     return s;
   }
@@ -1464,8 +1462,10 @@ namespace itpp {
   template<class Num_T>
   void  Vec<Num_T>::del(int i1, int i2)
   {
-    it_assert_debug((i1 >= 0) && (i2 < datasize) && (i1 < i2),
-		    "Vec::del(): index out of range");
+    if (i1 == -1) i1 = datasize-1;
+    if (i2 == -1) i2 = datasize-1;
+    it_assert_debug((i1 >= 0) && (i1 <= i2) && (i2 < datasize),
+		    "Vec<>::del(i1, i2): Indexing out of range");
     Vec<Num_T> temp(*this);
     int new_size = datasize-(i2-i1+1);
     set_size(new_size, false);
