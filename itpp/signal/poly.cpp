@@ -45,7 +45,7 @@ namespace itpp {
     p(0) = 1.0;
 
     for (int i=0; i<n; i++)
-      p.set_subvector(1, i+1, p(1,i+1) - r(i)*p(0,i));
+      p.set_subvector(1, p(1,i+1) - r(i)*p(0,i));
   }
 
   void poly(const cvec &r, cvec &p)
@@ -57,7 +57,7 @@ namespace itpp {
     p(0) = 1.0;
 
     for (int i=0; i<n; i++)
-      p.set_subvector(1, i+1, p(1,i+1) - r(i)*p(0,i));
+      p.set_subvector(1, p(1,i+1) - r(i)*p(0,i));
   }
 
 

@@ -122,12 +122,10 @@ void common_operators(const Vec<T> &a, const Vec<T> &b, T c)
   a2 = a; a2.shift_right(b.right(5));
   cout << "a.shift_right(b.right(5)) = " << a2 << endl;
 
-  a2 = a; a2.set_subvector(4,-1, c);
-  cout << "a.set_subvector(4,-1, c) = " << a2 << endl;
-  a2 = a; a2.set_subvector(4,6, b(3,5));
-  cout << "a.set_subvector(4,6, b(3,5)) = " << a2 << endl;
   a2 = a; a2.set_subvector(0, b);
   cout << "a.set_subvector(0, b) = " << a2 << endl;
+  a2 = a; a2.set_subvector(4, b(3,5));
+  cout << "a.set_subvector(4, b(3,5)) = " << a2 << endl;
   a2 = a; a2.replace_mid(4, b(3,5));
   cout << "a.replace_mid(4, b(3,5)) = " << a2 << endl;
   a2 = a; a2.del(6);

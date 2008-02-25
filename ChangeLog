@@ -1,5 +1,17 @@
 2008-02-25  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/local/users_guide.doc, doc/tutorial/src/mimoconv.cpp,
+	itpp/base/matfunc.h, itpp/base/vec.h, itpp/comm/crc.cpp,
+	itpp/signal/filter_design.cpp, itpp/signal/freq_filt.cpp,
+	itpp/signal/poly.cpp, itpp/signal/transforms.cpp,
+	tests/vec_test.cpp, tests/vec_test.ref: Revert deprecation of
+	replace_mid() method of Vec class
+
+	Do not deprecate the replace_mid() method, because it is commonly
+	used in many present codes. Just make it an alias function of
+	set_subvector() one. BTW, replace all occurrences of
+	set_subvector(i1, i2, &v) with set_subvector(i, &v).
+
 	* itpp/base/vec.h: Add support for "-1" indexing in
 	Vec<>::del(i1, i2) method
 

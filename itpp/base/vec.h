@@ -187,7 +187,7 @@ namespace itpp {
     \code
     a.del(5);    // deletes element number 5
     a.ins(3.4, 9); // inserts the element 3.4 at position 9
-    a.replace_mid(12, b); // replaces elements from 12 with the vector b
+    a.set_subvector(12, b); // replaces elements from 12 with the vector b
     \endcode
 
     It is of course also possible to perform the common linear algebra
@@ -395,8 +395,8 @@ namespace itpp {
     void set_subvector(int i, const Vec<Num_T> &v);
     //! Set subvector defined by indicies i1 to i2 to constant t
     void set_subvector(int i1, int i2, const Num_T t);
-    //! This function is deprecated. Please use set_subvector(i, v) instead.
-    void replace_mid(int pos, const Vec<Num_T> &v);
+    //! An alias function of set_subvector(i, &v)
+    void replace_mid(int i, const Vec<Num_T> &v);
     //! Delete element number \c index
     void del(int index);
     //! Delete elements from \c i1 to \c i2
@@ -1440,12 +1440,9 @@ namespace itpp {
   }
 
   template<class Num_T>
-  void Vec<Num_T>::replace_mid(int pos, const Vec<Num_T> &v)
+  void Vec<Num_T>::replace_mid(int i, const Vec<Num_T> &v)
   {
-    it_warning("Vec<>::replace_mid(): This function is deprecated and might "
-               "be removed from future IT++ releases. Please use "
-               "Vec<>::set_subvector(int, const Vec<>&) instead.");
-    set_subvector(pos, v);
+    set_subvector(i, v);
   }
 
   template<class Num_T>

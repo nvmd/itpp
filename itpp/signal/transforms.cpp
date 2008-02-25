@@ -109,9 +109,8 @@ namespace itpp {
     // is redundant to the 1st half. However, we want all of the data so we
     // fill it in. This is consistent with Matlab's functionality
     int istart = ceil_i(in.size() / 2.0);
-    int iend = in.size() - 1;
-    int idelta = iend - istart + 1;
-    out.set_subvector(istart, iend, reverse(conj(out(1, idelta))));
+    int idelta = in.size() - istart;
+    out.set_subvector(istart, reverse(conj(out(1, idelta))));
   }
 
   void ifft_real(const cvec &in, vec &out)

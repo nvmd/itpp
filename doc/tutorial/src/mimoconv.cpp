@@ -154,13 +154,13 @@ int main(int argc, char **argv)
 	if (Contflag(0)) {
 	  chan.demodulate_soft_bits(Y(k), H(k/Tc), sigma2, llr_apr, llr_apost,
                                     ND_UQAM::ZF_LOGMAP);
-	  LLRin(0).set_subvector(k*Nbitspvec,(k+1)*Nbitspvec-1,llr_apost);
+	  LLRin(0).set_subvector(k*Nbitspvec, llr_apost);
 	}
 
 	// ML demodulation
 	if (Contflag(1)) {
 	  chan.demodulate_soft_bits(Y(k), H(k/Tc), sigma2, llr_apr, llr_apost);
-	  LLRin(1).set_subvector(k*Nbitspvec,(k+1)*Nbitspvec-1,llr_apost);
+	  LLRin(1).set_subvector(k*Nbitspvec, llr_apost);
 	}
       }
 
