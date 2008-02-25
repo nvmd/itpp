@@ -1,3 +1,13 @@
+2008-02-25  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/vec.h: Deprecate set_subvector(i1, i2, &v) and
+	replace_mid(i, &v) functions
+
+	These two methods of the Vec class do exactly the same what the
+	set_subvector(i, &v) function does. Therefore it seems to be a
+	good idea to mark them as deprecated for possible removal from
+	future major releases of IT++.
+
 2008-02-24  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/modulator.h: Remove the deprecated
