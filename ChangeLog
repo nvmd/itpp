@@ -1,7 +1,7 @@
 2008-02-28  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* AUTHORS, doc/local/authors.doc: Update list of contributors with
-	Martin Senst
+	Martin Senst and Kumar Appaiah
 
 	* win32/itpp_acml_tests/Makefile.am,
 	win32/itpp_acml_tests/error_count_test.vcproj,
