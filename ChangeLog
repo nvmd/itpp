@@ -1,5 +1,8 @@
 2008-02-28  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/error_count_test.cpp: Clean-up redundant casts to short
+	integer
+
 	* tests/error_count_test.cpp: Use constructor's initialisation
 	list in BERC and BLERC constructors
 
