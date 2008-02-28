@@ -1,5 +1,8 @@
 2008-02-28  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* AUTHORS, doc/local/authors.doc: Update list of contributors with
+	Martin Senst
+
 	* win32/itpp_acml_tests/Makefile.am,
 	win32/itpp_acml_tests/error_count_test.vcproj,
 	win32/itpp_acml_tests/itpp_acml_tests.sln,
@@ -23,14 +26,14 @@
 
 	Introduce the keyword const for member functions like
 	get_errorrate() that do not change any member variables. Patch
-	submitted by Martin Sents.
+	submitted by Martin Senst.
 
 	* itpp/comm/channel.h: Unhide Fading_Generator::generate(int)
 	method for derived classes
 
 	The "cvec Fading_Generator::generate(int no_samples)" function
 	used to be hidden. This change makes it accessible from derived
-	classes. Patch submitted by Martin Sents.
+	classes. Patch submitted by Martin Senst.
 
 	* itpp/base/converters.h: Add specialisations of to_cvec(cvec) and
 	to_cmat(cmat)
@@ -39,7 +42,7 @@
 	to_cmat() with complex arguments. The functions then simply return
 	their argument. This fixes the problem with instantiating the
 	Freq_Filt class with std::complex<double> type. Patch submitted by
-	Martin Sents.
+	Martin Senst.
 
 	* itpp/base/math/elem_math.h: Documentation improvements
 
