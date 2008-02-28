@@ -1,5 +1,10 @@
 2008-02-28  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/math/elem_math.h: Documentation improvements
+
+	Clarify that sqr(cvec) and sqr(cmat) compute the absolute square,
+	not simply the square. Patch submitted by Martin Senst.
+
 	* itpp/comm/ldpc.h: Introduce LDPC_Code::get_ninfo() member
 	function
 

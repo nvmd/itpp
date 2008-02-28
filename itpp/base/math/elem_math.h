@@ -71,7 +71,7 @@ namespace itpp {
 
   //! Square of x
   inline double sqr(double x) { return (x * x); }
-  //! Square of complex-valued x, ||x||^2
+  //! Absolute square of complex-valued x, ||x||^2
   inline double sqr(const std::complex<double>& x)
   {
     return (x.real() * x.real() + x.imag() * x.imag());
@@ -80,9 +80,9 @@ namespace itpp {
   inline vec sqr(const vec &x) { return apply_function<double>(sqr, x); }
   //! Square of elements
   inline mat sqr(const mat &x) { return apply_function<double>(sqr, x); }
-  //! Square of elements
+  //! Absolute square of elements
   vec sqr(const cvec &x);
-  //! Square of elements
+  //! Absolute square of elements
   mat sqr(const cmat &x);
 
 
