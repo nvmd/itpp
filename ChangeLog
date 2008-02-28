@@ -1,5 +1,13 @@
 2008-02-28  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* win32/itpp_acml_tests/Makefile.am,
+	win32/itpp_acml_tests/error_count_test.vcproj,
+	win32/itpp_acml_tests/itpp_acml_tests.sln,
+	win32/itpp_mkl_tests/Makefile.am,
+	win32/itpp_mkl_tests/error_count_test.vcproj,
+	win32/itpp_mkl_tests/itpp_mkl_tests.sln: Add MSVC++ project files
+	for test program of BERC and BLERC classes
+
 	* tests/error_count_test.cpp: Clean-up redundant casts to short
 	integer
 
