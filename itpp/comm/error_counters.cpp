@@ -101,7 +101,7 @@ namespace itpp {
     delay = bestdelay;
   }
 
-  void BERC::report()
+  void BERC::report() const
   {
     std::cout.setf(std::ios::fixed);
     std::cout << std::endl
