@@ -1,5 +1,14 @@
 2008-02-28  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/converters.h: Add specialisations of to_cvec(cvec) and
+	to_cmat(cmat)
+
+	These specialisations make it possible to call to_cvec() and
+	to_cmat() with complex arguments. The functions then simply return
+	their argument. This fixes the problem with instantiating the
+	Freq_Filt class with std::complex<double> type. Patch submitted by
+	Martin Sents.
+
 	* itpp/base/math/elem_math.h: Documentation improvements
 
 	Clarify that sqr(cvec) and sqr(cmat) compute the absolute square,
