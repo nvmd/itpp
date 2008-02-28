@@ -13,6 +13,7 @@ EXTRA_DIST = \
 	convcode_test.vcproj \
 	det_test.vcproj \
 	eigen_test.vcproj \
+	error_count_test.vcproj \
 	fastica_test.vcproj \
 	fastmath_test.vcproj \
 	filter_design_test.vcproj \
