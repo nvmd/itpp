@@ -52,8 +52,7 @@ namespace itpp {
 
     if (delay >= 0) {
       for (int i = 0; i < countlength; i++) {
-	if (static_cast<short>(in1(i + ignorefirst)) ==
-	    static_cast<short>(in2(i + ignorefirst + delay))) {
+	if (in1(i + ignorefirst) == in2(i + ignorefirst + delay)) {
 	  corrects++;
 	}
 	else {
@@ -63,8 +62,7 @@ namespace itpp {
     }
     else {
       for (int i = 0; i < countlength; i++) {
-	if (static_cast<short>(in1(i + ignorefirst - delay)) ==
-	    static_cast<short>(in2(i + ignorefirst))) {
+	if (in1(i + ignorefirst - delay) == in2(i + ignorefirst)) {
 	  corrects++;
 	}
 	else {
@@ -125,16 +123,14 @@ namespace itpp {
 
     if (indelay >= 0) {
       for (int i = 0; i < countlength; i++) {
-	if (static_cast<short>(in1(i + inignorefirst)) !=
-	    static_cast<short>(in2(i + inignorefirst + indelay))) {
+	if (in1(i + inignorefirst) != in2(i + inignorefirst + indelay)) {
 	  local_errors++;
 	}
       }
     }
     else {
       for (int i = 0; i < countlength; i++) {
-	if (static_cast<short>(in1(i + inignorefirst - indelay)) !=
-	    static_cast<short>(in2(i + inignorefirst))) {
+	if (in1(i + inignorefirst - indelay) != in2(i + inignorefirst)) {
 	  local_errors++;
 	}
       }
@@ -178,8 +174,7 @@ namespace itpp {
     for (int i = 0; i < (min_input_length / blocksize); i++) {
       CORR = true;
       for (int j = 0; j < blocksize; j++) {
-	if (static_cast<short>(in1(i * blocksize + j)) !=
-	    static_cast<short>(in2(i * blocksize + j))) {
+	if (in1(i * blocksize + j) != in2(i * blocksize + j)) {
 	  CORR = false;
 	  break;
 	}
