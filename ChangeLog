@@ -1,5 +1,11 @@
 2008-02-28  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/comm/ldpc.h: Introduce LDPC_Code::get_ninfo() member
+	function
+
+	This function returns the number of information bits in a
+	codeword. Thanks to Martin Senst for submitting this patch.
+
 	* itpp/comm/ldpc.cpp: Correct the length of the result of decode()
 
 	The decode() function used to return the first "ncheck" bits of

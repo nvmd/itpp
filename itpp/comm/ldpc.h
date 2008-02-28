@@ -894,6 +894,9 @@ namespace itpp {
     //! Get the number of check nodes
     int get_ncheck() const { return ncheck; }
 
+    //! Get the number of information bits per codeword
+    int get_ninfo() const { return nvar - ncheck; }
+
     //! Return the decoding method
     std::string get_decoding_method() const { return dec_method; }
 
