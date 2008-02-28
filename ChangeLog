@@ -1,5 +1,12 @@
 2008-02-28  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/comm/channel.h: Unhide Fading_Generator::generate(int)
+	method for derived classes
+
+	The "cvec Fading_Generator::generate(int no_samples)" function
+	used to be hidden. This change makes it accessible from derived
+	classes. Patch submitted by Martin Sents.
+
 	* itpp/base/converters.h: Add specialisations of to_cvec(cvec) and
 	to_cmat(cmat)
 
