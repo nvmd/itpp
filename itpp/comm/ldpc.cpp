@@ -1351,7 +1351,7 @@ namespace itpp {
     QLLRvec qllrin = llrcalc.to_qllr(llr_in);
     QLLRvec qllrout;
     bp_decode(qllrin, qllrout);
-    syst_bits = (qllrout.left(ncheck) < 0);
+    syst_bits = (qllrout.left(nvar - ncheck) < 0);
   }
 
   bvec LDPC_Code::decode(const vec &llr_in)

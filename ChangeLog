@@ -1,3 +1,12 @@
+2008-02-28  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/ldpc.cpp: Correct the length of the result of decode()
+
+	The decode() function used to return the first "ncheck" bits of
+	the decoded codeword, but we want the first "nvar-ncheck" bits.
+
+	Thanks to Martin Senst for submitting this patch.
+
 2008-02-25  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* doc/local/users_guide.doc, doc/tutorial/src/mimoconv.cpp,
