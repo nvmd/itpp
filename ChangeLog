@@ -1,5 +1,12 @@
 2008-02-28  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/comm/error_counters.cpp, itpp/comm/error_counters.h: Make
+	const member functions actually const
+
+	Introduce the keyword const for member functions like
+	get_errorrate() that do not change any member variables. Patch
+	submitted by Martin Sents.
+
 	* itpp/comm/channel.h: Unhide Fading_Generator::generate(int)
 	method for derived classes
 

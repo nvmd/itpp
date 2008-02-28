@@ -84,17 +84,17 @@ namespace itpp {
     //! Clears the bit error counter
     void clear() { errors = 0; corrects = 0; }
     //! Writes an error report
-    void report();
+    void report() const;
     //! Return the \a delay, assumed or estimated, between \a in1 and \a in2.
-    int get_delay() { return delay; }
+    int get_delay() const { return delay; }
     //! Returns the counted number of bit errors
-    double get_errors() { return errors; }
+    double get_errors() const { return errors; }
     //! Returns the counted number of corectly received bits
-    double get_corrects() { return corrects; }
+    double get_corrects() const { return corrects; }
     //! Returns the total number of bits processed
-    double get_total_bits() { return (errors+corrects); }
+    double get_total_bits() const { return (errors+corrects); }
     //! Returns the estimated bit error rate.
-    double get_errorrate() { return (errors / (corrects + errors)); }
+    double get_errorrate() const { return (errors / (corrects + errors)); }
     /*!
       \brief static function to allow simple and fast count of bit-errors
 
@@ -135,13 +135,13 @@ namespace itpp {
     //! Clear the block error counter
     void clear() { errors = 0; corrects = 0; }
     //! Returns the number of block errors
-    double get_errors() { return errors; }
+    double get_errors() const { return errors; }
     //! Returns the number of correct blocks
-    double get_corrects() { return corrects; }
+    double get_corrects() const { return corrects; }
     //! Returns the total number of block processed
-    double get_total_blocks() { return (errors+corrects); }
+    double get_total_blocks() const { return (errors+corrects); }
     //! Returns the block error rate
-    double get_errorrate() { return (errors / (corrects + errors)); }
+    double get_errorrate() const { return (errors / (corrects + errors)); }
 
     //protected:
   private:
