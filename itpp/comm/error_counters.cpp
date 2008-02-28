@@ -41,14 +41,9 @@ namespace itpp {
   // The Bit error rate counter class (BERC)
   //-----------------------------------------------------------
 
-  BERC::BERC(int indelay, int inignorefirst, int inignorelast)
-  {
-    delay       = indelay;
-    ignorefirst = inignorefirst;
-    ignorelast  = inignorelast;
-    errors      = 0;
-    corrects    = 0;
-  }
+  BERC::BERC(int indelay, int inignorefirst, int inignorelast):
+    delay(indelay), ignorefirst(inignorefirst), ignorelast(inignorelast),
+    errors(0), corrects(0) {}
 
   void BERC::count(const bvec &in1, const bvec &in2)
   {
@@ -153,11 +148,12 @@ namespace itpp {
   // The Block error rate counter class (BERC)
   //-----------------------------------------------------------
 
-  BLERC::BLERC(void): setup_done(false), errors(0), corrects(0) {}
+  BLERC::BLERC(): setup_done(false), blocksize(0), errors(0),
+                      corrects(0) {}
 
 
   BLERC::BLERC(int inblocksize): setup_done(true), blocksize(inblocksize),
-				  errors(0), corrects(0) {}
+                                 errors(0), corrects(0) {}
 
 
   void BLERC::set_blocksize(int inblocksize, bool clear)
