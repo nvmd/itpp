@@ -247,23 +247,30 @@ namespace itpp {
     //! Set the vector equal to the values in the \c str string
     void set(const std::string &str);
 
-    //! C-style index operator. First element is 0
+    //! C-style index operator. First element is 0.
     const Num_T &operator[](int i) const;
-    //! Index operator. First element is 0
+    //! Index operator. First element is 0.
     const Num_T &operator()(int i) const;
-    //! C-style index operator. First element is 0
+    //! C-style index operator. First element is 0.
     Num_T &operator[](int i);
-    //! Index operator. First element is 0
+    //! Index operator. First element is 0.
     Num_T &operator()(int i);
     //! Sub-vector with elements from \c i1 to \c i2. Index -1 indicates the last element.
-    const Vec<Num_T> operator()(int i1, int i2) const;
-    //! Sub-vector where the elements are given by the list \c indexlist
-    const Vec<Num_T> operator()(const Vec<int> &indexlist) const;
+    Vec<Num_T> operator()(int i1, int i2) const;
+    //! Sub-vector with elements given by the list of indices \c indexlist
+    Vec<Num_T> operator()(const Vec<int> &indexlist) const;
+    //! Sub-vector with elements with indexes where \c binlist is \c 1
+    Vec<Num_T> operator()(const Vec<bin> &binlist) const;
 
-    //! Accessor-style method. First element is 0
+    //! Accessor-style method. First element is 0.
     const Num_T &get(int i) const;
-    //! Sub-vector with elements from \c i1 to \c i2. Index -1 indicates the last element.
-    const Vec<Num_T> get(int i1, int i2) const;
+    //! Get the elements from \c i1 to \c i2. Index -1 indicates the last element.
+    Vec<Num_T> get(int i1, int i2) const;
+    //! Get the elements given by the list of indices \c indexlist
+    Vec<Num_T> get(const Vec<int> &indexlist) const;
+    //! Get the elements with indexes where \c binlist is \c 1
+    Vec<Num_T> get(const Vec<bin> &binlist) const;
+
     //! Modifier-style method. First element is 0
     void set(int i, const Num_T &v);
 
@@ -353,8 +360,6 @@ namespace itpp {
     //! Elementwise division, followed by summation of the resultant elements. Fast version of sum(elem_mult(a,b))
     friend Num_T elem_div_sum <>(const Vec<Num_T> &a, const Vec<Num_T> &b);
 
-    //! Get the elements in the vector where \c binlist is \c 1
-    Vec<Num_T> get(const Vec<bin> &binlist) const;
     //! Get the right \c nr elements from the vector
     Vec<Num_T> right(int nr) const;
     //! Get the left \c nr elements from the vector
@@ -641,8 +646,7 @@ namespace itpp {
   template<class Num_T> inline
   const Num_T& Vec<Num_T>::operator()(int i) const
   {
-    it_assert_debug(in_range(i), "Vec<>::operator(): Index out of range");
-    return data[i];
+    return (*this)[i];
   }
 
   template<class Num_T> inline
@@ -655,12 +659,11 @@ namespace itpp {
   template<class Num_T> inline
   Num_T& Vec<Num_T>::operator()(int i)
   {
-    it_assert_debug(in_range(i), "Vec<>::operator(): Index out of range");
-    return data[i];
+    return (*this)[i];
   }
 
   template<class Num_T> inline
-  const Vec<Num_T> Vec<Num_T>::operator()(int i1, int i2) const
+  Vec<Num_T> Vec<Num_T>::operator()(int i1, int i2) const
   {
     if (i1 == -1) i1 = datasize-1;
     if (i2 == -1) i2 = datasize-1;
@@ -675,14 +678,30 @@ namespace itpp {
   }
 
   template<class Num_T>
-  const Vec<Num_T> Vec<Num_T>::operator()(const Vec<int> &indexlist) const
+  Vec<Num_T> Vec<Num_T>::operator()(const Vec<int> &indexlist) const
   {
-    Vec<Num_T> temp(indexlist.length());
-    for (int i=0;i<indexlist.length();i++) {
+    int size = indexlist.size();
+    Vec<Num_T> temp(size);
+    for (int i = 0; i < size; ++i) {
       it_assert_debug(in_range(indexlist(i)), "Vec<>::operator()(ivec &): "
                       "Index i=" << i << " out of range");
-      temp(i)=data[indexlist(i)];
+      temp(i) = data[indexlist(i)];
     }
+    return temp;
+  }
+
+  template<class Num_T>
+  Vec<Num_T> Vec<Num_T>::operator()(const Vec<bin> &binlist) const
+  {
+    int size = binlist.size();
+    it_assert_debug(datasize == size, "Vec<>::operator()(bvec &): "
+                    "Wrong size of binlist vector");
+    Vec<Num_T> temp(size);
+    int j = 0;
+    for (int i = 0; i < size; ++i)
+      if (binlist(i) == bin(1))
+        temp(j++) = data[i];
+    temp.set_size(j, true);
     return temp;
   }
 
@@ -690,16 +709,26 @@ namespace itpp {
   template<class Num_T> inline
   const Num_T& Vec<Num_T>::get(int i) const
   {
-    it_assert_debug(in_range(i), "Vec<>::get(): Index out of range");
-    return data[i];
+    return (*this)[i];
   }
 
   template<class Num_T> inline
-  const Vec<Num_T> Vec<Num_T>::get(int i1, int i2) const
+  Vec<Num_T> Vec<Num_T>::get(int i1, int i2) const
   {
     return (*this)(i1, i2);
   }
 
+  template<class Num_T> inline
+  Vec<Num_T> Vec<Num_T>::get(const Vec<int> &indexlist) const
+  {
+    return (*this)(indexlist);
+  }
+
+  template<class Num_T> inline
+  Vec<Num_T> Vec<Num_T>::get(const Vec<bin> &binlist) const
+  {
+    return (*this)(binlist);
+  }
 
   template<class Num_T> inline
   void Vec<Num_T>::zeros()
@@ -1221,23 +1250,6 @@ namespace itpp {
       acc += a.data[i] / b.data[i];
 
     return acc;
-  }
-
-  template<class Num_T>
-  Vec<Num_T> Vec<Num_T>::get(const Vec<bin> &binlist) const
-  {
-    int size = binlist.size();
-    it_assert_debug(datasize == size, "Vec::get(bvec &): wrong sizes");
-    Vec<Num_T> temp(size);
-    int j = 0;
-    for (int i = 0; i < size; ++i) {
-      if (binlist(i) == bin(1)) {
-	temp(j) = data[i];
-	j++;
-      }
-    }
-    temp.set_size(j, true);
-    return temp;
   }
 
   template<class Num_T> inline

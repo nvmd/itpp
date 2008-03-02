@@ -1,5 +1,13 @@
 2008-03-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* doc/local/users_guide.doc, itpp/base/vec.h, tests/vec_test.cpp,
+	tests/vec_test.ref: Add missing operator(bin_list) and
+	get(index_list) methods to the Vec class
+
+	This patch also simplifies the implementation so get() methods
+	just call inline indexing "()" operators. The documentation and
+	vec_test program are updated accordingly.
+
 	* itpp/base/vec.h: Replace ((i < datasize) && (i >= 0)) with
 	in_range(i) inline method
 

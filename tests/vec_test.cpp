@@ -102,14 +102,23 @@ void common_operators(const Vec<T> &a, const Vec<T> &b, T c)
   cout << "a.set_size(a.size()-6, true); a = " << a2 << endl;
 
   cout << "a(5) = " << a(5) << endl;
+  cout << "a.get(5) = " << a.get(5) << endl;
   cout << "a(0,5) = " << a(0,5) << endl;
+  cout << "a.get(0,5) = " << a.get(0,5) << endl;
   cout << "a(6,-1) = " << a(6,-1) << endl;
+  ivec idx_list = "0 5 6 7";
+  cout << "idx_list = " << idx_list << endl;
+  cout << "a(idx_list) = " << a(idx_list) << endl;
+  cout << "a.get(idx_list) = " << a.get(idx_list) << endl;
+  bvec bin_list = "1 0 0 0 0 1 1 1 0 0";
+  cout << "bin_list = " << bin_list << endl;
+  cout << "a(bin_list) = " << a(bin_list) << endl;
+  cout << "a.get(bin_list) = " << a.get(bin_list) << endl;
   cout << "a.right(3) = " << a.right(3) << endl;
   cout << "a.left(4) = " << a.left(4) << endl;
   cout << "a.mid(3,2) = " << a.mid(3,2) << endl;
   a2 = a;
   cout << "a.split(4) = " << a2.split(4) << ";   a = " << a2 << endl;
-  cout << "a(\"0 5 6 7\") = " << a("0 5 6 7") << endl;
   a2(5) = a(6);
   cout << "a(5) = a(6); a = " << a2 << endl;
 

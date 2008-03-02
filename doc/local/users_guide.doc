@@ -168,7 +168,7 @@ or retrieving a specific vector element use
 
 \code
 a(i) = 3.14;
-a(i);
+double p = a(i);
 \endcode
 
 for element number \a i. Vector elements are numbered such that \a a(0)
@@ -177,7 +177,7 @@ the C language, i.e.
 
 \code
 a[i] = 3.14;
-a[i];
+double p = a[i];
 \endcode
 
 Parts or a vector are retrieved by
@@ -187,29 +187,41 @@ a.left(3);   // a vector containing the first 3 elements of a
 a.right(2);  // a vector containing the last 2 elements of a
 a.mid(1,2);  // a vector containing the 2 elements starting with a(1)
 a(2,4);      // a vector containing all elements from a(2) to a(4)
+a(2,-1);     // a vector containing all elements from a(2) to the end of a
+\endcode
+
+Alternatively you can use \a get() methods instead of () or [] operators, e.g.
+
+\code
+a.get(4);
+a.get(5,-1);
 \endcode
 
 If you have a vector called \a index_list containing indexes (\a ivec) you
 may write
 
 \code
-// this gives a vector containing all elements in index_list
+// these give a vector containing elements with indexes in index_list
 a(index_list);
+a.get(index_list);
 \endcode
 
 If you have a \c bvec called e.g. \a bin_list you may write
 
 \code
-a.get(bin_list); // this gives a vector containing all elements a(i)
-                 // for which bin_list(i) equals 1
+// these give a vector containing all elements a(i) for which bin_list(i) equals 1
+a(bin_list);
+a.get(bin_list);
 \endcode
 
 Have a look at the following example:
 
 \code
-#include "itbase.h"
+#include <itpp/itbase.h>
+using namespace itpp;
+using namespace std;
 
-int man() {
+int main() {
   vec a = linspace(0,1,11);
   ivec index_list = "3 5 2 2";
   bvec bin_list = "1 0 1 0 1 0 1 0 1 0 1";
@@ -225,7 +237,7 @@ When you run this program you will see
 \code
 a = [0 0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0]
 a(index_list) = [0.3 0.5 0.2 0.2]
-a(bin_list) = [0.0 0.2 0.4 0.6 0.8 1.0]
+a.get(bin_list) = [0.0 0.2 0.4 0.6 0.8 1.0]
 \endcode
 
 
