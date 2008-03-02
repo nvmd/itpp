@@ -1,5 +1,21 @@
 2008-03-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/vec.cpp, itpp/base/vec.h: Clean-up redundant use of
+	"const" keyword in the Vec class
+
+	There is no need for declaring the returned by value types with an
+	additional "const" keyword. Moreover, Num_T is assumed a simple or
+	built in type for the Vec class, i.e. bin, short int, int, double
+	and complex<double>. Therefore it might be more efficient to pass
+	arguments of this type by value, in which case the "const" keyword
+	is also redundant.
+
+	Logical operators (==, !=, >, >=, < and <=) no longer create a
+	local copy of the vector contents.
+
+	By the way, use consistent name "t" for Num_T variables and wrap
+	long lines before 80 column.
+
 	* itpp/base/vec.h: Add missing operator=(const std::string &) to
 	the Vec class
 
