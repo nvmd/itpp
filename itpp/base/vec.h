@@ -458,6 +458,8 @@ namespace itpp {
   private:
     // This function is used in set() methods to replace commas with spaces
     std::string replace_commas(const std::string &str);
+    //! Check whether index \c i is in the allowed range
+    bool in_range(int i) const { return ((i < datasize) && (i >= 0)); }
   };
 
   //-----------------------------------------------------------------------------------
@@ -632,28 +634,28 @@ namespace itpp {
   template<class Num_T> inline
   const Num_T& Vec<Num_T>::operator[](int i) const
   {
-    it_assert_debug((i >= 0) && (i < datasize), "Vec::operator[]: Index out of range");
+    it_assert_debug(in_range(i), "Vec<>::operator[]: Index out of range");
     return data[i];
   }
 
   template<class Num_T> inline
   const Num_T& Vec<Num_T>::operator()(int i) const
   {
-    it_assert_debug((i >= 0) && (i < datasize), "Vec::operator(): Index out of range");
+    it_assert_debug(in_range(i), "Vec<>::operator(): Index out of range");
     return data[i];
   }
 
   template<class Num_T> inline
   Num_T& Vec<Num_T>::operator[](int i)
   {
-    it_assert_debug((i >= 0) && (i < datasize), "Vec::operator[]: Index out of range");
+    it_assert_debug(in_range(i), "Vec<>::operator[]: Index out of range");
     return data[i];
   }
 
   template<class Num_T> inline
   Num_T& Vec<Num_T>::operator()(int i)
   {
-    it_assert_debug((i >= 0) && (i < datasize), "Vec::operator(): Index out of range");
+    it_assert_debug(in_range(i), "Vec<>::operator(): Index out of range");
     return data[i];
   }
 
@@ -663,8 +665,8 @@ namespace itpp {
     if (i1 == -1) i1 = datasize-1;
     if (i2 == -1) i2 = datasize-1;
 
-    it_assert_debug(i1>=0 && i2>=0 && i1<datasize && i2<datasize, "Vec::operator()(i1,i2): indicies out of range");
-    it_assert_debug(i2>=i1, "Vec::op(i1,i2): i2 >= i1 necessary");
+    it_assert_debug((i1 >= 0) && (i1 <= i2) && (i2 < datasize),
+                    "Vec<>::operator()(i1, i2): Indexing out of range");
 
     Vec<Num_T> s(i2-i1+1);
     copy_vector(s.datasize, data+i1, s.data);
@@ -677,7 +679,8 @@ namespace itpp {
   {
     Vec<Num_T> temp(indexlist.length());
     for (int i=0;i<indexlist.length();i++) {
-      it_assert((indexlist(i)>=0) && (indexlist(i) < datasize), "Vec::operator()(ivec &): index outside range");
+      it_assert_debug(in_range(indexlist(i)), "Vec<>::operator()(ivec &): "
+                      "Index i=" << i << " out of range");
       temp(i)=data[indexlist(i)];
     }
     return temp;
@@ -687,7 +690,7 @@ namespace itpp {
   template<class Num_T> inline
   const Num_T& Vec<Num_T>::get(int i) const
   {
-    it_assert_debug((i >= 0) && (i < datasize), "method get()");
+    it_assert_debug(in_range(i), "Vec<>::get(): Index out of range");
     return data[i];
   }
 
@@ -715,7 +718,7 @@ namespace itpp {
   template<class Num_T> inline
   void Vec<Num_T>::set(int i, const Num_T &v)
   {
-    it_assert_debug((i >= 0) && (i < datasize), "method set()");
+    it_assert_debug(in_range(i), "Vec<>::set(i, t): Index out of range");
     data[i] = v;
   }
 
@@ -1274,7 +1277,7 @@ namespace itpp {
   template<class Num_T>
   Vec<Num_T> Vec<Num_T>::split(int pos)
   {
-    it_assert_debug((pos >= 0) && (pos <= datasize), "Vec::split(): index out of range");
+    it_assert_debug(in_range(pos), "Vec<>::split(): Index out of range");
     Vec<Num_T> temp1(pos);
     Vec<Num_T> temp2(datasize-pos);
     copy_vector(pos, data, temp1.data);
@@ -1421,8 +1424,9 @@ namespace itpp {
   template<class Num_T> inline
   void Vec<Num_T>:: set_subvector(int i, const Vec<Num_T> &v)
   {
-    it_assert_debug(i>=0, "Vec::set_subvector(): index out of range");
-    it_assert_debug(i+v.datasize <= datasize, "Vec::set_subvector(): too long input vector");
+    it_assert_debug((i >= 0) && (i + v.datasize <= datasize),
+                    "Vec<>::set_subvector(int, const Vec<> &): "
+                    "Index out of range or too long input vector");
     copy_vector(v.datasize, v.data, data+i);
   }
 
@@ -1431,10 +1435,9 @@ namespace itpp {
   {
     if (i1 == -1) i1 = datasize-1;
     if (i2 == -1) i2 = datasize-1;
-
-    it_assert_debug(i1>=0 && i2>=0 && i1<datasize && i2<datasize, "Vec::set_subvector(): indicies out of range");
-    it_assert_debug(i2>=i1, "Vec::set_subvector(): i2 >= i1 necessary");
-
+    it_assert_debug((i1 >= 0) && (i1 <= i2) && (i2 < datasize),
+                    "Vec<>::set_subvector(int, int, Num_T): Indexing out "
+                    "of range");
     for (int i=i1;i<=i2;i++)
       data[i] = t;
   }
@@ -1448,8 +1451,7 @@ namespace itpp {
   template<class Num_T>
   void Vec<Num_T>::del(int index)
   {
-    it_assert_debug((index >= 0) && (index < datasize),
-		    "Vec::del(): index out of range");
+    it_assert_debug(in_range(index), "Vec<>::del(int): Index out of range");
     Vec<Num_T> temp(*this);
     set_size(datasize-1, false);
     copy_vector(index, temp.data, data);
@@ -1462,7 +1464,7 @@ namespace itpp {
     if (i1 == -1) i1 = datasize-1;
     if (i2 == -1) i2 = datasize-1;
     it_assert_debug((i1 >= 0) && (i1 <= i2) && (i2 < datasize),
-		    "Vec<>::del(i1, i2): Indexing out of range");
+                    "Vec<>::del(int, int): Indexing out of range");
     Vec<Num_T> temp(*this);
     int new_size = datasize-(i2-i1+1);
     set_size(new_size, false);
@@ -1473,7 +1475,8 @@ namespace itpp {
   template<class Num_T>
   void Vec<Num_T>::ins(int index, const Num_T in)
   {
-    it_assert_debug((index>=0) && (index<=datasize), "Vec::ins: index out of range");
+    it_assert_debug((index >= 0) && (index <= datasize),
+                    "Vec<>::ins(): Index out of range");
     Vec<Num_T> Temp(*this);
 
     set_size(datasize+1, false);
@@ -1485,7 +1488,8 @@ namespace itpp {
   template<class Num_T>
   void Vec<Num_T>::ins(int index, const Vec<Num_T> &in)
   {
-    it_assert_debug((index>=0) && (index<=datasize), "Vec::ins: index out of range");
+    it_assert_debug((index >= 0) && (index <= datasize),
+                    "Vec<>::ins(): Index out of range");
     Vec<Num_T> Temp(*this);
 
     set_size(datasize+in.length(), false);
@@ -1515,17 +1519,16 @@ namespace itpp {
   template<class Num_T> inline
   Vec<Num_T>& Vec<Num_T>::operator=(const Mat<Num_T> &m)
   {
-    it_assert_debug( (m.cols() == 1 && datasize == m.rows()) ||
-		(m.rows() == 1 && datasize == m.cols()), "Vec::operator=(Mat<Num_T>): wrong size");
-
     if (m.cols() == 1) {
       set_size(m.rows(), false);
       copy_vector(m.rows(), m._data(), data);
-    } else if (m.rows() == 1) {
+    }
+    else if (m.rows() == 1) {
       set_size(m.cols(), false);
       copy_vector(m.cols(), m._data(), m.rows(), data, 1);
-    } else
-      it_error("Vec::operator=(Mat<Num_T>): wrong size");
+    }
+    else
+      it_error("Vec<>::operator=(Mat<Num_T> &): Wrong size of input matrix");
     return *this;
   }
 
