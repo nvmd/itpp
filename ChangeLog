@@ -1,3 +1,12 @@
+2008-03-02  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/vec.h: Replace ((i < datasize) && (i >= 0)) with
+	in_range(i) inline method
+
+	This is a pure clean-up patch which simplifies it_assert_debug()
+	checks. BTW, it also includes a few cosmetic changes to other
+	assertion checks.
+
 2008-02-28  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* AUTHORS, doc/local/authors.doc: Update list of contributors with
