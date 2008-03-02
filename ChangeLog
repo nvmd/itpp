@@ -1,5 +1,13 @@
 2008-03-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/vec.h: Add missing operator=(const std::string &) to
+	the Vec class
+
+	There is a Vec(const std::string &) constructor but the assignment
+	operator for this type of argument has not been implemented. This
+	patch fixes this problem and unifies the argument names by the
+	way.
+
 	* doc/local/users_guide.doc, itpp/base/vec.h, tests/vec_test.cpp,
 	tests/vec_test.ref: Add missing operator(bin_list) and
 	get(index_list) methods to the Vec class

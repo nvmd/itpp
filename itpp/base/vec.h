@@ -218,9 +218,9 @@ namespace itpp {
     //! Copy constructor, which takes an element factory \c f as an additional argument.
     Vec(const Vec<Num_T> &v, const Factory &f);
     //! Constructor taking a char string as input. An element factory \c f can be specified.
-    Vec(const char *values, const Factory &f = DEFAULT_FACTORY);
+    Vec(const char *str, const Factory &f = DEFAULT_FACTORY);
     //! Constructor taking a string as input. An element factory \c f can be specified.
-    Vec(const std::string &values, const Factory &f = DEFAULT_FACTORY);
+    Vec(const std::string &str, const Factory &f = DEFAULT_FACTORY);
     //! Constructor taking a C-array as input. Copies all data. An element factory \c f can be specified.
     Vec(const Num_T *c_array, int size, const Factory &f = DEFAULT_FACTORY);
 
@@ -417,8 +417,10 @@ namespace itpp {
     Vec<Num_T>& operator=(const Vec<Num_T> &v);
     //! Assign vector equal to the 1-dimensional matrix \c m
     Vec<Num_T>& operator=(const Mat<Num_T> &m);
-    //! Assign vector the values in the string \c values
-    Vec<Num_T>& operator=(const char *values);
+    //! Assign vector the values in the string \c str
+    Vec<Num_T>& operator=(const char *str);
+    //! Assign vector the values in the string \c str
+    Vec<Num_T>& operator=(const std::string &str);
 
     //! Elementwise equal to the scalar
     Vec<bin> operator==(const Num_T value) const;
@@ -583,15 +585,15 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-  Vec<Num_T>::Vec(const char *values, const Factory &f) : datasize(0), data(0), factory(f)
+  Vec<Num_T>::Vec(const char *str, const Factory &f) : datasize(0), data(0), factory(f)
   {
-    set(values);
+    set(std::string(str));
   }
 
   template<class Num_T> inline
-  Vec<Num_T>::Vec(const std::string &values, const Factory &f) : datasize(0), data(0), factory(f)
+  Vec<Num_T>::Vec(const std::string &str, const Factory &f) : datasize(0), data(0), factory(f)
   {
-    set(values);
+    set(str);
   }
 
   template<class Num_T> inline
@@ -1545,9 +1547,16 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-  Vec<Num_T>& Vec<Num_T>::operator=(const char *values)
+  Vec<Num_T>& Vec<Num_T>::operator=(const char *str)
   {
-    set(values);
+    set(std::string(str));
+    return *this;
+  }
+
+  template<class Num_T> inline
+  Vec<Num_T>& Vec<Num_T>::operator=(const std::string &str)
+  {
+    set(str);
     return *this;
   }
 
