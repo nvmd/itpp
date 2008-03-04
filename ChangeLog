@@ -1,3 +1,21 @@
+2008-03-04  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/llr.cpp, itpp/comm/llr.h: In case of an overflow
+	saturate QLLR values instead of aborting
+
+	An overflow may occur when converting real-valued LLR values into
+	QLLR ones and also when calculating the Hagenauer's "boxplus"
+	operator. This patch implements a conditional QLLR saturation in
+	such cases. Moreover, the Boxplus() function is no longer an
+	inline function, because this actually caused performance loss of
+	the LDPC codes decoder.
+
+	Finally, make the argument of to_double(QLLR) and to_qllr(double)
+	pass-by-value instead of const-reference, since that's faster for
+	POD like double and int.
+
+	Thanks to Martin Senst for providing the initial patch.
+
 2008-03-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/vec.cpp, itpp/base/vec.h: Clean-up redundant use of
