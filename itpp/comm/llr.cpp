@@ -1,8 +1,7 @@
-
 /*!
  * \file
  * \brief Class for numerically efficient log-likelihood algebra
- * \author Erik G. Larsson
+ * \author Erik G. Larsson and Martin Senst
  *
  * -------------------------------------------------------------------------
  *
@@ -43,16 +42,6 @@ namespace itpp {
     init_llr_tables(d1,d2,d3);
   }
 
-
-  void LLR_calc_unit::operator=(const LLR_calc_unit &x)
-  {
-    Dint1=x.Dint1;
-    Dint2=x.Dint2;
-    Dint3=x.Dint3;
-    logexp_table=x.logexp_table;
-  }
-
-
   ivec LLR_calc_unit::get_Dint()
   {
     ivec r(3);
@@ -67,8 +56,6 @@ namespace itpp {
     Dint1 = d1;      // 1<<Dint1 determines how integral LLRs relate to real LLRs (to_double=(1<<Dint)*int_llr)
     Dint2 = d2;      // number of entries in table for LLR operations
     Dint3 = d3;      // table resolution is 2^(-(Dint1-Dint3))
-    //    cerr << "Initializing LLR tables, Dint1=" << Dint1 << "   Dint2=" << Dint2 << "  Dint3=" << Dint3
-    //	 << "  resoltion: " << pow(2.0,((double) (Dint3-Dint1))) << endl;
     logexp_table = construct_logexp_table();
   }
 
@@ -122,6 +109,47 @@ namespace itpp {
       for (int j=0; j<n; j++) {
 	result.set(i,j,to_double(l(i,j)));
       }
+    }
+    return result;
+  }
+
+  // This function used to be inline, but in my experiments,
+  // the non-inlined version was actually faster /Martin Senst
+  QLLR LLR_calc_unit::Boxplus(QLLR a, QLLR b) const
+  {
+    QLLR a_abs = (a > 0 ? a : -a);
+    QLLR b_abs = (b > 0 ? b : -b);
+    QLLR minabs = (a_abs > b_abs ? b_abs : a_abs);
+    QLLR term1 = (a > 0 ? (b > 0 ? minabs : -minabs)
+                        : (b > 0 ? -minabs : minabs));
+
+    if (Dint2 == 0) {  // logmax approximation - avoid looking into empty table
+      // Don't abort when overflowing, just saturate the QLLR
+      if (term1 > QLLR_MAX) {
+        it_info_debug("LLR_calc_unit::Boxplus(): LLR overflow");
+        return QLLR_MAX;
+      }
+      if (term1 < -QLLR_MAX) {
+        it_info_debug("LLR_calc_unit::Boxplus(): LLR overflow");
+        return -QLLR_MAX;
+      }
+      return term1;
+    }
+
+    QLLR apb = a + b;
+    QLLR term2 = logexp((apb > 0 ? apb : -apb));
+    QLLR amb = a - b;
+    QLLR term3 = logexp((amb > 0 ? amb : -amb));
+    QLLR result = term1 + term2 - term3;
+
+    // Don't abort when overflowing, just saturate the QLLR
+    if (result > QLLR_MAX) {
+      it_info_debug("LLR_calc_unit::Boxplus() LLR overflow");
+      return QLLR_MAX;
+    }
+    if (result < -QLLR_MAX) {
+      it_info_debug("LLR_calc_unit::Boxplus() LLR overflow");
+      return -QLLR_MAX;
     }
     return result;
   }
