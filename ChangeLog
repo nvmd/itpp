@@ -1,5 +1,12 @@
 2008-03-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/vec.h: Deprecate elem_div(t,v) function of the Vec
+	class
+
+	This function is only an alias to operator/(t,v). Besides, no
+	similar methods for operator/(v,t), operator*(t,v) and
+	operator*(v,t) exist.
+
 	* itpp/comm/modulator.h, tests/modulator_test.cpp,
 	tests/modulator_test.ref: Fix bug [1908644] in
 	Modulator<>::set(symbols, bits2symbols) function
