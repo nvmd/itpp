@@ -264,6 +264,8 @@ namespace itpp {
     Num_T &operator()(int i);
     //! Get element (r,c) from matrix
     const Num_T &get(int r, int c) const;
+    //! Get element \c i using linear addressing (by rows)
+    const Num_T &get(int i) const;
     //! Set element (r,c) of matrix
     void set(int r, int c, Num_T t);
 
@@ -746,8 +748,13 @@ namespace itpp {
   template<class Num_T> inline
   const Num_T& Mat<Num_T>::get(int r, int c) const
   {
-    it_assert_debug(in_range(r, c), "Mat<>::get(): Indexing out of range");
-    return data[r+c*no_rows];
+    return (*this)(r, c);
+  }
+
+  template<class Num_T> inline
+  const Num_T& Mat<Num_T>::get(int i) const
+  {
+    return (*this)(i);
   }
 
   template<class Num_T> inline

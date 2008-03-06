@@ -1,5 +1,11 @@
 2008-03-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/mat.h: Add missing get(int i) method to the Mat class
+
+	This method returns a copy of the i-th element of the matrix
+	using linear addressing, which is what the const version of
+	operator()(int i) does.
+
 	* itpp/base/mat.h: Add missing operator=(const std::string &) to
 	the Mat class
 
