@@ -1,5 +1,15 @@
 2008-03-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/mat.cpp, itpp/base/mat.h: Clean-up redundant use of
+	"const" keyword in the Mat class
+
+	There is no need for declaring the returned by value types with an
+	additional "const" keyword. Moreover, Num_T is assumed a simple or
+	built in type for the Mat class, i.e. bin, short int, int, double
+	and complex<double>. Therefore it might be more efficient to pass
+	arguments of this type by value, in which case the "const" keyword
+	is also redundant.
+
 	* itpp/base/vec.h: Deprecate elem_div(t,v) function of the Vec
 	class
 
