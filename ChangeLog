@@ -1,5 +1,12 @@
 2008-03-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/mat.cpp, itpp/base/mat.h: Add in_range(r,c),
+	col_in_range(c) and row_in_range(r) inline methods
+
+	This is a pure clean-up patch which simplifies it_assert_debug()
+	checks. BTW, it also includes a few cosmetic changes to other
+	assertion checks.
+
 	* itpp/base/mat.cpp, itpp/base/mat.h: Make consistent naming of
 	variables used in the Mat class interface
 
