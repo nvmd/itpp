@@ -1,5 +1,11 @@
 2008-03-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/mat.cpp, itpp/base/mat.h: Add element-wise division
+	operator with a scalar as the dividend
+
+	This new operator complements a similar one, which performs
+	element-wise division of a matrix by a scalar.
+
 	* itpp/base/mat.h, itpp/base/matfunc.h, itpp/base/specmat.cpp,
 	tests/mat_test.cpp, tests/mat_test.ref: Deprecate
 	Mat<>::set_submatrix(r1,r2,c1,c2,m) function
