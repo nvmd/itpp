@@ -93,8 +93,8 @@ void common_operators(const Mat<T> &A, const Mat<T> &B, const Mat<T> &C,
   cout << "D.swap_rows(0, 2); D =\n" << D << endl;
   D.swap_cols(0, 3);
   cout << "D.swap_cols(0, 3); D =\n" << D << endl;
-  D.set_submatrix(1,2,2,3, A(0,1,0,1));
-  cout << "D.set_submatrix(1,2,2,3, A(0,1,0,1); D =\n" << D << endl;
+  D.set_submatrix(1,2, A(0,1,0,1));
+  cout << "D.set_submatrix(1,2, A(0,1,0,1); D =\n" << D << endl;
   D.set_submatrix(0,0, A(0,1,0,1));
   cout << "D.set_submatrix(0,0, A(0,1,0,1); D =\n" << D << endl;
   D.set_submatrix(1,2,2,3, c);

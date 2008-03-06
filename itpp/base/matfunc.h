@@ -278,9 +278,9 @@ namespace itpp {
     it_assert((rows >= m.rows()) && (cols >= m.cols()),
 	      "zero_pad() cannot shrink the matrix!");
     Mat<T> m2(rows, cols);
-    m2.set_submatrix(0,m.rows()-1,0,m.cols()-1, m);
+    m2.set_submatrix(0, 0, m);
     if (cols > m.cols()) // Zero
-      m2.set_submatrix(0,m.rows()-1, m.cols(),cols-1, T(0));
+      m2.set_submatrix(0, m.rows()-1, m.cols(), cols-1, T(0));
     if (rows > m.rows()) // Zero
       m2.set_submatrix(m.rows(), rows-1, 0, cols-1, T(0));
 

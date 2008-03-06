@@ -306,7 +306,7 @@ namespace itpp {
     //! Swap the columns \c c1 and \c c2
     void swap_cols(int c1, int c2);
 
-    //! Set submatrix defined by rows r1,r2 and columns c1,c2 to matrix m
+    //! This function is deprecated. Please use set_submatrix(int r, int c, const Mat<> &m) instead.
     void set_submatrix(int r1, int r2, int c1, int c2, const Mat<Num_T> &m);
     //! Set submatrix defined by upper-left element (r,c) and the size of matrix m to m
     void set_submatrix(int r, int c, const Mat<Num_T> &m);
@@ -1008,25 +1008,14 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-  void Mat<Num_T>::set_submatrix(int r1, int r2, int c1, int c2, const Mat<Num_T> &m)
+  void Mat<Num_T>::set_submatrix(int r1, int r2, int c1, int c2,
+                                 const Mat<Num_T> &m)
   {
-
-    if (r1 == -1) r1 = no_rows-1;
-    if (r2 == -1) r2 = no_rows-1;
-    if (c1 == -1) c1 = no_cols-1;
-    if (c2 == -1) c2 = no_cols-1;
-
-    it_assert_debug(r1>=0 && r2>=0 && r1<no_rows && r2<no_rows &&
-	       c1>=0 && c2>=0 && c1<no_cols && c2<no_cols, "Mat<Num_T>::set_submatrix(): index out of range");
-
-    it_assert_debug(r2>=r1 && c2>=c1, "Mat<Num_T>::set_submatrix: r2<r1 or c2<c1");
-    it_assert_debug(m.no_rows == r2-r1+1 && m.no_cols == c2-c1+1, "Mat<Num_T>::set_submatrix(): sizes don't match");
-
-    for (int i=0; i<m.no_cols; i++)
-      copy_vector(m.no_rows, m.data+i*m.no_rows, data+(c1+i)*no_rows+r1);
+    it_warning("Mat<>::set_submatrix(r1, r2, r3, r4, m): This function is "
+               "deprecated and might be removed from future IT++ releases. "
+               "Please use Mat<>::set_submatrix(r, c, m) function instead.");
+    set_submatrix(r1, c1, m);
   }
-
-
 
   template<class Num_T> inline
   void Mat<Num_T>::set_submatrix(int r, int c, const Mat<Num_T> &m)
@@ -1044,7 +1033,6 @@ namespace itpp {
   template<class Num_T> inline
   void Mat<Num_T>::set_submatrix(int r1, int r2, int c1, int c2, Num_T t)
   {
-
     if (r1 == -1) r1 = no_rows-1;
     if (r2 == -1) r2 = no_rows-1;
     if (c1 == -1) c1 = no_cols-1;
@@ -1052,14 +1040,10 @@ namespace itpp {
     it_assert_debug((r1 >= 0) && (r1 <= r2) && (r2 < no_rows) &&
                     (c1 >= 0) && (c1 <= c2) && (c2 < no_cols),
                     "Mat<>::set_submatrix(): Wrong indexing");
-
-    int i, j, pos, rows = r2-r1+1;
-
-    for (i=c1; i<=c2; i++) {
-      pos = i*no_rows+r1;
-      for (j=0; j<rows; j++) {
-	data[pos++] = t;
-      }
+    for (int i = c1; i <= c2; i++) {
+      int pos = i*no_rows + r1;
+      for (int j = r1; j <= r2; j++)
+        data[pos++] = t;
     }
   }
 

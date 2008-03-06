@@ -1,5 +1,15 @@
 2008-03-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/mat.h, itpp/base/matfunc.h, itpp/base/specmat.cpp,
+	tests/mat_test.cpp, tests/mat_test.ref: Deprecate
+	Mat<>::set_submatrix(r1,r2,c1,c2,m) function
+
+	This function provides identical results as set_submatrix(r,c,m).
+	Moreover, the r2 and c2 indexing arguments are redundant, because
+	their values are determined by the size of the input matrix m.
+	This patch marks this function as deprecated, for possible removal
+	from future IT++ major releases.
+
 	* itpp/base/mat.cpp, itpp/base/mat.h: Add in_range(r,c),
 	col_in_range(c) and row_in_range(r) inline methods
 
