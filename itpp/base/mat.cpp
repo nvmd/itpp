@@ -55,7 +55,7 @@ namespace itpp {
   template<>
   mat& mat::operator*=(const mat &m)
   {
-    it_assert_debug(no_cols == m.no_rows,"mat::operator*=: wrong sizes");
+    it_assert_debug(no_cols == m.no_rows,"mat::operator*=(): Wrong sizes");
     mat r(no_rows, m.no_cols); // unnecessary memory??
     double alpha = 1.0;
     double beta = 0.0;
@@ -69,7 +69,7 @@ namespace itpp {
   template<>
   cmat& cmat::operator*=(const cmat &m)
   {
-    it_assert_debug(no_cols == m.no_rows,"cmat::operator*=: wrong sizes");
+    it_assert_debug(no_cols == m.no_rows,"cmat::operator*=(): Wrong sizes");
     cmat r(no_rows, m.no_cols); // unnecessary memory??
     std::complex<double> alpha = std::complex<double>(1.0);
     std::complex<double> beta = std::complex<double>(0.0);
@@ -83,7 +83,7 @@ namespace itpp {
   template<>
   mat operator*(const mat &m1, const mat &m2)
   {
-    it_assert_debug(m1.no_cols == m2.no_rows,"mat::operator*: wrong sizes");
+    it_assert_debug(m1.no_cols == m2.no_rows,"mat::operator*(): Wrong sizes");
     mat r(m1.no_rows, m2.no_cols);
     double alpha = 1.0;
     double beta = 0.0;
@@ -97,7 +97,7 @@ namespace itpp {
   template<>
   cmat operator*(const cmat &m1, const cmat &m2)
   {
-    it_assert_debug(m1.no_cols == m2.no_rows,"cmat::operator*: wrong sizes");
+    it_assert_debug(m1.no_cols == m2.no_rows,"cmat::operator*(): Wrong sizes");
     cmat r(m1.no_rows, m2.no_cols);
     std::complex<double> alpha = std::complex<double>(1.0);
     std::complex<double> beta = std::complex<double>(0.0);
@@ -111,7 +111,7 @@ namespace itpp {
   template<>
   vec operator*(const mat &m, const vec &v)
   {
-    it_assert_debug(m.no_cols == v.size(), "mat::operator*: wrong sizes");
+    it_assert_debug(m.no_cols == v.size(), "mat::operator*(): Wrong sizes");
     vec r(m.no_rows);
     double alpha = 1.0;
     double beta = 0.0;
@@ -125,7 +125,7 @@ namespace itpp {
   template<>
   cvec operator*(const cmat &m, const cvec &v)
   {
-    it_assert_debug(m.no_cols == v.size(), "cmat::operator*: wrong sizes");
+    it_assert_debug(m.no_cols == v.size(), "cmat::operator*(): Wrong sizes");
     cvec r(m.no_rows);
     std::complex<double> alpha = std::complex<double>(1.0);
     std::complex<double> beta = std::complex<double>(0.0);
