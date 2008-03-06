@@ -291,7 +291,7 @@ namespace itpp {
     k = levels2bits(M);
     bitmap.set_size(M, k);
     for (int m = 0; m < M; m++) {
-      bitmap.set_row(m, dec2bin(k, bits2symbols(m)));
+      bitmap.set_row(bits2symbols(m), dec2bin(k, m));
     }
     calculate_softbit_matrices(bits2symbols);
     setup_done = true;

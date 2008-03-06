@@ -168,8 +168,9 @@ int main()
   cout << "===========================================================" << endl;
 
   {
-    cout << endl << "Modulator_2D (configured as QPSK)" << endl;
-    Modulator_2D mod("1+0i 0+1i -1+0i 0-1i", "0 1 3 2");
+    cout << endl << "Modulator_2D (configured as 256-QAM)" << endl;
+    QAM qam(256);
+    Modulator_2D mod(qam.get_symbols(), qam.get_bits2symbols());
     int bps = round_i(mod.bits_per_symbol());
 
     bvec tx_bits = randb(no_symbols * bps);
@@ -200,12 +201,11 @@ int main()
     cout << "  softbits        = " << softbits << endl;
     cout << "  softbits_approx = " << softbits_approx << endl;
 
-    cout << endl << "QPSK" << endl;
-    QPSK qpsk;
+    cout << endl << "256-QAM" << endl;
 
-    tx_symbols = qpsk.modulate(tx_sym_numbers);
+    tx_symbols = qam.modulate(tx_sym_numbers);
     rx_symbols = tx_symbols + noise;
-    dec_sym_numbers = qpsk.demodulate(rx_symbols);
+    dec_sym_numbers = qam.demodulate(rx_symbols);
 
     cout << "* modulating symbol numbers:" << endl;
     cout << "  tx_sym_numbers  = " << tx_sym_numbers << endl;
@@ -213,11 +213,11 @@ int main()
     cout << "  rx_symbols      = " << rx_symbols << endl;
     cout << "  dec_sym_numbers = " << dec_sym_numbers << endl;
 
-    tx_symbols = qpsk.modulate_bits(tx_bits);
+    tx_symbols = qam.modulate_bits(tx_bits);
     rx_symbols = tx_symbols + noise;
-    decbits = qpsk.demodulate_bits(rx_symbols);
-    softbits_approx = qpsk.demodulate_soft_bits(rx_symbols, N0, APPROX);
-    softbits = qpsk.demodulate_soft_bits(rx_symbols, N0, LOGMAP);
+    decbits = qam.demodulate_bits(rx_symbols);
+    softbits_approx = qam.demodulate_soft_bits(rx_symbols, N0, APPROX);
+    softbits = qam.demodulate_soft_bits(rx_symbols, N0, LOGMAP);
 
     cout << "* modulating bits:" << endl;
     cout << "  tx_bits         = " << tx_bits << endl;

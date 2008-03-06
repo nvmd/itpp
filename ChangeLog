@@ -1,3 +1,17 @@
+2008-03-06  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/modulator.h, tests/modulator_test.cpp,
+	tests/modulator_test.ref: Fix bug [1908644] in
+	Modulator<>::set(symbols, bits2symbols) function
+
+	The bitmap matrix used in the demodulate_bits() function of the
+	Modulator<> base class was improperly constructed from the input
+	bits2symbols mapping vector. This resulted in demodulation errors
+	for some constellations, e.g. 64-QAM or 8-PSK. This patch fixes
+	this problem.
+
+	Thanks to Yann Cocheril for reporting this problem.
+
 2008-03-04  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/llr.cpp, itpp/comm/llr.h: In case of an overflow
