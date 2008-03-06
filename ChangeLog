@@ -1,5 +1,17 @@
 2008-03-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/mat.cpp, itpp/base/mat.h: Make consistent naming of
+	variables used in the Mat class interface
+
+	This patch unifies the variable names in the Mat class interface.
+	The following names are now commonly used:
+	- m, m1, m2, etc.: matrix
+	- v: vector
+	- t: simple numeric type Num_T, e.g. bin, int, double
+	- r, r1, r2: row index
+	- c, c1, c2: column index
+	- i: generic index
+
 	* itpp/base/mat.cpp, itpp/base/mat.h: Clean-up redundant use of
 	"const" keyword in the Mat class
 
