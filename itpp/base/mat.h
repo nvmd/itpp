@@ -249,10 +249,10 @@ namespace itpp {
     void clear() { zeros(); }
     //! Set matrix equal to the all one matrix
     void ones();
-    //! Set matrix equal to values in \c values
-    void set(const char *str);
     //! Set matrix equal to values in the string \c str
     void set(const std::string &str);
+    //! Set matrix equal to values in the string \c str
+    void set(const char *str);
 
     //! Get element (r,c) from matrix
     const Num_T &operator()(int r, int c) const;
@@ -355,7 +355,9 @@ namespace itpp {
     Mat<Num_T>& operator=(const Mat<Num_T> &m);
     //! Set matrix equal to the vector \c v, assuming column vector
     Mat<Num_T>& operator=(const Vec<Num_T> &v);
-    //! Set matrix equal to values in the string
+    //! Set matrix equal to values in the string \c str
+    Mat<Num_T>& operator=(const std::string &str);
+    //! Set matrix equal to values in the string \c str
     Mat<Num_T>& operator=(const char *str);
 
     //! Addition of matrices
@@ -627,7 +629,7 @@ namespace itpp {
   Mat<Num_T>::Mat(const char *str, const Factory &f) :
     datasize(0), no_rows(0), no_cols(0), data(0), factory(f)
   {
-    set(str);
+    set(std::string(str));
   }
 
   template<class Num_T> inline
@@ -814,7 +816,7 @@ namespace itpp {
     set_size(rows, no_cols, true);
   }
 
-  template<class Num_T>
+  template<class Num_T> inline
   void Mat<Num_T>::set(const char *str)
   {
     set(std::string(str));
@@ -1253,9 +1255,16 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-  Mat<Num_T>& Mat<Num_T>::operator=(const char *str)
+  Mat<Num_T>& Mat<Num_T>::operator=(const std::string &str)
   {
     set(str);
+    return *this;
+  }
+
+  template<class Num_T> inline
+  Mat<Num_T>& Mat<Num_T>::operator=(const char *str)
+  {
+    set(std::string(str));
     return *this;
   }
 
