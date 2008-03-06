@@ -279,6 +279,12 @@ namespace itpp {
 
   // division operator
 
+  template mat operator/(double t, const mat &m);
+  template cmat operator/(std::complex<double> t, const cmat &m);
+  template imat operator/(int t, const imat &m);
+  template smat operator/(short t, const smat &m);
+  template bmat operator/(bin t, const bmat &m);
+
   template mat operator/(const mat &m, double t);
   template cmat operator/(const cmat &m, std::complex<double> t);
   template imat operator/(const imat &m, int t);

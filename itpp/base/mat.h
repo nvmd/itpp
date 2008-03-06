@@ -115,9 +115,12 @@ namespace itpp {
   template<class Num_T>
   Num_T elem_mult_sum(const Mat<Num_T> &m1, const Mat<Num_T> &m2);
 
-  //! Division of matrix and scalar
+  //! Element-wise division by a scalar
   template<class Num_T>
   Mat<Num_T> operator/(const Mat<Num_T> &m, Num_T t);
+  //! Element-wise division (\c t is the dividend, elements of \c m are divisors)
+  template<class Num_T>
+  Mat<Num_T> operator/(Num_T t, const Mat<Num_T> &m);
 
   //! Element wise division of two matrices
   template<class Num_T>
@@ -411,10 +414,13 @@ namespace itpp {
 
     //! Division by a scalar
     Mat<Num_T>& operator/=(Num_T t);
-    //! Division of matrix with scalar
-    friend Mat<Num_T> operator/<>(const Mat<Num_T> &m, Num_T t);
     //! Elementwise division with the current matrix
     Mat<Num_T>& operator/=(const Mat<Num_T> &m);
+
+    //! Element-wise division by a scalar
+    friend Mat<Num_T> operator/<>(const Mat<Num_T> &m, Num_T t);
+    //! Element-wise division (\c t is the dividend, elements of \c m are divisors)
+    friend Mat<Num_T> operator/<>(Num_T t, const Mat<Num_T> &m);
 
     //! Element wise division of two matrices
     friend Mat<Num_T> elem_div<>(const Mat<Num_T> &m1, const Mat<Num_T> &m2);
@@ -1628,17 +1634,6 @@ namespace itpp {
   }
 
   template<class Num_T> inline
-  Mat<Num_T> operator/(const Mat<Num_T> &m, Num_T t)
-  {
-    Mat<Num_T> r(m.no_rows, m.no_cols);
-
-    for (int i=0; i<r.datasize; i++)
-      r.data[i] = m.data[i] / t;
-
-    return r;
-  }
-
-  template<class Num_T> inline
   Mat<Num_T>& Mat<Num_T>::operator/=(const Mat<Num_T> &m)
   {
     it_assert_debug((m.no_rows == no_rows) && (m.no_cols == no_cols),
@@ -1646,6 +1641,24 @@ namespace itpp {
     for (int i=0; i<datasize; i++)
       data[i] /= m.data[i];
     return *this;
+  }
+
+  template<class Num_T> inline
+  Mat<Num_T> operator/(const Mat<Num_T> &m, Num_T t)
+  {
+    Mat<Num_T> r(m.no_rows, m.no_cols);
+    for (int i = 0; i < r.datasize; ++i)
+      r.data[i] = m.data[i] / t;
+    return r;
+  }
+
+  template<class Num_T> inline
+  Mat<Num_T> operator/(Num_T t, const Mat<Num_T> &m)
+  {
+    Mat<Num_T> r(m.no_rows, m.no_cols);
+    for (int i = 0; i < r.datasize; ++i)
+      r.data[i] = t / m.data[i];
+    return r;
   }
 
   template<class Num_T> inline
@@ -1949,6 +1962,12 @@ namespace itpp {
   extern template bin elem_mult_sum(const bmat &m1, const bmat &m2);
 
   // division operator
+
+  extern template mat operator/(double t, const mat &m);
+  extern template cmat operator/(std::complex<double> t, const cmat &m);
+  extern template imat operator/(int t, const imat &m);
+  extern template smat operator/(short t, const smat &m);
+  extern template bmat operator/(bin t, const bmat &m);
 
   extern template mat operator/(const mat &m, double t);
   extern template cmat operator/(const cmat &m, std::complex<double> t);
