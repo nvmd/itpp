@@ -199,7 +199,7 @@ namespace itpp {
     int pm=n-1; // p must be odd prime, not checked
     imat out(n,n);
 
-    out.set_submatrix(1,n-1,1,n-1, jacobsthal(pm));
+    out.set_submatrix(1,1, jacobsthal(pm));
     out.set_submatrix(0,0,1,n-1, 1);
     out.set_submatrix(1,n-1,0,0, 1);
     out(0,0)=0;
@@ -217,11 +217,11 @@ namespace itpp {
 
     for (int i = 0; i < size; i++) {
       cmat tmp = reshape(c_conj(0, size - 1 - i), size - i, 1);
-      output.set_submatrix(i, size - 1, i, i, tmp);
+      output.set_submatrix(i, i, tmp);
     }
     for (int i = 0; i < size - 1; i++) {
       cmat tmp = reshape(r(1, size - 1 - i), 1, size - 1 - i);
-      output.set_submatrix(i, i, i + 1, size - 1, tmp);
+      output.set_submatrix(i, i + 1, tmp);
     }
 
     return output;
@@ -235,11 +235,11 @@ namespace itpp {
 
     for (int i = 0; i < size; i++) {
       cmat tmp = reshape(c_conj(0, size - 1 - i), size - i, 1);
-      output.set_submatrix(i, size - 1, i, i, tmp);
+      output.set_submatrix(i, i, tmp);
     }
     for (int i = 0; i < size - 1; i++) {
       cmat tmp = reshape(c(1, size - 1 - i), 1, size - 1 - i);
-      output.set_submatrix(i, i, i + 1, size - 1, tmp);
+      output.set_submatrix(i, i + 1, tmp);
     }
 
     return output;
