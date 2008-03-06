@@ -144,7 +144,7 @@ namespace itpp {
   //! Elementwise division of two vectors
   template<class Num_T>
   Vec<Num_T> elem_div(const Vec<Num_T> &a, const Vec<Num_T> &b);
-  //! Elementwise division of scalar \c t and vector \c v
+  //! This function is deprecated. Please use operator/(Num_T, const Vec<Num_T &) instead.
   template<class Num_T>
   Vec<Num_T> elem_div(Num_T t, const Vec<Num_T> &v);
   //! Elementwise division of two vectors, storing the result in vector \c out
@@ -399,7 +399,7 @@ namespace itpp {
 
     //! Elementwise division
     friend Vec<Num_T> elem_div<>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
-    //! Elementwise division
+    //! This function is deprecated. Please use operator/(Num_T, const Vec<Num_T> &) instead.
     friend Vec<Num_T> elem_div<>(Num_T t, const Vec<Num_T> &v);
     //! Elementwise division
     friend void elem_div_out<>(const Vec<Num_T> &v1, const Vec<Num_T> &v2,
@@ -1242,6 +1242,16 @@ namespace itpp {
   }
 
   template<class Num_T> inline
+  Vec<Num_T> elem_div(Num_T t, const Vec<Num_T> &v)
+  {
+    it_warning("Vec<>::elem_div(Num_T, const Vec<Num_T> &): This function is "
+               "deprecated and might be removed from future IT++ releases. "
+               "Please use Vec<>::operator/(Num_T, const Vec<Num_T> &) "
+               "instead.");
+    return operator/(t, v);
+  }
+
+  template<class Num_T> inline
   Vec<Num_T>& Vec<Num_T>::operator/=(Num_T t)
   {
     for (int i = 0; i < datasize; ++i) {
@@ -1266,18 +1276,6 @@ namespace itpp {
     Vec<Num_T> out;
     elem_div_out(a,b,out);
     return out;
-  }
-
-  template<class Num_T> inline
-  Vec<Num_T> elem_div(Num_T t, const Vec<Num_T> &v)
-  {
-    int i;
-    Vec<Num_T> r(v.datasize);
-
-    for (i=0; i<v.datasize; i++)
-      r.data[i] = t / v.data[i];
-
-    return r;
   }
 
   template<class Num_T> inline
