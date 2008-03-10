@@ -137,7 +137,7 @@ namespace itpp {
 
 
   //! Create an n-length array of T to be used as Array, Vec or Mat elements
-  template<class T>
+  template<class T> inline
   void create_elements(T* &ptr, int n, const Factory &)
   {
     void *p = operator new(sizeof(T) * n);
@@ -149,28 +149,65 @@ namespace itpp {
 
 
   //! Specialization for unsigned char data arrays (used in GF2Mat)
-  template<>
+  template<> inline
   void create_elements<unsigned char>(unsigned char* &ptr, int n,
-				      const Factory &);
+				      const Factory &)
+  {
+    void *p = operator new(sizeof(unsigned char) * n);
+    ptr = reinterpret_cast<unsigned char*>(p);
+  }
+
   //! Specialization for binary data arrays
-  template<>
-  void create_elements<bin>(bin* &ptr, int n, const Factory &);
+  template<> inline
+  void create_elements<bin>(bin* &ptr, int n, const Factory &)
+  {
+    void *p = operator new(sizeof(bin) * n);
+    ptr = reinterpret_cast<bin*>(p);
+  }
+
   //! Specialization for short integer data arrays
-  template<>
-  void create_elements<short int>(short int* &ptr, int n, const Factory &);
+  template<> inline
+  void create_elements<short int>(short int* &ptr, int n, const Factory &)
+  {
+    void *p = operator new(sizeof(short int) * n);
+    ptr = reinterpret_cast<short int*>(p);
+  }
+
   //! Specialization for integer data arrays
-  template<>
-  void create_elements<int>(int* &ptr, int n, const Factory &);
+  template<> inline
+  void create_elements<int>(int* &ptr, int n, const Factory &)
+  {
+    void *p = operator new(sizeof(int) * n);
+    ptr = reinterpret_cast<int*>(p);
+  }
+
   //! Specialization for 16-byte aligned double data arrays
-  template<>
-  void create_elements<double>(double* &ptr, int n, const Factory &);
+  template<> inline
+  void create_elements<double>(double* &ptr, int n, const Factory &)
+  {
+    void *p0 = operator new(sizeof(double) * n + 16);
+    void *p1 = reinterpret_cast<void*>((reinterpret_cast<std::size_t>(p0) + 16)
+				       & (~(std::size_t(15))));
+    *(reinterpret_cast<void**>(p1) - 1) = p0;
+    ptr = reinterpret_cast<double*>(p1);
+  }
+
   //! Specialization for 16-byte aligned complex double data arrays
-  template<>
-  void create_elements<std::complex<double> >(std::complex<double>* &ptr, int n, const Factory &);
+  template<> inline
+  void create_elements<std::complex<double> >(std::complex<double>* &ptr,
+                                              int n, const Factory &)
+  {
+    void *p0 = operator new(sizeof(std::complex<double>) * n + 16);
+    void *p1 = reinterpret_cast<void*>((reinterpret_cast<std::size_t>(p0) + 16)
+				       & (~(std::size_t(15))));
+    *(reinterpret_cast<void**>(p1) - 1) = p0;
+    ptr = reinterpret_cast<std::complex<double>*>(p1);
+  }
+
 
 
   //! Destroy an array of Array, Vec or Mat elements
-  template<class T>
+  template<class T> inline
   void destroy_elements(T* &ptr, int n)
   {
     if (ptr) {
@@ -184,24 +221,69 @@ namespace itpp {
   }
 
   //! Specialization for unsigned char data arrays (used in GF2Mat)
-  template<>
-  void destroy_elements<unsigned char>(unsigned char* &ptr, int n);
+  template<> inline
+  void destroy_elements<unsigned char>(unsigned char* &ptr, int n)
+  {
+    if (ptr) {
+      void *p = reinterpret_cast<void*>(ptr);
+      operator delete(p);
+    }
+  }
+
   //! Specialization for binary data arrays
-  template<>
-  void destroy_elements<bin>(bin* &ptr, int n);
+  template<> inline
+  void destroy_elements<bin>(bin* &ptr, int n)
+  {
+    if (ptr) {
+      void *p = reinterpret_cast<void*>(ptr);
+      operator delete(p);
+      ptr = 0;
+    }
+  }
   //! Specialization for short integer data arrays
-  template<>
-  void destroy_elements<short int>(short int* &ptr, int n);
+  template<> inline
+  void destroy_elements<short int>(short int* &ptr, int n)
+  {
+    if (ptr) {
+      void *p = reinterpret_cast<void*>(ptr);
+      operator delete(p);
+      ptr = 0;
+    }
+  }
+
   //! Specialization for integer data arrays
-  template<>
-  void destroy_elements<int>(int* &ptr, int n);
+  template<> inline
+  void destroy_elements<int>(int* &ptr, int n)
+  {
+    if (ptr) {
+      void *p = reinterpret_cast<void*>(ptr);
+      operator delete(p);
+      ptr = 0;
+    }
+  }
+
   //! Specialisation for 16-byte aligned double data arrays
-  template<>
-  void destroy_elements<double>(double* &ptr, int n);
+  template<> inline
+  void destroy_elements<double>(double* &ptr, int n)
+  {
+    if (ptr) {
+      void *p = *(reinterpret_cast<void**>(ptr) - 1);
+      operator delete(p);
+      ptr = 0;
+    }
+  }
+
   //! Specialisation for 16-byte aligned complex double data arrays
-  template<>
+  template<> inline
   void destroy_elements<std::complex<double> >(std::complex<double>* &ptr,
-					       int n);
+					       int n)
+  {
+    if (ptr) {
+      void *p = *(reinterpret_cast<void**>(ptr) - 1);
+      operator delete(p);
+      ptr = 0;
+    }
+  }
 
 
   //! Create an n-length array of Array<T> to be used as Array elements

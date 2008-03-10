@@ -1,3 +1,14 @@
+2008-03-10  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/factory.cpp, itpp/base/factory.h,
+	itpp/base/sources.mk, win32/itpp_acml.vcproj,
+	win32/itpp_mkl.vcproj: Mark all create_elements() functions as
+	inline ones
+
+	These functions have 2-4 lines and are only used by alloc() and
+	free() methods only, so we might gain more by inlining them
+	instead of more general functions of Vec, Mat and Array classes.
+
 2008-03-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/mat.h: Add missing get(int i) method to the Mat class
