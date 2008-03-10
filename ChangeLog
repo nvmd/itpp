@@ -1,5 +1,14 @@
 2008-03-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/mat.h, itpp/base/vec.h: Decrease the number of inline
+	functions in the Vec and Mat classes
+
+	Overusing the inline keyword usually causes unnecessary code bloat,
+	which results in a rather slower performance of the resulting
+	code. Therefore, this patch reduces the number of inline functions
+	and lefts only the ones which are really trivial or frequently
+	reused.
+
 	* itpp/base/factory.cpp, itpp/base/factory.h,
 	itpp/base/sources.mk, win32/itpp_acml.vcproj,
 	win32/itpp_mkl.vcproj: Mark all create_elements() functions as
