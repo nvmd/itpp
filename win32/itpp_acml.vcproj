@@ -174,10 +174,6 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\factory.cpp"
-					>
-				</File>
-				<File
 					RelativePath="..\itpp\base\fastmath.cpp"
 					>
 				</File>

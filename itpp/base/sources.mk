@@ -32,7 +32,6 @@ cpp_base_sources = \
 	$(top_srcdir)/itpp/base/binary.cpp \
 	$(top_srcdir)/itpp/base/binfile.cpp \
 	$(top_srcdir)/itpp/base/converters.cpp \
-	$(top_srcdir)/itpp/base/factory.cpp \
 	$(top_srcdir)/itpp/base/fastmath.cpp \
 	$(top_srcdir)/itpp/base/gf2mat.cpp \
 	$(top_srcdir)/itpp/base/help_functions.cpp \
