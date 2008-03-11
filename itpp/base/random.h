@@ -470,35 +470,7 @@ namespace itpp {
       return temp;
     }
     //! Get a Normal distributed (0,1) sample
-    double sample()
-    {
-      unsigned int u, sign, i, j;
-      double x, y;
-
-      while(true) {
-	u = RNG.random_int();
-	sign = u & 0x80; // 1 bit for the sign
-	i = u & 0x7f; // 7 bits to choose the step
-	j = u >> 8; // 24 bits for the x-value
-
-	x = j * wtab[i];
-
-	if (j < ktab[i])
-	  break;
-
-	if (i < 127) {
-	  y = ytab[i+1] + (ytab[i] - ytab[i+1]) * RNG.random_01();
-	}
-	else {
-	  x = PARAM_R - std::log(1.0 - RNG.random_01()) / PARAM_R;
-	  y = std::exp(-PARAM_R * (x - 0.5 * PARAM_R)) * RNG.random_01();
-	}
-
-	if (y < std::exp(-0.5 * x * x))
-	  break;
-      }
-      return sign ? x : -x;
-    }
+    double sample();
 
     //! Get a Normal distributed (0,1) vector
     void sample_vector(int size, vec &out)
