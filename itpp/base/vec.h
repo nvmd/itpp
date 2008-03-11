@@ -1162,8 +1162,7 @@ namespace itpp {
   {
     it_assert_debug(a.datasize==b.datasize, "Vec::elem_mult_out: wrong sizes");
 
-    if(out.datasize != a.datasize)
-      out.set_size(a.size());
+    out.set_size(a.size());
 
     for(int i=0; i<a.datasize; i++)
       out.data[i] = a.data[i] * b.data[i];
@@ -1175,8 +1174,7 @@ namespace itpp {
   {
     it_assert_debug(a.datasize==b.datasize==c.datasize, "Vec::elem_mult_out: wrong sizes");
 
-    if(out.datasize != a.datasize)
-      out.set_size(a.size());
+    out.set_size(a.size());
 
     for(int i=0; i<a.datasize; i++)
       out.data[i] = a.data[i] * b.data[i] * c.data[i];
@@ -1188,8 +1186,7 @@ namespace itpp {
   {
     it_assert_debug(a.datasize==b.datasize==c.datasize==d.datasize, "Vec::elem_mult_out: wrong sizes");
 
-    if(out.datasize != a.datasize)
-      out.set_size(a.size());
+    out.set_size(a.size());
 
     for(int i=0; i<a.datasize; i++)
       out.data[i] = a.data[i] * b.data[i] * c.data[i] * d.data[i];
@@ -1283,8 +1280,7 @@ namespace itpp {
   {
     it_assert_debug(a.datasize==b.datasize, "Vecelem_div_out: wrong sizes");
 
-    if(out.datasize != a.datasize)
-      out.set_size(a.size());
+    out.set_size(a.size());
 
     for(int i=0; i<a.datasize; i++)
       out.data[i] = a.data[i] / b.data[i];

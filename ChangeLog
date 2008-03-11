@@ -1,3 +1,12 @@
+2008-03-11  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/vec.h: Remove checks for different sizes before
+	invoking set_size() function
+
+	set_size() methods first checks if the requested new size differs
+	from the current one. Therefore, there is no need to check this
+	condition explicitly before invoking set_size() method.
+
 2008-03-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/mat.h, itpp/base/vec.h: Decrease the number of inline
