@@ -1,5 +1,13 @@
 2008-03-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/random.cpp, itpp/base/random.h: Move the
+	implementation of Normal_RNG::sample() to the source file
+
+	The implementation of Normal_RNG::sample() function is too
+	complicated for inlining, so it should not be included inside the
+	class declaration. This patch moves the actual code from the header
+	file to the source file.
+
 	* itpp/base/vec.h: Remove checks for different sizes before
 	invoking set_size() function
 
