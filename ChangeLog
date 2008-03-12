@@ -1,3 +1,8 @@
+2008-03-12  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* tests/ldpc_test.cpp, tests/ldpc_test.ref: Add simple tests of
+	BLDPC_Parity and BLDPC_Generator classes
+
 2008-03-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/random.cpp, itpp/base/random.h: Move the
