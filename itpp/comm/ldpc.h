@@ -297,7 +297,7 @@ namespace itpp {
   protected:
     //! Generate a random parity check matrix
     void generate_random_H(const ivec& C, const ivec& R, const ivec& cycopt);
-    
+
     /*! \brief Compute target number of columns (C) and rows (R) with
         a specific number of ones.
 
@@ -309,7 +309,7 @@ namespace itpp {
       \param C number of columns with a specific number of ones
       \param R number of rows with a specific number of ones
 
-      The result is passed by reference and saved in C and R. 
+      The result is passed by reference and saved in C and R.
     */
     void compute_CR(const vec& var_deg, const vec& chk_deg, const int Nvar,
 		    ivec &C, ivec &R);
@@ -488,9 +488,6 @@ namespace itpp {
     int Z;			//!< Expansion factor
     imat H_b;			//!< Base matrix
     bool H_b_valid;		//!< Indicates that base matrix is valid
-
-    //! Generate circulated identity matrix
-    bmat circular_eye_b(int size, int shift);
 
     //! Calculate base matrix from parity matrix \c H and \c Z
     void calculate_base_matrix();

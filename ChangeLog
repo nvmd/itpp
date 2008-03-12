@@ -1,5 +1,16 @@
 2008-03-12  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/comm/ldpc.cpp, itpp/comm/ldpc.h: Simplify
+	BLDPC_Parity::calculate_base_matrix() function
+
+	The previous implementation used to create a temporary dense
+	parity check matrix and then extracted Z by Z submatrices from it
+	for further processing. With this patch, the temporary Z by Z
+	submatrices are sparse and extracted directly from the sparse
+	parity check matrix H. Besides, the checks for cyclic-shifted
+	identity matrices are simplified. Therefore, an additional method
+	circular_eye_b() is no longer needed.
+
 	* itpp/comm/ldpc.cpp: Simplify BLDPC_Parity::expand_base()
 	implementation
 
