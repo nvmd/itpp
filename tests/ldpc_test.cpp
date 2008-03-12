@@ -57,4 +57,30 @@ int main()
   QLLRvec LLRout(C.get_nvar());
   C.bp_decode(LLRin,LLRout);
   cout << LLRout.left(25) << endl;
+
+  // BLDPC code
+  {
+    imat A = "0 -1 -1 0; -1 1 4 -1; -1 2 -1 6";
+    imat B = "1; -1; 2";
+    imat T = "0 -1 -1; 0 0 -1; -1 0 0";
+    imat C = "3 -1 5 -1";
+    imat D = "3";
+    imat E = "-1 -1 0";
+    // base matrix
+    imat H_b = concat_vertical(concat_horizontal(concat_horizontal(A, B), T),
+                               concat_horizontal(concat_horizontal(C, D), E));
+    int Z = 4; // expansion factor
+    cout << endl;
+    cout << "expansion factor Z = " << Z << endl;
+    cout << "base matrix H_b =\n" << H_b << endl;
+
+    BLDPC_Parity H(H_b, Z);
+    cout << "expanded parity check matrix H =\n" << H.get_H() << endl;
+
+    BLDPC_Generator G(&H);
+    bvec in_bits = randb(H.get_nvar() - H.get_ncheck());
+    bvec codeword;
+    G.encode(in_bits, codeword);
+    cout << in_bits << endl << codeword << endl;
+  }
 }
