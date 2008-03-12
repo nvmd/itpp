@@ -1,5 +1,13 @@
 2008-03-12  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/comm/ldpc.cpp: Simplify BLDPC_Parity::expand_base()
+	implementation
+
+	The previous implementation used to create a temporary dense
+	parity check matrix and then copied its ones to the final sparse
+	matrix. This patch changes the code so the sparse parity check
+	matrix is constructed directly from the input base matrix.
+
 	* tests/ldpc_test.cpp, tests/ldpc_test.ref: Add simple tests of
 	BLDPC_Parity and BLDPC_Generator classes
 
