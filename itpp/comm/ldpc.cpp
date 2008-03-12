@@ -722,28 +722,26 @@ namespace itpp {
     Z = exp_factor;
     H_b = base_matrix;
     H_b_valid = true;
-    bmat H_dense(H_b.rows() * Z, H_b.cols() * Z);
 
-    for (int r = 0; r < H_b.rows(); r++)
-      for (int c = 0; c < H_b.cols(); c++)
-	switch (H_b(r, c)) {
-	case -1:
-	  H_dense.set_submatrix(r*Z, c*Z, zeros_b(Z, Z));
-	  break;
-	case 0:
-	  H_dense.set_submatrix(r*Z, c*Z, eye_b(Z));
-	  break;
-	default:
-	  H_dense.set_submatrix(r*Z, c*Z, circular_eye_b(Z, H_b(r, c)));
-	  break;
-	}
-
-    initialize(H_dense.rows(), H_dense.cols());
-
-    for (int r = 0; r < ncheck; r++)
-      for (int c = 0; c < nvar; c++)
-	if (H_dense(r, c))
-	  set(r, c, 1);
+    initialize(H_b.rows() * Z, H_b.cols() * Z);
+    for (int r = 0; r < H_b.rows(); r++) {
+      for (int c = 0; c < H_b.cols(); c++) {
+        int rz = r * Z;
+        int cz = c * Z;
+        switch (H_b(r, c)) {
+        case -1:
+          break;
+        case 0:
+          for (int i = 0; i < Z; ++i)
+            set(rz + i, cz + i, 1);
+          break;
+        default:
+          for (int i = 0; i < Z; ++i)
+            set(rz + i, cz + (i + H_b(r, c)) % Z, 1);
+          break;
+        }
+      }
+    }
   }
 
 
