@@ -1,3 +1,17 @@
+2008-03-13  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/mat.h, itpp/base/vec.h: Fix it_assert_debug()
+	conditions in elem_mult_out() methods of the Vec and Mat classes
+
+	The checks for equal sizes of three and more variables can not be
+	written like this: "a.size == b.size == c.size". The proper form
+	is: "(a.size == b.size) && (a.size == c.size)". This patch fixes
+	this bug. It also removes the redundant checks for different
+	dimensions of a matrix before invoking the set_size(rows, cols)
+	method.
+
+	Thanks to Martin Senst for reporting this bug.
+
 2008-03-12  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/ldpc.cpp, itpp/comm/ldpc.h: Simplify

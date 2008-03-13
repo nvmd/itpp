@@ -1582,9 +1582,7 @@ namespace itpp {
   {
     it_assert_debug((m1.no_rows == m2.no_rows) && (m1.no_cols == m2.no_cols),
                     "Mat<>::elem_mult_out(): Wrong sizes");
-    if( (out.no_rows != m1.no_rows) || (out.no_cols != m1.no_cols) )
-      out.set_size(m1.no_rows, m1.no_cols);
-
+    out.set_size(m1.no_rows, m1.no_cols);
     for(int i=0; i<out.datasize; i++)
       out.data[i] = m1.data[i] * m2.data[i];
   }
@@ -1593,13 +1591,10 @@ namespace itpp {
   void elem_mult_out(const Mat<Num_T> &m1, const Mat<Num_T> &m2,
                      const Mat<Num_T> &m3, Mat<Num_T> &out)
   {
-    it_assert_debug((m1.no_rows == m2.no_rows == m3.no_rows)
-                    && (m1.no_cols == m2.no_cols == m3.no_cols),
+    it_assert_debug((m1.no_rows == m2.no_rows) && (m1.no_rows == m3.no_rows)
+                    && (m1.no_cols == m2.no_cols) && (m1.no_cols == m3.no_cols),
                     "Mat<>::elem_mult_out(): Wrong sizes");
-
-    if( (out.no_rows != m1.no_rows) || (out.no_cols != m1.no_cols) )
-      out.set_size(m1.no_rows, m1.no_cols);
-
+    out.set_size(m1.no_rows, m1.no_cols);
     for(int i=0; i<out.datasize; i++)
       out.data[i] = m1.data[i] * m2.data[i] * m3.data[i];
   }
@@ -1609,12 +1604,11 @@ namespace itpp {
                      const Mat<Num_T> &m3, const Mat<Num_T> &m4,
                      Mat<Num_T> &out)
   {
-    it_assert_debug((m1.no_rows == m2.no_rows == m3.no_rows == m4.no_rows)
-                    && (m1.no_cols == m2.no_cols == m3.no_cols == m4.no_cols),
+    it_assert_debug((m1.no_rows == m2.no_rows) && (m1.no_rows == m3.no_rows)
+                    && (m1.no_rows == m4.no_rows) && (m1.no_cols == m2.no_cols)
+                    && (m1.no_cols == m3.no_cols) && (m1.no_cols == m4.no_cols),
                     "Mat<>::elem_mult_out(): Wrong sizes");
-    if( (out.no_rows != m1.no_rows) || (out.no_cols != m1.no_cols) )
-      out.set_size(m1.no_rows, m1.no_cols);
-
+    out.set_size(m1.no_rows, m1.no_cols);
     for(int i=0; i<out.datasize; i++)
       out.data[i] = m1.data[i] * m2.data[i] * m3.data[i] * m4.data[i];
   }
