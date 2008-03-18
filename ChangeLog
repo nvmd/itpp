@@ -1,5 +1,8 @@
 2008-03-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* AUTHORS, doc/local/authors.doc: Add Vasek Smidl to the list of
+	contributors
+
 	* itpp/base/operators.cpp: Fix complex constructors in
 	operators.cpp to build with g++ 4.3
 
