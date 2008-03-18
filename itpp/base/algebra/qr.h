@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Definitions of QR factorisation functions
- * \author Tony Ottosson
+ * \author Tony Ottosson, Simon Wood, Adam Piatyszek and Vasek Smidl
  *
  * -------------------------------------------------------------------------
  *
@@ -53,6 +53,22 @@ namespace itpp {
   */
   bool qr(const mat &A, mat &Q, mat &R);
 
+/*!
+ * \brief QR factorisation of real matrix with supressed evaluation of Q
+ *
+ * For certain type of applications only the \f$\mathbf{R}\f$ matrix of full
+ * QR factorization of the real matrix \f$\mathbf{A}=\mathbf{Q}\mathbf{R}\f$
+ * is needed. These situations arise typically in designs of square-root
+ * algorithms where it is required that
+ * \f$\mathbf{A}^{T}\mathbf{A}=\mathbf{R}^{T}\mathbf{R}\f$. In such cases,
+ * evaluation of \f$\mathbf{Q}\f$ can be skipped.
+ *
+ * Modification of qr(A,Q,R).
+ *
+ * \author Vasek Smidl
+ */
+bool qr(const mat &A, mat &R);
+
   /*!
     \brief QR factorisation of real matrix with pivoting
 
@@ -83,6 +99,22 @@ namespace itpp {
     Uses the LAPACK routines ZGEQRF and ZUNGQR.
   */
   bool qr(const cmat &A, cmat &Q, cmat &R);
+
+/*!
+ * \brief QR factorisation of complex matrix with supressed evaluation of Q
+ *
+ * For certain type of applications only the \f$\mathbf{R}\f$ matrix of full
+ * QR factorization of the complex matrix
+ * \f$\mathbf{A}=\mathbf{Q}\mathbf{R}\f$ is needed. These situations arise
+ * typically in designs of square-root algorithms where it is required that
+ * \f$\mathbf{A}^{H}\mathbf{A}=\mathbf{R}^{H}\mathbf{R}\f$. In such cases,
+ * evaluation of \f$\mathbf{Q}\f$ can be skipped.
+ *
+ * Modification of qr(A,Q,R).
+ *
+ * \author Vasek Smidl
+ */
+bool qr(const cmat &A, cmat &R);
 
   /*!
     \brief QR factorisation of a complex matrix with pivoting

@@ -1,3 +1,15 @@
+2008-03-18  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/algebra/qr.cpp, itpp/base/algebra/qr.h,
+	tests/qr_test.cpp, tests/qr_test.ref: Add qr() overloaded function
+	that do not compute Q.
+
+	For some tasks (triangularization) the Q matrix is not really needed.
+	This patch implements an overloaded version of the qr() function
+	that does not compute Q.
+
+	Thanks to Vasek Smidl for submitting the patch.
+
 2008-03-13  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/mat.h, itpp/base/vec.h: Fix it_assert_debug()
