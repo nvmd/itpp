@@ -495,6 +495,43 @@ namespace itpp {
   };
 
   /*!
+   * \brief Gamma distribution
+   * \ingroup randgen
+   *
+   * Generate samples from Gamma(alpha,beta) density, according to the
+   * following equation:
+   * \f[ x \sim \Gamma(\alpha,\beta) =
+   * \frac{\beta^\alpha}{\Gamma(\alpha)}x^{\alpha-1} \exp(-\beta x) \f]
+   *
+   * For \f$\alpha=1\f$ the Gamma distribution is equivalent to the
+   * Exponential distribution.
+   *
+   * \note The implementation of the sample() function was adapted from the
+   * R statistical language.
+   * \author Vasek Smidl
+   */
+  class Gamma_RNG {
+  public:
+    //! Constructor, which sets alpha (a) and beta (b)
+    Gamma_RNG(double a = 1.0, double b = 1.0): alpha(a), beta(b) {}
+    //! Set alpha and beta
+    void setup(double a, double b) { alpha = a; beta = b; }
+    //! Get one sample
+    double operator()() { return sample(); }
+    //! Get a sample vector
+    vec operator()(int n);
+    //! Get a sample matrix
+    mat operator()(int r, int c);
+    //! Get a sample
+    double sample();
+  private:
+    double alpha;
+    double beta;
+    Random_Generator RNG;
+    Normal_RNG NRNG;
+  };
+
+  /*!
     \brief Laplacian distribution
     \ingroup randgen
   */

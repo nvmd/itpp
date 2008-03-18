@@ -74,6 +74,12 @@ int main()
   cout << e_rng(3, 5) << endl << endl;
 
   RNG_reset(4357U);
+  Gamma_RNG g_rng;
+  cout << "Gamma_RNG:\n" << g_rng() << endl;
+  cout << g_rng(10) << endl;
+  cout << g_rng(3, 5) << endl << endl;
+
+  RNG_reset(4357U);
   Laplace_RNG lap_rng;
   cout << "Laplace_RNG:\n" << lap_rng() << endl;
   cout << lap_rng(10) << endl;
