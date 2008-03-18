@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief QR factorisation test program
- * \author Tony Ottosson and Adam Piatyszek
+ * \author Tony Ottosson, Adam Piatyszek and Vasek Smidl
  *
  * -------------------------------------------------------------------------
  *
@@ -62,6 +62,28 @@ int main()
   }
 
   {
+    cout << "QR of Real matrix without Q" << endl;
+    mat R;
+    mat A = randn(5, 5);
+    qr(A, R);
+    cout << "A = " << round_to_zero(A) << endl;
+    cout << "norm(A.T()*A - R.T()*R) = " << round_to_zero(norm(A.T()*A -  R.T()*R)) << endl
+	 << endl;
+
+    A = randn(4, 2);
+    qr(A, R);
+    cout << "A = " << round_to_zero(A) << endl;
+    cout << "norm(A.T()*A - R.T()*R) = " << round_to_zero(norm(A.T()*A -  R.T()*R)) << endl
+	 << endl;
+
+    A = randn(2, 4);
+    qr(A, R);
+    cout << "A = " << round_to_zero(A) << endl;
+    cout << "norm(A.T()*A - R.T()*R) = " << round_to_zero(norm(A.T()*A -  R.T()*R)) << endl
+	 << endl;
+  }
+
+  {
     cout << "QR of Real matrix with pivoting" << endl;
     mat Q, R, e;
     bmat P;
@@ -107,6 +129,29 @@ int main()
     e = A - Q*R;
     cout << "A = " << round_to_zero(A) << endl;
     cout << "norm(A - Q*R) = " << round_to_zero(norm(e)) << endl << endl;
+  }
+
+  {
+    cout << "QR of Complex matrix without Q" << endl;
+    cmat A = randn_c(5, 5);
+    cmat R, e;
+
+    qr(A, R);
+    e = A.H()*A - R.H()*R;
+    cout << "A = " << round_to_zero(A) << endl;
+    cout << "norm(A.H()*A - R.H()*R) = " << round_to_zero(norm(e)) << endl << endl;
+
+    A = randn_c(4, 2);
+    qr(A, R);
+    e = A.H()*A - R.H()*R;
+    cout << "A = " << round_to_zero(A) << endl;
+    cout << "norm(A.H()*A - R.H()*R) = " << round_to_zero(norm(e)) << endl << endl;
+
+    A = randn_c(2, 4);
+    qr(A, R);
+    e = A.H()*A - R.H()*R;
+    cout << "A = " << round_to_zero(A) << endl;
+    cout << "norm(A.H()*A - R.H()*R) = " << round_to_zero(norm(e)) << endl << endl;
   }
 
   {
