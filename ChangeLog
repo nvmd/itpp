@@ -1,5 +1,16 @@
 2008-03-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/operators.cpp: Fix complex constructors in
+	operators.cpp to build with g++ 4.3
+
+	It appears that g++ 4.3 is a bit more strict with respect to type
+	checking when we attempt to overload the std::complex constructor for
+	use with non-double types. Use of an explicit static_cast is needed to
+	overcome this restriction. This patch does the needful by converting
+	those constructors to use static_casts.
+
+	Signed-off-by: Kumar Appaiah <akumar@ee.iitm.ac.in>
+
 	* itpp/base/algebra/qr.cpp, itpp/base/algebra/qr.h,
 	tests/qr_test.cpp, tests/qr_test.ref: Add qr() overloaded function
 	that do not compute Q.
