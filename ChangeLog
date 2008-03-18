@@ -1,5 +1,15 @@
 2008-03-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/random.cpp, itpp/base/random.h, tests/rand_test.cpp,
+	tests/rand_test.ref: Add implementation of Gamma(alpha, beta)
+	random number generator
+
+	The implementation of the Gamma_RNG::sample() function is taken
+	from the R statistical language.
+
+	Thanks to Vasek Smidl for providing the initial patch in feature
+	request [1913411].
+
 	* AUTHORS, doc/local/authors.doc: Add Vasek Smidl to the list of
 	contributors
 
