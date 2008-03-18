@@ -1,5 +1,13 @@
 2008-03-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/ldpc_test.cpp, tests/ldpc_test.ref: Minor workaround for a
+	failing ldpc_test on win32 platforms
+
+	MinGW and MSVC++ produce win32 executables, which use slightly
+	different rounding approach for real numbers output through cout
+	or cerr I/O streams. This patch just changes the precision of the
+	output values, so the problematic case does not occur any more.
+
 	* itpp/base/random.cpp, itpp/base/random.h, tests/rand_test.cpp,
 	tests/rand_test.ref: Add implementation of Gamma(alpha, beta)
 	random number generator
