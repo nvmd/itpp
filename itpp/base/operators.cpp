@@ -434,7 +434,7 @@ namespace itpp {
 
     for (int i=0;i<a.rows();i++) {
       for (int j=0;j<a.cols();j++) {
-	temp(i,j)+=(std::complex<double>)a(i,j);
+        temp(i,j) += std::complex<double>(static_cast<double>(a(i,j)), 0.0);
       }
     }
     return temp;
@@ -460,7 +460,7 @@ namespace itpp {
 
     for (int i=0;i<a.rows();i++) {
       for (int j=0;j<a.cols();j++) {
-	temp(i,j)+=(std::complex<double>)a(i,j);
+        temp(i,j) += std::complex<double>(static_cast<double>(a(i,j)), 0.0);
       }
     }
     return temp;
@@ -473,7 +473,7 @@ namespace itpp {
 
     for (int i=0;i<a.rows();i++) {
       for (int j=0;j<a.cols();j++) {
-	temp(i,j)+=(std::complex<double>)a(i,j);
+        temp(i,j) += std::complex<double>(static_cast<double>(a(i,j)), 0.0);
       }
     }
     return temp;
