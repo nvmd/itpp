@@ -60,6 +60,7 @@ int main()
 
   // BLDPC code
   {
+    cout.precision(5);
     imat A = "0 -1 -1 0; -1 1 4 -1; -1 2 -1 6";
     imat B = "1; -1; 2";
     imat T = "0 -1 -1; 0 0 -1; -1 0 0";
