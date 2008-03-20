@@ -255,7 +255,7 @@ namespace itpp {
 	dat=data[p];
       }
 
-    //! Retrun the indices of non-zero values
+    //! Return the indices of non-zero values
     ivec get_nz_indices();
 
     //! Return sparse subvector from index \c i1 to index \c i2

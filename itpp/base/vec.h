@@ -343,7 +343,7 @@ namespace itpp {
     friend Vec<Num_T> operator-<>(const Vec<Num_T> &v1, const Vec<Num_T> &v2);
     //! Subtraction of scalar from vector
     friend Vec<Num_T> operator-<>(const Vec<Num_T> &v, Num_T t);
-    //! Sutraction of vector from scalar
+    //! Subtraction of vector from scalar
     friend Vec<Num_T> operator-<>(Num_T t, const Vec<Num_T> &v);
     //! Negation of vector
     friend Vec<Num_T> operator-<>(const Vec<Num_T> &v);
@@ -445,7 +445,7 @@ namespace itpp {
     void set_subvector(int i1, int i2, const Vec<Num_T> &v);
     //! Set subvector to elements of vector \c v starting from element \c i
     void set_subvector(int i, const Vec<Num_T> &v);
-    //! Set subvector defined by indicies \c i1 and \c i2 to \c t
+    //! Set subvector defined by indices \c i1 and \c i2 to \c t
     void set_subvector(int i1, int i2, Num_T t);
     //! An alias function of set_subvector(i, &v)
     void replace_mid(int i, const Vec<Num_T> &v);
@@ -1826,7 +1826,7 @@ namespace itpp {
   extern template svec operator+(short t, const svec &v1);
   extern template bvec operator+(bin t, const bvec &v1);
 
-  // subraction operator
+  // subtraction operator
 
   extern template vec operator-(const vec &v1, const vec &v2);
   extern template cvec operator-(const cvec &v1, const cvec &v2);

@@ -91,7 +91,7 @@ namespace itpp {
   //! Style of assert, error and warning messages.
   enum error_msg_style { Full, Minimum };
 
-  //! Set preffered style of assert, error and warning messages
+  //! Set preferred style of assert, error and warning messages
   void it_error_msg_style(error_msg_style style);
 
 
@@ -159,7 +159,7 @@ namespace itpp {
   //! Print information message if NDEBUG is not defined
 #  define it_info_debug(s) ((void) 0)
   /*!
-    \brief Print information message withot \c std::endl at the end if
+    \brief Print information message without \c std::endl at the end if
     NDEBUG is not defined
   */
 #  define it_info_no_endl_debug(s) ((void) 0)

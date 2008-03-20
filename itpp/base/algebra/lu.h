@@ -50,14 +50,14 @@ namespace itpp {
     and \f$\mathbf{P}\f$ is a permutation matrix.
 
     The interchange permutation vector \a p is such that \a k and \a p(k) should be
-    changed for all \a k. Given this vector a permuation matrix can be constructed using the
+    changed for all \a k. Given this vector a permutation matrix can be constructed using the
     function
     \code
-    bmat permuation_matrix(const ivec &p)
+    bmat permutation_matrix(const ivec &p)
     \endcode
 
     If \a X is an \a n by \a n matrix \a lu(X,L,U,p) computes the LU decomposition.
-    \a L is a lower trangular, \a U an upper triangular matrix.
+    \a L is a lower triangular, \a U an upper triangular matrix.
     \a p is the interchange permutation vector such that \a k and \a p(k) should be
     changed for all \a k.
 
@@ -78,14 +78,14 @@ namespace itpp {
     and \f$\mathbf{P}\f$ is a permutation matrix.
 
     The interchange permutation vector \a p is such that \a k and \a p(k) should be
-    changed for all \a k. Given this vector a permuation matrix can be constructed using the
+    changed for all \a k. Given this vector a permutation matrix can be constructed using the
     function
     \code
-    bmat permuation_matrix(const ivec &p)
+    bmat permutation_matrix(const ivec &p)
     \endcode
 
     If \a X is an \a n by \a n matrix \a lu(X,L,U,p) computes the LU decomposition.
-    \a L is a lower trangular, \a U an upper triangular matrix.
+    \a L is a lower triangular, \a U an upper triangular matrix.
     \a p is the interchange permutation vector such that elements \a k and row \a p(k) should be
     interchanged.
 
@@ -94,7 +94,7 @@ namespace itpp {
   bool lu(const cmat &X, cmat &L, cmat &U, ivec &p);
 
 
-  //! Makes swapping of vector b according to the inerchange permutation vector p.
+  //! Makes swapping of vector b according to the interchange permutation vector p.
   void interchange_permutations(vec &b, const ivec &p);
 
   //! Make permutation matrix P from the interchange permutation vector p.

@@ -99,28 +99,28 @@ namespace itpp {
 
   /*! \brief Solve linear equation system by Cholesky factorisation.
 
-  Solves the linear system \f$Ax=b\f$, where \f$A\f$ is a symmetric postive definite \f$n \times n\f$ matrix.
+  Solves the linear system \f$Ax=b\f$, where \f$A\f$ is a symmetric positive definite \f$n \times n\f$ matrix.
   Uses the LAPACK routine DPOSV.
   */
   bool ls_solve_chol(const mat &A, const vec &b, vec &x);
 
   /*! \brief Solve linear equation system by Cholesky factorisation.
 
-  Solves the linear system \f$Ax=b\f$, where \f$A\f$ is a symmetric postive definite \f$n \times n\f$ matrix.
+  Solves the linear system \f$Ax=b\f$, where \f$A\f$ is a symmetric positive definite \f$n \times n\f$ matrix.
   Uses the LAPACK routine DPOSV.
   */
   vec ls_solve_chol(const mat &A, const vec &b);
 
   /*! \brief Solve linear equation system by Cholesky factorisation.
 
-  Solves the linear system \f$AX=B\f$, where \f$A\f$ is a symmetric postive definite \f$n \times n\f$ matrix.
+  Solves the linear system \f$AX=B\f$, where \f$A\f$ is a symmetric positive definite \f$n \times n\f$ matrix.
   Uses the LAPACK routine DPOSV.
   */
   bool ls_solve_chol(const mat &A, const mat &B, mat &X);
 
   /*! \brief Solve linear equation system by Cholesky factorisation.
 
-  Solves the linear system \f$AX=B\f$, where \f$A\f$ is a symmetric postive definite \f$n \times n\f$ matrix.
+  Solves the linear system \f$AX=B\f$, where \f$A\f$ is a symmetric positive definite \f$n \times n\f$ matrix.
   Uses the LAPACK routine DPOSV.
   */
   mat ls_solve_chol(const mat &A, const mat &B);
@@ -128,28 +128,28 @@ namespace itpp {
 
   /*! \brief Solve linear equation system by Cholesky factorisation.
 
-  Solves the linear system \f$Ax=b\f$, where \f$A\f$ is a Hermitian postive definite \f$n \times n\f$ matrix.
+  Solves the linear system \f$Ax=b\f$, where \f$A\f$ is a Hermitian positive definite \f$n \times n\f$ matrix.
   Uses the LAPACK routine ZPOSV.
   */
   bool ls_solve_chol(const cmat &A, const cvec &b, cvec &x);
 
   /*! \brief Solve linear equation system by Cholesky factorisation.
 
-  Solves the linear system \f$Ax=b\f$, where \f$A\f$ is a Hermitian postive definite \f$n \times n\f$ matrix.
+  Solves the linear system \f$Ax=b\f$, where \f$A\f$ is a Hermitian positive definite \f$n \times n\f$ matrix.
   Uses the LAPACK routine ZPOSV.
   */
   cvec ls_solve_chol(const cmat &A, const cvec &b);
 
   /*! \brief Solve linear equation system by Cholesky factorisation.
 
-  Solves the linear system \f$AX=B\f$, where \f$A\f$ is a Hermitian postive definite \f$n \times n\f$ matrix.
+  Solves the linear system \f$AX=B\f$, where \f$A\f$ is a Hermitian positive definite \f$n \times n\f$ matrix.
   Uses the LAPACK routine ZPOSV.
   */
   bool ls_solve_chol(const cmat &A, const cmat &B, cmat &X);
 
   /*! \brief Solve linear equation system by Cholesky factorisation.
 
-  Solves the linear system \f$AX=B\f$, where \f$A\f$ is a Hermitian postive definite \f$n \times n\f$ matrix.
+  Solves the linear system \f$AX=B\f$, where \f$A\f$ is a Hermitian positive definite \f$n \times n\f$ matrix.
   Uses the LAPACK routine ZPOSV.
   */
   cmat ls_solve_chol(const cmat &A, const cmat &B);
@@ -348,7 +348,7 @@ namespace itpp {
   */
   void forward_substitution(const mat &L, const vec &b, vec &x);
 
-  /*! \brief Forward substitution of band matricies.
+  /*! \brief Forward substitution of band matrices.
 
   Solves Lx=b, where L is a lower triangular n by n band-matrix with lower
   bandwidth p.
@@ -357,7 +357,7 @@ namespace itpp {
   */
   vec forward_substitution(const mat &L, int p, const vec &b);
 
-  /*! \brief Forward substitution of band matricies.
+  /*! \brief Forward substitution of band matrices.
 
   Solves Lx=b, where L is a lower triangular n by n band-matrix with
   lower bandwidth p.

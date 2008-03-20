@@ -38,7 +38,7 @@ namespace itpp {
     \brief Binary arithmetic (boolean) class
     \author Tony Ottosson
 
-    This class creates a binary aritmetic class, following the ordinary
+    This class creates a binary arithmetic class, following the ordinary
     rules for binary (GF(2)) fields.
 
     Examples:

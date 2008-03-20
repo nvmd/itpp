@@ -1,3 +1,19 @@
+2008-03-20  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/algebra/cholesky.h, itpp/base/algebra/det.h,
+	itpp/base/algebra/eigen.h, itpp/base/algebra/ls_solve.h,
+	itpp/base/algebra/lu.h, itpp/base/algebra/qr.h,
+	itpp/base/binary.h, itpp/base/binfile.h, itpp/base/copy_vector.h,
+	itpp/base/gf2mat.h, itpp/base/itassert.h, itpp/base/itfile.h,
+	itpp/base/ittypes.h, itpp/base/mat.h, itpp/base/sort.h,
+	itpp/base/svec.h, itpp/base/vec.h: Minor spelling fixes in IT++
+	base module documentation
+
+	This commit fixes several little spelling mistakes in the IT++
+	base module documentation.
+
+	Signed-off-by: Kumar Appaiah <akumar@ee.iitm.ac.in>
+
 2008-03-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/ldpc_test.cpp, tests/ldpc_test.ref: Minor workaround for a

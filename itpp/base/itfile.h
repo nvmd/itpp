@@ -417,7 +417,7 @@ namespace itpp {
     Name(const std::string& n, const std::string& d = ""): name(n), desc(d) {}
     //! The name string
     const std::string& name;
-    //! The descripion
+    //! The description
     const std::string& desc;
   };
 
@@ -883,7 +883,7 @@ namespace itpp {
     //!Write a double complex Array at the current file pointer position
     void low_level_write(const Array<std::complex<double> >& v);
 
-    //!ACTTION: ADD DOCUMENTATION FOR THIS MEMBER !!!!!!!!
+    //!ACTION: ADD DOCUMENTATION FOR THIS MEMBER !!!!!!!!
     it_file_old& operator<<(it_manip func) { return (*func)(*this); }
 
     //! Removes the variable \c name from the file.

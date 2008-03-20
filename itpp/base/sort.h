@@ -37,12 +37,12 @@
 namespace itpp {
 
   /*!
-   * \brief Soring algoritms that can be used in a \a Sort class
+   * \brief Sorting algorithms that can be used in a \a Sort class
    *
    * - Introsort (the default and the fastest method in most cases)
    * - Quicksort
    * - Heapsort
-   * - Inertion Sort (suitable for very short vectors)
+   * - Insertion Sort (suitable for very short vectors)
    */
   enum SORTING_METHOD { INTROSORT = 0, QUICKSORT = 1, HEAPSORT = 2,
 			INSERTSORT = 3 };
@@ -134,7 +134,7 @@ namespace itpp {
      *
      * \note An introsort is not a stable sort (i.e. it may not maintain
      *       the relative order of elements with equal value.)
-     * \note This function uses recurence.
+     * \note This function uses recurrence.
      */
     void intro_sort(int low, int high, int max_depth, Vec<T> &data);
 
@@ -149,7 +149,7 @@ namespace itpp {
      *
      * \note An Introsort is not a stable sort (i.e. it may not maintain
      *       the relative order of elements with equal value.)
-     * \note This function uses recurence.
+     * \note This function uses recurrence.
      */
     ivec intro_sort_index(int low, int high, int max_depth,
 			  const Vec<T> &data);
