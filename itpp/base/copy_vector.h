@@ -112,7 +112,7 @@ namespace itpp {
 
 
   /*
-    Swap vector x to vector y. Both vectors are of size n
+    Swap vector x and vector y. Both vectors are of size n
   */
   inline void swap_vector(const int n, int *x, int *y) { for (int i=0; i<n; i++) std::swap(x[i], y[i]); }
   inline void swap_vector(const int n, short *x, short *y) { for (int i=0; i<n; i++) std::swap(x[i], y[i]); }
@@ -150,7 +150,7 @@ namespace itpp {
 
 
   /*
-    Swap vector x to vector y. Both vectors are of size n
+    Swap vector x and vector y. Both vectors are of size n
     vector x elements are stored linearly with element increament incx
     vector y elements are stored linearly with element increament incx
   */
@@ -279,8 +279,8 @@ namespace itpp {
 
   /*
    * Realise the following equation on vectors: y = alpha*x + y
-   * Elements of x are stored linearly with increament incx
-   * and elements of y are stored linearly with increament incx
+   * Elements of x are stored linearly with increment incx
+   * and elements of y are stored linearly with increment incx
    */
 #if defined(HAVE_BLAS)
   inline void axpy_vector(int n, double alpha, const double *x, int incx,

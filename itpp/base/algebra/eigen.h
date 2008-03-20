@@ -132,7 +132,7 @@ namespace itpp {
 
   /*!
     \ingroup matrixdecomp
-    \brief Caclulates the eigenvalues and eigenvectors of a real non-symmetric matrix
+    \brief Calculates the eigenvalues and eigenvectors of a real non-symmetric matrix
 
     The Eigenvalues \f$\mathbf{d}(d_0, d_1, \ldots, d_{n-1})\f$ and the eigenvectors
     \f$\mathbf{v}_i, \: i=0, \ldots, n-1\f$ of the real \f$n \times n\f$
@@ -149,7 +149,7 @@ namespace itpp {
 
   /*!
     \ingroup matrixdecomp
-    \brief Caclulates the eigenvalues of a real non-symmetric matrix
+    \brief Calculates the eigenvalues of a real non-symmetric matrix
 
     The Eigenvalues \f$\mathbf{d}(d_0, d_1, \ldots, d_{n-1})\f$ and the eigenvectors
     \f$\mathbf{v}_i, \: i=0, \ldots, n-1\f$ of the real \f$n \times n\f$
@@ -165,7 +165,7 @@ namespace itpp {
 
   /*!
     \ingroup matrixdecomp
-    \brief Caclulates the eigenvalues of a real non-symmetric matrix
+    \brief Calculates the eigenvalues of a real non-symmetric matrix
 
     The Eigenvalues \f$\mathbf{d}(d_0, d_1, \ldots, d_{n-1})\f$ and the eigenvectors
     \f$\mathbf{v}_i, \: i=0, \ldots, n-1\f$ of the real \f$n \times n\f$

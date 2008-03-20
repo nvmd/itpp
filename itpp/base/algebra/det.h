@@ -44,7 +44,7 @@ namespace itpp {
     \f[
     \det(\mathbf{X}) = \det(\mathbf{P}^T \mathbf{L}) \det(\mathbf{U}) = \det(\mathbf{P}^T) \prod(\mathrm{diag}(\mathbf{U}))
     \f]
-    and the determinant of the permuation matrix is \f$ \pm 1\f$ dependening on the number of row permuations
+    and the determinant of the permuation matrix is \f$ \pm 1\f$ depending on the number of row permutations
   */
   double det(const mat &X);
 
@@ -59,7 +59,7 @@ namespace itpp {
     \f[
     \det(\mathbf{X}) = \det(\mathbf{P}^T \mathbf{L}) \det(\mathbf{U}) = \det(\mathbf{P}^T) \prod(\mathrm{diag}(\mathbf{U}))
     \f]
-    and the determinant of the permuation matrix is \f$ \pm 1\f$ dependening on the number of row permuations
+    and the determinant of the permuation matrix is \f$ \pm 1\f$ depending on the number of row permutations
   */
   std::complex<double> det(const cmat &X);
 

@@ -54,7 +54,7 @@ namespace itpp {
   bool qr(const mat &A, mat &Q, mat &R);
 
 /*!
- * \brief QR factorisation of real matrix with supressed evaluation of Q
+ * \brief QR factorisation of real matrix with suppressed evaluation of Q
  *
  * For certain type of applications only the \f$\mathbf{R}\f$ matrix of full
  * QR factorization of the real matrix \f$\mathbf{A}=\mathbf{Q}\mathbf{R}\f$
@@ -101,7 +101,7 @@ bool qr(const mat &A, mat &R);
   bool qr(const cmat &A, cmat &Q, cmat &R);
 
 /*!
- * \brief QR factorisation of complex matrix with supressed evaluation of Q
+ * \brief QR factorisation of complex matrix with suppressed evaluation of Q
  *
  * For certain type of applications only the \f$\mathbf{R}\f$ matrix of full
  * QR factorization of the complex matrix

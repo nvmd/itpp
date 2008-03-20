@@ -36,7 +36,7 @@
 namespace itpp {
 
   /*!
-    \brief Checks if a filename already exists on the disk
+    \brief Checks if a file named \c name already exists on the disk
     \ingroup itfile
   */
   bool exist(const std::string& name);
@@ -59,7 +59,7 @@ namespace itpp {
       and "Big Endian" (\c b_endian ).
 
       "Little Endian" means that the low-order byte of the number is stored
-      at the lowest adress (i.e. the little end comes first). "Big Endian"
+      at the lowest address (i.e. the little end comes first). "Big Endian"
       means that the high-order byte of the number is stored in memory at
       the lowest address (i.e. the big end comes first)
     */

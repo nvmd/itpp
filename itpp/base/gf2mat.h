@@ -303,7 +303,7 @@ namespace itpp {
       upper triangular, T is square and invertible, and P is a
       permutation matrix.  This is basically an "LU"-factorization,
       but not called so here because T is not necessarily lower
-      trianglular.  The matrix X may have any dimension. The
+      triangular.  The matrix X may have any dimension. The
       permutation matrix P is represented as a permutation vector.
 
       The function returns the row rank of X.  (If X is full row rank,

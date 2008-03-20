@@ -55,7 +55,7 @@
 #  include <inttypes.h>
 #else
 
-// Common typedefs for most 32- and 64-bit architechures
+// Common typedefs for most 32- and 64-bit architectures
 typedef signed char             int8_t;	    //!< 8-bit signed integer
 typedef unsigned char           uint8_t;    //!< 8-bit unsigned integer
 typedef signed short            int16_t;    //!< 16-bit signed integer
