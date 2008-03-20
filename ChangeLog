@@ -1,5 +1,11 @@
 2008-03-20  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* win32/itpp_acml.vcproj, win32/itpp_mkl.vcproj: Do not treat
+	warnings as errors in MSVC++ projects
+
+	This is a workaround for MS Visual C++ Express 2008 problem in
+	compiling a correct piece of templated code.
+
 	* itpp/base/algebra/cholesky.h, itpp/base/algebra/det.h,
 	itpp/base/algebra/eigen.h, itpp/base/algebra/ls_solve.h,
 	itpp/base/algebra/lu.h, itpp/base/algebra/qr.h,
