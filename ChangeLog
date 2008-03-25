@@ -1,5 +1,16 @@
 2008-03-25  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/Makefile.am, tests/converters_test.cpp,
+	tests/converters_test.ref,
+	win32/itpp_acml_tests/converters_test.vcproj,
+	win32/itpp_acml_tests/itpp_acml_tests.sln,
+	win32/itpp_mkl_tests/converters_test.vcproj,
+	win32/itpp_mkl_tests/itpp_mkl_tests.sln: Create a simple test
+	program of various conversion functions
+
+	This test should catch possible incompatible implementation of the
+	rint() function, which is not available under MSVC++ compiler.
+
 	* itpp/base/converters.cpp, itpp/base/converters.h: Fix incorrect
 	implementation of rint() function used under MSVC++
 
