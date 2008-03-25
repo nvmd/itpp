@@ -1,5 +1,15 @@
 2008-03-25  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/itfile.cpp: Do not duplicate seek operation after
+	reading data_header fields
+
+	When reading each field of a data_header structure of an IT++
+	file, the reading position is automatically incremented. So, the
+	additional seekg() operation afterwards is redundant. This small
+	modification fixes a problem with endless loop while reading an
+	itfile in programs compiled with MSVC++ 2008. Previous MSVC++
+	version (2005) does not show this strange behaviour.
+
 	* tests/Makefile.am, tests/converters_test.cpp,
 	tests/converters_test.ref,
 	win32/itpp_acml_tests/converters_test.vcproj,

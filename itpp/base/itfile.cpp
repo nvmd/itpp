@@ -140,7 +140,6 @@ namespace itpp {
     s >> h.name;
     s >> h.type;
     s >> h.desc;
-    s.seekg(p + static_cast<std::streamoff>(h.hdr_bytes));
   }
 
   void it_ifile::low_level_read(char &x)
