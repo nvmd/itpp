@@ -1,5 +1,12 @@
 2008-03-25  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/itfile_test.cpp, tests/itfile_test_data.it: Improve
+	itfile_test by using a non-continuous reference data file
+
+	Such a data file is prepared by first saving a longer data structure
+	(ivec in this case), then deleting it and finally saving a shorter
+	data structure in the same place.
+
 	* itpp/base/itfile.cpp: Do not duplicate seek operation after
 	reading data_header fields
 
