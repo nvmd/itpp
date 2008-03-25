@@ -1,3 +1,15 @@
+2008-03-25  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/converters.cpp, itpp/base/converters.h: Fix incorrect
+	implementation of rint() function used under MSVC++
+
+	The rint() function is not available under MSVC++ compiler. Thus,
+	the local implementation has to be conditionally enabled for this
+	compiler. This patch fixes the incorrect implementation of rint()
+	function, which behaved like a similar round() function. It also
+	moves the "double rint(double)" definition out of the itpp
+	namespace.
+
 2008-03-20  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* win32/itpp_acml.vcproj, win32/itpp_mkl.vcproj: Do not treat

@@ -39,6 +39,11 @@
 #include <itpp/base/math/misc.h>
 
 
+#ifndef HAVE_RINT
+//! Round to nearest integer using the current rounding direction
+double rint(double x);
+#endif
+
 namespace itpp {
 
   //! \addtogroup convertfunc
@@ -323,19 +328,14 @@ namespace itpp {
   //! Convert degrees to radians
   inline double deg_to_rad(double x) { return (itpp::pi / 180.0 * x); }
 
-
-#ifndef HAVE_RINT
   //! Round to nearest integer, return result in double
-  inline double rint(double x) { return floor(x + 0.5); }
-#endif
-  //! Round to nearest integer, return result in double
-  inline double round(double x) { return rint(x); }
+  inline double round(double x) { return ::rint(x); }
   //! Round to nearest integer
-  inline vec round(const vec &x) { return apply_function<double>(round, x); }
+  inline vec round(const vec &x) { return apply_function<double>(::rint, x); }
   //! Round to nearest integer
-  inline mat round(const mat &x) { return apply_function<double>(round, x); }
+  inline mat round(const mat &x) { return apply_function<double>(::rint, x); }
   //! Round to nearest integer
-  inline int round_i(double x) { return static_cast<int>(rint(x)); }
+  inline int round_i(double x) { return static_cast<int>(::rint(x)); }
   //! Round to nearest integer and return ivec
   ivec round_i(const vec &x);
   //! Round to nearest integer and return imat
