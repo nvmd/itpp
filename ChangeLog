@@ -1,3 +1,13 @@
+2008-03-26  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* tests/itfile_test.cpp: Remove setf(ios::scientific) and
+	setf(ios::fixed) from itfile_test.cpp
+
+	These two formatting options causes broken output of
+	floating-point data when using MSVC++ Express 2008. In spite of
+	the fact that this seems to be a bug in MSVC++ Express 2008,
+	removal of these formatting options fixes this problem.
+
 2008-03-25  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/itfile_test.cpp, tests/itfile_test_data.it: Improve
