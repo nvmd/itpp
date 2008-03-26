@@ -114,9 +114,8 @@ int main()
   std::string name, type, desc;
   uint64_t size;
   int n = 0;
-  cout.setf(ios::fixed);
-  cout << "Name |      Type | Size | Description\n";
-  cout << "------------------------------------------------\n";
+  cout << "Name |      Type | Size | Description\n"
+       << "------------------------------------------------\n";
   it_ifile ff(string(ITFILE_TEST_FILE));
   while (ff.seek(n++)) {
     ff.info(name, type, desc, size);
@@ -124,7 +123,7 @@ int main()
 	 << "   " << desc << endl;
   }
   cout << "------------------------------------------------\n\n";
-  cout.setf(ios::scientific);
+
   ff >> Name("abm") >> abm;
   ff >> Name("abv") >> abv;
   ff >> Name("acm") >> acm;
