@@ -1,4 +1,64 @@
 ===============================================================================
+IT++ version 4.0.4                                         Released: 2008-03-31
+-------------------------------------------------------------------------------
+
+IT++ 4.0.4 is the next bug-fix release of the current IT++ stable branch
+(itpp-4-0). As usual, a brief list of modifications and bug-fixes in this
+maintenance release is presented below:
+
+
+Modifications:
+--------------
+
+* Added support for "-1" indexing in Vec<>::del(i1, i2) method. For instance,
+  v.del(4, -1) should delete all elements of v starting from the fourth one.
+
+* In case of an overflow saturate QLLR values instead of aborting.
+
+* Improved performance of expand_base() and calculate_base_matrix() methods
+  of the BLDPC_Parity class
+
+* Const member functions in BERC and BLERC classes are now really "const".
+
+* Added new tests for error counters, converting functions and block LDPC
+  code classes
+
+* Clean-ups of the Vec and Mat classes (removed unnecessary "const"
+  keywords, use consistent naming, use in_range() private methods, revise
+  inlining of functions)
+
+* Minor documentation improvements (spelling fixes in the base module and
+  improved sqr() documentation).
+
+
+Bug-fixes:
+----------
+
+* Fixed bug [1908644] in Modulator<>::set(symbols, bits2symbols) function.
+  The bitmap matrix used in the demodulate_bits() function of the
+  Modulator<> base class was improperly constructed from the input
+  bits2symbols mapping vector. This resulted in demodulation errors for some
+  constellations, e.g. 64-QAM or 8-PSK.
+
+* Fixed wrong size of the resulting bit vector of the LDPC_Code::decode()
+  function
+
+* Fixed wrong conditions in it_assert_debug() calls of elem_mult_out()
+  methods of the Vec and Math classes
+
+* Fading_Generator::generate(int) methods in the derived classes are no
+  longer hidden.
+
+* Warnings are no longer treated as errors under MSVC++ compiler. This
+  should workaround the bug [1900236].
+
+* Fixed incorrect implementation of rint() function not available under
+  MSVC++ compiler
+
+* Fixed complex constructors in operators.cpp to build with g++ 4.3
+
+
+===============================================================================
 IT++ version 4.0.3                                         Released: 2008-02-21
 -------------------------------------------------------------------------------
 
