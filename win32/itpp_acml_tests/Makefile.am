@@ -11,6 +11,7 @@ EXTRA_DIST = \
 	circular_buffer_test.vcproj \
 	commfunc_test.vcproj \
 	convcode_test.vcproj \
+	converters_test.vcproj \
 	det_test.vcproj \
 	eigen_test.vcproj \
 	error_count_test.vcproj \
