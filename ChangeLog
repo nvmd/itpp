@@ -1,3 +1,12 @@
+2008-03-31  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* win32/itpp_acml_tests/Makefile.am,
+	win32/itpp_mkl_tests/Makefile.am: Add converters_test.vcproj to
+	EXTRA_DISTS variable of Makefiles
+
+	Without this patch, the project files for converters_test were not
+	included in the distribution package.
+
 2008-03-26  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/itfile_test.cpp: Remove setf(ios::scientific) and
