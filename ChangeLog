@@ -1,3 +1,10 @@
+2008-04-08  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* README, doc/local/index.doc.in: Reworded and rearranged the
+	brief description of the IT++ library
+
+	Thanks to Kumar Appaiah for some language suggestions.
+
 -------------------------------------------------------------------------------
 
 2008-03-31  Adam Piatyszek  <ediap@users.sourceforge.net>
