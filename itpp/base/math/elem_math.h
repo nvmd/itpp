@@ -29,38 +29,11 @@
 #ifndef ELEM_MATH_H
 #define ELEM_MATH_H
 
-#ifndef _MSC_VER
-#  include <itpp/config.h>
-#else
-#  include <itpp/config_msvc.h>
-#endif
-
+#include <itpp/base/itcompat.h>
 #include <itpp/base/help_functions.h>
 #include <itpp/base/converters.h>
-#include <cstdlib>
+#include <cstdlib> // required by std::abs()
 
-
-//!\addtogroup miscfunc
-//!@{
-
-#ifndef HAVE_TGAMMA
-//! True gamma function
-double tgamma(double x);
-#endif
-
-#if !defined(HAVE_LGAMMA) || (HAVE_DECL_SIGNGAM != 1)
-//! Lograrithm of an absolute gamma function
-double lgamma(double x);
-//! Global variable needed by \c lgamma function
-extern int signgam;
-#endif
-
-#ifndef HAVE_CBRT
-//! Cubic root
-double cbrt(double x);
-#endif
-
-//!@}
 
 namespace itpp {
 
