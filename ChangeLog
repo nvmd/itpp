@@ -1,5 +1,11 @@
 2008-04-09  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/itcompat.h, itpp/base/math/log_exp.h: Move log1p() and
+	log2() definitions from log_exp.h to itcompat.h
+
+	BTW, log2() now uses "static const double" variable initialised
+	with the result of "1.0 / std::log(2.0)" division.
+
 	* itpp/base/itcompat.cpp, itpp/base/itcompat.h,
 	itpp/base/math/error.cpp, itpp/base/math/error.h: Move erf(double)
 	and erfc(double) error functions to itcompat.{cpp,h}

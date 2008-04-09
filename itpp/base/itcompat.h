@@ -166,6 +166,23 @@ extern int signgam;
 double cbrt(double x);
 #endif
 
+
+#ifndef HAVE_LOG1P
+//! Lograrithm of an argument \c x plus one
+inline double log1p(double x) { return std::log(1.0 + x); }
+#endif
+
+#ifndef HAVE_LOG2
+#undef log2 // This is required at least for Cygwin
+//! Base-2 logarithm
+inline double log2(double x)
+{
+  static const double one_over_log2 = 1.0 / std::log(2.0);
+  return std::log(x) * one_over_log2;
+}
+#endif
+
+
 #ifndef HAVE_EXPM1
 //! C99 exponential minus one (exp(x) - 1.0)
 double expm1(double x);
