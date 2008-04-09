@@ -209,4 +209,28 @@ double atanh(double x)
 }
 #endif
 
+
+#ifndef HAVE_RINT
+double rint(double x)
+{
+  // zero or NaN case
+  if ((x == 0.0) || (x != x))
+    return x;
+
+  // negative case
+  bool neg = false;
+  if (x < 0.0) {
+    x = -x;
+    neg = true;
+  }
+
+  double y = std::floor(x + 0.5);
+  int i = static_cast<int>(y);
+  if ((y - x >= 0.5) && (i & 1))
+    --y;
+
+  return neg ? -y : y;
+}
+#endif // HAVE_RINT
+
 //! \endcond

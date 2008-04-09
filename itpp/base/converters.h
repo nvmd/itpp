@@ -34,11 +34,6 @@
 #include <itpp/base/math/misc.h>
 
 
-#ifndef HAVE_RINT
-//! Round to nearest integer using the current rounding direction
-double rint(double x);
-#endif
-
 namespace itpp {
 
   //! \addtogroup convertfunc

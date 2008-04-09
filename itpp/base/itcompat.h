@@ -216,6 +216,11 @@ double atanh(double x);
 #endif
 
 
+#ifndef HAVE_RINT
+double rint(double x);
+#endif
+
+
 // Represent GCC version in a concise form
 #define GCC_VERSION (__GNUC__ * 10000           \
                      + __GNUC_MINOR__ * 100     \
