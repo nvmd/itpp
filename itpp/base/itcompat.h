@@ -149,6 +149,23 @@ inline int isfinite(double x)
 } // namespace std
 
 
+#ifndef HAVE_TGAMMA
+//! True gamma function
+double tgamma(double x);
+#endif
+
+#if !defined(HAVE_LGAMMA) || (HAVE_DECL_SIGNGAM != 1)
+//! Lograrithm of an absolute gamma function
+double lgamma(double x);
+//! Global variable needed by \c lgamma function
+extern int signgam;
+#endif
+
+#ifndef HAVE_CBRT
+//! Cubic root
+double cbrt(double x);
+#endif
+
 #ifndef HAVE_EXPM1
 //! C99 exponential minus one (exp(x) - 1.0)
 double expm1(double x);

@@ -1,5 +1,13 @@
 2008-04-09  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/itcompat.cpp, itpp/base/itcompat.h,
+	itpp/base/math/elem_math.cpp, itpp/base/math/elem_math.h: Move
+	tgamma(), lgamma() and cbrt() definitions to itcompat.{cpp,h}
+
+	These three functions are conditionally defined on platforms, which
+	do not provide their own implementations. Therefore the best place
+	for them is in itcompat.{cpp,h} files.
+
 	* configure.ac.in, itpp/base/converters.h, itpp/base/itcompat.h,
 	itpp/config_msvc.h: Move portability related definitions from
 	config.h to itcompat.h
