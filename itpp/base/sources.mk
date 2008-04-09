@@ -13,7 +13,7 @@ h_base_sources = \
 	$(top_srcdir)/itpp/base/help_functions.h \
 	$(top_srcdir)/itpp/base/itassert.h \
 	$(top_srcdir)/itpp/base/itfile.h \
-	$(top_srcdir)/itpp/base/ittypes.h \
+	$(top_srcdir)/itpp/base/itcompat.h \
 	$(top_srcdir)/itpp/base/matfunc.h \
 	$(top_srcdir)/itpp/base/mat.h \
 	$(top_srcdir)/itpp/base/operators.h \

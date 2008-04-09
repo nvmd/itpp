@@ -1,6 +1,6 @@
 /*!
  * \file
- * \brief IT++ types definitions
+ * \brief IT++ compatibility types and functions
  * \author Adam Piatyszek
  *
  * -------------------------------------------------------------------------
@@ -26,8 +26,8 @@
  * -------------------------------------------------------------------------
  */
 
-#ifndef ITTYPES_H
-#define ITTYPES_H
+#ifndef ITCOMPAT_H
+#define ITCOMPAT_H
 
 #ifndef _MSC_VER
 #  include <itpp/config.h>
@@ -80,4 +80,4 @@ typedef unsigned long long      uint64_t;   //!< 64-bit unsigned integer
 
 #endif // defined(HAVE_STDINT_H)
 
-#endif /* ITTYPES_H */
+#endif // ITCOMPAT_H

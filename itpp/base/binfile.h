@@ -29,7 +29,7 @@
 #ifndef BINFILE_H
 #define BINFILE_H
 
-#include <itpp/base/ittypes.h>
+#include <itpp/base/itcompat.h>
 #include <fstream>
 
 
