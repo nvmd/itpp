@@ -83,6 +83,27 @@ typedef unsigned long long      uint64_t;   //!< 64-bit unsigned integer
 #endif // defined(HAVE_STDINT_H)
 
 
+// Microsoft Visual C++ underscore prefixed functions
+#if defined(_MSC_VER)
+#  include <cfloat>
+#  define finite(x) _finite(x)
+#  define isfinite(x) _finite(x)
+#  define isnan(x) _isnan(x)
+#  define fpclass(x) _fpclass(x)
+#  define FP_NINF _FPCLASS_NINF
+#  define FP_PINF _FPCLASS_PINF
+#  define jn(a, b) _jn(a, b)
+#  define yn(a, b) _yn(a, b)
+#  define j0(a) _j0(a)
+#  define j1(a) _j1(a)
+#endif // defined(_MSC_VER)
+
+
+// Solaris uses <ieeefp.h> for declaring isnan() and finite() functions
+#if defined(HAVE_IEEEFP_H)
+#  include <ieeefp.h>
+#endif
+
 namespace std {
 
 #ifndef HAVE_STD_ISINF
@@ -132,6 +153,11 @@ inline int isfinite(double x)
 //! C99 exponential minus one (exp(x) - 1.0)
 double expm1(double x);
 #endif // HAVE_EXPM1
+
+// Represent GCC version in a concise form
+#define GCC_VERSION (__GNUC__ * 10000           \
+                     + __GNUC_MINOR__ * 100     \
+                     + __GNUC_PATCHLEVEL__)
 
 //! \endcond
 

@@ -1,5 +1,9 @@
 2008-04-09  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac.in, itpp/base/converters.h, itpp/base/itcompat.h,
+	itpp/config_msvc.h: Move portability related definitions from
+	config.h to itcompat.h
+
 	* itpp/base/bessel/gamma.cpp, itpp/base/itcompat.h,
 	itpp/base/math/log_exp.h, itpp/base/math/misc.cpp,
 	itpp/base/math/misc.h, itpp/base/random.cpp,

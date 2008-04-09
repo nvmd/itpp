@@ -99,10 +99,10 @@
 #endif
 
 /* Define to 1 if you have the `finite' function. */
-/* #undef HAVE_FINITE */
+#define HAVE_FINITE 1
 
 /* Define to 1 if you have the `fpclass' function. */
-/* #undef HAVE_FPCLASS */
+#define HAVE_FPCLASS 1
 
 /* Define to 1 if you have the <ieeefp.h> header file. */
 /* #undef HAVE_IEEEFP_H */
@@ -111,13 +111,13 @@
 /* #undef HAVE_INTTYPES_H */
 
 /* Define to 1 if you have the `isfinite' function. */
-/* #undef HAVE_ISFINITE */
+#define HAVE_ISFINITE 1
 
 /* Define to 1 if you have the `isinf' function. */
 /* #undef HAVE_ISINF */
 
 /* Define to 1 if you have the `isnan' function. */
-/* #undef HAVE_ISNAN */
+#define HAVE_ISNAN 1
 
 #if defined(HAVE_ACML) || defined(HAVE_MKL)
 /* Define if you have LAPACK library. */
@@ -237,34 +237,6 @@
 #  include <cmath>
 #endif
 
-/* Solaris uses <ieeefp.h> for declaring isnan() and finite() functions */
-#if defined(HAVE_IEEEFP_H)
-#  include <ieeefp.h>
-#endif
-
-/* Microsoft Visual C++ .NET underscore prefixed functions */
-#if defined(_MSC_VER)
-#  include <cfloat>
-#  define HAVE_FINITE 1
-#  define finite(x) _finite(x)
-#  define HAVE_ISFINITE 1
-#  define isfinite(x) _finite(x)
-#  define HAVE_ISNAN 1
-#  define isnan(x) _isnan(x)
-#  define HAVE_FPCLASS 1
-#  define fpclass(x) _fpclass(x)
-#  define FP_NINF _FPCLASS_NINF
-#  define FP_PINF _FPCLASS_PINF
-#  define HAVE_JN 1
-#  define jn(a, b) _jn(a, b)
-#  define HAVE_YN 1
-#  define yn(a, b) _yn(a, b)
-#  define HAVE_J0 1
-#  define j0(a) _j0(a)
-#  define HAVE_J1 1
-#  define j1(a) _j1(a)
-#endif /* defined(_MSC_VER) */
-
 /* IT++ uses only std::min() and std::max() functions, not macros */
 #ifdef min
 #  undef min
@@ -272,11 +244,6 @@
 #ifdef max
 #  undef max
 #endif
-
-/* Represent GCC version in a concise form */
-#define GCC_VERSION (__GNUC__ * 10000           \
-                     + __GNUC_MINOR__ * 100     \
-                     + __GNUC_PATCHLEVEL__)
 
 #endif /* #ifndef CONFIG_H */
 

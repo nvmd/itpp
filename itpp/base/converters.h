@@ -29,12 +29,7 @@
 #ifndef CONVERTERS_H
 #define CONVERTERS_H
 
-#ifndef _MSC_VER
-#  include <itpp/config.h>
-#else
-#  include <itpp/config_msvc.h>
-#endif
-
+#include <itpp/base/itcompat.h>
 #include <itpp/base/help_functions.h>
 #include <itpp/base/math/misc.h>
 
