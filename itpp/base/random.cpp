@@ -27,6 +27,7 @@
  */
 
 #include <itpp/base/random.h>
+#include <itpp/base/itcompat.h>
 #include <itpp/base/math/elem_math.h>
 #include <itpp/base/math/misc.h>
 #include <limits>
@@ -397,7 +398,7 @@ namespace itpp {
         /* (if q not positive go to step 8) */
         if (q > 0.0) {
           // Try to use w = expm1(q); (Not supported on w32)
-          w = std::exp(q) - 1.0;
+          w = expm1(q);
           /*  ^^^^^ original code had approximation with rel.err < 2e-7 */
           /* if t is rejected sample again at step 8 */
           if ((c * std::fabs(u)) <= (w * std::exp(e - 0.5 * t * t)))

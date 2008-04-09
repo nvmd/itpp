@@ -190,6 +190,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\itpp\base\itcompat.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\itpp\base\itfile.cpp"
 					>
 				</File>
@@ -712,11 +716,11 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\itfile.h"
+					RelativePath="..\itpp\base\itcompat.h"
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\itcompat.h"
+					RelativePath="..\itpp\base\itfile.h"
 					>
 				</File>
 				<File
