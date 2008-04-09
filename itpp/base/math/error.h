@@ -29,29 +29,8 @@
 #ifndef ERROR_H
 #define ERROR_H
 
-#ifndef _MSC_VER
-#  include <itpp/config.h>
-#else
-#  include <itpp/config_msvc.h>
-#endif
-
+#include <itpp/base/itcompat.h>
 #include <itpp/base/help_functions.h>
-
-
-//!\addtogroup errorfunc
-//!@{
-
-#ifndef HAVE_ERF
-//! \brief Error function
-double erf(double x);
-#endif
-
-#ifndef HAVE_ERFC
-//! Complementary error function
-double erfc(double x);
-#endif
-
-//!@}
 
 
 namespace itpp {
