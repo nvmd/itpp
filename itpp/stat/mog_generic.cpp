@@ -31,6 +31,7 @@
 #include <itpp/base/algebra/det.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/base/itfile.h>
+#include <itpp/base/itcompat.h>
 #include <itpp/base/math/misc.h>
 #include <itpp/base/math/log_exp.h>
 

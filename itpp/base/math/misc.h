@@ -29,65 +29,12 @@
 #ifndef MISC_H
 #define MISC_H
 
-#ifndef _MSC_VER
-#  include <itpp/config.h>
-#else
-#  include <itpp/config_msvc.h>
-#endif
-
 #include <complex>
 #include <string>
 #include <limits>
 
 
 namespace std {
-
-  //! \cond
-
-#ifndef HAVE_STD_ISINF
-#if (HAVE_DECL_ISINF == 1) || defined(HAVE_ISINF)
-  inline int isinf(double x) { return ::isinf(x); }
-#elif defined(FPCLASS)
-  inline int isinf(double x)
-  {
-    if (::fpclass(a) == FP_NINF) return -1;
-    else if (::fpclass(a) == FP_PINF) return 1;
-    else return 0;
-  }
-#else
-  inline int isinf(double x)
-  {
-    if ((x == x) && ((x - x) != 0.0)) return (x < 0.0 ? -1 : 1);
-    else return 0;
-  }
-#endif // #if (HAVE_DECL_ISINF == 1) || defined(HAVE_ISINF)
-#  define HAVE_STD_ISINF 1
-#endif // #ifndef HAVE_STD_ISINF
-
-#ifndef HAVE_STD_ISNAN
-#if (HAVE_DECL_ISNAN == 1) || defined(HAVE_ISNAN)
-  inline int isnan(double x) { return ::isnan(x); }
-#else
-  inline int isnan(double x) { return ((x != x) ? 1 : 0); }
-#endif // #if (HAVE_DECL_ISNAN == 1) || defined(HAVE_ISNAN)
-#  define HAVE_STD_ISNAN 1
-#endif // #ifndef HAVE_STD_ISNAN
-
-#ifndef HAVE_STD_ISFINITE
-#if (HAVE_DECL_ISFINITE == 1) || defined(HAVE_ISFINITE)
-  inline int isfinite(double x) { return ::isfinite(x); }
-#elif defined(HAVE_FINITE)
-  inline int isfinite(double x) { return ::finite(x); }
-#else
-  inline int isfinite(double x)
-  {
-    return ((!std::isnan(x) && !std::isinf(x)) ? 1 : 0);
-  }
-#endif // #if (HAVE_DECL_ISFINITE == 1) || defined(HAVE_ISFINITE)
-#  define HAVE_STD_ISFINITE 1
-#endif // #ifndef HAVE_STD_ISFINITE
-
-  //! \endcond
 
   //! Output stream operator for complex numbers
   template <class T>

@@ -29,7 +29,6 @@
 #include <itpp/base/random.h>
 #include <itpp/base/itcompat.h>
 #include <itpp/base/math/elem_math.h>
-#include <itpp/base/math/misc.h>
 #include <limits>
 
 
