@@ -35,6 +35,8 @@
 #  include <itpp/config_msvc.h>
 #endif
 
+//! \cond
+
 #ifndef NO_INT_SIZE_CHECK
 #if (SIZEOF_SHORT != 2) || (SIZEOF_UNSIGNED_SHORT != 2) \
   || (SIZEOF_INT != 4) || (SIZEOF_UNSIGNED_INT != 4)
@@ -81,10 +83,56 @@ typedef unsigned long long      uint64_t;   //!< 64-bit unsigned integer
 #endif // defined(HAVE_STDINT_H)
 
 
+namespace std {
+
+#ifndef HAVE_STD_ISINF
+#if (HAVE_DECL_ISINF == 1) || defined(HAVE_ISINF)
+inline int isinf(double x) { return ::isinf(x); }
+#elif defined(FPCLASS)
+inline int isinf(double x)
+{
+  if (::fpclass(a) == FP_NINF) return -1;
+  else if (::fpclass(a) == FP_PINF) return 1;
+  else return 0;
+}
+#else
+inline int isinf(double x)
+{
+  if ((x == x) && ((x - x) != 0.0)) return (x < 0.0 ? -1 : 1);
+  else return 0;
+}
+#endif // #if (HAVE_DECL_ISINF == 1) || defined(HAVE_ISINF)
+#endif // #ifndef HAVE_STD_ISINF
+
+#ifndef HAVE_STD_ISNAN
+#if (HAVE_DECL_ISNAN == 1) || defined(HAVE_ISNAN)
+inline int isnan(double x) { return ::isnan(x); }
+#else
+inline int isnan(double x) { return ((x != x) ? 1 : 0); }
+#endif // #if (HAVE_DECL_ISNAN == 1) || defined(HAVE_ISNAN)
+#endif // #ifndef HAVE_STD_ISNAN
+
+#ifndef HAVE_STD_ISFINITE
+#if (HAVE_DECL_ISFINITE == 1) || defined(HAVE_ISFINITE)
+inline int isfinite(double x) { return ::isfinite(x); }
+#elif defined(HAVE_FINITE)
+inline int isfinite(double x) { return ::finite(x); }
+#else
+inline int isfinite(double x)
+{
+  return ((!std::isnan(x) && !std::isinf(x)) ? 1 : 0);
+}
+#endif // #if (HAVE_DECL_ISFINITE == 1) || defined(HAVE_ISFINITE)
+#endif // #ifndef HAVE_STD_ISFINITE
+
+} // namespace std
+
+
 #ifndef HAVE_EXPM1
 //! C99 exponential minus one (exp(x) - 1.0)
 double expm1(double x);
 #endif // HAVE_EXPM1
 
+//! \endcond
 
 #endif // ITCOMPAT_H
