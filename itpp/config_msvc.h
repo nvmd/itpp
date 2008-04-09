@@ -74,6 +74,9 @@
 /* Define to 1 if you have the `erfc' function. */
 /* #undef HAVE_ERFC */
 
+/* Define to 1 if you have the `expm1' function. */
+/* #undef HAVE_EXPM1 */
+
 /* Define if the compiler supports extern template */
 /* #undef HAVE_EXTERN_TEMPLATE */
 

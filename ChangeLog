@@ -1,5 +1,15 @@
 2008-04-09  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac.in, itpp/base/itcompat.cpp, itpp/base/itcompat.h,
+	itpp/base/random.cpp, itpp/base/sources.mk, itpp/config_msvc.h,
+	win32/itpp_acml.vcproj, win32/itpp_mkl.vcproj:
+	Add implementation of expm1() function
+
+	The expm1() function from C99 standard is not available in MSVC++
+	compiler. This implementation is taken from the GNU Scientific
+	Library (GSL) and will be only used on platforms that do not have
+	their own expm1() function.
+
 	* itpp/base/binfile.h, itpp/base/itcompat.h, itpp/base/itfile.h,
 	itpp/base/ittypes.h, itpp/base/sources.mk, itpp/fixed/fix_base.h,
 	itpp/itbase.h, win32/itpp_acml.vcproj, win32/itpp_mkl.vcproj:

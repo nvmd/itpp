@@ -36,6 +36,7 @@ cpp_base_sources = \
 	$(top_srcdir)/itpp/base/gf2mat.cpp \
 	$(top_srcdir)/itpp/base/help_functions.cpp \
 	$(top_srcdir)/itpp/base/itassert.cpp \
+	$(top_srcdir)/itpp/base/itcompat.cpp \
 	$(top_srcdir)/itpp/base/itfile.cpp \
 	$(top_srcdir)/itpp/base/mat.cpp \
 	$(top_srcdir)/itpp/base/matfunc.cpp \

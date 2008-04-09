@@ -80,4 +80,11 @@ typedef unsigned long long      uint64_t;   //!< 64-bit unsigned integer
 
 #endif // defined(HAVE_STDINT_H)
 
+
+#ifndef HAVE_EXPM1
+//! C99 exponential minus one (exp(x) - 1.0)
+double expm1(double x);
+#endif // HAVE_EXPM1
+
+
 #endif // ITCOMPAT_H

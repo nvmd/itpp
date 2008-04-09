@@ -272,6 +272,7 @@ AC_CHECK_FUNCS([asinh \
   cbrt \
   erf \
   erfc \
+  expm1 \
   finite \
   fpclass \
   isfinite \
