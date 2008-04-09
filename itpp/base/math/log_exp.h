@@ -33,30 +33,6 @@
 #include <itpp/base/help_functions.h>
 
 
-/*!
- * \addtogroup logexpfunc
- * @{
- */
-
-#ifndef HAVE_LOG1P
-//! Lograrithm of an argument \c x plus one
-inline double log1p(double x) { return std::log(1.0 + x); }
-#endif
-
-#ifndef HAVE_LOG2
-#undef log2                     // This is required at least for Cygwin
-//! Base-2 logarithm
-inline double log2(double x)
-{
-  return (std::log(x) * 1.442695040888963387004650940070860087871551513671875);
-}
-#endif
-
-/*!
- * @}
- */
-
-
 namespace itpp {
 
   //!\addtogroup logexpfunc
