@@ -1,5 +1,13 @@
 2008-04-09  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/converters.cpp, itpp/base/converters.h,
+	itpp/base/itcompat.cpp, itpp/base/itcompat.h: Move rint() to
+	itcompat.{cpp,h}
+
+	This function is conditionally defined on platforms, which do not
+	provide their own implementation. Therefore the best place for it
+	is in itcompat.{cpp,h} files.
+
 	* itpp/base/itcompat.h, itpp/base/math/trig_hyp.h,
 	itpp/signal/poly.cpp, itpp/signal/window.cpp,
 	itpp/base/itcompat.cpp: Move asinh(), acosh() and atanh() to
