@@ -716,7 +716,7 @@
 					>
 				</File>
 				<File
-					RelativePath="..\itpp\base\ittypes.h"
+					RelativePath="..\itpp\base\itcompat.h"
 					>
 				</File>
 				<File
