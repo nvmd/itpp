@@ -1,5 +1,14 @@
 2008-04-09  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/itcompat.h, itpp/base/math/trig_hyp.h,
+	itpp/signal/poly.cpp, itpp/signal/window.cpp,
+	itpp/base/itcompat.cpp: Move asinh(), acosh() and atanh() to
+	itcompat.{cpp,h}
+
+	These functions are conditionally defined on platforms, which do
+	not provide their own implementations. Therefore the best place
+	for them is in itcompat.{cpp,h} files.
+
 	* itpp/base/itcompat.h, itpp/base/math/log_exp.h: Move log1p() and
 	log2() definitions from log_exp.h to itcompat.h
 

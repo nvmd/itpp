@@ -200,6 +200,22 @@ inline double erf(double x) { return (1.0 - ::erfc(x)); }
 #endif
 
 
+#ifndef HAVE_ASINH
+//! Arcus sinhyp
+double asinh(double x);
+#endif
+
+#ifndef HAVE_ACOSH
+//! Arcus coshyp
+double acosh(double x);
+#endif
+
+#ifndef HAVE_ATANH
+//! Arcus tanhyp
+double atanh(double x);
+#endif
+
+
 // Represent GCC version in a concise form
 #define GCC_VERSION (__GNUC__ * 10000           \
                      + __GNUC_MINOR__ * 100     \

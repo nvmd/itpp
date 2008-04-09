@@ -27,6 +27,7 @@
  */
 
 #include <itpp/base/itcompat.h>
+#include <itpp/base/itassert.h>
 #include <limits>
 
 //! \cond
@@ -177,6 +178,34 @@ double erfc(double Y)
  slut:
   ERFCret=RES;
   return ERFCret;
+}
+#endif
+
+
+#ifndef HAVE_ASINH
+// Arcus sinhyp
+double asinh(double x)
+{
+  return ((x >= 0) ? std::log(x + std::sqrt(x * x + 1))
+          : -std::log(-x + std::sqrt(x * x + 1)));
+}
+#endif
+
+#ifndef HAVE_ACOSH
+// Arcus coshyp
+double acosh(double x)
+{
+  it_error_if(x < 1, "acosh(): Argument out of range");
+  return std::log(x + std::sqrt(x * x - 1.0));
+}
+#endif
+
+#ifndef HAVE_ATANH
+// Arcus tanhyp
+double atanh(double x)
+{
+  it_error_if(std::fabs(x) >= 1, "atanh(): Argument out of range");
+  return 0.5 * std::log((x + 1) / (x - 1));
 }
 #endif
 

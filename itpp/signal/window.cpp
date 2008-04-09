@@ -27,6 +27,7 @@
  * -------------------------------------------------------------------------
  */
 
+#include <itpp/base/itcompat.h>
 #include <itpp/signal/window.h>
 #include <itpp/signal/poly.h>
 #include <itpp/base/specmat.h>
