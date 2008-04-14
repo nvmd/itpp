@@ -1,3 +1,16 @@
+2008-04-14  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/signal/fastica.cpp: Fix broken initialisation of
+	Fast_ICA::set_init_guess() method
+
+	The set_init_guess() now changes initState, which is checked in
+	separate(), so that the provided guess is passed into the solver,
+	rather than a zero matrix as before.
+
+	This patch fixes bug report [1941219].
+
+	Signed-off-by: Matthew Chaudhuri <mchaudhuri@users.sourceforge.net>
+
 2008-04-09  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/converters.cpp, itpp/base/converters.h,

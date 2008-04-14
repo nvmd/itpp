@@ -125,9 +125,14 @@ namespace itpp {
 
     int Dim = numOfIC;
 
-    mat guess = zeros( Dim, Dim );
     mat mixedSigC;
     vec mixedMean;
+
+    mat guess;
+    if (initState == FICA_INIT_RAND)
+      guess = zeros(Dim, Dim);
+    else
+      guess = mat(initGuess);
 
     VecPr = zeros( mixedSig.rows(), numOfIC );
 
@@ -197,8 +202,11 @@ namespace itpp {
 
   void Fast_ICA::set_pca_only( bool in_PCAonly ) { PCAonly = in_PCAonly; }
 
-  void Fast_ICA::set_init_guess( mat ma_initGuess ) { initGuess = ma_initGuess; }
-
+  void Fast_ICA::set_init_guess(mat ma_initGuess)
+  {
+    initGuess = ma_initGuess;
+    initState = FICA_INIT_GUESS;
+  }
 
   mat Fast_ICA::get_mixing_matrix() { if ( PCAonly ) { it_warning ( "No ICA performed." ); return (zeros(1,1));} else return A; }
 
