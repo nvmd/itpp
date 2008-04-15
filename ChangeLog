@@ -1,3 +1,16 @@
+2008-04-15  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/vec.h: Fix regression of a missing inline keyword in
+	outer_product() specialisation
+
+	The inline keyword is necessary for template specialisations that
+	are defined in the header file. This bug resulted in linking
+	problems without any external BLAS library, when this particular
+	specialisation was used.
+
+	Thanks to Markus Dittrich for investigating this problem and
+	providing a patch for it on Gentoo Bugzilla (bug #217621).
+
 2008-04-14  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/signal/fastica.cpp: Fix broken initialisation of
