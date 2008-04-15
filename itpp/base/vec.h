@@ -1070,7 +1070,7 @@ namespace itpp {
   }
 #else
   //! Outer product of two vectors v1 and v2
-  template<>
+  template<> inline
   cmat outer_product(const cvec &v1, const cvec &v2, bool hermitian)
   {
     it_assert_debug((v1.datasize > 0) && (v2.datasize > 0),
