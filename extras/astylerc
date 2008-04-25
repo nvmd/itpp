@@ -30,3 +30,4 @@ indent-labels
 pad=oper
 unpad=paren
 one-line=keep-blocks
+convert-tabs
