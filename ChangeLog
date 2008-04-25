@@ -1,5 +1,8 @@
 2008-04-25  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/modulator_nd_test.cpp: Cosmetic fix - remove doubled
+	semicolon
+
 	* Unify coding style using an astyle source code formatter
 
 	This huge patch is intended to unify the coding style for all IT++

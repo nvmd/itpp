@@ -92,7 +92,7 @@ int main()
       cout << b << endl;
       cvec x = chan.modulate_bits(b);
       cmat H = randn_c(nt, nt);
-      cvec y = H * x + sigma * randn_c(nt);;
+      cvec y = H * x + sigma * randn_c(nt);
       QLLRvec LLR_ap = zeros_i(2 * nt * np);
       QLLRvec LLR(2*nt*np);
 
@@ -121,7 +121,7 @@ int main()
       cout << b << endl;
       cvec x = chan.modulate_bits(b);
       cmat H = randn_c(nt, nt);
-      cvec y = H * x + sigma * randn_c(nt);;
+      cvec y = H * x + sigma * randn_c(nt);
       QLLRvec LLR_ap = zeros_i(2 * nt * np);
       QLLRvec LLR(2*nt*np);
 
