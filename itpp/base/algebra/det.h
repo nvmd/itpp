@@ -32,36 +32,37 @@
 #include <itpp/base/mat.h>
 
 
-namespace itpp {
+namespace itpp
+{
 
-  /*!
-    \brief Determinant of real square matrix.
-    \ingroup determinant
+/*!
+  \brief Determinant of real square matrix.
+  \ingroup determinant
 
-    Calculate determinant of the real matrix \f$\mathbf{X}\f$
+  Calculate determinant of the real matrix \f$\mathbf{X}\f$
 
-    Uses LU-factorisation.
-    \f[
-    \det(\mathbf{X}) = \det(\mathbf{P}^T \mathbf{L}) \det(\mathbf{U}) = \det(\mathbf{P}^T) \prod(\mathrm{diag}(\mathbf{U}))
-    \f]
-    and the determinant of the permuation matrix is \f$ \pm 1\f$ depending on the number of row permutations
-  */
-  double det(const mat &X);
+  Uses LU-factorisation.
+  \f[
+  \det(\mathbf{X}) = \det(\mathbf{P}^T \mathbf{L}) \det(\mathbf{U}) = \det(\mathbf{P}^T) \prod(\mathrm{diag}(\mathbf{U}))
+  \f]
+  and the determinant of the permuation matrix is \f$ \pm 1\f$ depending on the number of row permutations
+*/
+double det(const mat &X);
 
 
-  /*!
-    \brief Determinant of complex square matrix.
-    \ingroup determinant
+/*!
+  \brief Determinant of complex square matrix.
+  \ingroup determinant
 
-    Calculate determinant of the complex matrix \f$\mathbf{X}\f$
+  Calculate determinant of the complex matrix \f$\mathbf{X}\f$
 
-    Uses LU-factorisation.
-    \f[
-    \det(\mathbf{X}) = \det(\mathbf{P}^T \mathbf{L}) \det(\mathbf{U}) = \det(\mathbf{P}^T) \prod(\mathrm{diag}(\mathbf{U}))
-    \f]
-    and the determinant of the permuation matrix is \f$ \pm 1\f$ depending on the number of row permutations
-  */
-  std::complex<double> det(const cmat &X);
+  Uses LU-factorisation.
+  \f[
+  \det(\mathbf{X}) = \det(\mathbf{P}^T \mathbf{L}) \det(\mathbf{U}) = \det(\mathbf{P}^T) \prod(\mathrm{diag}(\mathbf{U}))
+  \f]
+  and the determinant of the permuation matrix is \f$ \pm 1\f$ depending on the number of row permutations
+*/
+std::complex<double> det(const cmat &X);
 
 
 } // namespace itpp

@@ -32,52 +32,53 @@
 #include <itpp/base/mat.h>
 
 
-namespace itpp {
+namespace itpp
+{
 
-  /*!
-    \brief Inverse of real square matrix.
-    \ingroup inverse
+/*!
+  \brief Inverse of real square matrix.
+  \ingroup inverse
 
-    Calculate the inverse of the real matrix \f$\mathbf{X}\f$
+  Calculate the inverse of the real matrix \f$\mathbf{X}\f$
 
-    Solves the equation system \f$ \mathbf{Y} \mathbf{X} = \mathbf{I}\f$ using LU-factorization.
-    IT++ needs to be compiled with the LAPACK for the inverse to be available.
-  */
-  bool inv(const mat &X, mat &Y);
+  Solves the equation system \f$ \mathbf{Y} \mathbf{X} = \mathbf{I}\f$ using LU-factorization.
+  IT++ needs to be compiled with the LAPACK for the inverse to be available.
+*/
+bool inv(const mat &X, mat &Y);
 
-  /*!
-    \brief Inverse of real square matrix.
-    \ingroup inverse
+/*!
+  \brief Inverse of real square matrix.
+  \ingroup inverse
 
-    Calculate the inverse of the real matrix \f$\mathbf{X}\f$
+  Calculate the inverse of the real matrix \f$\mathbf{X}\f$
 
-    Solves the equation system \f$ \mathbf{Y} \mathbf{X} = \mathbf{I}\f$ using LU-factorization.
-    IT++ needs to be compiled with LAPACK support for the inverse to be available.
-  */
-  mat inv(const mat &X);
+  Solves the equation system \f$ \mathbf{Y} \mathbf{X} = \mathbf{I}\f$ using LU-factorization.
+  IT++ needs to be compiled with LAPACK support for the inverse to be available.
+*/
+mat inv(const mat &X);
 
 
-  /*!
-    \brief Inverse of complex square matrix.
-    \ingroup inverse
+/*!
+  \brief Inverse of complex square matrix.
+  \ingroup inverse
 
-    Calculate the inverse of the complex matrix \f$\mathbf{X}\f$
+  Calculate the inverse of the complex matrix \f$\mathbf{X}\f$
 
-    Solves the equation system \f$ \mathbf{Y} \mathbf{X} = \mathbf{I}\f$ using LU-factorization.
-    IT++ needs to be compiled with LAPACK support for the inverse to be available.
-  */
-  bool inv(const cmat &X, cmat &Y);
+  Solves the equation system \f$ \mathbf{Y} \mathbf{X} = \mathbf{I}\f$ using LU-factorization.
+  IT++ needs to be compiled with LAPACK support for the inverse to be available.
+*/
+bool inv(const cmat &X, cmat &Y);
 
-  /*!
-    \brief Inverse of real square matrix.
-    \ingroup inverse
+/*!
+  \brief Inverse of real square matrix.
+  \ingroup inverse
 
-    Calculate the inverse of the complex matrix \f$\mathbf{X}\f$
+  Calculate the inverse of the complex matrix \f$\mathbf{X}\f$
 
-    Solves the equation system \f$ \mathbf{Y} \mathbf{X} = \mathbf{I}\f$ using LU-factorization.
-    IT++ needs to be compiled with the LAPACK for the inverse to be available.
-  */
-  cmat inv(const cmat &X);
+  Solves the equation system \f$ \mathbf{Y} \mathbf{X} = \mathbf{I}\f$ using LU-factorization.
+  IT++ needs to be compiled with the LAPACK for the inverse to be available.
+*/
+cmat inv(const cmat &X);
 
 
 } // namespace itpp

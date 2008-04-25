@@ -40,300 +40,301 @@
 #include <itpp/base/specmat.h>
 
 
-namespace itpp {
+namespace itpp
+{
 
 #if defined(HAVE_LAPACK)
 
-  bool qr(const mat &A, mat &Q, mat &R)
-  {
-    int info;
-    int m = A.rows();
-    int n = A.cols();
-    int lwork = n;
-    int k = std::min(m, n);
-    vec tau(k);
-    vec work(lwork);
+bool qr(const mat &A, mat &Q, mat &R)
+{
+  int info;
+  int m = A.rows();
+  int n = A.cols();
+  int lwork = n;
+  int k = std::min(m, n);
+  vec tau(k);
+  vec work(lwork);
 
-    R = A;
+  R = A;
 
-    // perform workspace query for optimum lwork value
-    int lwork_tmp = -1;
-    dgeqrf_(&m, &n, R._data(), &m, tau._data(), work._data(), &lwork_tmp,
-            &info);
-    if (info == 0) {
-      lwork = static_cast<int>(work(0));
-      work.set_size(lwork, false);
-    }
-    dgeqrf_(&m, &n, R._data(), &m, tau._data(), work._data(), &lwork, &info);
-    Q = R;
-    Q.set_size(m, m, true);
-
-    // construct R
-    for (int i=0; i<m; i++)
-      for (int j=0; j<std::min(i,n); j++)
-        R(i,j) = 0;
-
-    // perform workspace query for optimum lwork value
-    lwork_tmp = -1;
-    dorgqr_(&m, &m, &k, Q._data(), &m, tau._data(), work._data(), &lwork_tmp,
-            &info);
-    if (info == 0) {
-      lwork = static_cast<int>(work(0));
-      work.set_size(lwork, false);
-    }
-    dorgqr_(&m, &m, &k, Q._data(), &m, tau._data(), work._data(), &lwork,
-            &info);
-
-    return (info==0);
+  // perform workspace query for optimum lwork value
+  int lwork_tmp = -1;
+  dgeqrf_(&m, &n, R._data(), &m, tau._data(), work._data(), &lwork_tmp,
+          &info);
+  if (info == 0) {
+    lwork = static_cast<int>(work(0));
+    work.set_size(lwork, false);
   }
+  dgeqrf_(&m, &n, R._data(), &m, tau._data(), work._data(), &lwork, &info);
+  Q = R;
+  Q.set_size(m, m, true);
 
-  bool qr(const mat &A, mat &R)
-  {
-    int info;
-    int m = A.rows();
-    int n = A.cols();
-    int lwork = n;
-    int k = std::min(m, n);
-    vec tau(k);
-    vec work(lwork);
+  // construct R
+  for (int i = 0; i < m; i++)
+    for (int j = 0; j < std::min(i, n); j++)
+      R(i, j) = 0;
 
-    R = A;
-
-    // perform workspace query for optimum lwork value
-    int lwork_tmp = -1;
-    dgeqrf_(&m, &n, R._data(), &m, tau._data(), work._data(), &lwork_tmp,
-            &info);
-    if (info == 0) {
-      lwork = static_cast<int>(work(0));
-      work.set_size(lwork, false);
-    }
-    dgeqrf_(&m, &n, R._data(), &m, tau._data(), work._data(), &lwork, &info);
-
-    // construct R
-    for (int i = 0; i < m; i++)
-      for (int j = 0; j < std::min(i, n); j++)
-        R(i, j) = 0;
-
-    return (info == 0);
+  // perform workspace query for optimum lwork value
+  lwork_tmp = -1;
+  dorgqr_(&m, &m, &k, Q._data(), &m, tau._data(), work._data(), &lwork_tmp,
+          &info);
+  if (info == 0) {
+    lwork = static_cast<int>(work(0));
+    work.set_size(lwork, false);
   }
+  dorgqr_(&m, &m, &k, Q._data(), &m, tau._data(), work._data(), &lwork,
+          &info);
 
-  bool qr(const mat &A, mat &Q, mat &R, bmat &P)
-  {
-    int info;
-    int m = A.rows();
-    int n = A.cols();
-    int lwork = n;
-    int k = std::min(m, n);
-    vec tau(k);
-    vec work(lwork);
-    ivec jpvt(n);
-    jpvt.zeros();
+  return (info == 0);
+}
 
-    R = A;
+bool qr(const mat &A, mat &R)
+{
+  int info;
+  int m = A.rows();
+  int n = A.cols();
+  int lwork = n;
+  int k = std::min(m, n);
+  vec tau(k);
+  vec work(lwork);
 
-    // perform workspace query for optimum lwork value
-    int lwork_tmp = -1;
-    dgeqp3_(&m, &n, R._data(), &m, jpvt._data(), tau._data(), work._data(),
-            &lwork_tmp, &info);
-    if (info == 0) {
-      lwork = static_cast<int>(work(0));
-      work.set_size(lwork, false);
-    }
-    dgeqp3_(&m, &n, R._data(), &m, jpvt._data(), tau._data(), work._data(),
-            &lwork, &info);
-    Q = R;
-    Q.set_size(m, m, true);
+  R = A;
 
-    // construct permutation matrix
-    P = zeros_b(n, n);
-    for (int j = 0; j < n; j++)
-      P(jpvt(j)-1, j) = 1;
-
-    // construct R
-    for (int i = 0; i < m; i++)
-      for (int j = 0; j < std::min(i, n); j++)
-        R(i, j) = 0;
-
-    // perform workspace query for optimum lwork value
-    lwork_tmp = -1;
-    dorgqr_(&m, &m, &k, Q._data(), &m, tau._data(), work._data(), &lwork_tmp,
-            &info);
-    if (info == 0) {
-      lwork = static_cast<int>(work(0));
-      work.set_size(lwork, false);
-    }
-    dorgqr_(&m, &m, &k, Q._data(), &m, tau._data(), work._data(), &lwork,
-            &info);
-
-    return (info==0);
+  // perform workspace query for optimum lwork value
+  int lwork_tmp = -1;
+  dgeqrf_(&m, &n, R._data(), &m, tau._data(), work._data(), &lwork_tmp,
+          &info);
+  if (info == 0) {
+    lwork = static_cast<int>(work(0));
+    work.set_size(lwork, false);
   }
+  dgeqrf_(&m, &n, R._data(), &m, tau._data(), work._data(), &lwork, &info);
 
+  // construct R
+  for (int i = 0; i < m; i++)
+    for (int j = 0; j < std::min(i, n); j++)
+      R(i, j) = 0;
 
+  return (info == 0);
+}
 
-  bool qr(const cmat &A, cmat &Q, cmat &R)
-  {
-    int info;
-    int m = A.rows();
-    int n = A.cols();
-    int lwork = n;
-    int k = std::min(m, n);
-    cvec tau(k);
-    cvec work(lwork);
+bool qr(const mat &A, mat &Q, mat &R, bmat &P)
+{
+  int info;
+  int m = A.rows();
+  int n = A.cols();
+  int lwork = n;
+  int k = std::min(m, n);
+  vec tau(k);
+  vec work(lwork);
+  ivec jpvt(n);
+  jpvt.zeros();
 
-    R = A;
+  R = A;
 
-    // perform workspace query for optimum lwork value
-    int lwork_tmp = -1;
-    zgeqrf_(&m, &n, R._data(), &m, tau._data(), work._data(), &lwork_tmp,
-            &info);
-    if (info == 0) {
-      lwork = static_cast<int>(real(work(0)));
-      work.set_size(lwork, false);
-    }
-    zgeqrf_(&m, &n, R._data(), &m, tau._data(), work._data(), &lwork, &info);
-
-    Q = R;
-    Q.set_size(m, m, true);
-
-    // construct R
-    for (int i = 0; i < m; i++)
-      for (int j = 0; j < std::min(i, n); j++)
-        R(i, j) = 0;
-
-    // perform workspace query for optimum lwork value
-    lwork_tmp = -1;
-    zungqr_(&m, &m, &k, Q._data(), &m, tau._data(), work._data(), &lwork_tmp,
-            &info);
-    if (info == 0) {
-      lwork = static_cast<int>(real(work(0)));
-      work.set_size(lwork, false);
-    }
-    zungqr_(&m, &m, &k, Q._data(), &m, tau._data(), work._data(), &lwork,
-            &info);
-
-    return (info==0);
+  // perform workspace query for optimum lwork value
+  int lwork_tmp = -1;
+  dgeqp3_(&m, &n, R._data(), &m, jpvt._data(), tau._data(), work._data(),
+          &lwork_tmp, &info);
+  if (info == 0) {
+    lwork = static_cast<int>(work(0));
+    work.set_size(lwork, false);
   }
+  dgeqp3_(&m, &n, R._data(), &m, jpvt._data(), tau._data(), work._data(),
+          &lwork, &info);
+  Q = R;
+  Q.set_size(m, m, true);
 
-  bool qr(const cmat &A, cmat &R)
-  {
-    int info;
-    int m = A.rows();
-    int n = A.cols();
-    int lwork = n;
-    int k = std::min(m, n);
-    cvec tau(k);
-    cvec work(lwork);
+  // construct permutation matrix
+  P = zeros_b(n, n);
+  for (int j = 0; j < n; j++)
+    P(jpvt(j) - 1, j) = 1;
 
-    R = A;
+  // construct R
+  for (int i = 0; i < m; i++)
+    for (int j = 0; j < std::min(i, n); j++)
+      R(i, j) = 0;
 
-    // perform workspace query for optimum lwork value
-    int lwork_tmp = -1;
-    zgeqrf_(&m, &n, R._data(), &m, tau._data(), work._data(), &lwork_tmp,
-            &info);
-    if (info == 0) {
-      lwork = static_cast<int>(real(work(0)));
-      work.set_size(lwork, false);
-    }
-    zgeqrf_(&m, &n, R._data(), &m, tau._data(), work._data(), &lwork, &info);
-
-    // construct R
-    for (int i = 0; i < m; i++)
-      for (int j = 0; j < std::min(i, n); j++)
-        R(i, j) = 0;
-
-    return (info == 0);
+  // perform workspace query for optimum lwork value
+  lwork_tmp = -1;
+  dorgqr_(&m, &m, &k, Q._data(), &m, tau._data(), work._data(), &lwork_tmp,
+          &info);
+  if (info == 0) {
+    lwork = static_cast<int>(work(0));
+    work.set_size(lwork, false);
   }
+  dorgqr_(&m, &m, &k, Q._data(), &m, tau._data(), work._data(), &lwork,
+          &info);
 
-  bool qr(const cmat &A, cmat &Q, cmat &R, bmat &P)
-  {
-    int info;
-    int m = A.rows();
-    int n = A.cols();
-    int lwork = n;
-    int k = std::min(m, n);
-    cvec tau(k);
-    cvec work(lwork);
-    vec rwork(std::max(1, 2*n));
-    ivec jpvt(n);
-    jpvt.zeros();
+  return (info == 0);
+}
 
-    R = A;
 
-    // perform workspace query for optimum lwork value
-    int lwork_tmp = -1;
-    zgeqp3_(&m, &n, R._data(), &m, jpvt._data(), tau._data(), work._data(),
-            &lwork_tmp, rwork._data(), &info);
-    if (info == 0) {
-      lwork = static_cast<int>(real(work(0)));
-      work.set_size(lwork, false);
-    }
-    zgeqp3_(&m, &n, R._data(), &m, jpvt._data(), tau._data(), work._data(),
-            &lwork, rwork._data(), &info);
 
-    Q = R;
-    Q.set_size(m, m, true);
+bool qr(const cmat &A, cmat &Q, cmat &R)
+{
+  int info;
+  int m = A.rows();
+  int n = A.cols();
+  int lwork = n;
+  int k = std::min(m, n);
+  cvec tau(k);
+  cvec work(lwork);
 
-    // construct permutation matrix
-    P = zeros_b(n, n);
-    for (int j = 0; j < n; j++)
-      P(jpvt(j)-1, j) = 1;
+  R = A;
 
-    // construct R
-    for (int i = 0; i < m; i++)
-      for (int j = 0; j < std::min(i, n); j++)
-        R(i, j) = 0;
-
-    // perform workspace query for optimum lwork value
-    lwork_tmp = -1;
-    zungqr_(&m, &m, &k, Q._data(), &m, tau._data(), work._data(), &lwork_tmp,
-            &info);
-    if (info == 0) {
-      lwork = static_cast<int>(real(work(0)));
-      work.set_size(lwork, false);
-    }
-    zungqr_(&m, &m, &k, Q._data(), &m, tau._data(), work._data(), &lwork,
-            &info);
-
-    return (info==0);
+  // perform workspace query for optimum lwork value
+  int lwork_tmp = -1;
+  zgeqrf_(&m, &n, R._data(), &m, tau._data(), work._data(), &lwork_tmp,
+          &info);
+  if (info == 0) {
+    lwork = static_cast<int>(real(work(0)));
+    work.set_size(lwork, false);
   }
+  zgeqrf_(&m, &n, R._data(), &m, tau._data(), work._data(), &lwork, &info);
+
+  Q = R;
+  Q.set_size(m, m, true);
+
+  // construct R
+  for (int i = 0; i < m; i++)
+    for (int j = 0; j < std::min(i, n); j++)
+      R(i, j) = 0;
+
+  // perform workspace query for optimum lwork value
+  lwork_tmp = -1;
+  zungqr_(&m, &m, &k, Q._data(), &m, tau._data(), work._data(), &lwork_tmp,
+          &info);
+  if (info == 0) {
+    lwork = static_cast<int>(real(work(0)));
+    work.set_size(lwork, false);
+  }
+  zungqr_(&m, &m, &k, Q._data(), &m, tau._data(), work._data(), &lwork,
+          &info);
+
+  return (info == 0);
+}
+
+bool qr(const cmat &A, cmat &R)
+{
+  int info;
+  int m = A.rows();
+  int n = A.cols();
+  int lwork = n;
+  int k = std::min(m, n);
+  cvec tau(k);
+  cvec work(lwork);
+
+  R = A;
+
+  // perform workspace query for optimum lwork value
+  int lwork_tmp = -1;
+  zgeqrf_(&m, &n, R._data(), &m, tau._data(), work._data(), &lwork_tmp,
+          &info);
+  if (info == 0) {
+    lwork = static_cast<int>(real(work(0)));
+    work.set_size(lwork, false);
+  }
+  zgeqrf_(&m, &n, R._data(), &m, tau._data(), work._data(), &lwork, &info);
+
+  // construct R
+  for (int i = 0; i < m; i++)
+    for (int j = 0; j < std::min(i, n); j++)
+      R(i, j) = 0;
+
+  return (info == 0);
+}
+
+bool qr(const cmat &A, cmat &Q, cmat &R, bmat &P)
+{
+  int info;
+  int m = A.rows();
+  int n = A.cols();
+  int lwork = n;
+  int k = std::min(m, n);
+  cvec tau(k);
+  cvec work(lwork);
+  vec rwork(std::max(1, 2*n));
+  ivec jpvt(n);
+  jpvt.zeros();
+
+  R = A;
+
+  // perform workspace query for optimum lwork value
+  int lwork_tmp = -1;
+  zgeqp3_(&m, &n, R._data(), &m, jpvt._data(), tau._data(), work._data(),
+          &lwork_tmp, rwork._data(), &info);
+  if (info == 0) {
+    lwork = static_cast<int>(real(work(0)));
+    work.set_size(lwork, false);
+  }
+  zgeqp3_(&m, &n, R._data(), &m, jpvt._data(), tau._data(), work._data(),
+          &lwork, rwork._data(), &info);
+
+  Q = R;
+  Q.set_size(m, m, true);
+
+  // construct permutation matrix
+  P = zeros_b(n, n);
+  for (int j = 0; j < n; j++)
+    P(jpvt(j) - 1, j) = 1;
+
+  // construct R
+  for (int i = 0; i < m; i++)
+    for (int j = 0; j < std::min(i, n); j++)
+      R(i, j) = 0;
+
+  // perform workspace query for optimum lwork value
+  lwork_tmp = -1;
+  zungqr_(&m, &m, &k, Q._data(), &m, tau._data(), work._data(), &lwork_tmp,
+          &info);
+  if (info == 0) {
+    lwork = static_cast<int>(real(work(0)));
+    work.set_size(lwork, false);
+  }
+  zungqr_(&m, &m, &k, Q._data(), &m, tau._data(), work._data(), &lwork,
+          &info);
+
+  return (info == 0);
+}
 
 #else
 
-  bool qr(const mat &A, mat &Q, mat &R)
-  {
-    it_error("LAPACK library is needed to use qr() function");
-    return false;
-  }
+bool qr(const mat &A, mat &Q, mat &R)
+{
+  it_error("LAPACK library is needed to use qr() function");
+  return false;
+}
 
-  bool qr(const mat &A, mat &R)
-  {
-    it_error("LAPACK library is needed to use qr() function");
-    return false;
-  }
+bool qr(const mat &A, mat &R)
+{
+  it_error("LAPACK library is needed to use qr() function");
+  return false;
+}
 
-  bool qr(const mat &A, mat &Q, mat &R, bmat &P)
-  {
-    it_error("LAPACK library is needed to use qr() function");
-    return false;
-  }
+bool qr(const mat &A, mat &Q, mat &R, bmat &P)
+{
+  it_error("LAPACK library is needed to use qr() function");
+  return false;
+}
 
-  bool qr(const cmat &A, cmat &Q, cmat &R)
-  {
-    it_error("LAPACK library is needed to use qr() function");
-    return false;
-  }
+bool qr(const cmat &A, cmat &Q, cmat &R)
+{
+  it_error("LAPACK library is needed to use qr() function");
+  return false;
+}
 
-  bool qr(const cmat &A, cmat &R)
-  {
-    it_error("LAPACK library is needed to use qr() function");
-    return false;
-  }
+bool qr(const cmat &A, cmat &R)
+{
+  it_error("LAPACK library is needed to use qr() function");
+  return false;
+}
 
-  bool qr(const cmat &A, cmat &Q, cmat &R, bmat &P)
-  {
-    it_error("LAPACK library is needed to use qr() function");
-    return false;
-  }
+bool qr(const cmat &A, cmat &Q, cmat &R, bmat &P)
+{
+  it_error("LAPACK library is needed to use qr() function");
+  return false;
+}
 
 #endif // HAVE_LAPACK
 

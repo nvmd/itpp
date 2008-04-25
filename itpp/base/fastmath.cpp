@@ -30,62 +30,63 @@
 #include <itpp/base/fastmath.h>
 
 
-namespace itpp {
+namespace itpp
+{
 
-  // m=m-v*v'*m
-  void sub_v_vT_m(mat &m, const vec &v)
-  {
-    vec v2(m.cols());
-    double tmp, *v2p;
-    const double *vp;
-    int i, j;
+// m=m-v*v'*m
+void sub_v_vT_m(mat &m, const vec &v)
+{
+  vec v2(m.cols());
+  double tmp, *v2p;
+  const double *vp;
+  int i, j;
 
-    it_assert(v.size() == m.rows(), "sub_v_vT_m()");
+  it_assert(v.size() == m.rows(), "sub_v_vT_m()");
 
-    v2p = v2._data();
-    for (j=0; j<m.cols(); j++) {
-      tmp = 0.0;
-      vp=v._data();
-      for (i=0; i<m.rows(); i++)
-				tmp += *(vp++) * m._elem(i,j);
-      *(v2p++) = tmp;
-    }
-
-    vp=v._data();
-    for (i=0; i<m.rows(); i++) {
-      v2p = v2._data();
-      for (j=0; j<m.cols(); j++)
-				m._elem(i,j) -= *vp * *(v2p++);
-      vp++;
-    }
+  v2p = v2._data();
+  for (j = 0; j < m.cols(); j++) {
+    tmp = 0.0;
+    vp = v._data();
+    for (i = 0; i < m.rows(); i++)
+      tmp += *(vp++) * m._elem(i, j);
+    *(v2p++) = tmp;
   }
 
-  // m=m-m*v*v'
-  void sub_m_v_vT(mat &m, const vec &v)
-  {
-    vec v2(m.rows());
-    double tmp, *v2p;
-    const double *vp;
-    int i, j;
-
-    it_assert(v.size() == m.cols(), "sub_m_v_vT()");
-
+  vp = v._data();
+  for (i = 0; i < m.rows(); i++) {
     v2p = v2._data();
-    for (i=0; i<m.rows(); i++) {
-      tmp = 0.0;
-      vp = v._data();
-      for (j=0; j<m.cols(); j++)
-				tmp += *(vp++) * m._elem(i,j);
-      *(v2p++) = tmp;
-    }
-
-    v2p = v2._data();
-    for (i=0; i<m.rows(); i++) {
-      vp=v._data();
-      for (j=0; j<m.cols(); j++)
-				m._elem(i,j) -= *v2p * *(vp++);
-      v2p++;
-    }
+    for (j = 0; j < m.cols(); j++)
+      m._elem(i, j) -= *vp * *(v2p++);
+    vp++;
   }
+}
+
+// m=m-m*v*v'
+void sub_m_v_vT(mat &m, const vec &v)
+{
+  vec v2(m.rows());
+  double tmp, *v2p;
+  const double *vp;
+  int i, j;
+
+  it_assert(v.size() == m.cols(), "sub_m_v_vT()");
+
+  v2p = v2._data();
+  for (i = 0; i < m.rows(); i++) {
+    tmp = 0.0;
+    vp = v._data();
+    for (j = 0; j < m.cols(); j++)
+      tmp += *(vp++) * m._elem(i, j);
+    *(v2p++) = tmp;
+  }
+
+  v2p = v2._data();
+  for (i = 0; i < m.rows(); i++) {
+    vp = v._data();
+    for (j = 0; j < m.cols(); j++)
+      m._elem(i, j) -= *v2p * *(vp++);
+    v2p++;
+  }
+}
 
 } // namespace itpp

@@ -32,189 +32,191 @@
 #include <itpp/stat/mog_generic.h>
 
 
-namespace itpp {
+namespace itpp
+{
 
-  /*!
-    \ingroup MOG
-    \brief Diagonal Mixture of Gaussians (MOG) class
-    \author Conrad Sanderson
+/*!
+  \ingroup MOG
+  \brief Diagonal Mixture of Gaussians (MOG) class
+  \author Conrad Sanderson
 
-    Used for representing a statistical distribution as a
-    convex combination of multi-variate Gaussian functions.
-    Also known as a Gaussian Mixture Model.
-    This class allows loading and saving of the MOG's parameters,
-    as well as calculation of likelihoods. The parameters
-    are set by the user or an optimisation algorithm
-    (for example, see the MOG_diag_EM class).
+  Used for representing a statistical distribution as a
+  convex combination of multi-variate Gaussian functions.
+  Also known as a Gaussian Mixture Model.
+  This class allows loading and saving of the MOG's parameters,
+  as well as calculation of likelihoods. The parameters
+  are set by the user or an optimisation algorithm
+  (for example, see the MOG_diag_EM class).
 
-    \note This class is optimised for diagonal covariance matrices.
-          For speed reasons it uses C style arrays for direct access to memory.
+  \note This class is optimised for diagonal covariance matrices.
+        For speed reasons it uses C style arrays for direct access to memory.
+*/
+class MOG_diag : public MOG_generic
+{
+
+public:
+
+  /*! \brief Default constructor
+      \note An empty model is created.
+            The likelihood functions are not useable
+            until the model's parameters are set
   */
-  class MOG_diag : public MOG_generic {
+  MOG_diag() { zero_all_ptrs(); init(); }
 
-    public:
+  /*! \brief Construct the MOG_diag object by loading the parameters from a model file
+      \param name The model's filename
+  */
+  MOG_diag(const std::string &name) { zero_all_ptrs(); load(name); }
 
-    /*! \brief Default constructor
-        \note An empty model is created.
-              The likelihood functions are not useable
-              until the model's parameters are set
-    */
-    MOG_diag() { zero_all_ptrs(); init(); }
+  /*! \brief construct a default model (all Gaussians have zero mean and unit variance for all dimensions)
+      \param K_in Number of Gaussians
+      \param D_in Dimensionality
+      \param full_in Ignored.  Present for compatability with the MOG_generic class
+  */
+  MOG_diag(const int &K_in, const int &D_in, bool full_in = false) { zero_all_ptrs(); init(K_in, D_in, false); }
 
-    /*! \brief Construct the MOG_diag object by loading the parameters from a model file
-        \param name The model's filename
-    */
-    MOG_diag(const std::string &name) { zero_all_ptrs(); load(name); }
+  /*! \brief Construct a model using user supplied mean vectors
+      \param means_in Array of mean vectors
+      \param full_in Ignored.  Present for compatability with the MOG_generic class
+      \note  The number of mean vectors specifies the number of Gaussians.
+      The covariance matrices are in effect set equal to the identity matrix.
+      The weights for all Gaussians are the same, equal to 1/K, where K is the number of Gaussians
+  */
+  MOG_diag(Array<vec> &means_in, bool full_in = false) { zero_all_ptrs(); init(means_in, false);  }
 
-    /*! \brief construct a default model (all Gaussians have zero mean and unit variance for all dimensions)
-        \param K_in Number of Gaussians
-        \param D_in Dimensionality
-        \param full_in Ignored.  Present for compatability with the MOG_generic class
-    */
-    MOG_diag(const int &K_in, const int &D_in, bool full_in=false) { zero_all_ptrs(); init(K_in,D_in,false); }
+  /*! \brief Construct a model using user supplied parameters (diagonal covariance version)
+      \param means_in Array of mean vectors
+      \param diag_covs_in Array of vectors representing diagonal covariances
+      \param weights_in vector of weights
+      \note  The number of mean vectors, covariance vectors and weights must be the same
+  */
+  MOG_diag(Array<vec> &means_in, Array<vec> &diag_covs_in, vec &weights_in) { zero_all_ptrs(); init(means_in, diag_covs_in, weights_in); }
 
-    /*! \brief Construct a model using user supplied mean vectors
-        \param means_in Array of mean vectors
-        \param full_in Ignored.  Present for compatability with the MOG_generic class
-        \note  The number of mean vectors specifies the number of Gaussians.
-        The covariance matrices are in effect set equal to the identity matrix.
-        The weights for all Gaussians are the same, equal to 1/K, where K is the number of Gaussians
-    */
-    MOG_diag(Array<vec> &means_in, bool full_in=false) { zero_all_ptrs(); init(means_in,false);  }
+  /*! \brief Construct a model using user supplied parameters (full covariance version)
+      \param means_in Array of mean vectors
+      \param full_covs_in Array of full covariance matrices
+      \param weights_in vector of weights
+      \note  The full covariance matrices are converted to be diagonal.
+             The number of mean vectors, covariance matrices and weights must be the same.
+  */
+  MOG_diag(Array<vec> &means_in, Array<mat> &full_covs_in, vec &weights_in) { zero_all_ptrs(); init(means_in, full_covs_in, weights_in); convert_to_diag(); }
 
-    /*! \brief Construct a model using user supplied parameters (diagonal covariance version)
-        \param means_in Array of mean vectors
-        \param diag_covs_in Array of vectors representing diagonal covariances
-        \param weights_in vector of weights
-        \note  The number of mean vectors, covariance vectors and weights must be the same
-    */
-    MOG_diag(Array<vec> &means_in, Array<vec> &diag_covs_in, vec &weights_in) { zero_all_ptrs(); init(means_in,diag_covs_in,weights_in); }
+  //! Default destructor
+  ~MOG_diag() { cleanup(); }
 
-    /*! \brief Construct a model using user supplied parameters (full covariance version)
-        \param means_in Array of mean vectors
-        \param full_covs_in Array of full covariance matrices
-        \param weights_in vector of weights
-        \note  The full covariance matrices are converted to be diagonal.
-               The number of mean vectors, covariance matrices and weights must be the same.
-    */
-    MOG_diag(Array<vec> &means_in, Array<mat> &full_covs_in, vec &weights_in) { zero_all_ptrs(); init(means_in,full_covs_in,weights_in); convert_to_diag(); }
+  /*! \brief Release memory used by the model. The model will be empty.
+      \note The likelihood functions are not useable
+            until the model's parameters are re-initialised
+  */
+  void cleanup() { free_all_ptrs(); MOG_generic::cleanup(); }
 
-    //! Default destructor
-    ~MOG_diag() { cleanup(); }
+  /*! \brief Initialise the model by loading the parameters from a model file.
+      \param name_in The model's filename
+      \note If the model file contains a full covariance matrix model,
+            the covariance matrices will be converted to be diagonal after loading.
+  */
+  void load(const std::string &name_in);
 
-    /*! \brief Release memory used by the model. The model will be empty.
-        \note The likelihood functions are not useable
-              until the model's parameters are re-initialised
-    */
-    void cleanup() { free_all_ptrs(); MOG_generic::cleanup(); }
+  //! Do nothing.  Present for compatability with the MOG_generic class.
+  void convert_to_full() {};
 
-    /*! \brief Initialise the model by loading the parameters from a model file.
-        \param name_in The model's filename
-        \note If the model file contains a full covariance matrix model,
-              the covariance matrices will be converted to be diagonal after loading.
-    */
-    void load(const std::string &name_in);
+  //! calculate the log likelihood of C vector \c c_x_in using only Gaussian \c k
+  double log_lhood_single_gaus(const double * c_x_in, const int k) const;
 
-    //! Do nothing.  Present for compatability with the MOG_generic class.
-    void convert_to_full() {};
+  //! calculate the log likelihood of IT++ vector \c x_in using only Gaussian \c k
+  double log_lhood_single_gaus(const vec &x_in, const int k) const;
 
-    //! calculate the log likelihood of C vector \c c_x_in using only Gaussian \c k
-    double log_lhood_single_gaus(const double * c_x_in, const int k) const;
+  //! calculate the log likelihood of C vector \c c_x_in
+  double log_lhood(const double * c_x_in);
 
-    //! calculate the log likelihood of IT++ vector \c x_in using only Gaussian \c k
-    double log_lhood_single_gaus(const vec &x_in, const int k) const;
+  //! calculate the log likelihood of IT++ vector \c x_in
+  double log_lhood(const vec &x_in);
 
-    //! calculate the log likelihood of C vector \c c_x_in
-    double log_lhood(const double * c_x_in);
+  //! calculate the likelihood of C vector \c c_x_in
+  double lhood(const double * c_x_in);
 
-    //! calculate the log likelihood of IT++ vector \c x_in
-    double log_lhood(const vec &x_in);
+  //! calculate the likelihood of IT++ vector \c x_in
+  double lhood(const vec &x_in);
 
-    //! calculate the likelihood of C vector \c c_x_in
-    double lhood(const double * c_x_in);
+  //! calculate the average log likelihood of an array of C vectors ( \c c_x_in )
+  double avg_log_lhood(const double ** c_x_in, int N);
 
-    //! calculate the likelihood of IT++ vector \c x_in
-    double lhood(const vec &x_in);
+  //! calculate the average log likelihood of an array of IT++ vectors ( \c X_in )
+  double avg_log_lhood(const Array<vec> & X_in);
 
-    //! calculate the average log likelihood of an array of C vectors ( \c c_x_in )
-    double avg_log_lhood(const double ** c_x_in, int N);
+protected:
 
-    //! calculate the average log likelihood of an array of IT++ vectors ( \c X_in )
-    double avg_log_lhood(const Array<vec> & X_in);
+  void setup_means();
+  void setup_covs();
+  void setup_weights();
+  void setup_misc();
 
-    protected:
+  //! ADD DOCUMENTATION HERE
+  double log_lhood_single_gaus_internal(const double * c_x_in, const int k) const;
+  //! ADD DOCUMENTATION HERE
+  double log_lhood_single_gaus_internal(const vec &x_in, const int k) const;
+  //! ADD DOCUMENTATION HERE
+  double log_lhood_internal(const double * c_x_in);
+  //! ADD DOCUMENTATION HERE
+  double log_lhood_internal(const vec &x_in);
+  //! ADD DOCUMENTATION HERE
+  double lhood_internal(const double * c_x_in);
+  //! ADD DOCUMENTATION HERE
+  double lhood_internal(const vec &x_in);
 
-    void setup_means();
-    void setup_covs();
-    void setup_weights();
-    void setup_misc();
+  //! Enable C style access to an Array of vectors (vec)
+  double ** enable_c_access(Array<vec> & A_in);
 
-    //! ADD DOCUMENTATION HERE
-    double log_lhood_single_gaus_internal(const double * c_x_in, const int k) const;
-    //! ADD DOCUMENTATION HERE
-    double log_lhood_single_gaus_internal(const vec &x_in, const int k) const;
-    //! ADD DOCUMENTATION HERE
-    double log_lhood_internal(const double * c_x_in);
-    //! ADD DOCUMENTATION HERE
-    double log_lhood_internal(const vec &x_in);
-    //! ADD DOCUMENTATION HERE
-    double lhood_internal(const double * c_x_in);
-    //! ADD DOCUMENTATION HERE
-    double lhood_internal(const vec &x_in);
+  //! Enable C style access to an Array of vectors (ivec)
+  int ** enable_c_access(Array<ivec> & A_in);
 
-    //! Enable C style access to an Array of vectors (vec)
-    double ** enable_c_access(Array<vec> & A_in);
+  //! Enable C style access to a vector (vec)
+  double * enable_c_access(vec & v_in);
 
-    //! Enable C style access to an Array of vectors (ivec)
-    int ** enable_c_access(Array<ivec> & A_in);
+  //! Enable C style access to a vector (ivec)
+  int * enable_c_access(ivec & v_in);
 
-    //! Enable C style access to a vector (vec)
-    double * enable_c_access(vec & v_in);
+  //! Disable C style access to an Array of vectors (vec)
+  double ** disable_c_access(double ** A_in);
 
-    //! Enable C style access to a vector (ivec)
-    int * enable_c_access(ivec & v_in);
+  //! Disable C style access to an Array of vectors (ivec)
+  int ** disable_c_access(int ** A_in);
 
-    //! Disable C style access to an Array of vectors (vec)
-    double ** disable_c_access(double ** A_in);
+  //! Disable C style access to a vector (vec)
+  double * disable_c_access(double * v_in);
 
-    //! Disable C style access to an Array of vectors (ivec)
-    int ** disable_c_access(int ** A_in);
+  //! Disable C style access to a vector (ivec)
+  int * disable_c_access(int * v_in);
 
-    //! Disable C style access to a vector (vec)
-    double * disable_c_access(double * v_in);
+  //! ADD DOCUMENTATION HERE
+  void zero_all_ptrs();
+  //! ADD DOCUMENTATION HERE
+  void free_all_ptrs();
 
-    //! Disable C style access to a vector (ivec)
-    int * disable_c_access(int * v_in);
+  //! pointers to the mean vectors
+  double ** c_means;
 
-    //! ADD DOCUMENTATION HERE
-    void zero_all_ptrs();
-    //! ADD DOCUMENTATION HERE
-    void free_all_ptrs();
+  //! pointers to the covariance vectors
+  double ** c_diag_covs;
 
-    //! pointers to the mean vectors
-    double ** c_means;
+  //! pointers to the inverted covariance vectors
+  double ** c_diag_covs_inv_etc;
 
-    //! pointers to the covariance vectors
-    double ** c_diag_covs;
+  //! pointer to the weight vector
+  double * c_weights;
 
-    //! pointers to the inverted covariance vectors
-    double ** c_diag_covs_inv_etc;
+  //! pointer to the log version of the weight vector
+  double * c_log_weights;
 
-    //! pointer to the weight vector
-    double * c_weights;
+  //! pointer to the log_det_etc vector
+  double * c_log_det_etc;
 
-    //! pointer to the log version of the weight vector
-    double * c_log_weights;
+private:
 
-    //! pointer to the log_det_etc vector
-    double * c_log_det_etc;
+  vec tmpvecK;
+  double * c_tmpvecK;
 
-    private:
-
-    vec tmpvecK;
-    double * c_tmpvecK;
-
-  };
+};
 
 }
 

@@ -30,7 +30,8 @@
 #define TIMING_H
 
 
-namespace itpp {
+namespace itpp
+{
 
 /*!
   \addtogroup timers
@@ -40,38 +41,39 @@ namespace itpp {
   \brief A virtual base class for timers.
   \ingroup timers
 */
-class Timer {
+class Timer
+{
 public:
-    //! Create a new timer.  Sets the time to zero.
-    Timer();
-    //! Virtual destructor
-    virtual ~Timer() { }
-    //! Start the timer.  This does not set the time to zero.
-    void start(void);
-    //! Stop the timer.  Returns the elapsed time in seconds.
-    double stop(void);
-    //! Sets the time to time t, which is zero by default. Stops the timer if it is running.
-    void reset(double t=0.0);
-    //! Resets the timer and starts it.
-    void tic(void);
-    //! Returns the elapsed time since last tic()
-    double toc(void);
-    //! Prints the elapsed time since last tic()
-    void toc_print(void);
-    //! Returns the elapsed time.
-    double get_time() const;
+  //! Create a new timer.  Sets the time to zero.
+  Timer();
+  //! Virtual destructor
+  virtual ~Timer() { }
+  //! Start the timer.  This does not set the time to zero.
+  void start(void);
+  //! Stop the timer.  Returns the elapsed time in seconds.
+  double stop(void);
+  //! Sets the time to time t, which is zero by default. Stops the timer if it is running.
+  void reset(double t = 0.0);
+  //! Resets the timer and starts it.
+  void tic(void);
+  //! Returns the elapsed time since last tic()
+  double toc(void);
+  //! Prints the elapsed time since last tic()
+  void toc_print(void);
+  //! Returns the elapsed time.
+  double get_time() const;
 
 protected:
-    //! Vitrual function that returns teh current time
-    virtual double get_current_time() const = 0;
-    //! The start time of the timer
-    double start_time;
-    //! The stop time of the timer
-    double stop_time;
-    //! The ellapsed time from start to stop
-    double elapsed_time;
-    //! A bool that indicates if the timer is running or not
-    bool running;
+  //! Vitrual function that returns teh current time
+  virtual double get_current_time() const = 0;
+  //! The start time of the timer
+  double start_time;
+  //! The stop time of the timer
+  double stop_time;
+  //! The ellapsed time from start to stop
+  double elapsed_time;
+  //! A bool that indicates if the timer is running or not
+  bool running;
 };
 
 /*!
@@ -98,14 +100,15 @@ protected:
   to reset and start clock and "time.toc();" stop and print the elapsed time.
   \warning May give an negative answer if the measured time is too long.
 */
-class CPU_Timer : public Timer {
+class CPU_Timer : public Timer
+{
 public:
-    //! Create a new timer. Sets the time to zero.
-    CPU_Timer() { }
+  //! Create a new timer. Sets the time to zero.
+  CPU_Timer() { }
 
 protected:
-    //!
-    double get_current_time() const;
+  //!
+  double get_current_time() const;
 };
 
 /*!
@@ -131,14 +134,15 @@ protected:
 
   \warning May give an negative answer if the measured time is too long.
 */
-class Real_Timer : public Timer {
+class Real_Timer : public Timer
+{
 public:
-    //! Create a new timer. Sets the time to zero.
-    Real_Timer() { }
+  //! Create a new timer. Sets the time to zero.
+  Real_Timer() { }
 
 protected:
-    //!
-    double get_current_time() const;
+  //!
+  double get_current_time() const;
 };
 
 /*!
@@ -167,7 +171,7 @@ void toc_print();
   \code pause(); \endcode  Pauses until a key is pressed
 
 */
-void pause(double t=-1);
+void pause(double t = -1);
 
 } // namespace itpp
 

@@ -30,71 +30,72 @@
 #include <itpp/base/algebra/lu.h>
 
 
-namespace itpp {
+namespace itpp
+{
 
 
-  /* Determinant of square matrix.
-     Calculate determinant of inmatrix (Uses LU-factorisation)
-     (See Theorem 3.2.1 p. 97 in Golub & van Loan, "Matrix Computations").
+/* Determinant of square matrix.
+   Calculate determinant of inmatrix (Uses LU-factorisation)
+   (See Theorem 3.2.1 p. 97 in Golub & van Loan, "Matrix Computations").
 
-     det(X) = det(P')*det(L)*det(U) = det(P')*1*prod(diag(U))
-  */
-  double det(const mat &X)
-  {
-    it_assert_debug(X.rows()==X.cols(),"det : Only square matrices");
+   det(X) = det(P')*det(L)*det(U) = det(P')*1*prod(diag(U))
+*/
+double det(const mat &X)
+{
+  it_assert_debug(X.rows() == X.cols(), "det : Only square matrices");
 
-    mat L, U;
-    ivec p;
-    double s=1.0;
-    int i;
+  mat L, U;
+  ivec p;
+  double s = 1.0;
+  int i;
 
-    lu(X,L,U,p); // calculate LU-factorisation
+  lu(X, L, U, p); // calculate LU-factorisation
 
-    double temp=U(0,0);
-    for (i=1;i<X.rows();i++) {
-      temp*=U(i,i);
-    }
-
-    // Calculate det(P'). Equal to (-1)^(no row changes)
-    for (i=0; i<p.size(); i++)
-      if (i != p(i))
-	s *=-1.0;
-
-    return temp*s;
+  double temp = U(0, 0);
+  for (i = 1;i < X.rows();i++) {
+    temp *= U(i, i);
   }
 
+  // Calculate det(P'). Equal to (-1)^(no row changes)
+  for (i = 0; i < p.size(); i++)
+    if (i != p(i))
+      s *= -1.0;
 
-  /* Determinant of complex square matrix.
-     Calculate determinant of inmatrix (Uses LU-factorisation)
-     (See Theorem 3.2.1 p. 97 in Golub & van Loan, "Matrix Computations").
+  return temp*s;
+}
 
-     det(X) = det(P')*det(L)*det(U) = det(P')*1*prod(diag(U))
 
-     Needs LU-factorization of complex matrices (LAPACK)
-  */
-  std::complex<double> det(const cmat &X)
-  {
-    it_assert_debug(X.rows()==X.cols(),"det : Only square matrices");
+/* Determinant of complex square matrix.
+   Calculate determinant of inmatrix (Uses LU-factorisation)
+   (See Theorem 3.2.1 p. 97 in Golub & van Loan, "Matrix Computations").
 
-    int i;
-    cmat L, U;
-    ivec p;
-    double s=1.0;
+   det(X) = det(P')*det(L)*det(U) = det(P')*1*prod(diag(U))
 
-    lu(X,L,U,p); // calculate LU-factorisation
+   Needs LU-factorization of complex matrices (LAPACK)
+*/
+std::complex<double> det(const cmat &X)
+{
+  it_assert_debug(X.rows() == X.cols(), "det : Only square matrices");
 
-    std::complex<double> temp=U(0,0);
-    for (i=1;i<X.rows();i++) {
-      temp*=U(i,i);
-    }
+  int i;
+  cmat L, U;
+  ivec p;
+  double s = 1.0;
 
-    // Calculate det(P'). Equal to (-1)^(no row changes)
-    for (i=0; i<p.size(); i++)
-      if (i != p(i))
-	s *=-1.0;
+  lu(X, L, U, p); // calculate LU-factorisation
 
-    return temp*s;
+  std::complex<double> temp = U(0, 0);
+  for (i = 1;i < X.rows();i++) {
+    temp *= U(i, i);
   }
+
+  // Calculate det(P'). Equal to (-1)^(no row changes)
+  for (i = 0; i < p.size(); i++)
+    if (i != p(i))
+      s *= -1.0;
+
+  return temp*s;
+}
 
 
 } // namespace itpp

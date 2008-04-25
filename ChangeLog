@@ -1,3 +1,12 @@
+2008-04-25  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* Unify coding style using an astyle source code formatter
+
+	This huge patch is intended to unify the coding style for all IT++
+	source and header files. The formatting has been performed with
+	the astyle v1.22 program, using the configuration stored in
+	extras/astylerc file.
+
 2008-04-15  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/vec.h: Fix regression of a missing inline keyword in

@@ -54,7 +54,7 @@ int main()
 
   int coded_packet_size;
   bvec bits, tail_coded_bits, tail_decoded_bits, tailbite_coded_bits,
-    tailbite_decoded_bits, trunc_coded_bits, trunc_decoded_bits;
+  tailbite_decoded_bits, trunc_coded_bits, trunc_decoded_bits;
   vec symbols;
   ivec dist_profile;
 
@@ -117,20 +117,20 @@ int main()
   cout << "Trunc method test. Printing 30 bits starting from bit 1400:" << endl;
   cout << "* Input bits    = " << bits.mid(1400, 30) << endl;
   trunc_coded_bits.set_size(0);
-  for (int i = 0; i < no_bits/packet_size; i++) {
+  for (int i = 0; i < no_bits / packet_size; i++) {
     trunc_coded_bits = concat(trunc_coded_bits,
-			      code.encode_trunc(bits.mid(i*packet_size,
-							 packet_size)));
+                              code.encode_trunc(bits.mid(i * packet_size,
+                                                         packet_size)));
   }
   cout << "* Coded bits    = " << trunc_coded_bits.mid(1400, 30) << endl;
   bpsk.modulate_bits(trunc_coded_bits, symbols);
   trunc_decoded_bits.set_size(0);
   coded_packet_size = round_i(packet_size / code.get_rate());
-  for (int i = 0; i < no_bits/packet_size; i++) {
+  for (int i = 0; i < no_bits / packet_size; i++) {
     trunc_decoded_bits =
       concat(trunc_decoded_bits,
-	     code.decode_trunc(symbols.mid(i*coded_packet_size,
-					   coded_packet_size)));
+             code.decode_trunc(symbols.mid(i * coded_packet_size,
+                                           coded_packet_size)));
   }
   cout << "* Decoded bits  = " << trunc_decoded_bits.mid(1400, 30) << endl;
   berc.clear();
@@ -173,20 +173,20 @@ int main()
   cout << "Trunc method test. Printing 30 bits starting from bit 1400:" << endl;
   cout << "* Input bits    = " << bits.mid(1400, 30) << endl;
   trunc_coded_bits.set_size(0);
-  for (int i = 0; i < no_bits/packet_size; i++) {
+  for (int i = 0; i < no_bits / packet_size; i++) {
     trunc_coded_bits = concat(trunc_coded_bits,
-			      code_punct.encode_trunc(bits.mid(i*packet_size,
-							       packet_size)));
+                              code_punct.encode_trunc(bits.mid(i * packet_size,
+                                                               packet_size)));
   }
   cout << "* Coded bits    = " << trunc_coded_bits.mid(1400, 30) << endl;
   bpsk.modulate_bits(trunc_coded_bits, symbols);
   trunc_decoded_bits.set_size(0);
   coded_packet_size = round_i(packet_size / code_punct.get_rate());
-  for (int i = 0; i < no_bits/packet_size; i++) {
+  for (int i = 0; i < no_bits / packet_size; i++) {
     trunc_decoded_bits =
       concat(trunc_decoded_bits,
-	     code_punct.decode_trunc(symbols.mid(i*coded_packet_size,
-						 coded_packet_size)));
+             code_punct.decode_trunc(symbols.mid(i * coded_packet_size,
+                                                 coded_packet_size)));
   }
   cout << "* Decoded bits  = " << trunc_decoded_bits.mid(1400, 30) << endl;
   berc.clear();

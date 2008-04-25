@@ -34,13 +34,13 @@ int main()
   bpsk.modulate_bits(bits, symbols);
 
   //Add the AWGN
-  rec = symbols + sqrt(N0/2)* randn(N);
+  rec = symbols + sqrt(N0 / 2) * randn(N);
 
   //Decode the received bits
   bpsk.demodulate_bits(rec, dec_bits);
 
   //Count the number of errors
-  berc.count(bits,dec_bits);
+  berc.count(bits, dec_bits);
 
   //Print the results
   cout << "There were " << berc.get_errors() << " received bits in error." << endl;

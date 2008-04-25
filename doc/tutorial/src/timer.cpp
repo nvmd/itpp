@@ -22,7 +22,7 @@ int main()
   tt.tic();
 
   //Do some processing
-  for (i=0; i<N; i++) {
+  for (i = 0; i < N; i++) {
     sum += i;
   }
 
@@ -30,7 +30,7 @@ int main()
   tt.toc_print();
 
   //Print the result of the processing:
-  cout << "The sum of all integers from 0 to " << N-1 << " equals " << sum << endl;
+  cout << "The sum of all integers from 0 to " << N - 1 << " equals " << sum << endl;
 
   //Exit program:
   return 0;

@@ -33,59 +33,61 @@
 #include <itpp/comm/channel_code.h>
 
 
-namespace itpp {
+namespace itpp
+{
 
-  /*!
-    \addtogroup fec
-  */
+/*!
+  \addtogroup fec
+*/
 
-  //---------------------- BCH --------------------------------------
+//---------------------- BCH --------------------------------------
 
-  /*!
-    \ingroup fec
-    \brief Class for binary, narrow-sense BCH codes.
+/*!
+  \ingroup fec
+  \brief Class for binary, narrow-sense BCH codes.
 
-    The notation used is found in S. B. Wicker, "Error control systems for
-    digital communication and storage", Appendix E, Prentice-Hall, 1995.
+  The notation used is found in S. B. Wicker, "Error control systems for
+  digital communication and storage", Appendix E, Prentice-Hall, 1995.
 
-    Example:
-    \code BCH bch(31,21,2,"3 5 5 1")
-    \endcode
-    uses the generator polynomial
-    \f$g(x) = x^{10} + x^9 + x^8 + x^6 + x^5 + x^3 + 1\f$, and is capable of
-    correcting 2 errors with \a n = 31 and \a k = 21.
-  */
-  class BCH : public Channel_Code {
-  public:
-    //! Initialize a (n,k)-code that can correct t errors
-    BCH(int in_n, int in_k, int in_t, ivec genpolynom, bool sys = false);
+  Example:
+  \code BCH bch(31,21,2,"3 5 5 1")
+  \endcode
+  uses the generator polynomial
+  \f$g(x) = x^{10} + x^9 + x^8 + x^6 + x^5 + x^3 + 1\f$, and is capable of
+  correcting 2 errors with \a n = 31 and \a k = 21.
+*/
+class BCH : public Channel_Code
+{
+public:
+  //! Initialize a (n,k)-code that can correct t errors
+  BCH(int in_n, int in_k, int in_t, ivec genpolynom, bool sys = false);
 
-    //! Destructor
-    virtual ~BCH(){ }
+  //! Destructor
+  virtual ~BCH() { }
 
-    //! Encode a bvec of indata
-    virtual void encode(const bvec &uncoded_bits, bvec &coded_bits);
-    //! Encode a bvec of indata
-    virtual bvec encode(const bvec &uncoded_bits);
+  //! Encode a bvec of indata
+  virtual void encode(const bvec &uncoded_bits, bvec &coded_bits);
+  //! Encode a bvec of indata
+  virtual bvec encode(const bvec &uncoded_bits);
 
-    //! Decode a bvec of coded data.
-    virtual void decode(const bvec &coded_bits, bvec &decoded_bits);
-    //! Decode a bvec of coded data
-    virtual bvec decode(const bvec &coded_bits);
+  //! Decode a bvec of coded data.
+  virtual void decode(const bvec &coded_bits, bvec &decoded_bits);
+  //! Decode a bvec of coded data
+  virtual bvec decode(const bvec &coded_bits);
 
-    // Soft-decision decoding is not implemented
-    virtual void decode(const vec &received_signal, bvec &output);
-    virtual bvec decode(const vec &received_signal);
+  // Soft-decision decoding is not implemented
+  virtual void decode(const vec &received_signal, bvec &output);
+  virtual bvec decode(const vec &received_signal);
 
-    //! Get the code rate
-    virtual double get_rate() const {return static_cast<double>(k) / n; }
+  //! Get the code rate
+  virtual double get_rate() const {return static_cast<double>(k) / n; }
 
-    //protected:
-  private:
-    int n, k, t;
-    GFX g;
-    const bool systematic;
-  };
+  //protected:
+private:
+  int n, k, t;
+  GFX g;
+  const bool systematic;
+};
 
 } // namespace itpp
 

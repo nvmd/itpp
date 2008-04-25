@@ -83,13 +83,13 @@ using namespace std;
 
 int main()
 {
-  FILE * fpin= NULL;
-  float tmp= 0.0;
+  FILE * fpin = NULL;
+  float tmp = 0.0;
 
   // Separate nrIC independent components in nrSamples samples
-  int nrSamples= 0, nrIC= 0;
+  int nrSamples = 0, nrIC = 0;
 
-  fpin = fopen( FASTICA_TEST_FILE, "r");
+  fpin = fopen(FASTICA_TEST_FILE, "r");
   if (fpin == 0) {
     cerr << "Error: Could not open FASTICA_TEST_FILE for reading" << endl;
     return 1;
@@ -99,25 +99,25 @@ int main()
   cout << "   Test program for FastICA / IT++   " << endl;
   cout << "=====================================" << endl;
 
-  fscanf( fpin, "%d", &nrSamples );
-  fscanf( fpin, "%d", &nrIC );
+  fscanf(fpin, "%d", &nrSamples);
+  fscanf(fpin, "%d", &nrIC);
 
-  mat X = zeros( nrIC, nrSamples );
+  mat X = zeros(nrIC, nrSamples);
 
-  for ( int i= 0; i< nrSamples; i++ )
-    for ( int j= 0; j< nrIC; j++ ) {
-      fscanf( fpin , "%f", &tmp);
-      X(j,i)= tmp;
+  for (int i = 0; i < nrSamples; i++)
+    for (int j = 0; j < nrIC; j++) {
+      fscanf(fpin , "%f", &tmp);
+      X(j, i) = tmp;
     }
 
-  fclose( fpin );
+  fclose(fpin);
 
   // Instantiate an ICA object with default parameters : SYMM approach and
   // POW3 non-linearity
   // Be sure that :
   // - nrSamples = number of samples = nb of columns of the input matrix
   // - nrIC = number of sensors = nb of rows of the input matrix
-  Fast_ICA my_fastica( X );
+  Fast_ICA my_fastica(X);
 
   // Set number of independent components to separate :
   // By default, this value is taken from the dimension of
@@ -148,7 +148,7 @@ int main()
   my_fastica2.set_non_linearity(FICA_NONLIN_GAUSS);
 
   // Use deflation approach : IC are computed one by one
-  my_fastica2.set_approach( FICA_APPROACH_DEFL );
+  my_fastica2.set_approach(FICA_APPROACH_DEFL);
 
   // Perform ICA
   my_fastica2.separate();
@@ -166,7 +166,8 @@ int main()
 
 #else
 
-int main() {
+int main()
+{
   cerr << "FASTICA_TEST_FILE not defined. Test skipped." << endl;
   return 1;
 }

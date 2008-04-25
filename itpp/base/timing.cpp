@@ -61,119 +61,121 @@ int gettimeofday(struct timeval* p, void* tz)
   GetSystemTimeAsFileTime(&(_now.ft));
   p->tv_usec = (long)((_now.ns100 / 10LL) % 1000000LL);
   /* time since 1 Jan 1970 */
-  p->tv_sec= (long)((_now.ns100 - 116444736000000000LL) / 10000000LL);
+  p->tv_sec = (long)((_now.ns100 - 116444736000000000LL) / 10000000LL);
   return 0;
 }
 #endif
 
 
-namespace itpp {
+namespace itpp
+{
 
-  //! Global object for tic and toc functions
-  Real_Timer __tic_toc_timer;
+//! Global object for tic and toc functions
+Real_Timer __tic_toc_timer;
 
-  //----------------------------------------------------------------------------
-  //	class Timer
-  //----------------------------------------------------------------------------
-  Timer::Timer()
-  {
-    reset();
+//----------------------------------------------------------------------------
+// class Timer
+//----------------------------------------------------------------------------
+Timer::Timer()
+{
+  reset();
+}
+
+void Timer::start(void)
+{
+  if (!running) {
+    start_time = get_current_time();
+    running = true;
   }
+}
 
-  void Timer::start(void)
-  {
-    if (!running) {
-      start_time = get_current_time();
-      running = true;
-    }
-  }
-
-  double Timer::stop(void)
-  {
-    if (running) {
-      stop_time = get_current_time();
-      elapsed_time += stop_time-start_time;
-      running = false;
-    }
-
-    return elapsed_time;
-  }
-
-  void Timer::reset(double t)
-  {
-    elapsed_time = t;
-    start_time = 0;
-    stop_time = 0;
+double Timer::stop(void)
+{
+  if (running) {
+    stop_time = get_current_time();
+    elapsed_time += stop_time - start_time;
     running = false;
   }
 
-  double Timer::get_time() const
-  {
-    return running ?
-      elapsed_time + get_current_time() - start_time :
-      elapsed_time;
-  }
+  return elapsed_time;
+}
 
-  void Timer::tic(void)
-  {
-    reset();
-    start();
-  }
+void Timer::reset(double t)
+{
+  elapsed_time = t;
+  start_time = 0;
+  stop_time = 0;
+  running = false;
+}
 
-  double Timer::toc(void)
-  {
-    return get_time() ;
-  }
+double Timer::get_time() const
+{
+  return running ?
+         elapsed_time + get_current_time() - start_time :
+         elapsed_time;
+}
 
-  void Timer::toc_print(void)
-  {
-    std::cout << "Elapsed time = " << get_time() << " seconds" << std::endl;
-  }
+void Timer::tic(void)
+{
+  reset();
+  start();
+}
 
-  //----------------------------------------------------------------------------
-  //	class CPU_Timer
-  //----------------------------------------------------------------------------
-  double CPU_Timer::get_current_time() const
-  {
-    return static_cast<double>(clock()) / CLOCKS_PER_SEC;
-  }
+double Timer::toc(void)
+{
+  return get_time() ;
+}
 
-  //----------------------------------------------------------------------------
-  //	class Real_Timer
-  //----------------------------------------------------------------------------
-  double Real_Timer::get_current_time() const
-  {
-    struct timeval t;
-    gettimeofday(&t, 0);
-    return t.tv_sec + t.tv_usec * 1.0e-6;
-  }
+void Timer::toc_print(void)
+{
+  std::cout << "Elapsed time = " << get_time() << " seconds" << std::endl;
+}
+
+//----------------------------------------------------------------------------
+// class CPU_Timer
+//----------------------------------------------------------------------------
+double CPU_Timer::get_current_time() const
+{
+  return static_cast<double>(clock()) / CLOCKS_PER_SEC;
+}
+
+//----------------------------------------------------------------------------
+// class Real_Timer
+//----------------------------------------------------------------------------
+double Real_Timer::get_current_time() const
+{
+  struct timeval t;
+  gettimeofday(&t, 0);
+  return t.tv_sec + t.tv_usec * 1.0e-6;
+}
 
 
-  void tic()
-  {
-    __tic_toc_timer.tic();
-  }
+void tic()
+{
+  __tic_toc_timer.tic();
+}
 
-  double toc()
-  {
-    return __tic_toc_timer.toc();
-  }
+double toc()
+{
+  return __tic_toc_timer.toc();
+}
 
-  void toc_print()
-  {
-    __tic_toc_timer.toc_print();
-  }
+void toc_print()
+{
+  __tic_toc_timer.toc_print();
+}
 
-  void pause(double t)
-  {
-    if (t==-1) {
-      std::cout << "(Press enter to continue)" << std::endl;
-      getchar();
-    } else {
-      Real_Timer	T;
-      T.start();
-      while (T.get_time()<t);
-    }
+void pause(double t)
+{
+  if (t == -1) {
+    std::cout << "(Press enter to continue)" << std::endl;
+    getchar();
   }
+  else {
+    Real_Timer T;
+    T.start();
+    while (T.get_time() < t);
+  }
+}
 
 } // namespace itpp

@@ -33,100 +33,101 @@
 #include <itpp/base/vec.h>
 
 
-namespace itpp {
+namespace itpp
+{
 
-  /*!
-    \addtogroup windfunc
-  */
+/*!
+  \addtogroup windfunc
+*/
 
-  /*!\addtogroup windfunc
-    \brief Windowing functions
+/*!\addtogroup windfunc
+  \brief Windowing functions
 
-  */
-  //!@{
+*/
+//!@{
 
-  /*! \brief Hamming window
+/*! \brief Hamming window
 
-  The \c n size Hamming window is a vector \f$w\f$ where the \f$i\f$th component is
+The \c n size Hamming window is a vector \f$w\f$ where the \f$i\f$th component is
+\f[
+w_i = 0.54 - 0.46 \cos(2\pi i/(n-1))
+\f]
+*/
+vec hamming(int size);
+
+
+/*! \brief Hanning window
+
+The \c n size Hanning window is a vector \f$w\f$ where the \f$i\f$th component is
+\f[
+w_i = 0.5(1 - \cos(2\pi (i+1)/(n+1))
+\f]
+
+Observe that this function is not the same as the hann() function which is defined
+as in matlab.
+*/
+vec hanning(int n);
+
+/*! \brief Hanning window compatible with matlab
+
+The \c n size Hanning window is a vector \f$w\f$ where the \f$i\f$th component is
+\f[
+w_i = 0.5(1 - \cos(2\pi i/(n-1))
+\f]
+*/
+vec hann(int n);
+
+
+/*! \brief Blackman window
+
+The \c n size Blackman window is a vector \f$w\f$ where the \f$i\f$th component is
+\f[
+w_i = 0.42 - 0.5\cos(2\pi i/(n-1)) + 0.08\cos(4\pi i/(n-1))
+\f]
+*/
+vec blackman(int n);
+
+/*! \brief Triangular window
+
+
+The \c n size triangle window is a vector \f$w\f$ where the \f$i\f$th component is
+\f[
+w_i = w_{n-i-1} = \frac{2(i+1)}{n+1}
+\f]
+for \c n odd and for \c n even
+\f[
+w_i = w_{n-i-1} = \frac{2i+1}{n}
+\f]
+*/
+vec triang(int n);
+
+/*! \brief Square root window
+
+The square-root of the Triangle window.
+sqrt_win(n) = sqrt(triang(n))
+*/
+vec sqrt_win(int n);
+
+
+/*!
+  \brief Dolph-Chebyshev window
+
+  The length \c n Dolph-Chebyshev window is a vector \f$w\f$ whose \f$i\f$th
+  transform component is given by
   \f[
-  w_i = 0.54 - 0.46 \cos(2\pi i/(n-1))
+  W[k] = \frac{T_M\left(\beta \cos\left(\frac{\pi k}{M}\right)
+  \right)}{T_M(\beta)},k = 0, 1, 2, \ldots, M - 1
   \f]
-  */
-  vec hamming(int size);
+  where \c T_n(x) is the order \c n Chebyshev polynomial of the first kind.
 
+  \param n length of the Doplh-Chebyshev window
+  \param at attenutation of side lobe (in dB)
+  \return symmetric length \c n Doplh-Chebyshev window
 
-  /*! \brief Hanning window
-
-  The \c n size Hanning window is a vector \f$w\f$ where the \f$i\f$th component is
-  \f[
-  w_i = 0.5(1 - \cos(2\pi (i+1)/(n+1))
-  \f]
-
-  Observe that this function is not the same as the hann() function which is defined
-  as in matlab.
-  */
-  vec hanning(int n);
-
-  /*! \brief Hanning window compatible with matlab
-
-  The \c n size Hanning window is a vector \f$w\f$ where the \f$i\f$th component is
-  \f[
-  w_i = 0.5(1 - \cos(2\pi i/(n-1))
-  \f]
-  */
-  vec hann(int n);
-
-
-  /*! \brief Blackman window
-
-  The \c n size Blackman window is a vector \f$w\f$ where the \f$i\f$th component is
-  \f[
-  w_i = 0.42 - 0.5\cos(2\pi i/(n-1)) + 0.08\cos(4\pi i/(n-1))
-  \f]
-  */
-  vec blackman(int n);
-
-  /*! \brief Triangular window
-
-
-  The \c n size triangle window is a vector \f$w\f$ where the \f$i\f$th component is
-  \f[
-  w_i = w_{n-i-1} = \frac{2(i+1)}{n+1}
-  \f]
-  for \c n odd and for \c n even
-  \f[
-  w_i = w_{n-i-1} = \frac{2i+1}{n}
-  \f]
-  */
-  vec triang(int n);
-
-  /*! \brief Square root window
-
-  The square-root of the Triangle window.
-  sqrt_win(n) = sqrt(triang(n))
-  */
-  vec sqrt_win(int n);
-
-
-  /*!
-    \brief Dolph-Chebyshev window
-
-    The length \c n Dolph-Chebyshev window is a vector \f$w\f$ whose \f$i\f$th
-    transform component is given by
-    \f[
-    W[k] = \frac{T_M\left(\beta \cos\left(\frac{\pi k}{M}\right)
-    \right)}{T_M(\beta)},k = 0, 1, 2, \ldots, M - 1
-    \f]
-    where \c T_n(x) is the order \c n Chebyshev polynomial of the first kind.
-
-    \param n length of the Doplh-Chebyshev window
-    \param at attenutation of side lobe (in dB)
-    \return symmetric length \c n Doplh-Chebyshev window
-
-    \author Kumar Appaiah and Adam Piatyszek (code review)
-  */
-  vec chebwin(int n, double at);
-  //!@}
+  \author Kumar Appaiah and Adam Piatyszek (code review)
+*/
+vec chebwin(int n, double at);
+//!@}
 
 
 } //namespace itpp

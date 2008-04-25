@@ -29,51 +29,52 @@
 #include <itpp/protocol/front_drop_queue.h>
 
 
-namespace itpp {
+namespace itpp
+{
 
-	void Front_Drop_Queue::push(Packet *packet)
-	{
-		if (debug) {
-      std::cout << "Front_Drop_Queue::push_packet"
-				//                << " byte_size=" << packet->bit_size()/8
-                << " ptr=" << packet
-                << " time=" << Event_Queue::now() << std::endl;
-		}
+void Front_Drop_Queue::push(Packet *packet)
+{
+  if (debug) {
+    std::cout << "Front_Drop_Queue::push_packet"
+              //                << " byte_size=" << packet->bit_size()/8
+              << " ptr=" << packet
+              << " time=" << Event_Queue::now() << std::endl;
+  }
 
-		Packet *hol_packet;
-		while ((!std::queue<Packet*>::empty()) &&
-					 ((8*bytes_in_queue + packet->bit_size()) >  8*max_bytes_in_queue)) {
-      hol_packet = std::queue<Packet*>::front();
-      Front_Drop_Queue::pop();
-      delete hol_packet;
+  Packet *hol_packet;
+  while ((!std::queue<Packet*>::empty()) &&
+         ((8*bytes_in_queue + packet->bit_size()) >  8*max_bytes_in_queue)) {
+    hol_packet = std::queue<Packet*>::front();
+    Front_Drop_Queue::pop();
+    delete hol_packet;
 
-			//      TTCPPacket *tcp_packet = (TTCPPacket *) hol_packet;
-			//      delete tcp_packet;
+    //      TTCPPacket *tcp_packet = (TTCPPacket *) hol_packet;
+    //      delete tcp_packet;
 
-      if (debug) {
-				std::cout << "Link_With_Input_Q::received_packet, "
-									<< "Packet Dropped, buffer overflow."
-									<< std::endl;
-      }
-		}
+    if (debug) {
+      std::cout << "Link_With_Input_Q::received_packet, "
+                << "Packet Dropped, buffer overflow."
+                << std::endl;
+    }
+  }
 
-		bytes_in_queue += packet->bit_size()/8;
-		std::queue<Packet*>::push(packet);
+  bytes_in_queue += packet->bit_size() / 8;
+  std::queue<Packet*>::push(packet);
 
-	}
+}
 
-	void Front_Drop_Queue::pop()
-	{
-		Packet *hol_packet;
-		hol_packet = std::queue<Packet*>::front();
-		bytes_in_queue -= (hol_packet->bit_size()/8);
-		if (debug) {
-      std::cout << "Front_Drop_Queue::pop_packet"
-                << " ptr=" << hol_packet
-                << " time=" << Event_Queue::now() << std::endl;
-		}
-		std::queue<Packet*>::pop();
+void Front_Drop_Queue::pop()
+{
+  Packet *hol_packet;
+  hol_packet = std::queue<Packet*>::front();
+  bytes_in_queue -= (hol_packet->bit_size() / 8);
+  if (debug) {
+    std::cout << "Front_Drop_Queue::pop_packet"
+              << " ptr=" << hol_packet
+              << " time=" << Event_Queue::now() << std::endl;
+  }
+  std::queue<Packet*>::pop();
 
-	}
+}
 
 } // namespace itpp

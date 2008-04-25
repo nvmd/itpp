@@ -29,28 +29,29 @@
 #include <itpp/comm/interleave.h>
 
 
-namespace itpp {
+namespace itpp
+{
 
-  // ----------------------------------------------------------------------
-  // Instantiations
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+// Instantiations
+// ----------------------------------------------------------------------
 
-  template class Block_Interleaver<double>;
-  template class Block_Interleaver<short>;
-  template class Block_Interleaver<int>;
-  template class Block_Interleaver<std::complex<double> >;
-  template class Block_Interleaver<bin>;
+template class Block_Interleaver<double>;
+template class Block_Interleaver<short>;
+template class Block_Interleaver<int>;
+template class Block_Interleaver<std::complex<double> >;
+template class Block_Interleaver<bin>;
 
-  template class Cross_Interleaver<double>;
-  template class Cross_Interleaver<short>;
-  template class Cross_Interleaver<int>;
-  template class Cross_Interleaver<std::complex<double> >;
-  template class Cross_Interleaver<bin>;
+template class Cross_Interleaver<double>;
+template class Cross_Interleaver<short>;
+template class Cross_Interleaver<int>;
+template class Cross_Interleaver<std::complex<double> >;
+template class Cross_Interleaver<bin>;
 
-  template class Sequence_Interleaver<double>;
-  template class Sequence_Interleaver<short>;
-  template class Sequence_Interleaver<int>;
-  template class Sequence_Interleaver<std::complex<double> >;
-  template class Sequence_Interleaver<bin>;
+template class Sequence_Interleaver<double>;
+template class Sequence_Interleaver<short>;
+template class Sequence_Interleaver<int>;
+template class Sequence_Interleaver<std::complex<double> >;
+template class Sequence_Interleaver<bin>;
 
 } // namespace itpp

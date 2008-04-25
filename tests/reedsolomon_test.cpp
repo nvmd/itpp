@@ -59,21 +59,21 @@ int main()
     cout << "Encoded:         " << c.get_row(i) << endl;
     errorword = f.get_row(i) + c.get_row(i);
     it_assert(y.cols() == length(errorword), "Error 2");
-    y.set_row(i,f.get_row(i) + c.get_row(i));
+    y.set_row(i, f.get_row(i) + c.get_row(i));
     cout << "One error added: " << y.get_row(i) << endl;
-    decoded.set_row(i,rs.decode(y.get_row(i)));
+    decoded.set_row(i, rs.decode(y.get_row(i)));
     cout << "Decoded to:      " << decoded.get_row(i) << endl << endl;
   }
 
   cout << "Systematic case" << endl;
   cout << "---------------" << endl;
   for (int i = 0; i < u.rows(); i++) {
-    c.set_row(i,rs_sys.encode(u.get_row(i)));
+    c.set_row(i, rs_sys.encode(u.get_row(i)));
     cout << "Info word:       " << u.get_row(i) << endl;
     cout << "Encoded:         " << c.get_row(i) << endl;
-    y.set_row(i,f.get_row(i) + c.get_row(i));
+    y.set_row(i, f.get_row(i) + c.get_row(i));
     cout << "One error added: " << y.get_row(i) << endl;
-    decoded.set_row(i,rs_sys.decode(y.get_row(i)));
+    decoded.set_row(i, rs_sys.decode(y.get_row(i)));
     cout << "Decoded to:      " << decoded.get_row(i) << endl << endl;
   }
 

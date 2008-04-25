@@ -39,9 +39,9 @@ int main()
   a = 4;
   b = 2;
 
-  c = a+b;
+  c = a + b;
 
-  cout << "a=" << a <<", b=" << b << endl;
+  cout << "a=" << a << ", b=" << b << endl;
   cout << "c=" << c << endl;
 
   return 0;

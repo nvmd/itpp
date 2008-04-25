@@ -39,7 +39,8 @@ using namespace std;
 
 #ifndef ITFILE_TEST_FILE
 
-int main() {
+int main()
+{
   cerr << "ITFILE_TEST_FILE not defined. Test skipped." << endl;
   return 1;
 }
@@ -77,7 +78,7 @@ int main()
   Array<imat> aim, aim_ref = "{[0 2 3; 0 -1 9; 2 3 -1] [1 10 100] [0 4; -2 3]}";
   Array<mat> am, am_ref = "{[0.5 2e7; 0.5 -0.5] [1e-4 3 4; 0.1 0.2 .3]}";
   Array<cmat> acm, acm_ref = "{[(0,2) (0.5,-0.5); (2,1) (0,0)] "
-    "[(1.1,2) (7,-4e-5); (0,2) (1.5,7.2)]}";
+                             "[(1.1,2) (7,-4e-5); (0,2) (1.5,7.2)]}";
 
 #ifdef SAVE_DATA
   it_file fw;
@@ -120,7 +121,7 @@ int main()
   while (ff.seek(n++)) {
     ff.info(name, type, desc, size);
     cout << setw(4) << name << setw(12) << type << setw(7) << size
-	 << "   " << desc << endl;
+         << "   " << desc << endl;
   }
   cout << "------------------------------------------------\n\n";
 
@@ -151,7 +152,7 @@ int main()
   ff >> Name("v") >> v;
   ff.close();
 
-  cout << "char    : '" << c << "'"<< endl
+  cout << "char    : '" << c << "'" << endl
        << "          '" << c_ref << "'" << endl
        << "bool    : " << bo << endl
        << "          " << bo_ref << endl
@@ -222,7 +223,7 @@ int main()
     ff2.info(name, type, desc, size);
     ff2 >> iv1;
     cout << "Name = " << name << "  Type = " << type << "  Size = " << size
-	 << "  Desc = \"" << desc << "\"  Data = " << iv1 << endl;
+         << "  Desc = \"" << desc << "\"  Data = " << iv1 << endl;
   }
   ff2.close();
 #endif

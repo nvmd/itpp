@@ -13,7 +13,7 @@ int main()
   mat A, B;
 
   //Use the function linspace to define a vector:
-  a = linspace(1.0,2.0,10);
+  a = linspace(1.0, 2.0, 10);
 
   //Use a string of values to define a vector:
   b = "0.1 0.2 0.3 0.4 0.5 0.6 0.7 0.8 0.9 1.0";

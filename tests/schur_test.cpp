@@ -48,15 +48,15 @@ int main()
 
     cout << "A = " << round_to_zero(A) << endl;
     cout << "norm(A - U*T*U^T) = "
-	 << round_to_zero(norm(A - (U * T * transpose(U))), thres) << endl;
+         << round_to_zero(norm(A - (U * T * transpose(U))), thres) << endl;
     cout << "norm(I - U*U^T) = "
-	 << round_to_zero(norm(eye(size) - (U * transpose(U))), thres) << endl;
+         << round_to_zero(norm(eye(size) - (U * transpose(U))), thres) << endl;
     double temp_sum = 0;
     for (int i = 2; i < size; i++)
-      for (int j = 0; j < i-1; j++)
-	temp_sum += sqr(T(i, j));
+      for (int j = 0; j < i - 1; j++)
+        temp_sum += sqr(T(i, j));
     cout << "norm(lower triangular part of T) = "
-	 << round_to_zero(sqrt(temp_sum), thres) << endl;
+         << round_to_zero(sqrt(temp_sum), thres) << endl;
   }
   {
     cout << endl << "Complex matrix" << endl;
@@ -66,17 +66,17 @@ int main()
 
     cout << "A = " << round_to_zero(A) << endl;
     cout << "norm(A - U*T*U^H) = "
-	 << round_to_zero(norm(A - (U * T * hermitian_transpose(U))), thres)
-	 << endl;
+         << round_to_zero(norm(A - (U * T * hermitian_transpose(U))), thres)
+         << endl;
     cout << "norm(I - U*U^H) = "
-	 << round_to_zero(norm(eye(size) - (U * hermitian_transpose(U))), thres)
-	 << endl;
+         << round_to_zero(norm(eye(size) - (U * hermitian_transpose(U))), thres)
+         << endl;
     double temp_sum = 0;
     for (int i = 1; i < size; i++)
       for (int j = 0; j < i; j++)
-	temp_sum += sqr(T(i, j));
+        temp_sum += sqr(T(i, j));
     cout << "norm(lower triangular part of T) = "
-	 << round_to_zero(sqrt(temp_sum), thres) << endl;
+         << round_to_zero(sqrt(temp_sum), thres) << endl;
   }
 
   return 0;

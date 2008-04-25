@@ -29,9 +29,10 @@
 #include <itpp/fixed/fixed.h>
 
 
-namespace itpp {
+namespace itpp
+{
 
-  // Template instantiations
-  template class Fixed<64, TC, WRAP>;
+// Template instantiations
+template class Fixed<64, TC, WRAP>;
 
 } // namespace itpp

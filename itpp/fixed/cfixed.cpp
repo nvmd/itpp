@@ -29,9 +29,10 @@
 #include <itpp/fixed/cfixed.h>
 
 
-namespace itpp {
+namespace itpp
+{
 
-  // Template instantiations
-  template class CFixed<64, TC, WRAP>;
+// Template instantiations
+template class CFixed<64, TC, WRAP>;
 
 } // namespace itpp

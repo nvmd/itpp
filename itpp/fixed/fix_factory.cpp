@@ -31,62 +31,63 @@
 #include <itpp/fixed/cfix.h>
 
 
-namespace itpp {
+namespace itpp
+{
 
-  void Fix_Factory::create(Fix* &ptr, const int n) const
-  {
+void Fix_Factory::create(Fix* &ptr, const int n) const
+{
+  void *p = ::operator new(sizeof(Fix) * n);
+  ptr = reinterpret_cast<Fix*>(p);
+  // Set fixed-point restrictions
+  for (int i = 0; i < n; ++i) {
+    new(ptr + i) Fix(0.0, 0, wordlen, emode, omode, qmode, stat_ptr);
+  }
+}
+
+void Fix_Factory::create(CFix* &ptr, const int n) const
+{
+  void *p = ::operator new(sizeof(CFix) * n);
+  ptr = reinterpret_cast<CFix*>(p);
+  // Set fixed-point restrictions
+  for (int i = 0; i < n; ++i) {
+    new(ptr + i) CFix(0.0, 0, wordlen, emode, omode, qmode, stat_ptr);
+  }
+}
+
+template<>
+void create_elements<Fix>(Fix* &ptr, const int n, const Factory &f)
+{
+  if (const Fix_Factory *fix_factory_ptr = dynamic_cast<const Fix_Factory*>(&f)) {
+    // Yes, f seems to be a Fix_Factory. Now call the Fix_Factory::create method
+    fix_factory_ptr->create(ptr, n);
+  }
+  else {
+    // No, f does not seem to be a Fix_Factory. As a fallback solution,
+    // assume that f is DEFAULT_FACTORY and use the default constructor
     void *p = ::operator new(sizeof(Fix) * n);
     ptr = reinterpret_cast<Fix*>(p);
-    // Set fixed-point restrictions
-    for (int i = 0; i < n; ++i) {
-      new (ptr + i) Fix(0.0, 0, wordlen, emode, omode, qmode, stat_ptr);
+    for (int i = 0; i < n; i++) {
+      new(ptr + i) Fix();
     }
   }
+}
 
-  void Fix_Factory::create(CFix* &ptr, const int n) const
-  {
+template<>
+void create_elements<CFix>(CFix* &ptr, const int n, const Factory &f)
+{
+  if (const Fix_Factory *fix_factory_ptr = dynamic_cast<const Fix_Factory*>(&f)) {
+    // Yes, f seems to be a Fix_Factory. Now call the Fix_Factory::create method
+    fix_factory_ptr->create(ptr, n);
+  }
+  else {
+    // No, f does not seem to be a Fix_Factory. As a fallback solution,
+    // assume that f is DEFAULT_FACTORY and use the default constructor
     void *p = ::operator new(sizeof(CFix) * n);
     ptr = reinterpret_cast<CFix*>(p);
-    // Set fixed-point restrictions
-    for (int i = 0; i < n; ++i) {
-      new (ptr + i) CFix(0.0, 0, wordlen, emode, omode, qmode, stat_ptr);
+    for (int i = 0; i < n; i++) {
+      new(ptr + i) CFix();
     }
   }
-
-  template<>
-  void create_elements<Fix>(Fix* &ptr, const int n, const Factory &f)
-  {
-    if (const Fix_Factory *fix_factory_ptr = dynamic_cast<const Fix_Factory*>(&f)) {
-      // Yes, f seems to be a Fix_Factory. Now call the Fix_Factory::create method
-      fix_factory_ptr->create(ptr, n);
-    }
-    else {
-      // No, f does not seem to be a Fix_Factory. As a fallback solution,
-      // assume that f is DEFAULT_FACTORY and use the default constructor
-      void *p = ::operator new(sizeof(Fix) * n);
-      ptr = reinterpret_cast<Fix*>(p);
-      for (int i = 0; i < n; i++) {
-	new (ptr + i) Fix();
-      }
-    }
-  }
-
-  template<>
-  void create_elements<CFix>(CFix* &ptr, const int n, const Factory &f)
-  {
-    if (const Fix_Factory *fix_factory_ptr = dynamic_cast<const Fix_Factory*>(&f)) {
-      // Yes, f seems to be a Fix_Factory. Now call the Fix_Factory::create method
-      fix_factory_ptr->create(ptr, n);
-    }
-    else {
-      // No, f does not seem to be a Fix_Factory. As a fallback solution,
-      // assume that f is DEFAULT_FACTORY and use the default constructor
-      void *p = ::operator new(sizeof(CFix) * n);
-      ptr = reinterpret_cast<CFix*>(p);
-      for (int i = 0; i < n; i++) {
-	new (ptr + i) CFix();
-      }
-    }
-  }
+}
 
 } // namespace itpp

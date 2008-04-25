@@ -48,24 +48,24 @@ int main()
   cout << "prod(a) = " << prod(a) << endl;
   cout << "sum_sqr(a) = " << sum_sqr(a) << endl << endl;
 
-  mat A = randn(5,5);
+  mat A = randn(5, 5);
   cout << "A = " << A << endl << endl;
 
   cout << "sum(A) = " << sum(A) << endl;
-  cout << "sum(A,1) = " << sum(A,1) << endl;
-  cout << "sum(A,2) = " << sum(A,2) << endl << endl;
+  cout << "sum(A,1) = " << sum(A, 1) << endl;
+  cout << "sum(A,2) = " << sum(A, 2) << endl << endl;
 
   cout << "cumsum(A) = " << cumsum(A) << endl;
-  cout << "cumsum(A,1) = " << cumsum(A,1) << endl;
-  cout << "cumsum(A,2) = " << cumsum(A,2) << endl << endl;
+  cout << "cumsum(A,1) = " << cumsum(A, 1) << endl;
+  cout << "cumsum(A,2) = " << cumsum(A, 2) << endl << endl;
 
   cout << "prod(A) = " << prod(A) << endl;
-  cout << "prod(A,1) = " << prod(A,1) << endl;
-  cout << "prod(A,2) = " << prod(A,2) << endl << endl;
+  cout << "prod(A,1) = " << prod(A, 1) << endl;
+  cout << "prod(A,2) = " << prod(A, 2) << endl << endl;
 
   cout << "sum_sqr(A) = " << sum_sqr(A) << endl;
-  cout << "sum_sqr(A,1) = " << sum_sqr(A,1) << endl;
-  cout << "sum_sqr(A,2) = " << sum_sqr(A,2) << endl << endl;
+  cout << "sum_sqr(A,1) = " << sum_sqr(A, 1) << endl;
+  cout << "sum_sqr(A,2) = " << sum_sqr(A, 2) << endl << endl;
 
   cout << "repmat(a, 1, 3) = " << repmat(a, 1, 3) << endl;
   cout << "repmat(a, 3, 1, true) = " << repmat(a, 3, 1, true) << endl;
@@ -79,7 +79,7 @@ int main()
   cout << "kron(X, Y) = " << kron(X, Y) << endl << endl;
 
   cout << "sqrtm of a real matrix" << endl;
-  A = randn(3,3);
+  A = randn(3, 3);
   cmat A_sqrtm = sqrtm(A);
   cout << "A = " << A << endl;
   cout << "norm(sqrtm(A) * sqrtm(A) - A) = "
@@ -87,20 +87,20 @@ int main()
        << endl << endl;
 
   cout << "sqrtm of a complex matrix" << endl;
-  cmat B = randn_c(3,3);
+  cmat B = randn_c(3, 3);
   cmat B_sqrtm = sqrtm(B);
   cout << "B = " << B << endl;
   cout << "norm(sqrtm(B) * sqrtm(B) - B) = "
        << round_to_zero(norm(B_sqrtm * B_sqrtm - B), 1e-13) << endl << endl;
 
   cout << "Rank test" << endl;
-  A = randn(3,3);
+  A = randn(3, 3);
   cout << "A = " << A << endl;
   cout << "rank(A) = " << rank(A) << endl;
   A.set_row(1, 3.0 * A.get_row(0));
   cout << "A2 = " << A << endl;
   cout << "rank(A2) = " << rank(A) << endl;
-  B = randn_c(3,3);
+  B = randn_c(3, 3);
   cout << "B = " << B << endl;
   cout << "rank(B) = " << rank(B) << endl;
   B.set_col(1, B.get_col(0));

@@ -90,13 +90,12 @@ double chbevl(double x, double array[], int n)
   b1 = 0.0;
   i = n - 1;
 
-  do
-    {
-      b2 = b1;
-      b1 = b0;
-      b0 = x * b1  -  b2  + *p++;
-    }
-  while( --i );
+  do {
+    b2 = b1;
+    b1 = b0;
+    b0 = x * b1  -  b2  + *p++;
+  }
+  while (--i);
 
-  return( 0.5*(b0-b2) );
+  return(0.5*(b0 - b2));
 }

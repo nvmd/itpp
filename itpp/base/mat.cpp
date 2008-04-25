@@ -34,311 +34,312 @@
 
 //! \cond
 
-namespace itpp {
+namespace itpp
+{
 
-  template<>
-  cmat cmat::hermitian_transpose() const
-  {
-    cmat temp(no_cols, no_rows);
-    for (int i=0; i<no_rows; i++)
-      for (int j=0; j<no_cols; j++)
-	temp(j,i) = std::conj(operator()(i,j));
+template<>
+cmat cmat::hermitian_transpose() const
+{
+  cmat temp(no_cols, no_rows);
+  for (int i = 0; i < no_rows; i++)
+    for (int j = 0; j < no_cols; j++)
+      temp(j, i) = std::conj(operator()(i,j));
 
-    return temp;
-  }
+  return temp;
+}
 
 
-  // -------- Multiplication operator -------------
+// -------- Multiplication operator -------------
 
 #if defined(HAVE_BLAS)
 
-  template<>
-  mat& mat::operator*=(const mat &m)
-  {
-    it_assert_debug(no_cols == m.no_rows,"mat::operator*=(): Wrong sizes");
-    mat r(no_rows, m.no_cols); // unnecessary memory??
-    double alpha = 1.0;
-    double beta = 0.0;
-    char trans = 'n';
-    blas::dgemm_(&trans, &trans, &no_rows, &m.no_cols, &no_cols, &alpha, data,
-		 &no_rows, m.data, &m.no_rows, &beta, r.data, &r.no_rows);
-    operator=(r); // time consuming
-    return *this;
-  }
+template<>
+mat& mat::operator*=(const mat &m)
+{
+  it_assert_debug(no_cols == m.no_rows, "mat::operator*=(): Wrong sizes");
+  mat r(no_rows, m.no_cols); // unnecessary memory??
+  double alpha = 1.0;
+  double beta = 0.0;
+  char trans = 'n';
+  blas::dgemm_(&trans, &trans, &no_rows, &m.no_cols, &no_cols, &alpha, data,
+               &no_rows, m.data, &m.no_rows, &beta, r.data, &r.no_rows);
+  operator=(r); // time consuming
+  return *this;
+}
 
-  template<>
-  cmat& cmat::operator*=(const cmat &m)
-  {
-    it_assert_debug(no_cols == m.no_rows,"cmat::operator*=(): Wrong sizes");
-    cmat r(no_rows, m.no_cols); // unnecessary memory??
-    std::complex<double> alpha = std::complex<double>(1.0);
-    std::complex<double> beta = std::complex<double>(0.0);
-    char trans = 'n';
-    blas::zgemm_(&trans, &trans, &no_rows, &m.no_cols, &no_cols, &alpha, data,
-		 &no_rows, m.data, &m.no_rows, &beta, r.data, &r.no_rows);
-    operator=(r); // time consuming
-    return *this;
-  }
+template<>
+cmat& cmat::operator*=(const cmat &m)
+{
+  it_assert_debug(no_cols == m.no_rows, "cmat::operator*=(): Wrong sizes");
+  cmat r(no_rows, m.no_cols); // unnecessary memory??
+  std::complex<double> alpha = std::complex<double>(1.0);
+  std::complex<double> beta = std::complex<double>(0.0);
+  char trans = 'n';
+  blas::zgemm_(&trans, &trans, &no_rows, &m.no_cols, &no_cols, &alpha, data,
+               &no_rows, m.data, &m.no_rows, &beta, r.data, &r.no_rows);
+  operator=(r); // time consuming
+  return *this;
+}
 
-  template<>
-  mat operator*(const mat &m1, const mat &m2)
-  {
-    it_assert_debug(m1.no_cols == m2.no_rows,"mat::operator*(): Wrong sizes");
-    mat r(m1.no_rows, m2.no_cols);
-    double alpha = 1.0;
-    double beta = 0.0;
-    char trans = 'n';
-    blas::dgemm_(&trans, &trans, &m1.no_rows, &m2.no_cols, &m1.no_cols, &alpha,
-		 m1.data, &m1.no_rows, m2.data, &m2.no_rows, &beta, r.data,
-		 &r.no_rows);
-    return r;
-  }
+template<>
+mat operator*(const mat &m1, const mat &m2)
+{
+  it_assert_debug(m1.no_cols == m2.no_rows, "mat::operator*(): Wrong sizes");
+  mat r(m1.no_rows, m2.no_cols);
+  double alpha = 1.0;
+  double beta = 0.0;
+  char trans = 'n';
+  blas::dgemm_(&trans, &trans, &m1.no_rows, &m2.no_cols, &m1.no_cols, &alpha,
+               m1.data, &m1.no_rows, m2.data, &m2.no_rows, &beta, r.data,
+               &r.no_rows);
+  return r;
+}
 
-  template<>
-  cmat operator*(const cmat &m1, const cmat &m2)
-  {
-    it_assert_debug(m1.no_cols == m2.no_rows,"cmat::operator*(): Wrong sizes");
-    cmat r(m1.no_rows, m2.no_cols);
-    std::complex<double> alpha = std::complex<double>(1.0);
-    std::complex<double> beta = std::complex<double>(0.0);
-    char trans = 'n';
-    blas::zgemm_(&trans, &trans, &m1.no_rows, &m2.no_cols, &m1.no_cols, &alpha,
-		 m1.data, &m1.no_rows, m2.data, &m2.no_rows, &beta, r.data,
-		 &r.no_rows);
-    return r;
-  }
+template<>
+cmat operator*(const cmat &m1, const cmat &m2)
+{
+  it_assert_debug(m1.no_cols == m2.no_rows, "cmat::operator*(): Wrong sizes");
+  cmat r(m1.no_rows, m2.no_cols);
+  std::complex<double> alpha = std::complex<double>(1.0);
+  std::complex<double> beta = std::complex<double>(0.0);
+  char trans = 'n';
+  blas::zgemm_(&trans, &trans, &m1.no_rows, &m2.no_cols, &m1.no_cols, &alpha,
+               m1.data, &m1.no_rows, m2.data, &m2.no_rows, &beta, r.data,
+               &r.no_rows);
+  return r;
+}
 
-  template<>
-  vec operator*(const mat &m, const vec &v)
-  {
-    it_assert_debug(m.no_cols == v.size(), "mat::operator*(): Wrong sizes");
-    vec r(m.no_rows);
-    double alpha = 1.0;
-    double beta = 0.0;
-    char trans = 'n';
-    int incr = 1;
-    blas::dgemv_(&trans, &m.no_rows, &m.no_cols, &alpha, m.data, &m.no_rows,
-		 v._data(), &incr, &beta, r._data(), &incr);
-    return r;
-  }
+template<>
+vec operator*(const mat &m, const vec &v)
+{
+  it_assert_debug(m.no_cols == v.size(), "mat::operator*(): Wrong sizes");
+  vec r(m.no_rows);
+  double alpha = 1.0;
+  double beta = 0.0;
+  char trans = 'n';
+  int incr = 1;
+  blas::dgemv_(&trans, &m.no_rows, &m.no_cols, &alpha, m.data, &m.no_rows,
+               v._data(), &incr, &beta, r._data(), &incr);
+  return r;
+}
 
-  template<>
-  cvec operator*(const cmat &m, const cvec &v)
-  {
-    it_assert_debug(m.no_cols == v.size(), "cmat::operator*(): Wrong sizes");
-    cvec r(m.no_rows);
-    std::complex<double> alpha = std::complex<double>(1.0);
-    std::complex<double> beta = std::complex<double>(0.0);
-    char trans = 'n';
-    int incr = 1;
-    blas::zgemv_(&trans, &m.no_rows, &m.no_cols, &alpha, m.data, &m.no_rows,
-		 v._data(), &incr, &beta, r._data(), &incr);
-    return r;
-  }
+template<>
+cvec operator*(const cmat &m, const cvec &v)
+{
+  it_assert_debug(m.no_cols == v.size(), "cmat::operator*(): Wrong sizes");
+  cvec r(m.no_rows);
+  std::complex<double> alpha = std::complex<double>(1.0);
+  std::complex<double> beta = std::complex<double>(0.0);
+  char trans = 'n';
+  int incr = 1;
+  blas::zgemv_(&trans, &m.no_rows, &m.no_cols, &alpha, m.data, &m.no_rows,
+               v._data(), &incr, &beta, r._data(), &incr);
+  return r;
+}
 
 #endif // HAVE_BLAS
 
 
-  //---------------------------------------------------------------------
-  // Instantiations
-  //---------------------------------------------------------------------
+//---------------------------------------------------------------------
+// Instantiations
+//---------------------------------------------------------------------
 
-  // class instantiations
+// class instantiations
 
-  template class Mat<double>;
-  template class Mat<std::complex<double> >;
-  template class Mat<int>;
-  template class Mat<short int>;
-  template class Mat<bin>;
+template class Mat<double>;
+template class Mat<std::complex<double> >;
+template class Mat<int>;
+template class Mat<short int>;
+template class Mat<bin>;
 
-  // addition operators
+// addition operators
 
-  template mat operator+(const mat &m1, const mat &m2);
-  template cmat operator+(const cmat &m1, const cmat &m2);
-  template imat operator+(const imat &m1, const imat &m2);
-  template smat operator+(const smat &m1, const smat &m2);
-  template bmat operator+(const bmat &m1, const bmat &m2);
+template mat operator+(const mat &m1, const mat &m2);
+template cmat operator+(const cmat &m1, const cmat &m2);
+template imat operator+(const imat &m1, const imat &m2);
+template smat operator+(const smat &m1, const smat &m2);
+template bmat operator+(const bmat &m1, const bmat &m2);
 
-  template mat operator+(const mat &m, double t);
-  template cmat operator+(const cmat &m, std::complex<double> t);
-  template imat operator+(const imat &m, int t);
-  template smat operator+(const smat &m, short t);
-  template bmat operator+(const bmat &m, bin t);
+template mat operator+(const mat &m, double t);
+template cmat operator+(const cmat &m, std::complex<double> t);
+template imat operator+(const imat &m, int t);
+template smat operator+(const smat &m, short t);
+template bmat operator+(const bmat &m, bin t);
 
-  template mat operator+(double t, const mat &m);
-  template cmat operator+(std::complex<double> t, const cmat &m);
-  template imat operator+(int t, const imat &m);
-  template smat operator+(short t, const smat &m);
-  template bmat operator+(bin t, const bmat &m);
+template mat operator+(double t, const mat &m);
+template cmat operator+(std::complex<double> t, const cmat &m);
+template imat operator+(int t, const imat &m);
+template smat operator+(short t, const smat &m);
+template bmat operator+(bin t, const bmat &m);
 
-  // subraction operators
+// subraction operators
 
-  template mat operator-(const mat &m1, const mat &m2);
-  template cmat operator-(const cmat &m1, const cmat &m2);
-  template imat operator-(const imat &m1, const imat &m2);
-  template smat operator-(const smat &m1, const smat &m2);
-  template bmat operator-(const bmat &m1, const bmat &m2);
+template mat operator-(const mat &m1, const mat &m2);
+template cmat operator-(const cmat &m1, const cmat &m2);
+template imat operator-(const imat &m1, const imat &m2);
+template smat operator-(const smat &m1, const smat &m2);
+template bmat operator-(const bmat &m1, const bmat &m2);
 
-  template mat operator-(const mat &m, double t);
-  template cmat operator-(const cmat &m, std::complex<double> t);
-  template imat operator-(const imat &m, int t);
-  template smat operator-(const smat &m, short t);
-  template bmat operator-(const bmat &m, bin t);
+template mat operator-(const mat &m, double t);
+template cmat operator-(const cmat &m, std::complex<double> t);
+template imat operator-(const imat &m, int t);
+template smat operator-(const smat &m, short t);
+template bmat operator-(const bmat &m, bin t);
 
-  template mat operator-(double t, const mat &m);
-  template cmat operator-(std::complex<double> t, const cmat &m);
-  template imat operator-(int t, const imat &m);
-  template smat operator-(short t, const smat &m);
-  template bmat operator-(bin t, const bmat &m);
+template mat operator-(double t, const mat &m);
+template cmat operator-(std::complex<double> t, const cmat &m);
+template imat operator-(int t, const imat &m);
+template smat operator-(short t, const smat &m);
+template bmat operator-(bin t, const bmat &m);
 
-  // unary minus
+// unary minus
 
-  template mat operator-(const mat &m);
-  template cmat operator-(const cmat &m);
-  template imat operator-(const imat &m);
-  template smat operator-(const smat &m);
-  template bmat operator-(const bmat &m);
+template mat operator-(const mat &m);
+template cmat operator-(const cmat &m);
+template imat operator-(const imat &m);
+template smat operator-(const smat &m);
+template bmat operator-(const bmat &m);
 
-  // multiplication operators
-
-#if !defined(HAVE_BLAS)
-  template mat operator*(const mat &m1, const mat &m2);
-  template cmat operator*(const cmat &m1, const cmat &m2);
-#endif
-  template imat operator*(const imat &m1, const imat &m2);
-  template smat operator*(const smat &m1, const smat &m2);
-  template bmat operator*(const bmat &m1, const bmat &m2);
+// multiplication operators
 
 #if !defined(HAVE_BLAS)
-  template vec operator*(const mat &m, const vec &v);
-  template cvec operator*(const cmat &m, const cvec &v);
+template mat operator*(const mat &m1, const mat &m2);
+template cmat operator*(const cmat &m1, const cmat &m2);
 #endif
-  template ivec operator*(const imat &m, const ivec &v);
-  template svec operator*(const smat &m, const svec &v);
-  template bvec operator*(const bmat &m, const bvec &v);
+template imat operator*(const imat &m1, const imat &m2);
+template smat operator*(const smat &m1, const smat &m2);
+template bmat operator*(const bmat &m1, const bmat &m2);
 
-  template mat operator*(const mat &m, double t);
-  template cmat operator*(const cmat &m, std::complex<double> t);
-  template imat operator*(const imat &m, int t);
-  template smat operator*(const smat &m, short t);
-  template bmat operator*(const bmat &m, bin t);
+#if !defined(HAVE_BLAS)
+template vec operator*(const mat &m, const vec &v);
+template cvec operator*(const cmat &m, const cvec &v);
+#endif
+template ivec operator*(const imat &m, const ivec &v);
+template svec operator*(const smat &m, const svec &v);
+template bvec operator*(const bmat &m, const bvec &v);
 
-  template mat operator*(double t, const mat &m);
-  template cmat operator*(std::complex<double> t, const cmat &m);
-  template imat operator*(int t, const imat &m);
-  template smat operator*(short t, const smat &m);
-  template bmat operator*(bin t, const bmat &m);
+template mat operator*(const mat &m, double t);
+template cmat operator*(const cmat &m, std::complex<double> t);
+template imat operator*(const imat &m, int t);
+template smat operator*(const smat &m, short t);
+template bmat operator*(const bmat &m, bin t);
 
-  // elementwise multiplication
+template mat operator*(double t, const mat &m);
+template cmat operator*(std::complex<double> t, const cmat &m);
+template imat operator*(int t, const imat &m);
+template smat operator*(short t, const smat &m);
+template bmat operator*(bin t, const bmat &m);
 
-  template mat elem_mult(const mat &m1, const mat &m2);
-  template cmat elem_mult(const cmat &m1, const cmat &m2);
-  template imat elem_mult(const imat &m1, const imat &m2);
-  template smat elem_mult(const smat &m1, const smat &m2);
-  template bmat elem_mult(const bmat &m1, const bmat &m2);
+// elementwise multiplication
 
-  template void elem_mult_out(const mat &m1, const mat &m2, mat &out);
-  template void elem_mult_out(const cmat &m1, const cmat &m2, cmat &out);
-  template void elem_mult_out(const imat &m1, const imat &m2, imat &out);
-  template void elem_mult_out(const smat &m1, const smat &m2, smat &out);
-  template void elem_mult_out(const bmat &m1, const bmat &m2, bmat &out);
+template mat elem_mult(const mat &m1, const mat &m2);
+template cmat elem_mult(const cmat &m1, const cmat &m2);
+template imat elem_mult(const imat &m1, const imat &m2);
+template smat elem_mult(const smat &m1, const smat &m2);
+template bmat elem_mult(const bmat &m1, const bmat &m2);
 
-  template void elem_mult_out(const mat &m1, const mat &m2,
-                              const mat &m3, mat &out);
-  template void elem_mult_out(const cmat &m1, const cmat &m2,
-                              const cmat &m3, cmat &out);
-  template void elem_mult_out(const imat &m1, const imat &m2,
-                              const imat &m3, imat &out);
-  template void elem_mult_out(const smat &m1, const smat &m2,
-                              const smat &m3, smat &out);
-  template void elem_mult_out(const bmat &m1, const bmat &m2,
-                              const bmat &m3, bmat &out);
+template void elem_mult_out(const mat &m1, const mat &m2, mat &out);
+template void elem_mult_out(const cmat &m1, const cmat &m2, cmat &out);
+template void elem_mult_out(const imat &m1, const imat &m2, imat &out);
+template void elem_mult_out(const smat &m1, const smat &m2, smat &out);
+template void elem_mult_out(const bmat &m1, const bmat &m2, bmat &out);
 
-  template void elem_mult_out(const mat &m1, const mat &m2, const mat &m3,
-                              const mat &m4, mat &out);
-  template void elem_mult_out(const cmat &m1, const cmat &m2,
-                              const cmat &m3, const cmat &m4, cmat &out);
-  template void elem_mult_out(const imat &m1, const imat &m2,
-                              const imat &m3, const imat &m4, imat &out);
-  template void elem_mult_out(const smat &m1, const smat &m2,
-                              const smat &m3, const smat &m4, smat &out);
-  template void elem_mult_out(const bmat &m1, const bmat &m2,
-                              const bmat &m3, const bmat &m4, bmat &out);
+template void elem_mult_out(const mat &m1, const mat &m2,
+                            const mat &m3, mat &out);
+template void elem_mult_out(const cmat &m1, const cmat &m2,
+                            const cmat &m3, cmat &out);
+template void elem_mult_out(const imat &m1, const imat &m2,
+                            const imat &m3, imat &out);
+template void elem_mult_out(const smat &m1, const smat &m2,
+                            const smat &m3, smat &out);
+template void elem_mult_out(const bmat &m1, const bmat &m2,
+                            const bmat &m3, bmat &out);
 
-  template void elem_mult_inplace(const mat &m1, mat &m2);
-  template void elem_mult_inplace(const cmat &m1, cmat &m2);
-  template void elem_mult_inplace(const imat &m1, imat &m2);
-  template void elem_mult_inplace(const smat &m1, smat &m2);
-  template void elem_mult_inplace(const bmat &m1, bmat &m2);
+template void elem_mult_out(const mat &m1, const mat &m2, const mat &m3,
+                            const mat &m4, mat &out);
+template void elem_mult_out(const cmat &m1, const cmat &m2,
+                            const cmat &m3, const cmat &m4, cmat &out);
+template void elem_mult_out(const imat &m1, const imat &m2,
+                            const imat &m3, const imat &m4, imat &out);
+template void elem_mult_out(const smat &m1, const smat &m2,
+                            const smat &m3, const smat &m4, smat &out);
+template void elem_mult_out(const bmat &m1, const bmat &m2,
+                            const bmat &m3, const bmat &m4, bmat &out);
 
-  template double elem_mult_sum(const mat &m1, const mat &m2);
-  template std::complex<double> elem_mult_sum(const cmat &m1, const cmat &m2);
-  template int elem_mult_sum(const imat &m1, const imat &m2);
-  template short elem_mult_sum(const smat &m1, const smat &m2);
-  template bin elem_mult_sum(const bmat &m1, const bmat &m2);
+template void elem_mult_inplace(const mat &m1, mat &m2);
+template void elem_mult_inplace(const cmat &m1, cmat &m2);
+template void elem_mult_inplace(const imat &m1, imat &m2);
+template void elem_mult_inplace(const smat &m1, smat &m2);
+template void elem_mult_inplace(const bmat &m1, bmat &m2);
 
-  // division operator
+template double elem_mult_sum(const mat &m1, const mat &m2);
+template std::complex<double> elem_mult_sum(const cmat &m1, const cmat &m2);
+template int elem_mult_sum(const imat &m1, const imat &m2);
+template short elem_mult_sum(const smat &m1, const smat &m2);
+template bin elem_mult_sum(const bmat &m1, const bmat &m2);
 
-  template mat operator/(double t, const mat &m);
-  template cmat operator/(std::complex<double> t, const cmat &m);
-  template imat operator/(int t, const imat &m);
-  template smat operator/(short t, const smat &m);
-  template bmat operator/(bin t, const bmat &m);
+// division operator
 
-  template mat operator/(const mat &m, double t);
-  template cmat operator/(const cmat &m, std::complex<double> t);
-  template imat operator/(const imat &m, int t);
-  template smat operator/(const smat &m, short t);
-  template bmat operator/(const bmat &m, bin t);
+template mat operator/(double t, const mat &m);
+template cmat operator/(std::complex<double> t, const cmat &m);
+template imat operator/(int t, const imat &m);
+template smat operator/(short t, const smat &m);
+template bmat operator/(bin t, const bmat &m);
 
-  // elementwise division
+template mat operator/(const mat &m, double t);
+template cmat operator/(const cmat &m, std::complex<double> t);
+template imat operator/(const imat &m, int t);
+template smat operator/(const smat &m, short t);
+template bmat operator/(const bmat &m, bin t);
 
-  template mat elem_div(const mat &m1, const mat &m2);
-  template cmat elem_div(const cmat &m1, const cmat &m2);
-  template imat elem_div(const imat &m1, const imat &m2);
-  template smat elem_div(const smat &m1, const smat &m2);
-  template bmat elem_div(const bmat &m1, const bmat &m2);
+// elementwise division
 
-  template void elem_div_out(const mat &m1, const mat &m2, mat &out);
-  template void elem_div_out(const cmat &m1, const cmat &m2, cmat &out);
-  template void elem_div_out(const imat &m1, const imat &m2, imat &out);
-  template void elem_div_out(const smat &m1, const smat &m2, smat &out);
-  template void elem_div_out(const bmat &m1, const bmat &m2, bmat &out);
+template mat elem_div(const mat &m1, const mat &m2);
+template cmat elem_div(const cmat &m1, const cmat &m2);
+template imat elem_div(const imat &m1, const imat &m2);
+template smat elem_div(const smat &m1, const smat &m2);
+template bmat elem_div(const bmat &m1, const bmat &m2);
 
-  template double elem_div_sum(const mat &m1, const mat &m2);
-  template std::complex<double> elem_div_sum(const cmat &m1,
-                                                    const cmat &m2);
-  template int elem_div_sum(const imat &m1, const imat &m2);
-  template short elem_div_sum(const smat &m1, const smat &m2);
-  template bin elem_div_sum(const bmat &m1, const bmat &m2);
+template void elem_div_out(const mat &m1, const mat &m2, mat &out);
+template void elem_div_out(const cmat &m1, const cmat &m2, cmat &out);
+template void elem_div_out(const imat &m1, const imat &m2, imat &out);
+template void elem_div_out(const smat &m1, const smat &m2, smat &out);
+template void elem_div_out(const bmat &m1, const bmat &m2, bmat &out);
 
-  // concatenation
+template double elem_div_sum(const mat &m1, const mat &m2);
+template std::complex<double> elem_div_sum(const cmat &m1,
+    const cmat &m2);
+template int elem_div_sum(const imat &m1, const imat &m2);
+template short elem_div_sum(const smat &m1, const smat &m2);
+template bin elem_div_sum(const bmat &m1, const bmat &m2);
 
-  template mat concat_horizontal(const mat &m1, const mat &m2);
-  template cmat concat_horizontal(const cmat &m1, const cmat &m2);
-  template imat concat_horizontal(const imat &m1, const imat &m2);
-  template smat concat_horizontal(const smat &m1, const smat &m2);
-  template bmat concat_horizontal(const bmat &m1, const bmat &m2);
+// concatenation
 
-  template mat concat_vertical(const mat &m1, const mat &m2);
-  template cmat concat_vertical(const cmat &m1, const cmat &m2);
-  template imat concat_vertical(const imat &m1, const imat &m2);
-  template smat concat_vertical(const smat &m1, const smat &m2);
-  template bmat concat_vertical(const bmat &m1, const bmat &m2);
+template mat concat_horizontal(const mat &m1, const mat &m2);
+template cmat concat_horizontal(const cmat &m1, const cmat &m2);
+template imat concat_horizontal(const imat &m1, const imat &m2);
+template smat concat_horizontal(const smat &m1, const smat &m2);
+template bmat concat_horizontal(const bmat &m1, const bmat &m2);
 
-  // I/O streams
+template mat concat_vertical(const mat &m1, const mat &m2);
+template cmat concat_vertical(const cmat &m1, const cmat &m2);
+template imat concat_vertical(const imat &m1, const imat &m2);
+template smat concat_vertical(const smat &m1, const smat &m2);
+template bmat concat_vertical(const bmat &m1, const bmat &m2);
 
-  template std::ostream &operator<<(std::ostream &os, const mat  &m);
-  template std::ostream &operator<<(std::ostream &os, const cmat &m);
-  template std::ostream &operator<<(std::ostream &os, const imat  &m);
-  template std::ostream &operator<<(std::ostream &os, const smat  &m);
-  template std::ostream &operator<<(std::ostream &os, const bmat  &m);
+// I/O streams
 
-  template std::istream &operator>>(std::istream &is, mat  &m);
-  template std::istream &operator>>(std::istream &is, cmat &m);
-  template std::istream &operator>>(std::istream &is, imat  &m);
-  template std::istream &operator>>(std::istream &is, smat  &m);
-  template std::istream &operator>>(std::istream &is, bmat  &m);
+template std::ostream &operator<<(std::ostream &os, const mat  &m);
+template std::ostream &operator<<(std::ostream &os, const cmat &m);
+template std::ostream &operator<<(std::ostream &os, const imat  &m);
+template std::ostream &operator<<(std::ostream &os, const smat  &m);
+template std::ostream &operator<<(std::ostream &os, const bmat  &m);
+
+template std::istream &operator>>(std::istream &is, mat  &m);
+template std::istream &operator>>(std::istream &is, cmat &m);
+template std::istream &operator>>(std::istream &is, imat  &m);
+template std::istream &operator>>(std::istream &is, smat  &m);
+template std::istream &operator>>(std::istream &is, bmat  &m);
 
 } // namespace itpp
 

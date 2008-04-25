@@ -50,14 +50,18 @@ int main()
 
   // Filter coefficients
   vec b(10);
-  b.ones(); b(0)+= 0.1;
+  b.ones();
+  b(0) += 0.1;
   cvec cb(10);
-  cb.ones(); cb(0)+= 0.1;
+  cb.ones();
+  cb(0) += 0.1;
 
   cvec ca(2);
-  ca(0) = 1.0; ca(1) = -1.0;
+  ca(0) = 1.0;
+  ca(1) = -1.0;
   vec a(2);
-  a(0) = 1.0; a(1) = -1.0;
+  a(0) = 1.0;
+  a(1) = -1.0;
 
   cout << "Filter coefficients: " << endl;
   cout << "b = " << b << endl;
@@ -74,9 +78,9 @@ int main()
   cout << endl << "-----------------------------------------------" << endl;
   cout << "MA Filter: " << endl;
 
-  MA_Filter<double,double,double> H(b);
-  MA_Filter<complex<double>,double,complex<double> > CH(b);
-  MA_Filter<complex<double>,complex<double>,complex<double> > C(cb);
+  MA_Filter<double, double, double> H(b);
+  MA_Filter<complex<double>, double, complex<double> > CH(b);
+  MA_Filter<complex<double>, complex<double>, complex<double> > C(cb);
 
   y = H(x);
   s1 = H.get_state();
@@ -124,9 +128,9 @@ int main()
   cout << endl << "-----------------------------------------------" << endl;
   cout << "AR Filter: " << endl;
 
-  AR_Filter<double,double,double> HAR(a);
-  AR_Filter<complex<double>,double,complex<double> > CHAR(a);
-  AR_Filter<complex<double>,complex<double>,complex<double> > CAR(ca);
+  AR_Filter<double, double, double> HAR(a);
+  AR_Filter<complex<double>, double, complex<double> > CHAR(a);
+  AR_Filter<complex<double>, complex<double>, complex<double> > CAR(ca);
 
   y = HAR(x);
   s1 = HAR.get_state();
@@ -161,7 +165,7 @@ int main()
   cy = CAR(cx);
   cout << "cy = " << cy << endl;
 
-  y =  filter(1,a,x);
+  y =  filter(1, a, x);
   cout << "y = " << y << endl;
 
   cy =  filter(1, a, cx);
@@ -174,9 +178,9 @@ int main()
   cout << endl << "-----------------------------------------------" << endl;
   cout << "ARMA Filter: " << endl;
 
-  ARMA_Filter<double,double,double> HARMA(b, a);
-  ARMA_Filter<complex<double>,double,complex<double> > CHARMA(b, a);
-  ARMA_Filter<complex<double>,complex<double>,complex<double> > CARMA(cb, ca);
+  ARMA_Filter<double, double, double> HARMA(b, a);
+  ARMA_Filter<complex<double>, double, complex<double> > CHARMA(b, a);
+  ARMA_Filter<complex<double>, complex<double>, complex<double> > CARMA(cb, ca);
 
   y = HARMA(x);
   s1 = HARMA.get_state();

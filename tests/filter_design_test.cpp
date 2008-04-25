@@ -83,8 +83,8 @@ int main()
   }
   {
     cout << "Yulewalk filter design" << endl;
-    vec f="0 0.5 0.6 1";
-    vec m="1 1 0 0";
+    vec f = "0 0.5 0.6 1";
+    vec m = "1 1 0 0";
     vec a, b, R;
 
     cout << "f = " << f << endl;
@@ -100,8 +100,8 @@ int main()
     cout << "b = " << b << endl;
 
     vec n = "0:1:256";
-    double fd=0.1;
-    R = besselj(0, 2*pi*fd*n);
+    double fd = 0.1;
+    R = besselj(0, 2 * pi * fd * n);
     cout << "R = " << R << endl;
     arma_estimator(8, 8, R, b, a);
     cout << "arma_estimator(8, 8, R, b, a): " << endl;

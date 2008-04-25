@@ -40,7 +40,7 @@ int main()
   x(0) = 1;
 
   // Define a filter object for doubles
-  Freq_Filt<double> FF(b,x.length());
+  Freq_Filt<double> FF(b, x.length());
 
   // Filter the data
   vec y = FF.filter(x);
@@ -55,12 +55,12 @@ int main()
   cout << round_to_zero(y) << endl;
 
   // Test streaming mode
-  x = linspace(0,10,100);
-  Freq_Filt<double> FFS(b,x.length());
-  vec y1 = FFS.filter(x(0,49),1);
-  vec y2 = FFS.filter(x(50,99),1);
+  x = linspace(0, 10, 100);
+  Freq_Filt<double> FFS(b, x.length());
+  vec y1 = FFS.filter(x(0, 49), 1);
+  vec y2 = FFS.filter(x(50, 99), 1);
 
-  cout << round_to_zero(concat(y1,y2)) << endl;
+  cout << round_to_zero(concat(y1, y2)) << endl;
 
   return 0;
 }

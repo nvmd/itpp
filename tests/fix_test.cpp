@@ -49,14 +49,14 @@ int main()
   cout << "For double and complex<double>:" << endl;
   double real_value(3.14159265358979323846);
   cout << "  real_value = " << real_value << endl;
-  complex<double> complex_value(100.0/3.0, 200.0/3.0);
+  complex<double> complex_value(100.0 / 3.0, 200.0 / 3.0);
   cout << "  complex_value = " << complex_value << endl;
 
   cout << "For Fix and CFix:" << endl;
   Fix the_fix(real_value, shift, wordlen, emode, omode, qmode, stat_ptr);
   cout << "  the_fix = " << double(the_fix) << endl;
   CFix the_cfix(complex_value, 0.0, shift, wordlen, emode, omode, qmode,
-		stat_ptr);
+                stat_ptr);
   cout << "  the_cfix = " << complex<double>(the_cfix) << endl;
 
   cout << "For Fixed and CFixed:" << endl;

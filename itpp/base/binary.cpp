@@ -30,22 +30,23 @@
 #include <iostream>
 
 
-namespace itpp {
+namespace itpp
+{
 
-  std::ostream &operator<<(std::ostream &output, const bin &inbin)
-  {
-    output << static_cast<int>(inbin);
-    return output;
-  }
+std::ostream &operator<<(std::ostream &output, const bin &inbin)
+{
+  output << static_cast<int>(inbin);
+  return output;
+}
 
-  std::istream &operator>>(std::istream &input, bin &outbin)
-  {
-    int tmp;
-    input >> tmp;
-    it_assert((tmp == 0) || (tmp == 1),
-              "bin::operator>>(): input value must be 0 or 1");
-    outbin = tmp;
-    return input;
-  }
+std::istream &operator>>(std::istream &input, bin &outbin)
+{
+  int tmp;
+  input >> tmp;
+  it_assert((tmp == 0) || (tmp == 1),
+            "bin::operator>>(): input value must be 0 or 1");
+  outbin = tmp;
+  return input;
+}
 
 } // namespace itpp

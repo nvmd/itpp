@@ -35,18 +35,18 @@ int main()
 {
   cout << graycode(5) << endl;
 
-  bvec b1=randb(10);
-  bvec b2=randb(10);
-  cout << hamming_distance(b1,b2) << endl;
+  bvec b1 = randb(10);
+  bvec b2 = randb(10);
+  cout << hamming_distance(b1, b2) << endl;
 
   cout << weight(b1) << endl;
 
-  cout << waterfilling("1 2 3",0.001) << endl;
-  cout << waterfilling("1 2 3",0.01) << endl;
-  cout << waterfilling("1 2 3",0.1) << endl;
-  cout << waterfilling("1 2 3",0.5) << endl;
-  cout << waterfilling("1 2 3",1) << endl;
-  cout << waterfilling("1 2 3",5) << endl;
-  cout << waterfilling("1 2 3",100) << endl;
+  cout << waterfilling("1 2 3", 0.001) << endl;
+  cout << waterfilling("1 2 3", 0.01) << endl;
+  cout << waterfilling("1 2 3", 0.1) << endl;
+  cout << waterfilling("1 2 3", 0.5) << endl;
+  cout << waterfilling("1 2 3", 1) << endl;
+  cout << waterfilling("1 2 3", 5) << endl;
+  cout << waterfilling("1 2 3", 100) << endl;
   return 0;
 }
