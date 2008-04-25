@@ -36,9 +36,9 @@ using namespace std;
 #define LOOP_SIZE 100000
 #define THRESHOLD 1e-13
 
-#define REALRUN(name,s)					\
-  for (int i = 0; i < LOOP_SIZE; i++)			\
-    real_result(i) = s();				\
+#define REALRUN(name,s)     \
+  for (int i = 0; i < LOOP_SIZE; i++)   \
+    real_result(i) = s();    \
   show(name, mean(real_result), variance(real_result));
 
 
@@ -52,11 +52,11 @@ void show(const char *name, double sm, double sv)
 
 int main()
 {
-  Sine_Source      s10(20.0/LOOP_SIZE);
-  Square_Source    s11(20.0/LOOP_SIZE);
-  Triangle_Source  s12(20.0/LOOP_SIZE);
-  Sawtooth_Source  s13(20.0/LOOP_SIZE);
-  Impulse_Source   s14(20.0/LOOP_SIZE);
+  Sine_Source      s10(20.0 / LOOP_SIZE);
+  Square_Source    s11(20.0 / LOOP_SIZE);
+  Triangle_Source  s12(20.0 / LOOP_SIZE);
+  Sawtooth_Source  s13(20.0 / LOOP_SIZE);
+  Impulse_Source   s14(20.0 / LOOP_SIZE);
   Pattern_Source   s15(vec("1 3"));
 
   RNG_reset(12345);

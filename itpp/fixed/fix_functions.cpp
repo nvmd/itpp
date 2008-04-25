@@ -30,76 +30,77 @@
 #include <itpp/fixed/fix_functions.h>
 
 
-namespace itpp {
+namespace itpp
+{
 
-  vec to_vec(const fixvec &v)
-  {
-    vec temp(v.length());
-    for (int i=0; i<v.length(); i++) {
-      temp(i) = v(i).unfix();
+vec to_vec(const fixvec &v)
+{
+  vec temp(v.length());
+  for (int i = 0; i < v.length(); i++) {
+    temp(i) = v(i).unfix();
+  }
+  return temp;
+}
+
+cvec to_cvec(const cfixvec &v)
+{
+  cvec temp(v.length());
+  for (int i = 0; i < v.length(); i++) {
+    temp(i) = v(i).unfix();
+  }
+  return temp;
+}
+
+mat to_mat(const fixmat &m)
+{
+  mat temp(m.rows(), m.cols());
+  for (int i = 0; i < m.rows(); i++) {
+    for (int j = 0; j < m.cols(); j++) {
+      temp(i, j) = m(i, j).unfix();
     }
-    return temp;
   }
+  return temp;
+}
 
-  cvec to_cvec(const cfixvec &v)
-  {
-    cvec temp(v.length());
-    for (int i=0; i<v.length(); i++) {
-      temp(i) = v(i).unfix();
+cmat to_cmat(const cfixmat &m)
+{
+  cmat temp(m.rows(), m.cols());
+  for (int i = 0; i < m.rows(); i++) {
+    for (int j = 0; j < m.cols(); j++) {
+      temp(i, j) = m(i, j).unfix();
     }
-    return temp;
   }
+  return temp;
+}
 
-  mat to_mat(const fixmat &m)
-  {
-    mat temp(m.rows(), m.cols());
-    for (int i=0; i<m.rows(); i++) {
-      for (int j=0; j<m.cols(); j++) {
-        temp(i,j) = m(i,j).unfix();
-      }
-    }
-    return temp;
-  }
+Fix abs(const Fix &x)
+{
+  fixrep tmp = x.get_re();
+  return Fix((tmp >= 0 ? tmp : -tmp),  // Risk for overflow!
+             x.get_shift(),
+             0, 0);
+}
 
-  cmat to_cmat(const cfixmat &m)
-  {
-    cmat temp(m.rows(), m.cols());
-    for (int i=0; i<m.rows(); i++) {
-      for (int j=0; j<m.cols(); j++) {
-        temp(i,j) = m(i,j).unfix();
-      }
-    }
-    return temp;
-  }
+Fix real(const CFix &x)
+{
+  return Fix(x.get_re(),
+             x.get_shift(),
+             0, 0);
+}
 
-  Fix abs(const Fix &x)
-  {
-    fixrep tmp = x.get_re();
-    return Fix((tmp >= 0 ? tmp : -tmp),  // Risk for overflow!
-               x.get_shift(),
-               0, 0);
-  }
+Fix imag(const CFix &x)
+{
+  return Fix(x.get_im(),
+             x.get_shift(),
+             0, 0);
+}
 
-  Fix real(const CFix &x)
-  {
-    return Fix(x.get_re(),
-               x.get_shift(),
-               0, 0);
-  }
-
-  Fix imag(const CFix &x)
-  {
-    return Fix(x.get_im(),
-               x.get_shift(),
-               0, 0);
-  }
-
-  CFix conj(const CFix &x)
-  {
-    return CFix(x.get_re(),
-                -x.get_im(),
-                x.get_shift(),
-                0, 0);
-  }
+CFix conj(const CFix &x)
+{
+  return CFix(x.get_re(),
+              -x.get_im(),
+              x.get_shift(),
+              0, 0);
+}
 
 } // namespace itpp

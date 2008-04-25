@@ -49,10 +49,10 @@ void display_pdf(Histogram<double>& hist)
        << endl;
   for (int i = 0; i < exp_pdf.length(); i++) {
     int num_asterisks = static_cast<int>(exp_pdf(i) * max_asterisks_per_line
-					 / pdf_max);
+                                         / pdf_max);
     cout << setw(5) << setprecision(1) << round_to_zero(hist.get_bin_center(i))
-	 << " | " << setw(5) << hist.get_bin(i) << " | "
-	 << setw(7) << setprecision(5) << round_to_zero(exp_pdf(i)) << " | ";
+         << " | " << setw(5) << hist.get_bin(i) << " | "
+         << setw(7) << setprecision(5) << round_to_zero(exp_pdf(i)) << " | ";
     for (int j = 0; j < num_asterisks; j++) {
       cout << "*";
     }
@@ -93,7 +93,7 @@ int main()
   // compute histogram for a random vector
   int num_stat_trials = 50000;
 
-  cout << "Experimental PDF of "<< num_stat_trials
+  cout << "Experimental PDF of " << num_stat_trials
        << " normal distributed random variables:" << endl << endl;
 
   // compute histogram for random vector
@@ -106,7 +106,7 @@ int main()
   vec exp_cdf = hist.get_cdf();
   for (int i = 0; i < exp_cdf.length(); i++)
     cout << "CDF(" << setw(5) << setprecision(2) << hist.get_bin_right(i)
-	 << ") = " << setw(6) << setprecision(4) << exp_cdf(i) << endl;
+         << ") = " << setw(6) << setprecision(4) << exp_cdf(i) << endl;
 
   return 0;
 }

@@ -26,16 +26,16 @@ int main()
   cout << "RS t: " << t << endl;
 
   //Classes:
-  Reed_Solomon reed_solomon(m,t);
+  Reed_Solomon reed_solomon(m, t);
   BSC bsc(p);
   BERC berc;
 
   RNG_randomize();
 
   //Calculate parameters for the Reed-Solomon Code:
-  n = round_i(pow(2.0,m)-1);
-  k = round_i(pow(2.0,m))-1-2*t;
-  q = round_i(pow(2.0,m));
+  n = round_i(pow(2.0, m) - 1);
+  k = round_i(pow(2.0, m)) - 1 - 2 * t;
+  q = round_i(pow(2.0, m));
 
   cout << "Simulating an Reed-Solomon code with the following parameters:" << endl;
   cout << "n = " << n << endl;
@@ -48,7 +48,7 @@ int main()
   received_bits = bsc(coded_bits);
   decoded_bits = reed_solomon.decode(received_bits);
 
-  berc.count(uncoded_bits,decoded_bits);
+  berc.count(uncoded_bits, decoded_bits);
   cout << "The bit error probability after decoding is " << berc.get_errorrate() << endl;
 
   //Exit program:

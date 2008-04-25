@@ -87,7 +87,7 @@
 */
 
 
-double hyp2f0 ( double, double, double, int, double * );
+double hyp2f0(double, double, double, int, double *);
 static double hy1f1p(double, double, double, double *);
 static double hy1f1a(double, double, double, double *);
 
@@ -100,37 +100,36 @@ double hyperg(double a, double b, double x)
 
   /* See if a Kummer transformation will help */
   temp = b - a;
-  if( fabs(temp) < 0.001 * fabs(a) )
-    return( exp(x) * hyperg( temp, b, -x )  );
+  if (fabs(temp) < 0.001 * fabs(a))
+    return(exp(x) * hyperg(temp, b, -x));
 
 
-  psum = hy1f1p( a, b, x, &pcanc );
-  if( pcanc < 1.0e-15 )
+  psum = hy1f1p(a, b, x, &pcanc);
+  if (pcanc < 1.0e-15)
     goto done;
 
 
   /* try asymptotic series */
 
-  asum = hy1f1a( a, b, x, &acanc );
+  asum = hy1f1a(a, b, x, &acanc);
 
 
   /* Pick the result with less estimated error */
 
-  if( acanc < pcanc )
-    {
-      pcanc = acanc;
-      psum = asum;
-    }
+  if (acanc < pcanc) {
+    pcanc = acanc;
+    psum = asum;
+  }
 
- done:
-  if( pcanc > 1.0e-12 )
+done:
+  if (pcanc > 1.0e-12)
     it_warning("hyperg(): partial loss of precision");
 
-  return( psum );
+  return(psum);
 }
 
 
-/* Power series summation for confluent hypergeometric function	*/
+/* Power series summation for confluent hypergeometric function */
 static double hy1f1p(double a, double b, double x, double *err)
 {
   double n, a0, sum, t, u, temp;
@@ -147,61 +146,58 @@ static double hy1f1p(double a, double b, double x, double *err)
   maxt = 0.0;
 
 
-  while( t > MACHEP )
-    {
-      if( bn == 0 )			/* check bn first since if both	*/
-	{
-	  it_warning("hy1f1p(): function singularity");
-	  return( MAXNUM );	/* an and bn are zero it is	*/
-	}
-      if( an == 0 )			/* a singularity		*/
-	return( sum );
-      if( n > 200 )
-	goto pdone;
-      u = x * ( an / (bn * n) );
+  while (t > MACHEP) {
+    if (bn == 0) {  /* check bn first since if both */
+      it_warning("hy1f1p(): function singularity");
+      return(MAXNUM);   /* an and bn are zero it is */
+    }
+    if (an == 0)    /* a singularity  */
+      return(sum);
+    if (n > 200)
+      goto pdone;
+    u = x * (an / (bn * n));
 
-      /* check for blowup */
-      temp = fabs(u);
-      if( (temp > 1.0 ) && (maxt > (MAXNUM/temp)) )
-	{
-	  pcanc = 1.0;	/* estimate 100% error */
-	  goto blowup;
-	}
-
-      a0 *= u;
-      sum += a0;
-      t = fabs(a0);
-      if( t > maxt )
-	maxt = t;
-      /*
-	if( (maxt/fabs(sum)) > 1.0e17 )
-	{
-	pcanc = 1.0;
-	goto blowup;
-	}
-      */
-      an += 1.0;
-      bn += 1.0;
-      n += 1.0;
+    /* check for blowup */
+    temp = fabs(u);
+    if ((temp > 1.0) && (maxt > (MAXNUM / temp))) {
+      pcanc = 1.0; /* estimate 100% error */
+      goto blowup;
     }
 
- pdone:
+    a0 *= u;
+    sum += a0;
+    t = fabs(a0);
+    if (t > maxt)
+      maxt = t;
+    /*
+    if( (maxt/fabs(sum)) > 1.0e17 )
+    {
+    pcanc = 1.0;
+    goto blowup;
+    }
+    */
+    an += 1.0;
+    bn += 1.0;
+    n += 1.0;
+  }
+
+pdone:
 
   /* estimate error due to roundoff and cancellation */
-  if( sum != 0.0 )
+  if (sum != 0.0)
     maxt /= fabs(sum);
-  maxt *= MACHEP; 	/* this way avoids multiply overflow */
-  pcanc = fabs( MACHEP * n  +  maxt );
+  maxt *= MACHEP;  /* this way avoids multiply overflow */
+  pcanc = fabs(MACHEP * n  +  maxt);
 
- blowup:
+blowup:
 
   *err = pcanc;
 
-  return( sum );
+  return(sum);
 }
 
 
-/*							hy1f1a()	*/
+/*       hy1f1a() */
 /* asymptotic formula for hypergeometric function:
  *
  *        (    -a
@@ -222,40 +218,38 @@ static double hy1f1a(double a, double b, double x, double *err)
 {
   double h1, h2, t, u, temp, acanc, asum, err1, err2;
 
-  if( x == 0 )
-    {
-      acanc = 1.0;
-      asum = MAXNUM;
-      goto adone;
-    }
-  temp = log( fabs(x) );
-  t = x + temp * (a-b);
+  if (x == 0) {
+    acanc = 1.0;
+    asum = MAXNUM;
+    goto adone;
+  }
+  temp = log(fabs(x));
+  t = x + temp * (a - b);
   u = -temp * a;
 
-  if( b > 0 )
-    {
-      temp = lgam(b);
-      t += temp;
-      u += temp;
-    }
+  if (b > 0) {
+    temp = lgam(b);
+    t += temp;
+    u += temp;
+  }
 
-  h1 = hyp2f0( a, a-b+1, -1.0/x, 1, &err1 );
+  h1 = hyp2f0(a, a - b + 1, -1.0 / x, 1, &err1);
 
-  temp = exp(u) / gam(b-a);
+  temp = exp(u) / gam(b - a);
   h1 *= temp;
   err1 *= temp;
 
-  h2 = hyp2f0( b-a, 1.0-a, 1.0/x, 2, &err2 );
+  h2 = hyp2f0(b - a, 1.0 - a, 1.0 / x, 2, &err2);
 
-  if( a < 0 )
+  if (a < 0)
     temp = exp(t) / gam(a);
   else
-    temp = exp( t - lgam(a) );
+    temp = exp(t - lgam(a));
 
   h2 *= temp;
   err2 *= temp;
 
-  if( x < 0.0 )
+  if (x < 0.0)
     asum = h1;
   else
     asum = h2;
@@ -263,25 +257,24 @@ static double hy1f1a(double a, double b, double x, double *err)
   acanc = fabs(err1) + fabs(err2);
 
 
-  if( b < 0 )
-    {
-      temp = gam(b);
-      asum *= temp;
-      acanc *= fabs(temp);
-    }
+  if (b < 0) {
+    temp = gam(b);
+    asum *= temp;
+    acanc *= fabs(temp);
+  }
 
 
-  if( asum != 0.0 )
+  if (asum != 0.0)
     acanc /= fabs(asum);
 
-  acanc *= 30.0;	/* fudge factor, since error of asymptotic formula
-			 * often seems this much larger than advertised */
+  acanc *= 30.0; /* fudge factor, since error of asymptotic formula
+    * often seems this much larger than advertised */
 
- adone:
+adone:
 
 
   *err = acanc;
-  return( asum );
+  return(asum);
 }
 
 
@@ -300,84 +293,82 @@ double hyp2f0(double a, double b, double x, int type, double *err)
   tlast = 1.0e9;
   maxt = 0.0;
 
-  do
-    {
-      if( an == 0 )
-	goto pdone;
-      if( bn == 0 )
-	goto pdone;
+  do {
+    if (an == 0)
+      goto pdone;
+    if (bn == 0)
+      goto pdone;
 
-      u = an * (bn * x / n);
+    u = an * (bn * x / n);
 
-      /* check for blowup */
-      temp = fabs(u);
-      if( (temp > 1.0 ) && (maxt > (MAXNUM/temp)) )
-	goto error;
+    /* check for blowup */
+    temp = fabs(u);
+    if ((temp > 1.0) && (maxt > (MAXNUM / temp)))
+      goto error;
 
-      a0 *= u;
-      t = fabs(a0);
+    a0 *= u;
+    t = fabs(a0);
 
-      /* terminating condition for asymptotic series */
-      if( t > tlast )
-	goto ndone;
+    /* terminating condition for asymptotic series */
+    if (t > tlast)
+      goto ndone;
 
-      tlast = t;
-      sum += alast;	/* the sum is one term behind */
-      alast = a0;
+    tlast = t;
+    sum += alast; /* the sum is one term behind */
+    alast = a0;
 
-      if( n > 200 )
-	goto ndone;
+    if (n > 200)
+      goto ndone;
 
-      an += 1.0e0;
-      bn += 1.0e0;
-      n += 1.0e0;
-      if( t > maxt )
-	maxt = t;
-    }
-  while( t > MACHEP );
+    an += 1.0e0;
+    bn += 1.0e0;
+    n += 1.0e0;
+    if (t > maxt)
+      maxt = t;
+  }
+  while (t > MACHEP);
 
 
- pdone:	/* series converged! */
+pdone: /* series converged! */
 
   /* estimate error due to roundoff and cancellation */
-  *err = fabs(  MACHEP * (n + maxt)  );
+  *err = fabs(MACHEP * (n + maxt));
 
   alast = a0;
   goto done;
 
- ndone:	/* series did not converge */
+ndone: /* series did not converge */
 
   /* The following "Converging factors" are supposed to improve accuracy,
    * but do not actually seem to accomplish very much. */
 
   n -= 1.0;
-  x = 1.0/x;
+  x = 1.0 / x;
 
-  switch( type )	/* "type" given as subroutine argument */
-    {
-    case 1:
-      alast *= ( 0.5 + (0.125 + 0.25*b - 0.5*a + 0.25*x - 0.25*n)/x );
-      break;
+  switch (type) { /* "type" given as subroutine argument */
+  case 1:
+    alast *= (0.5 + (0.125 + 0.25 * b - 0.5 * a + 0.25 * x - 0.25 * n) / x);
+    break;
 
-    case 2:
-      alast *= 2.0/3.0 - b + 2.0*a + x - n;
-      break;
+  case 2:
+    alast *= 2.0 / 3.0 - b + 2.0 * a + x - n;
+    break;
 
-    default:
-      ;
-    }
+  default:
+    ;
+  }
 
   /* estimate error due to roundoff, cancellation, and nonconvergence */
-  *err = MACHEP * (n + maxt)  +  fabs ( a0 );
+  *err = MACHEP * (n + maxt)  +  fabs(a0);
 
 
- done:
+done:
   sum += alast;
-  return( sum );
+  return(sum);
 
   /* series blew up: */
- error:
+error:
   *err = MAXNUM;
   it_warning("hy1f1a(): total loss of precision");
-  return( sum );
+  return(sum);
 }

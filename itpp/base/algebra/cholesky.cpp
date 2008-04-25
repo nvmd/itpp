@@ -39,82 +39,83 @@
 #include <itpp/base/algebra/cholesky.h>
 
 
-namespace itpp {
+namespace itpp
+{
 
 #if defined(HAVE_LAPACK)
 
-  bool chol(const mat &X, mat &F)
-  {
+bool chol(const mat &X, mat &F)
+{
 
-    char uplo='U';
-    int n, lda, info;
-    n = lda = X.rows();
+  char uplo = 'U';
+  int n, lda, info;
+  n = lda = X.rows();
 
-    F = X; // input matrix is overwritten
+  F = X; // input matrix is overwritten
 
-    dpotrf_(&uplo, &n, F._data(), &lda, &info);
+  dpotrf_(&uplo, &n, F._data(), &lda, &info);
 
-    // Set lower part to zero
-    for (int i=0; i<n; i++)
-      for(int j=i+1; j<n; j++)
-	F(j,i) = 0;
+  // Set lower part to zero
+  for (int i = 0; i < n; i++)
+    for (int j = i + 1; j < n; j++)
+      F(j, i) = 0;
 
-    return (info==0);
-  }
+  return (info == 0);
+}
 
-  bool chol(const cmat &X, cmat &F)
-  {
-    char uplo='U';
-    int n, lda, info;
-    n = lda = X.rows();
+bool chol(const cmat &X, cmat &F)
+{
+  char uplo = 'U';
+  int n, lda, info;
+  n = lda = X.rows();
 
-    F = X; // input matrix is overwritten
+  F = X; // input matrix is overwritten
 
-    zpotrf_(&uplo, &n, F._data(), &lda, &info);
+  zpotrf_(&uplo, &n, F._data(), &lda, &info);
 
-    // Set lower part to zero
-    for (int i=0; i<n; i++)
-      for(int j=i+1; j<n; j++)
-	F(j,i) = 0;
+  // Set lower part to zero
+  for (int i = 0; i < n; i++)
+    for (int j = i + 1; j < n; j++)
+      F(j, i) = 0;
 
-    return (info==0);
-  }
+  return (info == 0);
+}
 
 #else // HAVE_LAPACK
 
-  bool chol(const mat &X, mat &F)
-  {
-    it_error("LAPACK library is needed to use chol() function");
-    return false;
-  }
+bool chol(const mat &X, mat &F)
+{
+  it_error("LAPACK library is needed to use chol() function");
+  return false;
+}
 
-  bool chol(const cmat &X, cmat &F)
-  {
+bool chol(const cmat &X, cmat &F)
+{
 
-    it_error("LAPACK library is needed to use chol() function");
-    return false;
-  }
+  it_error("LAPACK library is needed to use chol() function");
+  return false;
+}
 
 #endif // HAVE_LAPACK
 
-  cmat chol(const cmat &X)
-  {
-    cmat F;
-    if (!chol(X, F)) {
-      it_warning("cholesky factorization didn't succeed");
-    }
-
-    return F;
+cmat chol(const cmat &X)
+{
+  cmat F;
+  if (!chol(X, F)) {
+    it_warning("cholesky factorization didn't succeed");
   }
 
-  mat chol(const mat &X)
-  {
-    mat F;
-    if (!chol(X, F)) {
-      it_warning("cholesky factorization didn't succeed");
-    }
+  return F;
+}
 
-    return F;
+mat chol(const mat &X)
+{
+  mat F;
+  if (!chol(X, F)) {
+    it_warning("cholesky factorization didn't succeed");
   }
+
+  return F;
+}
 
 } // namespace itpp

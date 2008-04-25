@@ -48,15 +48,15 @@ int main()
       X = transpose(X) * X; // create a symmetric matrix
       // Make diagonal real and positive
       for (int i = 0; i < X.cols(); i++)
-	X(i, i) = std::abs(X(i, i));
+        X(i, i) = std::abs(X(i, i));
 
       ok = chol(X, F);
       cout << "X = " << round_to_zero(X) << endl;
       if (!ok)
-	cout << "matrix is not positive definite" << endl;
+        cout << "matrix is not positive definite" << endl;
       else {
-	cout << "norm(X - F^T*F) = "
-	     << round_to_zero(norm(X - transpose(F) * F)) << endl;
+        cout << "norm(X - F^T*F) = "
+             << round_to_zero(norm(X - transpose(F) * F)) << endl;
       }
     }
   }
@@ -71,16 +71,16 @@ int main()
       X = hermitian_transpose(X) * X; // create a symmetric matrix
       // Make diagonal real and positive
       for (int i = 0; i < X.cols(); i++)
-	X(i, i) = std::abs(real(X(i, i)))
-	  ;
+        X(i, i) = std::abs(real(X(i, i)))
+                  ;
       ok = chol(X, F);
       cout << "X = " << round_to_zero(X) << endl;
 
       if (!ok)
-	cout << "matrix is not positive definite" << endl;
+        cout << "matrix is not positive definite" << endl;
       else {
-	cout << "norm(X - F^H*F) = "
-	     << round_to_zero(norm(X - hermitian_transpose(F) * F)) << endl;
+        cout << "norm(X - F^H*F) = "
+             << round_to_zero(norm(X - hermitian_transpose(F) * F)) << endl;
       }
     }
   }

@@ -31,131 +31,132 @@
 #include <itpp/base/converters.h>
 
 
-namespace itpp {
+namespace itpp
+{
 
-  Hamming_Code::Hamming_Code(short m)
-  {
-    n = pow2i(m) - 1;
-    k = pow2i(m) - m - 1;
-    H.set_size(n-k, n);
-    G.set_size(k, n);
-    generate_H(); // generate_H must be run before generate_G
-    generate_G();
+Hamming_Code::Hamming_Code(short m)
+{
+  n = pow2i(m) - 1;
+  k = pow2i(m) - m - 1;
+  H.set_size(n - k, n);
+  G.set_size(k, n);
+  generate_H(); // generate_H must be run before generate_G
+  generate_G();
+}
+
+void Hamming_Code::generate_H(void)
+{
+  short i, j, NextPos;
+  char NotUsed;
+  bvec temp;
+  svec indexes(n);
+  indexes.zeros();
+
+  for (i = 1; i <= n - k; i++) { indexes(i - 1) = pow2i(n - k - i); }
+  NextPos = n - k;
+  for (i = 1; i <= n; i++) {
+    NotUsed = 1;
+    for (j = 0; j < n; j++)
+      if (i == indexes(j)) { NotUsed = 0; }
+    if (NotUsed) { indexes(NextPos) = i; NextPos = NextPos + 1; }
   }
 
-  void Hamming_Code::generate_H(void)
-  {
-    short i, j, NextPos;
-    char NotUsed;
-    bvec temp;
-    svec indexes(n);
-    indexes.zeros();
-
-    for (i=1; i<=n-k; i++) { indexes(i-1) = pow2i(n-k-i); }
-    NextPos = n-k;
-    for (i=1; i<=n; i++) {
-      NotUsed = 1;
-      for (j=0; j<n; j++)
-	if (i == indexes(j)) { NotUsed = 0; }
-      if (NotUsed) { indexes(NextPos) = i; NextPos = NextPos + 1; }
-    }
-
-    for (i=0; i<n; i++) {
-      temp = dec2bin(n-k,indexes(i)); //<-CHECK THIS OUT!!!!
-      for (j = 0; j < (n-k); j++) {
-	H(j,i) = temp(j);
-      }
-    }
-  }
-
-  void Hamming_Code::generate_G(void)
-  {
-    short i, j;
-    for (i=0; i<k; i++) {
-      for(j=0; j<n-k; j++)
-	G(i,j) = H(j,i+n-k);
-    }
-
-    for (i=0; i<k; i++) {
-      for (j=n-k; j<n; j++)
-	G(i,j) = 0;
-    }
-
-    for (i=0; i<k; i++)
-      G(i,i+n-k) = 1;
-  }
-
-  void Hamming_Code::encode(const bvec &uncoded_bits, bvec &coded_bits)
-  {
-    int length = uncoded_bits.length();
-    int Itterations = floor_i(static_cast<double>(length) / k);
-    bmat Gt = G.T();
-    int i;
-
-    coded_bits.set_size(Itterations * n, false);
-    //Code all codewords
-    for (i=0; i<Itterations; i++)
-      coded_bits.replace_mid(n*i, Gt * uncoded_bits.mid(i*k,k) );
-  }
-
-  bvec Hamming_Code::encode(const bvec &uncoded_bits)
-  {
-    bvec coded_bits;
-    encode(uncoded_bits, coded_bits);
-    return coded_bits;
-  }
-
-  void Hamming_Code::decode(const bvec &coded_bits, bvec &decoded_bits)
-  {
-    int length = coded_bits.length();
-    int Itterations = floor_i(static_cast<double>(length) / n);
-    svec Hindexes(n);
-    bvec temp(n-k);
-    bvec coded(n), syndrome(n-k);
-    short  isynd, errorpos=0;
-    int i, j;
-
-    decoded_bits.set_size(Itterations*k, false);
-
-    for (i=0; i<n; i++) {
-      for (j=0; j<n-k; j++)
-	temp(j) = H(j,i);
-      Hindexes(i) = bin2dec(temp);
-    }
-
-    //Decode all codewords
-    for (i=0; i<Itterations; i++) {
-      coded = coded_bits.mid(i*n,n);
-      syndrome = H * coded;
-      isynd = bin2dec(syndrome);
-      if (isynd != 0) {
-	for (j=0; j<n; j++)
-	  if (Hindexes(j) == isynd) { errorpos = j; };
-	coded(errorpos) += 1;
-      }
-      decoded_bits.replace_mid(k*i,coded.right(k));
+  for (i = 0; i < n; i++) {
+    temp = dec2bin(n - k, indexes(i)); //<-CHECK THIS OUT!!!!
+    for (j = 0; j < (n - k); j++) {
+      H(j, i) = temp(j);
     }
   }
+}
 
-  bvec Hamming_Code::decode(const bvec &coded_bits)
-  {
-    bvec decoded_bits;
-    decode(coded_bits, decoded_bits);
-    return decoded_bits;
+void Hamming_Code::generate_G(void)
+{
+  short i, j;
+  for (i = 0; i < k; i++) {
+    for (j = 0; j < n - k; j++)
+      G(i, j) = H(j, i + n - k);
   }
 
-
-  // -------------- Soft-decision decoding is not implemented ----------------
-  void Hamming_Code::decode(const vec &received_signal, bvec &output)
-  {
-    it_error("Hamming_Code::decode(vec, bvec); soft-decision decoding is not implemented");
+  for (i = 0; i < k; i++) {
+    for (j = n - k; j < n; j++)
+      G(i, j) = 0;
   }
 
-  bvec Hamming_Code::decode(const vec &received_signal)
-  {
-    it_error("Hamming_Code::decode(vec, bvec); soft-decision decoding is not implemented");
-    return bvec();
+  for (i = 0; i < k; i++)
+    G(i, i + n - k) = 1;
+}
+
+void Hamming_Code::encode(const bvec &uncoded_bits, bvec &coded_bits)
+{
+  int length = uncoded_bits.length();
+  int Itterations = floor_i(static_cast<double>(length) / k);
+  bmat Gt = G.T();
+  int i;
+
+  coded_bits.set_size(Itterations * n, false);
+  //Code all codewords
+  for (i = 0; i < Itterations; i++)
+    coded_bits.replace_mid(n*i, Gt * uncoded_bits.mid(i*k, k));
+}
+
+bvec Hamming_Code::encode(const bvec &uncoded_bits)
+{
+  bvec coded_bits;
+  encode(uncoded_bits, coded_bits);
+  return coded_bits;
+}
+
+void Hamming_Code::decode(const bvec &coded_bits, bvec &decoded_bits)
+{
+  int length = coded_bits.length();
+  int Itterations = floor_i(static_cast<double>(length) / n);
+  svec Hindexes(n);
+  bvec temp(n - k);
+  bvec coded(n), syndrome(n - k);
+  short  isynd, errorpos = 0;
+  int i, j;
+
+  decoded_bits.set_size(Itterations*k, false);
+
+  for (i = 0; i < n; i++) {
+    for (j = 0; j < n - k; j++)
+      temp(j) = H(j, i);
+    Hindexes(i) = bin2dec(temp);
   }
+
+  //Decode all codewords
+  for (i = 0; i < Itterations; i++) {
+    coded = coded_bits.mid(i * n, n);
+    syndrome = H * coded;
+    isynd = bin2dec(syndrome);
+    if (isynd != 0) {
+      for (j = 0; j < n; j++)
+        if (Hindexes(j) == isynd) { errorpos = j; };
+      coded(errorpos) += 1;
+    }
+    decoded_bits.replace_mid(k*i, coded.right(k));
+  }
+}
+
+bvec Hamming_Code::decode(const bvec &coded_bits)
+{
+  bvec decoded_bits;
+  decode(coded_bits, decoded_bits);
+  return decoded_bits;
+}
+
+
+// -------------- Soft-decision decoding is not implemented ----------------
+void Hamming_Code::decode(const vec &received_signal, bvec &output)
+{
+  it_error("Hamming_Code::decode(vec, bvec); soft-decision decoding is not implemented");
+}
+
+bvec Hamming_Code::decode(const vec &received_signal)
+{
+  it_error("Hamming_Code::decode(vec, bvec); soft-decision decoding is not implemented");
+  return bvec();
+}
 
 
 } // namespace itpp

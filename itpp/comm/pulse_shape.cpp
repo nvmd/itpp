@@ -29,22 +29,23 @@
 #include <itpp/comm/pulse_shape.h>
 
 
-namespace itpp {
+namespace itpp
+{
 
-  // ----------------------------------------------------------------------
-  // Instantiations
-  // ----------------------------------------------------------------------
+// ----------------------------------------------------------------------
+// Instantiations
+// ----------------------------------------------------------------------
 
-  template class Pulse_Shape<double, double, double>;
-  template class Pulse_Shape<std::complex<double>, double,
-                             std::complex<double> >;
-  template class Pulse_Shape<std::complex<double>, std::complex<double>,
-                             std::complex<double> >;
+template class Pulse_Shape<double, double, double>;
+template class Pulse_Shape < std::complex<double>, double,
+std::complex<double> >;
+template class Pulse_Shape < std::complex<double>, std::complex<double>,
+std::complex<double> >;
 
-  template class Root_Raised_Cosine<double>;
-  template class Root_Raised_Cosine<std::complex<double> >;
+template class Root_Raised_Cosine<double>;
+template class Root_Raised_Cosine<std::complex<double> >;
 
-  template class Raised_Cosine<double>;
-  template class Raised_Cosine<std::complex<double> >;
+template class Raised_Cosine<double>;
+template class Raised_Cosine<std::complex<double> >;
 
 } // namespace itpp

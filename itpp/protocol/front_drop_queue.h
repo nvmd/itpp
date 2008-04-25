@@ -33,51 +33,53 @@
 #include <itpp/protocol/events.h>
 
 
-namespace itpp {
+namespace itpp
+{
 
-  //! \addtogroup protocol
-  //@{
+//! \addtogroup protocol
+//@{
 
-  //! ADD DOCUMENTATION HERE
+//! ADD DOCUMENTATION HERE
 #define DEFAULT_MAX_BYTES_IN_QUEUE 24000
 
+//! ADD DOCUMENTATION HERE
+class Front_Drop_Queue : public virtual std::queue<Packet*>
+{
+public:
   //! ADD DOCUMENTATION HERE
-  class Front_Drop_Queue : public virtual std::queue<Packet*> {
-  public:
-    //! ADD DOCUMENTATION HERE
-    Front_Drop_Queue(const int max_bytes = DEFAULT_MAX_BYTES_IN_QUEUE)  {
-      max_bytes_in_queue = max_bytes;
-      bytes_in_queue = 0;
-      debug=false;
-    }
+  Front_Drop_Queue(const int max_bytes = DEFAULT_MAX_BYTES_IN_QUEUE)  {
+    max_bytes_in_queue = max_bytes;
+    bytes_in_queue = 0;
+    debug = false;
+  }
 
-    // TODO destructor
-    //  ~FrontDropQueue() { }
+  // TODO destructor
+  //  ~FrontDropQueue() { }
 
-    //! ADD DOCUMENTATION HERE
-    void set_debug(const bool enable_debug = true) {
-      debug = enable_debug;
-    }
+  //! ADD DOCUMENTATION HERE
+  void set_debug(const bool enable_debug = true) {
+    debug = enable_debug;
+  }
 
-    //! ADD DOCUMENTATION HERE
-    void push(Packet *packet);
-    //! ADD DOCUMENTATION HERE
-    void pop();
+  //! ADD DOCUMENTATION HERE
+  void push(Packet *packet);
+  //! ADD DOCUMENTATION HERE
+  void pop();
 
-    //! ADD DOCUMENTATION HERE
-    void set_max_byte_size(int max_bytes) { max_bytes_in_queue = max_bytes; }
-    //! ADD DOCUMENTATION HERE
-    int max_byte_size() { return max_bytes_in_queue; }
-    //! ADD DOCUMENTATION HERE
-    int byte_size() { return bytes_in_queue; }
+  //! ADD DOCUMENTATION HERE
+  void set_max_byte_size(int max_bytes) { max_bytes_in_queue = max_bytes; }
+  //! ADD DOCUMENTATION HERE
+  int max_byte_size() { return max_bytes_in_queue; }
+  //! ADD DOCUMENTATION HERE
+  int byte_size() { return bytes_in_queue; }
 
-  private:
-    int max_bytes_in_queue;
-    int bytes_in_queue;
-    int debug;
-  };
+private:
+  int max_bytes_in_queue;
+  int bytes_in_queue;
+  int debug;
+};
 
-  //@}
+//@}
 
 } // namespace itpp
 

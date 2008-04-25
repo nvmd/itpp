@@ -34,7 +34,7 @@ using namespace std;
 
 template <typename T>
 void common_operators(const Mat<T> &A, const Mat<T> &B, const Mat<T> &C,
-		      const Vec<T> &u, const Vec<T> &v, T c)
+                      const Vec<T> &u, const Vec<T> &v, T c)
 {
   cout.setf(ios::fixed);
   cout.precision(4);
@@ -47,23 +47,23 @@ void common_operators(const Mat<T> &A, const Mat<T> &B, const Mat<T> &C,
   cout << "c = " << c << endl << endl;
 
   // indexing
-  cout << "A(1,2) = " << A(1,2) << endl;
-  cout << "A(2,3) = " << A(2,3) << endl;
+  cout << "A(1,2) = " << A(1, 2) << endl;
+  cout << "A(2,3) = " << A(2, 3) << endl;
   cout << "A(6) = " << A(6) << endl;
-  cout << "A(0,2,1,3) =\n" << A(0,2,1,3) << endl;
+  cout << "A(0,2,1,3) =\n" << A(0, 2, 1, 3) << endl;
   cout << "A.get_row(1) = " << A.get_row(1) << endl;
-  cout << "A.get_rows(1,2) =\n" << A.get_rows(1,2) << endl;
+  cout << "A.get_rows(1,2) =\n" << A.get_rows(1, 2) << endl;
   cout << "A.get_col(2) = " << A.get_col(2) << endl;
-  cout << "A.get_cols(2,3) =\n" << A.get_cols(2,3) << endl << endl;
+  cout << "A.get_cols(2,3) =\n" << A.get_cols(2, 3) << endl << endl;
 
   // setting, copying, swapping
   Mat<T> Mv(v);
   cout << "Mv(A) =\n" << Mv << endl;
   Mat<T> D(A);
   cout << "D(A) =\n" << D << endl;
-  D.set_size(6,5, true);
+  D.set_size(6, 5, true);
   cout << "D.set_size(6,5, true); D =\n" << D << endl;
-  D.set_size(3,2, true);
+  D.set_size(3, 2, true);
   cout << "D.set_size(3,2, true); D =\n" << D << endl;
   D.zeros();
   cout << "D.zeros(); D =\n" << D << endl;
@@ -71,19 +71,19 @@ void common_operators(const Mat<T> &A, const Mat<T> &B, const Mat<T> &C,
   cout << "D.ones(); D =\n" << D << endl;
   D = A;
   cout << "D = A; D =\n" << D << endl;
-  D(2,2) = c;
+  D(2, 2) = c;
   cout << "D(2,2) = c; D =\n" << D << endl;
   D(9) = c;
   cout << "D(7) = c; D =\n" << D << endl;
-  D.set(0,1, c);
+  D.set(0, 1, c);
   cout << "D.set(0,1, c); D =\n" << D << endl;
   D.set_row(1, v);
   cout << "D.set_row(1, v); D =\n" << D << endl;
   D.set_col(2, u);
   cout << "D.set_col(2, u): D =\n" << D << endl;
-  D.set_rows(0, B.get_rows(1,2));
+  D.set_rows(0, B.get_rows(1, 2));
   cout << "D.set_rows(0, B.get_rows(1,2)); D =\n" << D << endl;
-  D.set_cols(2, B.get_cols(0,1));
+  D.set_cols(2, B.get_cols(0, 1));
   cout << "D.set_cols(2, B.get_cols(0,1)); D =\n" << D << endl;
   D.copy_row(1, 2);
   cout << "D.copy_row(1, 2); D =\n" << D << endl;
@@ -93,11 +93,11 @@ void common_operators(const Mat<T> &A, const Mat<T> &B, const Mat<T> &C,
   cout << "D.swap_rows(0, 2); D =\n" << D << endl;
   D.swap_cols(0, 3);
   cout << "D.swap_cols(0, 3); D =\n" << D << endl;
-  D.set_submatrix(1,2, A(0,1,0,1));
+  D.set_submatrix(1, 2, A(0, 1, 0, 1));
   cout << "D.set_submatrix(1,2, A(0,1,0,1); D =\n" << D << endl;
-  D.set_submatrix(0,0, A(0,1,0,1));
+  D.set_submatrix(0, 0, A(0, 1, 0, 1));
   cout << "D.set_submatrix(0,0, A(0,1,0,1); D =\n" << D << endl;
-  D.set_submatrix(1,2,2,3, c);
+  D.set_submatrix(1, 2, 2, 3, c);
   cout << "D.set_submatrix(1,2,2,3, c); D =\n" << D << endl << endl;
 
   // transposition
@@ -106,19 +106,19 @@ void common_operators(const Mat<T> &A, const Mat<T> &B, const Mat<T> &C,
   cout << "A.H() =\n" << A.H() << endl << endl;
 
   // concatenation
-  D = concat_horizontal(A,B);
+  D = concat_horizontal(A, B);
   cout << "D = concat_horizontal(A,B); D =\n" << D << endl;
-  D = concat_vertical(A,B);
+  D = concat_vertical(A, B);
   cout << "D = concat_vertical(A,B); D =\n" << D << endl << endl;
 
   // deleting rows, cols
   D.del_row(2);
   cout << "D.del_row(2); D =\n" << D << endl;
-  D.del_rows(0,2);
+  D.del_rows(0, 2);
   cout << "D.del_rows(0,2); D =\n" << D << endl;
   D.del_col(3);
   cout << "D.del_col(3); D =\n" << D << endl;
-  D.del_cols(0,1);
+  D.del_cols(0, 1);
   cout << "D.del_cols(0,1); D =\n" << D << endl << endl;
 
   // inserting, appending rows cols
@@ -133,50 +133,59 @@ void common_operators(const Mat<T> &A, const Mat<T> &B, const Mat<T> &C,
   cout << "A.append_row(A2.get_row(0)); A =\n" << A2 << endl << endl;
 
   // addition
-  cout << "A+B =\n" << A+B << endl;
-  cout << "A+c =\n" << A+c << endl;
-  cout << "c+A =\n" << c+A << endl;
-  A2 = A; A2 += B;
+  cout << "A+B =\n" << A + B << endl;
+  cout << "A+c =\n" << A + c << endl;
+  cout << "c+A =\n" << c + A << endl;
+  A2 = A;
+  A2 += B;
   cout << "A+=B; A =\n" << A2 << endl;
-  A2 = A; A2 += c;
+  A2 = A;
+  A2 += c;
   cout << "A+=c; A =\n" << A2 << endl << endl;
 
   // subtraction
-  cout << "A-B =\n" << A-B << endl;
-  cout << "A-c =\n" << A-c << endl;
-  cout << "c-A =\n" << c-A << endl;
-  A2 = A; A2 -= B;
+  cout << "A-B =\n" << A - B << endl;
+  cout << "A-c =\n" << A - c << endl;
+  cout << "c-A =\n" << c - A << endl;
+  A2 = A;
+  A2 -= B;
   cout << "A-=B; A =\n" << A2 << endl;
-  A2 = A; A2 -= c;
+  A2 = A;
+  A2 -= c;
   cout << "A-=c; A =\n" << A2 << endl;
   cout << "-A =\n" << -A << endl << endl;
 
   // multiplication
   cout << "A*C =\n" << A*C << endl;
-  A2 = A; A2 *= C;
+  A2 = A;
+  A2 *= C;
   cout << "A*=C; A =\n" << A2 << endl;
   cout << "A*c =\n" << A*c << endl;
   cout << "c*A =\n" << c*A << endl;
-  A2 = A; A2 *= c;
+  A2 = A;
+  A2 *= c;
   cout << "A*=c; A =\n" << A2 << endl;
   cout << "A*v = " << A*v << endl;
-  cout << "elem_mult(A,B) =\n" << elem_mult(A,B) << endl;
-  elem_mult_out(A,B,A2);
+  cout << "elem_mult(A,B) =\n" << elem_mult(A, B) << endl;
+  elem_mult_out(A, B, A2);
   cout << "elem_mult_out(A,B,out); out =\n" << A2 << endl;
-  Mat<T> B2 = B; elem_mult_inplace(A,B2);
+  Mat<T> B2 = B;
+  elem_mult_inplace(A, B2);
   cout << "elem_mult_inplace(A,B); B =\n" << B2 << endl;
-  cout << "elem_mult_sum(A,B) = " << elem_mult_sum(A,B) << endl << endl;
+  cout << "elem_mult_sum(A,B) = " << elem_mult_sum(A, B) << endl << endl;
 
   // division
-  cout << "A/c =\n" << A/c << endl;
-  A2 = A; A2 /= c;
+  cout << "A/c =\n" << A / c << endl;
+  A2 = A;
+  A2 /= c;
   cout << "A/=c; A =\n" << A2 << endl;
-  A2 = A; A2 /= B;
+  A2 = A;
+  A2 /= B;
   cout << "A/=B; A =\n" << A2 << endl;
-  cout << "elem_div(A,B) =\n" << elem_div(A,B) << endl;
-  elem_div_out(A,B,A2);
+  cout << "elem_div(A,B) =\n" << elem_div(A, B) << endl;
+  elem_div_out(A, B, A2);
   cout << "elem_div_out(A,B,out); out =\n" << A2 << endl;
-  cout << "elem_div_sum(A,B) = " << elem_div_sum(A,B) << endl << endl;
+  cout << "elem_div_sum(A,B) = " << elem_div_sum(A, B) << endl << endl;
 }
 
 
@@ -185,9 +194,9 @@ int main()
   cout << "=============================" << endl
        << "   Testing Mat<bin> (bmat)" << endl
        << "=============================" << endl;
-  bmat bM1 = randb(3,4);
-  bmat bM2 = randb(3,4);
-  bmat bM3 = randb(4,3);
+  bmat bM1 = randb(3, 4);
+  bmat bM2 = randb(3, 4);
+  bmat bM3 = randb(4, 3);
   bvec bv1 = randb(3);
   bvec bv2 = randb(4);
   bin bx = randb();
@@ -196,20 +205,20 @@ int main()
   cout << "=============================" << endl
        << "   Testing Mat<int> (imat)" << endl
        << "=============================" << endl;
-  imat iM1 = randi(3,4, 1,9);
-  imat iM2 = randi(3,4, 1,9);
-  imat iM3 = randi(4,3, 1,9);
-  ivec iv1 = randi(3, 1,9);
-  ivec iv2 = randi(4, 1,9);
-  int ix = randi(1,9);
+  imat iM1 = randi(3, 4, 1, 9);
+  imat iM2 = randi(3, 4, 1, 9);
+  imat iM3 = randi(4, 3, 1, 9);
+  ivec iv1 = randi(3, 1, 9);
+  ivec iv2 = randi(4, 1, 9);
+  int ix = randi(1, 9);
   common_operators(iM1, iM2, iM3, iv1, iv2, ix);
 
   cout << "===============================" << endl
        << "   Testing Mat<double> (mat)" << endl
        << "===============================" << endl;
-  mat dM1 = randn(3,4);
-  mat dM2 = randn(3,4);
-  mat dM3 = randn(4,3);
+  mat dM1 = randn(3, 4);
+  mat dM2 = randn(3, 4);
+  mat dM3 = randn(4, 3);
   vec dv1 = randn(3);
   vec dv2 = randn(4);
   double dx = randn();
@@ -218,9 +227,9 @@ int main()
   cout << "==========================================" << endl
        << "   Testing Mat<complex<double> > (cmat)" << endl
        << "==========================================" << endl;
-  cmat cM1 = randn_c(3,4);
-  cmat cM2 = randn_c(3,4);
-  cmat cM3 = randn_c(4,3);
+  cmat cM1 = randn_c(3, 4);
+  cmat cM2 = randn_c(3, 4);
+  cmat cM3 = randn_c(4, 3);
   cvec cv1 = randn_c(3);
   cvec cv2 = randn_c(4);
   complex<double> cx = randn_c();

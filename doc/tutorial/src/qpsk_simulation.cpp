@@ -28,23 +28,23 @@ int main()
   //Init:
   Ec = 1.0;                      //The transmitted energy per QPSK symbol is 1.
   Eb = Ec / 2.0;                 //The transmitted energy per bit is 0.5.
-  EbN0dB = linspace(0.0,9.0,10); //Simulate for 10 Eb/N0 values from 0 to 9 dB.
+  EbN0dB = linspace(0.0, 9.0, 10); //Simulate for 10 Eb/N0 values from 0 to 9 dB.
   EbN0 = inv_dB(EbN0dB);         //Calculate Eb/N0 in a linear scale instead of dB.
-  N0 = Eb * pow(EbN0,-1.0);      //N0 is the variance of the (complex valued) noise.
+  N0 = Eb * pow(EbN0, -1.0);     //N0 is the variance of the (complex valued) noise.
   Number_of_bits = 100000;       //One hundred thousand bits is transmitted for each Eb/N0 value
 
   //Allocate storage space for the result vector.
   //The "false" argument means "Do not copy the old content of the vector to the new storage area."
-  bit_error_rate.set_size(EbN0dB.length(),false);
+  bit_error_rate.set_size(EbN0dB.length(), false);
 
   //Randomize the random number generators in it++:
   RNG_randomize();
 
   //Iterate over all EbN0dB values:
-  for (i=0; i<EbN0dB.length(); i++) {
+  for (i = 0; i < EbN0dB.length(); i++) {
 
     //Show how the simulation progresses:
-    cout << "Now simulating Eb/N0 value number " << i+1 << " of " << EbN0dB.length() << endl;
+    cout << "Now simulating Eb/N0 value number " << i + 1 << " of " << EbN0dB.length() << endl;
 
     //Generate a vector of random bits to transmit:
     transmitted_bits = randb(Number_of_bits);
@@ -63,7 +63,7 @@ int main()
 
     //Calculate the bit error rate:
     berc.clear();                               //Clear the bit error rate counter
-    berc.count(transmitted_bits,received_bits); //Count the bit errors
+    berc.count(transmitted_bits, received_bits); //Count the bit errors
     bit_error_rate(i) = berc.get_errorrate();   //Save the estimated BER in the result vector
 
   }

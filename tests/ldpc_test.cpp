@@ -44,18 +44,18 @@ int main()
   C.save_code("ldpc_test.codec");
   LDPC_Code C1("ldpc_test.codec", &G);
   cout << C << endl;
-  bvec bitsin=randb(C.get_nvar()-C.get_ncheck());
+  bvec bitsin = randb(C.get_nvar() - C.get_ncheck());
   bvec bitsout;
-  C.encode(bitsin,bitsout);
-  it_assert(C.syndrome_check(bitsout),"syndrome check failed");
+  C.encode(bitsin, bitsout);
+  it_assert(C.syndrome_check(bitsout), "syndrome check failed");
 
-  double EbN0db=1.5;
-  double N0 = pow(10.0,-EbN0db/10.0) / C.get_rate();
-  double sigma=sqrt(N0/2.0);
-  vec x = 1.0+sigma*randn(C.get_nvar());
-  QLLRvec LLRin = C.get_llrcalc().to_qllr(2.0*x/(N0/2.0));
+  double EbN0db = 1.5;
+  double N0 = pow(10.0, -EbN0db / 10.0) / C.get_rate();
+  double sigma = sqrt(N0 / 2.0);
+  vec x = 1.0 + sigma * randn(C.get_nvar());
+  QLLRvec LLRin = C.get_llrcalc().to_qllr(2.0 * x / (N0 / 2.0));
   QLLRvec LLRout(C.get_nvar());
-  C.bp_decode(LLRin,LLRout);
+  C.bp_decode(LLRin, LLRout);
   cout << LLRout.left(25) << endl;
 
   // BLDPC code

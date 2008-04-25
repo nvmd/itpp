@@ -34,41 +34,42 @@
 #include <itpp/base/array.h>
 
 
-namespace itpp {
+namespace itpp
+{
 
-  //! ADD DOCUMENTATION HERE
-  double kmeansiter(Array<vec> &DB, mat &codebook);
-  //! ADD DOCUMENTATION HERE
-  mat kmeans(Array<vec> &DB, int SIZE, int NOITER=9999, bool VERBOSE=true);
-  //! ADD DOCUMENTATION HERE
-  mat lbg(Array<vec> &DB, int SIZE, int NOITER=9999, bool VERBOSE=true);
+//! ADD DOCUMENTATION HERE
+double kmeansiter(Array<vec> &DB, mat &codebook);
+//! ADD DOCUMENTATION HERE
+mat kmeans(Array<vec> &DB, int SIZE, int NOITER = 9999, bool VERBOSE = true);
+//! ADD DOCUMENTATION HERE
+mat lbg(Array<vec> &DB, int SIZE, int NOITER = 9999, bool VERBOSE = true);
 
-  /*!
-    \ingroup sourcecoding
-    \brief Function for vector quantization training
+/*!
+  \ingroup sourcecoding
+  \brief Function for vector quantization training
 
-    The following code illustrates how the VQ can be trained.
+  The following code illustrates how the VQ can be trained.
 
-    \code
-    VQ Quantizer;
-    mat A;
-    Array<vec> database;
+  \code
+  VQ Quantizer;
+  mat A;
+  Array<vec> database;
 
-    // read vectors into database somehow
-    ...
+  // read vectors into database somehow
+  ...
 
-    // train a vq
-    A = vqtrain(database, 1024, 1000000);
-    Quantizer.set_codebook(A);
-    \endcode
-  */
-  mat vqtrain(Array<vec> &DB, int SIZE, int NOITER, double STARTSTEP=0.2, bool VERBOSE=true);
+  // train a vq
+  A = vqtrain(database, 1024, 1000000);
+  Quantizer.set_codebook(A);
+  \endcode
+*/
+mat vqtrain(Array<vec> &DB, int SIZE, int NOITER, double STARTSTEP = 0.2, bool VERBOSE = true);
 
-  //! ADD DOCUMENTATION HERE
-  vec sqtrain(const vec &inDB, int SIZE);
+//! ADD DOCUMENTATION HERE
+vec sqtrain(const vec &inDB, int SIZE);
 
-  //! ADD DOCUMENTATION HERE
-  ivec bitalloc(const vec& variances, int nobits);
+//! ADD DOCUMENTATION HERE
+ivec bitalloc(const vec& variances, int nobits);
 
 } // namespace itpp
 

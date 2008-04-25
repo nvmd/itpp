@@ -40,13 +40,13 @@
 #ifndef NO_INT_SIZE_CHECK
 #if (SIZEOF_SHORT != 2) || (SIZEOF_UNSIGNED_SHORT != 2) \
   || (SIZEOF_INT != 4) || (SIZEOF_UNSIGNED_INT != 4)
-#  error								\
-  This platform uses different sizes for "short" and "int" standard	\
-  types than expected 2 and 4 bytes, respectively. This causes		\
-  incompatibilities of some parts of IT++ with most of 32- and 64-bit	\
-  platforms. Especially binary I/O operations will be incompatible.	\
-  Please report this problem to IT++ developers. If you are OK with it	\
-  you can add "-DNO_INT_SIZE_CHECK" to your CPPFLAGS and recompile the	\
+#  error        \
+  This platform uses different sizes for "short" and "int" standard \
+  types than expected 2 and 4 bytes, respectively. This causes  \
+  incompatibilities of some parts of IT++ with most of 32- and 64-bit \
+  platforms. Especially binary I/O operations will be incompatible. \
+  Please report this problem to IT++ developers. If you are OK with it \
+  you can add "-DNO_INT_SIZE_CHECK" to your CPPFLAGS and recompile the \
   library.
 #endif
 #endif // ifndef NO_INT_SIZE_CHECK
@@ -58,7 +58,7 @@
 #else
 
 // Common typedefs for most 32- and 64-bit architectures
-typedef signed char             int8_t;	    //!< 8-bit signed integer
+typedef signed char             int8_t;     //!< 8-bit signed integer
 typedef unsigned char           uint8_t;    //!< 8-bit unsigned integer
 typedef signed short            int16_t;    //!< 16-bit signed integer
 typedef unsigned short          uint16_t;   //!< 16-bit unsigned integer
@@ -75,8 +75,8 @@ typedef unsigned long           uint64_t;   //!< 64-bit unsigned integer
 typedef signed long long        int64_t;    //!< 64-bit signed integer
 typedef unsigned long long      uint64_t;   //!< 64-bit unsigned integer
 #else
-#  error						\
-  64-bit integer type not detected on this platform.	\
+#  error      \
+  64-bit integer type not detected on this platform. \
   Please report the problem to IT++ developers.
 #endif // defined(_MSC_VER)
 
@@ -104,7 +104,8 @@ typedef unsigned long long      uint64_t;   //!< 64-bit unsigned integer
 #  include <ieeefp.h>
 #endif
 
-namespace std {
+namespace std
+{
 
 #ifndef HAVE_STD_ISINF
 #if (HAVE_DECL_ISINF == 1) || defined(HAVE_ISINF)

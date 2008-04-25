@@ -29,213 +29,217 @@
 #include <itpp/base/math/elem_math.h>
 
 
-namespace itpp {
+namespace itpp
+{
 
-  vec sqr(const cvec &data)
-  {
-    vec	temp(data.length());
-    for (int i = 0; i < data.length(); i++)
-      temp(i) = sqr(data(i));
-    return temp;
-  }
+vec sqr(const cvec &data)
+{
+  vec temp(data.length());
+  for (int i = 0; i < data.length(); i++)
+    temp(i) = sqr(data(i));
+  return temp;
+}
 
-  mat sqr(const cmat &data)
-  {
-    mat	temp(data.rows(), data.cols());
-    for (int i = 0; i < temp.rows(); i++) {
-      for (int j = 0; j < temp.cols(); j++) {
-	temp(i, j) = sqr(data(i, j));
-      }
+mat sqr(const cmat &data)
+{
+  mat temp(data.rows(), data.cols());
+  for (int i = 0; i < temp.rows(); i++) {
+    for (int j = 0; j < temp.cols(); j++) {
+      temp(i, j) = sqr(data(i, j));
     }
-    return temp;
   }
+  return temp;
+}
 
-  vec abs(const cvec &data)
-  {
-    vec	temp(data.length());
+vec abs(const cvec &data)
+{
+  vec temp(data.length());
 
-    for (int i=0;i<data.length();i++)
-      temp[i]=std::abs(data[i]);
+  for (int i = 0;i < data.length();i++)
+    temp[i] = std::abs(data[i]);
 
-    return temp;
-  }
+  return temp;
+}
 
-  mat abs(const cmat &data)
-  {
-    mat	temp(data.rows(),data.cols());
+mat abs(const cmat &data)
+{
+  mat temp(data.rows(), data.cols());
 
-    for (int i=0;i<temp.rows();i++) {
-      for (int j=0;j<temp.cols();j++) {
-	temp(i,j)=std::abs(data(i,j));
-      }
+  for (int i = 0;i < temp.rows();i++) {
+    for (int j = 0;j < temp.cols();j++) {
+      temp(i, j) = std::abs(data(i, j));
     }
-
-    return temp;
   }
 
-  // Calculates factorial coefficient for index <= 170.
-  double fact(int index)
-  {
-    it_error_if(index > 170, "fact(int index): Function overflows if index > 170.");
-    it_error_if(index < 0, "fact(int index): index must be non-negative integer");
-    double prod = 1;
-    for (int i = 1; i <= index; i++)
-      prod *= static_cast<double>(i);
-    return prod;
+  return temp;
+}
+
+// Calculates factorial coefficient for index <= 170.
+double fact(int index)
+{
+  it_error_if(index > 170, "fact(int index): Function overflows if index > 170.");
+  it_error_if(index < 0, "fact(int index): index must be non-negative integer");
+  double prod = 1;
+  for (int i = 1; i <= index; i++)
+    prod *= static_cast<double>(i);
+  return prod;
+}
+
+// Calculates binomial coefficient "n over k".
+double binom(int n, int k)
+{
+  it_assert(k <= n, "binom(n, k): k can not be larger than n");
+  it_assert((n >= 0) && (k >= 0), "binom(n, k): n and k must be non-negative integers");
+  k = ((n - k) < k) ? n - k : k;
+
+  double out = 1.0;
+  for (int i = 1; i <= k; ++i) {
+    out *= (i + n - k);
+    out /= i;
   }
+  return out;
+}
 
-  // Calculates binomial coefficient "n over k".
-  double binom(int n, int k)
-  {
-    it_assert(k <= n, "binom(n, k): k can not be larger than n");
-    it_assert((n >= 0) && (k >= 0), "binom(n, k): n and k must be non-negative integers");
-    k = ((n - k) < k) ? n - k : k;
+// Calculates binomial coefficient "n over k".
+int binom_i(int n, int k)
+{
+  it_assert(k <= n, "binom_i(n, k): k can not be larger than n");
+  it_assert((n >= 0) && (k >= 0), "binom_i(n, k): n and k must be non-negative integers");
+  k = ((n - k) < k) ? n - k : k;
 
-    double out = 1.0;
-    for (int i = 1; i <= k; ++i) {
-      out *= (i + n - k);
-      out /= i;
+  int out = 1;
+  for (int i = 1; i <= k; ++i) {
+    out *= (i + n - k);
+    out /= i;
+  }
+  return out;
+}
+
+// Calculates the base 10-logarithm of the binomial coefficient "n over k".
+double log_binom(int n, int k)
+{
+  it_assert(k <= n, "log_binom(n, k): k can not be larger than n");
+  it_assert((n >= 0) && (k >= 0), "log_binom(n, k): n and k must be non-negative integers");
+  k = ((n - k) < k) ? n - k : k;
+
+  double out = 0.0;
+  for (int i = 1; i <= k; i++)
+    out += log10(static_cast<double>(i + n - k))
+           - log10(static_cast<double>(i));
+
+  return out;
+}
+
+// Calculates the greatest common divisor
+int gcd(int a, int b)
+{
+  it_assert((a >= 0) && (b >= 0), "gcd(a, b): a and b must be non-negative integers");
+  int v, u, t, q;
+
+  u = a;
+  v = b;
+  while (v > 0) {
+    q = u / v;
+    t = u - v * q;
+    u = v;
+    v = t;
+  }
+  return u;
+}
+
+
+vec real(const cvec &data)
+{
+  vec temp(data.length());
+
+  for (int i = 0;i < data.length();i++)
+    temp[i] = data[i].real();
+
+  return temp;
+}
+
+mat real(const cmat &data)
+{
+  mat temp(data.rows(), data.cols());
+
+  for (int i = 0;i < temp.rows();i++) {
+    for (int j = 0;j < temp.cols();j++) {
+      temp(i, j) = data(i, j).real();
     }
-    return out;
   }
 
-  // Calculates binomial coefficient "n over k".
-  int binom_i(int n, int k)
-  {
-    it_assert(k <= n, "binom_i(n, k): k can not be larger than n");
-    it_assert((n >= 0) && (k >= 0), "binom_i(n, k): n and k must be non-negative integers");
-    k = ((n - k) < k) ? n - k : k;
+  return temp;
+}
 
-    int out = 1;
-    for (int i = 1; i <= k; ++i) {
-      out *= (i + n - k);
-      out /= i;
+vec imag(const cvec &data)
+{
+  vec temp(data.length());
+
+  for (int i = 0;i < data.length();i++)
+    temp[i] = data[i].imag();
+  return temp;
+}
+
+mat imag(const cmat &data)
+{
+  mat temp(data.rows(), data.cols());
+
+  for (int i = 0;i < temp.rows();i++) {
+    for (int j = 0;j < temp.cols();j++) {
+      temp(i, j) = data(i, j).imag();
     }
-    return out;
   }
 
-  // Calculates the base 10-logarithm of the binomial coefficient "n over k".
-  double log_binom(int n, int k) {
-    it_assert(k <= n, "log_binom(n, k): k can not be larger than n");
-    it_assert((n >= 0) && (k >= 0), "log_binom(n, k): n and k must be non-negative integers");
-    k = ((n - k) < k) ? n - k : k;
+  return temp;
+}
 
-    double out = 0.0;
-    for (int i = 1; i <= k; i++)
-      out += log10(static_cast<double>(i + n - k))
-	- log10(static_cast<double>(i));
+vec arg(const cvec &data)
+{
+  vec temp(data.length());
 
-    return out;
-  }
+  for (int i = 0;i < data.length();i++)
+    temp[i] = std::arg(data[i]);
 
-  // Calculates the greatest common divisor
-  int gcd(int a, int b)
-  {
-    it_assert((a >= 0) && (b >= 0),"gcd(a, b): a and b must be non-negative integers");
-    int v, u, t, q;
+  return temp;
+}
 
-    u = a;
-    v = b;
-    while (v > 0) {
-      q = u / v;
-      t = u - v*q;
-      u = v;
-      v = t;
+mat arg(const cmat &data)
+{
+  mat temp(data.rows(), data.cols());
+
+  for (int i = 0;i < temp.rows();i++) {
+    for (int j = 0;j < temp.cols();j++) {
+      temp(i, j) = std::arg(data(i, j));
     }
-    return u;
   }
 
-
-  vec real(const cvec &data)
-  {
-    vec	temp(data.length());
-
-    for (int i=0;i<data.length();i++)
-      temp[i]=data[i].real();
-
-    return temp;
-  }
-
-  mat real(const cmat &data)
-  {
-    mat	temp(data.rows(),data.cols());
-
-    for (int i=0;i<temp.rows();i++) {
-      for (int j=0;j<temp.cols();j++) {
-	temp(i,j)=data(i,j).real();
-      }
-    }
-
-    return temp;
-  }
-
-  vec imag(const cvec &data)
-  {
-    vec	temp(data.length());
-
-    for (int i=0;i<data.length();i++)
-      temp[i]=data[i].imag();
-    return temp;
-  }
-
-  mat imag(const cmat &data)
-  {
-    mat	temp(data.rows(),data.cols());
-
-    for (int i=0;i<temp.rows();i++) {
-      for (int j=0;j<temp.cols();j++) {
-	temp(i,j)=data(i,j).imag();
-      }
-    }
-
-    return temp;
-  }
-
-  vec arg(const cvec &data)
-  {
-    vec	temp(data.length());
-
-    for (int i=0;i<data.length();i++)
-      temp[i]=std::arg(data[i]);
-
-    return temp;
-  }
-
-  mat arg(const cmat &data)
-  {
-    mat	temp(data.rows(),data.cols());
-
-    for (int i=0;i<temp.rows();i++) {
-      for (int j=0;j<temp.cols();j++) {
-	temp(i,j)=std::arg(data(i,j));
-      }
-    }
-
-    return temp;
-  }
+  return temp;
+}
 
 #ifdef _MSC_VER
-  cvec conj(const cvec &x) {
-    cvec temp(x.size());
+cvec conj(const cvec &x)
+{
+  cvec temp(x.size());
 
-    for (int i = 0; i < x.size(); i++) {
-      temp(i) = std::conj(x(i));
-    }
-
-    return temp;
+  for (int i = 0; i < x.size(); i++) {
+    temp(i) = std::conj(x(i));
   }
 
-  cmat conj(const cmat &x) {
-    cmat temp(x.rows(), x.cols());
+  return temp;
+}
 
-    for (int i = 0; i < x.rows(); i++) {
-      for (int j = 0; j < x.cols(); j++) {
-	temp(i, j) = std::conj(x(i, j));
-      }
+cmat conj(const cmat &x)
+{
+  cmat temp(x.rows(), x.cols());
+
+  for (int i = 0; i < x.rows(); i++) {
+    for (int j = 0; j < x.cols(); j++) {
+      temp(i, j) = std::conj(x(i, j));
     }
-
-    return temp;
   }
+
+  return temp;
+}
 #endif
 
 } // namespace itpp

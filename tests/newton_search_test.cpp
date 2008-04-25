@@ -36,7 +36,7 @@ using namespace itpp;
 double rosenbrock(const vec &x)
 {
   double f1 = x(1) - sqr(x(0)), f2 = 1 - x(0);
-  double F = 50*sqr(f1) + 0.5*sqr(f2) + 0.0;
+  double F = 50 * sqr(f1) + 0.5 * sqr(f2) + 0.0;
 
   return F;
 }
@@ -45,8 +45,8 @@ vec rosenbrock_gradient(const vec &x)
 {
   double f1 = x(1) - sqr(x(0)), f2 = 1 - x(0);
   vec g(2);
-  g(0)= -200.0*x(0)*f1-f2;
-  g(1) = 100.0*f1;
+  g(0) = -200.0 * x(0) * f1 - f2;
+  g(1) = 100.0 * f1;
 
   return g;
 }

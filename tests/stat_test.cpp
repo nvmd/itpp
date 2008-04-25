@@ -48,8 +48,8 @@ int main()
   cout << "mean(a) = " << mean(a) << endl;
   cout << "geometric_mean(abs(a)) = " << geometric_mean(abs(a)) << endl;
   cout << "norm(a) = " << norm(a) << endl;
-  cout << "norm(a, 2) = " << norm(a,2) << endl;
-  cout << "norm(a, 1) = " << norm(a,1) << endl;
+  cout << "norm(a, 2) = " << norm(a, 2) << endl;
+  cout << "norm(a, 1) = " << norm(a, 1) << endl;
   cout << "norm(a, \"fro\") = " << norm(a, "fro") << endl;
   cout << "energy(a) = " << energy(a) << endl;
   cout << "variance(a) = " << variance(a) << endl;
@@ -60,20 +60,20 @@ int main()
   cout << "kurtosisexcess(a) = " << kurtosisexcess(a) << endl;
   cout << "kurtosis(a) = " << kurtosis(a) << endl << endl;
 
-  mat A = randn(5,5);
+  mat A = randn(5, 5);
   cout << "A = " << A << endl << endl;
 
   cout << "max(A) = " << max(A) << endl;
-  cout << "max(A, 1) = " << max(A,1) << endl;
-  cout << "max(A, 2) = " << max(A,2) << endl;
+  cout << "max(A, 1) = " << max(A, 1) << endl;
+  cout << "max(A, 2) = " << max(A, 2) << endl;
   cout << "min(A) = " << min(A) << endl;
-  cout << "min(A, 1) = " << min(A,1) << endl;
-  cout << "min(A, 2) = " << min(A,2) << endl;
+  cout << "min(A, 1) = " << min(A, 1) << endl;
+  cout << "min(A, 2) = " << min(A, 2) << endl;
   cout << "mean(A) = " << mean(A) << endl;
   cout << "geometric_mean(abs(A)) = " << geometric_mean(abs(A)) << endl;
   cout << "norm(A) = " << norm(A) << endl;
-  cout << "norm(A, 2) = " << norm(A,2) << endl;
-  cout << "norm(A, 1) = " << norm(A,1) << endl;
+  cout << "norm(A, 2) = " << norm(A, 2) << endl;
+  cout << "norm(A, 1) = " << norm(A, 1) << endl;
   cout << "norm(A, \"fro\") = " << norm(A, "fro") << endl << endl;
 
   return 0;

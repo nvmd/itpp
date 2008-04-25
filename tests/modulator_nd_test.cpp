@@ -50,17 +50,17 @@ int main()
     ND_UPAM chan;
     int nt = 5;
     for (int np = 1; np <= 3; np++) {
-      cout << "================== ND-U" << (1<<np) << "PAM ==================\n";
+      cout << "================== ND-U" << (1 << np) << "PAM ==================\n";
 
-      chan.set_M(nt, 1<<np);
+      chan.set_M(nt, 1 << np);
       cout << chan << endl;
-      bvec b = randb(nt*np);
+      bvec b = randb(nt * np);
       cout << b << endl;
       vec x = chan.modulate_bits(b);
       mat H = randn(nt, nt);
       vec y = H * x + sigma * randn(nt);
 
-      QLLRvec LLR_ap = zeros_i(nt*np);
+      QLLRvec LLR_ap = zeros_i(nt * np);
       QLLRvec LLR;
 
       chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR);
@@ -84,16 +84,16 @@ int main()
     ND_UQAM chan;
     int nt = 3;
     for (int np = 1; np <= 3; np++) {
-      cout << "================== ND-U" << ((1<<(2*np))) << "QAM ==================\n";
+      cout << "================== ND-U" << ((1 << (2*np))) << "QAM ==================\n";
 
-      chan.set_M(nt, (1<<(2*np)));
+      chan.set_M(nt, (1 << (2*np)));
       cout << chan << endl;
-      bvec b = randb(nt*np*2);
+      bvec b = randb(nt * np * 2);
       cout << b << endl;
       cvec x = chan.modulate_bits(b);
       cmat H = randn_c(nt, nt);
       cvec y = H * x + sigma * randn_c(nt);;
-      QLLRvec LLR_ap = zeros_i(2*nt*np);
+      QLLRvec LLR_ap = zeros_i(2 * nt * np);
       QLLRvec LLR(2*nt*np);
 
       chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR);
@@ -113,16 +113,16 @@ int main()
     ND_UPSK chan;
     int nt = 3;
     for (int np = 1; np <= 3; np++) {
-      cout << "================== ND-U" << ((1<<(2*np))) << "PSK ==================\n";
+      cout << "================== ND-U" << ((1 << (2*np))) << "PSK ==================\n";
 
-      chan.set_M(nt, (1<<(2*np)));
+      chan.set_M(nt, (1 << (2*np)));
       cout << chan << endl;
-      bvec b = randb(nt*np*2);
+      bvec b = randb(nt * np * 2);
       cout << b << endl;
       cvec x = chan.modulate_bits(b);
       cmat H = randn_c(nt, nt);
       cvec y = H * x + sigma * randn_c(nt);;
-      QLLRvec LLR_ap = zeros_i(2*nt*np);
+      QLLRvec LLR_ap = zeros_i(2 * nt * np);
       QLLRvec LLR(2*nt*np);
 
       chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR);

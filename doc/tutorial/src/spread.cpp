@@ -32,17 +32,17 @@ int main()
   //Set the spreading codes:
   spread_codesI.set_size(Ncode, SF, false);
   spread_codesQ.set_size(Ncode, SF, false);
-  for (sc = 0; sc<Ncode; sc++) {
+  for (sc = 0; sc < Ncode; sc++) {
     spread_codesI.set_row(sc, all_codes.get_row(sc));
     spread_codesQ.set_row(sc, all_codes.get_row(sc));
   }
   mc_spread.set_codes(to_mat(spread_codesI), to_mat(spread_codesQ));
 
   //Specify simulation specific variables:
-  EbN0dB = linspace(-2,14,17);
-  EbN0 = pow(10,EbN0dB/10);
+  EbN0dB = linspace(-2, 14, 17);
+  EbN0 = pow(10, EbN0dB / 10);
   Eb = 1.0;
-  N0 = Eb * pow(EbN0,-1.0);
+  N0 = Eb * pow(EbN0, -1.0);
   NumOfBits = 50000;
   MaxIterations = 10;
   MaxNrOfErrors = 200;
@@ -53,13 +53,13 @@ int main()
   //Randomize the random number generators:
   RNG_randomize();
 
-  for (i=0; i<EbN0dB.length(); i++) {
+  for (i = 0; i < EbN0dB.length(); i++) {
 
-    cout << endl << "Simulating point nr " << i+1 << endl;
+    cout << endl << "Simulating point nr " << i + 1 << endl;
     berc.clear();
-    channel.set_noise(N0(i)/2.0);
+    channel.set_noise(N0(i) / 2.0);
 
-    for (j=0; j<MaxIterations; j++) {
+    for (j = 0; j < MaxIterations; j++) {
 
       transmited_bits = randb(NumOfBits);
       transmited_symbols  = qpsk.modulate_bits(transmited_bits);
@@ -76,18 +76,20 @@ int main()
 
       received_bits = qpsk.demodulate_bits(received_symbols);
 
-      berc.count(transmited_bits,received_bits);
+      berc.count(transmited_bits, received_bits);
       ber(i) = berc.get_errorrate();
 
-      cout << "   Itteration " << j+1 << ": ber = " << berc.get_errorrate() << endl;
-      if (berc.get_errors()>MaxNrOfErrors) {
-	cout << "Breaking on point " << i+1 << " with " << berc.get_errors() << " errors." << endl; break;
+      cout << "   Itteration " << j + 1 << ": ber = " << berc.get_errorrate() << endl;
+      if (berc.get_errors() > MaxNrOfErrors) {
+        cout << "Breaking on point " << i + 1 << " with " << berc.get_errors() << " errors." << endl;
+        break;
       }
 
     }
 
     if (berc.get_errors() < MinNrOfErrors) {
-      cout << "Exiting Simulation on point " << i+1 << endl; break;
+      cout << "Exiting Simulation on point " << i + 1 << endl;
+      break;
     }
 
   }

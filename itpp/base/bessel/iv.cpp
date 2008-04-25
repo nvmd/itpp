@@ -86,44 +86,38 @@ double iv(double v, double x)
 
   /* If v is a negative integer, invoke symmetry */
   t = floor(v);
-  if( v < 0.0 )
-    {
-      if( t == v )
-	{
-	  v = -v;	/* symmetry */
-	  t = -t;
-	}
+  if (v < 0.0) {
+    if (t == v) {
+      v = -v; /* symmetry */
+      t = -t;
     }
+  }
   /* If x is negative, require v to be an integer */
   sign = 1;
-  if( x < 0.0 )
-    {
-      if( t != v )
-	{
-	  it_warning("iv(): argument domain error");
-	  return( 0.0 );
-	}
-      if( v != 2.0 * floor(v/2.0) )
-	sign = -1;
+  if (x < 0.0) {
+    if (t != v) {
+      it_warning("iv(): argument domain error");
+      return(0.0);
     }
+    if (v != 2.0 * floor(v / 2.0))
+      sign = -1;
+  }
 
   /* Avoid logarithm singularity */
-  if( x == 0.0 )
-    {
-      if( v == 0.0 )
-	return( 1.0 );
-      if( v < 0.0 )
-	{
-	  it_warning("iv(): overflow range error");
-	  return( MAXNUM );
-	}
-      else
-	return( 0.0 );
+  if (x == 0.0) {
+    if (v == 0.0)
+      return(1.0);
+    if (v < 0.0) {
+      it_warning("iv(): overflow range error");
+      return(MAXNUM);
     }
+    else
+      return(0.0);
+  }
 
   ax = fabs(x);
-  t = v * log( 0.5 * ax )  -  x;
-  t = sign * exp(t) / gam( v + 1.0 );
+  t = v * log(0.5 * ax)  -  x;
+  t = sign * exp(t) / gam(v + 1.0);
   ax = v + 0.5;
-  return( t * hyperg( ax,  2.0 * ax,  2.0 * x ) );
+  return(t * hyperg(ax,  2.0 * ax,  2.0 * x));
 }

@@ -35,25 +35,26 @@
 #endif
 
 
-namespace itpp {
+namespace itpp
+{
 
-  std::string itpp_version(void)
-  {
+std::string itpp_version(void)
+{
 #ifdef PACKAGE_VERSION
-    return std::string(PACKAGE_VERSION);
+  return std::string(PACKAGE_VERSION);
 #else
-    return std::string("Warning: Version unknown!");
+  return std::string("Warning: Version unknown!");
 #endif
-  }
+}
 
-  bool check_big_endianness()
-  {
-    int i = 1;
-    char *p = (char *) &i;
-    if (p[0] == 1) // Lowest address contains the least significant byte
-      return false; // LITTLE_ENDIAN
-    else
-      return true; // BIG_ENDIAN
-  }
+bool check_big_endianness()
+{
+  int i = 1;
+  char *p = (char *) & i;
+  if (p[0] == 1) // Lowest address contains the least significant byte
+    return false; // LITTLE_ENDIAN
+  else
+    return true; // BIG_ENDIAN
+}
 
 } //namespace itpp

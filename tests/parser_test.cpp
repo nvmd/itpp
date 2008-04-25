@@ -33,7 +33,8 @@ using namespace std;
 
 
 #ifndef PARSER_TEST_FILE
-int main() {
+int main()
+{
   cerr << "PARSER_TEST_FILE not defined. Test skipped." << endl;
   return 1;
 }
@@ -58,22 +59,35 @@ int main(int argc, char *argv[])
 
   cout << "Use the Parser class on a parameter file:" << boolalpha << endl;
   p.init(string(PARSER_TEST_FILE));
-  a  = p.get_int("a");      cout << "a  = " << a  << endl;
+  a  = p.get_int("a");
+  cout << "a  = " << a  << endl;
   b0 = p.get_double("b");   //The default value of b
-  b1 = p.get_double("b",1); //The first alternative value of b
-  b2 = p.get_double("b",2); //The second alternative value of b
-  c  = p.get_string("c");   cout << "c  = " << c  << endl;
-  d  = p.get_ivec("d");     cout << "d  = " << d  << endl;
-  e  = p.get_vec("e");      cout << "e  = " << e  << endl;
-  f  = p.get_svec("f");     cout << "f  = " << f  << endl;
-  g  = p.get_bvec("g");     cout << "g  = " << g  << endl;
-  h  = p.get_imat("h");     cout << "h  = " << h  << endl;
-  i  = p.get_mat("i");      cout << "i  = " << i  << endl;
-  j  = p.get_smat("j");     cout << "j  = " << j  << endl;
-  k  = p.get_bmat("k");     cout << "k  = " << k  << endl;
-  l  = p.get_bool("l");     cout << "l  = " << l  << endl;
-  m  = p.get_bool("m");     cout << "m  = " << m  << endl;
-  n  = p.get_string("n");   cout << "n  = " << n  << endl;
+  b1 = p.get_double("b", 1); //The first alternative value of b
+  b2 = p.get_double("b", 2); //The second alternative value of b
+  c  = p.get_string("c");
+  cout << "c  = " << c  << endl;
+  d  = p.get_ivec("d");
+  cout << "d  = " << d  << endl;
+  e  = p.get_vec("e");
+  cout << "e  = " << e  << endl;
+  f  = p.get_svec("f");
+  cout << "f  = " << f  << endl;
+  g  = p.get_bvec("g");
+  cout << "g  = " << g  << endl;
+  h  = p.get_imat("h");
+  cout << "h  = " << h  << endl;
+  i  = p.get_mat("i");
+  cout << "i  = " << i  << endl;
+  j  = p.get_smat("j");
+  cout << "j  = " << j  << endl;
+  k  = p.get_bmat("k");
+  cout << "k  = " << k  << endl;
+  l  = p.get_bool("l");
+  cout << "l  = " << l  << endl;
+  m  = p.get_bool("m");
+  cout << "m  = " << m  << endl;
+  n  = p.get_string("n");
+  cout << "n  = " << n  << endl;
   cout << "------------------------------------------------------------" << endl;
 
   cout << "Use the Parser class on the command line input:" << endl;
@@ -92,7 +106,7 @@ int main(int argc, char *argv[])
   char argv1_3[] = "d=[1,2,3,-1,-2,-3]";
   int  argc1 = 4;
   char *argv1[4] = { argv1_0, argv1_1, argv1_2, argv1_3 };
-  p.init(argc1,argv1);
+  p.init(argc1, argv1);
   a = p.get_int("a");
   b = p.get_double("b");
   c = p.get_string("c");
@@ -106,15 +120,20 @@ int main(int argc, char *argv[])
   char argv2_1[] = "d=[1,-2,3,-4,5,-6,7,-8]";
   int argc2 = 2;
   char *argv2[2] = { argv2_0, argv2_1 };
-  if (argc==0) {
+  if (argc == 0) {
     p.init(string(PARSER_TEST_FILE), argc2, argv2);
-  } else {
+  }
+  else {
     p.init(string(PARSER_TEST_FILE), argc, argv);
   }
-  a = p.get_int("a");    cout << "a = " << a << endl;
-  b = p.get_double("b"); cout << "b = " << b << endl;
-  c = p.get_string("c"); cout << "c = " << c << endl;
-  d = p.get_ivec("d");   cout << "d = " << d << endl;
+  a = p.get_int("a");
+  cout << "a = " << a << endl;
+  b = p.get_double("b");
+  cout << "b = " << b << endl;
+  c = p.get_string("c");
+  cout << "c = " << c << endl;
+  d = p.get_ivec("d");
+  cout << "d = " << d << endl;
   cout << "------------------------------------------------------------" << endl;
 
   cout << "Use the Parser class on an Array of strings:" << endl;

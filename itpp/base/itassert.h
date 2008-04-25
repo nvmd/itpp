@@ -39,151 +39,152 @@
 #include <string>
 
 
-namespace itpp {
+namespace itpp
+{
 
-  /*!
-    \addtogroup errorhandlingfunc
+/*!
+  \addtogroup errorhandlingfunc
 
-    For the following macros, the argument \c s is a string that is displayed.
+  For the following macros, the argument \c s is a string that is displayed.
 
-    \code
-    it_assert(t,s);           // Abort if t is not true
-    it_assert_debug(t,s);     // Abort if t is not true and NDEBUG is not defined
-    it_error_if(t,s);         // Abort if t is true
-    it_error(s);              // Abort
-    it_info(s);               // Display a message
-    it_info_debug(s);         // Display a message if NDEBUG is not defined
-    it_info_no_endl(s);       // Display a message without appended "std::endl"
-    it_info_no_endl_debug(s); // Display a message without appended "std::endl" if NDEBUG is not defined
-    it_warning(s);            // Display a warning
-    \endcode
+  \code
+  it_assert(t,s);           // Abort if t is not true
+  it_assert_debug(t,s);     // Abort if t is not true and NDEBUG is not defined
+  it_error_if(t,s);         // Abort if t is true
+  it_error(s);              // Abort
+  it_info(s);               // Display a message
+  it_info_debug(s);         // Display a message if NDEBUG is not defined
+  it_info_no_endl(s);       // Display a message without appended "std::endl"
+  it_info_no_endl_debug(s); // Display a message without appended "std::endl" if NDEBUG is not defined
+  it_warning(s);            // Display a warning
+  \endcode
 
-    \c it_assert(), \c it_error(), \c it_error_if(), \c it_info(), \c
-    it_info_no_endl() and \c it_warning() are always active, whereas \c
-    it_assert_debug(), \c it_info_debug() and \c it_info_no_endl_debug()
-    depends on the \c NDEBUG compile time definition. If \c NDEBUG is
-    defined, then none of these macros is executed.
+  \c it_assert(), \c it_error(), \c it_error_if(), \c it_info(), \c
+  it_info_no_endl() and \c it_warning() are always active, whereas \c
+  it_assert_debug(), \c it_info_debug() and \c it_info_no_endl_debug()
+  depends on the \c NDEBUG compile time definition. If \c NDEBUG is
+  defined, then none of these macros is executed.
 
-    \note \c it_assert0() and \c it_assert1() macros are still defined for
-    backward compatibility, but \c it_assert_debug() should be used instead
-    of them.
-  */
-  //!@{
+  \note \c it_assert0() and \c it_assert1() macros are still defined for
+  backward compatibility, but \c it_assert_debug() should be used instead
+  of them.
+*/
+//!@{
 
-  //! Helper function for the \c it_assert and \c it_assert_debug macros
-  void it_assert_f(std::string ass, std::string msg, std::string file, int line);
-  //! Helper function for the \c it_error and \c it_error_if macros
-  void it_error_f(std::string msg, std::string file, int line);
-  //! Helper function for the \c it_info and \c it_info_debug macros
-  void it_info_f(std::string msg);
-  //! Helper function for the \c it_warning macro
-  void it_warning_f(std::string msg, std::string file, int line);
+//! Helper function for the \c it_assert and \c it_assert_debug macros
+void it_assert_f(std::string ass, std::string msg, std::string file, int line);
+//! Helper function for the \c it_error and \c it_error_if macros
+void it_error_f(std::string msg, std::string file, int line);
+//! Helper function for the \c it_info and \c it_info_debug macros
+void it_info_f(std::string msg);
+//! Helper function for the \c it_warning macro
+void it_warning_f(std::string msg, std::string file, int line);
 
-  //! Enable/disable using exceptions for error handling.
-  void it_enable_exceptions(bool on);
-  //! Enable warnings
-  void it_enable_warnings();
-  //! Disable warnings
-  void it_disable_warnings();
-  //! Redirect warnings to the ostream warn_stream
-  void it_redirect_warnings(std::ostream *warn_stream);
+//! Enable/disable using exceptions for error handling.
+void it_enable_exceptions(bool on);
+//! Enable warnings
+void it_enable_warnings();
+//! Disable warnings
+void it_disable_warnings();
+//! Redirect warnings to the ostream warn_stream
+void it_redirect_warnings(std::ostream *warn_stream);
 
-  //! Style of assert, error and warning messages.
-  enum error_msg_style { Full, Minimum };
+//! Style of assert, error and warning messages.
+enum error_msg_style { Full, Minimum };
 
-  //! Set preferred style of assert, error and warning messages
-  void it_error_msg_style(error_msg_style style);
+//! Set preferred style of assert, error and warning messages
+void it_error_msg_style(error_msg_style style);
 
 
-  //! Abort if \c t is not true
-#define it_assert(t,s)						\
-  if (!(t)) {							\
-    std::ostringstream m_sout;					\
-    m_sout << s;						\
-    itpp::it_assert_f(#t,m_sout.str(),__FILE__,__LINE__);	\
-  } else							\
+//! Abort if \c t is not true
+#define it_assert(t,s)      \
+  if (!(t)) {       \
+    std::ostringstream m_sout;     \
+    m_sout << s;      \
+    itpp::it_assert_f(#t,m_sout.str(),__FILE__,__LINE__); \
+  } else       \
     ((void) 0)
 
 #if defined(NDEBUG)
-  //! Abort if \c t is not true and NDEBUG is not defined
+//! Abort if \c t is not true and NDEBUG is not defined
 #  define it_assert_debug(t,s) ((void) 0)
 #else
-  //! Abort if \c t is not true and NDEBUG is not defined
+//! Abort if \c t is not true and NDEBUG is not defined
 #  define it_assert_debug(t,s) it_assert(t,s)
 #endif // if defined(NDEBUG)
 
-  //! Deprecated macro. Please use \c it_assert_debug() instead.
+//! Deprecated macro. Please use \c it_assert_debug() instead.
 #define it_assert0(t,s) it_assert_debug(t,s)
-  //! Deprecated macro. Please use \c it_assert_debug() instead.
+//! Deprecated macro. Please use \c it_assert_debug() instead.
 #define it_assert1(t,s) it_assert_debug(t,s)
 
 
-  //! Abort if \c t is true
-#define it_error_if(t,s)				\
-  if((t)) {						\
-    std::ostringstream m_sout;				\
-    m_sout << s;					\
-    itpp::it_error_f(m_sout.str(),__FILE__,__LINE__);	\
-  } else						\
+//! Abort if \c t is true
+#define it_error_if(t,s)    \
+  if((t)) {      \
+    std::ostringstream m_sout;    \
+    m_sout << s;     \
+    itpp::it_error_f(m_sout.str(),__FILE__,__LINE__); \
+  } else      \
     ((void) 0)
 
-  //! Abort unconditionally
-#define it_error(s)					\
-  if (true) {						\
-    std::ostringstream m_sout;				\
-    m_sout << s;					\
-    itpp::it_error_f(m_sout.str(),__FILE__,__LINE__);	\
-  } else						\
+//! Abort unconditionally
+#define it_error(s)     \
+  if (true) {      \
+    std::ostringstream m_sout;    \
+    m_sout << s;     \
+    itpp::it_error_f(m_sout.str(),__FILE__,__LINE__); \
+  } else      \
     ((void) 0)
 
 
-  //! Print information message
-#define it_info(s)				\
-  if (true) {					\
-    std::ostringstream m_sout;			\
-    m_sout << s << std::endl;			\
-    itpp::it_info_f(m_sout.str());		\
-  } else					\
+//! Print information message
+#define it_info(s)    \
+  if (true) {     \
+    std::ostringstream m_sout;   \
+    m_sout << s << std::endl;   \
+    itpp::it_info_f(m_sout.str());  \
+  } else     \
     ((void) 0)
 
-  //! Print information message withot \c std::endl at the end
-#define it_info_no_endl(s)			\
-  if (true) {					\
-    std::ostringstream m_sout;			\
-    m_sout << s;				\
-    itpp::it_info_f(m_sout.str());		\
-  } else					\
+//! Print information message withot \c std::endl at the end
+#define it_info_no_endl(s)   \
+  if (true) {     \
+    std::ostringstream m_sout;   \
+    m_sout << s;    \
+    itpp::it_info_f(m_sout.str());  \
+  } else     \
     ((void) 0)
 
 #if defined(NDEBUG)
-  //! Print information message if NDEBUG is not defined
+//! Print information message if NDEBUG is not defined
 #  define it_info_debug(s) ((void) 0)
-  /*!
-    \brief Print information message without \c std::endl at the end if
-    NDEBUG is not defined
-  */
+/*!
+  \brief Print information message without \c std::endl at the end if
+  NDEBUG is not defined
+*/
 #  define it_info_no_endl_debug(s) ((void) 0)
 #else
-  //! Print information message if NDEBUG is not defined
+//! Print information message if NDEBUG is not defined
 #  define it_info_debug(s) it_info(s)
-  /*!
-    \brief Print information message withot \c std::endl at the end if
-    NDEBUG is not defined
-  */
+/*!
+  \brief Print information message withot \c std::endl at the end if
+  NDEBUG is not defined
+*/
 #  define it_info_no_endl_debug(s) it_info_no_endl(s)
 #endif // if defined(NDEBUG)
 
 
-  //! Display a warning message
-#define it_warning(s)					\
-  if (true) {						\
-    std::ostringstream m_sout;				\
-    m_sout << s;					\
+//! Display a warning message
+#define it_warning(s)     \
+  if (true) {      \
+    std::ostringstream m_sout;    \
+    m_sout << s;     \
     itpp::it_warning_f(m_sout.str(),__FILE__,__LINE__); \
-  } else						\
+  } else      \
     ((void) 0)
 
-  //!@}
+//!@}
 
 } // namespace itpp
 

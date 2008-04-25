@@ -48,7 +48,7 @@ int main(void)
     mat P = to_mat(permutation_matrix(p));
     cout << "X = " << round_to_zero(X) << endl;
     cout << "norm(X - P^T*L*U) = "
-	 << round_to_zero(norm(X - transpose(P) * L * U)) << endl;
+         << round_to_zero(norm(X - transpose(P) * L * U)) << endl;
   }
   {
     cout << "Complex matrix" << endl;
@@ -60,7 +60,7 @@ int main(void)
     mat P = to_mat(permutation_matrix(p));
     cout << "X = " << round_to_zero(X) << endl;
     cout << "norm(X - P^H*L*U = "
-	 << round_to_zero(norm(X - hermitian_transpose(P) * L * U)) << endl;
+         << round_to_zero(norm(X - hermitian_transpose(P) * L * U)) << endl;
   }
 
   return 0;

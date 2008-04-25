@@ -36,12 +36,12 @@ using namespace std;
 int main()
 {
   bvec uncoded_bits = "0 1 1 0 1 0 1", tail_bits(4), decoded_bits(11);
-  bmat parity_bits(11,1);
+  bmat parity_bits(11, 1);
   vec received_systematic(11), extrinsic_output(11), L(11), symbols;
-  mat received_parity(11,1);
+  mat received_parity(11, 1);
 
-  double Ec = 1.0, N0 = 0.00000000000000000000000000000000000000001, Lc = 4.0*sqrt(Ec)/N0;
-  Normal_RNG noise(0.0,N0/2.0);
+  double Ec = 1.0, N0 = 0.00000000000000000000000000000000000000001, Lc = 4.0 * sqrt(Ec) / N0;
+  Normal_RNG noise(0.0, N0 / 2.0);
 
   BPSK bpsk;
   Rec_Syst_Conv_Code rscc;
@@ -50,8 +50,8 @@ int main()
   rscc.set_generator_polynomials("25 23", 5);
   rscc.set_awgn_channel_parameters(Ec, N0);
 
-  rscc.encode_tail(uncoded_bits,tail_bits,parity_bits);
-  bpsk.modulate_bits( concat(uncoded_bits, tail_bits), symbols );
+  rscc.encode_tail(uncoded_bits, tail_bits, parity_bits);
+  bpsk.modulate_bits(concat(uncoded_bits, tail_bits), symbols);
   received_systematic = symbols + noise(11);
 
   bpsk.modulate_bits(parity_bits.get_col(0), symbols);
@@ -59,11 +59,11 @@ int main()
 
   vec extrinsic_input = zeros(11);
   rscc.map_decode(received_systematic, received_parity, extrinsic_input,
-		  extrinsic_output);
+                  extrinsic_output);
 
-  L = Lc*received_systematic + extrinsic_output;
-  for (int k=0; k<11; k++) {
-    (L(k)>0) ? (decoded_bits(k) = bin(0)) : (decoded_bits(k) = bin(1));
+  L = Lc * received_systematic + extrinsic_output;
+  for (int k = 0; k < 11; k++) {
+    (L(k) > 0) ? (decoded_bits(k) = bin(0)) : (decoded_bits(k) = bin(1));
   }
   cout << "uncoded_bits = " << uncoded_bits << endl;
   cout << "tail_bits = " << tail_bits << endl;

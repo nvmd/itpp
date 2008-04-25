@@ -39,9 +39,9 @@ int main()
   cout.precision(13);
 
   LLR_calc_unit lcu1; // standard table resolution
-  LLR_calc_unit lcu2(10,7,9);  // low table resolution
-  LLR_calc_unit lcu3(2,15,0);  // low table resolution and low LLR granuality
-  LLR_calc_unit lcu4(10,0,0);  // this gives logexp=logmax
+  LLR_calc_unit lcu2(10, 7, 9);  // low table resolution
+  LLR_calc_unit lcu3(2, 15, 0);  // low table resolution and low LLR granuality
+  LLR_calc_unit lcu4(10, 0, 0);  // this gives logexp=logmax
   cout << lcu1 << endl;
   cout << lcu2 << endl;
   cout << lcu3 << endl;
@@ -50,11 +50,11 @@ int main()
   cout << "Testing Jacobian logarithm with four different resolutions." << endl;
   for (double x = 0.0; x < 10; x += 0.1) {
     cout << "JacLog(" << x << ") = "
-	 << lcu1.to_double(lcu1.logexp(lcu1.to_qllr(x))) << " ; "
-	 << lcu2.to_double(lcu2.logexp(lcu2.to_qllr(x))) << " ; "
-	 << lcu3.to_double(lcu3.logexp(lcu3.to_qllr(x))) << " ; "
-	 << lcu4.to_double(lcu4.logexp(lcu4.to_qllr(x)))
-	 << endl;
+         << lcu1.to_double(lcu1.logexp(lcu1.to_qllr(x))) << " ; "
+         << lcu2.to_double(lcu2.logexp(lcu2.to_qllr(x))) << " ; "
+         << lcu3.to_double(lcu3.logexp(lcu3.to_qllr(x))) << " ; "
+         << lcu4.to_double(lcu4.logexp(lcu4.to_qllr(x)))
+         << endl;
   }
 
   cout << "-------------------" << endl;

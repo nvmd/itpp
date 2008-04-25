@@ -52,13 +52,13 @@ int main()
     cout << "CPU_Timer is OK" << endl;
   else
     cout << "CPU_Timer difference: " << fabs(t1.get_time() - period)
-	 << " > " << relative_error * period << endl;
+         << " > " << relative_error * period << endl;
 
   if (fabs(t2.get_time() - period) <= relative_error * period)
     cout << "Real_Timer is OK" << endl;
   else
     cout << "Real_Timer difference: " << fabs(t1.get_time() - period)
-	 << " > " << relative_error * period << endl;
+         << " > " << relative_error * period << endl;
 
   if (t3 >= t2.get_time())
     cout << "tic() and toc() are OK" << endl;

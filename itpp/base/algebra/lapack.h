@@ -37,7 +37,8 @@
 
 #include <complex>
 
-extern "C" {
+extern "C"
+{
 
 // Fix for MKL Windows version so that naming is consistent with the 5.x and
 // 7.x MKL LAPACK libraries
@@ -100,7 +101,7 @@ extern "C" {
    */
   void dgetrf_(int *m, int *n, double *a, int *lda, int *ipiv, int *info);
   void zgetrf_(int *m, int *n, std::complex<double> *a, int *lda, int *ipiv,
-	       int *info);
+               int *info);
 
   // In ATLAS
   /* Inverting a matrix of an LU-factored general matrix (first call xGETRF)
@@ -113,9 +114,9 @@ extern "C" {
    * diagonal element = 0 and U is singular.
    */
   void dgetri_(int *n, double *a, int *lda, int *ipiv, double *work, int *lwork,
-	       int *info);
+               int *info);
   void zgetri_(int *n, std::complex<double> *a, int *lda, int *ipiv,
-	       std::complex<double> *work, int *lwork, int *info);
+               std::complex<double> *work, int *lwork, int *info);
 
   /* SVD of a general rectangular matrix A = U S V^H
      a is of size m*n and with lda rows.
@@ -136,71 +137,71 @@ extern "C" {
      rwork is a workspace array for complex version. Size max(1, 5*min(m,n)).
    */
   void dgesvd_(char *jobu, char *jobvt, int *m, int *n, double *a, int *lda,
-	       double *s, double *u, int *ldu, double *vt, int *ldvt,
-	       double *work, int *lwork, int *info);
+               double *s, double *u, int *ldu, double *vt, int *ldvt,
+               double *work, int *lwork, int *info);
   void zgesvd_(char *jobu, char *jobvt, int *m, int *n, std::complex<double> *a,
-	       int *lda, double *s, std::complex<double> *u, int *ldu,
-	       std::complex<double> *vt, int *ldvt, std::complex<double> *work,
-	       int *lwork, double *rwork, int *info);
+               int *lda, double *s, std::complex<double> *u, int *ldu,
+               std::complex<double> *vt, int *ldvt, std::complex<double> *work,
+               int *lwork, double *rwork, int *info);
 
   /* Eigenvalues and eigenvectors of a symmetric/hermitian matrix A */
   void dsyev_(char *jobz, char *uplo, int *n, double *a, int *lda, double *w,
-	      double *work, int *lwork, int *info);
+              double *work, int *lwork, int *info);
   void zheev_(char *jobz, char *uplo, int *n, std::complex<double> *a, int *lda,
-	      double *w, std::complex<double> *work, int *lwork, double *rwork,
-	      int *info);
+              double *w, std::complex<double> *work, int *lwork, double *rwork,
+              int *info);
 
   /* Eigenvalues and eigenvectors of a general matrix A */
   void dgeev_(char *jobvl, char *jobvr, int *n, double *a, int *lda, double *wr,
-	      double *wi, double *vl, int *ldvl, double *vr, int *ldvr,
-	      double *work, int *lwork, int *info);
+              double *wi, double *vl, int *ldvl, double *vr, int *ldvr,
+              double *work, int *lwork, int *info);
   void zgeev_(char *jobvl, char *jobvr, int *n, std::complex<double> *a,
-	      int *lda, std::complex<double> *w, std::complex<double> *vl,
-	      int *ldvl, std::complex<double> *vr, int *ldvr,
-	      std::complex<double> *work, int *lwork, double *rwork, int *info);
+              int *lda, std::complex<double> *w, std::complex<double> *vl,
+              int *ldvl, std::complex<double> *vr, int *ldvr,
+              std::complex<double> *work, int *lwork, double *rwork, int *info);
 
   // In ATLAS
   /* Cholesky factorization */
   void dpotrf_(char *uplo, int *n, double *a, int *lda, int *info);
   void zpotrf_(char *uplo, int *n, std::complex<double> *a, int *lda,
-	       int *info);
+               int *info);
 
   /* QR factorization of a general matrix A  */
   void dgeqrf_(int *m, int *n, double *a, int *lda, double *tau, double *work,
-	       int *lwork, int *info);
+               int *lwork, int *info);
   void zgeqrf_(int *m, int *n, std::complex<double> *a, int *lda,
-	       std::complex<double> *tau, std::complex<double> *work,
-	       int *lwork, int *info);
+               std::complex<double> *tau, std::complex<double> *work,
+               int *lwork, int *info);
 
   /* QR factorization of a general matrix A with pivoting */
   void dgeqp3_(int *m, int *n, double *a, int *lda, int *jpvt, double *tau,
-	       double *work, int *lwork, int *info);
+               double *work, int *lwork, int *info);
   void zgeqp3_(int *m, int *n, std::complex<double> *a, int *lda, int *jpvt,
-	       std::complex<double> *tau, std::complex<double> *work,
-	       int *lwork, double *rwork, int *info);
+               std::complex<double> *tau, std::complex<double> *work,
+               int *lwork, double *rwork, int *info);
 
   /* Calculation of Q matrix from QR-factorization */
   void dorgqr_(int *m, int *n, int *k, double *a, int *lda, double *tau,
-	       double *work, int *lwork, int *info);
+               double *work, int *lwork, int *info);
   void zungqr_(int *m, int *n, int *k, std::complex<double> *a, int *lda,
-	       std::complex<double> *tau, std::complex<double> *work,
-	       int *lwork, int *info);
+               std::complex<double> *tau, std::complex<double> *work,
+               int *lwork, int *info);
 
   /*
    * Multiplies a real matrix by the orthogonal matix Q of the QR
    * factorization formed by dgeqp3_()
    */
   void dormqr_(char *side, char *trans, int *m, int *n, int *k, double *a,
-	       int *lda, double *tau, double *c, int *ldc, double *work,
-	       int *lwork, int *info);
+               int *lda, double *tau, double *c, int *ldc, double *work,
+               int *lwork, int *info);
   /*
    * Multiplies a complex matrix by the unitary matix Q of the QR
    * factorization formed by zgeqp3_()
    */
   void zunmqr_(char *side, char *trans, int *m, int *n, int *k,
-	       std::complex<double> *a, int *lda, std::complex<double> *tau,
-	       std::complex<double> *c, int *ldc, std::complex<double> *work,
-	       int *lwork, int *info);
+               std::complex<double> *a, int *lda, std::complex<double> *tau,
+               std::complex<double> *c, int *ldc, std::complex<double> *work,
+               int *lwork, int *info);
 
   // In ATLAS
   /*
@@ -208,9 +209,9 @@ extern "C" {
    * Using LU-factorization
    */
   void dgesv_(int *n, int *nrhs, double *a, int *lda, int *ipiv, double *b,
-	      int *ldb, int *info);
+              int *ldb, int *info);
   void zgesv_(int *n, int *nrhs, std::complex<double> *a, int *lda, int *ipiv,
-	      std::complex<double> *b, int *ldb, int *info);
+              std::complex<double> *b, int *ldb, int *info);
 
   // In ATLAS
   /*
@@ -219,47 +220,47 @@ extern "C" {
    * Cholesky-factorization
    */
   void dposv_(char *uplo, int *n, int *nrhs, double *a, int *lda, double *b,
-	      int *ldb, int *info);
+              int *ldb, int *info);
   void zposv_(char *uplo, int *n, int *nrhs, std::complex<double> *a, int *lda,
-	      std::complex<double> *b, int *ldb, int *info);
+              std::complex<double> *b, int *ldb, int *info);
 
   /*
    * Solves a system of linear equations with a triangular matrix with
    * multiple right-hand sides
    */
   void dtrtrs_(char *uplo, char *trans, char *diag, int *n, int *nrhs,
-	       double *a, int *lda, double *b, int *ldb, int *info);
+               double *a, int *lda, double *b, int *ldb, int *info);
   void ztrtrs_(char *uplo, char *trans, char *diag, int *n, int *nrhs,
-	       std::complex<double> *a, int *lda, std::complex<double> *b,
-	       int *ldb, int *info);
+               std::complex<double> *a, int *lda, std::complex<double> *b,
+               int *ldb, int *info);
 
   /*
    * Solves a linear over/underdetermined system using QR or LQ
    * factorization. Assumes a full rank matrix
    */
   void dgels_(char *trans, int *m, int *n, int *nrhs, double *a, int *lda,
-	      double *b, int *ldb, double *work, int *lwork, int *info);
+              double *b, int *ldb, double *work, int *lwork, int *info);
   void zgels_(char *trans, int *m, int *n, int *nrhs, std::complex<double> *a,
-	      int *lda, std::complex<double> *b, int *ldb,
-	      std::complex<double> *work, int *lwork, int *info);
+              int *lda, std::complex<double> *b, int *ldb,
+              std::complex<double> *work, int *lwork, int *info);
 
   /*
    * Compute for an N-by-N real nonsymmetric matrix A, the eigenvalues,
    * the real Schur form T, and, optionally, the matrix of Schur vectors Z
    */
   void dgees_(char *jobvs, char *sort, int* select, int *n, double *a,
-	      int *lda, int *sdim, double *wr, double *wi, double *vs,
-	      int *ldvs, double *work, int *lwork, int *bwork, int *info);
+              int *lda, int *sdim, double *wr, double *wi, double *vs,
+              int *ldvs, double *work, int *lwork, int *bwork, int *info);
 
   /*
    * Compute for an N-by-N complex nonsymmetric matrix A, the eigenvalues,
    * the Schur form T, and, optionally, the matrix of Schur vectors Z
    */
   void zgees_(char *jobvs, char *sort, int* select, int *n,
-	      std::complex<double> *a, int *lda, int *sdim,
-	      std::complex<double> *w, std::complex<double> *vs, int *ldvs,
-	      std::complex<double> *work, int *lwork, double *rwork,
-	      int *bwork, int *info);
+              std::complex<double> *a, int *lda, int *sdim,
+              std::complex<double> *w, std::complex<double> *vs, int *ldvs,
+              std::complex<double> *work, int *lwork, double *rwork,
+              int *bwork, int *info);
 
 } // extern C
 

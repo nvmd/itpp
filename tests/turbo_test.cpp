@@ -36,7 +36,8 @@ int main()
 {
   Turbo_Codec turbo;
   ivec gen(2);
-  gen(0) = 07; gen(1) = 05;
+  gen(0) = 07;
+  gen(1) = 05;
   int constraint_length = 3;
   int block_length = 400;
   ivec interleaver_sequence = wcdma_turbo_interleaver_sequence(block_length);
@@ -45,8 +46,8 @@ int main()
   double logmax_scale_factor = 0.7;
   bool adaptive_stop = true;
   turbo.set_parameters(gen, gen, constraint_length, interleaver_sequence,
-		       iterations, metric, logmax_scale_factor,
-		       adaptive_stop);
+                       iterations, metric, logmax_scale_factor,
+                       adaptive_stop);
   int num_blocks = 50;
 
   vec EbN0db = "0.0 0.5 1.0 1.5 2.0";
@@ -81,13 +82,13 @@ int main()
   cout << "  Turbo encoder rate 1/3 (plus tail bits)" << endl;
   cout << "=============================================" << endl;
 
-  mat err = zeros(4,EbN0db.length());
-  mat cor = zeros(4,EbN0db.length());
-  mat ber = zeros(4,EbN0db.length());
-  mat avg_nrof_iterations = zeros(4,EbN0db.length());
-  LLR_calc_unit lowresllrcalc(10,7,9);  // table with low resolution
+  mat err = zeros(4, EbN0db.length());
+  mat cor = zeros(4, EbN0db.length());
+  mat ber = zeros(4, EbN0db.length());
+  mat avg_nrof_iterations = zeros(4, EbN0db.length());
+  LLR_calc_unit lowresllrcalc(10, 7, 9);  // table with low resolution
   Array<Real_Timer> timer(4);
-  for (int i = 0; i < 4; i++) { 
+  for (int i = 0; i < 4; i++) {
     timer(i).reset();
   }
 
@@ -98,57 +99,57 @@ int main()
     turbo.set_awgn_channel_parameters(Ec, N0(i));
     input = randb(block_length * num_blocks);
 
-    turbo.encode(input,transmitted);
+    turbo.encode(input, transmitted);
     bpsk.modulate_bits(transmitted, symbols);
     received = symbols + noise_src(transmitted.length());
 
     // -- logmax decoding --
-    turbo.set_metric("LOGMAX",1.0);
+    turbo.set_metric("LOGMAX", 1.0);
     timer(0).start();
     turbo.decode(received, decoded_bits, nrof_used_iterations);
     timer(0).stop();
     berc.clear();
-    berc.count(input,decoded_bits);
-    err(0,i) = berc.get_errors();
-    cor(0,i) = berc.get_corrects();
-    ber(0,i) = berc.get_errorrate();
-    avg_nrof_iterations(0,i) = static_cast<double>(sum(nrof_used_iterations)) / length(nrof_used_iterations);
+    berc.count(input, decoded_bits);
+    err(0, i) = berc.get_errors();
+    cor(0, i) = berc.get_corrects();
+    ber(0, i) = berc.get_errorrate();
+    avg_nrof_iterations(0, i) = static_cast<double>(sum(nrof_used_iterations)) / length(nrof_used_iterations);
 
     // -- logmap decoding --
-    turbo.set_metric("LOGMAP",1.0);
+    turbo.set_metric("LOGMAP", 1.0);
     timer(1).start();
     turbo.decode(received, decoded_bits, nrof_used_iterations);
     timer(1).stop();
     berc.clear();
-    berc.count(input,decoded_bits);
-    err(1,i) = berc.get_errors();
-    cor(1,i) = berc.get_corrects();
-    ber(1,i) = berc.get_errorrate();
-    avg_nrof_iterations(1,i) = static_cast<double>(sum(nrof_used_iterations)) / length(nrof_used_iterations);
+    berc.count(input, decoded_bits);
+    err(1, i) = berc.get_errors();
+    cor(1, i) = berc.get_corrects();
+    ber(1, i) = berc.get_errorrate();
+    avg_nrof_iterations(1, i) = static_cast<double>(sum(nrof_used_iterations)) / length(nrof_used_iterations);
 
     // -- QLLR decoding, default resolution --
-    turbo.set_metric("TABLE",1.0);
+    turbo.set_metric("TABLE", 1.0);
     timer(2).start();
     turbo.decode(received, decoded_bits, nrof_used_iterations);
     timer(2).stop();
     berc.clear();
-    berc.count(input,decoded_bits);
-    err(2,i) = berc.get_errors();
-    cor(2,i) = berc.get_corrects();
-    ber(2,i) = berc.get_errorrate();
-    avg_nrof_iterations(2,i) = static_cast<double>(sum(nrof_used_iterations)) / length(nrof_used_iterations);
+    berc.count(input, decoded_bits);
+    err(2, i) = berc.get_errors();
+    cor(2, i) = berc.get_corrects();
+    ber(2, i) = berc.get_errorrate();
+    avg_nrof_iterations(2, i) = static_cast<double>(sum(nrof_used_iterations)) / length(nrof_used_iterations);
 
     // -- QLLR decoding, low resolution --
-    turbo.set_metric("TABLE",1.0,lowresllrcalc);
+    turbo.set_metric("TABLE", 1.0, lowresllrcalc);
     timer(3).start();
     turbo.decode(received, decoded_bits, nrof_used_iterations);
     timer(3).stop();
     berc.clear();
-    berc.count(input,decoded_bits);
-    err(3,i) = berc.get_errors();
-    cor(3,i) = berc.get_corrects();
-    ber(3,i) = berc.get_errorrate();
-    avg_nrof_iterations(3,i) = static_cast<double>(sum(nrof_used_iterations)) / length(nrof_used_iterations);
+    berc.count(input, decoded_bits);
+    err(3, i) = berc.get_errors();
+    cor(3, i) = berc.get_corrects();
+    ber(3, i) = berc.get_errorrate();
+    avg_nrof_iterations(3, i) = static_cast<double>(sum(nrof_used_iterations)) / length(nrof_used_iterations);
 
   }
 

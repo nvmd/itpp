@@ -43,90 +43,92 @@ int main()
     mat A, B, X;
     vec b, x;
 
-    A = randn(4,4);
+    A = randn(4, 4);
     b = randn(4);
     x = ls_solve(A, b);
 
     cout << "Square system: Ax=b" << endl
-	 << "============================" << endl
-	 << "A=" << A << endl
-	 << "b=" << b << endl
-	 << "x=" << x << endl << endl;
+         << "============================" << endl
+         << "A=" << A << endl
+         << "b=" << b << endl
+         << "x=" << x << endl << endl;
 
-    A = randn(4,4);
-    B = randn(4,2);
+    A = randn(4, 4);
+    B = randn(4, 2);
     X = ls_solve(A, B);
 
     cout << "Square system: AX=B" << endl
-	 << "============================" << endl
-	 << "A=" << A << endl
-	 << "B=" << B << endl
-	 << "X=" << X << endl << endl;
+         << "============================" << endl
+         << "A=" << A << endl
+         << "B=" << B << endl
+         << "X=" << X << endl << endl;
 
 
 
-    A = randn(4,4); A = A.transpose()*A;
+    A = randn(4, 4);
+    A = A.transpose() * A;
     b = randn(4);
     x = ls_solve(A, b);
 
     cout << "Square system (chol): Ax=b" << endl
-	 << "============================" << endl
-	 << "A=" << A << endl
-	 << "b=" << b << endl
-	 << "x=" << x << endl << endl;
+         << "============================" << endl
+         << "A=" << A << endl
+         << "b=" << b << endl
+         << "x=" << x << endl << endl;
 
 
-    A = randn(4,4); A = A.transpose()*A;
-    B = randn(4,2);
+    A = randn(4, 4);
+    A = A.transpose() * A;
+    B = randn(4, 2);
     X = ls_solve(A, B);
 
     cout << "Square system (Chol): AX=B" << endl
-	 << "============================" << endl
-	 << "A=" << A << endl
-	 << "B=" << B << endl
-	 << "X=" << X << endl << endl;
+         << "============================" << endl
+         << "A=" << A << endl
+         << "B=" << B << endl
+         << "X=" << X << endl << endl;
 
 
 
-    A = randn(4,2);
+    A = randn(4, 2);
     b = randn(4);
     x = ls_solve_od(A, b);
 
     cout << "Overdetermined system: Ax=b" << endl
-	 << "============================" << endl
-	 << "A=" << A << endl
-	 << "b=" << b << endl
-	 << "x=" << x << endl << endl;
+         << "============================" << endl
+         << "A=" << A << endl
+         << "b=" << b << endl
+         << "x=" << x << endl << endl;
 
-    A = randn(4,2);
-    B = randn(4,3);
+    A = randn(4, 2);
+    B = randn(4, 3);
     X = ls_solve_od(A, B);
 
     cout << "Overdetermined system: AX=B" << endl
-	 << "============================" << endl
-	 << "A=" << A << endl
-	 << "B=" << B << endl
-	 << "X=" << X << endl << endl;
+         << "============================" << endl
+         << "A=" << A << endl
+         << "B=" << B << endl
+         << "X=" << X << endl << endl;
 
-    A = randn(2,4);
+    A = randn(2, 4);
     b = randn(2);
     x = ls_solve_ud(A, b);
 
     cout << "Underdetermined system: Ax=b" << endl
-	 << "============================" << endl
-	 << "A=" << A << endl
-	 << "b=" << b << endl
-	 << "x=" << x << endl << endl;
+         << "============================" << endl
+         << "A=" << A << endl
+         << "b=" << b << endl
+         << "x=" << x << endl << endl;
 
-    A = randn(2,4);
-    B = randn(2,3);
+    A = randn(2, 4);
+    B = randn(2, 3);
     X = ls_solve_ud(A, B);
 
     cout << "Underdetermined system: AX=B" << endl
-	 << "============================" << endl
-	 << "A=" << A << endl
-	 << "B=" << B << endl
-	 << "X=" << X << endl << endl;
+         << "============================" << endl
+         << "A=" << A << endl
+         << "B=" << B << endl
+         << "X=" << X << endl << endl;
 
   }
 
@@ -136,90 +138,92 @@ int main()
     cmat A, B, X;
     cvec b, x;
 
-    A = randn_c(4,4);
+    A = randn_c(4, 4);
     b = randn_c(4);
     x = ls_solve(A, b);
 
     cout << "Square system: Ax=b" << endl
-	 << "============================" << endl
-	 << "A=" << A << endl
-	 << "b=" << b << endl
-	 << "x=" << x << endl << endl;
+         << "============================" << endl
+         << "A=" << A << endl
+         << "b=" << b << endl
+         << "x=" << x << endl << endl;
 
-    A = randn_c(4,4);
-    B = randn_c(4,2);
+    A = randn_c(4, 4);
+    B = randn_c(4, 2);
     X = ls_solve(A, B);
 
     cout << "Square system: AX=B" << endl
-	 << "============================" << endl
-	 << "A=" << A << endl
-	 << "B=" << B << endl
-	 << "X=" << X << endl << endl;
+         << "============================" << endl
+         << "A=" << A << endl
+         << "B=" << B << endl
+         << "X=" << X << endl << endl;
 
 
 
-    A = randn_c(4,4); A = A.transpose()*A;
+    A = randn_c(4, 4);
+    A = A.transpose() * A;
     b = randn_c(4);
     x = ls_solve(A, b);
 
     cout << "Square system (chol): Ax=b" << endl
-	 << "============================" << endl
-	 << "A=" << A << endl
-	 << "b=" << b << endl
-	 << "x=" << x << endl << endl;
+         << "============================" << endl
+         << "A=" << A << endl
+         << "b=" << b << endl
+         << "x=" << x << endl << endl;
 
 
-    A = randn_c(4,4); A = A.transpose()*A;
-    B = randn_c(4,2);
+    A = randn_c(4, 4);
+    A = A.transpose() * A;
+    B = randn_c(4, 2);
     X = ls_solve(A, B);
 
     cout << "Square system (Chol): AX=B" << endl
-	 << "============================" << endl
-	 << "A=" << A << endl
-	 << "B=" << B << endl
-	 << "X=" << X << endl << endl;
+         << "============================" << endl
+         << "A=" << A << endl
+         << "B=" << B << endl
+         << "X=" << X << endl << endl;
 
 
 
-    A = randn_c(4,2);
+    A = randn_c(4, 2);
     b = randn_c(4);
     x = ls_solve_od(A, b);
 
     cout << "Overdetermined system: Ax=b" << endl
-	 << "============================" << endl
-	 << "A=" << A << endl
-	 << "b=" << b << endl
-	 << "x=" << x << endl << endl;
+         << "============================" << endl
+         << "A=" << A << endl
+         << "b=" << b << endl
+         << "x=" << x << endl << endl;
 
-    A = randn_c(4,2);
-    B = randn_c(4,3);
+    A = randn_c(4, 2);
+    B = randn_c(4, 3);
     X = ls_solve_od(A, B);
 
     cout << "Overdetermined system: AX=B" << endl
-	 << "============================" << endl
-	 << "A=" << A << endl
-	 << "B=" << B << endl
-	 << "X=" << X << endl << endl;
+         << "============================" << endl
+         << "A=" << A << endl
+         << "B=" << B << endl
+         << "X=" << X << endl << endl;
 
-    A = randn_c(2,4);
+    A = randn_c(2, 4);
     b = randn_c(2);
     x = ls_solve_ud(A, b);
 
     cout << "Underdetermined system: Ax=b" << endl
-	 << "============================" << endl
-	 << "A=" << A << endl
-	 << "b=" << b << endl
-	 << "x=" << x << endl << endl;
+         << "============================" << endl
+         << "A=" << A << endl
+         << "b=" << b << endl
+         << "x=" << x << endl << endl;
 
-    A = randn_c(2,4);
-    B = randn_c(2,3);
+    A = randn_c(2, 4);
+    B = randn_c(2, 3);
     X = ls_solve_ud(A, B);
 
     cout << "Underdetermined system: AX=B" << endl
-	 << "============================" << endl
-	 << "A=" << A << endl
-	 << "B=" << B << endl
-	 << "X=" << X << endl << endl;
+         << "============================" << endl
+         << "A=" << A << endl
+         << "B=" << B << endl
+         << "X=" << X << endl << endl;
 
   }
 

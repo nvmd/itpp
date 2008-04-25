@@ -34,94 +34,102 @@
 #include <limits>
 
 
-namespace std {
+namespace std
+{
 
-  //! Output stream operator for complex numbers
-  template <class T>
-  std::ostream& operator<<(std::ostream &os, const std::complex<T> &x)
-  {
-    os << x.real();
-    ios::fmtflags saved_format = os.setf(ios::showpos);
-    os << x.imag();
-    os.setf(saved_format, ios::showpos);
-    return os << 'i';
-  }
+//! Output stream operator for complex numbers
+template <class T>
+std::ostream& operator<<(std::ostream &os, const std::complex<T> &x)
+{
+  os << x.real();
+  ios::fmtflags saved_format = os.setf(ios::showpos);
+  os << x.imag();
+  os.setf(saved_format, ios::showpos);
+  return os << 'i';
+}
 
-  //! Input stream operator for complex numbers
-  template <class T>
-  std::istream& operator>>(std::istream &is, std::complex<T> &x)
-  {
-    T re, im;
-    char c;
-    is >> c;
-    if (c == '(') {
-      is >> re >> c;
-      if (c == ',') {
-        is >> im >> c;
-        if (c == ')') {
-          x = complex<T>(re, im);
-        } else {
-          is.setstate(ios_base::failbit);
-        }
-      } else if (c == ')') {
-        x = complex<T>(re, T(0));
-      } else {
+//! Input stream operator for complex numbers
+template <class T>
+std::istream& operator>>(std::istream &is, std::complex<T> &x)
+{
+  T re, im;
+  char c;
+  is >> c;
+  if (c == '(') {
+    is >> re >> c;
+    if (c == ',') {
+      is >> im >> c;
+      if (c == ')') {
+        x = complex<T>(re, im);
+      }
+      else {
         is.setstate(ios_base::failbit);
       }
-    } else {
-      is.putback(c);
-      is >> re;
-      if (!is.eof() && ((c = is.peek()) == '+' || c == '-')) {
-        is >> im >> c;
-        if (c == 'i') {
-          x = complex<T>(re, im);
-        } else {
-          is.setstate(ios_base::failbit);
-        }
-      } else {
-        x = complex<T>(re, T(0));
+    }
+    else if (c == ')') {
+      x = complex<T>(re, T(0));
+    }
+    else {
+      is.setstate(ios_base::failbit);
+    }
+  }
+  else {
+    is.putback(c);
+    is >> re;
+    if (!is.eof() && ((c = is.peek()) == '+' || c == '-')) {
+      is >> im >> c;
+      if (c == 'i') {
+        x = complex<T>(re, im);
+      }
+      else {
+        is.setstate(ios_base::failbit);
       }
     }
-    return is;
+    else {
+      x = complex<T>(re, T(0));
+    }
   }
+  return is;
+}
 
 } // namespace std
 
 
 //! itpp namespace
-namespace itpp {
+namespace itpp
+{
 
-  //! Constant Pi
-  const double pi = 3.14159265358979323846;
+//! Constant Pi
+const double pi = 3.14159265358979323846;
 
-  //! Constant 2*Pi
-  const double m_2pi = 2 * pi;
+//! Constant 2*Pi
+const double m_2pi = 2 * pi;
 
-  //! Constant eps
-  const double eps = std::numeric_limits<double>::epsilon();
+//! Constant eps
+const double eps = std::numeric_limits<double>::epsilon();
 
-  //! \addtogroup miscfunc
-  //!@{
+//! \addtogroup miscfunc
+//!@{
 
-  //! Return true if x is an integer
-  inline bool is_int(double x)
-  {
-    double dummy;
-    return (modf(x, &dummy) == 0.0);
-  }
+//! Return true if x is an integer
+inline bool is_int(double x)
+{
+  double dummy;
+  return (modf(x, &dummy) == 0.0);
+}
 
-  //! Return true if x is an even integer
-  inline bool is_even(int x) { return ((x&1) == 0); }
-
-
-  //! Returns IT++ library version number, e.g. "3.7.1".
-  std::string itpp_version();
+//! Return true if x is an even integer
+inline bool is_even(int x) { return ((x&1) == 0); }
 
 
-  //! Returns machine endianness: big-endian = true; little-endian = false
-  bool check_big_endianness();
+//! Returns IT++ library version number, e.g. "3.7.1".
+std::string itpp_version();
 
-  //!@}
+
+//! Returns machine endianness: big-endian = true; little-endian = false
+bool check_big_endianness();
+
+//!@}
 
 } //namespace itpp
 

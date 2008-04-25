@@ -45,20 +45,20 @@ int main()
     qr(A, Q, R);
     cout << "A = " << round_to_zero(A) << endl;
     cout << "norm(A - Q*R) = " << round_to_zero(norm(A - Q * R)) << endl
-	 << endl;
+         << endl;
 
     // This does not give same sizes as matlab. Why???!!!!!
     A = randn(4, 2);
     qr(A, Q, R);
     cout << "A = " << round_to_zero(A) << endl;
     cout << "norm(A - Q*R) = " << round_to_zero(norm(A - Q * R)) << endl
-	 << endl;
+         << endl;
 
     A = randn(2, 4);
     qr(A, Q, R);
     cout << "A = " << round_to_zero(A) << endl;
     cout << "norm(A - Q*R) = " << round_to_zero(norm(A - Q * R)) << endl
-	 << endl;
+         << endl;
   }
 
   {
@@ -68,19 +68,19 @@ int main()
     qr(A, R);
     cout << "A = " << round_to_zero(A) << endl;
     cout << "norm(A.T()*A - R.T()*R) = " << round_to_zero(norm(A.T()*A -  R.T()*R)) << endl
-	 << endl;
+         << endl;
 
     A = randn(4, 2);
     qr(A, R);
     cout << "A = " << round_to_zero(A) << endl;
     cout << "norm(A.T()*A - R.T()*R) = " << round_to_zero(norm(A.T()*A -  R.T()*R)) << endl
-	 << endl;
+         << endl;
 
     A = randn(2, 4);
     qr(A, R);
     cout << "A = " << round_to_zero(A) << endl;
     cout << "norm(A.T()*A - R.T()*R) = " << round_to_zero(norm(A.T()*A -  R.T()*R)) << endl
-	 << endl;
+         << endl;
   }
 
   {
@@ -89,20 +89,20 @@ int main()
     bmat P;
     mat A = randn(5, 5);
     qr(A, Q, R, P);
-    e = A*to_mat(P) - Q*R;
+    e = A * to_mat(P) - Q * R;
     cout << "A = " << round_to_zero(A) << endl;
     cout << "norm(A*mat(P) - Q*R) = " << round_to_zero(norm(e)) << endl << endl;
 
     // This does not give same sizes as matlab. Why???!!!!!
     A = randn(4, 2);
     qr(A, Q, R, P);
-    e = A*to_mat(P) - Q*R;
+    e = A * to_mat(P) - Q * R;
     cout << "A = " << round_to_zero(A) << endl;
     cout << "norm(A*mat(P) - Q*R) = " << round_to_zero(norm(e)) << endl << endl;
 
     A = randn(2, 4);
     qr(A, Q, R, P);
-    e = A*to_mat(P) - Q*R;
+    e = A * to_mat(P) - Q * R;
     cout << "A = " << round_to_zero(A) << endl;
     cout << "norm(A*mat(P) - Q*R) = " << round_to_zero(norm(e)) << endl << endl;
   }
@@ -113,20 +113,20 @@ int main()
     cmat Q, R, e;
 
     qr(A, Q, R);
-    e = A - Q*R;
+    e = A - Q * R;
     cout << "A = " << round_to_zero(A) << endl;
     cout << "norm(A - Q*R) = " << round_to_zero(norm(e)) << endl << endl;
 
     // This does not give same sizes as matlab. Why???!!!!!
     A = randn_c(4, 2);
     qr(A, Q, R);
-    e = A - Q*R;
+    e = A - Q * R;
     cout << "A = " << round_to_zero(A) << endl;
     cout << "norm(A - Q*R) = " << round_to_zero(norm(e)) << endl << endl;
 
     A = randn_c(2, 4);
     qr(A, Q, R);
-    e = A - Q*R;
+    e = A - Q * R;
     cout << "A = " << round_to_zero(A) << endl;
     cout << "norm(A - Q*R) = " << round_to_zero(norm(e)) << endl << endl;
   }
@@ -137,19 +137,19 @@ int main()
     cmat R, e;
 
     qr(A, R);
-    e = A.H()*A - R.H()*R;
+    e = A.H() * A - R.H() * R;
     cout << "A = " << round_to_zero(A) << endl;
     cout << "norm(A.H()*A - R.H()*R) = " << round_to_zero(norm(e)) << endl << endl;
 
     A = randn_c(4, 2);
     qr(A, R);
-    e = A.H()*A - R.H()*R;
+    e = A.H() * A - R.H() * R;
     cout << "A = " << round_to_zero(A) << endl;
     cout << "norm(A.H()*A - R.H()*R) = " << round_to_zero(norm(e)) << endl << endl;
 
     A = randn_c(2, 4);
     qr(A, R);
-    e = A.H()*A - R.H()*R;
+    e = A.H() * A - R.H() * R;
     cout << "A = " << round_to_zero(A) << endl;
     cout << "norm(A.H()*A - R.H()*R) = " << round_to_zero(norm(e)) << endl << endl;
   }
@@ -161,7 +161,7 @@ int main()
     bmat P;
 
     qr(A, Q, R, P);
-    e = A*to_mat(P) - Q*R;
+    e = A * to_mat(P) - Q * R;
 
     cout << "A = " << round_to_zero(A) << endl;
     cout << "norm(A*mat(P) - Q*R) = " << round_to_zero(norm(e)) << endl << endl;
@@ -169,14 +169,14 @@ int main()
     // This does not give same sizes as matlab. Why???!!!!!
     A = randn_c(4, 2);
     qr(A, Q, R, P);
-    e = A*to_mat(P) - Q*R;
+    e = A * to_mat(P) - Q * R;
 
     cout << "A = " << round_to_zero(A) << endl;
     cout << "norm(A*mat(P) - Q*R) = " << round_to_zero(norm(e)) << endl << endl;
 
     A = randn_c(2, 4);
     qr(A, Q, R, P);
-    e = A*to_mat(P) - Q*R;
+    e = A * to_mat(P) - Q * R;
 
     cout << "A = " << round_to_zero(A) << endl;
     cout << "norm(A*mat(P) - Q*R) = " << round_to_zero(norm(e)) << endl << endl;
