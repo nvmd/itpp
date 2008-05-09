@@ -1,3 +1,7 @@
+2008-05-09  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* doc/tutorial/matlab_itpp.doc: Documentation improvement
+
 2008-04-25  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/modulator_nd_test.cpp: Cosmetic fix - remove doubled
