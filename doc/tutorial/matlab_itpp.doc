@@ -39,16 +39,16 @@ vectors, whereas IT++ does not.
 A.rows()                             // size(A,1)
 A.cols()                             // size(A,2)
 A(k-1,l-1)                           // A(k,l)
-A.set(k-1,l-1,x);                    // A(k,l)=x;
+A.set(k-1,l-1,x)                     // A(k,l)=x
 A.get_col(k-1)                       // A(:,k)
 A.get_row(k-1)                       // A(k,:)
-A.set_col(k-1,a);                    // A(:,k)=a;
-A.set_row(k-1,a);                    // A(k,:)=a;
-A.append_row(a);                     // A=[A; a.'];
-A.append_col(a);                     // A=[A a];
+A.set_col(k-1,a)                     // A(:,k)=a
+A.set_row(k-1,a)                     // A(k,:)=a
+A.append_row(a)                      // A=[A; a.']
+A.append_col(a)                      // A=[A a]
 A.transpose()                        // A.'
 A.hermitian_transpose()              // A'
-A.clear();                           // A=zeros(size(A));  (or A=complex(zeros(size(A)));)
+A.clear()                            // A=zeros(size(A))  [or A=complex(zeros(size(A)))]
 to_cmat(A)                           // complex(A)   (assuming a real-valued)
 \endcode
 <br><br>
@@ -61,12 +61,12 @@ a*b                                  // a.'*b (inner product)
 conj(a)*b                            // a'*b (inner product)
 outer_product(a,b)                   // a*b.' (outer product)
 elem_div(a,b)                        // a./b
-A+B;                                 // A+B;
-A-B;                                 // A-B;
-A*B;                                 // A*B;
+A+B                                  // A+B
+A-B                                  // A-B
+A*B                                  // A*B
 elem_mul(A,B)                        // A.*B
 elem_div(A,B)                        // A./B
-A\b;                                 // ls_solve_od(A,b);    (assuming the system is overdetermined)
+ls_solve_od(A,b)                     // A\b    (assuming the system is overdetermined)
 \endcode
 <br><br>
 <b>Special matrices and vectors:</b>
