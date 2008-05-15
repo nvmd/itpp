@@ -170,23 +170,6 @@ AM_CONDITIONAL([ENABLE_SIGNAL], [test "x$enable_signal" = xyes])
 AM_CONDITIONAL([ENABLE_SRCCODE], [test "x$enable_srccode" = xyes])
 
 
-PACKAGE_DEBUG="$PACKAGE"
-# Set debug flags
-if test "x$enable_debug" = xyes; then
-  PACKAGE_DEBUG="$PACKAGE"_debug
-  if test "x$CXXFLAGS_DEBUG" = x; then
-    CXXFLAGS_DEBUG="-g"
-    # Only for GCC compiler
-    if test "x$GXX" = xyes; then
-      CXXFLAGS_DEBUG="-Wall $CXXFLAGS_DEBUG -pipe"
-    fi
-  fi
-fi
-# Remove unnecesary white spaces from LIBS
-CXXFLAGS_DEBUG="`echo \"$CXXFLAGS_DEBUG\" | $SED -e 's/  */ /g' -e 's/^ //' -e 's/ $//'`"
-AC_SUBST(CXXFLAGS_DEBUG)
-AC_SUBST(PACKAGE_DEBUG)
-
 # Set optimised flags
 if test "x$CXXFLAGS" = x; then
   CXXFLAGS_OPT="-DNDEBUG -O3"
@@ -200,6 +183,26 @@ else
 fi
 CXXFLAGS_OPT="`echo \"$CXXFLAGS_OPT\" | $SED -e 's/  */ /g' -e 's/^ //' -e 's/ $//'`"
 AC_SUBST(CXXFLAGS_OPT)
+
+
+# Set debug flags
+if test "x$enable_debug" = xyes; then
+  PACKAGE_DEBUG="$PACKAGE"_debug
+  if test "x$CXXFLAGS_DEBUG" = x; then
+    CXXFLAGS_DEBUG="-g"
+    # Only for GCC compiler
+    if test "x$GXX" = xyes; then
+      CXXFLAGS_DEBUG="-Wall $CXXFLAGS_DEBUG -pipe"
+    fi
+  fi
+else
+  PACKAGE_DEBUG="$PACKAGE"
+  CXXFLAGS_DEBUG="$CXXFLAGS_OPT"
+fi
+# Remove unnecesary white spaces from LIBS
+CXXFLAGS_DEBUG="`echo \"$CXXFLAGS_DEBUG\" | $SED -e 's/  */ /g' -e 's/^ //' -e 's/ $//'`"
+AC_ARG_VAR(CXXFLAGS_DEBUG, [C++ compiler flags for the debugging library])
+AC_SUBST(PACKAGE_DEBUG)
 
 
 # Checks for documentation build tools

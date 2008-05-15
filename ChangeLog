@@ -1,3 +1,13 @@
+2008-05-15  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac.in: Set CXXFLAGS_DEBUG to CXXFLAGS when
+	--enable-debug is not used
+
+	This new behaviour is consistent with setting the same set of
+	libraries for both the debug and optimised cases, when
+	--enable-debug is not used. Besides, the CXXFLAGS_DEBUG variable
+	is now documented when "configure --help" is used.
+
 2008-05-09  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* doc/tutorial/matlab_itpp.doc: Documentation improvement
