@@ -183,8 +183,8 @@ int assert_shifts(const Fix &x, const Fix &y)
 
 int assert_shifts(const Fix &x, int y)
 {
-  if ((x.shift != 0) && (x.re != 0) && (y != 0))
-    it_error("assert_shifts: Different shifts not allowed!");
+  it_error_if((x.shift != 0) && (x.re != 0) && (y != 0),
+              "assert_shifts: Different shifts not allowed!");
   return x.shift;
 }
 

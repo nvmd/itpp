@@ -284,8 +284,8 @@ double Gamma_RNG::sample()
   double a = alpha;
   double scale = 1.0 / beta;
 
-  if (!std::isfinite(a) || !std::isfinite(scale) || a < 0.0 || scale <= 0.0)
-    it_error("Gamma_RNG wrong parameters");
+  it_error_if(!std::isfinite(a) || !std::isfinite(scale) || (a < 0.0)
+              || (scale <= 0.0), "Gamma_RNG wrong parameters");
 
   if (a < 1.) { /* GS algorithm for parameters a < 1 */
     if (a == 0)

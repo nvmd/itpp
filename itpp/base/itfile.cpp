@@ -1889,8 +1889,7 @@ it_ifile_old::it_ifile_old(const std::string &name)
 
 void it_ifile_old::open(const std::string &name)
 {
-  if (!exist(name))
-    it_error("File does not exist");
+  it_assert(exist(name), "File does not exist");
 
   s.open_readonly(name);
 
@@ -2366,8 +2365,7 @@ void it_file_old::write_file_header()
 
 void it_file_old::write_data_header(const std::string &type, uint32_t size)
 {
-  if (next_name == "")
-    it_error("Try to write without a name");
+  it_error_if(next_name == "", "Try to write without a name");
   write_data_header(type, next_name, size);
   next_name = "";
 }

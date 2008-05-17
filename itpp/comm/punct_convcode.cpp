@@ -259,8 +259,10 @@ void Punctured_Convolutional_Code::decode_trunc(const vec &received_signal, bvec
     nn++;
   }
   temp_size += n * nn;
-  if (p != 0)
-    it_warning("Punctured_Convolutional_Code::decode(): Improper length of the received punctured block, dummy bits have been added");
+  if (p != 0) {
+    it_warning("Punctured_Convolutional_Code::decode(): Improper length of "
+               "the received punctured block, dummy bits have been added");
+  }
 
   vec temp(temp_size);
   nn = 0;
@@ -307,8 +309,10 @@ void Punctured_Convolutional_Code::decode_tail(const vec &received_signal, bvec 
     nn++;
   }
   temp_size += n * nn;
-  if (p != 0)
-    it_warning("Punctured_Convolutional_Code::decode_tail(): Improper length of the received punctured block, dummy bits have been added");
+  if (p != 0) {
+    it_warning("Punctured_Convolutional_Code::decode_tail(): Improper length "
+               "of the received punctured block, dummy bits have been added");
+  }
 
   vec temp(temp_size);
 
@@ -356,8 +360,11 @@ void Punctured_Convolutional_Code::decode_tailbite(const vec &received_signal, b
     nn++;
   }
   temp_size += n * nn;
-  if (p != 0)
-    it_warning("Punctured_Convolutional_Code::decode_tailbite(): Improper length of the received punctured block, dummy bits have been added");
+  if (p != 0) {
+    it_warning("Punctured_Convolutional_Code::decode_tailbite(): Improper "
+               "length of the received punctured block, dummy bits have been "
+               "added");
+  }
 
   vec temp(temp_size);
 

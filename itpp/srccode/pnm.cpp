@@ -133,9 +133,9 @@ imat pgm_read(const string & filename)
 {
   imat I;
   string comments;
-  if (!pgm_read(filename, I, comments))
+  if (!pgm_read(filename, I, comments)) {
     it_warning("pgm_read (PGM file->imat) failed ");
-
+  }
   return I;
 }
 
@@ -170,17 +170,10 @@ bool pgm_read(const string & filename, imat &m,
     c1 = ctmp;
   }
 
-  if (r1 < 0)
-    it_error("Bad parameter value : row number must be >=0");
-
-  if (c1 < 0)
-    it_error("Bad parameter value : column number must be >=0");
-
-  if (r2 >= height)
-    it_error("Bad parameter value : row number exceeds the image heigth");
-
-  if (c1 >= width)
-    it_error("Bad parameter value : column number exceeds the image width");
+  it_error_if((r1 < 0) || (c1 < 0),
+              "Bad parameter value: row and column number must be >=0");
+  it_error_if((r2 >= height) || (c1 >= width), "Bad parameter value: "
+              "row or column number exceeds the image heigth");
 
   m.set_size(r2 - r1 + 1, c2 - c1 + 1, false);
   file.seekg(r1 * width + c1, ios::cur);
@@ -292,17 +285,10 @@ bool ppm_read(const string & filename,
     c1 = ctmp;
   }
 
-  if (r1 < 0)
-    it_error("Bad parameter value : row number must be >=0");
-
-  if (c1 < 0)
-    it_error("Bad parameter value : column number must be >=0");
-
-  if (r2 >= height)
-    it_error("Bad parameter value : row number exceeds the image heigth");
-
-  if (c1 >= width)
-    it_error("Bad parameter value : column number exceeds the image width");
+  it_error_if((r1 < 0) || (c1 < 0),
+              "Bad parameter value: row and column number must be >=0");
+  it_error_if((r2 >= height) || (c1 >= width), "Bad parameter value: "
+              "row or column number exceeds the image heigth");
 
   r.set_size(r2 - r1 + 1, c2 - c1 + 1, false);
   g.set_size(r2 - r1 + 1, c2 - c1 + 1, false);
@@ -452,15 +438,13 @@ static bool pnm_read_header(ifstream & file, char & pnm_type,
 
   if (file.get() != 'P')
     return_code = false;
-
-  if (!return_code)
-    it_error("Invalid format file: code of file format has not been found");
+  it_error_if(!return_code, "Invalid format file: code of file format has "
+              "not been found");
 
   // Read the type of the pnm file
   pnm_type = file.get();
-
-  if (pnm_type < '1' || pnm_type > '6')
-    it_error("Bad file code P" << pnm_type);
+  it_error_if((pnm_type < '1') || (pnm_type > '6'),
+              "Bad file code P" << pnm_type);
 
   // If a type has been specified
   if (pnm_type_required != '0')
@@ -477,8 +461,7 @@ static bool pnm_read_header(ifstream & file, char & pnm_type,
   file >> height;
   pnm_read_comments(file, comments);
 
-  if (height < 0 || width < 0)
-    it_error("Bad image size");
+  it_error_if((height < 0) || (width < 0), "Bad image size");
 
   // Maximal values is not present in PBM files
   if (pnm_type == '2' || pnm_type == '3' || pnm_type == '5' || pnm_type == '6')
@@ -488,12 +471,12 @@ static bool pnm_read_header(ifstream & file, char & pnm_type,
 
   // According to the pnm specification, the maximal value should not
   // be greater than 65536 and lower than 0
-  if (max_val >= 65536 || max_val < 0)
-    it_error("Invalid maximum number in pnm header");
+  it_error_if((max_val >= 65536) || (max_val < 0),
+              "Invalid maximum number in pnm header");
 
   // For type P5 and P6, the value have to be lower than 255
-  if ((pnm_type == '5' || pnm_type == '6') && max_val > 255)
-    it_error("Invalid maximum number in pnm header");
+  it_error_if((pnm_type == '5' || pnm_type == '6') && (max_val > 255),
+              "Invalid maximum number in pnm header");
 
   return file.good();
 }
