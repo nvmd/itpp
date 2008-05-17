@@ -1,3 +1,17 @@
+2008-05-17  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/bessel/hyperg.cpp, itpp/base/itfile.cpp,
+	itpp/base/random.cpp, itpp/comm/punct_convcode.cpp,
+	itpp/fixed/cfix.cpp, itpp/fixed/fix.cpp, itpp/srccode/pnm.cpp,
+	itpp/stat/mog_diag_em.cpp, itpp/stat/mog_diag_kmeans.cpp,
+	itpp/stat/mog_generic.cpp: Fix GCC 4.3 warnings on "ambiguous
+	else" due to missing braces
+
+	The latest GCC compiler is much more picky when it comes to if/else
+	statements without explicit braces. This results in a lot of warnings
+	when "-Wall" flag is used. This patch adds missing braces or
+	refactors code for which such warnings were reported by GCC 4.3.
+
 2008-05-15  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac.in: Set CXXFLAGS_DEBUG to CXXFLAGS when

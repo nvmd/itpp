@@ -205,9 +205,14 @@ void MOG_generic::set_full_covs_internal(Array<mat> &full_covs_in)
     it_assert(((full_covs_in(k).rows() == D) && (full_covs_in(k).cols() == D)), "MOG_generic::set_full_covs_internal(): dimensionality mismatch between model and one or more matrices in 'full_covs'");
 
   for (int k = 0; k < K; k++)
-    for (int i = 0; i < D; i++) for (int j = 0; j < D; j++) {
+    for (int i = 0; i < D; i++)
+      for (int j = 0; j < D; j++) {
         it_assert(std::isfinite(full_covs_in(k)(i, j)), "MOG_generic::set_full_covs_internal(): 'full_covs' has a non-finite value");
-        if (i == j) it_assert((full_covs_in(k)(i, j) > 0.0), "MOG_generic::set_full_covs_internal(): 'full_covs' has a zero or negative value on a diagonal");
+        if (i == j) {
+          it_assert(full_covs_in(k)(i, j) > 0.0,
+                    "MOG_generic::set_full_covs_internal(): 'full_covs' has "
+                    "a zero or negative value on a diagonal");
+        }
       }
 
   full_covs = full_covs_in;

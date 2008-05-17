@@ -122,8 +122,9 @@ double hyperg(double a, double b, double x)
   }
 
 done:
-  if (pcanc > 1.0e-12)
+  if (pcanc > 1.0e-12) {
     it_warning("hyperg(): partial loss of precision");
+  }
 
   return(psum);
 }

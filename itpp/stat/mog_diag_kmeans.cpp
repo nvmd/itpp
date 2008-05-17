@@ -102,8 +102,9 @@ bool MOG_diag_kmeans_sup::dezombify_means()
     if (c_count[k] == 0) {
 
       zombie_mean = true;
-      if (verbose)  it_warning("MOG_diag_kmeans_sup::dezombify_means(): detected zombie mean");
-
+      if (verbose) {
+        it_warning("MOG_diag_kmeans_sup::dezombify_means(): detected zombie mean");
+      }
       if (k_hog == k) {
         it_warning("MOG_diag_kmeans_sup::dezombify_means(): weirdness: k_hog == k");
         return(false);
@@ -283,9 +284,14 @@ void MOG_diag_kmeans_sup::run(MOG_diag &model_in, Array<vec> &X_in, int max_iter
 
   N = X_in.size();
 
-  if (K > N)    it_warning("MOG_diag_kmeans_sup::run(): K > N");
-  else
-    if (K > N / 10) it_warning("MOG_diag_kmeans_sup::run(): K > N/10");
+  if (K > N) {
+    it_warning("MOG_diag_kmeans_sup::run(): K > N");
+  }
+  else {
+    if (K > N / 10) {
+      it_warning("MOG_diag_kmeans_sup::run(): K > N/10");
+    }
+  }
 
   max_iter = max_iter_in;
   trust = trust_in;

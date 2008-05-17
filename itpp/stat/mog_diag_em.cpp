@@ -246,9 +246,14 @@ void MOG_diag_EM_sup::ml(MOG_diag &model_in, Array<vec> &X_in, int max_iter_in, 
   diag_covs_in.set_size(0);
   weights_in.set_size(0);
 
-  if (K > N)    it_warning("MOG_diag_EM_sup::ml(): WARNING: K > N");
-  else
-    if (K > N / 10) it_warning("MOG_diag_EM_sup::ml(): WARNING: K > N/10");
+  if (K > N) {
+    it_warning("MOG_diag_EM_sup::ml(): WARNING: K > N");
+  }
+  else {
+    if (K > N / 10) {
+      it_warning("MOG_diag_EM_sup::ml(): WARNING: K > N/10");
+    }
+  }
 
   var_floor = var_floor_in;
   weight_floor = weight_floor_in;
