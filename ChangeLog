@@ -1,3 +1,12 @@
+2008-05-21  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/local/users_guide.doc: Minor documentation fix in Users
+	Guide
+
+	There is no such functions as swap_row() and swap_col() in IT++.
+	swap_rows() and swap_cols() are the proper ones. This fixes bug
+	[1968377]. Thanks to Allan Murray for reporting this issue.
+
 2008-05-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/bessel/hyperg.cpp, itpp/base/itfile.cpp,
