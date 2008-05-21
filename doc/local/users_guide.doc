@@ -426,10 +426,10 @@ a.copy_col(to,from)
 <li> Swap rows and columns
 \code
 // Swap rows number r1 and r2
-a.swap_row(r1,r2)
+a.swap_rows(r1,r2)
 
 // Swap columns number c1 and c2
-a.swap_col(c1,c2)
+a.swap_cols(c1,c2)
 \endcode
 </li>
 
