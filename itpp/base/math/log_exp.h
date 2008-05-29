@@ -85,13 +85,6 @@ inline int levels2bits(int n)
   return int2bits(--n);
 }
 
-//! Deprecated function. Please use int2bits() or levels2bits() instead.
-inline int needed_bits(int n)
-{
-  it_warning("needed_bits(): This function is depreceted. Depending on your needs, please use int2bits() or levels2bits() instead.");
-  return int2bits(n);
-}
-
 //! Constant definition to speed up trunc_log() and trunc_exp()
 const double log_double_max = std::log(std::numeric_limits<double>::max());
 //! Constant definition to speed up trunc_log(), trunc_exp() and log_add()

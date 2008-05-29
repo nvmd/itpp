@@ -89,11 +89,6 @@ inline void GMM::set_weight(const vec &weights, bool compflag) {w = weights; if 
 inline void GMM::set_weight(int i, double weight, bool compflag) {w(i) = weight; if (compflag) compute_internals(); }
 inline void GMM::set_mean(const vec &means, bool compflag) {m = means; if (compflag) compute_internals(); }
 inline void GMM::set_covariance(const vec &covariances, bool compflag) {sigma = covariances; if (compflag) compute_internals(); }
-inline int GMM::get_no_mixtures()
-{
-  it_warning("GMM::get_no_mixtures(): This function is depreceted and might be removed from feature releases. Please use get_no_gaussians() instead.");
-  return M;
-}
 inline int GMM::get_dimension() {return d;}
 inline vec GMM::get_weight() {return w;}
 inline double GMM::get_weight(int i) {return w(i);}

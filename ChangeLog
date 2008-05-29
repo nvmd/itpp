@@ -1,3 +1,14 @@
+2008-05-30  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/math/log_exp.h, itpp/srccode/gmm.h: Remove functions
+	marked as deprecated before 3.10.7 release
+
+	GMM::get_no_mixtures() was replaced a long time ago with
+	GMM::get_no_gaussians(), whereas needed_bits() was replaced with
+	either int2bits() or levels2bits(). Therefore it is the highest
+	time to remove the deprecated interfaces in our development
+	branch.
+
 2008-05-21  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* doc/local/users_guide.doc: Minor documentation fix in Users
