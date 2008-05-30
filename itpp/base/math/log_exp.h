@@ -293,13 +293,6 @@ inline mat inv_dB(const mat &x)
   return apply_function<double>(inv_dB, x);
 }
 
-//! Deprecated function. Please use int2bits() or levels2bits() instead.
-inline ivec needed_bits(const ivec& v)
-{
-  it_warning("needed_bits(): This function is depreceted. Depending on your needs, please use int2bits() or levels2bits() instead.");
-  return apply_function<int>(int2bits, v);
-}
-
 //! Calculate the number of bits needed to represent each inteager in a vector
 inline ivec int2bits(const ivec& v)
 {
