@@ -181,27 +181,31 @@ else
   CXXFLAGS_OPT="$CXXFLAGS"
   CXXFLAGS=""
 fi
+# Remove redundant whitespace
 CXXFLAGS_OPT="`echo \"$CXXFLAGS_OPT\" | $SED -e 's/  */ /g' -e 's/^ //' -e 's/ $//'`"
 AC_SUBST(CXXFLAGS_OPT)
 
 
-# Set debug flags
-if test "x$enable_debug" = xyes; then
-  PACKAGE_DEBUG="$PACKAGE"_debug
-  if test "x$CXXFLAGS_DEBUG" = x; then
-    CXXFLAGS_DEBUG="-g"
-    # Only for GCC compiler
-    if test "x$GXX" = xyes; then
-      CXXFLAGS_DEBUG="-Wall $CXXFLAGS_DEBUG -pipe"
-    fi
+# Set debugging flags
+if test "x$CXXFLAGS_DEBUG" = x; then
+  # Only for GCC compiler
+  if test "x$GXX" = xyes; then
+    CXXFLAGS_DEBUG="-Wall -ggdb -O1 -pipe"
+  else
+    CXXFLAGS_DEBUG="-g -O1"
   fi
-else
-  PACKAGE_DEBUG="$PACKAGE"
-  CXXFLAGS_DEBUG="$CXXFLAGS_OPT"
 fi
-# Remove unnecesary white spaces from LIBS
+# Remove redundant whitespace
 CXXFLAGS_DEBUG="`echo \"$CXXFLAGS_DEBUG\" | $SED -e 's/  */ /g' -e 's/^ //' -e 's/ $//'`"
 AC_ARG_VAR(CXXFLAGS_DEBUG, [C++ compiler flags for the debugging library])
+
+
+# Set debugging library name
+if test "x$enable_debug" = xyes; then
+  PACKAGE_DEBUG="$PACKAGE"_debug
+else
+  PACKAGE_DEBUG="$PACKAGE"
+fi
 AC_SUBST(PACKAGE_DEBUG)
 
 
