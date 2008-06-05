@@ -617,6 +617,10 @@ public:
     out.set_size(rows, cols, false);
     for (int i = 0; i < rows*cols; i++) out(i) = sample();
   }
+
+  //! Dummy assignment operator - MSVC++ warning C4512
+  Complex_Normal_RNG & operator=(const Complex_Normal_RNG&) { return *this; }
+
 private:
   std::complex<double> m;
   double sigma;

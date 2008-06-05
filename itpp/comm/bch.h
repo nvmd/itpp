@@ -82,7 +82,8 @@ public:
   //! Get the code rate
   virtual double get_rate() const {return static_cast<double>(k) / n; }
 
-  //protected:
+  //! Dummy assignment operator - MSVC++ warning C4512
+  BCH & operator=(const BCH &) { return *this; }
 private:
   int n, k, t;
   GFX g;

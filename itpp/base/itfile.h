@@ -420,6 +420,8 @@ class Name
 public:
   //! Constructor
   Name(const std::string& n, const std::string& d = ""): name(n), desc(d) {}
+  //! Dummy assignment operator - MSVC++ warning C4512
+  Name &operator=(const Name&) { return *this; }
   //! The name string
   const std::string& name;
   //! The description
