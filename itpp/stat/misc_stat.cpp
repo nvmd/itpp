@@ -92,7 +92,7 @@ double norm(const cvec &v, int p)
   return std::pow(E, 1.0 / p);
 }
 
-double norm(const cvec &v, const std::string &s)
+double norm(const cvec &v, const std::string &)
 {
   return norm(v, 2);
 }

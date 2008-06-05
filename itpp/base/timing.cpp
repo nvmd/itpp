@@ -51,7 +51,7 @@
 #if defined(_WIN32) && !defined(__CYGWIN__)
 #include <windows.h>
 
-int gettimeofday(struct timeval* p, void* tz)
+int gettimeofday(struct timeval* p, void*)
 {
   union {
     long long ns100; /* time since 1 Jan 1601 in 100ns units */

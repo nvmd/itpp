@@ -128,12 +128,12 @@ bvec Extended_Golay::decode(const bvec &coded_bits)
 
 
 // -------------- Soft-decision decoding is not implemented ------------------
-void Extended_Golay::decode(const vec &received_signal, bvec &output)
+void Extended_Golay::decode(const vec &, bvec &)
 {
   it_error("Extended_Golay::decode(vec, bvec); soft-decision decoding is not implemented");
 }
 
-bvec Extended_Golay::decode(const vec &received_signal)
+bvec Extended_Golay::decode(const vec &)
 {
   it_error("Extended_Golay::decode(vec, bvec); soft-decision decoding is not implemented");
   return bvec();

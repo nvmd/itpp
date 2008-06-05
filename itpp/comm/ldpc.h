@@ -829,11 +829,11 @@ public:
   // ------------ Decoding  ---------------------
 
   //! Inherited from the base class - not implemented here
-  virtual void decode(const bvec &coded_bits, bvec &decoded_bits) {
+  virtual void decode(const bvec &, bvec &) {
     it_error("LDPC_Code::decode(): Hard input decoding not implemented");
   }
   //! Inherited from the base class - not implemented here
-  virtual bvec decode(const bvec &coded_bits) {
+  virtual bvec decode(const bvec &) {
     it_error("LDPC_Code::decode(): Hard input decoding not implemented");
     return bvec();
   }

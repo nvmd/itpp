@@ -1039,7 +1039,7 @@ Num_T operator*(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
 
 #if defined(HAVE_BLAS)
 template<> inline
-mat outer_product(const vec &v1, const vec &v2, bool hermitian)
+mat outer_product(const vec &v1, const vec &v2, bool)
 {
   it_assert_debug((v1.datasize > 0) && (v2.datasize > 0),
                   "Vec::outer_product():: Input vector of zero size");
@@ -1101,8 +1101,7 @@ cmat outer_product(const cvec &v1, const cvec &v2, bool hermitian)
 #endif // HAVE_BLAS
 
 template<class Num_T>
-Mat<Num_T> outer_product(const Vec<Num_T> &v1, const Vec<Num_T> &v2,
-                         bool hermitian)
+Mat<Num_T> outer_product(const Vec<Num_T> &v1, const Vec<Num_T> &v2, bool)
 {
   int i, j;
 
@@ -1469,7 +1468,7 @@ Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2,
 }
 
 template<class Num_T>
-void Vec<Num_T>::set_subvector(int i1, int i2, const Vec<Num_T> &v)
+void Vec<Num_T>::set_subvector(int i1, int, const Vec<Num_T> &v)
 {
   it_warning("Vec<>::set_subvector(int, int, const Vec<> &): This function "
              "is deprecated and might be removed from future IT++ releases. "

@@ -172,7 +172,7 @@ bvec PSK::demodulate_bits(const cvec &signal) const
 // ----------------------------------------------------------------------
 
 void QPSK::demodulate_soft_bits(const cvec &rx_symbols, double N0,
-                                vec &soft_bits, Soft_Method method) const
+                                vec &soft_bits, Soft_Method) const
 {
   soft_bits.set_size(k * rx_symbols.size());
   std::complex<double> temp;
@@ -197,7 +197,7 @@ vec QPSK::demodulate_soft_bits(const cvec &rx_symbols, double N0,
 
 void QPSK::demodulate_soft_bits(const cvec &rx_symbols, const cvec &channel,
                                 double N0, vec &soft_bits,
-                                Soft_Method method) const
+                                Soft_Method) const
 {
   soft_bits.set_size(2*rx_symbols.size(), false);
   std::complex<double> temp;
@@ -257,7 +257,7 @@ bvec BPSK_c::demodulate_bits(const cvec &signal) const
 
 
 void BPSK_c::demodulate_soft_bits(const cvec &rx_symbols, double N0,
-                                  vec &soft_bits, Soft_Method method) const
+                                  vec &soft_bits, Soft_Method) const
 {
   double factor = 4 / N0;
   soft_bits.set_size(rx_symbols.size(), false);
@@ -279,7 +279,7 @@ vec BPSK_c::demodulate_soft_bits(const cvec &rx_symbols, double N0,
 void BPSK_c::demodulate_soft_bits(const cvec &rx_symbols,
                                   const cvec &channel,
                                   double N0, vec &soft_bits,
-                                  Soft_Method method) const
+                                  Soft_Method) const
 {
   double factor = 4 / N0;
   soft_bits.set_size(rx_symbols.size(), false);
@@ -335,7 +335,7 @@ bvec BPSK::demodulate_bits(const vec &signal) const
 
 
 void BPSK::demodulate_soft_bits(const vec &rx_symbols, double N0,
-                                vec &soft_bits, Soft_Method method) const
+                                vec &soft_bits, Soft_Method) const
 {
   double factor = 4 / N0;
   soft_bits.set_size(rx_symbols.size(), false);
@@ -356,7 +356,7 @@ vec BPSK::demodulate_soft_bits(const vec &rx_symbols, double N0,
 
 void BPSK::demodulate_soft_bits(const vec &rx_symbols, const vec &channel,
                                 double N0, vec &soft_bits,
-                                Soft_Method method) const
+                                Soft_Method) const
 {
   double factor = 4 / N0;
   soft_bits.set_size(rx_symbols.size(), false);

@@ -303,9 +303,10 @@ void MOG_diag_EM_sup::ml(MOG_diag &model_in, Array<vec> &X_in, int max_iter_in, 
 
 }
 
-void MOG_diag_EM_sup::map(MOG_diag &model_in, MOG_diag &prior_model_in, Array<vec> &X_in, int max_iter_in, double alpha_in, double var_floor_in, double weight_floor_in, bool verbose_in)
+void MOG_diag_EM_sup::map(MOG_diag &, MOG_diag &, Array<vec> &, int, double,
+                          double, double, bool)
 {
-  it_assert(false, "MOG_diag_EM_sup::map(): not implemented yet");
+  it_error("MOG_diag_EM_sup::map(): not implemented yet");
 }
 
 
@@ -318,9 +319,10 @@ void MOG_diag_ML(MOG_diag &model_in, Array<vec> &X_in, int max_iter_in, double v
   EM.ml(model_in, X_in, max_iter_in, var_floor_in, weight_floor_in, verbose_in);
 }
 
-void MOG_diag_MAP(MOG_diag &model_in, MOG_diag &prior_model_in, Array<vec> &X_in, int max_iter_in, double alpha_in, double var_floor_in, double weight_floor_in, bool verbose_in)
+void MOG_diag_MAP(MOG_diag &, MOG_diag &, Array<vec> &, int, double, double,
+                  double, bool)
 {
-  it_assert(false, "MOG_diag_MAP(): not implemented yet");
+  it_error("MOG_diag_MAP(): not implemented yet");
 }
 
 }

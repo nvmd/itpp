@@ -242,12 +242,12 @@ bvec Reed_Solomon::decode(const bvec &coded_bits)
 
 // --- Soft-decision decoding is not implemented ---
 
-void Reed_Solomon::decode(const vec &received_signal, bvec &output)
+void Reed_Solomon::decode(const vec &, bvec &)
 {
   it_error("Reed_Solomon::decode(): Soft-decision decoding not implemented");
 }
 
-bvec Reed_Solomon::decode(const vec &received_signal)
+bvec Reed_Solomon::decode(const vec &)
 {
   it_error("Reed_Solomon::decode(): Soft-decision decoding not implemented");
   return bvec();

@@ -59,7 +59,7 @@ public:
   CFixed(double r = 0.0, double i = 0.0, int s = 0, Stat *ptr = 0)
       : CFix(r, i, s, w, e, o, q, ptr) {}
   //! Constructor
-  CFixed(std::complex<double> x, double dummy = 0.0, int s = 0, Stat *ptr = 0)
+  CFixed(std::complex<double> x, double, int s = 0, Stat *ptr = 0)
       : CFix(x, 0.0, s, w, e, o, q, ptr) {}
   //! Constructor
   explicit CFixed(Stat *ptr)
@@ -68,7 +68,7 @@ public:
   CFixed(const Fix &r, const Fix &i = 0.0, Stat *ptr = 0)
       : CFix(r, i, w, e, o, q, ptr) {}
   //! Constructor
-  CFixed(const CFix &x, double dummy = 0.0, Stat *ptr = 0)
+  CFixed(const CFix &x, double, Stat *ptr = 0)
       : CFix(x, 0.0, w, e, o, q, ptr) {}
   //! Destructor
   virtual ~CFixed() {}

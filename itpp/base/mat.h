@@ -1025,8 +1025,7 @@ void Mat<Num_T>::swap_cols(int c1, int c2)
 }
 
 template<class Num_T>
-void Mat<Num_T>::set_submatrix(int r1, int r2, int c1, int c2,
-                               const Mat<Num_T> &m)
+void Mat<Num_T>::set_submatrix(int r1, int, int c1, int, const Mat<Num_T> &m)
 {
   it_warning("Mat<>::set_submatrix(r1, r2, r3, r4, m): This function is "
              "deprecated and might be removed from future IT++ releases. "

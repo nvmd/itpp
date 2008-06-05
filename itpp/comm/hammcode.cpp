@@ -147,12 +147,12 @@ bvec Hamming_Code::decode(const bvec &coded_bits)
 
 
 // -------------- Soft-decision decoding is not implemented ----------------
-void Hamming_Code::decode(const vec &received_signal, bvec &output)
+void Hamming_Code::decode(const vec &, bvec &)
 {
   it_error("Hamming_Code::decode(vec, bvec); soft-decision decoding is not implemented");
 }
 
-bvec Hamming_Code::decode(const vec &received_signal)
+bvec Hamming_Code::decode(const vec &)
 {
   it_error("Hamming_Code::decode(vec, bvec); soft-decision decoding is not implemented");
   return bvec();

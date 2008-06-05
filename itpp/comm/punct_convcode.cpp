@@ -207,12 +207,12 @@ void Punctured_Convolutional_Code::encode_tailbite(const bvec &input, bvec &outp
 
 
 // --------------- Hard-decision decoding is not implemented --------------------------------
-void Punctured_Convolutional_Code::decode(const bvec &coded_bits, bvec &output)
+void Punctured_Convolutional_Code::decode(const bvec &, bvec &)
 {
   it_error("Punctured_Convolutional_Code::decode(bvec, bvec); hard-decision decoding is not implemented");
 }
 
-bvec Punctured_Convolutional_Code::decode(const bvec &coded_bits)
+bvec Punctured_Convolutional_Code::decode(const bvec &)
 {
   it_error("Punctured_Convolutional_Code::decode(bvec, bvec); hard-decision decoding is not implemented");
   return bvec();

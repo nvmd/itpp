@@ -242,7 +242,7 @@ public:
   //! ADD DOCUMENTATION HERE
   void set_info(unsigned ssThresh, unsigned recWnd, unsigned cWnd, double estRTT, Sequence_Number sndUna, Sequence_Number sndNxt, bool isRtx);
   //! ADD DOCUMENTATION HERE
-  virtual void print_header(std::ostream &out) const;
+  virtual void print_header(std::ostream &) const;
 
 protected:
   //! ADD DOCUMENTATION HERE

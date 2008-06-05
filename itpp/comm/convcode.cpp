@@ -729,12 +729,12 @@ void Convolutional_Code::encode_bit(const bin &input, bvec &output)
 
 // --------------- Hard-decision decoding is not implemented -----------------
 
-void Convolutional_Code::decode(const bvec &coded_bits, bvec &output)
+void Convolutional_Code::decode(const bvec &, bvec &)
 {
   it_error("Convolutional_Code::decode(): Hard-decision decoding not implemented");
 }
 
-bvec Convolutional_Code::decode(const bvec &coded_bits)
+bvec Convolutional_Code::decode(const bvec &)
 {
   it_error("Convolutional_Code::decode(): Hard-decision decoding not implemented");
   return bvec();

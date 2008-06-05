@@ -1,5 +1,20 @@
 2008-06-05  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/factory.h, itpp/base/mat.h, itpp/base/matfunc.h,
+	itpp/base/timing.cpp, itpp/base/vec.h, itpp/comm/bch.cpp,
+	itpp/comm/channel.cpp, itpp/comm/convcode.cpp,
+	itpp/comm/egolay.cpp, itpp/comm/hammcode.cpp, itpp/comm/ldpc.h,
+	itpp/comm/modulator.cpp, itpp/comm/punct_convcode.cpp,
+	itpp/comm/reedsolomon.cpp, itpp/fixed/cfix.h, itpp/fixed/cfixed.h,
+	itpp/fixed/fix.h, itpp/fixed/fix_functions.h,
+	itpp/protocol/tcp.cpp, itpp/protocol/tcp.h,
+	itpp/stat/misc_stat.cpp, itpp/stat/mog_diag.cpp,
+	itpp/stat/mog_diag.h, itpp/stat/mog_diag_em.cpp: Suppress MSVC++
+	warning C4100: "unreferenced formal parameter"
+
+	This warning is suppressed by omitting named parameters in
+	arguments of functions. Only types of parameters are passed.
+
 	* configure.ac.in: Change default debugging flags to "-g -O1" or
 	"-Wall -ggdb -O1 -pipe"
 

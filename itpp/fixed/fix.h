@@ -61,7 +61,7 @@ public:
   explicit Fix(const Fix_Factory &f)
       : Fix_Base(0, f.wordlen, f.emode, f.omode, f.qmode, f.stat_ptr), re(0) {}
   //! Constructor for internal use. No restrictions are applied. The dummies help to avoid ambiguities
-  Fix(fixrep r, int s, int dummy1, int dummy2)
+  Fix(fixrep r, int s, int, int)
       : Fix_Base(s), re(r) {}
   //! Copy constructor
   Fix(const Fix &x, int w = MAX_WORDLEN, e_mode e = TC, o_mode o = WRAP, q_mode q = TRN, Stat *ptr = 0)
