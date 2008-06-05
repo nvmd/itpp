@@ -57,7 +57,9 @@ template<>
 void Vec<double>::set(const std::string &str)
 {
   std::istringstream buffer(replace_commas(str));
-  double b, c, eps_margin;
+  double b = 0.0;
+  double c = 0.0;
+  double eps_margin;
   bool b_parsed = false;
   bool c_parsed = false;
   bool negative = false;
@@ -339,7 +341,8 @@ template<>
 void Vec<int>::set(const std::string &str)
 {
   std::istringstream buffer(replace_commas(str));
-  int b, c;
+  int b = 0;
+  int c = 0;
   bool b_parsed = false;
   bool c_parsed = false;
   bool negative = false;
