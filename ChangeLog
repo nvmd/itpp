@@ -1,3 +1,11 @@
+2008-06-05  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac.in: Change default debugging flags to "-g -O1" or
+	"-Wall -ggdb -O1 -pipe"
+
+	The latter set is only used when GCC compiler is used, so it
+	implicitly assumes that GDB debugger will be used in such a case.
+
 2008-05-30  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/math/log_exp.h, itpp/srccode/gmm.h: Remove functions
