@@ -50,7 +50,7 @@ inline static short double_to_short(double x)
   else if (x <= -32768.0)
     return -32768;
   else
-    return round_i(x);
+    return static_cast<short>(round_i(x));
 }
 
 inline static signed char double_to_char(double x)
@@ -60,7 +60,7 @@ inline static signed char double_to_char(double x)
   else if (x <= -128.0)
     return -128;
   else
-    return round_i(x);
+    return static_cast<char>(round_i(x));
 }
 
 bool raw16le_read(const char *fname, vec &v)

@@ -2379,7 +2379,7 @@ void it_file_old::write_data_header(const std::string &type,
   bool removed = false;
   int skip;
 
-  h1.endianity = s.get_native_endianity();
+  h1.endianity = static_cast<char>(s.get_native_endianity());
   h1.hdr_bytes = 1 + 3 * 4 + type.size() + 1 + name.size() + 1;
   h1.data_bytes = size;
   h1.block_bytes = h1.hdr_bytes + h1.data_bytes;

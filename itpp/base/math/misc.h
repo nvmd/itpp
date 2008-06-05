@@ -76,7 +76,7 @@ std::istream& operator>>(std::istream &is, std::complex<T> &x)
   else {
     is.putback(c);
     is >> re;
-    if (!is.eof() && ((c = is.peek()) == '+' || c == '-')) {
+    if (!is.eof() && ((c = static_cast<char>(is.peek())) == '+' || c == '-')) {
       is >> im >> c;
       if (c == 'i') {
         x = complex<T>(re, im);
