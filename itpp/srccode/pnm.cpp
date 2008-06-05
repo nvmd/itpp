@@ -203,7 +203,7 @@ bool pgm_write(const string & filename,
 
   for (i = 0; i < m.rows(); i++)
     for (j = 0; j < m.cols(); j++)
-      file.put(m(i, j));
+      file.put(static_cast<char>(m(i, j)));
 
   if (!file)
     return false;
@@ -333,9 +333,9 @@ bool ppm_write(const string & filename,
 
   for (i = 0; i < r.rows(); i++)
     for (j = 0; j < r.cols(); j++) {
-      file.put(r(i, j));
-      file.put(g(i, j));
-      file.put(b(i, j));
+      file.put(static_cast<char>(r(i, j)));
+      file.put(static_cast<char>(g(i, j)));
+      file.put(static_cast<char>(b(i, j)));
     }
 
   if (!file)
@@ -408,7 +408,7 @@ static void pnm_read_comments(istream & i, string & comments)
 
     if (i.peek() == '#')
       while (i.peek() != '\r' && i.peek() != '\n')
-        comments += i.get();
+        comments += static_cast<char>(i.get());
   }
 }
 
@@ -442,7 +442,7 @@ static bool pnm_read_header(ifstream & file, char & pnm_type,
               "not been found");
 
   // Read the type of the pnm file
-  pnm_type = file.get();
+  file.get(pnm_type);
   it_error_if((pnm_type < '1') || (pnm_type > '6'),
               "Bad file code P" << pnm_type);
 

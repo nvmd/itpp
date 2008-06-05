@@ -1766,7 +1766,7 @@ std::istream &operator>>(std::istream &is, Mat<Num_T> &m)
       finished = true;
     }
     else {
-      c = is.get();
+      is.get(c);
 
       if (is.eof() || (c == '\n')) {
         if (brackets) {
@@ -1810,7 +1810,8 @@ std::istream &operator>>(std::istream &is, Mat<Num_T> &m)
         else {
           finished = true;
         }
-        while (!is.eof() && (((c = is.peek()) == ' ') || (c == '\t'))) {
+        while (!is.eof() && (((c = static_cast<char>(is.peek())) == ' ')
+                             || (c == '\t'))) {
           is.get();
         }
         if (!is.eof() && (c == '\n')) {

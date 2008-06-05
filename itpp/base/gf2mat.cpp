@@ -820,7 +820,7 @@ void GF2mat::swap_rows(int i, int j)
   it_assert(i >= 0 && i < nrows, "GF2mat::swap_rows(): index out of range");
   it_assert(j >= 0 && j < nrows, "GF2mat::swap_rows(): index out of range");
   for (int k = 0; k < nwords; k++) {
-    int temp = data(i, k);
+    unsigned char temp = data(i, k);
     data(i, k) = data(j, k);
     data(j, k) = temp;
   }

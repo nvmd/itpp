@@ -1,5 +1,16 @@
 2008-06-05  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/gf2mat.cpp, itpp/base/itfile.cpp, itpp/base/mat.h,
+	itpp/base/math/misc.h, itpp/base/vec.h, itpp/comm/galois.cpp,
+	itpp/srccode/audiofile.cpp, itpp/srccode/pnm.cpp: Suppress MSVC++
+	warning C4244: "conversion from 'int' to 'char'..."
+
+	Some of the expressions require explicit casts to "char". Where
+	appropriate "int get()" method of iostream class is replaced with
+	"get(char &)" function. Besides, GF::set_size() method is
+	re-factored a little bit, so the "mtemp" integer variable is no
+	longer necessary.
+
 	* itpp/base/factory.h, itpp/base/mat.h, itpp/base/matfunc.h,
 	itpp/base/timing.cpp, itpp/base/vec.h, itpp/comm/bch.cpp,
 	itpp/comm/channel.cpp, itpp/comm/convcode.cpp,

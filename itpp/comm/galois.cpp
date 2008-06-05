@@ -41,19 +41,17 @@ ivec GF::q = "1 2 4 8 16 32 64 128 256 512 1024 2048 4096 8192 16384 32768 65536
 // set q=2^mvalue
 void GF::set_size(int qvalue)
 {
-  int mtemp;
-
-  mtemp = round_i(::log2(static_cast<double>(qvalue)));
-  it_assert((1 << mtemp) == qvalue, "GF::setsize : q is not a power of 2");
-  it_assert(mtemp <= 16, "GF::setsize : q must be less than or equal to 2^16");
+  m = static_cast<char>(round_i(::log2(static_cast<double>(qvalue))));
+  it_assert((1 << m) == qvalue, "GF::setsize : q is not a power of 2");
+  it_assert((m > 0) && (m <= 16), "GF::setsize : q must be positive and "
+                                  "less than or equal to 2^16");
 
   /* Construct GF(q), q=2^m. From Wicker, "Error Control Systems
      for digital communication and storage" pp. 463-465 */
 
   int reduce, temp, n;
   const int reducetable[] = {3, 3, 3, 5, 3, 9, 29, 17, 9, 5, 83, 27, 43, 3, 4107}; // starts at m=2,..,16
-  it_error_if(mtemp < 1 || mtemp > 16, "createfield : m out of range");
-  m = mtemp;
+
   if (alphapow.size() < (m + 1)) {
     alphapow.set_size(m + 1);
     logalpha.set_size(m + 1);
