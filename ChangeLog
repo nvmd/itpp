@@ -1,5 +1,12 @@
 2008-06-05  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/comm/modulator.cpp, itpp/comm/modulator.h: Remove redundant
+	argument from calculate_softbit_matrices() function
+
+	Since calculate_softbit_matrices() is a private method of a class,
+	in which "bits2symbols" variable is also declared, there is no need
+	to pass this variable as an argument of this method.
+
 	* itpp/base/itfile.h, itpp/base/random.h, itpp/comm/bch.h,
 	itpp/comm/rec_syst_conv_code.h, itpp/comm/reedsolomon.h: Suppress
 	MSVC++ warning C4512: "assignment operator could not be generated"

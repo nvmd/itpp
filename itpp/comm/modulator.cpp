@@ -67,7 +67,7 @@ void QAM::set_M(int Mary)
     }
   }
 
-  calculate_softbit_matrices(bits2symbols);
+  calculate_softbit_matrices();
 
   setup_done = true;
 }
@@ -137,7 +137,7 @@ void PSK::set_M(int Mary)
     bits2symbols(bin2dec(bitmap.get_row(i))) = i;
   }
 
-  calculate_softbit_matrices(bits2symbols);
+  calculate_softbit_matrices();
 
   setup_done = true;
 }
@@ -396,8 +396,7 @@ void PAM_c::set_M(int Mary)
     bits2symbols(bin2dec(bitmap.get_row(i))) = i;
   }
 
-  // Calculate the soft bit mapping matrices S0 and S1
-  calculate_softbit_matrices(bits2symbols);
+  calculate_softbit_matrices();
 
   setup_done = true;
 }
@@ -556,7 +555,7 @@ void PAM::set_M(int Mary)
     bits2symbols(bin2dec(bitmap.get_row(i))) = i;
   }
 
-  calculate_softbit_matrices(bits2symbols);
+  calculate_softbit_matrices();
 
   setup_done = true;
 }
