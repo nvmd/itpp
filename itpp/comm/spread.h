@@ -121,12 +121,12 @@ public:
   //! Returns the spreading code used
   vec get_code();
   //! Get the period of the code (length of code vector).
-  short get_period() { return N; }
+  int get_period() { return N; }
 protected:
   //! The spreading code
   vec code;
   //! The spreading factor
-  short N;
+  int N;
 };
 
 /*!
@@ -176,7 +176,7 @@ public:
   //! Returns the quadrature-phase spreading code
   vec get_codeQ();
   //! Get the period of the code (length of code vector).
-  short get_period() { return spreadI.get_period(); }
+  int get_period() { return spreadI.get_period(); }
 protected:
   /*! The spreaders for the I and Q channels respectively
    * @{ */
@@ -212,16 +212,16 @@ public:
   //! Returns the matrix containing the spreading codes used as rows in the matrix
   mat get_codes();
   //! Returns the spreading factor
-  short get_period() { return N; }
+  int get_period() { return N; }
   //! Returns the number of multi-codes used
-  short get_nocodes() { return L; }
+  int get_nocodes() { return L; }
 protected:
   //! The spreading codes used size (\f$L \times N\f$)
   mat codes;
   //! The number of multi-codes
-  short L;
+  int L;
   //! The spreading factor
-  short N;
+  int N;
 };
 
 /*!
@@ -267,7 +267,7 @@ public:
   //! Return the matrix containing the quadrature-phase codes (as rows)
   mat get_codesQ();
   //! Returns the spreading factor
-  short get_period() { return mcspreadI.get_period(); }
+  int get_period() { return mcspreadI.get_period(); }
 protected:
   /*! The multicode spreaders for the I and Q channels respectively
    * @{ */

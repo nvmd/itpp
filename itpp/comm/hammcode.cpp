@@ -34,7 +34,7 @@
 namespace itpp
 {
 
-Hamming_Code::Hamming_Code(short m)
+Hamming_Code::Hamming_Code(int m)
 {
   n = pow2i(m) - 1;
   k = pow2i(m) - m - 1;
@@ -46,10 +46,10 @@ Hamming_Code::Hamming_Code(short m)
 
 void Hamming_Code::generate_H(void)
 {
-  short i, j, NextPos;
+  int i, j, NextPos;
   char NotUsed;
   bvec temp;
-  svec indexes(n);
+  ivec indexes(n);
   indexes.zeros();
 
   for (i = 1; i <= n - k; i++) { indexes(i - 1) = pow2i(n - k - i); }
@@ -71,7 +71,7 @@ void Hamming_Code::generate_H(void)
 
 void Hamming_Code::generate_G(void)
 {
-  short i, j;
+  int i, j;
   for (i = 0; i < k; i++) {
     for (j = 0; j < n - k; j++)
       G(i, j) = H(j, i + n - k);
@@ -110,10 +110,10 @@ void Hamming_Code::decode(const bvec &coded_bits, bvec &decoded_bits)
 {
   int length = coded_bits.length();
   int Itterations = floor_i(static_cast<double>(length) / n);
-  svec Hindexes(n);
+  ivec Hindexes(n);
   bvec temp(n - k);
   bvec coded(n), syndrome(n - k);
-  short  isynd, errorpos = 0;
+  int isynd, errorpos = 0;
   int i, j;
 
   decoded_bits.set_size(Itterations*k, false);

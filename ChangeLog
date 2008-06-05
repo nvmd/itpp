@@ -1,5 +1,13 @@
 2008-06-05  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/comm/hammcode.cpp, itpp/comm/hammcode.h,
+	itpp/comm/sequence.cpp, itpp/comm/spread.h: Replace "short"
+	variables with "int" to prevent implicit conversions
+
+	MSVC++ warns about implicit conversions between "int" and "short"
+	types, which can cause lost of data. Therefore use "int" type for
+	indexing purposes as most of the IT++ codes do.
+
 	* itpp/comm/modulator.cpp, itpp/comm/modulator.h: Remove redundant
 	argument from calculate_softbit_matrices() function
 
