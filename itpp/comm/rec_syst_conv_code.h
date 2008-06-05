@@ -202,6 +202,9 @@ public:
 
   // ========================================================
 
+  //! Dummy assignment operator - MSVC++ warning C4512
+  Rec_Syst_Conv_Code & operator=(const Rec_Syst_Conv_Code &) { return *this; }
+
 private:
   //! Used for precalculations of the trellis state transitions
   int calc_state_transition(const int instate, const int input, ivec &parity);

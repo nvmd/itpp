@@ -73,6 +73,9 @@ public:
   //! Gets the rate of the RS-code.
   virtual double get_rate() const { return static_cast<double>(k) / n; }
 
+  //! Dummy assignment operator - MSVC++ warning C4512
+  Reed_Solomon & operator=(const Reed_Solomon &) { return *this; }
+
 protected:
   /*! Internal encoder/decoder parameters
    * @{ */

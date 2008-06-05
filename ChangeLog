@@ -1,5 +1,14 @@
 2008-06-05  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/itfile.h, itpp/base/random.h, itpp/comm/bch.h,
+	itpp/comm/rec_syst_conv_code.h, itpp/comm/reedsolomon.h: Suppress
+	MSVC++ warning C4512: "assignment operator could not be generated"
+
+	MSVC++ warns when an assignment operator can not be automatically
+	generated because of constant variables existing in a class. To
+	suppress this warning an dummy assignment operator can be added as
+	in this patch.
+
 	* itpp/base/vec.cpp, itpp/fixed/fix.cpp: Suppress MSVC++ warning
 	C4701: "potentially uninitialized local variable..."
 
