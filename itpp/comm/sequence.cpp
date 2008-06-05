@@ -46,7 +46,7 @@ LFSR::LFSR(const ivec &connections)
 
 void LFSR::set_connections(const bvec &connections)
 {
-  short N = connections.size() - 1;
+  int N = connections.size() - 1;
   memory.set_size(N, true); // Should this be true???
   Connections = connections.right(N);
 }
@@ -54,7 +54,7 @@ void LFSR::set_connections(const bvec &connections)
 void LFSR::set_connections(const ivec &connections)
 {
   bvec temp = oct2bin(connections);
-  short N = temp.size() - 1;
+  int N = temp.size() - 1;
   memory.set_size(N, true); // Should this be true???
   Connections = temp.right(N);
 }

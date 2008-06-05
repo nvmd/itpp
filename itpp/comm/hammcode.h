@@ -45,7 +45,7 @@ class Hamming_Code : public Channel_Code
 {
 public:
   //! Constructor for \c hamming(n,k). n = pow(2,m)-1 and k = pow(2,m)-m-1.
-  Hamming_Code(short m);
+  Hamming_Code(int m);
 
   //! Destructor
   virtual ~Hamming_Code() { }
@@ -68,15 +68,15 @@ public:
   virtual double get_rate() const { return static_cast<double>(k) / n; };
 
   //! Gets the code length \a n.
-  short get_n() const { return n; };
+  int get_n() const { return n; };
   //! Gets the number of information bits per code word, \a k.
-  short get_k() const { return k; };
+  int get_k() const { return k; };
   //! Gets the parity check matrix for the code.
   bmat get_H() const { return H; };
   //! Gets the generator matrix for the code.
   bmat get_G() const { return G; };
 private:
-  short n, k;
+  int n, k;
   bmat H, G;
   void generate_H(void);
   void generate_G(void);
