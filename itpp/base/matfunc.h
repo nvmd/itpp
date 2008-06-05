@@ -527,7 +527,7 @@ int rank(const smat &m, double tol)
 
 //! Specialisation of rank() function
 template<> inline
-int rank(const bmat &m, double tol)
+int rank(const bmat &, double)
 {
   it_error("rank(bmat): Function not implemented for GF(2) algebra");
   return 0;

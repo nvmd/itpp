@@ -44,21 +44,21 @@ namespace itpp
 //!@{
 
 //! Return true only if argument is of type Fix or CFix (or an Array/Vec/Mat of Fix or CFix)
-template<class T> inline bool is_fix(const T &x) {return false;}
+template<class T> inline bool is_fix(const T &) {return false;}
 //! Return true only if argument is of type Fix or CFix (or an Array/Vec/Mat of Fix or CFix)
-template<> inline bool is_fix(const Fix &x) {return true;}
+template<> inline bool is_fix(const Fix &) {return true;}
 //! Return true only if argument is of type Fix or CFix (or an Array/Vec/Mat of Fix or CFix)
-template<> inline bool is_fix(const fixvec &x) {return true;}
+template<> inline bool is_fix(const fixvec &) {return true;}
 //! Return true only if argument is of type Fix or CFix (or an Array/Vec/Mat of Fix or CFix)
-template<> inline bool is_fix(const fixmat &x) {return true;}
+template<> inline bool is_fix(const fixmat &) {return true;}
 //! Return true only if argument is of type Fix or CFix (or an Array/Vec/Mat of Fix or CFix)
-template<> inline bool is_fix(const CFix &x) {return true;}
+template<> inline bool is_fix(const CFix &) {return true;}
 //! Return true only if argument is of type Fix or CFix (or an Array/Vec/Mat of Fix or CFix)
-template<> inline bool is_fix(const cfixvec &x) {return true;}
+template<> inline bool is_fix(const cfixvec &) {return true;}
 //! Return true only if argument is of type Fix or CFix (or an Array/Vec/Mat of Fix or CFix)
-template<> inline bool is_fix(const cfixmat &x) {return true;}
+template<> inline bool is_fix(const cfixmat &) {return true;}
 //! Return true only if argument is of type Fix or CFix (or an Array/Vec/Mat of Fix or CFix)
-template<class T> inline bool is_fix(const Array<T> &x) {return is_fix(T());}
+template<class T> inline bool is_fix(const Array<T> &) {return is_fix(T());}
 
 //! Set <tt>y = x * pow2(n)</tt> using the quantization mode of \c y
 inline void set_fix(Fix &y, double x, int n) {y.set(x, n);}
@@ -89,17 +89,17 @@ inline void set_fix(fixmat &y, const mat &x, int n, q_mode q)
   for (int i = 0; i < y.size(); i++) y(i).set(x(i), n, q);
 }
 //! Set <tt>y = x</tt>. Useful in templated code
-inline void set_fix(double &y, double x, int n) {y = x;}
+inline void set_fix(double &y, double x, int) {y = x;}
 //! Set <tt>y = x</tt>. Useful in templated code
-inline void set_fix(double &y, double x, int n, q_mode q) {y = x;}
+inline void set_fix(double &y, double x, int, q_mode) {y = x;}
 //! Set <tt>y = x</tt>. Useful in templated code
-inline void set_fix(vec &y, const vec &x, int n) {y = x;}
+inline void set_fix(vec &y, const vec &x, int) {y = x;}
 //! Set <tt>y = x</tt>. Useful in templated code
-inline void set_fix(vec &y, const vec &x, int n, q_mode q) {y = x;}
+inline void set_fix(vec &y, const vec &x, int, q_mode) {y = x;}
 //! Set <tt>y = x</tt>. Useful in templated code
-inline void set_fix(mat &y, const mat &x, int n) {y = x;}
+inline void set_fix(mat &y, const mat &x, int) {y = x;}
 //! Set <tt>y = x</tt>. Useful in templated code
-inline void set_fix(mat &y, const mat &x, int n, q_mode q) {y = x;}
+inline void set_fix(mat &y, const mat &x, int, q_mode) {y = x;}
 
 //! Set <tt>y = x * pow2(n)</tt> using the quantization mode of \c y
 inline void set_fix(CFix &y, std::complex<double> x, int n) {y.set(x, n);}
@@ -162,29 +162,29 @@ inline void set_fix(cfixmat &y, const mat &real, const mat &imag, int n, q_mode 
   for (int i = 0; i < y.size(); i++) y(i).set(real(i), imag(i), n, q);
 }
 //! Set <tt>y = x</tt>. Useful in templated code
-inline void set_fix(std::complex<double> &y, const std::complex<double> &x, int n) {y = x;}
+inline void set_fix(std::complex<double> &y, const std::complex<double> &x, int) {y = x;}
 //! Set <tt>y = real + i*imag</tt>. Useful in templated code
-inline void set_fix(std::complex<double> &y, double real, double imag, int n) {y = std::complex<double>(real, imag);}
+inline void set_fix(std::complex<double> &y, double real, double imag, int) {y = std::complex<double>(real, imag);}
 //! Set <tt>y = x</tt>. Useful in templated code
-inline void set_fix(std::complex<double> &y, const std::complex<double> &x, int n, q_mode q) {y = x;}
+inline void set_fix(std::complex<double> &y, const std::complex<double> &x, int, q_mode) {y = x;}
 //! Set <tt>y = real + i*imag</tt>. Useful in templated code
-inline void set_fix(std::complex<double> &y, double real, double imag, int n, q_mode q) {y = std::complex<double>(real, imag);}
+inline void set_fix(std::complex<double> &y, double real, double imag, int, q_mode) {y = std::complex<double>(real, imag);}
 //! Set <tt>y = x</tt>. Useful in templated code
-inline void set_fix(cvec &y, const cvec &x, int n) {y = x;}
+inline void set_fix(cvec &y, const cvec &x, int) {y = x;}
 //! Set <tt>y = real + i*imag</tt>. Useful in templated code
-inline void set_fix(cvec &y, const vec &real, const vec &imag, int n) {y = to_cvec(real, imag);}
+inline void set_fix(cvec &y, const vec &real, const vec &imag, int) {y = to_cvec(real, imag);}
 //! Set <tt>y = x</tt>. Useful in templated code
-inline void set_fix(cvec &y, const cvec &x, int n, q_mode q) {y = x;}
+inline void set_fix(cvec &y, const cvec &x, int, q_mode) {y = x;}
 //! Set <tt>y = real + i*imag</tt>. Useful in templated code
-inline void set_fix(cvec &y, const vec &real, const vec &imag, int n, q_mode q) {y = to_cvec(real, imag);}
+inline void set_fix(cvec &y, const vec &real, const vec &imag, int, q_mode) {y = to_cvec(real, imag);}
 //! Set <tt>y = x</tt>. Useful in templated code
-inline void set_fix(cmat &y, const cmat &x, int n) {y = x;}
+inline void set_fix(cmat &y, const cmat &x, int) {y = x;}
 //! Set <tt>y = real + i*imag</tt>. Useful in templated code
-inline void set_fix(cmat &y, const mat &real, const mat &imag, int n) {y = to_cmat(real, imag);}
+inline void set_fix(cmat &y, const mat &real, const mat &imag, int) {y = to_cmat(real, imag);}
 //! Set <tt>y = x</tt>. Useful in templated code
-inline void set_fix(cmat &y, const cmat &x, int n, q_mode q) {y = x;}
+inline void set_fix(cmat &y, const cmat &x, int, q_mode) {y = x;}
 //! Set <tt>y = real + i*imag</tt>. Useful in templated code
-inline void set_fix(cmat &y, const mat &real, const mat &imag, int n, q_mode q) {y = to_cmat(real, imag);}
+inline void set_fix(cmat &y, const mat &real, const mat &imag, int, q_mode) {y = to_cmat(real, imag);}
 
 //! Call set_fix for each Array element
 template<class T1, class T2> inline void set_fix(Array<T1> &y, const Array<T2> &x, int n)
@@ -238,23 +238,23 @@ inline void rshift_fix(fixmat &y, int n)
 inline void rshift_fix(fixmat &y, int n, q_mode q)
 {for(int i = 0; i < y.size(); i++) y(i).rshift(n, q);}
 //! Dummy function useful in templated code
-inline void lshift_fix(double &y, int n) {}
+inline void lshift_fix(double &, int) {}
 //! Dummy function useful in templated code
-inline void rshift_fix(double &y, int n) {}
+inline void rshift_fix(double &, int) {}
 //! Dummy function useful in templated code
-inline void rshift_fix(double &y, int n, q_mode q) {}
+inline void rshift_fix(double &, int, q_mode) {}
 //! Dummy function useful in templated code
-inline void lshift_fix(vec &y, int n) {}
+inline void lshift_fix(vec &, int) {}
 //! Dummy function useful in templated code
-inline void rshift_fix(vec &y, int n) {}
+inline void rshift_fix(vec &, int) {}
 //! Dummy function useful in templated code
-inline void rshift_fix(vec &y, int n, q_mode q) {}
+inline void rshift_fix(vec &, int, q_mode) {}
 //! Dummy function useful in templated code
-inline void lshift_fix(mat &y, int n) {}
+inline void lshift_fix(mat &, int) {}
 //! Dummy function useful in templated code
-inline void rshift_fix(mat &y, int n) {}
+inline void rshift_fix(mat &, int) {}
 //! Dummy function useful in templated code
-inline void rshift_fix(mat &y, int n, q_mode q) {}
+inline void rshift_fix(mat &, int, q_mode) {}
 //! Left shift \c n bits
 inline void lshift_fix(CFix &y, int n) {y.lshift(n);}
 //! Right shift \c n bits using the quantization mode of \c y
@@ -280,23 +280,23 @@ inline void rshift_fix(cfixmat &y, int n)
 inline void rshift_fix(cfixmat &y, int n, q_mode q)
 {for(int i = 0; i < y.size(); i++) y(i).rshift(n, q);}
 //! Dummy function useful in templated code
-inline void lshift_fix(std::complex<double> &y, int n) {}
+inline void lshift_fix(std::complex<double> &, int) {}
 //! Dummy function useful in templated code
-inline void rshift_fix(std::complex<double> &y, int n) {}
+inline void rshift_fix(std::complex<double> &, int) {}
 //! Dummy function useful in templated code
-inline void rshift_fix(std::complex<double> &y, int n, q_mode q) {}
+inline void rshift_fix(std::complex<double> &, int, q_mode) {}
 //! Dummy function useful in templated code
-inline void lshift_fix(cvec &y, int n) {}
+inline void lshift_fix(cvec &, int) {}
 //! Dummy function useful in templated code
-inline void rshift_fix(cvec &y, int n) {}
+inline void rshift_fix(cvec &, int) {}
 //! Dummy function useful in templated code
-inline void rshift_fix(cvec &y, int n, q_mode q) {}
+inline void rshift_fix(cvec &, int, q_mode) {}
 //! Dummy function useful in templated code
-inline void lshift_fix(cmat &y, int n) {}
+inline void lshift_fix(cmat &, int) {}
 //! Dummy function useful in templated code
-inline void rshift_fix(cmat &y, int n) {}
+inline void rshift_fix(cmat &, int) {}
 //! Dummy function useful in templated code
-inline void rshift_fix(cmat &y, int n, q_mode q) {}
+inline void rshift_fix(cmat &, int, q_mode) {}
 //! Call lshift_fix for each Array element
 template<class T> inline void lshift_fix(Array<T> &y, int n)
 {for(int i = 0; i < y.size(); i++) lshift_fix(y(i), n);}
@@ -308,14 +308,14 @@ template<class T> inline void rshift_fix(Array<T> &y, int n, q_mode q)
 {for(int i = 0; i < y.size(); i++) rshift_fix(y(i), n, q);}
 
 //! If x is a fixed-point variable, assert that x has the specified shift value, otherwise do nothing
-inline void assert_fixshift(const double x, const int shift) {}
+inline void assert_fixshift(double, int) {}
 //! If x is a fixed-point variable, assert that x has the specified shift value, otherwise do nothing
-inline void assert_fixshift(const std::complex<double> &x, const int shift) {}
+inline void assert_fixshift(const std::complex<double> &, int) {}
 //! If x is a fixed-point variable, assert that x has the specified shift value, otherwise do nothing
-inline void assert_fixshift(const Fix &x, const int shift)
+inline void assert_fixshift(const Fix &x, int shift)
 {it_assert_debug(x.get_shift() == shift, "Shift should be " + to_str(shift) + " but it is " + to_str(x.get_shift()) + ".");}
 //! If x is a fixed-point variable, assert that x has the specified shift value, otherwise do nothing
-inline void assert_fixshift(const CFix &x, const int shift)
+inline void assert_fixshift(const CFix &x, int shift)
 {it_assert_debug(x.get_shift() == shift, "Shift should be " + to_str(shift) + " but it is " + to_str(x.get_shift()) + ".");}
 
 //! Converts a fixvec to vec
@@ -361,7 +361,7 @@ public:
 //! \endcond
 
 //! Convert double to T
-template<class T> inline T to(const double x) {return T(x);}
+template<class T> inline T to(double x) {return T(x);}
 //! Convert Fix to T
 template<class T> inline T to(const Fix &x) {return T(x);}
 //! Convert std::complex<double> to T
@@ -369,7 +369,7 @@ template<class T> inline T to(const std::complex<double> &x) {return T(x);}
 //! Convert CFix to T
 template<class T> inline T to(const CFix &x) {return T(x);}
 //! Convert double (real and imaginary parts) to T
-template<class T> inline T to(const double real, const double imag) {return T(real, imag);}
+template<class T> inline T to(double real, double imag) {return T(real, imag);}
 //! Convert Fix (real and imaginary parts) to T
 template<class T> inline T to(const Fix &real, const Fix &imag) {return T(real, imag);}
 
@@ -472,7 +472,7 @@ inline mat unfix(const fixmat &x) {return to_mat(x);}
 inline cmat unfix(const cfixmat &x) {return to_cmat(x);}
 
 //! Convert double to double i.e. do nothing
-inline double unfix(const double &x) {return x;}
+inline double unfix(double x) {return x;}
 //! Convert std::complex<double> to std::complex<double> i.e. do nothing
 inline std::complex<double> unfix(const std::complex<double> &x) {return x;}
 //! Convert vec to vec i.e. do nothing

@@ -55,19 +55,19 @@ public:
   CFix(double r = 0.0, double i = 0.0, int s = 0, int w = MAX_WORDLEN, e_mode e = TC, o_mode o = WRAP, q_mode q = TRN, Stat *ptr = 0)
       : Fix_Base(s, w, e, o, q, ptr), re(scale_and_apply_modes(r)), im(scale_and_apply_modes(i)) {}
   //! Constructor
-  CFix(std::complex<double> x, double dummy = 0.0, int s = 0, int w = MAX_WORDLEN, e_mode e = TC, o_mode o = WRAP, q_mode q = TRN, Stat *ptr = 0)
+  CFix(std::complex<double> x, double, int s = 0, int w = MAX_WORDLEN, e_mode e = TC, o_mode o = WRAP, q_mode q = TRN, Stat *ptr = 0)
       : Fix_Base(s, w, e, o, q, ptr), re(scale_and_apply_modes(std::real(x))), im(scale_and_apply_modes(std::imag(x))) {}
   //! Constructor
   explicit CFix(const Fix_Factory &f)
       : Fix_Base(0, f.wordlen, f.emode, f.omode, f.qmode, f.stat_ptr), re(0), im(0) {}
   //! Constructor for internal use. No restrictions are applied. The dummies help to avoid ambiguities
-  CFix(fixrep r, fixrep i, int s, int dummy1, int dummy2)
+  CFix(fixrep r, fixrep i, int s, int, int)
       : Fix_Base(s), re(r), im(i) {}
   //! Constructor
   CFix(const Fix &r, const Fix &i = 0.0, int w = MAX_WORDLEN, e_mode e = TC, o_mode o = WRAP, q_mode q = TRN, Stat *ptr = 0)
       : Fix_Base(assert_shifts(r, i), w, e, o, q, ptr), re(r.re), im(i.re) {}
   //! Copy constructor
-  CFix(const CFix &x, double dummy = 0.0, int w = MAX_WORDLEN, e_mode e = TC, o_mode o = WRAP, q_mode q = TRN, Stat *ptr = 0)
+  CFix(const CFix &x, double, int w = MAX_WORDLEN, e_mode e = TC, o_mode o = WRAP, q_mode q = TRN, Stat *ptr = 0)
       : Fix_Base(x.shift, w, e, o, q, ptr), re(x.re), im(x.im) {}
   //! Destructor
   virtual ~CFix() {}

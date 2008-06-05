@@ -231,7 +231,7 @@ void TCP_Packet::set_info(unsigned ssThresh, unsigned recWnd, unsigned cWnd,
 }
 
 
-void TCP_Packet::print_header(std::ostream &out) const
+void TCP_Packet::print_header(std::ostream &) const
 {
   std::cout << "Hello!\n";
 
@@ -946,7 +946,7 @@ void TCP_Sender::IdleCheck()
 }
 
 
-void TCP_Sender::HandleRtxTimeout(Ttype time)
+void TCP_Sender::HandleRtxTimeout(Ttype)
 {
   fNumberOfTimeouts++;
 
@@ -1272,7 +1272,7 @@ void TCP_Sender::save_trace(std::string filename)
 }
 
 
-void TCP_Sender::print_item(std::ostream & out, const std::string & keyword)
+void TCP_Sender::print_item(std::ostream &, const std::string & keyword)
 {
   if (keyword == "Label") {
     std::cout << fLabel;

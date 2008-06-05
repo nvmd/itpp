@@ -223,12 +223,12 @@ bvec BCH::decode(const bvec &coded_bits)
 
 // --- Soft-decision decoding is not implemented ---
 
-void BCH::decode(const vec &received_signal, bvec &output)
+void BCH::decode(const vec &, bvec &)
 {
   it_error("BCH::decode(): Soft-decision decoding is not implemented");
 }
 
-bvec BCH::decode(const vec &received_signal)
+bvec BCH::decode(const vec &)
 {
   it_error("BCH::decode(): Soft-decision decoding is not implemented");
   return bvec();

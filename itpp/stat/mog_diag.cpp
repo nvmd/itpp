@@ -303,7 +303,7 @@ int ** MOG_diag::disable_c_access(int ** A_in) { if (A_in) std::free(A_in); retu
 double * MOG_diag::enable_c_access(vec & v_in) { return v_in._data(); }
 int * MOG_diag::enable_c_access(ivec & v_in) { return v_in._data(); }
 
-double * MOG_diag::disable_c_access(double * v_in) { return(0); }
-int * MOG_diag::disable_c_access(int * v_in) { return(0); }
+double * MOG_diag::disable_c_access(double *) { return(0); }
+int * MOG_diag::disable_c_access(int *) { return(0); }
 
 }

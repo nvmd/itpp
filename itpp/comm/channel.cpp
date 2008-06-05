@@ -63,37 +63,37 @@ void Fading_Generator::set_LOS_power(double relative_power)
   los_direct = los_diffuse * std::sqrt(los_power);
 }
 
-void Fading_Generator::set_LOS_doppler(double relative_doppler)
+void Fading_Generator::set_LOS_doppler(double)
 {
   it_warning("Fading_Generator::set_LOS_doppler(): This function has no effect on this kind of generator");
 }
 
-void Fading_Generator::set_time_offset(int offset)
+void Fading_Generator::set_time_offset(int)
 {
   it_warning("Fading_Generator::set_time_offset(): This function has no effect on this kind of generator");
 }
 
-void Fading_Generator::set_norm_doppler(double norm_doppler)
+void Fading_Generator::set_norm_doppler(double)
 {
   it_warning("Fading_Generator::set_norm_doppler(): This function has no effect on this kind of generator");
 }
 
-void Fading_Generator::set_filter_length(int fir_length)
+void Fading_Generator::set_filter_length(int)
 {
   it_warning("Fading_Generator::set_filter_length(): This function has no effect on this kind of generator");
 }
 
-void Fading_Generator::set_doppler_spectrum(DOPPLER_SPECTRUM spectrum)
+void Fading_Generator::set_doppler_spectrum(DOPPLER_SPECTRUM)
 {
   it_warning("Fading_Generator::set_doppler_spectrum(): This function has no effect on this kind of generator");
 }
 
-void Fading_Generator::set_no_frequencies(int no_freq)
+void Fading_Generator::set_no_frequencies(int)
 {
   it_warning("Fading_Generator::set_no_frequencies(): This function has no effect on this kind of generator");
 }
 
-void Fading_Generator::set_rice_method(RICE_METHOD method)
+void Fading_Generator::set_rice_method(RICE_METHOD)
 {
   it_warning("Fading_Generator::set_rice_method(): This function has no effect on this kind of generator");
 }
@@ -140,7 +140,7 @@ RICE_METHOD Fading_Generator::get_rice_method() const
   return MEDS;
 }
 
-void Fading_Generator::shift_time_offset(int offset)
+void Fading_Generator::shift_time_offset(int)
 {
   it_warning("Fading_Generator::shift_time_offset(): This function has no effect on this kind of generator");
 }
