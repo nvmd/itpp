@@ -1,5 +1,8 @@
 2008-06-05  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/vec.cpp, itpp/fixed/fix.cpp: Suppress MSVC++ warning
+	C4701: "potentially uninitialized local variable..."
+
 	* itpp/base/gf2mat.cpp, itpp/base/itfile.cpp, itpp/base/mat.h,
 	itpp/base/math/misc.h, itpp/base/vec.h, itpp/comm/galois.cpp,
 	itpp/srccode/audiofile.cpp, itpp/srccode/pnm.cpp: Suppress MSVC++

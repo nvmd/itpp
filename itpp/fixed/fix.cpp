@@ -240,7 +240,7 @@ template<>
 void fixvec::set(const char *values)
 {
   std::istringstream buffer(values);
-  int b, c;
+  int b = 0, c = 0;
   int default_shift = 0, pos = 0, maxpos = 10;
   if (datasize > 0) {
     // Assume that all elements have the same shift
