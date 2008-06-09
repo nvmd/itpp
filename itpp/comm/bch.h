@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Definition of a BCH encoder/decoder class
- * \author Pal Frenger, Steve Peters and Adam Piatyszek
+ * \author Pal Frenger, Steve Peters, Adam Piatyszek and Stephan Ludwig
  *
  * -------------------------------------------------------------------------
  *
@@ -50,7 +50,7 @@ namespace itpp
   digital communication and storage", Appendix E, Prentice-Hall, 1995.
 
   Example:
-  \code BCH bch(31,21,2,"3 5 5 1")
+  \code BCH bch(31,21,2,ivec("3 5 5 1"))
   \endcode
   uses the generator polynomial
   \f$g(x) = x^{10} + x^9 + x^8 + x^6 + x^5 + x^3 + 1\f$, and is capable of
@@ -59,8 +59,27 @@ namespace itpp
 class BCH : public Channel_Code
 {
 public:
-  //! Initialize a (n,k)-code that can correct t errors
-  BCH(int in_n, int in_k, int in_t, ivec genpolynom, bool sys = false);
+  /*!
+   * \brief Initialize a (n,k)-code that can correct t errors
+   *
+   * \note Do not call this constructor with e.g. BCH bch(31, 21, 2, "3 5 5 1")
+   * but with BCH bch(31, 21, 2, ivec("3 5 5 1")) instead. Otherwise the
+   * complier will complain.
+   */
+  BCH(int in_n, int in_k, int in_t, const ivec &genpolynom, bool sys = false);
+
+  /*!
+   * \brief Initialize a (n,k)-code that can correct t errors
+   * \author Stephan Ludwig
+   *
+   * The generator polynomial is automatically generated from the (n, k, t)
+   * parameters of the BCH code. The constructor generates the generator
+   * polynomial according to the method described in:
+   *
+   * [Wic95] S. B. Wicker, "Error control systems for digital communication
+   * and storage", Prentice-Hall, 1995
+   */
+  BCH(int in_n, int in_k, int in_t, bool sys = false);
 
   //! Destructor
   virtual ~BCH() { }
@@ -84,6 +103,7 @@ public:
 
   //! Dummy assignment operator - MSVC++ warning C4512
   BCH & operator=(const BCH &) { return *this; }
+
 private:
   int n, k, t;
   GFX g;

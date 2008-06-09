@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Implementation of a BCH encoder/decoder class
- * \author Pal Frenger, Steve Peters and Adam Piatyszek
+ * \author Pal Frenger, Steve Peters, Adam Piatyszek and Stephan Ludwig
  *
  * -------------------------------------------------------------------------
  *
@@ -29,13 +29,14 @@
 #include <itpp/comm/bch.h>
 #include <itpp/base/binary.h>
 #include <itpp/base/specmat.h>
+#include <itpp/base/array.h>
 
 namespace itpp
 {
 
 //---------------------- BCH -----------------------------------
 
-BCH::BCH(int in_n, int in_k, int in_t, ivec genpolynom, bool sys) :
+BCH::BCH(int in_n, int in_k, int in_t, const ivec &genpolynom, bool sys):
     n(in_n), k(in_k), t(in_t), systematic(sys)
 {
   //fix the generator polynomial g(x).
@@ -46,6 +47,106 @@ BCH::BCH(int in_n, int in_k, int in_t, ivec genpolynom, bool sys) :
   }
   g.set(n + 1, exponents);
 }
+
+BCH::BCH(int in_n, int in_k, int in_t, bool sys):
+    n(in_n), k(in_k), t(in_t), systematic(sys)
+{
+  // step 1: determine cyclotomic cosets
+  // although we use elements in GF(n+1), we do not use GFX class, but ivec,
+  // since we have to multiply by 2 and need the exponents in clear notation
+  int m_tmp = int2bits(n);
+  int two_pow_m = 1 << m_tmp;
+
+  it_assert(two_pow_m == n + 1, "BCH::BCH(): (in_n + 1) is not a power of 2");
+  it_assert(t > 0, "BCH::BCH(): in_t must be positive");
+
+  Array<ivec> cyclo_sets(2*t + 1);
+  // unfortunately it is not obvious how many cyclotomic cosets exist (?)
+  // a bad guess is n/2, which can be a whole lot...
+  // but we only need 2*t + 1 at maximum for step 2.
+  // (since all elements are sorted ascending [cp. comment at 2.], the last
+  // coset we need is the one with coset leader 2t. + coset {0})
+
+  // start with {0} as first set
+  int curr_coset_idx = 0;
+  cyclo_sets(curr_coset_idx) = zeros_i(1);
+
+  int cycl_element = 1;
+
+  do {
+    bool found = false;
+    // find next element, which is not in a previous coset
+    do {
+      int i = 0;
+      // we do not have to search the first coset, since this is always {0}
+      found = false;
+      while ((!found) && (i <= curr_coset_idx)) {
+        int j = 0;
+        while ((!found) && (j < cyclo_sets(i).length())) {
+          if (cycl_element == cyclo_sets(i)(j)) {
+            found = true;
+          }
+          j++;
+        }
+        i++;
+      }
+      cycl_element++;
+    }
+    while ((found) && (cycl_element <= 2*t));
+
+    if (!found) {
+      // found one
+      cyclo_sets(++curr_coset_idx).set_size(m_tmp);
+      // a first guess (we delete afterwards back to correct length):
+      // there should be no more than m elements in one coset
+
+      int element_index = 0;
+      cyclo_sets(curr_coset_idx)(element_index) = cycl_element - 1;
+
+      // multiply by two (mod 2^m - 1) as long as new elements are created
+      while ((((cyclo_sets(curr_coset_idx)(element_index) * 2) % n)
+              != cyclo_sets(curr_coset_idx)(0))
+             && (element_index < m_tmp - 1)) {
+        element_index++;
+        cyclo_sets(curr_coset_idx)(element_index)
+          = (cyclo_sets(curr_coset_idx)(element_index - 1) * 2) % n;
+      }
+      // delete unused digits
+      if (element_index + 1 < m_tmp - 1) {
+        cyclo_sets(curr_coset_idx).del(element_index + 1, m_tmp - 1);
+      }
+    }
+  }
+  while ((cycl_element <= 2*t) && (curr_coset_idx <= 2*t));
+
+  // step 2: find all cosets that contain all the powers (1..2t) of alpha
+  // this is pretty easy, since the cosets are in ascending order
+  // (if regarding the first (=primitive) element for ordering) -
+  // all due to the method, they have been constructed
+  // Since we only calculated all cosets up to 2t, this is even trivial
+  // => we take all curr_coset_idx Cosets
+
+  // maximum index of cosets to be considered
+  int max_coset_index = curr_coset_idx;
+
+  // step 3: multiply the minimal polynomials corresponding to this sets
+  // of powers
+  g.set(two_pow_m, ivec("0"));   // = alpha^0 = 1
+  ivec min_poly_exp(2);
+  min_poly_exp(1) = 0;        // product of (x-alpha^cycl_element)
+
+  for (int i = 1; i <= max_coset_index; i++) {
+    for (int j = 0; j < cyclo_sets(i).length(); j++) {
+      min_poly_exp(0) = cyclo_sets(i)(j);
+      g *= GFX(two_pow_m, min_poly_exp);
+    }
+  }
+
+  // finally check, whether k and t match, i.e. if degree(gen_poly) = n - k
+  it_assert(g.get_true_degree() == n - k,
+            "BCH::BCH(): parameters n, k, t do not match each other");
+}
+
 
 void BCH::encode(const bvec &uncoded_bits, bvec &coded_bits)
 {
