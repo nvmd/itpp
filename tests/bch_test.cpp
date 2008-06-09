@@ -48,8 +48,7 @@ int main()
   cout << "===================================" << endl;
 
   {
-    BCH bch(31, 21, 2, "3 5 5 1");
-
+    BCH bch(31, 21, 2);
     bvec input = randb(21);
     bvec encoded = bch.encode(input);
     bvec err = set_errors(encoded, (ivec) "1 2"); // error positions
@@ -82,8 +81,8 @@ int main()
     bmat c(u.rows(), 7);
     bmat y(u.rows(), 7);
     bmat decoded(u.rows(), u.cols());
-    BCH bch_nsys(7, 4, 1, "1 3");
-    BCH bch_sys(7, 4, 1, "1 3", true);
+    BCH bch_nsys(7, 4, 1);
+    BCH bch_sys(7, 4, 1, true);
 
     bmat f = "1 0 0 0 0 0 0; 0 1 0 0 0 0 0; 0 0 1 0 0 0 0; 0 0 0 1 0 0 0; 0 0 0 0 1 0 0; 0 0 0 0 0 1 0; 0 0 0 0 0 0 1";
 

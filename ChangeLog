@@ -1,3 +1,37 @@
+2008-06-09  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/bch.cpp, itpp/comm/bch.h, tests/bch_test.cpp:
+	Auto-calculate the BCH generator polynomial from (n, k, t)
+	parameters
+
+	Beside the known Parameters n (codeword length), k (message word
+	length), t (designed error-correcting capability) the actual BCH
+	class needs to be handed over the generator polynomial in octal
+	form. This can be very long for some codes and thus hard-copying
+	from textbooks often leads to copying errors.
+
+	Since the generator polynomial is unique (as far as I know) for
+	given parameters n, k, t, this generator polynomial can be
+	calculated during instantiation of the BCH class - given the
+	parameters n, k, t. Thus, copying errors can be avoided. This new
+	feature is supplied as a second constructor for the BCH class by
+	the attached patch. In other words: With the new constructor, you
+	no longer have to pass on the generator polynomial but only the
+	parameters n, k, and t. The constructor generates the generator
+	polynomials according to Wicker: "Error control systems for
+	digital communication and storage" as given in Appendix E of this
+	book. The polynomials are also the same as in Lin/Costello: "Error
+	control coding".
+
+	Unfortunately, the usual call (cf. IT++ documentation), i.e.
+	  BCH bch(31, 21, 2, "3 5 5 1");
+	does no longer work, since both constructors confuse at run-time:
+	The new constructor is called and the string is interpreted as
+	bool systematic. The correct usage would now be:
+	  BCH bch(31, 21, 2, ivec("3 5 5 1"));
+
+	Signed-off-by: Stephan Ludwig <donludovico@users.sourceforge.net>
+
 2008-06-05  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/hammcode.cpp, itpp/comm/hammcode.h,
@@ -60,6 +94,34 @@
 	implicitly assumes that GDB debugger will be used in such a case.
 
 2008-05-30  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/bch.cpp, itpp/comm/bch.h, tests/bch_test.cpp:
+	Auto-calculate the BCH generator polynomial from (n, k, t)
+	parameters
+
+	Beside the known parameters n (codeword length), k (message word
+	length) and t (error-correcting capability), a generator
+	polynomial in octal form needs to be handed over to the actual BCH
+	class. This generator can be very long for some codes and thus
+	copying by hand from textbooks often leads to errors.
+
+	Since the generator polynomial is unique for given parameters (n,
+	k, t), this generator polynomial can be calculated during
+	instantiation of the BCH class. This new feature is supplied as a
+	second constructor for the BCH class in this patch.
+
+	The constructor generates the generator polynomials according to
+	Wicker: "Error control systems for digital communication and
+	storage" as given in Appendix E of this book. The polynomials are
+	also the same as in Lin/Costello: "Error control coding".
+
+	Unfortunately, the usual call BCH bch(31, 21, 2, "3 5 5 1"); does
+	no longer work, since both constructors confuse at run-time: The
+	new constructor is called and the string is interpreted as bool
+	systematic (that's what I guess). The correct usage of the old
+	constructor would now be BCH bch(31, 21, 2, ivec("3 5 5 1"));
+
+	Signed-off-by: Stephan Ludwig <donludovico@users.sourceforge.net>
 
 	* itpp/base/math/log_exp.h, itpp/srccode/gmm.h: Remove functions
 	marked as deprecated before 3.10.7 release
