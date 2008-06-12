@@ -72,14 +72,14 @@ public:
    * \brief Initialize a (n,k)-code that can correct t errors
    * \author Stephan Ludwig
    *
-   * The generator polynomial is automatically generated from the (n, k, t)
+   * The generator polynomial is automatically generated from the (n, t)
    * parameters of the BCH code. The constructor generates the generator
-   * polynomial according to the method described in:
+   * polynomial (and determines k) according to the method described in:
    *
    * [Wic95] S. B. Wicker, "Error control systems for digital communication
    * and storage", Prentice-Hall, 1995
    */
-  BCH(int in_n, int in_k, int in_t, bool sys = false);
+  BCH(int in_n, int in_t, bool sys = false);
 
   //! Destructor
   virtual ~BCH() { }
@@ -100,6 +100,9 @@ public:
 
   //! Get the code rate
   virtual double get_rate() const {return static_cast<double>(k) / n; }
+
+  //! Get cardinality of code k
+  virtual int get_k() const {return k; }
 
   //! Dummy assignment operator - MSVC++ warning C4512
   BCH & operator=(const BCH &) { return *this; }

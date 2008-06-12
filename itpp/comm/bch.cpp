@@ -48,8 +48,8 @@ BCH::BCH(int in_n, int in_k, int in_t, const ivec &genpolynom, bool sys):
   g.set(n + 1, exponents);
 }
 
-BCH::BCH(int in_n, int in_k, int in_t, bool sys):
-    n(in_n), k(in_k), t(in_t), systematic(sys)
+BCH::BCH(int in_n, int in_t, bool sys):
+    n(in_n), t(in_t), systematic(sys)
 {
   // step 1: determine cyclotomic cosets
   // although we use elements in GF(n+1), we do not use GFX class, but ivec,
@@ -58,7 +58,7 @@ BCH::BCH(int in_n, int in_k, int in_t, bool sys):
   int two_pow_m = 1 << m_tmp;
 
   it_assert(two_pow_m == n + 1, "BCH::BCH(): (in_n + 1) is not a power of 2");
-  it_assert(t > 0, "BCH::BCH(): in_t must be positive");
+  it_assert((t > 0) && (2*t < n), "BCH::BCH(): in_t must be positive and smaller than n/2");
 
   Array<ivec> cyclo_sets(2*t + 1);
   // unfortunately it is not obvious how many cyclotomic cosets exist (?)
@@ -142,9 +142,8 @@ BCH::BCH(int in_n, int in_k, int in_t, bool sys):
     }
   }
 
-  // finally check, whether k and t match, i.e. if degree(gen_poly) = n - k
-  it_assert(g.get_true_degree() == n - k,
-            "BCH::BCH(): parameters n, k, t do not match each other");
+  // finally determine k
+  k = n - g.get_true_degree();
 }
 
 
