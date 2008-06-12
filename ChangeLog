@@ -1,3 +1,20 @@
+2008-06-12  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/bch.cpp, itpp/comm/bch.h, tests/bch_test.cpp:
+	Auto-calculate the BCH generator polynomial from (n, t) parameters
+
+	This patch improves the previous patch, so only n (codeword
+	length) and t (error-correcting capability) parameters are
+	required to specify a particular BCH code. The generator
+	polynomial and k (message word length) are calculated
+	automatically.
+
+	The new constructor does no longer break the implicit cast
+	ivec("...") of the generator polynomial parameter in the old
+	constructor.
+
+	Signed-off-by: Stephan Ludwig <donludovico@users.sourceforge.net>
+
 2008-06-09  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/bch.cpp, itpp/comm/bch.h, tests/bch_test.cpp:
