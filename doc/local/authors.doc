@@ -41,6 +41,7 @@
 - Bjorn Furugard
 - Kenneth Hilmersson
 - Peter Klotz
+- Stephan Ludwig (donludovico)
 - Krister Norlund
 - Andy Panov
 - Steve Peters
@@ -53,7 +54,7 @@
 
 \section distributors Distribution Maintainers
 
-- Kumar Appaiah <akumar (at) ee.iitm.ac.in>
+- Kumar Appaiah <akumar (at) debian.org>
   (<a href="http://www.debian.org/">Debian GNU/Linux</a>)
 - Günter Dannoritzer <dannori (at) users.sourceforge.net>
   (<a href="http://www.opensuse.org/">openSUSE</a>)
