@@ -1,5 +1,8 @@
 2008-06-12  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* AUTHORS, doc/local/authors.doc: Add Stephan Ludwig (donludovico)
+	to the list of contributors
+
 	* itpp/comm/bch.cpp, itpp/comm/bch.h, tests/bch_test.cpp:
 	Auto-calculate the BCH generator polynomial from (n, t) parameters
 
