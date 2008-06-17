@@ -211,7 +211,7 @@ void BCH::decode(const bvec &coded_bits, bvec &decoded_bits)
 
   GFX r(n + 1, n - 1), c(n + 1, n - 1), m(n + 1, k - 1), S(n + 1, 2*t), Lambda(n + 1),
   OldLambda(n + 1), T(n + 1), Ohmega(n + 1), One(n + 1, (char*)"0");
-  GF delta(n + 1), temp(n + 1);
+  GF delta(n + 1);
   ivec errorpos;
 
   for (i = 0; i < itterations; i++) {
@@ -236,7 +236,7 @@ void BCH::decode(const bvec &coded_bits, bvec &decoded_bits)
         delta = Ohmega[2*kk+1];
         OldLambda = Lambda;
         Lambda = OldLambda + delta * (GFX(n + 1, (char*)"-1 0") * T);
-        if ((delta == GF(n + 1, -1)) || (OldLambda.get_degree() > kk)) {
+        if ((delta == GF(n + 1, -1)) || (OldLambda.get_true_degree() > kk)) {
           T = GFX(n + 1, (char*)"-1 -1 0") * T;
         }
         else {
@@ -248,7 +248,6 @@ void BCH::decode(const bvec &coded_bits, bvec &decoded_bits)
       errorpos.set_size(Lambda.get_true_degree(), true);
       foundzeros = 0;
       for (j = 0; j <= n - 1; j++) {
-        temp = Lambda(GF(n + 1, j));
         if (Lambda(GF(n + 1, j)) == GF(n + 1, -1)) {
           errorpos(foundzeros) = (n - j) % n;
           foundzeros += 1;
