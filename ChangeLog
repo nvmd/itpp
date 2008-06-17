@@ -1,3 +1,23 @@
+2008-06-17  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/comm/bch.cpp: Fix bug [1995743] in BCH::decode() function
+
+	The second argument of
+	  if ((delta == GF(n + 1, -1)) || (OldLambda.get_degree() > kk))
+	takes the degree of OldLambda. But get_degree() does not return
+	the true degree of that polynomial but its allocated space.
+	GFX::get_true_degree() does what we want.
+
+	If OldLambda's "degree" is larger than its "true degree", a wrong
+	decision is made in the if statement, resulting in a wrong
+	Lambda(x), which in general leads to a decoding failure, while the
+	code word should have been correctable in theory.
+
+	This patch fixes this bug and also removes a redundant "temp"
+	variable.
+
+	Signed-off-by: Stephan Ludwig <donludovico@users.sourceforge.net>
+
 2008-06-12  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* AUTHORS, doc/local/authors.doc: Add Stephan Ludwig (donludovico)
