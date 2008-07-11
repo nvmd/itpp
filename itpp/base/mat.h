@@ -1207,6 +1207,11 @@ Mat<Num_T> Mat<Num_T>::hermitian_transpose() const
 template<class Num_T>
 Mat<Num_T> concat_horizontal(const Mat<Num_T> &m1, const Mat<Num_T> &m2)
 {
+  // if one of the input matrix is empty just copy the other one as a result
+  if (m1.no_cols == 0)
+    return m2;
+  if (m2.no_cols == 0)
+    return m1;
   it_assert_debug(m1.no_rows == m2.no_rows,
                   "Mat<>::concat_horizontal(): Wrong sizes");
   int no_rows = m1.no_rows;
@@ -1224,6 +1229,11 @@ Mat<Num_T> concat_horizontal(const Mat<Num_T> &m1, const Mat<Num_T> &m2)
 template<class Num_T>
 Mat<Num_T> concat_vertical(const Mat<Num_T> &m1, const Mat<Num_T> &m2)
 {
+  // if one of the input matrix is empty just copy the other one as a result
+  if (m1.no_rows == 0)
+    return m2;
+  if (m2.no_rows == 0)
+    return m1;
   it_assert_debug(m1.no_cols == m2.no_cols,
                   "Mat<>::concat_vertical(): Wrong sizes");
   int no_cols = m1.no_cols;
