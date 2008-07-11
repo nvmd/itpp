@@ -1,5 +1,16 @@
 2008-07-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/mat.h: Fix bug [2004345] causing incorrect result of
+	Mat::concat_vertical()
+
+	In case when one of the input matrices to concat_horizontal() or
+	concat_vertical() functions was empty, an error occurred. With
+	this patch the result of concatenating an empty matrix with
+	some other matrix is defined and a copy of the other matrix is
+	returned. This fixes bug [2004345].
+
+	Thanks to Carlos Pineda for reporting this problem.
+
 	* itpp/base/mat.h: Reset number of rows/columns if one of the
 	dimensions given to Mat::set_size() is zero
 
