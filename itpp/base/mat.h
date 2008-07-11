@@ -665,6 +665,11 @@ void Mat<Num_T>::set_size(int rows, int cols, bool copy)
   // check if we have to resize the current matrix
   if ((no_rows == rows) && (no_cols == cols))
     return;
+  // check if one of dimensions is zero
+  if ((rows == 0) || (cols == 0)) {
+    free();
+    return;
+  }
   // conditionally copy previous matrix content
   if (copy) {
     // create a temporary pointer to the allocated data

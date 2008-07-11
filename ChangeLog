@@ -1,3 +1,16 @@
+2008-07-11  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/mat.h: Reset number of rows/columns if one of the
+	dimensions given to Mat::set_size() is zero
+
+	Without this patch, the Mat::set_size() function set number of
+	rows or cols to non zero value, even if the other matrix
+	dimension was zero. This was not compatible with the constructor.
+	Besides, setting one of the dimensions of a matrix to non zero
+	value, if the other one is zero does not makes sense and might
+	cause problems with other functions operating on matrices. This
+	patch fixes this problem.
+
 2008-06-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/comm/bch.cpp: Fix bug [1995743] in BCH::decode() function
