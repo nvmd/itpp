@@ -1,3 +1,16 @@
+2008-07-18  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/vec.cpp: Fix bug [2017948] in parsing error of "a:b:c"
+	ivec initialisation
+
+	There was a bug in vec.cpp that caused an assertion error when
+	integer vectors were initialized using the "a:b:c" notation. For
+	example: ivec iv = "0:2:4"; raised an exception. This patch fixes
+	this bug by removing an unnecessary "seekg" operation.
+
+	Thanks to David Hammarwall for reporting the problem and solution
+	to it.
+
 2008-07-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/mat.h: Fix bug [2004345] causing incorrect result of
