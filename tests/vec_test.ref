@@ -401,6 +401,8 @@ Testing double vector initialisation with: "1e0:1.5:1E+1":
 v = [1.0000 2.5000 4.0000 5.5000 7.0000 8.5000 10.0000]
 Testing int vector initialisation with: "0xA : -010":
 iv = [10 9 8 7 6 5 4 3 2 1 0 -1 -2 -3 -4 -5 -6 -7 -8]
+Testing int vector initialisation with: "-5:3:9":
+iv = [-5 -2 1 4 7]
 Testing short int vector initialisation with: "3 0xF -10, 0133 0177, 0x0 ":
 sv = [3 15 -10 91 127 0]
 Testing complex vector initialisation with: " (0.3, 0.4)  .2-.01i, 1e-3+0.25i":

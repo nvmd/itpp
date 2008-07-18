@@ -271,6 +271,10 @@ int main()
   cout << "Testing int vector initialisation with: \"0xA : -010\":"
        << endl << "iv = " << iv << endl;
 
+  iv = "-5:3:9";
+  cout << "Testing int vector initialisation with: \"-5:3:9\":"
+       << endl << "iv = " << iv << endl;
+
   svec sv = "3 0xF -10, 0133 0177, 0x0 ";
   cout << "Testing short int vector initialisation with: \"3 0xF -10, 0133 0177, 0x0 \":"
        << endl << "sv = " << sv << endl;
