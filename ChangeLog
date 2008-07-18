@@ -1,5 +1,8 @@
 2008-07-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/vec_test.cpp, tests/vec_test.ref: Add a test-case to
+	reproduce bug [2017948]
+
 	* itpp/base/vec.cpp: Fix bug [2017948] in parsing error of "a:b:c"
 	ivec initialisation
 
