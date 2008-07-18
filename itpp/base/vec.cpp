@@ -654,7 +654,6 @@ void Vec<int>::set(const std::string &str)
               it_assert(!c_parsed, "Vec<int>::set(): Improper data string "
                         "(a:b:c)");
               buffer.clear();
-              buffer.seekg(-1, std::ios_base::cur);
               buffer >> std::dec >> c;
               it_assert(!buffer.fail(), "Vec<int>::set(): Stream operation "
                         "failed (buffer >> dec >> data)");
