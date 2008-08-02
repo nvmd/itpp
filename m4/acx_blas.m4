@@ -77,8 +77,7 @@ fi
 # (http://www.intel.com/cd/software/products/asmo-na/eng/perflib/mkl/index.htm)
 if test "$acx_blas_ok" = no; then
   AC_CHECK_LIB([mkl], [$sgemm],
-    [acx_blas_ok=yes; blas_mkl_ok=yes; acx_zdotu=void;
-       BLAS_LIBS="-lmkl -lguide -lpthread"],
+    [acx_blas_ok=yes; blas_mkl_ok=yes; BLAS_LIBS="-lmkl -lguide -lpthread"],
     [],
     [-lguide -lpthread])
 fi
@@ -182,7 +181,7 @@ if test "$acx_blas_ok" = yes && test "$blas_mkl_ok" = no \
     && test "$blas_acml_ok" = no && test "$blas_atlas_ok" = no; then
   save_LIBS="$LIBS"; LIBS="$BLAS_LIBS $LIBS"
   AC_MSG_CHECKING([for MKLGetVersion in $BLAS_LIBS])
-  AC_TRY_LINK_FUNC(MKLGetVersion, [blas_mkl_ok=yes; acx_zdotu=void])
+  AC_TRY_LINK_FUNC(MKLGetVersion, [blas_mkl_ok=yes])
   AC_MSG_RESULT($blas_mkl_ok)
   if test "$blas_mkl_ok" = no; then
     AC_MSG_CHECKING([for acmlversion in $BLAS_LIBS])
