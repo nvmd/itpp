@@ -1,5 +1,8 @@
 2008-07-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* NEWS, VERSION: Add release notes and update version number for
+	IT++ 4.0.5
+
 	* tests/vec_test.cpp, tests/vec_test.ref: Add a test-case to
 	reproduce bug [2017948]
 
