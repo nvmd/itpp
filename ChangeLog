@@ -1,3 +1,15 @@
+2008-08-02  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* m4/acx_blas.m4: MKL requires zdotusub Fortran wrapper function
+	on x86_64 architecture
+
+	This fixes broken blas_test and vector_test on 64-bit linux
+	architectures when IT++ is linked to Intel MKL BLAS library. This
+	fix is equvalent to passing "--with-zdotu=zdotusub" option to
+	configure.
+
+-------------------------------------------------------------------------------
+
 2008-07-18  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* NEWS, VERSION: Add release notes and update version number for
