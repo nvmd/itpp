@@ -1,4 +1,52 @@
 ===============================================================================
+IT++ version 4.0.5                                         Released: 2008-07-19
+-------------------------------------------------------------------------------
+
+IT++ 4.0.5 is the next maintenance release of the current IT++ stable branch
+(itpp-4-0). As usual, a brief list of modifications and bug-fixes is
+presented below:
+
+
+Modifications:
+--------------
+
+* Mat<>::set_size() method now resets the number of rows/columns, if one of
+  the dimensions of a matrix is zero. This is consistent with the
+  constructor behaviour.
+
+* Suppressed a few MSVC++ warnings (C4512, C4701, C4244 and C4100) by minor
+  re-factoring of some code fragments
+
+* Changed the default debugging CFLAGS to "-g -O1" or "-Wall -ggdb -O1
+  -pipe", where the latter set is used with GCC.
+
+* Suppressed GCC 4.3 warnings on "ambiguous else" due to missing braces
+
+* Coding style unified and beautified using Artistic Style (astyle) source
+  code formatter
+
+
+Bug-fixes:
+----------
+
+* Fixed bug [2017948] in parsing from string routine of Vec<int> for "a:b:c"
+  format specifier
+
+* Fixed bug [2004345] causing incorrect result of Mat::concat_vertical(),
+  when one of the input matrices was empty. In such case the result is now a
+  copy of the other (non-empty) matrix.
+
+* Fixed bug [1995743] in BCH::decode() function, which resulted in a
+  decoding failure, while a codeword should have been correctable in theory.
+
+* Fixed one regression due to a missing "inline" keyword in
+  Vec<>::outer_product() specialisation
+
+* Fixed bug [1941219], which reports broken initialisation of
+  Fast_ICA::set_init_guess() method.
+
+
+===============================================================================
 IT++ version 4.0.4                                         Released: 2008-03-31
 -------------------------------------------------------------------------------
 
