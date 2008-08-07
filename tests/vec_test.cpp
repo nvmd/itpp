@@ -129,6 +129,11 @@ void common_operators(const Vec<T> &a, const Vec<T> &b, T c)
   cout << "a.left(4) = " << a.left(4) << endl;
   cout << "a.mid(3,2) = " << a.mid(3, 2) << endl;
   a2 = a;
+  cout << "a.split(0) = " << a2.split(0) << ";   a = " << a2 << endl;
+  a2 = a;
+  cout << "a.split(a.size()) = " << a2.split(a2.size()) << ";   a = " << a2
+       << endl;
+  a2 = a;
   cout << "a.split(4) = " << a2.split(4) << ";   a = " << a2 << endl;
   a2(5) = a(6);
   cout << "a(5) = a(6); a = " << a2 << endl;
