@@ -415,7 +415,13 @@ public:
   Vec<Num_T> left(int nr) const;
   //! Get the middle part of vector from \c start including \c nr elements
   Vec<Num_T> mid(int start, int nr) const;
-  //! Split the vector into two parts at element \c pos. Return the first part and keep the second.
+  /*!
+   * \brief Split the vector into two parts at element \c pos.
+   *
+   * Return the first part containing elements 0 to \c pos-1, and keep the
+   * second part containing the remaining elements starting from \c pos
+   * (empty vector if \c pos is equal to the length of the vector).
+   */
   Vec<Num_T> split(int pos);
   //! Shift in element \c t at position 0 \c n times
   void shift_right(Num_T t, int n = 1);
@@ -1336,12 +1342,20 @@ Vec<Num_T> Vec<Num_T>::mid(int start, int nr) const
 template<class Num_T>
 Vec<Num_T> Vec<Num_T>::split(int pos)
 {
-  it_assert_debug(in_range(pos), "Vec<>::split(): Index out of range");
+  it_assert_debug((pos >= 0) && (pos <= datasize),
+                  "Vec<>::split(): Index out of range");
   Vec<Num_T> temp1(pos);
-  Vec<Num_T> temp2(datasize - pos);
-  copy_vector(pos, data, temp1.data);
-  copy_vector(datasize - pos, &data[pos], temp2.data);
-  (*this) = temp2;
+  if (pos > 0) {
+    copy_vector(pos, data, temp1.data);
+    if (pos < datasize) {
+      Vec<Num_T> temp2(datasize - pos);
+      copy_vector(datasize - pos, &data[pos], temp2.data);
+      (*this) = temp2;
+    }
+    else {
+      set_size(0);
+    }
+  }
   return temp1;
 }
 

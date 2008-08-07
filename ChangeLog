@@ -1,3 +1,22 @@
+2008-08-07  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/vec.h, tests/vec_test.cpp, tests/vec_test.ref: Fix
+	regression [2041474] in Vec<>::split() method
+
+	In IT++ 3.10.x releases it was possible to split a vector at its
+	end, e.g.:
+	  vec v1 = "1 2 3 4 5";
+	  vec v2 = v1.split(5);
+	In the current stable branch (4.0.x) the above code results in an
+	assertion. This patch fixes this regression and also improves the
+	documentation, so it is clearly explained which elements are
+	returned and which are stored in the original vector.
+
+	Besides, the vec_test program now includes a new test for
+	splitting a vector at pos = 0 and pos = datasize.
+
+	Thanks to Yngve Selén for reporting this bug.
+
 2008-08-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* m4/acx_blas.m4: MKL requires zdotusub Fortran wrapper function
