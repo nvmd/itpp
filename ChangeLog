@@ -1,3 +1,13 @@
+2008-08-09  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/tutorial/src/ldpc_bersim_awgn.cpp: Fix minor problem with
+	integer overflow in expression
+
+	The initialisation of int64_t variable with a multiplied inteager
+	constants caused an integer overflow of the temporary calculation
+	result. This patch fixes this issue by using one big constant
+	in the initialisation.
+
 2008-08-07  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/vec.h, tests/vec_test.cpp, tests/vec_test.ref: Fix
