@@ -77,7 +77,6 @@ public:
 
   /*! \brief Construct a model using user supplied mean vectors
       \param means_in Array of mean vectors
-      \param full_in Ignored.  Present for compatability with the MOG_generic class
       \note  The number of mean vectors specifies the number of Gaussians.
       The covariance matrices are in effect set equal to the identity matrix.
       The weights for all Gaussians are the same, equal to 1/K, where K is the number of Gaussians
