@@ -1,3 +1,11 @@
+2008-08-10  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/tutorial/src/ldpc_bersim_awgn.cpp: Add missing "LL" suffix
+	to 64-bit inteager initialisation
+
+	This eventually fixes integer overflow error in LDPC BER
+	simulation tutorial example.
+
 2008-08-09  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/stat/mog_diag.h: Suppress a minor warning reported by
