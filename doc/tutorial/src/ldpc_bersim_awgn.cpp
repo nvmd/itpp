@@ -11,7 +11,8 @@ int main(int argc, char **argv)
     return 1;
   }
 
-  int64_t Nbits = 5000000000;  // maximum number of bits simulated for any SNR point
+  int64_t Nbits = 5000000000LL; // maximum number of bits simulated
+                                // for each SNR point
   int Nbers = 2000;            // target number of bit errors per SNR point
   double BERmin = 1e-6;        // BER at which to terminate simulation
   vec EbN0db = "0.6:0.2:5";
