@@ -1,5 +1,13 @@
 2008-08-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/vec_test.cpp, tests/vec_test.ref: Fix vector
+	initialisation test with "a:b" format when a > b
+
+	This test is not valid with the new string parser implementation,
+	because negative decrements have to be explicitly gived as 'b' in
+	"a:b:c" format string. This is consistant with GNU Octave way of
+	parsing such strings.
+
 	* itpp/base/vec.cpp, itpp/base/vec.h: String parser reimplemented
 	to support multiple "a:b:c" format strings
 
