@@ -1,5 +1,8 @@
 2008-08-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/vec_test.cpp, tests/vec_test.ref: Modified existing and
+	added new tests of vector initialisations with string
+
 	* tests/vec_test.cpp, tests/vec_test.ref: Fix vector
 	initialisation test with "a:b" format when a > b
 

@@ -257,27 +257,24 @@ int main()
 
   // Test vectror initialisation with string
   vec v = "23.3 1232.7 0.111 1.525 0.333";
-  cout << "Testing double vector initialisation with: \"23.3 1232.7 0.111 1.525 0.333\":"
-       << endl << "v = " << v << endl;
+  cout << "Testing double vector initialisation with: "
+    "\"23.3 1232.7 0.111 1.525 0.333\":" << endl << "v = " << v << endl;
 
-  v = "-10.000 :.5:-4.5";
-  cout << "Testing double vector initialisation with: \"-10.000 :.5:-4.5\":"
-       << endl << "v = " << v << endl;
+  v = "-10.000 :.5:-4.5  1.33e+1, -.9, 1e0:1.5:1E+1";
+  cout << "Testing double vector initialisation with: "
+    "\"-10.000 :.5:-4.5  1.33e+1, -.9, 1e0:1.5:1E+1\":" << endl << "v = "
+       << v << endl;
 
-  v = "0:.2: 3";
-  cout << "Testing double vector initialisation with: \"0:.2: 3\":"
-       << endl << "v = " << v << endl;
-
-  v = "1e0:1.5:1E+1";
-  cout << "Testing double vector initialisation with: \"1e0:1.5:1E+1\":"
-       << endl << "v = " << v << endl;
+  v = "-inf, inf, NaN, 0 1e0 1e10 ";
+  cout << "Testing double vector initialisation with: "
+    "\"-inf, inf, NaN, 0 1e0 1e10 \":" << endl << "v = " << v << endl;
 
   ivec iv = "0xA :-0x1: -010";
   cout << "Testing int vector initialisation with: \"0xA :-0x1: -010\":"
        << endl << "iv = " << iv << endl;
 
-  iv = "-5:3:9";
-  cout << "Testing int vector initialisation with: \"-5:3:9\":"
+  iv = "-5:3:9, 7, 1:10";
+  cout << "Testing int vector initialisation with: \"-5:3:9, 7, 1:10\":"
        << endl << "iv = " << iv << endl;
 
   svec sv = "3 0xF -10, 0133 0177, 0x0 ";
