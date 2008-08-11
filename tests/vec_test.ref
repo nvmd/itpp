@@ -401,16 +401,14 @@ a = b.T().T(); a = [0.3103+0.6505i -0.1454-0.0310i -0.4330+1.0476i 0.6536+0.9162
 
 Testing double vector initialisation with: "23.3 1232.7 0.111 1.525 0.333":
 v = [23.3000 1232.7000 0.1110 1.5250 0.3330]
-Testing double vector initialisation with: "-10.000 :.5:-4.5":
-v = [-10.0000 -9.5000 -9.0000 -8.5000 -8.0000 -7.5000 -7.0000 -6.5000 -6.0000 -5.5000 -5.0000 -4.5000]
-Testing double vector initialisation with: "0:.2: 3":
-v = [0.0000 0.2000 0.4000 0.6000 0.8000 1.0000 1.2000 1.4000 1.6000 1.8000 2.0000 2.2000 2.4000 2.6000 2.8000 3.0000]
-Testing double vector initialisation with: "1e0:1.5:1E+1":
-v = [1.0000 2.5000 4.0000 5.5000 7.0000 8.5000 10.0000]
+Testing double vector initialisation with: "-10.000 :.5:-4.5  1.33e+1, -.9, 1e0:1.5:1E+1":
+v = [-10.0000 -9.5000 -9.0000 -8.5000 -8.0000 -7.5000 -7.0000 -6.5000 -6.0000 -5.5000 -5.0000 -4.5000 13.3000 -0.9000 1.0000 2.5000 4.0000 5.5000 7.0000 8.5000 10.0000]
+Testing double vector initialisation with: "-inf, inf, NaN, 0 1e0 1e10 ":
+v = [-inf inf nan 0.0000 1.0000 10000000000.0000]
 Testing int vector initialisation with: "0xA :-0x1: -010":
 iv = [10 9 8 7 6 5 4 3 2 1 0 -1 -2 -3 -4 -5 -6 -7 -8]
-Testing int vector initialisation with: "-5:3:9":
-iv = [-5 -2 1 4 7]
+Testing int vector initialisation with: "-5:3:9, 7, 1:10":
+iv = [-5 -2 1 4 7 7 1 2 3 4 5 6 7 8 9 10]
 Testing short int vector initialisation with: "3 0xF -10, 0133 0177, 0x0 ":
 sv = [3 15 -10 91 127 0]
 Testing complex vector initialisation with: " (0.3, 0.4)  .2-.01i, 1e-3+0.25i":
