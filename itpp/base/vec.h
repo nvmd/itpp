@@ -39,6 +39,7 @@
 #include <itpp/base/math/misc.h>
 #include <itpp/base/copy_vector.h>
 #include <itpp/base/factory.h>
+#include <vector>
 
 
 namespace itpp
@@ -518,8 +519,14 @@ protected:
   //! Element factory (set to DEFAULT_FACTORY to use Num_T default constructors only)
   const Factory &factory;
 private:
-  // This function is used in set() methods to replace commas with spaces
-  std::string replace_commas(const std::string &str);
+  // Clean up and tokenize input initialisation string
+  std::vector<std::string> tokenize(const std::string &str,
+                                    bool &abc_format) const;
+  // Parse double and integer values from string tokens
+  Num_T parse_token(const std::string &s) const;
+  // Parse \c a, \c b and \c c values from "a:b:c" format
+  void parse_abc_token(const std::string &s, Num_T &a, Num_T &b,
+                       Num_T &c) const;
   //! Check whether index \c i is in the allowed range
   bool in_range(int i) const { return ((i < datasize) && (i >= 0)); }
 };
@@ -1821,6 +1828,42 @@ std::istream &operator>>(std::istream &is, Vec<Num_T> &v)
 }
 
 //! \cond
+
+// ----------------------------------------------------------------------
+// Private functions
+// ----------------------------------------------------------------------
+
+template<class Num_T>
+void Vec<Num_T>::parse_abc_token(const std::string &s, Num_T &a, Num_T &b,
+                                 Num_T &c) const
+{
+  std::string::size_type beg = 0;
+  std::string::size_type end = s.find(':', 0);
+  a = parse_token(s.substr(beg, end-beg));
+  beg = end + 1;
+  end = s.find(':', beg);
+  if (end != std::string::npos) {
+    b = parse_token(s.substr(beg, end-beg));
+    c = parse_token(s.substr(end+1, s.size()-end));
+  }
+  else {
+    b = Num_T(1);
+    c = parse_token(s.substr(beg, end-beg-1));
+  }
+}
+
+template<class Num_T>
+Num_T Vec<Num_T>::parse_token(const std::string &s) const
+{
+  it_error("Vec::parse_token(): Only `double' and `int' types are supported");
+  return 0;
+}
+
+template<>
+double Vec<double>::parse_token(const std::string &s) const;
+template<>
+int Vec<int>::parse_token(const std::string &s) const;
+
 
 // ----------------------------------------------------------------------
 // Instantiations

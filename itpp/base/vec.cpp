@@ -37,704 +37,134 @@ namespace itpp
 
 
 template<class Num_T>
-std::string Vec<Num_T>::replace_commas(const std::string &str_in)
+std::vector<std::string> Vec<Num_T>::tokenize(const std::string &str_in,
+                                              bool &abc_format) const
 {
-  // copy an input sting into a local variable str
-  std::string str(str_in);
-  // find first occurence of comma in string str
-  std::string::size_type index = str.find(',', 0);
-  while (index != std::string::npos) {
-    // replace character at position index with space
-    str.replace(index, 1, 1, ' ');
-    // find next occurence of comma in string str
-    index = str.find(',', index);
-  }
-  return str;
-}
-
-
-template<>
-void Vec<double>::set(const std::string &str)
-{
-  std::istringstream buffer(replace_commas(str));
-  double b = 0.0;
-  double c = 0.0;
-  double eps_margin;
-  bool b_parsed = false;
-  bool c_parsed = false;
-  bool negative = false;
-  bool nan_inf = false;
-  int pos = 0, maxpos = 10;
-
-  free();
-  alloc(maxpos);
-
-  while (buffer.peek() != EOF) {
-    switch (buffer.peek()) {
-      // skip spaces
-    case ' ':
-    case '\t':
-      buffer.seekg(1, std::ios_base::cur);
+  std::vector<std::string> vs;  // vector for storing parsed tokens
+  std::string s;                // currently processed token string
+  bool start = true;
+  bool space = false;
+  bool colon = false;
+  bool comma = false;
+  bool lparen = false;
+  abc_format = false;
+  for (std::string::size_type i = 0; i < str_in.size(); ++i) {
+    char c = str_in[i];
+    switch (c) {
+    case ' ': case '\t':
+      space = true;             // set flag for whitespaces
       break;
-
-      // skip '+' sign
-    case '+':
-      // check for not handled '-' sign
-      it_assert(!negative, "Vec<double>::set(): Improper data string (-)");
-      buffer.seekg(1, std::ios_base::cur);
-      break;
-
-      // check for '-' sign
-    case '-':
-      buffer.seekg(1, std::ios_base::cur);
-      negative = true;
-      break;
-
-      // check for NaN
-    case 'N':
-    case 'n':
-      buffer.seekg(1, std::ios_base::cur);
-      it_assert((buffer.peek() == 'A') || (buffer.peek() == 'a'),
-                "Vec<double>::set(): Improper data string (NaN)");
-      buffer.seekg(1, std::ios_base::cur);
-      it_assert((buffer.peek() == 'N') || (buffer.peek() == 'n'),
-                "Vec<double>::set(): Improper data string (NaN)");
-      buffer.seekg(1, std::ios_base::cur);
-      it_assert(!negative, "Vec<double>::set(): Improper data string "
-                "(-NaN not exist)");
-      if (++pos > maxpos) {
-        maxpos <<= 1;
-        set_size(maxpos, true);
-      }
-      if (std::numeric_limits<double>::has_quiet_NaN) {
-        data[pos-1] = std::numeric_limits<double>::quiet_NaN();
-      }
-      else if (std::numeric_limits<double>::has_signaling_NaN) {
-        data[pos-1] = std::numeric_limits<double>::signaling_NaN();
-      }
-      else {
-        it_error("Vec<double::set(): NaN not supported");
-      }
-      nan_inf = true;
-      break; // case 'N'...
-
-      // check for Inf
-    case 'I':
-    case 'i':
-      buffer.seekg(1, std::ios_base::cur);
-      it_assert((buffer.peek() == 'N') || (buffer.peek() == 'n'),
-                "Vec<double>::set(): Improper data string (Inf)");
-      buffer.seekg(1, std::ios_base::cur);
-      it_assert((buffer.peek() == 'F') || (buffer.peek() == 'f'),
-                "Vec<double>::set(): Improper data string (Inf)");
-      buffer.seekg(1, std::ios_base::cur);
-      it_assert(std::numeric_limits<double>::has_infinity,
-                "Vec<double::set(): Inf not supported");
-      if (++pos > maxpos) {
-        maxpos <<= 1;
-        set_size(maxpos, true);
-      }
-      if (negative) {
-        data[pos-1] = -std::numeric_limits<double>::infinity();
-        negative = false;
-      }
-      else {
-        data[pos-1] = std::numeric_limits<double>::infinity();
-      }
-      nan_inf = true;
-      break; // case 'I'...
-
-    case ':': // reads format a:b:c or a:b
-      it_assert(!negative, "Vec<double>::set(): Improper data string (-)");
-      it_assert(!nan_inf, "Vec<double>::set(): Improper data string (Nan/Inf "
-                " can not be used with a:b or a:b:c)");
-      it_assert(pos == 1, "Vec<double>::set(): Improper data string (a:b)");
-      buffer.seekg(1, std::ios_base::cur);
-      // parse b
-      while (buffer.peek() != EOF) {
-        switch (buffer.peek()) {
-        case ' ':
-        case '\t':
-          buffer.seekg(1, std::ios_base::cur);
-          break;
-
-        case ':':
-          it_assert(b_parsed, "Vec<double>::set(): Improper data string "
-                    "(a:b)");
-          buffer.seekg(1, std::ios_base::cur);
-          // parse c
-          while (buffer.peek() != EOF) {
-            switch (buffer.peek()) {
-            case ' ':
-            case '\t':
-              buffer.seekg(1, std::ios_base::cur);
-              break;
-
-            default:
-              it_assert(!c_parsed, "Vec<double>::set(): Improper data "
-                        "string (a:b:c)");
-              buffer.clear();
-              buffer >> c;
-              it_assert(!buffer.fail(), "Vec<double>::set(): Stream "
-                        "operation failed (buffer >> c)");
-              c_parsed = true;
-            }
-          }
-          it_assert(c_parsed, "Vec<double>::set(): Improper data string "
-                    "(a:b:c)");
-          break;
-
-        default:
-          it_assert(!b_parsed, "Vec<double>::set(): Improper data string "
-                    "(a:b)");
-          buffer.clear();
-          buffer >> b;
-          it_assert(!buffer.fail(), "Vec<double>::set(): Stream operation "
-                    "failed (buffer >> b)");
-          b_parsed = true;
-        }
-      }
-      it_assert(b_parsed, "Vec<double>::set(): Improper data string (a:b)");
-
-      if (c_parsed) {
-        // Adding this margin fixes precision problems in e.g. "0:0.2:3",
-        // where the last value was 2.8 instead of 3.
-        eps_margin = std::fabs((c - data[pos-1]) / b) * eps;
-        if (b > 0 && c >= data[pos-1]) {
-          while (data[pos-1] + b <= c + eps_margin) {
-            if (++pos > maxpos) {
-              maxpos <<= 1;
-              set_size(maxpos, true);
-            }
-            data[pos-1] = data[pos-2] + b;
-          }
-        }
-        else if (b < 0 && c <= data[pos-1]) {
-          while (data[pos-1] + b >= c - eps_margin) {
-            if (++pos > maxpos) {
-              maxpos <<= 1;
-              set_size(maxpos, true);
-            }
-            data[pos-1] = data[pos-2] + b;
-          }
-        }
-        else if (b == 0 && c == data[pos-1]) {
-          break;
-        }
-        else {
-          it_error("Vec<double>::set(): Improper data string (a:b:c)");
-        }
-      } // if (c_parsed)
-      else if (b_parsed) {
-        eps_margin = std::fabs(b - data[pos-1]) * eps;
-        if (b < data[pos-1]) {
-          while (data[pos-1] - 1.0 >= b - eps_margin) {
-            if (++pos > maxpos) {
-              maxpos <<= 1;
-              set_size(maxpos, true);
-            }
-            data[pos-1] = data[pos-2] - 1.0;
-          }
-        }
-        else {
-          while (data[pos-1] + 1.0 <= b + eps_margin) {
-            if (++pos > maxpos) {
-              maxpos <<= 1;
-              set_size(maxpos, true);
-            }
-            data[pos-1] = data[pos-2] + 1.0;
-          }
-        }
-      } // else if (b_parsed)
-      else {
-        it_error("Vec<double>::set(): Improper data string (a:b)");
-      }
-      break; // case ':'
-
-    default:
-      if (++pos > maxpos) {
-        maxpos <<= 1;
-        set_size(maxpos, true);
-      }
-      buffer >> data[pos-1];
-      it_assert(!buffer.fail(), "Vec<double>::set(): Stream operation "
-                "failed (buffer >> data)");
-      if (negative) {
-        data[pos-1] = -data[pos-1];
-        negative = false;
-      }
-      break; // default
-    }
-  }
-  set_size(pos, true);
-}
-
-
-template<>
-void Vec<std::complex<double> >::set(const std::string &str)
-{
-  std::istringstream buffer(str);
-  int pos = 0, maxpos = 10;
-
-  free();
-  alloc(maxpos);
-
-  while (buffer.peek() != EOF) {
-    switch (buffer.peek()) {
-    case ':':
-      it_error("Vec<complex>::set(): a:b:c and a:b expressions not valid "
-               "for cvec");
-      break;
-    case ' ':
-    case '\t':
     case ',':
-      buffer.seekg(1, std::ios_base::cur);
+      if (lparen)
+        comma = true;           // set flag for comma in "(re,im)" format
+      else
+        space = true;           // otherwise treat comma as separator
+     break;
+    case ')':
+      s.push_back('i');         // replace right paren in "(re,im)" with 'i'
+      break;
+    case ':':
+      colon = true;             // set flag for "a:b[:c]" format string
+      space = false;            // reset flag for whitespaces
+      abc_format = true;        // set external flag for "a:b[:c]" format
+      s.push_back(c);
+      break;
+    case '(':
+      lparen = true;            // set flag for complex "(re,im)" format
       break;
     default:
-      if (++pos > maxpos) {
-        maxpos <<= 1;
-        set_size(maxpos, true);
+      if (colon) {              // reset colon and space flags
+        colon = false;          // to get rid of whitespaces around ":"
+        space = false;
       }
-      buffer >> data[pos-1];
-      it_assert(!buffer.fail(), "Vec<complex>::set(): Stream operation "
-                "failed (buffer >> data)");
+      else if (lparen && comma) { // support for "(re,im)" format
+        lparen = false;
+        comma = false;
+        space = false;
+        if ((c != '-') && (c != '+')) // if needed
+          s.push_back('+');           // insert '+' between "re" and "im"
+      }
+      else if (space) {         // new token detected
+        space = false;
+        if (!start) {           // if not at the beginning of the string
+          vs.push_back(s);      // store already parsed token
+          s.clear();            // and start parsing the next token
+        }
+      }
+      s.push_back(c);          // append next character to the current token
+      start = false;           // reset the "beginning of the string" flag
+      break;
     }
   }
-  set_size(pos, true);
+  if (!s.empty())               // if the final token is not an empty string
+    vs.push_back(s);            // store it in the output vector
+  return vs;
+}
+
+
+template<>
+int Vec<int>::parse_token(const std::string &s) const
+{
+  int out;
+  std::istringstream buffer(s);
+  if (s.find('x', 1) != std::string::npos) {
+    buffer >> std::hex >> out;
+  }
+  else if (((s[0] == '0')
+            || (((s[0] == '-') || (s[0] == '+')) && (s[1] == '0')))
+           && (s.find('8', 1) == std::string::npos)
+           && (s.find('9', 1) == std::string::npos)) {
+    buffer >> std::oct >> out;
+  }
+  else {
+    buffer >> std::dec >> out;
+  }
+  return out;
+}
+
+template<>
+double Vec<double>::parse_token(const std::string &s) const
+{
+  double out;
+  if ((s == "NaN") || (s == "nan") || (s == "NAN")) {
+    if (std::numeric_limits<double>::has_quiet_NaN)
+      out = std::numeric_limits<double>::quiet_NaN();
+    else if (std::numeric_limits<double>::has_signaling_NaN)
+      out = std::numeric_limits<double>::signaling_NaN();
+    else
+      it_error("Vec<double>::set(): NaN not supported");
+  }
+  else if ((s =="-Inf") || (s =="-inf") || (s =="-INF")) {
+    out = -std::numeric_limits<double>::infinity();
+  }
+  else if ((s =="Inf") || (s =="inf") || (s =="INF") ||
+           (s =="+Inf") || (s =="+inf") || (s =="+INF")) {
+    out = std::numeric_limits<double>::infinity();
+  }
+  else {
+    std::istringstream buffer(s);
+    buffer >> out;
+    it_assert(!buffer.fail(), "Vec<double>::set(): Stream operation failed "
+              "(buffer >> out)");
+  }
+  return out;
 }
 
 
 template<>
 void Vec<bin>::set(const std::string &str)
 {
-  std::istringstream buffer(replace_commas(str));
-  int pos = 0, maxpos = 10;
-
-  free();
-  alloc(maxpos);
-
-  while (buffer.peek() != EOF) {
-    switch (buffer.peek()) {
-    case ':':
-      it_error("Vec<bin>::set(): a:b:c and a:b expressions not valid "
-               "for bvec");
-      break;
-    case ' ':
-    case '\t':
-      buffer.seekg(1, std::ios_base::cur);
-      break;
-    default:
-      if (++pos > maxpos) {
-        maxpos <<= 1;
-        set_size(maxpos, true);
-      }
-      buffer >> data[pos-1];
-      it_assert(!buffer.fail(), "Vec<bin>::set(): Stream operation failed "
-                "(buffer >> data)");
-    }
+  bool abc_format;
+  std::vector<std::string> tokens = tokenize(str, abc_format);
+  it_assert(!abc_format, "Vec<bin>::set(): \"a:b:c\" format string not "
+            "supported for binary vectors");
+  set_size(tokens.size());
+  for (std::vector<std::string>::size_type i = 0; i < tokens.size(); ++i) {
+    std::istringstream buffer(tokens[i]);
+    buffer >> data[i];
+    it_assert(!buffer.fail(), "Vec<bin>::set(): Stream operation failed "
+              "(buffer >> data)");
   }
-  set_size(pos, true);
-}
-
-
-template<>
-void Vec<int>::set(const std::string &str)
-{
-  std::istringstream buffer(replace_commas(str));
-  int b = 0;
-  int c = 0;
-  bool b_parsed = false;
-  bool c_parsed = false;
-  bool negative = false;
-  int pos = 0;
-  int maxpos = 10;
-
-  free();
-  alloc(maxpos);
-
-  while (buffer.peek() != EOF) {
-    switch (buffer.peek()) {
-      // skip spaces and tabs
-    case ' ':
-    case '\t':
-      buffer.seekg(1, std::ios_base::cur);
-      break;
-
-      // skip '+' sign
-    case '+':
-      // check for not handled '-' sign
-      it_assert(!negative, "Vec<double>::set(): Improper data string (-)");
-      buffer.seekg(1, std::ios_base::cur);
-      break;
-
-      // check for '-' sign
-    case '-':
-      buffer.seekg(1, std::ios_base::cur);
-      negative = true;
-      break;
-
-      // hexadecimal number or octal number or zero
-    case '0':
-      buffer.seekg(1, std::ios_base::cur);
-      switch (buffer.peek()) {
-        // hexadecimal number
-      case 'x':
-      case 'X':
-        buffer.clear();
-        buffer.seekg(-1, std::ios_base::cur);
-        if (++pos > maxpos) {
-          maxpos <<= 1;
-          set_size(maxpos, true);
-        }
-        buffer >> std::hex >> data[pos-1];
-        it_assert(!buffer.fail(), "Vec<int>::set(): Stream operation "
-                  "failed (buffer >> hex >> data)");
-        break; // case 'x'...
-
-        // octal number
-      case '1':
-      case '2':
-      case '3':
-      case '4':
-      case '5':
-      case '6':
-      case '7':
-        buffer.clear();
-        buffer.seekg(-1, std::ios_base::cur);
-        if (++pos > maxpos) {
-          maxpos <<= 1;
-          set_size(maxpos, true);
-        }
-        buffer >> std::oct >> data[pos-1];
-        it_assert(!buffer.fail(), "Vec<int>::set(): Stream operation "
-                  "failed (buffer >> oct >> data)");
-        break; // case '1'...
-
-        // zero
-      case EOF:
-      case ' ':
-      case '\t':
-      case ':':
-      case '0':
-        buffer.clear();
-        buffer.seekg(-1, std::ios_base::cur);
-        if (++pos > maxpos) {
-          maxpos <<= 1;
-          set_size(maxpos, true);
-        }
-        buffer >> std::dec >> data[pos-1];
-        it_assert(!buffer.fail(), "Vec<int>::set(): Stream operation "
-                  "failed (buffer >> dec >> data)");
-        break; // case EOF...
-
-      default:
-        it_error("Vec<int>::set(): Improper data string");
-      }
-      // check if just parsed data was negative
-      if (negative) {
-        data[pos-1] = -data[pos-1];
-        negative = false;
-      }
-      break; // case '0'
-
-      // decimal number
-    case '1':
-    case '2':
-    case '3':
-    case '4':
-    case '5':
-    case '6':
-    case '7':
-    case '8':
-    case '9':
-      buffer.clear();
-      if (++pos > maxpos) {
-        maxpos <<= 1;
-        set_size(maxpos, true);
-      }
-      buffer >> std::dec >> data[pos-1];
-      it_assert(!buffer.fail(), "Vec<int>::set(): Stream operation "
-                "failed (buffer >> dec >> data)");
-      // check if just parsed data was negative
-      if (negative) {
-        data[pos-1] = -data[pos-1];
-        negative = false;
-      }
-      break; // case '1'...
-
-      // parse format a:b:c or a:b
-    case ':':
-      it_assert(pos == 1, "Vec<int>::set(): Improper data string (a:b)");
-      buffer.seekg(1, std::ios_base::cur);
-      // parse b
-      while (buffer.peek() != EOF) {
-        switch (buffer.peek()) {
-        case ' ':
-        case '\t':
-          buffer.seekg(1, std::ios_base::cur);
-          break;
-
-          // skip '+' sign
-        case '+':
-          // check for not handled '-' sign
-          it_assert(!negative, "Vec<double>::set(): Improper data string "
-                    "(-)");
-          buffer.seekg(1, std::ios_base::cur);
-          break;
-
-          // check for '-' sign
-        case '-':
-          buffer.seekg(1, std::ios_base::cur);
-          negative = true;
-          break;
-
-          // hexadecimal number or octal number or zero
-        case '0':
-          it_assert(!b_parsed, "Vec<int>::set(): Improper data string "
-                    "(a:b)");
-          buffer.seekg(1, std::ios_base::cur);
-          switch (buffer.peek()) {
-            // hexadecimal number
-          case 'x':
-          case 'X':
-            buffer.clear();
-            buffer.seekg(-1, std::ios_base::cur);
-            buffer >> std::hex >> b;
-            it_assert(!buffer.fail(), "Vec<int>::set(): Stream operation "
-                      "failed (buffer >> hex >> data)");
-            break; // case 'x'...
-
-            // octal number
-          case '1':
-          case '2':
-          case '3':
-          case '4':
-          case '5':
-          case '6':
-          case '7':
-            buffer.clear();
-            buffer.seekg(-1, std::ios_base::cur);
-            buffer >> std::oct >> b;
-            it_assert(!buffer.fail(), "Vec<int>::set(): Stream operation "
-                      "failed (buffer >> oct >> data)");
-            break; // case '1'...
-
-            // zero
-          case EOF:
-          case ' ':
-          case '\t':
-          case ':':
-          case '0':
-            buffer.clear();
-            buffer.seekg(-1, std::ios_base::cur);
-            buffer >> std::dec >> b;
-            it_assert(!buffer.fail(), "Vec<int>::set(): Stream operation "
-                      "failed (buffer >> dec >> data)");
-            break; // case EOF...
-
-          default:
-            it_error("Vec<int>::set(): Improper data string (a:b)");
-          } // switch (buffer.peek())
-          // check if just parsed data was negative
-          if (negative) {
-            b = -b;
-            negative = false;
-          }
-          b_parsed = true;
-          break; // case '0'
-
-          // decimal number
-        case '1':
-        case '2':
-        case '3':
-        case '4':
-        case '5':
-        case '6':
-        case '7':
-        case '8':
-        case '9':
-          it_assert(!b_parsed, "Vec<int>::set(): Improper data string "
-                    "(a:b)");
-          buffer.clear();
-          buffer >> std::dec >> b;
-          it_assert(!buffer.fail(), "Vec<int>::set(): Stream operation "
-                    "failed (buffer >> dec >> data)");
-          // check if just parsed data was negative
-          if (negative) {
-            b = -b;
-            negative = false;
-          }
-          b_parsed = true;
-          break; // case '1'...
-
-        case ':':
-          it_assert(b_parsed, "Vec<int>::set(): Improper data string (a:b)");
-          buffer.seekg(1, std::ios_base::cur);
-          // parse c
-          while (buffer.peek() != EOF) {
-            switch (buffer.peek()) {
-            case ' ':
-            case '\t':
-              buffer.seekg(1, std::ios_base::cur);
-              break;
-
-              // skip '+' sign
-            case '+':
-              // check for not handled '-' sign
-              it_assert(!negative, "Vec<double>::set(): Improper data "
-                        "string (-)");
-              buffer.seekg(1, std::ios_base::cur);
-              break;
-
-              // check for '-' sign
-            case '-':
-              buffer.seekg(1, std::ios_base::cur);
-              negative = true;
-              break;
-
-              // hexadecimal number or octal number or zero
-            case '0':
-              it_assert(!c_parsed, "Vec<int>::set(): Improper data string "
-                        "(a:b:c)");
-              buffer.seekg(1, std::ios_base::cur);
-              switch (buffer.peek()) {
-                // hexadecimal number
-              case 'x':
-              case 'X':
-                buffer.clear();
-                buffer.seekg(-1, std::ios_base::cur);
-                buffer >> std::hex >> c;
-                it_assert(!buffer.fail(), "Vec<int>::set(): Stream "
-                          "operation failed (buffer >> hex >> data)");
-                break; // case 'x'...
-
-                // octal number
-              case '1':
-              case '2':
-              case '3':
-              case '4':
-              case '5':
-              case '6':
-              case '7':
-                buffer.clear();
-                buffer.seekg(-1, std::ios_base::cur);
-                buffer >> std::oct >> c;
-                it_assert(!buffer.fail(), "Vec<int>::set(): Stream "
-                          "operation failed (buffer >> oct >> data)");
-                break; // case '1'...
-
-                // zero
-              case EOF:
-              case ' ':
-              case '\t':
-              case '0':
-                buffer.clear();
-                buffer.seekg(-1, std::ios_base::cur);
-                buffer >> std::dec >> c;
-                it_assert(!buffer.fail(), "Vec<int>::set(): Stream "
-                          "operation failed (buffer >> dec >> data)");
-                break; // case EOF...
-
-              default:
-                it_error("Vec<int>::set(): Improper data string (a:b:c)");
-              }
-              c_parsed = true;
-              break; // case '0'
-
-              // decimal number
-            case '1':
-            case '2':
-            case '3':
-            case '4':
-            case '5':
-            case '6':
-            case '7':
-            case '8':
-            case '9':
-              it_assert(!c_parsed, "Vec<int>::set(): Improper data string "
-                        "(a:b:c)");
-              buffer.clear();
-              buffer >> std::dec >> c;
-              it_assert(!buffer.fail(), "Vec<int>::set(): Stream operation "
-                        "failed (buffer >> dec >> data)");
-              c_parsed = true;
-              break;
-
-            default:
-              it_error("Vec<int>::set(): Improper data string (a:b:c)");
-            } // switch (buffer.peek())
-          } // while (buffer.peek() != EOF)
-          // check if just parsed data was negative
-          if (negative) {
-            c = -c;
-            negative = false;
-          }
-          it_assert(c_parsed, "Vec<int>::set(): Improper data string "
-                    "(a:b:c)");
-          break; // case ':'
-
-        default:
-          it_error("Vec<int>::set(): Improper data string (a:b)");
-        } // switch (buffer.peek())
-      } // while (buffer.peek() != EOF)
-
-      if (c_parsed) {
-        if (b > 0 && c >= data[pos-1]) {
-          while (data[pos-1] + b <= c) {
-            if (++pos > maxpos) {
-              maxpos <<= 1;
-              set_size(maxpos, true);
-            }
-            data[pos-1] = data[pos-2] + b;
-          }
-        }
-        else if (b < 0 && c <= data[pos-1]) {
-          while (data[pos-1] + b >= c) {
-            if (++pos > maxpos) {
-              maxpos <<= 1;
-              set_size(maxpos, true);
-            }
-            data[pos-1] = data[pos-2] + b;
-          }
-        }
-        else if (b == 0 && c == data[pos-1]) {
-          break;
-        }
-        else {
-          it_error("Vec<int>::set(): Improper data string (a:b:c)");
-        }
-      } // if (c_parsed)
-      else if (b_parsed) {
-        if (b < data[pos-1]) {
-          while (data[pos-1] > b) {
-            if (++pos > maxpos) {
-              maxpos <<= 1;
-              set_size(maxpos, true);
-            }
-            data[pos-1] = data[pos-2] - 1;
-          }
-        }
-        else {
-          while (data[pos-1] < b) {
-            if (++pos > maxpos) {
-              maxpos <<= 1;
-              set_size(maxpos, true);
-            }
-            data[pos-1] = data[pos-2] + 1;
-          }
-        }
-      } // else if (b_parsed)
-      else {
-        it_error("Vec<int>::set(): Improper data string (a:b)");
-      }
-      break; // case ':'
-
-    default:
-      it_error("Vec<int>::set(): Improper data string");
-    }
-  }
-  // resize the parsed vector to its final length
-  set_size(pos, true);
 }
 
 template<>
@@ -743,6 +173,141 @@ void Vec<short int>::set(const std::string &str)
   // parser for "short int" is the same as for "int", so reuse it here
   ivec iv(str);
   this->operator=(to_svec(iv));
+}
+
+template<>
+void Vec<int>::set(const std::string &str)
+{
+  bool abc_format;
+  std::vector<std::string> tokens = tokenize(str, abc_format);
+  // no "a:b:c" tokens, so the size of output vector is known
+  if (!abc_format) {
+    set_size(tokens.size());
+    for (std::vector<std::string>::size_type i = 0; i < tokens.size(); ++i)
+      data[i] = parse_token(tokens[i]);
+  }
+  else {
+    int pos = 0;
+    set_size((tokens.size() > 20) ? tokens.size() : 20);
+    for (std::vector<std::string>::size_type i = 0; i < tokens.size(); ++i) {
+      // check if the current token is in "a:b[:c]" format
+      if (tokens[i].find(':', 1) == std::string::npos) {
+        if (++pos > datasize) {
+          set_size(2 * datasize, true);
+        }
+        data[pos-1] = parse_token(tokens[i]);
+      }
+      else {
+        int a, b, c;
+        parse_abc_token(tokens[i], a, b, c);
+        if (++pos > datasize) {
+          set_size(2 * datasize, true);
+        }
+        data[pos-1] = a;
+
+        if ((b > 0) && (c >= a)) {
+          while ((data[pos-1] + b) <= c) {
+            if (++pos > datasize) {
+              set_size(2 * datasize, true);
+            }
+            data[pos-1] = data[pos-2] + b;
+          }
+        }
+        else if ((b < 0) && (c <= a)) {
+          while ((data[pos-1] + b) >= c) {
+            if (++pos > datasize) {
+              set_size(2 * datasize, true);
+            }
+            data[pos-1] = data[pos-2] + b;
+          }
+        }
+        else if (b == 0 && c == a) {
+          break;
+        }
+        else {
+          it_error("Vec<int>::set(): Improper data string (a:b:c)");
+        }
+      }
+    }
+    set_size(pos, true);
+  } // if (!abc_format)
+}
+
+
+template<>
+void Vec<double>::set(const std::string &str)
+{
+  bool abc_format;
+  std::vector<std::string> tokens = tokenize(str, abc_format);
+  // no "a:b:c" tokens, so the size of output vector is known
+  if (!abc_format) {
+    set_size(tokens.size());
+    for (std::vector<std::string>::size_type i = 0; i < tokens.size(); ++i)
+      data[i] = parse_token(tokens[i]);
+  }
+  else {
+    int pos = 0;
+    set_size((tokens.size() > 20) ? tokens.size() : 20);
+    for (std::vector<std::string>::size_type i = 0; i < tokens.size(); ++i) {
+      // check if the current token is in "a:b[:c]" format
+      if (tokens[i].find(':', 1) == std::string::npos) {
+        if (++pos > datasize) {
+          set_size(2 * datasize, true);
+        }
+        data[pos-1] = parse_token(tokens[i]);
+      }
+      else {
+        double a, b, c;
+        parse_abc_token(tokens[i], a, b, c);
+        if (++pos > datasize) {
+          set_size(2 * datasize, true);
+        }
+        data[pos-1] = a;
+        // Adding this margin fixes precision problems in e.g. "0:0.2:3",
+        // where the last value was 2.8 instead of 3.
+        double eps_margin = std::fabs((c - a) / b) * eps;
+        if ((b > 0) && (c >= a)) {
+          while ((data[pos-1] + b) <= (c + eps_margin)) {
+            if (++pos > datasize) {
+              set_size(2 * datasize, true);
+            }
+            data[pos-1] = data[pos-2] + b;
+          }
+        }
+        else if ((b < 0) && (c <= a)) {
+          while ((data[pos-1] + b) >= (c - eps_margin)) {
+            if (++pos > datasize) {
+              set_size(2 * datasize, true);
+            }
+            data[pos-1] = data[pos-2] + b;
+          }
+        }
+        else if (b == 0 && c == a) {
+          break;
+        }
+        else {
+          it_error("Vec<double>::set(): Improper data string (a:b:c)");
+        }
+      }
+    }
+    set_size(pos, true);
+  } // if (!abc_format)
+}
+
+template<>
+void Vec<std::complex<double> >::set(const std::string &str)
+{
+  bool abc_format;
+  std::vector<std::string> tokens = tokenize(str, abc_format);
+  it_assert(!abc_format, "Vec<bin>::set(): \"a:b:c\" format string not "
+            "supported for binary vectors");
+  set_size(tokens.size());
+  for (std::vector<std::string>::size_type i = 0; i < tokens.size(); ++i) {
+    std::istringstream buffer(tokens[i]);
+    buffer >> data[i];
+    it_assert(!buffer.fail(), "Vec<complex>::set(): Stream operation failed "
+              "(buffer >> data)");
+  }
 }
 
 
