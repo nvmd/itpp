@@ -1,5 +1,20 @@
 2008-08-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/vec.cpp, itpp/base/vec.h: String parser reimplemented
+	to support multiple "a:b:c" format strings
+
+	The new implementation supports multiple "a:b[:c]" formats in one
+	string. For instance:
+	  ivec v = "1:2:5, 6 8 9:-1:0";
+	now works.
+
+	Memory handling is also more efficient, i.e. for the cases when
+	"a:b:c" format is not used, memory is allocated only once.
+	Besides, the new implementation should be easier to maintain,
+	because the code is much more modular.
+
+	This patch resolves feature request [2041480].
+
 	* win32/itpp_acml.vcproj, win32/itpp_acml_tests/*.vcproj,
 	win32/itpp_mkl.vcproj, win32/itpp_mkl_tests/*.vcproj: Suppress
 	warnings about deprecated "/Wp64" options in MSVC++ project files
