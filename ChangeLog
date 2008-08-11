@@ -1,3 +1,9 @@
+2008-08-11  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* win32/itpp_acml.vcproj, win32/itpp_acml_tests/*.vcproj,
+	win32/itpp_mkl.vcproj, win32/itpp_mkl_tests/*.vcproj: Suppress
+	warnings about deprecated "/Wp64" options in MSVC++ project files
+
 2008-08-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* doc/tutorial/src/ldpc_bersim_awgn.cpp: Add missing "LL" suffix
