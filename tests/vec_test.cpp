@@ -272,8 +272,8 @@ int main()
   cout << "Testing double vector initialisation with: \"1e0:1.5:1E+1\":"
        << endl << "v = " << v << endl;
 
-  ivec iv = "0xA : -010";
-  cout << "Testing int vector initialisation with: \"0xA : -010\":"
+  ivec iv = "0xA :-0x1: -010";
+  cout << "Testing int vector initialisation with: \"0xA :-0x1: -010\":"
        << endl << "iv = " << iv << endl;
 
   iv = "-5:3:9";
