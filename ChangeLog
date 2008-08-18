@@ -1,3 +1,11 @@
+2008-08-18  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* extras/gdb_macros_for_itpp, extras/Makefile.am: added GDB
+	debugger display macros for it++ data types.
+
+	This closes feature request [1913404]. Thanks to Vasek for
+	providing an initial version of the macros.
+
 2008-08-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/vec_test.cpp, tests/vec_test.ref: Modified existing and
@@ -77,7 +85,7 @@
 
 	This fixes broken blas_test and vector_test on 64-bit linux
 	architectures when IT++ is linked to Intel MKL BLAS library. This
-	fix is equvalent to passing "--with-zdotu=zdotusub" option to
+	fix is equivalent to passing "--with-zdotu=zdotusub" option to
 	configure.
 
 -------------------------------------------------------------------------------
