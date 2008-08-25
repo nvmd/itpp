@@ -42,7 +42,13 @@ namespace itpp
 //! Sinc function: sinc(x) = sin(pi*x)/pi*x
 inline double sinc(double x)
 {
-  return ((x == 0) ? 1.0 : sin(itpp::pi * x) / itpp::pi / x);
+  if (x == 0) {
+    return 1.0;
+  }
+  else {
+    double pix = itpp::pi * x;
+    return sin(pix) / pix;
+  }
 }
 
 //! Sine function
