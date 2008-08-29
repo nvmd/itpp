@@ -215,6 +215,9 @@ template<class T>
 void Sort<T>::sort(int low, int high, Vec<T> &data)
 {
   int N = data.size();
+  // Nothing to sort if data vector has only one or zero elements
+  if (N < 2)
+    return;
 
   it_assert((low >= 0) && (high > low) && (high < N), "Sort::sort(): "
             "low or high out of bounds");
@@ -242,6 +245,11 @@ template<class T>
 ivec Sort<T>::sort_index(int low, int high, const Vec<T> &data)
 {
   int N = data.size();
+  // Nothing to sort if data vector has only one or zero elements
+  if (N == 1)
+    return ivec("0");
+  else if (N == 0)
+    return ivec();
 
   it_assert((low >= 0) && (high > low) && (high < N), "Sort::sort(): "
             "low or high out of bounds");
