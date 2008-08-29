@@ -1,3 +1,11 @@
+2008-08-30  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/sort.h: Make sort() and sort_index() work for vectors
+	with less than two elements.
+
+	Without this patch, the above two functions resulted in an
+	assertion error. Thanks to Yngve Seln for reporting this problem.
+
 2008-08-18  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* extras/gdb_macros_for_itpp, extras/Makefile.am: added GDB
