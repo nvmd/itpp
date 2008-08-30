@@ -53,8 +53,8 @@ void GF::set_size(int qvalue)
   const int reducetable[] = {3, 3, 3, 5, 3, 9, 29, 17, 9, 5, 83, 27, 43, 3, 4107}; // starts at m=2,..,16
 
   if (alphapow.size() < (m + 1)) {
-    alphapow.set_size(m + 1);
-    logalpha.set_size(m + 1);
+    alphapow.set_size(m + 1, true);
+    logalpha.set_size(m + 1, true);
   }
 
   if (alphapow(m).size() == 0) {
