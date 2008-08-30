@@ -1,5 +1,8 @@
 2008-08-30  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/itassert.h: Get rid of config.h dependency from
+	itassert.h header file.
+
 	* itpp/comm/galois.cpp: Fix bug in GF::set_size() method, which
 	was reported by Stephan Ludwig.
 
