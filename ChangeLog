@@ -1,5 +1,20 @@
 2008-08-30  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/comm/galois.cpp: Fix bug in GF::set_size() method, which
+	was reported by Stephan Ludwig.
+
+	Because "alphapow" and "logalpha" are static variables, every
+	instantiation of the GF class uses the very same of them. If
+	different instantiations of different Galois fields access this
+	(e.g. 2^8 and 2^6, while 2^6 has been created first), the latter
+	might overwrite/delete the log table of the previous while calling
+	GF::set_size() method (2^8 widens the array to m+1=9, while not
+	copying the 2^6 entries). The solution is to copy the contents of
+	"alphapow" and "logalpha" when resizing them.
+
+	Thanks to Stephan Ludwig for noticing this problem and also to
+	EndZone for confirming it.
+
 	* itpp/base/sort.h: Make sort() and sort_index() work for vectors
 	with less than two elements.
 
