@@ -1,3 +1,13 @@
+2008-09-01  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* test/vec_test.cpp, test/vec_test.ref: Revert part of SVN
+	revision 1613.
+
+	I/O stream labels for infinity and not-a-number have different
+	case sensitivity in various supported GCC versions ("inf" vs.
+	"Inf", "nan" vs. "NaN"). Thus we can not test for them in a vector
+	initialisation from string.
+
 2008-08-30  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/itassert.h: Get rid of config.h dependency from
