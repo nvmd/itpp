@@ -265,10 +265,6 @@ int main()
     "\"-10.000 :.5:-4.5  1.33e+1, -.9, 1e0:1.5:1E+1\":" << endl << "v = "
        << v << endl;
 
-  v = "-inf, inf, NaN, 0 1e0 1e10 ";
-  cout << "Testing double vector initialisation with: "
-    "\"-inf, inf, NaN, 0 1e0 1e10 \":" << endl << "v = " << v << endl;
-
   ivec iv = "0xA :-0x1: -010";
   cout << "Testing int vector initialisation with: \"0xA :-0x1: -010\":"
        << endl << "iv = " << iv << endl;
