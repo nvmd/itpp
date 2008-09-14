@@ -2,14 +2,15 @@ include $(top_srcdir)/Makefile.common
 LDADD = $(top_builddir)/itpp/libitpp.la
 AM_CXXFLAGS = $(CXXFLAGS_OPT)
 
-BASE_TESTS = array_test bessel_test blas_test circular_buffer_test	   \
-  converters_test fastmath_test gf2mat_test integration_test itfile_test   \
-  mat_test parser_test rand_test sort_test sparse_test timer_test vec_test
+BASE_TESTS = array_test bessel_test blas_test circular_buffer_test \
+  converters_test fastmath_test gf2mat_test integration_test itfile_test \
+  mat_test parser_test rand_test sort_test sparse_test specmat_test \
+  timer_test vec_test
 BASE_LAP_TESTS = cholesky_test det_test eigen_test inv_test ls_solve_test \
   lu_test matfunc_test qr_test schur_test svd_test
 
-COMM_TESTS = bch_test commfunc_test convcode_test error_count_test	\
-  galois_test interleaver_test ldpc_test llr_test modulator_test	\
+COMM_TESTS = bch_test commfunc_test convcode_test error_count_test \
+  galois_test interleaver_test ldpc_test llr_test modulator_test \
   pulse_shape_test rec_syst_conv_code_test reedsolomon_test turbo_test
 COMM_LAP_TESTS = modulator_nd_test
 COMM_FFT_TESTS = channel_test
