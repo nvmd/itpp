@@ -114,6 +114,7 @@ sigfun_test_SOURCES = sigfun_test.cpp
 sort_test_SOURCES = sort_test.cpp
 source_test_SOURCES = source_test.cpp
 sparse_test_SOURCES = sparse_test.cpp
+specmat_test_SOURCES = specmat_test.cpp
 stat_test_SOURCES = stat_test.cpp
 svd_test_SOURCES = svd_test.cpp
 timer_test_SOURCES = timer_test.cpp
