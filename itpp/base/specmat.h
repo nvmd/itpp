@@ -1,7 +1,8 @@
 /*!
  * \file
  * \brief Definitions of special vectors and matrices
- * \author Tony Ottosson, Tobias Ringstrom, Pal Frenger, Adam Piatyszek and Erik G. Larsson
+ * \author Tony Ottosson, Tobias Ringstrom, Pal Frenger, Adam Piatyszek
+ *         and Erik G. Larsson
  *
  * -------------------------------------------------------------------------
  *
@@ -173,33 +174,71 @@ imat jacobsthal(int p);
 imat conference(int n);
 
 /*!
-  \brief Computes the Hermitian Toeplitz matrix.
+ * \brief Generate Toeplitz matrix from two vectors \c c and \c r.
+ *
+ * Returns the Toeplitz matrix constructed given the first column C, and
+ * (optionally) the first row R. If the first element of C is not the same
+ * as the first element of R, the first element of C is used. If the second
+ * argument is omitted, the first row is taken to be the same as the first
+ * column and a symmetric (Hermitian) Toeplitz matrix is created.
+ *
+ * An example square Toeplitz matrix has the form:
+ * \verbatim
+ *       c(0)    r(1)     r(2)   ...   r(n)
+ *       c(1)    c(0)     r(1)        r(n-1)
+ *       c(2)    c(1)     c(0)        r(n-2)
+ *        .                             .
+ *        .                             .
+ *        .                             .
+ *
+ *       c(n)   c(n-1)   c(n-2)  ...   c(0)
+ * \endverbatim
+ *
+ * \author Adam Piatyszek
+ */
+template <typename Num_T>
+const Mat<Num_T> toeplitz(const Vec<Num_T> &c, const Vec<Num_T> &r)
+{
+  int n_rows = c.size();
+  int n_cols = r.size();
+  Mat<Num_T> output(n_rows, n_cols);
+  for (int i = 0; i < n_rows; ++i) {
+    int j_limit = std::min(n_cols, n_rows - i);
+    for (int j = 0; j < j_limit; ++j) {
+      output(i + j, j) = c(i);
+    }
+  }
+  for (int j = 1; j < n_cols; ++j) {
+    int i_limit = std::min(n_rows, n_cols - j);
+    for (int i = 0; i < i_limit; ++i) {
+      output(i, i + j) = r(j);
+    }
+  }
+  return output;
+}
 
-  Return the Toeplitz matrix constructed given the first column C,
-  and (optionally) the first row R. If the first element of C is not
-  the same as the first element of R, the first element of C is
-  used.  If the second argument is omitted, the first row is taken
-  to be the same as the first column.
+//! Generate symmetric Toeplitz matrix from vector \c c.
+template <typename Num_T>
+const Mat<Num_T> toeplitz(const Vec<Num_T> &c)
+{
+  int s = c.size();
+  Mat<Num_T> output(s, s);
+  for (int i = 0; i < s; ++i) {
+    for (int j = 0; j < s - i; ++j) {
+      output(i + j, j) = c(i);
+    }
+  }
+  for (int j = 1; j < s; ++j) {
+    for (int i = 0; i < s - j; ++i) {
+      output(i, i + j) = c(j);
+    }
+  }
+  return output;
+}
 
-  A square Toeplitz matrix has the form:
-  \verbatim
-        c(0)    r(1)     r(2)   ...   r(n)
-        c(1)*   c(0)     r(1)        r(n-1)
-        c(2)*   c(1)*    c(0)        r(n-2)
-         .                             .
-         .                             .
-         .                             .
-
-        c(n)*  c(n-1)*  c(n-2)* ...   c(0)
-  \endverbatim
-*/
-cmat toeplitz(const cvec &c, const cvec &r);
-//! Computes the Hermitian Toeplitz matrix.
-cmat toeplitz(const cvec &c);
-//! Computes the Hermitian Toeplitz matrix.
-mat toeplitz(const vec &c, const vec &r);
-//! Computes the Hermitian Toeplitz matrix.
-mat toeplitz(const vec &c);
+//! Generate symmetric Toeplitz matrix from vector \c c (complex valued)
+template <>
+const cmat toeplitz(const cvec &c);
 
 //!@}
 

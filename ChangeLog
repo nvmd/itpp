@@ -1,3 +1,16 @@
+2008-09-12  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/specmat.cpp, itpp/base/specmat.h: Fix broken
+	implementation of toeplitz() function.
+
+	The previous implementation generated incorrect matrices for two
+	complex-valued input vectors. This patch fixes this problem. BTW,
+	the implementation is now based on a template function, so bmat,
+	smat and imat matrices can now be generated.
+
+	Thanks to Niklas Johansson for reporting this issue. This closes
+	bug report [2110119].
+
 2008-09-01  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* test/vec_test.cpp, test/vec_test.ref: Revert part of SVN

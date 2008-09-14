@@ -1,7 +1,8 @@
 /*!
  * \file
  * \brief Implementation of special vectors and matrices
- * \author Tony Ottosson, Tobias Ringstrom, Pal Frenger, Adam Piatyszek and Erik G. Larsson
+ * \author Tony Ottosson, Tobias Ringstrom, Pal Frenger, Adam Piatyszek
+ *         and Erik G. Larsson
  *
  * -------------------------------------------------------------------------
  *
@@ -213,80 +214,27 @@ imat conference(int n)
   return out;
 }
 
-cmat toeplitz(const cvec &c, const cvec &r)
+
+template <>
+const cmat toeplitz(const cvec &c)
 {
-  int size = c.size();
-  it_assert(size == r.size(),
-            "toeplitz(): Incorrect sizes of input vectors.");
-  cmat output(size, size);
+  int s = c.size();
+  cmat output(s, s);
   cvec c_conj = conj(c);
-  c_conj[0] = conj(c_conj[0]);
-
-  for (int i = 0; i < size; i++) {
-    cmat tmp = reshape(c_conj(0, size - 1 - i), size - i, 1);
-    output.set_submatrix(i, i, tmp);
+  for (int i = 1; i < s; ++i) {
+    for (int j = 0; j < s - i; ++j) {
+      output(i + j, j) = c_conj(i);
+    }
   }
-  for (int i = 0; i < size - 1; i++) {
-    cmat tmp = reshape(r(1, size - 1 - i), 1, size - 1 - i);
-    output.set_submatrix(i, i + 1, tmp);
-  }
-
-  return output;
-}
-
-cmat toeplitz(const cvec &c)
-{
-  int size = c.size();
-  cmat output(size, size);
-  cvec c_conj = conj(c);
-  c_conj[0] = conj(c_conj[0]);
-
-  for (int i = 0; i < size; i++) {
-    cmat tmp = reshape(c_conj(0, size - 1 - i), size - i, 1);
-    output.set_submatrix(i, i, tmp);
-  }
-  for (int i = 0; i < size - 1; i++) {
-    cmat tmp = reshape(c(1, size - 1 - i), 1, size - 1 - i);
-    output.set_submatrix(i, i + 1, tmp);
-  }
-
-  return output;
-}
-
-mat toeplitz(const vec &c, const vec &r)
-{
-
-  mat output(c.size(), r.size());
-
-  for (int i = 0; i < c.size(); i++) {
-    for (int j = 0; j < std::min(r.size(), c.size() - i); j++)
-      output(i + j, j) = c(i);
-  }
-
-  for (int j = 1; j < r.size(); j++) {
-    for (int i = 0; i < std::min(c.size(), r.size() - j); i++)
-      output(i, i + j) = r(j);
-  }
-
-  return output;
-}
-
-mat toeplitz(const vec &c)
-{
-  mat output(c.size(), c.size());
-
-  for (int i = 0; i < c.size(); i++) {
-    for (int j = 0; j < c.size() - i; j++)
-      output(i + j, j) = c(i);
-  }
-
-  for (int j = 1; j < c.size(); j++) {
-    for (int i = 0; i < c.size() - j; i++)
+  // start from j = 0 here, because the main diagonal is not conjugated
+  for (int j = 0; j < s; ++j) {
+    for (int i = 0; i < s - j; ++i) {
       output(i, i + j) = c(j);
+    }
   }
-
   return output;
 }
+
 
 mat rotation_matrix(int dim, int plane1, int plane2, double angle)
 {
