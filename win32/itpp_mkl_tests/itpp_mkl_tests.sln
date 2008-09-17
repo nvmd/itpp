@@ -108,6 +108,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "vec_test", "vec_test.vcproj
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "window_test", "window_test.vcproj", "{4626D22F-6C55-477B-B7AD-80299630DF74}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "specmat_test", "specmat_test.vcproj", "{363A6A3B-3D91-43C8-A6EA-A274E4BC0A29}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Release|Win32 = Release|Win32
@@ -221,6 +223,8 @@ Global
 		{8DBBC02B-B39B-4C2D-A649-765C9EA3D30C}.Release|Win32.Build.0 = Release|Win32
 		{4626D22F-6C55-477B-B7AD-80299630DF74}.Release|Win32.ActiveCfg = Release|Win32
 		{4626D22F-6C55-477B-B7AD-80299630DF74}.Release|Win32.Build.0 = Release|Win32
+		{363A6A3B-3D91-43C8-A6EA-A274E4BC0A29}.Release|Win32.ActiveCfg = Release|Win32
+		{363A6A3B-3D91-43C8-A6EA-A274E4BC0A29}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
