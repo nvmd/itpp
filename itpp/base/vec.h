@@ -1207,7 +1207,10 @@ void elem_mult_out(const Vec<Num_T> &a, const Vec<Num_T> &b,
     out.data[i] = a.data[i] * b.data[i] * c.data[i] * d.data[i];
 }
 
-template<class Num_T> inline
+template<class Num_T>
+#ifndef _MSC_VER
+inline
+#endif
 void elem_mult_inplace(const Vec<Num_T> &a, Vec<Num_T> &b)
 {
   it_assert_debug(a.datasize == b.datasize,
