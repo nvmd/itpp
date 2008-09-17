@@ -1631,7 +1631,10 @@ void elem_mult_out(const Mat<Num_T> &m1, const Mat<Num_T> &m2,
     out.data[i] = m1.data[i] * m2.data[i] * m3.data[i] * m4.data[i];
 }
 
-template<class Num_T> inline
+template<class Num_T>
+#ifndef _MSC_VER
+inline
+#endif
 void elem_mult_inplace(const Mat<Num_T> &m1, Mat<Num_T> &m2)
 {
   it_assert_debug((m1.no_rows == m2.no_rows) && (m1.no_cols == m2.no_cols),

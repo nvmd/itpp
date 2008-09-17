@@ -1,5 +1,11 @@
 2008-09-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/mat.h, itpp/base/vec.h: Do not explicitly inline
+	elem_mult_inplace() when using MSVC++.
+
+	This is a workaround for a warning reported by Microsoft Visual
+	C++ Express 2008.
+
 	* win32/itpp_acml.sln, win32/itpp_mkl.sln: Use CRLF line endings
 	in MSVC++ solution files.
 
