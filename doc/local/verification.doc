@@ -6,6 +6,7 @@
 
 - \ref itpp_4_0
   - \ref linux_4_0
+    - \ref ubuntu_804_4_0
     - \ref ubuntu_710_4_0
 
 - \ref itpp_3_99
@@ -68,6 +69,20 @@ mentioned below, please let us know, so we could update this database.
 \section itpp_4_0 IT++ 4.0.x (Stable)
 
 \subsection  linux_4_0 Linux Systems
+
+
+\subsubsection ubuntu_804_4_0 Ubuntu 8.04
+
+- <b>Platform</b>: Intel Core 2 Duo
+- <b>Operating System</b>: Ubuntu 8.04
+- <b>Compiler</b>: g++ (GCC) 4.2.3
+- <b>IT++ release</b>: 4.0.5
+- <b>External Libraries</b>: The following Ubuntu packages were installed to provide BLAS, LAPACK and ATLAS:
+lapack3, lapack3-dev, lapack3-pic, refblas3, refblas3-dev, atlas3-base, atlas3-base-dev, atlas3-headers, fftw3, fftw3-dev
+- <b>Tests Status</b>: All tests PASSED
+- <b>Date</b>: October 5, 2008
+- <b>Tester</b>: Erik G. Larsson
+
 
 \subsubsection ubuntu_710_4_0 Ubuntu 7.10
 

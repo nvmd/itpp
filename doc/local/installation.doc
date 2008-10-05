@@ -444,7 +444,7 @@ The philosophy behind this installation is:
 - to install two parallel IT++ libraries: one optimized and one for
   debugging
 - to use static linking only (this gives larger executables but is sometimes
-  useful for debugging purposes)
+  more portable)
 
 The source code will reside in the directories itpp-external-3.0.0 and
 itpp-4.0.0. The libraries will be created in the directories
