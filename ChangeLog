@@ -1,5 +1,8 @@
 2008-10-08  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* NEWS, VERSION: Add release notes and update version number for
+	IT++ 4.0.6.
+
 	* itpp/itpp_acml_tests/Makefile.am, itpp/itpp_mkl_tests/Makefile.am:
 	Add specmat_test.vcproj files to the list of distributed files.
 

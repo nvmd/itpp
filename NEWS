@@ -1,4 +1,47 @@
 ===============================================================================
+IT++ version 4.0.6                                         Released: 2008-10-08
+-------------------------------------------------------------------------------
+
+IT++ 4.0.6 is the next maintenance release based on the current IT++ stable
+branch (itpp-4-0). As usual, a brief list of modifications and bug-fixes is
+presented below:
+
+
+Modifications:
+--------------
+
+* Added GDB debugger helper display macros for IT++ data types (feature
+  request [1913404])
+
+* Reduced number of divisions in a sinc() function implementation
+
+* "itpp/config.h" no longer included in "itpp/base/itassert.h" header file
+
+
+Bug-fixes:
+----------
+
+* Fixed broken implementation of toeplitz() function for the case when two
+  different complex-valued input vectors are used as input arguments (bug
+  report [2110119]).
+
+* Fixed a minor bug in GF::set_size() method: the content of "alphapow" and
+  "logalpha" static variables is now properly copied when resizing them.
+
+* Fixed sort() and sort_index() so they again work for vectors with less
+  than two elements.
+
+* Fixed bug [2041474] in Vec<>::split() method, which was a regression with
+  respect to the previous 3.10.x stable releases.
+
+* Fixed incorrect usage of ZDOTU BLAS function when linking to 64-bit MKL
+  library for GNU/Linux (zdotusub Fortran wrapper function is required)
+
+* Suppressed warnings about deprecated "/Wp64" option when compiling with MS
+  Visual C++ Express 2008
+
+
+===============================================================================
 IT++ version 4.0.5                                         Released: 2008-07-19
 -------------------------------------------------------------------------------
 
