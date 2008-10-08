@@ -1,10 +1,15 @@
+2008-10-08  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/itpp_acml_tests/Makefile.am, itpp/itpp_mkl_tests/Makefile.am:
+	Add specmat_test.vcproj files to the list of distributed files.
+
 2008-10-05  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* doc/local/verification.doc: Added Ubuntu 8.04 to list of tested
 	systems
 
 	* doc/local/installation.doc: Minor fix
-	
+
 2008-09-17  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/mat.h, itpp/base/vec.h: Do not explicitly inline

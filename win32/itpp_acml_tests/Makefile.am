@@ -49,6 +49,7 @@ EXTRA_DIST = \
 	sort_test.vcproj \
 	source_test.vcproj \
 	sparse_test.vcproj \
+	specmat_test.vcproj \
 	stat_test.vcproj \
 	svd_test.vcproj \
 	timer_test.vcproj \
