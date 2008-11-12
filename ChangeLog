@@ -1,3 +1,13 @@
+2008-11-12  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/signal/transforms.cpp: Let IT++ compile and link with MKL 10.1.
+
+	The updated MKL 10.1 package defines DftiCreateDescriptor macro in
+	mkl_dfti.h header file, which caused compilation errors in IT++
+	transforms.cpp file. This patch fixes this problem.
+
+-------------------------------------------------------------------------------
+
 2008-10-08  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* IT++ 4.0.6 release (SVN tag: release-4-0-6)
