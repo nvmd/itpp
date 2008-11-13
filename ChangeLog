@@ -1,3 +1,13 @@
+2008-11-13  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/timing.cpp, itpp/base/vec.cpp, itpp/fixed/cfix.cpp,
+	itpp/fixed/fix.cpp: Add missing #include files required by GCC 4.4
+
+	GCC 4.4 cleaned up some more C++ headers. Required header files
+	have to be included explicitly.
+
+	Signed-off-by: Martin Michlmayr <tbm@cyrius.com>
+
 2008-11-12  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/signal/transforms.cpp: Let IT++ compile and link with MKL 10.1.

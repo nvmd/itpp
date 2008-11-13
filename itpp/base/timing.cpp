@@ -44,6 +44,7 @@
 #endif
 
 #include <itpp/base/timing.h>
+#include <cstdio>
 #include <iostream>
 #include <cmath>
 
