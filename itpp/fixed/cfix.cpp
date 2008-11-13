@@ -28,6 +28,7 @@
 
 #include <itpp/fixed/cfix.h>
 #include <itpp/base/itassert.h>
+#include <cstdio>
 #include <iostream>
 
 
