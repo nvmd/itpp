@@ -47,10 +47,10 @@ std::string itpp_version(void)
 #endif
 }
 
-bool check_big_endianness()
+bool is_bigendian()
 {
   int i = 1;
-  char *p = (char *) & i;
+  char *p = reinterpret_cast<char *>(&i);
   if (p[0] == 1) // Lowest address contains the least significant byte
     return false; // LITTLE_ENDIAN
   else

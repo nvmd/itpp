@@ -121,13 +121,14 @@ inline bool is_int(double x)
 //! Return true if x is an even integer
 inline bool is_even(int x) { return ((x&1) == 0); }
 
-
 //! Returns IT++ library version number, e.g. "3.7.1".
 std::string itpp_version();
 
+//! Returns true if machine endianness is BIG_ENDIAN
+bool is_bigendian();
 
-//! Returns machine endianness: big-endian = true; little-endian = false
-bool check_big_endianness();
+//! This function is deprecated. Please use is_bigendian() instead.
+inline bool check_big_endianness() { return is_bigendian(); }
 
 //!@}
 

@@ -85,7 +85,7 @@ bool exist(const std::string& name)
 
 bfstream_base::bfstream_base(endian e):
     switch_endianity(false),
-    native_endianity(check_big_endianness() ? b_endian : l_endian)
+    native_endianity(is_bigendian() ? b_endian : l_endian)
 {
   if (native_endianity != e)
     switch_endianity = true;

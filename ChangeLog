@@ -1,3 +1,12 @@
+2008-12-01  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/binfile.cpp, itpp/base/math/misc.cpp,
+	itpp/base/math/misc.h, itpp/srccode/audiofile.cpp: Rename
+	check_big_endianness() to is_bigendian().
+
+	check_big_endianness() function is still available for backward
+	compatibility, but marked as deprecated.
+
 2008-11-13  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/timing.cpp, itpp/base/vec.cpp, itpp/fixed/cfix.cpp,
