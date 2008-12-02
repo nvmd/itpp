@@ -74,7 +74,7 @@ bool raw16le_read(const char *fname, vec &v)
   int size = file.tellg();
   file.seekg(0, ios::beg);
 
-  bool switch_endian = check_big_endianness(); // if BIG_ENDIAN than switch
+  bool switch_endian = is_bigendian(); // if BIG_ENDIAN than switch
   int n = size / 2; // short vs. byte
   v.set_size(n, false);
   for (int i = 0; i < n; i++)
@@ -90,7 +90,7 @@ bool raw16le_read(const char *fname, vec &v, int beg, int len)
   if (!file)
     return false;
 
-  bool switch_endian = check_big_endianness(); // if BIG_ENDIAN than switch
+  bool switch_endian = is_bigendian(); // if BIG_ENDIAN than switch
   v.set_size(len, false);
   file.seekg(2 * beg);
   for (int i = 0; i < len; i++)
@@ -105,7 +105,7 @@ bool raw16le_write(const char *fname, const vec &v, bool append)
   if (!file)
     return false;
 
-  bool switch_endian = check_big_endianness(); // if BIG_ENDIAN than switch
+  bool switch_endian = is_bigendian(); // if BIG_ENDIAN than switch
   for (int i = 0; i < v.size(); i++)
     write_endian<short>(file, double_to_short(v(i) * 32768.0), switch_endian);
 
@@ -123,7 +123,7 @@ bool raw16be_read(const char *fname, vec &v)
   int size = file.tellg();
   file.seekg(0, ios::beg);
 
-  bool switch_endian = !check_big_endianness(); // if LITTLE_ENDIAN than switch
+  bool switch_endian = !is_bigendian(); // if LITTLE_ENDIAN than switch
   int n = size / 2; // short vs. byte
   v.set_size(n, false);
   for (int i = 0; i < n; i++)
@@ -139,7 +139,7 @@ bool raw16be_read(const char *fname, vec &v, int beg, int len)
   if (!file)
     return false;
 
-  bool switch_endian = !check_big_endianness(); // if LITTLE_ENDIAN than switch
+  bool switch_endian = !is_bigendian(); // if LITTLE_ENDIAN than switch
   v.set_size(len, false);
   file.seekg(2 * beg);
   for (int i = 0; i < len; i++)
@@ -154,7 +154,7 @@ bool raw16be_write(const char *fname, const vec &v, bool append)
   if (!file)
     return false;
 
-  bool switch_endian = !check_big_endianness(); // if LITTLE_ENDIAN than switch
+  bool switch_endian = !is_bigendian(); // if LITTLE_ENDIAN than switch
   for (int i = 0; i < v.size(); i++)
     write_endian<short>(file, double_to_short(v(i) * 32768.0), switch_endian);
 
@@ -201,7 +201,7 @@ int SND_Format::sample_size() const
 
 bool SND_Format::read_header(std::istream &f)
 {
-  bool switch_endian = !check_big_endianness(); // if LITTLE_ENDIAN than switch
+  bool switch_endian = !is_bigendian(); // if LITTLE_ENDIAN than switch
   f.seekg(0);
   header.magic = read_endian<unsigned int>(f, switch_endian);
   header.hdr_size = read_endian<unsigned int>(f, switch_endian);
@@ -227,7 +227,7 @@ bool SND_Format::write_header(std::ostream &f)
   header.hdr_size = sizeof(header);
   memset(header.info, 0, SND_INFO_LEN);
 
-  bool switch_endian = !check_big_endianness(); // if LITTLE_ENDIAN than switch
+  bool switch_endian = !is_bigendian(); // if LITTLE_ENDIAN than switch
   write_endian<unsigned int>(f, header.magic, switch_endian);
   write_endian<unsigned int>(f, header.hdr_size, switch_endian);
   write_endian<unsigned int>(f, header.data_size, switch_endian);
@@ -307,7 +307,7 @@ bool SND_In_File::read(vec &v)
   v.set_size(n, false);
   seek_read(0);
 
-  bool switch_endian = !check_big_endianness(); // if LITTLE_ENDIAN than switch
+  bool switch_endian = !is_bigendian(); // if LITTLE_ENDIAN than switch
   switch (header.encoding) {
   case enc_linear8 :
     for (i = 0; i < n; i++)
@@ -339,7 +339,7 @@ bool SND_In_File::read(vec &v, int n)
 
   int i;
 
-  bool switch_endian = !check_big_endianness(); // if LITTLE_ENDIAN than switch
+  bool switch_endian = !is_bigendian(); // if LITTLE_ENDIAN than switch
   v.set_size(n, false);
   switch (header.encoding) {
   case enc_linear8 :
@@ -438,7 +438,7 @@ bool SND_Out_File::write(const vec &v)
 
   int i;
 
-  bool switch_endian = !check_big_endianness(); // if LITTLE_ENDIAN than switch
+  bool switch_endian = !is_bigendian(); // if LITTLE_ENDIAN than switch
   switch (header.encoding) {
   case enc_linear8 :
     for (i = 0; i < v.size(); i++)
