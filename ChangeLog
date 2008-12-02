@@ -1,3 +1,23 @@
+2008-12-02  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/base/random.cpp, itpp/base/random.h,
+	itpp/base/random_dsfmt.h, itpp/base/sources.mk: Add DSFMT
+	implementation of random number generator.
+
+	The DSFMT class implements parts of the Double precision
+	SIMD-oriented Fast Mersenne Twister (dSFM) random number
+	generator. DSFMT directly generates double precision floating
+	point random numbers, which have the IEEE 754 floating-point
+	format. Besides, unsigned integer numbers can also be directly
+	generated using genrand_uin32() method.
+
+	This implementation is 1.8-2.4 times faster than the previous MT
+	implementation.
+
+	Thanks to Mutsuo Saito and Makoto Matsumoto from Hiroshima
+	University for their original implementation in C, which is a base
+	for this C++ DSFMT class.
+
 2008-12-01  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/binfile.cpp, itpp/base/math/misc.cpp,
