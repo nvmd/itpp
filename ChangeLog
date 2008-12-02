@@ -1,5 +1,23 @@
 2008-12-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* tests/bch_test.ref, tests/blas_test.ref, tests/channel_test.ref,
+	tests/cholesky_test.ref, tests/circular_buffer_test.ref,
+	tests/convcode_test.ref, tests/converters_test.ref,
+	tests/det_test.ref, tests/eigen_test.ref, tests/fastica_test.ref,
+	tests/filter_design_test.ref, tests/filter_test.ref,
+	tests/histogram_test.ref, tests/interleaver_test.ref,
+	tests/inv_test.ref, tests/ldpc_test.ref, tests/ls_solve_test.ref,
+	tests/lu_test.ref, tests/mat_test.ref, tests/matfunc_test.ref,
+	tests/modulator_nd_test.ref, tests/modulator_test.ref,
+	tests/poly_test.ref, tests/pulse_shape_test.ref,
+	tests/qr_test.ref, tests/rand_test.ref,
+	tests/reedsolomon_test.ref, tests/schur_test.ref,
+	tests/sigfun_test.ref, tests/sort_test.ref, tests/sparse_test.ref,
+	tests/specmat_test.ref, tests/stat_test.ref, tests/svd_test.ref,
+	tests/transforms_test.ref, tests/turbo_test.ref,
+	tests/vec_test.ref: Update test reference files for the new RNG
+	implementation.
+
 	* itpp/base/random.cpp, itpp/base/random.h: Replace random_01*
 	with genrand_* methods.
 
