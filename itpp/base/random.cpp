@@ -27,64 +27,30 @@
  */
 
 #include <itpp/base/random.h>
-#include <itpp/base/itcompat.h>
 #include <itpp/base/math/elem_math.h>
-#include <limits>
 
 
 namespace itpp
 {
 
-///////////////////////////////////////////////
-// Random_Generator
-///////////////////////////////////////////////
+// ----------------------------------------------------------------------
+// Random_Generator (DSFMT_19937_RNG)
+// ----------------------------------------------------------------------
 
+template <>
 bool Random_Generator::initialized = false;
-int Random_Generator::left = 0;
-unsigned int Random_Generator::state[624];
-unsigned int *Random_Generator::pNext;
-
-unsigned int Random_Generator::hash(time_t t, clock_t c)
-{
-  // Get a unsigned int from t and c
-  // Better than uint(x) in case x is floating point in [0,1]
-  // Based on code by Lawrence Kirby (fred@genesis.demon.co.uk)
-  static unsigned int differ = 0; // guarantee time-based seeds will change
-
-  unsigned int h1 = 0;
-  unsigned char *p = (unsigned char *) & t;
-  for (size_t i = 0; i < sizeof(t); ++i) {
-    h1 *= std::numeric_limits<unsigned char>::max() + 2U;
-    h1 += p[i];
-  }
-  unsigned int h2 = 0;
-  p = (unsigned char *) & c;
-  for (size_t j = 0; j < sizeof(c); ++j) {
-    h2 *= std::numeric_limits<unsigned char>::max() + 2U;
-    h2 += p[j];
-  }
-  return (h1 + differ++) ^ h2;
-}
-
-void Random_Generator::get_state(ivec &out_state)
-{
-  out_state.set_size(625, false);
-  for (int i = 0; i < 624; i++)
-    out_state(i) = state[i];
-
-  out_state(624) = left; // the number of elements left in state before reload
-}
-
-void Random_Generator::set_state(ivec &new_state)
-{
-  it_assert(new_state.size() == 625, "Random_Generator::set_state(): Not a valid state vector");
-
-  for (int i = 0; i < 624; i++)
-    state[i] = new_state(i);
-
-  left = new_state(624);
-  pNext = &state[624-left];
-}
+template <>
+bool Random_Generator::bigendian = is_bigendian();
+template <>
+Random_Generator::w128_t Random_Generator::status[N + 1] = { };
+template <>
+int Random_Generator::idx = 0;
+template <>
+unsigned int Random_Generator::last_seed = 0U;
+#if defined(__SSE2__)
+template <>
+__m128i Random_Generator::sse2_param_mask = _mm_set_epi32(0, 0, 0, 0);
+#endif // __SSE2__
 
 
 // Set the seed of the Global Random Number Generator
@@ -112,11 +78,11 @@ void RNG_randomize()
 void RNG_get_state(ivec &state)
 {
   Random_Generator RNG;
-  RNG.get_state(state);
+  state = RNG.get_state();
 }
 
 // Resume the state saved in memory
-void RNG_set_state(ivec &state)
+void RNG_set_state(const ivec &state)
 {
   Random_Generator RNG;
   RNG.set_state(state);

@@ -19,6 +19,7 @@ h_base_sources = \
 	$(top_srcdir)/itpp/base/operators.h \
 	$(top_srcdir)/itpp/base/parser.h \
 	$(top_srcdir)/itpp/base/random.h \
+	$(top_srcdir)/itpp/base/random_dsfmt.h \
 	$(top_srcdir)/itpp/base/smat.h \
 	$(top_srcdir)/itpp/base/sort.h \
 	$(top_srcdir)/itpp/base/specmat.h \
