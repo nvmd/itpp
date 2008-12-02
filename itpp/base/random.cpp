@@ -258,15 +258,15 @@ double Gamma_RNG::sample()
       return 0.;
     e = 1.0 + exp_m1 * a;
     for (;;) { //VS repeat
-      p = e * RNG.random_01();
+      p = e * RNG.genrand_open_open();
       if (p >= 1.0) {
         x = -std::log((e - p) / a);
-        if (-std::log(RNG.random_01()) >= (1.0 - a) * std::log(x))
+        if (-std::log(RNG.genrand_open_close()) >= (1.0 - a) * std::log(x))
           break;
       }
       else {
         x = std::exp(std::log(p) / a);
-        if (-std::log(RNG.random_01()) >= x)
+        if (-std::log(RNG.genrand_open_close()) >= x)
           break;
       }
     }
@@ -291,7 +291,7 @@ double Gamma_RNG::sample()
     return scale * ret_val;
 
   /* Step 3: u = 0,1 - uniform sample. squeeze acceptance (s) */
-  u = RNG.random_01();
+  u = RNG.genrand_close_open();
   if ((d * u) <= (t * t * t))
     return scale * ret_val;
 
@@ -341,8 +341,8 @@ double Gamma_RNG::sample()
     /* Step 8: e = standard exponential deviate
      *         u =  0,1 -uniform deviate
      *         t = (b,si)-double exponential (laplace) sample */
-    e = -std::log(RNG.random_01()); //see Exponential_RNG
-    u = RNG.random_01();
+    e = -std::log(RNG.genrand_open_close()); //see Exponential_RNG
+    u = RNG.genrand_open_close();
     u = u + u - 1.0;
     if (u < 0.0)
       t = b - si * e;
@@ -501,14 +501,14 @@ const double Normal_RNG::PARAM_R = 3.44428647676;
 // Get a Normal distributed (0,1) sample
 double Normal_RNG::sample()
 {
-  unsigned int u, sign, i, j;
+  uint32_t u, sign, i, j;
   double x, y;
 
   while (true) {
-    u = RNG.random_int();
-    sign = u & 0x80; // 1 bit for the sign
-    i = u & 0x7f; // 7 bits to choose the step
-    j = u >> 8; // 24 bits for the x-value
+    u = RNG.genrand_uint32();
+    sign = u & 0x80;            // 1 bit for the sign
+    i = u & 0x7f;               // 7 bits to choose the step
+    j = u >> 8;                 // 24 bits for the x-value
 
     x = j * wtab[i];
 
@@ -516,11 +516,11 @@ double Normal_RNG::sample()
       break;
 
     if (i < 127) {
-      y = ytab[i+1] + (ytab[i] - ytab[i+1]) * RNG.random_01();
+      y = ytab[i+1] + (ytab[i] - ytab[i+1]) * RNG.genrand_close_open();
     }
     else {
-      x = PARAM_R - std::log(1.0 - RNG.random_01()) / PARAM_R;
-      y = std::exp(-PARAM_R * (x - 0.5 * PARAM_R)) * RNG.random_01();
+      x = PARAM_R - std::log(1.0 - RNG.genrand_close_open()) / PARAM_R;
+      y = std::exp(-PARAM_R * (x - 0.5 * PARAM_R)) * RNG.genrand_close_open();
     }
 
     if (y < std::exp(-0.5 * x * x))

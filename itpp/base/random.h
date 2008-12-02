@@ -77,7 +77,8 @@ public:
   Bernoulli_RNG() { p = 0.5; }
   //! set the probability
   void setup(double prob) {
-    it_assert(prob >= 0.0 && prob <= 1.0, "The bernoulli source probability must be between 0 and 1");
+    it_assert(prob >= 0.0 && prob <= 1.0, "The Bernoulli source probability "
+              "must be between 0 and 1");
     p = prob;
   }
   //! return the probability
@@ -89,7 +90,7 @@ public:
   //! Get a sample matrix.
   bmat operator()(int h, int w) { bmat temp(h, w); sample_matrix(h, w, temp); return temp; }
   //! Get a sample
-  bin sample() { return bin(RNG.random_01() < p ? 1 : 0); }
+  bin sample() { return RNG.genrand_close_open() < p ? bin(1) : bin(0); }
   //! Get a sample vector.
   void sample_vector(int size, bvec &out) {
     out.set_size(size, false);
@@ -141,8 +142,9 @@ public:
   //! Get a sample matrix.
   imat operator()(int h, int w);
   //! Return a single value from this random generator
-  int sample() { return (floor_i(RNG.random_01() * (hi - lo + 1)) + lo); }
-protected:
+  int sample() {
+    return floor_i(RNG.genrand_close_open() * (hi - lo + 1)) + lo;
+  }
 private:
   //!
   int lo;
@@ -183,14 +185,14 @@ public:
     temp += lo_bound;
     return temp;
   }
-  //! Get a Uniformly distributed (0,1) sample
-  double sample() {  return RNG.random_01(); }
-  //! Get a Uniformly distributed (0,1) vector
+  //! Get a Uniformly distributed [0,1) sample
+  double sample() {  return RNG.genrand_close_open(); }
+  //! Get a Uniformly distributed [0,1) vector
   void sample_vector(int size, vec &out) {
     out.set_size(size, false);
     for (int i = 0; i < size; i++) out(i) = sample();
   }
-  //! Get a Uniformly distributed (0,1) matrix
+  //! Get a Uniformly distributed [0,1) matrix
   void sample_matrix(int rows, int cols, mat &out) {
     out.set_size(rows, cols, false);
     for (int i = 0; i < rows*cols; i++) out(i) = sample();
@@ -222,13 +224,9 @@ public:
   vec operator()(int n);
   //! Get a sample matrix.
   mat operator()(int h, int w);
-protected:
 private:
-  //!
-  double sample() {  return (-std::log(RNG.random_01()) / l); }
-  //!
+  double sample() { return (-std::log(RNG.genrand_open_close()) / l); }
   double l;
-  //!
   Random_Generator RNG;
 };
 
@@ -359,7 +357,7 @@ public:
   mat operator()(int h, int w);
   //! Returns a single sample
   double sample() {
-    double u = RNG.random_01();
+    double u = RNG.genrand_open_open();
     double l = sqrt_12var;
     if (u < 0.5)
       l *= std::log(2.0 * u);
@@ -469,8 +467,8 @@ private:
   double sample() {
     mem *= r;
     if (odd) {
-      r1 = m_2pi * RNG.random_01();
-      r2 = std::sqrt(factr * std::log(RNG.random_01()));
+      r1 = m_2pi * RNG.genrand_open_close();
+      r2 = std::sqrt(factr * std::log(RNG.genrand_open_close()));
       mem += r2 * std::cos(r1);
     }
     else {
@@ -517,7 +515,7 @@ public:
   mat operator()(int h, int w);
 private:
   double sample() {
-    return (std::pow(-std::log(RNG.random_01()), 1.0 / b) / l);
+    return (std::pow(-std::log(RNG.genrand_open_close()), 1.0 / b) / l);
   }
   double l, b;
   double mean, var;
