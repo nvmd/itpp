@@ -1,5 +1,14 @@
 2008-12-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/random.cpp, itpp/base/random.h: Replace random_01*
+	with genrand_* methods.
+
+	random_01(), random_01_lclosed() and random_01_rclosed() methods
+	are only backward compatible wrappers for genrand_open_open(),
+	genrand_close_open() and genrand_open_close(). Besides, the
+	semi-closed methods are a little bit faster, therefore prefer
+	genrand_close_open() and genrand_open_close() where appropriate.
+
 	* itpp/base/random.cpp, itpp/base/random.h,
 	itpp/base/random_dsfmt.h, itpp/base/sources.mk: Add DSFMT
 	implementation of random number generator.
