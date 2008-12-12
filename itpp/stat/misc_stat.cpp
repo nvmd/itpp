@@ -129,18 +129,30 @@ double norm(const cmat &m, int p)
     return max(svd(m));
 }
 
-// Calculate the frobeniuos norm of a matrix for s = "fro"
+// Calculate the Frobenius norm of matrix m for s = "fro"
 double norm(const mat &m, const std::string &s)
 {
   it_assert(s == "fro", "norm(): Unrecognised norm");
-  return std::sqrt(sum(diag(transpose(m) * m)));
+  double E = 0.0;
+  for (int r = 0; r < m.rows(); ++r) {
+    for (int c = 0; c < m.cols(); ++c) {
+      E += m(r, c) * m(r, c);
+    }
+  }
+  return std::sqrt(E);
 }
 
-// Calculate the frobeniuos norm of a matrix for s = "fro"
+// Calculate the Frobenius norm of matrix m for s = "fro"
 double norm(const cmat &m, const std::string &s)
 {
   it_assert(s == "fro", "norm(): Unrecognised norm");
-  return std::sqrt(sum(real(diag(hermitian_transpose(m) * m))));
+  double E = 0.0;
+  for (int r = 0; r < m.rows(); ++r) {
+    for (int c = 0; c < m.cols(); ++c) {
+      E += std::norm(m(r, c));
+    }
+  }
+  return std::sqrt(E);
 }
 
 
