@@ -1,3 +1,15 @@
+2008-12-11  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* itpp/stat/misc_stat.cpp, itpp/stat/misc_stat.h: Improve
+	performance of the Frobenius norm.
+
+	The implementation of the Frobenius norm calculation for matrix M
+	was done by multiplying M' times M and then throwing away
+	everything but the diagonal. This was definitely not the optimum
+	way to calculate.
+
+	Signed-off-by: Bo Lincoln <blincoln@users.sourceforge.net>
+
 2008-12-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* tests/bch_test.ref, tests/blas_test.ref, tests/channel_test.ref,
