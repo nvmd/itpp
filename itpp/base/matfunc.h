@@ -33,6 +33,7 @@
 #include <itpp/base/mat.h>
 #include <itpp/base/math/log_exp.h>
 #include <itpp/base/math/elem_math.h>
+#include <itpp/base/algebra/inv.h>
 #include <itpp/base/algebra/svd.h>
 
 
