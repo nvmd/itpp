@@ -1,5 +1,18 @@
 2008-12-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/matfunc.cpp, itpp/base/matfunc.h: Add missing template
+	instantiations.
+
+	The templates is_hermitian() and is_unitary() had extern
+	instantiations in the header file, but were never instantiated in
+	the corresponding source file, which lead to linking errors when
+	using these functions.
+
+	This patch fixes this bug (#2392728) by adding the corresponding
+	template instantiations in matfunc.cpp.
+
+	Signed-off-by: David Hammarwall <davidhammarwall@users.sourceforge.net>
+
 	* itpp/stat/misc_stat.cpp, itpp/stat/misc_stat.h: Improve
 	performance of the Frobenius norm.
 

@@ -242,6 +242,12 @@ template smat hermitian_transpose(const smat &m);
 template imat hermitian_transpose(const imat &m);
 template bmat hermitian_transpose(const bmat &m);
 
+template bool is_hermitian(const mat &X);
+template bool is_hermitian(const cmat &X);
+
+template bool is_unitary(const mat &X);
+template bool is_unitary(const cmat &X);
+
 template vec rvectorize(const mat &m);
 template cvec rvectorize(const cmat &m);
 template ivec rvectorize(const imat &m);
