@@ -356,7 +356,7 @@ public:
   //! Write a double complex Array at the current file pointer position
   void low_level_write(const Array<std::complex<double> >& v);
 
-  //!ACTTION: ADD DOCUMENTATION FOR THIS MEMBER !!!!!!!!
+  //!ACTION: ADD DOCUMENTATION FOR THIS MEMBER !!!!!!!!
   it_file& operator<<(it_manip func) { return (*func)(*this); }
 
   //! Removes the variable \c name from the file
