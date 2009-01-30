@@ -188,7 +188,7 @@ Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2,
   \brief Vector Class (Templated)
   \author Tony Ottosson, Tobias Ringstrom, Adam Piatyszek and Conrad Sanderson
 
-  Vectors can be of arbitrarily types, but conversions and functions are
+  Vectors can be of arbitrary types, but conversions and functions are
   prepared for \c bin, \c short, \c int, \c double, and \c complex<double>
   vectors and these are predefined as: \c bvec, \c svec, \c ivec, \c vec,
   and \c cvec. \c double and \c complex<double> are \c double and
@@ -208,38 +208,38 @@ Vec<Num_T> concat(const Vec<Num_T> &v1, const Vec<Num_T> &v2,
   possible to do this using strings as:
   \code
   vec a("0 0.7 5 9.3"); // that is a = [0, 0.7, 5, 9.3]
-  vec a="0 0.7 5 9.3";  // the constructor are called implicitly
-  ivec b="0:5";  // that is b = [0, 1, 2, 3, 4, 5]
-  vec c="3:2.5:13";  // that is c = [3, 5.5, 8, 10.5, 13]
+  vec a="0 0.7 5 9.3";  // the constructor is called implicitly
+  ivec b="0:5";  // that is, b = [0, 1, 2, 3, 4, 5]
+  vec c="3:2.5:13";  // that is, c = [3, 5.5, 8, 10.5, 13]
   \endcode
   It is also possible to change length by
   \code temp.set_size(new_length, false); \endcode
   where \c false is used to indicate that the old values in \c temp
-  is not copied. If you like to preserve the values use \c true.
+  are not copied. If you would like to preserve the values, use \c true.
 
   There are a number of methods to access parts of a vector. Examples are
   \code
   a(5);     // Element number 5
   a(5,9);  // Elements 5, 6, 7, 8, and 9
-  a.left(10);  // The 10 most left elements (the first)
-  a.right(10); // The 10 most right elements (the last)
+  a.left(10);  // The 10 leftmost elements (the first)
+  a.right(10); // The 10 rightmost elements (the last)
   a.mid(5, 7); // 7 elements starting from element 5
   \endcode
 
-  It is also possible to modify parts of a vector as e.g. in
+  It is also possible to modify parts of a vector, as in e.g.
   \code
   a.del(5);    // deletes element number 5
   a.ins(3.4, 9); // inserts the element 3.4 at position 9
   a.set_subvector(12, b); // replaces elements from 12 with the vector b
   \endcode
 
-  It is of course also possible to perform the common linear algebra
-  methods such as addition, subtraction, and scalar product (*). Observe
+  It is, of course, also possible to perform common linear algebra
+  operations, such as addition, subtraction, and scalar product (*). Observe
   though, that vectors are assumed to be column-vectors in operations with
   matrices.
 
   Most elementary functions such as sin(), cosh(), log(), abs(), ..., are
-  available as operations on the individual elements of the vectors. Please
+  also available as operations on the individual elements of the vectors. Please
   see the individual functions for more details.
 
   By default, the Vec elements are created using the default constructor for
@@ -496,14 +496,14 @@ public:
   //! Compare with vector \c v. Return true if sizes or values differ.
   bool operator!=(const Vec<Num_T> &v) const;
 
-  //! Index operator without boundary check. Not recommended to use.
+  //! Index operator without boundary check. Not recommended for use.
   Num_T &_elem(int i) { return data[i]; }
-  //! Index operator without boundary check. Not recommended to use.
+  //! Index operator without boundary check. Not recommended for use.
   const Num_T &_elem(int i) const { return data[i]; }
 
-  //! Get the pointer to the internal structure. Not recommended to use.
+  //! Get the pointer to the internal structure. Not recommended for use.
   Num_T *_data() { return data; }
-  //! Get the pointer to the internal structure. Not recommended to use.
+  //! Get the pointer to the internal structure. Not recommended for use.
   const Num_T *_data() const { return data; }
 
 protected:
