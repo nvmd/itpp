@@ -40,8 +40,8 @@ BCH::BCH(int in_n, int in_k, int in_t, const ivec &genpolynom, bool sys):
     n(in_n), k(in_k), t(in_t), systematic(sys)
 {
   //fix the generator polynomial g(x).
-  ivec exponents(n - k + 1);
-  bvec temp = oct2bin(genpolynom);
+  ivec exponents = zeros_i(n - k + 1);
+  bvec temp = oct2bin(genpolynom, 0);
   for (int i = 0; i < temp.length(); i++) {
     exponents(i) = static_cast<int>(temp(temp.length() - i - 1)) - 1;
   }
@@ -166,29 +166,32 @@ void BCH::encode(const bvec &uncoded_bits, bvec &coded_bits)
     //Fix the message polynom m(x).
     mbit = uncoded_bits.mid(i * k, k);
     for (j = 0; j < k; j++) {
-      degree = static_cast<int>(mbit(j)) - 1;
+      degree = static_cast<int>(mbit(k - j - 1)) - 1;
+      // all bits should be mapped first bit <-> highest degree,
+      // e.g. 1100 <-> m(x)=x^3 + x^2, but GFX indexes identically
+      // with exponent m[0] <-> coefficient of x^0
       m[j] = GF(n + 1, degree);
       if (systematic) {
-        c[j] = m[j];
         uncoded_shifted[j+n-k] = m[j];
       }
     }
     //Fix the outputbits cbit.
     if (systematic) {
       r = modgfx(uncoded_shifted, g);
-      for (j = k; j < n; j++) {
-        c[j] = r[j-k];
-      }
+      c = uncoded_shifted - r;
+      // uncoded_shifted has coefficients from x^(n-k)..x^(n-1)
+      // and r has coefficients from x^0..x^(n-k-1).
+      // Thus, this sum perfectly fills c.
     }
     else {
       c = g * m;
     }
     for (j = 0; j < n; j++) {
       if (c[j] == GF(n + 1, 0)) {
-        cbit(j) = 1;
+        cbit(n - j - 1) = 1;  // again reverse mapping like mbit(.)
       }
       else {
-        cbit(j) = 0;
+        cbit(n - j - 1) = 0;
       }
     }
     coded_bits.replace_mid(i*n, cbit);
@@ -218,7 +221,8 @@ void BCH::decode(const bvec &coded_bits, bvec &decoded_bits)
     //Fix the received polynomial r(x)
     rbin = coded_bits.mid(i * n, n);
     for (j = 0; j < n; j++) {
-      degree = static_cast<int>(rbin(j)) - 1;
+      degree = static_cast<int>(rbin(n - j - 1)) - 1;
+      // reverse mapping, see encode(.)
       r[j] = GF(n + 1, degree);
     }
     //Fix the syndrome polynomial S(x).
@@ -258,11 +262,11 @@ void BCH::decode(const bvec &coded_bits, bvec &decoded_bits)
       }
       //Correct the codeword.
       for (j = 0; j < foundzeros; j++) {
-        rbin(errorpos(j)) += 1;
+        rbin(n - errorpos(j) - 1) += 1;  // again, reverse mapping
       }
       //Reconstruct the corrected codeword.
       for (j = 0; j < n; j++) {
-        degree = static_cast<int>(rbin(j)) - 1;
+        degree = static_cast<int>(rbin(n - j - 1)) - 1;
         c[j] = GF(n + 1, degree);
       }
       //Code word validation.
@@ -286,7 +290,7 @@ void BCH::decode(const bvec &coded_bits, bvec &decoded_bits)
       if (c.get_true_degree() > 1) {
         if (systematic) {
           for (j = 0; j < k; j++)
-            m[j] = c[j];
+            m[j] = c[n-k+j];
         }
         else {
           m = divgfx(c, g);
@@ -294,7 +298,7 @@ void BCH::decode(const bvec &coded_bits, bvec &decoded_bits)
         mbin.clear();
         for (j = 0; j <= m.get_true_degree(); j++) {
           if (m[j] == GF(n + 1, 0)) {
-            mbin(j) = 1;
+            mbin(k - j - 1) = 1;
           }
         }
       }
