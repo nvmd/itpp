@@ -149,20 +149,20 @@ BCH::BCH(int in_n, int in_t, bool sys):
 
 void BCH::encode(const bvec &uncoded_bits, bvec &coded_bits)
 {
-  int i, j, degree,
-  itterations = floor_i(static_cast<double>(uncoded_bits.length()) / k);
+  int i, j, degree;
+  int iterations = floor_i(static_cast<double>(uncoded_bits.length()) / k);
   GFX m(n + 1, k);
   GFX c(n + 1, n);
   GFX r(n + 1, n - k);
   GFX uncoded_shifted(n + 1, n);
-  coded_bits.set_size(itterations*n, false);
+  coded_bits.set_size(iterations*n, false);
   bvec mbit(k), cbit(n);
 
   if (systematic)
     for (i = 0; i < n - k; i++)
       uncoded_shifted[i] = GF(n + 1, -1);
 
-  for (i = 0; i < itterations; i++) {
+  for (i = 0; i < iterations; i++) {
     //Fix the message polynom m(x).
     mbit = uncoded_bits.mid(i * k, k);
     for (j = 0; j < k; j++) {
@@ -207,17 +207,17 @@ bvec BCH::encode(const bvec &uncoded_bits)
 
 void BCH::decode(const bvec &coded_bits, bvec &decoded_bits)
 {
-  int j, i, degree, kk, foundzeros, cisvalid,
-  itterations = floor_i(static_cast<double>(coded_bits.length()) / n);
+  int j, i, degree, kk, foundzeros, cisvalid;
+  int iterations = floor_i(static_cast<double>(coded_bits.length()) / n);
   bvec rbin(n), mbin(k);
-  decoded_bits.set_size(itterations*k, false);
+  decoded_bits.set_size(iterations*k, false);
 
   GFX r(n + 1, n - 1), c(n + 1, n - 1), m(n + 1, k - 1), S(n + 1, 2*t), Lambda(n + 1),
   OldLambda(n + 1), T(n + 1), Ohmega(n + 1), One(n + 1, (char*)"0");
   GF delta(n + 1);
   ivec errorpos;
 
-  for (i = 0; i < itterations; i++) {
+  for (i = 0; i < iterations; i++) {
     //Fix the received polynomial r(x)
     rbin = coded_bits.mid(i * n, n);
     for (j = 0; j < n; j++) {
@@ -231,7 +231,7 @@ void BCH::decode(const bvec &coded_bits, bvec &decoded_bits)
       S[j] =  r(GF(n + 1, j));
     }
     if (S.get_true_degree() >= 1) { //Errors in the received word
-      //Itterate to find Lambda(x).
+      //Iterate to find Lambda(x).
       kk = 0;
       Lambda = GFX(n + 1, (char*)"0");
       T = GFX(n + 1, (char*)"0");
