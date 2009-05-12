@@ -1,3 +1,8 @@
+2009-05-12   Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* doc/local/verification.doc: Added Ubuntu 9.04 to list of tested
+	systems
+
 2008-12-11  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/matfunc.cpp, itpp/base/matfunc.h: Add missing template
