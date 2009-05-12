@@ -6,6 +6,7 @@
 
 - \ref itpp_4_0
   - \ref linux_4_0
+    - \ref ubuntu_904_4_0
     - \ref ubuntu_804_4_0
     - \ref ubuntu_710_4_0
 
@@ -69,6 +70,18 @@ mentioned below, please let us know, so we could update this database.
 \section itpp_4_0 IT++ 4.0.x (Stable)
 
 \subsection  linux_4_0 Linux Systems
+
+\subsubsection ubuntu_904_4_0 Ubuntu 9.04 The Jaunty Jackalope
+
+- <b>Platform</b>: Intel Core 2 Quad
+- <b>Operating System</b>: Ubuntu 9.04 The Jaunty Jackalope
+- <b>Compiler</b>: g++ (GCC) 4.3.3
+- <b>IT++ release</b>: 4.0.6
+- <b>External Libraries</b>: The following Ubuntu packages were installed to provide BLAS, LAPACK and ATLAS: liblapack-dev, libblas-dev, libatlas-base-dev, libfftw3-dev
+- <b>Tests Status</b>: All tests PASSED
+- <b>Comments</b>: A clean installation of Ubuntu is advised, some tests may fail if different gcc versions are jointly installed.
+- <b>Date</b>: May 10, 2009
+- <b>Tester</b>: Mirsad Cirkic
 
 
 \subsubsection ubuntu_804_4_0 Ubuntu 8.04
