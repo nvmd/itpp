@@ -3,7 +3,7 @@
 AC_PREREQ([2.60])
 AC_INIT([IT++],[@PACKAGE_VERSION@],[ediap@users.sourceforge.net],[itpp])
 AC_COPYRIGHT([
-Copyright (C) 2006-2008  Adam Piatyszek <ediap@users.sourceforge.net>
+Copyright (C) 2006-2009  Adam Piatyszek <ediap@users.sourceforge.net>
 
 This file is part of IT++ - a C++ library of mathematical, signal
 processing, speech processing, and communications classes and functions.
