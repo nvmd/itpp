@@ -76,10 +76,15 @@ fi
 # BLAS in MKL library?
 # (http://www.intel.com/cd/software/products/asmo-na/eng/perflib/mkl/index.htm)
 if test "$acx_blas_ok" = no; then
-  AC_CHECK_LIB([mkl], [$sgemm],
-    [acx_blas_ok=yes; blas_mkl_ok=yes; BLAS_LIBS="-lmkl -lguide -lpthread"],
-    [],
-    [-lguide -lpthread])
+  AC_CHECK_LIB([mkl_core], [$sgemm],
+    [acx_blas_ok=yes; blas_mkl_ok=yes;
+       BLAS_LIBS="-lmkl_core -lmkl_gnu_thread -lmkl_gf_lp64 -liomp5 -lpthread"],
+    [AC_CHECK_LIB([mkl_core], [$dgemm],
+       [acx_blas_ok=yes; blas_mkl_ok=yes;
+          BLAS_LIBS="-lmkl_core -lmkl_gnu_thread -lmkl_gf -liomp5 -lpthread"],
+       [],
+       [-lmkl_gnu_thread -lmkl_gf -liomp5 -lpthread])],
+    [-lmkl_gnu_thread -lmkl_gf_lp64 -liomp5 -lpthread])
 fi
 
 # BLAS in ACML library? (http://developer.amd.com/acml.aspx)
