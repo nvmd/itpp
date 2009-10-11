@@ -41,9 +41,9 @@ namespace itpp
 // Forward declarations
 template<class T> class Array;
 //! Append element \c e to the end of the Array \c a
-template<class T> const Array<T> concat(const Array<T> &a, const T e);
+template<class T> const Array<T> concat(const Array<T> &a, const T &e);
 //! Append element \c e to the beginning of the Array \c a
-template<class T> const Array<T> concat(const T e, const Array<T> &a);
+template<class T> const Array<T> concat(const T &e, const Array<T> &a);
 //! Concat Arrays \c a1 and \c a2
 template<class T> const Array<T> concat(const Array<T> &a1,
                                         const Array<T> &a2);
@@ -142,9 +142,9 @@ public:
   Array<T>& operator=(const char* values);
 
   //! Append element \c e to the end of the Array \c a
-  friend const Array<T> concat <>(const Array<T> &a1, const T e);
+  friend const Array<T> concat <>(const Array<T> &a1, const T &e);
   //! Concat element \c e to the beginning of the Array \c a
-  friend const Array<T> concat <>(const T e, const Array<T> &a);
+  friend const Array<T> concat <>(const T &e, const Array<T> &a);
   //! Concat Arrays \c a1 and \c a2
   friend const Array<T> concat <>(const Array<T> &a1, const Array<T> &a2);
   //! Concat Arrays \c a1, \c a2 and \c a3
@@ -174,7 +174,7 @@ public:
   //! Set the subarray defined by indicies i1 to i2 to Array<T> a.
   void set_subarray(int i1, int i2, const Array<T> &a);
   //! Set the subarray defined by indicies i1 to i2 the element value t.
-  void set_subarray(int i1, int i2, const T t);
+  void set_subarray(int i1, int i2, const T &t);
 
 protected:
   //! Allocate storage for an array of length \c n
@@ -469,7 +469,7 @@ void Array<T>::set_subarray(int i1, int i2, const Array<T> &a)
 }
 
 template<class T>
-void Array<T>::set_subarray(int i1, int i2, const T t)
+void Array<T>::set_subarray(int i1, int i2, const T &t)
 {
   if (i1 == -1) i1 = ndata - 1;
   if (i2 == -1) i2 = ndata - 1;
@@ -483,7 +483,7 @@ void Array<T>::set_subarray(int i1, int i2, const T t)
 }
 
 template<class T>
-const Array<T> concat(const Array<T> &a, const T e)
+const Array<T> concat(const Array<T> &a, const T &e)
 {
   Array<T> temp(a.size() + 1);
 
