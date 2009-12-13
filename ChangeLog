@@ -1,3 +1,9 @@
+2009-12-12  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/comm/llr.h, itpp/comm/turbo.h, itpp/comm/ldpc.h,
+	itpp/comm/modulator_nd.h: Improved documentation on the accuracy
+	of LLR calculations.
+
 2009-08-06  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* configure.ac.in, doc/local/documentation.doc, extras/*,

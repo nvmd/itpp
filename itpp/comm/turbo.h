@@ -80,6 +80,9 @@ public:
 
     \param lcalc This parameter can be used to provide a specific \c LLR_calc_unit which defines the resolution in
     the table-lookup if decoding with the metric "TABLE" is used.
+
+    \note For issues relating to the accuracy of LLR computations,
+    please see the documentation of \c LLR_calc_unit
   */
   void set_parameters(ivec gen1, ivec gen2, int constraint_length,
                       const ivec &interleaver_sequence, int in_iterations = 8,

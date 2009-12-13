@@ -716,7 +716,10 @@ protected:
 
   \note Please refer to the tutorials \ref ldpc_gen_codes and \ref
   ldpc_bersim_awgn for extensive examples of how to use LDPC codes.
-
+ 
+  \note For issues relating to the accuracy of LLR computations,
+  please see the documentation of \c LLR_calc_unit
+  
   \author Erik G. Larsson and Adam Piatyszek
 */
 class LDPC_Code : public Channel_Code

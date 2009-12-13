@@ -54,6 +54,9 @@ namespace itpp
  * alternative to \c Modulator_1D or \c Modulator_2D. Mixed use of \c
  * Modulator_1D or \c Modulator_2D and \c Modulator_ND is <b>not
  * advised</b>.
+ * 
+ * \note For issues relating to the accuracy of LLR computations,
+ * please see the documentation of \c LLR_calc_unit
  */
 class Modulator_ND
 {
@@ -179,6 +182,9 @@ protected:
  * \f]
  *
  * See \c ND_UPAM for examples.
+ *
+ * \note For issues relating to the accuracy of LLR computations,
+ * please see the documentation of \c LLR_calc_unit
  */
 class Modulator_NRD : public Modulator_ND
 {
@@ -331,6 +337,9 @@ std::ostream &operator<<(std::ostream &os, const Modulator_NRD &m);
  * quantities are complex-valued.
  *
  * See \c ND_UPAM for examples.
+ *
+ * \note For issues relating to the accuracy of LLR computations,
+ * please see the documentation of \c LLR_calc_unit
  */
 class Modulator_NCD : public Modulator_ND
 {
@@ -513,6 +522,9 @@ std::ostream &operator<<(std::ostream &os, const Modulator_NCD &m);
  * cout << "True bits:" << b << endl;
  * cout << "LLRs:" << chan.get_llrcalc().to_double(llr) << endl;
  * \endcode
+ *
+ * \note For issues relating to the accuracy of LLR computations,
+ * please see the documentation of \c LLR_calc_unit
  */
 class ND_UPAM : public Modulator_NRD
 {
@@ -572,6 +584,9 @@ private:
 /*!
  * \ingroup modulators
  * \brief Complex MIMO channel with uniform QAM per dimension
+ *
+ * \note For issues relating to the accuracy of LLR computations,
+ * please see the documentation of \c LLR_calc_unit
  */
 class ND_UQAM : public Modulator_NCD
 {
@@ -598,6 +613,9 @@ protected:
 /*!
  * \ingroup modulators
  * Complex MIMO channel with uniform PSK per dimension
+ *
+ * \note For issues relating to the accuracy of LLR computations,
+ * please see the documentation of \c LLR_calc_unit
  */
 class ND_UPSK : public Modulator_NCD
 {

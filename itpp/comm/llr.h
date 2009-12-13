@@ -63,14 +63,23 @@ const QLLR QLLR_MAX = (std::numeric_limits<QLLR>::max() >> 4);
 /*!
   \brief Log-likelihood algebra calculation unit.
 
-  This class contains functions for algebra with log-likelihood
-  ratios (LLRs). The (sole) purpose of this class is to provide
-  numerically efficient functions for turbo and LDPC codes, which
-  rely on certain nonlinear operations on LLRs.
+  This class contains functions for algebra with log-likelihood ratios
+  (LLRs). The class is mainly useful for modules that rely on certain
+  nonlinear operations on LLRs (e.g. boxplus for LDPC and turbo
+  decoding and Jacobian logarithm for soft demodulation). The routines
+  provided are numerically efficient and use only integer
+  arithmetics. Additionally, they allow for arbitrary quantization of
+  LLRs in order to study effects of limited precision (fixed point
+  number representations). As a consequence, computations are
+  approximate. With the standard settings, the numerical precision
+  should be sufficient (and practically equivalent to floating point
+  precision) for all practical applications.  However, one can
+  construct cases where small numerical artifacts due to quantization
+  effects (e.g., soft demodulation with very high or very low SNR) can
+  be observed.
 
-  An LLR for an information bit b is defined according to \f[ L =
-  \log \frac{P(b=0)}{P(b=1)} \f] and it is in general a real number.
-
+  An LLR for an information bit b is defined according to \f[ L = \log
+  \frac{P(b=0)}{P(b=1)} \f] and it is in general a real number.
   LLR values are represented via the special type, "quantized
   LLR" (QLLR).  The relation between the quantized representation
   and the real (floating-point) LLR value is
