@@ -99,14 +99,14 @@ int main()
   cout << "   Test program for FastICA / IT++   " << endl;
   cout << "=====================================" << endl;
 
-  fscanf(fpin, "%d", &nrSamples);
-  fscanf(fpin, "%d", &nrIC);
+  int ret = fscanf(fpin, "%d", &nrSamples);
+  ret = fscanf(fpin, "%d", &nrIC);
 
   mat X = zeros(nrIC, nrSamples);
 
   for (int i = 0; i < nrSamples; i++)
     for (int j = 0; j < nrIC; j++) {
-      fscanf(fpin , "%f", &tmp);
+      ret = fscanf(fpin , "%f", &tmp);
       X(j, i) = tmp;
     }
 
