@@ -313,22 +313,6 @@ void Vec<std::complex<double> >::set(const std::string &str)
 
 
 template<>
-bvec Vec<std::complex<double> >::operator==(std::complex<double>) const
-{
-  it_error("operator==: not implemented for complex");
-  bvec temp;
-  return temp;
-}
-
-template<>
-bvec Vec<std::complex<double> >::operator!=(std::complex<double>) const
-{
-  it_error("operator!=: not implemented for complex");
-  bvec temp;
-  return temp;
-}
-
-template<>
 bvec Vec<std::complex<double> >::operator<=(std::complex<double>) const
 {
   it_error("operator<=: not implemented for complex");
