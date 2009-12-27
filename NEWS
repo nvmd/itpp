@@ -1,4 +1,37 @@
 ===============================================================================
+IT++ version 4.0.7                                         Released: 2009-12-27
+-------------------------------------------------------------------------------
+
+IT++ 4.0.7 is the next maintenance release based on the IT++ stable branch
+itpp-4-0. A list of modifications and bug-fixes is presented below:
+
+
+Modifications:
+--------------
+
+* Added support for automatic detection of MKL 10.2 libraries when using GCC
+
+* Improved performance of the Frobenious norm function
+
+* Improved documentation on the accuracy of LLR calculations
+
+* Disabled optimization flag "-O1" for the debug builds
+
+
+Bug-fixes:
+----------
+
+* Added equality and inequality operators for Vec<complex<double>> type (bug
+  report #2909998)
+
+* Added missing templated instantiations of is_hermitian() and is_unitary()
+  functions (bug report #2392728)
+
+* Added missing include files, so IT++ compiles cleanly with GCC 4.4 (bug
+  report #2780001)
+
+
+===============================================================================
 IT++ version 4.0.6                                         Released: 2008-10-08
 -------------------------------------------------------------------------------
 

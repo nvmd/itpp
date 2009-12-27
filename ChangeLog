@@ -1,5 +1,8 @@
 2009-12-27  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* NEWS, VERSION: Add release notes and update version number for
+	IT++ 4.0.7 release.
+
 	* configure.ac.in: Do not enable any optimization for the debug
 	build
 
