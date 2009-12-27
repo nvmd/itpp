@@ -1,4 +1,8 @@
+-------------------------------------------------------------------------------
+
 2009-12-27  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* IT++ 4.0.7 release (SVN tag: release-4-0-7)
 
 	* NEWS, VERSION: Add release notes and update version number for
 	IT++ 4.0.7 release.
