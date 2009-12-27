@@ -190,9 +190,9 @@ AC_SUBST(CXXFLAGS_OPT)
 if test "x$CXXFLAGS_DEBUG" = x; then
   # Only for GCC compiler
   if test "x$GXX" = xyes; then
-    CXXFLAGS_DEBUG="-Wall -ggdb -O1 -pipe"
+    CXXFLAGS_DEBUG="-Wall -ggdb -pipe"
   else
-    CXXFLAGS_DEBUG="-g -O1"
+    CXXFLAGS_DEBUG="-g"
   fi
 fi
 # Remove redundant whitespace
