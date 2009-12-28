@@ -1,10 +1,8 @@
 General improvements for the future
 ===================================
 
-* Spped improvements:
+* Speed improvements:
   - revise the idea of shallow matrix views
-  - possibly use external libraries for random number generation (e.g. the
-    new 64-bit DSFMT algorithm using SSE2 or AltiVec instructions)
 
 * Possibly add linear programming (LP) in the form of an external library
   "lpsolve"
@@ -28,10 +26,7 @@ Specific features
 * The member ">>" and "<< operators needs to be revised. The "<<" operator
   does not always match the ">>" one.
 
-* Check the fastmath functions. It seems like they are not any faster
-  than the ordinary math functions.
-
-* Make a m-file load/saver (similar to it-file).
+* Make an m-file load/saver (similar to it-file).
 
 * Soft-in soft-out turbo decoder (Erik)
 
@@ -70,3 +65,4 @@ Specific features
 
   - In MGW-cycle removal algorithm, hardcode a binomial expansion of
     the adjacency matrix for higher powers to improve efficiency
+
