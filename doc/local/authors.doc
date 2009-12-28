@@ -1,28 +1,27 @@
 /*!
 \page authors IT++ People
 
-
 \section admins Project Admins
 
-- Tony Ottosson <tonyottosson (at) users.sourceforge.net>
-- Adam Piątyszek <ediap (at) users.sourceforge.net>
+- Tony Ottosson (tonyottosson)
+- Adam Piątyszek (ediap)
 
 
 \section developers Developers
 
-- Johan Bergman <emwjohb (at) users.sourceforge.net>
-- Håkan Eriksson <hakanbe (at) users.sourceforge.net>
-- Thomas Eriksson <thomases2 (at) users.sourceforge.net>
-- Pål Frenger <frenger (at) users.sourceforge.net>
-- Fredrik Huss <frehu (at) users.sourceforge.net>
-- Erik G. Larsson <erik_g_larsson (at) users.sourceforge.net>
-- Conrad Sanderson <conrad_s (at) users.sourceforge.net>
-- Andreas Wolfgang <andreas-w (at) users.sourceforge.net>
-- Simon Wood <sgwoodjr (at) users.sourceforge.net>
+- Johan Bergman (emwjohb)
+- Thomas Eriksson (thomases2)
+- Pål Frenger (frenger)
+- Fredrik Huss (frehu)
+- Erik G. Larsson (erik_g_larsson)
+- Conrad Sanderson (conrad_s)
+- Andreas Wolfgang (andreas-w)
+- Simon Wood (sgwoodjr)
 
 
 \section retired Retired Developers
 
+- Håkan Eriksson (hakanbe)
 - Thomas Lemaire
 - Anders Persson
 - Tobias Ringstrom
@@ -54,13 +53,13 @@
 
 \section distributors Distribution Maintainers
 
-- Kumar Appaiah <akumar (at) debian.org>
-  (<a href="http://www.debian.org/">Debian GNU/Linux</a>)
-- Günter Dannoritzer <dannori (at) users.sourceforge.net>
-  (<a href="http://www.opensuse.org/">openSUSE</a>)
-- Markus Dittrich <markusle (at) gentoo.org>
-  (<a href="http://www.gentoo.org/">Gentoo Linux</a>)
-- Ed Hill <edhill (at) users.sourceforge.net>
-  (<a href="http://fedoraproject.org/wiki/Extras/">Fedora Extras</a>)
+- Kumar Appaiah <akumar (at) debian.org> -
+  <a href="http://www.debian.org/">Debian GNU/Linux</a>
+- Günter Dannoritzer (dannori) -
+  <a href="http://www.opensuse.org/">openSUSE</a>
+- Markus Dittrich <markusle (at) gentoo.org> -
+  <a href="http://www.gentoo.org/">Gentoo Linux</a>
+- Ed Hill (edhill) -
+  <a href="http://fedoraproject.org/">Fedora</a>
 
 */
