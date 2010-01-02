@@ -173,7 +173,7 @@ double cbrt(double x);
 inline double log1p(double x) { return std::log(1.0 + x); }
 #endif
 
-#ifndef HAVE_LOG2
+#if !defined(HAVE_LOG2) || defined(__CYGWIN__)
 #undef log2 // This is required at least for Cygwin
 //! Base-2 logarithm
 inline double log2(double x)

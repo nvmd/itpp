@@ -1,3 +1,7 @@
+2010-01-02 Bogdan Cristea  <cristeab@users.sourceforge.net>
+
+        * itpp/base/itcompat.h: Fixes bug report #2924984
+
 2010-01-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* NEWS: Prepare release notes for the new stable release
