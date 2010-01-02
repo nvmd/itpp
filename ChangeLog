@@ -1,5 +1,7 @@
 2010-01-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* NEWS, NEWS-4.0: Move 4.0.x release notes to a separate file
+
 	* configure.ac.in: Update bugs reporting link
 
 	* configure.ac.in, itpp-config.1.in, extras/*, itpp/**/*.cpp,
