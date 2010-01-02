@@ -1,5 +1,7 @@
 2010-01-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac.in: Update bugs reporting link
+
 	* configure.ac.in, itpp-config.1.in, extras/*, itpp/**/*.cpp,
 	itpp/**/*.h, tests/*.cpp: Update copyright dates to `1995-2010'
 
