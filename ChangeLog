@@ -1,3 +1,8 @@
+2010-01-02  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac.in, itpp-config.1.in, extras/*, itpp/**/*.cpp,
+	itpp/**/*.h, tests/*.cpp: Update copyright dates to `1995-2010'
+
 2009-12-28  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* doc/local/index.doc.in: Update links
