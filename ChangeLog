@@ -1,5 +1,8 @@
 2010-01-05  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* AUTHORS, doc/local/authors.doc: Add Bogdan to the list of
+	developers
+
 	* Makefile.am: Do not install itpp-config.1 man page two times.
 
 	This resulted in installation errors on Ubuntu 9.10. By the way,
