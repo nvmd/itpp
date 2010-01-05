@@ -1,4 +1,11 @@
-2010-01-02 Bogdan Cristea  <cristeab@users.sourceforge.net>
+2010-01-05  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* Makefile.am: Do not install itpp-config.1 man page two times.
+
+	This resulted in installation errors on Ubuntu 9.10. By the way,
+	add missing files to the distribution package.
+
+2010-01-02  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
         * itpp/base/itcompat.h: Fixes bug report #2924984
 
