@@ -1,3 +1,8 @@
+2010-01-05  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* doc/local/verification.doc: Added Ubuntu 9.10 to list of tested
+	systems
+
 2010-01-05  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* AUTHORS, doc/local/authors.doc: Add Bogdan to the list of
