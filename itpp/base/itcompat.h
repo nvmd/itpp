@@ -104,6 +104,17 @@ typedef unsigned long long      uint64_t;   //!< 64-bit unsigned integer
 #  include <ieeefp.h>
 #endif
 
+// These definitions would collide with IT++ functions
+#if defined(min)
+#  undef min
+#endif
+#if defined(max)
+#  undef max
+#endif
+#if defined(log2)
+#  undef log2
+#endif
+
 namespace std
 {
 
@@ -173,8 +184,7 @@ double cbrt(double x);
 inline double log1p(double x) { return std::log(1.0 + x); }
 #endif
 
-#if !defined(HAVE_LOG2) || defined(__CYGWIN__)
-#undef log2 // This is required at least for Cygwin
+#ifndef HAVE_LOG2
 //! Base-2 logarithm
 inline double log2(double x)
 {

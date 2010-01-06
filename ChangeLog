@@ -1,3 +1,11 @@
+2010-01-06  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* configure.ac.in, itpp/base/itcompat.h, itpp/config_msvc.h:
+	Undefine min, max and log2 macros.
+
+	If these macros were defined they would collide with our
+	overloaded functions.
+
 2010-01-05  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* doc/local/verification.doc: Added Ubuntu 9.10 to list of tested
