@@ -172,6 +172,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\itpp\base\copy_vector.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\itpp\base\fastmath.cpp"
 					>
 				</File>
@@ -347,7 +351,15 @@
 						>
 					</File>
 					<File
+						RelativePath="..\itpp\base\math\log_exp.cpp"
+						>
+					</File>
+					<File
 						RelativePath="..\itpp\base\math\misc.cpp"
+						>
+					</File>
+					<File
+						RelativePath="..\itpp\base\math\trig_hyp.cpp"
 						>
 					</File>
 				</Filter>
@@ -719,6 +731,10 @@
 				</File>
 				<File
 					RelativePath="..\itpp\base\itfile.h"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\base\ittypes.h"
 					>
 				</File>
 				<File
