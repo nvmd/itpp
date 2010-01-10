@@ -10,9 +10,6 @@ endif
 
 libbase_la_SOURCES = $(noinst_h_base_sources) $(h_base_sources) \
 	$(cpp_base_sources)
-if BUILD_ZDOTUSUB
-libbase_la_SOURCES += $(f_base_sources)
-endif
 libbase_la_CXXFLAGS = $(CXXFLAGS_OPT)
 libbase_la_LIBADD = \
 	$(top_builddir)/@PACKAGE@/base/algebra/libalgebra.la \
@@ -21,9 +18,6 @@ libbase_la_LIBADD = \
 
 libbase_debug_la_SOURCES = $(noinst_h_base_sources) $(h_base_sources) \
 	$(cpp_base_sources)
-if BUILD_ZDOTUSUB
-libbase_debug_la_SOURCES += $(f_base_sources)
-endif
 libbase_debug_la_CXXFLAGS = $(CXXFLAGS_DEBUG)
 libbase_debug_la_LIBADD = \
 	$(top_builddir)/@PACKAGE@/base/algebra/libalgebra_debug.la \

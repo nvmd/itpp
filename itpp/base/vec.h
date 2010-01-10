@@ -1006,9 +1006,6 @@ Vec<Num_T>& Vec<Num_T>::operator*=(Num_T t)
 //! \cond
 template<>
 double dot(const vec &v1, const vec &v2);
-
-template<>
-std::complex<double> dot(const cvec &v1, const cvec &v2);
 //! \endcond
 
 template<class Num_T>
@@ -1840,10 +1837,13 @@ extern template bvec operator-(const bvec &v);
 
 // multiplication operator
 
+extern template std::complex<double> dot(const cvec &v1, const cvec &v2);
 extern template int dot(const ivec &v1, const ivec &v2);
 extern template short dot(const svec &v1, const svec &v2);
 extern template bin dot(const bvec &v1, const bvec &v2);
 
+extern template double operator*(const vec &v1, const vec &v2);
+extern template std::complex<double> operator*(const cvec &v1, const cvec &v2);
 extern template int operator*(const ivec &v1, const ivec &v2);
 extern template short operator*(const svec &v1, const svec &v2);
 extern template bin operator*(const bvec &v1, const bvec &v2);
