@@ -1,5 +1,8 @@
 2010-01-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/vec.cpp, itpp/base/vec.h: Move dot() and
+	outer_product() specialisations to vec.cpp
+
 	* win32/itpp_mkl_tests/*.vcproj: Update MKL libraries in MSVC++
 	project files for test programs
 
