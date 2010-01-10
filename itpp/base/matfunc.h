@@ -870,7 +870,7 @@ bool any(const bvec &testvec);
 // Instantiations
 // ----------------------------------------------------------------------
 
-#ifdef HAVE_EXTERN_TEMPLATE
+#ifndef _MSC_VER
 
 extern template int length(const vec &v);
 extern template int length(const cvec &v);
@@ -1067,7 +1067,7 @@ extern template imat repmat(const imat &data, int m, int n);
 extern template smat repmat(const smat &data, int m, int n);
 extern template bmat repmat(const bmat &data, int m, int n);
 
-#endif // HAVE_EXTERN_TEMPLATE
+#endif // _MSC_VER
 
 //! \endcond
 

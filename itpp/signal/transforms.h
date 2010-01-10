@@ -30,12 +30,6 @@
 #ifndef TRANSFORMS_H
 #define TRANSFORMS_H
 
-#ifndef _MSC_VER
-#  include <itpp/config.h>
-#else
-#  include <itpp/config_msvc.h>
-#endif
-
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/matfunc.h>
@@ -352,7 +346,7 @@ Mat<T> dwht2(const Mat<T> &m)
 // Instantiations
 // ----------------------------------------------------------------------
 
-#ifdef HAVE_EXTERN_TEMPLATE
+#ifndef _MSC_VER
 
 extern template vec dht(const vec &v);
 extern template cvec dht(const cvec &v);
@@ -376,7 +370,7 @@ extern template cmat dht2(const cmat &m);
 extern template mat  dwht2(const mat &m);
 extern template cmat dwht2(const cmat &m);
 
-#endif // HAVE_EXTERN_TEMPLATE
+#endif // _MSC_VER
 
 //! \endcond
 

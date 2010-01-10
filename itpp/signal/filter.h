@@ -29,12 +29,6 @@
 #ifndef FILTER_H
 #define FILTER_H
 
-#ifndef _MSC_VER
-#  include <itpp/config.h>
-#else
-#  include <itpp/config_msvc.h>
-#endif
-
 #include <itpp/base/vec.h>
 
 
@@ -576,7 +570,7 @@ T3 ARMA_Filter<T1, T2, T3>::filter(const T1 Sample)
 // Instantiations
 // ----------------------------------------------------------------------
 
-#ifdef HAVE_EXTERN_TEMPLATE
+#ifndef _MSC_VER
 
 extern template class MA_Filter<double, double, double>;
 extern template class MA_Filter < double, std::complex<double>,
@@ -602,7 +596,7 @@ extern template class ARMA_Filter < std::complex<double>,
 extern template class ARMA_Filter < std::complex<double>, std::complex<double>,
   std::complex<double> >;
 
-#endif // HAVE_EXTERN_TEMPLATE
+#endif // _MSC_VER
 
 //! \endcond
 

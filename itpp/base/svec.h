@@ -29,12 +29,6 @@
 #ifndef SVEC_H
 #define SVEC_H
 
-#ifndef _MSC_VER
-#  include <itpp/config.h>
-#else
-#  include <itpp/config_msvc.h>
-#endif
-
 #include <itpp/base/vec.h>
 #include <itpp/base/math/min_max.h>
 #include <cstdlib>
@@ -1221,7 +1215,7 @@ inline Vec<T> full(const Sparse_Vec<T> &s)
 // Instantiations
 // ---------------------------------------------------------------------
 
-#ifdef HAVE_EXTERN_TEMPLATE
+#ifndef _MSC_VER
 
 extern template class Sparse_Vec<int>;
 extern template class Sparse_Vec<double>;
@@ -1271,7 +1265,7 @@ extern template sparse_ivec elem_mult_s(const ivec &, const sparse_ivec &);
 extern template sparse_vec elem_mult_s(const vec &, const sparse_vec &);
 extern template sparse_cvec elem_mult_s(const cvec &, const sparse_cvec &);
 
-#endif // HAVE_EXTERN_TEMPLATE
+#endif // _MSC_VER
 
 //! \endcond
 

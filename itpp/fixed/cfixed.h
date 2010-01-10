@@ -29,12 +29,6 @@
 #ifndef CFIXED_H
 #define CFIXED_H
 
-#ifndef _MSC_VER
-#  include <itpp/config.h>
-#else
-#  include <itpp/config_msvc.h>
-#endif
-
 #include <itpp/fixed/cfix.h>
 
 
@@ -245,9 +239,9 @@ typedef CFixed<64, TC, SAT> scfixed64;
 // ----------------------------------------------------------------------
 // Instantiations
 // ----------------------------------------------------------------------
-#ifdef HAVE_EXTERN_TEMPLATE
+#ifndef _MSC_VER
 extern template class CFixed<64, TC, WRAP>;
-#endif // HAVE_EXTERN_TEMPLATE
+#endif // _MSC_VER
 
 //! \endcond
 

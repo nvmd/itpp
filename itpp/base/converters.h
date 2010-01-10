@@ -427,7 +427,7 @@ std::string to_str(const T &i)
 // Instantiations
 // ---------------------------------------------------------------------
 
-#ifdef HAVE_EXTERN_TEMPLATE
+#ifndef _MSC_VER
 
 extern template bvec to_bvec(const svec &v);
 extern template bvec to_bvec(const ivec &v);
@@ -484,7 +484,7 @@ extern template cmat to_cmat(const smat &real, const smat &imag);
 extern template cmat to_cmat(const imat &real, const imat &imag);
 extern template cmat to_cmat(const mat &real, const mat &imag);
 
-#endif // HAVE_EXTERN_TEMPLATE
+#endif // _MSC_VER
 
 //! \endcond
 

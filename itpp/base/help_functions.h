@@ -29,12 +29,6 @@
 #ifndef HELP_FUNCTIONS_H
 #define HELP_FUNCTIONS_H
 
-#ifndef _MSC_VER
-#  include <itpp/config.h>
-#else
-#  include <itpp/config_msvc.h>
-#endif
-
 #include <itpp/base/mat.h>
 
 
@@ -205,7 +199,7 @@ inline Mat<T> apply_function(T(*f)(const T&, const T&), const Mat<T>& m,
 // Instantiations
 // ----------------------------------------------------------------------
 
-#ifdef HAVE_EXTERN_TEMPLATE
+#ifndef _MSC_VER
 
 extern template vec apply_function(double(*f)(double), const vec &v);
 extern template cvec apply_function(std::complex<double> (*f)(const std::complex<double> &),
@@ -253,7 +247,7 @@ extern template smat apply_function(short(*f)(short, short), const smat &m, cons
 extern template imat apply_function(int (*f)(int, int), const imat &m, const int& x);
 extern template bmat apply_function(bin(*f)(bin, bin), const bmat &m, const bin& x);
 
-#endif // HAVE_EXTERN_TEMPLATE
+#endif // _MSC_VER
 
 //! \endcond
 

@@ -29,12 +29,6 @@
 #ifndef FIXED_H
 #define FIXED_H
 
-#ifndef _MSC_VER
-#  include <itpp/config.h>
-#else
-#  include <itpp/config_msvc.h>
-#endif
-
 #include <itpp/fixed/fix.h>
 
 
@@ -357,9 +351,9 @@ typedef Fixed<64, US, SAT> sufixed64;
 // Instantiations
 // ----------------------------------------------------------------------
 
-#ifdef HAVE_EXTERN_TEMPLATE
+#ifndef _MSC_VER
 extern template class Fixed<64, TC, WRAP>;
-#endif // HAVE_EXTERN_TEMPLATE
+#endif // _MSC_VER
 
 //! \endcond
 

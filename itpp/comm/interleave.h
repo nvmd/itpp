@@ -29,12 +29,6 @@
 #ifndef INTERLEAVE_H
 #define INTERLEAVE_H
 
-#ifndef _MSC_VER
-#  include <itpp/config.h>
-#else
-#  include <itpp/config_msvc.h>
-#endif
-
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/random.h>
@@ -550,7 +544,7 @@ void Sequence_Interleaver<T>::set_interleaver_sequence(ivec in_interleaver_seque
 // Instantiations
 // ----------------------------------------------------------------------
 
-#ifdef HAVE_EXTERN_TEMPLATE
+#ifdef _MSC_VEC
 
 extern template class Block_Interleaver<double>;
 extern template class Block_Interleaver<short>;
@@ -570,7 +564,7 @@ extern template class Sequence_Interleaver<int>;
 extern template class Sequence_Interleaver<std::complex<double> >;
 extern template class Sequence_Interleaver<bin>;
 
-#endif // HAVE_EXTERN_TEMPLATE
+#endif // _MSC_VEC
 
 //! \endcond
 
