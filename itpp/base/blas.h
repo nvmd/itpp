@@ -39,6 +39,26 @@
 
 //! \cond
 
+#if defined(_MSC_VER) && (defined(HAVE_ACML) || defined(HAVE_MKL))
+#  define dswap_ DSWAP
+#  define zswap_ ZSWAP
+#  define dscal_ DSCAL
+#  define zscal_ ZSCAL
+#  define dcopy_ DCOPY
+#  define zcopy_ ZCOPY
+#  define daxpy_ DAXPY
+#  define zaxpy_ ZAXPY
+#  define ddot_  DDOT
+#  define dgemv_ DGEMV
+#  define zgemv_ ZGEMV
+#  define dger_  DGER
+#  define zgeru_ ZGERU
+#  define zgerc_ ZGERC
+#  define dgemm_ DGEMM
+#  define zgemm_ ZGEMM
+#endif // #if defined(_MSC_VER) && (defined(HAVE_ACML) || defined(HAVE_MKL))
+
+
 namespace blas
 {
 

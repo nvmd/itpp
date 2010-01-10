@@ -1,5 +1,10 @@
 2010-01-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/algebra/lapack.h, itpp/base/blas.h: Support latest
+	ACML built with Intel Fortran compiler. It uses uppercase naming
+	conventions for BLAS and LAPACK routines. This is only required on
+	MS Windows (MSVC++).
+
 	* configure.ac.in, itpp/base/Makefile.am, itpp/base/blas.h,
 	itpp/base/sources.mk, itpp/base/vec.cpp, itpp/base/vec.h,
 	itpp/base/zdotusub.f, m4/acx_blas.m4: Do not use zdotusub.f
