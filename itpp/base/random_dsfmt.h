@@ -29,7 +29,7 @@
 #ifndef RANDOM_DSFMT_H
 #define RANDOM_DSFMT_H
 
-#include <itpp/base/itcompat.h>
+#include <itpp/base/ittypes.h>
 #include <itpp/base/vec.h>
 #include <cstring> // required for memset()
 #include <ctime>

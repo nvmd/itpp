@@ -28,6 +28,7 @@
 
 #include <itpp/base/math/error.h>
 #include <itpp/base/math/elem_math.h>
+#include <itpp/base/itcompat.h>
 
 
 namespace itpp
@@ -217,5 +218,30 @@ double Qfunc(double x)
 {
   return (0.5 * ::erfc(x / 1.41421356237310));
 }
+
+
+// Error function
+vec erf(const vec &x) { return apply_function<double>(::erf, x); }
+mat erf(const mat &x) { return apply_function<double>(::erf, x); }
+cvec erf(const cvec &x)
+{
+  return apply_function<std::complex<double> >(erf, x);
+}
+cmat erf(const cmat &x)
+{
+  return apply_function<std::complex<double> >(erf, x);
+}
+
+// Inverse of error function
+vec erfinv(const vec &x) { return apply_function<double>(erfinv, x); }
+mat erfinv(const mat &x) { return apply_function<double>(erfinv, x); }
+
+// Complementary error function
+vec erfc(const vec &x) { return apply_function<double>(::erfc, x); }
+mat erfc(const mat &x) { return apply_function<double>(::erfc, x); }
+
+// Q-function
+vec Qfunc(const vec &x) { return apply_function<double>(Qfunc, x); }
+mat Qfunc(const mat &x) { return apply_function<double>(Qfunc, x); }
 
 } // namespace itpp

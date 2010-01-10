@@ -11,4 +11,6 @@ cpp_base_math_sources = \
 	$(top_srcdir)/itpp/base/math/elem_math.cpp \
 	$(top_srcdir)/itpp/base/math/error.cpp \
 	$(top_srcdir)/itpp/base/math/integration.cpp \
-	$(top_srcdir)/itpp/base/math/misc.cpp
+	$(top_srcdir)/itpp/base/math/log_exp.cpp \
+	$(top_srcdir)/itpp/base/math/misc.cpp \
+	$(top_srcdir)/itpp/base/math/trig_hyp.cpp

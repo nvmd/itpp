@@ -29,7 +29,6 @@
 #ifndef ERROR_H
 #define ERROR_H
 
-#include <itpp/base/itcompat.h>
 #include <itpp/base/help_functions.h>
 
 
@@ -72,59 +71,28 @@ double Qfunc(double x);
 // ----------------------------------------------------------------------
 
 //! Error function
-inline vec erf(const vec &x)
-{
-  return apply_function<double>(::erf, x);
-}
+vec erf(const vec &x);
 //! Error function
-inline mat erf(const mat &x)
-{
-  return apply_function<double>(::erf, x);
-}
+mat erf(const mat &x);
 //! Error function
-inline cvec erf(const cvec &x)
-{
-  return apply_function<std::complex<double> >(erf, x);
-}
+cvec erf(const cvec &x);
 //! Error function
-inline cmat erf(const cmat &x)
-{
-  return apply_function<std::complex<double> >(erf, x);
-}
+cmat erf(const cmat &x);
 
 //! Inverse of error function
-inline vec erfinv(const vec &x)
-{
-  return apply_function<double>(erfinv, x);
-}
+vec erfinv(const vec &x);
 //! Inverse of error function
-inline mat erfinv(const mat &x)
-{
-  return apply_function<double>(erfinv, x);
-}
+mat erfinv(const mat &x);
 
 //! Complementary error function
-inline vec erfc(const vec &x)
-{
-  return apply_function<double>(::erfc, x);
-}
+vec erfc(const vec &x);
 //! Complementary error function
-inline mat erfc(const mat &x)
-{
-  return apply_function<double>(::erfc, x);
-}
+mat erfc(const mat &x);
 
 //! Q-function
-inline vec Qfunc(const vec &x)
-{
-  return apply_function<double>(Qfunc, x);
-}
-
+vec Qfunc(const vec &x);
 //! Q-function
-inline mat Qfunc(const mat &x)
-{
-  return apply_function<double>(Qfunc, x);
-}
+mat Qfunc(const mat &x);
 //!@}
 
 } // namespace itpp

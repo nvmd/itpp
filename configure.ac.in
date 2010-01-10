@@ -292,17 +292,6 @@ AC_CHECK_FUNCS([asinh \
   tgamma])
 
 
-# Check for types
-AC_CHECK_SIZEOF(short)
-AC_CHECK_SIZEOF(unsigned short)
-AC_CHECK_SIZEOF(int)
-AC_CHECK_SIZEOF(unsigned int)
-AC_CHECK_SIZEOF(long)
-AC_CHECK_SIZEOF(unsigned long)
-AC_CHECK_SIZEOF(long long)
-AC_CHECK_SIZEOF(unsigned long long)
-
-
 # If we have a Fortran compiler
 if test "x$F77" != x; then
   # Check for additional libs required for linking C/C++ with Fortran

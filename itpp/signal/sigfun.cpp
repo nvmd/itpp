@@ -33,6 +33,7 @@
 #include <itpp/base/math/elem_math.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/base/specmat.h>
+#include <itpp/base/itcompat.h>
 #include <itpp/stat/misc_stat.h>
 
 

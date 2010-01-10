@@ -32,7 +32,7 @@
 #include <itpp/base/vec.h>
 #include <itpp/base/array.h>
 #include <itpp/base/binfile.h>
-#include <itpp/base/itcompat.h>
+#include <itpp/base/ittypes.h>
 
 
 namespace itpp

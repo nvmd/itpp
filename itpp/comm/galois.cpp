@@ -28,6 +28,7 @@
 
 #include <itpp/comm/galois.h>
 #include <itpp/base/math/log_exp.h>
+#include <itpp/base/itcompat.h>
 #include <iostream>
 
 

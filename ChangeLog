@@ -1,5 +1,20 @@
 2010-01-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac.in, itpp/Makefile.am, itpp/base/binfile.h,
+	itpp/base/itcompat.h, itpp/base/itfile.h, itpp/base/ittypes.h,
+	itpp/base/math/elem_math.cpp, itpp/base/math/elem_math.h,
+	itpp/base/math/error.cpp, itpp/base/math/error.h,
+	itpp/base/math/log_exp.cpp, itpp/base/math/log_exp.h,
+	itpp/base/math/sources.mk, itpp/base/math/trig_hyp.cpp,
+	itpp/base/math/trig_hyp.h, itpp/base/sources.mk,
+	itpp/base/specmat.cpp, itpp/comm/galois.cpp,
+	itpp/comm/modulator_nd.cpp, itpp/fixed/fix_base.h, itpp/itbase.h,
+	itpp/signal/sigfun.cpp: Make itcompat.h a private (non-installable)
+	header file. For the purpose of non-standard integer type
+	definitions, a new header file ittypes.h is introduced. A few
+	inlined functions from the math submodule are moved to newly
+	created source files.
+
 	* itpp/base/converters.cpp, itpp/base/converters.h: Remove
 	workaround for GCC 3.3 error for a few template instantiations
 

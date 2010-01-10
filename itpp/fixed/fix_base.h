@@ -29,7 +29,7 @@
 #ifndef FIX_BASE_H
 #define FIX_BASE_H
 
-#include <itpp/base/itcompat.h>
+#include <itpp/base/ittypes.h>
 #include <itpp/stat/misc_stat.h>
 
 
