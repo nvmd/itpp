@@ -312,6 +312,127 @@ void Vec<std::complex<double> >::set(const std::string &str)
 }
 
 
+#if defined(HAVE_BLAS)
+template<>
+double dot(const vec &v1, const vec &v2)
+{
+  it_assert_debug(v1.datasize == v2.datasize, "vec::dot(): Wrong sizes");
+  int incr = 1;
+  return blas::ddot_(&v1.datasize, v1.data, &incr, v2.data, &incr);
+}
+#else
+template<>
+double dot(const vec &v1, const vec &v2)
+{
+  it_assert_debug(v1.datasize == v2.datasize, "Vec::dot(): Wrong sizes");
+  double r = 0.0;
+  for (int i = 0; i < v1.datasize; ++i)
+    r += v1.data[i] * v2.data[i];
+  return r;
+}
+#endif // HAVE_BLAS
+
+#if defined(HAVE_BLAS) && (defined(HAVE_ZDOTUSUB) || defined(HAVE_ZDOTU_VOID))
+template<>
+std::complex<double> dot(const cvec &v1, const cvec &v2)
+{
+  it_assert_debug(v1.datasize == v2.datasize, "cvec::dot(): Wrong sizes");
+  int incr = 1;
+  std::complex<double> output;
+  blas::zdotusub_(&output, &v1.datasize, v1.data, &incr, v2.data, &incr);
+  return output;
+}
+#else
+template<>
+std::complex<double> dot(const cvec &v1, const cvec &v2)
+{
+  it_assert_debug(v1.datasize == v2.datasize, "cvec::dot(): Wrong sizes");
+  std::complex<double> r(0.0, 0.0);
+  for (int i = 0; i < v1.datasize; ++i)
+    r += v1.data[i] * v2.data[i];
+  return r;
+}
+#endif // HAVE_BLAS && (HAVE_ZDOTUSUB || HAVE_ZDOTU_VOID)
+
+
+#if defined(HAVE_BLAS)
+template<>
+mat outer_product(const vec &v1, const vec &v2, bool)
+{
+  it_assert_debug((v1.datasize > 0) && (v2.datasize > 0),
+                  "Vec::outer_product():: Input vector of zero size");
+
+  mat out(v1.datasize, v2.datasize);
+  out.zeros();
+  double alpha = 1.0;
+  int incr = 1;
+  blas::dger_(&v1.datasize, &v2.datasize, &alpha, v1.data, &incr,
+              v2.data, &incr, out._data(), &v1.datasize);
+  return out;
+}
+
+template<>
+cmat outer_product(const cvec &v1, const cvec &v2, bool hermitian)
+{
+  it_assert_debug((v1.datasize > 0) && (v2.datasize > 0),
+                  "Vec::outer_product():: Input vector of zero size");
+
+  cmat out(v1.datasize, v2.datasize);
+  out.zeros();
+  std::complex<double> alpha(1.0);
+  int incr = 1;
+  if (hermitian) {
+    blas::zgerc_(&v1.datasize, &v2.datasize, &alpha, v1.data, &incr,
+                 v2.data, &incr, out._data(), &v1.datasize);
+  }
+  else {
+    blas::zgeru_(&v1.datasize, &v2.datasize, &alpha, v1.data, &incr,
+                 v2.data, &incr, out._data(), &v1.datasize);
+  }
+  return out;
+}
+#else
+template<>
+mat outer_product(const vec &v1, const vec &v2, bool)
+{
+  it_assert_debug((v1.datasize > 0) && (v2.datasize > 0),
+                  "Vec::outer_product():: Input vector of zero size");
+
+  mat out(v1.datasize, v2.datasize);
+  for (int i = 0; i < v1.datasize; ++i) {
+    for (int j = 0; j < v2.datasize; ++j) {
+      out(i, j) = v1.data[i] * v2.data[j];
+    }
+  }
+  return out;
+}
+
+template<>
+cmat outer_product(const cvec &v1, const cvec &v2, bool hermitian)
+{
+  it_assert_debug((v1.datasize > 0) && (v2.datasize > 0),
+                  "Vec::outer_product():: Input vector of zero size");
+
+  cmat out(v1.datasize, v2.datasize);
+  if (hermitian) {
+    for (int i = 0; i < v1.datasize; ++i) {
+      for (int j = 0; j < v2.datasize; ++j) {
+        out(i, j) = v1.data[i] * conj(v2.data[j]);
+      }
+    }
+  }
+  else {
+    for (int i = 0; i < v1.datasize; ++i) {
+      for (int j = 0; j < v2.datasize; ++j) {
+        out(i, j) = v1.data[i] * v2.data[j];
+      }
+    }
+  }
+  return out;
+}
+#endif // HAVE_BLAS
+
+
 template<>
 bvec Vec<std::complex<double> >::operator<=(std::complex<double>) const
 {

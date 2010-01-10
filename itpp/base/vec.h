@@ -1008,38 +1008,22 @@ Vec<Num_T>& Vec<Num_T>::operator*=(Num_T t)
   return *this;
 }
 
-#if defined(HAVE_BLAS)
-template<> inline
-double dot(const vec &v1, const vec &v2)
-{
-  it_assert_debug(v1.datasize == v2.datasize, "vec::dot: wrong sizes");
-  int incr = 1;
-  return blas::ddot_(&v1.datasize, v1.data, &incr, v2.data, &incr);
-}
 
-#if defined(HAVE_ZDOTUSUB) || defined(HAVE_ZDOTU_VOID)
-template<> inline
-std::complex<double> dot(const cvec &v1, const cvec &v2)
-{
-  it_assert_debug(v1.datasize == v2.datasize, "cvec::dot: wrong sizes");
-  int incr = 1;
-  std::complex<double> output;
-  blas::zdotusub_(&output, &v1.datasize, v1.data, &incr, v2.data, &incr);
-  return output;
-}
-#endif // HAVE_ZDOTUSUB || HAVE_ZDOTU_VOID
-#endif // HAVE_BLAS
+//! \cond
+template<>
+double dot(const vec &v1, const vec &v2);
+
+template<>
+std::complex<double> dot(const cvec &v1, const cvec &v2);
+//! \endcond
 
 template<class Num_T>
 Num_T dot(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
 {
-  int i;
+  it_assert_debug(v1.datasize == v2.datasize, "Vec::dot(): Wrong sizes");
   Num_T r = Num_T(0);
-
-  it_assert_debug(v1.datasize == v2.datasize, "Vec::dot: wrong sizes");
-  for (i = 0; i < v1.datasize; i++)
+  for (int i = 0; i < v1.datasize; ++i)
     r += v1.data[i] * v2.data[i];
-
   return r;
 }
 
@@ -1050,84 +1034,26 @@ Num_T operator*(const Vec<Num_T> &v1, const Vec<Num_T> &v2)
 }
 
 
-#if defined(HAVE_BLAS)
-template<> inline
-mat outer_product(const vec &v1, const vec &v2, bool)
-{
-  it_assert_debug((v1.datasize > 0) && (v2.datasize > 0),
-                  "Vec::outer_product():: Input vector of zero size");
+//! \cond
+template<>
+mat outer_product(const vec &v1, const vec &v2, bool);
 
-  mat out(v1.datasize, v2.datasize);
-  out.zeros();
-  double alpha = 1.0;
-  int incr = 1;
-  blas::dger_(&v1.datasize, &v2.datasize, &alpha, v1.data, &incr,
-              v2.data, &incr, out._data(), &v1.datasize);
-  return out;
-}
-
-template<> inline
-cmat outer_product(const cvec &v1, const cvec &v2, bool hermitian)
-{
-  it_assert_debug((v1.datasize > 0) && (v2.datasize > 0),
-                  "Vec::outer_product():: Input vector of zero size");
-
-  cmat out(v1.datasize, v2.datasize);
-  out.zeros();
-  std::complex<double> alpha(1.0);
-  int incr = 1;
-  if (hermitian) {
-    blas::zgerc_(&v1.datasize, &v2.datasize, &alpha, v1.data, &incr,
-                 v2.data, &incr, out._data(), &v1.datasize);
-  }
-  else {
-    blas::zgeru_(&v1.datasize, &v2.datasize, &alpha, v1.data, &incr,
-                 v2.data, &incr, out._data(), &v1.datasize);
-  }
-  return out;
-}
-#else
-//! Outer product of two vectors v1 and v2
-template<> inline
-cmat outer_product(const cvec &v1, const cvec &v2, bool hermitian)
-{
-  it_assert_debug((v1.datasize > 0) && (v2.datasize > 0),
-                  "Vec::outer_product():: Input vector of zero size");
-
-  cmat out(v1.datasize, v2.datasize);
-  if (hermitian) {
-    for (int i = 0; i < v1.datasize; ++i) {
-      for (int j = 0; j < v2.datasize; ++j) {
-        out(i, j) = v1.data[i] * conj(v2.data[j]);
-      }
-    }
-  }
-  else {
-    for (int i = 0; i < v1.datasize; ++i) {
-      for (int j = 0; j < v2.datasize; ++j) {
-        out(i, j) = v1.data[i] * v2.data[j];
-      }
-    }
-  }
-  return out;
-}
-#endif // HAVE_BLAS
+template<>
+cmat outer_product(const cvec &v1, const cvec &v2, bool hermitian);
+//! \endcond
 
 template<class Num_T>
 Mat<Num_T> outer_product(const Vec<Num_T> &v1, const Vec<Num_T> &v2, bool)
 {
-  int i, j;
-
   it_assert_debug((v1.datasize > 0) && (v2.datasize > 0),
                   "Vec::outer_product:: Input vector of zero size");
 
   Mat<Num_T> r(v1.datasize, v2.datasize);
-  for (i = 0; i < v1.datasize; i++) {
-    for (j = 0; j < v2.datasize; j++) {
+  for (int i = 0; i < v1.datasize; ++i) {
+    for (int j = 0; j < v2.datasize; ++j) {
       r(i, j) = v1.data[i] * v2.data[j];
     }
   }
-
   return r;
 }
 
@@ -1920,29 +1846,14 @@ extern template bvec operator-(const bvec &v);
 
 // multiplication operator
 
-#if !defined(HAVE_BLAS)
-extern template double dot(const vec &v1, const vec &v2);
-#if !(defined(HAVE_ZDOTUSUB) || defined(HAVE_ZDOTU_VOID))
-extern template std::complex<double> dot(const cvec &v1, const cvec &v2);
-#endif // !(HAVE_ZDOTUSUB || HAVE_ZDOTU_VOID)
-#endif // HAVE_BLAS
 extern template int dot(const ivec &v1, const ivec &v2);
 extern template short dot(const svec &v1, const svec &v2);
 extern template bin dot(const bvec &v1, const bvec &v2);
 
-#if !defined(HAVE_BLAS)
-extern template double operator*(const vec &v1, const vec &v2);
-extern template std::complex<double> operator*(const cvec &v1,
-    const cvec &v2);
-#endif
 extern template int operator*(const ivec &v1, const ivec &v2);
 extern template short operator*(const svec &v1, const svec &v2);
 extern template bin operator*(const bvec &v1, const bvec &v2);
 
-#if !defined(HAVE_BLAS)
-extern template mat outer_product(const vec &v1, const vec &v2,
-                                    bool hermitian);
-#endif
 extern template imat outer_product(const ivec &v1, const ivec &v2,
                                      bool hermitian);
 extern template smat outer_product(const svec &v1, const svec &v2,
