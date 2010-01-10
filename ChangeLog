@@ -1,5 +1,8 @@
 2010-01-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/converters.cpp, itpp/base/converters.h: Remove
+	workaround for GCC 3.3 error for a few template instantiations
+
 	* configure.ac.in, itpp/base/converters.h,
 	itpp/base/help_functions.h, itpp/base/mat.h, itpp/base/matfunc.h,
 	itpp/base/smat.h, itpp/base/svec.h, itpp/base/vec.h,
