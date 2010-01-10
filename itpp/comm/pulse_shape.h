@@ -476,7 +476,7 @@ double Root_Raised_Cosine<T1>::get_roll_off(void) const
 // Instantiations
 // ----------------------------------------------------------------------
 
-#ifdef HAVE_EXTERN_TEMPLATE
+#ifndef _MSC_VER
 
 extern template class Pulse_Shape<double, double, double>;
 extern template class Pulse_Shape < std::complex<double>, double,
@@ -490,7 +490,7 @@ extern template class Root_Raised_Cosine<std::complex<double> >;
 extern template class Raised_Cosine<double>;
 extern template class Raised_Cosine<std::complex<double> >;
 
-#endif // HAVE_EXTERN_TEMPLATE
+#endif // _MSC_VER
 
 //! \endcond
 

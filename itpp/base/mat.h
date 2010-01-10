@@ -29,12 +29,6 @@
 #ifndef MAT_H
 #define MAT_H
 
-#ifndef _MSC_VER
-#  include <itpp/config.h>
-#else
-#  include <itpp/config_msvc.h>
-#endif
-
 #include <itpp/base/itassert.h>
 #include <itpp/base/math/misc.h>
 #include <itpp/base/factory.h>
@@ -1855,7 +1849,7 @@ std::istream &operator>>(std::istream &is, Mat<Num_T> &m)
 // Instantiations
 // ---------------------------------------------------------------------
 
-#ifdef HAVE_EXTERN_TEMPLATE
+#ifndef _MSC_VER
 
 // class instantiations
 
@@ -2055,7 +2049,7 @@ extern template std::istream &operator>>(std::istream &is, imat  &m);
 extern template std::istream &operator>>(std::istream &is, smat  &m);
 extern template std::istream &operator>>(std::istream &is, bmat  &m);
 
-#endif // HAVE_EXTERN_TEMPLATE
+#endif // _MSC_VER
 
 //! \endcond
 

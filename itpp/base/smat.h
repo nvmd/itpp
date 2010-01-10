@@ -29,12 +29,6 @@
 #ifndef SMAT_H
 #define SMAT_H
 
-#ifndef _MSC_VER
-#  include <itpp/config.h>
-#else
-#  include <itpp/config_msvc.h>
-#endif
-
 #include <itpp/base/svec.h>
 
 
@@ -1023,7 +1017,7 @@ inline Sparse_Mat<T> transpose(const Sparse_Mat<T> &s)
 // Instantiations
 // ---------------------------------------------------------------------
 
-#ifdef HAVE_EXTERN_TEMPLATE
+#ifndef _MSC_VER
 
 extern template class Sparse_Mat<int>;
 extern template class Sparse_Mat<double>;
@@ -1065,7 +1059,7 @@ extern template sparse_imat mult_trans(const sparse_imat &, const sparse_imat &)
 extern template sparse_mat mult_trans(const sparse_mat &, const sparse_mat &);
 extern template sparse_cmat mult_trans(const sparse_cmat &, const sparse_cmat &);
 
-#endif // HAVE_EXTERN_TEMPLATE
+#endif // _MSC_VER
 
 //! \endcond
 

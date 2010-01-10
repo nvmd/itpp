@@ -303,10 +303,6 @@ AC_CHECK_SIZEOF(long long)
 AC_CHECK_SIZEOF(unsigned long long)
 
 
-# Check if C++ compiler supports "extern template"
-AC_CXX_EXTERN_TEMPLATE
-
-
 # If we have a Fortran compiler
 if test "x$F77" != x; then
   # Check for additional libs required for linking C/C++ with Fortran

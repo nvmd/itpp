@@ -29,12 +29,6 @@
 #ifndef VEC_H
 #define VEC_H
 
-#ifndef _MSC_VER
-#  include <itpp/config.h>
-#else
-#  include <itpp/config_msvc.h>
-#endif
-
 #include <itpp/base/itassert.h>
 #include <itpp/base/math/misc.h>
 #include <itpp/base/copy_vector.h>
@@ -1788,7 +1782,7 @@ int Vec<int>::parse_token(const std::string &s) const;
 // Instantiations
 // ----------------------------------------------------------------------
 
-#ifdef HAVE_EXTERN_TEMPLATE
+#ifndef _MSC_VER
 
 extern template class Vec<double>;
 extern template class Vec<int>;
@@ -2047,7 +2041,7 @@ extern template std::istream &operator>>(std::istream& is, svec &vect);
 extern template std::istream &operator>>(std::istream& is, ivec &vect);
 extern template std::istream &operator>>(std::istream& is, bvec &vect);
 
-#endif // HAVE_EXTERN_TEMPLATE
+#endif // _MSC_VER
 
 //! \endcond
 
