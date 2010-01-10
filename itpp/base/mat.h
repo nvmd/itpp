@@ -1471,10 +1471,9 @@ Mat<Num_T> operator-(const Mat<Num_T> &m)
   return r;
 }
 
-#if defined(HAVE_BLAS)
+
 template<> mat& mat::operator*=(const mat &m);
 template<> cmat& cmat::operator*=(const cmat &m);
-#endif
 
 template<class Num_T>
 Mat<Num_T>& Mat<Num_T>::operator*=(const Mat<Num_T> &m)
@@ -1510,11 +1509,9 @@ Mat<Num_T>& Mat<Num_T>::operator*=(Num_T t)
   return *this;
 }
 
-#if defined(HAVE_BLAS)
+
 template<> mat operator*(const mat &m1, const mat &m2);
 template<> cmat operator*(const cmat &m1, const cmat &m2);
-#endif
-
 
 template<class Num_T>
 Mat<Num_T> operator*(const Mat<Num_T> &m1, const Mat<Num_T> &m2)
@@ -1544,10 +1541,9 @@ Mat<Num_T> operator*(const Mat<Num_T> &m1, const Mat<Num_T> &m2)
   return r;
 }
 
-#if defined(HAVE_BLAS)
+
 template<> vec operator*(const mat &m, const vec &v);
 template<> cvec operator*(const cmat &m, const cvec &v);
-#endif
 
 template<class Num_T>
 Vec<Num_T> operator*(const Mat<Num_T> &m, const Vec<Num_T> &v)
@@ -1919,18 +1915,10 @@ extern template bmat operator-(const bmat &m);
 
 // multiplication operators
 
-#if !defined(HAVE_BLAS)
-extern template mat operator*(const mat &m1, const mat &m2);
-extern template cmat operator*(const cmat &m1, const cmat &m2);
-#endif
 extern template imat operator*(const imat &m1, const imat &m2);
 extern template smat operator*(const smat &m1, const smat &m2);
 extern template bmat operator*(const bmat &m1, const bmat &m2);
 
-#if !defined(HAVE_BLAS)
-extern template vec operator*(const mat &m, const vec &v);
-extern template cvec operator*(const cmat &m, const cvec &v);
-#endif
 extern template ivec operator*(const imat &m, const ivec &v);
 extern template svec operator*(const smat &m, const svec &v);
 extern template bvec operator*(const bmat &m, const bvec &v);
