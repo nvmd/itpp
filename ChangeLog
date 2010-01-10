@@ -1,5 +1,8 @@
 2010-01-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* win32/itpp_acml.vcproj, win32/itpp_mkl.vcproj: Update MSVC++
+	project files to include recently added source files
+
 	* configure.ac.in, itpp/Makefile.am, itpp/base/binfile.h,
 	itpp/base/itcompat.h, itpp/base/itfile.h, itpp/base/ittypes.h,
 	itpp/base/math/elem_math.cpp, itpp/base/math/elem_math.h,
