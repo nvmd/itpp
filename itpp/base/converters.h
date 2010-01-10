@@ -320,13 +320,13 @@ inline double rad_to_deg(double x) { return (180.0 / itpp::pi * x); }
 inline double deg_to_rad(double x) { return (itpp::pi / 180.0 * x); }
 
 //! Round to nearest integer, return result in double
-inline double round(double x) { return ::rint(x); }
+double round(double x);
 //! Round to nearest integer
-inline vec round(const vec &x) { return apply_function<double>(::rint, x); }
+vec round(const vec &x);
 //! Round to nearest integer
-inline mat round(const mat &x) { return apply_function<double>(::rint, x); }
+mat round(const mat &x);
 //! Round to nearest integer
-inline int round_i(double x) { return static_cast<int>(::rint(x)); }
+int round_i(double x);
 //! Round to nearest integer and return ivec
 ivec round_i(const vec &x);
 //! Round to nearest integer and return imat

@@ -1,5 +1,8 @@
 2010-01-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/converters.cpp, itpp/base/converters.h: Make
+	converters.h public header file independent of itcompat.h
+
 	* itpp/base/Makefile.am, itpp/base/sources.mk: Do not install
 	blas.h header file
 
