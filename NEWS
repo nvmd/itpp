@@ -3,7 +3,7 @@ IT++ version 4.2.0                                         Released: 2010-01-??
 -------------------------------------------------------------------------------
 
 IT++ 4.2.0 is a new stable release based on the SVN development branch
-(trunk). Additionally to the new features and modificaitons listed below, it
+(trunk). Additionally to the new features and modifications listed below, it
 comprises all bug fixes included in the previous 4.0.x stable releases.
 
 
@@ -42,7 +42,7 @@ New features:
 Modifications:
 --------------
 
-* Licence updated from "GPLv2 or later" to "GPLv3 or later"
+* License updated from "GPLv2 or later" to "GPLv3 or later"
 
 * Mersenne Twister core random number generator replaced with an improved
   Double-precision SIMD-oriented Fast Mersenne Twister (dSFMT)
@@ -52,7 +52,7 @@ Modifications:
   strings. For instance:
     ivec v = "1:2:5, 6 8 9:-1:0";
   now works. Memory handling is also more efficient, i.e. for the cases when
-  "a:b:c" format is not used, memory is allocated only once. This resolves
+  "a:b:c" format is not used, memory is allocated only once. This solves
   feature request #2041480.
 
 * Auto-calculate the BCH generator polynomial from (n, t) parameters. With
