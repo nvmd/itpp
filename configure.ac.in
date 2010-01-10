@@ -335,9 +335,6 @@ AC_SUBST(EXPLICIT_LIBS)
 AC_SUBST(PRIVATE_LIBS)
 
 
-# Set conditional BUILD_ZDOTUSUB flag for ZDOTU Fortran wrapper
-AM_CONDITIONAL([BUILD_ZDOTUSUB], [test "x$acx_zdotu" = xzdotusub])
-
 # Set conditionals for runing test programs
 AM_CONDITIONAL([RUN_LAPACK_TESTS], [test "x$acx_lapack_ok" = xyes])
 AM_CONDITIONAL([RUN_FFT_TESTS], [test "x$acx_fft_ok" = xyes])
@@ -412,7 +409,6 @@ Switches:
   - shared ......... : ${enable_shared}
   - static ......... : ${enable_static}
   - explicit deps .. : ${enable_explicit_deps}
-  - zdotu .......... : ${acx_zdotu}
 
 Documentation tools:
   - doxygen ........ : ${doxygen_ok}

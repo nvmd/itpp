@@ -342,29 +342,6 @@ double dot(const vec &v1, const vec &v2)
 }
 #endif // HAVE_BLAS
 
-#if defined(HAVE_BLAS) && (defined(HAVE_ZDOTUSUB) || defined(HAVE_ZDOTU_VOID))
-template<>
-std::complex<double> dot(const cvec &v1, const cvec &v2)
-{
-  it_assert_debug(v1.datasize == v2.datasize, "cvec::dot(): Wrong sizes");
-  int incr = 1;
-  std::complex<double> output;
-  blas::zdotusub_(&output, &v1.datasize, v1.data, &incr, v2.data, &incr);
-  return output;
-}
-#else
-template<>
-std::complex<double> dot(const cvec &v1, const cvec &v2)
-{
-  it_assert_debug(v1.datasize == v2.datasize, "cvec::dot(): Wrong sizes");
-  std::complex<double> r(0.0, 0.0);
-  for (int i = 0; i < v1.datasize; ++i)
-    r += v1.data[i] * v2.data[i];
-  return r;
-}
-#endif // HAVE_BLAS && (HAVE_ZDOTUSUB || HAVE_ZDOTU_VOID)
-
-
 #if defined(HAVE_BLAS)
 template<>
 mat outer_product(const vec &v1, const vec &v2, bool)
@@ -548,18 +525,14 @@ template bvec operator-(const bvec &v);
 
 #if !defined(HAVE_BLAS)
 template double dot(const vec &v1, const vec &v2);
-#if !(defined(HAVE_ZDOTUSUB) || defined(HAVE_ZDOTU_VOID))
+#endif
 template std::complex<double> dot(const cvec &v1, const cvec &v2);
-#endif // !(HAVE_ZDOTUSUB || HAVE_ZDOTU_VOID)
-#endif // HAVE_BLAS
 template int dot(const ivec &v1, const ivec &v2);
 template short dot(const svec &v1, const svec &v2);
 template bin dot(const bvec &v1, const bvec &v2);
 
-#if !defined(HAVE_BLAS)
 template double operator*(const vec &v1, const vec &v2);
 template std::complex<double> operator*(const cvec &v1, const cvec &v2);
-#endif
 template int operator*(const ivec &v1, const ivec &v2);
 template short operator*(const svec &v1, const svec &v2);
 template bin operator*(const bvec &v1, const bvec &v2);

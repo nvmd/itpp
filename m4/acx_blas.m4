@@ -32,7 +32,6 @@ acx_blas_ok=no
 blas_mkl_ok=no
 blas_acml_ok=no
 blas_atlas_ok=no
-acx_zdotu=auto
 
 # Parse "--with-blas=<lib>" option
 AC_ARG_WITH(blas,
@@ -201,47 +200,9 @@ if test "$acx_blas_ok" = yes && test "$blas_mkl_ok" = no \
   LIBS="$save_LIBS"
 fi
 
-# Parse "--with-zdotu=..." option
-AC_ARG_WITH(zdotu,
-  [AS_HELP_STRING([--with-zdotu=@<:@zdotusub|void|none@:>@],
-                  [use zdotu_ with a specified calling method])])
-case $with_zdotu in
-  zdotusub) acx_zdotu=zdotusub ;;
-  void) acx_zdotu=void ;;
-  none | no) acx_zdotu=disabled ;;
-  *) ;;
-esac
-
-# Check if zdotusub_ Fortran wrapper should be used
-if test "$acx_blas_ok" = yes; then
-  case $acx_zdotu in
-    zdotusub)
-      if test "x$F77" = x; then
-        AC_MSG_ERROR([a Fortran compiler is required to use zdotusub_ wrapper])
-      fi
-      AC_DEFINE(HAVE_ZDOTUSUB, 1, [Define to use zdotusub_ Fortran wrapper.]) ;;
-    void)
-      AC_DEFINE(HAVE_ZDOTU_VOID, 1, [Define to use "void zdotu_()".]) ;;
-    disabled) ;;
-    auto)
-      if test "x$F77" != x; then
-        AC_DEFINE(HAVE_ZDOTUSUB, 1, [Define to use zdotusub_ Fortran wrapper.])
-        acx_zdotu=zdotusub
-      else
-        AC_MSG_WARN([do not know how to call the zdotu_ BLAS function.
-Not using this function in the Vec::dot() method. You might want to use
-"--with-zdotu=@<:@zdotusub|void|none@:>@" option to explicitly set the
-proper calling method of this BLAS function. Please report this problem
-on the IT++ Help forum.])
-        acx_zdotu=no
-      fi
-      ;;
-  esac
-fi
-
 AC_SUBST(BLAS_LIBS)
 
-# Finally, define HAVE_BLAS
+# Finally, define HAVE_BLAS and others
 if test "$acx_blas_ok" = yes; then
   AC_DEFINE(HAVE_BLAS, 1, [Define if you have a BLAS library.])
   if test "$blas_mkl_ok" = yes; then

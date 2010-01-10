@@ -89,16 +89,6 @@ extern "C"
                const double *x, const int *incx,
                const double *y, const int *incy);
 
-#if defined(HAVE_ZDOTUSUB) || defined(HAVE_ZDOTU_VOID)
-#if defined(HAVE_ZDOTU_VOID)
-#  define zdotusub_ zdotu_
-#endif // HAVE_ZDOTU_VOID
-  void zdotusub_(std::complex<double> *dot,
-                 const int *n,
-                 const std::complex<double> *x, const int *incx,
-                 const std::complex<double> *y, const int *incy);
-#endif // HAVE_ZDOTUSUB || HAVE_ZDOTU_VOID
-
   // ----------------------------------------------------------------------
   // BLAS 2 functions
   // ----------------------------------------------------------------------

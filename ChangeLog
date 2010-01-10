@@ -1,5 +1,12 @@
 2010-01-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* configure.ac.in, itpp/base/Makefile.am, itpp/base/blas.h,
+	itpp/base/sources.mk, itpp/base/vec.cpp, itpp/base/vec.h,
+	itpp/base/zdotusub.f, m4/acx_blas.m4: Do not use zdotusub.f
+	Fortran function for complex version of dot(). The call of Fortran
+	zdotusub_() caused portability problems, which were difficult to
+	debug and fix on all platforms.
+
 	* win32/itpp_acml.vcproj, win32/itpp_mkl.vcproj: Update MSVC++
 	project files to include recently added source files
 
