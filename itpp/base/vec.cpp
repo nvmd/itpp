@@ -26,6 +26,16 @@
  * -------------------------------------------------------------------------
  */
 
+#ifndef _MSC_VER
+#  include <itpp/config.h>
+#else
+#  include <itpp/config_msvc.h>
+#endif
+
+#if defined (HAVE_BLAS)
+#  include <itpp/base/blas.h>
+#endif
+
 #include <itpp/base/vec.h>
 #include <itpp/base/converters.h>
 #include <cstdio>
