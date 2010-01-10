@@ -27,6 +27,7 @@
  */
 
 #include <itpp/base/math/elem_math.h>
+#include <itpp/base/itcompat.h>
 
 
 namespace itpp
@@ -73,6 +74,11 @@ mat abs(const cmat &data)
 
   return temp;
 }
+
+// Deprecated gamma function. Will be changed to tgamma().
+double gamma(double x) { return tgamma(x); }
+vec gamma(const vec &x) { return apply_function<double>(tgamma, x); }
+mat gamma(const mat &x) { return apply_function<double>(tgamma, x); }
 
 // Calculates factorial coefficient for index <= 170.
 double fact(int index)

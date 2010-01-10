@@ -29,7 +29,6 @@
 #ifndef TRIG_HYP_H
 #define TRIG_HYP_H
 
-#include <itpp/base/itcompat.h>
 #include <itpp/base/help_functions.h>
 
 
@@ -99,17 +98,17 @@ inline vec tanh(const vec &x) { return apply_function<double>(std::tanh, x); }
 //! Tan hyperbolic function
 inline mat tanh(const mat &x) { return apply_function<double>(std::tanh, x); }
 //! Inverse sine hyperbolic function
-inline vec asinh(const vec &x) { return apply_function<double>(::asinh, x); }
+vec asinh(const vec &x);
 //! Inverse sine hyperbolic function
-inline mat asinh(const mat &x) { return apply_function<double>(::asinh, x); }
+mat asinh(const mat &x);
 //! Inverse cosine hyperbolic function
-inline vec acosh(const vec &x) { return apply_function<double>(::acosh, x); }
+vec acosh(const vec &x);
 //! Inverse cosine hyperbolic function
-inline mat acosh(const mat &x) { return apply_function<double>(::acosh, x); }
+mat acosh(const mat &x);
 //! Inverse tan hyperbolic function
-inline vec atanh(const vec &x) { return apply_function<double>(::atanh, x); }
+vec atanh(const vec &x);
 //! Inverse tan hyperbolic function
-inline mat atanh(const mat &x) { return apply_function<double>(::atanh, x); }
+mat atanh(const mat &x);
 
 //!@}
 

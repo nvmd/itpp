@@ -29,7 +29,6 @@
 #ifndef LOG_EXP_H
 #define LOG_EXP_H
 
-#include <itpp/base/itcompat.h>
 #include <itpp/base/help_functions.h>
 
 
@@ -134,19 +133,7 @@ inline double trunc_exp(double x)
 
 
 //! Safe substitute for <tt>log(exp(log_a) + exp(log_b))</tt>
-inline double log_add(double log_a, double log_b)
-{
-  if (log_a < log_b) {
-    double tmp = log_a;
-    log_a = log_b;
-    log_b = tmp;
-  }
-  double negdelta = log_b - log_a;
-  if ((negdelta < log_double_min) || std::isnan(negdelta))
-    return log_a;
-  else
-    return (log_a + log1p(std::exp(negdelta)));
-}
+double log_add(double log_a, double log_b);
 
 
 // ----------------------------------------------------------------------
@@ -238,16 +225,14 @@ inline cmat log(const cmat &x)
   return apply_function<std::complex<double> >(std::log, x);
 }
 
+// Cygwin defines log2 macro conflicting with IT++ functions
+#if defined(log2)
+#  undef log2
+#endif
 //! log-2 of the elements
-inline vec log2(const vec &x)
-{
-  return apply_function<double>(::log2, x);
-}
+vec log2(const vec &x);
 //! log-2 of the elements
-inline mat log2(const mat &x)
-{
-  return apply_function<double>(::log2, x);
-}
+mat log2(const mat &x);
 
 //! log-10 of the elements
 inline vec log10(const vec &x)

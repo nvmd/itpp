@@ -32,6 +32,7 @@
 #include <itpp/base/algebra/inv.h>
 #include <itpp/base/math/elem_math.h>
 #include <itpp/base/converters.h>
+#include <itpp/base/itcompat.h>
 
 namespace itpp
 {

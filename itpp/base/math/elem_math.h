@@ -29,7 +29,6 @@
 #ifndef ELEM_MATH_H
 #define ELEM_MATH_H
 
-#include <itpp/base/itcompat.h>
 #include <itpp/base/help_functions.h>
 #include <itpp/base/converters.h>
 #include <cstdlib> // required by std::abs()
@@ -129,11 +128,11 @@ inline mat sqrt(const mat &x) { return apply_function<double>(std::sqrt, x); }
 // -------------------- gamma function --------------------
 
 //! Deprecated gamma function - please use tgamma() instead
-inline double gamma(double x) { return tgamma(x); }
+double gamma(double x);
 //! Deprecated gamma function for vectors. Will be changed to tgamma().
-inline vec gamma(const vec &x) { return apply_function<double>(tgamma, x); }
+vec gamma(const vec &x);
 //! Deprecated gamma function for matrices. Will be changed to tgamma().
-inline mat gamma(const mat &x) { return apply_function<double>(tgamma, x); }
+mat gamma(const mat &x);
 
 
 // -------------------- rem function --------------------

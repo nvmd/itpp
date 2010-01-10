@@ -27,6 +27,7 @@
  */
 
 #include <itpp/base/converters.h>
+#include <itpp/base/itcompat.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/base/math/log_exp.h>
 
