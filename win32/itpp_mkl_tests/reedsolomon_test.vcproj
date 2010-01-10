@@ -58,7 +58,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="itpp.lib mkl_c_dll.lib"
+				AdditionalDependencies="itpp.lib mkl_intel_c_dll.lib mkl_core_dll.lib mkl_intel_thread_dll.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\lib;$(LIB)"
 				IgnoreDefaultLibraryNames="uuid.lib"
