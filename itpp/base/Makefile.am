@@ -8,7 +8,8 @@ if ENABLE_DEBUG
 noinst_LTLIBRARIES += libbase_debug.la
 endif
 
-libbase_la_SOURCES = $(h_base_sources) $(cpp_base_sources)
+libbase_la_SOURCES = $(noinst_h_base_sources) $(h_base_sources) \
+	$(cpp_base_sources)
 if BUILD_ZDOTUSUB
 libbase_la_SOURCES += $(f_base_sources)
 endif
@@ -18,7 +19,8 @@ libbase_la_LIBADD = \
 	$(top_builddir)/@PACKAGE@/base/bessel/libbessel.la \
 	$(top_builddir)/@PACKAGE@/base/math/libmath.la
 
-libbase_debug_la_SOURCES = $(h_base_sources) $(cpp_base_sources)
+libbase_debug_la_SOURCES = $(noinst_h_base_sources) $(h_base_sources) \
+	$(cpp_base_sources)
 if BUILD_ZDOTUSUB
 libbase_debug_la_SOURCES += $(f_base_sources)
 endif

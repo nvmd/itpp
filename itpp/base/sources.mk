@@ -1,9 +1,11 @@
+noinst_h_base_sources = \
+	$(top_srcdir)/itpp/base/blas.h
+
 h_base_sources = \
 	$(top_srcdir)/itpp/base/array.h \
 	$(top_srcdir)/itpp/base/bessel.h \
 	$(top_srcdir)/itpp/base/binary.h \
 	$(top_srcdir)/itpp/base/binfile.h \
-	$(top_srcdir)/itpp/base/blas.h \
 	$(top_srcdir)/itpp/base/circular_buffer.h \
 	$(top_srcdir)/itpp/base/converters.h \
 	$(top_srcdir)/itpp/base/copy_vector.h \

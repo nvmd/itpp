@@ -1,5 +1,8 @@
 2010-01-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/Makefile.am, itpp/base/sources.mk: Do not install
+	blas.h header file
+
 	* itpp/base/mat.cpp, itpp/base/mat.h: Move configure dependent
 	implementations to mat.cpp file
 
