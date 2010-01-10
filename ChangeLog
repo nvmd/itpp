@@ -1,5 +1,8 @@
 2010-01-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
+	* itpp/base/mat.cpp, itpp/base/mat.h: Move configure dependent
+	implementations to mat.cpp file
+
 	* itpp/base/copy_vector.cpp, itpp/base/copy_vector.h,
 	itpp/base/sources.mk, itpp/base/vec.cpp: Move configure dependent
 	implementations to copy_vector.cpp file
