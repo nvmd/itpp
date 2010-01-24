@@ -28,7 +28,7 @@
 
 #include <itpp/comm/ldpc.h>
 #include <iomanip>
-
+#include <sstream>
 
 namespace itpp
 {
@@ -1400,6 +1400,12 @@ int LDPC_Code::bp_decode(const QLLRvec &LLRin, QLLRvec &LLRout)
 
   LLRout.set_size(LLRin.size());
 
+  // allocate temporary variables used for the check node update
+  ivec jj(max_cnd);
+  QLLRvec m(max_cnd);
+  QLLRvec ml(max_cnd);
+  QLLRvec mr(max_cnd);
+  
   // initial step
   for (int i = 0; i < nvar; i++) {
     int index = i;
@@ -1416,6 +1422,8 @@ int LDPC_Code::bp_decode(const QLLRvec &LLRin, QLLRvec &LLRout)
     if (nvar >= 100000) { it_info_no_endl_debug("."); }
     // --------- Step 1: check to variable nodes ----------
     for (int j = 0; j < ncheck; j++) {
+      // The check node update calculations are hardcoded for degrees
+      // up to 6.  For larger degrees, a general algorithm is used.
       switch (sumX2(j)) {
       case 0:
         it_error("LDPC_Code::bp_decode(): sumX2(j)=0");
@@ -1504,266 +1512,39 @@ int LDPC_Code::bp_decode(const QLLRvec &LLRin, QLLRvec &LLRout)
         mcv[j5] = llrcalc.Boxplus(m03, m4);
         break;
       }
-      case 7: {
-        int j0 = j;
-        QLLR m0 = mvc[jind[j0]];
-        int j1 = j0 + ncheck;
-        QLLR m1 = mvc[jind[j1]];
-        int j2 = j1 + ncheck;
-        QLLR m2 = mvc[jind[j2]];
-        int j3 = j2 + ncheck;
-        QLLR m3 = mvc[jind[j3]];
-        int j4 = j3 + ncheck;
-        QLLR m4 = mvc[jind[j4]];
-        int j5 = j4 + ncheck;
-        QLLR m5 = mvc[jind[j5]];
-        int j6 = j5 + ncheck;
-        QLLR m6 = mvc[jind[j6]];
-        QLLR m01 = llrcalc.Boxplus(m0, m1);
-        QLLR m23 = llrcalc.Boxplus(m2, m3);
-        QLLR m45 = llrcalc.Boxplus(m4, m5);
-        QLLR m46 = llrcalc.Boxplus(m45, m6);
-        QLLR m03 = llrcalc.Boxplus(m01, m23);
-        QLLR m25 = llrcalc.Boxplus(m23, m45);
-        QLLR m26 = llrcalc.Boxplus(m25, m6);
-        QLLR m04 = llrcalc.Boxplus(m03, m4);
-        mcv[j0] = llrcalc.Boxplus(m26, m1);
-        mcv[j1] = llrcalc.Boxplus(m26, m0);
-        mcv[j2] = llrcalc.Boxplus(m01, llrcalc.Boxplus(m3, m46));
-        mcv[j3] = llrcalc.Boxplus(m2, llrcalc.Boxplus(m01, m46));
-        mcv[j4] = llrcalc.Boxplus(m6, llrcalc.Boxplus(m03, m5));
-        mcv[j5] = llrcalc.Boxplus(m6, m04);
-        mcv[j6] = llrcalc.Boxplus(m5, m04);
-        break;
+      default: {
+        int nodes = sumX2(j);
+        if( nodes > max_cnd ) {
+          std::ostringstream m_sout;
+          m_sout << "check node degrees >" << max_cnd << " not supported in this version";
+          it_error( m_sout.str() );
+        }
+
+        nodes--;
+        jj[0] = j;
+        m[0] = mvc[jind[jj[0]]];
+        for(int i = 1; i <= nodes; i++ ) {
+          jj[i] = jj[i-1] + ncheck;
+          m[i] = mvc[jind[jj[i]]];
+        }
+
+	// compute partial sums from the left and from the right
+        ml[0] = m[0];
+        mr[0] = m[nodes];
+        for(int i = 1; i < nodes; i++ ) {
+          ml[i] = llrcalc.Boxplus( ml[i-1], m[i] );
+          mr[i] = llrcalc.Boxplus( mr[i-1], m[nodes-i] );
+        }
+
+	// merge partial sums
+        mcv[jj[0]] = mr[nodes-1];
+        mcv[jj[nodes]] = ml[nodes-1];
+        for(int i = 1; i < nodes; i++ )
+          mcv[jj[i]] = llrcalc.Boxplus( ml[i-1], mr[nodes-1-i] );
       }
-      case 8: {
-        int j0 = j;
-        QLLR m0 = mvc[jind[j0]];
-        int j1 = j0 + ncheck;
-        QLLR m1 = mvc[jind[j1]];
-        int j2 = j1 + ncheck;
-        QLLR m2 = mvc[jind[j2]];
-        int j3 = j2 + ncheck;
-        QLLR m3 = mvc[jind[j3]];
-        int j4 = j3 + ncheck;
-        QLLR m4 = mvc[jind[j4]];
-        int j5 = j4 + ncheck;
-        QLLR m5 = mvc[jind[j5]];
-        int j6 = j5 + ncheck;
-        QLLR m6 = mvc[jind[j6]];
-        int j7 = j6 + ncheck;
-        QLLR m7 = mvc[jind[j7]];
-        QLLR m01 = llrcalc.Boxplus(m0, m1);
-        QLLR m23 = llrcalc.Boxplus(m2, m3);
-        QLLR m45 = llrcalc.Boxplus(m4, m5);
-        QLLR m67 = llrcalc.Boxplus(m6, m7);
-        QLLR m47 = llrcalc.Boxplus(m45, m67);
-        QLLR m03 = llrcalc.Boxplus(m01, m23);
-        QLLR m25 = llrcalc.Boxplus(m23, m45);
-        mcv[j0] = llrcalc.Boxplus(m67, llrcalc.Boxplus(m1, m25));
-        mcv[j1] = llrcalc.Boxplus(m67, llrcalc.Boxplus(m0, m25));
-        mcv[j2] = llrcalc.Boxplus(m3, llrcalc.Boxplus(m01, m47));
-        mcv[j3] = llrcalc.Boxplus(m2, llrcalc.Boxplus(m01, m47));
-        mcv[j4] = llrcalc.Boxplus(m67, llrcalc.Boxplus(m03, m5));
-        mcv[j5] = llrcalc.Boxplus(m67, llrcalc.Boxplus(m03, m4));
-        mcv[j6] = llrcalc.Boxplus(m45, llrcalc.Boxplus(m03, m7));
-        mcv[j7] = llrcalc.Boxplus(m03, llrcalc.Boxplus(m45, m6));
-        break;
-      }
-      case 9: {
-        int j0 = j;
-        QLLR m0 = mvc[jind[j0]];
-        int j1 = j0 + ncheck;
-        QLLR m1 = mvc[jind[j1]];
-        int j2 = j1 + ncheck;
-        QLLR m2 = mvc[jind[j2]];
-        int j3 = j2 + ncheck;
-        QLLR m3 = mvc[jind[j3]];
-        int j4 = j3 + ncheck;
-        QLLR m4 = mvc[jind[j4]];
-        int j5 = j4 + ncheck;
-        QLLR m5 = mvc[jind[j5]];
-        int j6 = j5 + ncheck;
-        QLLR m6 = mvc[jind[j6]];
-        int j7 = j6 + ncheck;
-        QLLR m7 = mvc[jind[j7]];
-        int j8 = j7 + ncheck;
-        QLLR m8 = mvc[jind[j8]];
-        QLLR m01 = llrcalc.Boxplus(m0, m1);
-        QLLR m23 = llrcalc.Boxplus(m2, m3);
-        QLLR m45 = llrcalc.Boxplus(m4, m5);
-        QLLR m67 = llrcalc.Boxplus(m6, m7);
-        QLLR m68 = llrcalc.Boxplus(m67, m8);
-        QLLR m03 = llrcalc.Boxplus(m01, m23);
-        QLLR m25 = llrcalc.Boxplus(m23, m45);
-        QLLR m05 = llrcalc.Boxplus(m03, m45);
-        mcv[j0] = llrcalc.Boxplus(m68, llrcalc.Boxplus(m1, m25));
-        mcv[j1] = llrcalc.Boxplus(m68, llrcalc.Boxplus(m0, m25));
-        mcv[j2] = llrcalc.Boxplus(llrcalc.Boxplus(m01, m68),
-                                  llrcalc.Boxplus(m3, m45));
-        mcv[j3] = llrcalc.Boxplus(llrcalc.Boxplus(m01, m68),
-                                  llrcalc.Boxplus(m2, m45));
-        mcv[j4] = llrcalc.Boxplus(m68, llrcalc.Boxplus(m03, m5));
-        mcv[j5] = llrcalc.Boxplus(m68, llrcalc.Boxplus(m03, m4));
-        mcv[j6] = llrcalc.Boxplus(llrcalc.Boxplus(m7, m8), m05);
-        mcv[j7] = llrcalc.Boxplus(llrcalc.Boxplus(m05, m6), m8);
-        mcv[j8] = llrcalc.Boxplus(m05, m67);
-        break;
-      }
-      case 10: {
-        int j0 = j;
-        QLLR m0 = mvc[jind[j0]];
-        int j1 = j0 + ncheck;
-        QLLR m1 = mvc[jind[j1]];
-        int j2 = j1 + ncheck;
-        QLLR m2 = mvc[jind[j2]];
-        int j3 = j2 + ncheck;
-        QLLR m3 = mvc[jind[j3]];
-        int j4 = j3 + ncheck;
-        QLLR m4 = mvc[jind[j4]];
-        int j5 = j4 + ncheck;
-        QLLR m5 = mvc[jind[j5]];
-        int j6 = j5 + ncheck;
-        QLLR m6 = mvc[jind[j6]];
-        int j7 = j6 + ncheck;
-        QLLR m7 = mvc[jind[j7]];
-        int j8 = j7 + ncheck;
-        QLLR m8 = mvc[jind[j8]];
-        int j9 = j8 + ncheck;
-        QLLR m9 = mvc[jind[j9]];
-        QLLR m01 = llrcalc.Boxplus(m0, m1);
-        QLLR m23 = llrcalc.Boxplus(m2, m3);
-        QLLR m03 = llrcalc.Boxplus(m01, m23);
-        QLLR m45 = llrcalc.Boxplus(m4, m5);
-        QLLR m67 = llrcalc.Boxplus(m6, m7);
-        QLLR m89 = llrcalc.Boxplus(m8, m9);
-        QLLR m69 = llrcalc.Boxplus(m67, m89);
-        QLLR m25 = llrcalc.Boxplus(m23, m45);
-        QLLR m05 = llrcalc.Boxplus(m03, m45);
-        QLLR m07 = llrcalc.Boxplus(m05, m67);
-        mcv[j0] = llrcalc.Boxplus(m69, llrcalc.Boxplus(m1, m25));
-        mcv[j1] = llrcalc.Boxplus(m69, llrcalc.Boxplus(m0, m25));
-        mcv[j2] = llrcalc.Boxplus(llrcalc.Boxplus(m01, m69),
-                                  llrcalc.Boxplus(m3, m45));
-        mcv[j3] = llrcalc.Boxplus(llrcalc.Boxplus(m01, m69),
-                                  llrcalc.Boxplus(m2, m45));
-        mcv[j4] = llrcalc.Boxplus(m69, llrcalc.Boxplus(m03, m5));
-        mcv[j5] = llrcalc.Boxplus(m69, llrcalc.Boxplus(m03, m4));
-        mcv[j6] = llrcalc.Boxplus(llrcalc.Boxplus(m7, m89), m05);
-        mcv[j7] = llrcalc.Boxplus(llrcalc.Boxplus(m05, m6), m89);
-        mcv[j8] = llrcalc.Boxplus(m07, m9);
-        mcv[j9] = llrcalc.Boxplus(m07, m8);
-        break;
-      }
-      case 11: {
-        int j0 = j;
-        QLLR m0 = mvc[jind[j0]];
-        int j1 = j0 + ncheck;
-        QLLR m1 = mvc[jind[j1]];
-        int j2 = j1 + ncheck;
-        QLLR m2 = mvc[jind[j2]];
-        int j3 = j2 + ncheck;
-        QLLR m3 = mvc[jind[j3]];
-        int j4 = j3 + ncheck;
-        QLLR m4 = mvc[jind[j4]];
-        int j5 = j4 + ncheck;
-        QLLR m5 = mvc[jind[j5]];
-        int j6 = j5 + ncheck;
-        QLLR m6 = mvc[jind[j6]];
-        int j7 = j6 + ncheck;
-        QLLR m7 = mvc[jind[j7]];
-        int j8 = j7 + ncheck;
-        QLLR m8 = mvc[jind[j8]];
-        int j9 = j8 + ncheck;
-        QLLR m9 = mvc[jind[j9]];
-        int j10 = j9 + ncheck;
-        QLLR m10 = mvc[jind[j10]];
-        QLLR m01 = llrcalc.Boxplus(m0, m1);
-        QLLR m23 = llrcalc.Boxplus(m2, m3);
-        QLLR m03 = llrcalc.Boxplus(m01, m23);
-        QLLR m45 = llrcalc.Boxplus(m4, m5);
-        QLLR m67 = llrcalc.Boxplus(m6, m7);
-        QLLR m89 = llrcalc.Boxplus(m8, m9);
-        QLLR m69 = llrcalc.Boxplus(m67, m89);
-        QLLR m6_10 = llrcalc.Boxplus(m69, m10);
-        QLLR m25 = llrcalc.Boxplus(m23, m45);
-        QLLR m05 = llrcalc.Boxplus(m03, m45);
-        QLLR m07 = llrcalc.Boxplus(m05, m67);
-        QLLR m8_10 = llrcalc.Boxplus(m89, m10);
-        mcv[j0] = llrcalc.Boxplus(m6_10, llrcalc.Boxplus(m1, m25));
-        mcv[j1] = llrcalc.Boxplus(m6_10, llrcalc.Boxplus(m0, m25));
-        mcv[j2] = llrcalc.Boxplus(llrcalc.Boxplus(m01, m6_10),
-                                  llrcalc.Boxplus(m3, m45));
-        mcv[j3] = llrcalc.Boxplus(llrcalc.Boxplus(m01, m6_10),
-                                  llrcalc.Boxplus(m2, m45));
-        mcv[j4] = llrcalc.Boxplus(m6_10, llrcalc.Boxplus(m03, m5));
-        mcv[j5] = llrcalc.Boxplus(m6_10, llrcalc.Boxplus(m03, m4));
-        mcv[j6] = llrcalc.Boxplus(llrcalc.Boxplus(m7, m8_10), m05);
-        mcv[j7] = llrcalc.Boxplus(llrcalc.Boxplus(m05, m6), m8_10);
-        mcv[j8] = llrcalc.Boxplus(m10, llrcalc.Boxplus(m07, m9));
-        mcv[j9] = llrcalc.Boxplus(m10, llrcalc.Boxplus(m07, m8));
-        mcv[j10] = llrcalc.Boxplus(m07, m89);
-        break;
-      }
-      case 12: {
-        int j0 = j;
-        QLLR m0 = mvc[jind[j0]];
-        int j1 = j0 + ncheck;
-        QLLR m1 = mvc[jind[j1]];
-        int j2 = j1 + ncheck;
-        QLLR m2 = mvc[jind[j2]];
-        int j3 = j2 + ncheck;
-        QLLR m3 = mvc[jind[j3]];
-        int j4 = j3 + ncheck;
-        QLLR m4 = mvc[jind[j4]];
-        int j5 = j4 + ncheck;
-        QLLR m5 = mvc[jind[j5]];
-        int j6 = j5 + ncheck;
-        QLLR m6 = mvc[jind[j6]];
-        int j7 = j6 + ncheck;
-        QLLR m7 = mvc[jind[j7]];
-        int j8 = j7 + ncheck;
-        QLLR m8 = mvc[jind[j8]];
-        int j9 = j8 + ncheck;
-        QLLR m9 = mvc[jind[j9]];
-        int j10 = j9 + ncheck;
-        QLLR m10 = mvc[jind[j10]];
-        int j11 = j10 + ncheck;
-        QLLR m11 = mvc[jind[j11]];
-        QLLR m01 = llrcalc.Boxplus(m0, m1);
-        QLLR m23 = llrcalc.Boxplus(m2, m3);
-        QLLR m03 = llrcalc.Boxplus(m01, m23);
-        QLLR m45 = llrcalc.Boxplus(m4, m5);
-        QLLR m67 = llrcalc.Boxplus(m6, m7);
-        QLLR m89 = llrcalc.Boxplus(m8, m9);
-        QLLR m69 = llrcalc.Boxplus(m67, m89);
-        QLLR m10_11 = llrcalc.Boxplus(m10, m11);
-        QLLR m6_11 = llrcalc.Boxplus(m69, m10_11);
-        QLLR m25 = llrcalc.Boxplus(m23, m45);
-        QLLR m05 = llrcalc.Boxplus(m03, m45);
-        QLLR m07 = llrcalc.Boxplus(m05, m67);
-        QLLR m8_10 = llrcalc.Boxplus(m89, m10);
-        mcv[j0] = llrcalc.Boxplus(m6_11, llrcalc.Boxplus(m1, m25));
-        mcv[j1] = llrcalc.Boxplus(m6_11, llrcalc.Boxplus(m0, m25));
-        mcv[j2] = llrcalc.Boxplus(llrcalc.Boxplus(m01, m6_11),
-                                  llrcalc.Boxplus(m3, m45));
-        mcv[j3] = llrcalc.Boxplus(llrcalc.Boxplus(m01, m6_11),
-                                  llrcalc.Boxplus(m2, m45));
-        mcv[j4] = llrcalc.Boxplus(m6_11, llrcalc.Boxplus(m03, m5));
-        mcv[j5] = llrcalc.Boxplus(m6_11, llrcalc.Boxplus(m03, m4));
-        mcv[j6] = llrcalc.Boxplus(m11, llrcalc.Boxplus(llrcalc.Boxplus(m7, m8_10), m05));
-        mcv[j7] = llrcalc.Boxplus(m11, llrcalc.Boxplus(llrcalc.Boxplus(m05, m6), m8_10));
-        mcv[j8] = llrcalc.Boxplus(m10_11, llrcalc.Boxplus(m07, m9));
-        mcv[j9] = llrcalc.Boxplus(m10_11, llrcalc.Boxplus(m07, m8));
-        mcv[j10] = llrcalc.Boxplus(llrcalc.Boxplus(m07, m89), m11);
-        mcv[j11] = llrcalc.Boxplus(llrcalc.Boxplus(m07, m89), m10);
-        break;
-      }
-      default:
-        it_error("check node degrees >12 not supported in this version");
       }  // switch statement
     }
-
+    
     // step 2: variable to check nodes
     for (int i = 0; i < nvar; i++) {
       switch (sumX1(i)) {

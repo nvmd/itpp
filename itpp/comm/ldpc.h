@@ -1,7 +1,7 @@
 /*!
  * \file
  * \brief Implementation of Low-Density Parity Check (LDPC) codes
- * \author Erik G. Larsson, Mattias Andersson and Adam Piatyszek
+ * \author Erik G. Larsson, Mattias Andersson, Adam Piatyszek and Gorka Prieto 
  *
  * -------------------------------------------------------------------------
  *
@@ -720,7 +720,7 @@ protected:
   \note For issues relating to the accuracy of LLR computations,
   please see the documentation of \c LLR_calc_unit
   
-  \author Erik G. Larsson and Adam Piatyszek
+  \author Erik G. Larsson, Adam Piatyszek and Gorka Prieto (decoder improvements)
 */
 class LDPC_Code : public Channel_Code
 {
@@ -945,6 +945,9 @@ private:
 
   // temporary storage for decoder (memory allocated when codec defined)
   QLLRvec mvc, mcv;
+
+  //! Maximum check node degree that the class can handle
+  static const int max_cnd = 200;
 };
 
 

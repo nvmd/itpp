@@ -1,3 +1,12 @@
+2010-01-24  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* AUTHORS, itpp/comm/ldpc.h, itpp/comm/ldpc.cpp: Improvements to
+	the LDPC decoder. 1) Generalization to handle codes with arbitrary
+	check node degrees. 2) Efficiency improvements for large node
+	degrees.
+
+	Thanks to Gorka Prieto for this patch.
+
 2010-01-10  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* itpp/base/algebra/lapack.h, itpp/base/blas.h: Support latest
