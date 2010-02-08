@@ -1,3 +1,7 @@
+2010-02-08  Robert Orzechowski  <tytusz@users.sourceforge.net>
+
+	* AUTHORS, itpp/comm/galois.h: Fixes bug report #2936395
+
 2010-01-24  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* AUTHORS, itpp/comm/ldpc.h, itpp/comm/ldpc.cpp: Improvements to

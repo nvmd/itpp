@@ -180,9 +180,9 @@ public:
   //! Return degree of GF(q)[x]
   int get_degree() const;
   /*!
-    \brief Resize the polynomial to the given indegree. If the new polynomial is bigger, then the new coefficients are set to zero.
+    \brief Resize the polynomial to the given \c indegree. If \c copy is set to true, the old polynomial's coefficients are kept in the new polynomial, otherwise they are set to zero.
   */
-  void set_degree(int indegree);
+  void set_degree(int indegree, bool copy = false);
   //! Return true degree of GF(q)[x]
   int get_true_degree() const;
   //! Set the GF(q)[x] polynomial
@@ -443,10 +443,10 @@ inline int GFX::get_degree() const
   return degree;
 }
 
-inline void GFX::set_degree(int indegree)
+inline void GFX::set_degree(int indegree, bool copy)
 {
   it_assert_debug(indegree >= -1, "GFX::set_degree, out of range");
-  coeffs.set_size(indegree + 1);
+  coeffs.set_size(indegree + 1, copy);
   degree = indegree;
 }
 
