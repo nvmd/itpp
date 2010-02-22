@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="9.00"
 	Name="transforms_test"
 	ProjectGUID="{C0377CCE-AEE3-4229-8FF9-D65F9ACD4936}"
 	RootNamespace="transforms_test"
 	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -66,6 +67,8 @@
 				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -87,10 +90,8 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="cd ..\bin&#x0D;&#x0A;$(InputName).exe &gt; $(InputName).tmp&#x0D;&#x0A;fc /L $(InputName).tmp ..\..\tests\$(InputName).ref"
 			/>
 		</Configuration>
 	</Configurations>

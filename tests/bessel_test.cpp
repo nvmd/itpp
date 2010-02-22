@@ -1,7 +1,6 @@
 #include <itpp/itbase.h>
 
-using std::cout;
-using std::endl;
+using namespace std;
 using namespace itpp;
 
 int main(void)
@@ -15,30 +14,30 @@ int main(void)
 
   cout << "x = " << x << endl;
 
-  cout << "besselj(0, x) = " << besselj(0, x) << endl;
-  cout << "besselj(1, x) = " << besselj(1, x) << endl;
-  cout << "besselj(5, x) = " << besselj(5, x) << endl;
-  cout << "besselj(0.3, x) = " << besselj(0.3, x) << endl;
-  cout << "besselj(1.7, x) = " << besselj(1.7, x) << endl;
-  cout << "besselj(5.3, x) = " << besselj(5.3, x) << endl;
+  cout << "besselj(0, x) = " << fixed << besselj(0, x) << endl;
+  cout << "besselj(1, x) = " << fixed << besselj(1, x) << endl;
+  cout << "besselj(5, x) = " << fixed << besselj(5, x) << endl;
+  cout << "besselj(0.3, x) = " << fixed << besselj(0.3, x) << endl;
+  cout << "besselj(1.7, x) = " << fixed << besselj(1.7, x) << endl;
+  cout << "besselj(5.3, x) = " << fixed << besselj(5.3, x) << endl;
 
-  cout << "bessely(0, x) = " << bessely(0, x) << endl;
-  cout << "bessely(1, x) = " << bessely(1, x) << endl;
-  cout << "bessely(5, x) = " << bessely(5, x) << endl;
-  cout << "bessely(0.3, x) = " << bessely(0.3, x) << endl;
-  cout << "bessely(1.7, x) = " << bessely(1.7, x) << endl;
-  cout << "bessely(5.3, x) = " << bessely(5.3, x) << endl;
+  cout << "bessely(0, x) = " << fixed << bessely(0, x) << endl;
+  cout << "bessely(1, x) = " << fixed << bessely(1, x) << endl;
+  cout << "bessely(5, x) = " << fixed << bessely(5, x) << endl;
+  cout << "bessely(0.3, x) = " << fixed << bessely(0.3, x) << endl;
+  cout << "bessely(1.7, x) = " << fixed << bessely(1.7, x) << endl;
+  cout << "bessely(5.3, x) = " << fixed << bessely(5.3, x) << endl;
 
-  cout << "besseli(0, x) = " << besseli(0, x) << endl;
-  cout << "besseli(1, x) = " << besseli(1, x) << endl;
-  cout << "besseli(5, x) = " << besseli(5, x) << endl;
-  cout << "besseli(0.3, x) = " << besseli(0.3, x) << endl;
-  cout << "besseli(1.7, x) = " << besseli(1.7, x) << endl;
-  cout << "besseli(5.3, x) = " << besseli(5.3, x) << endl;
+  cout << "besseli(0, x) = " << fixed << besseli(0, x) << endl;
+  cout << "besseli(1, x) = " << fixed << besseli(1, x) << endl;
+  cout << "besseli(5, x) = " << fixed << besseli(5, x) << endl;
+  cout << "besseli(0.3, x) = " << fixed << besseli(0.3, x) << endl;
+  cout << "besseli(1.7, x) = " << fixed << besseli(1.7, x) << endl;
+  cout << "besseli(5.3, x) = " << fixed << besseli(5.3, x) << endl;
 
-  cout << "besselk(0, x) = " << besselk(0, x) << endl;
-  cout << "besselk(1, x) = " << besselk(1, x) << endl;
-  cout << "besselk(5, x) = " << besselk(5, x) << endl;
+  cout << "besselk(0, x) = " << fixed << besselk(0, x) << endl;
+  cout << "besselk(1, x) = " << fixed << besselk(1, x) << endl;
+  cout << "besselk(5, x) = " << fixed << besselk(5, x) << endl;
 
   return 0;
 
