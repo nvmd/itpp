@@ -152,48 +152,48 @@ int main()
   ff >> Name("v") >> v;
   ff.close();
 
-  cout << "char    : '" << c << "'" << endl
-       << "          '" << c_ref << "'" << endl
-       << "bool    : " << bo << endl
-       << "          " << bo_ref << endl
-       << "bin     : " << b << endl
-       << "          " << b_ref << endl
-       << "short   : " << s << endl
-       << "          " << s_ref << endl
-       << "int     : " << i << endl
-       << "          " << i_ref << endl
-       << "float   : " << f << endl
-       << "          " << f_ref << endl
-       << "double  : " << d << endl
-       << "          " << d_ref << endl
-       << "complex : " << cd << endl
-       << "          " << cd_ref << endl
-       << "string  : \"" << st << "\"" << endl
-       << "          \"" << st_ref << "\"" << endl << endl;
+  cout << "char    : '" << fixed << c << "'" << endl
+       << "          '" << fixed << c_ref << "'" << endl
+       << "bool    : " << fixed << bo << endl
+       << "          " << fixed << bo_ref << endl
+       << "bin     : " << fixed << b << endl
+       << "          " << fixed << b_ref << endl
+       << "short   : " << fixed << s << endl
+       << "          " << fixed << s_ref << endl
+       << "int     : " << fixed << i << endl
+       << "          " << fixed << i_ref << endl
+       << "float   : " << fixed << f << endl
+       << "          " << fixed << f_ref << endl
+       << "double  : " << fixed << d << endl
+       << "          " << fixed << d_ref << endl
+       << "complex : " << fixed << cd << endl
+       << "          " << fixed << cd_ref << endl
+       << "string  : \"" << fixed << st << "\"" << endl
+       << "          \"" << fixed << st_ref << "\"" << endl << endl;
 
-  cout << "bvec    : " << bv << endl
-       << "          " << bv_ref << endl
-       << "ivec    : " << iv << endl
-       << "          " << iv_ref << endl
-       << "vec     : " << v << endl
-       << "          " << v_ref << endl
-       << "cvec    : " << cv << endl
-       << "          " << cv_ref << endl << endl;
+  cout << "bvec    : " << fixed << bv << endl
+       << "          " << fixed << bv_ref << endl
+       << "ivec    : " << fixed << iv << endl
+       << "          " << fixed << iv_ref << endl
+       << "vec     : " << fixed << v << endl
+       << "          " << fixed << v_ref << endl
+       << "cvec    : " << fixed << cv << endl
+       << "          " << fixed << cv_ref << endl << endl;
 
-  cout << "bmat    :\n" << bm << endl << bm_ref << endl
-       << "imat    :\n" << im << endl << im_ref << endl
-       << "mat     :\n" << m << endl << m_ref << endl
-       << "cmat    :\n" << cm << endl << cm_ref << endl << endl;
+  cout << "bmat    :\n" << fixed << bm << endl << fixed << bm_ref << endl
+       << "imat    :\n" << fixed << im << endl << fixed << im_ref << endl
+       << "mat     :\n" << fixed << m << endl << fixed << m_ref << endl
+       << "cmat    :\n" << fixed << cm << endl << fixed << cm_ref << endl << endl;
 
-  cout << "Array<bvec> :\n" << abv << endl << abv_ref << endl
-       << "Array<ivec> :\n" << aiv << endl << aiv_ref << endl
-       << "Array<vec>  :\n" << av << endl << av_ref << endl
-       << "Array<cvec> :\n" << acv << endl << acv_ref << endl << endl;
+  cout << "Array<bvec> :\n" << fixed << abv << endl << fixed << abv_ref << endl
+       << "Array<ivec> :\n" << fixed << aiv << endl << fixed << aiv_ref << endl
+       << "Array<vec>  :\n" << fixed << av << endl << fixed << av_ref << endl
+       << "Array<cvec> :\n" << fixed << acv << endl << fixed << acv_ref << endl << endl;
 
-  cout << "Array<bmat> :\n" << abm << endl << abm_ref << endl
-       << "Array<imat> :\n" << aim << endl << aim_ref << endl
-       << "Array<mat> :\n" << am << endl << am_ref << endl
-       << "Array<cmat> :\n" << acm << endl << acm_ref << endl << endl;
+  cout << "Array<bmat> :\n" << fixed << abm << endl << fixed << abm_ref << endl
+       << "Array<imat> :\n" << fixed << aim << endl << fixed << aim_ref << endl
+       << "Array<mat> :\n" << fixed << am << endl << fixed << am_ref << endl
+       << "Array<cmat> :\n" << fixed << acm << endl << fixed << acm_ref << endl << endl;
 
 #ifdef EXTENSIVE_TESTS
   ivec iv0 = "0 0";

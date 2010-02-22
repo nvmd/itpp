@@ -92,7 +92,7 @@ int main()
     cout << "filter_design_autocorrelation(32, f, m, R): " << endl;
     filter_design_autocorrelation(256, f, m, R);
 
-    cout << "R = " << R << endl;
+    cout << "R = " << fixed << R << endl;
 
     cout << "arma_estimator(8, 8, R, b, a): " << endl;
     arma_estimator(8, 8, R, b, a);
