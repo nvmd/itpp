@@ -1,3 +1,18 @@
+2010-02-24  Bogdan Cristea  <cristeab@users.sourceforge.net>
+
+	* itpp/tests/bessel_test.cpp, itpp/tests/filter_design_test.cpp, 
+	itpp/tests/itfile_test.cpp, itpp/tests/newton_search_test.cpp, 
+	itpp/tests/pulse_shape_test.cpp: fixed format is used instead of 
+	scientific format in order to pass tests checking in Visual C++.
+	As a consequence, the itpp/tests/*.ref files corresponding to the above tests are also changed.
+
+	* itpp/win32/itpp_acml.vcproj, itpp/win32/itpp_acml_tests/*vcproj, 
+	itpp/win32/itpp_mkl.vcproj, itpp/win32/itpp_mkl_tests/*vcproj: added 
+	automatic test checking in Visual C++, project files are converted to Visual C++ 2008.
+	The tests checking is implemented for each project as a "Post-Build Event".
+
+	* itpp/extras/check_tests.bat: added batch file for checking test results in Windows
+
 2010-02-08  Robert Orzechowski  <tytusz@users.sourceforge.net>
 
 	* AUTHORS, itpp/comm/galois.h: Fixes bug report #2936395
