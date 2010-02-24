@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="9.00"
 	Name="lu_test"
 	ProjectGUID="{9BE8FCAA-686D-4A74-BE8B-68A342DE3AF7}"
 	RootNamespace="lu_test"
 	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -66,6 +67,8 @@
 				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -87,10 +90,8 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="cd ..\bin&#x0D;&#x0A;$(InputName).exe &gt; $(InputName).tmp&#x0D;&#x0A;fc /L $(InputName).tmp ..\..\tests\$(InputName).ref"
 			/>
 		</Configuration>
 	</Configurations>
