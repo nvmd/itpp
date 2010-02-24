@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="windows-1250"?>
 <VisualStudioProject
 	ProjectType="Visual C++"
-	Version="8,00"
+	Version="9.00"
 	Name="circular_buffer_test"
 	ProjectGUID="{8C452E2A-3E2B-498C-83A0-02B7C8634C21}"
 	RootNamespace="circular_buffer_test"
 	Keyword="Win32Proj"
+	TargetFrameworkVersion="131072"
 	>
 	<Platforms>
 		<Platform
@@ -66,6 +67,8 @@
 				SubSystem="1"
 				OptimizeReferences="2"
 				EnableCOMDATFolding="2"
+				RandomizedBaseAddress="1"
+				DataExecutionPrevention="0"
 				TargetMachine="1"
 			/>
 			<Tool
@@ -87,10 +90,8 @@
 				Name="VCAppVerifierTool"
 			/>
 			<Tool
-				Name="VCWebDeploymentTool"
-			/>
-			<Tool
 				Name="VCPostBuildEventTool"
+				CommandLine="cd ..\bin&#x0D;&#x0A;$(InputName).exe &gt; $(InputName).tmp&#x0D;&#x0A;fc /L $(InputName).tmp ..\..\tests\$(InputName).ref"
 			/>
 		</Configuration>
 	</Configurations>
