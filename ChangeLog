@@ -1,3 +1,7 @@
+2010-03-03  Bogdan Cristea  <cristeab@users.sourceforge.net>
+	* itpp/tests/bessel_test.cpp, itpp/tests/newton_search_test.cpp: changed tests files in order to
+	pass tests under Ubuntu. The corresponding *.ref files were also changed.
+
 2010-02-24  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
 	* itpp/tests/bessel_test.cpp, itpp/tests/filter_design_test.cpp, 
