@@ -32,6 +32,24 @@
 using namespace std;
 using namespace itpp;
 
+inline vec round_to_infty(const vec &in, const double threshold = 1e6)
+//this function is used to remove trailing digits, found after the decimal point
+//for numbers greater than threshold
+{
+   int in_len = in.length();
+   vec out(in_len);
+   for(int n=0; n<in_len; n++)
+   {
+      if(std::fabs(in(n))>threshold)
+      {
+         out(n) = itpp::round(in(n));
+      } else
+      {
+         out(n) = in(n);
+      }
+   }
+   return out;
+}
 
 double rosenbrock(const vec &x)
 {
@@ -96,9 +114,8 @@ int main(void)
 
     cout << endl << "trace:" << endl;
     cout << "alpha = " << fixed << alpha_values << endl;
-    cout << "F = " << fixed << F_values << endl;
-    cout << "dF = " << fixed << dF_values << endl;
-
+    cout << "F = " << round_to_infty(F_values) << endl;
+    cout << "dF = " << round_to_infty(dF_values) << endl;
 
     line.set_method(Exact);
     if (!line.search(x0, F0, g0, h, xn, Fn, gn))
@@ -113,9 +130,9 @@ int main(void)
     line.get_trace(alpha_values, F_values, dF_values);
 
     cout << endl << "trace:" << endl;
-    cout << "alpha = " << fixed << alpha_values << endl;
-    cout << "F = " << fixed << F_values << endl;
-    cout << "dF = " << fixed << dF_values << endl;
+    cout << "alpha = " << alpha_values << endl;
+    cout << "F = " << round_to_infty(F_values) << endl;
+    cout << "dF = " << round_to_infty(dF_values) << endl;
   }
 
   {
@@ -134,22 +151,22 @@ int main(void)
     if (!newton.search(x0, xn))
       cout << "Newton search failed" << endl;
 
-    cout << "xn = " << fixed << xn << endl;
-    cout << "F = " << fixed << newton.get_function_value() << endl;
-    cout << "norm(f') = " << fixed << newton.get_stop_1() << endl;
-    cout << "norm(dx) = " << fixed << newton.get_stop_2() << endl;
-    cout << "no_feval = " << fixed << newton.get_no_function_evaluations() << endl;
-    cout << "no_iter = " << fixed << newton.get_no_iterations() << endl;
+    cout << "xn = " << xn << endl;
+    cout << "F = " << newton.get_function_value() << endl;
+    cout << "norm(f') = " << newton.get_stop_1() << endl;
+    cout << "norm(dx) = " << newton.get_stop_2() << endl;
+    cout << "no_feval = " << newton.get_no_function_evaluations() << endl;
+    cout << "no_iter = " << newton.get_no_iterations() << endl;
 
     Array<vec> xv;
     vec Fv, ngv, dv;
     newton.get_trace(xv, Fv, ngv, dv);
 
     cout << endl << "trace:" << endl;
-    cout << "xv = " << fixed << xv << endl;
-    cout << "Fv = " << fixed << Fv << endl;
-    cout << "ngv = " << fixed << ngv << endl;
-    cout << "dv = " << fixed << dv << endl;
+    cout << "xv = " << xv << endl;
+    cout << "Fv = " << Fv << endl;
+    cout << "ngv = " << ngv << endl;
+    cout << "dv = " << dv << endl;
 
     newton.disable_trace();
 
