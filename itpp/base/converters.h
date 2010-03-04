@@ -386,6 +386,36 @@ cvec round_to_zero(const cvec &x, double threshold = 1e-14);
 //! Round each element to zero if element < threshold
 cmat round_to_zero(const cmat &x, double threshold = 1e-14);
 
+//! Remove trailing digits, found after the decimal point, for numbers greater than threshold
+inline double round_to_infty(const double in, const double threshold = 1e9)
+{
+  return (std::fabs(in)>threshold)?itpp::round(in):in;
+}
+
+//! Remove trailing digits, found after the decimal point, for complex numbers whose real and imaginary parts are greater than threshold
+inline std::complex<double> round_to_infty(const std::complex<double> &in, const double threshold = 1e9)
+{
+  return std::complex<double>(round_to_infty(in.real(), threshold),
+                              round_to_infty(in.imag(), threshold));
+}
+
+//! Remove trailing digits, found after the decimal point, for vectors greater than threshold
+inline vec round_to_infty(const vec &in, const double threshold = 1e9)
+{
+  return apply_function<double>(round_to_infty, in, threshold);
+}
+
+//! Remove trailing digits, found after the decimal point, for matrices greater than threshold
+inline mat round_to_infty(const mat &in, const double threshold = 1e9)
+{
+  return apply_function<double>(round_to_infty, in, threshold);
+}
+
+//! Remove trailing digits, found after the decimal point, for complex vectors greater than threshold
+cvec round_to_infty(const cvec &in, const double threshold = 1e9);
+
+//! Remove trailing digits, found after the decimal point, for complex matrices greater than threshold
+cmat round_to_infty(const cmat &in, const double threshold = 1e9);
 
 //! Convert to Gray Code
 inline int gray_code(int x) { return x ^(x >> 1); }

@@ -32,25 +32,6 @@
 using namespace std;
 using namespace itpp;
 
-inline vec round_to_infty(const vec &in, const double threshold = 1e6)
-//this function is used to remove trailing digits, found after the decimal point
-//for numbers greater than threshold
-{
-   int in_len = in.length();
-   vec out(in_len);
-   for(int n=0; n<in_len; n++)
-   {
-      if(std::fabs(in(n))>threshold)
-      {
-         out(n) = itpp::round(in(n));
-      } else
-      {
-         out(n) = in(n);
-      }
-   }
-   return out;
-}
-
 double rosenbrock(const vec &x)
 {
   double f1 = x(1) - sqr(x(0)), f2 = 1 - x(0);
