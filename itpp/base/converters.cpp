@@ -206,6 +206,28 @@ cmat round_to_zero(const cmat &x, double threshold)
   return temp;
 }
 
+cvec round_to_infty(const cvec &in, const double threshold)
+{
+  cvec temp(in.length());
+
+  for (int i = 0; i < in.length(); i++)
+    temp(i) = round_to_infty(in(i), threshold);
+
+  return temp;
+}
+
+cmat round_to_infty(const cmat &in, const double threshold)
+{
+  cmat temp(in.rows(), in.cols());
+
+  for (int i = 0; i < in.rows(); i++) {
+    for (int j = 0; j < in.cols(); j++) {
+      temp(i, j) = round_to_infty(in(i, j), threshold);
+    }
+  }
+
+  return temp;
+}
 
 std::string to_str(const double &i, const int precision)
 {
