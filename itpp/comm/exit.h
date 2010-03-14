@@ -30,9 +30,9 @@
 #define EXIT_H
 
 #include <itpp/itbase.h>
-#include <itpp/base/itcompat.h>
 #include <itpp/comm/modulator.h> //BPSK class for a priori information generation
 #include <itpp/stat/histogram.h> //histogram class for mutual information computation
+#include <itpp/base/itcompat.h>
 
 namespace itpp
 {

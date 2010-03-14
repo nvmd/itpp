@@ -31,8 +31,7 @@
 
 #include <itpp/itbase.h> //IT++ base module
 #include <itpp/base/itcompat.h>
-//#include <iostream>
-#include <limits> //use system INFINITY
+#include <limits>
 #ifndef INFINITY
 #define INFINITY std::numeric_limits<double>::infinity()
 #endif
