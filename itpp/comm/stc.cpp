@@ -220,8 +220,8 @@ void STC::Hassibi_block_code(void)
         symb_block = 4;//number of symbols/block
         std::cout << "STC::LDcode: Warning! For " << code_name << " the following parameters are predefined:" << std::endl;
         std::cout << "em_antennas = " << em_antennas << ", channel_uses = " << channel_uses << ", symb_block = " << symb_block << std::endl;
-        std::complex<double> theta((1+std::sqrt(5.0))/2.0,0);
-        std::complex<double> theta_b((1-std::sqrt(5.0))/2.0,0);
+        std::complex<double> theta((1+std::sqrt(5.0))/2,0);
+        std::complex<double> theta_b((1-std::sqrt(5.0))/2,0);
         std::complex<double> j(0,1);
         std::complex<double> one(1,0);
         std::complex<double> alpha = one+j*(one-theta);

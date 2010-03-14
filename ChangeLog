@@ -1,3 +1,15 @@
+2010-03-14  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* itpp/comm/siso.h, itpp/comm/siso_rsc.cpp, itpp/comm/siso_nsc.cpp,
+	itpp/comm/siso_mud.cpp,	itpp/comm/siso_eq.cpp, itpp/comm/siso_dem.cpp,
+	itpp/comm/exit.h, itpp/comm/exit.cpp, itpp/comm/stc.h, itpp/comm/stc.cpp, 
+	tests/exit_test.cpp, tests/siso_test.cpp: added Soft Input Soft Output
+	(SISO) class for turbo receivers design, EXtrinsic Information
+	Transfer (EXIT) class for studying the convergence of turbo receivers
+	and Space-Time Codes (STC) class, implementing space-time codes used
+	in Multiple-Input Multiple-Output (MIMO) systems with turbo receivers
+	implemented by SISO class. Two new tests were added, siso_test.cpp and
+	exit_test.cpp with their corresponding *.ref files.
+
 2010-03-04  Bogdan Cristea  <cristeab@users.sourceforge.net>
 	* itpp/base/converters.cpp, itpp/base/converters.h: added round_to_infty() function,
 	changed threshold value in round_to_infty() from 1e6 to 1e9

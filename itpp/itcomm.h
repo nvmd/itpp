@@ -69,5 +69,9 @@
 #include <itpp/comm/sequence.h>
 #include <itpp/comm/spread.h>
 #include <itpp/comm/turbo.h>
+#include <itpp/comm/siso.h>
+#include <itpp/comm/exit.h>
+#include <itpp/comm/stc.h>
+
 
 #endif // #ifndef ITCOMM_H

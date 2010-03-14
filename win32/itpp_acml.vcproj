@@ -4,6 +4,7 @@
 	Version="9.00"
 	Name="itpp_acml"
 	ProjectGUID="{C069ECD3-26E8-437C-8B20-3A5D68B22F2A}"
+	RootNamespace="itpp_acml"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -397,6 +398,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\itpp\comm\exit.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\itpp\comm\galois.cpp"
 					>
 				</File>
@@ -449,7 +454,31 @@
 					>
 				</File>
 				<File
+					RelativePath="..\itpp\comm\siso_dem.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\comm\siso_eq.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\comm\siso_mud.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\comm\siso_nsc.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\comm\siso_rsc.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\itpp\comm\spread.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\comm\stc.cpp"
 					>
 				</File>
 				<File
@@ -907,6 +936,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\itpp\comm\exit.h"
+					>
+				</File>
+				<File
 					RelativePath="..\itpp\comm\galois.h"
 					>
 				</File>
@@ -959,7 +992,15 @@
 					>
 				</File>
 				<File
+					RelativePath="..\itpp\comm\siso.h"
+					>
+				</File>
+				<File
 					RelativePath="..\itpp\comm\spread.h"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\comm\stc.h"
 					>
 				</File>
 				<File
