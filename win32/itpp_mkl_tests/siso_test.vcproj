@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="siso_test"
-	ProjectGUID="{F77FC112-C5D9-4CE0-AA4C-324C3EC483DD}"
-	RootNamespace="bessel_test"
+	ProjectGUID="{CB20AE57-7D67-453E-A85C-522A8CA95E23}"
+	RootNamespace="eigen_test"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>
@@ -42,7 +42,7 @@
 			<Tool
 				Name="VCCLCompilerTool"
 				AdditionalIncludeDirectories="..\.."
-				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;HAVE_ACML"
+				PreprocessorDefinitions="WIN32;NDEBUG;_CONSOLE;HAVE_MKL"
 				RuntimeLibrary="2"
 				UsePrecompiledHeader="0"
 				WarningLevel="3"
@@ -59,7 +59,7 @@
 			/>
 			<Tool
 				Name="VCLinkerTool"
-				AdditionalDependencies="itpp.lib libacml_dll.lib"
+				AdditionalDependencies="itpp.lib mkl_intel_c_dll.lib mkl_core_dll.lib mkl_intel_thread_dll.lib"
 				LinkIncremental="1"
 				AdditionalLibraryDirectories="..\lib;$(LIB)"
 				IgnoreDefaultLibraryNames="uuid.lib"

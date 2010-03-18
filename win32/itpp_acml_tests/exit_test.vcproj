@@ -3,8 +3,8 @@
 	ProjectType="Visual C++"
 	Version="9.00"
 	Name="exit_test"
-	ProjectGUID="{18683CC2-1569-4825-8D44-EA7BF104CEE3}"
-	RootNamespace="vec_test"
+	ProjectGUID="{C56040CA-7630-4BB1-A775-7B8B923457C0}"
+	RootNamespace="bessel_test"
 	Keyword="Win32Proj"
 	TargetFrameworkVersion="131072"
 	>

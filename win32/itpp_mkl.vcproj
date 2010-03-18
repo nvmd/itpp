@@ -397,6 +397,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\itpp\comm\exit.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\itpp\comm\galois.cpp"
 					>
 				</File>
@@ -449,7 +453,31 @@
 					>
 				</File>
 				<File
+					RelativePath="..\itpp\comm\siso_dem.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\comm\siso_eq.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\comm\siso_mud.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\comm\siso_nsc.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\comm\siso_rsc.cpp"
+					>
+				</File>
+				<File
 					RelativePath="..\itpp\comm\spread.cpp"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\comm\stc.cpp"
 					>
 				</File>
 				<File
@@ -907,6 +935,10 @@
 					>
 				</File>
 				<File
+					RelativePath="..\itpp\comm\exit.h"
+					>
+				</File>
+				<File
 					RelativePath="..\itpp\comm\galois.h"
 					>
 				</File>
@@ -959,7 +991,15 @@
 					>
 				</File>
 				<File
+					RelativePath="..\itpp\comm\siso.h"
+					>
+				</File>
+				<File
 					RelativePath="..\itpp\comm\spread.h"
+					>
+				</File>
+				<File
+					RelativePath="..\itpp\comm\stc.h"
 					>
 				</File>
 				<File
