@@ -1,3 +1,9 @@
+2010-03-18  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* win32/itpp_acml_tests/exit_test.vcproj, win32/itpp_acml_tests/itpp_acml_tests.sln, 
+	win32/itpp_acml_tests/siso_test.vcproj, win32/itpp_mkl.vcproj, win32/itpp_mkl_tests/exit_test.vcproj
+	win32/itpp_mkl_tests/itpp_mkl_tests.sln, win32/itpp_mkl_tests/siso_test.vcproj: added Visual Studio projects 
+	for ACML and MKL.
+
 2010-03-14  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* itpp/comm/siso.h, itpp/comm/siso_rsc.cpp, itpp/comm/siso_nsc.cpp,
 	itpp/comm/siso_mud.cpp,	itpp/comm/siso_eq.cpp, itpp/comm/siso_dem.cpp,
