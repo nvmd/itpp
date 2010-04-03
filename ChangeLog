@@ -1,3 +1,6 @@
+2010-04-03  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* tests/matfunc_test.cpp: changed for compatibility with Visual C++ 2010
+
 2010-03-18  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* win32/itpp_acml_tests/exit_test.vcproj, win32/itpp_acml_tests/itpp_acml_tests.sln, 
 	win32/itpp_acml_tests/siso_test.vcproj, win32/itpp_mkl.vcproj, win32/itpp_mkl_tests/exit_test.vcproj
