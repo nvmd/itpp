@@ -12,6 +12,7 @@ bpsk_example_SOURCES = bpsk.cpp
 convcode_example_SOURCES = convcode.cpp
 interleaver_example_SOURCES = interleaver.cpp
 ldpc_bersim_awgn_example_SOURCES = ldpc_bersim_awgn.cpp
+pccc_bersim_awgn_example_SOURCES = pccc_bersim_awgn.cpp
 ldpc_gen_codes_example_SOURCES = ldpc_gen_codes.cpp
 mimoconv_example_SOURCES = mimoconv.cpp
 mog_example_SOURCES = mog.cpp
@@ -32,7 +33,7 @@ endif # RUN_LAPACK_TESTS
 
 COMM_EXAMPLES = bpsk_example convcode_example interleaver_example		\
   ldpc_gen_codes_example ldpc_bersim_awgn_example qpsk_simulation_example	\
-  rayleigh_example reedsolomon_example spread_example
+  rayleigh_example reedsolomon_example spread_example pccc_bersim_awgn_example
 if RUN_LAPACK_TESTS
   COMM_EXAMPLES += mimoconv_example
 endif # RUN_LAPACK_TESTS

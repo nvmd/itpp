@@ -65,7 +65,7 @@ void SISO::gen_rsctrellis(void)
                 out ^= (gen(1,j)*cases[j-1]);
             }
             rsctrellis.PARout[k+n*rsctrellis.numStates] = (out?1.0:0.0);//parity bit
-			rsctrellis.fm[k] = itpp::bin(n)^out;
+         rsctrellis.fm[k] = itpp::bin(n)^out;
             //shift
             for (j=mem_len-1; j>0; j--)
             {
@@ -84,7 +84,7 @@ void SISO::rsc_logMAP(itpp::vec &extrinsic_coded, itpp::vec &extrinsic_data,
                       const itpp::vec &intrinsic_coded, const itpp::vec &apriori_data)
 /*
  logMAP (SISO) decoder for RSC of rate 1/2
- extrinsic_parity - extrinsic information of parity bits
+ extrinsic_coded - extrinsic information of coded bits
  extrinsic_data - extrinsic information of data (informational) bits
  intrinsic_coded - intrinsic information of coded (systematic and parity) bits
  apriori_data - a priori information of data (informational) bits
@@ -252,7 +252,7 @@ void SISO::rsc_maxlogMAP(itpp::vec &extrinsic_coded, itpp::vec &extrinsic_data,
                          const itpp::vec &intrinsic_coded, const itpp::vec &apriori_data)
 /*
  maxlogMAP (SISO) decoder for RSC of rate 1/2
- extrinsic_parity - extrinsic information of parity bits
+ extrinsic_coded - extrinsic information of coded bits
  extrinsic_data - extrinsic information of data (informational) bits
  intrinsic_coded - intrinsic information of coded (systematic and parity) bits
  apriori_data - a priori information of data (informational) bits
