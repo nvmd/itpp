@@ -25,6 +25,7 @@ More specialized examples:
 - \ref mimoconv
 - \ref ldpc_gen_codes
 - \ref ldpc_bersim_awgn
+- \ref pccc_bersim_awgn
 - \ref mog
 
 Other:

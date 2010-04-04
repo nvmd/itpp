@@ -192,13 +192,13 @@ public:
      */
     void set_demapper_method(const std::string &method);
     //! %SISO decoder for RSC codes
-    void rsc(itpp::vec &extrinsic_coded, //!< extrinsic information of parity bits
+    void rsc(itpp::vec &extrinsic_coded, //!< extrinsic information of coded bits
              itpp::vec &extrinsic_data, //!< extrinsic information of data bits
              const itpp::vec &intrinsic_coded, //!< intrinsic information of coded bits
              const itpp::vec &apriori_data //!< a priori information of data bits
             );
     //! %SISO decoder for RSC codes (tail is set through input)
-    void rsc(itpp::vec &extrinsic_coded, //!< extrinsic information of parity bits
+    void rsc(itpp::vec &extrinsic_coded, //!< extrinsic information of coded bits
              itpp::vec &extrinsic_data, //!< extrinsic information of data bits
              const itpp::vec &intrinsic_coded, //!< intrinsic information of coded bits
              const itpp::vec &apriori_data, //!< a priori information of data bits
