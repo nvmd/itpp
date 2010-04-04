@@ -26,6 +26,7 @@ More specialized examples:
 - \ref ldpc_gen_codes
 - \ref ldpc_bersim_awgn
 - \ref pccc_bersim_awgn
+- \ref exit_pccc
 - \ref mog
 
 Other:
