@@ -1,5 +1,11 @@
 2010-04-04  Bogdan Cristea <cristeab@users.sourceforge.net>
 
+	* doc/tutorial/exit_pccc.doc, doc/tutorial/sources.mk,
+	  doc/tutorial/src/Makefile.am, doc/tutorial/src/exit_pccc.cpp,
+	  doc/tutorial/tutorial.doc: added tutorial for EXIT chart of PCCCs
+
+2010-04-04  Bogdan Cristea <cristeab@users.sourceforge.net>
+
 	* doc/tutorial/pccc_bersim_awgn.doc, doc/tutorial/sources.mk,
 	  doc/tutorial/src/Makefile.am,
 	  doc/tutorial/src/pccc_bersim_awgn.cpp, doc/tutorial/tutorial.doc,
