@@ -27,6 +27,8 @@ More specialized examples:
 - \ref ldpc_bersim_awgn
 - \ref pccc_bersim_awgn
 - \ref exit_pccc
+- \ref sccc_bersim_awgn
+- \ref turbo_equalizer_bersim_multipath
 - \ref mog
 
 Other:
