@@ -1,3 +1,13 @@
+2010-04-05  Bogdan Cristea <cristeab@users.sourceforge.net>
+
+	* doc/tutorial/sccc_bersim_awgn.doc, doc/tutorial/sources.mk,
+	  doc/tutorial/src/Makefile.am,
+	  doc/tutorial/src/sccc_bersim_awgn.cpp,
+	  doc/tutorial/src/turbo_equalizer_bersim_multipath.cpp,
+	  doc/tutorial/turbo_equalizer_bersim_multipath.doc,
+	  doc/tutorial/tutorial.doc: added tutorials for SCCCs and turbo
+	  equalizer
+
 2010-04-04  Bogdan Cristea <cristeab@users.sourceforge.net>
 
 	* doc/tutorial/vector_and_matrix.doc: corrected minor typo:
