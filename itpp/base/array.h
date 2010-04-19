@@ -495,7 +495,7 @@ const Array<T> concat(const Array<T> &a, const T &e)
 }
 
 template<class T>
-const Array<T> concat(const T e, const Array<T> &a)
+const Array<T> concat(const T &e, const Array<T> &a)
 {
   Array<T> temp(a.size() + 1);
 
