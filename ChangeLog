@@ -1,3 +1,8 @@
+2010-04-19  Bogdan Cristea <cristeab@users.sourceforge.net>
+
+	* itpp/base/array.h: corrected concat(const T &e, const Array<T>
+	  &a) definition in order to match its forward declaration
+
 2010-04-05  Bogdan Cristea <cristeab@users.sourceforge.net>
 
 	* doc/tutorial/sccc_bersim_awgn.doc, doc/tutorial/sources.mk,
