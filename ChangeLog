@@ -1,3 +1,8 @@
+2010-04-25  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/comm/exit.h, itpp/comm/siso.h: remove unnecessary include
+	statement
+
 2010-04-19  Bogdan Cristea <cristeab@users.sourceforge.net>
 
 	* itpp/base/array.h: corrected concat(const T &e, const Array<T>
