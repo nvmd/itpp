@@ -30,7 +30,7 @@
 #define SISO_H
 
 #include <itpp/itbase.h> //IT++ base module
-#include <itpp/base/itcompat.h>
+//#include <itpp/base/itcompat.h>
 #include <limits>
 #ifndef INFINITY
 #define INFINITY std::numeric_limits<double>::infinity()
