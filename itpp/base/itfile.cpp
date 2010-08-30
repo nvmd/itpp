@@ -659,7 +659,7 @@ void it_file::pack()
   s.clear();
 
   // allocate buffer of size equal to file size
-  char* buffer = new char[p];
+  char* buffer = new char[int(p)];
   char* b_ptr = buffer;
 
   // copy file header and start counting the size of compacted file
@@ -2412,7 +2412,7 @@ void it_file_old::write_data_header(const std::string &type,
     if (availpos == 0) {
       if (h2.type == "" && h2.block_bytes >= h1.block_bytes) {
         h1.block_bytes = h2.block_bytes;
-        availpos = p;
+        availpos = int(p);
       }
       else if (h2.block_bytes - h2.hdr_bytes - h2.data_bytes >= h1.block_bytes) {
         h1.block_bytes = h2.block_bytes - h2.hdr_bytes - h2.data_bytes;
