@@ -27,6 +27,11 @@
  */
 
 #include <itpp/comm/siso.h>
+#include <itpp/base/itcompat.h>
+#include <limits>
+#ifndef INFINITY
+#define INFINITY std::numeric_limits<double>::infinity()
+#endif
 
 namespace itpp
 {
@@ -782,4 +787,4 @@ void SISO::rsc_viterbi(itpp::vec &extrinsic_coded, itpp::vec &extrinsic_data,
     extrinsic_coded -= intrinsic_coded;
 }
 
-}//namespace tr
+}

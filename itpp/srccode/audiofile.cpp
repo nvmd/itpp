@@ -71,7 +71,7 @@ bool raw16le_read(const char *fname, vec &v)
 
   // Check size of a file
   file.seekg(0, ios::end);
-  int size = file.tellg();
+  int size = int(file.tellg());
   file.seekg(0, ios::beg);
 
   bool switch_endian = is_bigendian(); // if BIG_ENDIAN than switch
@@ -120,7 +120,7 @@ bool raw16be_read(const char *fname, vec &v)
 
   // Check size of a file
   file.seekg(0, ios::end);
-  int size = file.tellg();
+  int size = int(file.tellg());
   file.seekg(0, ios::beg);
 
   bool switch_endian = !is_bigendian(); // if LITTLE_ENDIAN than switch

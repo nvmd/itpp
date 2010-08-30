@@ -29,8 +29,6 @@
 #ifndef STC_H
 #define STC_H
 
-#include <iostream>
-#include <complex>
 #include <itpp/itbase.h> //IT++ base module
 
 namespace itpp

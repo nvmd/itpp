@@ -206,7 +206,7 @@ int bifstream::length() // in bytes
   seekg(0, ios::end);
   len = tellg();
   seekg(pos1);
-  return len;
+  return int(len);
 }
 
 bifstream& bifstream::operator>>(char& a)
@@ -323,7 +323,7 @@ int bfstream::length() // in bytes
   seekg(0, ios::end);
   len = tellg();
   seekg(pos1);
-  return len;
+  return int(len);
 }
 
 bfstream& bfstream::operator<<(char a)

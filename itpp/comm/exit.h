@@ -31,8 +31,6 @@
 
 #include <itpp/itbase.h>
 #include <itpp/comm/modulator.h> //BPSK class for a priori information generation
-#include <itpp/stat/histogram.h> //histogram class for mutual information computation
-//#include <itpp/base/itcompat.h>
 
 namespace itpp
 {
@@ -64,7 +62,7 @@ public:
                               )
     {
         sigma2A = in_sigma2A;
-        return double(1)-itpp::quad(&gaussian_fct, -lim, lim);
+        return 1.0-itpp::quad(&gaussian_fct, -lim, lim);
     };
     //! Generates a priori information assuming a Gaussian distribution of the a priori information
     /*! The variance of the a priori information must be already initialized through EXIT::apriori_mutual_info function.
@@ -86,10 +84,7 @@ public:
 private:
     static double sigma2A;
     friend double itpp::quad(double (*f)(double), double a, double b, double tol);
-    static double gaussian_fct(const double x)
-    {
-        return (1.0/std::sqrt(sigma2A*itpp::m_2pi))*std::exp(-itpp::sqr(x-(sigma2A/2.0))/(2.0*sigma2A))*::log2(1+std::exp(-x));
-    };
+    static double gaussian_fct(const double x);
 };
 
 }
