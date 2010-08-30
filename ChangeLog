@@ -1,14 +1,29 @@
+2010-08-30  Bogdan Cristea  <cristeab@users.sourceforge.net>
+	* itpp/base/binfile.cpp, itpp/base/itfile.cpp, itpp/comm/exit.cpp,
+          itpp/comm/exit.h, itpp/comm/siso.h, itpp/comm/siso_dem.cpp,
+	  itpp/comm/siso_eq.cpp, itpp/comm/siso_mud.cpp,
+	  itpp/comm/siso_nsc.cpp, itpp/comm/siso_rsc.cpp, itpp/comm/stc.h,
+	  itpp/srccode/audiofile.cpp: corrected warnings in VS 2010
+	  moved itcompat.h include to cpp files
+
+2010-08-28  Adam Piatyszek  <ediap@users.sourceforge.net>
+	* doc/local/linking.doc: Update ToC of the "Linking with IT++..."
+	  webpage
+
+2010-08-28  Adam Piatyszek  <ediap@users.sourceforge.net>
+	* doc/local/index.doc.in: Remove dead link to NEWCOM web page
+
 2010-04-25  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/comm/exit.h, itpp/comm/siso.h: remove unnecessary include
-	statement
+	  statement
 
-2010-04-19  Bogdan Cristea <cristeab@users.sourceforge.net>
+2010-04-19  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
 	* itpp/base/array.h: corrected concat(const T &e, const Array<T>
 	  &a) definition in order to match its forward declaration
 
-2010-04-05  Bogdan Cristea <cristeab@users.sourceforge.net>
+2010-04-05  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
 	* doc/tutorial/sccc_bersim_awgn.doc, doc/tutorial/sources.mk,
 	  doc/tutorial/src/Makefile.am,
@@ -18,18 +33,18 @@
 	  doc/tutorial/tutorial.doc: added tutorials for SCCCs and turbo
 	  equalizer
 
-2010-04-04  Bogdan Cristea <cristeab@users.sourceforge.net>
+2010-04-04  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
 	* doc/tutorial/vector_and_matrix.doc: corrected minor typo:
 	  matrices instead of matrixes
 
-2010-04-04  Bogdan Cristea <cristeab@users.sourceforge.net>
+2010-04-04  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
 	* doc/tutorial/exit_pccc.doc, doc/tutorial/sources.mk,
 	  doc/tutorial/src/Makefile.am, doc/tutorial/src/exit_pccc.cpp,
 	  doc/tutorial/tutorial.doc: added tutorial for EXIT chart of PCCCs
 
-2010-04-04  Bogdan Cristea <cristeab@users.sourceforge.net>
+2010-04-04  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
 	* doc/tutorial/pccc_bersim_awgn.doc, doc/tutorial/sources.mk,
 	  doc/tutorial/src/Makefile.am,
@@ -37,18 +52,18 @@
 	  itpp/comm/siso.h, itpp/comm/siso_rsc.cpp: added tutorial for
 	  PCCCs
 
-2010-04-03  Bogdan Cristea <cristeab@users.sourceforge.net>
+2010-04-03  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
 	* tests/matfunc_test.cpp: changed for compatibility with Visual C++ 2010
 
-2010-03-18  Bogdan Cristea <cristeab@users.sourceforge.net>
+2010-03-18  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
 	* win32/itpp_acml_tests/exit_test.vcproj, win32/itpp_acml_tests/itpp_acml_tests.sln, 
 	win32/itpp_acml_tests/siso_test.vcproj, win32/itpp_mkl.vcproj, win32/itpp_mkl_tests/exit_test.vcproj
 	win32/itpp_mkl_tests/itpp_mkl_tests.sln, win32/itpp_mkl_tests/siso_test.vcproj: added Visual Studio
 	projects for ACML and MKL.
 
-2010-03-14  Bogdan Cristea <cristeab@users.sourceforge.net>
+2010-03-14  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
 	* itpp/comm/siso.h, itpp/comm/siso_rsc.cpp, itpp/comm/siso_nsc.cpp,
 	itpp/comm/siso_mud.cpp,	itpp/comm/siso_eq.cpp, itpp/comm/siso_dem.cpp,
