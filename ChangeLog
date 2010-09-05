@@ -1,3 +1,8 @@
+2010-09-05  Bogdan Cristea  <cristeab@users.sourceforge.net>
+
+	* extras/itload.m: corrected case when loading arrays of cvec,
+	  bug ID 3035034
+
 2010-08-30  Bogdan Cristea  <cristeab@users.sourceforge.net>
 	* itpp/base/binfile.cpp, itpp/base/itfile.cpp, itpp/comm/exit.cpp,
           itpp/comm/exit.h, itpp/comm/siso.h, itpp/comm/siso_dem.cpp,
