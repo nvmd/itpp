@@ -266,7 +266,7 @@ while (1)
     clear d2;
     for i=1:size;
       [size2, n] = fread(fid, 1, 'uint64');
-      [d, n] = fread(fid, size*2, 'float64');
+      [d, n] = fread(fid, size2*2, 'float64');
       d2{i} = complex(d(1:2:end), d(2:2:end));
     end
     assignin('caller', name, d2);
