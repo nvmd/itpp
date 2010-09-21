@@ -1,5 +1,5 @@
 ===============================================================================
-IT++ version 4.2.0                                         Released: 2010-01-??
+IT++ version 4.2.0                                         Released: 2010-09-21
 -------------------------------------------------------------------------------
 
 IT++ 4.2.0 is a new stable release based on the SVN development branch
@@ -9,6 +9,18 @@ comprises all bug fixes included in the previous 4.0.x stable releases.
 
 New features:
 -------------
+
+* Added SISO class implementing several algorithms used in turbo decoders/
+receivers
+
+* Added EXIT class for EXIT chart computation of turbo receivers
+
+* Added STC class for the generation of Space Time block codes used in MIMO
+systems with turbo receivers
+
+* Added support for testing IT++ library in Visual Studio 2008. Current approach 
+relies on fc (file compare) utility which seems to be available only in Visual
+Studio 2008.
 
 * Added rank() function, which calculates the rank of a matrix by counting
   the number of non-zero singular values. SVD function from LAPACK is thus
