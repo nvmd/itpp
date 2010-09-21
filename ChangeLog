@@ -1,5 +1,10 @@
 2010-09-21  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
+	* VERSION: add version number for development version after
+	releasing IT++ 4.2.0
+
+2010-09-21  Bogdan Cristea  <cristeab@users.sourceforge.net>
+
         * IT++ 4.2.0 release (SVN tag: release-4-2-0)
         * NEWS, VERSION: Add release notes and update version number for
         IT++ 4.2.0 release.
