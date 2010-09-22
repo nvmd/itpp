@@ -49,11 +49,13 @@ dist-html: html-local
 	rm -rf $(top_builddir)/$(distdir_html)
 
 install-data-local: html-local
-	$(mkinstalldirs) $(DESTDIR)$(docdir)
 	if test -d html; then \
-		$(mkinstalldirs) $(DESTDIR)$(docdir)/html; \
-		for f in html/*; do \
-			$(INSTALL_DATA) $$f $(DESTDIR)$(docdir)/html; \
+		$(mkinstalldirs) $(DESTDIR)$(docdir); \
+		for d in `find html -type d`; do \
+			$(mkinstalldirs) $(DESTDIR)$(docdir)/$$d; \
+		done; \
+		for f in `find html -type f`; do \
+			$(INSTALL_DATA) $$f $(DESTDIR)$(docdir)/$$f; \
 		done \
 	fi
 

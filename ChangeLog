@@ -1,18 +1,29 @@
-2010-09-21  Bogdan Cristea  <cristeab@users.sourceforge.net>
+2010-09-22  Adam Piatyszek  <ediap@users.sourceforge.net>
+
+	* doc/Makefile.am: Improve installation target for HTML
+	documentation
+
+2010-09-22  Bogdan Cristea  <cristeab@users.sourceforge.net>
+
+	* doc/Makefile.am: add support for copying search index
+	which now is found in search folder under html folder
+
+2010-09-22  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
 	* doxygen_html.cfg.in: updated doxygen configuration
 
-2010-09-21  Adam Piatyszek  <ediap@users.sourceforge.net>
+2010-09-21  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
-	* VERSION: Updated for snapshots
+	* VERSION: add version number for development version after
+	releasing IT++ 4.2.0
 
 -------------------------------------------------------------------------------
 
 2010-09-21  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
-        * IT++ 4.2.0 release (SVN tag: release-4-2-0)
-        * NEWS, VERSION: Add release notes and update version number for
-        IT++ 4.2.0 release.
+	* IT++ 4.2.0 release (SVN tag: release-4-2-0)
+	* NEWS, VERSION: Add release notes and update version number for
+	IT++ 4.2.0 release.
 
 2010-09-05  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
@@ -21,7 +32,7 @@
 
 2010-08-30  Bogdan Cristea  <cristeab@users.sourceforge.net>
 	* itpp/base/binfile.cpp, itpp/base/itfile.cpp, itpp/comm/exit.cpp,
-          itpp/comm/exit.h, itpp/comm/siso.h, itpp/comm/siso_dem.cpp,
+	  itpp/comm/exit.h, itpp/comm/siso.h, itpp/comm/siso_dem.cpp,
 	  itpp/comm/siso_eq.cpp, itpp/comm/siso_mud.cpp,
 	  itpp/comm/siso_nsc.cpp, itpp/comm/siso_rsc.cpp, itpp/comm/stc.h,
 	  itpp/srccode/audiofile.cpp: corrected warnings in VS 2010
@@ -57,7 +68,7 @@
 2010-04-04  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
 	* doc/tutorial/vector_and_matrix.doc: corrected minor typo:
-	  matrices instead of matrixes
+	  matrices instead of matries
 
 2010-04-04  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
@@ -79,7 +90,7 @@
 
 2010-03-18  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
-	* win32/itpp_acml_tests/exit_test.vcproj, win32/itpp_acml_tests/itpp_acml_tests.sln, 
+	* win32/itpp_acml_tests/exit_test.vcproj, win32/itpp_acml_tests/itpp_acml_tests.sln,
 	win32/itpp_acml_tests/siso_test.vcproj, win32/itpp_mkl.vcproj, win32/itpp_mkl_tests/exit_test.vcproj
 	win32/itpp_mkl_tests/itpp_mkl_tests.sln, win32/itpp_mkl_tests/siso_test.vcproj: added Visual Studio
 	projects for ACML and MKL.
@@ -88,7 +99,7 @@
 
 	* itpp/comm/siso.h, itpp/comm/siso_rsc.cpp, itpp/comm/siso_nsc.cpp,
 	itpp/comm/siso_mud.cpp,	itpp/comm/siso_eq.cpp, itpp/comm/siso_dem.cpp,
-	itpp/comm/exit.h, itpp/comm/exit.cpp, itpp/comm/stc.h, itpp/comm/stc.cpp, 
+	itpp/comm/exit.h, itpp/comm/exit.cpp, itpp/comm/stc.h, itpp/comm/stc.cpp,
 	tests/exit_test.cpp, tests/siso_test.cpp: added Soft Input Soft Output
 	(SISO) class for turbo receivers design, EXtrinsic Information
 	Transfer (EXIT) class for studying the convergence of turbo receivers
@@ -109,14 +120,14 @@
 
 2010-02-24  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
-	* itpp/tests/bessel_test.cpp, itpp/tests/filter_design_test.cpp, 
-	itpp/tests/itfile_test.cpp, itpp/tests/newton_search_test.cpp, 
-	itpp/tests/pulse_shape_test.cpp: fixed format is used instead of 
+	* itpp/tests/bessel_test.cpp, itpp/tests/filter_design_test.cpp,
+	itpp/tests/itfile_test.cpp, itpp/tests/newton_search_test.cpp,
+	itpp/tests/pulse_shape_test.cpp: fixed format is used instead of
 	scientific format in order to pass tests checking in Visual C++.
 	As a consequence, the itpp/tests/*.ref files corresponding to the above tests are also changed.
 
-	* itpp/win32/itpp_acml.vcproj, itpp/win32/itpp_acml_tests/*vcproj, 
-	itpp/win32/itpp_mkl.vcproj, itpp/win32/itpp_mkl_tests/*vcproj: added 
+	* itpp/win32/itpp_acml.vcproj, itpp/win32/itpp_acml_tests/*vcproj,
+	itpp/win32/itpp_mkl.vcproj, itpp/win32/itpp_mkl_tests/*vcproj: added
 	automatic test checking in Visual C++, project files are converted to Visual C++ 2008.
 	The tests checking is implemented for each project as a "Post-Build Event".
 
@@ -223,7 +234,7 @@
 
 2010-01-02  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
-        * itpp/base/itcompat.h: Fixes bug report #2924984
+	* itpp/base/itcompat.h: Fixes bug report #2924984
 
 2010-01-02  Adam Piatyszek  <ediap@users.sourceforge.net>
 
