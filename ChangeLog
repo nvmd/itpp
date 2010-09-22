@@ -1,3 +1,7 @@
+2010-09-22  Bogdan Cristea  <cristeab@users.sourceforge.net>
+
+	* doxygen_html.cfg.in: updated doxygen configuration
+
 2010-09-21  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
 	* VERSION: add version number for development version after
