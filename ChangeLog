@@ -1,4 +1,9 @@
 2010-09-22  Bogdan Cristea  <cristeab@users.sourceforge.net>
+	
+	* doc/Makefile.am: add support for copying search index
+	which now is found in search folder under html folder
+
+2010-09-22  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
 	* doxygen_html.cfg.in: updated doxygen configuration
 
