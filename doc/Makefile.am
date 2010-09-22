@@ -56,6 +56,12 @@ install-data-local: html-local
 			$(INSTALL_DATA) $$f $(DESTDIR)$(docdir)/html; \
 		done \
 	fi
+	if test -d html/search; then \
+		$(mkinstalldirs) $(DESTDIR)$(docdir)/html/search; \
+		for f in html/search/*; do \
+			$(INSTALL_DATA) $$f $(DESTDIR)$(docdir)/html/search; \
+		done \
+	fi
 
 uninstall-local:
 	rm -rf $(DESTDIR)$(docdir)
