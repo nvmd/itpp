@@ -61,7 +61,7 @@ inline double dB(double x) { return 10.0 * log10(x); }
 //! Inverse of decibel of x
 inline double inv_dB(double x) { return pow(10.0, 0.1 * x); }
 
-//! Calculate the number of bits needed to represent an inteager \c n
+//! Calculate the number of bits needed to represent an integer \c n
 inline int int2bits(int n)
 {
   it_assert(n >= 0, "int2bits(): Improper argument value");
@@ -278,7 +278,7 @@ inline mat inv_dB(const mat &x)
   return apply_function<double>(inv_dB, x);
 }
 
-//! Calculate the number of bits needed to represent each inteager in a vector
+//! Calculate the number of bits needed to represent each integer in a vector
 inline ivec int2bits(const ivec& v)
 {
   return apply_function<int>(int2bits, v);
