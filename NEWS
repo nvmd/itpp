@@ -18,9 +18,8 @@ receivers
 * Added STC class for the generation of Space Time block codes used in MIMO
 systems with turbo receivers
 
-* Added support for testing IT++ library in Visual Studio 2008. Current approach 
-relies on fc (file compare) utility which seems to be available only in Visual
-Studio 2008.
+* Added support for testing IT++ library in Visual C++ (2008 and 2010). Current approach 
+relies on fc (file compare) utility.
 
 * Added rank() function, which calculates the rank of a matrix by counting
   the number of non-zero singular values. SVD function from LAPACK is thus
