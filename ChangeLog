@@ -1,3 +1,20 @@
+2010-10-12  Bogdan Cristea  <cristeab@users.sourceforge.net>
+
+	* tests/fastica_test.cpp, tests/fastica_test.ref: improved fastica
+	  test
+
+2010-10-12  Bogdan Cristea  <cristeab@users.sourceforge.net>
+
+	* itpp/signal/fastica.cpp, itpp/signal/fastica.h,
+	  tests/fastica_test.cpp, tests/fastica_test.ref: Solved bug
+	  report: FastICA may run forever with APPROACH_DEFL - ID 3028968
+	  Thanks to Gert Wollny for the patch
+
+2010-09-26  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/base/math/log_exp.h: Fix spelling error in documentation
+	This closes #3075538
+
 2010-09-22  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* doc/Makefile.am: Improve installation target for HTML

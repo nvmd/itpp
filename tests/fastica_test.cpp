@@ -117,6 +117,8 @@ int main()
   // Be sure that :
   // - nrSamples = number of samples = nb of columns of the input matrix
   // - nrIC = number of sensors = nb of rows of the input matrix
+  cout << "\n==========================================================" << endl;
+  cout << "Use SYMM approach and POW3 non-linearity :" << endl;
   Fast_ICA my_fastica(X);
 
   // Set number of independent components to separate :
@@ -126,20 +128,22 @@ int main()
   my_fastica.set_nrof_independent_components(nrIC);
 
   // Perform ICA
-  my_fastica.separate();
+  bool result = my_fastica.separate();
 
-  cout << "Use default parameters:" << endl;
-
-  // Get results : mixing and separating matrices
-  cout << "Mixing matrix = " << my_fastica.get_mixing_matrix() << endl;
-  cout << "Separation matrix = " << my_fastica.get_separating_matrix() << endl;
-
-  // Get result : separated independent components
-  cout << endl << "separated independent components = "
-       << my_fastica.get_independent_components();
+  if (result)
+  {
+    // Get results
+    cout << "Mixing matrix = " << my_fastica.get_mixing_matrix() << endl;
+    cout << "Separation matrix = " << my_fastica.get_separating_matrix() << endl;
+    cout << "Separated independent components = "
+         << my_fastica.get_independent_components() << endl;
+  } else
+  {
+	cout << "Algorithm failed" << endl;
+  }
 
   // Another test with other parameters
-  cout << "==========================================================" << endl;
+  cout << "\n==========================================================" << endl;
   cout << "Use Gaussian non-linearity and deflation approach :" << endl;
 
   Fast_ICA my_fastica2(X);
@@ -151,15 +155,54 @@ int main()
   my_fastica2.set_approach(FICA_APPROACH_DEFL);
 
   // Perform ICA
-  my_fastica2.separate();
+  result = my_fastica2.separate();
 
-  // Get results
-  cout << "Mixing matrix = " << my_fastica2.get_mixing_matrix() << endl;
-  cout << "Separation matrix = " << my_fastica2.get_separating_matrix() << endl;
-  cout << endl << "separated independent components = "
-       << my_fastica2.get_independent_components() << endl;
+  if (result)
+  {
+    // Get results
+    cout << "Mixing matrix = " << my_fastica.get_mixing_matrix() << endl;
+    cout << "Separation matrix = " << my_fastica.get_separating_matrix() << endl;
+    cout << "Separated independent components = "
+         << my_fastica.get_independent_components() << endl;
+  } else
+  {
+	cout << "Algorithm failed" << endl;
+  }
 
-  cout << "End of Fast_ICA test execution. " << endl;
+  // Another test which should fail
+  cout << "\n==========================================================" << endl;
+  cout << "Use Gaussian non-linearity and deflation approach :" << endl;
+
+  const int rows = 10;
+  const int comp = 3;
+  RNG_reset(1);
+  mat signal = randu(rows, 100);
+  mat guess = zeros(rows, comp);
+
+  Fast_ICA my_fastica3(signal);
+
+  // Use deflation approach : IC are computed one by one
+  my_fastica3.set_approach(FICA_APPROACH_DEFL);
+  my_fastica3.set_nrof_independent_components(comp);
+  my_fastica3.set_init_guess(guess);
+  my_fastica3.set_max_num_iterations(100);
+
+  // Perform ICA
+  result = my_fastica3.separate();
+
+  if (result)
+  {
+    // Get results
+    cout << "Mixing matrix = " << my_fastica.get_mixing_matrix() << endl;
+    cout << "Separation matrix = " << my_fastica.get_separating_matrix() << endl;
+    cout << "Separated independent components = "
+         << my_fastica.get_independent_components() << endl;
+  } else
+  {
+	cout << "Algorithm failed" << endl;
+  }
+
+  cout << "\nEnd of Fast_ICA test execution. " << endl;
 
   return 0;
 }
