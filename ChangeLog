@@ -1,5 +1,9 @@
 2010-10-12  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
+	* NEWS: updated NEWS file
+
+2010-10-12  Bogdan Cristea  <cristeab@users.sourceforge.net>
+
 	* tests/fastica_test.cpp, tests/fastica_test.ref: improved fastica
 	  test
 
