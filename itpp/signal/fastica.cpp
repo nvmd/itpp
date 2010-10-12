@@ -89,7 +89,7 @@ static mat orth(const mat A);
 static mat mpower(const mat A, const double y);
 static ivec getSamples(const int max, const double percentage);
 static vec sumcol(const mat A);
-static void fpica(const mat X, const mat whiteningMatrix, const mat dewhiteningMatrix, const int approach, const int numOfIC, const int g, const int finetune, const double a1, const double a2, double myy, const int stabilization, const double epsilon, const int maxNumIterations, const int maxFinetune, const int initState, mat guess, double sampleSize, mat & A, mat & W);
+static bool fpica(const mat X, const mat whiteningMatrix, const mat dewhiteningMatrix, const int approach, const int numOfIC, const int g, const int finetune, const double a1, const double a2, double myy, const int stabilization, const double epsilon, const int maxNumIterations, const int maxFinetune, const int initState, mat guess, double sampleSize, mat & A, mat & W);
 /*! @} */
 
 namespace itpp
@@ -123,7 +123,7 @@ Fast_ICA::Fast_ICA(mat ma_mixedSig)
 }
 
 // Call main function
-void Fast_ICA::separate(void)
+bool Fast_ICA::separate(void)
 {
 
   int Dim = numOfIC;
@@ -158,13 +158,14 @@ void Fast_ICA::separate(void)
 
   }
 
+  bool result = true;
   if (PCAonly == false) {
 
     Dim = whitesig.rows();
 
     if (numOfIC > Dim) numOfIC = Dim;
 
-    fpica(whitesig, whiteningMatrix, dewhiteningMatrix, approach, numOfIC, g, finetune, a1, a2, mu, stabilization, epsilon, maxNumIterations, maxFineTune, initState, guess, sampleSize, A, W);
+    result = fpica(whitesig, whiteningMatrix, dewhiteningMatrix, approach, numOfIC, g, finetune, a1, a2, mu, stabilization, epsilon, maxNumIterations, maxFineTune, initState, guess, sampleSize, A, W);
 
     icasig = W * mixedSig;
 
@@ -173,6 +174,7 @@ void Fast_ICA::separate(void)
   else { // PCA only : returns E as IcaSig
     icasig = VecPr;
   }
+  return result;
 }
 
 void Fast_ICA::set_approach(int in_approach) { approach = in_approach; if (approach == FICA_APPROACH_DEFL) finetune = true; }
@@ -436,7 +438,7 @@ static vec sumcol(const mat A)
 
 }
 
-static void fpica(const mat X, const mat whiteningMatrix, const mat dewhiteningMatrix, const int approach, const int numOfIC, const int g, const int finetune, const double a1, const double a2, double myy, const int stabilization, const double epsilon, const int maxNumIterations, const int maxFinetune, const int initState, mat guess, double sampleSize, mat & A, mat & W)
+static bool fpica(const mat X, const mat whiteningMatrix, const mat dewhiteningMatrix, const int approach, const int numOfIC, const int g, const int finetune, const double a1, const double a2, double myy, const int stabilization, const double epsilon, const int maxNumIterations, const int maxFinetune, const int initState, mat guess, double sampleSize, mat & A, mat & W)
 {
 
   int vectorSize = X.rows();
@@ -510,7 +512,7 @@ static void fpica(const mat X, const mat whiteningMatrix, const mat dewhiteningM
         A = dewhiteningMatrix * B;
         W = transpose(B) * whiteningMatrix;
 
-        return;
+        return false;
       }
 
       B = B * mpower(transpose(B) * B , -0.5);
@@ -768,7 +770,7 @@ static void fpica(const mat X, const mat whiteningMatrix, const mat dewhiteningM
 
               } // IF round
 
-              break;
+              return false;
 
             } // IF numFailures > failureLimit
 
@@ -989,5 +991,5 @@ static void fpica(const mat X, const mat whiteningMatrix, const mat dewhiteningM
     } // While round <= numOfIC
 
   } // ELSE Deflation
-
+  return true;
 } // FPICA

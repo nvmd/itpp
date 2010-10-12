@@ -133,8 +133,9 @@ public:
     \brief Explicit launch of main FastICA function
 
     Explicit launch of the Fast_ICA algorithm.
+	\returns true if algorithm converged and false otherwise
   */
-  void separate(void);
+  bool separate(void);
 
   /*!
     \brief Set approach : FICA_APPROACH_DEFL or FICA_APPROACH_SYMM (default)

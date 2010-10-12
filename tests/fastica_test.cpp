@@ -126,9 +126,10 @@ int main()
   my_fastica.set_nrof_independent_components(nrIC);
 
   // Perform ICA
-  my_fastica.separate();
+  bool result = my_fastica.separate();  
 
   cout << "Use default parameters:" << endl;
+  cout << "Algorithm " << (result?"converged":"failed") << endl;
 
   // Get results : mixing and separating matrices
   cout << "Mixing matrix = " << my_fastica.get_mixing_matrix() << endl;
@@ -151,7 +152,8 @@ int main()
   my_fastica2.set_approach(FICA_APPROACH_DEFL);
 
   // Perform ICA
-  my_fastica2.separate();
+  result = my_fastica2.separate();
+  cout << "Algorithm " << (result?"converged":"failed") << endl;
 
   // Get results
   cout << "Mixing matrix = " << my_fastica2.get_mixing_matrix() << endl;
