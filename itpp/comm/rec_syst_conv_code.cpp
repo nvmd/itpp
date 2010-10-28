@@ -170,11 +170,12 @@ void Rec_Syst_Conv_Code::map_decode(const vec &rec_systematic, const mat &rec_pa
   int j, s0, s1, k, kk, s, s_prim, s_prim0, s_prim1, block_length = rec_systematic.length();
   ivec p0, p1;
 
-  alpha.set_size(Nstates, block_length + 1, false);
-  beta.set_size(Nstates, block_length + 1, false);
-  gamma.set_size(2*Nstates, block_length + 1, false);
-  denom.set_size(block_length + 1, false);
+  mat alpha(Nstates, block_length + 1);
+  mat beta(Nstates, block_length + 1);
+  mat gamma(2*Nstates, block_length + 1);
+  vec denom(block_length + 1);
   denom.clear();
+
   extrinsic_output.set_size(block_length, false);
 
   if (in_terminated) { terminated = true; }
@@ -307,11 +308,11 @@ void Rec_Syst_Conv_Code::log_decode(const vec &rec_systematic, const mat &rec_pa
     it_error("Rec_Syst_Conv_Code::log_decode: Illegal metric parameter");
   }
 
-  alpha.set_size(Nstates, block_length + 1, false);
-  beta.set_size(Nstates, block_length + 1, false);
-  gamma.set_size(2*Nstates, block_length + 1, false);
+  mat alpha(Nstates, block_length + 1);
+  mat beta(Nstates, block_length + 1);
+  mat gamma(2*Nstates, block_length + 1);
   extrinsic_output.set_size(block_length, false);
-  denom.set_size(block_length + 1, false);
+  vec denom(block_length + 1);
   for (k = 0; k <= block_length; k++) { denom(k) = -infinity; }
 
   if (in_terminated) { terminated = true; }
@@ -398,7 +399,6 @@ void Rec_Syst_Conv_Code::log_decode(const vec &rec_systematic, const mat &rec_pa
     }
     extrinsic_output(kk) = nom - den;
   }
-
 }
 
 void Rec_Syst_Conv_Code::log_decode_n2(const vec &rec_systematic, const vec &rec_parity,
@@ -429,9 +429,9 @@ void Rec_Syst_Conv_Code::log_decode_n2(const vec &rec_systematic, const vec &rec
     it_error("Rec_Syst_Conv_Code::log_decode_n2: Illegal metric parameter");
   }
 
-  alpha.set_size(Nstates, block_length + 1, false);
-  beta.set_size(Nstates, block_length + 1, false);
-  gamma.set_size(2*Nstates, block_length + 1, false);
+  mat alpha(Nstates, block_length + 1);
+  mat beta(Nstates, block_length + 1);
+  mat gamma(2*Nstates, block_length + 1);
   extrinsic_output.set_size(ext_info_length, false);
   //denom.set_size(block_length+1,false); for (k=0; k<=block_length; k++) { denom(k) = -infinity; }
 
@@ -523,11 +523,11 @@ void Rec_Syst_Conv_Code::log_decode(const QLLRvec &rec_systematic, const QLLRmat
   int i, j, s0, s1, k, kk, l, s, s_prim, s_prim0, s_prim1, block_length = rec_systematic.length();
   //    ivec p0, p1;
 
-  alpha_q.set_size(Nstates, block_length + 1, false);
-  beta_q.set_size(Nstates, block_length + 1, false);
-  gamma_q.set_size(2*Nstates, block_length + 1, false);
+  QLLRmat alpha_q(Nstates, block_length + 1);
+  QLLRmat beta_q(Nstates, block_length + 1);
+  QLLRmat gamma_q(2*Nstates, block_length + 1);
   extrinsic_output.set_size(block_length, false);
-  denom_q.set_size(block_length + 1, false);
+  QLLRvec denom_q(block_length + 1);
   for (k = 0; k <= block_length; k++) { denom_q(k) = -QLLR_MAX; }
 
   if (in_terminated) { terminated = true; }
@@ -638,9 +638,9 @@ void Rec_Syst_Conv_Code::log_decode_n2(const QLLRvec &rec_systematic,
   int ex, norm;
 
 
-  alpha_q.set_size(Nstates, block_length + 1, false);
-  beta_q.set_size(Nstates, block_length + 1, false);
-  gamma_q.set_size(2*Nstates, block_length + 1, false);
+  QLLRmat alpha_q(Nstates, block_length + 1);
+  QLLRmat beta_q(Nstates, block_length + 1);
+  QLLRmat gamma_q(2*Nstates, block_length + 1);
   extrinsic_output.set_size(ext_info_length, false);
   //denom.set_size(block_length+1,false); for (k=0; k<=block_length; k++) { denom(k) = -infinity; }
 

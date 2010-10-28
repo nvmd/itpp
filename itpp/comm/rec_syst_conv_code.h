@@ -215,10 +215,6 @@ private:
   double rate, Lc;
   imat state_trans, output_parity, rev_state_trans, rev_output_parity;
   bool terminated;
-  mat gamma, alpha, beta;
-  QLLRmat gamma_q, alpha_q, beta_q;
-  vec denom;
-  QLLRvec denom_q;
   double ln2;
 
   /*!
