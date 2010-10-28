@@ -1,3 +1,11 @@
+2010-10-28  Bogdan Cristea  <cristeab@users.sourceforge.net>
+
+	* itpp/comm/rec_syst_conv_code.cpp, itpp/comm/rec_syst_conv_code.h:
+	  data members of the Rec_Syst_Conv_Code class used as internal
+	  variables of the MAP algorithm (alpha, beta, gamma and denom) are
+	  now declared local to each decode method, thus the allocated heap
+	  memory is immediately freed when the MAP algorithm ends
+
 2010-10-12  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
 	* NEWS: updated NEWS file
