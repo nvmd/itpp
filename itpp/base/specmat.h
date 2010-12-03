@@ -100,8 +100,10 @@ void eye(int size, Mat<T> &m);
 
 //! Impulse vector
 vec impulse(int size);
-//! Linspace (works in the same way as the matlab version)
+//! linspace (works in the same way as the MATLAB version)
 vec linspace(double from, double to, int length = 100);
+//! linspace_fixed_step (works in the same way as "from:step:to" in MATLAB)
+vec linspace_fixed_step(double from, double to, double step = 1.0);
 /*! \brief Zig-zag space function (variation on linspace)
 
 This function is a variation on linspace().  It traverses the points

@@ -124,10 +124,32 @@ vec linspace(double from, double to, int points)
     vec output(points);
     double step = (to - from) / double(points - 1);
     int i;
-    for (i = 0; i < points; i++)
+    for (i = 0; i < (points-1); i++)
       output(i) = from + i * step;
+    output(i) = to;
     return output;
   }
+}
+
+vec linspace_fixed_step(double from, double to, double step)
+{
+	int points = 0;
+	if (0 != step)
+	{
+		points = itpp::floor_i((to-from)/step)+1;
+	}
+	if (0 >= points)
+	{
+		return vec(0);
+	}
+
+	vec output(points);
+	points = 0;
+	for (double i = from; i <= to; i += step)
+	{
+		output(points++) = i;
+	}
+	return output;
 }
 
 vec zigzag_space(double t0, double t1, int K)
