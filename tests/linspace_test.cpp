@@ -40,7 +40,7 @@ int main(void)
 
 	double from = 0;
 	double to = 2;
-	double points = 1;
+	int points = 1;
 	vec v = linspace(from, to, points);
 	cout << "Generating a vector of " << points << " points, from " << from << " to " << to << std::endl;
 	if (points != v.length())
