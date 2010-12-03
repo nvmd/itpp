@@ -1,5 +1,18 @@
 2010-12-03  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
+        * win32/itpp_mkl.sln, win32/itpp_mkl_tests/itpp_mkl_tests.sln,
+          win32/itpp_mkl_tests/linspace_test.vcproj: added tests for
+	  Visual Studio C++ with MKL
+
+2010-12-03  Bogdan Cristea  <cristeab@users.sourceforge.net>
+
+        * tests/linspace_test.cpp, win32/itpp_acml.sln,
+  	  win32/itpp_acml_tests/itpp_acml_tests.sln,
+          win32/itpp_acml_tests/linspace_test.vcproj: added test support
+          for Visual Studio C++ with ACML
+
+2010-12-03  Bogdan Cristea  <cristeab@users.sourceforge.net>
+
 	* itpp/base/specmat.cpp, itpp/base/specmat.h, tests/Makefile.am,
 	  tests/linspace_test.ref, tests/linspace_test.cpp: changed linspace()
 	  in order to have MATLAB like behavior, added linspace_fixed_step()
