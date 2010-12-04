@@ -100,10 +100,14 @@ void eye(int size, Mat<T> &m);
 
 //! Impulse vector
 vec impulse(int size);
+
 //! linspace (works in the same way as the MATLAB version)
 vec linspace(double from, double to, int length = 100);
+
 //! linspace_fixed_step (works in the same way as "from:step:to" in MATLAB)
-vec linspace_fixed_step(double from, double to, double step = 1.0);
+template<class T>
+Vec<T> linspace_fixed_step(T from, T to, T step = 1);
+
 /*! \brief Zig-zag space function (variation on linspace)
 
 This function is a variation on linspace().  It traverses the points
@@ -201,41 +205,41 @@ imat conference(int n);
 template <typename Num_T>
 const Mat<Num_T> toeplitz(const Vec<Num_T> &c, const Vec<Num_T> &r)
 {
-  int n_rows = c.size();
-  int n_cols = r.size();
-  Mat<Num_T> output(n_rows, n_cols);
-  for (int i = 0; i < n_rows; ++i) {
-    int j_limit = std::min(n_cols, n_rows - i);
-    for (int j = 0; j < j_limit; ++j) {
-      output(i + j, j) = c(i);
+    int n_rows = c.size();
+    int n_cols = r.size();
+    Mat<Num_T> output(n_rows, n_cols);
+    for (int i = 0; i < n_rows; ++i) {
+        int j_limit = std::min(n_cols, n_rows - i);
+        for (int j = 0; j < j_limit; ++j) {
+            output(i + j, j) = c(i);
+        }
     }
-  }
-  for (int j = 1; j < n_cols; ++j) {
-    int i_limit = std::min(n_rows, n_cols - j);
-    for (int i = 0; i < i_limit; ++i) {
-      output(i, i + j) = r(j);
+    for (int j = 1; j < n_cols; ++j) {
+        int i_limit = std::min(n_rows, n_cols - j);
+        for (int i = 0; i < i_limit; ++i) {
+            output(i, i + j) = r(j);
+        }
     }
-  }
-  return output;
+    return output;
 }
 
 //! Generate symmetric Toeplitz matrix from vector \c c.
 template <typename Num_T>
 const Mat<Num_T> toeplitz(const Vec<Num_T> &c)
 {
-  int s = c.size();
-  Mat<Num_T> output(s, s);
-  for (int i = 0; i < s; ++i) {
-    for (int j = 0; j < s - i; ++j) {
-      output(i + j, j) = c(i);
+    int s = c.size();
+    Mat<Num_T> output(s, s);
+    for (int i = 0; i < s; ++i) {
+        for (int j = 0; j < s - i; ++j) {
+            output(i + j, j) = c(i);
+        }
     }
-  }
-  for (int j = 1; j < s; ++j) {
-    for (int i = 0; i < s - j; ++i) {
-      output(i, i + j) = c(j);
+    for (int j = 1; j < s; ++j) {
+        for (int i = 0; i < s - j; ++i) {
+            output(i, i + j) = c(j);
+        }
     }
-  }
-  return output;
+    return output;
 }
 
 //! Generate symmetric Toeplitz matrix from vector \c c (complex valued)
@@ -294,9 +298,9 @@ mat givens_t(double a, double b);
 template <class T>
 Vec<T> vec_1(T v0)
 {
-  Vec<T> v(1);
-  v(0) = v0;
-  return v;
+    Vec<T> v(1);
+    v(0) = v0;
+    return v;
 }
 
 /*!
@@ -306,10 +310,10 @@ Vec<T> vec_1(T v0)
 template <class T>
 Vec<T> vec_2(T v0, T v1)
 {
-  Vec<T> v(2);
-  v(0) = v0;
-  v(1) = v1;
-  return v;
+    Vec<T> v(2);
+    v(0) = v0;
+    v(1) = v1;
+    return v;
 }
 
 /*!
@@ -319,11 +323,11 @@ Vec<T> vec_2(T v0, T v1)
 template <class T>
 Vec<T> vec_3(T v0, T v1, T v2)
 {
-  Vec<T> v(3);
-  v(0) = v0;
-  v(1) = v1;
-  v(2) = v2;
-  return v;
+    Vec<T> v(3);
+    v(0) = v0;
+    v(1) = v1;
+    v(2) = v2;
+    return v;
 }
 
 /*!
@@ -333,9 +337,9 @@ Vec<T> vec_3(T v0, T v1, T v2)
 template <class T>
 Mat<T> mat_1x1(T m00)
 {
-  Mat<T> m(1, 1);
-  m(0, 0) = m00;
-  return m;
+    Mat<T> m(1, 1);
+    m(0, 0) = m00;
+    return m;
 }
 
 /*!
@@ -345,10 +349,10 @@ Mat<T> mat_1x1(T m00)
 template <class T>
 Mat<T> mat_1x2(T m00, T m01)
 {
-  Mat<T> m(1, 2);
-  m(0, 0) = m00;
-  m(0, 1) = m01;
-  return m;
+    Mat<T> m(1, 2);
+    m(0, 0) = m00;
+    m(0, 1) = m01;
+    return m;
 }
 
 /*!
@@ -359,10 +363,10 @@ template <class T>
 Mat<T> mat_2x1(T m00,
                T m10)
 {
-  Mat<T> m(2, 1);
-  m(0, 0) = m00;
-  m(1, 0) = m10;
-  return m;
+    Mat<T> m(2, 1);
+    m(0, 0) = m00;
+    m(1, 0) = m10;
+    return m;
 }
 
 /*!
@@ -373,12 +377,12 @@ template <class T>
 Mat<T> mat_2x2(T m00, T m01,
                T m10, T m11)
 {
-  Mat<T> m(2, 2);
-  m(0, 0) = m00;
-  m(0, 1) = m01;
-  m(1, 0) = m10;
-  m(1, 1) = m11;
-  return m;
+    Mat<T> m(2, 2);
+    m(0, 0) = m00;
+    m(0, 1) = m01;
+    m(1, 0) = m10;
+    m(1, 1) = m11;
+    return m;
 }
 
 /*!
@@ -388,11 +392,11 @@ Mat<T> mat_2x2(T m00, T m01,
 template <class T>
 Mat<T> mat_1x3(T m00, T m01, T m02)
 {
-  Mat<T> m(1, 3);
-  m(0, 0) = m00;
-  m(0, 1) = m01;
-  m(0, 2) = m02;
-  return m;
+    Mat<T> m(1, 3);
+    m(0, 0) = m00;
+    m(0, 1) = m01;
+    m(0, 2) = m02;
+    return m;
 }
 
 /*!
@@ -404,11 +408,11 @@ Mat<T> mat_3x1(T m00,
                T m10,
                T m20)
 {
-  Mat<T> m(3, 1);
-  m(0, 0) = m00;
-  m(1, 0) = m10;
-  m(2, 0) = m20;
-  return m;
+    Mat<T> m(3, 1);
+    m(0, 0) = m00;
+    m(1, 0) = m10;
+    m(2, 0) = m20;
+    return m;
 }
 
 /*!
@@ -419,14 +423,14 @@ template <class T>
 Mat<T> mat_2x3(T m00, T m01, T m02,
                T m10, T m11, T m12)
 {
-  Mat<T> m(2, 3);
-  m(0, 0) = m00;
-  m(0, 1) = m01;
-  m(0, 2) = m02;
-  m(1, 0) = m10;
-  m(1, 1) = m11;
-  m(1, 2) = m12;
-  return m;
+    Mat<T> m(2, 3);
+    m(0, 0) = m00;
+    m(0, 1) = m01;
+    m(0, 2) = m02;
+    m(1, 0) = m10;
+    m(1, 1) = m11;
+    m(1, 2) = m12;
+    return m;
 }
 
 /*!
@@ -438,14 +442,14 @@ Mat<T> mat_3x2(T m00, T m01,
                T m10, T m11,
                T m20, T m21)
 {
-  Mat<T> m(3, 2);
-  m(0, 0) = m00;
-  m(0, 1) = m01;
-  m(1, 0) = m10;
-  m(1, 1) = m11;
-  m(2, 0) = m20;
-  m(2, 1) = m21;
-  return m;
+    Mat<T> m(3, 2);
+    m(0, 0) = m00;
+    m(0, 1) = m01;
+    m(1, 0) = m10;
+    m(1, 1) = m11;
+    m(2, 0) = m20;
+    m(2, 1) = m21;
+    return m;
 }
 
 /*!
@@ -457,17 +461,17 @@ Mat<T> mat_3x3(T m00, T m01, T m02,
                T m10, T m11, T m12,
                T m20, T m21, T m22)
 {
-  Mat<T> m(3, 3);
-  m(0, 0) = m00;
-  m(0, 1) = m01;
-  m(0, 2) = m02;
-  m(1, 0) = m10;
-  m(1, 1) = m11;
-  m(1, 2) = m12;
-  m(2, 0) = m20;
-  m(2, 1) = m21;
-  m(2, 2) = m22;
-  return m;
+    Mat<T> m(3, 3);
+    m(0, 0) = m00;
+    m(0, 1) = m01;
+    m(0, 2) = m02;
+    m(1, 0) = m10;
+    m(1, 1) = m11;
+    m(1, 2) = m12;
+    m(2, 0) = m20;
+    m(2, 1) = m21;
+    m(2, 2) = m22;
+    return m;
 }
 
 } //namespace itpp
