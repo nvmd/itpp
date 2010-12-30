@@ -20,9 +20,9 @@ FIXED_TESTS = fix_test
 
 OPTIM_TESTS = newton_search_test
 
-SIGNAL_TESTS = filter_test source_test window_test
+SIGNAL_TESTS = filter_test source_test
 SIGNAL_LAP_TESTS = fastica_test poly_test
-SIGNAL_FFT_TESTS = freq_filt_test sigfun_test transforms_test
+SIGNAL_FFT_TESTS = freq_filt_test sigfun_test transforms_test window_test
 SIGNAL_LAP_FFT_TESTS = filter_design_test
 
 STAT_TESTS = histogram_test
