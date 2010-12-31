@@ -1,3 +1,10 @@
+2010-12-31  Bogdan Cristea  <cristeab@users.sourceforge.net>
+
+	* itpp/base/specmat.cpp, tests/linspace_test.cpp,
+	  tests/linspace_test.ref: changed algorithm for
+	  linspace_fixed_step so that it works when generating vectors in
+	  ascending or descending order
+
 2010-12-04  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
 	* itpp/base/specmat.cpp, itpp/base/specmat.h,
