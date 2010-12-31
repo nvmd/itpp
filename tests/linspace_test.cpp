@@ -316,13 +316,13 @@ int main(void)
         cout << "Vector element is: " << v << endl;
     }
 
-    from = -5;
-    to = 5;
+    from = 5;
+    to = -5;
     step = -2;
     v = linspace_fixed_step(from, to, step);
     cout << "Generating a vector with a step of " << step <<
     ", from " << from << " to " << to << endl;
-    actual_len = 0;
+    actual_len = floor_i((to-from)/step)+1;
     if (actual_len != v.length())
     {
         cout << "Wrong vector length: " << v.length() << endl;
@@ -332,6 +332,10 @@ int main(void)
         cout << "Vector length is: " << v.length() << endl;
     }
     actual_v.set_size(actual_len);
+    for (n = 0; n < actual_len; ++n)
+    {
+        actual_v(n) = from+n*step;
+    }
     if (v != actual_v)
     {
         cout << "Wrong vector element: " << v << endl;
