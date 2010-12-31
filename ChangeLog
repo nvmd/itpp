@@ -1,5 +1,16 @@
 2010-12-31  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
+	* win32/itpp_acml_tests/itpp_acml_tests.sln,
+	  win32/itpp_mkl_tests/itpp_mkl_tests.sln: corrected solution files
+	  for ACML and MKL for backward compatibility
+
+2010-12-31  Bogdan Cristea  <cristeab@users.sourceforge.net>
+
+	* ChangeLog, ChangeLog-2009: separated ChangeLog file into
+	  ChangeLog-2009 and ChangeLog (contains only logs from 2010)
+
+2010-12-31  Bogdan Cristea  <cristeab@users.sourceforge.net>
+
 	* itpp/base/specmat.cpp, tests/linspace_test.cpp,
 	  tests/linspace_test.ref: changed algorithm for
 	  linspace_fixed_step so that it works when generating vectors in
