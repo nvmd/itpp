@@ -143,9 +143,9 @@ Vec<T> linspace_fixed_step(T from, T to, T step)
     }
 
     Vec<T> output(points);
-    points = 0;
-    for (T i = from; i <= to; i += step) {
-        output(points++) = i;
+    output(0) = from;
+    for (int n = 1; n < points; ++n) {
+    	output(n) = output(n-1)+step;
     }
     return output;
 }
