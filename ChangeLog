@@ -1,3 +1,15 @@
+2011-01-01  Bogdan Cristea  <cristeab@users.sourceforge.net>
+
+	* doc/local/linking.doc, doc/tutorial/pccc_bersim_awgn.doc: added
+	  help for pyitpp module
+
+2011-01-01  Bogdan Cristea  <cristeab@users.sourceforge.net>
+
+	* extras/Makefile.am, extras/gen_test_itload.cpp, extras/pyitpp.py,
+	  extras/test_pyitpp.it, extras/test_pyitpp.py: added pyitpp module
+	  providing itload() function for python, similar to MATLAB
+	  itload.m
+
 2010-12-31  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
 	* win32/itpp_acml_tests/itpp_acml_tests.sln,
