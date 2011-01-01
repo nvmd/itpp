@@ -8,6 +8,7 @@
 - \ref dynamiclinking
 - \ref msvc_linking
 - \ref matlab_load_and_save
+- \ref python_load
 
 
 \section intro Introduction
@@ -195,6 +196,20 @@ Matlab/Octave, e.g.:
 
 \code
 p = path; path(p, "/usr/local/share/itpp");
+\endcode
+
+\section python_load Using IT++ file format in python
+IT++ provides a python module <tt>`pyitpp.py'</tt> with <tt>`itload()'</tt> function
+for reading IT++ data files in python. This module uses <tt>`numpy'</tt> module for
+matrix operations and extended numerical types support. Additionally, you might need
+<tt>`matplotlib'</tt> module in order to graphically display the loaded data.
+To ensure that python finds this module you should add the following directory
+<tt>`$prefix/share/itpp'</tt> to the python search path, e.g.
+
+\code
+import sys
+sys.path.append($prefix/share/itpp)
+import pyitpp
 \endcode
 
 */
