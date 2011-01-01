@@ -21,7 +21,7 @@ ylabel('BER')
 \endcode
 the results can be displayed.
 
-Similarly, the results can be displayed using the following python script (pyitpp, numpy and matplotlib
+Similarly, the results can be displayed using the following Python script (pyitpp, numpy and matplotlib
 modules are required):
 \code
 #!/usr/bin/env python
@@ -33,7 +33,7 @@ out = itload('pccc_bersim_awgn.it')
 
 semilogy(out['EbN0_dB'], out['BER'].T, 'o-')
 grid()
-xlabel('$E_b/N_0$')
+xlabel('$E_b/N_0 [dB]$')
 ylabel('$BER$')
 title('PCCC performance in AWGN channel')
 show()
