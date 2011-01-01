@@ -35,7 +35,6 @@ semilogy(out['EbN0_dB'], out['BER'].T, 'o-')
 grid()
 xlabel('$E_b/N_0 [dB]$')
 ylabel('$BER$')
-title('PCCC performance in AWGN channel')
 show()
 \endcode
 */
