@@ -828,6 +828,28 @@ void ND_UQAM::set_M(int nt_in, ivec Mary)
   }
 }
 
+void ND_UQAM::set_constellation_points(const int nth, const cvec& inConstellation, const ivec& in_bit2symbols)
+{
+	it_assert(nt > nth, "ND_UQAM::set_constellation_points(): Number of input to change is out of the size");
+	it_assert(inConstellation.size() == in_bit2symbols.size(),
+		"ND_UQAM::set_constellation_points(): Number of constellation and bits2symbols does not match");
+	it_assert(is_even(inConstellation.size()) && (inConstellation.size() > 0),
+		"ND_UQAM::set_constellation_points(): Number of symbols needs to be even and non-zero");
+
+	symbols(nth).replace_mid(0,inConstellation);
+
+	bits2symbols(nth) = in_bit2symbols;
+
+	for (int m = 0; m < M(nth); ++m) 
+	{
+		bitmap(nth).set_row(bits2symbols(nth)(m), dec2bin(k(nth), m));
+	}
+
+	// must end with a zero; only for a trick exploited in
+    // update_norm()
+    symbols(nth)(M(nth)) = 0.0;
+};
+
 // ----------------------------------------------------------------------
 // ND_UPSK
 // ----------------------------------------------------------------------

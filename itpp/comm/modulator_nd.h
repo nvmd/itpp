@@ -602,6 +602,25 @@ public:
   //! Set component modulators to M-QAM with Gray mapping, different M per component
   void set_M(int nt = 1, ivec Mary = "4");
 
+/*! 
+ * \brief Set the constellation points
+ * \param[in] nth - number of antenna
+ * \param[in] inConstellation - new constellation points
+ * \param[in] vector of mapping transmitted data symbols (index in the vector) to constellation points (value in the vector). 
+ * 
+ * <h3>Example of use:</h3>
+ * \code
+ * ND_UQAM qam(1,16); //QAM-16 with Gray mapping
+ *
+ * //now set the new Gray mapping (a little bit different than hardcoded in it++).
+ * qam.set_constellation_points(1, qam.get_symbols(), "0 1 5 4 2 3 7 6 10 11 15 14 8 9 13 12");
+ * 
+ * bvec bits = "0 1 1 0 0 0 1 1 1 1 0 0 1 0 0 1";
+ * cvec modulated_symbols = qam.modulate_bits(bits);
+ * \endcode
+ */
+  void set_constellation_points(const int nth, const cvec& inConstellation, const ivec& in_bit2symbols);
+  
 protected:
   ivec L;  //!< the square root of M
 };
