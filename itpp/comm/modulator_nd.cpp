@@ -5,7 +5,7 @@
  *
  * -------------------------------------------------------------------------
  *
- * Copyright (C) 1995-2010  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2011  (see AUTHORS file for a list of contributors)
  *
  * This file is part of IT++ - a C++ library of mathematical, signal
  * processing, speech processing, and communications classes and functions.
@@ -124,6 +124,17 @@ void Modulator_ND::update_LLR(const Array<QLLRvec> &logP_apriori,
 // ----------------------------------------------------------------------
 // Modulator_NRD
 // ----------------------------------------------------------------------
+Array<vec> Modulator_NRD::get_symbols() const
+{
+	Array<vec> retvec(nt);
+	for (int i = 0; i < nt; ++i)
+	{
+		it_assert(M.length() == symbols.length(), "Modulator_NRD::get_symbols(): "
+            "The length of M vector is different than length of the symbols vector.");
+		retvec(i)=symbols(i).left(M(i));
+	}
+	return retvec;
+}
 
 void Modulator_NRD::modulate_bits(const bvec &bits, vec &out_symbols) const
 {
@@ -344,6 +355,18 @@ std::ostream &operator<<(std::ostream &os, const Modulator_NRD &mod)
 // ----------------------------------------------------------------------
 // Modulator_NCD
 // ----------------------------------------------------------------------
+
+Array<cvec> Modulator_NCD::get_symbols() const
+{
+	Array<cvec> retvec(nt);
+	for (int i = 0; i < nt; ++i)
+	{
+		it_assert(M.length() == symbols.length(), "Modulator_NRD::get_symbols(): "
+            "The length of M vector is different than length of the symbols vector.");
+		retvec(i)=symbols(i).left(M(i));
+	}
+	return retvec;
+}
 
 void Modulator_NCD::modulate_bits(const bvec &bits, cvec &out_symbols) const
 {

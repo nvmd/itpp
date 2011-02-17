@@ -5,7 +5,7 @@
  *
  * -------------------------------------------------------------------------
  *
- * Copyright (C) 1995-2010  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2011  (see AUTHORS file for a list of contributors)
  *
  * This file is part of IT++ - a C++ library of mathematical, signal
  * processing, speech processing, and communications classes and functions.
@@ -73,7 +73,7 @@ public:
   Modulator_ND(LLR_calc_unit llrcalc_in = LLR_calc_unit()):
       llrcalc(llrcalc_in) {}
   //! Destructor
-  ~Modulator_ND() {}
+  virtual ~Modulator_ND() {}
 
   //! Set LLR calculation unit
   void set_llrcalc(LLR_calc_unit llrcalc_in) { llrcalc = llrcalc_in; };
@@ -86,9 +86,18 @@ public:
 
   //! Get number of bits per modulation symbol per dimension
   ivec get_k() const { return k; }
+  
+  //! Get number of bits per modulation symbol per dimension
+  ivec bits_per_symbol() const { return k; }
 
   //! Get number of modulation symbols per dimension
   ivec get_M() const { return M; }
+
+  //! Get bit pattern in decimal
+  Array<ivec> get_bits2symbols() const { return bits2symbols; }
+
+  //! Get Bit mapping table 
+  Array<bmat> get_bitmap() const { return bitmap; }
 
 protected:
   //! Number of dimensions
@@ -192,10 +201,10 @@ public:
   //! Constructor
   Modulator_NRD() {}
   //! Destructor
-  ~Modulator_NRD() {}
+  virtual ~Modulator_NRD() {}
 
   //! Get modulation symbols per dimension
-  Array<vec> get_symbols() const { return symbols; }
+  Array<vec> get_symbols() const;
 
   //! Modulate \c bits into \c symbols
   void modulate_bits(const bvec &bits, vec &symbols) const;
@@ -347,10 +356,10 @@ public:
   //! Constructor
   Modulator_NCD() {}
   //! Destructor
-  ~Modulator_NCD() {}
+  virtual ~Modulator_NCD() {}
 
   //! Get modulation symbols per dimension
-  Array<cvec> get_symbols() const { return symbols; }
+  Array<cvec> get_symbols() const;
 
   //! Modulate \c bits into \c symbols
   void modulate_bits(const bvec &bits, cvec &symbols) const;
@@ -532,7 +541,7 @@ public:
   //! Constructor
   ND_UPAM(int nt = 1, int Mary = 2);
   //! Destructor
-  ~ND_UPAM() {}
+  virtual ~ND_UPAM() {}
 
   //! Set component modulators to M-PAM with Gray mapping
   void set_M(int nt = 1, int Mary = 2);
@@ -594,7 +603,7 @@ public:
   //! Constructor
   ND_UQAM(int nt = 1, int Mary = 4);
   //! Destructor
-  ~ND_UQAM() {}
+  virtual ~ND_UQAM() {}
 
   //! Set component modulators to M-QAM with Gray mapping
   void set_M(int nt = 1, int Mary = 4);
@@ -613,7 +622,7 @@ public:
  * ND_UQAM qam(1,16); //QAM-16 with Gray mapping
  *
  * //now set the new Gray mapping (a little bit different than hardcoded in it++).
- * qam.set_constellation_points(1, qam.get_symbols(), "0 1 5 4 2 3 7 6 10 11 15 14 8 9 13 12");
+ * qam.set_constellation_points(1, qam.get_symbols()(0), "0 1 5 4 2 3 7 6 10 11 15 14 8 9 13 12");
  * 
  * bvec bits = "0 1 1 0 0 0 1 1 1 1 0 0 1 0 0 1";
  * cvec modulated_symbols = qam.modulate_bits(bits);
@@ -642,7 +651,7 @@ public:
   //! Constructor
   ND_UPSK(int nt = 1, int Mary = 4);
   //! Destructor
-  ~ND_UPSK() {}
+  virtual ~ND_UPSK() {}
 
   //! Set component modulators to M-QAM with Gray mapping
   void set_M(int nt = 1, int Mary = 4);
