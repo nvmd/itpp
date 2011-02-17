@@ -1,3 +1,16 @@
+2011-02-17  Robert Orzechowski  <tytusz@users.sourceforge.net>
+	* itpp/comm/modulator_nd.h, itpp/comm/modulator_nd.cpp: 
+	get_symbols() return symbols without additional 0.0 symbol.
+	* itpp/comm/modulator_nd.h, itpp/comm/modulator_nd.cpp, 
+	itpp/comm/modulator.h: added few getters to have similar 
+	ND_UQAM class usage as QAM class (both can be used with 
+	SISO class since now).
+
+2011-01-09  Robert Orzechowski  <tytusz@users.sourceforge.net>
+
+	* itpp/comm/modulator_nd.h, itpp/comm/modulator_nd.cpp: added 
+	  set_constellation_points method to ND_UQAM modulator class.
+	
 2011-01-01  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
 	* doc/local/linking.doc, doc/tutorial/pccc_bersim_awgn.doc: added

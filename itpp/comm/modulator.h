@@ -5,7 +5,7 @@
  *
  * -------------------------------------------------------------------------
  *
- * Copyright (C) 1995-2010  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2011  (see AUTHORS file for a list of contributors)
  *
  * This file is part of IT++ - a C++ library of mathematical, signal
  * processing, speech processing, and communications classes and functions.
@@ -86,8 +86,16 @@ public:
 
   //! Returns number of bits per symbol
   virtual int bits_per_symbol() const { return k; }
+  
+  //! Returns number of bits per symbol
+  virtual int get_k() const { return k; }
+
+  //! Returns number of modulation symbols
+  virtual int get_M() const { return M; }
+
   //! Get the symbol values used in the modulator
   virtual Vec<T> get_symbols() const { return symbols; }
+
   /*!
    * \brief Get the bitmap, which maps input bits into symbols
    *
