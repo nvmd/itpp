@@ -109,7 +109,7 @@ int main(void)
 
 	//check generated matrices
 	itpp::cmat ref_imp_vblast("1 0; 0 1; 0 1; 1 0; 1 0; 0 -1; 0 1; -1 0");
-	ref_imp_vblast /= std::sqrt(2);
+	ref_imp_vblast /= std::sqrt(2.0);
 	if (!near(ref_imp_vblast, stc.get_1st_gen_matrix(), abs_err) ||
 		!near(ref_imp_vblast, stc.get_2nd_gen_matrix(), abs_err))
 	{

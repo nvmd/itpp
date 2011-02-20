@@ -116,6 +116,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "siso_test", "siso_test.vcpr
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "linspace_test", "linspace_test.vcproj", "{73073C92-1EC5-4962-BFB1-77E4C4604912}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "stc_test", "stc_test.vcproj", "{E1636C16-BFE5-492D-B64A-A5F4E1C832FE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Release|Win32 = Release|Win32
@@ -237,6 +239,8 @@ Global
 		{CB20AE57-7D67-453E-A85C-522A8CA95E23}.Release|Win32.Build.0 = Release|Win32
 		{73073C92-1EC5-4962-BFB1-77E4C4604912}.Release|Win32.ActiveCfg = Release|Win32
 		{73073C92-1EC5-4962-BFB1-77E4C4604912}.Release|Win32.Build.0 = Release|Win32
+		{E1636C16-BFE5-492D-B64A-A5F4E1C832FE}.Release|Win32.ActiveCfg = Release|Win32
+		{E1636C16-BFE5-492D-B64A-A5F4E1C832FE}.Release|Win32.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
