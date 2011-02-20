@@ -1,5 +1,12 @@
 2011-02-20  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
+	* tests/stc_test.cpp, win32/itpp_acml_tests/itpp_acml_tests.sln,
+	  win32/itpp_mkl.sln, win32/itpp_mkl_tests/itpp_mkl_tests.sln:
+	  added tests for Visual Studio projects, corrected minor error in
+	  stc_test.cpp
+
+2011-02-20  Bogdan Cristea  <cristeab@users.sourceforge.net>
+
 	* itpp/comm/stc.cpp, itpp/comm/stc.h, tests/Makefile.am,
 	  tests/stc_test.cpp, tests/stc_test.ref: Corrected error in STC
 	  class when generating V-BLAST code. Simplified STC interface.
