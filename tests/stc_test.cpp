@@ -52,10 +52,10 @@ bool near(const itpp::cmat &M1, const itpp::cmat &M2, double err)
 
 int main(void)
 {
-	int em_antennas = 2;
-	int channel_uses = 2;
-	int symb_block = 0;//output parameter
-	const int const_size = 4;//QAM
+	unsigned int em_antennas = 2;
+	unsigned int channel_uses = 2;
+	unsigned int symb_block = 0;//output parameter
+	const unsigned int const_size = 4;//QAM
 	std::string code_name("V-BLAST_MxN");
 	const double abs_err = 1e-12;
 

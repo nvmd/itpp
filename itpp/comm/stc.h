@@ -47,9 +47,11 @@ class STC
 {
 public:
 	//! Space Time Code constructor
-	inline STC(int &in_out_em_antennas, int &in_out_channel_uses,
-			int &out_symb_block,
-    		const std::string &in_code_name, int in_const_size) :
+	inline STC(unsigned int &in_out_em_antennas,
+			unsigned int &in_out_channel_uses,
+			unsigned int &out_symb_block,
+    		const std::string &in_code_name,
+    		unsigned int in_const_size) :
     		em_antennas(in_out_em_antennas),
     		channel_uses(in_out_channel_uses),
     		symb_block(out_symb_block)
@@ -58,9 +60,11 @@ public:
 				in_code_name, in_const_size);
 	}
     //! Setup ST block codes (Hassibi's method is used)
-    inline void setup(int &in_out_em_antennas, int &in_out_channel_uses,
-    		int &out_symb_block,
-    		const std::string &in_code_name, int in_const_size)
+    inline void setup(unsigned int &in_out_em_antennas,
+    		unsigned int &in_out_channel_uses,
+    		unsigned int &out_symb_block,
+    		const std::string &in_code_name,
+    		unsigned int in_const_size)
     {
         em_antennas = in_out_em_antennas;
         channel_uses = in_out_channel_uses;
@@ -91,12 +95,12 @@ private:
     itpp::cmat Hassibi_encode(const itpp::cvec &symb);
     itpp::cmat diag_pow(const itpp::cmat &in_mat, double in_exp);
     itpp::mat mat_pow(const itpp::mat &in_mat, int in_exp);
-    int const_size;
+    unsigned int const_size;
     itpp::cmat A;
     itpp::cmat B;
-    int &em_antennas;
-    int &channel_uses;
-    int &symb_block;
+    unsigned int &em_antennas;
+    unsigned int &channel_uses;
+    unsigned int &symb_block;
     std::string code_name;
 };
 
