@@ -52,6 +52,19 @@ void STC::Hassibi_block_code(void)
 {
     if (code_name=="V-BLAST_MxN")//classical V-BLAST
     {
+    	if (0 == channel_uses)
+    	{
+    		channel_uses = 1;
+    		std::cout << "STC::LDcode: Warning! Channel uses should be at least one."
+    				<< " Selecting the minimum allowed value." << std::endl;
+    	}
+    	if (0 == em_antennas)
+    	{
+    		em_antennas = 1;
+    		std::cout << "STC::LDcode: Warning! The number of emission antennas "
+    				"should be at least one. Selecting the minimum allowed value."
+    				<< std::endl;
+    	}
         symb_block = channel_uses*em_antennas;//number of symbols/block
         std::cout << "STC::LDcode: Warning! For " << code_name <<
         		" the following parameter is predefined:" << std::endl;
@@ -75,6 +88,13 @@ void STC::Hassibi_block_code(void)
     }
     else if (code_name=="imp_V-BLAST_MxN")//improved V-BLAST (code (31) in Hassibi's paper)
     {
+    	if (0 == em_antennas)
+    	{
+    		em_antennas = 1;
+    		std::cout << "STC::LDcode: Warning! The number of emission antennas "
+    				"should be at least one."
+    				<< " Selecting the minimum allowed value." << std::endl;
+    	}
         if (channel_uses!=em_antennas)
         {
             std::cout << "STC::LDcode: Warning! For " << code_name <<
