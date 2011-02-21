@@ -1,3 +1,8 @@
+2011-02-21  Bogdan Cristea  <cristeab@users.sourceforge.net>
+
+	* itpp/comm/stc.cpp, itpp/comm/stc.h, tests/stc_test.cpp: added
+	  more error checking on input parameters
+
 2011-02-20  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
 	* tests/stc_test.cpp, win32/itpp_acml_tests/itpp_acml_tests.sln,
