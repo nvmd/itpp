@@ -1,38 +1,14 @@
 Space Time Code class test started
 Checking V-BLAST
-STC::LDcode: Warning! For V-BLAST_MxN the following parameter is predefined:
-symb_block = channel_uses*em_antennas = 4
 Checking improved V-BLAST
-STC::LDcode: Warning! For imp_V-BLAST_MxN the following parameter is predefined:
-symb_block = 4
 Checking Alamouti code
-STC::LDcode: Warning! For Alamouti_2xN the following parameters are predefined:
-em_antennas = 2, channel_uses = 2, symb_block = 2
 Checking switched Alamouti code
-STC::LDcode: Warning! For Switched_Alamouti_4xN the following parameters are predefined:
-em_antennas = 4, channel_uses = 4, symb_block = 4
 Checking double Alamouti code
-STC::LDcode: Warning! For Double_Alamouti_4xN the following parameters are predefined:
-em_antennas = 4, channel_uses = 2, symb_block = 4
 Checking Jafarkhani code
-STC::LDcode: Warning! For Jafarkhani_4xN the following parameters are predefined:
-em_antennas = 4, channel_uses = 4, symb_block = 4
 Checking Golden code
-STC::LDcode: Warning! For Golden_2x2 the following parameters are predefined:
-em_antennas = 2, channel_uses = 2, symb_block = 4
 Checking Damen code
-STC::LDcode: Warning! For Damen_2x2 the following parameters are predefined:
-em_antennas = 2, channel_uses = 2, symb_block = 4
 Checking orthogonal code 3xN
-STC::LDcode: Warning! For 34ortho_3xN the following parameters are predefined:
-em_antennas = 3, channel_uses = 4, symb_block = 3
 Checking 36 LD code 3xN
-STC::LDcode: Warning! For 36LD_3xN the following parameters are predefined:
-em_antennas = 3, channel_uses = 4, symb_block = 4
 Checking 37 LD code 3xN
-STC::LDcode: Warning! For 37LD_3xN the following parameters are predefined:
-em_antennas = 3, channel_uses = 6, symb_block = 6
 Checking 39 LD code 3xN
-STC::LDcode: Warning! For 39LD_3xN the following parameters are predefined:
-em_antennas = 3, channel_uses = 6, symb_block = 6
 Space Time Code class test finished

@@ -5,7 +5,7 @@
  *
  * -------------------------------------------------------------------------
  *
- * Copyright (C) 1995-2010  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2011  (see AUTHORS file for a list of contributors)
  *
  * This file is part of IT++ - a C++ library of mathematical, signal
  * processing, speech processing, and communications classes and functions.
@@ -38,7 +38,40 @@ namespace itpp
   \ingroup misccommfunc
   \brief Space Time block Codes (STC) class
 
-  Implements Space Time block Codes using Hassibi's model
+  Implements space time block codes using Hassibi's model. The following codes
+  are available:
+  - V-BLAST_MxN
+  - imp_V-BLAST_MxN
+  - Alamouti_2xN
+  - Switched_Alamouti_4xN
+  - Double_Alamouti_4xN
+  - Jafarkhani_4xN
+  - Golden_2x2
+  - Damen_2x2
+  - 34ortho_3xN
+  - 36LD_3xN
+  - 37LD_3xN
+  - 39LD_3xN
+
+  The code name and the constellation size are always needed to generate the
+  requested code. The number of emission antenna and the channel uses are required
+  by some codes to be provided by the user as input parameters, for other codes
+  they have predefined values and don't need to be specified by the user.
+  The number of symbols per block is always set internally. Therefore, it is
+  recommended that after setting up the generator matrices (either through the
+  constructor or through the setup() method) to call getters in order to obtain
+  the number of emission antenna, the channel uses and the number of symbols per
+  block.
+
+  Usage example:
+  \code
+  STC stc(code_name, const_size);
+  nb_em_antenna = stc.get_nb_emission_antenna();
+  channel_uses = stc.get_nb_channel_uses();
+  symb_block = stc.get_nb_symbols_block();
+  //symbol generation
+  enc_symb = stc.encode(symb);
+  \endcode
 
   Reference: B. Hassibi and B. M. Hochwald, ''High-rate codes that are linear in space and time,``
   IEEE Transactions on Information Theory, vol. 48, pp. 1804-1824, July 2002
@@ -46,62 +79,69 @@ namespace itpp
 class STC
 {
 public:
-	//! Space Time Code constructor
-	inline STC(unsigned int &in_out_em_antennas,
-			unsigned int &in_out_channel_uses,
-			unsigned int &out_symb_block,
-    		const std::string &in_code_name,
-    		unsigned int in_const_size) :
-    		em_antennas(in_out_em_antennas),
-    		channel_uses(in_out_channel_uses),
-    		symb_block(out_symb_block)
+	//! Space Time Code constructor (sets up the generator matrices using Hassibi's method)
+	inline STC(const std::string &in_code_name, //!< code name (see available codes)
+    		int in_const_size, //!< constellation size (should be at least two)
+    		int in_em_antenna = 0, //!< number of emission antenna (for some codes it is set internally and should be obtained with get_nb_emission_antenna())
+    		int in_channel_uses = 0 //!< number of channel uses (for some codes it is set internally and should be obtained with get_nb_channel_uses())
+    		)
 	{
-		setup(in_out_em_antennas, in_out_channel_uses, out_symb_block,
-				in_code_name, in_const_size);
+		setup(in_code_name, in_const_size, in_em_antenna, in_channel_uses);
 	}
-    //! Setup ST block codes (Hassibi's method is used)
-    inline void setup(unsigned int &in_out_em_antennas,
-    		unsigned int &in_out_channel_uses,
-    		unsigned int &out_symb_block,
-    		const std::string &in_code_name,
-    		unsigned int in_const_size)
+    //! Sets up the generator matrices using Hassibi's method (can be used to obtain new generator matrices, e.g. for a different code)
+    inline void setup(const std::string &in_code_name, //!< code name (see available codes)
+    		int in_const_size, //!< constellation size (should be at least two)
+    		int in_em_antenna = 0, //!< number of emission antenna (for some codes it is set internally and should be obtained with get_nb_emission_antenna())
+    		int in_channel_uses = 0 //!< number of channel uses (for some codes it is set internally and should be obtained with get_nb_channel_uses())
+    		)
     {
-        em_antennas = in_out_em_antennas;
-        channel_uses = in_out_channel_uses;
-        symb_block = out_symb_block;
-        code_name = in_code_name;
-        const_size = in_const_size;
+    	code_name = in_code_name;
+    	it_assert(in_const_size >= 2, "Constellation size should be at least two");
+    	const_size = in_const_size;
+        em_antenna = in_em_antenna;
+        channel_uses = in_channel_uses;
         Hassibi_block_code();
-    };
-    //! Encodes input symbols according to specified ST code
-    itpp::cmat encode(const itpp::cvec &symb)
+    }
+    //! Gets the number of emission antenna (for some codes this is a predefined parameter)
+    inline int get_nb_emission_antenna(void) const
     {
-        return Hassibi_encode(symb);
-    };
+    	return em_antenna;
+    }
+    //! Gets the channel uses  (for some codes this is a predefined parameter)
+    inline int get_channel_uses(void) const
+    {
+    	return channel_uses;
+    }
+    //! Gets the number of symbols per block (for all codes this is an output parameter)
+    inline int get_nb_symbols_per_block(void) const
+    {
+    	return symb_block;
+    }
     //! Gets the first generator matrix of the ST code following Hassibi's approach
-    const itpp::cmat& get_1st_gen_matrix(void) const
+    inline itpp::cmat get_1st_gen_matrix(void) const
     {
         return A;
-    };
+    }
     //! Gets the second generator matrix of the ST code following Hassibi's approach
-    const itpp::cmat& get_2nd_gen_matrix(void) const
+    inline itpp::cmat get_2nd_gen_matrix(void) const
     {
         return B;
-    };
+    }
+    //! Encodes input symbols according to the specified ST code
+    itpp::cmat encode(const itpp::cvec &symb);
 private:
-    STC(const STC&);
-    STC& operator=(const STC&);
+    STC(const STC&);//not used
+    STC& operator=(const STC&);//not used
     void Hassibi_block_code(void);
-    itpp::cmat Hassibi_encode(const itpp::cvec &symb);
     itpp::cmat diag_pow(const itpp::cmat &in_mat, double in_exp);
     itpp::mat mat_pow(const itpp::mat &in_mat, int in_exp);
-    unsigned int const_size;
+    std::string code_name;
+    int const_size;
+    int em_antenna;
+    int channel_uses;
+    int symb_block;
     itpp::cmat A;
     itpp::cmat B;
-    unsigned int &em_antennas;
-    unsigned int &channel_uses;
-    unsigned int &symb_block;
-    std::string code_name;
 };
 
 }
