@@ -5,7 +5,7 @@
  *
  * -------------------------------------------------------------------------
  *
- * Copyright (C) 1995-2010  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2011  (see AUTHORS file for a list of contributors)
  *
  * This file is part of IT++ - a C++ library of mathematical, signal
  * processing, speech processing, and communications classes and functions.
@@ -52,32 +52,17 @@ void STC::Hassibi_block_code(void)
 {
     if (code_name=="V-BLAST_MxN")//classical V-BLAST
     {
-    	if (0 == channel_uses)
-    	{
-    		channel_uses = 1;
-    		std::cout << "STC::LDcode: Warning! Channel uses should be at least one."
-    				<< " Selecting the minimum allowed value." << std::endl;
-    	}
-    	if (0 == em_antennas)
-    	{
-    		em_antennas = 1;
-    		std::cout << "STC::LDcode: Warning! The number of emission antennas "
-    				"should be at least one. Selecting the minimum allowed value."
-    				<< std::endl;
-    	}
-        symb_block = channel_uses*em_antennas;//number of symbols/block
-        std::cout << "STC::LDcode: Warning! For " << code_name <<
-        		" the following parameter is predefined:" << std::endl;
-        std::cout << "symb_block = channel_uses*em_antennas = " << symb_block
-        		<< std::endl;
-        A.set_size(symb_block*channel_uses, em_antennas);
+    	it_assert(channel_uses > 0, "Channel uses should be strictly positive");
+    	it_assert(em_antenna > 0, "Number of emission antenna should be strictly positive");
+        symb_block = channel_uses*em_antenna;//number of symbols/block
+        A.set_size(symb_block*channel_uses, em_antenna);
         A.zeros();
-        itpp::mat temp(channel_uses, em_antennas);
+        itpp::mat temp(channel_uses, em_antenna);
         temp.zeros();
         register int tau,m;
         for (tau=0; tau<channel_uses; tau++)
         {
-            for (m=0; m<em_antennas; m++)
+            for (m=0; m<em_antenna; m++)
             {
                 temp(tau,m) = 1;
                 A.set_submatrix(symb_block*tau+channel_uses*m, 0, itpp::to_cmat(temp));
@@ -88,52 +73,34 @@ void STC::Hassibi_block_code(void)
     }
     else if (code_name=="imp_V-BLAST_MxN")//improved V-BLAST (code (31) in Hassibi's paper)
     {
-    	if (0 == em_antennas)
-    	{
-    		em_antennas = 1;
-    		std::cout << "STC::LDcode: Warning! The number of emission antennas "
-    				"should be at least one."
-    				<< " Selecting the minimum allowed value." << std::endl;
-    	}
-        if (channel_uses!=em_antennas)
-        {
-            std::cout << "STC::LDcode: Warning! For " << code_name <<
-            		" channel_uses and em_antennas must be equal. Choosing "
-            		"channel_uses=em_antennas" << std::endl;
-            channel_uses = em_antennas;
-        }
-        symb_block = channel_uses*em_antennas;//number of symbols/block
-        std::cout << "STC::LDcode: Warning! For " << code_name <<
-        		" the following parameter is predefined:" << std::endl;
-        std::cout << "symb_block = " << symb_block << std::endl;
+    	it_assert(em_antenna > 0, "Number of emission antenna should be strictly positive");
+    	it_assert(channel_uses == em_antenna, "Channel uses and the number of emission antenna must be equal");
+        symb_block = channel_uses*em_antenna;//number of symbols/block
         std::complex<double> j(0,1);
-        itpp::cmat D = itpp::diag(exp(j*(2*itpp::pi/em_antennas)*
-        		itpp::linspace(0, em_antennas-1, em_antennas)));
-        itpp::mat P = itpp::diag(itpp::ones(em_antennas-1), -1);
-        P(0,em_antennas-1) = 1;
-        A.set_size(symb_block*channel_uses, em_antennas);
+        itpp::cmat D = itpp::diag(exp(j*(2*itpp::pi/em_antenna)*
+        		itpp::linspace(0, em_antenna-1, em_antenna)));
+        itpp::mat P = itpp::diag(itpp::ones(em_antenna-1), -1);
+        P(0,em_antenna-1) = 1;
+        A.set_size(symb_block*channel_uses, em_antenna);
         A.zeros();
         register int k,l;
         for (k=0; k<channel_uses; k++)
         {
-            for (l=0; l<em_antennas; l++)
+            for (l=0; l<em_antenna; l++)
             {
                 A.set_submatrix(symb_block*k+l*channel_uses, 0,
                 		diag_pow(D, k)*itpp::to_cmat(mat_pow(P, l))/
-                		std::sqrt(double(em_antennas)));
+                		std::sqrt(double(em_antenna)));
             }
         }
         B = A;
     }
     else if (code_name=="Alamouti_2xN")//Alamouti's orthogonal code
     {
-        em_antennas = 2;//emission antenna
+        em_antenna = 2;//emission antenna
         channel_uses = 2;//channel uses
         symb_block = 2;//number of symbols/block
-        std::cout << "STC::LDcode: Warning! For " << code_name <<
-        		" the following parameters are predefined:" << std::endl;
-        std::cout << "em_antennas = " << em_antennas << ", channel_uses = "
-        		<< channel_uses << ", symb_block = " << symb_block << std::endl;
+
         A = "1  0;"
             "0  1;"
             "0  1;"
@@ -145,13 +112,10 @@ void STC::Hassibi_block_code(void)
     }
     else if (code_name=="Switched_Alamouti_4xN")
     {
-        em_antennas = 4;//emission antenna
+        em_antenna = 4;//emission antenna
         channel_uses = 4;//channel uses
         symb_block = 4;//number of symbols/block
-        std::cout << "STC::LDcode: Warning! For " << code_name <<
-        		" the following parameters are predefined:" << std::endl;
-        std::cout << "em_antennas = " << em_antennas << ", channel_uses = " <<
-        		channel_uses << ", symb_block = " << symb_block << std::endl;
+
         A = "1  0  0  0;"
             "0  1  0  0;"
             "0  0  0  0;"
@@ -189,13 +153,10 @@ void STC::Hassibi_block_code(void)
     }
     else if (code_name=="Double_Alamouti_4xN")
     {
-        em_antennas = 4;//emission antenna
+        em_antenna = 4;//emission antenna
         channel_uses = 2;//channel uses
         symb_block = 4;//number of symbols/block
-        std::cout << "STC::LDcode: Warning! For " << code_name <<
-        		" the following parameters are predefined:" << std::endl;
-        std::cout << "em_antennas = " << em_antennas << ", channel_uses = " <<
-        		channel_uses << ", symb_block = " << symb_block << std::endl;
+
         A = "1  0  0  0;"
             "0  1  0  0;"
             "0  0  1  0;"
@@ -215,13 +176,10 @@ void STC::Hassibi_block_code(void)
     }
     else if (code_name=="Jafarkhani_4xN")//Jafarkhani's quasi-orthogonal code
     {
-        em_antennas = 4;//emission antenna
+        em_antenna = 4;//emission antenna
         channel_uses = 4;//channel uses
         symb_block = 4;//number of symbols/block
-        std::cout << "STC::LDcode: Warning! For " << code_name <<
-        		" the following parameters are predefined:" << std::endl;
-        std::cout << "em_antennas = " << em_antennas << ", channel_uses = " <<
-        		channel_uses << ", symb_block = " << symb_block << std::endl;
+
         A = "1  0  0  0;"
             "0  1  0  0;"
             "0  0  1  0;"
@@ -257,13 +215,10 @@ void STC::Hassibi_block_code(void)
     }
     else if (code_name=="Golden_2x2")//Golden code as proposed by Belfiore
     {
-        em_antennas = 2;//emission antenna
+        em_antenna = 2;//emission antenna
         channel_uses = 2;//channel uses
         symb_block = 4;//number of symbols/block
-        std::cout << "STC::LDcode: Warning! For " << code_name <<
-        		" the following parameters are predefined:" << std::endl;
-        std::cout << "em_antennas = " << em_antennas << ", channel_uses = " <<
-        		channel_uses << ", symb_block = " << symb_block << std::endl;
+
         std::complex<double> theta((1+std::sqrt(5.0))/2,0);
         std::complex<double> theta_b((1-std::sqrt(5.0))/2,0);
         std::complex<double> j(0,1);
@@ -292,13 +247,10 @@ void STC::Hassibi_block_code(void)
     }
     else if (code_name=="Damen_2x2")//ST code based on number theory as proposed by Damen
     {
-        em_antennas = 2;//emission antenna
+        em_antenna = 2;//emission antenna
         channel_uses = 2;//channel uses
         symb_block = 4;//number of symbols/block
-        std::cout << "STC::LDcode: Warning! For " << code_name <<
-        		" the following parameters are predefined:" << std::endl;
-        std::cout << "em_antennas = " << em_antennas << ", channel_uses = " <<
-        		channel_uses << ", symb_block = " << symb_block << std::endl;
+
         double lambda;
         if (const_size==4)
             lambda = 0.5;
@@ -337,13 +289,10 @@ void STC::Hassibi_block_code(void)
     }
     else if (code_name=="34ortho_3xN")//rate 3/4 orthogonal code (mutual information 5.13 bits/channel use at rho=20 dB)
     {
-        em_antennas = 3;//emission antenna
+        em_antenna = 3;//emission antenna
         channel_uses = 4;//channel uses
         symb_block = 3;//number of symbols/block
-        std::cout << "STC::LDcode: Warning! For " << code_name <<
-        		" the following parameters are predefined:" << std::endl;
-        std::cout << "em_antennas = " << em_antennas << ", channel_uses = " <<
-        		channel_uses << ", symb_block = " << symb_block << std::endl;
+
         A = "1 0 0;"
             "0 1 0;"
             "0 0 1;"
@@ -373,13 +322,10 @@ void STC::Hassibi_block_code(void)
     }
     else if (code_name=="36LD_3xN")//(36) LD code with mutual info. 6.25bits/channel use at rho=20dB
     {
-        em_antennas = 3;//emission antenna
+        em_antenna = 3;//emission antenna
         channel_uses = 4;//channel uses
         symb_block = 4;//number of symbols/block
-        std::cout << "STC::LDcode: Warning! For " << code_name <<
-        		" the following parameters are predefined:" << std::endl;
-        std::cout << "em_antennas = " << em_antennas << ", channel_uses = " <<
-        		channel_uses << ", symb_block = " << symb_block << std::endl;
+
         A.set_size(16, 3);
         A(0,0) = 1;
         A(0,1) = 0;
@@ -481,13 +427,10 @@ void STC::Hassibi_block_code(void)
     }
     else if (code_name=="37LD_3xN")//(37) LD code 3-antenna LD code obtained from the symetrical concatenation of 3 2-antenna orthogonal design
     {
-        em_antennas = 3;//emission antenna
+        em_antenna = 3;//emission antenna
         channel_uses = 6;//channel uses
         symb_block = 6;//number of symbols/block
-        std::cout << "STC::LDcode: Warning! For " << code_name <<
-        		" the following parameters are predefined:" << std::endl;
-        std::cout << "em_antennas = " << em_antennas << ", channel_uses = " <<
-        		channel_uses << ", symb_block = " << symb_block << std::endl;
+
         A = "1  0  0;"
             "0  1  0;"
             "0  0  0;"
@@ -565,13 +508,10 @@ void STC::Hassibi_block_code(void)
     }
     else if (code_name=="39LD_3xN")
     {
-        em_antennas = 3;//emission antenna
+        em_antenna = 3;//emission antenna
         channel_uses = 6;//channel uses
         symb_block = 6;//number of symbols/block
-        std::cout << "STC::LDcode: Warning! For " << code_name <<
-        		" the following parameters are predefined:" << std::endl;
-        std::cout << "em_antennas = " << em_antennas << ", channel_uses = " <<
-        		channel_uses << ", symb_block = " << symb_block << std::endl;
+
         A.set_size(36, 3);
         A(0,0) = 1/std::sqrt(2.0);
         A(0,1) = 0;
@@ -792,19 +732,18 @@ void STC::Hassibi_block_code(void)
         B(35,2) = -std::sqrt(3.0)/(2*std::sqrt(2.0));//B_6
     }
     else
-        std::cout << "STC::LDcode: unknown code name. Available codes are: "
-        "V-BLAST_MxN, imp_V-BLAST_MxN, Alamouti_2xN, Switched_Alamouti_4xN, "
-        "Double_Alamouti_4xN, Jafarkhani_4xN, Golden_2x2, Damen_2x2, "
-        "34ortho_3xN, 36LD_3xN, 37LD_3xN, 39LD_3xN" << std::endl;
+    {
+        it_assert(false, "Unknown code name.");
+    }
 }
 
-itpp::cmat STC::Hassibi_encode(const itpp::cvec &symb)
+itpp::cmat STC::encode(const itpp::cvec &symb)
 //LD code generation (symb_block symbols go to an channel_uses x em_antennas matrix) following Hassibi's approach
 {
     int nb_subblocks = symb.length()/symb_block;
     int tx_duration = channel_uses*nb_subblocks;
-    itpp::cmat S(tx_duration,em_antennas);
-    itpp::cmat temp(channel_uses,em_antennas);
+    itpp::cmat S(tx_duration,em_antenna);
+    itpp::cmat temp(channel_uses,em_antenna);
     std::complex<double> j(0,1);
     register int ns,k;
     for (ns=0; ns<nb_subblocks; ns++)//encode block by block (symb_block symbols)
@@ -812,9 +751,9 @@ itpp::cmat STC::Hassibi_encode(const itpp::cvec &symb)
         temp.zeros();
         for (k=0; k<symb_block; k++)//sum over all symb_block matrices
         {
-            temp += (A(k*channel_uses,(k+1)*channel_uses-1,0,em_antennas-1)*
+            temp += (A(k*channel_uses,(k+1)*channel_uses-1,0,em_antenna-1)*
             		static_cast< std::complex<double> >(symb(k+ns*symb_block).real())+
-                    j*B(k*channel_uses,(k+1)*channel_uses-1,0,em_antennas-1)*
+                    j*B(k*channel_uses,(k+1)*channel_uses-1,0,em_antenna-1)*
                     static_cast< std::complex<double> >(symb(k+ns*symb_block).imag()));
         }
         S.set_submatrix(ns*channel_uses, 0, temp);
@@ -822,7 +761,7 @@ itpp::cmat STC::Hassibi_encode(const itpp::cvec &symb)
     return S;
 }
 
-inline itpp::cmat STC::diag_pow(const itpp::cmat &in_mat, double in_exp)
+itpp::cmat STC::diag_pow(const itpp::cmat &in_mat, double in_exp)
 //first input should be a diagonal square matrix with complex elements
 {
     register int n;
@@ -836,7 +775,7 @@ inline itpp::cmat STC::diag_pow(const itpp::cmat &in_mat, double in_exp)
     return out_mat;
 }
 
-inline itpp::mat STC::mat_pow(const itpp::mat &in_mat, int in_exp)
+itpp::mat STC::mat_pow(const itpp::mat &in_mat, int in_exp)
 //square matrix power of integer exponent
 {
     if (in_exp==0)

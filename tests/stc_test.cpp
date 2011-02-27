@@ -52,29 +52,29 @@ bool near(const itpp::cmat &M1, const itpp::cmat &M2, double err)
 
 int main(void)
 {
-	unsigned int em_antennas = 2;
-	unsigned int channel_uses = 2;
-	unsigned int symb_block = 0;//output parameter
-	const unsigned int const_size = 4;//QAM
-	std::string code_name("V-BLAST_MxN");
+	int em_antenna = 2;
+	int channel_uses = 2;
+	const int const_size = 4;//QAM
 	const double abs_err = 1e-12;
 
 	std::cout << "Space Time Code class test started" << std::endl;
 
 	std::cout << "Checking V-BLAST" << std::endl;
+	std::string code_name("V-BLAST_MxN");
 
-	itpp::STC stc(em_antennas, channel_uses, symb_block, code_name, const_size);
+	//should succeed
+	itpp::STC stc(code_name, const_size, em_antenna, channel_uses);
 
 	//check parameters
-	if (2 != em_antennas)
+	if (2 != stc.get_nb_emission_antenna())
 	{
-		std::cout << "Number of emission antennas is wrong" << std::endl;
+		std::cout << "Number of emission antenna is wrong" << std::endl;
 	}
-	if (2 != channel_uses)
+	if (2 != stc.get_channel_uses())
 	{
 		std::cout << "Channel uses is wrong" << std::endl;
 	}
-	if (4 != symb_block)
+	if (4 != stc.get_nb_symbols_per_block())
 	{
 		std::cout << "Number of symbols per block is wrong" << std::endl;
 	}
@@ -91,18 +91,20 @@ int main(void)
 
 	std::cout << "Checking improved V-BLAST" << std::endl;
 	code_name = "imp_V-BLAST_MxN";
-	stc.setup(em_antennas, channel_uses, symb_block, code_name, const_size);
+
+	//should succeed
+	stc.setup(code_name, const_size, em_antenna, channel_uses);
 
 	//check parameters
-	if (2 != em_antennas)
+	if (2 != stc.get_nb_emission_antenna())
 	{
-		std::cout << "Number of emission antennas is wrong" << std::endl;
+		std::cout << "Number of emission antenna is wrong" << std::endl;
 	}
-	if (2 != channel_uses)
+	if (2 != stc.get_channel_uses())
 	{
 		std::cout << "Channel uses is wrong" << std::endl;
 	}
-	if (4 != symb_block)
+	if (4 != stc.get_nb_symbols_per_block())
 	{
 		std::cout << "Number of symbols per block is wrong" << std::endl;
 	}
@@ -120,18 +122,20 @@ int main(void)
 
 	std::cout << "Checking Alamouti code" << std::endl;
 	code_name = "Alamouti_2xN";
-	stc.setup(em_antennas, channel_uses, symb_block, code_name, const_size);
+
+	//should succeed
+	stc.setup(code_name, const_size);
 
 	//check parameters
-	if (2 != em_antennas)
+	if (2 != stc.get_nb_emission_antenna())
 	{
-		std::cout << "Number of emission antennas is wrong" << std::endl;
+		std::cout << "Number of emission antenna is wrong" << std::endl;
 	}
-	if (2 != channel_uses)
+	if (2 != stc.get_channel_uses())
 	{
 		std::cout << "Channel uses is wrong" << std::endl;
 	}
-	if (2 != symb_block)
+	if (2 != stc.get_nb_symbols_per_block())
 	{
 		std::cout << "Number of symbols per block is wrong" << std::endl;
 	}
@@ -151,162 +155,180 @@ int main(void)
 
 	std::cout << "Checking switched Alamouti code" << std::endl;
 	code_name = "Switched_Alamouti_4xN";
-	stc.setup(em_antennas, channel_uses, symb_block, code_name, const_size);
+
+	//should succeed
+	stc.setup(code_name, const_size);
 
 	//check parameters
-	if (4 != em_antennas)
+	if (4 != stc.get_nb_emission_antenna())
 	{
-		std::cout << "Number of emission antennas is wrong" << std::endl;
+		std::cout << "Number of emission antenna is wrong" << std::endl;
 	}
-	if (4 != channel_uses)
+	if (4 != stc.get_channel_uses())
 	{
 		std::cout << "Channel uses is wrong" << std::endl;
 	}
-	if (4 != symb_block)
+	if (4 != stc.get_nb_symbols_per_block())
 	{
 		std::cout << "Number of symbols per block is wrong" << std::endl;
 	}
 
 	std::cout << "Checking double Alamouti code" << std::endl;
 	code_name = "Double_Alamouti_4xN";
-	stc.setup(em_antennas, channel_uses, symb_block, code_name, const_size);
+
+	//should succeed
+	stc.setup(code_name, const_size);
 
 	//check parameters
-	if (4 != em_antennas)
+	if (4 != stc.get_nb_emission_antenna())
 	{
-		std::cout << "Number of emission antennas is wrong" << std::endl;
+		std::cout << "Number of emission antenna is wrong" << std::endl;
 	}
-	if (2 != channel_uses)
+	if (2 != stc.get_channel_uses())
 	{
 		std::cout << "Channel uses is wrong" << std::endl;
 	}
-	if (4 != symb_block)
+	if (4 != stc.get_nb_symbols_per_block())
 	{
 		std::cout << "Number of symbols per block is wrong" << std::endl;
 	}
 
 	std::cout << "Checking Jafarkhani code" << std::endl;
 	code_name = "Jafarkhani_4xN";
-	stc.setup(em_antennas, channel_uses, symb_block, code_name, const_size);
+
+	//should succeed
+	stc.setup(code_name, const_size);
 
 	//check parameters
-	if (4 != em_antennas)
+	if (4 != stc.get_nb_emission_antenna())
 	{
-		std::cout << "Number of emission antennas is wrong" << std::endl;
+		std::cout << "Number of emission antenna is wrong" << std::endl;
 	}
-	if (4 != channel_uses)
+	if (4 != stc.get_channel_uses())
 	{
 		std::cout << "Channel uses is wrong" << std::endl;
 	}
-	if (4 != symb_block)
+	if (4 != stc.get_nb_symbols_per_block())
 	{
 		std::cout << "Number of symbols per block is wrong" << std::endl;
 	}
 
 	std::cout << "Checking Golden code" << std::endl;
 	code_name = "Golden_2x2";
-	stc.setup(em_antennas, channel_uses, symb_block, code_name, const_size);
+
+	//should succeed
+	stc.setup(code_name, const_size);
 
 	//check parameters
-	if (2 != em_antennas)
+	if (2 != stc.get_nb_emission_antenna())
 	{
-		std::cout << "Number of emission antennas is wrong" << std::endl;
+		std::cout << "Number of emission antenna is wrong" << std::endl;
 	}
-	if (2 != channel_uses)
+	if (2 != stc.get_channel_uses())
 	{
 		std::cout << "Channel uses is wrong" << std::endl;
 	}
-	if (4 != symb_block)
+	if (4 != stc.get_nb_symbols_per_block())
 	{
 		std::cout << "Number of symbols per block is wrong" << std::endl;
 	}
 
 	std::cout << "Checking Damen code" << std::endl;
 	code_name = "Damen_2x2";
-	stc.setup(em_antennas, channel_uses, symb_block, code_name, const_size);
+
+	//should succeed
+	stc.setup(code_name, const_size);
 
 	//check parameters
-	if (2 != em_antennas)
+	if (2 != stc.get_nb_emission_antenna())
 	{
-		std::cout << "Number of emission antennas is wrong" << std::endl;
+		std::cout << "Number of emission antenna is wrong" << std::endl;
 	}
-	if (2 != channel_uses)
+	if (2 != stc.get_channel_uses())
 	{
 		std::cout << "Channel uses is wrong" << std::endl;
 	}
-	if (4 != symb_block)
+	if (4 != stc.get_nb_symbols_per_block())
 	{
 		std::cout << "Number of symbols per block is wrong" << std::endl;
 	}
 
 	std::cout << "Checking orthogonal code 3xN" << std::endl;
 	code_name = "34ortho_3xN";
-	stc.setup(em_antennas, channel_uses, symb_block, code_name, const_size);
+
+	//should succeed
+	stc.setup(code_name, const_size);
 
 	//check parameters
-	if (3 != em_antennas)
+	if (3 != stc.get_nb_emission_antenna())
 	{
-		std::cout << "Number of emission antennas is wrong" << std::endl;
+		std::cout << "Number of emission antenna is wrong" << std::endl;
 	}
-	if (4 != channel_uses)
+	if (4 != stc.get_channel_uses())
 	{
 		std::cout << "Channel uses is wrong" << std::endl;
 	}
-	if (3 != symb_block)
+	if (3 != stc.get_nb_symbols_per_block())
 	{
 		std::cout << "Number of symbols per block is wrong" << std::endl;
 	}
 
 	std::cout << "Checking 36 LD code 3xN" << std::endl;
 	code_name = "36LD_3xN";
-	stc.setup(em_antennas, channel_uses, symb_block, code_name, const_size);
+
+	//should succeed
+	stc.setup(code_name, const_size);
 
 	//check parameters
-	if (3 != em_antennas)
+	if (3 != stc.get_nb_emission_antenna())
 	{
-		std::cout << "Number of emission antennas is wrong" << std::endl;
+		std::cout << "Number of emission antenna is wrong" << std::endl;
 	}
-	if (4 != channel_uses)
+	if (4 != stc.get_channel_uses())
 	{
 		std::cout << "Channel uses is wrong" << std::endl;
 	}
-	if (4 != symb_block)
+	if (4 != stc.get_nb_symbols_per_block())
 	{
 		std::cout << "Number of symbols per block is wrong" << std::endl;
 	}
 
 	std::cout << "Checking 37 LD code 3xN" << std::endl;
 	code_name = "37LD_3xN";
-	stc.setup(em_antennas, channel_uses, symb_block, code_name, const_size);
+
+	//should succeed
+	stc.setup(code_name, const_size);
 
 	//check parameters
-	if (3 != em_antennas)
+	if (3 != stc.get_nb_emission_antenna())
 	{
-		std::cout << "Number of emission antennas is wrong" << std::endl;
+		std::cout << "Number of emission antenna is wrong" << std::endl;
 	}
-	if (6 != channel_uses)
+	if (6 != stc.get_channel_uses())
 	{
 		std::cout << "Channel uses is wrong" << std::endl;
 	}
-	if (6 != symb_block)
+	if (6 != stc.get_nb_symbols_per_block())
 	{
 		std::cout << "Number of symbols per block is wrong" << std::endl;
 	}
 
 	std::cout << "Checking 39 LD code 3xN" << std::endl;
 	code_name = "39LD_3xN";
-	stc.setup(em_antennas, channel_uses, symb_block, code_name, const_size);
+
+	//should succeed
+	stc.setup(code_name, const_size);
 
 	//check parameters
-	if (3 != em_antennas)
+	if (3 != stc.get_nb_emission_antenna())
 	{
-		std::cout << "Number of emission antennas is wrong" << std::endl;
+		std::cout << "Number of emission antenna is wrong" << std::endl;
 	}
-	if (6 != channel_uses)
+	if (6 != stc.get_channel_uses())
 	{
 		std::cout << "Channel uses is wrong" << std::endl;
 	}
-	if (6 != symb_block)
+	if (6 != stc.get_nb_symbols_per_block())
 	{
 		std::cout << "Number of symbols per block is wrong" << std::endl;
 	}
