@@ -1,3 +1,9 @@
+2011-02-27  Bogdan Cristea  <cristeab@users.sourceforge.net>
+
+	* itpp/comm/stc.cpp, itpp/comm/stc.h, tests/stc_test.cpp,
+	  tests/stc_test.ref: changed STC interface, added error checking
+	  using it_assert()
+
 2011-02-21  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
 	* itpp/comm/stc.cpp, itpp/comm/stc.h, tests/stc_test.cpp: added
