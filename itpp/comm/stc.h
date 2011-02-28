@@ -67,8 +67,8 @@ namespace itpp
   \code
   STC stc(code_name, const_size);
   nb_em_antenna = stc.get_nb_emission_antenna();
-  channel_uses = stc.get_nb_channel_uses();
-  symb_block = stc.get_nb_symbols_block();
+  channel_uses = stc.get_channel_uses();
+  symb_block = stc.get_nb_symbols_per_block();
   //symbol generation
   enc_symb = stc.encode(symb);
   \endcode
@@ -83,7 +83,7 @@ public:
 	inline STC(const std::string &in_code_name, //!< code name (see available codes)
     		int in_const_size, //!< constellation size (should be at least two)
     		int in_em_antenna = 0, //!< number of emission antenna (for some codes it is set internally and should be obtained with get_nb_emission_antenna())
-    		int in_channel_uses = 0 //!< number of channel uses (for some codes it is set internally and should be obtained with get_nb_channel_uses())
+    		int in_channel_uses = 0 //!< number of channel uses (for some codes it is set internally and should be obtained with get_channel_uses())
     		)
 	{
 		setup(in_code_name, in_const_size, in_em_antenna, in_channel_uses);
@@ -92,7 +92,7 @@ public:
     inline void setup(const std::string &in_code_name, //!< code name (see available codes)
     		int in_const_size, //!< constellation size (should be at least two)
     		int in_em_antenna = 0, //!< number of emission antenna (for some codes it is set internally and should be obtained with get_nb_emission_antenna())
-    		int in_channel_uses = 0 //!< number of channel uses (for some codes it is set internally and should be obtained with get_nb_channel_uses())
+    		int in_channel_uses = 0 //!< number of channel uses (for some codes it is set internally and should be obtained with get_channel_uses())
     		)
     {
     	code_name = in_code_name;
