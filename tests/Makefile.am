@@ -5,7 +5,7 @@ AM_CXXFLAGS = $(CXXFLAGS_OPT)
 BASE_TESTS = array_test bessel_test blas_test circular_buffer_test \
   converters_test fastmath_test gf2mat_test integration_test itfile_test \
   mat_test parser_test rand_test sort_test sparse_test specmat_test \
-  timer_test vec_test linspace_test
+  timer_test vec_test linspace_test operators_test
 BASE_LAP_TESTS = cholesky_test det_test eigen_test inv_test ls_solve_test \
   lu_test matfunc_test qr_test schur_test svd_test
 
@@ -123,6 +123,7 @@ transforms_test_SOURCES = transforms_test.cpp
 turbo_test_SOURCES = turbo_test.cpp
 vec_test_SOURCES = vec_test.cpp
 linspace_test_SOURCES = linspace_test.cpp
+operators_test_SOURCES = operators_test.cpp
 window_test_SOURCES = window_test.cpp
 siso_test_SOURCES = siso_test.cpp
 exit_test_SOURCES = exit_test.cpp

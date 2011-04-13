@@ -40,22 +40,22 @@ namespace itpp
 
 //---------------------- between scalars and complex<double> -----------------
 //! Addition operator for int and complex double
-inline std::complex<double> operator+(const int &x, const std::complex<double> &y) {return std::complex<double>(x + y.real(), x + y.imag());}
+inline std::complex<double> operator+(const int &x, const std::complex<double> &y) {return std::complex<double>(x + y.real(), y.imag());}
 //! Addition operator for float and complex double
-inline std::complex<double> operator+(const float &x, const std::complex<double> &y) {return std::complex<double>(x + y.real(), x + y.imag());}
+inline std::complex<double> operator+(const float &x, const std::complex<double> &y) {return std::complex<double>(x + y.real(), y.imag());}
 //! Addition operator for int and complex double
-inline std::complex<double> operator+(const std::complex<double> &x, const int &y) {return std::complex<double>(x.real() + y, x.imag() + y);}
+inline std::complex<double> operator+(const std::complex<double> &x, const int &y) {return std::complex<double>(x.real() + y, x.imag());}
 //! Addition operator for float and complex double
-inline std::complex<double> operator+(const std::complex<double> &x, const float &y) {return std::complex<double>(x.real() + y, x.imag() + y);}
+inline std::complex<double> operator+(const std::complex<double> &x, const float &y) {return std::complex<double>(x.real() + y, x.imag());}
 
 //! Subtraction operator for int and complex double
-inline std::complex<double> operator-(const int &x, const std::complex<double> &y) {return std::complex<double>(x - y.real(), x - y.imag());}
+inline std::complex<double> operator-(const int &x, const std::complex<double> &y) {return std::complex<double>(x - y.real(), -y.imag());}
 //! Subtraction operator for float and complex double
-inline std::complex<double> operator-(const float &x, const std::complex<double> &y) {return std::complex<double>(x - y.real(), x - y.imag());}
+inline std::complex<double> operator-(const float &x, const std::complex<double> &y) {return std::complex<double>(x - y.real(), -y.imag());}
 //! Subtraction operator for int and complex double
-inline std::complex<double> operator-(const std::complex<double> &x, const int &y) {return std::complex<double>(x.real() - y, x.imag() - y);}
+inline std::complex<double> operator-(const std::complex<double> &x, const int &y) {return std::complex<double>(x.real() - y, x.imag());}
 //! Subtraction operator for float and complex double
-inline std::complex<double> operator-(const std::complex<double> &x, const float &y) {return std::complex<double>(x.real() - y, x.imag() - y);}
+inline std::complex<double> operator-(const std::complex<double> &x, const float &y) {return std::complex<double>(x.real() - y, x.imag());}
 
 //! Multiplication operator for int and complex double
 inline std::complex<double> operator*(const int &x, const std::complex<double> &y) {return std::complex<double>(x*y.real(), x*y.imag());}
