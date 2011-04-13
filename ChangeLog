@@ -1,3 +1,9 @@
+2011-04-13  Bogdan Cristea  <cristeab@users.sourceforge.net>
+
+	* itpp/base/operators.h, tests/Makefile.am,
+	  tests/operators_test.cpp, tests/operators_test.ref: corrected bug
+	  with ID 3180562
+
 2011-02-27  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
 	* itpp/comm/stc.cpp, itpp/comm/stc.h, tests/stc_test.cpp,
