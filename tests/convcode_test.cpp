@@ -139,7 +139,7 @@ int main()
 
 
   cout << "------------------------------------------------------------------------------" << endl;
-  cout << "1) Punctured code (R = 3/4)" << endl;
+  cout << "2) Punctured code (R = 3/4)" << endl;
   cout << "------------------------------------------------------------------------------" << endl;
 
   cout << "Catastrophic test = " << code_punct.catastrophic() << endl;
@@ -191,6 +191,30 @@ int main()
   cout << "* Decoded bits  = " << trunc_decoded_bits.mid(1400, 30) << endl;
   berc.clear();
   berc.count(bits, trunc_decoded_bits);
+  cout << "BER = " << berc.get_errorrate() << endl << endl;
+
+  cout << "------------------------------------------------------------------------------" << endl;
+  cout << "3) Rate 1/7 code" << endl;
+  cout << "------------------------------------------------------------------------------" << endl;
+
+  ivec generator(7);
+  generator(0)=02;
+  generator(1)=011;
+  generator(2)=015;
+  generator(3)=014;
+  generator(4)=07;
+  generator(5)=012;
+  generator(6)=06;
+
+  code.set_generator_polynomials(generator, 4);
+
+  bvec uncoded = "1 1 1 1 1 1 1";
+  bvec coded = code.encode_tail(uncoded);
+  bvec decoded = code.decode_tail(to_vec((-2)*to_ivec(coded)+1));
+  cout << "* Input bits    = " << uncoded << endl;
+  cout << "* Decoded bits  = " << decoded << endl;
+  berc.clear();
+  berc.count(uncoded, decoded);
   cout << "BER = " << berc.get_errorrate() << endl << endl;
 
   return 0;

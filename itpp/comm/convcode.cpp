@@ -245,11 +245,14 @@ void Convolutional_Code::calc_metric(const vec &rx_codeword,
         temp >>= 1;
         if (xor_int_table(temp)) {
           zero_metric += rx_codeword(j);
-          one_metric -= rx_codeword(j);
         }
         else {
           zero_metric -= rx_codeword(j);
-          one_metric += rx_codeword(j);
+        }
+        if (static_cast<int>(xor_int_table(temp)^one_bit)) {
+        	one_metric += rx_codeword(j);
+        } else {
+        	one_metric -= rx_codeword(j);
         }
         one_output = (one_output << 1)
                      | static_cast<int>(xor_int_table(temp) ^ one_bit);
