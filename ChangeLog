@@ -1,3 +1,9 @@
+2011-05-05  Bogdan Cristea  <cristeab@users.sourceforge.net>
+
+        * itpp/comm/convcode.cpp, tests/convcode_test.cpp,
+	  tests/convcode_test.ref:
+	  fixed bug ID 3297666. Thanks Stephan Ludwig for providing the patch
+
 2011-04-13  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
 	* itpp/base/operators.h, tests/Makefile.am,
