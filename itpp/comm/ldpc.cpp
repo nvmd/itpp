@@ -1551,10 +1551,12 @@ int LDPC_Code::bp_decode(const QLLRvec &LLRin, QLLRvec &LLRout)
       case 0:
         it_error("LDPC_Code::bp_decode(): sumX1(i)=0");
       case 1: {
-        // Degenerate case-should not occur for good coded. A lonely
-        // variable node only sends its incoming message
+        /* This case is rare but apparently occurs for codes used in
+	   the DVB-T2 standard.
+	 */
+	QLLR m0 = mcv[iind[i]];
         mvc[i] = LLRin(i);
-        LLRout(i) = LLRin(i);
+        LLRout(i) = LLRin(i) + m0;
         break;
       }
       case 2: {
