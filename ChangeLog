@@ -1,3 +1,13 @@
+2011-05-19   Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/comm/ldpc.cpp: Fixed a bug in the LDPC decoder, that occurs
+	in the special case of a lonely variable node (i.e. a variable
+	node that is connected to only one check node) in the LDPC
+	decoder. The incoming C->V message was missing in the outgoing LLR
+	value. This special case is very rare but apparently occurs for
+	some codes in the DVB-T2 standard.  We thank Gorka Agujeta and
+	Daniel Ansorregui for pointing out this error.
+
 2011-05-05  Bogdan Cristea  <cristeab@users.sourceforge.net>
 
         * itpp/comm/convcode.cpp, tests/convcode_test.cpp,
