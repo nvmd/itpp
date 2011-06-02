@@ -1209,11 +1209,12 @@ LDPC_Code::LDPC_Code(): H_defined(false), G_defined(false), dec_method("BP"),
     llrcalc(LLR_calc_unit()) { }
 
 LDPC_Code::LDPC_Code(const LDPC_Parity* const H,
-                     LDPC_Generator* const G_in):
+                     LDPC_Generator* const G_in,
+                     bool perform_integrity_check):
     H_defined(false), G_defined(false), dec_method("BP"), max_iters(50),
     psc(true), pisc(false), llrcalc(LLR_calc_unit())
 {
-  set_code(H, G_in);
+    set_code(H, G_in, perform_integrity_check);
 }
 
 LDPC_Code::LDPC_Code(const std::string& filename,
@@ -1226,14 +1227,19 @@ LDPC_Code::LDPC_Code(const std::string& filename,
 
 
 void LDPC_Code::set_code(const LDPC_Parity* const H,
-                         LDPC_Generator* const G_in)
+                         LDPC_Generator* const G_in,
+                         bool perform_integrity_check)
 {
   decoder_parameterization(H);
   setup_decoder();
   G = G_in;
   if (G != 0) {
     G_defined = true;
-    integrity_check();
+    if (perform_integrity_check) {
+      integrity_check();
+    } else {
+      it_info_debug("LDPC_Code::set_code(): integrity check was not performed");
+    }
   }
 }
 

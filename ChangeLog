@@ -1,3 +1,10 @@
+2011-06-02   Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/comm/ldpc.h, itpp/comm/ldpc.cpp: Added the possibility to
+	disable integrity checking when initiating an LDPC code. This
+	closes feature request #3309430.  Thanks to Laurent Schmalen for
+	providing the patch.
+
 2011-05-19   Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/comm/ldpc.cpp: Fixed a bug in the LDPC decoder, that occurs

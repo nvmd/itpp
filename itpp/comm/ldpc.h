@@ -730,11 +730,16 @@ public:
 
   /*!
     \brief Constructor, from a parity check matrix and optionally a
-    generator
+    generator.
 
     This constructor simply calls \c set_code().
+
+    \param H The parity check matrix
+    \param G A pointer to the optional generator object
+    \param perform_integrity_check if true, then check that the parity and generator matrices are consistent
   */
-  LDPC_Code(const LDPC_Parity* const H, LDPC_Generator* const G = 0);
+    LDPC_Code(const LDPC_Parity* const H, LDPC_Generator* const G = 0, 
+	      bool perform_integrity_check = true);
 
   /*!
     \brief Constructor, from a saved file
@@ -753,8 +758,10 @@ public:
 
     \param H The parity check matrix
     \param G A pointer to the optional generator object
+    \param perform_integrity_check if true, then check that the parity and generator matrices are consistent
   */
-  void set_code(const LDPC_Parity* const H, LDPC_Generator* const G = 0);
+  void set_code(const LDPC_Parity* const H, LDPC_Generator* const G = 0, 
+		bool perform_integrity_check = true);
 
   /*!
     \brief Set the codec, by reading from a saved file
