@@ -1,3 +1,9 @@
+2011-09-15   Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/base/gf2mat.cpp: Fixed assertion in
+	GF2mat_sparse_alist::read().  This closes bug report #3408884.
+	Thanks to Laurent Schmalen for providing the patch.
+
 2011-06-02   Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/comm/ldpc.h, itpp/comm/ldpc.cpp: Added the possibility to
