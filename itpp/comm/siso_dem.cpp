@@ -753,7 +753,7 @@ void SISO::Alamouti_maxlogMAP(itpp::vec &extrinsic_data, const itpp::cmat &rec_s
             denom = -INFINITY;
             for (cs=0; cs<const_size; cs++)
             {
-                temp = -itpp::sqr(comb_sig(n)-buffer*constellation(cs))/(2*buffer*sigma2)+ \
+                temp = -itpp::sqr(comb_sig(n)-buffer*constellation(cs)/std::sqrt(nb_em_ant))/(2*buffer*sigma2)+ \
                        itpp::to_vec(bin_constellation.get_row(cs))*apriori_data.mid(n*nb_bits_symb, nb_bits_symb);
                 if (bin_constellation(cs,nr))
                     nom = std::max(nom, temp);
