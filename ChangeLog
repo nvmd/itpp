@@ -1,4 +1,9 @@
-2011-11-19   Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+2011-11-20   Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/comm/ldpc.h, itpp/comm/ldpc.cpp: New function for soft
+	syndrome check calculation in the LDPC class
+
+2011-11-20   Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/comm/error_counters.h, itpp/comm/error_counters.cpp: Minor
 	feature enhancement in the error counter classes

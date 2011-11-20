@@ -895,6 +895,16 @@ public:
   //! Syndrome check, on bit vector
   bool syndrome_check(const bvec &b) const;
 
+  /*! \brief Soft syndrome check
+
+    This function checks all parity constraints and computes for each
+    one the posterior probability that it is satisfied. The result is
+    a vector, whose i:th element is given by \f[ \mbox{Boxplus}_j LLR_{p_{ij}}
+    \f] where \f[ p_{ij} \f] is the index of the j:th nonzero element
+    of the i:th row of the code's parity check matrix.
+   */
+  QLLRvec soft_syndrome_check(const QLLRvec &LLR) const;
+
   // ------------ Basic information gathering functions ------
 
   //! Get the coderate

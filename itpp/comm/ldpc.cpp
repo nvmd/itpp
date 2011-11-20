@@ -1661,6 +1661,23 @@ bool LDPC_Code::syndrome_check(const QLLRvec &LLR) const
   return true;   // codeword is valid
 };
 
+QLLRvec LDPC_Code::soft_syndrome_check(const QLLRvec &LLR) const
+{
+  QLLRvec result(ncheck);
+  int i,j,vi,vind;
+
+  for (j=0; j<ncheck; j++) {
+    result(j)=-QLLR_MAX;
+    vind=j;
+    for (i=0; i<sumX2(j); i++) {
+      vi=V(vind);
+      result(j) = llrcalc.Boxplus(LLR(vi),result(j));
+      vind += ncheck;
+    }
+  }
+
+  return result;
+}
 
 // ----------------------------------------------------------------------
 // LDPC_Code private methods
