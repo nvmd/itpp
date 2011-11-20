@@ -79,8 +79,11 @@ public:
   BERC(int indelay = 0, int inignorefirst = 0, int inignorelast = 0);
   //! Cumulative error counter
   void count(const bvec &in1, const bvec &in2);
-  //! Run this member function if the delay between \a in1 and
-  //! \a in2 is unknown.
+  /*! \brief Variant of the cumulative error counter. Counts a bit error if
+    \a x is true, and a correct bit otherwise */
+  void count(const bool x);
+  /*! \brief Run this member function if the delay between \a in1 and
+    \a in2 is unknown. */
   void estimate_delay(const bvec &in1, const bvec &in2, int mindelay = -100,
                       int maxdelay = 100);
   //! Clears the bit error counter
@@ -135,6 +138,9 @@ public:
   void set_blocksize(int inblocksize, bool clear = true);
   //! Calculate the number of block errors between \a in1 and \a in2
   void count(const bvec &in1, const bvec &in2);
+  /*! \brief Variant of the cumulative error counter. Counts a block error if
+    \a x is true, and a correct block otherwise */
+  void count(const bool x);
   //! Clear the block error counter
   void clear() { errors = 0; corrects = 0; }
   //! Returns the number of block errors

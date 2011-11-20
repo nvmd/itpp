@@ -73,6 +73,15 @@ void BERC::count(const bvec &in1, const bvec &in2)
   }
 }
 
+void BERC::count(const bool x)
+{
+  if (x) {
+    errors++; 
+  } else {
+    corrects++;
+  }
+}
+
 void BERC::estimate_delay(const bvec &in1, const bvec &in2, int mindelay,
                           int maxdelay)
 {
@@ -163,7 +172,6 @@ void BLERC::set_blocksize(int inblocksize, bool clear)
   setup_done = true;
 }
 
-
 void BLERC::count(const bvec &in1, const bvec &in2)
 {
   it_assert(setup_done == true,
@@ -186,6 +194,15 @@ void BLERC::count(const bvec &in1, const bvec &in2)
     else {
       errors++;
     }
+  }
+}
+
+void BLERC::count(const bool x)
+{
+  if (x) {
+    errors++; 
+  } else {
+    corrects++;
   }
 }
 

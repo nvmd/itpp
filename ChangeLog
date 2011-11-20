@@ -1,3 +1,8 @@
+2011-11-19   Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+
+	* itpp/comm/error_counters.h, itpp/comm/error_counters.cpp: Minor
+	feature enhancement in the error counter classes
+
 2011-11-06  Bogdan Cristea <cristeab@users.sourceforge.net>
 
         * itpp/comm/siso_dem.cpp: corrected Alamouti_maxlogMAP. Thanks to
