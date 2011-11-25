@@ -1668,7 +1668,7 @@ std::istream &operator>>(std::istream &is, Vec<Num_T> &v)
   bool started = false;
   bool finished = false;
   bool brackets = false;
-  char c;
+  char c = 0;
 
   while (!finished) {
     if (is.eof()) {
