@@ -1,3 +1,8 @@
+2011-11-25   Bogdan Cristea <cristeab@users.sourceforge.net>
+
+	* itpp/base/vec.h: initialization of local variable in order to
+	  close bug ID: 3425833
+
 2011-11-20   Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/comm/ldpc.h, itpp/comm/ldpc.cpp: New function for soft
