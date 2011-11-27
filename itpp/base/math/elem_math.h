@@ -221,7 +221,7 @@ inline mat angle(const cmat &x) { return arg(x); }
 
 // Added due to a failure in MSVC++ .NET 2005, which crashes on this
 // code.
-#ifndef _MSC_VER
+#if !defined(_MSC_VER) && !defined(__GNUC__)
 //! Conjugate of complex value
 inline cvec conj(const cvec &x)
 {
