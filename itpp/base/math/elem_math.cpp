@@ -222,7 +222,7 @@ mat arg(const cmat &data)
   return temp;
 }
 
-#ifdef _MSC_VER
+#if defined(_MSC_VER) || defined(__GNUC__)
 cvec conj(const cvec &x)
 {
   cvec temp(x.size());
