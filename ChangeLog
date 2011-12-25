@@ -1,14 +1,23 @@
-2011-11-25   Bogdan Cristea <cristeab@users.sourceforge.net>
+2011-12-25  Bogdan Cristea <cristeab@users.sourceforge.net>
+
+	* doc/tutorial/demapper_mimo.doc, doc/tutorial/sources.mk,
+	  doc/tutorial/src/Makefile.am, doc/tutorial/src/demapper_mimo.cpp,
+	  itpp/comm/siso.h: added explanations about the overlap in
+	  functionality between the SISO class and the Modulator_ND class.
+	  Added an usage example for SISO demappers when using ST codes in
+	  MIMO channels.
+
+2011-11-25  Bogdan Cristea <cristeab@users.sourceforge.net>
 
 	* itpp/base/vec.h: initialization of local variable in order to
 	  close bug ID: 3425833
 
-2011-11-20   Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+2011-11-20  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/comm/ldpc.h, itpp/comm/ldpc.cpp: New function for soft
 	syndrome check calculation in the LDPC class
 
-2011-11-20   Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
+2011-11-20  Erik G. Larsson  <erik_g_larsson@users.sourceforge.net>
 
 	* itpp/comm/error_counters.h, itpp/comm/error_counters.cpp: Minor
 	feature enhancement in the error counter classes
