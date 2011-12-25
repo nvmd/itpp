@@ -18,6 +18,7 @@ sccc_bersim_awgn_example_SOURCES = sccc_bersim_awgn.cpp
 turbo_equalizer_bersim_multipath_example_SOURCES = turbo_equalizer_bersim_multipath.cpp
 ldpc_gen_codes_example_SOURCES = ldpc_gen_codes.cpp
 mimoconv_example_SOURCES = mimoconv.cpp
+demapper_mimo_example_SOURCES = demapper_mimo.cpp
 mog_example_SOURCES = mog.cpp
 qpsk_simulation_example_SOURCES = qpsk_simulation.cpp
 rayleigh_example_SOURCES = rayleigh.cpp
@@ -39,7 +40,7 @@ COMM_EXAMPLES = bpsk_example convcode_example interleaver_example		\
   rayleigh_example reedsolomon_example spread_example pccc_bersim_awgn_example \
   exit_pccc_example sccc_bersim_awgn_example turbo_equalizer_bersim_multipath_example
 if RUN_LAPACK_TESTS
-  COMM_EXAMPLES += mimoconv_example
+  COMM_EXAMPLES += mimoconv_example demapper_mimo_example
 endif # RUN_LAPACK_TESTS
 
 USED_EXAMPLES = $(BASE_EXAMPLES)

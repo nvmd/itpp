@@ -47,8 +47,25 @@ namespace itpp
   - demappers for Bit Interleaved Coded Modulation (BICM) systems
   - demappers for Space Time (ST) BICM systems
 
-   BPSK mapping is realized as follows: 0 -> +1 and 1 -> -1. Thus the xor truth
+   \note BPSK mapping is realized as follows: 0 -> +1 and 1 -> -1. Thus the xor truth
    table is preserved when multiplying BPSK symbols.
+
+   \note There is some overlap in functionality between the SISO class and the
+   Modulator_ND class as follows:
+   - When used for ST-BICM systems, both SISO and Modulator_ND classes can be used
+   for iterative (turbo reception), but the for the SISO class the emitter part
+   is implemented by the STC class, while for the Modulator_ND class the emitter
+   is implemented by the same class.
+   - When used for reception, the SISO class is more generic than the Modulator_ND
+   class since it allows the use of several ST codes following Hassibi's model
+   (see STC class) and several reception algorithms.
+   - The SISO demapper for ST-BICM systems when using V-BLAST as ST code can be
+   replaced by the ND demodulator (see Modulator_ND class). The best performance
+   could be achieved with the ND demodulator using FULL_ENUM_LOGMAP algorithm
+   followed by the SISO demapper with Hassibi_maxlogMAP algorithm (less complex
+   than FULL_ENUM_LOGMAP). There is no configuration in which the ND demodulator
+   and the SISO demapper can be considered completely equivalent (from an
+   implementation point of view).
  */
 class SISO
 {
@@ -68,7 +85,8 @@ public:
      * - maxlogMAP
      * - SOVA
      * - Viterbi
-     * Soft Output Viterbi Algorithm (SOVA) is equivalent to the MAP algorithm
+     *
+     * \note Soft Output Viterbi Algorithm (SOVA) is equivalent to the MAP algorithm
      * only when the a priori information is zero.
      */
     void set_map_metric(const std::string &in_MAP_metric);
@@ -176,13 +194,13 @@ public:
                           );
     //! Sets demapper method
     /*! Possible input values are:
-     * - Hassibi_MAP (maxlogMAP algorithm applied for ST block codes represented
+     * - Hassibi_maxlogMAP (maxlogMAP algorithm applied for ST block codes represented
      * using Hassibi's model)
      * - GA
      * - sGA (simplified GA)
      * - mmsePIC
      * - zfPIC (simplified mmsePIC)
-     * - Alamouti_MAP (maxlogMAP algorithm applied to Alamouti code using matched-filter
+     * - Alamouti_maxlogMAP (maxlogMAP algorithm applied to Alamouti code using matched-filter
      * reception method)
      */
     void set_demapper_method(const std::string &method);
