@@ -1,3 +1,12 @@
+2012-03-14  Bogdan Cristea <cristeab@users.sourceforge.net>
+
+	* doc/tutorial/demapper_mimo.doc, doc/tutorial/src/Makefile.am,
+	  doc/tutorial/src/demapper_mimo.cpp,
+	  doc/tutorial/src/dump_it_file.cpp, doc/tutorial/src/stbicm.cpp,
+	  itpp/comm/siso_dem.cpp, tests/Makefile.am,
+	  tests/demapper_test.cpp, tests/demapper_test.ref: corrected bug
+	  in MIMO demappers, add example for dumping the content of an itfile
+
 2011-12-25  Bogdan Cristea <cristeab@users.sourceforge.net>
 
 	* doc/tutorial/demapper_mimo.doc, doc/tutorial/sources.mk,
