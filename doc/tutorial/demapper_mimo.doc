@@ -7,6 +7,6 @@ The ST codes are generated using the STC class, the MIMO channels are ideal
 (no multi-antenna interferrence and no noise) and the receiver 
 is implemented by the demapper method of the SISO class.
  
-\include demapper_mimo.cpp
+\include stbicm.cpp
 
 */

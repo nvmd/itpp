@@ -86,14 +86,14 @@ void SISO::find_half_const(int &select_half, itpp::vec &re_part, itpp::bmat &re_
     {
         temp = bin_constellation.get_row(n);
         buffer = constellation(n).real();
-        if (itpp::prod(re_part-buffer)>min_diff)
+        if (fabs(itpp::prod(re_part-buffer))>min_diff)
         {
             re_idx++;
             re_part(re_idx) = buffer;
             re_bin_part.set_row(re_idx, temp(select_half*half_nb_bits_symb,(1+select_half)*half_nb_bits_symb-1));
         }
         buffer = constellation(n).imag();
-        if (itpp::prod(im_part-buffer)>min_diff)
+        if (fabs(itpp::prod(im_part-buffer))>min_diff)
         {
             im_idx++;
             im_part(im_idx) = buffer;
@@ -753,7 +753,7 @@ void SISO::Alamouti_maxlogMAP(itpp::vec &extrinsic_data, const itpp::cmat &rec_s
             denom = -INFINITY;
             for (cs=0; cs<const_size; cs++)
             {
-                temp = -itpp::sqr(comb_sig(n)-buffer*constellation(cs)/std::sqrt(nb_em_ant))/(2*buffer*sigma2)+ \
+                temp = -itpp::sqr(comb_sig(n)-buffer*constellation(cs))/(2*buffer*sigma2)+ \
                        itpp::to_vec(bin_constellation.get_row(cs))*apriori_data.mid(n*nb_bits_symb, nb_bits_symb);
                 if (bin_constellation(cs,nr))
                     nom = std::max(nom, temp);

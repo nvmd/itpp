@@ -12,7 +12,7 @@ BASE_LAP_TESTS = cholesky_test det_test eigen_test inv_test ls_solve_test \
 COMM_TESTS = bch_test commfunc_test convcode_test error_count_test \
   galois_test interleaver_test ldpc_test llr_test modulator_test \
   pulse_shape_test rec_syst_conv_code_test reedsolomon_test turbo_test siso_test \
-  exit_test stc_test
+  exit_test stc_test demapper_test
 COMM_LAP_TESTS = modulator_nd_test
 COMM_FFT_TESTS = channel_test
 
@@ -128,6 +128,7 @@ window_test_SOURCES = window_test.cpp
 siso_test_SOURCES = siso_test.cpp
 exit_test_SOURCES = exit_test.cpp
 stc_test_SOURCES = stc_test.cpp
+demapper_test_SOURCES = demapper_test.cpp
 
 check_PROGRAMS = $(USED_TESTS)
 tmp_files = $(USED_TESTS:=.tmp)
