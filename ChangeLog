@@ -1,4 +1,4 @@
-2012-03-14  Bogdan Cristea <cristeab@users.sourceforge.net>
+2012-03-14  Bogdan Cristea <cristeab@users.sourceforge.net> 
 
 	* doc/tutorial/demapper_mimo.doc, doc/tutorial/src/Makefile.am,
 	  doc/tutorial/src/demapper_mimo.cpp,
