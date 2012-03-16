@@ -15,32 +15,39 @@ using std::string;
 
 void print_help(char *prog_name)
 {
-	std::cout << "Usage: " << prog_name << " [options]" << std::endl;
-	std::cout << "Available options: " << std::endl;
-	std::cout << "-d demapper_method: sets the demapper method. Available demapper "
-			"methods: Hassibi_maxlogMAP, GA, sGA, mmsePIC, zfPIC and Alamouti_maxlogMAP." << std::endl;
-	std::cout << "-s code_name: sets the ST code name. Available code names: Golden_2x2, "
-			"V-BLAST_MxN, Damen_2x2, Alamouti_2xN." << std::endl;
-	std::cout << "-c const_size: sets the constellation size" << std::endl;
-	std::cout << "-e nb_errors_lim: sets the limit for the number of bit errors" << std::endl;
-	std::cout << "-b nb_bits_lim: sets the limit for the number of bits to send" << std::endl;
-	std::cout << "-p perm_len: sets the length of the permutation" << std::endl;
-	std::cout << "-i nb_iter: sets the number of iterations" << std::endl;
-	std::cout << "-t em_antennas: sets the number of emission antenna" << std::endl;
-	std::cout << "-r rec_antennas: sets the number of reception antenna" << std::endl;
-	std::cout << "-u channel_uses: sets the number of channel uses" << std::endl;
-	std::cout << "-g: enables the Gaussian MIMO channel (no MAI). Available only "
-			"if em_antennas == rec_antennas." << std::endl;
-	std::cout << "-h: displays this help message" << std::endl;
+	cout << "Usage: " << prog_name << " [options]\n"
+	<< "Available options:\n"
+	<< "-d demapper_method: sets the demapper method. Available demapper "
+			"methods: Hassibi_maxlogMAP, GA, sGA, mmsePIC, zfPIC and Alamouti_maxlogMAP.\n"
+	<< "-s code_name: sets the ST code name. Available code names: Golden_2x2, "
+			"V-BLAST_MxN, Damen_2x2, Alamouti_2xN.\n"
+	<< "-c const_size: sets the constellation size\n"
+	<< "-e nb_errors_lim: sets the limit for the number of bit errors\n"
+	<< "-b nb_bits_lim: sets the limit for the number of bits to send\n"
+	<< "-p perm_len: sets the length of the permutation\n"
+	<< "-i nb_iter: sets the number of iterations\n"
+	<< "-t em_antennas: sets the number of emission antenna\n"
+	<< "-r rec_antennas: sets the number of reception antenna\n"
+	<< "-u channel_uses: sets the number of channel uses\n"
+	<< "-g: enables the ideal Gaussian MIMO channel (no MAI). Available only "
+			"if em_antennas == rec_antennas.\n"
+	<< "-n EbN0_dB_min: sets the lower limit for the SNR [dB]\n"
+	<< "-m EbN0_dB_max: sets the upper limit for the SNR [dB]\n"
+	<< "-l EbN0_dB_step: step for the SNR vector [dB]\n"
+	<< "-h: displays this help message" << endl;
 }
 
 int get_opts(int argc, char *argv[], std::string &demapper_method, int &const_size,
 		int &nb_errors_lim, int &nb_bits_lim, int &perm_len, int &nb_iter,
 		int &rec_antennas, int &em_antennas, int &channel_uses, std::string &code_name,
-		bool &ideal_channel, bool &to_file)
+		bool &ideal_channel, bool &to_file, vec &EbN0_dB)
 {
 	int opt;
-	while (-1 != (opt = getopt(argc, argv, "hgfd:c:e:b:p:i:r:t:u:s:")))
+	double EbN0_dB_min = EbN0_dB[0];
+	double EbN0_dB_max = EbN0_dB[length(EbN0_dB)-1];
+	double EbN0_dB_step = 1.0;
+
+	while (-1 != (opt = getopt(argc, argv, "hgfd:c:e:b:p:i:r:t:u:s:n:m:l:")))
 	{
 		switch (opt)
 		{
@@ -82,9 +89,31 @@ int get_opts(int argc, char *argv[], std::string &demapper_method, int &const_si
 		case 'f':
 			to_file = true;
 			break;
+		case 'n':
+			EbN0_dB_min = atof(optarg);
+			break;
+		case 'm':
+			EbN0_dB_max = atof(optarg);
+			break;
+		case 'l':
+			EbN0_dB_step = atof(optarg);
+			break;
 		default:
 			return EXIT_FAILURE;
 		}
+	}
+	/* update SNR if needed */
+	if ((EbN0_dB_min <= EbN0_dB_max) && (0 < EbN0_dB_step) &&
+    	    ((EbN0_dB[0] != EbN0_dB_min) || (EbN0_dB[length(EbN0_dB)-1] != EbN0_dB_max)))
+	{
+		int size = int((EbN0_dB_max-EbN0_dB_min)/EbN0_dB_step)+1;
+		EbN0_dB.set_size(size);
+		EbN0_dB[0] = EbN0_dB_min;
+		for (int n = 1; n < size; ++n)
+		{
+			EbN0_dB[n] = EbN0_dB[n-1]+EbN0_dB_step;
+		}
+		
 	}
 	return EXIT_SUCCESS;
 }
@@ -115,7 +144,7 @@ int main(int argc, char *argv[])
 	//get parameters if any
 	if (EXIT_FAILURE == get_opts(argc, argv, demapper_method, const_size,
 			nb_errors_lim, nb_bits_lim, perm_len, nb_iter, rec_antennas, em_antennas,
-			channel_uses, code_name, ideal_channel, to_file))
+			channel_uses, code_name, ideal_channel, to_file, EbN0_dB))
 	{
 		print_help(argv[0]);
 		return EXIT_FAILURE;
@@ -144,17 +173,17 @@ int main(int argc, char *argv[])
 	int tx_duration = channel_uses*nb_subblocks;//transmission duration expressed in number of symbol periods
 
 	//show configuration parameters
-	std::cout << "const_size = " << const_size << std::endl;
-	std::cout << "demapper_method = " << demapper_method << std::endl;
-	std::cout << "nb_errors_lim = " << nb_errors_lim << std::endl;
-	std::cout << "nb_bits_lim = " << nb_bits_lim << std::endl;
-	std::cout << "perm_len = " << perm_len << std::endl;
-	std::cout << "code_name = " << code_name << std::endl;
-	std::cout << "em_antennas = " << em_antennas << std::endl;
-	std::cout << "channel_uses = " << channel_uses << std::endl;
-	std::cout << "nb_iter = " << nb_iter << std::endl;
-	std::cout << "rec_antennas = " << rec_antennas << std::endl;
-	std::cout << "EbN0_dB = " << EbN0_dB << std::endl;
+	std::cout << "const_size = " << const_size
+	<< "\ndemapper_method = " << demapper_method
+	<< "\nnb_errors_lim = " << nb_errors_lim
+	<< "\nnb_bits_lim = " << nb_bits_lim
+	<< "\nperm_len = " << perm_len
+	<< "\ncode_name = " << code_name
+	<< "\nem_antennas = " << em_antennas
+	<< "\nchannel_uses = " << channel_uses
+	<< "\nnb_iter = " << nb_iter
+	<< "\nrec_antennas = " << rec_antennas
+	<< "\nEbN0_dB = " << EbN0_dB << std::endl;
 	if (true == ideal_channel)
 	{
 		if (em_antennas == rec_antennas)
@@ -226,7 +255,7 @@ int main(int argc, char *argv[])
 	siso.set_map_metric(map_metric);
 	siso.set_generators(gen, constraint_length);
 	siso.set_demapper_method(demapper_method);
-	siso.set_constellation(mod.bits_per_symbol(), mod.get_symbols(), mod.get_bits2symbols());
+	siso.set_constellation(mod.bits_per_symbol(), mod.get_symbols()/sqrt(em_antennas), mod.get_bits2symbols());
 	siso.set_st_block_code(st_block_code.get_nb_symbols_per_block(), st_block_code.get_1st_gen_matrix(), st_block_code.get_2nd_gen_matrix(), rec_antennas);
 
 	//decision

@@ -175,6 +175,8 @@ public:
     //demodulator and MIMO demapper setup
     //! Sets symbol constellation
     /*! The correspondence between each symbol and its binary representation is given.
+     * Note that if the symbols are normalized to the square root of the number of emission antenna
+     * you should use the normalized constellation as input for this method.
      */
     void set_constellation(const int &in_nb_bits_symb, //!< the number of symbols
                            const itpp::cvec &in_constellation, //!< all possible symbols as a complex vector
@@ -449,6 +451,11 @@ private:
     void EquivRecSig(itpp::vec &x_eq, const itpp::cmat &rec_sig);
     //! Finds equivalent channel with real coefficients
     void EquivCh(itpp::mat &H_eq, const itpp::cvec &H);
+    //! Computes equivalent symbols statistics (mean and variance of the real and imaginary part)
+    void compute_symb_stats(itpp::vec &Es, itpp::vec &Vs,
+	 		    int ns, int select_half, const itpp::vec &apriori_data,
+		   	    const itpp::vec &re_part, const itpp::vec &im_part,
+			    const itpp::bmat &re_bin_part, const itpp::bmat &im_bin_part);
 };
 
 inline SISO::SISO()

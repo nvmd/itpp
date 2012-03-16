@@ -153,6 +153,39 @@ void SISO::EquivCh(itpp::mat &H_eq, const itpp::cvec &H)
     }
 }
 
+void SISO::compute_symb_stats(itpp::vec &Es, itpp::vec &Vs,
+		int ns, int select_half, const itpp::vec &apriori_data,
+		const itpp::vec &re_part, const itpp::vec &im_part,
+		const itpp::bmat &re_bin_part, const itpp::bmat &im_bin_part)
+{
+    int half_nb_bits_symb = nb_bits_symb/2;
+    int half_len = itpp::pow2i(half_nb_bits_symb);//number of values of real(imaginary) part
+
+    Es.zeros();
+    Vs.zeros();
+    for (int q = 0; q < symbols_block; q++)
+    {
+        int index = q*nb_bits_symb+ns*symbols_block*nb_bits_symb;
+        for (int k = 0; k < half_len; k++)
+        {
+            Es(2*q) += re_part(k)*itpp::prod(itpp::elem_div(exp(itpp::elem_mult(itpp::to_vec(re_bin_part.get_row(k)),\
+                                               apriori_data.mid(select_half*half_nb_bits_symb+index,half_nb_bits_symb))),\
+                                               1+exp(apriori_data.mid(select_half*half_nb_bits_symb+index,half_nb_bits_symb))));
+            Es(1+2*q) += im_part(k)*itpp::prod(itpp::elem_div(exp(itpp::elem_mult(itpp::to_vec(im_bin_part.get_row(k)),\
+                                               apriori_data.mid((1-select_half)*half_nb_bits_symb+index,half_nb_bits_symb))),\
+                                               1+exp(apriori_data.mid((1-select_half)*half_nb_bits_symb+index,half_nb_bits_symb))));
+            Vs(2*q) += itpp::sqr(re_part(k))*itpp::prod(itpp::elem_div(exp(itpp::elem_mult(itpp::to_vec(re_bin_part.get_row(k)),\
+                           apriori_data.mid(select_half*half_nb_bits_symb+index,half_nb_bits_symb))),\
+                           1+exp(apriori_data.mid(select_half*half_nb_bits_symb+index,half_nb_bits_symb))));
+            Vs(1+2*q) += itpp::sqr(im_part(k))*itpp::prod(itpp::elem_div(exp(itpp::elem_mult(itpp::to_vec(im_bin_part.get_row(k)),\
+                           apriori_data.mid((1-select_half)*half_nb_bits_symb+index,half_nb_bits_symb))),\
+                           1+exp(apriori_data.mid((1-select_half)*half_nb_bits_symb+index,half_nb_bits_symb))));
+        }
+        Vs(2*q) -= itpp::sqr(Es(2*q));
+        Vs(1+2*q) -= itpp::sqr(Es(1+2*q));
+    }
+}
+
 void SISO::Hassibi_maxlogMAP(itpp::vec &extrinsic_data, const itpp::cmat &rec_sig, const itpp::vec &apriori_data)
 //maxlogMAP algorithm for ST block codes using Hassibi's model
 {
@@ -225,10 +258,8 @@ void SISO::GA(itpp::vec &extrinsic_data, const itpp::cmat &rec_sig, const itpp::
 
     //equivalent channel
     itpp::mat H_eq(2*nb_rec_ant*block_duration,2*symbols_block);
-    itpp::vec E_re_s(symbols_block);
-    itpp::vec E_im_s(symbols_block);
-    itpp::vec Var_re_s(symbols_block);
-    itpp::vec Var_im_s(symbols_block);
+    itpp::vec Es(2*symbols_block);
+    itpp::vec Vs(2*symbols_block);
     itpp::vec Ey(2*block_duration*nb_rec_ant);
     itpp::mat Cy(2*block_duration*nb_rec_ant,2*block_duration*nb_rec_ant);
     itpp::mat Cy_inv(2*block_duration*nb_rec_ant,2*block_duration*nb_rec_ant);
@@ -237,37 +268,14 @@ void SISO::GA(itpp::vec &extrinsic_data, const itpp::cmat &rec_sig, const itpp::
     itpp::mat CZeta_inv(2*block_duration*nb_rec_ant,2*block_duration*nb_rec_ant);
     double nom,denom;
     double temp;
-    register int ns,q,k,p,cs;
+    register int ns,q,p,cs;
     int index;
     extrinsic_data.set_size(nb_bits_symb*nb_subblocks*symbols_block);
     for (ns=0; ns<nb_subblocks; ns++)//subblock by subblock
     {
         //mean and variance of real and imaginary parts of emitted symbols
-        E_re_s.zeros();
-        E_im_s.zeros();
-        Var_re_s.zeros();
-        Var_im_s.zeros();
-        for (q=0; q<symbols_block; q++)
-        {
-            index = q*nb_bits_symb+ns*symbols_block*nb_bits_symb;
-            for (k=0; k<half_len; k++)
-            {
-                E_re_s(q) += re_part(k)*itpp::prod(itpp::elem_div(exp(itpp::elem_mult(itpp::to_vec(re_bin_part.get_row(k)),\
-                                                   apriori_data.mid(select_half*half_nb_bits_symb+index,half_nb_bits_symb))),\
-                                                   1+exp(apriori_data.mid(select_half*half_nb_bits_symb+index,half_nb_bits_symb))));
-                E_im_s(q) += im_part(k)*itpp::prod(itpp::elem_div(exp(itpp::elem_mult(itpp::to_vec(im_bin_part.get_row(k)),\
-                                                   apriori_data.mid((1-select_half)*half_nb_bits_symb+index,half_nb_bits_symb))),\
-                                                   1+exp(apriori_data.mid((1-select_half)*half_nb_bits_symb+index,half_nb_bits_symb))));
-                Var_re_s(q) += itpp::sqr(re_part(k))*itpp::prod(itpp::elem_div(exp(itpp::elem_mult(itpp::to_vec(re_bin_part.get_row(k)),\
-                               apriori_data.mid(select_half*half_nb_bits_symb+index,half_nb_bits_symb))),\
-                               1+exp(apriori_data.mid(select_half*half_nb_bits_symb+index,half_nb_bits_symb))));
-                Var_im_s(q) += itpp::sqr(im_part(k))*itpp::prod(itpp::elem_div(exp(itpp::elem_mult(itpp::to_vec(im_bin_part.get_row(k)),\
-                               apriori_data.mid((1-select_half)*half_nb_bits_symb+index,half_nb_bits_symb))),\
-                               1+exp(apriori_data.mid((1-select_half)*half_nb_bits_symb+index,half_nb_bits_symb))));
-            }
-            Var_re_s(q) -= itpp::sqr(E_re_s(q));
-            Var_im_s(q) -= itpp::sqr(E_im_s(q));
-        }
+    	compute_symb_stats(Es, Vs, ns, select_half, apriori_data,
+    			re_part, im_part, re_bin_part, im_bin_part);
 
         //find equivalent channel
         EquivCh(H_eq, c_impulse_response.get_col(ns));
@@ -278,9 +286,9 @@ void SISO::GA(itpp::vec &extrinsic_data, const itpp::cmat &rec_sig, const itpp::
         for (q=0; q<symbols_block; q++)
         {
             //real & imaginary
-            Ey += (H_eq.get_col(2*q)*E_re_s(q)+H_eq.get_col(1+2*q)*E_im_s(q));
-            Cy += (itpp::outer_product(H_eq.get_col(2*q), H_eq.get_col(2*q)*Var_re_s(q))+\
-                   itpp::outer_product(H_eq.get_col(1+2*q), H_eq.get_col(1+2*q)*Var_im_s(q)));
+            Ey += (H_eq.get_col(2*q)*Es(2*q)+H_eq.get_col(1+2*q)*Es(1+2*q));
+            Cy += (itpp::outer_product(H_eq.get_col(2*q), H_eq.get_col(2*q)*Vs(2*q))+\
+                   itpp::outer_product(H_eq.get_col(1+2*q), H_eq.get_col(1+2*q)*Vs(1+2*q)));
         }
 
         //inverse of Cov[y]
@@ -293,9 +301,9 @@ void SISO::GA(itpp::vec &extrinsic_data, const itpp::cmat &rec_sig, const itpp::
         for (q=0; q<symbols_block; q++)
         {
             //real part
-            EZeta = Ey-H_eq.get_col(2*q)*E_re_s(q);
+            EZeta = Ey-H_eq.get_col(2*q)*Es(2*q);
             CZeta_inv = Cy_inv+itpp::outer_product(Cy_inv*\
-                                                   ((Var_re_s(q)/(1-(((H_eq.get_col(2*q)).transpose()*Cy_inv)*(H_eq.get_col(2*q)*Var_re_s(q)))(0)))*\
+                                                   ((Vs(2*q)/(1-(((H_eq.get_col(2*q)).transpose()*Cy_inv)*(H_eq.get_col(2*q)*Vs(2*q)))(0)))*\
                                                     H_eq.get_col(2*q)), Cy_inv.transpose()*H_eq.get_col(2*q));
             index = select_half*half_nb_bits_symb+q*nb_bits_symb+ns*symbols_block*nb_bits_symb;
             for (p=0; p<half_nb_bits_symb; p++)
@@ -314,9 +322,9 @@ void SISO::GA(itpp::vec &extrinsic_data, const itpp::cmat &rec_sig, const itpp::
                 extrinsic_data(index+p) = (nom-denom)-apriori_data(index+p);
             }
             //imaginary part
-            EZeta = Ey-H_eq.get_col(1+2*q)*E_im_s(q);
+            EZeta = Ey-H_eq.get_col(1+2*q)*Es(1+2*q);
             CZeta_inv = Cy_inv+itpp::outer_product(Cy_inv*\
-                                                   ((Var_im_s(q)/(1-(((H_eq.get_col(1+2*q)).transpose()*Cy_inv)*(H_eq.get_col(1+2*q)*Var_im_s(q)))(0)))*\
+                                                   ((Vs(1+2*q)/(1-(((H_eq.get_col(1+2*q)).transpose()*Cy_inv)*(H_eq.get_col(1+2*q)*Vs(1+2*q)))(0)))*\
                                                     H_eq.get_col(1+2*q)), Cy_inv.transpose()*H_eq.get_col(1+2*q));
             index = (1-select_half)*half_nb_bits_symb+q*nb_bits_symb+ns*symbols_block*nb_bits_symb;
             for (p=0; p<half_nb_bits_symb; p++)
@@ -357,10 +365,8 @@ void SISO::sGA(itpp::vec &extrinsic_data, const itpp::cmat &rec_sig, const itpp:
     //equivalent channel
     itpp::mat H_eq(2*nb_rec_ant*block_duration,2*symbols_block);
 
-    itpp::vec E_re_s(symbols_block);
-    itpp::vec E_im_s(symbols_block);
-    itpp::vec Var_re_s(symbols_block);
-    itpp::vec Var_im_s(symbols_block);
+    itpp::vec Es(2*symbols_block);
+    itpp::vec Vs(2*symbols_block);
     itpp::vec Ey(2*block_duration*nb_rec_ant);
     itpp::mat Cy(2*block_duration*nb_rec_ant,2*block_duration*nb_rec_ant);
     itpp::vec x_eq(2*block_duration*nb_rec_ant);
@@ -368,37 +374,14 @@ void SISO::sGA(itpp::vec &extrinsic_data, const itpp::cmat &rec_sig, const itpp:
     itpp::vec CZeta(2*block_duration*nb_rec_ant);
     double nom,denom;
     double temp;
-    register int ns,q,k,p,cs;
+    register int ns,q,p,cs;
     int index;
     extrinsic_data.set_size(nb_bits_symb*nb_subblocks*symbols_block);
     for (ns=0; ns<nb_subblocks; ns++)//subblock by subblock
     {
         //mean and variance of real and imaginary parts of emitted symbols
-        E_re_s.zeros();
-        E_im_s.zeros();
-        Var_re_s.zeros();
-        Var_im_s.zeros();
-        for (q=0; q<symbols_block; q++)
-        {
-            index = q*nb_bits_symb+ns*symbols_block*nb_bits_symb;
-            for (k=0; k<half_len; k++)
-            {
-                E_re_s(q) += re_part(k)*itpp::prod(itpp::elem_div(exp(itpp::elem_mult(itpp::to_vec(re_bin_part.get_row(k)),\
-                                                   apriori_data.mid(select_half*half_nb_bits_symb+index,half_nb_bits_symb))),\
-                                                   1+exp(apriori_data.mid(select_half*half_nb_bits_symb+index,half_nb_bits_symb))));
-                E_im_s(q) += im_part(k)*itpp::prod(itpp::elem_div(exp(itpp::elem_mult(itpp::to_vec(im_bin_part.get_row(k)),\
-                                                   apriori_data.mid((1-select_half)*half_nb_bits_symb+index,half_nb_bits_symb))),\
-                                                   1+exp(apriori_data.mid((1-select_half)*half_nb_bits_symb+index,half_nb_bits_symb))));
-                Var_re_s(q) += itpp::sqr(re_part(k))*itpp::prod(itpp::elem_div(exp(itpp::elem_mult(itpp::to_vec(re_bin_part.get_row(k)),\
-                               apriori_data.mid(select_half*half_nb_bits_symb+index,half_nb_bits_symb))),\
-                               1+exp(apriori_data.mid(select_half*half_nb_bits_symb+index,half_nb_bits_symb))));
-                Var_im_s(q) += itpp::sqr(im_part(k))*itpp::prod(itpp::elem_div(exp(itpp::elem_mult(itpp::to_vec(im_bin_part.get_row(k)),\
-                               apriori_data.mid((1-select_half)*half_nb_bits_symb+index,half_nb_bits_symb))),\
-                               1+exp(apriori_data.mid((1-select_half)*half_nb_bits_symb+index,half_nb_bits_symb))));
-            }
-            Var_re_s(q) -= itpp::sqr(E_re_s(q));
-            Var_im_s(q) -= itpp::sqr(E_im_s(q));
-        }
+    	compute_symb_stats(Es, Vs, ns, select_half, apriori_data,
+    			re_part, im_part, re_bin_part, im_bin_part);
 
         //find equivalent channel
         EquivCh(H_eq, c_impulse_response.get_col(ns));
@@ -409,9 +392,9 @@ void SISO::sGA(itpp::vec &extrinsic_data, const itpp::cmat &rec_sig, const itpp:
         for (q=0; q<symbols_block; q++)
         {
             //real & imaginary
-            Ey += (H_eq.get_col(2*q)*E_re_s(q)+H_eq.get_col(1+2*q)*E_im_s(q));
-            Cy += (itpp::outer_product(H_eq.get_col(2*q), H_eq.get_col(2*q)*Var_re_s(q))+\
-                   itpp::outer_product(H_eq.get_col(1+2*q), H_eq.get_col(1+2*q)*Var_im_s(q)));
+            Ey += (H_eq.get_col(2*q)*Es(2*q)+H_eq.get_col(1+2*q)*Es(1+2*q));
+            Cy += (itpp::outer_product(H_eq.get_col(2*q), H_eq.get_col(2*q)*Vs(2*q))+\
+                   itpp::outer_product(H_eq.get_col(1+2*q), H_eq.get_col(1+2*q)*Vs(1+2*q)));
         }
 
         //find equivalent received signal
@@ -421,8 +404,8 @@ void SISO::sGA(itpp::vec &extrinsic_data, const itpp::cmat &rec_sig, const itpp:
         for (q=0; q<symbols_block; q++)
         {
             //real part
-            EZeta = Ey-H_eq.get_col(2*q)*E_re_s(q);
-            CZeta = diag(Cy-itpp::outer_product(H_eq.get_col(2*q), H_eq.get_col(2*q)*Var_re_s(q)));
+            EZeta = Ey-H_eq.get_col(2*q)*Es(2*q);
+            CZeta = diag(Cy-itpp::outer_product(H_eq.get_col(2*q), H_eq.get_col(2*q)*Vs(2*q)));
             index = select_half*half_nb_bits_symb+q*nb_bits_symb+ns*symbols_block*nb_bits_symb;
             for (p=0; p<half_nb_bits_symb; p++)
             {
@@ -440,8 +423,8 @@ void SISO::sGA(itpp::vec &extrinsic_data, const itpp::cmat &rec_sig, const itpp:
                 extrinsic_data(index+p) = (nom-denom)-apriori_data(index+p);
             }
             //imaginary part
-            EZeta = Ey-H_eq.get_col(1+2*q)*E_im_s(q);
-            CZeta = itpp::diag(Cy-itpp::outer_product(H_eq.get_col(1+2*q), H_eq.get_col(1+2*q)*Var_im_s(q)));
+            EZeta = Ey-H_eq.get_col(1+2*q)*Es(1+2*q);
+            CZeta = itpp::diag(Cy-itpp::outer_product(H_eq.get_col(1+2*q), H_eq.get_col(1+2*q)*Vs(1+2*q)));
             index = (1-select_half)*half_nb_bits_symb+q*nb_bits_symb+ns*symbols_block*nb_bits_symb;
             for (p=0; p<half_nb_bits_symb; p++)
             {
@@ -500,29 +483,8 @@ void SISO::mmsePIC(itpp::vec &extrinsic_data, const itpp::cmat &rec_sig, const i
     for (ns=0; ns<nb_subblocks; ns++)//compute block by block
     {
         //mean and variance of real and imaginary parts of emitted symbols
-        Es.zeros();
-        Vs.zeros();
-        for (q=0; q<symbols_block; q++)
-        {
-            index = q*nb_bits_symb+ns*symbols_block*nb_bits_symb;
-            for (k=0; k<half_const_len; k++)
-            {
-                Es(2*q) += re_part(k)*itpp::prod(itpp::elem_div(exp(itpp::elem_mult(itpp::to_vec(re_bin_part.get_row(k)), \
-                                                 apriori_data.mid(select_half*half_nb_bits_symb+index, half_nb_bits_symb))), \
-                                                 (1+exp(apriori_data.mid(select_half*half_nb_bits_symb+index, half_nb_bits_symb)))));
-                Es(1+2*q) += im_part(k)*itpp::prod(itpp::elem_div(exp(itpp::elem_mult(itpp::to_vec(im_bin_part.get_row(k)), \
-                                                   apriori_data.mid((1-select_half)*half_nb_bits_symb+index, half_nb_bits_symb))), \
-                                                   (1+exp(apriori_data.mid((1-select_half)*half_nb_bits_symb+index, half_nb_bits_symb)))));
-                Vs(2*q) += itpp::sqr(re_part(k))*itpp::prod(itpp::elem_div(exp(itpp::elem_mult(itpp::to_vec(re_bin_part.get_row(k)), \
-                           apriori_data.mid(select_half*half_nb_bits_symb+index, half_nb_bits_symb))), \
-                           (1+exp(apriori_data.mid(select_half*half_nb_bits_symb+index, half_nb_bits_symb)))));
-                Vs(1+2*q) += itpp::sqr(im_part(k))*itpp::prod(itpp::elem_div(exp(itpp::elem_mult(itpp::to_vec(im_bin_part.get_row(k)), \
-                             apriori_data.mid((1-select_half)*half_nb_bits_symb+index, half_nb_bits_symb))), \
-                             (1+exp(apriori_data.mid((1-select_half)*half_nb_bits_symb+index, half_nb_bits_symb)))));
-            }
-            Vs(2*q) -= itpp::sqr(Es(2*q));
-            Vs(1+2*q) -= itpp::sqr(Es(1+2*q));
-        }
+    	compute_symb_stats(Es, Vs, ns, select_half, apriori_data,
+    			re_part, im_part, re_bin_part, im_bin_part);
 
         //find equivalent channel matrix
         EquivCh(H_eq, c_impulse_response.get_col(ns));
@@ -628,29 +590,8 @@ void SISO::zfPIC(itpp::vec &extrinsic_data, const itpp::cmat &rec_sig, const itp
     for (ns=0; ns<nb_subblocks; ns++)//compute block by block
     {
         //mean and variance of real and imaginary parts of emitted symbols
-        Es.zeros();
-        Vs.zeros();
-        for (q=0; q<symbols_block; q++)
-        {
-            index = q*nb_bits_symb+ns*symbols_block*nb_bits_symb;
-            for (k=0; k<half_const_len; k++)
-            {
-                Es(2*q) += re_part(k)*itpp::prod(itpp::elem_div(exp(itpp::elem_mult(itpp::to_vec(re_bin_part.get_row(k)), \
-                                                 apriori_data.mid(select_half*half_nb_bits_symb+index, half_nb_bits_symb))), \
-                                                 (1+exp(apriori_data.mid(select_half*half_nb_bits_symb+index, half_nb_bits_symb)))));
-                Es(1+2*q) += im_part(k)*itpp::prod(itpp::elem_div(exp(itpp::elem_mult(itpp::to_vec(im_bin_part.get_row(k)), \
-                                                   apriori_data.mid((1-select_half)*half_nb_bits_symb+index, half_nb_bits_symb))), \
-                                                   (1+exp(apriori_data.mid((1-select_half)*half_nb_bits_symb+index, half_nb_bits_symb)))));
-                Vs(2*q) += itpp::sqr(re_part(k))*itpp::prod(itpp::elem_div(exp(itpp::elem_mult(itpp::to_vec(re_bin_part.get_row(k)), \
-                           apriori_data.mid(select_half*half_nb_bits_symb+index, half_nb_bits_symb))), \
-                           (1+exp(apriori_data.mid(select_half*half_nb_bits_symb+index, half_nb_bits_symb)))));
-                Vs(1+2*q) += itpp::sqr(im_part(k))*itpp::prod(itpp::elem_div(exp(itpp::elem_mult(to_vec(im_bin_part.get_row(k)), \
-                             apriori_data.mid((1-select_half)*half_nb_bits_symb+index, half_nb_bits_symb))), \
-                             (1+exp(apriori_data.mid((1-select_half)*half_nb_bits_symb+index, half_nb_bits_symb)))));
-            }
-            Vs(2*q) -= itpp::sqr(Es(2*q));
-            Vs(1+2*q) -= itpp::sqr(Es(1+2*q));
-        }
+    	compute_symb_stats(Es, Vs, ns, select_half, apriori_data,
+    			re_part, im_part, re_bin_part, im_bin_part);
 
         //find equivalent channel matrix
         EquivCh(H_eq, c_impulse_response.get_col(ns));
