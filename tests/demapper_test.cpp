@@ -62,7 +62,7 @@ int main()
     bvec bits = randb(perm_len);
 
     //QAM modulation
-    cvec em = mod.modulate_bits(bits)/sqrt(em_antennas);//normalize emitted symbols
+    cvec em = mod.modulate_bits(bits)/sqrt(double(em_antennas));//normalize emitted symbols
 
     //ST code
     cmat S = st_block_code.encode(em);
