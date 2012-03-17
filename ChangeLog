@@ -1,4 +1,4 @@
-2012-03-15 Bogdan Cristea <cristeab@users.sourceforge.net>
+2012-03-15  Bogdan Cristea <cristeab@users.sourceforge.net>
 
 	* doc/tutorial/src/stbicm.cpp, itpp/comm/siso.h,
 	  itpp/comm/siso_dem.cpp: corrected bug in stbicm example,
