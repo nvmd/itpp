@@ -1,3 +1,10 @@
+2012-03-25  Bogdan Cristea <cristeab@users.sourceforge.net>  
+
+	* itpp/base/itassert.h, itpp/base/itfile.cpp, itpp/comm/ldpc.cpp,
+	  itpp/signal/sigfun.cpp, itpp/srccode/vqtrain.cpp,
+	  tests/parser_test.cpp: corrected compilation warnings with gcc
+	  4.6.2
+
 2012-03-15  Bogdan Cristea <cristeab@users.sourceforge.net>
 
 	* doc/tutorial/src/stbicm.cpp, itpp/comm/siso.h,
