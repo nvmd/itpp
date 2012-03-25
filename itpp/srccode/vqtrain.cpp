@@ -46,15 +46,13 @@ double kmeansiter(Array<vec> &DB, mat &codebook)
   int    DIM = DB(0).length(), SIZE = codebook.cols(), T = DB.length();
   vec    x, xnum(SIZE);
   mat    xsum(DIM, SIZE);
-  int    n, MinIndex, i, j, k;
-  double   MinS, S, D, Dold, *xp, *cp;
+  int    MinIndex, i, j, k;
+  double   MinS, S, D, *xp, *cp;
 
   xsum.clear();
   xnum.clear();
 
-  n = 0;
   D = 1E20;
-  Dold = D;
   D = 0;
   for (k = 0;k < T;k++) {
     x = DB(k);
@@ -71,7 +69,7 @@ double kmeansiter(Array<vec> &DB, mat &codebook)
       MinS = S;
       MinIndex = i;
     sune:
-      i = i;
+    void();
     }
     D += MinS;
     cp = &xsum(0, MinIndex);

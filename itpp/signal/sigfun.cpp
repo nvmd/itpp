@@ -92,7 +92,7 @@ void xcorr(const vec &x, const vec &y, vec &out, const int max_lag, const std::s
 void xcorr_old(const vec &x, const vec &y, vec &out, const int max_lag, const std::string scaleopt)
 {
   int m, n;
-  double s_plus, s_minus, M_double, xcorr_0, coeff_scale = 0.0;
+  double s_plus, s_minus, M_double, coeff_scale = 0.0;
   int M, N;
 
   M = x.size();
@@ -122,8 +122,6 @@ void xcorr_old(const vec &x, const vec &y, vec &out, const int max_lag, const st
       s_minus += index_zero_pad(x, n) * index_zero_pad(y, n + m);
       s_plus += index_zero_pad(x, n + m) * index_zero_pad(y, n);
     }
-
-    if (m == 0) { xcorr_0 = s_plus; }
 
     if (scaleopt == "none") {
       out(N + m - 1) = s_plus;

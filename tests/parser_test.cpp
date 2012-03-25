@@ -43,7 +43,7 @@ int main(int argc, char *argv[])
 {
   Parser p;
   int a;
-  double b, b0, b1, b2;
+  double b;
   string c;
   ivec d;
   vec e;
@@ -61,9 +61,9 @@ int main(int argc, char *argv[])
   p.init(string(PARSER_TEST_FILE));
   a  = p.get_int("a");
   cout << "a  = " << a  << endl;
-  b0 = p.get_double("b");   //The default value of b
-  b1 = p.get_double("b", 1); //The first alternative value of b
-  b2 = p.get_double("b", 2); //The second alternative value of b
+  p.get_double("b");   //The default value of b
+  p.get_double("b", 1); //The first alternative value of b
+  p.get_double("b", 2); //The second alternative value of b
   c  = p.get_string("c");
   cout << "c  = " << c  << endl;
   d  = p.get_ivec("d");

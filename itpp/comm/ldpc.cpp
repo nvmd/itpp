@@ -928,7 +928,6 @@ ivec LDPC_Generator_Systematic::construct(LDPC_Parity* const H,
   it_info_debug("Computing a systematic generator matrix...");
 
   int j1 = 0, j2 = 0;
-  int rank;
   ivec perm;
   GF2mat T, U;
   for (int k = 0; k < nvar; k++) {
@@ -938,7 +937,7 @@ ivec LDPC_Generator_Systematic::construct(LDPC_Parity* const H,
     bvec c = Hd.get_col(col_order(k));
     if (j2 == 0) {     // first column in P2 is number col_order(k)
       P2 = GF2mat(c);
-      rank = P2.T_fact(T, U, perm);
+      P2.T_fact(T, U, perm);/* return value not used */
       actual_ordering(k) = nvar - ncheck;
       j2++;
     }

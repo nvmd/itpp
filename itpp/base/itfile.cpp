@@ -133,7 +133,6 @@ bool it_ifile::read_check_file_header()
 
 void it_ifile::read_data_header(data_header &h)
 {
-  std::streampos p = s.tellg();
   s.clear();
   s >> h.hdr_bytes;
   s >> h.data_bytes;

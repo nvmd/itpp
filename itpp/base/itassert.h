@@ -101,7 +101,7 @@ void it_error_msg_style(error_msg_style style);
 
 #if defined(NDEBUG)
 //! Abort if \c t is not true and NDEBUG is not defined
-#  define it_assert_debug(t,s) ((void) 0)
+#  define it_assert_debug(t,s) ((void) (t))
 #else
 //! Abort if \c t is not true and NDEBUG is not defined
 #  define it_assert_debug(t,s) it_assert(t,s)
