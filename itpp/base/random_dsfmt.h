@@ -171,7 +171,7 @@ public:
       dsfmt_gen_rand_all();
       idx = 0;
     }
-    return psfmt64[idx++] & 0xffffffffU;
+    return (uint32_t)(psfmt64[idx++] & 0xffffffffU);
   }
 
   /*!

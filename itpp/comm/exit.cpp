@@ -66,7 +66,7 @@ double EXIT::extrinsic_mutual_info(const itpp::vec &obs, const itpp::bvec &cond,
     return IE;
 }
 
-double EXIT::gaussian_fct(const double x)
+double EXIT::gaussian_fct(double x)
 {
 	return (1.0/std::sqrt(sigma2A*itpp::m_2pi))*std::exp(-itpp::sqr(x-(sigma2A/2.0))/(2.0*sigma2A))*::log2(1+std::exp(-x));
 };

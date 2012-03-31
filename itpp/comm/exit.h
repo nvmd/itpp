@@ -84,7 +84,7 @@ public:
 private:
     static double sigma2A;
     friend double itpp::quad(double (*f)(double), double a, double b, double tol);
-    static double gaussian_fct(const double x);
+    static double gaussian_fct(double x);
 };
 
 }
