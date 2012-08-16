@@ -5,7 +5,7 @@
  *
  * -------------------------------------------------------------------------
  *
- * Copyright (C) 1995-2010  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2012  (see AUTHORS file for a list of contributors)
  *
  * This file is part of IT++ - a C++ library of mathematical, signal
  * processing, speech processing, and communications classes and functions.
@@ -32,7 +32,6 @@
 #include <itpp/comm/rec_syst_conv_code.h>
 #include <itpp/comm/interleave.h>
 #include <itpp/comm/llr.h>
-
 
 namespace itpp
 {
@@ -287,11 +286,19 @@ private:
   Sequence_Interleaver<double> float_interleaver;
 };
 
+
 /*!
   \relatesalso Turbo_Codec
   \brief Generates the interleaver sequence for the internal turbo encoder interleaver used in WCDMA
 */
 ivec wcdma_turbo_interleaver_sequence(int interleaver_size);
+
+/*!
+  \relatesalso Turbo_Codec
+  \author qdelfin and Stephan Ludwig
+  \brief Generates the interleaver sequence for the internal turbo encoder interleaver used in LTE
+*/
+ivec lte_turbo_interleaver_sequence(int interleaver_size);
 
 } // namespace itpp
 

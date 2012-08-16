@@ -163,6 +163,9 @@ int main()
   cout << "Number of correct bits counted: " << endl;
   cout << "cor = " << cor << endl;
 
+  cout << "=============================================" << endl;
+  cout << endl << "LTE interleaver sequence = " << lte_turbo_interleaver_sequence(6144) << endl;
+  
   /*
   // The test program cannot print this out, but on my system
   // the QLLR based decoder is about 8 times faster than logmap. -EGL
