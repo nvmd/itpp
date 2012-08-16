@@ -165,6 +165,115 @@ int main()
 
   cout << "=============================================" << endl;
   cout << endl << "LTE interleaver sequence = " << lte_turbo_interleaver_sequence(6144) << endl;
+
+/* ######################################
+ * # now test for punctured turbo codec #
+ * ######################################
+ */
+
+  bmat puncture_matrix = "1 1;1 0;0 1";
+  Punctured_Turbo_Codec pturbo;
+
+  pturbo.set_parameters(gen, gen, constraint_length, interleaver_sequence,
+                       puncture_matrix, iterations, metric, logmax_scale_factor,
+                       adaptive_stop);
+  r = pturbo.get_rate();
+  Eb = Ec / r;
+  N0 = Eb * pow(EbN0, -1.0);
+  sigma2 = N0 / 2;
+
+  cout << endl;
+  cout << "=============================================" << endl;
+  cout << " Starting Simulation for Punctured Turbo Code" << endl;
+  cout << " Bit error rate as a function of Eb/N0       " << endl;
+  cout << "=============================================" << endl;
+  cout << "  Block length = " << block_length << endl;
+  cout << "  Generator polynomials = " << std::oct << gen << std::dec << endl;
+  cout << "  Max number of Iterations = " << iterations << endl;
+  cout << "  Adaptive stop = " << adaptive_stop << endl;
+  cout << "  Eb/N0 = " << EbN0db << " [dB]" << endl;
+  cout << "  Turbo encoder rate 1/3 (plus tail bits)" << endl;
+  cout << "=============================================" << endl;
+
+  err.zeros();
+  cor.zeros();
+  ber.zeros();
+  avg_nrof_iterations.zeros();
+
+  for (int i = 0; i < 4; i++) {
+    timer(i).reset();
+  }
+
+  for (int i = 0; i < EbN0db.length(); i++) {
+    cout << "Now simulating EbN0db = " << EbN0db(i) << endl;
+
+    noise_src.setup(0.0, sigma2(i));
+    pturbo.set_awgn_channel_parameters(Ec, N0(i));
+    input = randb(block_length * num_blocks);
+
+    pturbo.encode(input, transmitted);
+    bpsk.modulate_bits(transmitted, symbols);
+    received = symbols + noise_src(transmitted.length());
+
+    // -- logmax decoding --
+    pturbo.set_metric("LOGMAX", 1.0);
+    timer(0).start();
+    pturbo.decode(received, decoded_bits, nrof_used_iterations);
+    timer(0).stop();
+    berc.clear();
+    berc.count(input, decoded_bits);
+    err(0, i) = berc.get_errors();
+    cor(0, i) = berc.get_corrects();
+    ber(0, i) = berc.get_errorrate();
+    avg_nrof_iterations(0, i) = static_cast<double>(sum(nrof_used_iterations)) / length(nrof_used_iterations);
+
+    // -- logmap decoding --
+    pturbo.set_metric("LOGMAP", 1.0);
+    timer(1).start();
+    pturbo.decode(received, decoded_bits, nrof_used_iterations);
+    timer(1).stop();
+    berc.clear();
+    berc.count(input, decoded_bits);
+    err(1, i) = berc.get_errors();
+    cor(1, i) = berc.get_corrects();
+    ber(1, i) = berc.get_errorrate();
+    avg_nrof_iterations(1, i) = static_cast<double>(sum(nrof_used_iterations)) / length(nrof_used_iterations);
+
+    // -- QLLR decoding, default resolution --
+    pturbo.set_metric("TABLE", 1.0);
+    timer(2).start();
+    pturbo.decode(received, decoded_bits, nrof_used_iterations);
+    timer(2).stop();
+    berc.clear();
+    berc.count(input, decoded_bits);
+    err(2, i) = berc.get_errors();
+    cor(2, i) = berc.get_corrects();
+    ber(2, i) = berc.get_errorrate();
+    avg_nrof_iterations(2, i) = static_cast<double>(sum(nrof_used_iterations)) / length(nrof_used_iterations);
+
+    // -- QLLR decoding, low resolution --
+    pturbo.set_metric("TABLE", 1.0, lowresllrcalc);
+    timer(3).start();
+    pturbo.decode(received, decoded_bits, nrof_used_iterations);
+    timer(3).stop();
+    berc.clear();
+    berc.count(input, decoded_bits);
+    err(3, i) = berc.get_errors();
+    cor(3, i) = berc.get_corrects();
+    ber(3, i) = berc.get_errorrate();
+    avg_nrof_iterations(3, i) = static_cast<double>(sum(nrof_used_iterations)) / length(nrof_used_iterations);
+
+  }
+
+  cout << "Results: (1st row: logmax, 2nd row: logmap, 3rd row: qllr, default resolution, 4th row: qllr, low resolution" << endl;
+  cout << "Bit error rate: " << endl;
+  cout << "ber = " << ber << endl;
+  cout << "Average numer of iterations used: " << endl;
+  cout << avg_nrof_iterations  << endl;
+  cout << "Number of bit errors counted: " << endl;
+  cout << "err = " << err << endl;
+  cout << "Number of correct bits counted: " << endl;
+  cout << "cor = " << cor << endl;
   
   /*
   // The test program cannot print this out, but on my system

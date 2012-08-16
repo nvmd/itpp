@@ -607,6 +607,308 @@ void Turbo_Codec::decode_n3(const vec &received_signal, bvec &decoded_bits, ivec
 }
 
 // -------------------------------------------------------------------------------------
+// Punctured Turbo Codec
+// -------------------------------------------------------------------------------------
+
+void Punctured_Turbo_Codec::set_parameters(ivec gen1, ivec gen2, int constraint_length, const ivec &interleaver_sequence, bmat &pmatrix, int in_iterations, std::string in_metric, double in_logmax_scale_factor, bool in_adaptive_stop, itpp::LLR_calc_unit lcalc)
+{
+  Turbo_Codec::set_parameters(gen1, gen2, constraint_length, interleaver_sequence, in_iterations, in_metric, in_logmax_scale_factor, in_adaptive_stop, lcalc);
+  set_puncture_matrix(pmatrix);
+}
+
+void Punctured_Turbo_Codec::set_puncture_matrix(const bmat &pmatrix)
+{
+  int p, j;
+
+  punct_total = 0;
+  punct_total2 = 0;
+
+  it_error_if(pmatrix.rows() != n_tot || pmatrix.cols() == 0, "Wrong size of puncture matrix");
+  puncture_matrix = pmatrix;
+  Period = puncture_matrix.cols();
+
+  // all rows
+  for(j = 0; j < n_tot; j++) {
+    for(p = 0; p < Period; p++)
+      punct_total += static_cast<int>(puncture_matrix(j, p));
+  }
+  // systematic bits
+  for(p = 0; p < Period; p++)
+    punct_total2 += static_cast<int>(puncture_matrix(0, p));
+  punct_total1 = punct_total2;
+  // 1st code parity bits
+  for(j = 1; j < n1 + 1; j++) {
+    for(p = 0; p < Period; p++)
+      punct_total1 += static_cast<int>(puncture_matrix(j, p));
+  }
+  // 2nd code parity bits
+  for(j = 1 + n1; j < n_tot; j++)  {
+    for(p = 0; p < Period; p++)
+      punct_total2 += static_cast<int>(puncture_matrix(j, p));
+  }
+
+  // nominal rate
+  rate = Period / static_cast<double>(punct_total);
+  calculate_punctured_size();
+}
+
+
+double Punctured_Turbo_Codec::get_rate(bool nominal)
+{
+  if(nominal) return rate;
+  else {
+    if(Period == 0)
+      return static_cast<double>(Nuncoded) / Ncoded;
+    else
+      return static_cast<double>(Nuncoded) / pNcoded;
+  }
+}
+
+
+bvec Punctured_Turbo_Codec::encode(const bvec &input)
+{
+  bvec coded_bits;
+
+  encode(input, coded_bits);
+  return coded_bits;
+}
+
+bvec Punctured_Turbo_Codec::decode(const vec &received_signal)
+{
+  bvec decoded_bits;
+
+  decode(received_signal, decoded_bits);
+  return decoded_bits;
+}
+
+void Punctured_Turbo_Codec::encode(const bvec &input, bvec &output)
+{
+  it_assert(Period != 0, "Punctured_Turbo_Codec: puncture matrix is not set");
+
+  Turbo_Codec::encode(input, output);
+
+  int i, k, p, j, p1;
+  int no_blocks = output.size() / Ncoded;
+  int count = 0, count_p = 0;
+
+  for(k = 0; k < no_blocks; k++) {
+    p = 0;
+    // data
+    for(i = 0; i < Nuncoded; i++) {
+      for(j = 0; j < n_tot; j++) {
+        if(puncture_matrix(j, p) == bin(1)) {
+          output(count_p) = output(count);
+          count_p++;
+        }
+        count++;
+      }
+      p = (p + 1) % Period;
+    }
+    p1 = p;
+
+    //The first tail:
+    for(i = 0; i < m_tail; i++) {
+      for(j = 0; j < n1 + 1; j++) {
+        if(puncture_matrix(j, p) == bin(1)) {
+          output(count_p) = output(count);
+          count_p++;
+        }
+        count++;
+      }
+      p = (p + 1) % Period;
+    }
+    //The second tail:
+    for(i = 0; i < m_tail; i++) {
+      // systematic bit
+      if(puncture_matrix(0, p1) == bin(1)) {
+        output(count_p) = output(count);
+        count_p++;
+      }
+      count++;
+      // parity
+      for(j = n1 + 1; j < n_tot; j++) {
+        if(puncture_matrix(j, p1) == bin(1)) {
+          output(count_p) = output(count);
+          count_p++;
+        }
+        count++;
+      }
+      p1 = (p1 + 1) % Period;
+    }
+  }  //for
+
+  output.set_size(count_p, true);
+}
+
+
+void Punctured_Turbo_Codec::decode(const vec &received_signal, bvec &decoded_bits, ivec &nrof_used_iterations, const bvec &true_bits)
+{
+  int i, k, p, j, p1;
+  int index = 0, index_p = 0;
+  int no_blocks = received_signal.size() / pNcoded;
+  vec temp(no_blocks * Ncoded);
+
+  it_assert(Period != 0, "Punctured_Turbo_Codec: puncture matrix is not set");
+  it_assert(no_blocks*pNcoded == received_signal.size(), "Punctured_Turbo_Codec: received vector is not an integer multiple of encoded block");
+  for(i = 0; i < no_blocks; i++)  {
+    p = 0;
+    // data
+    for(k = 0; k < Nuncoded; k++)  {
+      for(j = 0; j < n_tot; j++) {
+        if(puncture_matrix(j, p) == bin(1)) {
+          temp(index) = received_signal(index_p);
+          index_p++;
+        }
+        else { // insert dummy symbols with same contribution for 0 and 1
+          temp(index) = 0;
+        }
+        index++;
+      }
+      p = (p + 1) % Period;
+    } // for
+    p1 = p;
+
+    // 1st code tail
+    for(k = 0; k < m_tail; k++) {
+      for(j = 0; j < n1 + 1; j++) {
+        if(puncture_matrix(j, p) == bin(1)) {
+          temp(index) = received_signal(index_p);
+          index_p++;
+        }
+        else { // insert dummy symbols with same contribution for 0 and 1
+          temp(index) = 0;
+        }
+        index++;
+      }
+      p = (p + 1) % Period;
+    } // for
+    // 2nd code tail
+    for(k = 0; k < m_tail; k++) {
+      // systematic bits
+      if(puncture_matrix(0, p1) == bin(1)) {
+        temp(index) = received_signal(index_p);
+        index_p++;
+      }
+      else { // insert dummy symbols with same contribution for 0 and 1
+        temp(index) = 0;
+      }
+      index++;
+      // parity bits
+      for(j = n1 + 1; j < n_tot; j++) {
+        if(puncture_matrix(j, p1) == bin(1)) {
+          temp(index) = received_signal(index_p);
+          index_p++;
+        }
+        else { // insert dummy symbols with same contribution for 0 and 1
+          temp(index) = 0;
+        }
+        index++;
+      }
+      p1 = (p1 + 1) % Period;
+    } //2nd tail
+  }  // for
+
+  Turbo_Codec::decode(temp, decoded_bits, nrof_used_iterations, true_bits);
+}
+
+void Punctured_Turbo_Codec::decode(const vec &received_signal, bvec &decoded_bits, const bvec &true_bits)
+{
+  ivec nrof_used_iterations;
+  decode(received_signal, decoded_bits, nrof_used_iterations, true_bits);
+}
+
+void Punctured_Turbo_Codec::calculate_punctured_size(void)
+{
+  int i, j, ii, p = 0, p1;
+
+  if(Period == 0)
+    pNcoded = Ncoded;
+  else  {
+    i = (Nuncoded / Period);
+    ii = i * punct_total;
+    i *= Period;
+    for(; i < Nuncoded; i++) {
+      for(j = 0; j < n_tot; j++)
+        if(puncture_matrix(j, p) == bin(1))  ii++;
+      p = (p + 1) % Period;
+    }
+    p1 = p;
+
+    // first tail
+    for(i = 0; i < m_tail; i++) {
+      for(j = 0; j < n1 + 1; j++)
+        if(puncture_matrix(j, p) == bin(1))  ii++;
+      p = (p + 1) % Period;
+    }
+    // second tail
+    for(i = 0; i < m_tail; i++) {
+      for(j = 0; j < n_tot; j++)  {
+        if(puncture_matrix(j, p1) == bin(1))  ii++;
+        if(j == 0) j += n1;
+      }
+      p1 = (p1 + 1) % Period;
+    }
+
+    pNcoded = ii;
+  }
+}
+
+int calculate_uncoded_size(Punctured_Turbo_Codec &tc, int punctured_size, int &fill_bits)
+{
+  // fill_bits - number of bits that must be added at the end of encoded block (in order to obtain punctured_size length vector)
+
+  int Nuncoded;
+
+  if(tc.Period == 0) {
+    Nuncoded = (punctured_size - tc.m_tail * (tc.n_tot + 1)) / tc.n_tot;
+    fill_bits = punctured_size - (Nuncoded * tc.n_tot + tc.m_tail * (tc.n_tot + 1));
+  }
+  else  {
+    int i, j, ii, p, p1, no_pblocks;
+    // uncoded - // no_pblocks might be too small
+    j = static_cast<int>(std::ceil(static_cast<double>(tc.m_tail * (tc.punct_total1 + tc.punct_total2)) / tc.Period));
+    no_pblocks = (punctured_size - j) / tc.punct_total;
+    ii = punctured_size - no_pblocks * tc.punct_total - j;
+
+    for(i = 0; i < 2 * tc.Period; i++) {
+      for(j = 0; j < tc.n_tot; j++)
+        if(tc.puncture_matrix(j, i % tc.Period) == bin(1))  ii--;
+      if(ii < 0) break;
+    }
+    Nuncoded = no_pblocks * tc.Period + i;
+
+    // punctured (from uncoded)
+    no_pblocks = (Nuncoded / tc.Period);
+    ii = no_pblocks * tc.punct_total;
+    p = 0;
+    for(i = no_pblocks * tc.Period; i < Nuncoded; i++) {
+      for(j = 0; j < tc.n_tot; j++)
+        if(tc.puncture_matrix(j, p) == bin(1))  ii++;
+      p = (p + 1) % tc.Period;
+    }
+    p1 = p;
+    // first tail
+    for(i = 0; i < tc.m_tail; i++) {
+      for(j = 0; j < tc.n1 + 1; j++)
+        if(tc.puncture_matrix(j, p1) == bin(1))  ii++;
+      p1 = (p1 + 1) % tc.Period;
+    }
+    // second tail
+    for(i = 0; i < tc.m_tail; i++) {
+      for(j = 0; j < tc.n_tot; j++)  {
+        if(tc.puncture_matrix(j, p1) == bin(1))  ii++;
+        if(j == 0) j += tc.n1;
+      }
+      p1 = (p1 + 1) % tc.Period;
+    }
+    fill_bits =  punctured_size - ii;
+  }
+
+  return Nuncoded;
+}
+
+
+// -------------------------------------------------------------------------------------
 // Special interleaver sequence generators
 // -------------------------------------------------------------------------------------
 

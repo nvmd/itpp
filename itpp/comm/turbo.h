@@ -1,7 +1,7 @@
 /*!
  * \file
- * \brief Definition of a turbo encoder/decoder class
- * \author Pal Frenger. QLLR support by Erik G. Larsson.
+ * \brief Definition of a (punctured) turbo encoder/decoder class
+ * \author Pal Frenger and Zbigniew Dlugaszewski. QLLR support by Erik G. Larsson.
  *
  * -------------------------------------------------------------------------
  *
@@ -39,6 +39,7 @@ namespace itpp
 /*!
   \brief Turbo encoder/decoder Class
   \ingroup fec
+  \author Pal Frenger
 
   To set up the turbo encoder used in e.g. WCDMA the following code can be used (assuming a code block size of 320 bits):
   \code
@@ -261,7 +262,7 @@ public:
   //! Get number of uncoded bits
   int get_Nuncoded() const { return Nuncoded; }
 
-private:
+protected:
 
   /*!
     \brief Special decoder function for \a R = 1/3 i.e. two parity bits for each systematic bit
@@ -284,6 +285,205 @@ private:
   Rec_Syst_Conv_Code rscc1, rscc2;
   Sequence_Interleaver<bin> bit_interleaver;
   Sequence_Interleaver<double> float_interleaver;
+};
+
+/*!
+  \brief Punctured turbo encoder/decoder Class
+  \ingroup fec
+  \author Zbigniew Dlugaszewski
+
+  To set up the turbo encoder rate 1/2 with random interleaver the following code can be used:
+  \code
+  Punctured_Turbo_Codec turbo;
+  ivec gen(2);
+  gen(0) = 013; gen(1) = 015;
+  int constraint_length = 4;
+  int block_length = 400;
+  turbo.set_parameters(gen, gen, constraint_length, block_length);
+  bmat puncture_matrix = "1 1;1 0;0 1";
+  turbo.set_puncture_matrix(puncture_matrix);
+
+  \endcode
+*/
+class Punctured_Turbo_Codec : public Turbo_Codec
+{
+public:
+
+  //! Class constructor
+  Punctured_Turbo_Codec(void) { Period = 0; };
+
+  //! Class destructor
+  virtual ~Punctured_Turbo_Codec(void) {}
+
+  /*!
+    \brief Set parameters for the punctured turbo encoder/decoder
+
+    the same parameters as with \c Turbo_Codec :
+    \param gen1 A vector with \a n1 elements containing the generator polynomials for the first constituent encoder
+    \param gen2 A vector with \a n2 elements containing the generator polynomials for the second constituent encoder
+    \param constraint_length The constraint length of the two constituent encoders
+    \param interleaver_sequence An ivec defining the internal turbo interleaver.
+    \param in_iterations The number of decoding iterations. Default value is 8.
+    \param in_metric Determines the decoder metric: "MAP", LOGMAP", "LOGMAX", or "TABLE". The default is "LOGMAX".
+    \param in_logmax_scale_factor The extrinsic information from each constituent decoder is to optimistic when
+    LOGMAX decoding is used.
+    This parameter allows for a down-scaling of the extrinsic information that will be passed on to the next decoder.
+    The default value
+    is 1.0. This parameter is ignored for other metrics than "LOGMAX".
+    \param in_adaptive_stop If this parameter is true, then the iterations will stop if the decoding results after one
+    full iteration equals the previous iteration. Default value is false.
+
+    \param lcalc This parameter can be used to provide a specific \c LLR_calc_unit which defines the resolution in
+    the table-lookup if decoding with the metric "TABLE" is used.
+
+    additionally:
+    \param pmatrix Puncturing matrix containing "1" for transmitted bits and "0" for punctured ones with \a n_tot rows and \a Period columns.
+
+    \note For issues relating to the accuracy of LLR computations,
+    please see the documentation of \c LLR_calc_unit
+  */
+  void set_parameters(ivec gen1, ivec gen2, int constraint_length, const ivec &interleaver_sequence, bmat &pmatrix, int in_iterations = 8, std::string in_metric = "LOGMAX", double in_logmax_scale_factor = 1.0, bool in_adaptive_stop = false, itpp::LLR_calc_unit lcalc = itpp::LLR_calc_unit());
+
+  /*!
+    \brief Sets puncturing matrix for turbo code (size \a n_tot * \a Period)
+
+    \param pmatrix Puncturing matrix containing "1" for transmitted bits and "0" for punctured ones with \a n_tot rows and \a Period columns.
+  */
+  void set_puncture_matrix(const bmat &pmatrix);
+
+  /*!
+    \brief Returns puncturing matrix
+  */
+  bmat get_puncture_matrix(void) { return puncture_matrix; };
+
+  /*!
+    \brief Returns \a Period (number of columns) of the puncturing matrix
+  */
+  int get_puncture_period(void) { return Period; };
+
+  /*!
+    \brief Returns size of a single punctured block
+
+    Returns size of a single encoded block after puncturing.
+  */
+  int get_punctured_size(void) { it_assert(Period != 0, "Punctured_Turbo_Codec: puncture matrix is not set"); return pNcoded; };
+
+  /*!
+    \brief Returns rate of the turbo code
+
+    \param nominal Determines whether the function returns nominal code rate or the actual code rate (taking into account tail bits). Default value is true, i.e. nominal rate is returned.
+  */
+  double get_rate(bool nominal = true);
+
+  /*!
+    \brief Returns size of a single block prior to the puncturing
+
+    Returns size of a single encoded block prior to the puncturing.
+
+  */
+  int get_coded_size(void) { return Ncoded; };
+
+  /*!
+    \brief Encoder function
+
+    This function can encode (using function from the parent \c Turbo_Codec class) and puncture several consecutive
+    coding blocks. Encoded bits are organized as follows:
+
+    \f[ s(1), p_{1,1}(1), p_{1,2}(1), \ldots , p_{1,n_1}(1), p_{2,1}(1), p_{2,2}(1), \ldots , p_{2,n_2}(1), s(2), \ldots \f]
+
+    In the above expression \f$s(n)\f$ is the n-th systematic bit and \f$p_{l,k}(n)\f$ is the n-th bit from the k-th
+    encoder polynom of the l-th constituent encoder. A tail of both systematic and parity bits is added after each
+    coding block to force both encoder to the zero state. The tail of each encoder is structured as follows (using
+    encoder one as an example):
+
+    \f[ t_1(1), pt_{1,1}(1), pt_{1,2}(1), \ldots , pt_{1,n_1}(1), \ldots pt_{1,n_1}(m) \f]
+
+    The tailbits from the first encoder are placed before the tailbits from the second encoder.
+    Each encoded block is punctured (independenly from other blocks) according to the pncturing scheme given in the
+    \a puncture_matrix
+
+    \param input The input bits to the encoder. Must contain an integer number of code blocks
+    \param output The encoded bits including two tail, one from each constituent encoder, after each coding block.
+  */
+  void encode(const bvec &input, bvec &output);
+
+  /*!
+    \brief Encoder function returning vector
+
+    \param input The input bits to the encoder. Must contain an integer number of code blocks
+
+    The same function as above but has only one parameter \a input and returns a vector containing encoded bits.
+  */
+  bvec encode(const bvec &input);
+
+  /*!
+    \brief Decoder function
+
+    This function can decode several consecutive coding blocks that were encoded with the encode member function
+
+    \param received_signal The vector of received bits
+    \param decoded_bits A vector of decoded bits
+    \param true_bits If this input vector is provided then the iterations will stop as soon as the decoded bits
+    equals the \c true_bits. Note that this feature can not be used if the \c in_adaptive_stop parameter in the
+    setup function is set to \c true.
+  */
+  virtual void decode(const vec &received_signal, bvec &decoded_bits, const bvec &true_bits = "0");
+
+  /*!
+    \brief Decoder function returning vector
+
+    This function can decode several consecutive coding blocks that were encoded with the encode member function
+
+    \param received_signal The vector of received bits
+
+    Function returns decoded bits.
+  */
+  virtual bvec decode(const vec &received_signal);
+
+  /*!
+    \brief Decoder function
+
+    This function can decode several consecutive coding blocks that were encoded with the encode member function
+
+    \param received_signal The vector of received bits
+    \param decoded_bits A vector of decoded bits
+    \param nrof_used_iterations Returns the number of used iterations for each code block.
+    \param true_bits If this input vector is provided then the iterations will stop as soon as the decoded bits
+    equals the \c true_bits. Note that this feature can not be used if the \c in_adaptive_stop parameter in the
+    setup function is set to \c true.
+  */
+  virtual void decode(const vec &received_signal, bvec &decoded_bits, ivec &nrof_used_iterations,
+                      const bvec &true_bits = "0");
+
+  /*!
+    \brief Calculates length of uncoded block
+
+    Calculates length of the turbo code input block required to produce output block of length \a punctured_size.
+    Some puncturing patterns might not allow to create block with such a length and then \a fill_bits of
+    dummy bits must be used.
+
+    \param tc Instance of \a Punctured_Turbo_Codec
+    \param punctured_size Required size of punctured encoded block
+    \param fill_bits Number of dummy bits that must be attached to the encoded block (parameter calculated within
+    the function)
+  */
+  friend int calculate_uncoded_size(Punctured_Turbo_Codec &tc, int punctured_size, int &fill_bits);
+
+protected:
+  /*!
+    \brief Calculates length of the puncturing codeword
+
+    Calculates length of punctured encoded block based on a \a puncture_matrix and length of the input block
+    (size of the turbo code interleaver)
+  */
+  void calculate_punctured_size(void);
+
+  //Scalars:
+  int Period; ///< Number of columns in the puncturing matrix
+  long pNcoded;
+  int punct_total, punct_total1, punct_total2;
+  double rate;
+  bmat puncture_matrix;
 };
 
 
