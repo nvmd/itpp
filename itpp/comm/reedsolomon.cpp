@@ -27,6 +27,7 @@
  */
 
 #include <itpp/comm/reedsolomon.h>
+#include <itpp/base/specmat.h>
 #include <itpp/base/math/log_exp.h>
 
 namespace itpp
@@ -43,7 +44,7 @@ GFX formal_derivate(const GFX &f)
   GFX fprim(q, degree);
   fprim.clear();
   for (i = 0; i <= degree - 1; i += 2) {
-    fprim[i] = f[i+1];
+    fprim[i] = f[i + 1];
   }
   return fprim;
 }
@@ -52,7 +53,7 @@ GFX formal_derivate(const GFX &f)
 //A Reed-Solomon code is a q^m-ary BCH code of length n = pow(q,m)-1.
 //k = pow(q,m)-1-t. This class works for q==2.
 Reed_Solomon::Reed_Solomon(int in_m, int in_t, bool sys):
-    m(in_m), t(in_t), systematic(sys)
+  m(in_m), t(in_t), systematic(sys)
 {
   n = pow2i(m) - 1;
   k = pow2i(m) - 1 - 2 * t;
@@ -60,7 +61,7 @@ Reed_Solomon::Reed_Solomon(int in_m, int in_t, bool sys):
   GFX x(q, (char *)"-1 0");
   ivec alphapow(1);
   g.set(q, (char *)"0");
-  for (int i = 1; i <= 2*t; i++) {
+  for (int i = 1; i <= 2 * t; i++) {
     alphapow(0) = i;
     g *= (x - GFX(q, alphapow));
   }
@@ -68,35 +69,35 @@ Reed_Solomon::Reed_Solomon(int in_m, int in_t, bool sys):
 
 void Reed_Solomon::encode(const bvec &uncoded_bits, bvec &coded_bits)
 {
-  int i, j, itterations = floor_i(static_cast<double>(uncoded_bits.length())
-                                  / (k * m));
+  int i, j, iterations = floor_i(static_cast<double>(uncoded_bits.length())
+                                 / (k * m));
   GFX mx(q, k), cx(q, n);
   GFX r(n + 1, n - k);
   GFX uncoded_shifted(n + 1, n);
   GF mpow;
-  bvec mbit(k*m), cbit(m);
+  bvec mbit(k * m), cbit(m);
 
-  coded_bits.set_size(itterations*n*m, false);
+  coded_bits.set_size(iterations * n * m, false);
 
   if (systematic)
     for (i = 0; i < n - k; i++)
       uncoded_shifted[i] = GF(n + 1, -1);
 
-  for (i = 0; i < itterations; i++) {
+  for (i = 0; i < iterations; i++) {
     //Fix the message polynom m(x).
     for (j = 0; j < k; j++) {
-      mpow.set(q, uncoded_bits.mid((i*m*k) + (j*m), m));
+      mpow.set(q, uncoded_bits.mid((i * m * k) + (j * m), m));
       mx[j] = mpow;
       if (systematic) {
         cx[j] = mx[j];
-        uncoded_shifted[j+n-k] = mx[j];
+        uncoded_shifted[j + n - k] = mx[j];
       }
     }
     //Fix the outputbits cbit.
     if (systematic) {
       r = modgfx(uncoded_shifted, g);
       for (j = k; j < n; j++) {
-        cx[j] = r[j-k];
+        cx[j] = r[j - k];
       }
     }
     else {
@@ -104,7 +105,7 @@ void Reed_Solomon::encode(const bvec &uncoded_bits, bvec &coded_bits)
     }
     for (j = 0; j < n; j++) {
       cbit = cx[j].get_vectorspace();
-      coded_bits.replace_mid((i*n*m) + (j*m), cbit);
+      coded_bits.replace_mid((i * n * m) + (j * m), cbit);
     }
   }
 }
@@ -116,52 +117,50 @@ bvec Reed_Solomon::encode(const bvec &uncoded_bits)
   return coded_bits;
 }
 
-void Reed_Solomon::decode(const bvec &coded_bits, bvec &decoded_bits)
+bool Reed_Solomon::decode(const bvec &coded_bits, bvec &decoded_message, bvec &cw_isvalid)
 {
-  int j, i, kk, l, L, foundzeros, decoderfailure,
-  itterations = floor_i(static_cast<double>(coded_bits.length()) / (n * m));
-  bvec mbit(m*k);
-  decoded_bits.set_size(itterations*k*m, false);
+  bool decoderfailure, no_dec_failure;
+  int j, i, kk, l, L, foundzeros, iterations = floor_i(static_cast<double>(coded_bits.length()) / (n * m));
+  bvec mbit(m * k);
+  decoded_message.set_size(iterations * k * m, false);
+  cw_isvalid.set_length(iterations);
 
-  GFX rx(q, n - 1), cx(q, n - 1), mx(q, k - 1), ex(q, n - 1), S(q, 2*t), Lambda(q),
-  Lambdaprim(q), OldLambda(q), T(q), Ohmega(q);
-  GFX dummy(q), One(q, (char*)"0"), Ohmegatemp(q);
+  GFX rx(q, n - 1), cx(q, n - 1), mx(q, k - 1), ex(q, n - 1), S(q, 2 * t), Lambda(q),
+      Lambdaprim(q), OldLambda(q), T(q), Omega(q);
+  GFX dummy(q), One(q, (char*)"0"), Omegatemp(q);
   GF delta(q), tempsum(q), rtemp(q), temp(q), Xk(q), Xkinv(q);
   ivec errorpos;
 
-  for (i = 0; i < itterations; i++) {
+  no_dec_failure = true;
+  for (i = 0; i < iterations; i++) {
     decoderfailure = false;
     //Fix the received polynomial r(x)
     for (j = 0; j < n; j++) {
-      rtemp.set(q, coded_bits.mid(i*n*m + j*m, m));
+      rtemp.set(q, coded_bits.mid(i * n * m + j * m, m));
       rx[j] = rtemp;
     }
     //Fix the syndrome polynomial S(x).
     S.clear();
-    for (j = 1; j <= 2*t; j++) {
+    for (j = 1; j <= 2 * t; j++) {
       S[j] = rx(GF(q, j));
     }
-    if (S.get_true_degree() == 0) {
-      cx = rx;
-      decoderfailure = false;
-    }
-    else {//Errors in the received word
-      //Itterate to find Lambda(x).
+    if (S.get_true_degree() >= 1) { //Errors in the received word
+      //Iterate to find Lambda(x).
       kk = 0;
       Lambda = GFX(q, (char*)"0");
       L = 0;
       T = GFX(q, (char*)"-1 0");
-      while (kk < 2*t) {
+      while (kk < 2 * t) {
         kk = kk + 1;
         tempsum = GF(q, -1);
         for (l = 1; l <= L; l++) {
-          tempsum += Lambda[l] * S[kk-l];
+          tempsum += Lambda[l] * S[kk - l];
         }
         delta = S[kk] - tempsum;
         if (delta != GF(q, -1)) {
           OldLambda = Lambda;
           Lambda -= delta * T;
-          if (2*L < kk) {
+          if (2 * L < kk) {
             L = kk - L;
             T = OldLambda / delta;
           }
@@ -169,11 +168,9 @@ void Reed_Solomon::decode(const bvec &coded_bits, bvec &decoded_bits)
         T = GFX(q, (char*)"-1 0") * T;
       }
       //Find the zeros to Lambda(x).
-      errorpos.set_size(Lambda.get_true_degree(), false);
-      errorpos.clear();
+      errorpos.set_size(Lambda.get_true_degree());
       foundzeros = 0;
       for (j = q - 2; j >= 0; j--) {
-        temp = Lambda(GF(q, j));
         if (Lambda(GF(q, j)) == GF(q, -1)) {
           errorpos(foundzeros) = (n - j) % n;
           foundzeros += 1;
@@ -183,14 +180,14 @@ void Reed_Solomon::decode(const bvec &coded_bits, bvec &decoded_bits)
         }
       }
       if (foundzeros != Lambda.get_true_degree()) {
-        decoderfailure = false;
+        decoderfailure = true;
       }
       else {
-        //Compute Ohmega(x) using the key equation for RS-decoding
-        Ohmega.set_degree(2*t);
-        Ohmegatemp = Lambda * (One + S);
-        for (j = 0; j <= 2*t; j++) {
-          Ohmega[j] = Ohmegatemp[j];
+        //Compute Omega(x) using the key equation for RS-decoding
+        Omega.set_degree(2 * t);
+        Omegatemp = Lambda * (One + S);
+        for (j = 0; j <= 2 * t; j++) {
+          Omega[j] = Omegatemp[j];
         }
         Lambdaprim = formal_derivate(Lambda);
         //Find the error polynomial
@@ -198,24 +195,29 @@ void Reed_Solomon::decode(const bvec &coded_bits, bvec &decoded_bits)
         for (j = 0; j < foundzeros; j++) {
           Xk = GF(q, errorpos(j));
           Xkinv = GF(q, 0) / Xk;
-          ex[errorpos(j)] = (Xk * Ohmega(Xkinv)) / Lambdaprim(Xkinv);
+          ex[errorpos(j)] = (Xk * Omega(Xkinv)) / Lambdaprim(Xkinv);
         }
         //Reconstruct the corrected codeword.
         cx = rx + ex;
         //Code word validation
         S.clear();
-        for (j = 1; j <= 2*t; j++) {
-          S[j] = rx(GF(q, j));
+        for (j = 1; j <= 2 * t; j++) {
+          S[j] = cx(GF(q, j));
         }
         if (S.get_true_degree() >= 1) {
-          decoderfailure = false;
+          decoderfailure = true;
         }
       }
     }
+    else {
+      cx = rx;
+      decoderfailure = false;
+    }
+
     //Find the message polynomial
     mbit.clear();
     if (decoderfailure == false) {
-      if (cx.get_true_degree() >= 1) {// A nonzero codeword was transmitted
+      if (cx.get_true_degree() >= 1) { // A nonzero codeword was transmitted
         if (systematic) {
           for (j = 0; j < k; j++) {
             mx[j] = cx[j];
@@ -225,11 +227,37 @@ void Reed_Solomon::decode(const bvec &coded_bits, bvec &decoded_bits)
           mx = divgfx(cx, g);
         }
         for (j = 0; j <= mx.get_true_degree(); j++) {
-          mbit.replace_mid(j*m, mx[j].get_vectorspace());
+          mbit.replace_mid(j * m, mx[j].get_vectorspace());
         }
       }
     }
-    decoded_bits.replace_mid(i*m*k, mbit);
+    else { //Decoder failure.
+      // for a systematic code it is better to extract the undecoded message
+      // from the received code word, i.e. obtaining a bit error
+      // prob. p_b << 1/2, than setting all-zero (p_b = 1/2)
+      if (systematic) {
+        mbit = coded_bits.mid(i * n * m, k * m);
+      }
+      else {
+        mbit = zeros_b(k);
+      }
+      no_dec_failure = false;
+    }
+    decoded_message.replace_mid(i * m * k, mbit);
+    cw_isvalid(i) = (!decoderfailure);
+  }
+  return no_dec_failure;
+}
+
+void Reed_Solomon::decode(const bvec &coded_bits, bvec &decoded_bits)
+{
+  bvec   cw_isvalid;
+  if (!decode(coded_bits, decoded_bits, cw_isvalid)) {
+    for (int i = 0; i < cw_isvalid.length(); i++) {
+      if (!cw_isvalid(i)) {
+        decoded_bits.replace_mid(i * k * m, zeros_b(k * m));
+      }
+    }
   }
 }
 

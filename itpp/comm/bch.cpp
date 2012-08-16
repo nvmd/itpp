@@ -36,8 +36,8 @@ namespace itpp
 
 //---------------------- BCH -----------------------------------
 
-BCH::BCH(int in_n, int in_k, int in_t, const ivec &genpolynom, bool sys):
-    n(in_n), k(in_k), t(in_t), systematic(sys)
+BCH::BCH(int in_n, int in_k, int in_t, const ivec &genpolynom, bool sys) :
+  n(in_n), k(in_k), t(in_t), systematic(sys)
 {
   //fix the generator polynomial g(x).
   ivec exponents = zeros_i(n - k + 1);
@@ -48,8 +48,8 @@ BCH::BCH(int in_n, int in_k, int in_t, const ivec &genpolynom, bool sys):
   g.set(n + 1, exponents);
 }
 
-BCH::BCH(int in_n, int in_t, bool sys):
-    n(in_n), t(in_t), systematic(sys)
+BCH::BCH(int in_n, int in_t, bool sys) :
+  n(in_n), t(in_t), systematic(sys)
 {
   // step 1: determine cyclotomic cosets
   // although we use elements in GF(n+1), we do not use GFX class, but ivec,
@@ -58,9 +58,9 @@ BCH::BCH(int in_n, int in_t, bool sys):
   int two_pow_m = 1 << m_tmp;
 
   it_assert(two_pow_m == n + 1, "BCH::BCH(): (in_n + 1) is not a power of 2");
-  it_assert((t > 0) && (2*t < n), "BCH::BCH(): in_t must be positive and smaller than n/2");
+  it_assert((t > 0) && (2 * t < n), "BCH::BCH(): in_t must be positive and smaller than n/2");
 
-  Array<ivec> cyclo_sets(2*t + 1);
+  Array<ivec> cyclo_sets(2 * t + 1);
   // unfortunately it is not obvious how many cyclotomic cosets exist (?)
   // a bad guess is n/2, which can be a whole lot...
   // but we only need 2*t + 1 at maximum for step 2.
@@ -92,7 +92,7 @@ BCH::BCH(int in_n, int in_t, bool sys):
       }
       cycl_element++;
     }
-    while ((found) && (cycl_element <= 2*t));
+    while ((found) && (cycl_element <= 2 * t));
 
     if (!found) {
       // found one
@@ -109,7 +109,7 @@ BCH::BCH(int in_n, int in_t, bool sys):
              && (element_index < m_tmp - 1)) {
         element_index++;
         cyclo_sets(curr_coset_idx)(element_index)
-          = (cyclo_sets(curr_coset_idx)(element_index - 1) * 2) % n;
+        = (cyclo_sets(curr_coset_idx)(element_index - 1) * 2) % n;
       }
       // delete unused digits
       if (element_index + 1 < m_tmp - 1) {
@@ -117,7 +117,7 @@ BCH::BCH(int in_n, int in_t, bool sys):
       }
     }
   }
-  while ((cycl_element <= 2*t) && (curr_coset_idx <= 2*t));
+  while ((cycl_element <= 2 * t) && (curr_coset_idx <= 2 * t));
 
   // step 2: find all cosets that contain all the powers (1..2t) of alpha
   // this is pretty easy, since the cosets are in ascending order
@@ -155,7 +155,7 @@ void BCH::encode(const bvec &uncoded_bits, bvec &coded_bits)
   GFX c(n + 1, n);
   GFX r(n + 1, n - k);
   GFX uncoded_shifted(n + 1, n);
-  coded_bits.set_size(iterations*n, false);
+  coded_bits.set_size(iterations * n, false);
   bvec mbit(k), cbit(n);
 
   if (systematic)
@@ -172,7 +172,7 @@ void BCH::encode(const bvec &uncoded_bits, bvec &coded_bits)
       // with exponent m[0] <-> coefficient of x^0
       m[j] = GF(n + 1, degree);
       if (systematic) {
-        uncoded_shifted[j+n-k] = m[j];
+        uncoded_shifted[j + n - k] = m[j];
       }
     }
     //Fix the outputbits cbit.
@@ -194,7 +194,7 @@ void BCH::encode(const bvec &uncoded_bits, bvec &coded_bits)
         cbit(n - j - 1) = 0;
       }
     }
-    coded_bits.replace_mid(i*n, cbit);
+    coded_bits.replace_mid(i * n, cbit);
   }
 }
 
@@ -205,19 +205,23 @@ bvec BCH::encode(const bvec &uncoded_bits)
   return coded_bits;
 }
 
-void BCH::decode(const bvec &coded_bits, bvec &decoded_bits)
+bool BCH::decode(const bvec &coded_bits, bvec &decoded_message, bvec &cw_isvalid)
 {
-  int j, i, degree, kk, foundzeros, cisvalid;
+  bool decoderfailure, no_dec_failure;
+  int j, i, degree, kk, foundzeros;
+  ivec errorpos;
   int iterations = floor_i(static_cast<double>(coded_bits.length()) / n);
   bvec rbin(n), mbin(k);
-  decoded_bits.set_size(iterations*k, false);
+  decoded_message.set_size(iterations * k, false);
+  cw_isvalid.set_length(iterations);
 
-  GFX r(n + 1, n - 1), c(n + 1, n - 1), m(n + 1, k - 1), S(n + 1, 2*t), Lambda(n + 1),
-  OldLambda(n + 1), T(n + 1), Ohmega(n + 1), One(n + 1, (char*)"0");
+  GFX r(n + 1, n - 1), c(n + 1, n - 1), m(n + 1, k - 1), S(n + 1, 2 * t), Lambda(n + 1),
+      OldLambda(n + 1), T(n + 1), Omega(n + 1), One(n + 1, (char*) "0");
   GF delta(n + 1);
-  ivec errorpos;
 
+  no_dec_failure = true;
   for (i = 0; i < iterations; i++) {
+    decoderfailure = false;
     //Fix the received polynomial r(x)
     rbin = coded_bits.mid(i * n, n);
     for (j = 0; j < n; j++) {
@@ -226,30 +230,30 @@ void BCH::decode(const bvec &coded_bits, bvec &decoded_bits)
       r[j] = GF(n + 1, degree);
     }
     //Fix the syndrome polynomial S(x).
-    S[0] = GF(n + 1, -1);
-    for (j = 1; j <= 2*t; j++) {
+    S.clear();
+    for (j = 1; j <= 2 * t; j++) {
       S[j] =  r(GF(n + 1, j));
     }
     if (S.get_true_degree() >= 1) { //Errors in the received word
       //Iterate to find Lambda(x).
       kk = 0;
-      Lambda = GFX(n + 1, (char*)"0");
-      T = GFX(n + 1, (char*)"0");
+      Lambda = GFX(n + 1, (char*) "0");
+      T = GFX(n + 1, (char*) "0");
       while (kk < t) {
-        Ohmega = Lambda * (S + One);
-        delta = Ohmega[2*kk+1];
+        Omega = Lambda * (S + One);
+        delta = Omega[2 * kk + 1];
         OldLambda = Lambda;
-        Lambda = OldLambda + delta * (GFX(n + 1, (char*)"-1 0") * T);
+        Lambda = OldLambda + delta * (GFX(n + 1, (char*) "-1 0") * T);
         if ((delta == GF(n + 1, -1)) || (OldLambda.get_true_degree() > kk)) {
-          T = GFX(n + 1, (char*)"-1 -1 0") * T;
+          T = GFX(n + 1, (char*) "-1 -1 0") * T;
         }
         else {
-          T = (GFX(n + 1, (char*)"-1 0") * OldLambda) / delta;
+          T = (GFX(n + 1, (char*) "-1 0") * OldLambda) / delta;
         }
         kk = kk + 1;
       }
       //Find the zeros to Lambda(x).
-      errorpos.set_size(Lambda.get_true_degree(), true);
+      errorpos.set_size(Lambda.get_true_degree());
       foundzeros = 0;
       for (j = 0; j <= n - 1; j++) {
         if (Lambda(GF(n + 1, j)) == GF(n + 1, -1)) {
@@ -260,37 +264,42 @@ void BCH::decode(const bvec &coded_bits, bvec &decoded_bits)
           }
         }
       }
-      //Correct the codeword.
-      for (j = 0; j < foundzeros; j++) {
-        rbin(n - errorpos(j) - 1) += 1;  // again, reverse mapping
-      }
-      //Reconstruct the corrected codeword.
-      for (j = 0; j < n; j++) {
-        degree = static_cast<int>(rbin(n - j - 1)) - 1;
-        c[j] = GF(n + 1, degree);
-      }
-      //Code word validation.
-      S[0] = GF(n + 1, -1);
-      for (j = 1; j <= 2*t; j++) {
-        S[j] =  c(GF(n + 1, j));
-      }
-      if (S.get_true_degree() <= 0) { //c(x) is a valid codeword.
-        cisvalid = true;
+      if (foundzeros != Lambda.get_true_degree()) {
+        decoderfailure = true;
       }
       else {
-        cisvalid = false;
+        //Correct the codeword.
+        for (j = 0; j < foundzeros; j++) {
+          rbin(n - errorpos(j) - 1) += 1;   // again, reverse mapping
+        }
+        //Reconstruct the corrected codeword.
+        for (j = 0; j < n; j++) {
+          degree = static_cast<int>(rbin(n - j - 1)) - 1;
+          c[j] = GF(n + 1, degree);
+        }
+        //Code word validation.
+        S.clear();
+        for (j = 1; j <= 2 * t; j++) {
+          S[j] =  c(GF(n + 1, j));
+        }
+        if (S.get_true_degree() <= 0) { //c(x) is a valid codeword.
+          decoderfailure = false;
+        }
+        else {
+          decoderfailure = true;
+        }
       }
     }
     else {
       c = r;
-      cisvalid = true;
+      decoderfailure = false;
     }
     //Construct the message bit vector.
-    if (cisvalid) { //c(x) is a valid codeword.
+    if (decoderfailure == false) { //c(x) is a valid codeword.
       if (c.get_true_degree() > 1) {
         if (systematic) {
           for (j = 0; j < k; j++)
-            m[j] = c[n-k+j];
+            m[j] = c[n - k + j];
         }
         else {
           m = divgfx(c, g);
@@ -304,17 +313,38 @@ void BCH::decode(const bvec &coded_bits, bvec &decoded_bits)
       }
       else { //The zero word was transmitted
         mbin = zeros_b(k);
-        m = GFX(n + 1, (char*)"-1");
+        m = GFX(n + 1, (char*) "-1");
       }
     }
     else { //Decoder failure.
-      mbin = zeros_b(k);
-      m = GFX(n + 1, (char*)"-1");
+      // for a systematic code it is better to extract the undecoded message
+      // from the received code word, i.e. obtaining a bit error
+      // prob. p_b << 1/2, than setting all-zero (p_b = 1/2)
+      if (systematic) {
+        mbin = coded_bits.mid(i * n, k);
+      }
+      else {
+        mbin = zeros_b(k);
+      }
+      no_dec_failure = false;
     }
-    decoded_bits.replace_mid(i*k, mbin);
+    decoded_message.replace_mid(i * k, mbin);
+    cw_isvalid(i) = (!decoderfailure);
   }
+  return no_dec_failure;
 }
 
+void BCH::decode(const bvec &coded_bits, bvec &decoded_bits)
+{
+  bvec   cw_isvalid;
+  if (!decode(coded_bits, decoded_bits, cw_isvalid)) {
+    for (int i = 0; i < cw_isvalid.length(); i++) {
+      if (!cw_isvalid(i)) {
+        decoded_bits.replace_mid(i * k, zeros_b(k));
+      }
+    }
+  }
+}
 
 bvec BCH::decode(const bvec &coded_bits)
 {

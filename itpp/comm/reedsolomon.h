@@ -61,9 +61,22 @@ public:
   //! Encoder function.
   virtual bvec encode(const bvec &uncoded_bits);
 
-  //! Decoder function
+  /*!
+   * \brief Decode the RS code bits. Return false if there has been any decoding failure.
+   *
+   * The \c coded_bits are block-wise decoded into \c decoded_message messages. If
+   * there has been any decoding failure, the function will return \c false.
+   * If this happened in the n-th block, then \c cw_isvalid(n) will be set
+   * to \c false (zero-indexed). In case of a systematic code the systematic bits will be
+   * extracted and presented in the corresponding block of \c decoded_message.
+   * This is better than just presenting zeros, which is done in case of a
+   * decoding failure of non-systematic codes.
+   */
+  virtual bool decode(const bvec &coded_bits, bvec &decoded_message, bvec &cw_isvalid);
+
+  //! Decoder a \c bvec of coded data. This function is kept for backward compatibility. Better use \code bool decode(const bvec &coded_bits, bvec &decoded_message, bvec &cw_isvalid)\endcode.
   virtual void decode(const bvec &coded_bits, bvec &decoded_bits);
-  //! Decoder function
+  //! Decoder a \c bvec of coded data. This function is kept for backward compatibility. Better use \code bool decode(const bvec &coded_bits, bvec &decoded_message, bvec &cw_isvalid)\endcode.
   virtual bvec decode(const bvec &coded_bits);
 
   // Soft-decision decoding is not implemented

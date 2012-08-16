@@ -75,3 +75,15 @@ Encoded [0 1 1 0] to [0 1 1 0 0 0 1]
 One error added: [0 1 1 0 0 0 0]
 Decoded to:[0 1 1 0]
 
+========================================
+   Systematic decoding failure test     
+========================================
+all codewords valid? 0
+valid codeword? = [0]
+A four error case (will cause decoding failure)
+input =   [1 1 0 0 1 1 0 0 1 0 0 0 1 1 1 0 0 1 1 1 0]
+encoded = [1 1 0 0 1 1 0 0 1 0 0 0 1 1 1 0 0 0 1 0 1 0 1 0 0 1 1 1 1 0 0]
+err =     [1 0 1 0 1 1 0 0 1 0 0 0 1 1 0 0 0 0 1 0 1 0 1 0 0 1 1 0 1 0 0]
+decoded = [1 0 1 0 1 1 0 0 1 0 0 0 1 1 0 0]
+
+

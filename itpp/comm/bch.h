@@ -89,9 +89,23 @@ public:
   //! Encode a bvec of indata
   virtual bvec encode(const bvec &uncoded_bits);
 
-  //! Decode a bvec of coded data.
+  /*!
+  * \brief Decode the BCH code bits. Return false if there has been any decoding failure.
+  *
+  * The \c coded_bits are block-wise decoded into \c decoded_message messages. If
+  * there has been any decoding failure, the function will return \c false.
+  * If this happened in the n-th block, then \c cw_isvalid(n) will be set
+  * to \c false (zero-indexed). In case of a systematic code the systematic bits will be
+  * extracted and presented in the corresponding block of \c decoded_message.
+  * This is better than just presenting zeros, which is done in case of a
+  * decoding failure of non-systematic codes.
+  */
+  virtual bool decode(const bvec &coded_bits, bvec &decoded_message, bvec &cw_isvalid);
+
+  //! Decode a bvec of coded data. This function is kept for backward compatibility. Better use \code bool decode(const bvec &coded_bits, bvec &decoded_message, bvec &cw_isvalid) \endcode.
   virtual void decode(const bvec &coded_bits, bvec &decoded_bits);
-  //! Decode a bvec of coded data
+
+  //! Decode a bvec of coded data. This function is kept for backward compatibility. Better use \code bool decode(const bvec &coded_bits, bvec &decoded_message, bvec &cw_isvalid)\endcode.
   virtual bvec decode(const bvec &coded_bits);
 
   // Soft-decision decoding is not implemented
@@ -99,13 +113,19 @@ public:
   virtual bvec decode(const vec &received_signal);
 
   //! Get the code rate
-  virtual double get_rate() const {return static_cast<double>(k) / n; }
+  virtual double get_rate() const {
+    return static_cast<double>(k) / n;
+  }
 
   //! Get cardinality of code k
-  virtual int get_k() const {return k; }
+  virtual int get_k() const {
+    return k;
+  }
 
   //! Dummy assignment operator - MSVC++ warning C4512
-  BCH & operator=(const BCH &) { return *this; }
+  BCH & operator= (const BCH &) {
+    return *this;
+  }
 
 private:
   int n, k, t;

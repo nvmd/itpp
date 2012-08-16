@@ -71,6 +71,7 @@ int main()
     cout << "encoded = " << encoded << endl;
     cout << "err =     " << err <<  endl;
     cout << "decoded = " << decoded << endl << endl;
+
   }
 
   cout << "========================================" << endl;
@@ -108,6 +109,29 @@ int main()
       decoded.set_row(i, bch_sys.decode(y.get_row(i)));
       cout << "Decoded to:" << decoded.get_row(i) << endl << endl;
     }
+  }
+
+  cout << "========================================" << endl;
+  cout << "   Systematic decoding failure test     " << endl;
+  cout << "========================================" << endl;
+
+  {
+    BCH bch(31, 3, true);
+
+    bvec input = randb(21);
+    bvec encoded = bch.encode(input);
+    bvec err = set_errors(encoded, (ivec) "1 2 14 27"); // error positions
+
+    bvec decoded;
+    bvec is_valid_cw;    // test the new decoding procedure for the systematic case (should extract the systematics)
+    cout << "all codewords valid? " << bch.decode(err, decoded, is_valid_cw) << endl;
+    cout << "valid codeword? = " << is_valid_cw << endl;
+
+    cout << "A four error case (will cause decoding failure)" << endl;
+    cout << "input =   " << input << endl;
+    cout << "encoded = " << encoded << endl;
+    cout << "err =     " << err <<  endl;
+    cout << "decoded = " << decoded << endl << endl << endl;
   }
 
   return 0;
