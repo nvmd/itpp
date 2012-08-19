@@ -1,4 +1,12 @@
+2012-08-19  Bogdan Cristea <cristeab@users.sourceforge.net>
+
+	* tests/turbo_test.cpp: add unit tests for WCDMA and LTE interleavers
+	* extras/astylerc, extras/astylerc_old: updated astyle configuration
+	file for version 2.02.1. For backward compatibility old settings are 
+	kept in astylerc_old (compatible with 1.x releases of astyle).
+
 2012-08-16  Stephan Ludwig <donludovico@users.sourceforge.net>
+
 	* itpp/comm/turbo.cpp, itpp/comm/turbo.h, tests/turbo_test.cpp, 
 	  tests/turbo_test.ref: adding a punctured turbo codec (PTC) class according
 	  to feature request #1151067 had to change turbo codec private variables to 
