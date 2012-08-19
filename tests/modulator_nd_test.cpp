@@ -1,11 +1,11 @@
 /*!
  * \file
  * \brief Vector ("MIMO") modulator classes test program
- * \author Erik G. Larsson and Adam Piatyszek
+ * \author Erik G. Larsson, Adam Piatyszek, and Mirsad Cirkic
  *
  * -------------------------------------------------------------------------
  *
- * Copyright (C) 1995-2010  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2012  (see AUTHORS file for a list of contributors)
  *
  * This file is part of IT++ - a C++ library of mathematical, signal
  * processing, speech processing, and communications classes and functions.
@@ -35,108 +35,157 @@ using namespace itpp;
 
 int main()
 {
-    cout << "========================================================" << endl;
-    cout << "               Test of ND (MIMO) Modulators             " << endl;
-    cout << "========================================================" << endl;
+	cout << "========================================================" << endl;
+	cout << "               Test of ND (MIMO) Modulators             " << endl;
+	cout << "========================================================" << endl;
 
-    cout.setf(ios::fixed );
-    cout.precision(2);
+	cout.setf(ios::fixed);
+	cout.precision(2);
 
-    RNG_reset(12345);
-    double sigma2 = 0.005;
-    double sigma = std::sqrt(sigma2);
+	RNG_reset(12345);
+	double sigma2 = 0.005;
+	double sigma = std::sqrt(sigma2);
 
-    {
-        ND_UPAM chan;
-        int nt = 5;
-        for (int np = 1; np <= 3; np++) {
-            cout << "================== ND-U" << (1 << np) << "PAM ==================\n";
+	{
+		ND_UPAM chan;
+		int nt = 5;
+		for (int np = 1; np <= 3; np++) {
+			cout << "================== ND-U" << (1 << np) << "PAM ==================\n";
 
-            chan.set_M(nt, 1 << np);
-            cout << chan << endl;
-            bvec b = randb(nt * np);
-            cout << b << endl;
-            vec x = chan.modulate_bits(b);
-            mat H = randn(nt, nt);
-            vec y = H * x + sigma * randn(nt);
+			chan.set_M(nt, 1<<np);
+			cout << chan << endl;
+			bvec b = randb(sum(chan.get_k()));
+			cout << b << endl;
+			vec x = chan.modulate_bits(b);
+			mat H = randn(nt, nt);
+			vec y = H * x + sigma * randn(nt);
 
-            QLLRvec LLR_ap = zeros_i(nt * np);
-            QLLRvec LLR;
+			QLLRvec LLR_ap = randi(sum(chan.get_k()),-5000,5000);
+			QLLRvec LLR;
 
-            chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR);
-            cout << "full channel     : " << chan.get_llrcalc().to_double(LLR) << endl;
-            chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR, ND_UPAM::FULL_ENUM_LOGMAP);
-            cout << "                   " << chan.get_llrcalc().to_double(LLR) << endl;
+			chan.init_demodulator(H,sigma2);
+			cout << endl;
+			chan.demodllr(y, LLR_ap, LLR);
+			cout << endl;
+			cout << "new full LLR     : " << chan.get_llrcalc().to_double(LLR) << endl;
+			chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR);
+			cout << "old full LLR     : " << chan.get_llrcalc().to_double(LLR) << endl;
+			chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR, ND_UPAM::FULL_ENUM_LOGMAP);
+			cout << "                 : " << chan.get_llrcalc().to_double(LLR) << endl;
+			chan.demodmax(y, LLR_ap, LLR);
+			cout << "new Log-Max      : " << chan.get_llrcalc().to_double(LLR) << endl;
+			LLR_calc_unit llrcalctmp=chan.get_llrcalc();
+			chan.set_llrcalc(LLR_calc_unit(12, 0, 7));
+			chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR);
+			cout << "old Log-Max      : " << chan.get_llrcalc().to_double(LLR) << endl;
+			chan.set_llrcalc(llrcalctmp);
+			chan.demodulate_soft_bits(y, diag(H), sigma2, LLR_ap, LLR);
+			cout << "diagonal channel : " << chan.get_llrcalc().to_double(LLR) << endl;
+			chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR, ND_UPAM::ZF_LOGMAP);
+			cout << "zero-forcing     : " << chan.get_llrcalc().to_double(LLR) << endl;
+			ivec zhat;
+			chan.sphere_decoding(y, H, 0.01, 10000, 2.0, zhat);
+			cout << "sphere-decoding  : " << zhat << endl;
+		}
 
-            chan.demodulate_soft_bits(y, diag(H), sigma2, LLR_ap, LLR);
-            cout << "diagonal channel : " << chan.get_llrcalc().to_double(LLR) << endl;
+		ivec bitspantenna=randi(nt,1,3), symbspantenna(nt);		
+		for(int i=0; i<nt; i++) symbspantenna[i]=pow2i(bitspantenna[i]);
+	   cout << "========== ND-UPAM with M:" << symbspantenna << " =======\n";
 
-            chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR, ND_UPAM::ZF_LOGMAP);
-            cout << "zero-forcing     : " << chan.get_llrcalc().to_double(LLR) << endl;
+      chan.set_M(nt, symbspantenna);
+      cout << chan << endl;
+      bvec b = randb(sum(chan.get_k()));
+      cout << b << endl;
+      vec x = chan.modulate_bits(b);
+      mat H = randn(nt, nt);
+      vec y = H * x + sigma * randn(nt);
 
-            ivec zhat;
-            chan.sphere_decoding(y, H, 0.01, 10000, 2.0, zhat);
-            cout << zhat << endl;
-        }
-    }
+      QLLRvec LLR_ap = randi(sum(chan.get_k()),-5000,5000);
+      QLLRvec LLR;
+		
+		
+		chan.init_demodulator(H,sigma2);
+		cout << endl;
+		chan.demodllr(y, LLR_ap, LLR);
+		cout << endl;
+		cout << "new full LLR     : " << chan.get_llrcalc().to_double(LLR) << endl;
+		chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR);
+		cout << "old full LLR     : " << chan.get_llrcalc().to_double(LLR) << endl;
+		chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR, ND_UPAM::FULL_ENUM_LOGMAP);
+		cout << "                 : " << chan.get_llrcalc().to_double(LLR) << endl;
+		chan.demodmax(y, LLR_ap, LLR);
+		cout << "new Log-Max      : " << chan.get_llrcalc().to_double(LLR) << endl;
+		LLR_calc_unit llrcalctmp=chan.get_llrcalc();
+		chan.set_llrcalc(LLR_calc_unit(12, 0, 7));
+		chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR);
+		cout << "old Log-Max      : " << chan.get_llrcalc().to_double(LLR) << endl;
+		chan.set_llrcalc(llrcalctmp);
+		chan.demodulate_soft_bits(y, diag(H), sigma2, LLR_ap, LLR);
+		cout << "diagonal channel : " << chan.get_llrcalc().to_double(LLR) << endl;
+		chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR, ND_UPAM::ZF_LOGMAP);
+		cout << "zero-forcing     : " << chan.get_llrcalc().to_double(LLR) << endl;
+		ivec zhat;
+		chan.sphere_decoding(y, H, 0.01, 10000, 2.0, zhat);
+		cout << "sphere-decoding  : " << zhat << endl;
+	}
 
-    {
-        ND_UQAM chan;
-        int nt = 3;
-        for (int np = 1; np <= 3; np++) {
-            cout << "================== ND-U" << ((1 << (2*np))) << "QAM ==================\n";
+	// {
+	//   ND_UQAM chan;
+	//   int nt = 3;
+	//   for (int np = 1; np <= 3; np++) {
+	//     cout << "================== ND-U" << ((1 << (2*np))) << "QAM ==================\n";
 
-            chan.set_M(nt, (1 << (2*np)));
-            cout << chan << endl;
-            bvec b = randb(nt * np * 2);
-            cout << b << endl;
-            cvec x = chan.modulate_bits(b);
-            cmat H = randn_c(nt, nt);
-            cvec y = H * x + sigma * randn_c(nt);
-            QLLRvec LLR_ap = zeros_i(2 * nt * np);
-            QLLRvec LLR(2*nt*np);
+	//     chan.set_M(nt, (1 << (2*np)));
+	//     cout << chan << endl;
+	//     bvec b = randb(nt * np * 2);
+	//     cout << b << endl;
+	//     cvec x = chan.modulate_bits(b);
+	//     cmat H = randn_c(nt, nt);
+	//     cvec y = H * x + sigma * randn_c(nt);
+	//     QLLRvec LLR_ap = zeros_i(2 * nt * np);
+	//     QLLRvec LLR(2*nt*np);
 
-            chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR);
-            cout << "full channel     : " << chan.get_llrcalc().to_double(LLR) << endl;
-            chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR, ND_UQAM::FULL_ENUM_LOGMAP);
-            cout << "                 : " << chan.get_llrcalc().to_double(LLR) << endl;
+	//     chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR);
+	//     cout << "full channel     : " << chan.get_llrcalc().to_double(LLR) << endl;
+	//     chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR, ND_UQAM::FULL_ENUM_LOGMAP);
+	//     cout << "                 : " << chan.get_llrcalc().to_double(LLR) << endl;
 
-            chan.demodulate_soft_bits(y, diag(H), sigma2, LLR_ap, LLR);
-            cout << "diagonal channel : " << chan.get_llrcalc().to_double(LLR) << endl;
+	//     chan.demodulate_soft_bits(y, diag(H), sigma2, LLR_ap, LLR);
+	//     cout << "diagonal channel : " << chan.get_llrcalc().to_double(LLR) << endl;
 
-            chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR, ND_UPAM::ZF_LOGMAP);
-            cout << "zero-forcing     : " << chan.get_llrcalc().to_double(LLR) << endl;
-        }
-    }
+	//     chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR, ND_UPAM::ZF_LOGMAP);
+	//     cout << "zero-forcing     : " << chan.get_llrcalc().to_double(LLR) << endl;
+	//   }
+	// }
 
-    {
-        ND_UPSK chan;
-        int nt = 3;
-        for (int np = 1; np <= 3; np++) {
-            cout << "================== ND-U" << ((1 << (2*np))) << "PSK ==================\n";
+	// {
+	//   ND_UPSK chan;
+	//   int nt = 3;
+	//   for (int np = 1; np <= 3; np++) {
+	//     cout << "================== ND-U" << ((1 << (2*np))) << "PSK ==================\n";
 
-            chan.set_M(nt, (1 << (2*np)));
-            cout << chan << endl;
-            bvec b = randb(nt * np * 2);
-            cout << b << endl;
-            cvec x = chan.modulate_bits(b);
-            cmat H = randn_c(nt, nt);
-            cvec y = H * x + sigma * randn_c(nt);
-            QLLRvec LLR_ap = zeros_i(2 * nt * np);
-            QLLRvec LLR(2*nt*np);
+	//     chan.set_M(nt, (1 << (2*np)));
+	//     cout << chan << endl;
+	//     bvec b = randb(nt * np * 2);
+	//     cout << b << endl;
+	//     cvec x = chan.modulate_bits(b);
+	//     cmat H = randn_c(nt, nt);
+	//     cvec y = H * x + sigma * randn_c(nt);
+	//     QLLRvec LLR_ap = zeros_i(2 * nt * np);
+	//     QLLRvec LLR(2*nt*np);
 
-            chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR);
-            cout << "full channel     : " << chan.get_llrcalc().to_double(LLR) << endl;
-            chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR, ND_UQAM::FULL_ENUM_LOGMAP);
-            cout << "                 : " << chan.get_llrcalc().to_double(LLR) << endl;
+	//     chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR);
+	//     cout << "full channel     : " << chan.get_llrcalc().to_double(LLR) << endl;
+	//     chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR, ND_UQAM::FULL_ENUM_LOGMAP);
+	//     cout << "                 : " << chan.get_llrcalc().to_double(LLR) << endl;
 
-            chan.demodulate_soft_bits(y, diag(H), sigma2, LLR_ap, LLR);
-            cout << "diagonal channel : " << chan.get_llrcalc().to_double(LLR) << endl;
+	//     chan.demodulate_soft_bits(y, diag(H), sigma2, LLR_ap, LLR);
+	//     cout << "diagonal channel : " << chan.get_llrcalc().to_double(LLR) << endl;
 
-            chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR, ND_UPAM::ZF_LOGMAP);
-            cout << "zero-forcing     : " << chan.get_llrcalc().to_double(LLR) << endl;
-        }
-    }
+	//     chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR, ND_UPAM::ZF_LOGMAP);
+	//     cout << "zero-forcing     : " << chan.get_llrcalc().to_double(LLR) << endl;
+	//   }
+	// }
 
-    return 0;
+	return 0;
 }

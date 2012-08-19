@@ -1,11 +1,11 @@
 /*!
  * \file
  * \brief Definition of vector (MIMO) modulator classes
- * \author Erik G. Larsson and Adam Piatyszek
+ * \author Mirsad Cirkic, Erik G. Larsson and Adam Piatyszek
  *
  * -------------------------------------------------------------------------
  *
- * Copyright (C) 1995-2011  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2012  (see AUTHORS file for a list of contributors)
  *
  * This file is part of IT++ - a C++ library of mathematical, signal
  * processing, speech processing, and communications classes and functions.
@@ -71,33 +71,49 @@ public:
 
     //! Default constructor
     Modulator_ND(LLR_calc_unit llrcalc_in = LLR_calc_unit()):
-            llrcalc(llrcalc_in) {}
+        llrcalc(llrcalc_in) {}
     //! Destructor
     virtual ~Modulator_ND() {}
 
     //! Set LLR calculation unit
-    void set_llrcalc(LLR_calc_unit llrcalc_in) { llrcalc = llrcalc_in; };
+    void set_llrcalc(LLR_calc_unit llrcalc_in) {
+        llrcalc = llrcalc_in;
+    };
 
     //! Get LLR calculation unit
-    LLR_calc_unit get_llrcalc() const { return llrcalc; }
+    LLR_calc_unit get_llrcalc() const {
+        return llrcalc;
+    }
 
     //! Get number of dimensions
-    int get_dim() const { return nt; }
+    int get_dim() const {
+        return nt;
+    }
 
     //! Get number of bits per modulation symbol per dimension
-    ivec get_k() const { return k; }
+    ivec get_k() const {
+        return k;
+    }
 
     //! Get number of bits per modulation symbol per dimension
-    ivec bits_per_symbol() const { return k; }
+    ivec bits_per_symbol() const {
+        return k;
+    }
 
     //! Get number of modulation symbols per dimension
-    ivec get_M() const { return M; }
+    ivec get_M() const {
+        return M;
+    }
 
     //! Get bit pattern in decimal
-    Array<ivec> get_bits2symbols() const { return bits2symbols; }
+    Array<ivec> get_bits2symbols() const {
+        return bits2symbols;
+    }
 
     //! Get Bit mapping table
-    Array<bmat> get_bitmap() const { return bitmap; }
+    Array<bmat> get_bitmap() const {
+        return bitmap;
+    }
 
 protected:
     //! Number of dimensions
@@ -300,6 +316,11 @@ public:
                               const QLLRvec &LLR_apriori,
                               QLLRvec &LLR_aposteriori);
 
+    void init_demodulator(const itpp::mat& H, const double& sigma2);
+
+    void demodllr(const itpp::vec& y, const itpp::QLLRvec& LLR_apriori, itpp::QLLRvec& LLR_aposteriori);
+    void demodmax(const itpp::vec& y, const itpp::QLLRvec& LLR_apriori, itpp::QLLRvec& LLR_aposteriori);
+
 
     //! Output some properties of the MIMO modulator (mainly to aid debugging)
     friend std::ostream &operator<<(std::ostream &os, const Modulator_NRD &m);
@@ -324,6 +345,51 @@ protected:
      */
     void update_norm(double &norm, int k, int sold, int snew, const vec &ytH,
                      const mat &HtH, const ivec &s);
+
+    // Hardcoded implementation of 1:st bit demodulation
+    void demodllrbit0(itpp::QLLR& llr) const;
+
+    // Hardcoded implementation of 2:nd bit demodulation
+    void demodllrbit1(itpp::QLLR& llr) const;
+
+    // Hardcoded implementation of 3:rd bit demodulation
+    void demodllrbit2(itpp::QLLR& llr) const;
+
+    // Hardcoded implementation of 1:st bit demodulation
+    void demodmaxbit0(itpp::QLLR& maxllr) const;
+
+    // Hardcoded implementation of 2:nd bit demodulation
+    void demodmaxbit1(itpp::QLLR& maxllr) const;
+
+    // Hardcoded implementation of 3:rd bit demodulation
+    void demodmaxbit2(itpp::QLLR& maxllr) const;
+
+    // Calculating the part of the norms that depends on H
+    void hxnormupdate(itpp::vec& Hx, unsigned& bitstring, unsigned& ind, unsigned bit);
+
+    // Calculating the remaining part of the norms that depends both on H and y
+    void yxnormupdate(double& yx, itpp::QLLR& lapr, unsigned& bitstring, unsigned& ind, unsigned bit);
+
+    double norm2(const itpp::vec& x) const {
+        return x*x;
+    }
+    double N0; // Complex noise variance
+    itpp::mat H; // Real channel matrix
+    itpp::vec hnorms; // Norms part dependent on H
+    itpp::QLLRvec Qnorms; // Norms part depending on both H and y
+    itpp::QLLRvec llrapr; // A prioi information
+    itpp::Vec<itpp::Vec<itpp::vec> > hspacings; // The spacing between
+    // different
+    // constellation points
+    // multiplied by the
+    // different H columns
+    itpp::Vec<itpp::vec> yspacings; // The spacing between different
+    // constellation points scaled by
+    // different y elements
+    itpp::ivec bpos2cpos; // The bit to column mapping
+    itpp::ivec bitcumsum; // The cum. sum of bits in the symbol vector
+    itpp::Vec<itpp::Vec<unsigned> > gray2dec; // The Gray to decimal mapping
+    int nb; // Total number of bits in the symbol vector
 };
 
 /*!
@@ -582,8 +648,12 @@ private:
 
     vec spacing;  // spacing between the constellation points
 
-inline int sign_nozero_i(int a) { return (a > 0 ? 1 : -1); }
-inline int sign_nozero_i(double a) { return (a > 0.0 ? 1 : -1); }
+    inline int sign_nozero_i(int a) {
+        return (a > 0 ? 1 : -1);
+    }
+    inline int sign_nozero_i(double a) {
+        return (a > 0.0 ? 1 : -1);
+    }
 };
 
 // ----------------------------------------------------------------------

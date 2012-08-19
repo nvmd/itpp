@@ -1,11 +1,11 @@
 /*!
  * \file
  * \brief Implementation of vector (MIMO) modulator classes
- * \author Erik G. Larsson and Adam Piatyszek
+ * \author Mirsad Cirkic, Erik G. Larsson and Adam Piatyszek
  *
  * -------------------------------------------------------------------------
  *
- * Copyright (C) 1995-2011  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2012  (see AUTHORS file for a list of contributors)
  *
  * This file is part of IT++ - a C++ library of mathematical, signal
  * processing, speech processing, and communications classes and functions.
@@ -30,9 +30,15 @@
 #include <itpp/comm/commfunc.h>
 #include <itpp/base/algebra/cholesky.h>
 #include <itpp/base/algebra/inv.h>
+#include <itpp/base/matfunc.h>
 #include <itpp/base/math/elem_math.h>
+#include <itpp/base/math/log_exp.h>
 #include <itpp/base/converters.h>
 #include <itpp/base/itcompat.h>
+
+#include <cmath>
+#include <iostream>
+#include <iomanip>
 
 namespace itpp
 {
@@ -40,6 +46,443 @@ namespace itpp
 // ----------------------------------------------------------------------
 // Modulator_ND
 // ----------------------------------------------------------------------
+
+void Modulator_NRD::init_demodulator(const itpp::mat& H_in, const double& sigma2) {
+    using namespace itpp;
+    it_assert(H_in.cols()==nt, "Modulator_NRD::init_demodulator(): The number of Tx antennas is wrong.\n");
+    it_assert(sum(k)<32, "Modulator_NRD::init_demodulator(): Number of total bits per transmission can not be larger than 32.\n");
+    it_assert(pow2i(sum(k))==prod(M), "Modulator_NRD::init_demodulator(): The modulater must use exhaustive constellations, i.e., #bits=log2(#symbs).\n");
+    H=H_in;
+    bitcumsum=reverse(cumsum(reverse(k))-reverse(k)); // Shifted cummulative sum
+    nb=sum(k);
+    hnorms.set_size(1<<nb);
+    Qnorms.set_size(1<<nb);
+    hspacings.set_size(nt);
+    yspacings.set_size(nt);
+    bpos2cpos.set_size(nb);
+    gray2dec.set_size(nt);
+    N0 = 2 * sigma2;
+    vec startsymbvec(nt);
+    for(int ci=0; ci<nt; ci++) startsymbvec[ci]=symbols(ci)[0];
+    itpp::vec Hx=H*startsymbvec;
+    for(int ci=0, bcs=0; ci<nt; bcs+=k[ci++]) {
+        for(int bi=0; bi<k[ci]; bi++)	bpos2cpos[bcs+bi]=ci;
+        gray2dec[ci].set_size(M[ci]);
+        for(int si=0; si<M[ci]; si++) gray2dec[ci][si^(si>>1)]=si;
+        yspacings[ci].set_size(M[ci]-1);
+        hspacings[ci].set_size(M[ci]-1);
+        for(int si=0; si<M[ci]-1; si++) {
+            double xspacing=symbols(ci)[bits2symbols(ci)[(si+1)^((si+1)>>1)]];
+            xspacing-=symbols(ci)[bits2symbols(ci)[si^(si>>1)]];
+            hspacings[ci][si]=H.get_col(ci)*xspacing;
+        }
+    }
+    bpos2cpos=reverse(bpos2cpos);
+    unsigned bitstring=0, ind=0;
+    hxnormupdate(Hx, bitstring, ind, nb-1);
+}
+
+
+
+void Modulator_NRD::demodllr(const itpp::vec& y, const itpp::QLLRvec& llr_apr, itpp::QLLRvec& llr) {
+    using namespace itpp;
+
+    // -- Prepare all the norms with the newly received vectory y
+    llr.set_size(nb);
+    llrapr=reverse(llr_apr); /* The bits are reversed due to the
+											 norm-updating functions having the rightmost bit
+											 as the least signifacant*/
+    vec ytil=2.0*H.T()*y;
+    vec startsymbvec(nt);
+    for(int ci=0; ci<nt; ci++) startsymbvec[ci]=symbols(ci)[0];
+    double yx=ytil*startsymbvec;
+    QLLR lapr=0;
+    for(int bi=0; bi<nb; lapr-=llrcalc.jaclog(0,-llrapr[bi++]));
+    for(int ci=0; ci<nt; ci++)	for(int si=0; si<M[ci]-1; si++) {
+            double xspacing=symbols(ci)[bits2symbols(ci)[(si+1)^((si+1)>>1)]];
+            xspacing-=symbols(ci)[bits2symbols(ci)[si^(si>>1)]];
+            yspacings[ci][si]=ytil(ci)*xspacing;
+        }
+    unsigned bitstring = 0, ind=0;
+    yxnormupdate(yx,lapr,bitstring,ind,nb-1); // Recursive update of all the norms
+
+    // -- Demodulate the last 3 bits. The demodulation is hardcoded
+    // -- to avoid initialization of many but tiny inner-loops
+    demodllrbit0(llr[0]);
+    demodllrbit1(llr[1]);
+    demodllrbit2(llr[2]);
+
+    // -- Demodulate the remaining bits except the first one
+    QLLR logsum0, logsum1;
+    const QLLR *const addrfirst=Qnorms._data();
+    const QLLR *const addrsemilast=addrfirst+(1<<(nb-1)), *const addrlast=addrfirst+(1<<nb);
+    const QLLR *Qptr;
+    for (int bi = 3; bi < nb-1 ; bi++) { // Run the loops for bits 3,...,nb-1.
+        logsum0 = -QLLR_MAX;
+        logsum1 = -QLLR_MAX;
+        const int forhalfdiff=1<<bi, fordiff=2*forhalfdiff, fordbldiff=2*fordiff;
+        Qptr=addrfirst;
+        const QLLR *const addr1=addrfirst+forhalfdiff, *const addr2=addr1+fordiff, *const addr3=addrlast-fordiff;
+        while(Qptr<addr1) logsum0=llrcalc.jaclog(*(Qptr++), logsum0);
+        while(Qptr<addr2) logsum1=llrcalc.jaclog(*(Qptr++), logsum1);
+        const QLLR *addrdyn0, *addrdyn1;
+        while(Qptr<addr3) {
+            addrdyn0=Qptr+fordiff;
+            addrdyn1=Qptr+fordbldiff;
+            while(Qptr<addrdyn0) logsum0=llrcalc.jaclog(*(Qptr++), logsum0);
+            while(Qptr<addrdyn1) logsum1=llrcalc.jaclog(*(Qptr++), logsum1);
+        }
+        while(Qptr<addrlast) logsum0=llrcalc.jaclog(*(Qptr++), logsum0);
+        llr[bi] = logsum0 - logsum1;
+    }
+
+    // -- Demodulate the first bit
+    logsum0 = -QLLR_MAX;
+    logsum1 = -QLLR_MAX;
+    Qptr=addrfirst;
+    while(Qptr<addrsemilast) logsum0=llrcalc.jaclog(*(Qptr++), logsum0);
+    while(Qptr<addrlast) logsum1=llrcalc.jaclog(*(Qptr++), logsum1);
+    llr[nb-1] = logsum0 - logsum1;
+
+    llr=reverse(llr);
+}
+
+void Modulator_NRD::demodllrbit0(itpp::QLLR& llr) const {
+    using namespace itpp;
+    QLLR logsum0 = -QLLR_MAX, logsum1 = -QLLR_MAX;
+    const QLLR *const addrfirst=Qnorms._data(), *const addr3=addrfirst+(1<<nb)-1;
+    const QLLR *Qptr=addrfirst;
+    logsum0=llrcalc.jaclog(*(Qptr++), logsum0);
+    logsum1=llrcalc.jaclog(*(Qptr++), logsum1);
+    logsum1=llrcalc.jaclog(*(Qptr++), logsum1);
+    while(Qptr < addr3) {
+        logsum0=llrcalc.jaclog(*(Qptr++), logsum0);
+        logsum0=llrcalc.jaclog(*(Qptr++), logsum0);
+        logsum1=llrcalc.jaclog(*(Qptr++), logsum1);
+        logsum1=llrcalc.jaclog(*(Qptr++), logsum1);
+    }
+    logsum0=llrcalc.jaclog(*(Qptr++), logsum0);
+    llr = logsum0 - logsum1;
+}
+
+void Modulator_NRD::demodllrbit1(itpp::QLLR& llr) const {
+    using namespace itpp;
+    QLLR logsum0 = -QLLR_MAX, logsum1 = -QLLR_MAX;
+    const QLLR *const addrfirst=Qnorms._data(), *const addr3=addrfirst+(1<<nb)-2;
+    const QLLR *Qptr=addrfirst;
+
+    logsum0 = llrcalc.jaclog(*(Qptr++), logsum0);
+    logsum0 = llrcalc.jaclog(*(Qptr++), logsum0);
+    logsum1 = llrcalc.jaclog(*(Qptr++), logsum1);
+    logsum1 = llrcalc.jaclog(*(Qptr++), logsum1);
+    logsum1 = llrcalc.jaclog(*(Qptr++), logsum1);
+    logsum1 = llrcalc.jaclog(*(Qptr++), logsum1);
+    while(Qptr < addr3) {
+        logsum0 = llrcalc.jaclog(*(Qptr++), logsum0);
+        logsum0 = llrcalc.jaclog(*(Qptr++), logsum0);
+        logsum0 = llrcalc.jaclog(*(Qptr++), logsum0);
+        logsum0 = llrcalc.jaclog(*(Qptr++), logsum0);
+        logsum1 = llrcalc.jaclog(*(Qptr++), logsum1);
+        logsum1 = llrcalc.jaclog(*(Qptr++), logsum1);
+        logsum1 = llrcalc.jaclog(*(Qptr++), logsum1);
+        logsum1 = llrcalc.jaclog(*(Qptr++), logsum1);
+    }
+    logsum0 = llrcalc.jaclog(*(Qptr++), logsum0);
+    logsum0 = llrcalc.jaclog(*(Qptr++), logsum0);
+    llr = logsum0 - logsum1;
+}
+
+void Modulator_NRD::demodllrbit2(itpp::QLLR& llr) const {
+    using namespace itpp;
+    QLLR logsum0 = -QLLR_MAX, logsum1 = -QLLR_MAX;
+    const QLLR *const addrfirst=Qnorms._data(), *const addr3=addrfirst+(1<<nb)-4;
+    const QLLR *Qptr=addrfirst;
+
+    logsum0 = llrcalc.jaclog(*(Qptr++), logsum0);
+    logsum0 = llrcalc.jaclog(*(Qptr++), logsum0);
+    logsum0 = llrcalc.jaclog(*(Qptr++), logsum0);
+    logsum0 = llrcalc.jaclog(*(Qptr++), logsum0);
+    logsum1 = llrcalc.jaclog(*(Qptr++), logsum1);
+    logsum1 = llrcalc.jaclog(*(Qptr++), logsum1);
+    logsum1 = llrcalc.jaclog(*(Qptr++), logsum1);
+    logsum1 = llrcalc.jaclog(*(Qptr++), logsum1);
+    logsum1 = llrcalc.jaclog(*(Qptr++), logsum1);
+    logsum1 = llrcalc.jaclog(*(Qptr++), logsum1);
+    logsum1 = llrcalc.jaclog(*(Qptr++), logsum1);
+    logsum1 = llrcalc.jaclog(*(Qptr++), logsum1);
+    while(Qptr < addr3) {
+        logsum0 = llrcalc.jaclog(*(Qptr++), logsum0);
+        logsum0 = llrcalc.jaclog(*(Qptr++), logsum0);
+        logsum0 = llrcalc.jaclog(*(Qptr++), logsum0);
+        logsum0 = llrcalc.jaclog(*(Qptr++), logsum0);
+        logsum0 = llrcalc.jaclog(*(Qptr++), logsum0);
+        logsum0 = llrcalc.jaclog(*(Qptr++), logsum0);
+        logsum0 = llrcalc.jaclog(*(Qptr++), logsum0);
+        logsum0 = llrcalc.jaclog(*(Qptr++), logsum0);
+        logsum1 = llrcalc.jaclog(*(Qptr++), logsum1);
+        logsum1 = llrcalc.jaclog(*(Qptr++), logsum1);
+        logsum1 = llrcalc.jaclog(*(Qptr++), logsum1);
+        logsum1 = llrcalc.jaclog(*(Qptr++), logsum1);
+        logsum1 = llrcalc.jaclog(*(Qptr++), logsum1);
+        logsum1 = llrcalc.jaclog(*(Qptr++), logsum1);
+        logsum1 = llrcalc.jaclog(*(Qptr++), logsum1);
+        logsum1 = llrcalc.jaclog(*(Qptr++), logsum1);
+    }
+    logsum0 = llrcalc.jaclog(*(Qptr++), logsum0);
+    logsum0 = llrcalc.jaclog(*(Qptr++), logsum0);
+    logsum0 = llrcalc.jaclog(*(Qptr++), logsum0);
+    logsum0 = llrcalc.jaclog(*(Qptr++), logsum0);
+    llr = logsum0 - logsum1;
+}
+
+void Modulator_NRD::demodmax(const itpp::vec& y, const itpp::QLLRvec& llr_apr, itpp::QLLRvec& maxllr) {
+    using namespace itpp;
+
+    // -- Prepare all the norms with the newly received vectory y
+    maxllr.set_size(nb);
+    llrapr=reverse(llr_apr); /* The bits are reversed due to the
+											 norm-updating functions having the rightmost bit
+											 as the least signifacant*/
+    vec ytil=2.0*H.T()*y;
+    vec startsymbvec(nt);
+    for(int ci=0; ci<nt; ci++) startsymbvec[ci]=symbols(ci)[0];
+    double yx=ytil*startsymbvec;
+    QLLR lapr=0;
+    for(int bi=0; bi<nb; lapr-=llrcalc.jaclog(0,-llrapr[bi++]));
+    for(int ci=0; ci<nt; ci++)	for(int si=0; si<M[ci]-1; si++) {
+            double xspacing=symbols(ci)[bits2symbols(ci)[(si+1)^((si+1)>>1)]];
+            xspacing-=symbols(ci)[bits2symbols(ci)[si^(si>>1)]];
+            yspacings[ci][si]=ytil(ci)*xspacing;
+        }
+    unsigned bitstring = 0, ind=0;
+    yxnormupdate(yx,lapr,bitstring,ind,nb-1); // Recursive update of all the norms
+
+    // -- Demodulate the last 3 bits.
+    /* The demodulation is hardcoded to avoid initialization of many
+    	but tiny inner-loops. */
+    demodmaxbit0(maxllr[0]);
+    demodmaxbit1(maxllr[1]);
+    demodmaxbit2(maxllr[2]);
+
+    // -- Demodulate the remaining bits except the first one
+    QLLR logmax0, logmax1;
+    const QLLR *const addrfirst=Qnorms._data();
+    const QLLR *const addrsemilast=addrfirst+(1<<(nb-1)), *const addrlast=addrfirst+(1<<nb);
+    const QLLR *Qptr;
+    for (int bi = 3; bi < nb-1; bi++) { // Run the loops for bits nb-3,nb-4,...,2.
+        logmax0 = -QLLR_MAX;
+        logmax1 = -QLLR_MAX;
+        const int forhalfdiff=1<<bi, fordiff=2*forhalfdiff, fordbldiff=2*fordiff;
+        Qptr=addrfirst;
+        const QLLR *const addr1=addrfirst+forhalfdiff, *const addr2=addr1+fordiff, *const addr3=addrlast-fordiff;
+        for(; Qptr<addr1; Qptr++) logmax0=*Qptr>logmax0?*Qptr:logmax0;
+        for(; Qptr<addr2; Qptr++) logmax1=*Qptr>logmax1?*Qptr:logmax1;
+        const QLLR *addrdyn0, *addrdyn1;
+        while(Qptr<addr3) {
+            addrdyn0=Qptr+fordiff;
+            addrdyn1=Qptr+fordbldiff;
+            for(; Qptr<addrdyn0; Qptr++) logmax0=*Qptr>logmax0?*Qptr:logmax0;
+            for(; Qptr<addrdyn1; Qptr++) logmax1=*Qptr>logmax1?*Qptr:logmax1;
+        }
+        for(; Qptr<addrlast; Qptr++) logmax0=*Qptr>logmax0?*Qptr:logmax0;
+        maxllr[bi] = logmax0 - logmax1;
+    }
+
+    // -- Demodulate the first bit
+    logmax0 = -QLLR_MAX;
+    logmax1 = -QLLR_MAX;
+    Qptr=addrfirst;
+    for(; Qptr<addrsemilast; Qptr++) logmax0=*Qptr>logmax0?*Qptr:logmax0;
+    for(; Qptr<addrlast; Qptr++) logmax1=*Qptr>logmax1?*Qptr:logmax1;
+    maxllr[nb-1] = logmax0 - logmax1;
+    maxllr=reverse(maxllr);
+}
+
+void Modulator_NRD::demodmaxbit0(itpp::QLLR& maxllr) const {
+    using namespace itpp;
+    QLLR logmax0 = -QLLR_MAX, logmax1 = -QLLR_MAX;
+    const QLLR *const addrfirst=Qnorms._data(), *const addr3=addrfirst+(1<<nb)-1;
+    const QLLR *Qptr=addrfirst;
+    logmax0=*Qptr>logmax0?*Qptr:logmax0;
+    Qptr++;
+    logmax1=*Qptr>logmax1?*Qptr:logmax1;
+    Qptr++;
+    logmax1=*Qptr>logmax1?*Qptr:logmax1;
+    Qptr++;
+    while(Qptr < addr3) {
+        logmax0=*Qptr>logmax0?*Qptr:logmax0;
+        Qptr++;
+        logmax0=*Qptr>logmax0?*Qptr:logmax0;
+        Qptr++;
+        logmax1=*Qptr>logmax1?*Qptr:logmax1;
+        Qptr++;
+        logmax1=*Qptr>logmax1?*Qptr:logmax1;
+        Qptr++;
+    }
+    logmax0=*Qptr>logmax0?*Qptr:logmax0;
+    maxllr = logmax0 - logmax1;
+}
+
+void Modulator_NRD::demodmaxbit1(itpp::QLLR& maxllr) const {
+    using namespace itpp;
+    QLLR logmax0 = -QLLR_MAX, logmax1 = -QLLR_MAX;
+    const QLLR *const addrfirst=Qnorms._data(), *const addr3=addrfirst+(1<<nb)-2;
+    const QLLR *Qptr=addrfirst;
+    logmax0=*Qptr>logmax0?*Qptr:logmax0;
+    Qptr++;
+    logmax0=*Qptr>logmax0?*Qptr:logmax0;
+    Qptr++;
+    logmax1=*Qptr>logmax1?*Qptr:logmax1;
+    Qptr++;
+    logmax1=*Qptr>logmax1?*Qptr:logmax1;
+    Qptr++;
+    logmax1=*Qptr>logmax1?*Qptr:logmax1;
+    Qptr++;
+    logmax1=*Qptr>logmax1?*Qptr:logmax1;
+    Qptr++;
+    while(Qptr < addr3) {
+        logmax0=*Qptr>logmax0?*Qptr:logmax0;
+        Qptr++;
+        logmax0=*Qptr>logmax0?*Qptr:logmax0;
+        Qptr++;
+        logmax0=*Qptr>logmax0?*Qptr:logmax0;
+        Qptr++;
+        logmax0=*Qptr>logmax0?*Qptr:logmax0;
+        Qptr++;
+        logmax1=*Qptr>logmax1?*Qptr:logmax1;
+        Qptr++;
+        logmax1=*Qptr>logmax1?*Qptr:logmax1;
+        Qptr++;
+        logmax1=*Qptr>logmax1?*Qptr:logmax1;
+        Qptr++;
+        logmax1=*Qptr>logmax1?*Qptr:logmax1;
+        Qptr++;
+    }
+    logmax0=*Qptr>logmax0?*Qptr:logmax0;
+    Qptr++;
+    logmax0=*Qptr>logmax0?*Qptr:logmax0;
+    maxllr = logmax0 - logmax1;
+}
+
+void Modulator_NRD::demodmaxbit2(itpp::QLLR& maxllr) const {
+    using namespace itpp;
+    QLLR logmax0 = -QLLR_MAX, logmax1 = -QLLR_MAX;
+    const QLLR *const addrfirst=Qnorms._data(), *const addr3=addrfirst+(1<<nb)-4;
+    const QLLR *Qptr=addrfirst;
+    logmax0=*Qptr>logmax0?*Qptr:logmax0;
+    Qptr++;
+    logmax0=*Qptr>logmax0?*Qptr:logmax0;
+    Qptr++;
+    logmax0=*Qptr>logmax0?*Qptr:logmax0;
+    Qptr++;
+    logmax0=*Qptr>logmax0?*Qptr:logmax0;
+    Qptr++;
+    logmax1=*Qptr>logmax1?*Qptr:logmax1;
+    Qptr++;
+    logmax1=*Qptr>logmax1?*Qptr:logmax1;
+    Qptr++;
+    logmax1=*Qptr>logmax1?*Qptr:logmax1;
+    Qptr++;
+    logmax1=*Qptr>logmax1?*Qptr:logmax1;
+    Qptr++;
+    logmax1=*Qptr>logmax1?*Qptr:logmax1;
+    Qptr++;
+    logmax1=*Qptr>logmax1?*Qptr:logmax1;
+    Qptr++;
+    logmax1=*Qptr>logmax1?*Qptr:logmax1;
+    Qptr++;
+    logmax1=*Qptr>logmax1?*Qptr:logmax1;
+    Qptr++;
+    while(Qptr < addr3) {
+        logmax0=*Qptr>logmax0?*Qptr:logmax0;
+        Qptr++;
+        logmax0=*Qptr>logmax0?*Qptr:logmax0;
+        Qptr++;
+        logmax0=*Qptr>logmax0?*Qptr:logmax0;
+        Qptr++;
+        logmax0=*Qptr>logmax0?*Qptr:logmax0;
+        Qptr++;
+        logmax0=*Qptr>logmax0?*Qptr:logmax0;
+        Qptr++;
+        logmax0=*Qptr>logmax0?*Qptr:logmax0;
+        Qptr++;
+        logmax0=*Qptr>logmax0?*Qptr:logmax0;
+        Qptr++;
+        logmax0=*Qptr>logmax0?*Qptr:logmax0;
+        Qptr++;
+        logmax1=*Qptr>logmax1?*Qptr:logmax1;
+        Qptr++;
+        logmax1=*Qptr>logmax1?*Qptr:logmax1;
+        Qptr++;
+        logmax1=*Qptr>logmax1?*Qptr:logmax1;
+        Qptr++;
+        logmax1=*Qptr>logmax1?*Qptr:logmax1;
+        Qptr++;
+        logmax1=*Qptr>logmax1?*Qptr:logmax1;
+        Qptr++;
+        logmax1=*Qptr>logmax1?*Qptr:logmax1;
+        Qptr++;
+        logmax1=*Qptr>logmax1?*Qptr:logmax1;
+        Qptr++;
+        logmax1=*Qptr>logmax1?*Qptr:logmax1;
+        Qptr++;
+    }
+    logmax0=*Qptr>logmax0?*Qptr:logmax0;
+    Qptr++;
+    logmax0=*Qptr>logmax0?*Qptr:logmax0;
+    Qptr++;
+    logmax0=*Qptr>logmax0?*Qptr:logmax0;
+    Qptr++;
+    logmax0=*Qptr>logmax0?*Qptr:logmax0;
+    maxllr = logmax0 - logmax1;
+}
+
+
+void Modulator_NRD::hxnormupdate(itpp::vec& Hx, unsigned& bitstring, unsigned& ind, unsigned bit) {
+    using namespace itpp;
+    const unsigned col=bpos2cpos[bit];
+    if(bit<1) {
+        hnorms[ind++]=Hx*Hx;
+        vec hx=H*modulate_bits(dec2bin(nb,(int)bitstring));
+        unsigned oldi=gray2dec[col][bitstring&(M[col]-1)];
+        bitstring^=1;
+        unsigned newi=gray2dec[col][bitstring&(M[col]-1)];
+        Hx+=oldi>newi?-hspacings[col][newi]:hspacings[col][oldi];
+        hnorms[ind++]=Hx*Hx;
+        hx=H*modulate_bits(dec2bin(nb,(int)bitstring));
+        return;
+    }
+    hxnormupdate(Hx, bitstring, ind, bit-1);
+    unsigned oldi=gray2dec[col][(bitstring>>bitcumsum[col])&(M[col]-1)];
+    bitstring^=1<<bit;
+    unsigned newi=gray2dec[col][(bitstring>>bitcumsum[col])&(M[col]-1)];
+    Hx+=oldi>newi?-hspacings[col][newi]:hspacings[col][oldi];
+    hxnormupdate(Hx, bitstring, ind, bit-1);
+}
+
+void Modulator_NRD::yxnormupdate(double& yx, itpp::QLLR& lapr, unsigned& bitstring, unsigned& ind, unsigned bit) {
+    using namespace itpp;
+    const unsigned col=bpos2cpos[bit];
+    if(bit<1) {
+        Qnorms[ind]=llrcalc.to_qllr((yx-hnorms[ind])/N0)+lapr;
+        ind++;
+        unsigned oldi=gray2dec[col][bitstring&(M[col]-1)];
+        bitstring^=1;
+        unsigned newi=gray2dec[col][bitstring&(M[col]-1)];
+        yx+=oldi>newi?-yspacings[col][newi]:yspacings[col][oldi];
+        lapr+=(bitstring&1)?-llrapr[bit]:llrapr[bit];
+        Qnorms[ind]=llrcalc.to_qllr((yx-hnorms[ind])/N0)+lapr;
+        ind++;
+        return;
+    }
+    yxnormupdate(yx, lapr, bitstring, ind, bit-1);
+    unsigned oldi=gray2dec[col][(bitstring>>bitcumsum[col])&(M[col]-1)];
+    bitstring^=1<<bit;
+    unsigned newi=gray2dec[col][(bitstring>>bitcumsum[col])&(M[col]-1)];
+    yx+=oldi>newi?-yspacings[col][newi]:yspacings[col][oldi];
+    lapr+=((bitstring>>bit)&1)?-llrapr[bit]:llrapr[bit];
+    yxnormupdate(yx, lapr, bitstring, ind, bit-1);
+}
 
 QLLRvec Modulator_ND::probabilities(QLLR l)
 {
@@ -574,9 +1017,9 @@ std::ostream &operator<<(std::ostream &os, const Modulator_NCD &mod)
     os << "Symbols per dimension (M):" << mod.M << std::endl;
     for (int i = 0; i < mod.nt; i++) {
         os << "Bitmap for dimension " << i << ": "
-        << mod.bitmap(i) << std::endl;
+           << mod.bitmap(i) << std::endl;
         os << "Symbol coordinates for dimension " << i << ": "
-        << mod.symbols(i).left(mod.M(i)) << std::endl;
+           << mod.symbols(i).left(mod.M(i)) << std::endl;
     }
     os << mod.get_llrcalc() << std::endl;
     return os;
