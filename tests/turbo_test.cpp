@@ -338,15 +338,21 @@ int main()
     if(5114 >= block_lengths[i]) {  //use allowed lengths
       interleaver = wcdma_turbo_interleaver_sequence(block_lengths[i]);
       sort(interleaver);
-      if((0 != interleaver[0]) || ((block_lengths[i] - 1) != interleaver[block_lengths[i] - 1])) {
-        cout << "WCDMA: wrong value for intl length " << block_lengths[i] << endl;
+      for(int j = 0; j < block_lengths[i]; ++j) {
+        if(j != interleaver[j]) {
+          cout << "WCDMA: wrong value for intl length " << block_lengths[i] << endl;
+	  break;
+        }
       }
     }
 
     interleaver = lte_turbo_interleaver_sequence(block_lengths[i]);
     sort(interleaver);
-    if((0 != interleaver[0]) || ((block_lengths[i] - 1) != interleaver[block_lengths[i] - 1])) {
-      cout << "LTE: wrong value for intl length " << block_lengths[i] << endl;
+    for(int j = 0; j < block_lengths[i]; ++j) {
+      if(j != interleaver[j]) {
+        cout << "LTE: wrong value for intl length " << block_lengths[i] << endl;
+	break;
+      }
     }
   }
 

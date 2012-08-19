@@ -1156,14 +1156,13 @@ ivec lte_turbo_interleaver_sequence(int interleaver_size)
 
   // Definitions of key parameters:
   int K = interleaver_size; // Interleaver size
-  long f1_factor = f1_factors(index);
-  long f2_factor = f2_factors(index);
+  int f1_factor = f1_factors(index);
+  int f2_factor = f2_factors(index);
   ivec I(K); //The interleaver sequence
 
   // Calculate the interleaver sequence:
   for(int i = 0; i < K; i++) {
-    long ind = i;
-    I(i) = static_cast<int>((ind * f1_factor + ind * ind * f2_factor) % K);
+    I(i) = static_cast<int>((static_cast<int64_t>(i) * f1_factor + static_cast<int64_t>(i) * i * f2_factor) % K);
   }
 
   return I;

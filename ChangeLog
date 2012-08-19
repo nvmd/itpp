@@ -1,4 +1,5 @@
-2012-08-16  Stephan Ludwig <donludovico@users.sourceforge.net>
+2012-08-19  Stephan Ludwig <donludovico@users.sourceforge.net>
+
 	* itpp/comm/turbo.cpp, itpp/comm/turbo.h, tests/turbo_test.cpp, 
 	  tests/turbo_test.ref: fixed an integer overflow error in LTE
 	  interleaver, since the product of index i*i gets larger than 
