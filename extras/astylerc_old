@@ -3,9 +3,13 @@
 # formatting and beautifying IT++ header and source files. The Artistic
 # Style (astyle) program can be downloaded from the following site:
 #   http://astyle.sourceforge.net/
+#
+# Please note that this file is compatible with older version of astyle,
+# i.e. 1.x series (e.g. 1.24)
+#
 # To filter a source or header file using this option please use the
 # following command:
-#   $ astyle --options=<IT++_source_directory>/extras/astylerc file.cpp
+#   $ astyle --options=<IT++_source_directory>/extras/astylerc_old file.cpp
 #
 # Similar indentation style can be obtained in GNU emacs editor by
 # adding these settings to the default .emacs configuration file:
@@ -25,9 +29,9 @@
 # ----------------------------------------------------------------------
 indent=spaces=2
 brackets=linux
-break-closing-brackets
+brackets=break-closing
 indent-labels
-pad-oper
-unpad-paren
-keep-one-line-blocks
+pad=oper
+unpad=paren
+one-line=keep-blocks
 convert-tabs

@@ -749,7 +749,7 @@ void Punctured_Turbo_Codec::decode(const vec &received_signal, bvec &decoded_bit
   vec temp(no_blocks * Ncoded);
 
   it_assert(Period != 0, "Punctured_Turbo_Codec: puncture matrix is not set");
-  it_assert(no_blocks*pNcoded == received_signal.size(), "Punctured_Turbo_Codec: received vector is not an integer multiple of encoded block");
+  it_assert(no_blocks * pNcoded == received_signal.size(), "Punctured_Turbo_Codec: received vector is not an integer multiple of encoded block");
   for(i = 0; i < no_blocks; i++)  {
     p = 0;
     // data
