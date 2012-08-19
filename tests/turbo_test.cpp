@@ -341,7 +341,7 @@ int main()
       for(int j = 0; j < block_lengths[i]; ++j) {
         if(j != interleaver[j]) {
           cout << "WCDMA: wrong value for intl length " << block_lengths[i] << endl;
-	  break;
+          break;
         }
       }
     }
@@ -351,7 +351,7 @@ int main()
     for(int j = 0; j < block_lengths[i]; ++j) {
       if(j != interleaver[j]) {
         cout << "LTE: wrong value for intl length " << block_lengths[i] << endl;
-	break;
+        break;
       }
     }
   }
