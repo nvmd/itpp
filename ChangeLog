@@ -1,3 +1,10 @@
+2012-08-19  Bogdan Cristea <cristeab@users.sourceforge.net>
+
+	* tests/modulator_nd_test.ref, tests/modulator_nd_test.cpp,
+	itpp/comm/modulator_nd.cpp, itpp/comm/modulator_nd.h: add faster LLR
+	demod. Thanks to Mirsad Čirkić for providing the patch. Some issues
+	related to unit tests need to be solved.
+
 2012-08-19  Stephan Ludwig <donludovico@users.sourceforge.net>
 
 	* itpp/comm/turbo.cpp, itpp/comm/turbo.h, tests/turbo_test.cpp, 
