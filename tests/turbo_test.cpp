@@ -50,6 +50,14 @@ int main()
                        adaptive_stop);
   int num_blocks = 50;
 
+  bmat puncture_matrix = "1 1;1 1;1 1";
+  Punctured_Turbo_Codec pturbo_ref;
+
+  pturbo_ref.set_parameters(gen, gen, constraint_length, interleaver_sequence,
+                            puncture_matrix, iterations, metric, logmax_scale_factor,
+                            adaptive_stop);
+
+
   vec EbN0db = "0.0 0.5 1.0 1.5 2.0";
   double A = 1.0;
   double Ts = 1.0;
@@ -63,6 +71,7 @@ int main()
 
   vec symbols, received;
   bvec input, coded_bits, decoded_bits, transmitted;
+  bvec decoded_bits_p;
 
   Normal_RNG noise_src;
   RNG_reset(12345);
@@ -88,15 +97,16 @@ int main()
   mat avg_nrof_iterations = zeros(4, EbN0db.length());
   LLR_calc_unit lowresllrcalc(10, 7, 9);  // table with low resolution
   Array<Real_Timer> timer(4);
-  for (int i = 0; i < 4; i++) {
+  for(int i = 0; i < 4; i++) {
     timer(i).reset();
   }
 
-  for (int i = 0; i < EbN0db.length(); i++) {
+  for(int i = 0; i < EbN0db.length(); i++) {
     cout << "Now simulating EbN0db = " << EbN0db(i) << endl;
 
     noise_src.setup(0.0, sigma2(i));
     turbo.set_awgn_channel_parameters(Ec, N0(i));
+    pturbo_ref.set_awgn_channel_parameters(Ec, N0(i));
     input = randb(block_length * num_blocks);
 
     turbo.encode(input, transmitted);
@@ -108,6 +118,12 @@ int main()
     timer(0).start();
     turbo.decode(received, decoded_bits, nrof_used_iterations);
     timer(0).stop();
+    pturbo_ref.set_metric("LOGMAX", 1.0);
+    pturbo_ref.decode(received, decoded_bits_p, nrof_used_iterations);
+    if(decoded_bits != decoded_bits_p) {
+      cout << "(Un-)Punctured_Turbo_Codec does not output the same decoded bits as turbo code: LOGMAX" << endl;
+    }
+
     berc.clear();
     berc.count(input, decoded_bits);
     err(0, i) = berc.get_errors();
@@ -120,6 +136,12 @@ int main()
     timer(1).start();
     turbo.decode(received, decoded_bits, nrof_used_iterations);
     timer(1).stop();
+    pturbo_ref.set_metric("LOGMAP", 1.0);
+    pturbo_ref.decode(received, decoded_bits_p, nrof_used_iterations);
+    if(decoded_bits != decoded_bits_p) {
+      cout << "(Un-)Punctured_Turbo_Codec does not output the same decoded bits as turbo code: LOGMAP" << endl;
+    }
+
     berc.clear();
     berc.count(input, decoded_bits);
     err(1, i) = berc.get_errors();
@@ -132,6 +154,12 @@ int main()
     timer(2).start();
     turbo.decode(received, decoded_bits, nrof_used_iterations);
     timer(2).stop();
+    pturbo_ref.set_metric("TABLE", 1.0);
+    pturbo_ref.decode(received, decoded_bits_p, nrof_used_iterations);
+    if(decoded_bits != decoded_bits_p) {
+      cout << "(Un-)Punctured_Turbo_Codec does not output the same decoded bits as turbo code: TABLE" << endl;
+    }
+
     berc.clear();
     berc.count(input, decoded_bits);
     err(2, i) = berc.get_errors();
@@ -144,6 +172,12 @@ int main()
     timer(3).start();
     turbo.decode(received, decoded_bits, nrof_used_iterations);
     timer(3).stop();
+    pturbo_ref.set_metric("TABLE", 1.0, lowresllrcalc);
+    pturbo_ref.decode(received, decoded_bits_p, nrof_used_iterations);
+    if(decoded_bits != decoded_bits_p) {
+      cout << "(Un-)Punctured_Turbo_Codec does not output the same decoded bits as turbo code: TABLE low_res LLR calc" << endl;
+    }
+
     berc.clear();
     berc.count(input, decoded_bits);
     err(3, i) = berc.get_errors();
@@ -168,7 +202,7 @@ int main()
    * ######################################
    */
 
-  bmat puncture_matrix = "1 1;1 0;0 1";
+  puncture_matrix = "1 1;1 0;0 1";
   Punctured_Turbo_Codec pturbo;
 
   pturbo.set_parameters(gen, gen, constraint_length, interleaver_sequence,
@@ -197,11 +231,11 @@ int main()
   ber.zeros();
   avg_nrof_iterations.zeros();
 
-  for (int i = 0; i < 4; i++) {
+  for(int i = 0; i < 4; i++) {
     timer(i).reset();
   }
 
-  for (int i = 0; i < EbN0db.length(); i++) {
+  for(int i = 0; i < EbN0db.length(); i++) {
     cout << "Now simulating EbN0db = " << EbN0db(i) << endl;
 
     noise_src.setup(0.0, sigma2(i));
@@ -300,18 +334,18 @@ int main()
                        "4992 5056 5120 5184 5248 5312 5376 5440 5504 5568 "
                        "5632 5696 5760 5824 5888 5952 6016 6080 6144";
 
-  for (int i = 0; i < block_lengths.length(); ++i) {
-    if (5114 >= block_lengths[i]) { //use allowed lengths 
+  for(int i = 0; i < block_lengths.length(); ++i) {
+    if(5114 >= block_lengths[i]) {  //use allowed lengths
       interleaver = wcdma_turbo_interleaver_sequence(block_lengths[i]);
       sort(interleaver);
-      if ((0 != interleaver[0]) || ((block_lengths[i] - 1) != interleaver[block_lengths[i] - 1])) {
+      if((0 != interleaver[0]) || ((block_lengths[i] - 1) != interleaver[block_lengths[i] - 1])) {
         cout << "WCDMA: wrong value for intl length " << block_lengths[i] << endl;
       }
     }
 
     interleaver = lte_turbo_interleaver_sequence(block_lengths[i]);
     sort(interleaver);
-    if ((0 != interleaver[0]) || ((block_lengths[i] - 1) != interleaver[block_lengths[i] - 1])) {
+    if((0 != interleaver[0]) || ((block_lengths[i] - 1) != interleaver[block_lengths[i] - 1])) {
       cout << "LTE: wrong value for intl length " << block_lengths[i] << endl;
     }
   }
