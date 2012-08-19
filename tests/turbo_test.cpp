@@ -163,20 +163,17 @@ int main()
   cout << "Number of correct bits counted: " << endl;
   cout << "cor = " << cor << endl;
 
-  cout << "=============================================" << endl;
-  cout << endl << "LTE interleaver sequence = " << lte_turbo_interleaver_sequence(6144) << endl;
-
-/* ######################################
- * # now test for punctured turbo codec #
- * ######################################
- */
+  /* ######################################
+   * # now test for punctured turbo codec #
+   * ######################################
+   */
 
   bmat puncture_matrix = "1 1;1 0;0 1";
   Punctured_Turbo_Codec pturbo;
 
   pturbo.set_parameters(gen, gen, constraint_length, interleaver_sequence,
-                       puncture_matrix, iterations, metric, logmax_scale_factor,
-                       adaptive_stop);
+                        puncture_matrix, iterations, metric, logmax_scale_factor,
+                        adaptive_stop);
   r = pturbo.get_rate();
   Eb = Ec / r;
   N0 = Eb * pow(EbN0, -1.0);
@@ -274,7 +271,7 @@ int main()
   cout << "err = " << err << endl;
   cout << "Number of correct bits counted: " << endl;
   cout << "cor = " << cor << endl;
-  
+
   /*
   // The test program cannot print this out, but on my system
   // the QLLR based decoder is about 8 times faster than logmap. -EGL
@@ -282,6 +279,42 @@ int main()
   for (int i=0; i<4; i++) { cout << timer(i).get_time() << "  "; }
   cout << endl;
   */
+
+  //test interleavers
+  cout << "\n=============================================" << endl;
+  cout << "    Starting Simulation for Interleavers     " << endl;
+  cout << "=============================================" << endl;
+  ivec interleaver;
+  ivec block_lengths = "40 48 56 64 72 80 88 96 104 112 120 128 136 144 152 "
+                       "160 168 176 184 192 200 208 216 224 232 240 248 256 264 272 280 288 296 "
+                       "304 312 320 328 336 344 352 360 368 376 384 392 400 "
+                       "408 416 424 432 440 448 456 464 472 480 488 496 504 512 528 544 560 576 "
+                       "592 608 624 640 656 672 688 704 720 736 752 768 784 "
+                       "800 816 832 848 864 880 896 912 928 944 960 976 992 1008 1024 1056 1088 "
+                       "1120 1152 1184 1216 1248 1280 1312 1344 1376 1408 "
+                       "1440 1472 1504 1536 1568 1600 1632 1664 1696 1728 1760 1792 1824 1856 1888 "
+                       "1920 1952 1984 2016 2048 2112 2176 2240 2304 2368 "
+                       "2432 2496 2560 2624 2688 2752 2816 2880 2944 3008 3072 3136 3200 3264 3328 "
+                       "3392 3456 3520 3584 3648 3712 3776 3840 3904 3968 "
+                       "4032 4096 4160 4224 4288 4352 4416 4480 4544 4608 4672 4736 4800 4864 4928 "
+                       "4992 5056 5120 5184 5248 5312 5376 5440 5504 5568 "
+                       "5632 5696 5760 5824 5888 5952 6016 6080 6144";
+
+  for (int i = 0; i < block_lengths.length(); ++i) {
+    if (5114 >= block_lengths[i]) { //use allowed lengths 
+      interleaver = wcdma_turbo_interleaver_sequence(block_lengths[i]);
+      sort(interleaver);
+      if ((0 != interleaver[0]) || ((block_lengths[i] - 1) != interleaver[block_lengths[i] - 1])) {
+        cout << "WCDMA: wrong value for intl length " << block_lengths[i] << endl;
+      }
+    }
+
+    interleaver = lte_turbo_interleaver_sequence(block_lengths[i]);
+    sort(interleaver);
+    if ((0 != interleaver[0]) || ((block_lengths[i] - 1) != interleaver[block_lengths[i] - 1])) {
+      cout << "LTE: wrong value for intl length " << block_lengths[i] << endl;
+    }
+  }
 
   return 0;
 }
