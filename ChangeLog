@@ -1,3 +1,12 @@
+2012-08-16  Stephan Ludwig <donludovico@users.sourceforge.net>
+	* itpp/comm/turbo.cpp, itpp/comm/turbo.h, tests/turbo_test.cpp, 
+	  tests/turbo_test.ref: fixed an integer overflow error in LTE
+	  interleaver, since the product of index i*i gets larger than 
+	  range(int).
+	  added an unit tests case that cross-checks the punctured turbo 
+	  decode results with all-one puncture matrix (no puncturing) with 
+	  the turbo_codec.
+
 2012-08-19  Bogdan Cristea <cristeab@users.sourceforge.net>
 
 	* tests/turbo_test.cpp: add unit tests for WCDMA and LTE interleavers
