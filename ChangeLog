@@ -1,3 +1,7 @@
+2012-08-30  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* README: fixed minor typos (#3538128). Thanks to Kumar Appaiah
+	for providing the patch.
+
 2012-08-19  Bogdan Cristea <cristeab@users.sourceforge.net>
 
 	* tests/modulator_nd_test.ref, tests/modulator_nd_test.cpp,
