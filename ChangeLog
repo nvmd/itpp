@@ -1,3 +1,11 @@
+2012-09-12  Mirsad Čirkić <mirsadcirkic@users.sourceforge.net>
+
+	* itpp/comm/modulator_nd.h, itpp/comm/modulator_nd.cpp, 
+	* tests/modulator_nd_test.ref, tests/modulator_nd_test.cpp: Fixed
+	the failing modulator_nd test. So far, tha implementation is
+	complete for the NRD demodulator only. Some minor modifications
+	are still needed for the NCD demodulator.
+
 2012-08-30  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* README: fixed minor typos (#3538128). Thanks to Kumar Appaiah
 	for providing the patch.
