@@ -28,6 +28,7 @@
 
 #include <itpp/base/bessel.h>
 #include <itpp/base/bessel/bessel_internal.h>
+#include <itpp/base/itcompat.h>
 
 #ifndef _MSC_VER
 #  include <itpp/config.h>

@@ -1,8 +1,24 @@
+2012-09-12  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* cmake/Modules/FindFFT.cmake, cmake/Modules/FindBLAS.cmake, 
+	cmake/Modules/CheckFunctionExists.cpp,
+	cmake/Modules/CheckCXXFunctionExists.cmake, cmake/Modules/FindLAPACK.cmake,
+	tests/CMakeLists.txt, doc/doxygen_html.cfg.cmake.in, doc/local/index.doc.in,
+	doc/local/installation.doc, extras/check_tests.py, gtests/bch_test.cpp,
+	gtests/CMakeLists.txt, gtests/array_test.cpp, itpp/protocol/tcp.cpp,
+	itpp/base/binfile.h, itpp/base/vec.cpp, itpp/base/bessel.cpp,
+	itpp/base/bessel/struve.cpp, itpp/config.h.cmake, itpp/CMakeLists.txt,
+	CMakeLists.txt: add generic build system based on cmake, add unit test
+	support using Google framework, corrected compilation errors/warnings when
+	using Visual Studio 2012. Known issues: unit tests are not completely ported
+	to gtest, MKL library detection does not work on Windows with cmake.
+	Old build system and the associated unit tests are still in
+	place, but they will be no longer maintained.
+
 2012-09-12  Mirsad Čirkić <mirsadcirkic@users.sourceforge.net>
 
 	* itpp/comm/modulator_nd.h, itpp/comm/modulator_nd.cpp, 
-	* tests/modulator_nd_test.ref, tests/modulator_nd_test.cpp: Fixed
-	the failing modulator_nd test. So far, tha implementation is
+	tests/modulator_nd_test.ref, tests/modulator_nd_test.cpp: Fixed
+	the failing modulator_nd test. So far, this implementation is
 	complete for the NRD demodulator only. Some minor modifications
 	are still needed for the NCD demodulator.
 

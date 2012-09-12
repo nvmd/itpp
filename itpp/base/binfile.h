@@ -32,6 +32,9 @@
 #include <itpp/base/ittypes.h>
 #include <fstream>
 
+#ifdef _MSC_VER
+#pragma warning( disable : 4250 )
+#endif
 
 namespace itpp
 {

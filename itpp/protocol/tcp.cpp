@@ -447,8 +447,15 @@ void TCP_Sender::setup()
 std::string TCP_Sender::GenerateFilename()
 {
   time_t rawtime;
+#ifndef _MSC_VER
   struct tm *timeinfo;
   timeinfo = localtime(&rawtime);
+#else
+  time(&rawtime);
+  struct tm _timeinfo;
+  struct tm *timeinfo = &_timeinfo;
+  localtime_s(timeinfo, &rawtime);
+#endif
   std::ostringstream filename_stream;
   filename_stream << "trace_tcp_sender_u" << fLabel
   << "_" << 1900 + timeinfo->tm_year
@@ -1557,8 +1564,15 @@ void TCP_Receiver::setup()
 std::string TCP_Receiver::GenerateFilename()
 {
   time_t rawtime;
+#ifndef _MSC_VER
   struct tm *timeinfo;
   timeinfo = localtime(&rawtime);
+#else
+  time(&rawtime);
+  struct tm _timeinfo;
+  struct tm *timeinfo = &_timeinfo;
+  localtime_s(timeinfo, &rawtime);
+#endif
   std::ostringstream filename_stream;
   filename_stream << "trace_tcp_receiver_u" << fLabel
   << "_" << 1900 + timeinfo->tm_year

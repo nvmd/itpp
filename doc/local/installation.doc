@@ -4,16 +4,18 @@
 \section toc Table of Contents
 - \ref requirements
 - \ref download
-- \ref inst_instructions
-  - \ref modularization
-  - \ref external_libs
-  - \ref optimisation
-  - \ref config_status
-  - \ref compile_step
-  - \ref test_step
-  - \ref install_step
-- \ref localinst
-- \ref msvc
+- \ref inst_instr_cmake
+- \ref obsolete
+  - \ref inst_instructions
+    - \ref modularization
+    - \ref external_libs
+    - \ref optimisation
+    - \ref config_status
+    - \ref compile_step
+    - \ref test_step
+    - \ref install_step
+  - \ref localinst
+  - \ref msvc
 
 
 \section requirements IT++ Requirements
@@ -99,9 +101,6 @@ and download the file named \c itpp-\<VERSION\>.tar.gz or
 \c itpp-\<VERSION\>.tar.bz2, where \c \<VERSION\> is the latest release
 number, e.g. 4.0.0.
 
-
-\section inst_instructions General IT++ Configuration and Installation Instructions
-
 Assuming that you have already downloaded the latest IT++ sources, untar
 and unpack the sources, and enter the unpacked directory. Depending on the
 package type you have downloaded, use the following commands:
@@ -115,6 +114,84 @@ package type you have downloaded, use the following commands:
 % bzip2 -cd itpp-<VERSION>.tar.bz2 | tar xf -
 % cd itpp-<VERSION>
 \endverbatim
+
+\section inst_instr_cmake Configuration and Installation with cmake
+
+Since version 4.3.0, the IT++ library uses <a href=http://www.cmake.org/>cmake</a> 
+as build system for generating Unix Makefiles, VisualStudio project files or 
+XCode project files.
+
+For example, in order to compile and install on Unix-based systems, one can use (from the
+sources folder):
+\verbatim
+% mkdir build
+% cd build
+% cmake ..
+% make
+% make install
+\endverbatim
+
+By default, IT++ library is compiled as shared library in release mode, 
+the HTML documentation is generated (if Doxygen is detected) and no unit tests are compiled.
+
+The \c `cmake' command can be invoked with additional switches:
+- \c `-DCMAKE_BUILD_TYPE=type', where type can be either `Release' (default),
+`Debug' (shared debug version of IT++ library is generated) or `Static' (static release version 
+of IT++ library is generated)
+- \c `-DBLA_VENDOR=vendor', where vendor can be `ACML', `Intel', `Intel10_32', 
+`Intel10_64lp' or `ATLAS'. This is helpful in locating ACML or MKL libraries. If these 
+libraries are installed in nonstandard locations, on Linux, set \c `LD_LIBRARY_PATH' environment 
+variable to the location where the libraries are installed. For Windows
+use `LIB' variable, while Mac OS X users should use `DYLD_LIBRARY_PATH'.
+- \c `-DGTEST_DIR=/path/to/gtest/sources' is used to specify the path to
+Google unit test framework (gtest) sources. Thus the unit tests are compiled and can be
+run separately to check IT++ library.
+- \c `-DWITH_TESTS=true' is used to activate the compilation of older unit tests
+(no unit test framework required). These tests are no longer maintained, so it
+is recommended to use the tests based on gtest. In order to run these tests use `check_tests.py'
+script found in extras folder (Python is required).
+- \c `-DNO_DOCS=true' allows to disable the generation of HTML documentation.
+
+Note: in order to run the unit test binaries, external libraries need to be in your system path. On Linux
+one can use ldconfig, while in Windows `PATH' variable should be set to the location of external library
+(ACML or MKL).
+
+For further details on the available switches see <a href=http://www.cmake.org/cmake/help/documentation.html>
+cmake documentation</a>.
+
+Library detection examples:
+- on Linux, 64 bits:
+  - in order to detect ACML library (installed in the default path 
+  `/opt/acmln.n.n/') use (from `build' folder):
+\verbatim
+  % cmake .. -DBLA_VENDOR=ACML
+\endverbatim
+  - in order detect MKL library the following commands can be used:
+\verbatim
+  % export LD_LIBRARY_PATH=/opt/intel/mkl/lib/intel64
+  % cmake .. -DBLA_VENDOR=Intel10_64lp
+\endverbatim
+  - in order to detect ATLAS library use
+\verbatim
+  % export LD_LIBRARY_PATH=/usr/lib64/atlas
+  % cmake .. -DBLA_VENDOR=ATLAS
+\endverbatim
+- on Windows, 32 bits:
+  - in order to detect ACML library (installed in the default path
+  `C:\\AMD\\acmln.n.n') the following variables must be set (from the GUI):
+\verbatim
+  BLA_VENDOR=ACML
+  CMAKE_Fortran_COMPILER_ID=Intel
+\endverbatim
+
+For further details see `cmake/Modules/FindBLAS.cmake' file.
+
+\section obsolete Obsolete Configuration and Installation Instructions
+
+The instructions found in this section are now considered obsolete and are kept only
+for backward compatibility. They might be removed in the future.
+
+\subsection inst_instructions Configuration and Installation Instructions with autoconf, automake and libtool
 
 Since version 3.9.0, the IT++ library uses autoconf, automake and libtool
 for preparing Makefiles and configuration script, so the compilation
@@ -147,7 +224,7 @@ Plese note that each \c `--enable-\<OPTION\>' switch can be replaced
 with its opposite switch \c `--disable-\<OPTION\>'.
 
 
-\subsection modularization Modularization
+\subsubsection modularization Modularization
 
 Since version 3.99.0, a modularization of the library has been introduced.
 Therefore, several additional switches have been added to the configure
@@ -160,8 +237,7 @@ components. Here is a list of them:
 - \c `--disable-signal' - do not build the `Signal processing' module
 - \c `--disable-srccode' - do not build the `Source coding' module
 
-
-\subsection external_libs External Libraries
+\subsubsection external_libs External Libraries
 
 By default, the \c `configure' script checks for a few external libraries,
 which might be used by the IT++ library (cf. \ref requirements).
@@ -245,7 +321,7 @@ some external libraries. To do this you should use \c
 \endverbatim
 
 
-\subsection optimisation Optimisation Flags
+\subsubsection optimisation Optimisation Flags
 
 It is recommended to set the CXXFLAGS environment variable with some
 compiler- and platform-specific optimisation flags, before invoking the \c
@@ -271,7 +347,7 @@ If CXXFLAGS is not set in the environment, it will be initialised with
 the default flags, i.e. <tt>"-DNDEBUG -O3 -pipe"</tt>.
 
 
-\subsection config_status Configuration Status
+\subsubsection config_status Configuration Status
 
 When the configuration process is finished, a status message is displayed.
 For instance, after having invoked the following configuration command
@@ -349,7 +425,7 @@ Now type 'make && make install' to build and install itpp-4.0.3 library
 \endverbatim
 
 
-\subsection compile_step Compilation
+\subsubsection compile_step Compilation
 
 Now, it is time for compiling and linking the IT++ library. To do so, please
 simply run the following command:
@@ -364,7 +440,7 @@ include information about your OS, compiler version, external libraries and
 their versions, etc.
 
 
-\subsection test_step Testing the Compiled Library
+\subsubsection test_step Testing the Compiled Library
 
 It is recommended that you check if your library has been compiled and linked
 properly and works as expected. To do so, you should execute the testing
@@ -398,7 +474,7 @@ Check if all the executed tests PASSED. If not, please report the problem on
 the IT++ Help forum.
 
 
-\subsection install_step Installation
+\subsubsection install_step Installation
 
 Finally, you should install the compiled and linked library, include files
 and HTML documentation (optionally) by typing:
@@ -425,7 +501,7 @@ to remove all files created during compilation process, or even
 to remove all files generated by the \c `configure' script.
 
 
-\section localinst How To Set Up a Local, Dual-config IT++ Installation without Being Root
+\subsection localinst How To Set Up a Local, Dual-config IT++ Installation without Being Root
 
 This section presents a walkthrough of how to easily set up an IT++
 environment without being root (all files are installed locally). The
@@ -551,7 +627,7 @@ guarantees that you start with a clean directory, in the event you would
 repeat the installation procedure.
 
 
-\section msvc IT++ Compilation and Installation using Microsoft Visual C++
+\subsection msvc IT++ Compilation and Installation using Microsoft Visual C++
 
 It is possible to compile and link the IT++ library using the
 <a href="http://msdn.microsoft.com/visualc/">Microsoft Visual C++ .NET</a>

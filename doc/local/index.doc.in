@@ -59,8 +59,9 @@ classes and functions. Its main use is in simulation of communication
 systems and for performing research in the area of communications. The
 kernel of the library consists of generic vector and matrix classes, and a
 set of accompanying routines. Such a kernel makes IT++ similar to
-<a href="http://www.mathworks.com/products/matlab/">MATLAB</a> or
-<a href="http://www.octave.org/">GNU Octave</a>.
+<a href="http://www.mathworks.com/products/matlab/">MATLAB</a>, 
+<a href="http://www.octave.org/">GNU Octave</a> or  
+<a href="http://www.scipy.org/">SciPy</a>.
 
 The IT++ library originates from the former department of Information
 Theory at the <a href="http://www.chalmers.se/en/">Chalmers University of
