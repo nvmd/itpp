@@ -25,7 +25,7 @@
 #
 # -------------------------------------------------------------------------
 
-file ( GLOB ITPP_TEST_SRCS #.cpp )
+file ( GLOB ITPP_TEST_SRCS *.cpp )
 
 include_directories ( ${GTEST_DIR} ${GTEST_DIR}/include )
 
