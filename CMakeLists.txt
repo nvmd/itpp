@@ -82,6 +82,12 @@ if (FFT_FOUND)
   endif()
 endif(FFT_FOUND)
 
+#check for OpenMP support
+find_package ( OpenMP )
+if (OPENMP_FOUND)
+  set (CMAKE_CXX_FLAGS "${OpenMP_CXX_FLAGS} ${CMAKE_CXX_FLAGS}")
+endif()
+
 #check for Doxygen and LaTeX
 find_package ( Doxygen )
 find_package ( LATEX )
@@ -180,7 +186,7 @@ if (WIN32)
 endif()
 if ((CMAKE_BUILD_TYPE STREQUAL Release) OR (NOT CMAKE_BUILD_TYPE))
   set (libitpp_target itpp)
-  set (CMAKE_CXX_FLAGS -DNDEBUG ${CMAKE_CXX_FLAGS})
+  set (CMAKE_CXX_FLAGS "-DNDEBUG ${CMAKE_CXX_FLAGS}")
 elseif (CMAKE_BUILD_TYPE STREQUAL Static)
   set (libitpp_target itpp_static)
 else()

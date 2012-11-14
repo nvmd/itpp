@@ -34,59 +34,253 @@
 namespace itpp
 {
 
-// ----------------------------------------------------------------------
-// Random_Generator (DSFMT_19937_RNG)
-// ----------------------------------------------------------------------
+namespace random_details
+{
 
+//Thread-local context for thread-safe RNGs
+static ActiveDSFMT::Context thread_local_context;
+#pragma omp threadprivate(thread_local_context)
+//Thread-local context initialization flag
+static bool is_thread_local_context_initialized = false;
+#pragma omp threadprivate(is_thread_local_context_initialized)
+
+ActiveDSFMT::Context& lc_get()
+{
+  return thread_local_context;
+}
+
+bool lc_is_initialized()
+{
+  return is_thread_local_context_initialized;
+}
+
+void lc_mark_initialized()
+{
+  is_thread_local_context_initialized = true;
+}
+
+/*!
+* \brief Get an unsigned int from time variables t and c.
+*
+* Better than uint(x) in case x is floating point in [0,1]
+* Based on code by Lawrence Kirby (fred@genesis.demon.co.uk)
+*/
+static unsigned int hash_time_to_seed(time_t t, clock_t c)
+{
+  static unsigned int differ = 0; // guarantee time-based seeds will change
+
+  unsigned int h1 = 0;
+  unsigned char *p = (unsigned char *) &t;
+  for(size_t i = 0; i < sizeof(t); ++i) {
+    h1 *= std::numeric_limits<unsigned char>::max() + 2U;
+    h1 += p[i];
+  }
+  unsigned int h2 = 0;
+  p = (unsigned char *) &c;
+  for(size_t j = 0; j < sizeof(c); ++j) {
+    h2 *= std::numeric_limits<unsigned char>::max() + 2U;
+    h2 += p[j];
+  }
+  return (h1 + differ++) ^ h2;
+}
+
+
+
+// ----------------------------------------------------------------------
+// ActiveDSFMT (DSFMT_19937_RNG)
+// ----------------------------------------------------------------------
 template <>
-bool Random_Generator::initialized = false;
-template <>
-bool Random_Generator::bigendian = is_bigendian();
-template <>
-Random_Generator::w128_t Random_Generator::status[N + 1] = { };
-template <>
-int Random_Generator::idx = 0;
-template <>
-unsigned int Random_Generator::last_seed = 0U;
+const bool ActiveDSFMT::bigendian = is_bigendian();
+
 #if defined(__SSE2__)
 template <>
-__m128i Random_Generator::sse2_param_mask = _mm_set_epi32(0, 0, 0, 0);
+const __m128i ActiveDSFMT::sse2_param_mask = _mm_set_epi32(ActiveDSFMT::MSK32_3, ActiveDSFMT::MSK32_4, ActiveDSFMT::MSK32_1, ActiveDSFMT::MSK32_2);
 #endif // __SSE2__
+}
+
+/*
+ *Global Seed Provider class definition.
+ *
+ * Provides unique seeds for thread-safe generators running in each thread.
+ */
+class GlobalSeedProvider
+{
+  static const unsigned int default_first_seed = 4257U;
+  typedef random_details::ActiveDSFMT DSFMT;
+public:
+  //constructor
+  GlobalSeedProvider(): _dsfmt(_c), _first_seed_given(false) {
+    _dsfmt.init_gen_rand(default_first_seed);
+  }
+  //set new seed
+  void set_seed(unsigned int s) {_dsfmt.init_gen_rand(s);}
+  //get preset seed
+  unsigned int get_seed() {return _c.last_seed;}
+  //reset provider state to previously set one
+  void reset() { if(_first_seed_given) _dsfmt.init_gen_rand(get_seed());}
+  //set previously saved state from ivec
+  void set_state(const ivec& st) {
+    int size = (DSFMT::N + 1) * 4;
+    it_assert(st.size() == size + 1, "GlobalSeedProvider::state(): "
+              "Invalid state initialization vector");
+    uint32_t *psfmt = &_c.status[0].u32[0];
+    for(int i = 0; i < size; ++i) {
+      psfmt[i] = static_cast<uint32_t>(st(i));
+    }
+    _c.idx = st(size);
+    _first_seed_given = true;
+  }
+  //get current provider state
+  ivec get_state() {
+    int size = (DSFMT::N + 1) * 4;
+    uint32_t *psfmt = &_c.status[0].u32[0];
+    ivec state(size + 1); // size + 1 to save idx variable in the same vec
+    for(int i = 0; i < size; ++i) {
+      state(i) = static_cast<int>(psfmt[i]);
+    }
+    state(size) = _c.idx;
+    return state;
+  }
+  //randomize current provider state with system time
+  void randomize() {_dsfmt.init_gen_rand(random_details::hash_time_to_seed(time(0), clock())); _first_seed_given = true;}
+  //generate new seed for random number generators
+  unsigned int generate() {
+    if(_first_seed_given)
+      return _dsfmt.genrand_uint32();
+    else {
+      //return default seed on first request.
+      //it is done in order not to breake the old-style itpp tests.
+      //Some tests rely on the default state equal to 4257U
+      _first_seed_given = true;
+      return default_first_seed;
+    }
+  }
+private:
+  //
+  DSFMT _dsfmt;
+  //
+  DSFMT::Context _c;
+  //
+  bool _first_seed_given;
+};
 
 
-// Set the seed of the Global Random Number Generator
+//Global seed provider instance
+GlobalSeedProvider& global_seed_provider()
+{
+  static GlobalSeedProvider global_seed_provider_instance;
+  return global_seed_provider_instance;
+}
+
+
+void GlobalRNG_reset(unsigned int seed)
+{
+  #pragma omp critical
+  {
+    global_seed_provider().set_seed(seed);
+  }
+}
+
+
+void GlobalRNG_reset()
+{
+  #pragma omp critical
+  {
+    global_seed_provider().reset();
+  }
+}
+
+unsigned int GlobalRNG_get_local_seed()
+{
+  unsigned int s;
+  #pragma omp critical
+  {
+    s = global_seed_provider().generate();
+  }
+  return s;
+}
+
+
+void GlobalRNG_randomize()
+{
+  #pragma omp critical
+  {
+    global_seed_provider().randomize();
+  }
+}
+
+
+void GlobalRNG_get_state(ivec &state)
+{
+  #pragma omp critical
+  {
+    state = global_seed_provider().get_state();
+  }
+}
+
+
+void GlobalRNG_set_state(const ivec &state)
+{
+  #pragma omp critical
+  {
+    global_seed_provider().set_state(state);
+  }
+}
+
 void RNG_reset(unsigned int seed)
 {
-  Random_Generator RNG;
-  RNG.reset(seed);
+  random_details::ActiveDSFMT dsfmt(random_details::lc_get());
+  dsfmt.init_gen_rand(seed);
+  random_details::lc_mark_initialized();
 }
 
-// Set the seed of the Global Random Number Generator to the same as last time
+
 void RNG_reset()
 {
-  Random_Generator RNG;
-  RNG.reset();
+  random_details::ActiveDSFMT dsfmt(random_details::lc_get());
+
+  if(random_details::lc_is_initialized()) {
+    //already initialized. Reinit with last set seed;
+    dsfmt.init_gen_rand(random_details::lc_get().last_seed);
+  }
+  else {
+    //query global seed provider for new seed and init with it
+    dsfmt.init_gen_rand(GlobalRNG_get_local_seed());
+    random_details::lc_mark_initialized();
+  }
 }
 
-// Set a random seed for the Global Random Number Generator
+
 void RNG_randomize()
 {
-  Random_Generator RNG;
-  RNG.randomize();
+  random_details::ActiveDSFMT dsfmt(random_details::lc_get());
+  dsfmt.init_gen_rand(random_details::hash_time_to_seed(time(0), clock()));
+  random_details::lc_mark_initialized();
 }
 
-// Save current full state of generator in memory
+
 void RNG_get_state(ivec &state)
 {
-  Random_Generator RNG;
-  state = RNG.get_state();
+  int size = (random_details::ActiveDSFMT::N + 1) * 4;
+  uint32_t *psfmt = &random_details::lc_get().status[0].u32[0];
+  state.set_size(size + 1); // size + 1 to save idx variable in the same vec
+  for(int i = 0; i < size; ++i) {
+    state(i) = static_cast<int>(psfmt[i]);
+  }
+  state(size) = random_details::lc_get().idx;
 }
 
-// Resume the state saved in memory
+
 void RNG_set_state(const ivec &state)
 {
-  Random_Generator RNG;
-  RNG.set_state(state);
+  int size = (random_details::ActiveDSFMT::N + 1) * 4;
+  it_assert(state.size() == size + 1, "RNG_set_state: "
+            "Invalid state initialization vector");
+  uint32_t *psfmt = &random_details::lc_get().status[0].u32[0];
+  for(int i = 0; i < size; ++i) {
+    psfmt[i] = static_cast<uint32_t>(state(i));
+  }
+  random_details::lc_get().idx = state(size);
 }
 
 ///////////////////////////////////////////////
@@ -100,7 +294,7 @@ I_Uniform_RNG::I_Uniform_RNG(int min, int max)
 
 void I_Uniform_RNG::setup(int min, int max)
 {
-  if (min <= max) {
+  if(min <= max) {
     lo = min;
     hi = max;
   }
@@ -120,7 +314,7 @@ ivec I_Uniform_RNG::operator()(int n)
 {
   ivec vv(n);
 
-  for (int i=0; i < n; i++)
+  for(int i = 0; i < n; i++)
     vv(i) = sample();
 
   return vv;
@@ -131,8 +325,8 @@ imat I_Uniform_RNG::operator()(int h, int w)
   imat mm(h, w);
   int i, j;
 
-  for (i = 0; i < h; i++)
-    for (j = 0; j < w; j++)
+  for(i = 0; i < h; i++)
+    for(j = 0; j < w; j++)
       mm(i, j) = sample();
 
   return mm;
@@ -149,7 +343,7 @@ Uniform_RNG::Uniform_RNG(double min, double max)
 
 void Uniform_RNG::setup(double min, double max)
 {
-  if (min <= max) {
+  if(min <= max) {
     lo_bound = min;
     hi_bound = max;
   }
@@ -178,7 +372,7 @@ vec Exponential_RNG::operator()(int n)
 {
   vec vv(n);
 
-  for (int i=0; i < n; i++)
+  for(int i = 0; i < n; i++)
     vv(i) = sample();
 
   return vv;
@@ -189,8 +383,8 @@ mat Exponential_RNG::operator()(int h, int w)
   mat mm(h, w);
   int i, j;
 
-  for (i = 0; i < h; i++)
-    for (j = 0; j < w; j++)
+  for(i = 0; i < h; i++)
+    for(j = 0; j < w; j++)
       mm(i, j) = sample();
 
   return mm;
@@ -203,7 +397,7 @@ mat Exponential_RNG::operator()(int h, int w)
 vec Gamma_RNG::operator()(int n)
 {
   vec vv(n);
-  for (int i = 0; i < n; i++)
+  for(int i = 0; i < n; i++)
     vv(i) = sample();
   return vv;
 }
@@ -211,7 +405,7 @@ vec Gamma_RNG::operator()(int n)
 mat Gamma_RNG::operator()(int r, int c)
 {
   mat mm(r, c);
-  for (int i = 0; i < r * c; i++)
+  for(int i = 0; i < r * c; i++)
     mm(i) = sample();
   return mm;
 }
@@ -254,20 +448,20 @@ double Gamma_RNG::sample()
   it_error_if(!std::isfinite(a) || !std::isfinite(scale) || (a < 0.0)
               || (scale <= 0.0), "Gamma_RNG wrong parameters");
 
-  if (a < 1.) { /* GS algorithm for parameters a < 1 */
-    if (a == 0)
+  if(a < 1.) {  /* GS algorithm for parameters a < 1 */
+    if(a == 0)
       return 0.;
     e = 1.0 + exp_m1 * a;
-    for (;;) { //VS repeat
+    for(;;) {  //VS repeat
       p = e * RNG.genrand_open_open();
-      if (p >= 1.0) {
+      if(p >= 1.0) {
         x = -std::log((e - p) / a);
-        if (-std::log(RNG.genrand_open_close()) >= (1.0 - a) * std::log(x))
+        if(-std::log(RNG.genrand_open_close()) >= (1.0 - a) * std::log(x))
           break;
       }
       else {
         x = std::exp(std::log(p) / a);
-        if (-std::log(RNG.genrand_open_close()) >= x)
+        if(-std::log(RNG.genrand_open_close()) >= x)
           break;
       }
     }
@@ -277,7 +471,7 @@ double Gamma_RNG::sample()
   /* --- a >= 1 : GD algorithm --- */
 
   /* Step 1: Recalculations of s2, s, d if a has changed */
-  if (a != aa) {
+  if(a != aa) {
     aa = a;
     s2 = a - 0.5;
     s = std::sqrt(s2);
@@ -288,16 +482,16 @@ double Gamma_RNG::sample()
   t = NRNG.sample();
   x = s + 0.5 * t;
   ret_val = x * x;
-  if (t >= 0.0)
+  if(t >= 0.0)
     return scale * ret_val;
 
   /* Step 3: u = 0,1 - uniform sample. squeeze acceptance (s) */
   u = RNG.genrand_close_open();
-  if ((d * u) <= (t * t * t))
+  if((d * u) <= (t * t * t))
     return scale * ret_val;
 
   /* Step 4: recalculations of q0, b, si, c if necessary */
-  if (a != aaa) {
+  if(a != aaa) {
     aaa = a;
     r = 1.0 / a;
     q0 = ((((((q7 * r + q6) * r + q5) * r + q4) * r + q3) * r
@@ -306,12 +500,12 @@ double Gamma_RNG::sample()
     /* Approximation depending on size of parameter a */
     /* The constants in the expressions for b, si and c */
     /* were established by numerical experiments */
-    if (a <= 3.686) {
+    if(a <= 3.686) {
       b = 0.463 + s + 0.178 * s2;
       si = 1.235;
       c = 0.195 / s - 0.079 + 0.16 * s;
     }
-    else if (a <= 13.022) {
+    else if(a <= 13.022) {
       b = 1.654 + 0.0076 * s2;
       si = 1.68 / s + 0.275;
       c = 0.062 / s + 0.024;
@@ -324,36 +518,36 @@ double Gamma_RNG::sample()
   }
 
   /* Step 5: no quotient test if x not positive */
-  if (x > 0.0) {
+  if(x > 0.0) {
     /* Step 6: calculation of v and quotient q */
     v = t / (s + s);
-    if (std::fabs(v) <= 0.25)
+    if(std::fabs(v) <= 0.25)
       q = q0 + 0.5 * t * t * ((((((a7 * v + a6) * v + a5) * v + a4) * v
                                 + a3) * v + a2) * v + a1) * v;
     else
       q = q0 - s * t + 0.25 * t * t + (s2 + s2) * log(1.0 + v);
 
     /* Step 7: quotient acceptance (q) */
-    if (log(1.0 - u) <= q)
+    if(log(1.0 - u) <= q)
       return scale * ret_val;
   }
 
-  for (;;) { //VS repeat
+  for(;;) {  //VS repeat
     /* Step 8: e = standard exponential deviate
      *         u =  0,1 -uniform deviate
      *         t = (b,si)-double exponential (laplace) sample */
     e = -std::log(RNG.genrand_open_close()); //see Exponential_RNG
     u = RNG.genrand_open_close();
     u = u + u - 1.0;
-    if (u < 0.0)
+    if(u < 0.0)
       t = b - si * e;
     else
       t = b + si * e;
     /* Step 9: rejection if t < tau(1) = -0.71874483771719 */
-    if (t >= -0.71874483771719) {
+    if(t >= -0.71874483771719) {
       /* Step 10:  calculation of v and quotient q */
       v = t / (s + s);
-      if (std::fabs(v) <= 0.25)
+      if(std::fabs(v) <= 0.25)
         q = q0 + 0.5 * t * t *
             ((((((a7 * v + a6) * v + a5) * v + a4) * v + a3) * v
               + a2) * v + a1) * v;
@@ -361,12 +555,12 @@ double Gamma_RNG::sample()
         q = q0 - s * t + 0.25 * t * t + (s2 + s2) * log(1.0 + v);
       /* Step 11: hat acceptance (h) */
       /* (if q not positive go to step 8) */
-      if (q > 0.0) {
+      if(q > 0.0) {
         // Try to use w = expm1(q); (Not supported on w32)
         w = expm1(q);
         /*  ^^^^^ original code had approximation with rel.err < 2e-7 */
         /* if t is rejected sample again at step 8 */
-        if ((c * std::fabs(u)) <= (w * std::exp(e - 0.5 * t * t)))
+        if((c * std::fabs(u)) <= (w * std::exp(e - 0.5 * t * t)))
           break;
       }
     }
@@ -505,7 +699,7 @@ double Normal_RNG::sample()
   uint32_t u, sign, i, j;
   double x, y;
 
-  while (true) {
+  while(true) {
     u = RNG.genrand_uint32();
     sign = u & 0x80;            // 1 bit for the sign
     i = u & 0x7f;               // 7 bits to choose the step
@@ -513,18 +707,18 @@ double Normal_RNG::sample()
 
     x = j * wtab[i];
 
-    if (j < ktab[i])
+    if(j < ktab[i])
       break;
 
-    if (i < 127) {
-      y = ytab[i+1] + (ytab[i] - ytab[i+1]) * RNG.genrand_close_open();
+    if(i < 127) {
+      y = ytab[i + 1] + (ytab[i] - ytab[i + 1]) * RNG.genrand_close_open();
     }
     else {
       x = PARAM_R - std::log(1.0 - RNG.genrand_close_open()) / PARAM_R;
       y = std::exp(-PARAM_R * (x - 0.5 * PARAM_R)) * RNG.genrand_close_open();
     }
 
-    if (y < std::exp(-0.5 * x * x))
+    if(y < std::exp(-0.5 * x * x))
       break;
   }
   return sign ? x : -x;
@@ -559,7 +753,7 @@ vec Laplace_RNG::operator()(int n)
 {
   vec vv(n);
 
-  for (int i=0; i < n; i++)
+  for(int i = 0; i < n; i++)
     vv(i) = sample();
 
   return vv;
@@ -570,8 +764,8 @@ mat Laplace_RNG::operator()(int h, int w)
   mat mm(h, w);
   int i, j;
 
-  for (i = 0; i < h; i++)
-    for (j = 0; j < w; j++)
+  for(i = 0; i < h; i++)
+    for(j = 0; j < w; j++)
       mm(i, j) = sample();
 
   return mm;
@@ -608,7 +802,7 @@ vec AR1_Normal_RNG::operator()(int n)
 {
   vec vv(n);
 
-  for (int i=0; i < n; i++)
+  for(int i = 0; i < n; i++)
     vv(i) = sample();
 
   return vv;
@@ -619,8 +813,8 @@ mat AR1_Normal_RNG::operator()(int h, int w)
   mat mm(h, w);
   int i, j;
 
-  for (i = 0; i < h; i++)
-    for (j = 0; j < w; j++)
+  for(i = 0; i < h; i++)
+    for(j = 0; j < w; j++)
       mm(i, j) = sample();
 
   return mm;
@@ -653,7 +847,7 @@ vec Weibull_RNG::operator()(int n)
 {
   vec vv(n);
 
-  for (int i=0; i < n; i++)
+  for(int i = 0; i < n; i++)
     vv(i) = sample();
 
   return vv;
@@ -664,8 +858,8 @@ mat Weibull_RNG::operator()(int h, int w)
   mat mm(h, w);
   int i, j;
 
-  for (i = 0; i < h; i++)
-    for (j = 0; j < w; j++)
+  for(i = 0; i < h; i++)
+    for(j = 0; j < w; j++)
       mm(i, j) = sample();
 
   return mm;
@@ -684,7 +878,7 @@ vec Rayleigh_RNG::operator()(int n)
 {
   vec vv(n);
 
-  for (int i=0; i < n; i++)
+  for(int i = 0; i < n; i++)
     vv(i) = sample();
 
   return vv;
@@ -695,8 +889,8 @@ mat Rayleigh_RNG::operator()(int h, int w)
   mat mm(h, w);
   int i, j;
 
-  for (i = 0; i < h; i++)
-    for (j = 0; j < w; j++)
+  for(i = 0; i < h; i++)
+    for(j = 0; j < w; j++)
       mm(i, j) = sample();
 
   return mm;
@@ -715,7 +909,7 @@ vec Rice_RNG::operator()(int n)
 {
   vec vv(n);
 
-  for (int i=0; i < n; i++)
+  for(int i = 0; i < n; i++)
     vv(i) = sample();
 
   return vv;
@@ -726,8 +920,8 @@ mat Rice_RNG::operator()(int h, int w)
   mat mm(h, w);
   int i, j;
 
-  for (i = 0; i < h; i++)
-    for (j = 0; j < w; j++)
+  for(i = 0; i < h; i++)
+    for(j = 0; j < w; j++)
       mm(i, j) = sample();
 
   return mm;

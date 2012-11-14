@@ -78,6 +78,7 @@ dirList=os.listdir(path)
 i = 0
 passed_tests = 0
 failed_tests = 0
+failed_test_name = []
 
 fd_null = open(os.devnull, "w")
 
@@ -101,7 +102,12 @@ for fname in dirList:
     else:
       print(" FAILED")
       failed_tests = failed_tests+1
+      failed_test_name.append(name_ext[0])
 fd_null.close()
 print("*"*60)
 print("From " + str(i) + " tests " + str(passed_tests) + " have passed and " + str(failed_tests) + " have failed")
+if 0 != failed_tests:
+  print("Failed tests:")
+  for i in range(0, len(failed_test_name)):
+    print(" "+failed_test_name[i])
 print("*"*60)

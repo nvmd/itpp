@@ -42,9 +42,12 @@
 namespace itpp
 {
 
+namespace random_details
+{
+
 /*!
- * \brief C++ implementation of dSFMT random number generator
  * \ingroup randgen
+ * \brief C++ implementation of dSFMT random number generator.
  *
  * The DSFMT class implements parts of the Double precision SIMD-oriented
  * Fast Mersenne Twister (dSFM) random number generator. DSFMT directly
@@ -89,56 +92,56 @@ namespace itpp
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  * \endverbatim
  */
-template <int MEXP, int POS1, int SL1, uint64_t MSK1, uint64_t MSK2,
-          uint32_t MSK32_1, uint32_t MSK32_2,
-          uint32_t MSK32_3, uint32_t MSK32_4,
-          uint64_t FIX1, uint64_t FIX2, uint64_t PCV1, uint64_t PCV2>
-class DSFMT {
+template < int MEXP, int POS1, int SL1, uint64_t MSK1, uint64_t MSK2,
+         uint64_t FIX1_V, uint64_t FIX2_V, uint64_t PCV1_V, uint64_t PCV2_V >
+class DSFMT
+{
+
 public:
-  //! Default constructor
-  DSFMT() { if (!initialized) init_gen_rand(4257U); }
-  //! Constructor using a certain seed
-  DSFMT(unsigned int seed) { init_gen_rand(seed); }
+  //make usefull constants available in typedefed definitions
+  static const int N = (MEXP - 128) / 104 + 1;
+  static const uint64_t FIX1 = FIX1_V;
+  static const uint64_t FIX2 = FIX2_V;
+  static const uint64_t PCV1 = PCV1_V;
+  static const uint64_t PCV2 = PCV2_V;
 
-  //! Set the seed to a semi-random value (based on hashed time and clock)
-  void randomize() { init_gen_rand(hash(time(0), clock())); }
-  //! Reset the generator with the same seed as used last time
-  void reset() { init_gen_rand(last_seed); }
-  //! Initialise the generator with a new seed (\sa init_gen_rand())
-  void reset(unsigned int seed) { init_gen_rand(seed); }
+#if defined(__SSE2__)
+  static const uint32_t MSK32_1 =  static_cast<uint32_t>((MSK1 >> 32) & (0xffffffffULL));
+  static const uint32_t MSK32_2 =  static_cast<uint32_t>(MSK1 & (0xffffffffULL));
+  static const uint32_t MSK32_3 =  static_cast<uint32_t>((MSK2 >> 32) & (0xffffffffULL));
+  static const uint32_t MSK32_4 =  static_cast<uint32_t>(MSK2 & (0xffffffffULL));
+#endif
 
-  //! Return a uniformly distributed (0,1) value.
-  double random_01() { return genrand_open_open(); }
-  //! Return a uniformly distributed [0,1) value.
-  double random_01_lclosed() { return genrand_close_open(); }
-  //! Return a uniformly distributed (0,1] value.
-  double random_01_rclosed() { return genrand_open_close(); }
-  //! Return a uniformly distributed [0, UINT_MAX) value.
-  uint32_t random_int() { return genrand_uint32(); }
+  /*!
+  \brief DSFMT context structure.
 
-  //! Return current state of generator in the form of ivec
-  ivec get_state() const {
-    int size = (N + 1) * 4;
-    uint32_t *psfmt = &status[0].u32[0];
-    ivec state(size + 1); // size + 1 to save idx variable in the same vec
-    for (int i = 0; i < size; ++i) {
-      state(i) = psfmt[i];
-    }
-    state(size) = idx;
-    return state;
-  }
+  Shall be a POD type since we want to allocate it in thread-local storage
+  gcc and msvc may have problems with non-POD types and threadprivate pragma
+  */
+  struct Context {
+    //! \brief Data structure to hold 128-bit values
+    union W128_T {
+#if defined(__SSE2__)
+      __m128i si;
+      __m128d sd;
+#endif // __SSE2__
+      uint64_t u[2];
+      uint32_t u32[4];
+      double d[2];
+    };
+    //! 128-bit data type
+    typedef union W128_T w128_t;
+    //! 128-bit internal state array
+    w128_t status[N + 1];
+    //! State array indexing
+    int idx;
+    //! Last known seed used to initialize context
+    unsigned int last_seed;
+  };
 
-  //! Resume the state of the generator from a previously saved ivec
-  void set_state(const ivec &state) {
-    int size = (N + 1) * 4;
-    it_assert(state.size() == size + 1, "Random_Generator::set_state(): "
-              "Invalid state initialization vector");
-    uint32_t *psfmt = &status[0].u32[0];
-    for (int i = 0; i < size; ++i) {
-      psfmt[i] = state(i);
-    }
-    idx = state(size);
-  }
+public:
+  //! Constructor using a certain context
+  DSFMT(Context& c): _context(c) {}
 
   /*!
    * \brief Initialise the generator with a new seed.
@@ -148,30 +151,26 @@ public:
    * \param seed a 32-bit integer used as the seed.
    */
   void init_gen_rand(unsigned int seed) {
-    uint32_t *psfmt = &status[0].u32[0];
+    uint32_t *psfmt = &_context.status[0].u32[0];
     psfmt[idxof(0)] = seed;
-    for (int i = 1; i < (N + 1) * 4; i++) {
+    for(int i = 1; i < (N + 1) * 4; i++) {
       psfmt[idxof(i)] = 1812433253UL
-        * (psfmt[idxof(i - 1)] ^ (psfmt[idxof(i - 1)] >> 30)) + i;
+                        * (psfmt[idxof(i - 1)] ^ (psfmt[idxof(i - 1)] >> 30)) + i;
     }
     initial_mask();
     period_certification();
-    idx = Nx2;
-#if defined(__SSE2__)
-    sse2_param_mask = _mm_set_epi32(MSK32_3, MSK32_4, MSK32_1, MSK32_2);
-#endif
-    initialized = true;
-    last_seed = seed;
+    _context.idx = Nx2;
+    _context.last_seed = seed;
   }
 
   //! Generate uniform [0, UINT_MAX) integer pseudorandom number.
-  static uint32_t genrand_uint32() {
-    uint64_t *psfmt64 = &status[0].u[0];
-    if (idx >= Nx2) {
+  uint32_t genrand_uint32() {
+    uint64_t *psfmt64 = &_context.status[0].u[0];
+    if(_context.idx >= Nx2) {
       dsfmt_gen_rand_all();
-      idx = 0;
+      _context.idx = 0;
     }
-    return (uint32_t)(psfmt64[idx++] & 0xffffffffU);
+    return (uint32_t)(psfmt64[_context.idx++] & 0xffffffffU);
   }
 
   /*!
@@ -183,34 +182,14 @@ public:
    * \c init_gen_rand() must be called before this function.
    * \return double precision floating point pseudorandom number
    */
-  static double genrand_close1_open2() {
-    double *psfmt64 = &status[0].d[0];
-    if (idx >= Nx2) {
+  double genrand_close1_open2() {
+    double *psfmt64 = &_context.status[0].d[0];
+    if(_context.idx >= Nx2) {
       dsfmt_gen_rand_all();
-      idx = 0;
+      _context.idx = 0;
     }
-    return psfmt64[idx++];
+    return psfmt64[_context.idx++];
   }
-
-  /*!
-   * \brief Generate uniform [0, 1) double pseudorandom number.
-   *
-   * This function generates and returns double precision pseudorandom
-   * number which distributes uniformly in the range [0, 1).
-   * \c init_gen_rand() must be called before this function.
-   * \return double precision floating point pseudorandom number
-   */
-  static double genrand_close_open() { return genrand_close1_open2() - 1.0; }
-
-  /*!
-   * \brief Generate uniform (0, 1] double pseudorandom number.
-   *
-   * This function generates and returns double precision pseudorandom
-   * number which distributes uniformly in the range (0, 1].
-   * \c init_gen_rand() must be called before this function.
-   * \return double precision floating point pseudorandom number
-   */
-  static double genrand_open_close() { return 2.0 - genrand_close1_open2(); }
 
   /*!
    * \brief Generate uniform (0, 1) double pseudorandom number.
@@ -220,86 +199,36 @@ public:
    * \c init_gen_rand() must be called before this function.
    * \return double precision floating point pseudorandom number
    */
-  static double genrand_open_open() {
-    double *dsfmt64 = &status[0].d[0];
+  double genrand_open_open() {
+    double *dsfmt64 = &_context.status[0].d[0];
     union {
       double d;
       uint64_t u;
     } r;
 
-    if (idx >= Nx2) {
+    if(_context.idx >= Nx2) {
       dsfmt_gen_rand_all();
-      idx = 0;
+      _context.idx = 0;
     }
-    r.d = dsfmt64[idx++];
+    r.d = dsfmt64[_context.idx++];
     r.u |= 1;
     return r.d - 1.0;
   }
 
-
 private:
-  static const int N = (MEXP - 128) / 104 + 1;
   static const int Nx2 = N * 2;
-  static const uint64_t LOW_MASK = 0x000fffffffffffffULL;
-  static const uint64_t HIGH_CONST = 0x3ff0000000000000ULL;
   static const unsigned int SR = 12U;
-#if defined(__SSE2__)
-  static const unsigned int SSE2_SHUFF = 0x1bU;
-#endif // __SSE2__
-
-  //! 128-bit data structure
-  union W128_T {
-#if defined(__SSE2__)
-    __m128i si;
-    __m128d sd;
-#endif // __SSE2__
-    uint64_t u[2];
-    uint32_t u32[4];
-    double d[2];
-  };
-  //! 128-bit data type
-  typedef union W128_T w128_t;
-  //! 128-bit internal state array
-  static w128_t status[N + 1];
-  //! State array indexing
-  static int idx;
-  //! Seed used for initialization
-  static unsigned int last_seed;
-
-  //! Initialization flag
-  static bool initialized;
   //! Endianness flag
-  static bool bigendian;
+  static const bool bigendian;
 
 #if defined(__SSE2__)
   //! Mask data for sse2
-  static __m128i sse2_param_mask;
+  static const __m128i sse2_param_mask;
 #endif // __SSE2__
 
-  /*!
-   * \brief Get an unsigned int from time variables t and c.
-   *
-   * Better than uint(x) in case x is floating point in [0,1]
-   * Based on code by Lawrence Kirby (fred@genesis.demon.co.uk)
-   */
-  static unsigned int hash(time_t t, clock_t c)
-  {
-    static unsigned int differ = 0; // guarantee time-based seeds will change
+  //! Computations context
+  Context& _context;
 
-    unsigned int h1 = 0;
-    unsigned char *p = (unsigned char *) &t;
-    for (size_t i = 0; i < sizeof(t); ++i) {
-      h1 *= std::numeric_limits<unsigned char>::max() + 2U;
-      h1 += p[i];
-    }
-    unsigned int h2 = 0;
-    p = (unsigned char *) &c;
-    for (size_t j = 0; j < sizeof(c); ++j) {
-      h2 *= std::numeric_limits<unsigned char>::max() + 2U;
-      h2 += p[j];
-    }
-    return (h1 + differ++) ^ h2;
-  }
 
   /*!
    * This function simulate a 32-bit array index overlapped to 64-bit
@@ -311,42 +240,46 @@ private:
    * This function initializes the internal state array to fit the IEEE
    * 754 format.
    */
-  static void initial_mask() {
-    uint64_t *psfmt = &status[0].u[0];
-    for (int i = 0; i < Nx2; i++) {
+  void initial_mask() {
+
+    const uint64_t LOW_MASK = 0x000fffffffffffffULL;
+    const uint64_t HIGH_CONST = 0x3ff0000000000000ULL;
+
+    uint64_t *psfmt = &_context.status[0].u[0];
+    for(int i = 0; i < Nx2; i++) {
       psfmt[i] = (psfmt[i] & LOW_MASK) | HIGH_CONST;
     }
   }
 
   //! This function certificate the period of 2^{MEXP}-1.
-  static void period_certification() {
+  void period_certification() {
     uint64_t pcv[2] = {PCV1, PCV2};
     uint64_t tmp[2];
     uint64_t inner;
 
-    tmp[0] = (status[N].u[0] ^ FIX1);
-    tmp[1] = (status[N].u[1] ^ FIX2);
+    tmp[0] = (_context.status[N].u[0] ^ FIX1);
+    tmp[1] = (_context.status[N].u[1] ^ FIX2);
 
     inner = tmp[0] & pcv[0];
     inner ^= tmp[1] & pcv[1];
-    for (int i = 32; i > 0; i >>= 1) {
+    for(int i = 32; i > 0; i >>= 1) {
       inner ^= inner >> i;
     }
     inner &= 1;
     /* check OK */
-    if (inner == 1) {
+    if(inner == 1) {
       return;
     }
     /* check NG, and modification */
 #if (PCV2 & 1) == 1
-    status[N].u[1] ^= 1;
+    _context.status[N].u[1] ^= 1;
 #else
     uint64_t work;
-    for (int i = 1; i >= 0; i--) {
+    for(int i = 1; i >= 0; i--) {
       work = 1;
-      for (int j = 0; j < 64; j++) {
-        if ((work & pcv[i]) != 0) {
-          status[N].u[i] ^= work;
+      for(int j = 0; j < 64; j++) {
+        if((work & pcv[i]) != 0) {
+          _context.status[N].u[i] ^= work;
           return;
         }
         work = work << 1;
@@ -363,8 +296,10 @@ private:
    * \param b a 128-bit part of the internal state array
    * \param lung a 128-bit part of the internal state array (I/O)
    */
-  static void do_recursion(w128_t *r, w128_t *a, w128_t *b, w128_t *lung) {
+  static void do_recursion(typename Context::w128_t *r, typename Context::w128_t *a, typename Context::w128_t *b, typename Context::w128_t *lung) {
 #if defined(__SSE2__)
+    const unsigned int SSE2_SHUFF = 0x1bU;
+
     __m128i x = a->si;
     __m128i z = _mm_slli_epi64(x, SL1);
     __m128i y = _mm_shuffle_epi32(lung->si, SSE2_SHUFF);
@@ -393,14 +328,15 @@ private:
    * This function fills the internal state array with double precision
    * floating point pseudorandom numbers of the IEEE 754 format.
    */
-  static void dsfmt_gen_rand_all() {
+  void dsfmt_gen_rand_all() {
     int i;
-    w128_t lung = status[N];
+    typename Context::w128_t *status = _context.status;
+    typename Context::w128_t lung = status[N];
     do_recursion(&status[0], &status[0], &status[POS1], &lung);
-    for (i = 1; i < N - POS1; i++) {
+    for(i = 1; i < N - POS1; i++) {
       do_recursion(&status[i], &status[i], &status[i + POS1], &lung);
     }
-    for (; i < N; i++) {
+    for(; i < N; i++) {
       do_recursion(&status[i], &status[i], &status[i + POS1 - N], &lung);
     }
     status[N] = lung;
@@ -413,42 +349,72 @@ private:
 // typedefs of different RNG
 // ----------------------------------------------------------------------
 
-typedef DSFMT<521, 3, 25,
-              0x000fbfefff77efffULL, 0x000ffeebfbdfbfdfULL,
-              0x000fbfefU, 0xff77efffU, 0x000ffeebU, 0xfbdfbfdfU,
-              0xcfb393d661638469ULL, 0xc166867883ae2adbULL,
-              0xccaa588000000000ULL, 0x0000000000000001ULL> DSFMT_521_RNG;
+typedef DSFMT < 521, 3, 25,
+        0x000fbfefff77efffULL, 0x000ffeebfbdfbfdfULL,
+        0xcfb393d661638469ULL, 0xc166867883ae2adbULL,
+        0xccaa588000000000ULL, 0x0000000000000001ULL > DSFMT_521_RNG;
 
-typedef DSFMT<1279, 9, 19,
-              0x000efff7ffddffeeULL, 0x000fbffffff77fffULL,
-              0x000efff7U, 0xffddffeeU, 0x000fbfffU, 0xfff77fffU,
-              0xb66627623d1a31beULL, 0x04b6c51147b6109bULL,
-              0x7049f2da382a6aebULL, 0xde4ca84a40000001ULL> DSFMT_1279_RNG;
+typedef DSFMT < 1279, 9, 19,
+        0x000efff7ffddffeeULL, 0x000fbffffff77fffULL,
+        0xb66627623d1a31beULL, 0x04b6c51147b6109bULL,
+        0x7049f2da382a6aebULL, 0xde4ca84a40000001ULL > DSFMT_1279_RNG;
 
-typedef DSFMT<2203, 7, 19,
-              0x000fdffff5edbfffULL, 0x000f77fffffffbfeULL,
-              0x000fdfffU, 0xf5edbfffU, 0x000f77ffU, 0xfffffbfeU,
-              0xb14e907a39338485ULL, 0xf98f0735c637ef90ULL,
-              0x8000000000000000ULL, 0x0000000000000001ULL> DSFMT_2203_RNG;
+typedef DSFMT < 2203, 7, 19,
+        0x000fdffff5edbfffULL, 0x000f77fffffffbfeULL,
+        0xb14e907a39338485ULL, 0xf98f0735c637ef90ULL,
+        0x8000000000000000ULL, 0x0000000000000001ULL > DSFMT_2203_RNG;
 
-typedef DSFMT<4253, 19, 19,
-              0x0007b7fffef5feffULL, 0x000ffdffeffefbfcULL,
-              0x0007b7ffU, 0xfef5feffU, 0x000ffdffU, 0xeffefbfcU,
-              0x80901b5fd7a11c65ULL, 0x5a63ff0e7cb0ba74ULL,
-              0x1ad277be12000000ULL, 0x0000000000000001ULL> DSFMT_4253_RNG;
+typedef DSFMT < 4253, 19, 19,
+        0x0007b7fffef5feffULL, 0x000ffdffeffefbfcULL,
+        0x80901b5fd7a11c65ULL, 0x5a63ff0e7cb0ba74ULL,
+        0x1ad277be12000000ULL, 0x0000000000000001ULL > DSFMT_4253_RNG;
 
-typedef DSFMT<11213, 37, 19,
-              0x000ffffffdf7fffdULL, 0x000ffffffdf7fffdULL,
-              0x000fffffU, 0xfdf7fffdU, 0x000dffffU, 0xfff6bfffU,
-              0xd0ef7b7c75b06793ULL, 0x9c50ff4caae0a641ULL,
-              0x8234c51207c80000ULL, 0x0000000000000001ULL> DSFMT_11213_RNG;
+typedef DSFMT < 11213, 37, 19,
+        0x000ffffffdf7fffdULL, 0x000dfffffff6bfffULL,
+        0xd0ef7b7c75b06793ULL, 0x9c50ff4caae0a641ULL,
+        0x8234c51207c80000ULL, 0x0000000000000001ULL > DSFMT_11213_RNG;
 
-typedef DSFMT<19937, 117, 19,
-              0x000ffafffffffb3fULL, 0x000ffdfffc90fffdULL,
-              0x000ffaffU, 0xfffffb3fU, 0x000ffdffU, 0xfc90fffdU,
-              0x90014964b32f4329ULL, 0x3b8d12ac548a7c7aULL,
-              0x3d84e1ac0dc82880ULL, 0x0000000000000001ULL> DSFMT_19937_RNG;
+typedef DSFMT < 19937, 117, 19,
+        0x000ffafffffffb3fULL, 0x000ffdfffc90fffdULL,
+        0x90014964b32f4329ULL, 0x3b8d12ac548a7c7aULL,
+        0x3d84e1ac0dc82880ULL, 0x0000000000000001ULL > DSFMT_19937_RNG;
 
+
+
+/*!
+ * \ingroup randgen
+ * \brief Active Generator for random (stochastic) sources.
+ *
+ * ActiveDSFMT is a typedef of DSFMT class specialization using 19937
+ * generation period. Library shall be recompiled if switched to other
+ * available algorithm.
+ *
+ * \sa DSFMT
+ */
+typedef DSFMT_19937_RNG ActiveDSFMT;
+
+
+
+/*! \addtogroup randgen
+Some functions to deal with thread-local RNG generation context:
+\code
+ActiveDSFMT::Context& lc_get();
+bool lc_is_initialized();
+void lc_mark_initialized();
+\endcode
+  @{
+*/
+
+//! Function to access thread-local context for random numbers generation
+ActiveDSFMT::Context& lc_get();
+//! Function to check if thread-local context is initialized
+bool lc_is_initialized();
+//! Function to mark thread-local context as initialized
+void lc_mark_initialized();
+
+//!@}
+
+}
 
 } // namespace itpp
 

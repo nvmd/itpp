@@ -27,7 +27,7 @@
 
 file ( GLOB ITPP_TEST_SRCS *.cpp )
 
-include_directories ( ${GTEST_DIR} ${GTEST_DIR}/include )
+include_directories ( ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} ${GTEST_DIR} ${GTEST_DIR}/include )
 
 add_executable ( itpp_gtests ${ITPP_TEST_SRCS} ${GTEST_DIR}/src/gtest-all.cc ${GTEST_DIR}/src/gtest_main.cc )
 
