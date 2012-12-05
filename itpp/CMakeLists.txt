@@ -68,7 +68,11 @@ install(TARGETS ${libitpp_target}
 
 #headers      
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/itpp DESTINATION include FILES_MATCHING PATTERN "*.h")
-install(FILES ${CMAKE_BINARY_DIR}/itpp/config.h DESTINATION include/itpp)
+if (NOT WIN32)
+  install(FILES ${CMAKE_BINARY_DIR}/itpp/config.h DESTINATION include/itpp)
+else()
+  install(FILES ${CMAKE_BINARY_DIR}/itpp/config_msvc.h DESTINATION include/itpp)
+endif()
 
 #extra files (MATLAB and python)
 install(FILES ${CMAKE_SOURCE_DIR}/extras/itsave.m
