@@ -1,3 +1,10 @@
+2012-12-01  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* CMakeLists.txt, extras/check_tests.py, gtests/CMakeLists.txt,
+	gtests/rand_core_test.cpp, itpp/base/random.cpp, itpp/base/random.h,
+	itpp/base/random_dsfmt.h, tests/rand_core_test.cpp,
+	tests/rand_core_test.ref: add thread-safe generation of random numbers
+	using OpenMP (feature #90). Thanks to Andy Panov for providing the patch.
+
 2012-09-12  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* cmake/Modules/FindFFT.cmake, cmake/Modules/FindBLAS.cmake, 
 	cmake/Modules/CheckFunctionExists.cpp,
