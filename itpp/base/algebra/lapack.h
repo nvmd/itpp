@@ -38,7 +38,7 @@
 #include <complex>
 
 // Note: HAVE_MKL and HAVE_ACML are hard-defined in <itpp/config_msvc.h>
-#if defined(_MSC_VER) && (defined(HAVE_ACML) || defined(HAVE_MKL))
+#if defined(_MSC_VER) && defined(HAVE_ACML)
 #  define dgetrf_ DGETRF
 #  define zgetrf_ ZGETRF
 #  define dgetri_ DGETRI
@@ -69,6 +69,37 @@
 #  define zgels_  ZGELS
 #  define dgees_  DGEES
 #  define zgees_  ZGEES
+#elif defined(_MSC_VER) && defined(HAVE_MKL)
+#  define dgetrf_ mkl_lapack_dgetrf
+#  define zgetrf_ mkl_lapack_zgetrf
+#  define dgetri_ mkl_lapack_dgetri
+#  define zgetri_ mkl_lapack_zgetri
+#  define dgesvd_ mkl_lapack_dgesvd
+#  define zgesvd_ mkl_lapack_zgesvd
+#  define dsyev_  mkl_lapack_dsyev
+#  define zheev_  mkl_lapack_zheev
+#  define dgeev_  mkl_lapack_dgeev
+#  define zgeev_  mkl_lapack_zgeev
+#  define dpotrf_ mkl_lapack_dpotrf
+#  define zpotrf_ mkl_lapack_zpotrf
+#  define dgeqrf_ mkl_lapack_dgeqrf
+#  define zgeqrf_ mkl_lapack_zgeqrf
+#  define dgeqp3_ mkl_lapack_dgeqp3
+#  define zgeqp3_ mkl_lapack_zgeqp3
+#  define dorgqr_ mkl_lapack_dorgqr
+#  define zungqr_ mkl_lapack_zungqr
+#  define dormqr_ mkl_lapack_dormqr
+#  define zunmqr_ mkl_lapack_zunmqr
+#  define dgesv_  mkl_lapack_dgesv
+#  define zgesv_  mkl_lapack_zgesv
+#  define dposv_  mkl_lapack_dposv
+#  define zposv_  mkl_lapack_zposv
+#  define dtrtrs_ mkl_lapack_dtrtrs
+#  define ztrtrs_ mkl_lapack_ztrtrs
+#  define dgels_  mkl_lapack_dgels
+#  define zgels_  mkl_lapack_zgels
+#  define dgees_  mkl_lapack_dgees
+#  define zgees_  mkl_lapack_zgees
 #endif // #if defined(_MSC_VER) && (defined(HAVE_ACML) || defined(HAVE_MKL))
 
 #ifdef __cplusplus

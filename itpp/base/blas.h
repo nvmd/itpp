@@ -39,7 +39,7 @@
 
 //! \cond
 
-#if defined(_MSC_VER) && (defined(HAVE_ACML) || defined(HAVE_MKL))
+#if defined(_MSC_VER) && defined(HAVE_ACML)
 #  define dswap_ DSWAP
 #  define zswap_ ZSWAP
 #  define dscal_ DSCAL
@@ -56,6 +56,23 @@
 #  define zgerc_ ZGERC
 #  define dgemm_ DGEMM
 #  define zgemm_ ZGEMM
+#elif defined(_MSC_VER) && defined(HAVE_MKL)
+#  define dswap_ mkl_blas_dswap
+#  define zswap_ mkl_blas_zswap
+#  define dscal_ mkl_blas_dscal
+#  define zscal_ mkl_blas_zscal
+#  define dcopy_ mkl_blas_dcopy
+#  define zcopy_ mkl_blas_zcopy
+#  define daxpy_ mkl_blas_daxpy
+#  define zaxpy_ mkl_blas_zaxpy
+#  define ddot_  mkl_blas_ddot
+#  define dgemv_ mkl_blas_dgemv
+#  define zgemv_ mkl_blas_zgemv
+#  define dger_  mkl_blas_dger
+#  define zgeru_ mkl_blas_zgeru
+#  define zgerc_ mkl_blas_zgerc
+#  define dgemm_ mkl_blas_dgemm
+#  define zgemm_ mkl_blas_zgemm
 #endif // #if defined(_MSC_VER) && (defined(HAVE_ACML) || defined(HAVE_MKL))
 
 

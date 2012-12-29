@@ -112,7 +112,7 @@ if(_libraries_work)
   endif(UNIX AND BLA_STATIC)
 #  message("DEBUG: CMAKE_REQUIRED_LIBRARIES = ${CMAKE_REQUIRED_LIBRARIES}")
   if (NOT _LANGUAGES_ MATCHES Fortran)
-    check_function_exists("${_name}_" ${_prefix}${_combined_name}_WORKS)
+    check_function_exists("${_name}" ${_prefix}${_combined_name}_WORKS)
   else (NOT _LANGUAGES_ MATCHES Fortran)
     check_fortran_function_exists(${_name} ${_prefix}${_combined_name}_WORKS)
   endif (NOT _LANGUAGES_ MATCHES Fortran)
@@ -275,6 +275,18 @@ if (BLA_VENDOR MATCHES "Intel*" OR BLA_VENDOR STREQUAL "All")
           cheev
           ""
           "mkl_gf_lp64"
+          "${BLAS_LIBRARIES}"
+          "${CMAKE_THREAD_LIBS_INIT};${LM}"
+          )
+      endif(NOT LAPACK_LIBRARIES)
+      if(NOT LAPACK_LIBRARIES)
+        # new >= 11
+        check_lapack_libraries(
+          LAPACK_LIBRARIES
+          LAPACK
+          mkl_lapack_cheev
+          ""
+          "mkl_core"
           "${BLAS_LIBRARIES}"
           "${CMAKE_THREAD_LIBS_INIT};${LM}"
           )
