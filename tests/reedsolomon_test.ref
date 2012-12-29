@@ -135,3 +135,74 @@ Two error added: [1 1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 0 0 0 0 0]
 Decoded to:      [1 1 1 1 1 1 1 1 1 0 1 1 1 1 1]
 Codeword valid:  [1]
 
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+Erasure decoding (1 erasure) and non-narrow-sense
+XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+Non-systematic case
+-------------------
+Info word:       [0 0 0 0 0 1 0 1 0 1 1 1 0 1 0]
+Encoded:         [0 0 0 0 1 1 0 0 0 1 0 0 0 0 0 0 0 0 0 1 0]
+Decoded to:      [0 0 0 0 0 1 0 1 0 1 1 1 0 1 0]
+
+Info word:       [0 0 0 0 1 0 0 0 0 1 1 1 1 1 0]
+Encoded:         [0 0 0 1 1 0 1 1 1 0 0 0 1 0 1 1 0 1 1 1 0]
+Decoded to:      [0 0 0 0 1 0 0 0 0 1 1 1 1 1 0]
+
+Info word:       [1 1 0 0 1 1 1 0 0 0 0 0 0 1 0]
+Encoded:         [0 0 1 1 1 1 0 0 0 1 1 0 0 1 0 1 1 1 0 1 0]
+Decoded to:      [1 1 0 0 1 1 1 0 0 0 0 0 0 1 0]
+
+Info word:       [1 1 0 0 1 1 0 1 0 0 1 1 0 0 0]
+Encoded:         [0 0 1 1 1 1 0 0 1 0 0 1 0 1 1 0 1 1 0 0 0]
+Decoded to:      [1 1 0 0 1 1 0 1 0 0 1 1 0 0 0]
+
+Info word:       [0 0 0 1 1 0 0 1 1 0 1 1 1 0 0]
+Encoded:         [0 0 0 0 0 1 1 1 1 0 1 0 1 0 1 1 1 0 1 0 0]
+Decoded to:      [0 0 0 1 1 0 0 1 1 0 1 1 1 0 0]
+
+Info word:       [1 0 1 0 0 0 0 1 1 0 1 1 0 1 0]
+Encoded:         [1 0 0 0 1 1 0 0 0 1 0 0 1 0 0 1 0 0 0 1 0]
+Decoded to:      [1 0 1 0 0 0 0 1 1 0 1 1 0 1 0]
+
+Info word:       [0 1 0 1 1 1 1 0 0 1 0 1 1 0 0]
+Encoded:         [1 1 0 1 0 1 0 0 1 1 1 0 0 0 0 0 0 0 1 0 0]
+Decoded to:      [0 1 0 1 1 1 1 0 0 1 0 1 1 0 0]
+
+Info word:       [1 1 1 1 1 1 1 1 0 1 1 1 1 1 1]
+Encoded:         [0 1 0 1 1 0 0 1 0 1 1 1 0 0 0 0 1 1 1 1 1]
+Decoded to:      [1 1 1 1 1 1 1 1 0 1 1 1 1 1 1]
+
+Systematic case
+---------------
+Info word:       [0 0 0 0 0 1 0 1 0 1 1 1 0 1 0]
+Encoded:         [0 0 0 0 0 1 0 1 0 1 1 1 0 1 0 1 1 0 0 0 0]
+Decoded to:      [0 0 0 0 0 1 0 1 0 1 1 1 0 1 0]
+
+Info word:       [0 0 0 0 1 0 0 0 0 1 1 1 1 1 0]
+Encoded:         [0 0 0 0 1 0 0 0 0 1 1 1 1 1 0 0 0 0 0 1 1]
+Decoded to:      [0 0 0 0 1 0 0 0 0 1 1 1 1 1 0]
+
+Info word:       [1 1 0 0 1 1 1 0 0 0 0 0 0 1 0]
+Encoded:         [1 1 0 0 1 1 1 0 0 0 0 0 0 1 0 0 0 1 1 1 1]
+Decoded to:      [1 1 0 0 1 1 1 0 0 0 0 0 0 1 0]
+
+Info word:       [1 1 0 0 1 1 0 1 0 0 1 1 0 0 0]
+Encoded:         [1 1 0 0 1 1 0 1 0 0 1 1 0 0 0 0 1 0 1 1 0]
+Decoded to:      [1 1 0 0 1 1 0 1 0 0 1 1 0 0 0]
+
+Info word:       [0 0 0 1 1 0 0 1 1 0 1 1 1 0 0]
+Encoded:         [0 0 0 1 1 0 0 1 1 0 1 1 1 0 0 1 1 0 0 1 1]
+Decoded to:      [0 0 0 1 1 0 0 1 1 0 1 1 1 0 0]
+
+Info word:       [1 0 1 0 0 0 0 1 1 0 1 1 0 1 0]
+Encoded:         [1 0 1 0 0 0 0 1 1 0 1 1 0 1 0 0 1 1 1 0 0]
+Decoded to:      [1 0 1 0 0 0 0 1 1 0 1 1 0 1 0]
+
+Info word:       [0 1 0 1 1 1 1 0 0 1 0 1 1 0 0]
+Encoded:         [0 1 0 1 1 1 1 0 0 1 0 1 1 0 0 1 0 0 0 1 0]
+Decoded to:      [0 1 0 1 1 1 1 0 0 1 0 1 1 0 0]
+
+Info word:       [1 1 1 1 1 1 1 1 0 1 1 1 1 1 1]
+Encoded:         [1 1 1 1 1 1 1 1 0 1 1 1 1 1 1 1 0 0 0 0 0]
+Decoded to:      [1 1 1 1 1 1 1 1 0 1 1 1 1 1 1]
+

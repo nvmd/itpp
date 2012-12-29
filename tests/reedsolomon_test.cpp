@@ -95,5 +95,46 @@ int main()
   }
 
 
+  rs = Reed_Solomon(3, 1, false, 0);
+  rs_sys = Reed_Solomon(3, 1, true, 0);
+
+  cout << "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" << endl;
+  cout << "Erasure decoding (1 erasure) and non-narrow-sense" << endl;
+  cout << "XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX" << endl;
+  cout << "Non-systematic case" << endl;
+  cout << "-------------------" << endl;
+  for (int i = 0; i < u.rows(); i++) {
+    cout << "Info word:       " << u.get_row(i) << endl;
+    codeword = rs.encode(u.get_row(i));
+    it_assert(c.cols() == length(codeword), "Error 1");
+    c.set_row(i, rs.encode(u.get_row(i)));
+    cout << "Encoded:         " << c.get_row(i) << endl;
+    it_assert(y.cols() == length(errorword), "Error 2");
+    y.set_row(i, c.get_row(i));
+    bvec decoded_tmp;
+    bvec cw_isvalid;
+    ivec erasure(1);
+    erasure(0) = i/y.cols();
+    rs.decode(y.get_row(i), erasure, decoded_tmp, cw_isvalid);
+    decoded.set_row(i, decoded_tmp);
+    cout << "Decoded to:      " << decoded.get_row(i) << endl << endl;
+  }
+
+  cout << "Systematic case" << endl;
+  cout << "---------------" << endl;
+  for (int i = 0; i < u.rows(); i++) {
+    c.set_row(i, rs_sys.encode(u.get_row(i)));
+    cout << "Info word:       " << u.get_row(i) << endl;
+    cout << "Encoded:         " << c.get_row(i) << endl;
+    y.set_row(i, c.get_row(i));
+    bvec decoded_tmp;
+    bvec cw_isvalid;
+    ivec erasure(1);
+    erasure(0) = 0;//i/y.cols();
+    rs_sys.decode(y.get_row(i), erasure, decoded_tmp, cw_isvalid);
+    decoded.set_row(i, decoded_tmp);
+    cout << "Decoded to:      " << decoded.get_row(i) << endl << endl;
+  }
+
   return 0;
 }

@@ -51,8 +51,11 @@ namespace itpp
 class Reed_Solomon : public Channel_Code
 {
 public:
-  //! Class constructor for the \f$2^m\f$ - ary, \f$t\f$ error correcting RS-code.
-  Reed_Solomon(int in_m, int in_t, bool sys = false);
+  /*! Class constructor for the \f$2^m\f$ - ary, \f$t\f$ error correcting RS-code.
+	* The generator polynomial will be $g(x)=\prod_{i=0}^{2t-1}(x-\alpha^{b+i})$, 
+	* where $\alpha$ is a root of the primitive polynomial of \c itpp::GF.
+	*/
+  Reed_Solomon(int in_m, int in_t, bool sys = false, int in_b = 1);
   //! Destructor
   virtual ~Reed_Solomon() { }
 
@@ -60,6 +63,23 @@ public:
   virtual void encode(const bvec &uncoded_bits, bvec &coded_bits);
   //! Encoder function.
   virtual bvec encode(const bvec &uncoded_bits);
+
+  /*!
+   * \brief Decode the RS code bits. Return false if there has been any decoding failure.
+   *
+   * The \c coded_bits are block-wise decoded into \c decoded_message messages. If
+   * there has been any decoding failure, the function will return \c false.
+   * If this happened in the n-th block, then \c cw_isvalid(n) will be set
+   * to \c false (zero-indexed). In case of a systematic code the systematic bits will be
+   * extracted and presented in the corresponding block of \c decoded_message.
+   * This is better than just presenting zeros, which is done in case of a
+   * decoding failure of non-systematic codes.
+   * 
+   * For erasure decoding the indices of erased positions need to be passed in \c erasure_positions 
+   * as indices to the erased \fsymbol\f (not bit!).
+   * 
+   */
+  virtual bool decode(const bvec &coded_bits, const ivec &erasure_positions, bvec &decoded_message, bvec &cw_isvalid);
 
   /*!
    * \brief Decode the RS code bits. Return false if there has been any decoding failure.
@@ -92,7 +112,7 @@ public:
 protected:
   /*! Internal encoder/decoder parameters
    * @{ */
-  int m, t, k, n, q;
+  int m, t, k, n, q, b;
   /*! @} */
   //! The generator polynomial of the RS code
   GFX g;

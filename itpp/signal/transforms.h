@@ -81,30 +81,55 @@ namespace itpp
 //!\addtogroup fft
 //!@{
 
+//! Run-time check if library is built with Fast Fourier Transforms enabled
+bool have_fourier_transforms();
 //! Fast Fourier Transform
 void fft(const cvec &in, cvec &out);
 //! Fast Fourier Transform
 cvec fft(const cvec &in);
-//! Fast Fourier Transform, with zero-padding up to size N
+//! Fast Fourier Transform of subvector or with zero-padding up to size N
 cvec fft(const cvec &in, const int N);
 //! Inverse Fast Fourier Transform
 void ifft(const cvec &in, cvec &out);
 //! Inverse Fast Fourier Transform
 cvec ifft(const cvec &in);
-//! Inverse Fast Fourier Transform, with zero-padding up to size N
+//! Inverse Fast Fourier Transform of subvector or with zero-padding up to size N
 cvec ifft(const cvec &in, const int N);
 
 //! Real Fast Fourier Transform
 void fft_real(const vec& in, cvec &out);
 //! Real Fast Fourier Transform
 cvec fft_real(const vec& in);
-//! Real Fast Fourier Transform, with zero-padding up to size N
+/*!
+\brief Real Fast Fourier Transform of subvector or zero-padding up to size N
+
+First N points of input vector are used to perform the transform if N < length(in). Padding with 0's is
+performed if N > length(in).
+*/
 cvec fft_real(const vec &in, const int N);
-//! Inverse Real Fast Fourier Transform. Assumes even size.
+/*!
+\brief Inverse Real Fast Fourier Transform.
+
+Underlying implementation assumes Hermitian symmetry of the input spectra. Results are
+unpredictable and depending on the implementation (MKL/ACML/FFTW) if this requirement is not met.
+*/
 void ifft_real(const cvec &in, vec &out);
-//! Inverse Real Fast Fourier Transform. Assumes even size.
+/*!
+\brief Inverse Real Fast Fourier Transform.
+
+Underlying implementation assumes Hermittian symmetry of the input spectra. Results are
+unpredictable and depending on the implementation (MKL/ACML/FFTW) if this requirement is not met.
+*/
 vec ifft_real(const cvec &in);
-//! Inverse Real Fast Fourier Transform, with zero-padding up to size N
+/*!
+\brief Inverse Real Fast Fourier Transformon of N-length subvector or zero-padded input sequence.
+
+First N points of input vector are used to perform the transform if N < length(in). Padding with 0's is
+performed if N > length(in).
+
+Underlying implementation assumes Hermitian symmetry of the input subvector/padded sequence. Results are
+unpredictable and depending on the implementation (MKL/ACML/FFTW) if this requirement is not  met.
+*/
 vec ifft_real(const cvec &in, const int N);
 //!@}
 
@@ -129,8 +154,8 @@ vec ifft_real(const cvec &in, const int N);
 
   The implementation is built upon one of the following libraries:
   - FFTW (version 3.0.0 or higher)
-  - MKL (version 8.0.0 or higher)
-  - ACML (version 2.5.3 or higher).
+  - MKL (version 10.0.0 or higher)
+  - ACML (version 4.4.0 or higher).
 
   \note FFTW-based implementation is the fastest for powers of two.
   Furthermore, the second time you call the routine with the same size,
@@ -153,14 +178,20 @@ vec ifft_real(const cvec &in, const int N);
 //!\addtogroup dct
 //!@{
 
+//! Run-time check if library is built with cosine transfroms enabled
+bool have_cosine_transforms();
 //! Discrete Cosine Transform (DCT)
 void dct(const vec &in, vec &out);
 //! Discrete Cosine Transform (DCT)
 vec dct(const vec &in);
+//! Discrete Cosine Transform (DCT) of subvector or with zero-padding up to size N
+vec dct(const vec &in, int N);
 //! Inverse Discrete Cosine Transform (IDCT)
 void idct(const vec &in, vec &out);
 //! Inverse Discrete Cosine Transform (IDCT)
 vec idct(const vec &in);
+//! Inverse Discrete Cosine Transform (IDCT) of subvector or with zero-padding up to size N
+vec idct(const vec &in, int N);
 //!@}
 
 
@@ -202,14 +233,14 @@ void bitrv(Vec<T> &out)
   int N = out.size();
   int j = 0;
   int N1 = N - 1;
-  for (int i = 0; i < N1; ++i) {
-    if (i < j) {
+  for(int i = 0; i < N1; ++i) {
+    if(i < j) {
       T temp = out[j];
       out[j] = out[i];
       out[i] = temp;
     }
     int K = N / 2;
-    while (K <= j) {
+    while(K <= j) {
       j -= K;
       K /= 2;
     }
@@ -227,18 +258,18 @@ void dht(const Vec<T> &vin, Vec<T> &vout)
   vout.set_size(N);
 
   // This step is separated because it copies vin to vout
-  for (int ib = 0; ib < N; ib += 2) {
+  for(int ib = 0; ib < N; ib += 2) {
     vout(ib) = vin(ib) + vin(ib + 1);
     vout(ib + 1) = vin(ib) - vin(ib + 1);
   }
   N /= 2;
 
   int l = 2;
-  for (int i = 1; i < m; ++i) {
+  for(int i = 1; i < m; ++i) {
     N /= 2;
     int ib = 0;
-    for (int k = 0; k < N; ++k) {
-      for (int j = 0; j < l; ++j) {
+    for(int k = 0; k < N; ++k) {
+      for(int j = 0; j < l; ++j) {
         T t = vout(ib + j);
         vout(ib + j) += vout(ib + j + l);
         vout(ib + j + l) = t - vout(ib + j + l);
@@ -260,11 +291,11 @@ void self_dht(Vec<T> &v)
                   "of two");
 
   int l = 1;
-  for (int i = 0; i < m; ++i) {
+  for(int i = 0; i < m; ++i) {
     N /= 2;
     int ib = 0;
-    for (int k = 0; k < N; ++k) {
-      for (int j = 0; j < l; ++j) {
+    for(int k = 0; k < N; ++k) {
+      for(int j = 0; j < l; ++j) {
         T t = v(ib + j);
         v(ib + j) += v(ib + j + l);
         v(ib + j + l) = t - v(ib + j + l);
@@ -306,12 +337,12 @@ Mat<T> dht2(const Mat<T> &m)
   Mat<T> ret(m.rows(), m.cols());
   Vec<T> v;
 
-  for (int i = 0; i < m.rows(); ++i) {
+  for(int i = 0; i < m.rows(); ++i) {
     v = m.get_row(i);
     self_dht(v);
     ret.set_row(i, v);
   }
-  for (int i = 0; i < m.cols(); ++i) {
+  for(int i = 0; i < m.cols(); ++i) {
     v = ret.get_col(i);
     self_dht(v);
     ret.set_col(i, v);
@@ -326,12 +357,12 @@ Mat<T> dwht2(const Mat<T> &m)
   Mat<T> ret(m.rows(), m.cols());
   Vec<T> v;
 
-  for (int i = 0; i < m.rows(); ++i) {
+  for(int i = 0; i < m.rows(); ++i) {
     v = m.get_row(i);
     self_dwht(v);
     ret.set_row(i, v);
   }
-  for (int i = 0; i < m.cols(); ++i) {
+  for(int i = 0; i < m.cols(); ++i) {
     v = ret.get_col(i);
     self_dwht(v);
     ret.set_col(i, v);

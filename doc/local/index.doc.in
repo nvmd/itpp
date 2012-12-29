@@ -23,16 +23,16 @@
 <a href="http://sourceforge.net/projects/itpp/"><b>IT++ at SourceForge:</b></a>
 <ul>
 <li><a href="http://sourceforge.net/projects/itpp/files/">Download IT++</a></li>
-<li><a href="http://sourceforge.net/tracker/?group_id=37044&atid=418758">Bug Reports</a></li>
-<li><a href="http://sourceforge.net/tracker/?group_id=37044&atid=418761">Feature Requests</a></li>
-<li><a href="http://sourceforge.net/projects/itpp/forums/forum/115656">Ask for Help</a></li>
-<li><a href="http://sourceforge.net/projects/itpp/forums/forum/115655">Discuss IT++</a></li>
+<li><a href="http://sourceforge.net/p/itpp/bugs/?source=navbar">Bug Reports</a></li>
+<li><a href="http://sourceforge.net/p/itpp/feature-requests/">Feature Requests</a></li>
+<li><a href="http://sourceforge.net/p/itpp/discussion/115656/">Ask for Help</a></li>
+<li><a href="http://sourceforge.net/p/itpp/discussion/115655/">Discuss IT++</a></li>
 </ul>
 
 <b>IT++ Development:</b>
 <ul>
-<li><a href="http://itpp.svn.sourceforge.net/viewvc/itpp/">SVN Repository</a></li>
-<li><a href="http://itpp.git.sourceforge.net/git/gitweb.cgi?p=itpp/itpp">Git Repository (SVN mirror)</a></li>
+<li><a href="http://sourceforge.net/p/itpp/svn/">SVN Repository</a></li>
+<li><a href="http://sourceforge.net/p/itpp/code/">Git Repository (SVN mirror)</a></li>
 <li><a href="codingrules.html">Coding Rules</a></li>
 <li><a href="documentation.html">Documentation Rules</a></li>
 <li><a href="test.html">Test Rules</a></li>

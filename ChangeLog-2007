@@ -1232,10 +1232,10 @@
 2007-07-16  Adam Piatyszek  <ediap@users.sourceforge.net>
 
 	* doc/local/documentation.doc, extras/itload.m, extras/itsave.m,
-	itpp/**/*.cpp, itpp/**/*.h, tests/*.cpp: Removed $Revision$ and
-	$Date$ keywords
+	itpp/**/*.cpp, itpp/**/*.h, tests/*.cpp: Removed $Revision: 1418 $ and
+	$Date: 2008-02-15 15:03:10 +0100 (Fri, 15 Feb 2008) $ keywords
 
-	The $Revision$ and $Date$ keywords in each file comment sometimes
+	The $Revision: 1418 $ and $Date: 2008-02-15 15:03:10 +0100 (Fri, 15 Feb 2008) $ keywords in each file comment sometimes
 	cause errors when trying to apply patches or merged branches.
 	Therefore, IT++ sources will not use them any more.
 

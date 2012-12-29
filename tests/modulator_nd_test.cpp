@@ -27,6 +27,7 @@
  */
 
 #include <itpp/itcomm.h>
+#include <itpp/itstat.h>
 #include <iomanip>
 
 using namespace std;
@@ -35,152 +36,139 @@ using namespace itpp;
 
 int main()
 {
-  cout << "========================================================" << endl;
-  cout << "               Test of ND (MIMO) Modulators             " << endl;
-  cout << "========================================================" << endl;
+	cout << "========================================================" << endl;
+	cout << "               Test of ND (MIMO) Modulators             " << endl;
+	cout << "========================================================" << endl;
 
-  cout.setf(ios::fixed);
-  cout.precision(2);
+	cout.setf(ios::fixed);
+	cout.precision(2);
 
-  RNG_reset(12345);
-  double sigma2 = 0.05;
-  double sigma = std::sqrt(sigma2);
+	RNG_reset(12345);
+	double sigma2 = 0.05;
 
-  {
-    ND_UPAM chan;
-    int nt = 5;
-    for (int np = 1; np <= 3; np++) {
-      cout << "================== ND-U" << (1 << np) << "PAM ==================\n";
+	{ // --- Test for M-PAM, M^2-QAM, and M^2-PSK constellations
+		ND_UPAM pammod;
+		ND_UQAM qammod;
+		ND_UPSK pskmod;
+		int nt = 2;
+		for (int nb = 1; nb <= 2; nb++) {
+			cout << "================== " << (1 << nb) << "-PAM, " << (1<<2*nb) << "-QAM, and " << (1<<2*nb) << "-PSK ==================\n";
+			pammod.set_M(2*nt, 1<<nb);
+			qammod.set_M(nt, 1<<2*nb);
+			pskmod.set_M(nt, 1<<2*nb);
+			cout << pammod << endl;
+			cout << qammod << endl;
+			cout << pskmod << endl;
+			bvec b=randb(2*nt*nb);			
+			cvec xqam = qammod.modulate_bits(b);
+			cvec xpsk = pskmod.modulate_bits(b);
+			cmat Hc = randn_c(nt, nt);
+			cvec ec=sqrt(2*sigma2) * randn_c(nt);
+			cvec yqam = Hc * xqam + ec;
+			cvec ypsk = Hc * xpsk + ec;
+			vec x=pammod.modulate_bits(b);
+			mat H(2*nt,2*nt);
+			H.set_submatrix(0, 0, real(Hc)/sqrt(2));
+			H.set_submatrix(nt, 0, imag(Hc)/sqrt(2));
+			H.set_submatrix(nt, nt, real(Hc)/sqrt(2));
+			H.set_submatrix(0, nt, -imag(Hc)/sqrt(2));
+			vec y=H*x+sqrt(sigma2) * randn(2*nt);
+			
+			QLLRvec LLR_ap = randi(2*nt*nb,-5000,5000);
+			QLLRvec LLR;
 
-      chan.set_M(nt, 1<<np);
-      cout << chan << endl;
-      bvec b = randb(sum(chan.get_k()));
-      cout << b << endl;
-      vec x = chan.modulate_bits(b);
-      mat H = randn(nt, nt);
-      vec y = H * x + sigma * randn(nt);
+			pammod.init_soft_demodulator(H, sigma2);
+			qammod.init_soft_demodulator(Hc, 2*sigma2);
+			pskmod.init_soft_demodulator(Hc, 2*sigma2);
 
-      QLLRvec LLR_ap = randi(sum(chan.get_k()),-5000,5000);
-      QLLRvec LLR;
+			pammod.demodulate_soft_bits(y, LLR_ap, LLR);
+			cout << "PAM: full LLR: " << pammod.get_llrcalc().to_double(LLR) << endl;
+			pammod.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR);
+			cout << "             : " << pammod.get_llrcalc().to_double(LLR) << endl;
+			
+			qammod.demodulate_soft_bits(yqam, LLR_ap, LLR);
+			cout << "QAM: full LLR: " << qammod.get_llrcalc().to_double(LLR) << endl;
+			qammod.demodulate_soft_bits(yqam, Hc, 2*sigma2, LLR_ap, LLR);
+			cout << "             : " << qammod.get_llrcalc().to_double(LLR) << endl;
 
-      chan.init_soft_demodulator(H,sigma2);
-      cout << endl;
-      chan.demodulate_soft_bits(y, LLR_ap, LLR);
-      cout << endl;
-      cout << "full LLR     : " << chan.get_llrcalc().to_double(LLR) << endl;
-      chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR);
-      cout << "             : " << chan.get_llrcalc().to_double(LLR) << endl;
-      chan.demodulate_soft_bits(y, LLR_ap, LLR, ND_UPAM::FULL_ENUM_MAXLOG);
-      cout << "Max-Log      : " << chan.get_llrcalc().to_double(LLR) << endl;
-      LLR_calc_unit llrcalctmp=chan.get_llrcalc();
-      chan.set_llrcalc(LLR_calc_unit(12, 0, 7));
-      chan.demodulate_soft_bits(y, LLR_ap, LLR);
-      cout << "             : " << chan.get_llrcalc().to_double(LLR) << endl;
-      chan.set_llrcalc(llrcalctmp);
-      chan.demodulate_soft_bits(y, diag(H), sigma2, LLR_ap, LLR);
-      cout << "diagonal channel : " << chan.get_llrcalc().to_double(LLR) << endl;
-      chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR, ND_UPAM::ZF_LOGMAP);
-      cout << "zero-forcing     : " << chan.get_llrcalc().to_double(LLR) << endl;
-      ivec zhat;
-      chan.sphere_decoding(y, H, 0.01, 10000, 2.0, zhat);
-      cout << "sphere-decoding  : " << zhat << endl;
-    }
+			pskmod.demodulate_soft_bits(ypsk, LLR_ap, LLR);
+			cout << "PSK: full LLR: " << pskmod.get_llrcalc().to_double(LLR) << endl;
+			pskmod.demodulate_soft_bits(ypsk, Hc, 2*sigma2, LLR_ap, LLR);
+			cout << "             : " << pskmod.get_llrcalc().to_double(LLR) << endl;
 
-    ivec bitspantenna=randi(nt,1,3), symbspantenna(nt);		
-    for(int i=0; i<nt; i++) symbspantenna[i]=pow2i(bitspantenna[i]);
-    cout << "========== ND-UPAM with M:" << symbspantenna << " =======\n";
+			pammod.demodulate_soft_bits(y, LLR_ap, LLR, ND_UPAM::FULL_ENUM_MAXLOG);
+			cout << "PAM: Max-Log : " << pammod.get_llrcalc().to_double(LLR) << endl;
+			LLR_calc_unit llrcalctmp=pammod.get_llrcalc();
+			pammod.set_llrcalc(LLR_calc_unit(12, 0, 7));
+			pammod.demodulate_soft_bits(y, LLR_ap, LLR);
+			cout << "             : " << pammod.get_llrcalc().to_double(LLR) << endl;
 
-    chan.set_M(nt, symbspantenna);
-    cout << chan << endl;
-    bvec b = randb(sum(chan.get_k()));
-    cout << b << endl;
-    vec x = chan.modulate_bits(b);
-    mat H = randn(nt, nt);
-    vec y = H * x + sigma * randn(nt);
+			qammod.demodulate_soft_bits(yqam, LLR_ap, LLR, ND_UQAM::FULL_ENUM_MAXLOG);
+			cout << "QAM: Max-Log : " << qammod.get_llrcalc().to_double(LLR) << endl;
 
-    QLLRvec LLR_ap = randi(sum(chan.get_k()),-5000,5000);
-    QLLRvec LLR;
-    
-    chan.init_soft_demodulator(H,sigma2);
-    cout << endl;
-    chan.demodulate_soft_bits(y, LLR_ap, LLR);
-    cout << endl;
-    cout << "full LLR     : " << chan.get_llrcalc().to_double(LLR) << endl;
-    chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR);
-    cout << "             : " << chan.get_llrcalc().to_double(LLR) << endl;
-    chan.demodulate_soft_bits(y, LLR_ap, LLR, ND_UPAM::FULL_ENUM_MAXLOG);
-    cout << "Max-Log      : " << chan.get_llrcalc().to_double(LLR) << endl;
-    LLR_calc_unit llrcalctmp=chan.get_llrcalc();
-    chan.set_llrcalc(LLR_calc_unit(12, 0, 7));
-    chan.demodulate_soft_bits(y, LLR_ap, LLR);
-    cout << "             : " << chan.get_llrcalc().to_double(LLR) << endl;
-    chan.set_llrcalc(llrcalctmp);
-    chan.demodulate_soft_bits(y, diag(H), sigma2, LLR_ap, LLR);
-    cout << "diagonal channel : " << chan.get_llrcalc().to_double(LLR) << endl;
-    chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR, ND_UPAM::ZF_LOGMAP);
-    cout << "zero-forcing     : " << chan.get_llrcalc().to_double(LLR) << endl;
-    ivec zhat;
-    chan.sphere_decoding(y, H, 0.01, 10000, 2.0, zhat);
-    cout << "sphere-decoding  : " << zhat << endl;
-  }
+			pskmod.demodulate_soft_bits(ypsk, LLR_ap, LLR, ND_UPSK::FULL_ENUM_MAXLOG);
+			cout << "PSK: Max-Log : " << pskmod.get_llrcalc().to_double(LLR) << endl << endl;
 
-  // {
-  //   ND_UQAM chan;
-  //   int nt = 3;
-  //   for (int np = 1; np <= 3; np++) {
-  //     cout << "================== ND-U" << ((1 << (2*np))) << "QAM ==================\n";
+			pammod.set_llrcalc(llrcalctmp);
+			pammod.demodulate_soft_bits(y, diag(H), sigma2, LLR_ap, LLR);
+			cout << "PAM: diag. model : " << pammod.get_llrcalc().to_double(LLR) << endl;
+			pammod.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR, ND_UPAM::ZF_LOGMAP);
+			cout << "PAM: zero-forcing: " << pammod.get_llrcalc().to_double(LLR) << endl;
+			ivec zhat;
+			pammod.sphere_decoding(y, H, 0.01, 10000, 2.0, zhat);
+			cout << "PAM: sphere-dec. : " << zhat << endl << endl;
+		}
+	}
 
-  //     chan.set_M(nt, (1 << (2*np)));
-  //     cout << chan << endl;
-  //     bvec b = randb(nt * np * 2);
-  //     cout << b << endl;
-  //     cvec x = chan.modulate_bits(b);
-  //     cmat H = randn_c(nt, nt);
-  //     cvec y = H * x + sigma * randn_c(nt);
-  //     QLLRvec LLR_ap = zeros_i(2 * nt * np);
-  //     QLLRvec LLR(2*nt*np);
+	{ // --- Test for M-PAM and M^2-QAM with variable constellations
+		ND_UQAM qammod;
+		ND_UPAM pammod;
+		int nt = 3;
+		
+ 		qammod.set_M(nt, "4 64 16");
+		pammod.set_M(2*nt, "2 8 4 2 8 4");
+		cout << qammod << endl << pammod << endl;
+		cmat Hc = randn_c(nt, nt);
+		mat H(2*nt,2*nt);
+		H.set_submatrix(0, 0, real(Hc)/sqrt(2));
+		H.set_submatrix(nt, 0, imag(Hc)/sqrt(2));
+		H.set_submatrix(nt, nt, real(Hc)/sqrt(2));
+		H.set_submatrix(0, nt, -imag(Hc)/sqrt(2));
+		QLLRvec LLR_ap = zeros_i(sum(qammod.get_k()));
+		pammod.init_soft_demodulator(H, sigma2);
+		qammod.init_soft_demodulator(Hc, 2*sigma2);	
+		double pamerrs=0, qamerrs=0;
+		int TRIALS=1000;
+		for(int i=0; i<TRIALS; i++){
+			bvec b=randb(sum(pammod.get_k()));
+			cvec xqam = qammod.modulate_bits(b);
+			cvec yqam = Hc * xqam + sqrt(2*sigma2) * randn_c(nt);
+			vec x=pammod.modulate_bits(b);
+			vec y=H*x+sqrt(sigma2) * randn(2*nt);
+			
+			QLLRvec LLR;
+			pammod.demodulate_soft_bits(y, LLR_ap, LLR);
+			pamerrs+=hamming_distance(LLR<0,b);
+			qammod.demodulate_soft_bits(yqam, LLR_ap, LLR);
+			qamerrs+=hamming_distance(LLR<0,b);
+		}
+		pamerrs/=TRIALS*sum(pammod.get_k());
+		qamerrs/=TRIALS*sum(pammod.get_k());
+		cout << itpp::round(100*pamerrs)/100 << " " << itpp::round(100*qamerrs)/100 << endl;
+		if(round_i(100*qamerrs)==round_i(100*pamerrs)) cout << "BER passed" << endl;
+		else cout << "BER failed" << endl;			
+		bvec b=randb(sum(pammod.get_k()));		
+		cvec xqam = qammod.modulate_bits(b);
+		cvec yqam = Hc * xqam + sqrt(2*sigma2) * randn_c(nt);
+		vec x=pammod.modulate_bits(b);
+		vec y=H*x+sqrt(sigma2) * randn(2*nt);
+		QLLRvec LLR;
+		pammod.demodulate_soft_bits(y, LLR_ap, LLR);
+		cout << "bit sequence : " << b << endl;
+		cout << "PAM: full LLR: " << pammod.get_llrcalc().to_double(LLR) << endl;		
+		qammod.demodulate_soft_bits(yqam, LLR_ap, LLR);
+		cout << "QAM: full LLR: " << qammod.get_llrcalc().to_double(LLR) << endl;
+	}
 
-  //     chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR);
-  //     cout << "full channel     : " << chan.get_llrcalc().to_double(LLR) << endl;
-  //     chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR, ND_UQAM::FULL_ENUM_LOGMAP);
-  //     cout << "                 : " << chan.get_llrcalc().to_double(LLR) << endl;
-
-  //     chan.demodulate_soft_bits(y, diag(H), sigma2, LLR_ap, LLR);
-  //     cout << "diagonal channel : " << chan.get_llrcalc().to_double(LLR) << endl;
-
-  //     chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR, ND_UPAM::ZF_LOGMAP);
-  //     cout << "zero-forcing     : " << chan.get_llrcalc().to_double(LLR) << endl;
-  //   }
-  // }
-
-  // {
-  //   ND_UPSK chan;
-  //   int nt = 3;
-  //   for (int np = 1; np <= 3; np++) {
-  //     cout << "================== ND-U" << ((1 << (2*np))) << "PSK ==================\n";
-
-  //     chan.set_M(nt, (1 << (2*np)));
-  //     cout << chan << endl;
-  //     bvec b = randb(nt * np * 2);
-  //     cout << b << endl;
-  //     cvec x = chan.modulate_bits(b);
-  //     cmat H = randn_c(nt, nt);
-  //     cvec y = H * x + sigma * randn_c(nt);
-  //     QLLRvec LLR_ap = zeros_i(2 * nt * np);
-  //     QLLRvec LLR(2*nt*np);
-
-  //     chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR);
-  //     cout << "full channel     : " << chan.get_llrcalc().to_double(LLR) << endl;
-  //     chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR, ND_UQAM::FULL_ENUM_LOGMAP);
-  //     cout << "                 : " << chan.get_llrcalc().to_double(LLR) << endl;
-
-  //     chan.demodulate_soft_bits(y, diag(H), sigma2, LLR_ap, LLR);
-  //     cout << "diagonal channel : " << chan.get_llrcalc().to_double(LLR) << endl;
-
-  //     chan.demodulate_soft_bits(y, H, sigma2, LLR_ap, LLR, ND_UPAM::ZF_LOGMAP);
-  //     cout << "zero-forcing     : " << chan.get_llrcalc().to_double(LLR) << endl;
-  //   }
-  // }
-
-  return 0;
+	return 0;
 }

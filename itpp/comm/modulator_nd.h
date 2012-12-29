@@ -134,12 +134,38 @@ protected:
   Array<bmat> bitmap;
   //! Bit pattern in decimal form ordered and the corresponding symbols (one pattern per dimension)
   Array<ivec> bits2symbols;
-
+	//! The normalization factor in the exponent (in front of the square norm) in the Gaussian distribution
+  double gaussnorm;  
+  //! Norms part dependent on H
+  itpp::vec hnorms;
+  //! Norms part depending on both H and y
+  itpp::QLLRvec Qnorms;
+  //! A prioi information
+	itpp::QLLRvec llrapr;
+  //! The bit to column mapping
+  itpp::ivec bpos2cpos;
+  //! The cumulative sum of bits in the symbol vector
+  itpp::ivec bitcumsum;
+  //! The Gray to decimal mapping
+  itpp::Vec<itpp::Vec<unsigned> > gray2dec;
   //! Convert LLR to log-probabilities
   QLLRvec probabilities(QLLR l); // some abuse of what QLLR stands for...
-
   //! Convert LLR to log-probabilities, vector version
   Array<QLLRvec> probabilities(const QLLRvec &l);
+  //! Marginalize (sum) over the bits
+  void marginalize_bits(itpp::QLLRvec& llr, Soft_Demod_Method method) const;
+  //! Hardcoded implementation of 1:st bit demodulation
+  void demodllrbit0(itpp::QLLR& llr) const;
+  //! Hardcoded implementation of 2:nd bit demodulation
+  void demodllrbit1(itpp::QLLR& llr) const;
+  //! Hardcoded implementation of 3:rd bit demodulation
+  void demodllrbit2(itpp::QLLR& llr) const;
+  //! Hardcoded implementation of 1:st bit demodulation
+  void demodmaxbit0(itpp::QLLR& maxllr) const;
+  //! Hardcoded implementation of 2:nd bit demodulation
+  void demodmaxbit1(itpp::QLLR& maxllr) const;
+  //! Hardcoded implementation of 3:rd bit demodulation
+  void demodmaxbit2(itpp::QLLR& maxllr) const;
 
   /*!
    * \brief Update LLR (for internal use)
@@ -234,32 +260,7 @@ public:
   //! Modulate \c bits vector. Symbols are returned.
   vec modulate_bits(const bvec &bits) const;
 
-  /*!
-   * \brief Soft demodulation wrapper function for various methods
-   *
-   * Currently the following three demodulation methods are supported:
-   * - FULL_ENUM_LOGMAP - exact demodulation, which use "brute-force"
-   *   enumeration of all constellation points
-   * - FULL_ENUM_MAXLOG - max-log approximate demodulation, which use "brute-force"
-   *   enumeration to find the constellation points that give the smallest euclidian
-   *   distances
-   * - ZF_LOGMAP - approximated methods with Zero-Forcing preprocessing,
-   *   which sometimes tends to perform poorly, especially for poorly
-   *   conditioned H
-   *
-   * \param[in]   y                Received vector
-   * \param[in]   H                Channel matrix
-   * \param[in]   sigma2           Noise variance per real dimension
-   *                               (typically \f$N_0/2\f$)
-   * \param[in]   LLR_apriori      Vector of a priori LLR values per bit
-   * \param[out]  LLR_aposteriori  Vector of a posteriori LLR values
-   * \param[in]   method           Soft demodulation method
-   */
-  void demodulate_soft_bits(const vec &y, const mat &H, double sigma2,
-                            const QLLRvec &LLR_apriori,
-                            QLLRvec &LLR_aposteriori,
-                            Soft_Demod_Method method = FULL_ENUM_LOGMAP);
-  /*!
+	  /*!
   * \brief Soft MAP demodulation for multidimensional channel, by
   * "brute-force" enumeration of all constellation points.
   *
@@ -279,6 +280,7 @@ public:
   */
   void init_soft_demodulator(const itpp::mat& H, const double& sigma2);
 
+	
   /*!
   * \brief Soft MAP demodulation for multidimensional channel, by
   * "brute-force" enumeration of all constellation points.
@@ -316,6 +318,33 @@ public:
                             const QLLRvec &LLR_apriori,
                             QLLRvec &LLR_aposteriori,
                             Soft_Demod_Method method = FULL_ENUM_LOGMAP);
+
+  /*!
+   * \brief Soft demodulation wrapper function for various methods
+   *
+   * Currently the following three demodulation methods are supported:
+   * - FULL_ENUM_LOGMAP - exact demodulation, which use "brute-force"
+   *   enumeration of all constellation points
+   * - FULL_ENUM_MAXLOG - max-log approximate demodulation, which use "brute-force"
+   *   enumeration to find the constellation points that give the smallest euclidian
+   *   distances
+   * - ZF_LOGMAP - approximated methods with Zero-Forcing preprocessing,
+   *   which sometimes tends to perform poorly, especially for poorly
+   *   conditioned H
+   *
+   * \param[in]   y                Received vector
+   * \param[in]   H                Channel matrix
+   * \param[in]   sigma2           Noise variance per real dimension
+   *                               (typically \f$N_0/2\f$)
+   * \param[in]   LLR_apriori      Vector of a priori LLR values per bit
+   * \param[out]  LLR_aposteriori  Vector of a posteriori LLR values
+   * \param[in]   method           Soft demodulation method
+   */
+  void demodulate_soft_bits(const vec &y, const mat &H, double sigma2,
+                            const QLLRvec &LLR_apriori,
+                            QLLRvec &LLR_aposteriori,
+                            Soft_Demod_Method method = FULL_ENUM_LOGMAP);
+
 
   /*!
    * \brief Soft demodulation wrapper function for various methods
@@ -375,53 +404,18 @@ protected:
   void update_norm(double &norm, int k, int sold, int snew, const vec &ytH,
                    const mat &HtH, const ivec &s);
 
-  //! Hardcoded implementation of 1:st bit demodulation
-  void demodllrbit0(itpp::QLLR& llr) const;
-
-  //! Hardcoded implementation of 2:nd bit demodulation
-  void demodllrbit1(itpp::QLLR& llr) const;
-
-  //! Hardcoded implementation of 3:rd bit demodulation
-  void demodllrbit2(itpp::QLLR& llr) const;
-
-  //! Hardcoded implementation of 1:st bit demodulation
-  void demodmaxbit0(itpp::QLLR& maxllr) const;
-
-  //! Hardcoded implementation of 2:nd bit demodulation
-  void demodmaxbit1(itpp::QLLR& maxllr) const;
-
-  //! Hardcoded implementation of 3:rd bit demodulation
-  void demodmaxbit2(itpp::QLLR& maxllr) const;
-
   //! Calculation of the part of the norms that depends on H
   void hxnormupdate(itpp::vec& Hx, unsigned& bitstring, unsigned& ind, unsigned bit);
 
   //! Calculation of the remaining part of the norms that depends both on H and y
   void yxnormupdate(double& yx, itpp::QLLR& lapr, unsigned& bitstring, unsigned& ind, unsigned bit);
 
-  double norm2(const itpp::vec& x) const {
-    return x * x;
-  }
-  //! Two times the noise variance
-  double dblvar;
-  //! Real channel matrix
-  itpp::mat H;
-  //! Norms part dependent on H
-  itpp::vec hnorms;
-  //! Norms part depending on both H and y
-  itpp::QLLRvec Qnorms;
-  //! A prioi information
-  itpp::QLLRvec llrapr;
-  //! The spacing between different constellation points multiplied by the different H columns
-  itpp::Vec<itpp::Vec<itpp::vec> > hspacings;
-  //! The spacing between different constellation points scaled by different y elements
+	//! Real channel matrix
+	itpp::mat H;
+	//! The spacing between different constellation points multiplied by the different H columns
+	itpp::Vec<itpp::Vec<itpp::vec> > hspacings;
+	//! The spacing between different constellation points scaled by different y elements
   itpp::Vec<itpp::vec> yspacings;
-  //! The bit to column mapping
-  itpp::ivec bpos2cpos;
-  //! The cumulative sum of bits in the symbol vector
-  itpp::ivec bitcumsum;
-  //! The Gray to decimal mapping
-  itpp::Vec<itpp::Vec<unsigned> > gray2dec;
 };
 
 /*!
@@ -465,13 +459,72 @@ public:
   //! Modulation of bits
   cvec modulate_bits(const bvec &bits) const;
 
+	/*!
+  * \brief Soft MAP demodulation for multidimensional channel, by
+  * "brute-force" enumeration of all constellation points.
+  *
+  * This function computes the norms
+  * \f[\frac{|y - Hs|^2}{2\sigma^2}\f]
+  * used to compute the LLR values
+  * \f[
+  * LLR(k) = \log \left( \frac
+  * {\sum_{s:b_k=0} \exp \left( -\frac{|y - Hs|^2}{2\sigma^2} \right) P(s)}
+  * {\sum_{s:b_k=1} \exp \left( -\frac{|y - Hs|^2}{2\sigma^2} \right) P(s)}
+  * \right)
+  * \f]
+  *
+  * without approximations. It is assumed that H is
+  * real-valued. Complex-valued channels can be handled using the \c
+  * Modulator_NCD class.
+  */
+  void init_soft_demodulator(const itpp::cmat& H, const double& sigma2);
+
+  /*!
+  * \brief Soft MAP demodulation for multidimensional channel, by
+  * "brute-force" enumeration of all constellation points.
+  *
+  * This function computes the LLR values
+  * \f[
+  * LLR(k) = \log \left( \frac
+  * {\sum_{s:b_k=0} \exp \left( -\frac{|y - Hs|^2}{2\sigma^2} \right) P(s)}
+  * {\sum_{s:b_k=1} \exp \left( -\frac{|y - Hs|^2}{2\sigma^2} \right) P(s)}
+  * \right)
+  * \f]
+  *
+  * without approximations. Currently the following two demodulation methods
+  * are supported:
+  * - FULL_ENUM_LOGMAP - exact demodulation, which use "brute-force"
+  *   enumeration of all constellation points
+  * - FULL_ENUM_MAXLOG - max-log approximate demodulation, which use "brute-force"
+  *   enumeration to find the constellation points that give the smallest euclidian
+  *   distances
+  *
+  * \param[in]   y                Received vector
+  *                               (typically \f$N_0/2\f$)
+  * \param[in]   LLR_apriori      Vector of a priori LLR values per bit
+  * \param[out]  LLR_aposteriori  Vector of a posteriori LLR values
+  * \param[in]   method           Soft demodulation method
+  *
+  * The function performs an exhaustive search over all possible points
+  * \c s in the n-dimensional constellation. This is only feasible for
+  * relatively small constellations. The Jacobian logarithm is used to
+  * compute the sum-exp expression.
+  */
+  void demodulate_soft_bits(const cvec &y,
+                            const QLLRvec &LLR_apriori,
+                            QLLRvec &LLR_aposteriori,
+                            Soft_Demod_Method method = FULL_ENUM_LOGMAP);
+
   //! Soft demodulation wrapper function for various methods
   /*!
    * \brief Soft demodulation wrapper function for various methods
    *
-   * Currently the following two demodulation methods are supported:
+   * Currently the following three demodulation methods are supported:
    * - FULL_ENUM_LOGMAP - exact demodulation, which use "brute-force"
    *   enumeration of all constellation points
+	* - FULL_ENUM_MAXLOG - max-log approximate demodulation, which use "brute-force"
+	*   enumeration to find the constellation points that give the smallest euclidian
+	*   distances
    * - ZF_LOGMAP - approximated methods with Zero-Forcing preprocessing,
    *   which sometimes tends to perform poorly, especially for poorly
    *   conditioned H
@@ -488,14 +541,17 @@ public:
   void demodulate_soft_bits(const cvec &y, const cmat &H, double sigma2,
                             const QLLRvec &LLR_apriori,
                             QLLRvec &LLR_aposteriori,
-                            Soft_Demod_Method method);
+                            Soft_Demod_Method method = FULL_ENUM_LOGMAP);
 
   /*!
    * \brief Soft demodulation wrapper function for various methods
    *
-   * Currently the following two demodulation methods are supported:
+   * Currently the following three demodulation methods are supported:
    * - FULL_ENUM_LOGMAP - exact demodulation, which use "brute-force"
    *   enumeration of all constellation points
+	* - FULL_ENUM_MAXLOG - max-log approximate demodulation, which use "brute-force"
+	*   enumeration to find the constellation points that give the smallest euclidian
+	*   distances
    * - ZF_LOGMAP - approximated methods with Zero-Forcing preprocessing,
    *   which sometimes tends to perform poorly, especially for poorly
    *   conditioned H
@@ -511,39 +567,8 @@ public:
    */
   QLLRvec demodulate_soft_bits(const cvec &y, const cmat &H, double sigma2,
                                const QLLRvec &LLR_apriori,
-                               Soft_Demod_Method method);
+                               Soft_Demod_Method method = FULL_ENUM_LOGMAP);
 
-  /*!
-   * \brief Soft MAP demodulation for multidimensional channel, by
-   * "brute-force" enumeration of all constellation points.
-   *
-   * This function computes the LLR values
-   * \f[
-   * LLR(k) = \log \left( \frac
-   * {\sum_{s:b_k=0} \exp \left( -\frac{|y - Hs|^2}{\sigma^2} \right) P(s)}
-   * {\sum_{s:b_k=1} \exp \left( -\frac{|y - Hs|^2}{\sigma^2} \right) P(s)}
-   * \right)
-   * \f]
-   *
-   * without approximations. It is assumed that H, y and s are
-   * complex-valued.
-   *
-   * \param[in]   y                Received vector
-   * \param[in]   H                Channel matrix
-   * \param[in]   sigma2           Noise variance per complex dimension, i.e.
-   *                               the sum of real and imaginary parts
-   *                               (typically \f$N_0\f$)
-   * \param[in]   LLR_apriori      Vector of a priori LLR values per bit
-   * \param[out]  LLR_aposteriori  Vector of a posteriori LLR values
-   *
-   * The function performs an exhaustive search over all possible points
-   * \c s in the n-dimensional constellation. This is only feasible for
-   * relatively small constellations. The Jacobian logarithm is used to
-   * compute the sum-exp expression.
-   */
-  void demodulate_soft_bits(const cvec &y, const cmat &H, double sigma2,
-                            const QLLRvec &LLR_apriori,
-                            QLLRvec &LLR_aposteriori);
 
   /*!
    * \brief Soft MAP demodulation for parallelchannels without crosstalk.
@@ -552,7 +577,7 @@ public:
    * with \f$H = \mbox{diag}(h)\f$. Its complexity is linear in the number
    * of subchannels.
    */
-  void demodulate_soft_bits(const cvec &y, const cvec &H, double sigma2,
+  void demodulate_soft_bits(const cvec &y, const cvec &h, double sigma2,
                             const QLLRvec &LLR_apriori,
                             QLLRvec &LLR_aposteriori);
 
@@ -562,23 +587,14 @@ public:
 protected:
   //! Vectors of modulation symbols (along each dimension)
   Array<cvec> symbols;
-
-  /*!
-   * \brief Update residual norm (for internal use).
-   *
-   * Update the residual norm \f$|y-Hs|\f$ when moving from one
-   * constellation point to an adjacent point.
-   *
-   * \param[in,out]  norm  Norm to be updated
-   * \param[in]      k     Position where s changed
-   * \param[in]      sold  Old value of s[k]
-   * \param[in]      snew  New value of s[k]
-   * \param[in]      ytH   y'H vector
-   * \param[in]      HtH   Grammian matrix H'H
-   * \param[in]      s     Symbol vector
-   */
-  void update_norm(double &norm, int k, int sold, int snew, const cvec &ytH,
-                   const cmat &HtH, const ivec &s);
+	//! Complex-valued channel matrix
+	itpp::cmat H;
+	//! The spacing between different constellation points multiplied by the different H columns
+	itpp::Vec<itpp::Vec<itpp::cvec> > hspacings;
+	//! The spacing between different constellation points scaled by different y elements
+  itpp::Vec<itpp::vec> yspacings;
+	void hxnormupdate(itpp::cvec& Hx, unsigned& bitstring, unsigned& ind, unsigned bit);
+	void yxnormupdate(double& yx, itpp::QLLR& lapr, unsigned& bitstring, unsigned& ind, unsigned bit);
 };
 
 /*!

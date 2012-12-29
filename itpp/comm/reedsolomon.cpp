@@ -52,17 +52,18 @@ GFX formal_derivate(const GFX &f)
 //-------------------- Reed-Solomon ----------------------------
 //A Reed-Solomon code is a q^m-ary BCH code of length n = pow(q,m)-1.
 //k = pow(q,m)-1-t. This class works for q==2.
-Reed_Solomon::Reed_Solomon(int in_m, int in_t, bool sys):
-  m(in_m), t(in_t), systematic(sys)
+Reed_Solomon::Reed_Solomon(int in_m, int in_t, bool sys, int in_b):
+  m(in_m), t(in_t), b(in_b), systematic(sys)
 {
   n = pow2i(m) - 1;
   k = pow2i(m) - 1 - 2 * t;
   q = pow2i(m);
+  it_assert( (b >= 0) && (b < n), "Reed_Solomon::Reed_Solomon: narrow-sense parameter restricted to 0 <= b <= n.");
   GFX x(q, (char *)"-1 0");
   ivec alphapow(1);
   g.set(q, (char *)"0");
   for (int i = 1; i <= 2 * t; i++) {
-    alphapow(0) = i;
+    alphapow(0) = b + i - 1;
     g *= (x - GFX(q, alphapow));
   }
 }
@@ -117,7 +118,7 @@ bvec Reed_Solomon::encode(const bvec &uncoded_bits)
   return coded_bits;
 }
 
-bool Reed_Solomon::decode(const bvec &coded_bits, bvec &decoded_message, bvec &cw_isvalid)
+bool Reed_Solomon::decode(const bvec &coded_bits, const ivec &erasure_positions, bvec &decoded_message, bvec &cw_isvalid)
 {
   bool decoderfailure, no_dec_failure;
   int j, i, kk, l, L, foundzeros, iterations = floor_i(static_cast<double>(coded_bits.length()) / (n * m));
@@ -125,12 +126,16 @@ bool Reed_Solomon::decode(const bvec &coded_bits, bvec &decoded_message, bvec &c
   decoded_message.set_size(iterations * k * m, false);
   cw_isvalid.set_length(iterations);
 
-  GFX rx(q, n - 1), cx(q, n - 1), mx(q, k - 1), ex(q, n - 1), S(q, 2 * t), Lambda(q),
-      Lambdaprim(q), OldLambda(q), T(q), Omega(q);
+  GFX rx(q, n - 1), cx(q, n - 1), mx(q, k - 1), ex(q, n - 1), S(q, 2 * t), Xi(q, 2 * t), Gamma(q), Lambda(q),
+      Psiprime(q), OldLambda(q), T(q), Omega(q);
   GFX dummy(q), One(q, (char*)"0"), Omegatemp(q);
   GF delta(q), tempsum(q), rtemp(q), temp(q), Xk(q), Xkinv(q);
   ivec errorpos;
 
+  if ( erasure_positions.length() ) {
+    it_assert(max(erasure_positions) < iterations*n, "Reed_Solomon::decode: erasure position is invalid.");
+  }
+  
   no_dec_failure = true;
   for (i = 0; i < iterations; i++) {
     decoderfailure = false;
@@ -139,24 +144,37 @@ bool Reed_Solomon::decode(const bvec &coded_bits, bvec &decoded_message, bvec &c
       rtemp.set(q, coded_bits.mid(i * n * m + j * m, m));
       rx[j] = rtemp;
     }
+    // Fix the Erasure polynomial Gamma(x)
+    // and replace erased coordinates with zeros
+    rtemp.set(q, -1);
+    ivec alphapow = - ones_i(2);
+    Gamma = One;
+    for (j = 0; j < erasure_positions.length(); j++) {
+      rx[erasure_positions(j)] = rtemp;
+      alphapow(1) = erasure_positions(j);
+      Gamma *= (One - GFX(q, alphapow));
+    }
     //Fix the syndrome polynomial S(x).
     S.clear();
     for (j = 1; j <= 2 * t; j++) {
-      S[j] = rx(GF(q, j));
+      S[j] = rx(GF(q, b + j - 1));
     }
-    if (S.get_true_degree() >= 1) { //Errors in the received word
-      //Iterate to find Lambda(x).
+    // calculate the modified syndrome polynomial Xi(x) = Gamma * (1+S) - 1
+    Xi = Gamma * (One + S) - One;
+    // Apply Berlekam-Massey algorithm
+    if (Xi.get_true_degree() >= 1) { //Errors in the received word
+      // Iterate to find Lambda(x), which hold all error locations
       kk = 0;
-      Lambda = GFX(q, (char*)"0");
+      Lambda = One;
       L = 0;
       T = GFX(q, (char*)"-1 0");
       while (kk < 2 * t) {
         kk = kk + 1;
         tempsum = GF(q, -1);
         for (l = 1; l <= L; l++) {
-          tempsum += Lambda[l] * S[kk - l];
+          tempsum += Lambda[l] * Xi[kk - l];
         }
-        delta = S[kk] - tempsum;
+        delta = Xi[kk] - tempsum;
         if (delta != GF(q, -1)) {
           OldLambda = Lambda;
           Lambda -= delta * T;
@@ -167,7 +185,7 @@ bool Reed_Solomon::decode(const bvec &coded_bits, bvec &decoded_message, bvec &c
         }
         T = GFX(q, (char*)"-1 0") * T;
       }
-      //Find the zeros to Lambda(x).
+      // Find the zeros to Lambda(x)
       errorpos.set_size(Lambda.get_true_degree());
       foundzeros = 0;
       for (j = q - 2; j >= 0; j--) {
@@ -182,27 +200,36 @@ bool Reed_Solomon::decode(const bvec &coded_bits, bvec &decoded_message, bvec &c
       if (foundzeros != Lambda.get_true_degree()) {
         decoderfailure = true;
       }
-      else {
+      else { // Forney algorithm...
         //Compute Omega(x) using the key equation for RS-decoding
         Omega.set_degree(2 * t);
-        Omegatemp = Lambda * (One + S);
+        Omegatemp = Lambda * (One + Xi);
         for (j = 0; j <= 2 * t; j++) {
           Omega[j] = Omegatemp[j];
         }
-        Lambdaprim = formal_derivate(Lambda);
-        //Find the error polynomial
+        //Find the error/erasure magnitude polynomial by treating them the same
+        Psiprime = formal_derivate(Lambda*Gamma);
+        errorpos = concat(errorpos, erasure_positions);
         ex.clear();
-        for (j = 0; j < foundzeros; j++) {
+        for (j = 0; j < errorpos.length(); j++) {
           Xk = GF(q, errorpos(j));
           Xkinv = GF(q, 0) / Xk;
-          ex[errorpos(j)] = (Xk * Omega(Xkinv)) / Lambdaprim(Xkinv);
+          // we calculate ex = - error polynomial, in order to avoid the 
+          // subtraction when recunstructing the corrected codeword
+          ex[errorpos(j)] = (Xk * Omega(Xkinv)) / Psiprime(Xkinv);
+          if (b != 1) { // non-narrow-sense code needs corrected error magnitudes
+            int correction_exp = ( errorpos(j)*(1-b) ) % n;
+            ex[errorpos(j)] *= GF(q, correction_exp + ( (correction_exp < 0) ? n : 0 ));
+          }
         }
         //Reconstruct the corrected codeword.
+        // instead of subtracting the error/erasures, we calculated 
+        // the negative error with 'ex' above
         cx = rx + ex;
         //Code word validation
         S.clear();
         for (j = 1; j <= 2 * t; j++) {
-          S[j] = cx(GF(q, j));
+          S[j] = cx(GF(q, b + j - 1));
         }
         if (S.get_true_degree() >= 1) {
           decoderfailure = true;
@@ -213,7 +240,6 @@ bool Reed_Solomon::decode(const bvec &coded_bits, bvec &decoded_message, bvec &c
       cx = rx;
       decoderfailure = false;
     }
-
     //Find the message polynomial
     mbit.clear();
     if (decoderfailure == false) {
@@ -249,10 +275,17 @@ bool Reed_Solomon::decode(const bvec &coded_bits, bvec &decoded_message, bvec &c
   return no_dec_failure;
 }
 
+bool Reed_Solomon::decode(const bvec &coded_bits, bvec &decoded_message, bvec &cw_isvalid)
+{
+  ivec   erasures(0);
+  return decode(coded_bits, erasures, decoded_message, cw_isvalid);
+}
+
 void Reed_Solomon::decode(const bvec &coded_bits, bvec &decoded_bits)
 {
   bvec   cw_isvalid;
-  if (!decode(coded_bits, decoded_bits, cw_isvalid)) {
+  ivec   erasures(0);
+  if (!decode(coded_bits, erasures, decoded_bits, cw_isvalid)) {
     for (int i = 0; i < cw_isvalid.length(); i++) {
       if (!cw_isvalid(i)) {
         decoded_bits.replace_mid(i * k * m, zeros_b(k * m));
