@@ -31,4 +31,8 @@ include_directories ( ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} ${GTEST_DIR} ${GTE
 
 add_executable ( itpp_gtests ${ITPP_TEST_SRCS} ${GTEST_DIR}/src/gtest-all.cc ${GTEST_DIR}/src/gtest_main.cc )
 
-target_link_libraries ( itpp_gtests ${ITPP_LIBS} ${libitpp_target} pthread )
+if (NOT WIN32)
+  target_link_libraries ( itpp_gtests ${ITPP_LIBS} ${libitpp_target} pthread )
+else()
+  target_link_libraries ( itpp_gtests ${ITPP_LIBS} ${libitpp_target} )
+endif()
