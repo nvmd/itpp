@@ -68,10 +68,10 @@ int main()
 			cvec ypsk = Hc * xpsk + ec;
 			vec x=pammod.modulate_bits(b);
 			mat H(2*nt,2*nt);
-			H.set_submatrix(0, 0, real(Hc)/sqrt(2));
-			H.set_submatrix(nt, 0, imag(Hc)/sqrt(2));
-			H.set_submatrix(nt, nt, real(Hc)/sqrt(2));
-			H.set_submatrix(0, nt, -imag(Hc)/sqrt(2));
+			H.set_submatrix(0, 0, real(Hc)/sqrt(2.0));
+			H.set_submatrix(nt, 0, imag(Hc)/sqrt(2.0));
+			H.set_submatrix(nt, nt, real(Hc)/sqrt(2.0));
+			H.set_submatrix(0, nt, -imag(Hc)/sqrt(2.0));
 			vec y=H*x+sqrt(sigma2) * randn(2*nt);
 			
 			QLLRvec LLR_ap = randi(2*nt*nb,-5000,5000);
@@ -130,10 +130,10 @@ int main()
 		cout << qammod << endl << pammod << endl;
 		cmat Hc = randn_c(nt, nt);
 		mat H(2*nt,2*nt);
-		H.set_submatrix(0, 0, real(Hc)/sqrt(2));
-		H.set_submatrix(nt, 0, imag(Hc)/sqrt(2));
-		H.set_submatrix(nt, nt, real(Hc)/sqrt(2));
-		H.set_submatrix(0, nt, -imag(Hc)/sqrt(2));
+		H.set_submatrix(0, 0, real(Hc)/sqrt(2.0));
+		H.set_submatrix(nt, 0, imag(Hc)/sqrt(2.0));
+		H.set_submatrix(nt, nt, real(Hc)/sqrt(2.0));
+		H.set_submatrix(0, nt, -imag(Hc)/sqrt(2.0));
 		QLLRvec LLR_ap = zeros_i(sum(qammod.get_k()));
 		pammod.init_soft_demodulator(H, sigma2);
 		qammod.init_soft_demodulator(Hc, 2*sigma2);	
