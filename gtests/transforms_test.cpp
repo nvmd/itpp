@@ -1,11 +1,11 @@
 /*!
  * \file
  * \brief Transforms test program
- * \author Tony Ottosson, Thomas Eriksson, Simon Wood and Adam Piatyszek
+ * \author Tony Ottosson, Thomas Eriksson, Simon Wood, Adam Piatyszek, Andy Panov and Bogdan Cristea
  *
  * -------------------------------------------------------------------------
  *
- * Copyright (C) 1995-2010  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2013  (see AUTHORS file for a list of contributors)
  *
  * This file is part of IT++ - a C++ library of mathematical, signal
  * processing, speech processing, and communications classes and functions.
@@ -26,12 +26,11 @@
  * -------------------------------------------------------------------------
  */
 
+#include <vector>
 #include <itpp/itsignal.h>
 #include "gtest/gtest.h"
-#include <vector>
 
 #ifdef _OPENMP
-//should work on both gcc & msvc (it is an omp standard requirement)
 #include <omp.h>
 #endif
 
@@ -54,8 +53,18 @@ inline void test_result(const Vec<T>& in, const Vec<T>& ref)
   }
 }
 
-//Reference transforms implementations. These function is not intended to be fast.
-//They just strictly follows the transform definitions
+//tester for multiple results collected in std::vector
+template<typename T>
+inline void test_result(const std::vector<Vec<T> >& in, const Vec<T>& ref)
+{
+  typename std::vector<Vec<T> >::size_type i;
+  for(i = 0; i < in.size(); ++i) test_result(in[i], ref);
+}
+
+
+//Reference transform implementations. These functions are not intended to be fast.
+//They just strictly follow the transform definitions
+
 //reference DFT implementation
 template<typename T>
 inline cvec ref_dft(const Vec<T>& in)
@@ -132,6 +141,53 @@ inline vec ref_idct(const vec& in)
   return ret;
 }
 
+//Transform testers run the same transform function in single or multiple threads (if OMP is enabled).
+template<typename InType, typename OutType>
+std::vector<OutType> run_transform_test(OutType(*transform_function)(const InType&), const InType& test_input)
+{
+  //select number of results. Multiple threads run the same code if OMP is enabled
+#ifdef _OPENMP
+  static const int threads_cnt = omp_get_max_threads();
+  omp_set_num_threads(threads_cnt);
+#else
+  static const int threads_cnt = 1;
+#endif
+  std::vector<OutType> ret(threads_cnt);
+  #pragma omp parallel
+  {
+    //parallel region start. Spawn the threads.
+    #pragma omp for
+    for(int j = 0; j < threads_cnt; ++j) {
+      ret[j] = transform_function(test_input);
+    }
+    //parallel region end. Join the threads.
+  }
+  return ret;
+}
+
+template<typename InType, typename OutType>
+std::vector<OutType> run_transform_test(OutType(*transform_function)(const InType&, int), const InType& test_input, int N)
+{
+  //select number of results. Multiple threads run the same code if OMP is enabled
+#ifdef _OPENMP
+  static const int threads_cnt = omp_get_max_threads();
+  omp_set_num_threads(threads_cnt);
+#else
+  static const int threads_cnt = 1;
+#endif
+  std::vector<OutType> ret(threads_cnt);
+  #pragma omp parallel
+  {
+    //parallel region start. Spawn the threads.
+    #pragma omp for
+    for(int j = 0; j < threads_cnt; ++j) {
+      ret[j] = transform_function(test_input, N);
+    }
+    //parallel region end. Join the threads.
+  }
+  return ret;
+}
+
 //----------------------------------------------
 //Gtest test cases
 //----------------------------------------------
@@ -140,14 +196,14 @@ TEST(Transforms, FFTReal)
 {
   int N = 16;
   vec x = randn(N);
-  cvec y;
 
   if(!have_fourier_transforms()) FAIL() << "Fourier Transforms are not supported with this library build.";
 
   //vector processing test
   {
-    SCOPED_TRACE("fft_real(x, y) test");
-    fft_real(x, y);
+    SCOPED_TRACE("y = fft_real(x) test");
+    //cvec y = fft_real(x);
+    std::vector<cvec> y = run_transform_test(fft_real, x);
     test_result(y, ref_dft(x));
   }
 
@@ -155,7 +211,8 @@ TEST(Transforms, FFTReal)
   {
     SCOPED_TRACE("y = fft_real(x, N) test, N < length(x)");
     int N_sub = 11; //odd subvector length
-    y = fft_real(x, N_sub);
+    //cvec y = fft_real(x, N_sub);
+    std::vector<cvec> y = run_transform_test(fft_real, x, N_sub);
     test_result(y, ref_dft(x(0, N_sub - 1)));
   }
 
@@ -163,7 +220,8 @@ TEST(Transforms, FFTReal)
   {
     SCOPED_TRACE("y = fft_real(x, N) test, N > length(x)");
     int N_zp = 8; //zero-padding length
-    y = fft_real(x, N + N_zp);
+    //cvec y = fft_real(x, N + N_zp);
+    std::vector<cvec> y = run_transform_test(fft_real, x, N + N_zp);
     x.set_size(N + N_zp, true);
     test_result(y, ref_dft(x));
   }
@@ -175,16 +233,16 @@ TEST(Transforms, IFFTReal)
 
   //vector processing test
   {
-    SCOPED_TRACE("ifft_real(x, y) test");
+    SCOPED_TRACE("y = ifft_real(x) test");
     int N = 16;
     cvec t = randn_c(N - 1);
-    vec y;
     cvec x(N);
     //generate test complex sequence with real spectra
     x.set_subvector(1, 0.5 * (t + conj(reverse(t))));
     x(0) = randn();
     //run transform & test results
-    ifft_real(x, y);
+    //vec y = ifft_real(x);
+    std::vector<vec> y = run_transform_test(ifft_real, x);
     test_result(y, real(ref_idft(x)));
   }
 
@@ -193,7 +251,6 @@ TEST(Transforms, IFFTReal)
     SCOPED_TRACE("y = ifft_real(x, N) test, N < length(x)");
     int N = 16, N_sub = 11; //define odd subvector length to test odd-length transform
     cvec t = randn_c(N - 1);
-    vec y;
     cvec x(N);
     //fill subvector samples with Hermitian sequence
     x.set_subvector(1, 0.5 * (t(1, N_sub - 1) + conj(reverse(t(1, N_sub - 1)))));
@@ -201,7 +258,8 @@ TEST(Transforms, IFFTReal)
     //fill the rest of x with random data (these data should be ignored by IFFT implementation)
     x.set_subvector(N_sub, randn_c(N - N_sub));
     //run transform & test results
-    y = ifft_real(x, N_sub);
+    //vec y = ifft_real(x, N_sub);
+    std::vector<vec> y = run_transform_test(ifft_real, x, N_sub);
     test_result(y, real(ref_idft(x(0, N_sub - 1))));
   }
 
@@ -210,14 +268,14 @@ TEST(Transforms, IFFTReal)
     SCOPED_TRACE("y = ifft_real(x, N) test, N > length(x)");
     int N_data = 32, N_zp = 8; //define data and zero-padding length
     cvec t = randn_c(N_data);
-    vec y;
     cvec x(N_data + N_zp + 1);
     //generate the test data. sequence posesses Hermitian symmetry after zero-padding with N_zp zeros.
     x(0) = randn();
     x.set_subvector(1, N_zp, std::complex<double>(0));
     x.set_subvector(N_zp + 1, 0.5 * (t + conj(reverse(t))));
     //run transform & test results
-    y = ifft_real(x, N_data + 2 * N_zp + 1);
+    //vec y = ifft_real(x, N_data + 2*N_zp + 1);
+    std::vector<vec> y = run_transform_test(ifft_real, x, N_data + 2 * N_zp + 1);
     x.set_size(N_data + 2 * N_zp + 1, true);
     test_result(y, real(ref_idft(x)));
   }
@@ -228,12 +286,13 @@ TEST(Transforms, FFTCplx)
   if(!have_fourier_transforms()) FAIL() << "Fourier Transforms are not supported with this library build.";
 
   int N = 16;
-  cvec x = randn_c(N), y;
+  cvec x = randn_c(N);
 
   //vector processing test
   {
-    SCOPED_TRACE("fft(x, y) test");
-    fft(x, y);
+    SCOPED_TRACE("y = fft(x) test");
+    //cvec y = fft(x);
+    std::vector<cvec> y = run_transform_test(fft, x);
     test_result(y, ref_dft(x));
   }
 
@@ -241,7 +300,8 @@ TEST(Transforms, FFTCplx)
   {
     SCOPED_TRACE("y = fft(x, N) test, N < length(x)");
     int N_sub = 11; //odd subvector length
-    y = fft(x, N_sub);
+    //cvec y = fft(x, N_sub);
+    std::vector<cvec> y = run_transform_test(fft, x, N_sub);
     test_result(y, ref_dft(x(0, N_sub - 1)));
   }
 
@@ -249,7 +309,8 @@ TEST(Transforms, FFTCplx)
   {
     SCOPED_TRACE("y = fft(x, N) test, N > length(x)");
     int N_zp = 8; //zero-padding length
-    y = fft(x, N + N_zp);
+    //cvec y = fft(x, N + N_zp);
+    std::vector<cvec> y = run_transform_test(fft, x, N + N_zp);
     x.set_size(N + N_zp, true);
     test_result(y, ref_dft(x));
   }
@@ -264,8 +325,9 @@ TEST(Transforms, IFFTCplx)
 
   //vector processing test
   {
-    SCOPED_TRACE("ifft(x, y) test");
-    ifft(x, y);
+    SCOPED_TRACE("y = ifft(x) test");
+    //cvec y = ifft(x);
+    std::vector<cvec> y = run_transform_test(ifft, x);
     test_result(y, ref_idft(x));
   }
 
@@ -273,7 +335,8 @@ TEST(Transforms, IFFTCplx)
   {
     SCOPED_TRACE("y = ifft(x, N) test, N < length(x)");
     int N_sub = 11; //odd subvector length
-    y = ifft(x, N_sub);
+    //cvec y = ifft(x, N_sub);
+    std::vector<cvec> y = run_transform_test(ifft, x, N_sub);
     test_result(y, ref_idft(x(0, N_sub - 1)));
   }
 
@@ -281,7 +344,8 @@ TEST(Transforms, IFFTCplx)
   {
     SCOPED_TRACE("y = ifft(x, N) test, N > length(x)");
     int N_zp = 8; //zero-padding length
-    y = ifft(x, N + N_zp);
+    //cvec y = ifft(x, N + N_zp);
+    std::vector<cvec> y = run_transform_test(ifft, x, N + N_zp);
     x.set_size(N + N_zp, true);
     test_result(y, ref_idft(x));
   }
@@ -292,12 +356,13 @@ TEST(Transforms, DCT)
   if(!have_cosine_transforms()) FAIL() << "Cosine Transforms are not supported with this library build.";
 
   int N = 16;
-  vec x = randn(N), y;
+  vec x = randn(N);
 
   //vector processing test
   {
-    SCOPED_TRACE("dct(x, y) test");
-    dct(x, y);
+    SCOPED_TRACE("y = dct(x) test");
+    //vec y = dct(x);
+    std::vector<vec> y = run_transform_test(dct, x);
     test_result(y, ref_dct(x));
   }
 
@@ -305,7 +370,8 @@ TEST(Transforms, DCT)
   {
     SCOPED_TRACE("y = dct(x, N) test, N < length(x)");
     int N_sub = 11; //odd subvector length
-    y = dct(x, N_sub);
+    //vec y = dct(x, N_sub);
+    std::vector<vec> y = run_transform_test(dct, x, N_sub);
     test_result(y, ref_dct(x(0, N_sub - 1)));
   }
 
@@ -313,7 +379,8 @@ TEST(Transforms, DCT)
   {
     SCOPED_TRACE("y = dct(x, N) test, N > length(x)");
     int N_zp = 8; //zero-padding length
-    y = dct(x, N + N_zp);
+    //vec y = dct(x, N + N_zp);
+    std::vector<vec> y = run_transform_test(dct, x, N + N_zp);
     x.set_size(N + N_zp, true);
     test_result(y, ref_dct(x));
   }
@@ -324,12 +391,13 @@ TEST(Transforms, IDCT)
   if(!have_cosine_transforms()) FAIL() << "Cosine Transforms are not supported with this library build.";
 
   int N = 16;
-  vec x = randn(N), y;
+  vec x = randn(N);
 
   //vector processing test
   {
-    SCOPED_TRACE("idct(x, y) test");
-    idct(x, y);
+    SCOPED_TRACE("y = idct(x) test");
+    //vec y = idct(x);
+    std::vector<vec> y = run_transform_test(idct, x);
     test_result(y, ref_idct(x));
   }
 
@@ -337,7 +405,8 @@ TEST(Transforms, IDCT)
   {
     SCOPED_TRACE("y = idct(x, N) test, N < length(x)");
     int N_sub = 11; //odd subvector length
-    y = idct(x, N_sub);
+    //vec y = idct(x, N_sub);
+    std::vector<vec> y = run_transform_test(idct, x, N_sub);
     test_result(y, ref_idct(x(0, N_sub - 1)));
   }
 
@@ -345,63 +414,44 @@ TEST(Transforms, IDCT)
   {
     SCOPED_TRACE("y = idct(x, N) test, N > length(x)");
     int N_zp = 8; //zero-padding length
-    y = dct(x, N + N_zp);
+    //vec y = idct(x, N + N_zp);
+    std::vector<vec> y = run_transform_test(idct, x, N + N_zp);
     x.set_size(N + N_zp, true);
-    test_result(y, ref_dct(x));
+    test_result(y, ref_idct(x));
   }
 }
 
+//Run several transforms sequentially. This test runs three FFT transforms sequentially in each thread.
+//The test is intended to verify FFT operation on larger data sets and test for possible clashes on shared
+//data in multithreaded environment.
 
-#ifdef _OPENMP
+cvec seq_transforms_test(const cvec& test_input)
+{
+//run 128,256,512-point FFT on test dataset and store results in output vector
+  cvec output(128 + 256 + 512);
+  output.set_subvector(0, fft(test_input, 128));
+  output.set_subvector(128, fft(test_input, 256));
+  output.set_subvector(128 + 256, fft(test_input));
+  return output;
+}
 
-TEST(Transforms, Multithreading)
+cvec seq_transforms_ref(const cvec& test_input)
+{
+//compute reference transforms to verify test results
+  cvec output(128 + 256 + 512);
+  output.set_subvector(0, ref_dft(test_input(0, 127)));
+  output.set_subvector(128, ref_dft(test_input(0, 255)));
+  output.set_subvector(128 + 256, ref_dft(test_input));
+  return output;
+
+}
+
+TEST(Transforms, FFT_128_256_512)
 {
   if(!have_fourier_transforms()) FAIL() << "Fourier Transforms are not supported with this library build.";
 
-  //set number of threads in the team to the maximum available value
-  const int threads_cnt = omp_get_max_threads();
-  omp_set_num_threads(threads_cnt);
-
-  //in order to test possible clashes on shared data each thread computes fft of length 128, 256,512.
-  //Results are compared with reference implementaion upon exit from the parallel region.
   cvec test_input = randn_c(512);
-  std::vector<cvec> outputs_128(threads_cnt);
-  std::vector<cvec> outputs_256(threads_cnt);
-  std::vector<cvec> outputs_512(threads_cnt);
 
-  #pragma omp parallel
-  {
-    #pragma omp for
-    for(int j = 0; j < threads_cnt; ++j) {
-      outputs_128[j] = fft(test_input, 128);
-      outputs_256[j] = fft(test_input, 256);
-      outputs_512[j] = fft(test_input, 512);
-    }
-  }
-  //check results when single-threaded again
-  {
-    SCOPED_TRACE("fft 128 results.");
-
-    cvec out_ref_128 = ref_dft(test_input(0, 127));
-    for(int j = 0; j < threads_cnt; ++j) {
-      test_result(outputs_128[j], out_ref_128);
-    }
-  }
-  {
-    SCOPED_TRACE("fft 256 results.");
-    cvec out_ref_256 = ref_dft(test_input(0, 255));
-    for(int j = 0; j < threads_cnt; ++j) {
-      test_result(outputs_256[j], out_ref_256);
-    }
-  }
-
-  {
-    SCOPED_TRACE("fft 512 results.");
-    cvec out_ref_512 = ref_dft(test_input);
-    for(int j = 0; j < threads_cnt; ++j) {
-      test_result(outputs_512[j], out_ref_512);
-    }
-  }
-
+  std::vector<cvec> y = run_transform_test(seq_transforms_test, test_input);
+  test_result(y, seq_transforms_ref(test_input));
 }
-#endif

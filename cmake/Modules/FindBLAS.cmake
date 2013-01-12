@@ -511,7 +511,7 @@ if (BLA_VENDOR MATCHES "Intel*" OR BLA_VENDOR STREQUAL "All")
         "mkl_blas95_lp64 mkl_intel_lp64 mkl_sequential mkl_core")
     endif ()
   else ()
-    set(BLAS_mkl_SEARCH_SYMBOL mkl_blas_sgemm)
+    set(BLAS_mkl_SEARCH_SYMBOL sgemm)
     set(_LIBRARIES BLAS_LIBRARIES)
     if (WIN32)
       list(APPEND BLAS_SEARCH_LIBS

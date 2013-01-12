@@ -2,11 +2,11 @@
  * \file
  * \brief Fourier, Hadamard, Walsh-Hadamard, and 2D Hadamard transforms -
  *        header file
- * \author Tony Ottosson, Thomas Eriksson, Simon Wood and Adam Piatyszek
+ * \author Tony Ottosson, Thomas Eriksson, Simon Wood, Adam Piatyszek, Andy Panov and Bogdan Cristea
  *
  * -------------------------------------------------------------------------
  *
- * Copyright (C) 1995-2010  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2013  (see AUTHORS file for a list of contributors)
  *
  * This file is part of IT++ - a C++ library of mathematical, signal
  * processing, speech processing, and communications classes and functions.
@@ -81,19 +81,29 @@ namespace itpp
 //!\addtogroup fft
 //!@{
 
-//! Run-time check if library is built with Fast Fourier Transforms enabled
+//! Run-time test if library is built with Fast Fourier Transforms enabled
 bool have_fourier_transforms();
 //! Fast Fourier Transform
 void fft(const cvec &in, cvec &out);
 //! Fast Fourier Transform
 cvec fft(const cvec &in);
-//! Fast Fourier Transform of subvector or with zero-padding up to size N
+/*!
+\brief Fast Fourier Transform with zero-padding up to size N
+
+First N points of input vector are used to perform the transform if N < length(in). Padding with 0's is
+performed if N > length(in).
+*/
 cvec fft(const cvec &in, const int N);
 //! Inverse Fast Fourier Transform
 void ifft(const cvec &in, cvec &out);
 //! Inverse Fast Fourier Transform
 cvec ifft(const cvec &in);
-//! Inverse Fast Fourier Transform of subvector or with zero-padding up to size N
+/*!
+\brief Inverse Fast Fourier Transform with zero-padding up to size N
+
+First N points of input vector are used to perform the transform if N < length(in). Padding with 0's is
+performed if N > length(in).
+*/
 cvec ifft(const cvec &in, const int N);
 
 //! Real Fast Fourier Transform
@@ -101,7 +111,7 @@ void fft_real(const vec& in, cvec &out);
 //! Real Fast Fourier Transform
 cvec fft_real(const vec& in);
 /*!
-\brief Real Fast Fourier Transform of subvector or zero-padding up to size N
+\brief Real Fast Fourier Transform with zero-padding up to size N
 
 First N points of input vector are used to perform the transform if N < length(in). Padding with 0's is
 performed if N > length(in).
@@ -122,7 +132,7 @@ unpredictable and depending on the implementation (MKL/ACML/FFTW) if this requir
 */
 vec ifft_real(const cvec &in);
 /*!
-\brief Inverse Real Fast Fourier Transformon of N-length subvector or zero-padded input sequence.
+\brief Inverse Real Fast Fourier Transformon with zero-padding up to size N.
 
 First N points of input vector are used to perform the transform if N < length(in). Padding with 0's is
 performed if N > length(in).
@@ -178,20 +188,30 @@ vec ifft_real(const cvec &in, const int N);
 //!\addtogroup dct
 //!@{
 
-//! Run-time check if library is built with cosine transfroms enabled
+//! Run-time test if library is built with cosine transforms enabled
 bool have_cosine_transforms();
 //! Discrete Cosine Transform (DCT)
 void dct(const vec &in, vec &out);
 //! Discrete Cosine Transform (DCT)
 vec dct(const vec &in);
-//! Discrete Cosine Transform (DCT) of subvector or with zero-padding up to size N
-vec dct(const vec &in, int N);
+/*!
+\brief Discrete Cosine Transform (DCT) with zero-padding up to size N
+
+First N points of input vector are used to perform the transform if N < length(in). Padding with 0's is
+performed if N > length(in).
+*/
+vec dct(const vec &in, const int N);
 //! Inverse Discrete Cosine Transform (IDCT)
 void idct(const vec &in, vec &out);
 //! Inverse Discrete Cosine Transform (IDCT)
 vec idct(const vec &in);
-//! Inverse Discrete Cosine Transform (IDCT) of subvector or with zero-padding up to size N
-vec idct(const vec &in, int N);
+/*!
+\brief Inverse Discrete Cosine Transform (IDCT) with zero-padding up to size N
+
+First N points of input vector are used to perform the transform if N < length(in). Padding with 0's is
+performed if N > length(in).
+*/
+vec idct(const vec &in, const int N);
 //!@}
 
 

@@ -2,11 +2,11 @@
  * \file
  * \brief Fourier, Cosine, Hadamard, Walsh-Hadamard, and 2D Hadamard
  *        transforms - source file
- * \author Tony Ottosson, Thomas Eriksson, Simon Wood and Adam Piatyszek
+ * \author Tony Ottosson, Thomas Eriksson, Simon Wood, Adam Piatyszek, Andy Panov and Bogdan Cristea
  *
  * -------------------------------------------------------------------------
  *
- * Copyright (C) 1995-2010  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2013  (see AUTHORS file for a list of contributors)
  *
  * This file is part of IT++ - a C++ library of mathematical, signal
  * processing, speech processing, and communications classes and functions.
@@ -33,8 +33,7 @@
 #  include <itpp/config_msvc.h>
 #endif
 
-//fft library selector
-enum LibraryTag {DoNotHaveLibrary, FFTW, ACML, MKL};
+
 #if defined(HAVE_FFT_MKL)
 
 namespace mkl
@@ -43,7 +42,6 @@ namespace mkl
 #  include <mkl_service.h>
 #  undef DftiCreateDescriptor
 }
-const LibraryTag ActiveLibrary = MKL;
 
 #elif defined(HAVE_FFT_ACML)
 
@@ -51,16 +49,10 @@ namespace acml
 {
 #  include <acml.h>
 }
-const LibraryTag ActiveLibrary = ACML;
 
 #elif defined(HAVE_FFTW3)
 
-#  include <itpp/fftw3.h>
-const LibraryTag ActiveLibrary = FFTW;
-
-#else
-
-const LibraryTag ActiveLibrary = DoNotHaveLibrary;
+#  include <fftw3.h>
 
 #endif
 
@@ -70,25 +62,25 @@ const LibraryTag ActiveLibrary = DoNotHaveLibrary;
 
 //multithreading mode selector
 enum MultithreadingTag {SingleThreaded = 1, OmpThreaded};
-template<MultithreadingTag Tag> class MutexImpl;
 
 #ifdef _OPENMP
 
 #include <omp.h>
-const MultithreadingTag ThreadingTag = OmpThreaded;
+
+static const MultithreadingTag ThreadingTag = OmpThreaded;
 //number of context records kept per transform type
-//see comments for TransformPorvider class for futher details
+//see comments for Transform_Provider class for futher details
 static const int contexts_per_transform_type = 10;
 //specialize mutex for multi-threaded code with OMP
-template<> class MutexImpl<OmpThreaded>
+class Mutex
 {
   omp_lock_t _lck;
   //disable copy-construction and assignment
-  MutexImpl(const MutexImpl&);
-  MutexImpl& operator=(const MutexImpl&);
+  Mutex(const Mutex&);
+  Mutex& operator=(const Mutex&);
 public:
-  MutexImpl() {omp_init_lock(&_lck);}
-  ~MutexImpl() {omp_destroy_lock(&_lck);}
+  Mutex() {omp_init_lock(&_lck);}
+  ~Mutex() {omp_destroy_lock(&_lck);}
   //lock the mutex
   void lock() {omp_set_lock(&_lck);}
   //try to lock. returns true if ownership is taken
@@ -100,21 +92,20 @@ public:
 
 #else
 
-const MultithreadingTag ThreadingTag = SingleThreaded;
+static const MultithreadingTag ThreadingTag = SingleThreaded;
 //number of context records kept per transform type
-//see comments for TransformPorvider class for futher details
+//see comments for Transform_Provider class for futher details
 static const int contexts_per_transform_type = 1;
 
 //specialize mutex for single-threaded code
-template<>
-class MutexImpl<SingleThreaded>
+class Mutex
 {
   //disable copy-construction and assignment
-  MutexImpl(const MutexImpl&);
-  MutexImpl& operator=(const MutexImpl&);
+  Mutex(const Mutex&);
+  Mutex& operator=(const Mutex&);
 public:
-  MutexImpl() {}
-  ~MutexImpl() {}
+  Mutex() {}
+  ~Mutex() {}
   void lock() {}
   bool try_lock() {return true;}
   void unlock() {}
@@ -122,9 +113,6 @@ public:
 
 #endif
 
-
-//define library-specific mutex implementation
-typedef MutexImpl<ThreadingTag> Mutex;
 
 //mutex-based lock
 class Lock
@@ -143,13 +131,41 @@ public:
 namespace itpp
 {
 
-//define transform types: FFT complex, FFT real, IFFT Complex, IFFT Real, DCT, IDCT
-enum TransformType {FFTCplx = 1, FFTReal, IFFTCplx, IFFTReal, DCT, IDCT};
-//generic transforms implementation based on transofrm type and specific FFT library
-template<TransformType T, LibraryTag L> class Transform;
+//define traits for all supported transform types: FFT complex, FFT real, IFFT Complex, IFFT Real, DCT, IDCT
+struct FFTCplx_Traits {
+  typedef cvec InType;
+  typedef cvec OutType;
+};
 
-//FFT library initializer & deinitializer based on mutithreading model
-template<MultithreadingTag M, LibraryTag L> void init_fft_library();
+struct IFFTCplx_Traits {
+  typedef cvec InType;
+  typedef cvec OutType;
+};
+
+struct FFTReal_Traits {
+  typedef vec InType;
+  typedef cvec OutType;
+};
+
+struct IFFTReal_Traits {
+  typedef cvec InType;
+  typedef vec OutType;
+};
+
+struct DCT_Traits {
+  typedef vec InType;
+  typedef vec OutType;
+};
+
+struct IDCT_Traits {
+  typedef vec InType;
+  typedef vec OutType;
+};
+
+//generic transforms implementation based on transform type and specific FFT library
+template<typename TransformTraits> class Transform;
+//FFT library initializer based on mutithreading model
+template<MultithreadingTag> inline void init_fft_library();
 
 #if defined(HAVE_FFT_MKL)
 //MKL-specific implementations
@@ -162,8 +178,8 @@ template<MultithreadingTag M, LibraryTag L> void init_fft_library();
 //Based on examples, provided by Intel, it seems to be safe to create/commit/free and run FFT on per-thread descriptor
 //without additional locking
 
-template<> inline void init_fft_library<SingleThreaded, MKL>() {} //assume no actions required. ITPP does not use threading, so FFT library is free to  use it's own threading implementation
-template<> inline void init_fft_library<OmpThreaded, MKL>()
+template<> inline void init_fft_library<SingleThreaded>() {} //assume no actions required. ITPP does not use threading, so FFT library is free to  use it's own threading implementation
+template<> inline void init_fft_library<OmpThreaded>()
 {
   //switch FFT domain of MKL to single-threaded mode as Intel suggests
   //this should work starting from MKL 10.0
@@ -182,14 +198,13 @@ inline void release_descriptor(mkl::DFTI_DESCRIPTOR* h)
   }
 }
 
-template<> class Transform<FFTCplx, MKL>
+template<> class Transform<FFTCplx_Traits>
 {
   mkl::DFTI_DESCRIPTOR* _h;
   int _transform_length;
 public:
   Transform(): _h(NULL), _transform_length(0) {}
-  typedef cvec InType;
-  typedef cvec OutType;
+
   void compute_transform(const cvec &in, cvec &out) {
     out.set_size(in.size(), false);
     if(_transform_length != in.size()) {
@@ -210,14 +225,13 @@ public:
   void reset() {release_descriptor(_h); *this = Transform();}
 };
 
-template<> class Transform<IFFTCplx, MKL>
+template<> class Transform<IFFTCplx_Traits>
 {
   mkl::DFTI_DESCRIPTOR* _h;
   int _transform_length;
 public:
   Transform(): _h(NULL), _transform_length(0) {}
-  typedef cvec InType;
-  typedef cvec OutType;
+
   void compute_transform(const cvec &in, cvec &out) {
     out.set_size(in.size(), false);
     if(_transform_length != in.size()) {
@@ -239,14 +253,13 @@ public:
   void reset() {release_descriptor(_h); *this = Transform();}
 };
 
-template<> class Transform<FFTReal, MKL>
+template<> class Transform<FFTReal_Traits>
 {
   mkl::DFTI_DESCRIPTOR* _h;
   int _transform_length;
 public:
   Transform(): _h(NULL), _transform_length(0) {}
-  typedef vec InType;
-  typedef cvec OutType;
+
   void compute_transform(const vec &in, cvec &out) {
     out.set_size(in.size(), false);
     if(_transform_length != in.size()) {
@@ -273,14 +286,13 @@ public:
   void reset() {release_descriptor(_h); *this = Transform();}
 };
 
-template<> class Transform<IFFTReal, MKL>
+template<> class Transform<IFFTReal_Traits>
 {
   mkl::DFTI_DESCRIPTOR* _h;
   int _transform_length;
 public:
   Transform(): _h(NULL), _transform_length(0) {}
-  typedef cvec InType;
-  typedef vec OutType;
+
   void compute_transform(const cvec &in, vec &out) {
     out.set_size(in.size(), false);
     if(_transform_length != in.size()) {
@@ -315,20 +327,19 @@ public:
 //multi-threading discussion on AMD dev forums) The thread-safety of library functions is also mentioned in ACML release notes (ver 4.4.0).
 //In the following implementation we assume that ACML transform functions can be run simultaneously from different threads safely if they operate
 //on different data sets.
-template<> inline void init_fft_library<SingleThreaded, ACML>() {} //assume no actions required.
-template<> inline void init_fft_library<OmpThreaded, ACML>() {}
+template<> inline void init_fft_library<SingleThreaded>() {} //assume no actions required.
+template<> inline void init_fft_library<OmpThreaded>() {}
 
 //---------------------------------------------------------------------------
 // FFT/IFFT based on ACML
 //---------------------------------------------------------------------------
-template<> class Transform<FFTCplx, ACML>
+template<> class Transform<FFTCplx_Traits>
 {
   cvec _scratchpad;
   int _transform_length;
 public:
   Transform(): _transform_length(0) {}
-  typedef cvec InType;
-  typedef cvec OutType;
+
   void compute_transform(const cvec &in, cvec &out) {
     int info;
     out.set_size(in.size(), false);
@@ -350,14 +361,13 @@ public:
   void reset() {*this = Transform();}
 };
 
-template<> class Transform<IFFTCplx, ACML>
+template<> class Transform<IFFTCplx_Traits>
 {
   cvec _scratchpad;
   int _transform_length;
 public:
   Transform(): _transform_length(0) {}
-  typedef cvec InType;
-  typedef cvec OutType;
+
   void compute_transform(const cvec &in, cvec &out) {
     int info;
     out.set_size(in.size(), false);
@@ -379,14 +389,13 @@ public:
   void reset() {*this = Transform();}
 };
 
-template<> class Transform<FFTReal, ACML>
+template<> class Transform<FFTReal_Traits>
 {
   vec _scratchpad;
   int _transform_length;
 public:
   Transform(): _transform_length(0) {}
-  typedef vec InType;
-  typedef cvec OutType;
+
   void compute_transform(const vec &in, cvec &out) {
     vec out_re = in;
 
@@ -420,14 +429,13 @@ public:
   void reset() {*this = Transform();}
 };
 
-template<> class Transform<IFFTReal, ACML>
+template<> class Transform<IFFTReal_Traits>
 {
   vec _scratchpad;
   int _transform_length;
 public:
   Transform(): _transform_length(0) {}
-  typedef cvec InType;
-  typedef vec OutType;
+
   void compute_transform(const cvec &in, vec &out) {
     // Convert Matlab's complex input to the real Hermitian form
     out.set_size(in.size());
@@ -467,8 +475,8 @@ public:
 //FFTW plans creation-destruction is not thread-safe and should be serialized by the caller. FFTW provides some functions to execute transforms with multiple threads (assuming FFTW
 // is compiled and linked with multithreading support). Current ITPP implementation does not use any of them.
 
-template<> inline void init_fft_library<SingleThreaded, FFTW>() {} //assume no actions required.
-template<> inline void init_fft_library<OmpThreaded, FFTW>() {}
+template<> inline void init_fft_library<SingleThreaded>() {} //assume no actions required.
+template<> inline void init_fft_library<OmpThreaded>() {}
 //define global lock for operations with FFTW plans.
 Mutex& get_library_lock()
 {
@@ -483,14 +491,13 @@ inline void destroy_plan(fftw_plan p)
   if(p != NULL) fftw_destroy_plan(p);  // destroy the plan
 }
 
-template<> class Transform<FFTCplx, FFTW>
+template<> class Transform<FFTCplx_Traits>
 {
   fftw_plan _p;
   int _transform_length;
 public:
   Transform(): _p(NULL), _transform_length(0) {}
-  typedef cvec InType;
-  typedef cvec OutType;
+
   void compute_transform(const cvec &in, cvec &out) {
     out.set_size(in.size(), false);
     if(_transform_length != in.size()) {
@@ -511,14 +518,13 @@ public:
   void reset() {destroy_plan(_p); *this = Transform();}
 };
 
-template<> class Transform<IFFTCplx, FFTW>
+template<> class Transform<IFFTCplx_Traits>
 {
   fftw_plan _p;
   int _transform_length;
 public:
   Transform(): _p(NULL), _transform_length(0) {}
-  typedef cvec InType;
-  typedef cvec OutType;
+
   void compute_transform(const cvec &in, cvec &out) {
     out.set_size(in.size(), false);
     if(_transform_length != in.size()) {
@@ -544,14 +550,13 @@ public:
   void reset() {destroy_plan(_p); *this = Transform();}
 };
 
-template<> class Transform<FFTReal, FFTW>
+template<> class Transform<FFTReal_Traits>
 {
   fftw_plan _p;
   int _transform_length;
 public:
   Transform(): _p(NULL), _transform_length(0) {}
-  typedef vec InType;
-  typedef cvec OutType;
+
   void compute_transform(const vec &in, cvec &out) {
     out.set_size(in.size(), false);
     if(_transform_length != in.size()) {
@@ -581,14 +586,13 @@ public:
   void reset() {destroy_plan(_p); *this = Transform();}
 };
 
-template<> class Transform<IFFTReal, FFTW>
+template<> class Transform<IFFTReal_Traits>
 {
   fftw_plan _p;
   int _transform_length;
 public:
   Transform(): _p(NULL), _transform_length(0) {}
-  typedef cvec InType;
-  typedef vec OutType;
+
   void compute_transform(const cvec &in, vec &out) {
     out.set_size(in.size(), false);
     if(_transform_length != in.size()) {
@@ -617,14 +621,13 @@ public:
 //---------------------------------------------------------------------------
 // DCT/IDCT based on FFTW
 //---------------------------------------------------------------------------
-template<> class Transform<DCT, FFTW>
+template<> class Transform<DCT_Traits>
 {
   fftw_plan _p;
   int _transform_length;
 public:
   Transform(): _p(NULL), _transform_length(0) {}
-  typedef vec InType;
-  typedef vec OutType;
+
   void compute_transform(const vec &in, vec &out) {
     out.set_size(in.size(), false);
     if(_transform_length != in.size()) {
@@ -649,14 +652,13 @@ public:
   void reset() {destroy_plan(_p); *this = Transform();}
 };
 
-template<> class Transform<IDCT, FFTW>
+template<> class Transform<IDCT_Traits>
 {
   fftw_plan _p;
   int _transform_length;
 public:
   Transform(): _p(NULL), _transform_length(0) {}
-  typedef vec InType;
-  typedef vec OutType;
+
   void compute_transform(const vec &in, vec &out) {
     out = in;
 
@@ -691,13 +693,12 @@ public:
 //---------------------------------------------------------------------------
 
 //use FFT on real values to perform DCT
-template<> class Transform<DCT, ActiveLibrary>
+template<> class Transform<DCT_Traits>
 {
-  Transform<FFTReal, ActiveLibrary> _tr;
+  Transform<FFTReal_Traits> _tr;
 public:
   Transform() {}
-  typedef vec InType;
-  typedef vec OutType;
+
   void compute_transform(const vec &in, vec &out) {
     int N = in.size();
     if(N == 1)
@@ -719,13 +720,12 @@ public:
 };
 
 //use IFFT with real output to perform IDCT
-template<> class Transform<IDCT, ActiveLibrary>
+template<> class Transform<IDCT_Traits>
 {
-  Transform<IFFTReal, ActiveLibrary> _tr;
+  Transform<IFFTReal_Traits> _tr;
 public:
   Transform() {}
-  typedef vec InType;
-  typedef vec OutType;
+
   void compute_transform(const vec &in, vec &out) {
     int N = in.size();
     if(N == 1)
@@ -754,17 +754,15 @@ public:
 
 #if defined(HAVE_FFT)
 //lock-protected transform to serialize accesses to the context from several threads
-template<TransformType TT> class LockedTransform : private Transform<TT, ActiveLibrary>
+template<typename TransformTraits> class Locked_Transform : private Transform<TransformTraits>
 {
-  typedef Transform<TT, ActiveLibrary> Base;
+  typedef Transform<TransformTraits> Base;
   Mutex _m;
 public:
-  typedef typename Base::InType InType;
-  typedef typename Base::OutType OutType;
-  LockedTransform() {}
+  Locked_Transform() {}
   //release context
   void release_context() {Lock l(_m); Base::reset();}
-  void run_transform(const InType& in, OutType& out) {Lock l(_m); Base::compute_transform(in, out);}
+  void run_transform(const typename TransformTraits::InType& in, typename TransformTraits::OutType& out) {Lock l(_m); Base::compute_transform(in, out);}
 };
 
 //Typical multithreaded application creates several threads upon entry to parallel region and join them upon exit from it.
@@ -774,7 +772,7 @@ public:
 //there is no way to implement automatic clean-up of transform computation contexts for each thread (basically, this means that
 //we can not appropriately release FFT library resources and this results in memory leak)
 
-//In order solve this problem and implement the FFT transforms in multithreded environment library relyes on the statically
+//In order to solve this problem and implement the FFT transforms in multithreded environment library relyes on the statically
 //created pool of transform contexts.
 
 //Each thread willing to run the transfrom queries the context index from transfrom provider. Thread uses assigned index and
@@ -785,16 +783,16 @@ public:
 //some type of transform.
 static bool is_library_initialized = false;
 
-template<TransformType TT> class TransformPorvider
+template<typename TransformTraits> class Transform_Provider
 {
-  typedef LockedTransform<TT> Transform;
+  typedef Locked_Transform<TransformTraits> Transform;
   Transform _transforms[contexts_per_transform_type];
   int _id;
 public:
-  TransformPorvider(): _id(0) {
+  Transform_Provider(): _id(0) {
     if(!is_library_initialized) {
-      //initialize FFT library on first conctruction of any of TransformPorvider objects
-      init_fft_library<ThreadingTag, ActiveLibrary>();
+      //initialize FFT library on first conctruction of any of Transform_Provider objects
+      init_fft_library<ThreadingTag>();
       is_library_initialized = true;
     }
   }
@@ -807,21 +805,21 @@ public:
       _id = ret;
     return ret;
   }
-  void run_transform(int id, const typename Transform::InType& in, typename Transform::OutType& out) {
+  void run_transform(int id, const typename TransformTraits::InType& in, typename TransformTraits::OutType& out) {
     _transforms[id - 1].run_transform(in, out);
   }
   //provider destructor. releases context resources.
   //destructor is called after the main() exits, so there is no need to protect context release with mutex
-  ~TransformPorvider() {
+  ~Transform_Provider() {
     for(int i = 0; i < contexts_per_transform_type; ++i)
       _transforms[i].release_context();
   }
 };
 
-//TransformPorvider is constructed upon the first request
-template<TransformType TT> TransformPorvider<TT>&  get_transform_provider()
+//Transform_Provider is constructed upon the first request
+template<typename TransformTraits> Transform_Provider<TransformTraits>&  get_transform_provider()
 {
-  static TransformPorvider<TT> p;
+  static Transform_Provider<TransformTraits> p;
   return p;
 }
 
@@ -835,12 +833,12 @@ void fft(const cvec &in, cvec &out)
     #pragma omp critical
     {
       //serialize access to  transform provider to get the id
-      context_id = get_transform_provider<FFTCplx>().get_context_id();
+      context_id = get_transform_provider<FFTCplx_Traits>().get_context_id();
     }
   }
   it_assert(in.size() > 0, "fft(): zero-sized input detected");
   //there is no need to serialize here, since provider is constructed at this point
-  get_transform_provider<FFTCplx>().run_transform(context_id, in, out);
+  get_transform_provider<FFTCplx_Traits>().run_transform(context_id, in, out);
 }
 
 void ifft(const cvec &in, cvec &out)
@@ -853,12 +851,12 @@ void ifft(const cvec &in, cvec &out)
     #pragma omp critical
     {
       //serialize access to  transform provider to get the id
-      context_id = get_transform_provider<IFFTCplx>().get_context_id();
+      context_id = get_transform_provider<IFFTCplx_Traits>().get_context_id();
     }
   }
   it_assert(in.size() > 0, "ifft(): zero-sized input detected");
   //there is no need to serialize here, since provider is constructed at this point
-  get_transform_provider<IFFTCplx>().run_transform(context_id, in, out);
+  get_transform_provider<IFFTCplx_Traits>().run_transform(context_id, in, out);
 }
 
 void fft_real(const vec &in, cvec &out)
@@ -871,12 +869,12 @@ void fft_real(const vec &in, cvec &out)
     #pragma omp critical
     {
       //serialize access to  transform provider to get the id
-      context_id = get_transform_provider<FFTReal>().get_context_id();
+      context_id = get_transform_provider<FFTReal_Traits>().get_context_id();
     }
   }
   it_assert(in.size() > 0, "fft_real(): zero-sized input detected");
   //there is no need to serialize here, since provider is constructed at this point
-  get_transform_provider<FFTReal>().run_transform(context_id, in, out);
+  get_transform_provider<FFTReal_Traits>().run_transform(context_id, in, out);
 }
 
 void ifft_real(const cvec &in, vec &out)
@@ -889,12 +887,12 @@ void ifft_real(const cvec &in, vec &out)
     #pragma omp critical
     {
       //serialize access to  transform provider to get the id
-      context_id = get_transform_provider<IFFTReal>().get_context_id();
+      context_id = get_transform_provider<IFFTReal_Traits>().get_context_id();
     }
   }
   it_assert(in.size() > 0, "ifft_real(): zero-sized input detected");
   //there is no need to serialize here, since provider is constructed at this point
-  get_transform_provider<IFFTReal>().run_transform(context_id, in, out);
+  get_transform_provider<IFFTReal_Traits>().run_transform(context_id, in, out);
 }
 
 void dct(const vec &in, vec &out)
@@ -907,12 +905,12 @@ void dct(const vec &in, vec &out)
     #pragma omp critical
     {
       //serialize access to  transform provider to get the id
-      context_id = get_transform_provider<DCT>().get_context_id();
+      context_id = get_transform_provider<DCT_Traits>().get_context_id();
     }
   }
   it_assert(in.size() > 0, "dct(): zero-sized input detected");
   //there is no need to serialize here, since provider is definitely constructed at this point
-  get_transform_provider<DCT>().run_transform(context_id, in, out);
+  get_transform_provider<DCT_Traits>().run_transform(context_id, in, out);
 }
 
 void idct(const vec &in, vec &out)
@@ -925,12 +923,12 @@ void idct(const vec &in, vec &out)
     #pragma omp critical
     {
       //serialize access to  transform provider to get the id
-      context_id = get_transform_provider<IDCT>().get_context_id();
+      context_id = get_transform_provider<IDCT_Traits>().get_context_id();
     }
   }
   it_assert(in.size() > 0, "dct(): zero-sized input detected");
   //there is no need to serialize here, since provider is definitely constructed at this point
-  get_transform_provider<IDCT>().run_transform(context_id, in, out);
+  get_transform_provider<IDCT_Traits>().run_transform(context_id, in, out);
 }
 
 bool have_fourier_transforms() {return true;}
@@ -1044,7 +1042,7 @@ vec dct(const vec &in)
   return out;
 }
 
-vec dct(const vec &in, int N)
+vec dct(const vec &in, const int N)
 {
   vec in2 = in;
   vec out;
@@ -1061,7 +1059,7 @@ vec idct(const vec &in)
   return out;
 }
 
-vec idct(const vec &in, int N)
+vec idct(const vec &in, const int N)
 {
   vec in2 = in;
   vec out;

@@ -1,11 +1,16 @@
-2012-12-23 Bogdan Cristea <cristeab@users.sourceforge.net>
+2013-01-12  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* gtests/transforms_test.cpp, itpp/signal/transforms.cpp,
+	itpp/signal/transforms.h: add thread-safe Fourier and cosine transforms.
+	Thanks to Andy Panov for providing the patch (feature request #92).
+
+2012-12-23  Bogdan Cristea <cristeab@users.sourceforge.net>
   * doc/local/index.doc.in: updated links to IT++ site
 
-2012-12-11 Stephan Ludwig <donludovico@users.sourceforge.net>
+2012-12-11  Stephan Ludwig <donludovico@users.sourceforge.net>
 	* itpp/comm/reedsolomon.cpp, itpp/comm/reedsolomon.h, tests/reedsolomon_test.cpp,
-	  tests/reedsolomon_test.ref: added feature #91: erasure decoding with Reed-Solomon
-	  codes and non-narrow-sense RS codes.
-	  added unit test cases that checks both features.
+	tests/reedsolomon_test.ref: added feature #91: erasure decoding with Reed-Solomon
+	codes and non-narrow-sense RS codes.
+	added unit test cases that checks both features.
 
 2012-12-01  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* CMakeLists.txt, extras/check_tests.py, gtests/CMakeLists.txt,
