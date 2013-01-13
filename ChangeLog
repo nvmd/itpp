@@ -1,4 +1,9 @@
 2013-01-12  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* doc/doxygen_html.cfg.cmake.in, itpp/CMakeLists.txt, itpp/base/parser.cpp,
+	tests/modulator_nd_test.cpp: corrected compilation errors with MS Visual
+	Studio 2010
+
+2013-01-12  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* gtests/transforms_test.cpp, itpp/signal/transforms.cpp,
 	itpp/signal/transforms.h: add thread-safe Fourier and cosine transforms.
 	Thanks to Andy Panov for providing the patch (feature request #92).
