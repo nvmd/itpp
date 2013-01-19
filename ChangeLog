@@ -1,3 +1,18 @@
+2013-01-19  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* CMakeLists.txt, doc/local/installation.doc,
+	doc/tutorial/src/CMakeLists.txt, extras/setenv.bat, gtests/CMakeLists.txt,
+	gtests/bch_test.cpp, gtests/bessel_test.cpp, gtests/blas_test.cpp,
+	gtests/channel_test.cpp, gtests/cholesky_test.cpp,
+	gtests/circular_buffer_test.cpp, gtests/commfunc_test.cpp,
+	gtests/convcode_test.cpp, gtests/converters_test.cpp,
+	gtests/demapper_test.cpp, gtests/det_test.cpp, gtests/eigen_test.cpp,
+	gtests/error_count_test.cpp, gtests/exit_test.cpp, gtests/fastica_test.cpp,
+	gtests/fastica_test_data.txt, gtests/itfile_test_data.it,
+	gtests/parser_test_data.txt, gtests/rand_test.cpp, itpp/CMakeLists.txt: add
+	more unit tests using Google framework. Add options for compiling unit
+	tests, for building shared or static library and for generating the HTML
+	help.
+
 2013-01-12  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* doc/doxygen_html.cfg.cmake.in, itpp/CMakeLists.txt, itpp/base/parser.cpp,
 	tests/modulator_nd_test.cpp: corrected compilation errors with MS Visual
