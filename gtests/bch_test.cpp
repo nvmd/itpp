@@ -5,7 +5,7 @@
  *
  * -------------------------------------------------------------------------
  *
- * Copyright (C) 1995-2010  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2012  (see AUTHORS file for a list of contributors)
  *
  * This file is part of IT++ - a C++ library of mathematical, signal
  * processing, speech processing, and communications classes and functions.
@@ -45,19 +45,21 @@ bvec set_errors(const bvec &input, const ivec errpos)
 TEST(BCH, codec)
 {
   ostringstream ss(ostringstream::out);
-  const string ref[] = {"encoded = [0 0 1 0 0 0 0 0 0 1 1 1 1 0 1 1 1 1 0 0 0 0 1 0 1 1 0 0 0 0 0]\
-err =     [0 1 0 0 0 0 0 0 0 1 1 1 1 0 1 1 1 1 0 0 0 0 1 0 1 1 0 0 0 0 0]",
-  "input =   [1 0 1 0 0 0 0 1 0 1 1 0 1 1 1 1 0 1 1 1 0]\
-encoded = [1 1 0 1 0 1 1 1 1 1 1 1 0 1 0 0 0 0 0 1 1 1 0 1 1 0 1 1 1 1 0]\
-err =     [1 0 1 1 0 1 1 1 1 1 1 1 0 1 0 0 0 0 0 1 1 1 0 1 1 0 1 0 1 1 0]\
-decoded = [1 1 1 1 1 1 1 1 0 0 1 0 0 1 0 1 0 0 1 1 0]",
-  "input =   [1 1 0 0 1 1 0 0 1 0 0 0 1 1 1 0 0 1 1 1 0]\
-encoded = [1 1 0 0 1 1 0 0 1 0 0 0 1 1 1 0 0 0 1 0 1 0 1 0 0 1 1 1 1 0 0]\
-err =     [1 0 1 0 1 1 0 0 1 0 0 0 1 1 0 0 0 0 1 0 1 0 1 0 0 1 1 0 1 0 0]\
-decoded = [1 0 1 0 1 1 0 0 1 0 0 0 1 1 0 0]"};
+  const string ref[] = {"encoded = [1 0 1 1 1 0 0 1 1 1 1 1 0 0 1 0 0 1 0 1 1 0 1 0 0 0 0 1 1 0 0]",
+    "err =     [1 1 0 1 1 0 0 1 1 1 1 1 0 0 1 0 0 1 0 1 1 0 1 0 0 0 0 1 1 0 0]",
+    "input =   [0 1 0 0 0 1 1 1 0 1 0 1 1 1 0 1 0 0 1 1 0]",
+    "encoded = [0 1 1 1 0 0 1 1 1 1 1 1 0 1 0 0 1 0 1 1 0 0 1 1 1 0 1 0 1 1 0]",
+    "err =     [0 0 0 1 0 0 1 1 1 1 1 1 0 1 0 0 1 0 1 1 0 0 1 1 1 0 1 1 1 1 0]",
+    "decoded = [0 0 0 1 1 0 0 1 0 0 0 1 0 1 1 1 0 1 1 1 0]",
+    "input =   [1 0 1 1 0 0 0 1 1 0 1 0 0 1 1 1 1 1 1 0 0]",
+    "encoded = [1 0 1 1 0 0 0 1 1 0 1 0 0 1 1 1 0 1 0 1 0 1 0 0 1 0 0 0 1 0 1]",
+    "err =     [1 1 0 1 0 0 0 1 1 0 1 0 0 1 0 1 0 1 0 1 0 1 0 0 1 0 0 1 1 0 1]",
+    "decoded = [1 1 0 1 0 0 0 1 1 0 1 0 0 1 0 1]"};
+  int i = 0;
 
   {
     BCH bch(31, 2);
+    RNG_reset(0);
 
     bvec input = randb(21);
     bvec encoded = bch.encode(input);
@@ -67,8 +69,10 @@ decoded = [1 0 1 0 1 1 0 0 1 0 0 0 1 1 0 0]"};
     // A two error case (should be corrected)
     ASSERT_TRUE(input == decoded);
     ss << "encoded = " << encoded;
+    ASSERT_TRUE(ss.str() == ref[i++]);
+    ss.str("");
     ss << "err =     " << err;
-    ASSERT_TRUE(ss.str() == ref[0]);
+    ASSERT_TRUE(ss.str() == ref[i++]);
     ss.str("");
 
     input = randb(21);
@@ -78,10 +82,16 @@ decoded = [1 0 1 0 1 1 0 0 1 0 0 0 1 1 0 0]"};
 
     // A three error case (will cause decoding errors);
     ss << "input =   " << input;
+    ASSERT_TRUE(ss.str() == ref[i++]);
+    ss.str("");
     ss << "encoded = " << encoded;
+    ASSERT_TRUE(ss.str() == ref[i++]);
+    ss.str("");
     ss << "err =     " << err;
+    ASSERT_TRUE(ss.str() == ref[i++]);
+    ss.str("");
     ss << "decoded = " << decoded;
-    ASSERT_TRUE(ss.str() == ref[1]);
+    ASSERT_TRUE(ss.str() == ref[i++]);
     ss.str("");
   }
 
@@ -132,9 +142,15 @@ decoded = [1 0 1 0 1 1 0 0 1 0 0 0 1 1 0 0]"};
 
     // A four error case (will cause decoding failure)
     ss << "input =   " << input;
+    ASSERT_TRUE(ss.str() == ref[i++]);
+    ss.str("");
     ss << "encoded = " << encoded;
+    ASSERT_TRUE(ss.str() == ref[i++]);
+    ss.str("");
     ss << "err =     " << err;
+    ASSERT_TRUE(ss.str() == ref[i++]);
+    ss.str("");
     ss << "decoded = " << decoded;
-    ASSERT_TRUE(ss.str() == ref[2]);
+    ASSERT_TRUE(ss.str() == ref[i++]);
   }
 }

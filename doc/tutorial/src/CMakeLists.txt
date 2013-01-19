@@ -1,6 +1,6 @@
 #
 # \file CMakeLists.txt
-# \brief cmake configuration file for gtests
+# \brief cmake configuration file for tutorial examples
 # \author Bogdan Cristea
 #
 # -------------------------------------------------------------------------
@@ -25,18 +25,12 @@
 #
 # -------------------------------------------------------------------------
 
-file ( GLOB ITPP_TEST_SRCS *.cpp )
+file ( GLOB ITPP_EXAMPLES_SRCS *.cpp )
 
-include_directories ( ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} ${GTEST_DIR} ${GTEST_DIR}/include )
+include_directories ( ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} )
 
-add_executable ( itpp_gtests ${ITPP_TEST_SRCS} ${GTEST_DIR}/src/gtest-all.cc ${GTEST_DIR}/src/gtest_main.cc )
-set_target_properties ( itpp_gtests PROPERTIES COMPILE_FLAGS 
-                        -DFASTICA_TEST_FILE=\\""${CMAKE_CURRENT_SOURCE_DIR}"/fastica_test_data.txt\\"
-                        -DPARSER_TEST_FILE=\\""${CMAKE_CURRENT_SOURCE_DIR}"/parser_test_data.txt\\"
-                        -DITFILE_TEST_FILE=\\""${CMAKE_CURRENT_SOURCE_DIR}"/itfile_test_data.it\\" )
-
-if (NOT WIN32)
-  target_link_libraries ( itpp_gtests ${ITPP_LIBS} ${libitpp_target} pthread )
-else()
-  target_link_libraries ( itpp_gtests ${ITPP_LIBS} ${libitpp_target} )
-endif()
+foreach (FILE ${ITPP_EXAMPLES_SRCS})
+	get_filename_component ( target ${FILE} NAME_WE )
+	add_executable ( ${target} ${FILE} )
+  target_link_libraries ( ${target} ${ITPP_LIBS} ${libitpp_target} )
+endforeach (FILE)

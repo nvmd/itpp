@@ -45,10 +45,11 @@ include_directories ( ${CMAKE_BINARY_DIR}
                       ${FFT_INCLUDES}
                     )
 
-if (CMAKE_BUILD_TYPE STREQUAL Static)
-  add_library (${libitpp_target} STATIC ${ITPP_SRCS})
-else()
+#TODO: add support for shared library on Windows
+if (SHARED_LIB)
   add_library (${libitpp_target} SHARED ${ITPP_SRCS})
+else()
+  add_library (${libitpp_target} STATIC ${ITPP_SRCS})
 endif()
 
 target_link_libraries (${libitpp_target} ${ITPP_LIBS})
@@ -81,14 +82,13 @@ install(FILES ${CMAKE_SOURCE_DIR}/extras/itsave.m
         DESTINATION share/itpp)
 
 #html help
-if (NOT NO_DOCS)
-  if(DOXYGEN_FOUND)
-    configure_file(${CMAKE_SOURCE_DIR}/doc/doxygen_html.cfg.cmake.in ${CMAKE_BINARY_DIR}/Doxyfile @ONLY)
-    configure_file(${CMAKE_SOURCE_DIR}/doc/local/index.doc.in ${CMAKE_BINARY_DIR}/doc/local/index.doc @ONLY)
-    add_custom_target(doc ALL
-      ${DOXYGEN_EXECUTABLE} ${CMAKE_BINARY_DIR}/Doxyfile
-      WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
-      COMMENT "Generating API documentation with Doxygen" VERBATIM)
-    install(DIRECTORY ${CMAKE_BINARY_DIR}/html DESTINATION share/doc/itpp)
-  endif(DOXYGEN_FOUND)
+if (HTML_DOCS AND DOXYGEN_FOUND)
+  configure_file(${CMAKE_SOURCE_DIR}/doc/doxygen_html.cfg.cmake.in ${CMAKE_BINARY_DIR}/Doxyfile @ONLY)
+  configure_file(${CMAKE_SOURCE_DIR}/doc/local/index.doc.in ${CMAKE_BINARY_DIR}/doc/local/index.doc @ONLY)
+  #make sure that this target is executed last
+  add_custom_target(itpp_doc ALL
+    ${DOXYGEN_EXECUTABLE} ${CMAKE_BINARY_DIR}/Doxyfile
+    WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+    COMMENT "Generating API documentation with Doxygen" VERBATIM)
+  install(DIRECTORY ${CMAKE_BINARY_DIR}/html DESTINATION share/doc/itpp)
 endif()

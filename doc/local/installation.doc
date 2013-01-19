@@ -178,10 +178,15 @@ Library detection examples:
 \endverbatim
 - on Windows, 32 bits:
   - in order to detect ACML library (installed in the default path
-  `C:\\AMD\\acmln.n.n') the following variables must be set (from the GUI):
+  `C:\\AMD\\acmln.n.n') using Intel build the following variables must be set (from the GUI):
 \verbatim
   BLA_VENDOR=ACML
   CMAKE_Fortran_COMPILER_ID=Intel
+\endverbatim
+  - in order to detect ACML library using PGI build the following variables must be set:
+\verbatim
+  BLA_VENDOR=ACML
+  CMAKE_Fortran_COMPILER_ID=PGI
 \endverbatim
 
 For further details see `cmake/Modules/FindBLAS.cmake' file.

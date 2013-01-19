@@ -159,6 +159,23 @@ else()
   CONFIGURE_FILE ( ${CMAKE_SOURCE_DIR}/itpp/config.h.cmake ${CMAKE_BINARY_DIR}/itpp/config.h )
 endif()
 
+#set library type: shared or static
+option(SHARED_LIB "Building IT++ as shared library" on)
+#set library name here to be available for all targets
+if (SHARED_LIB)
+  if ((CMAKE_BUILD_TYPE STREQUAL Release) OR (NOT CMAKE_BUILD_TYPE))
+    set (libitpp_target itpp)
+    set (CMAKE_CXX_FLAGS "-DNDEBUG ${CMAKE_CXX_FLAGS}")
+  else()
+    set (libitpp_target itpp_debug)
+  endif()
+else()
+  set (libitpp_target itpp_static)
+endif()
+
+#build HTML docs
+option(HTML_DOCS "Building HTML documentation with Doxygen if available" on)
+
 #display summary
 set(DISP_GENERIC_WARNING FALSE)
 if (NOT BLAS_FOUND)
@@ -179,20 +196,6 @@ else()
   message(STATUS "BLAS vendor: ${BLA_VENDOR}")
 endif()
 
-#set target name
-if (WIN32)
-  #TODO: remove this limitation
-  set(CMAKE_BUILD_TYPE Static)
-endif()
-if ((CMAKE_BUILD_TYPE STREQUAL Release) OR (NOT CMAKE_BUILD_TYPE))
-  set (libitpp_target itpp)
-  set (CMAKE_CXX_FLAGS "-DNDEBUG ${CMAKE_CXX_FLAGS}")
-elseif (CMAKE_BUILD_TYPE STREQUAL Static)
-  set (libitpp_target itpp_static)
-else()
-  set (libitpp_target itpp_debug)
-endif()
-
 #set external link libraries
 set(ITPP_LIBS "")
 if (BLAS_LIBRARIES)
@@ -205,11 +208,18 @@ if (FFT_LIBRARIES)
   set(ITPP_LIBS ${FFT_LIBRARIES} ${ITPP_LIBS})
 endif()
 
-#add it++ sources and unit tests
+#add it++ sources
 add_subdirectory ( itpp )
-if (GTEST_DIR)
-  add_subdirectory (gtests)
-elseif (WITH_TESTS)
+
+#add unit tests
+option(OLD_TESTS "Building old unit tests (no longer maintained). Use extras/check_tests.py script to run the tests." off)
+if (OLD_TESTS)
   add_subdirectory ( tests )
 endif()
-
+option(GTEST "Building unit tests using Google framework. GTEST_DIR must be set to the path of Google unit test framework" off)
+if (GTESTS OR GTEST_DIR)
+  if (NOT GTEST_DIR)
+    message(FATAL_ERROR "GTEST_DIR environment variable must be set")
+  endif()
+  add_subdirectory (gtests)
+endif()

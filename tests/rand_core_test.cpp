@@ -379,7 +379,11 @@ int main()
   omp_set_num_threads(threads_cnt);
 #else
 const int threads_cnt = 1;
+#ifndef _MSC_VER
 #pragma message "no OMP support"
+#else
+#pragma message ("no OMP support")
+#endif
 #endif
   //repeat test 1 in multithreaded environment
   //(repeat 3 times for each thread to test a possible clashes on shared data).
