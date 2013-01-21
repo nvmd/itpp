@@ -171,7 +171,9 @@ if (SHARED_LIB)
   endif()
 else()
   set (libitpp_target itpp_static)
+  set(ITPP_STATIC_LIBRARY TRUE)
 endif()
+CONFIGURE_FILE (${CMAKE_SOURCE_DIR}/itpp/itexports.h.cmake ${CMAKE_BINARY_DIR}/itpp/itexports.h)
 
 #build HTML docs
 option(HTML_DOCS "Building HTML documentation with Doxygen if available" on)

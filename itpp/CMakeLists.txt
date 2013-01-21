@@ -74,6 +74,7 @@ if (NOT WIN32)
 else()
   install(FILES ${CMAKE_BINARY_DIR}/itpp/config_msvc.h DESTINATION include/itpp)
 endif()
+install(FILES ${CMAKE_BINARY_DIR}/itpp/itexports.h DESTINATION include/itpp)
 
 #extra files (MATLAB and python)
 install(FILES ${CMAKE_SOURCE_DIR}/extras/itsave.m

@@ -1,3 +1,8 @@
+2013-01-21  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* CMakeLists.txt, itpp/CMakeLists.txt, itpp/itexports.h.cmake: add
+	itexports.h for exporting/importing IT++ library symbols when compiled as
+	shared library on Visual Studio C++.
+
 2013-01-20  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* gtests/integration_test.cpp, itpp/base/help_functions.h,
 	itpp/base/math/integration.cpp, itpp/base/math/integration.h: add numerical
