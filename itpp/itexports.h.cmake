@@ -47,12 +47,18 @@
   #ifndef ITPP_EXPORT
     #define ITPP_EXPORT __attribute__((visibility("default")))
   #endif
+  #ifndef ITPP_EXPORT_TEMPLATE
+    #define ITPP_EXPORT_TEMPLATE extern
+  #endif
 #endif
 
 #endif /*ITPP_STATIC_LIBRARY*/
 
 #ifndef ITPP_EXPORT
   #define ITPP_EXPORT
+#endif
+#ifndef ITPP_EXPORT_TEMPLATE
+  #define ITPP_EXPORT_TEMPLATE
 #endif
 
 #endif
