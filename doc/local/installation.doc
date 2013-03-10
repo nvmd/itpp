@@ -135,7 +135,7 @@ By default, IT++ library is compiled as shared library in release mode,
 the HTML documentation is generated (if Doxygen is detected) and no unit tests are compiled.
 
 The \c `cmake' command can be invoked with additional options:
-- \c `-DSHARED_LIB=off', allows to compile the static version of IT++ library. By default this option is
+- \c `-DITPP_SHARED_LIB=off', allows to compile the static version of IT++ library. By default this option is
 set to `on'. This option should be disabled on Microsoft Windows with Visual Studio C++ since shared library generation
 is not yet supported for this platform.
 - \c `-DBLA_VENDOR=vendor', where vendor can be `ACML', `Intel', `Intel10_32', 

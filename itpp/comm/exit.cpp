@@ -32,8 +32,10 @@
 
 namespace itpp
 {
-
-double EXIT::sigma2A;//allocate memory for static member variable
+double EXIT::Gaussian_Fct::operator()(double x) const
+{
+  return (1.0/std::sqrt(_sigma*itpp::m_2pi))*std::exp(-itpp::sqr(x-(_sigma/2.0))/(2.0*_sigma))*::log2(1+std::exp(-x));
+}
 
 double EXIT::extrinsic_mutual_info(const itpp::vec &obs, const itpp::bvec &cond, const int &N)
 {
@@ -65,11 +67,6 @@ double EXIT::extrinsic_mutual_info(const itpp::vec &obs, const itpp::bvec &cond,
 
     return IE;
 }
-
-double EXIT::gaussian_fct(double x)
-{
-	return (1.0/std::sqrt(sigma2A*itpp::m_2pi))*std::exp(-itpp::sqr(x-(sigma2A/2.0))/(2.0*sigma2A))*::log2(1+std::exp(-x));
-};
 
 }//namespace itpp
 

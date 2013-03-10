@@ -32,10 +32,19 @@
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
 #include <itpp/comm/channel_code.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
+
+//! \cond
+
+#if (defined(_MSC_VER) && defined (ITPP_SHARED_LIB))
+//MSVC explicitely instantiate required template while building the shared library
+template class ITPP_EXPORT Mat<bin>;
+#endif
+
+//! \endcond
 
 /*!
   \ingroup fec
@@ -48,7 +57,7 @@ namespace itpp
   Wicker "Error Control Systems for Digital Communication and
   Storage", Prentice Hall, 1995 (page 143).
 */
-class Extended_Golay : public Channel_Code
+class ITPP_EXPORT Extended_Golay : public Channel_Code
 {
 public:
   //! Constructor

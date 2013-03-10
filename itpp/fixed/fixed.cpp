@@ -33,6 +33,6 @@ namespace itpp
 {
 
 // Template instantiations
-template class Fixed<64, TC, WRAP>;
+template class ITPP_EXPORT Fixed<64, TC, WRAP>;
 
 } // namespace itpp

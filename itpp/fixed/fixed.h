@@ -30,6 +30,7 @@
 #define FIXED_H
 
 #include <itpp/fixed/fix.h>
+#include <itpp/itexports.h>
 
 
 namespace itpp
@@ -351,9 +352,7 @@ typedef Fixed<64, US, SAT> sufixed64;
 // Instantiations
 // ----------------------------------------------------------------------
 
-#ifndef _MSC_VER
-extern template class Fixed<64, TC, WRAP>;
-#endif // _MSC_VER
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Fixed<64, TC, WRAP>;
 
 //! \endcond
 

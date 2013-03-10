@@ -34,6 +34,7 @@
 #include <cstring> // required for memset()
 #include <ctime>
 #include <limits>
+#include <itpp/itexports.h>
 
 #if defined(__SSE2__)
 #  include <emmintrin.h>
@@ -94,7 +95,7 @@ namespace random_details
  */
 template < int MEXP, int POS1, int SL1, uint64_t MSK1, uint64_t MSK2,
          uint64_t FIX1_V, uint64_t FIX2_V, uint64_t PCV1_V, uint64_t PCV2_V >
-class DSFMT
+class ITPP_EXPORT DSFMT
 {
 
 public:
@@ -406,11 +407,11 @@ void lc_mark_initialized();
 */
 
 //! Function to access thread-local context for random numbers generation
-ActiveDSFMT::Context& lc_get();
+ITPP_EXPORT ActiveDSFMT::Context& lc_get();
 //! Function to check if thread-local context is initialized
-bool lc_is_initialized();
+ITPP_EXPORT bool lc_is_initialized();
 //! Function to mark thread-local context as initialized
-void lc_mark_initialized();
+ITPP_EXPORT void lc_mark_initialized();
 
 //!@}
 

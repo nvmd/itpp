@@ -30,7 +30,7 @@
 #define CHOLESKY_H
 
 #include <itpp/base/mat.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -51,7 +51,7 @@ namespace itpp
 
   Returns true if calculation succeeded. False otherwise.
 */
-bool chol(const mat &X, mat &F);
+ITPP_EXPORT bool chol(const mat &X, mat &F);
 
 /*!
   \brief Cholesky factorisation of real symmetric and positive definite matrix
@@ -63,7 +63,7 @@ bool chol(const mat &X, mat &F);
   \f]
   where \f$\mathbf{F}\f$ is an upper triangular \f$n \times n\f$ matrix.
 */
-mat chol(const mat &X);
+ITPP_EXPORT mat chol(const mat &X);
 
 
 /*!
@@ -82,7 +82,7 @@ mat chol(const mat &X);
   produces an upper triangular \c F. If also \c X is symmetric then \c F'*F = X.
   If \c X is not positive definite, false is returned.
 */
-bool chol(const cmat &X, cmat &F);
+ITPP_EXPORT bool chol(const cmat &X, cmat &F);
 
 /*!
   \brief Cholesky factorisation of complex hermitian and positive-definite matrix
@@ -94,7 +94,7 @@ bool chol(const cmat &X, cmat &F);
   \f]
   where \f$\mathbf{F}\f$ is an upper triangular \f$n \times n\f$ matrix.
 */
-cmat chol(const cmat &X);
+ITPP_EXPORT cmat chol(const cmat &X);
 
 //!@}
 

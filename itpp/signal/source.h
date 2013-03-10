@@ -30,7 +30,7 @@
 #define SOURCE_H
 
 #include <itpp/base/vec.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -41,7 +41,7 @@ namespace itpp
   \brief Sine-wave source
   \ingroup detsource
 */
-class Sine_Source
+class ITPP_EXPORT Sine_Source
 {
 public:
   //! Constructor. Set frequency, mean, amplitude, and start phase
@@ -62,7 +62,7 @@ private:
   \brief Square-wave source
   \ingroup detsource
 */
-class Square_Source
+class ITPP_EXPORT Square_Source
 {
 public:
   //! Constructor. Set frequency, mean, amplitude, and start phase
@@ -83,7 +83,7 @@ private:
   \brief Triangle-wave source
   \ingroup detsource
 */
-class Triangle_Source
+class ITPP_EXPORT Triangle_Source
 {
 public:
   //! Constructor. Set frequency, mean, amplitude and start phase
@@ -104,7 +104,7 @@ private:
   \brief Sawtooth-wave source
   \ingroup detsource
 */
-class Sawtooth_Source
+class ITPP_EXPORT Sawtooth_Source
 {
 public:
   //! Constructor. Set frequency, mean, amplitude, and start phase
@@ -125,7 +125,7 @@ private:
   \brief Impulse source
   \ingroup detsource
 */
-class Impulse_Source
+class ITPP_EXPORT Impulse_Source
 {
 public:
   //! Constructor. Set frequency, amplitude and start phase
@@ -146,7 +146,7 @@ private:
   \brief Pattern source
   \ingroup detsource
 */
-class Pattern_Source
+class ITPP_EXPORT Pattern_Source
 {
 public:
   //! Constructor. Set pattern and start position

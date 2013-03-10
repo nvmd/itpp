@@ -177,11 +177,13 @@ void Independent_Fading_Generator::generate(int no_samples, cvec& output)
 
 void Static_Fading_Generator::init()
 {
-  static_sample = randn_c();
+  std::complex<double> static_sample = randn_c();
   if (los_power > 0.0) {
     static_sample *= los_diffuse;
     static_sample += los_direct;
   }
+  static_sample_re = static_sample.real();
+  static_sample_im = static_sample.imag();
   init_flag = true;
 }
 
@@ -191,7 +193,7 @@ void Static_Fading_Generator::generate(int no_samples, cvec& output)
     init();
 
   output.set_size(no_samples, false);
-  output = static_sample;
+  output = std::complex<double>(static_sample_re,static_sample_im);
 }
 
 

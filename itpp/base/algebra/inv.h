@@ -30,7 +30,7 @@
 #define INV_H
 
 #include <itpp/base/mat.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -44,7 +44,7 @@ namespace itpp
   Solves the equation system \f$ \mathbf{Y} \mathbf{X} = \mathbf{I}\f$ using LU-factorization.
   IT++ needs to be compiled with the LAPACK for the inverse to be available.
 */
-bool inv(const mat &X, mat &Y);
+ITPP_EXPORT bool inv(const mat &X, mat &Y);
 
 /*!
   \brief Inverse of real square matrix.
@@ -55,7 +55,7 @@ bool inv(const mat &X, mat &Y);
   Solves the equation system \f$ \mathbf{Y} \mathbf{X} = \mathbf{I}\f$ using LU-factorization.
   IT++ needs to be compiled with LAPACK support for the inverse to be available.
 */
-mat inv(const mat &X);
+ITPP_EXPORT mat inv(const mat &X);
 
 
 /*!
@@ -67,7 +67,7 @@ mat inv(const mat &X);
   Solves the equation system \f$ \mathbf{Y} \mathbf{X} = \mathbf{I}\f$ using LU-factorization.
   IT++ needs to be compiled with LAPACK support for the inverse to be available.
 */
-bool inv(const cmat &X, cmat &Y);
+ITPP_EXPORT bool inv(const cmat &X, cmat &Y);
 
 /*!
   \brief Inverse of real square matrix.
@@ -78,7 +78,7 @@ bool inv(const cmat &X, cmat &Y);
   Solves the equation system \f$ \mathbf{Y} \mathbf{X} = \mathbf{I}\f$ using LU-factorization.
   IT++ needs to be compiled with the LAPACK for the inverse to be available.
 */
-cmat inv(const cmat &X);
+ITPP_EXPORT cmat inv(const cmat &X);
 
 
 } // namespace itpp

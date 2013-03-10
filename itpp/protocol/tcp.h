@@ -33,6 +33,16 @@
 #define TCP_H
 
 #include <itpp/base/vec.h>
+
+#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB) && !defined(itpp_EXPORTS))
+
+#ifndef ITPP_PROTOCOL_EXCLUDED
+#define ITPP_PROTOCOL_EXCLUDED
+#pragma message( "PROTOCOL definitions are not available for MSVC shared builds" )
+#endif
+
+#else
+
 #include <itpp/base/converters.h>
 #include <itpp/protocol/packet.h>
 #include <itpp/protocol/events.h>
@@ -744,6 +754,8 @@ inline unsigned TCP_Segment::length() const
 
 
 } // namespace itpp
+
+#endif
 
 #endif // #ifndef TCP_H
 

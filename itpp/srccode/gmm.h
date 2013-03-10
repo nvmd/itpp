@@ -30,19 +30,18 @@
 #define GMM_H
 
 #include <itpp/base/mat.h>
+#include <itpp/itexports.h>
 
 
 namespace itpp
 {
-
-//! \cond
 
 /*!
   \ingroup sourcecoding
   \brief Gaussian Mixture Model Class
   \author Thomas Eriksson
  */
-class GMM
+class ITPP_EXPORT GMM
 {
 public:
   GMM();
@@ -97,7 +96,7 @@ inline vec GMM::get_mean(int i) {return m.mid(i*d, d);}
 inline vec GMM::get_covariance() {return sigma;}
 inline vec GMM::get_covariance(int i) {return sigma.mid(i*d, d);}
 
-GMM gmmtrain(Array<vec> &TrainingData, int M, int NOITER = 30, bool VERBOSE = true);
+ITPP_EXPORT GMM gmmtrain(Array<vec> &TrainingData, int M, int NOITER = 30, bool VERBOSE = true);
 
 //! \endcond
 

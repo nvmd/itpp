@@ -37,10 +37,18 @@
 #include <itpp/base/mat.h>
 #include <itpp/base/array.h>
 #include <iostream>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
+//! \cond
+
+#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB))
+//MSVC explicitely instantiate required template while building the shared library
+template  class ITPP_EXPORT Array<std::string>;
+#endif
+
+//! \endcond
 
 /*!
   \addtogroup parser
@@ -99,7 +107,8 @@ namespace itpp
   and Octave. It can be used in several different ways. See the Detailed Description
   in the \ref parser module.
 */
-class Parser
+
+class ITPP_EXPORT Parser
 {
 public:
 
@@ -221,13 +230,13 @@ bool Parser::get(T &var, const std::string &name, int num)
 
 //! Specialization or \c get() for std::string
 template<>
-bool Parser::get(std::string &var, const std::string &name, int num);
+ITPP_EXPORT bool Parser::get(std::string &var, const std::string &name, int num);
 //! Specialization of \c get() for int
 template<>
-bool Parser::get(int &var, const std::string &name, int num);
+ITPP_EXPORT bool Parser::get(int &var, const std::string &name, int num);
 //! Specialization of \c get() for bool
 template<>
-bool Parser::get(bool &var, const std::string &name, int num);
+ITPP_EXPORT bool Parser::get(bool &var, const std::string &name, int num);
 
 } // namespace itpp
 

@@ -29,6 +29,17 @@
 #ifndef SIGNAL_SLOT_H
 #define SIGNAL_SLOT_H
 
+#include <itpp/itexports.h>
+
+#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB) && !defined(itpp_EXPORTS))
+
+#ifndef ITPP_PROTOCOL_EXCLUDED
+#define ITPP_PROTOCOL_EXCLUDED
+#pragma message( "PROTOCOL definitions are not available for MSVC shared builds" )
+#endif
+
+#else
+
 #include <itpp/protocol/events.h>
 #include <list>
 #include <iostream>
@@ -606,6 +617,8 @@ void Slot<ObjectType, DataType>::operator()(DataType signal)
 //@}
 
 } // namespace itpp
+
+#endif
 
 #endif // #ifndef SIGNAL_SLOT_H
 

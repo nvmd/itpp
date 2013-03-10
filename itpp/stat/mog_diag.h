@@ -30,6 +30,7 @@
 #define MOG_DIAG_H
 
 #include <itpp/stat/mog_generic.h>
+#include <itpp/itexports.h>
 
 
 namespace itpp
@@ -51,7 +52,7 @@ namespace itpp
   \note This class is optimised for diagonal covariance matrices.
         For speed reasons it uses C style arrays for direct access to memory.
 */
-class MOG_diag : public MOG_generic
+class ITPP_EXPORT MOG_diag : public MOG_generic
 {
 
 public:

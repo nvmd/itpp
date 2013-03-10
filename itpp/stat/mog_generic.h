@@ -32,10 +32,22 @@
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/array.h>
+#include <itpp/itexports.h>
 
 
 namespace itpp
 {
+
+//! \cond
+
+#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB))
+//MSVC explicitely instantiate required template while building the shared library
+template class ITPP_EXPORT Array<vec>;
+template class ITPP_EXPORT Array<mat>;
+template class ITPP_EXPORT Vec<double>;
+#endif
+
+//! \endcond
 
 /*!
   \ingroup MOG
@@ -53,7 +65,7 @@ namespace itpp
   For speed and space reasons, diagonal and full
   covariance matrices are stored and handled separately.
 */
-class MOG_generic
+class ITPP_EXPORT MOG_generic
 {
 
 public:

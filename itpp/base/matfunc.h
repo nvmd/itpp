@@ -35,7 +35,7 @@
 #include <itpp/base/math/elem_math.h>
 #include <itpp/base/algebra/inv.h>
 #include <itpp/base/algebra/svd.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -464,7 +464,7 @@ Mat<Num_T> kron(const Mat<Num_T>& X, const Mat<Num_T>& Y)
  *
  * \author Adam Piatyszek
  */
-cmat sqrtm(const cmat& A);
+ITPP_EXPORT cmat sqrtm(const cmat& A);
 
 /*!
  * \brief Square root of the real square matrix \c A
@@ -478,7 +478,7 @@ cmat sqrtm(const cmat& A);
  *
  * \author Adam Piatyszek
  */
-cmat sqrtm(const mat& A);
+ITPP_EXPORT cmat sqrtm(const mat& A);
 
 
 /*!
@@ -860,9 +860,9 @@ Mat<T> reshape(const Vec<T> &v, int rows, int cols)
 
 
 //! Returns \a true if all elements are ones and \a false otherwise
-bool all(const bvec &testvec);
+ITPP_EXPORT bool all(const bvec &testvec);
 //! Returns \a true if any element is one and \a false otherwise
-bool any(const bvec &testvec);
+ITPP_EXPORT bool any(const bvec &testvec);
 
 //! \cond
 
@@ -870,204 +870,200 @@ bool any(const bvec &testvec);
 // Instantiations
 // ----------------------------------------------------------------------
 
-#ifndef _MSC_VER
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT int length(const vec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT int length(const cvec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT int length(const svec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT int length(const ivec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT int length(const bvec &v);
 
-extern template int length(const vec &v);
-extern template int length(const cvec &v);
-extern template int length(const svec &v);
-extern template int length(const ivec &v);
-extern template int length(const bvec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT double sum(const vec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT std::complex<double> sum(const cvec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT short sum(const svec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT int sum(const ivec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bin sum(const bvec &v);
 
-extern template double sum(const vec &v);
-extern template std::complex<double> sum(const cvec &v);
-extern template short sum(const svec &v);
-extern template int sum(const ivec &v);
-extern template bin sum(const bvec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT double sum_sqr(const vec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT std::complex<double> sum_sqr(const cvec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT short sum_sqr(const svec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT int sum_sqr(const ivec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bin sum_sqr(const bvec &v);
 
-extern template double sum_sqr(const vec &v);
-extern template std::complex<double> sum_sqr(const cvec &v);
-extern template short sum_sqr(const svec &v);
-extern template int sum_sqr(const ivec &v);
-extern template bin sum_sqr(const bvec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT vec cumsum(const vec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec cumsum(const cvec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT svec cumsum(const svec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT ivec cumsum(const ivec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bvec cumsum(const bvec &v);
 
-extern template vec cumsum(const vec &v);
-extern template cvec cumsum(const cvec &v);
-extern template svec cumsum(const svec &v);
-extern template ivec cumsum(const ivec &v);
-extern template bvec cumsum(const bvec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT double prod(const vec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT std::complex<double> prod(const cvec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT short prod(const svec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT int prod(const ivec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bin prod(const bvec &v);
 
-extern template double prod(const vec &v);
-extern template std::complex<double> prod(const cvec &v);
-extern template short prod(const svec &v);
-extern template int prod(const ivec &v);
-extern template bin prod(const bvec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT vec cross(const vec &v1, const vec &v2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec cross(const cvec &v1, const cvec &v2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT ivec cross(const ivec &v1, const ivec &v2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT svec cross(const svec &v1, const svec &v2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bvec cross(const bvec &v1, const bvec &v2);
 
-extern template vec cross(const vec &v1, const vec &v2);
-extern template cvec cross(const cvec &v1, const cvec &v2);
-extern template ivec cross(const ivec &v1, const ivec &v2);
-extern template svec cross(const svec &v1, const svec &v2);
-extern template bvec cross(const bvec &v1, const bvec &v2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT vec reverse(const vec &in);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec reverse(const cvec &in);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT svec reverse(const svec &in);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT ivec reverse(const ivec &in);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bvec reverse(const bvec &in);
 
-extern template vec reverse(const vec &in);
-extern template cvec reverse(const cvec &in);
-extern template svec reverse(const svec &in);
-extern template ivec reverse(const ivec &in);
-extern template bvec reverse(const bvec &in);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT vec zero_pad(const vec &v, int n);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec zero_pad(const cvec &v, int n);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT ivec zero_pad(const ivec &v, int n);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT svec zero_pad(const svec &v, int n);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bvec zero_pad(const bvec &v, int n);
 
-extern template vec zero_pad(const vec &v, int n);
-extern template cvec zero_pad(const cvec &v, int n);
-extern template ivec zero_pad(const ivec &v, int n);
-extern template svec zero_pad(const svec &v, int n);
-extern template bvec zero_pad(const bvec &v, int n);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT vec zero_pad(const vec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec zero_pad(const cvec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT ivec zero_pad(const ivec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT svec zero_pad(const svec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bvec zero_pad(const bvec &v);
 
-extern template vec zero_pad(const vec &v);
-extern template cvec zero_pad(const cvec &v);
-extern template ivec zero_pad(const ivec &v);
-extern template svec zero_pad(const svec &v);
-extern template bvec zero_pad(const bvec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT mat zero_pad(const mat &, int, int);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat zero_pad(const cmat &, int, int);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT imat zero_pad(const imat &, int, int);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT smat zero_pad(const smat &, int, int);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bmat zero_pad(const bmat &, int, int);
 
-extern template mat zero_pad(const mat &, int, int);
-extern template cmat zero_pad(const cmat &, int, int);
-extern template imat zero_pad(const imat &, int, int);
-extern template smat zero_pad(const smat &, int, int);
-extern template bmat zero_pad(const bmat &, int, int);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT vec sum(const mat &m, int dim);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec sum(const cmat &m, int dim);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT svec sum(const smat &m, int dim);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT ivec sum(const imat &m, int dim);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bvec sum(const bmat &m, int dim);
 
-extern template vec sum(const mat &m, int dim);
-extern template cvec sum(const cmat &m, int dim);
-extern template svec sum(const smat &m, int dim);
-extern template ivec sum(const imat &m, int dim);
-extern template bvec sum(const bmat &m, int dim);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT double sumsum(const mat &X);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT std::complex<double> sumsum(const cmat &X);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT short sumsum(const smat &X);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT int sumsum(const imat &X);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bin sumsum(const bmat &X);
 
-extern template double sumsum(const mat &X);
-extern template std::complex<double> sumsum(const cmat &X);
-extern template short sumsum(const smat &X);
-extern template int sumsum(const imat &X);
-extern template bin sumsum(const bmat &X);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT vec sum_sqr(const mat & m, int dim);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec sum_sqr(const cmat &m, int dim);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT svec sum_sqr(const smat &m, int dim);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT ivec sum_sqr(const imat &m, int dim);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bvec sum_sqr(const bmat &m, int dim);
 
-extern template vec sum_sqr(const mat & m, int dim);
-extern template cvec sum_sqr(const cmat &m, int dim);
-extern template svec sum_sqr(const smat &m, int dim);
-extern template ivec sum_sqr(const imat &m, int dim);
-extern template bvec sum_sqr(const bmat &m, int dim);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT mat cumsum(const mat &m, int dim);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat cumsum(const cmat &m, int dim);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT smat cumsum(const smat &m, int dim);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT imat cumsum(const imat &m, int dim);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bmat cumsum(const bmat &m, int dim);
 
-extern template mat cumsum(const mat &m, int dim);
-extern template cmat cumsum(const cmat &m, int dim);
-extern template smat cumsum(const smat &m, int dim);
-extern template imat cumsum(const imat &m, int dim);
-extern template bmat cumsum(const bmat &m, int dim);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT vec prod(const mat &m, int dim);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec prod(const cmat &v, int dim);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT svec prod(const smat &m, int dim);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT ivec prod(const imat &m, int dim);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bvec prod(const bmat &m, int dim);
 
-extern template vec prod(const mat &m, int dim);
-extern template cvec prod(const cmat &v, int dim);
-extern template svec prod(const smat &m, int dim);
-extern template ivec prod(const imat &m, int dim);
-extern template bvec prod(const bmat &m, int dim);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT vec diag(const mat &in);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec diag(const cmat &in);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void diag(const vec &in, mat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void diag(const cvec &in, cmat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT mat diag(const vec &v, const int K);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat diag(const cvec &v, const int K);
 
-extern template vec diag(const mat &in);
-extern template cvec diag(const cmat &in);
-extern template void diag(const vec &in, mat &m);
-extern template void diag(const cvec &in, cmat &m);
-extern template mat diag(const vec &v, const int K);
-extern template cmat diag(const cvec &v, const int K);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT mat bidiag(const vec &, const vec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat bidiag(const cvec &, const cvec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void bidiag(const vec &, const vec &, mat &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void bidiag(const cvec &, const cvec &, cmat &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void bidiag(const mat &, vec &, vec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void bidiag(const cmat &, cvec &, cvec &);
 
-extern template mat bidiag(const vec &, const vec &);
-extern template cmat bidiag(const cvec &, const cvec &);
-extern template void bidiag(const vec &, const vec &, mat &);
-extern template void bidiag(const cvec &, const cvec &, cmat &);
-extern template void bidiag(const mat &, vec &, vec &);
-extern template void bidiag(const cmat &, cvec &, cvec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT mat tridiag(const vec &main, const vec &, const vec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat tridiag(const cvec &main, const cvec &, const cvec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void tridiag(const vec &main, const vec &, const vec &, mat &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void tridiag(const cvec &main, const cvec &, const cvec &, cmat &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void tridiag(const mat &m, vec &, vec &, vec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void tridiag(const cmat &m, cvec &, cvec &, cvec &);
 
-extern template mat tridiag(const vec &main, const vec &, const vec &);
-extern template cmat tridiag(const cvec &main, const cvec &, const cvec &);
-extern template void tridiag(const vec &main, const vec &, const vec &, mat &);
-extern template void tridiag(const cvec &main, const cvec &, const cvec &, cmat &);
-extern template void tridiag(const mat &m, vec &, vec &, vec &);
-extern template void tridiag(const cmat &m, cvec &, cvec &, cvec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT double trace(const mat &in);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT std::complex<double> trace(const cmat &in);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT short trace(const smat &in);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT int trace(const imat &in);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bin trace(const bmat &in);
 
-extern template double trace(const mat &in);
-extern template std::complex<double> trace(const cmat &in);
-extern template short trace(const smat &in);
-extern template int trace(const imat &in);
-extern template bin trace(const bmat &in);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void transpose(const mat &m, mat &out);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void transpose(const cmat &m, cmat &out);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void transpose(const smat &m, smat &out);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void transpose(const imat &m, imat &out);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void transpose(const bmat &m, bmat &out);
 
-extern template void transpose(const mat &m, mat &out);
-extern template void transpose(const cmat &m, cmat &out);
-extern template void transpose(const smat &m, smat &out);
-extern template void transpose(const imat &m, imat &out);
-extern template void transpose(const bmat &m, bmat &out);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT mat transpose(const mat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat transpose(const cmat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT smat transpose(const smat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT imat transpose(const imat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bmat transpose(const bmat &m);
 
-extern template mat transpose(const mat &m);
-extern template cmat transpose(const cmat &m);
-extern template smat transpose(const smat &m);
-extern template imat transpose(const imat &m);
-extern template bmat transpose(const bmat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void hermitian_transpose(const mat &m, mat &out);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void hermitian_transpose(const cmat &m, cmat &out);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void hermitian_transpose(const smat &m, smat &out);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void hermitian_transpose(const imat &m, imat &out);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void hermitian_transpose(const bmat &m, bmat &out);
 
-extern template void hermitian_transpose(const mat &m, mat &out);
-extern template void hermitian_transpose(const cmat &m, cmat &out);
-extern template void hermitian_transpose(const smat &m, smat &out);
-extern template void hermitian_transpose(const imat &m, imat &out);
-extern template void hermitian_transpose(const bmat &m, bmat &out);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT mat hermitian_transpose(const mat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat hermitian_transpose(const cmat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT smat hermitian_transpose(const smat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT imat hermitian_transpose(const imat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bmat hermitian_transpose(const bmat &m);
 
-extern template mat hermitian_transpose(const mat &m);
-extern template cmat hermitian_transpose(const cmat &m);
-extern template smat hermitian_transpose(const smat &m);
-extern template imat hermitian_transpose(const imat &m);
-extern template bmat hermitian_transpose(const bmat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bool is_hermitian(const mat &X);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bool is_hermitian(const cmat &X);
 
-extern template bool is_hermitian(const mat &X);
-extern template bool is_hermitian(const cmat &X);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bool is_unitary(const mat &X);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bool is_unitary(const cmat &X);
 
-extern template bool is_unitary(const mat &X);
-extern template bool is_unitary(const cmat &X);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT vec rvectorize(const mat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec rvectorize(const cmat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT ivec rvectorize(const imat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT svec rvectorize(const smat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bvec rvectorize(const bmat &m);
 
-extern template vec rvectorize(const mat &m);
-extern template cvec rvectorize(const cmat &m);
-extern template ivec rvectorize(const imat &m);
-extern template svec rvectorize(const smat &m);
-extern template bvec rvectorize(const bmat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT vec cvectorize(const mat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec cvectorize(const cmat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT ivec cvectorize(const imat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT svec cvectorize(const smat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bvec cvectorize(const bmat &m);
 
-extern template vec cvectorize(const mat &m);
-extern template cvec cvectorize(const cmat &m);
-extern template ivec cvectorize(const imat &m);
-extern template svec cvectorize(const smat &m);
-extern template bvec cvectorize(const bmat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT mat reshape(const mat &m, int rows, int cols);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat reshape(const cmat &m, int rows, int cols);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT imat reshape(const imat &m, int rows, int cols);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT smat reshape(const smat &m, int rows, int cols);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bmat reshape(const bmat &m, int rows, int cols);
 
-extern template mat reshape(const mat &m, int rows, int cols);
-extern template cmat reshape(const cmat &m, int rows, int cols);
-extern template imat reshape(const imat &m, int rows, int cols);
-extern template smat reshape(const smat &m, int rows, int cols);
-extern template bmat reshape(const bmat &m, int rows, int cols);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT mat reshape(const vec &m, int rows, int cols);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat reshape(const cvec &m, int rows, int cols);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT imat reshape(const ivec &m, int rows, int cols);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT smat reshape(const svec &m, int rows, int cols);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bmat reshape(const bvec &m, int rows, int cols);
 
-extern template mat reshape(const vec &m, int rows, int cols);
-extern template cmat reshape(const cvec &m, int rows, int cols);
-extern template imat reshape(const ivec &m, int rows, int cols);
-extern template smat reshape(const svec &m, int rows, int cols);
-extern template bmat reshape(const bvec &m, int rows, int cols);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT mat kron(const mat &X, const mat &Y);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat kron(const cmat &X, const cmat &Y);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT imat kron(const imat &X, const imat &Y);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT smat kron(const smat &X, const smat &Y);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bmat kron(const bmat &X, const bmat &Y);
 
-extern template mat kron(const mat &X, const mat &Y);
-extern template cmat kron(const cmat &X, const cmat &Y);
-extern template imat kron(const imat &X, const imat &Y);
-extern template smat kron(const smat &X, const smat &Y);
-extern template bmat kron(const bmat &X, const bmat &Y);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT vec repmat(const vec &v, int n);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec repmat(const cvec &v, int n);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT ivec repmat(const ivec &v, int n);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT svec repmat(const svec &v, int n);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bvec repmat(const bvec &v, int n);
 
-extern template vec repmat(const vec &v, int n);
-extern template cvec repmat(const cvec &v, int n);
-extern template ivec repmat(const ivec &v, int n);
-extern template svec repmat(const svec &v, int n);
-extern template bvec repmat(const bvec &v, int n);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT mat repmat(const vec &v, int m, int n, bool transpose);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat repmat(const cvec &v, int m, int n, bool transpose);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT imat repmat(const ivec &v, int m, int n, bool transpose);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT smat repmat(const svec &v, int m, int n, bool transpose);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bmat repmat(const bvec &v, int m, int n, bool transpose);
 
-extern template mat repmat(const vec &v, int m, int n, bool transpose);
-extern template cmat repmat(const cvec &v, int m, int n, bool transpose);
-extern template imat repmat(const ivec &v, int m, int n, bool transpose);
-extern template smat repmat(const svec &v, int m, int n, bool transpose);
-extern template bmat repmat(const bvec &v, int m, int n, bool transpose);
-
-extern template mat repmat(const mat &data, int m, int n);
-extern template cmat repmat(const cmat &data, int m, int n);
-extern template imat repmat(const imat &data, int m, int n);
-extern template smat repmat(const smat &data, int m, int n);
-extern template bmat repmat(const bmat &data, int m, int n);
-
-#endif // _MSC_VER
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT mat repmat(const mat &data, int m, int n);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat repmat(const cmat &data, int m, int n);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT imat repmat(const imat &data, int m, int n);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT smat repmat(const smat &data, int m, int n);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bmat repmat(const bmat &data, int m, int n);
 
 //! \endcond
 

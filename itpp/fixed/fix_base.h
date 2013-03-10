@@ -31,6 +31,7 @@
 
 #include <itpp/base/ittypes.h>
 #include <itpp/stat/misc_stat.h>
+#include <itpp/itexports.h>
 
 
 namespace itpp
@@ -977,7 +978,7 @@ enum output_mode {
 
   See the Detailed Description in the \ref fixed module.
 */
-class Fix_Base
+class ITPP_EXPORT Fix_Base
 {
 public:
   //! Default constructor

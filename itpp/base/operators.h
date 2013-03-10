@@ -33,7 +33,7 @@
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/converters.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -219,7 +219,7 @@ inline vec operator/(const vec &v, const int &s) {return v / static_cast<double>
   \relatesalso Vec
   \brief Addition operator for double and ivec
 */
-vec operator+(const double &s, const ivec &v);
+ITPP_EXPORT vec operator+(const double &s, const ivec &v);
 
 /*!
   \relatesalso Vec
@@ -231,7 +231,7 @@ inline vec operator+(const ivec &v, const double &s) { return s + v;}
   \relatesalso Vec
   \brief Subtraction operator for double and ivec
 */
-vec operator-(const double &s, const ivec &v);
+ITPP_EXPORT vec operator-(const double &s, const ivec &v);
 
 /*!
   \relatesalso Vec
@@ -243,7 +243,7 @@ inline vec operator-(const ivec &v, const double &s) { return v + (-s); }
   \relatesalso Vec
   \brief Multiplication operator for double and ivec
 */
-vec operator*(const double &s, const ivec &v);
+ITPP_EXPORT vec operator*(const double &s, const ivec &v);
 
 /*!
   \relatesalso Vec
@@ -255,19 +255,19 @@ inline vec operator*(const ivec &v, const double &s) { return s*v; }
   \relatesalso Vec
   \brief Division operator for double and ivec
 */
-vec operator/(const double &s, const ivec &v);
+ITPP_EXPORT vec operator/(const double &s, const ivec &v);
 
 /*!
   \relatesalso Vec
   \brief Division operator for ivec and double
 */
-vec operator/(const ivec &v, const double &s);
+ITPP_EXPORT vec operator/(const ivec &v, const double &s);
 
 /*!
   \relatesalso Vec
   \brief Addition operator for complex<double> and ivec
 */
-cvec operator+(const std::complex<double> &s, const ivec &v);
+ITPP_EXPORT cvec operator+(const std::complex<double> &s, const ivec &v);
 
 /*!
   \relatesalso Vec
@@ -279,7 +279,7 @@ inline cvec operator+(const ivec &v, const std::complex<double> &s) { return s +
   \relatesalso Vec
   \brief Subtraction operator for complex<double> and ivec
 */
-cvec operator-(const std::complex<double> &s, const ivec &v);
+ITPP_EXPORT cvec operator-(const std::complex<double> &s, const ivec &v);
 
 /*!
   \relatesalso Vec
@@ -291,7 +291,7 @@ inline cvec operator-(const ivec &v, const std::complex<double> &s) { return v +
   \relatesalso Vec
   \brief Multiplication operator for complex<double> and ivec
 */
-cvec operator*(const std::complex<double> &s, const ivec &v);
+ITPP_EXPORT cvec operator*(const std::complex<double> &s, const ivec &v);
 
 /*!
   \relatesalso Vec
@@ -303,13 +303,13 @@ inline cvec operator*(const ivec &v, const std::complex<double> &s) { return s*v
   \relatesalso Vec
   \brief Division operator for complex<double> and ivec
 */
-cvec operator/(const std::complex<double> &s, const ivec &v);
+ITPP_EXPORT cvec operator/(const std::complex<double> &s, const ivec &v);
 
 /*!
   \relatesalso Vec
   \brief Division operator for ivec and complex<double>
 */
-cvec operator/(const ivec &v, const std::complex<double> &s);
+ITPP_EXPORT cvec operator/(const ivec &v, const std::complex<double> &s);
 
 //---------------------- between cvec and scalar --------------------
 
@@ -317,7 +317,7 @@ cvec operator/(const ivec &v, const std::complex<double> &s);
   \relatesalso Vec
   \brief Addition operator for double and cvec
 */
-cvec operator+(const double &s, const cvec &v);
+ITPP_EXPORT cvec operator+(const double &s, const cvec &v);
 
 /*!
   \relatesalso Vec
@@ -365,7 +365,7 @@ inline cvec operator+(const cvec &v, const int &s) {return s + v;}
   \relatesalso Vec
   \brief Subtraction operator for double and cvec
 */
-cvec operator-(const double &s, const cvec &v);
+ITPP_EXPORT cvec operator-(const double &s, const cvec &v);
 
 /*!
   \relatesalso Vec
@@ -413,7 +413,7 @@ inline cvec operator-(const cvec &v, const int &s) {return v + (-s);}
   \relatesalso Vec
   \brief Multiplication operator for double and cvec
 */
-cvec operator*(const double &s, const cvec &v);
+ITPP_EXPORT cvec operator*(const double &s, const cvec &v);
 
 /*!
   \relatesalso Vec
@@ -461,13 +461,13 @@ inline cvec operator*(const cvec &v, const int &s) {return s*v;}
   \relatesalso Vec
   \brief Division operator for cvec and double
 */
-cvec operator/(const cvec &v, const double &s);
+ITPP_EXPORT cvec operator/(const cvec &v, const double &s);
 
 /*!
   \relatesalso Vec
   \brief Division operator for double and cvec
 */
-cvec operator/(const double &s, const cvec &v);
+ITPP_EXPORT cvec operator/(const double &s, const cvec &v);
 
 /*!
   \relatesalso Vec
@@ -621,25 +621,25 @@ inline mat operator/(const mat &m, const int &s) {return m / static_cast<double>
   \relatesalso Mat
   \brief Addition operator for double and cmat
 */
-cmat operator+(const double &s, const cmat &m);
+ITPP_EXPORT cmat operator+(const double &s, const cmat &m);
 
 /*!
   \relatesalso Mat
   \brief Subtraction operator for double and cmat
 */
-cmat operator-(const double &s, const cmat &m);
+ITPP_EXPORT cmat operator-(const double &s, const cmat &m);
 
 /*!
   \relatesalso Mat
   \brief Multiplication operator for double and cmat
 */
-cmat operator*(const double &s, const cmat &m);
+ITPP_EXPORT cmat operator*(const double &s, const cmat &m);
 
 /*!
   \relatesalso Mat
   \brief Multiplication operator for complex<double> and mat
 */
-cmat operator*(const std::complex<double> &s, const mat &m);
+ITPP_EXPORT cmat operator*(const std::complex<double> &s, const mat &m);
 
 /*!
   \relatesalso Mat
@@ -651,7 +651,7 @@ inline cmat operator*(const mat &m, const std::complex<double> &s) {return s*m;}
   \relatesalso Mat
   \brief Division operator for cmat and double
 */
-cmat operator/(const cmat &m, const double &s);
+ITPP_EXPORT cmat operator/(const cmat &m, const double &s);
 
 //---------------------- between vec and vectors --------------------
 
@@ -659,19 +659,19 @@ cmat operator/(const cmat &m, const double &s);
   \relatesalso Vec
   \brief Addition operator for bvec and vec
 */
-vec operator+(const bvec &a, const vec &b);
+ITPP_EXPORT vec operator+(const bvec &a, const vec &b);
 
 /*!
   \relatesalso Vec
   \brief Addition operator for svec and vec
 */
-vec operator+(const svec &a, const vec &b);
+ITPP_EXPORT vec operator+(const svec &a, const vec &b);
 
 /*!
   \relatesalso Vec
   \brief Addition operator for ivec and vec
 */
-vec operator+(const ivec &a, const vec &b);
+ITPP_EXPORT vec operator+(const ivec &a, const vec &b);
 
 /*!
   \relatesalso Vec
@@ -731,19 +731,19 @@ inline vec operator-(const vec &a, const ivec &b) {return a + (-b);}
   \relatesalso Vec
   \brief Multiplication operator for bvec and vec
 */
-double operator*(const bvec &a, const vec &b);
+ITPP_EXPORT double operator*(const bvec &a, const vec &b);
 
 /*!
   \relatesalso Vec
   \brief Multiplication operator for svec and vec
 */
-double operator*(const svec &a, const vec &b);
+ITPP_EXPORT double operator*(const svec &a, const vec &b);
 
 /*!
   \relatesalso Vec
   \brief Multiplication operator for ivec and vec
 */
-double operator*(const ivec &a, const vec &b);
+ITPP_EXPORT double operator*(const ivec &a, const vec &b);
 
 /*!
   \relatesalso Vec
@@ -769,19 +769,19 @@ inline double operator*(const vec &a, const ivec &b) {return b*a;}
   \relatesalso Vec
   \brief Addition operator for bvec and cvec
 */
-cvec operator+(const bvec &a, const cvec &b);
+ITPP_EXPORT cvec operator+(const bvec &a, const cvec &b);
 
 /*!
   \relatesalso Vec
   \brief Addition operator for svec and cvec
 */
-cvec operator+(const svec &a, const cvec &b);
+ITPP_EXPORT cvec operator+(const svec &a, const cvec &b);
 
 /*!
   \relatesalso Vec
   \brief Addition operator for ivec and cvec
 */
-cvec operator+(const ivec &a, const cvec &b);
+ITPP_EXPORT cvec operator+(const ivec &a, const cvec &b);
 
 /*!
   \relatesalso Vec
@@ -841,19 +841,19 @@ inline cvec operator-(const cvec &a, const ivec &b) {return a + (-b);}
   \relatesalso Vec
   \brief Multiplication operator for bvec and cvec
 */
-std::complex<double> operator*(const bvec &a, const cvec &b);
+ITPP_EXPORT std::complex<double> operator*(const bvec &a, const cvec &b);
 
 /*!
   \relatesalso Vec
   \brief Multiplication operator for svec and cvec
 */
-std::complex<double> operator*(const svec &a, const cvec &b);
+ITPP_EXPORT std::complex<double> operator*(const svec &a, const cvec &b);
 
 /*!
   \relatesalso Vec
   \brief Multiplication operator for ivec and cvec
 */
-std::complex<double> operator*(const ivec &a, const cvec &b);
+ITPP_EXPORT std::complex<double> operator*(const ivec &a, const cvec &b);
 
 /*!
   \relatesalso Vec
@@ -879,19 +879,19 @@ inline std::complex<double> operator*(const cvec &a, const ivec &b) {return b*a;
   \relatesalso Mat
   \brief Addition operator for bmat and mat
 */
-mat operator+(const bmat &a, const mat &b);
+ITPP_EXPORT mat operator+(const bmat &a, const mat &b);
 
 /*!
   \relatesalso Mat
   \brief Addition operator for smat and mat
 */
-mat operator+(const smat &a, const mat &b);
+ITPP_EXPORT mat operator+(const smat &a, const mat &b);
 
 /*!
   \relatesalso Mat
   \brief Addition operator for imat and mat
 */
-mat operator+(const imat &a, const mat &b);
+ITPP_EXPORT mat operator+(const imat &a, const mat &b);
 
 /*!
   \relatesalso Mat
@@ -953,25 +953,25 @@ inline mat operator-(const mat &a, const imat &b) {return a + (-b);}
   \relatesalso Mat
   \brief Addition operator for bmat and cmat
 */
-cmat operator+(const bmat &a, const cmat &b);
+ITPP_EXPORT cmat operator+(const bmat &a, const cmat &b);
 
 /*!
   \relatesalso Mat
   \brief Addition operator for smat and cmat
 */
-cmat operator+(const smat &a, const cmat &b);
+ITPP_EXPORT cmat operator+(const smat &a, const cmat &b);
 
 /*!
   \relatesalso Mat
   \brief Addition operator for imat and cmat
 */
-cmat operator+(const imat &a, const cmat &b);
+ITPP_EXPORT cmat operator+(const imat &a, const cmat &b);
 
 /*!
   \relatesalso Mat
   \brief Addition operator for mat and cmat
 */
-cmat operator+(const mat &a, const cmat &b);
+ITPP_EXPORT cmat operator+(const mat &a, const cmat &b);
 
 /*!
   \relatesalso Mat

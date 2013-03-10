@@ -476,21 +476,17 @@ double Root_Raised_Cosine<T1>::get_roll_off(void) const
 // Instantiations
 // ----------------------------------------------------------------------
 
-#ifndef _MSC_VER
-
-extern template class Pulse_Shape<double, double, double>;
-extern template class Pulse_Shape < std::complex<double>, double,
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Pulse_Shape<double, double, double>;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Pulse_Shape < std::complex<double>, double,
   std::complex<double> >;
-extern template class Pulse_Shape < std::complex<double>, std::complex<double>,
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Pulse_Shape < std::complex<double>, std::complex<double>,
   std::complex<double> >;
 
-extern template class Root_Raised_Cosine<double>;
-extern template class Root_Raised_Cosine<std::complex<double> >;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Root_Raised_Cosine<double>;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Root_Raised_Cosine<std::complex<double> >;
 
-extern template class Raised_Cosine<double>;
-extern template class Raised_Cosine<std::complex<double> >;
-
-#endif // _MSC_VER
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Raised_Cosine<double>;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Raised_Cosine<std::complex<double> >;
 
 //! \endcond
 

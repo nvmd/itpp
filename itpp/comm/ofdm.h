@@ -31,6 +31,7 @@
 #define OFDM_H
 
 #include <itpp/base/vec.h>
+#include <itpp/itexports.h>
 
 
 namespace itpp
@@ -42,7 +43,7 @@ namespace itpp
 
   The modulated signal is normalized taking into account the cyclic prefix
 */
-class OFDM
+class ITPP_EXPORT OFDM
 {
 public:
   //! Empty constructor

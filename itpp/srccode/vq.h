@@ -32,10 +32,10 @@
 #include <itpp/base/vec.h>
 #include <itpp/base/sort.h>
 #include <itpp/base/math/log_exp.h>
+#include <itpp/itexports.h>
 
 namespace itpp
 {
-
 
 /*!
   \addtogroup sourcecoding
@@ -59,7 +59,7 @@ namespace itpp
   y=Quantizer.decode(i);
   \endcode
 */
-class Vector_Quantizer
+class ITPP_EXPORT Vector_Quantizer
 {
 public:
   //! Default constructor
@@ -149,7 +149,7 @@ inline vec Vector_Quantizer::operator()(const vec &x) { return Q(x); }
   \endcode
 */
 
-class Scalar_Quantizer
+class ITPP_EXPORT Scalar_Quantizer
 {
 public:
   //! Default constructor
@@ -194,9 +194,9 @@ inline void Scalar_Quantizer::set_levels(const vec &L) {Levels = L;sort(Levels);
 inline vec Scalar_Quantizer::get_levels() const {return Levels; }
 
 //! ADD DOCUMENTATION HERE
-int scalar_encode(double x, vec &Levels) ;
+ITPP_EXPORT int scalar_encode(double x, vec &Levels) ;
 //! ADD DOCUMENTATION HERE
-ivec scalar_encode(vec &x, vec &Levels);
+ITPP_EXPORT ivec scalar_encode(vec &x, vec &Levels);
 //! ADD DOCUMENTATION HERE
 inline double scalar_quantize(double x, vec &Levels) { return Levels(scalar_encode(x, Levels)); }
 //! ADD DOCUMENTATION HERE

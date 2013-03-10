@@ -32,7 +32,7 @@
 #include <itpp/base/binary.h>
 #include <complex>
 #include <cstring>
-
+#include <itpp/itexports.h>
 
 //! \cond
 
@@ -56,8 +56,8 @@ inline void copy_vector(int n, const bin *x, bin *y)
   memcpy(y, x, n * sizeof(bin));
 }
 
-void copy_vector(int n, const double *x, double *y);
-void copy_vector(int n, const std::complex<double> *x,
+ITPP_EXPORT void copy_vector(int n, const double *x, double *y);
+ITPP_EXPORT void copy_vector(int n, const std::complex<double> *x,
                  std::complex<double> *y);
 
 template<class T> inline
@@ -73,8 +73,8 @@ void copy_vector(int n, const T *x, T *y)
   vector x elements are stored linearly with element increament incx
   vector y elements are stored linearly with element increament incx
 */
-void copy_vector(int n, const double *x, int incx, double *y, int incy);
-void copy_vector(int n, const std::complex<double> *x, int incx,
+ITPP_EXPORT void copy_vector(int n, const double *x, int incx, double *y, int incy);
+ITPP_EXPORT void copy_vector(int n, const std::complex<double> *x, int incx,
                  std::complex<double> *y, int incy);
 
 template<class T> inline
@@ -104,8 +104,8 @@ inline void swap_vector(int n, bin *x, bin *y)
     std::swap(x[i], y[i]);
 }
 
-void swap_vector(int n, double *x, double *y);
-void swap_vector(int n, std::complex<double> *x, std::complex<double> *y);
+ITPP_EXPORT void swap_vector(int n, double *x, double *y);
+ITPP_EXPORT void swap_vector(int n, std::complex<double> *x, std::complex<double> *y);
 
 template<class T> inline
 void swap_vector(int n, T *x, T *y)
@@ -140,8 +140,8 @@ inline void swap_vector(int n, bin *x, int incx, bin *y, int incy)
     std::swap(x[i*incx], y[i*incy]);
 }
 
-void swap_vector(int n, double *x, int incx, double *y, int incy);
-void swap_vector(int n, std::complex<double> *x, int incx,
+ITPP_EXPORT void swap_vector(int n, double *x, int incx, double *y, int incy);
+ITPP_EXPORT void swap_vector(int n, std::complex<double> *x, int incx,
                  std::complex<double> *y, int incy);
 
 template<class T> inline
@@ -159,8 +159,8 @@ void swap_vector(int n, T *x, int incx, T *y, int incy)
 /*
  * Realise scaling operation: x = alpha*x
  */
-void scal_vector(int n, double alpha, double *x);
-void scal_vector(int n, std::complex<double> alpha, std::complex<double> *x);
+ITPP_EXPORT void scal_vector(int n, double alpha, double *x);
+ITPP_EXPORT void scal_vector(int n, std::complex<double> alpha, std::complex<double> *x);
 
 template<typename T> inline
 void scal_vector(int n, T alpha, T *x)
@@ -177,8 +177,8 @@ void scal_vector(int n, T alpha, T *x)
  * Realise scaling operation: x = alpha*x
  * Elements of x are stored linearly with increament incx
  */
-void scal_vector(int n, double alpha, double *x, int incx);
-void scal_vector(int n, std::complex<double> alpha, std::complex<double> *x,
+ITPP_EXPORT void scal_vector(int n, double alpha, double *x, int incx);
+ITPP_EXPORT void scal_vector(int n, std::complex<double> alpha, std::complex<double> *x,
                  int incx);
 
 template<typename T> inline
@@ -195,9 +195,9 @@ void scal_vector(int n, T alpha, T *x, int incx)
 /*
  * Realise the following equation on vectors: y = alpha*x + y
  */
-void axpy_vector(int n, double alpha, const double *x, double *y);
+ITPP_EXPORT void axpy_vector(int n, double alpha, const double *x, double *y);
 
-void axpy_vector(int n, std::complex<double> alpha,
+ITPP_EXPORT void axpy_vector(int n, std::complex<double> alpha,
                  const std::complex<double> *x, std::complex<double> *y);
 
 template<typename T> inline
@@ -221,9 +221,9 @@ void axpy_vector(int n, T alpha, const T *x, T *y)
  * Elements of x are stored linearly with increment incx
  * and elements of y are stored linearly with increment incx
  */
-void axpy_vector(int n, double alpha, const double *x, int incx, double *y,
+ITPP_EXPORT void axpy_vector(int n, double alpha, const double *x, int incx, double *y,
                  int incy);
-void axpy_vector(int n, std::complex<double> alpha,
+ITPP_EXPORT void axpy_vector(int n, std::complex<double> alpha,
                  const std::complex<double> *x, int incx,
                  std::complex<double> *y, int incy);
 

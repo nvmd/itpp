@@ -31,6 +31,7 @@
 
 #include <itpp/itbase.h>
 #include <itpp/comm/modulator.h> //BPSK class for a priori information generation
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -51,7 +52,7 @@ namespace itpp
   Stephan ten Brink, ''Convergence behavior of iteratively decoded parallel concatenated codes,``
   IEEE Transactions on Communications, oct. 2001
 */
-class EXIT
+class ITPP_EXPORT EXIT
 {
 public:
     //! Computes the a priori mutual information
@@ -61,8 +62,8 @@ public:
                                const double &lim=100 //!< [-lim,+lim] is the integration interval (theoretically it should be [-inf,+inf])
                               )
     {
-        sigma2A = in_sigma2A;
-        return 1.0-itpp::quad(&gaussian_fct, -lim, lim);
+        _gaussian_fct = Gaussian_Fct(in_sigma2A);
+        return 1.0-itpp::quad(_gaussian_fct, -lim, lim);
     };
     //! Generates a priori information assuming a Gaussian distribution of the a priori information
     /*! The variance of the a priori information must be already initialized through EXIT::apriori_mutual_info function.
@@ -71,6 +72,7 @@ public:
     itpp::vec generate_apriori_info(const itpp::bvec &bits)
     {
         itpp::BPSK bpsk;
+        double sigma2A = _gaussian_fct.sigma();
         return (-sigma2A/2)*bpsk.modulate_bits(bits)+std::sqrt(sigma2A)*itpp::randn(bits.length());
     };
     //! Computes the extrinsic mutual information
@@ -82,9 +84,16 @@ public:
                                  const int &N=100 //!< number of subintervals used to compute the histogram
                                 );
 private:
-    static double sigma2A;
-    friend double itpp::quad(double (*f)(double), double a, double b, double tol);
-    static double gaussian_fct(double x);
+    class ITPP_EXPORT Gaussian_Fct
+    {
+        double _sigma;
+      public:
+        Gaussian_Fct(): _sigma(0.0){}
+        Gaussian_Fct(double sigma): _sigma(sigma){}
+        double sigma() const {return _sigma;}
+        double operator()(double x) const;
+    };
+    Gaussian_Fct _gaussian_fct;
 };
 
 }

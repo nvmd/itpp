@@ -30,7 +30,7 @@
 #define DET_H
 
 #include <itpp/base/mat.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -47,7 +47,7 @@ namespace itpp
   \f]
   and the determinant of the permuation matrix is \f$ \pm 1\f$ depending on the number of row permutations
 */
-double det(const mat &X);
+ITPP_EXPORT double det(const mat &X);
 
 
 /*!
@@ -62,7 +62,7 @@ double det(const mat &X);
   \f]
   and the determinant of the permuation matrix is \f$ \pm 1\f$ depending on the number of row permutations
 */
-std::complex<double> det(const cmat &X);
+ITPP_EXPORT std::complex<double> det(const cmat &X);
 
 
 } // namespace itpp

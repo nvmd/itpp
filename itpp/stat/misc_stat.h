@@ -33,6 +33,7 @@
 #include <itpp/base/mat.h>
 #include <itpp/base/math/elem_math.h>
 #include <itpp/base/matfunc.h>
+#include <itpp/itexports.h>
 
 
 namespace itpp
@@ -44,7 +45,7 @@ namespace itpp
 /*!
   \brief A class for sampling a signal and calculating statistics
 */
-class Stat
+class ITPP_EXPORT Stat
 {
 public:
   //! Default constructor
@@ -117,21 +118,21 @@ protected:
 
 
 //! The mean value
-double mean(const vec &v);
+ITPP_EXPORT double mean(const vec &v);
 //! The mean value
-std::complex<double> mean(const cvec &v);
+ITPP_EXPORT std::complex<double> mean(const cvec &v);
 //! The mean value
-double mean(const svec &v);
+ITPP_EXPORT double mean(const svec &v);
 //! The mean value
-double mean(const ivec &v);
+ITPP_EXPORT double mean(const ivec &v);
 //! The mean value
-double mean(const mat &m);
+ITPP_EXPORT double mean(const mat &m);
 //! The mean value
-std::complex<double> mean(const cmat &m);
+ITPP_EXPORT std::complex<double> mean(const cmat &m);
 //! The mean value
-double mean(const smat &m);
+ITPP_EXPORT double mean(const smat &m);
 //! The mean value
-double mean(const imat &m);
+ITPP_EXPORT double mean(const imat &m);
 
 //! The geometric mean of a vector
 template<class T>
@@ -158,7 +159,7 @@ double median(const Vec<T> &v)
 }
 
 //! Calculate the 2-norm: norm(v)=sqrt(sum(abs(v).^2))
-double norm(const cvec &v);
+ITPP_EXPORT double norm(const cvec &v);
 
 //! Calculate the 2-norm: norm(v)=sqrt(sum(abs(v).^2))
 template<class T>
@@ -172,7 +173,7 @@ double norm(const Vec<T> &v)
 }
 
 //! Calculate the p-norm: norm(v,p)=sum(abs(v).^2)^(1/p)
-double norm(const cvec &v, int p);
+ITPP_EXPORT double norm(const cvec &v, int p);
 
 //! Calculate the p-norm: norm(v,p)=sum(abs(v).^2)^(1/p)
 template<class T>
@@ -186,7 +187,7 @@ double norm(const Vec<T> &v, int p)
 }
 
 //! Calculate the Frobenius norm for s = "fro" (equal to 2-norm)
-double norm(const cvec &v, const std::string &s);
+ITPP_EXPORT double norm(const cvec &v, const std::string &s);
 
 //! Calculate the Frobenius norm for s = "fro" (equal to 2-norm)
 template<class T>
@@ -209,7 +210,7 @@ double norm(const Vec<T> &v, const std::string &s)
  *
  * Default if no p is given is the 2-norm
  */
-double norm(const mat &m, int p = 2);
+ITPP_EXPORT double norm(const mat &m, int p = 2);
 
 /*!
  * Calculate the p-norm of a complex matrix
@@ -219,17 +220,17 @@ double norm(const mat &m, int p = 2);
  *
  * Default if no p is given is the 2-norm
  */
-double norm(const cmat &m, int p = 2);
+ITPP_EXPORT double norm(const cmat &m, int p = 2);
 
 //! Calculate the Frobenius norm of a matrix for s = "fro"
-double norm(const mat &m, const std::string &s);
+ITPP_EXPORT double norm(const mat &m, const std::string &s);
 
 //! Calculate the Frobenius norm of a matrix for s = "fro"
-double norm(const cmat &m, const std::string &s);
+ITPP_EXPORT double norm(const cmat &m, const std::string &s);
 
 
 //! The variance of the elements in the vector. Normalized with N-1 to be unbiased.
-double variance(const cvec &v);
+ITPP_EXPORT double variance(const cvec &v);
 
 //! The variance of the elements in the vector. Normalized with N-1 to be unbiased.
 template<class T>
@@ -302,7 +303,7 @@ inline bool within_tolerance(const cmat &X, const cmat &Xref, double tol = 1e-14
   \f]
   where \f$\mu\f$ is the sample mean.
 */
-double moment(const vec &x, const int r);
+ITPP_EXPORT double moment(const vec &x, const int r);
 
 /*!
   \brief Calculate the skewness excess of the input vector x
@@ -332,7 +333,7 @@ double moment(const vec &x, const int r);
   Here \f$m_2\f$ is the sample variance and \f$m_3\f$ is the 3rd sample
   central moment.
 */
-double skewness(const vec &x);
+ITPP_EXPORT double skewness(const vec &x);
 
 
 /*!
@@ -360,7 +361,7 @@ The kurtosis excess is defined as
   Here \f$m_2\f$ is the sample variance and \f$m_4\f$ is the 4th sample
   central moment.
 */
-double kurtosisexcess(const vec &x);
+ITPP_EXPORT double kurtosisexcess(const vec &x);
 
 /*!
 \brief Calculate the kurtosis of the input vector x

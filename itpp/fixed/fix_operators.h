@@ -32,6 +32,7 @@
 
 #include <itpp/fixed/cfix.h>
 #include <itpp/fixed/fix_functions.h>
+#include <itpp/itexports.h>
 
 
 namespace itpp
@@ -45,30 +46,30 @@ namespace itpp
 /////////////////////////////////
 
 //! Fix + Fix
-Fix operator+(const Fix &x, const Fix &y);
+ITPP_EXPORT Fix operator+(const Fix &x, const Fix &y);
 //! Fix - Fix
-Fix operator-(const Fix &x, const Fix &y);
+ITPP_EXPORT Fix operator-(const Fix &x, const Fix &y);
 //! Fix * Fix
-Fix operator*(const Fix &x, const Fix &y);
+ITPP_EXPORT Fix operator*(const Fix &x, const Fix &y);
 //! Fix / Fix using quantization mode \c TRN
-Fix operator/(const Fix &x, const Fix &y);
+ITPP_EXPORT Fix operator/(const Fix &x, const Fix &y);
 
 //! Fix + int
-Fix operator+(const Fix &x, const int y);
+ITPP_EXPORT Fix operator+(const Fix &x, const int y);
 //! Fix - int
-Fix operator-(const Fix &x, const int y);
+ITPP_EXPORT Fix operator-(const Fix &x, const int y);
 //! Fix * int
-Fix operator*(const Fix &x, const int y);
+ITPP_EXPORT Fix operator*(const Fix &x, const int y);
 //! Fix / int using quantization mode \c TRN
-Fix operator/(const Fix &x, const int y);
+ITPP_EXPORT Fix operator/(const Fix &x, const int y);
 //! int + Fix
-Fix operator+(const int x, const Fix &y);
+ITPP_EXPORT Fix operator+(const int x, const Fix &y);
 //! int - Fix
-Fix operator-(const int x, const Fix &y);
+ITPP_EXPORT Fix operator-(const int x, const Fix &y);
 //! int * Fix
-Fix operator*(const int x, const Fix &y);
+ITPP_EXPORT Fix operator*(const int x, const Fix &y);
 //! int / Fix using quantization mode \c TRN
-Fix operator/(const int x, const Fix &y);
+ITPP_EXPORT Fix operator/(const int x, const Fix &y);
 
 //! fixvec + int
 inline fixvec operator+(const fixvec &v, const int s) {return v + Fix(s);}
@@ -101,7 +102,7 @@ inline fixmat operator*(const int s, const fixmat &v) {return Fix(s) * v;}
 inline fixmat operator/(const fixmat &v, const int s) {return v / Fix(s);}
 
 //! fixvec + ivec
-fixvec operator+(const fixvec &a, const ivec &b);
+ITPP_EXPORT fixvec operator+(const fixvec &a, const ivec &b);
 //! ivec + fixvec
 inline fixvec operator+(const ivec &a, const fixvec &b) {return b + a;}
 //! fixvec - ivec
@@ -109,12 +110,12 @@ inline fixvec operator-(const fixvec &a, const ivec &b) {return a + (-b);}
 //! ivec - fixvec
 inline fixvec operator-(const ivec &a, const fixvec &b) {return (-b) + a;}
 //! fixvec * ivec
-Fix operator*(const fixvec &a, const ivec &b);
+ITPP_EXPORT Fix operator*(const fixvec &a, const ivec &b);
 //! ivec * fixvec
 inline Fix operator*(const ivec &a, const fixvec &b) {return b*a;}
 
 //! fixmat + imat
-fixmat operator+(const fixmat &a, const imat &b);
+ITPP_EXPORT fixmat operator+(const fixmat &a, const imat &b);
 //! imat + fixmat
 inline fixmat operator+(const imat &a, const fixmat &b) {return b + a;}
 //! fixmat - imat
@@ -122,7 +123,7 @@ inline fixmat operator-(const fixmat &a, const imat &b) {return a + (-b);}
 //! imat - fixmat
 inline fixmat operator-(const imat &a, const fixmat &b) {return (-b) + a;}
 //! fixmat * imat
-fixmat operator*(const fixmat &a, const imat &b);
+ITPP_EXPORT fixmat operator*(const fixmat &a, const imat &b);
 //! imat * fixmat
 inline fixmat operator*(const imat &a, const fixmat &b) {return b*a;}
 
@@ -131,47 +132,47 @@ inline fixmat operator*(const imat &a, const fixmat &b) {return b*a;}
 ///////////////////////////////////
 
 //! CFix + CFix
-CFix operator+(const CFix &x, const CFix &y);
+ITPP_EXPORT CFix operator+(const CFix &x, const CFix &y);
 //! CFix - CFix
-CFix operator-(const CFix &x, const CFix &y);
+ITPP_EXPORT CFix operator-(const CFix &x, const CFix &y);
 //! CFix * CFix
-CFix operator*(const CFix &x, const CFix &y);
+ITPP_EXPORT CFix operator*(const CFix &x, const CFix &y);
 //! CFix / CFix using quantization mode \c TRN
-CFix operator/(const CFix &x, const CFix &y);
+ITPP_EXPORT CFix operator/(const CFix &x, const CFix &y);
 
 //! CFix + Fix
-CFix operator+(const CFix &x, const Fix &y);
+ITPP_EXPORT CFix operator+(const CFix &x, const Fix &y);
 //! CFix - Fix
-CFix operator-(const CFix &x, const Fix &y);
+ITPP_EXPORT CFix operator-(const CFix &x, const Fix &y);
 //! CFix * Fix
-CFix operator*(const CFix &x, const Fix &y);
+ITPP_EXPORT CFix operator*(const CFix &x, const Fix &y);
 //! CFix / Fix using quantization mode \c TRN
-CFix operator/(const CFix &x, const Fix &y);
+ITPP_EXPORT CFix operator/(const CFix &x, const Fix &y);
 //! Fix + CFix
-CFix operator+(const Fix &x, const CFix &y);
+ITPP_EXPORT CFix operator+(const Fix &x, const CFix &y);
 //! Fix - CFix
-CFix operator-(const Fix &x, const CFix &y);
+ITPP_EXPORT CFix operator-(const Fix &x, const CFix &y);
 //! Fix * CFix
-CFix operator*(const Fix &x, const CFix &y);
+ITPP_EXPORT CFix operator*(const Fix &x, const CFix &y);
 //! Fix / CFix using quantization mode \c TRN
-CFix operator/(const Fix &x, const CFix &y);
+ITPP_EXPORT CFix operator/(const Fix &x, const CFix &y);
 
 //! CFix + int
-CFix operator+(const CFix &x, const int y);
+ITPP_EXPORT CFix operator+(const CFix &x, const int y);
 //! CFix - int
-CFix operator-(const CFix &x, const int y);
+ITPP_EXPORT CFix operator-(const CFix &x, const int y);
 //! CFix * int
-CFix operator*(const CFix &x, const int y);
+ITPP_EXPORT CFix operator*(const CFix &x, const int y);
 //! CFix / int using quantization mode \c TRN
-CFix operator/(const CFix &x, const int y);
+ITPP_EXPORT CFix operator/(const CFix &x, const int y);
 //! int + CFix
-CFix operator+(const int x, const CFix &y);
+ITPP_EXPORT CFix operator+(const int x, const CFix &y);
 //! int - CFix
-CFix operator-(const int x, const CFix &y);
+ITPP_EXPORT CFix operator-(const int x, const CFix &y);
 //! int * CFix
-CFix operator*(const int x, const CFix &y);
+ITPP_EXPORT CFix operator*(const int x, const CFix &y);
 //! int / CFix using quantization mode \c TRN
-CFix operator/(const int x, const CFix &y);
+ITPP_EXPORT CFix operator/(const int x, const CFix &y);
 
 //! fixvec + CFix
 inline cfixvec operator+(const fixvec &v, const CFix &s) {return to<CFix>(v) + s;}
@@ -294,7 +295,7 @@ inline cfixmat operator*(const int s, const cfixmat &m) {return CFix(s) * m;}
 inline cfixmat operator/(const cfixmat &m, const int s) {return m / CFix(s);}
 
 //! cfixvec + fixvec
-cfixvec operator+(const cfixvec &a, const fixvec &b);
+ITPP_EXPORT cfixvec operator+(const cfixvec &a, const fixvec &b);
 //! fixvec + cfixvec
 inline cfixvec operator+(const fixvec &a, const cfixvec &b) {return b + a;}
 //! cfixvec - fixvec
@@ -302,12 +303,12 @@ inline cfixvec operator-(const cfixvec &a, const fixvec &b) {return a + (-b);}
 //! fixvec - cfixvec
 inline cfixvec operator-(const fixvec &a, const cfixvec &b) {return (-b) + a;}
 //! cfixvec * fixvec
-CFix operator*(const cfixvec &a, const fixvec &b);
+ITPP_EXPORT CFix operator*(const cfixvec &a, const fixvec &b);
 //! fixvec * cfixvec
 inline CFix operator*(const fixvec &a, const cfixvec &b) {return b*a;}
 
 //! cfixmat + fixmat
-cfixmat operator+(const cfixmat &a, const fixmat &b);
+ITPP_EXPORT cfixmat operator+(const cfixmat &a, const fixmat &b);
 //! fixmat + cfixmat
 inline cfixmat operator+(const fixmat &a, const cfixmat &b) {return b + a;}
 //! cfixmat - fixmat
@@ -315,12 +316,12 @@ inline cfixmat operator-(const cfixmat &a, const fixmat &b) {return a + (-b);}
 //! fixmat - cfixmat
 inline cfixmat operator-(const fixmat &a, const cfixmat &b) {return (-b) + a;}
 //! cfixmat * fixmat
-cfixmat operator*(const cfixmat &a, const fixmat &b);
+ITPP_EXPORT cfixmat operator*(const cfixmat &a, const fixmat &b);
 //! fixmat * cfixmat
 inline cfixmat operator*(const fixmat &a, const cfixmat &b) {return b*a;}
 
 //! cfixvec + ivec
-cfixvec operator+(const cfixvec &a, const ivec &b);
+ITPP_EXPORT cfixvec operator+(const cfixvec &a, const ivec &b);
 //! ivec + cfixvec
 inline cfixvec operator+(const ivec &a, const cfixvec &b) {return b + a;}
 //! cfixvec - ivec
@@ -328,12 +329,12 @@ inline cfixvec operator-(const cfixvec &a, const ivec &b) {return a + (-b);}
 //! ivec - cfixvec
 inline cfixvec operator-(const ivec &a, const cfixvec &b) {return (-b) + a;}
 //! cfixvec * ivec
-CFix operator*(const cfixvec &a, const ivec &b);
+ITPP_EXPORT CFix operator*(const cfixvec &a, const ivec &b);
 //! ivec * cfixvec
 inline CFix operator*(const ivec &a, const cfixvec &b) {return b*a;}
 
 //! cfixmat + imat
-cfixmat operator+(const cfixmat &a, const imat &b);
+ITPP_EXPORT cfixmat operator+(const cfixmat &a, const imat &b);
 //! imat + cfixmat
 inline cfixmat operator+(const imat &a, const cfixmat &b) {return b + a;}
 //! cfixmat - imat
@@ -341,7 +342,7 @@ inline cfixmat operator-(const cfixmat &a, const imat &b) {return a + (-b);}
 //! imat - cfixmat
 inline cfixmat operator-(const imat &a, const cfixmat &b) {return (-b) + a;}
 //! cfixmat * imat
-cfixmat operator*(const cfixmat &a, const imat &b);
+ITPP_EXPORT cfixmat operator*(const cfixmat &a, const imat &b);
 //! imat * cfixmat
 inline cfixmat operator*(const imat &a, const cfixmat &b) {return b*a;}
 

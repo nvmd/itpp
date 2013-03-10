@@ -30,7 +30,7 @@
 #define SCHUR_H
 
 #include <itpp/base/mat.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -52,7 +52,7 @@ namespace itpp
  *
  * Uses the LAPACK routine DGEES.
  */
-bool schur(const mat &A, mat &U, mat &T);
+ITPP_EXPORT bool schur(const mat &A, mat &U, mat &T);
 
 /*!
  * \ingroup matrixdecomp
@@ -73,7 +73,7 @@ bool schur(const mat &A, mat &U, mat &T);
  *
  * uses the LAPACK routine DGEES.
  */
-mat schur(const mat &A);
+ITPP_EXPORT mat schur(const mat &A);
 
 
 /*!
@@ -90,7 +90,7 @@ mat schur(const mat &A);
  *
  * Uses the LAPACK routine ZGEES.
  */
-bool schur(const cmat &A, cmat &U, cmat &T);
+ITPP_EXPORT bool schur(const cmat &A, cmat &U, cmat &T);
 
 /*!
  * \ingroup matrixdecomp
@@ -108,7 +108,7 @@ bool schur(const cmat &A, cmat &U, cmat &T);
  *
  * Uses the LAPACK routine ZGEES.
  */
-cmat schur(const cmat &A);
+ITPP_EXPORT cmat schur(const cmat &A);
 
 
 } // namespace itpp

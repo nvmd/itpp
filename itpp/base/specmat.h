@@ -32,7 +32,8 @@
 
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
-
+#include <itpp/base/converters.h>
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -41,7 +42,7 @@ namespace itpp
   \brief Return a integer vector with indicies where bvec == 1
   \ingroup miscfunc
 */
-ivec find(const bvec &invector);
+ITPP_EXPORT ivec find(const bvec &invector);
 
 /*!
   \addtogroup specmat
@@ -51,62 +52,84 @@ ivec find(const bvec &invector);
 //!@{
 
 //! A float vector of ones
-vec ones(int size);
+ITPP_EXPORT vec ones(int size);
 //! A Binary vector of ones
-bvec ones_b(int size);
+ITPP_EXPORT bvec ones_b(int size);
 //! A Int vector of ones
-ivec ones_i(int size);
+ITPP_EXPORT ivec ones_i(int size);
 //! A float Complex vector of ones
-cvec ones_c(int size);
+ITPP_EXPORT cvec ones_c(int size);
 
 //! A float (rows,cols)-matrix of ones
-mat ones(int rows, int cols);
+ITPP_EXPORT mat ones(int rows, int cols);
 //! A Binary (rows,cols)-matrix of ones
-bmat ones_b(int rows, int cols);
+ITPP_EXPORT bmat ones_b(int rows, int cols);
 //! A Int (rows,cols)-matrix of ones
-imat ones_i(int rows, int cols);
+ITPP_EXPORT imat ones_i(int rows, int cols);
 //! A Double Complex (rows,cols)-matrix of ones
-cmat ones_c(int rows, int cols);
+ITPP_EXPORT cmat ones_c(int rows, int cols);
 
 //! A Double vector of zeros
-vec zeros(int size);
+ITPP_EXPORT vec zeros(int size);
 //! A Binary vector of zeros
-bvec zeros_b(int size);
+ITPP_EXPORT bvec zeros_b(int size);
 //! A Int vector of zeros
-ivec zeros_i(int size);
+ITPP_EXPORT ivec zeros_i(int size);
 //! A Double Complex vector of zeros
-cvec zeros_c(int size);
+ITPP_EXPORT cvec zeros_c(int size);
 
 //! A Double (rows,cols)-matrix of zeros
-mat zeros(int rows, int cols);
+ITPP_EXPORT mat zeros(int rows, int cols);
 //! A Binary (rows,cols)-matrix of zeros
-bmat zeros_b(int rows, int cols);
+ITPP_EXPORT bmat zeros_b(int rows, int cols);
 //! A Int (rows,cols)-matrix of zeros
-imat zeros_i(int rows, int cols);
+ITPP_EXPORT imat zeros_i(int rows, int cols);
 //! A Double Complex (rows,cols)-matrix of zeros
-cmat zeros_c(int rows, int cols);
+ITPP_EXPORT cmat zeros_c(int rows, int cols);
 
 //! A Double (size,size) unit matrix
-mat eye(int size);
+ITPP_EXPORT mat eye(int size);
 //! A Binary (size,size) unit matrix
-bmat eye_b(int size);
+ITPP_EXPORT bmat eye_b(int size);
 //! A Int (size,size) unit matrix
-imat eye_i(int size);
+ITPP_EXPORT imat eye_i(int size);
 //! A Double Complex (size,size) unit matrix
-cmat eye_c(int size);
+ITPP_EXPORT cmat eye_c(int size);
 //! A non-copying version of the eye function.
 template <class T>
-void eye(int size, Mat<T> &m);
+void eye(int size, Mat<T> &m)
+{
+    m.set_size(size, size, false);
+    m = T(0);
+    for (int i = size - 1; i >= 0; i--)
+        m(i, i) = T(1);
+}
 
 //! Impulse vector
-vec impulse(int size);
+ITPP_EXPORT vec impulse(int size);
 
 //! linspace (works in the same way as the MATLAB version)
-vec linspace(double from, double to, int length = 100);
+ITPP_EXPORT vec linspace(double from, double to, int length = 100);
 
 //! linspace_fixed_step (works in the same way as "from:step:to" in MATLAB)
 template<class T>
-Vec<T> linspace_fixed_step(T from, T to, T step = 1);
+Vec<T> linspace_fixed_step(T from, T to, T step = 1)
+{
+    int points = 0;
+    if (0 != step) {
+        points = itpp::floor_i(double(to-from)/step)+1;
+    }
+    if (0 >= points) {
+        return Vec<T>(0);
+    }
+
+    Vec<T> output(points);
+    output(0) = from;
+    for (int n = 1; n < points; ++n) {
+    	output(n) = output(n-1)+step;
+    }
+    return output;
+}
 
 /*! \brief Zig-zag space function (variation on linspace)
 
@@ -136,7 +159,7 @@ rather than from left to right (as does linspace).
 
 The result is a vector of length 1+2^K.
 */
-vec zigzag_space(double t0, double t1, int K = 5);
+ITPP_EXPORT vec zigzag_space(double t0, double t1, int K = 5);
 
 /*!
  * \brief Hadamard matrix
@@ -144,7 +167,7 @@ vec zigzag_space(double t0, double t1, int K = 5);
  * This function constructs a \a size by \a size Hadammard matrix, where
  * \a size is a power of 2.
  */
-imat hadamard(int size);
+ITPP_EXPORT imat hadamard(int size);
 
 /*!
   \brief Jacobsthal matrix.
@@ -162,7 +185,7 @@ imat hadamard(int size);
   See Wicker "Error Control Systems for digital communication and storage", p. 134
   for more information on these topics. Do not check that p is a prime.
 */
-imat jacobsthal(int p);
+ITPP_EXPORT imat jacobsthal(int p);
 
 /*!
   \brief Conference matrix.
@@ -177,7 +200,7 @@ imat jacobsthal(int p);
   For more details see pp. 55-58 in MacWilliams & Sloane "The theory of error correcting codes",
   North-Holland, 1977.
 */
-imat conference(int n);
+ITPP_EXPORT imat conference(int n);
 
 /*!
  * \brief Generate Toeplitz matrix from two vectors \c c and \c r.
@@ -243,8 +266,8 @@ const Mat<Num_T> toeplitz(const Vec<Num_T> &c)
 }
 
 //! Generate symmetric Toeplitz matrix from vector \c c (complex valued)
-template <>
-const cmat toeplitz(const cvec &c);
+ITPP_EXPORT const cmat toeplitz(const cvec &c);
+
 
 //!@}
 
@@ -253,43 +276,43 @@ const cmat toeplitz(const cvec &c);
   \brief Create a rotation matrix that rotates the given plane \c angle radians. Note that the order of the planes are important!
   \ingroup miscfunc
 */
-mat rotation_matrix(int dim, int plane1, int plane2, double angle);
+ITPP_EXPORT mat rotation_matrix(int dim, int plane1, int plane2, double angle);
 
 /*!
   \brief Calcualte the Householder vector
   \ingroup miscfunc
 */
-void house(const vec &x, vec &v, double &beta);
+ITPP_EXPORT void house(const vec &x, vec &v, double &beta);
 
 /*!
   \brief Calculate the Givens rotation values
   \ingroup miscfunc
 */
-void givens(double a, double b, double &c, double &s);
+ITPP_EXPORT void givens(double a, double b, double &c, double &s);
 
 /*!
   \brief Calculate the Givens rotation matrix
   \ingroup miscfunc
 */
-void givens(double a, double b, mat &m);
+ITPP_EXPORT void givens(double a, double b, mat &m);
 
 /*!
   \brief Calculate the Givens rotation matrix
   \ingroup miscfunc
 */
-mat givens(double a, double b);
+ITPP_EXPORT mat givens(double a, double b);
 
 /*!
   \brief Calculate the transposed Givens rotation matrix
   \ingroup miscfunc
 */
-void givens_t(double a, double b, mat &m);
+ITPP_EXPORT void givens_t(double a, double b, mat &m);
 
 /*!
   \brief Calculate the transposed Givens rotation matrix
   \ingroup miscfunc
 */
-mat givens_t(double a, double b);
+ITPP_EXPORT mat givens_t(double a, double b);
 
 /*!
   \relates Vec

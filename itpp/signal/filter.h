@@ -30,7 +30,7 @@
 #define FILTER_H
 
 #include <itpp/base/vec.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -265,36 +265,36 @@ Setting a=1 gives a MA filter and b=1 gives a AR filter. The
 
   @{
 */
-vec filter(const vec &b, const vec &a, const vec &input);
-cvec filter(const vec &b, const vec &a, const cvec &input);
-cvec filter(const cvec &b, const cvec &a, const cvec &input);
-cvec filter(const cvec &b, const cvec &a, const vec &input);
+ITPP_EXPORT vec filter(const vec &b, const vec &a, const vec &input);
+ITPP_EXPORT cvec filter(const vec &b, const vec &a, const cvec &input);
+ITPP_EXPORT cvec filter(const cvec &b, const cvec &a, const cvec &input);
+ITPP_EXPORT cvec filter(const cvec &b, const cvec &a, const vec &input);
 
-vec filter(const vec &b, const int one, const vec &input);
-cvec filter(const vec &b, const int one, const cvec &input);
-cvec filter(const cvec &b, const int one, const cvec &input);
-cvec filter(const cvec &b, const int one, const vec &input);
+ITPP_EXPORT vec filter(const vec &b, const int one, const vec &input);
+ITPP_EXPORT cvec filter(const vec &b, const int one, const cvec &input);
+ITPP_EXPORT cvec filter(const cvec &b, const int one, const cvec &input);
+ITPP_EXPORT cvec filter(const cvec &b, const int one, const vec &input);
 
-vec filter(const int one, const vec &a, const vec &input);
-cvec filter(const int one, const vec &a, const cvec &input);
-cvec filter(const int one, const cvec &a, const cvec &input);
-cvec filter(const int one, const cvec &a, const vec &input);
+ITPP_EXPORT vec filter(const int one, const vec &a, const vec &input);
+ITPP_EXPORT cvec filter(const int one, const vec &a, const cvec &input);
+ITPP_EXPORT cvec filter(const int one, const cvec &a, const cvec &input);
+ITPP_EXPORT cvec filter(const int one, const cvec &a, const vec &input);
 
 
-vec filter(const vec &b, const vec &a, const vec &input, const vec &state_in, vec &state_out);
-cvec filter(const vec &b, const vec &a, const cvec &input, const cvec &state_in, cvec &state_out);
-cvec filter(const cvec &b, const cvec &a, const cvec &input, const cvec &state_in, cvec &state_out);
-cvec filter(const cvec &b, const cvec &a, const vec &input, const cvec &state_in, cvec &state_out);
+ITPP_EXPORT vec filter(const vec &b, const vec &a, const vec &input, const vec &state_in, vec &state_out);
+ITPP_EXPORT cvec filter(const vec &b, const vec &a, const cvec &input, const cvec &state_in, cvec &state_out);
+ITPP_EXPORT cvec filter(const cvec &b, const cvec &a, const cvec &input, const cvec &state_in, cvec &state_out);
+ITPP_EXPORT cvec filter(const cvec &b, const cvec &a, const vec &input, const cvec &state_in, cvec &state_out);
 
-vec filter(const vec &b, const int one, const vec &input, const vec &state_in, vec &state_out);
-cvec filter(const vec &b, const int one, const cvec &input, const cvec &state_in, cvec &state_out);
-cvec filter(const cvec &b, const int one, const cvec &input, const cvec &state_in, cvec &state_out);
-cvec filter(const cvec &b, const int one, const vec &input, const cvec &state_in, cvec &state_out);
+ITPP_EXPORT vec filter(const vec &b, const int one, const vec &input, const vec &state_in, vec &state_out);
+ITPP_EXPORT cvec filter(const vec &b, const int one, const cvec &input, const cvec &state_in, cvec &state_out);
+ITPP_EXPORT cvec filter(const cvec &b, const int one, const cvec &input, const cvec &state_in, cvec &state_out);
+ITPP_EXPORT cvec filter(const cvec &b, const int one, const vec &input, const cvec &state_in, cvec &state_out);
 
-vec filter(const int one, const vec &a, const vec &input, const vec &state_in, vec &state_out);
-cvec filter(const int one, const vec &a, const cvec &input, const cvec &state_in, cvec &state_out);
-cvec filter(const int one, const cvec &a, const cvec &input, const cvec &state_in, cvec &state_out);
-cvec filter(const int one, const cvec &a, const vec &input, const cvec &state_in, cvec &state_out);
+ITPP_EXPORT vec filter(const int one, const vec &a, const vec &input, const vec &state_in, vec &state_out);
+ITPP_EXPORT cvec filter(const int one, const vec &a, const cvec &input, const cvec &state_in, cvec &state_out);
+ITPP_EXPORT cvec filter(const int one, const cvec &a, const cvec &input, const cvec &state_in, cvec &state_out);
+ITPP_EXPORT cvec filter(const int one, const cvec &a, const vec &input, const cvec &state_in, cvec &state_out);
 /*! @} */
 
 
@@ -303,7 +303,7 @@ cvec filter(const int one, const cvec &a, const vec &input, const cvec &state_in
   cutoff using the window method.
   \ingroup filters
 */
-vec fir1(int N, double cutoff);
+ITPP_EXPORT vec fir1(int N, double cutoff);
 
 //----------------------------------------------------------------------------
 // Implementation of templated functions starts here
@@ -569,34 +569,29 @@ T3 ARMA_Filter<T1, T2, T3>::filter(const T1 Sample)
 // ----------------------------------------------------------------------
 // Instantiations
 // ----------------------------------------------------------------------
-
-#ifndef _MSC_VER
-
-extern template class MA_Filter<double, double, double>;
-extern template class MA_Filter < double, std::complex<double>,
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT MA_Filter<double, double, double>;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT MA_Filter< double, std::complex<double>,
   std::complex<double> >;
-extern template class MA_Filter < std::complex<double>, double,
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT MA_Filter< std::complex<double>, double,
   std::complex<double> >;
-extern template class MA_Filter < std::complex<double>, std::complex<double>,
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT MA_Filter< std::complex<double>, std::complex<double>,
   std::complex<double> >;
 
-extern template class AR_Filter<double, double, double>;
-extern template class AR_Filter < double, std::complex<double>,
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT AR_Filter<double, double, double>;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT AR_Filter< double, std::complex<double>,
   std::complex<double> >;
-extern template class AR_Filter < std::complex<double>,
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT AR_Filter< std::complex<double>,
   double, std::complex<double> >;
-extern template class AR_Filter < std::complex<double>, std::complex<double>,
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT AR_Filter< std::complex<double>, std::complex<double>,
   std::complex<double> >;
 
-extern template class ARMA_Filter<double, double, double>;
-extern template class ARMA_Filter < double, std::complex<double>,
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT ARMA_Filter<double, double, double>;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT ARMA_Filter< double, std::complex<double>,
   std::complex<double> >;
-extern template class ARMA_Filter < std::complex<double>,
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT ARMA_Filter< std::complex<double>,
   double, std::complex<double> >;
-extern template class ARMA_Filter < std::complex<double>, std::complex<double>,
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT ARMA_Filter< std::complex<double>, std::complex<double>,
   std::complex<double> >;
-
-#endif // _MSC_VER
 
 //! \endcond
 

@@ -31,6 +31,7 @@
 
 #include <itpp/base/random_dsfmt.h>
 #include <itpp/base/operators.h>
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -101,22 +102,22 @@ RNG_reset(s); //set it maually for the main thread
 @{ */
 
 //! Set the internal seed of the Global Seed Provider
-void GlobalRNG_reset(unsigned int seed);
+ITPP_EXPORT void GlobalRNG_reset(unsigned int seed);
 
 //! Reset the internal seed of the Global Seed Provider to the previously set value
-void GlobalRNG_reset();
+ITPP_EXPORT void GlobalRNG_reset();
 
 //! Get new seed to initialize thread-local generators
-unsigned int GlobalRNG_get_local_seed();
+ITPP_EXPORT unsigned int GlobalRNG_get_local_seed();
 
 //! Set a random seed for the Global Seed Provider seed
-void GlobalRNG_randomize();
+ITPP_EXPORT void GlobalRNG_randomize();
 
 //! Save current full state of global seed provider in memory
-void GlobalRNG_get_state(ivec &state);
+ITPP_EXPORT void GlobalRNG_get_state(ivec &state);
 
 //! Resume the global seed provider state saved in memory
-void GlobalRNG_set_state(const ivec &state);
+ITPP_EXPORT void GlobalRNG_set_state(const ivec &state);
 
 //!@}
 
@@ -137,7 +138,7 @@ use custom seeds/initialization vectors for each thread (including main thread).
 @{ */
 
 //! Set the seed for all Random Number Generators in the current thread
-void RNG_reset(unsigned int seed);
+ITPP_EXPORT void RNG_reset(unsigned int seed);
 
 /*!
 \brief Reset the seed to the previously set value for all Random Number Generators in the current thread.
@@ -145,16 +146,16 @@ void RNG_reset(unsigned int seed);
 Seed will be queried from the global
 seed provider if Random Number generation context is not initialized
 */
-void RNG_reset();
+ITPP_EXPORT void RNG_reset();
 
 //! Set a random seed for all Random Number Generators in the current thread
-void RNG_randomize();
+ITPP_EXPORT void RNG_randomize();
 
 //! Save Random Number generation context used in the current thread
-void RNG_get_state(ivec &state);
+ITPP_EXPORT void RNG_get_state(ivec &state);
 
 //! Resume Random Number generation in the current thread with previously stored context
-void RNG_set_state(const ivec &state);
+ITPP_EXPORT void RNG_set_state(const ivec &state);
 
 //!@}
 
@@ -167,7 +168,7 @@ void RNG_set_state(const ivec &state);
  *
  * \sa DSFMT
  */
-class Random_Generator
+class ITPP_EXPORT Random_Generator
 {
   typedef random_details::ActiveDSFMT DSFMT;
 public:
@@ -260,7 +261,7 @@ private:
   \brief Bernoulli distribution
   \ingroup randgen
 */
-class Bernoulli_RNG
+class ITPP_EXPORT Bernoulli_RNG
 {
 public:
   //! Binary source with probability prob for a 1
@@ -318,7 +319,7 @@ private:
   }
   \endcode
 */
-class I_Uniform_RNG
+class ITPP_EXPORT I_Uniform_RNG
 {
 public:
   //! constructor. Sets min and max values.
@@ -350,7 +351,7 @@ private:
   \brief Uniform distribution
   \ingroup randgen
 */
-class Uniform_RNG
+class ITPP_EXPORT Uniform_RNG
 {
 public:
   //! Constructor. Set min, max and seed.
@@ -401,7 +402,7 @@ private:
   \brief Exponential distribution
   \ingroup randgen
 */
-class Exponential_RNG
+class ITPP_EXPORT Exponential_RNG
 {
 public:
   //! constructor. Set lambda.
@@ -436,7 +437,7 @@ private:
  * found at http://seehuhn.de/comp/ziggurat/, which is also included in
  * the GSL library (randlist/gauss.c).
  */
-class Normal_RNG
+class ITPP_EXPORT Normal_RNG
 {
 public:
   //! Constructor. Set mean and variance.
@@ -506,7 +507,7 @@ private:
  * R statistical language.
  * \author Vasek Smidl
  */
-class Gamma_RNG
+class ITPP_EXPORT Gamma_RNG
 {
 public:
   //! Constructor, which sets alpha (a) and beta (b)
@@ -532,7 +533,7 @@ private:
   \brief Laplacian distribution
   \ingroup randgen
 */
-class Laplace_RNG
+class ITPP_EXPORT Laplace_RNG
 {
 public:
   //! Constructor. Set mean and variance.
@@ -566,7 +567,7 @@ private:
   \brief A Complex Normal Source
   \ingroup randgen
 */
-class Complex_Normal_RNG
+class ITPP_EXPORT Complex_Normal_RNG
 {
 public:
   //! Constructor. Set mean and variance.
@@ -575,25 +576,25 @@ public:
     setup(mean, variance);
   }
   //! Default constructor
-  Complex_Normal_RNG(): m(0.0), sigma(1.0), norm_factor(1.0 / std::sqrt(2.0)) {}
+  Complex_Normal_RNG(): m_re(0.0), m_im(0.0), sigma(1.0), norm_factor(1.0 / std::sqrt(2.0)) {}
   //! Set mean and variance
   void setup(std::complex<double> mean, double variance) {
-    m = mean;
+    m_re = mean.real(); m_im = mean.imag();
     sigma = std::sqrt(variance);
   }
   //! Get mean and variance
   void get_setup(std::complex<double> &mean, double &variance) {
-    mean = m;
+    mean = std::complex<double>(m_re,m_im);
     variance = sigma * sigma;
   }
   //! Get one sample.
-  std::complex<double> operator()() { return sigma * sample() + m; }
+  std::complex<double> operator()() { return sigma * sample() + std::complex<double>(m_re,m_im); }
   //! Get a sample vector.
   cvec operator()(int n) {
     cvec temp(n);
     sample_vector(n, temp);
     temp *= sigma;
-    temp += m;
+    temp += std::complex<double>(m_re,m_im);
     return temp;
   }
   //! Get a sample matrix.
@@ -601,7 +602,7 @@ public:
     cmat temp(h, w);
     sample_matrix(h, w, temp);
     temp *= sigma;
-    temp += m;
+    temp += std::complex<double>(m_re,m_im);
     return temp;
   }
   //! Get a Complex Normal (0,1) distributed sample
@@ -627,7 +628,8 @@ public:
   Complex_Normal_RNG & operator=(const Complex_Normal_RNG&) { return *this; }
 
 private:
-  std::complex<double> m;
+  double m_re;
+  double m_im;
   double sigma;
   const double norm_factor;
   Normal_RNG nRNG;
@@ -637,7 +639,7 @@ private:
   \brief Filtered normal distribution
   \ingroup randgen
 */
-class AR1_Normal_RNG
+class ITPP_EXPORT AR1_Normal_RNG
 {
 public:
   //! Constructor. Set mean, variance, and correlation.
@@ -690,7 +692,7 @@ typedef AR1_Normal_RNG AR1_Gauss_RNG;
   \brief Weibull distribution
   \ingroup randgen
 */
-class Weibull_RNG
+class ITPP_EXPORT Weibull_RNG
 {
 public:
   //! Constructor. Set lambda and beta.
@@ -718,7 +720,7 @@ private:
   \brief Rayleigh distribution
   \ingroup randgen
 */
-class Rayleigh_RNG
+class ITPP_EXPORT Rayleigh_RNG
 {
 public:
   //! Constructor. Set sigma.
@@ -748,7 +750,7 @@ private:
   \brief Rice distribution
   \ingroup randgen
 */
-class Rice_RNG
+class ITPP_EXPORT Rice_RNG
 {
 public:
   //! Constructor. Set sigma, and v (if v = 0, Rice -> Rayleigh).

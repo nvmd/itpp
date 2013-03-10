@@ -504,14 +504,14 @@ void Modulator_NRD::init_soft_demodulator(const itpp::mat& H_in, const double& s
   itpp::vec Hx = H * startsymbvec;
   for(int ci = 0, bcs = 0; ci < nt; bcs += k[ci++]) {
     for(int bi = 0; bi < k[ci]; bi++) bpos2cpos[bcs + bi] = ci;
-    gray2dec[ci].set_size(M[ci]);
-    for(int si = 0; si < M[ci]; si++) gray2dec[ci][si ^(si >> 1)] = si;
-    yspacings[ci].set_size(M[ci] - 1);
-    hspacings[ci].set_size(M[ci] - 1);
+    gray2dec(ci).set_size(M[ci]);
+    for(int si = 0; si < M[ci]; si++) gray2dec(ci)[si ^(si >> 1)] = si;
+    yspacings(ci).set_size(M[ci] - 1);
+    hspacings(ci).set_size(M[ci] - 1);
     for(int si = 0; si < M[ci] - 1; si++) {
       double xspacing = symbols(ci)[bits2symbols(ci)[(si + 1) ^((si + 1) >> 1)]];
       xspacing -= symbols(ci)[bits2symbols(ci)[si ^(si >> 1)]];
-      hspacings[ci][si] = H.get_col(ci) * xspacing;
+      hspacings(ci)(si) = H.get_col(ci) * xspacing;
     }
   }
   bpos2cpos = reverse(bpos2cpos);
@@ -549,7 +549,7 @@ void Modulator_NRD::demodulate_soft_bits(const itpp::vec& y,
   for(int ci = 0; ci < nt; ci++)  for(int si = 0; si < M[ci] - 1; si++) {
       double xspacing = symbols(ci)[bits2symbols(ci)[(si + 1) ^((si + 1) >> 1)]];
       xspacing -= symbols(ci)[bits2symbols(ci)[si ^(si >> 1)]];
-      yspacings[ci][si] = 2*(ytil(ci) * xspacing);
+      yspacings(ci)[si] = 2*(ytil(ci) * xspacing);
     }
   unsigned bitstring = 0, ind = 0;
   yxnormupdate(yx, lapr, bitstring, ind, nb - 1); // Recursive update of all the norms
@@ -634,19 +634,19 @@ void Modulator_NRD::hxnormupdate(itpp::vec& Hx, unsigned& bitstring, unsigned& i
 	using namespace itpp;
 	const unsigned col = bpos2cpos[bit];
 	if(bit < 1) {
-		hnorms[ind++] = Hx * Hx;	 
-		unsigned oldi = gray2dec[col][bitstring & (M[col] - 1)];
+		hnorms[ind++] = Hx * Hx;
+		unsigned oldi = gray2dec(col)[bitstring & (M[col] - 1)];
 		bitstring ^= 1;
-		unsigned newi = gray2dec[col][bitstring & (M[col] - 1)];
-		Hx += oldi > newi ? -hspacings[col][newi] : hspacings[col][oldi];		
+		unsigned newi = gray2dec(col)[bitstring & (M[col] - 1)];
+		Hx += oldi > newi ? -hspacings(col)(newi) : hspacings(col)(oldi);
 		hnorms[ind++] = Hx * Hx;
 		return;
 	}
 	hxnormupdate(Hx, bitstring, ind, bit - 1);
-	unsigned oldi = gray2dec[col][(bitstring >> bitcumsum[col]) & (M[col] - 1)];
+	unsigned oldi = gray2dec(col)[(bitstring >> bitcumsum[col]) & (M[col] - 1)];
 	bitstring ^= 1 << bit;
-	unsigned newi = gray2dec[col][(bitstring >> bitcumsum[col]) & (M[col] - 1)];
-	Hx += oldi > newi ? -hspacings[col][newi] : hspacings[col][oldi];
+	unsigned newi = gray2dec(col)[(bitstring >> bitcumsum[col]) & (M[col] - 1)];
+	Hx += oldi > newi ? -hspacings(col)(newi) : hspacings(col)(oldi);
 	hxnormupdate(Hx, bitstring, ind, bit - 1);
 }
 
@@ -654,23 +654,23 @@ void Modulator_NRD::yxnormupdate(double& yx, itpp::QLLR& lapr, unsigned& bitstri
 {
   using namespace itpp;
   const unsigned col = bpos2cpos[bit];
-  if(bit < 1) {	
+  if(bit < 1) {
 	 Qnorms[ind] = llrcalc.to_qllr((yx - hnorms[ind]) / gaussnorm) + lapr;
     ind++;
-    unsigned oldi = gray2dec[col][bitstring & (M[col] - 1)];
+    unsigned oldi = gray2dec(col)[bitstring & (M[col] - 1)];
     bitstring ^= 1;
-    unsigned newi = gray2dec[col][bitstring & (M[col] - 1)];
-    yx += oldi > newi ? -yspacings[col][newi] : yspacings[col][oldi];
+    unsigned newi = gray2dec(col)[bitstring & (M[col] - 1)];
+    yx += oldi > newi ? -yspacings(col)[newi] : yspacings(col)[oldi];
     lapr += (bitstring & 1) ? -llrapr[bit] : llrapr[bit];
     Qnorms[ind] = llrcalc.to_qllr((yx - hnorms[ind]) / gaussnorm) + lapr;
     ind++;
     return;
   }
   yxnormupdate(yx, lapr, bitstring, ind, bit - 1);
-  unsigned oldi = gray2dec[col][(bitstring >> bitcumsum[col]) & (M[col] - 1)];
+  unsigned oldi = gray2dec(col)[(bitstring >> bitcumsum[col]) & (M[col] - 1)];
   bitstring ^= 1 << bit;
-  unsigned newi = gray2dec[col][(bitstring >> bitcumsum[col]) & (M[col] - 1)];
-  yx += oldi > newi ? -yspacings[col][newi] : yspacings[col][oldi];
+  unsigned newi = gray2dec(col)[(bitstring >> bitcumsum[col]) & (M[col] - 1)];
+  yx += oldi > newi ? -yspacings(col)[newi] : yspacings(col)[oldi];
   lapr += ((bitstring >> bit) & 1) ? -llrapr[bit] : llrapr[bit];
   yxnormupdate(yx, lapr, bitstring, ind, bit - 1);
 }
@@ -749,14 +749,14 @@ void Modulator_NCD::init_soft_demodulator(const itpp::cmat& H_in, const double& 
   cvec Hx = H * startsymbvec;
   for(int ci = 0, bcs = 0; ci < nt; bcs += k[ci++]) {
     for(int bi = 0; bi < k[ci]; bi++) bpos2cpos[bcs + bi] = ci;
-    gray2dec[ci].set_size(M[ci]);
-    for(int si = 0; si < M[ci]; si++) gray2dec[ci][si ^(si >> 1)] = si; 
-    yspacings[ci].set_size(M[ci] - 1);
-    hspacings[ci].set_size(M[ci] - 1);
+    gray2dec(ci).set_size(M[ci]);
+    for(int si = 0; si < M[ci]; si++) gray2dec(ci)[si ^(si >> 1)] = si;
+    yspacings(ci).set_size(M[ci] - 1);
+    hspacings(ci).set_size(M[ci] - 1);
     for(int si = 0; si < M[ci] - 1; si++) {
 		 std::complex<double> xspacing = symbols(ci)[bits2symbols(ci)[(si + 1) ^((si + 1) >> 1)]];
 		 xspacing -= symbols(ci)[bits2symbols(ci)[si ^(si >> 1)]];
-		 hspacings[ci][si] = H.get_col(ci) * xspacing;
+		 hspacings(ci)(si) = H.get_col(ci) * xspacing;
     }
   }
   bpos2cpos = reverse(bpos2cpos);
@@ -790,7 +790,7 @@ void Modulator_NCD::demodulate_soft_bits(const itpp::cvec& y,
   for(int ci = 0; ci < nt; ci++)  for(int si = 0; si < M[ci] - 1; si++) {
 		  std::complex<double> xspacing = symbols(ci)[bits2symbols(ci)[(si + 1) ^((si + 1) >> 1)]];
 		  xspacing -= symbols(ci)[bits2symbols(ci)[si ^(si >> 1)]];
-		  yspacings[ci][si] = 2*(ytil[ci] * xspacing).real();
+		  yspacings(ci)[si] = 2*(ytil[ci] * xspacing).real();
     }
   unsigned bitstring = 0, ind = 0;
   yxnormupdate(yx, lapr, bitstring, ind, nb - 1); // Recursive update of all the norms
@@ -877,18 +877,18 @@ void Modulator_NCD::hxnormupdate(itpp::cvec& Hx, unsigned& bitstring, unsigned& 
   const unsigned col = bpos2cpos[bit];
   if(bit < 1) {
 	  hnorms[ind++] = sqr(norm(Hx));
-	  unsigned oldi = gray2dec[col][bitstring & (M[col] - 1)];
+	  unsigned oldi = gray2dec(col)[bitstring & (M[col] - 1)];
     bitstring ^= 1;
-    unsigned newi = gray2dec[col][bitstring & (M[col] - 1)];
-    Hx += oldi > newi ? -hspacings[col][newi] : hspacings[col][oldi];
+    unsigned newi = gray2dec(col)[bitstring & (M[col] - 1)];
+    Hx += oldi > newi ? -hspacings(col)(newi) : hspacings(col)(oldi);
     hnorms[ind++] = sqr(norm(Hx));
     return;
   }
   hxnormupdate(Hx, bitstring, ind, bit - 1);
-  unsigned oldi = gray2dec[col][(bitstring >> bitcumsum[col]) & (M[col] - 1)];
+  unsigned oldi = gray2dec(col)[(bitstring >> bitcumsum[col]) & (M[col] - 1)];
   bitstring ^= 1 << bit;
-  unsigned newi = gray2dec[col][(bitstring >> bitcumsum[col]) & (M[col] - 1)];
-  Hx += oldi > newi ? -hspacings[col][newi] : hspacings[col][oldi];
+  unsigned newi = gray2dec(col)[(bitstring >> bitcumsum[col]) & (M[col] - 1)];
+  Hx += oldi > newi ? -hspacings(col)(newi) : hspacings(col)(oldi);
   hxnormupdate(Hx, bitstring, ind, bit - 1);
 }
 
@@ -896,25 +896,25 @@ void Modulator_NCD::yxnormupdate(double& yx, itpp::QLLR& lapr, unsigned& bitstri
 {
   using namespace itpp;
   const unsigned col = bpos2cpos[bit];
-  if(bit < 1) {	  
+  if(bit < 1) {
     Qnorms[ind] =  llrcalc.to_qllr((yx - hnorms[ind]) / gaussnorm) + lapr;
 	 //std::cerr << dec2bin(sum(k),(int)bitstring) << " " << Qnorms[ind] << " "
-		 //	 			  << llrcalc.to_qllr((2*(rec.H()*H*modulate_bits(dec2bin(sum(k),(int)bitstring)))[0].real() - hnorms[ind]) / gaussnorm) + lapr << std::endl; 
+		 //	 			  << llrcalc.to_qllr((2*(rec.H()*H*modulate_bits(dec2bin(sum(k),(int)bitstring)))[0].real() - hnorms[ind]) / gaussnorm) + lapr << std::endl;
     ind++;
-    unsigned oldi = gray2dec[col][bitstring & (M[col] - 1)];
+    unsigned oldi = gray2dec(col)[bitstring & (M[col] - 1)];
     bitstring ^= 1;
-    unsigned newi = gray2dec[col][bitstring & (M[col] - 1)];
-    yx += oldi > newi ? -yspacings[col][newi] : yspacings[col][oldi];
+    unsigned newi = gray2dec(col)[bitstring & (M[col] - 1)];
+    yx += oldi > newi ? -yspacings(col)[newi] : yspacings(col)[oldi];
     lapr += (bitstring & 1) ? -llrapr[bit] : llrapr[bit];
     Qnorms[ind] = llrcalc.to_qllr((yx - hnorms[ind]) / gaussnorm) + lapr;
     ind++;
     return;
   }
   yxnormupdate(yx, lapr, bitstring, ind, bit - 1);
-  unsigned oldi = gray2dec[col][(bitstring >> bitcumsum[col]) & (M[col] - 1)];
+  unsigned oldi = gray2dec(col)[(bitstring >> bitcumsum[col]) & (M[col] - 1)];
   bitstring ^= 1 << bit;
-  unsigned newi = gray2dec[col][(bitstring >> bitcumsum[col]) & (M[col] - 1)];
-  yx += oldi > newi ? -yspacings[col][newi] : yspacings[col][oldi];
+  unsigned newi = gray2dec(col)[(bitstring >> bitcumsum[col]) & (M[col] - 1)];
+  yx += oldi > newi ? -yspacings(col)[newi] : yspacings(col)[oldi];
   lapr += ((bitstring >> bit) & 1) ? -llrapr[bit] : llrapr[bit];
   yxnormupdate(yx, lapr, bitstring, ind, bit - 1);
 }

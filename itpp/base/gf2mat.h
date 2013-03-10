@@ -47,10 +47,20 @@
 #include <itpp/base/svec.h>
 #include <itpp/base/smat.h>
 #include <itpp/base/itfile.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
+//! \cond
+
+#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB))
+//MSVC explicitely instantiate required template while building the shared library
+template  class ITPP_EXPORT Mat<int>;
+template  class ITPP_EXPORT Mat<unsigned char>;
+template  class ITPP_EXPORT Vec<int>;
+#endif
+
+//! \endcond
 
 // ----------------------------------------------------------------------
 // Sparse GF(2) matrix class
@@ -81,7 +91,7 @@ typedef Sparse_Mat<bin> GF2mat_sparse;
   of Sparse Graph Codes:
   - http://www.inference.phy.cam.ac.uk/mackay/codes/data.html
 */
-class GF2mat_sparse_alist
+class ITPP_EXPORT GF2mat_sparse_alist
 {
 public:
   //! Default constructor
@@ -154,7 +164,7 @@ protected:
   of sparse GF(2) matrices, and \c GF2mat_sparse_alist for a
   parameterized representation of sparse GF(2) matrices.
 */
-class GF2mat
+class ITPP_EXPORT GF2mat
 {
 public:
 
@@ -377,28 +387,32 @@ public:
   // ----- Friends ------
 
   //! Multiplication operator
-  friend GF2mat operator*(const GF2mat &X, const GF2mat &Y);
+  friend ITPP_EXPORT GF2mat operator*(const GF2mat &X, const GF2mat &Y);
 
   //! Multiplication operator with binary vector
-  friend bvec operator*(const GF2mat &X, const bvec &y);
+  friend ITPP_EXPORT bvec operator*(const GF2mat &X, const bvec &y);
 
   /*! \brief Addition operator
 
   Subtraction is not implemented because it is
     equivalent to addition. */
-  friend GF2mat operator+(const GF2mat &X, const GF2mat &Y);
+  friend ITPP_EXPORT GF2mat operator+(const GF2mat &X, const GF2mat &Y);
 
   //! Output stream operator (plain text)
-  friend std::ostream &operator<<(std::ostream &os, const GF2mat &X);
+  friend ITPP_EXPORT std::ostream &operator<<(std::ostream &os, const GF2mat &X);
+
+#if (!defined(_MSC_VER) || (defined(_MSC_VER) && defined(ITPP_SHARED_LIB) && defined(itpp_EXPORTS)))
+//MSVC: disable it_file operations for the shared build.
 
   //! Write the matrix to file
   friend it_file &operator<<(it_file &f, const GF2mat &X);
 
   //! Read the matrix from file
   friend it_ifile &operator>>(it_ifile &f, GF2mat &X);
+#endif
 
   //!Multiplication X*Y' where X and Y are GF(2) matrices
-  friend GF2mat mult_trans(const GF2mat &X, const GF2mat &Y);
+  friend ITPP_EXPORT GF2mat mult_trans(const GF2mat &X, const GF2mat &Y);
 
 private:
   int nrows, ncols;            // number of rows and columns of matrix
@@ -419,6 +433,8 @@ private:
 // GF2mat related functions
 // ----------------------------------------------------------------------
 
+#if (!defined(_MSC_VER) || (defined(_MSC_VER) && defined(ITPP_SHARED_LIB) && defined(itpp_EXPORTS)))
+//MSVC: disable it_file operations for the shared build.
 /*!
   /relatesalso GF2mat
   /brief Write GF(2) matrix to file.
@@ -431,41 +447,43 @@ it_file &operator<<(it_file &f, const GF2mat &X);
 */
 it_ifile &operator>>(it_ifile &f, GF2mat &X);
 
+#endif
+
 /*!
   \relatesalso GF2mat
   \brief GF(2) matrix multiplication
 */
-GF2mat operator*(const GF2mat &X, const GF2mat &Y);
+ITPP_EXPORT GF2mat operator*(const GF2mat &X, const GF2mat &Y);
 
 /*!
   \relatesalso GF2mat
   \brief GF(2) matrix multiplication with "regular" binary vector
 */
-bvec operator*(const GF2mat &X, const bvec &y);
+ITPP_EXPORT bvec operator*(const GF2mat &X, const bvec &y);
 
 /*!
   \relatesalso GF2mat
   \brief GF(2) matrix addition
 */
-GF2mat operator+(const GF2mat &X, const GF2mat &Y);
+ITPP_EXPORT GF2mat operator+(const GF2mat &X, const GF2mat &Y);
 
 /*!
   \relatesalso GF2mat
   \brief Output stream (plain text) operator for dense GF(2) matrices
 */
-std::ostream &operator<<(std::ostream &os, const GF2mat &X);
+ITPP_EXPORT std::ostream &operator<<(std::ostream &os, const GF2mat &X);
 
 /*!
   \relatesalso GF2mat
   \brief GF(2) Identity matrix
 */
-GF2mat gf2dense_eye(int m);
+ITPP_EXPORT GF2mat gf2dense_eye(int m);
 
 /*!
   \relatesalso GF2mat
   \brief Multiplication X*Y' where X and Y are GF(2) matrices
 */
-GF2mat mult_trans(const GF2mat &X, const GF2mat &Y);
+ITPP_EXPORT GF2mat mult_trans(const GF2mat &X, const GF2mat &Y);
 
 
 // ----------------------------------------------------------------------

@@ -30,7 +30,7 @@
 #define QR_H
 
 #include <itpp/base/mat.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -52,7 +52,7 @@ namespace itpp
   Returns true is calculation succeeds. False otherwise.
   Uses the LAPACK routine DGEQRF and DORGQR.
 */
-bool qr(const mat &A, mat &Q, mat &R);
+ITPP_EXPORT bool qr(const mat &A, mat &Q, mat &R);
 
 /*!
  * \brief QR factorisation of real matrix with suppressed evaluation of Q
@@ -68,7 +68,7 @@ bool qr(const mat &A, mat &Q, mat &R);
  *
  * \author Vasek Smidl
  */
-bool qr(const mat &A, mat &R);
+ITPP_EXPORT bool qr(const mat &A, mat &R);
 
 /*!
   \brief QR factorisation of real matrix with pivoting
@@ -84,7 +84,7 @@ bool qr(const mat &A, mat &R);
   Returns true is calculation succeeds. False otherwise.
   Uses the LAPACK routines DGEQP3 and DORGQR.
 */
-bool qr(const mat &A, mat &Q, mat &R, bmat &P);
+ITPP_EXPORT bool qr(const mat &A, mat &Q, mat &R, bmat &P);
 
 /*!
   \brief QR factorisation of a complex matrix
@@ -99,7 +99,7 @@ bool qr(const mat &A, mat &Q, mat &R, bmat &P);
   Returns true is calculation succeeds. False otherwise.
   Uses the LAPACK routines ZGEQRF and ZUNGQR.
 */
-bool qr(const cmat &A, cmat &Q, cmat &R);
+ITPP_EXPORT bool qr(const cmat &A, cmat &Q, cmat &R);
 
 /*!
  * \brief QR factorisation of complex matrix with suppressed evaluation of Q
@@ -115,7 +115,7 @@ bool qr(const cmat &A, cmat &Q, cmat &R);
  *
  * \author Vasek Smidl
  */
-bool qr(const cmat &A, cmat &R);
+ITPP_EXPORT bool qr(const cmat &A, cmat &R);
 
 /*!
   \brief QR factorisation of a complex matrix with pivoting
@@ -131,7 +131,7 @@ bool qr(const cmat &A, cmat &R);
   Returns true is calculation succeeds. False otherwise.
   Uses the LAPACK routines ZGEQP3 and ZUNGQR.
 */
-bool qr(const cmat &A, cmat &Q, cmat &R, bmat &P);
+ITPP_EXPORT bool qr(const cmat &A, cmat &Q, cmat &R, bmat &P);
 
 //!@}
 

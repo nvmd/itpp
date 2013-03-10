@@ -30,6 +30,7 @@
 #define FILTER_DESIGN_H
 
 #include <itpp/base/vec.h>
+#include <itpp/itexports.h>
 
 
 namespace itpp
@@ -51,9 +52,9 @@ namespace itpp
 
   @{
 */
-void polystab(const vec &a, vec &out);
+ITPP_EXPORT void polystab(const vec &a, vec &out);
 inline vec polystab(const vec &a) { vec temp; polystab(a, temp); return temp; }
-void polystab(const cvec &a, cvec &out);
+ITPP_EXPORT void polystab(const cvec &a, cvec &out);
 inline cvec polystab(const cvec &a) { cvec temp; polystab(a, temp); return temp; }
 /*! @} */
 
@@ -70,13 +71,13 @@ inline cvec polystab(const cvec &a) { cvec temp; polystab(a, temp); return temp;
 
   @{
 */
-void freqz(const cvec &b, const cvec& a, const int N, cvec &h, vec &w);
-cvec freqz(const cvec &b, const cvec& a, const int N = 512);
-cvec freqz(const cvec &b, const cvec& a, const vec &w);
+ITPP_EXPORT void freqz(const cvec &b, const cvec& a, const int N, cvec &h, vec &w);
+ITPP_EXPORT cvec freqz(const cvec &b, const cvec& a, const int N = 512);
+ITPP_EXPORT cvec freqz(const cvec &b, const cvec& a, const vec &w);
 
-void freqz(const vec &b, const vec& a, const int N, cvec &h, vec &w);
-cvec freqz(const vec &b, const vec& a, const int N = 512);
-cvec freqz(const vec &b, const vec& a, const vec &w);
+ITPP_EXPORT void freqz(const vec &b, const vec& a, const int N, cvec &h, vec &w);
+ITPP_EXPORT cvec freqz(const vec &b, const vec& a, const int N = 512);
+ITPP_EXPORT cvec freqz(const vec &b, const vec& a, const vec &w);
 /*! @} */
 
 
@@ -94,7 +95,7 @@ cvec freqz(const vec &b, const vec& a, const vec &w);
   response is upsampled to 512 points and the autocorrelation is ifft of the power
   magnitude response of the upsampled frequency response.
 */
-void filter_design_autocorrelation(const int N, const vec &f, const vec &m, vec &R);
+ITPP_EXPORT void filter_design_autocorrelation(const int N, const vec &f, const vec &m, vec &R);
 
 
 /*!
@@ -115,7 +116,7 @@ void filter_design_autocorrelation(const int N, const vec &f, const vec &m, vec 
   References:
   Stoica and Moses, Introduction to spectral analysis, Prentice Hall, 1997.
 */
-void modified_yule_walker(const int m, const int n, const int N, const vec &R, vec &a);
+ITPP_EXPORT void modified_yule_walker(const int m, const int n, const int N, const vec &R, vec &a);
 
 
 
@@ -140,7 +141,7 @@ void modified_yule_walker(const int m, const int n, const int N, const vec &R, v
   IEEE Trans. Aerospace and Electronic Systems, Vol. AES-20, No. 2, pp. 158--173, March 1984.
 
 */
-void arma_estimator(const int m, const int n, const vec &R, vec &b, vec &a);
+ITPP_EXPORT void arma_estimator(const int m, const int n, const vec &R, vec &b, vec &a);
 
 
 /*!
@@ -157,7 +158,7 @@ void arma_estimator(const int m, const int n, const vec &R, vec &b, vec &a);
 
   Observe: this function will not always give exactly the same result as the matlab yulewalk function.
 */
-void yulewalk(const int N, const vec &f, const vec &m, vec &b, vec &a);
+ITPP_EXPORT void yulewalk(const int N, const vec &f, const vec &m, vec &b, vec &a);
 
 
 } // namespace itpp

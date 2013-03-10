@@ -34,6 +34,24 @@ namespace itpp
 // -------------------------------------------------------------------------------------
 // Turbo Codec
 // -------------------------------------------------------------------------------------
+std::string Turbo_Codec::string_from_metric(const Turbo_Codec::Metric& in_metric)
+{
+  if(in_metric == Metric::LOGMAX) {
+    return std::string("LOGMAX");
+  }
+  else if(in_metric == Metric::LOGMAP) {
+    return std::string("LOGMAP");
+  }
+  else if(in_metric == Metric::MAP) {
+    return std::string("MAP");
+  }
+  else if(in_metric == Metric::TABLE) {
+    return std::string("TABLE");
+  }
+  else {
+    return std::string("UNKNOWN");
+  }
+}
 void Turbo_Codec::set_parameters(ivec gen1, ivec gen2, int constraint_length, const ivec &interleaver_sequence,
                                  int in_iterations, std::string in_metric, double in_logmax_scale_factor,
                                  bool in_adaptive_stop,  LLR_calc_unit in_llrcalc)
@@ -47,23 +65,23 @@ void Turbo_Codec::set_parameters(ivec gen1, ivec gen2, int constraint_length, co
 
   //Check the decoding metric
   if(in_metric == "LOGMAX") {
-    metric = "LOGMAX";
+    metric = Metric::LOGMAX;
   }
   else if(in_metric == "LOGMAP") {
-    metric = "LOGMAP";
+    metric = Metric::LOGMAP;
   }
   else if(in_metric == "MAP") {
-    metric = "MAP";
+    metric = Metric::MAP;
   }
   else if(in_metric == "TABLE") {
-    metric = "TABLE";
+    metric = Metric::TABLE;
   }
   else {
-    it_error("Turbo_Codec::set_parameters: The decoder metric must be either MAP, LOGMAP or LOGMAX");
+    it_error("Turbo_Codec::set_parameters: The decoder metric must be either MAP, LOGMAP, LOGMAX or TABLE");
   }
 
   if(logmax_scale_factor != 1.0) {
-    it_assert(metric == "LOGMAX", "Turbo_Codec::set_parameters: logmax_scale_factor can only be used together with LOGMAX decoding");
+    it_assert(metric == Metric::LOGMAX, "Turbo_Codec::set_parameters: logmax_scale_factor can only be used together with LOGMAX decoding");
   }
 
   //The RSC Encoders:
@@ -115,19 +133,19 @@ void Turbo_Codec::set_metric(std::string in_metric, double in_logmax_scale_facto
 
   //Check the decoding metric
   if(in_metric == "LOGMAX") {
-    metric = "LOGMAX";
+    metric = Metric::LOGMAX;
   }
   else if(in_metric == "LOGMAP") {
-    metric = "LOGMAP";
+    metric = Metric::LOGMAP;
   }
   else if(in_metric == "MAP") {
-    metric = "MAP";
+    metric = Metric::MAP;
   }
   else if(in_metric == "TABLE") {
-    metric = "TABLE";
+    metric = Metric::TABLE;
   }
   else {
-    it_error("Turbo_Codec::set_metric: The decoder metric must be either MAP, LOGMAP or LOGMAX");
+    it_error("Turbo_Codec::set_metric: The decoder metric must be either MAP, LOGMAP, LOGMAX or TABLE");
   }
 
   rscc1.set_llrcalc(in_llrcalc);
@@ -215,7 +233,7 @@ void Turbo_Codec::decode(const vec &received_signal, bvec &decoded_bits, ivec &n
                          const bvec &true_bits)
 {
 
-  if((n1 == 1) && (n2 == 1) && (metric != "MAP")) {
+  if((n1 == 1) && (n2 == 1) && (metric != Metric::MAP)) {
     //This is a speed optimized decoder for R=1/3 (log domain metrics only)
     decode_n3(received_signal, decoded_bits, nrof_used_iterations, true_bits);
   }
@@ -392,11 +410,11 @@ void Turbo_Codec::decode_block(const vec &rec_syst1, const vec &rec_syst2, const
   for(i = 0; i < iterations; i++) {
 
     // Decode Code 1
-    if(metric == "MAP") {
+    if(metric == Metric::MAP) {
       rscc1.map_decode(rec_syst, rec_parity1, Le21, Le12, true);
     }
-    else if((metric == "LOGMAX") || (metric == "LOGMAP") || (metric == "TABLE")) {
-      rscc1.log_decode(rec_syst, rec_parity1, Le21, Le12, true, metric);
+    else if((metric == Metric::LOGMAX) || (metric == Metric::LOGMAP) || (metric == Metric::TABLE)) {
+      rscc1.log_decode(rec_syst, rec_parity1, Le21, Le12, true, string_from_metric(metric));
       if(logmax_scale_factor != 1.0) {
         Le12 *= logmax_scale_factor;
       }
@@ -410,11 +428,11 @@ void Turbo_Codec::decode_block(const vec &rec_syst1, const vec &rec_syst2, const
     Le12_int = concat(tmp, zeros(Le12.size() - interleaver_size));
 
     // Decode Code 2
-    if(metric == "MAP") {
+    if(metric == Metric::MAP) {
       rscc2.map_decode(int_rec_syst, rec_parity2, Le12_int, Le21_int, true);
     }
-    else if((metric == "LOGMAX") || (metric == "LOGMAP")  || (metric == "TABLE")) {
-      rscc2.log_decode(int_rec_syst, rec_parity2, Le12_int, Le21_int, true, metric);
+    else if((metric == Metric::LOGMAX) || (metric == Metric::LOGMAP) || (metric == Metric::TABLE)) {
+      rscc2.log_decode(int_rec_syst, rec_parity2, Le12_int, Le21_int, true, string_from_metric(metric));
       if(logmax_scale_factor != 1.0) {
         Le21_int *= logmax_scale_factor;
       }
@@ -559,11 +577,11 @@ void Turbo_Codec::decode_n3(const vec &received_signal, bvec &decoded_bits, ivec
     nrof_used_iterations_i = iterations;
     for(j = 0; j < iterations; j++) {
 
-      rscc1.log_decode_n2(rec_syst1, rec_parity1, Le21, Le12, true, metric);
+      rscc1.log_decode_n2(rec_syst1, rec_parity1, Le21, Le12, true, string_from_metric(metric));
       if(logmax_scale_factor != 1.0) { Le12 *= logmax_scale_factor; }
       float_interleaver.interleave(Le12, Le12_int);
 
-      rscc2.log_decode_n2(rec_syst2, rec_parity2, Le12_int, Le21_int, true, metric);
+      rscc2.log_decode_n2(rec_syst2, rec_parity2, Le12_int, Le21_int, true, string_from_metric(metric));
       if(logmax_scale_factor != 1.0) { Le21_int *= logmax_scale_factor; }
       float_interleaver.deinterleave(Le21_int, Le21);
 

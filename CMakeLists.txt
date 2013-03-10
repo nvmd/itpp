@@ -160,9 +160,9 @@ else()
 endif()
 
 #set library type: shared or static
-option(SHARED_LIB "Building IT++ as shared library" on)
+option(ITPP_SHARED_LIB "Building IT++ as shared library" on)
 #set library name here to be available for all targets
-if (SHARED_LIB)
+if (ITPP_SHARED_LIB)
   if ((CMAKE_BUILD_TYPE STREQUAL Release) OR (NOT CMAKE_BUILD_TYPE))
     set (libitpp_target itpp)
     set (CMAKE_CXX_FLAGS "-DNDEBUG ${CMAKE_CXX_FLAGS}")
@@ -171,7 +171,6 @@ if (SHARED_LIB)
   endif()
 else()
   set (libitpp_target itpp_static)
-  set(ITPP_STATIC_LIBRARY TRUE)
 endif()
 CONFIGURE_FILE (${CMAKE_SOURCE_DIR}/itpp/itexports.h.cmake ${CMAKE_BINARY_DIR}/itpp/itexports.h)
 

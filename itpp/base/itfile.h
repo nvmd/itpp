@@ -30,9 +30,20 @@
 #define ITFILE_H
 
 #include <itpp/base/vec.h>
+
+#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB) && !defined(itpp_EXPORTS))
+
+#ifndef ITPP_ITFILE_EXCLUDED
+#define ITPP_ITFILE_EXCLUDED
+#pragma message( "ITFILE definitions are not available for MSVC shared builds" )
+#endif
+
+#else
+
 #include <itpp/base/array.h>
 #include <itpp/base/binfile.h>
 #include <itpp/base/ittypes.h>
+#include <itpp/itexports.h>
 
 
 namespace itpp
@@ -1152,6 +1163,8 @@ it_file_old& operator<<(it_file_old& f, const Array<cmat>& v);
 // ----------------------------------------------------------------------
 
 } // namespace itpp
+
+#endif
 
 #endif // #ifndef IT_FILE_H
 

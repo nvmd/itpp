@@ -31,10 +31,20 @@
 
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
+
+//! \cond
+
+#if (defined(_MSC_VER) && defined (ITPP_SHARED_LIB))
+//MSVC explicitely instantiate required template while building the shared library
+template class ITPP_EXPORT Vec<double>;
+template class ITPP_EXPORT Mat<double>;
+#endif
+
+//! \endcond
 
 /*!
   \ingroup modulators
@@ -96,7 +106,7 @@ namespace itpp
   \endcode
 
 */
-class Spread_1d
+class ITPP_EXPORT Spread_1d
 {
 public:
   //! Constructor
@@ -149,7 +159,7 @@ protected:
 
   Example: See Spread_1d
 */
-class Spread_2d
+class ITPP_EXPORT Spread_2d
 {
 public:
   //! Constructor
@@ -196,7 +206,7 @@ protected:
 
   Example: See Spread_1d
 */
-class Multicode_Spread_1d
+class ITPP_EXPORT Multicode_Spread_1d
 {
 public:
   //! Constructor
@@ -244,7 +254,7 @@ protected:
 
   Example: See Spread_1d
 */
-class Multicode_Spread_2d
+class ITPP_EXPORT Multicode_Spread_2d
 {
 public:
   //! Constructor

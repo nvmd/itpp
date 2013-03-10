@@ -33,10 +33,19 @@
 #include <itpp/base/mat.h>
 #include <itpp/comm/convcode.h>
 #include <itpp/comm/llr.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
+
+//! \cond
+
+#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB))
+//MSVC explicitely instantiate required template while building the shared library
+template class ITPP_EXPORT Mat<int>;
+#endif
+
+//! \endcond
 
 /*!
   \ingroup fec
@@ -48,7 +57,7 @@ namespace itpp
   E. Ryan, New Mexico State University. This paper was found on the web and is probably
   unpublished.
 */
-class Rec_Syst_Conv_Code
+class ITPP_EXPORT Rec_Syst_Conv_Code
 {
 public:
 

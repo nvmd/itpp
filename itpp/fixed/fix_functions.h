@@ -35,6 +35,7 @@
 #include <itpp/base/mat.h>
 #include <itpp/base/array.h>
 #include <itpp/base/converters.h>
+#include <itpp/itexports.h>
 
 
 namespace itpp
@@ -319,13 +320,13 @@ inline void assert_fixshift(const CFix &x, int shift)
 {it_assert_debug(x.get_shift() == shift, "Shift should be " + to_str(shift) + " but it is " + to_str(x.get_shift()) + ".");}
 
 //! Converts a fixvec to vec
-vec to_vec(const fixvec &v);
+ITPP_EXPORT vec to_vec(const fixvec &v);
 //! Converts a cfixvec to cvec
-cvec to_cvec(const cfixvec &v);
+ITPP_EXPORT cvec to_cvec(const cfixvec &v);
 //! Converts a fixmat to mat
-mat to_mat(const fixmat &m);
+ITPP_EXPORT mat to_mat(const fixmat &m);
 //! Converts a cfixmat to cmat
-cmat to_cmat(const cfixmat &m);
+ITPP_EXPORT cmat to_cmat(const cfixmat &m);
 
 //! \cond
 
@@ -543,13 +544,13 @@ Array<typename Convert<T>::to_double> unfix(const Array<T> &x)
 }
 
 //! Absolute value
-Fix abs(const Fix &x);
+ITPP_EXPORT Fix abs(const Fix &x);
 //! Real part of complex value
-Fix real(const CFix &x);
+ITPP_EXPORT Fix real(const CFix &x);
 //! Imaginary part of complex value
-Fix imag(const CFix &x);
+ITPP_EXPORT Fix imag(const CFix &x);
 //! Conjugate of complex value
-CFix conj(const CFix &x);
+ITPP_EXPORT CFix conj(const CFix &x);
 
 //!@}
 

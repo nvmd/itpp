@@ -50,7 +50,7 @@ void STC::Hassibi_block_code(void)
  *               channel_uses - channel uses
  */
 {
-    if (code_name=="V-BLAST_MxN")//classical V-BLAST
+    if (code_name==Code_Names::V_BLAST_MxN)//classical V-BLAST
     {
     	it_assert(channel_uses > 0, "Channel uses should be strictly positive");
     	it_assert(em_antenna > 0, "Number of emission antenna should be strictly positive");
@@ -71,7 +71,7 @@ void STC::Hassibi_block_code(void)
         }
         B = A;
     }
-    else if (code_name=="imp_V-BLAST_MxN")//improved V-BLAST (code (31) in Hassibi's paper)
+    else if (code_name == Code_Names::imp_V_BLAST_MxN)//improved V-BLAST (code (31) in Hassibi's paper)
     {
     	it_assert(em_antenna > 0, "Number of emission antenna should be strictly positive");
     	it_assert(channel_uses == em_antenna, "Channel uses and the number of emission antenna must be equal");
@@ -95,7 +95,7 @@ void STC::Hassibi_block_code(void)
         }
         B = A;
     }
-    else if (code_name=="Alamouti_2xN")//Alamouti's orthogonal code
+    else if (code_name==Code_Names::Alamouti_2xN)//Alamouti's orthogonal code
     {
         em_antenna = 2;//emission antenna
         channel_uses = 2;//channel uses
@@ -110,7 +110,7 @@ void STC::Hassibi_block_code(void)
             "0  1;"
             "1  0";//B_1; B_2
     }
-    else if (code_name=="Switched_Alamouti_4xN")
+    else if (code_name==Code_Names::Switched_Alamouti_4xN)
     {
         em_antenna = 4;//emission antenna
         channel_uses = 4;//channel uses
@@ -151,7 +151,7 @@ void STC::Hassibi_block_code(void)
             "0  0  1  0";//B_1; B_2; B_3; B_4
         B *= std::sqrt(2.0);
     }
-    else if (code_name=="Double_Alamouti_4xN")
+    else if (code_name==Code_Names::Double_Alamouti_4xN)
     {
         em_antenna = 4;//emission antenna
         channel_uses = 2;//channel uses
@@ -174,7 +174,7 @@ void STC::Hassibi_block_code(void)
             "0  0  0  1;"
             "0  0  1  0";//B_1; B_2; B_3; B_4
     }
-    else if (code_name=="Jafarkhani_4xN")//Jafarkhani's quasi-orthogonal code
+    else if (code_name== Code_Names::Jafarkhani_4xN)//Jafarkhani's quasi-orthogonal code
     {
         em_antenna = 4;//emission antenna
         channel_uses = 4;//channel uses
@@ -213,7 +213,7 @@ void STC::Hassibi_block_code(void)
             "0  1  0  0;"
             "1  0  0  0";//B_1; B_2; B_3; B_4
     }
-    else if (code_name=="Golden_2x2")//Golden code as proposed by Belfiore
+    else if (code_name== Code_Names::Golden_2x2)//Golden code as proposed by Belfiore
     {
         em_antenna = 2;//emission antenna
         channel_uses = 2;//channel uses
@@ -245,7 +245,7 @@ void STC::Hassibi_block_code(void)
         A(7,1) = 0;//A_4
         B = A;
     }
-    else if (code_name=="Damen_2x2")//ST code based on number theory as proposed by Damen
+    else if (code_name== Code_Names::Damen_2x2)//ST code based on number theory as proposed by Damen
     {
         em_antenna = 2;//emission antenna
         channel_uses = 2;//channel uses
@@ -261,7 +261,7 @@ void STC::Hassibi_block_code(void)
         else
         {
             lambda = itpp::pi/4;
-            std::cout << "STC::LDcode: Warning! For " << code_name <<
+            std::cout << "STC::LDcode: Warning! For " << string_from_code_name(code_name) <<
             		" and const. size " << const_size << ", lambda has the "
             		"value " << lambda << std::endl;
         }
@@ -287,7 +287,7 @@ void STC::Hassibi_block_code(void)
         A(7,1) = 0;//A_4
         B = A;
     }
-    else if (code_name=="34ortho_3xN")//rate 3/4 orthogonal code (mutual information 5.13 bits/channel use at rho=20 dB)
+    else if (code_name== Code_Names::ortho34_3xN)//rate 3/4 orthogonal code (mutual information 5.13 bits/channel use at rho=20 dB)
     {
         em_antenna = 3;//emission antenna
         channel_uses = 4;//channel uses
@@ -320,7 +320,7 @@ void STC::Hassibi_block_code(void)
             "0 1 0";//B_1; B_2; B_3
         B /= std::sqrt(double(4)/double(3));
     }
-    else if (code_name=="36LD_3xN")//(36) LD code with mutual info. 6.25bits/channel use at rho=20dB
+    else if (code_name== Code_Names::LD36_3xN)//(36) LD code with mutual info. 6.25bits/channel use at rho=20dB
     {
         em_antenna = 3;//emission antenna
         channel_uses = 4;//channel uses
@@ -425,7 +425,7 @@ void STC::Hassibi_block_code(void)
         B(15,1) = 1;
         B(15,2) = 0;//B_4
     }
-    else if (code_name=="37LD_3xN")//(37) LD code 3-antenna LD code obtained from the symetrical concatenation of 3 2-antenna orthogonal design
+    else if (code_name== Code_Names::LD37_3xN)//(37) LD code 3-antenna LD code obtained from the symetrical concatenation of 3 2-antenna orthogonal design
     {
         em_antenna = 3;//emission antenna
         channel_uses = 6;//channel uses
@@ -506,7 +506,7 @@ void STC::Hassibi_block_code(void)
             "1  0  0";//B_1; B_2; B_3; B_4; B_5; B_6
         B *= std::sqrt(double(3)/double(2));
     }
-    else if (code_name=="39LD_3xN")
+    else if (code_name== Code_Names::LD39_3xN)
     {
         em_antenna = 3;//emission antenna
         channel_uses = 6;//channel uses

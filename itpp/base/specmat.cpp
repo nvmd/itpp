@@ -93,15 +93,6 @@ CREATE_EYE_FUN(bmat, eye_b, bin(0), bin(1))
 CREATE_EYE_FUN(imat, eye_i, 0, 1)
 CREATE_EYE_FUN(cmat, eye_c, std::complex<double>(0.0), std::complex<double>(1.0))
 
-template <class T>
-void eye(int size, Mat<T> &m)
-{
-    m.set_size(size, size, false);
-    m = T(0);
-    for (int i = size - 1; i >= 0; i--)
-        m(i, i) = T(1);
-}
-
 //! \endcond
 
 vec impulse(int size)
@@ -129,25 +120,6 @@ vec linspace(double from, double to, int points)
         output(i) = to;
         return output;
     }
-}
-
-template<class T>
-Vec<T> linspace_fixed_step(T from, T to, T step)
-{
-    int points = 0;
-    if (0 != step) {
-        points = itpp::floor_i(double(to-from)/step)+1;
-    }
-    if (0 >= points) {
-        return Vec<T>(0);
-    }
-
-    Vec<T> output(points);
-    output(0) = from;
-    for (int n = 1; n < points; ++n) {
-    	output(n) = output(n-1)+step;
-    }
-    return output;
 }
 
 vec zigzag_space(double t0, double t1, int K)
@@ -235,8 +207,6 @@ imat conference(int n)
     return out;
 }
 
-
-template <>
 const cmat toeplitz(const cvec &c)
 {
     int s = c.size();
@@ -255,7 +225,6 @@ const cmat toeplitz(const cvec &c)
     }
     return output;
 }
-
 
 mat rotation_matrix(int dim, int plane1, int plane2, double angle)
 {

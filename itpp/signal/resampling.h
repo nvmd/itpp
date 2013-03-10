@@ -30,6 +30,7 @@
 #define RESAMPLING_H
 
 #include <itpp/base/mat.h>
+#include <itpp/itexports.h>
 
 
 namespace itpp
@@ -234,109 +235,109 @@ Vec<T> lininterp(const Vec<T> &v, double f_base, double f_ups,
  * @}
  */
 
-#ifndef _MSC_VER
+//! \cond
 
 // ----------------------------------------------------------------------
 // Instantiations
 // ----------------------------------------------------------------------
 
 //! Extern Template instantiation of repeat
-extern template vec repeat(const vec &v, int norepeats);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT vec repeat(const vec &v, int norepeats);
 //! Extern Template instantiation of repeat
-extern template cvec repeat(const cvec &v, int norepeats);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec repeat(const cvec &v, int norepeats);
 //! Extern Template instantiation of repeat
-extern template svec repeat(const svec &v, int norepeats);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT svec repeat(const svec &v, int norepeats);
 //! Extern Template instantiation of repeat
-extern template ivec repeat(const ivec &v, int norepeats);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT ivec repeat(const ivec &v, int norepeats);
 //! Extern Template instantiation of repeat
-extern template bvec repeat(const bvec &v, int norepeats);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bvec repeat(const bvec &v, int norepeats);
 
 //! Extern Template instantiation of repeat
-extern template mat repeat(const mat &m, int norepeats);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT mat repeat(const mat &m, int norepeats);
 //! Extern Template instantiation of repeat
-extern template cmat repeat(const cmat &m, int norepeats);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat repeat(const cmat &m, int norepeats);
 //! Extern Template instantiation of repeat
-extern template smat repeat(const smat &m, int norepeats);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT smat repeat(const smat &m, int norepeats);
 //! Extern Template instantiation of repeat
-extern template imat repeat(const imat &m, int norepeats);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT imat repeat(const imat &m, int norepeats);
 //! Extern Template instantiation of repeat
-extern template bmat repeat(const bmat &m, int norepeats);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bmat repeat(const bmat &m, int norepeats);
 
 //! Extern Template instantiation of upsample
-extern template vec upsample(const vec &v, int usf);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT vec upsample(const vec &v, int usf);
 //! Extern Template instantiation of upsample
-extern template cvec upsample(const cvec &v, int usf);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec upsample(const cvec &v, int usf);
 //! Extern Template instantiation of upsample
-extern template svec upsample(const svec &v, int usf);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT svec upsample(const svec &v, int usf);
 //! Extern Template instantiation of upsample
-extern template ivec upsample(const ivec &v, int usf);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT ivec upsample(const ivec &v, int usf);
 //! Extern Template instantiation of upsample
-extern template bvec upsample(const bvec &v, int usf);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bvec upsample(const bvec &v, int usf);
 
 //! Extern Template instantiation of upsample
-extern template mat upsample(const mat &v, int usf);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT mat upsample(const mat &v, int usf);
 //! Extern Template instantiation of upsample
-extern template cmat upsample(const cmat &v, int usf);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat upsample(const cmat &v, int usf);
 //! Extern Template instantiation of upsample
-extern template smat upsample(const smat &v, int usf);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT smat upsample(const smat &v, int usf);
 //! Extern Template instantiation of upsample
-extern template imat upsample(const imat &v, int usf);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT imat upsample(const imat &v, int usf);
 //! Extern Template instantiation of upsample
-extern template bmat upsample(const bmat &v, int usf);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bmat upsample(const bmat &v, int usf);
 
 //! Extern Template instantiation of upsample
-extern template void upsample(const vec &v, int usf,  vec &u);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void upsample(const vec &v, int usf,  vec &u);
 //! Extern Template instantiation of upsample
-extern template void upsample(const cvec &v, int usf,  cvec &u);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void upsample(const cvec &v, int usf,  cvec &u);
 //! Extern Template instantiation of upsample
-extern template void upsample(const svec &v, int usf,  svec &u);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void upsample(const svec &v, int usf,  svec &u);
 //! Extern Template instantiation of upsample
-extern template void upsample(const ivec &v, int usf,  ivec &u);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void upsample(const ivec &v, int usf,  ivec &u);
 //! Extern Template instantiation of upsample
-extern template void upsample(const bvec &v, int usf,  bvec &u);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void upsample(const bvec &v, int usf,  bvec &u);
 
 //! Extern Template instantiation of upsample
-extern template void upsample(const mat &v, int usf,  mat &u);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void upsample(const mat &v, int usf,  mat &u);
 //! Extern Template instantiation of upsample
-extern template void upsample(const cmat &v, int usf,  cmat &u);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void upsample(const cmat &v, int usf,  cmat &u);
 //! Extern Template instantiation of upsample
-extern template void upsample(const smat &v, int usf,  smat &u);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void upsample(const smat &v, int usf,  smat &u);
 //! Extern Template instantiation of upsample
-extern template void upsample(const imat &v, int usf,  imat &u);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void upsample(const imat &v, int usf,  imat &u);
 //! Extern Template instantiation of upsample
-extern template void upsample(const bmat &v, int usf,  bmat &u);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void upsample(const bmat &v, int usf,  bmat &u);
 
 //! Extern Template instantiation of liniterp
-extern template vec lininterp(const vec &v, int usf);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT vec lininterp(const vec &v, int usf);
 //! Extern Template instantiation of liniterp
-extern template cvec lininterp(const cvec &v, int usf);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec lininterp(const cvec &v, int usf);
 
 //! Extern Template instantiation of liniterp
-extern template mat lininterp(const mat &v, int usf);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT mat lininterp(const mat &v, int usf);
 //! Extern Template instantiation of liniterp
-extern template cmat lininterp(const cmat &v, int usf);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat lininterp(const cmat &v, int usf);
 
 //! Extern Template instantiation of liniterp
-extern template void lininterp(const vec &v, int usf,  vec &u);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void lininterp(const vec &v, int usf,  vec &u);
 //! Extern Template instantiation of liniterp
-extern template void lininterp(const cvec &v, int usf,  cvec &u);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void lininterp(const cvec &v, int usf,  cvec &u);
 
 //! Extern Template instantiation of liniterp
-extern template void lininterp(const mat &v, int usf,  mat &u);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void lininterp(const mat &v, int usf,  mat &u);
 //! Extern Template instantiation of liniterp
-extern template void lininterp(const cmat &v, int usf,  cmat &u);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void lininterp(const cmat &v, int usf,  cmat &u);
 
 //! Extern Template instantiation of liniterp
-extern template mat lininterp(const mat &m, double f_base, double f_ups, int nrof_samples, double t_start);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT mat lininterp(const mat &m, double f_base, double f_ups, int nrof_samples, double t_start);
 //! Extern Template instantiation of liniterp
-extern template cmat lininterp(const cmat &m, double f_base, double f_ups, int nrof_samples, double t_start);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat lininterp(const cmat &m, double f_base, double f_ups, int nrof_samples, double t_start);
 
 //! Extern Template instantiation of liniterp
-extern template vec lininterp(const vec &v, double f_base, double f_ups, int nrof_samples, double t_start);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT vec lininterp(const vec &v, double f_base, double f_ups, int nrof_samples, double t_start);
 //! Extern Template instantiation of liniterp
-extern template cvec lininterp(const cvec &v, double f_base, double f_ups, int nrof_samples, double t_start);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec lininterp(const cvec &v, double f_base, double f_ups, int nrof_samples, double t_start);
 
-#endif
+//! \endcond
 
 } // namespace itpp
 

@@ -29,9 +29,18 @@
 #ifndef PACKET_GENERATOR_H
 #define PACKET_GENERATOR_H
 
-#include <itpp/protocol/packet.h>
 #include <itpp/base/random.h>
 
+#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB) && !defined(itpp_EXPORTS))
+
+#ifndef ITPP_PROTOCOL_EXCLUDED
+#define ITPP_PROTOCOL_EXCLUDED
+#pragma message( "PROTOCOL definitions are not available for MSVC shared builds" )
+#endif
+
+#else
+
+#include <itpp/protocol/packet.h>
 
 namespace itpp
 {
@@ -162,6 +171,8 @@ private:
 //@}
 
 } // namespace itpp
+
+#endif
 
 #endif // #ifndef PACKET_GENERATOR_H
 

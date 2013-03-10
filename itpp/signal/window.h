@@ -31,6 +31,7 @@
 #define WINDOW_H
 
 #include <itpp/base/vec.h>
+#include <itpp/itexports.h>
 
 
 namespace itpp
@@ -53,7 +54,7 @@ The \c n size Hamming window is a vector \f$w\f$ where the \f$i\f$th component i
 w_i = 0.54 - 0.46 \cos(2\pi i/(n-1))
 \f]
 */
-vec hamming(int size);
+ITPP_EXPORT vec hamming(int size);
 
 
 /*! \brief Hanning window
@@ -66,7 +67,7 @@ w_i = 0.5(1 - \cos(2\pi (i+1)/(n+1))
 Observe that this function is not the same as the hann() function which is defined
 as in matlab.
 */
-vec hanning(int n);
+ITPP_EXPORT vec hanning(int n);
 
 /*! \brief Hanning window compatible with matlab
 
@@ -75,7 +76,7 @@ The \c n size Hanning window is a vector \f$w\f$ where the \f$i\f$th component i
 w_i = 0.5(1 - \cos(2\pi i/(n-1))
 \f]
 */
-vec hann(int n);
+ITPP_EXPORT vec hann(int n);
 
 
 /*! \brief Blackman window
@@ -85,7 +86,7 @@ The \c n size Blackman window is a vector \f$w\f$ where the \f$i\f$th component 
 w_i = 0.42 - 0.5\cos(2\pi i/(n-1)) + 0.08\cos(4\pi i/(n-1))
 \f]
 */
-vec blackman(int n);
+ITPP_EXPORT vec blackman(int n);
 
 /*! \brief Triangular window
 
@@ -99,14 +100,14 @@ for \c n odd and for \c n even
 w_i = w_{n-i-1} = \frac{2i+1}{n}
 \f]
 */
-vec triang(int n);
+ITPP_EXPORT vec triang(int n);
 
 /*! \brief Square root window
 
 The square-root of the Triangle window.
 sqrt_win(n) = sqrt(triang(n))
 */
-vec sqrt_win(int n);
+ITPP_EXPORT vec sqrt_win(int n);
 
 
 /*!
@@ -126,7 +127,7 @@ vec sqrt_win(int n);
 
   \author Kumar Appaiah and Adam Piatyszek (code review)
 */
-vec chebwin(int n, double at);
+ITPP_EXPORT vec chebwin(int n, double at);
 //!@}
 
 

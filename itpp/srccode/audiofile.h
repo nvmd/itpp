@@ -32,6 +32,7 @@
 #include <itpp/base/vec.h>
 #include <itpp/base/math/misc.h>
 #include <fstream>
+#include <itpp/itexports.h>
 
 
 namespace itpp
@@ -44,6 +45,15 @@ namespace itpp
 /*!
   \addtogroup audio
 */
+
+#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB) && !defined(itpp_EXPORTS))
+
+#ifndef ITPP_AUDIOFILE_EXCLUDED
+#define ITPP_AUDIOFILE_EXCLUDED
+#pragma message( "Audio_File class definitions are not available for MSVC shared builds" )
+#endif
+
+#else
 
 /*!
   \brief Base class - do not use this one!
@@ -75,7 +85,7 @@ protected:
 
   ACTION: ADD DETAILED DOCUMENTATION FOR THIS CLASS!!!!!!!!!!!
 */
-class SND_Format
+class ITPP_EXPORT SND_Format
 {
 public:
   //! ACTION: ADD DOCUMENTATION FOR THIS MEMBER!!!!!!!!!!!
@@ -314,29 +324,31 @@ public:
   };
 */
 
+#endif
+
 /*! \addtogroup audio */
 //!@{
 
 //! Read raw 16-bin little endian audio data
-bool raw16le_read(const char *fname, vec &v);
+ITPP_EXPORT bool raw16le_read(const char *fname, vec &v);
 //! Read raw 16-bin little endian audio data
-bool raw16le_read(const char *fname, vec &v, int beg, int len);
+ITPP_EXPORT bool raw16le_read(const char *fname, vec &v, int beg, int len);
 //! Write raw 16-bin little endian audio data
-bool raw16le_write(const char *fname, const vec &v, bool append = false);
+ITPP_EXPORT bool raw16le_write(const char *fname, const vec &v, bool append = false);
 
 //! Read raw 16-bin big endian audio data
-bool raw16be_read(const char *fname, vec &v);
+ITPP_EXPORT bool raw16be_read(const char *fname, vec &v);
 //! Read raw 16-bin big endian audio data
-bool raw16be_read(const char *fname, vec &v, int beg, int len);
+ITPP_EXPORT bool raw16be_read(const char *fname, vec &v, int beg, int len);
 //! Write raw 16-bin big endian audio data
-bool raw16be_write(const char *fname, const vec &v, bool append = false);
+ITPP_EXPORT bool raw16be_write(const char *fname, const vec &v, bool append = false);
 
 //! Read SND audio data
-bool snd_read(const char *fname, vec &v);
+ITPP_EXPORT bool snd_read(const char *fname, vec &v);
 //! Read SND audio data
-bool snd_read(const char *fname, vec &v, int beg, int len);
+ITPP_EXPORT bool snd_read(const char *fname, vec &v, int beg, int len);
 //! Write SND audio data
-bool snd_write(const char *fname, const vec &v, int rate = 8000,
+ITPP_EXPORT bool snd_write(const char *fname, const vec &v, int rate = 8000,
                SND_Format::data_encoding e = SND_Format::enc_linear16);
 /*
 // Read SAP audio data

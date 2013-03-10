@@ -32,9 +32,22 @@
 #include <itpp/comm/rec_syst_conv_code.h>
 #include <itpp/comm/interleave.h>
 #include <itpp/comm/llr.h>
+#include <itpp/itexports.h>
 
 namespace itpp
 {
+
+//! \cond
+
+#if (defined(_MSC_VER) && defined (ITPP_SHARED_LIB))
+//MSVC explicitely instantiate required template while building the shared library
+template class ITPP_EXPORT Mat<bin>;
+template class ITPP_EXPORT Sequence_Interleaver<bin>;
+template class ITPP_EXPORT Sequence_Interleaver<double>;
+#endif
+
+//! \endcond
+
 
 /*!
   \brief Turbo encoder/decoder Class
@@ -51,7 +64,7 @@ namespace itpp
   turbo.set_parameters(gen, gen, constraint_length, interleaver_sequence);
   \endcode
 */
-class Turbo_Codec
+class ITPP_EXPORT Turbo_Codec
 {
 public:
 
@@ -276,7 +289,17 @@ protected:
   int m_tail, n1, n2, n_tot, iterations;
   double Ec, N0, Lc, R, logmax_scale_factor;
   bool adaptive_stop;
-  std::string metric;
+  struct ITPP_EXPORT Metric
+  {
+    enum Type {Unknown, LOGMAX, LOGMAP, MAP, TABLE};
+    Metric() : _t(Unknown) {}
+    Metric(Type t) : _t(t) {}
+    operator Type () const {return _t;}
+  private:
+    Type _t;
+    template<typename T> operator T () const;
+  };
+  Metric metric;
 
   //Vectors:
   bvec decoded_bits_previous_iteration;
@@ -285,6 +308,7 @@ protected:
   Rec_Syst_Conv_Code rscc1, rscc2;
   Sequence_Interleaver<bin> bit_interleaver;
   Sequence_Interleaver<double> float_interleaver;
+  static std::string string_from_metric(const Metric& m);
 };
 
 /*!
@@ -305,7 +329,7 @@ protected:
 
   \endcode
 */
-class Punctured_Turbo_Codec : public Turbo_Codec
+class ITPP_EXPORT Punctured_Turbo_Codec : public Turbo_Codec
 {
 public:
 
@@ -491,14 +515,14 @@ protected:
   \relatesalso Turbo_Codec
   \brief Generates the interleaver sequence for the internal turbo encoder interleaver used in WCDMA
 */
-ivec wcdma_turbo_interleaver_sequence(int interleaver_size);
+ITPP_EXPORT ivec wcdma_turbo_interleaver_sequence(int interleaver_size);
 
 /*!
   \relatesalso Turbo_Codec
   \author qdelfin and Stephan Ludwig
   \brief Generates the interleaver sequence for the internal turbo encoder interleaver used in LTE
 */
-ivec lte_turbo_interleaver_sequence(int interleaver_size);
+ITPP_EXPORT ivec lte_turbo_interleaver_sequence(int interleaver_size);
 
 } // namespace itpp
 

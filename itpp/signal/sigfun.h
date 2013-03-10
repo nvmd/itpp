@@ -30,6 +30,7 @@
 #define SIGFUN_H
 
 #include <itpp/base/vec.h>
+#include <itpp/itexports.h>
 
 
 namespace itpp
@@ -66,8 +67,8 @@ namespace itpp
 
   @{
 */
-void xcorr_old(const vec &x, const vec &y, vec &out, const int max_lag = -1, const std::string scaleopt = "none");
-void xcorr(const vec &x, const vec &y, vec &out, const int max_lag = -1, const std::string scaleopt = "none");
+ITPP_EXPORT void xcorr_old(const vec &x, const vec &y, vec &out, const int max_lag = -1, const std::string scaleopt = "none");
+ITPP_EXPORT void xcorr(const vec &x, const vec &y, vec &out, const int max_lag = -1, const std::string scaleopt = "none");
 /*! @} */
 
 /*!
@@ -97,8 +98,8 @@ void xcorr(const vec &x, const vec &y, vec &out, const int max_lag = -1, const s
 
   @{
 */
-vec xcorr_old(const vec &x, const vec &y, const int max_lag = -1, const std::string scaleopt = "none");
-vec xcorr(const vec &x, const vec &y, const int max_lag = -1, const std::string scaleopt = "none");
+ITPP_EXPORT vec xcorr_old(const vec &x, const vec &y, const int max_lag = -1, const std::string scaleopt = "none");
+ITPP_EXPORT vec xcorr(const vec &x, const vec &y, const int max_lag = -1, const std::string scaleopt = "none");
 /*! @} */
 
 /*!
@@ -106,7 +107,7 @@ vec xcorr(const vec &x, const vec &y, const int max_lag = -1, const std::string 
 
   \code r = xcorr(x,y) \endcode returns the cross-correlation vector \b r.
 */
-cvec xcorr(const cvec &x, const cvec &y, const int max_lag = -1, const std::string scaleopt = "none");
+ITPP_EXPORT cvec xcorr(const cvec &x, const cvec &y, const int max_lag = -1, const std::string scaleopt = "none");
 
 
 /*!
@@ -134,8 +135,8 @@ cvec xcorr(const cvec &x, const cvec &y, const int max_lag = -1, const std::stri
 
   @{
 */
-vec xcorr_old(const vec &x, const int max_lag = -1, const std::string scaleopt = "none");
-vec xcorr(const vec &x, const int max_lag = -1, const std::string scaleopt = "none");
+ITPP_EXPORT vec xcorr_old(const vec &x, const int max_lag = -1, const std::string scaleopt = "none");
+ITPP_EXPORT vec xcorr(const vec &x, const int max_lag = -1, const std::string scaleopt = "none");
 /*! @} */
 
 /*!
@@ -143,14 +144,14 @@ vec xcorr(const vec &x, const int max_lag = -1, const std::string scaleopt = "no
 
   \code r = xcorr(x) \endcode returns the auto-correlation vecotr \b r.
 */
-cvec xcorr(const cvec &x, const int max_lag = -1, const std::string scaleopt = "none");
+ITPP_EXPORT cvec xcorr(const cvec &x, const int max_lag = -1, const std::string scaleopt = "none");
 
 /*!
   \brief Cross Correlation
 
   \code xcorr(x,y,out) \endcode Computes the cross-correlatin and returns in vector \b out
 */
-void xcorr(const cvec &x, const cvec &y, cvec &out, const int max_lag = -1, const std::string scaleopt = "none",
+ITPP_EXPORT void xcorr(const cvec &x, const cvec &y, cvec &out, const int max_lag = -1, const std::string scaleopt = "none",
            bool autoflag = true);
 
 /*!
@@ -164,7 +165,7 @@ void xcorr(const cvec &x, const cvec &y, cvec &out, const int max_lag = -1, cons
 
   Set is_zero_mean if X already has zero mean.
 */
-mat cov(const mat &X, bool is_zero_mean = false);
+ITPP_EXPORT mat cov(const mat &X, bool is_zero_mean = false);
 
 //vec cov(const vec &x, short order);
 
@@ -173,28 +174,28 @@ mat cov(const mat &X, bool is_zero_mean = false);
 
   Calculates the power spectrum using the Welch method and a Hanning window.
 */
-vec spectrum(const vec &v, int nfft = 256, int noverlap = 0);
+ITPP_EXPORT vec spectrum(const vec &v, int nfft = 256, int noverlap = 0);
 
 /*!
   \brief Power spectrum calculation
 
   Calculates the power spectrum using using the Welch method and the supplied window w.
 */
-vec spectrum(const vec &v, const vec &w, int noverlap = 0);
+ITPP_EXPORT vec spectrum(const vec &v, const vec &w, int noverlap = 0);
 
 /*!
   \brief Power spectrum calculation of a filter
 
   Calculates the power spectrum of a filter with transfer function a(z)
 */
-vec filter_spectrum(const vec &a, int nfft = 256);
+ITPP_EXPORT vec filter_spectrum(const vec &a, int nfft = 256);
 
 /*!
   \brief Power spectrum calculation of a filter
 
   Calculates the power spectrum of a filter with transfer function a(z)/b(z)
 */
-vec filter_spectrum(const vec &a, const vec &b, int nfft = 256);
+ITPP_EXPORT vec filter_spectrum(const vec &a, const vec &b, int nfft = 256);
 
 /*! @} */
 
