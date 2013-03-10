@@ -30,7 +30,7 @@
 #define SVD_H
 
 #include <itpp/base/mat.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -57,7 +57,7 @@ namespace itpp
  *
  * \note An external LAPACK library is required by this function.
  */
-bool svd(const mat &A, vec &s);
+ITPP_EXPORT bool svd(const mat &A, vec &s);
 
 /*!
  * \ingroup matrixdecomp
@@ -81,7 +81,7 @@ bool svd(const mat &A, vec &s);
  *
  * \note An external LAPACK library is required by this function.
  */
-bool svd(const cmat &A, vec &s);
+ITPP_EXPORT bool svd(const cmat &A, vec &s);
 
 /*!
    * \ingroup matrixdecomp
@@ -104,7 +104,7 @@ bool svd(const cmat &A, vec &s);
    *
    * \note An external LAPACK library is required by this function.
    */
-vec svd(const mat &A);
+ITPP_EXPORT vec svd(const mat &A);
 
 /*!
  * \ingroup matrixdecomp
@@ -128,7 +128,7 @@ vec svd(const mat &A);
  *
  * \note An external LAPACK library is required by this function.
  */
-vec svd(const cmat &A);
+ITPP_EXPORT vec svd(const cmat &A);
 
 /*!
  * \ingroup matrixdecomp
@@ -152,7 +152,7 @@ vec svd(const cmat &A);
  *
  * \note An external LAPACK library is required by this function.
  */
-bool svd(const mat &A, mat &U, vec &s, mat &V);
+ITPP_EXPORT bool svd(const mat &A, mat &U, vec &s, mat &V);
 
 /*!
  * \ingroup matrixdecomp
@@ -176,7 +176,7 @@ bool svd(const mat &A, mat &U, vec &s, mat &V);
  *
  * \note An external LAPACK library is required by this function.
  */
-bool svd(const cmat &A, cmat &U, vec &s, cmat &V);
+ITPP_EXPORT bool svd(const cmat &A, cmat &U, vec &s, cmat &V);
 
 
 } // namespace itpp

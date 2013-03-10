@@ -33,7 +33,7 @@
 #include <itpp/base/mat.h>
 #include <itpp/base/random.h>
 #include <itpp/base/sort.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -544,27 +544,23 @@ void Sequence_Interleaver<T>::set_interleaver_sequence(ivec in_interleaver_seque
 // Instantiations
 // ----------------------------------------------------------------------
 
-#ifdef _MSC_VEC
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Block_Interleaver<double>;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Block_Interleaver<short>;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Block_Interleaver<int>;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Block_Interleaver<std::complex<double> >;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Block_Interleaver<bin>;
 
-extern template class Block_Interleaver<double>;
-extern template class Block_Interleaver<short>;
-extern template class Block_Interleaver<int>;
-extern template class Block_Interleaver<std::complex<double> >;
-extern template class Block_Interleaver<bin>;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Cross_Interleaver<double>;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Cross_Interleaver<short>;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Cross_Interleaver<int>;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Cross_Interleaver<std::complex<double> >;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Cross_Interleaver<bin>;
 
-extern template class Cross_Interleaver<double>;
-extern template class Cross_Interleaver<short>;
-extern template class Cross_Interleaver<int>;
-extern template class Cross_Interleaver<std::complex<double> >;
-extern template class Cross_Interleaver<bin>;
-
-extern template class Sequence_Interleaver<double>;
-extern template class Sequence_Interleaver<short>;
-extern template class Sequence_Interleaver<int>;
-extern template class Sequence_Interleaver<std::complex<double> >;
-extern template class Sequence_Interleaver<bin>;
-
-#endif // _MSC_VEC
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Sequence_Interleaver<double>;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Sequence_Interleaver<short>;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Sequence_Interleaver<int>;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Sequence_Interleaver<std::complex<double> >;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Sequence_Interleaver<bin>;
 
 //! \endcond
 

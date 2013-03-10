@@ -30,9 +30,19 @@
 #define EVENTS_H
 
 #include <itpp/base/itassert.h>
+
+#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB) && !defined(itpp_EXPORTS))
+
+#ifndef ITPP_PROTOCOL_EXCLUDED
+#define ITPP_PROTOCOL_EXCLUDED
+#pragma message( "PROTOCOL definitions are not available for MSVC shared builds" )
+#endif
+
+#else
+
+
 #include <queue>
 #include <deque>
-
 
 namespace itpp
 {
@@ -205,5 +215,7 @@ private:
 //@}
 
 } // namespace itpp
+
+#endif
 
 #endif // #ifndef EVENTS_H

@@ -242,55 +242,55 @@ std::string to_str(const double &i, const int precision)
 // Instantiations
 // ----------------------------------------------------------------------
 
-template bvec to_bvec(const svec &v);
-template bvec to_bvec(const ivec &v);
+template ITPP_EXPORT bvec to_bvec(const svec &v);
+template ITPP_EXPORT bvec to_bvec(const ivec &v);
 
-template svec to_svec(const bvec &v);
-template svec to_svec(const ivec &v);
-template svec to_svec(const vec &v);
+template ITPP_EXPORT svec to_svec(const bvec &v);
+template ITPP_EXPORT svec to_svec(const ivec &v);
+template ITPP_EXPORT svec to_svec(const vec &v);
 
-template ivec to_ivec(const bvec &v);
-template ivec to_ivec(const svec &v);
-template ivec to_ivec(const vec &v);
+template ITPP_EXPORT ivec to_ivec(const bvec &v);
+template ITPP_EXPORT ivec to_ivec(const svec &v);
+template ITPP_EXPORT ivec to_ivec(const vec &v);
 
-template vec to_vec(const bvec &v);
-template vec to_vec(const svec &v);
-template vec to_vec(const ivec &v);
+template ITPP_EXPORT vec to_vec(const bvec &v);
+template ITPP_EXPORT vec to_vec(const svec &v);
+template ITPP_EXPORT vec to_vec(const ivec &v);
 
-template cvec to_cvec(const bvec &v);
-template cvec to_cvec(const svec &v);
-template cvec to_cvec(const ivec &v);
-template cvec to_cvec(const vec &v);
+template ITPP_EXPORT cvec to_cvec(const bvec &v);
+template ITPP_EXPORT cvec to_cvec(const svec &v);
+template ITPP_EXPORT cvec to_cvec(const ivec &v);
+template ITPP_EXPORT cvec to_cvec(const vec &v);
 
-template cvec to_cvec(const bvec &real, const bvec &imag);
-template cvec to_cvec(const svec &real, const svec &imag);
-template cvec to_cvec(const ivec &real, const ivec &imag);
-template cvec to_cvec(const vec &real, const vec &imag);
+template ITPP_EXPORT cvec to_cvec(const bvec &real, const bvec &imag);
+template ITPP_EXPORT cvec to_cvec(const svec &real, const svec &imag);
+template ITPP_EXPORT cvec to_cvec(const ivec &real, const ivec &imag);
+template ITPP_EXPORT cvec to_cvec(const vec &real, const vec &imag);
 
-template bmat to_bmat(const smat &m);
-template bmat to_bmat(const imat &m);
+template ITPP_EXPORT bmat to_bmat(const smat &m);
+template ITPP_EXPORT bmat to_bmat(const imat &m);
 
-template smat to_smat(const bmat &m);
-template smat to_smat(const imat &m);
-template smat to_smat(const mat &m);
+template ITPP_EXPORT smat to_smat(const bmat &m);
+template ITPP_EXPORT smat to_smat(const imat &m);
+template ITPP_EXPORT smat to_smat(const mat &m);
 
-template imat to_imat(const bmat &m);
-template imat to_imat(const smat &m);
-template imat to_imat(const mat &m);
+template ITPP_EXPORT imat to_imat(const bmat &m);
+template ITPP_EXPORT imat to_imat(const smat &m);
+template ITPP_EXPORT imat to_imat(const mat &m);
 
-template mat to_mat(const bmat &m);
-template mat to_mat(const smat &m);
-template mat to_mat(const imat &m);
+template ITPP_EXPORT mat to_mat(const bmat &m);
+template ITPP_EXPORT mat to_mat(const smat &m);
+template ITPP_EXPORT mat to_mat(const imat &m);
 
-template cmat to_cmat(const bmat &m);
-template cmat to_cmat(const smat &m);
-template cmat to_cmat(const imat &m);
-template cmat to_cmat(const mat &m);
+template ITPP_EXPORT cmat to_cmat(const bmat &m);
+template ITPP_EXPORT cmat to_cmat(const smat &m);
+template ITPP_EXPORT cmat to_cmat(const imat &m);
+template ITPP_EXPORT cmat to_cmat(const mat &m);
 
-template cmat to_cmat(const bmat &real, const bmat &imag);
-template cmat to_cmat(const smat &real, const smat &imag);
-template cmat to_cmat(const imat &real, const imat &imag);
-template cmat to_cmat(const mat &real, const mat &imag);
+template ITPP_EXPORT cmat to_cmat(const bmat &real, const bmat &imag);
+template ITPP_EXPORT cmat to_cmat(const smat &real, const smat &imag);
+template ITPP_EXPORT cmat to_cmat(const imat &real, const imat &imag);
+template ITPP_EXPORT cmat to_cmat(const mat &real, const mat &imag);
 
 } // namespace itpp
 

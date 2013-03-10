@@ -30,7 +30,7 @@
 #define ERROR_H
 
 #include <itpp/base/help_functions.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -57,13 +57,13 @@ namespace itpp
  * give about 14 decimal places of accuracy. This is appropriate for
  * 64-bit floating point numbers.
  */
-std::complex<double> erf(const std::complex<double>& z);
+ITPP_EXPORT std::complex<double> erf(const std::complex<double>& z);
 
 //! Inverse of error function
-double erfinv(double x);
+ITPP_EXPORT double erfinv(double x);
 
 //! Q-function
-double Qfunc(double x);
+ITPP_EXPORT double Qfunc(double x);
 
 
 // ----------------------------------------------------------------------
@@ -71,28 +71,28 @@ double Qfunc(double x);
 // ----------------------------------------------------------------------
 
 //! Error function
-vec erf(const vec &x);
+ITPP_EXPORT vec erf(const vec &x);
 //! Error function
-mat erf(const mat &x);
+ITPP_EXPORT mat erf(const mat &x);
 //! Error function
-cvec erf(const cvec &x);
+ITPP_EXPORT cvec erf(const cvec &x);
 //! Error function
-cmat erf(const cmat &x);
+ITPP_EXPORT cmat erf(const cmat &x);
 
 //! Inverse of error function
-vec erfinv(const vec &x);
+ITPP_EXPORT vec erfinv(const vec &x);
 //! Inverse of error function
-mat erfinv(const mat &x);
+ITPP_EXPORT mat erfinv(const mat &x);
 
 //! Complementary error function
-vec erfc(const vec &x);
+ITPP_EXPORT vec erfc(const vec &x);
 //! Complementary error function
-mat erfc(const mat &x);
+ITPP_EXPORT mat erfc(const mat &x);
 
 //! Q-function
-vec Qfunc(const vec &x);
+ITPP_EXPORT vec Qfunc(const vec &x);
 //! Q-function
-mat Qfunc(const mat &x);
+ITPP_EXPORT mat Qfunc(const mat &x);
 //!@}
 
 } // namespace itpp

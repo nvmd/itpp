@@ -25,6 +25,19 @@
  *
  * -------------------------------------------------------------------------
  */
+#ifndef TCP_CLIENT_SERVER_H
+#define TCP_CLIENT_SERVER_H
+
+#include <itpp/itexports.h>
+
+#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB) && !defined(itpp_EXPORTS))
+
+#ifndef ITPP_PROTOCOL_EXCLUDED
+#define ITPP_PROTOCOL_EXCLUDED
+#pragma message( "PROTOCOL definitions are not available for MSVC shared builds" )
+#endif
+
+#else
 
 #include <itpp/protocol/tcp.h>
 
@@ -152,3 +165,7 @@ private:
 //@}
 
 } // namespace itpp
+
+#endif
+
+#endif //TCP_CLIENT_SERVER_H

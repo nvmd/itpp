@@ -30,7 +30,7 @@
 #define POLY_H
 
 #include <itpp/base/vec.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -43,9 +43,9 @@ namespace itpp
 
   @{
 */
-void poly(const vec &r, vec &p);
+ITPP_EXPORT void poly(const vec &r, vec &p);
 inline vec poly(const vec &r) { vec temp; poly(r, temp); return temp; }
-void poly(const cvec &r, cvec &p);
+ITPP_EXPORT void poly(const cvec &r, cvec &p);
 inline cvec poly(const cvec &r) { cvec temp; poly(r, temp); return temp; }
 /*! @} */
 
@@ -58,9 +58,9 @@ inline cvec poly(const cvec &r) { cvec temp; poly(r, temp); return temp; }
 
   @{
 */
-void roots(const vec &p, cvec &r);
+ITPP_EXPORT void roots(const vec &p, cvec &r);
 inline cvec roots(const vec &p) { cvec temp; roots(p, temp); return temp; }
-void roots(const cvec &p, cvec &r);
+ITPP_EXPORT void roots(const cvec &p, cvec &r);
 inline cvec roots(const cvec &p) { cvec temp; roots(p, temp); return temp; }
 /*! @} */
 
@@ -77,10 +77,10 @@ inline cvec roots(const cvec &p) { cvec temp; roots(p, temp); return temp; }
 
   @{
 */
-vec polyval(const vec &p, const vec &x);
-cvec polyval(const vec &p, const cvec &x);
-cvec polyval(const cvec &p, const vec &x);
-cvec polyval(const cvec &p, const cvec &x);
+ITPP_EXPORT vec polyval(const vec &p, const vec &x);
+ITPP_EXPORT cvec polyval(const vec &p, const cvec &x);
+ITPP_EXPORT cvec polyval(const cvec &p, const vec &x);
+ITPP_EXPORT cvec polyval(const cvec &p, const cvec &x);
 /*! @} */
 
 /*!
@@ -103,7 +103,7 @@ cvec polyval(const cvec &p, const cvec &x);
 
   \author Kumar Appaiah, Adam Piatyszek (code review)
 */
-double cheb(int n, double x);
+ITPP_EXPORT double cheb(int n, double x);
 
 /*!
   \brief Chebyshev polynomial of the first kind
@@ -128,7 +128,7 @@ double cheb(int n, double x);
 
   \author Kumar Appaiah, Adam Piatyszek (code review)
 */
-vec cheb(int n, const vec &x);
+ITPP_EXPORT vec cheb(int n, const vec &x);
 
 /*!
   \brief Chebyshev polynomial of the first kind
@@ -153,7 +153,7 @@ vec cheb(int n, const vec &x);
 
   \author Kumar Appaiah, Adam Piatyszek (code review)
 */
-mat cheb(int n, const mat &x);
+ITPP_EXPORT mat cheb(int n, const mat &x);
 } // namespace itpp
 
 #endif // #ifndef POLY_H

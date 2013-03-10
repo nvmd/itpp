@@ -31,7 +31,7 @@
 
 #include <itpp/comm/galois.h>
 #include <itpp/comm/channel_code.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -56,7 +56,7 @@ namespace itpp
   \f$g(x) = x^{10} + x^9 + x^8 + x^6 + x^5 + x^3 + 1\f$, and is capable of
   correcting 2 errors with \a n = 31 and \a k = 21.
 */
-class BCH : public Channel_Code
+class ITPP_EXPORT BCH : public Channel_Code
 {
 public:
   /*!

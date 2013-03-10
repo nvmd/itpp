@@ -30,7 +30,7 @@
 #define BINARY_H
 
 #include <itpp/base/itassert.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -159,13 +159,13 @@ private:
   \relatesalso bin
   \brief Output stream of bin
 */
-std::ostream &operator<<(std::ostream &output, const bin &inbin);
+ITPP_EXPORT std::ostream &operator<<(std::ostream &output, const bin &inbin);
 
 /*!
   \relatesalso bin
   \brief Input stream of bin
 */
-std::istream &operator>>(std::istream &input, bin &outbin);
+ITPP_EXPORT std::istream &operator>>(std::istream &input, bin &outbin);
 
 /*!
   \relatesalso bin

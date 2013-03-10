@@ -32,7 +32,7 @@
 #include <itpp/base/vec.h>
 #include <itpp/comm/galois.h>
 #include <itpp/comm/channel_code.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -48,11 +48,11 @@ namespace itpp
 
   The code is \f$2^m\f$ - ary of length \f$2^m-1\f$ capable of correcting \f$t\f$ errors.
 */
-class Reed_Solomon : public Channel_Code
+class ITPP_EXPORT Reed_Solomon : public Channel_Code
 {
 public:
   /*! Class constructor for the \f$2^m\f$ - ary, \f$t\f$ error correcting RS-code.
-	* The generator polynomial will be $g(x)=\prod_{i=0}^{2t-1}(x-\alpha^{b+i})$, 
+	* The generator polynomial will be $g(x)=\prod_{i=0}^{2t-1}(x-\alpha^{b+i})$,
 	* where $\alpha$ is a root of the primitive polynomial of \c itpp::GF.
 	*/
   Reed_Solomon(int in_m, int in_t, bool sys = false, int in_b = 1);

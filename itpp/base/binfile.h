@@ -29,6 +29,17 @@
 #ifndef BINFILE_H
 #define BINFILE_H
 
+#include <itpp/itexports.h>
+
+#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB) && !defined(itpp_EXPORTS))
+
+#ifndef ITPP_BINFILE_EXCLUDED
+#define ITPP_BINFILE_EXCLUDED
+#pragma message( "BINFILE definitions are not available for MSVC shared builds" )
+#endif
+
+#else
+
 #include <itpp/base/ittypes.h>
 #include <fstream>
 
@@ -340,5 +351,7 @@ public:
 };
 
 } //namespace itpp
+
+#endif
 
 #endif // #ifndef BINFILE_H

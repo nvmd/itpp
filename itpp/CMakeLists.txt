@@ -45,8 +45,7 @@ include_directories ( ${CMAKE_BINARY_DIR}
                       ${FFT_INCLUDES}
                     )
 
-#TODO: add support for shared library on Windows
-if (SHARED_LIB)
+if (ITPP_SHARED_LIB)
   add_library (${libitpp_target} SHARED ${ITPP_SRCS})
 else()
   add_library (${libitpp_target} STATIC ${ITPP_SRCS})
@@ -62,12 +61,13 @@ set(LIBITPP_VERSION_STRING ${LIBITPP_VERSION_MAJOR}.${LIBITPP_VERSION_MINOR}.${L
 set_target_properties(${libitpp_target} PROPERTIES VERSION ${LIBITPP_VERSION_STRING}
                                                    SOVERSION ${LIBITPP_VERSION_MAJOR})
 
-#library                                                 
+#library
 install(TARGETS ${libitpp_target}
+        RUNTIME DESTINATION bin
         LIBRARY DESTINATION lib
         ARCHIVE DESTINATION lib)
 
-#headers      
+#headers
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/itpp DESTINATION include FILES_MATCHING PATTERN "*.h")
 if (NOT WIN32)
   install(FILES ${CMAKE_BINARY_DIR}/itpp/config.h DESTINATION include/itpp)

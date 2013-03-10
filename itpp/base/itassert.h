@@ -31,7 +31,7 @@
 
 #include <sstream>
 #include <string>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -66,28 +66,28 @@ namespace itpp
 //!@{
 
 //! Helper function for the \c it_assert and \c it_assert_debug macros
-void it_assert_f(std::string ass, std::string msg, std::string file, int line);
+ITPP_EXPORT void it_assert_f(std::string ass, std::string msg, std::string file, int line);
 //! Helper function for the \c it_error and \c it_error_if macros
-void it_error_f(std::string msg, std::string file, int line);
+ITPP_EXPORT void it_error_f(std::string msg, std::string file, int line);
 //! Helper function for the \c it_info and \c it_info_debug macros
-void it_info_f(std::string msg);
+ITPP_EXPORT void it_info_f(std::string msg);
 //! Helper function for the \c it_warning macro
-void it_warning_f(std::string msg, std::string file, int line);
+ITPP_EXPORT void it_warning_f(std::string msg, std::string file, int line);
 
 //! Enable/disable using exceptions for error handling.
-void it_enable_exceptions(bool on);
+ITPP_EXPORT void it_enable_exceptions(bool on);
 //! Enable warnings
-void it_enable_warnings();
+ITPP_EXPORT void it_enable_warnings();
 //! Disable warnings
-void it_disable_warnings();
+ITPP_EXPORT void it_disable_warnings();
 //! Redirect warnings to the ostream warn_stream
-void it_redirect_warnings(std::ostream *warn_stream);
+ITPP_EXPORT void it_redirect_warnings(std::ostream *warn_stream);
 
 //! Style of assert, error and warning messages.
 enum error_msg_style { Full, Minimum };
 
 //! Set preferred style of assert, error and warning messages
-void it_error_msg_style(error_msg_style style);
+ITPP_EXPORT void it_error_msg_style(error_msg_style style);
 
 
 //! Abort if \c t is not true

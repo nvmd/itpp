@@ -35,6 +35,11 @@
 namespace itpp
 {
 
+//! \cond
+//MSVC explicitely instantiate required template while building the shared library
+template class ITPP_EXPORT Modulator<double>;
+template class ITPP_EXPORT Modulator<std::complex<double> >;
+//! \endcond
 
 // ----------------------------------------------------------------------
 // QAM

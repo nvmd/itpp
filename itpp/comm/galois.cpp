@@ -29,6 +29,7 @@
 #include <itpp/comm/galois.h>
 #include <itpp/base/math/log_exp.h>
 #include <itpp/base/itcompat.h>
+#include <string>
 #include <iostream>
 
 
@@ -87,6 +88,37 @@ void GF::set_size(int qvalue)
         logalpha(m)(alphapow(m)(n)) = n;
     }
   }
+}
+//! Input stream operator for GF
+std::istream &operator>>(std::istream &is, GF &ingf)
+{
+  int val; char c;
+  static const std::string prefix("alpha^");
+  c = is.get();
+  if(c == 'a') {
+  //read alpha^pow form from stream
+    std::string::const_iterator pr_it = prefix.begin(); pr_it++;
+    for(pr_it; pr_it < prefix.end(); ++pr_it) {
+        c = is.get();
+        if(*pr_it != c) {
+          is.setstate(std::ios_base::failbit);
+          return is;
+        }
+    }
+    is >> val;
+    if(is) ingf.set(ingf.get_size(),val);
+  }
+  else {
+  //try to read 0 from stream
+    is >> val;
+    if(is && (val==0)) {
+      ingf.set(ingf.get_size(),0);
+    }
+    else {
+      is.setstate(std::ios_base::failbit);
+    }
+  }
+  return is;
 }
 
 //! Output stream operator for GF

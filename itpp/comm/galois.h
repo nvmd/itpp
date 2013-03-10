@@ -33,10 +33,20 @@
 #include <itpp/base/array.h>
 #include <itpp/base/binary.h>
 #include <itpp/base/converters.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
+
+//! \cond
+
+#if (defined(_MSC_VER) && defined (ITPP_SHARED_LIB))
+//MSVC explicitely instantiate required template while building the shared library
+template class ITPP_EXPORT Array<Array<int> >;
+template class ITPP_EXPORT Vec<int>;
+#endif
+
+//! \endcond
 
 /*!
   \brief Galois Field GF(q).
@@ -70,7 +80,7 @@ namespace itpp
   If possible use the class BIN instead.
   Observe, also that the element "0" is called "-1" and "1" called "0".
 */
-class GF
+class ITPP_EXPORT GF
 {
 public:
   //! Constructor
@@ -137,28 +147,41 @@ public:
   //! product of two GF(q)
   GF operator/(const GF &ingf) const;
   //! Output stream for GF(q)
-  friend std::ostream &operator<<(std::ostream &os, const GF &ingf);
+  ITPP_EXPORT friend std::ostream &operator<<(std::ostream &os, const GF &ingf);
+  //! Input stream for GF(q)
+  ITPP_EXPORT friend std::istream &operator>>(std::istream &is, GF &ingf);
 protected:
 private:
   char m;
   int value;
-  static Array<Array<int> > alphapow, logalpha;
+  static Array<Array<int> > alphapow;
+  static Array<Array<int> > logalpha;
   static ivec q;
 };
+
+//! \cond
+
+#if (defined(_MSC_VER) && defined (ITPP_SHARED_LIB))
+//MSVC explicitely instantiate required template while building the shared library
+template class ITPP_EXPORT Array<GF>;
+#endif
+
+//! \endcond
 
 class GFX;
 
 //! Multiplication of GF and GFX
-GFX  operator*(const GF &ingf, const GFX &ingfx);
+ITPP_EXPORT GFX  operator*(const GF &ingf, const GFX &ingfx);
 //! Multiplication of GFX and GF
-GFX  operator*(const GFX &ingfx, const GF &ingf);
+ITPP_EXPORT GFX  operator*(const GFX &ingfx, const GF &ingf);
 //! Division of GFX by GF
-GFX  operator/(const GFX &ingfx, const GF &ingf);
-
+ITPP_EXPORT GFX  operator/(const GFX &ingfx, const GF &ingf);
+  //! Output stream
+ITPP_EXPORT std::ostream &operator<<(std::ostream &os, const GFX &ingfx);
 /*!
   \brief Polynomials over GF(q)[x], where q=2^m, m=1,...,16
 */
-class GFX
+class ITPP_EXPORT GFX
 {
 public:
   //! Constructor
@@ -220,14 +243,13 @@ public:
   //! Evaluate polynom at alpha^inexp
   GF operator()(const GF &ingf);
   //! Multiply a GF element with a GF(q)[x]
-  friend GFX  operator*(const GF &ingf, const GFX &ingfx);
+  ITPP_EXPORT friend GFX  operator*(const GF &ingf, const GFX &ingfx);
   //! Multiply a GF(q)[x] with a GF element
-  friend GFX  operator*(const GFX &ingfx, const GF &ingf);
+  ITPP_EXPORT friend GFX  operator*(const GFX &ingfx, const GF &ingf);
   //! Divide a GF(q)[x] with a GF element
-  friend GFX  operator/(const GFX &ingfx, const GF &ingf);
-
+  ITPP_EXPORT friend GFX  operator/(const GFX &ingfx, const GF &ingf);
   //! Output stream
-  friend std::ostream &operator<<(std::ostream &os, const GFX &ingfx);
+  ITPP_EXPORT friend std::ostream &operator<<(std::ostream &os, const GFX &ingfx);
 protected:
 private:
   int degree, q;
@@ -241,13 +263,13 @@ private:
 
   The reminder r(x) is not returned by this function.
 */
-GFX divgfx(const GFX &c, const GFX &g);
+ITPP_EXPORT GFX divgfx(const GFX &c, const GFX &g);
 
 /*!
   \relates GFX
   \brief Function that performs int division of gf[q](x) polynomials (a(x)/g(x)) and returns the reminder.
 */
-GFX modgfx(const GFX &a, const GFX &b);
+ITPP_EXPORT GFX modgfx(const GFX &a, const GFX &b);
 
 
 // --------------- Inlines ------------------------

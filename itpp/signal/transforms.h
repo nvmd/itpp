@@ -33,6 +33,7 @@
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/matfunc.h>
+#include <itpp/itexports.h>
 
 
 namespace itpp
@@ -82,55 +83,55 @@ namespace itpp
 //!@{
 
 //! Run-time test if library is built with Fast Fourier Transforms enabled
-bool have_fourier_transforms();
+ITPP_EXPORT bool have_fourier_transforms();
 //! Fast Fourier Transform
-void fft(const cvec &in, cvec &out);
+ITPP_EXPORT void fft(const cvec &in, cvec &out);
 //! Fast Fourier Transform
-cvec fft(const cvec &in);
+ITPP_EXPORT cvec fft(const cvec &in);
 /*!
 \brief Fast Fourier Transform with zero-padding up to size N
 
 First N points of input vector are used to perform the transform if N < length(in). Padding with 0's is
 performed if N > length(in).
 */
-cvec fft(const cvec &in, const int N);
+ITPP_EXPORT cvec fft(const cvec &in, const int N);
 //! Inverse Fast Fourier Transform
-void ifft(const cvec &in, cvec &out);
+ITPP_EXPORT void ifft(const cvec &in, cvec &out);
 //! Inverse Fast Fourier Transform
-cvec ifft(const cvec &in);
+ITPP_EXPORT cvec ifft(const cvec &in);
 /*!
 \brief Inverse Fast Fourier Transform with zero-padding up to size N
 
 First N points of input vector are used to perform the transform if N < length(in). Padding with 0's is
 performed if N > length(in).
 */
-cvec ifft(const cvec &in, const int N);
+ITPP_EXPORT cvec ifft(const cvec &in, const int N);
 
 //! Real Fast Fourier Transform
-void fft_real(const vec& in, cvec &out);
+ITPP_EXPORT void fft_real(const vec& in, cvec &out);
 //! Real Fast Fourier Transform
-cvec fft_real(const vec& in);
+ITPP_EXPORT cvec fft_real(const vec& in);
 /*!
 \brief Real Fast Fourier Transform with zero-padding up to size N
 
 First N points of input vector are used to perform the transform if N < length(in). Padding with 0's is
 performed if N > length(in).
 */
-cvec fft_real(const vec &in, const int N);
+ITPP_EXPORT cvec fft_real(const vec &in, const int N);
 /*!
 \brief Inverse Real Fast Fourier Transform.
 
 Underlying implementation assumes Hermitian symmetry of the input spectra. Results are
 unpredictable and depending on the implementation (MKL/ACML/FFTW) if this requirement is not met.
 */
-void ifft_real(const cvec &in, vec &out);
+ITPP_EXPORT void ifft_real(const cvec &in, vec &out);
 /*!
 \brief Inverse Real Fast Fourier Transform.
 
 Underlying implementation assumes Hermittian symmetry of the input spectra. Results are
 unpredictable and depending on the implementation (MKL/ACML/FFTW) if this requirement is not met.
 */
-vec ifft_real(const cvec &in);
+ITPP_EXPORT vec ifft_real(const cvec &in);
 /*!
 \brief Inverse Real Fast Fourier Transformon with zero-padding up to size N.
 
@@ -140,7 +141,7 @@ performed if N > length(in).
 Underlying implementation assumes Hermitian symmetry of the input subvector/padded sequence. Results are
 unpredictable and depending on the implementation (MKL/ACML/FFTW) if this requirement is not  met.
 */
-vec ifft_real(const cvec &in, const int N);
+ITPP_EXPORT vec ifft_real(const cvec &in, const int N);
 //!@}
 
 
@@ -189,29 +190,29 @@ vec ifft_real(const cvec &in, const int N);
 //!@{
 
 //! Run-time test if library is built with cosine transforms enabled
-bool have_cosine_transforms();
+ITPP_EXPORT bool have_cosine_transforms();
 //! Discrete Cosine Transform (DCT)
-void dct(const vec &in, vec &out);
+ITPP_EXPORT void dct(const vec &in, vec &out);
 //! Discrete Cosine Transform (DCT)
-vec dct(const vec &in);
+ITPP_EXPORT vec dct(const vec &in);
 /*!
 \brief Discrete Cosine Transform (DCT) with zero-padding up to size N
 
 First N points of input vector are used to perform the transform if N < length(in). Padding with 0's is
 performed if N > length(in).
 */
-vec dct(const vec &in, const int N);
+ITPP_EXPORT vec dct(const vec &in, const int N);
 //! Inverse Discrete Cosine Transform (IDCT)
-void idct(const vec &in, vec &out);
+ITPP_EXPORT void idct(const vec &in, vec &out);
 //! Inverse Discrete Cosine Transform (IDCT)
-vec idct(const vec &in);
+ITPP_EXPORT vec idct(const vec &in);
 /*!
 \brief Inverse Discrete Cosine Transform (IDCT) with zero-padding up to size N
 
 First N points of input vector are used to perform the transform if N < length(in). Padding with 0's is
 performed if N > length(in).
 */
-vec idct(const vec &in, const int N);
+ITPP_EXPORT vec idct(const vec &in, const int N);
 //!@}
 
 
@@ -397,31 +398,27 @@ Mat<T> dwht2(const Mat<T> &m)
 // Instantiations
 // ----------------------------------------------------------------------
 
-#ifndef _MSC_VER
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT vec dht(const vec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec dht(const cvec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void dht(const vec &vin, vec &vout);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void dht(const cvec &vin, cvec &vout);
 
-extern template vec dht(const vec &v);
-extern template cvec dht(const cvec &v);
-extern template void dht(const vec &vin, vec &vout);
-extern template void dht(const cvec &vin, cvec &vout);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void self_dht(vec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void self_dht(cvec &v);
 
-extern template void self_dht(vec &v);
-extern template void self_dht(cvec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT vec dwht(const vec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec dwht(const cvec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void dwht(const vec &vin, vec &vout);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void dwht(const cvec &vin, cvec &vout);
 
-extern template vec dwht(const vec &v);
-extern template cvec dwht(const cvec &v);
-extern template void dwht(const vec &vin, vec &vout);
-extern template void dwht(const cvec &vin, cvec &vout);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void self_dwht(vec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT void self_dwht(cvec &v);
 
-extern template void self_dwht(vec &v);
-extern template void self_dwht(cvec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT mat  dht2(const mat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat dht2(const cmat &m);
 
-extern template mat  dht2(const mat &m);
-extern template cmat dht2(const cmat &m);
-
-extern template mat  dwht2(const mat &m);
-extern template cmat dwht2(const cmat &m);
-
-#endif // _MSC_VER
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT mat  dwht2(const mat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat dwht2(const cmat &m);
 
 //! \endcond
 

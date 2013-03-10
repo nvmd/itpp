@@ -32,7 +32,7 @@
 #include <complex>
 #include <string>
 #include <limits>
-
+#include <itpp/itexports.h>
 
 namespace std
 {
@@ -122,10 +122,10 @@ inline bool is_int(double x)
 inline bool is_even(int x) { return ((x&1) == 0); }
 
 //! Returns IT++ library version number, e.g. "3.7.1".
-std::string itpp_version();
+ITPP_EXPORT std::string itpp_version();
 
 //! Returns true if machine endianness is BIG_ENDIAN
-bool is_bigendian();
+ITPP_EXPORT bool is_bigendian();
 
 //! This function is deprecated. Please use is_bigendian() instead.
 inline bool check_big_endianness() { return is_bigendian(); }

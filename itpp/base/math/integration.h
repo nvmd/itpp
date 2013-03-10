@@ -34,6 +34,7 @@
 #include <itpp/base/help_functions.h>
 #include <itpp/base/matfunc.h>
 #include <itpp/base/specmat.h>
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -218,7 +219,7 @@ double quad(Ftn f, double a, double b,
   Revisited", BIT, Vol. 40, 2000, pp. 84-101.
 This document is also available at http://www.inf.ethz.ch/personal/gander.
 */
-double quad(double(*f)(double), double a, double b,
+ITPP_EXPORT double quad(double(*f)(double), double a, double b,
             double tol = std::numeric_limits<double>::epsilon());
 
 /*!
@@ -359,7 +360,7 @@ double quadl(Ftn f, double a, double b,
   Revisited", BIT, Vol. 40, 2000, pp. 84-101.
  This document is also available at http:// www.inf.ethz.ch/personal/gander.
 */
-double quadl(double(*f)(double), double a, double b,
+ITPP_EXPORT double quadl(double(*f)(double), double a, double b,
              double tol = std::numeric_limits<double>::epsilon());
 
 

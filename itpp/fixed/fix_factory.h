@@ -32,6 +32,7 @@
 
 #include <itpp/base/factory.h>
 #include <itpp/fixed/fix_base.h>
+#include <itpp/itexports.h>
 
 
 namespace itpp
@@ -116,7 +117,7 @@ class CFix;
   which can be useful in templated code, e.g. when the same code should support
   both floating- and fixed-point data types.
 */
-class Fix_Factory : public Factory
+class ITPP_EXPORT Fix_Factory : public Factory
 {
   friend class Fix;
   friend class CFix;
@@ -147,11 +148,11 @@ protected:
 
 //! Create an n-length array of Fix using Fix_Factory \c f
 template<>
-void create_elements<Fix>(Fix* &ptr, const int n, const Factory &f);
+ITPP_EXPORT void create_elements<Fix>(Fix* &ptr, const int n, const Factory &f);
 
 //! Create an n-length array of CFix using Fix_Factory \c f
 template<>
-void create_elements<CFix>(CFix* &ptr, const int n, const Factory &f);
+ITPP_EXPORT void create_elements<CFix>(CFix* &ptr, const int n, const Factory &f);
 
 //!@}
 

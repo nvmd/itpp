@@ -30,6 +30,7 @@
 #define CFIXED_H
 
 #include <itpp/fixed/cfix.h>
+#include <itpp/itexports.h>
 
 
 namespace itpp
@@ -239,9 +240,7 @@ typedef CFixed<64, TC, SAT> scfixed64;
 // ----------------------------------------------------------------------
 // Instantiations
 // ----------------------------------------------------------------------
-#ifndef _MSC_VER
-extern template class CFixed<64, TC, WRAP>;
-#endif // _MSC_VER
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT CFixed<64, TC, WRAP>;
 
 //! \endcond
 

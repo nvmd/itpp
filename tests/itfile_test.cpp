@@ -37,11 +37,11 @@ using namespace std;
 // To rewrite the ITFILE_TEST_FILE uncomment the following definition
 // #define SAVE_DATA
 
-#ifndef ITFILE_TEST_FILE
+#if (!defined(ITFILE_TEST_FILE) || defined(ITPP_ITFILE_EXCLUDED))
 
 int main()
 {
-  cerr << "ITFILE_TEST_FILE not defined. Test skipped." << endl;
+  cerr << "ITFILE_TEST_FILE not defined or ITPP_ITFILE_EXCLUDED defined. Test skipped." << endl;
   return 1;
 }
 

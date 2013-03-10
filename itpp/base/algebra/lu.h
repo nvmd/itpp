@@ -30,7 +30,7 @@
 #define LU_H
 
 #include <itpp/base/mat.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -64,7 +64,7 @@ namespace itpp
 
   Returns true is calculation succeeds. False otherwise.
 */
-bool lu(const mat &X, mat &L, mat &U, ivec &p);
+ITPP_EXPORT bool lu(const mat &X, mat &L, mat &U, ivec &p);
 
 
 /*!
@@ -92,14 +92,14 @@ bool lu(const mat &X, mat &L, mat &U, ivec &p);
 
   Returns true is calculation succeeds. False otherwise.
 */
-bool lu(const cmat &X, cmat &L, cmat &U, ivec &p);
+ITPP_EXPORT bool lu(const cmat &X, cmat &L, cmat &U, ivec &p);
 
 
 //! Makes swapping of vector b according to the interchange permutation vector p.
-void interchange_permutations(vec &b, const ivec &p);
+ITPP_EXPORT void interchange_permutations(vec &b, const ivec &p);
 
 //! Make permutation matrix P from the interchange permutation vector p.
-bmat permutation_matrix(const ivec &p);
+ITPP_EXPORT bmat permutation_matrix(const ivec &p);
 //!@}
 
 } // namespace itpp

@@ -29,11 +29,13 @@
 #ifndef CHANNEL_H
 #define CHANNEL_H
 
+#include <iostream>
 #include <itpp/base/math/elem_math.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/array.h>
 #include <itpp/base/random.h>
 #include <itpp/signal/filter.h>
+#include <itpp/itexports.h>
 
 /*!
  * \addtogroup channels
@@ -223,7 +225,7 @@ enum DOPPLER_SPECTRUM {
  * \a set_LOS_power() method for setting up the Rice factor to be used in
  * fading generators, which inherit from this class.
  */
-class Fading_Generator
+class ITPP_EXPORT Fading_Generator
 {
 public:
   //! Default constructor
@@ -283,6 +285,35 @@ protected:
   double los_direct; //!< Direct component: sqrt(los_power / (1 + los_power))
 };
 
+//! \cond
+
+#if (!defined(_MSC_VER) || (defined(_MSC_VER) && defined (ITPP_SHARED_LIB)))
+//define two input stream operators for data types involved
+//otherwise explicit instantiation of Array is impossible
+inline std::istream& operator>>(std::istream& is, Fading_Generator* &pfg)
+{
+  void* p; is>>p;
+  if(is) pfg = (Fading_Generator*)p;
+  return is;
+}
+
+inline std::istream& operator>>(std::istream& is, DOPPLER_SPECTRUM& sp)
+{
+  int val; is>>val;
+  if(!is) return is;
+  if(val > 0 && val <= G2) sp = (DOPPLER_SPECTRUM)val;
+  else is.setstate(std::ios_base::failbit);
+  return is;
+}
+
+//MSVC explicitly instantiate required template while building the shared library
+template class ITPP_EXPORT MA_Filter<std::complex<double>,double,std::complex<double> >;
+template class ITPP_EXPORT Array<DOPPLER_SPECTRUM>;
+template class ITPP_EXPORT Vec<int>;
+template class ITPP_EXPORT Array<Fading_Generator*>;
+#endif
+
+//! \endcond
 
 /*!
  * \brief Independent (random) fading generator class
@@ -292,7 +323,7 @@ protected:
  * used on each tap of the TDL channel model. This generator produces a
  * set of independent Rayleigh or Rice distributed channel coefficients.
  */
-class Independent_Fading_Generator : public Fading_Generator
+class ITPP_EXPORT Independent_Fading_Generator : public Fading_Generator
 {
 public:
   //! Default constructor
@@ -319,7 +350,7 @@ public:
  * set of identical (static) Rayleigh or Rice distributed channel
  * coefficients.
  */
-class Static_Fading_Generator : public Fading_Generator
+class ITPP_EXPORT Static_Fading_Generator : public Fading_Generator
 {
 public:
   //! Default constructor
@@ -337,7 +368,7 @@ public:
 
 protected:
   //! Static Rayleigh distributed sample
-  std::complex<double> static_sample;
+  double static_sample_re; double static_sample_im;
 };
 
 
@@ -353,7 +384,7 @@ protected:
  * References:
  * - [Pat02] Matthias Patzold, Mobile fading channels, Wiley, 2002.
  */
-class Correlated_Fading_Generator : public Fading_Generator
+class ITPP_EXPORT Correlated_Fading_Generator : public Fading_Generator
 {
 public:
   //! Default constructor
@@ -430,7 +461,7 @@ protected:
  * References:
  * - [Pat02] Matthias Patzold, Mobile fading channels, Wiley, 2002.
  */
-class Rice_Fading_Generator : public Correlated_Fading_Generator
+class ITPP_EXPORT Rice_Fading_Generator : public Correlated_Fading_Generator
 {
 public:
   //! Default constructor
@@ -499,7 +530,7 @@ protected:
  * - [Rap96] Theodore S. Rappaport, Wireless communications: principles
  * and practise, Prentice Hall, 1996.
  */
-class FIR_Fading_Generator : public Correlated_Fading_Generator
+class ITPP_EXPORT FIR_Fading_Generator : public Correlated_Fading_Generator
 {
 public:
   //! Default constructor
@@ -565,7 +596,7 @@ protected:
  * - [Rap96] Theodore S. Rappaport, Wireless communications: principles
  * and practise, Prentice Hall, 1996.
  */
-class IFFT_Fading_Generator : public Correlated_Fading_Generator
+class ITPP_EXPORT IFFT_Fading_Generator : public Correlated_Fading_Generator
 {
 public:
   //! Default constructor
@@ -659,7 +690,7 @@ protected:
  * - [3GPP_TR_25.943] Technical Specification Group Radio Access Networs;
  * Deployment aspects. Version 5.1.0 (2002-06).
  */
-class Channel_Specification
+class ITPP_EXPORT Channel_Specification
 {
 public:
   //! Default constructor (power profile in dB, delay profile in seconds)
@@ -820,7 +851,7 @@ protected:
  * - [Rap96] Theodore S. Rappaport, Wireless communications: principles
  * and practise, Prentice Hall, 1996.
  */
-class TDL_Channel
+class ITPP_EXPORT TDL_Channel
 {
 public:
   //! Default constructor
@@ -1000,7 +1031,7 @@ protected:
   }
   \endcode
 */
-class BSC
+class ITPP_EXPORT BSC
 {
 public:
   //! Class constructor. Sets the error probability to p
@@ -1051,7 +1082,7 @@ private:
   }
   \endcode
 */
-class AWGN_Channel
+class ITPP_EXPORT AWGN_Channel
 {
 public:
   //! Class constructor. Sets the noise variance (for complex-valued channels the sum of real and imaginary parts)

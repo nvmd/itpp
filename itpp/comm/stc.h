@@ -30,9 +30,19 @@
 #define STC_H
 
 #include <itpp/itbase.h> //IT++ base module
+#include <itpp/itexports.h>
 
 namespace itpp
 {
+
+//! \cond
+
+#if (defined(_MSC_VER) && defined (ITPP_SHARED_LIB))
+//MSVC explicitely instantiate required template while building the shared library
+template class ITPP_EXPORT Mat<std::complex<double> >;
+#endif
+
+//! \endcond
 
 /*!
   \ingroup misccommfunc
@@ -76,7 +86,7 @@ namespace itpp
   Reference: B. Hassibi and B. M. Hochwald, ''High-rate codes that are linear in space and time,``
   IEEE Transactions on Information Theory, vol. 48, pp. 1804-1824, July 2002
  */
-class STC
+class ITPP_EXPORT STC
 {
 public:
 	//! Space Time Code constructor (sets up the generator matrices using Hassibi's method)
@@ -95,7 +105,7 @@ public:
     		int in_channel_uses = 0 //!< number of channel uses (for some codes it is set internally and should be obtained with get_channel_uses())
     		)
     {
-    	code_name = in_code_name;
+    	code_name = code_name_from_string(in_code_name);
     	it_assert(in_const_size >= 2, "Constellation size should be at least two");
     	const_size = in_const_size;
         em_antenna = in_em_antenna;
@@ -135,14 +145,119 @@ private:
     void Hassibi_block_code(void);
     itpp::cmat diag_pow(const itpp::cmat &in_mat, double in_exp);
     itpp::mat mat_pow(const itpp::mat &in_mat, int in_exp);
-    std::string code_name;
+
+    struct ITPP_EXPORT Code_Names
+    {
+      enum Type {Unknown, V_BLAST_MxN, imp_V_BLAST_MxN,
+      Alamouti_2xN, Switched_Alamouti_4xN, Double_Alamouti_4xN,
+      Jafarkhani_4xN, Golden_2x2, Damen_2x2, ortho34_3xN,
+      LD36_3xN, LD37_3xN, LD39_3xN};
+      Code_Names() : _t(Unknown) {}
+      Code_Names(Type t) : _t(t) {}
+      operator Type () const {return _t;}
+    private:
+      Type _t;
+      template<typename T> operator T () const;
+    };
+    Code_Names code_name;
+
     int const_size;
     int em_antenna;
     int channel_uses;
     int symb_block;
     itpp::cmat A;
     itpp::cmat B;
+
+    static Code_Names code_name_from_string(const std::string &name);
+    static std::string string_from_code_name(const Code_Names& cn);
 };
 
+inline STC::Code_Names STC::code_name_from_string(const std::string &name)
+{
+    if (name=="V-BLAST_MxN")
+    {
+        return Code_Names::V_BLAST_MxN;
+    } else if (name =="imp_V-BLAST_MxN")
+    {
+        return Code_Names::imp_V_BLAST_MxN;
+    } else if (name =="Alamouti_2xN")
+    {
+        return Code_Names::Alamouti_2xN;
+    } else if (name =="Switched_Alamouti_4xN")
+    {
+        return Code_Names::Switched_Alamouti_4xN;
+    } else if (name =="Double_Alamouti_4xN")
+    {
+        return Code_Names::Double_Alamouti_4xN;
+    } else if (name =="Jafarkhani_4xN")
+    {
+        return Code_Names::Jafarkhani_4xN;
+    } else if (name =="Golden_2x2")
+    {
+        return Code_Names::Golden_2x2;
+    } else if (name =="Damen_2x2")
+    {
+        return Code_Names::Damen_2x2;
+    } else if (name =="34ortho_3xN")
+    {
+        return Code_Names::ortho34_3xN;
+    } else if (name =="36LD_3xN")
+    {
+        return Code_Names::LD36_3xN;
+    } else if (name =="37LD_3xN")
+    {
+        return Code_Names::LD37_3xN;
+    } else if (name =="39LD_3xN")
+    {
+        return Code_Names::LD39_3xN;
+    } else
+    {
+        return Code_Names::Unknown;
+    }
+}
+
+inline std::string STC::string_from_code_name(const STC::Code_Names& cn)
+{
+    if (cn==Code_Names::V_BLAST_MxN)
+    {
+        return std::string("V-BLAST_MxN");
+    } else if (cn==Code_Names::imp_V_BLAST_MxN)
+    {
+        return std::string("imp_V-BLAST_MxN");
+    } else if (cn==Code_Names::Alamouti_2xN)
+    {
+        return std::string("Alamouti_2xN");
+    } else if (cn==Code_Names::Switched_Alamouti_4xN)
+    {
+        return std::string("Switched_Alamouti_4xN");
+    } else if (cn==Code_Names::Double_Alamouti_4xN)
+    {
+        return std::string("Double_Alamouti_4xN");
+    } else if (cn==Code_Names::Jafarkhani_4xN)
+    {
+        return std::string("Jafarkhani_4xN");
+    } else if (cn==Code_Names::Golden_2x2)
+    {
+        return std::string("Golden_2x2");
+    } else if (cn==Code_Names::Damen_2x2)
+    {
+        return std::string("Damen_2x2");
+    } else if (cn==Code_Names::ortho34_3xN)
+    {
+        return std::string("34ortho_3xN");
+    } else if (cn==Code_Names::LD36_3xN)
+    {
+        return std::string("36LD_3xN");
+    } else if (cn==Code_Names::LD37_3xN)
+    {
+        return std::string("37LD_3xN");
+    } else if (cn==Code_Names::LD39_3xN)
+    {
+        return std::string("39LD_3xN");
+    } else
+    {
+        return std::string("Unknown");
+    }
+}
 }
 #endif /* STC_H_ */

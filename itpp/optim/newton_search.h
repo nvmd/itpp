@@ -32,10 +32,22 @@
 #include <itpp/base/vec.h>
 #include <itpp/base/array.h>
 #include <limits>
+#include <itpp/itexports.h>
 
 
 namespace itpp
 {
+
+//! \cond
+
+#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB))
+//MSVC explicitely instantiate required template while building the shared library
+template  class ITPP_EXPORT Vec<double>;
+template  class ITPP_EXPORT Mat<double>;
+template  class ITPP_EXPORT Array<vec>;
+#endif
+
+//! \endcond
 
 /*!
   \brief Numerical optimization routines
@@ -68,7 +80,7 @@ enum Newton_Search_Method {BFGS};
   \f$\varepsilon_1 = 10^{-4}\f$ an \f$\varepsilon_2 = 10^{-8}\f$.
 
 */
-class Newton_Search
+class ITPP_EXPORT Newton_Search
 {
 public:
   //! Default constructor
@@ -219,7 +231,7 @@ enum Line_Search_Method {Soft, Exact};
   The exact line search can at least in theory give the exact resutl, but it may require
   many extra function evaluations compared to soft line search.
 */
-class Line_Search
+class ITPP_EXPORT Line_Search
 {
 public:
   //! Default constructor
@@ -332,7 +344,7 @@ private:
 
   The default algorithm is a Quasi-Newton search using BFGS updates of the inverse Hessian matrix.
 */
-vec fminunc(double(*function)(const vec&), vec(*gradient)(const vec&), const vec &x0);
+ITPP_EXPORT vec fminunc(double(*function)(const vec&), vec(*gradient)(const vec&), const vec &x0);
 
 //@}
 

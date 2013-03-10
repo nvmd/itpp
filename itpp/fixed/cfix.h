@@ -30,6 +30,7 @@
 #define CFIX_H
 
 #include <itpp/fixed/fix.h>
+#include <itpp/itexports.h>
 
 
 namespace itpp
@@ -47,7 +48,7 @@ template<class Num_T> class Mat;
 
   See the Detailed Description in the \ref fixed module.
 */
-class CFix : public Fix_Base
+class ITPP_EXPORT CFix : public Fix_Base
 {
   template<int, e_mode, o_mode, q_mode> friend class CFixed;
 public:
@@ -150,11 +151,11 @@ public:
 #endif
 
   //! Check that x.shift==y.shift OR x==0 OR y==0 and return the shift (for the non-zero argument)
-  friend int assert_shifts(const CFix &x, const CFix &y);
+  friend ITPP_EXPORT int assert_shifts(const CFix &x, const CFix &y);
   //! Check that x.shift==y.shift OR x==0 OR y==0 and return the shift (for the non-zero argument)
-  friend int assert_shifts(const CFix &x, const Fix &y);
+  friend ITPP_EXPORT int assert_shifts(const CFix &x, const Fix &y);
   //! Check that x.shift==0 OR x==0 OR y==0 and return x.shift
-  friend int assert_shifts(const CFix &x, int y);
+  friend ITPP_EXPORT int assert_shifts(const CFix &x, int y);
 
 protected:
   fixrep re;   //!< Real data part
@@ -162,16 +163,16 @@ protected:
 };
 
 //! Check that x.shift==y.shift OR x==0 OR y==0 and return the shift (for the non-zero argument)
-int assert_shifts(const CFix &x, const CFix &y);
+ITPP_EXPORT int assert_shifts(const CFix &x, const CFix &y);
 //! Check that x.shift==y.shift OR x==0 OR y==0 and return the shift (for the non-zero argument)
-int assert_shifts(const CFix &x, const Fix &y);
+ITPP_EXPORT int assert_shifts(const CFix &x, const Fix &y);
 //! Check that x.shift==0 OR x==0 OR y==0 and return x.shift
-int assert_shifts(const CFix &x, int y);
+ITPP_EXPORT int assert_shifts(const CFix &x, int y);
 
 //! Input bit representation and, optionally, the shift
-std::istream &operator>>(std::istream &is, CFix &x);
+ITPP_EXPORT std::istream &operator>>(std::istream &is, CFix &x);
 //! Output bit representation and, optionally, the shift
-std::ostream &operator<<(std::ostream &os, const CFix &x);
+ITPP_EXPORT std::ostream &operator<<(std::ostream &os, const CFix &x);
 
 //! Typedef for complex fixed-point vector type
 typedef Vec<CFix> cfixvec;

@@ -30,7 +30,7 @@
 #define EIGEN_H
 
 #include <itpp/base/mat.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -50,7 +50,7 @@ namespace itpp
 
   Uses the LAPACK routine DSYEV.
 */
-bool eig_sym(const mat &A, vec &d, mat &V);
+ITPP_EXPORT bool eig_sym(const mat &A, vec &d, mat &V);
 
 /*!
   \ingroup matrixdecomp
@@ -66,7 +66,7 @@ bool eig_sym(const mat &A, vec &d, mat &V);
 
   Uses the LAPACK routine DSYEV.
 */
-bool eig_sym(const mat &A, vec &d);
+ITPP_EXPORT bool eig_sym(const mat &A, vec &d);
 
 /*!
   \ingroup matrixdecomp
@@ -81,7 +81,7 @@ bool eig_sym(const mat &A, vec &d);
 
   Uses the LAPACK routine DSYEV.
 */
-vec eig_sym(const mat &A);
+ITPP_EXPORT vec eig_sym(const mat &A);
 
 /*!
   \ingroup matrixdecomp
@@ -98,7 +98,7 @@ vec eig_sym(const mat &A);
 
   Uses the LAPACK routine ZHEEV.
 */
-bool eig_sym(const cmat &A, vec &d, cmat &V);
+ITPP_EXPORT bool eig_sym(const cmat &A, vec &d, cmat &V);
 
 /*!
   \ingroup matrixdecomp
@@ -114,7 +114,7 @@ bool eig_sym(const cmat &A, vec &d, cmat &V);
 
   Uses the LAPACK routine ZHEEV.
 */
-bool eig_sym(const cmat &A, vec &d);
+ITPP_EXPORT bool eig_sym(const cmat &A, vec &d);
 
 /*!
   \ingroup matrixdecomp
@@ -129,7 +129,7 @@ bool eig_sym(const cmat &A, vec &d);
 
   Uses the LAPACK routine ZHEEV.
 */
-vec eig_sym(const cmat &A);
+ITPP_EXPORT vec eig_sym(const cmat &A);
 
 /*!
   \ingroup matrixdecomp
@@ -146,7 +146,7 @@ vec eig_sym(const cmat &A);
 
   Uses the LAPACK routine DGEEV.
 */
-bool eig(const mat &A, cvec &d, cmat &V);
+ITPP_EXPORT bool eig(const mat &A, cvec &d, cmat &V);
 
 /*!
   \ingroup matrixdecomp
@@ -162,7 +162,7 @@ bool eig(const mat &A, cvec &d, cmat &V);
 
   Uses the LAPACK routine DGEEV.
 */
-bool eig(const mat &A, cvec &d);
+ITPP_EXPORT bool eig(const mat &A, cvec &d);
 
 /*!
   \ingroup matrixdecomp
@@ -177,7 +177,7 @@ bool eig(const mat &A, cvec &d);
 
   Uses the LAPACK routine DGEEV.
 */
-cvec eig(const mat &A);
+ITPP_EXPORT cvec eig(const mat &A);
 
 /*!
   \ingroup matrixdecomp
@@ -194,7 +194,7 @@ cvec eig(const mat &A);
 
   Uses the LAPACK routine ZGEEV.
 */
-bool eig(const cmat &A, cvec &d, cmat &V);
+ITPP_EXPORT bool eig(const cmat &A, cvec &d, cmat &V);
 
 /*!
   \ingroup matrixdecomp
@@ -210,7 +210,7 @@ bool eig(const cmat &A, cvec &d, cmat &V);
 
   Uses the LAPACK routine ZGEEV.
 */
-bool eig(const cmat &A, cvec &d);
+ITPP_EXPORT bool eig(const cmat &A, cvec &d);
 
 /*!
   \ingroup matrixdecomp
@@ -225,7 +225,7 @@ bool eig(const cmat &A, cvec &d);
 
   Uses the LAPACK routine ZGEEV.
 */
-cvec eig(const cmat &A);
+ITPP_EXPORT cvec eig(const cmat &A);
 
 } // namespace itpp
 

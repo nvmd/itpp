@@ -31,6 +31,7 @@
 #define ERROR_COUNTERS_H
 
 #include <itpp/base/vec.h>
+#include <itpp/itexports.h>
 
 
 namespace itpp
@@ -63,7 +64,7 @@ namespace itpp
   }
   \endcode
 */
-class BERC
+class ITPP_EXPORT BERC
 {
 public:
   /*!
@@ -127,7 +128,7 @@ private:
 
   Use this class to count block errors in binary vectors.
 */
-class BLERC
+class ITPP_EXPORT BLERC
 {
 public:
   //! Class constructor

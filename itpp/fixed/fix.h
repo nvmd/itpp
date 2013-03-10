@@ -31,7 +31,7 @@
 
 #include <itpp/fixed/fix_base.h>
 #include <itpp/fixed/fix_factory.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -48,7 +48,7 @@ template<class Num_T> class Mat;
 
   See the Detailed Description in the \ref fixed module.
 */
-class Fix : public Fix_Base
+class ITPP_EXPORT Fix : public Fix_Base
 {
   friend class CFix;
   template<int, e_mode, o_mode, q_mode> friend class Fixed;
@@ -126,11 +126,11 @@ public:
 #endif
 
   //! Check that x.shift==y.shift OR x==0 OR y==0 and return the shift (for the non-zero argument)
-  friend int assert_shifts(const CFix &x, const Fix &y);
+  friend ITPP_EXPORT int assert_shifts(const CFix &x, const Fix &y);
   //! Check that x.shift==y.shift OR x==0 OR y==0 and return the shift (for the non-zero argument)
-  friend int assert_shifts(const Fix &x, const Fix &y);
+  friend ITPP_EXPORT int assert_shifts(const Fix &x, const Fix &y);
   //! Check that x.shift==0 OR x==0 OR y==0 and return x.shift
-  friend int assert_shifts(const Fix &x, int y);
+  friend ITPP_EXPORT int assert_shifts(const Fix &x, int y);
 
 protected:
   //! Data representation
@@ -138,14 +138,14 @@ protected:
 };
 
 //! Check that x.shift==y.shift OR x==0 OR y==0 and return the shift (for the non-zero argument)
-int assert_shifts(const Fix &x, const Fix &y);
+ITPP_EXPORT int assert_shifts(const Fix &x, const Fix &y);
 //! Check that x.shift==0 OR x==0 OR y==0 and return x.shift
-int assert_shifts(const Fix &x, int y);
+ITPP_EXPORT int assert_shifts(const Fix &x, int y);
 
 //! Input bit representation and, optionally, the shift
-std::istream &operator>>(std::istream &is, Fix &x);
+ITPP_EXPORT std::istream &operator>>(std::istream &is, Fix &x);
 //! Output bit representation and, optionally, the shift
-std::ostream &operator<<(std::ostream &os, const Fix &x);
+ITPP_EXPORT std::ostream &operator<<(std::ostream &os, const Fix &x);
 
 //! Typedef for fixed-point vector type
 typedef Vec<Fix> fixvec;

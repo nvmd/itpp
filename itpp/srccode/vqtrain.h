@@ -32,17 +32,17 @@
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
 #include <itpp/base/array.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
 
 //! ADD DOCUMENTATION HERE
-double kmeansiter(Array<vec> &DB, mat &codebook);
+ITPP_EXPORT double kmeansiter(Array<vec> &DB, mat &codebook);
 //! ADD DOCUMENTATION HERE
-mat kmeans(Array<vec> &DB, int SIZE, int NOITER = 9999, bool VERBOSE = true);
+ITPP_EXPORT mat kmeans(Array<vec> &DB, int SIZE, int NOITER = 9999, bool VERBOSE = true);
 //! ADD DOCUMENTATION HERE
-mat lbg(Array<vec> &DB, int SIZE, int NOITER = 9999, bool VERBOSE = true);
+ITPP_EXPORT mat lbg(Array<vec> &DB, int SIZE, int NOITER = 9999, bool VERBOSE = true);
 
 /*!
   \ingroup sourcecoding
@@ -63,13 +63,13 @@ mat lbg(Array<vec> &DB, int SIZE, int NOITER = 9999, bool VERBOSE = true);
   Quantizer.set_codebook(A);
   \endcode
 */
-mat vqtrain(Array<vec> &DB, int SIZE, int NOITER, double STARTSTEP = 0.2, bool VERBOSE = true);
+ITPP_EXPORT mat vqtrain(Array<vec> &DB, int SIZE, int NOITER, double STARTSTEP = 0.2, bool VERBOSE = true);
 
 //! ADD DOCUMENTATION HERE
-vec sqtrain(const vec &inDB, int SIZE);
+ITPP_EXPORT vec sqtrain(const vec &inDB, int SIZE);
 
 //! ADD DOCUMENTATION HERE
-ivec bitalloc(const vec& variances, int nobits);
+ITPP_EXPORT ivec bitalloc(const vec& variances, int nobits);
 
 } // namespace itpp
 

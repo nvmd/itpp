@@ -40,78 +40,10 @@
 #include <itpp/base/converters.h>
 #include <cstdio>
 #include <limits>
-
 //! \cond
 
 namespace itpp
 {
-
-
-template<class Num_T>
-std::vector<std::string> Vec<Num_T>::tokenize(const std::string &str_in,
-                                              bool &abc_format) const
-{
-  std::vector<std::string> vs;  // vector for storing parsed tokens
-  std::string s;                // currently processed token string
-  bool start = true;
-  bool space = false;
-  bool colon = false;
-  bool comma = false;
-  bool lparen = false;
-  abc_format = false;
-  for (std::string::size_type i = 0; i < str_in.size(); ++i) {
-    char c = str_in[i];
-    switch (c) {
-    case ' ': case '\t':
-      space = true;             // set flag for whitespaces
-      break;
-    case ',':
-      if (lparen)
-        comma = true;           // set flag for comma in "(re,im)" format
-      else
-        space = true;           // otherwise treat comma as separator
-     break;
-    case ')':
-      s.push_back('i');         // replace right paren in "(re,im)" with 'i'
-      break;
-    case ':':
-      colon = true;             // set flag for "a:b[:c]" format string
-      space = false;            // reset flag for whitespaces
-      abc_format = true;        // set external flag for "a:b[:c]" format
-      s.push_back(c);
-      break;
-    case '(':
-      lparen = true;            // set flag for complex "(re,im)" format
-      break;
-    default:
-      if (colon) {              // reset colon and space flags
-        colon = false;          // to get rid of whitespaces around ":"
-        space = false;
-      }
-      else if (lparen && comma) { // support for "(re,im)" format
-        lparen = false;
-        comma = false;
-        space = false;
-        if ((c != '-') && (c != '+')) // if needed
-          s.push_back('+');           // insert '+' between "re" and "im"
-      }
-      else if (space) {         // new token detected
-        space = false;
-        if (!start) {           // if not at the beginning of the string
-          vs.push_back(s);      // store already parsed token
-          s.clear();            // and start parsing the next token
-        }
-      }
-      s.push_back(c);          // append next character to the current token
-      start = false;           // reset the "beginning of the string" flag
-      break;
-    }
-  }
-  if (!s.empty())               // if the final token is not an empty string
-    vs.push_back(s);            // store it in the output vector
-  return vs;
-}
-
 
 template<>
 int Vec<int>::parse_token(const std::string &s) const
@@ -321,23 +253,22 @@ void Vec<std::complex<double> >::set(const std::string &str)
   }
 }
 
-
 #if defined(HAVE_BLAS)
 template<>
 double dot(const vec &v1, const vec &v2)
 {
-  it_assert_debug(v1.datasize == v2.datasize, "vec::dot(): Wrong sizes");
-  int incr = 1;
-  return blas::ddot_(&v1.datasize, v1.data, &incr, v2.data, &incr);
+  it_assert_debug(v1.length() == v2.length(), "vec::dot(): Wrong sizes");
+  int incr = 1; int v1_l = v1.length();
+  return blas::ddot_(&v1_l, v1._data(), &incr, v2._data(), &incr);
 }
 #else
 template<>
 double dot(const vec &v1, const vec &v2)
 {
-  it_assert_debug(v1.datasize == v2.datasize, "Vec::dot(): Wrong sizes");
+  it_assert_debug(v1.length() == v2.length(), "vec::dot(): Wrong sizes");
   double r = 0.0;
-  for (int i = 0; i < v1.datasize; ++i)
-    r += v1.data[i] * v2.data[i];
+  for (int i = 0; i < v1.length(); ++i)
+    r += v1._data()[i] * v2._data()[i];
   return r;
 }
 #endif // HAVE_BLAS
@@ -346,35 +277,35 @@ double dot(const vec &v1, const vec &v2)
 template<>
 mat outer_product(const vec &v1, const vec &v2, bool)
 {
-  it_assert_debug((v1.datasize > 0) && (v2.datasize > 0),
-                  "Vec::outer_product():: Input vector of zero size");
-
-  mat out(v1.datasize, v2.datasize);
+  it_assert_debug((v1.length() > 0) && (v2.length() > 0),
+                  "Vec::outer_product:: Input vector of zero size");
+  int v1_l = v1.length(); int v2_l = v2.length();
+  mat out(v1_l, v2_l);
   out.zeros();
   double alpha = 1.0;
   int incr = 1;
-  blas::dger_(&v1.datasize, &v2.datasize, &alpha, v1.data, &incr,
-              v2.data, &incr, out._data(), &v1.datasize);
+  blas::dger_(&v1_l, &v2_l, &alpha, v1._data(), &incr,
+              v2._data(), &incr, out._data(), &v1_l);
   return out;
 }
 
 template<>
 cmat outer_product(const cvec &v1, const cvec &v2, bool hermitian)
 {
-  it_assert_debug((v1.datasize > 0) && (v2.datasize > 0),
-                  "Vec::outer_product():: Input vector of zero size");
-
-  cmat out(v1.datasize, v2.datasize);
+  it_assert_debug((v1.length() > 0) && (v2.length() > 0),
+                  "Vec::outer_product:: Input vector of zero size");
+  int v1_l = v1.length(); int v2_l = v2.length();
+  cmat out(v1_l, v2_l);
   out.zeros();
   std::complex<double> alpha(1.0);
   int incr = 1;
   if (hermitian) {
-    blas::zgerc_(&v1.datasize, &v2.datasize, &alpha, v1.data, &incr,
-                 v2.data, &incr, out._data(), &v1.datasize);
+    blas::zgerc_(&v1_l, &v2_l, &alpha, v1._data(), &incr,
+                 v2._data(), &incr, out._data(), &v1_l);
   }
   else {
-    blas::zgeru_(&v1.datasize, &v2.datasize, &alpha, v1.data, &incr,
-                 v2.data, &incr, out._data(), &v1.datasize);
+    blas::zgeru_(&v1_l, &v2_l, &alpha, v1._data(), &incr,
+                 v2._data(), &incr, out._data(), &v1_l);
   }
   return out;
 }
@@ -382,13 +313,13 @@ cmat outer_product(const cvec &v1, const cvec &v2, bool hermitian)
 template<>
 mat outer_product(const vec &v1, const vec &v2, bool)
 {
-  it_assert_debug((v1.datasize > 0) && (v2.datasize > 0),
-                  "Vec::outer_product():: Input vector of zero size");
-
-  mat out(v1.datasize, v2.datasize);
-  for (int i = 0; i < v1.datasize; ++i) {
-    for (int j = 0; j < v2.datasize; ++j) {
-      out(i, j) = v1.data[i] * v2.data[j];
+  it_assert_debug((v1.length() > 0) && (v2.length() > 0),
+                  "Vec::outer_product:: Input vector of zero size");
+  int v1_l = v1.length(); int v2_l = v2.length();
+  mat out(v1_l, v2_l);
+  for (int i = 0; i < v1_l; ++i) {
+    for (int j = 0; j < v2_l; ++j) {
+      out(i, j) = v1._data()[i] * v2._data()[j];
     }
   }
   return out;
@@ -397,21 +328,21 @@ mat outer_product(const vec &v1, const vec &v2, bool)
 template<>
 cmat outer_product(const cvec &v1, const cvec &v2, bool hermitian)
 {
-  it_assert_debug((v1.datasize > 0) && (v2.datasize > 0),
-                  "Vec::outer_product():: Input vector of zero size");
-
-  cmat out(v1.datasize, v2.datasize);
+  it_assert_debug((v1.length() > 0) && (v2.length() > 0),
+                  "Vec::outer_product:: Input vector of zero size");
+  int v1_l = v1.length(); int v2_l = v2.length();
+  cmat out(v1_l, v2_l);
   if (hermitian) {
-    for (int i = 0; i < v1.datasize; ++i) {
-      for (int j = 0; j < v2.datasize; ++j) {
-        out(i, j) = v1.data[i] * conj(v2.data[j]);
+    for (int i = 0; i < v1_l; ++i) {
+      for (int j = 0; j < v2_l; ++j) {
+        out(i, j) = v1._data()[i] * conj(v2._data()[j]);
       }
     }
   }
   else {
-    for (int i = 0; i < v1.datasize; ++i) {
-      for (int j = 0; j < v2.datasize; ++j) {
-        out(i, j) = v1.data[i] * v2.data[j];
+    for (int i = 0; i < v1_l; ++i) {
+      for (int j = 0; j < v2_l; ++j) {
+        out(i, j) = v1._data()[i] * v2._data()[j];
       }
     }
   }
@@ -467,260 +398,259 @@ Mat<std::complex<double> > Vec<std::complex<double> >::hermitian_transpose() con
 // Instantiations
 //---------------------------------------------------------------------
 
-template class Vec<double>;
-template class Vec<int>;
-template class Vec<short int>;
-template class Vec<std::complex<double> >;
-template class Vec<bin>;
+template class ITPP_EXPORT Vec<double>;
+template class ITPP_EXPORT Vec<int>;
+template class ITPP_EXPORT Vec<short int>;
+template class ITPP_EXPORT Vec<std::complex<double> >;
+template class ITPP_EXPORT Vec<bin>;
 
 // addition operator
 
-template vec operator+(const vec &v1, const vec &v2);
-template cvec operator+(const cvec &v1, const cvec &v2);
-template ivec operator+(const ivec &v1, const ivec &v2);
-template svec operator+(const svec &v1, const svec &v2);
-template bvec operator+(const bvec &v1, const bvec &v2);
+template ITPP_EXPORT vec operator+(const vec &v1, const vec &v2);
+template ITPP_EXPORT cvec operator+(const cvec &v1, const cvec &v2);
+template ITPP_EXPORT ivec operator+(const ivec &v1, const ivec &v2);
+template ITPP_EXPORT svec operator+(const svec &v1, const svec &v2);
+template ITPP_EXPORT bvec operator+(const bvec &v1, const bvec &v2);
 
-template vec operator+(const vec &v1, double t);
-template cvec operator+(const cvec &v1, std::complex<double> t);
-template ivec operator+(const ivec &v1, int t);
-template svec operator+(const svec &v1, short t);
-template bvec operator+(const bvec &v1, bin t);
+template ITPP_EXPORT vec operator+(const vec &v1, double t);
+template ITPP_EXPORT cvec operator+(const cvec &v1, std::complex<double> t);
+template ITPP_EXPORT ivec operator+(const ivec &v1, int t);
+template ITPP_EXPORT svec operator+(const svec &v1, short t);
+template ITPP_EXPORT bvec operator+(const bvec &v1, bin t);
 
-template vec operator+(double t, const vec &v1);
-template cvec operator+(std::complex<double> t, const cvec &v1);
-template ivec operator+(int t, const ivec &v1);
-template svec operator+(short t, const svec &v1);
-template bvec operator+(bin t, const bvec &v1);
+template ITPP_EXPORT vec operator+(double t, const vec &v1);
+template ITPP_EXPORT cvec operator+(std::complex<double> t, const cvec &v1);
+template ITPP_EXPORT ivec operator+(int t, const ivec &v1);
+template ITPP_EXPORT svec operator+(short t, const svec &v1);
+template ITPP_EXPORT bvec operator+(bin t, const bvec &v1);
 
 // subraction operator
 
-template vec operator-(const vec &v1, const vec &v2);
-template cvec operator-(const cvec &v1, const cvec &v2);
-template ivec operator-(const ivec &v1, const ivec &v2);
-template svec operator-(const svec &v1, const svec &v2);
-template bvec operator-(const bvec &v1, const bvec &v2);
+template ITPP_EXPORT vec operator-(const vec &v1, const vec &v2);
+template ITPP_EXPORT cvec operator-(const cvec &v1, const cvec &v2);
+template ITPP_EXPORT ivec operator-(const ivec &v1, const ivec &v2);
+template ITPP_EXPORT svec operator-(const svec &v1, const svec &v2);
+template ITPP_EXPORT bvec operator-(const bvec &v1, const bvec &v2);
 
-template vec operator-(const vec &v, double t);
-template cvec operator-(const cvec &v, std::complex<double> t);
-template ivec operator-(const ivec &v, int t);
-template svec operator-(const svec &v, short t);
-template bvec operator-(const bvec &v, bin t);
+template ITPP_EXPORT vec operator-(const vec &v, double t);
+template ITPP_EXPORT cvec operator-(const cvec &v, std::complex<double> t);
+template ITPP_EXPORT ivec operator-(const ivec &v, int t);
+template ITPP_EXPORT svec operator-(const svec &v, short t);
+template ITPP_EXPORT bvec operator-(const bvec &v, bin t);
 
-template vec operator-(double t, const vec &v);
-template cvec operator-(std::complex<double> t, const cvec &v);
-template ivec operator-(int t, const ivec &v);
-template svec operator-(short t, const svec &v);
-template bvec operator-(bin t, const bvec &v);
+template ITPP_EXPORT vec operator-(double t, const vec &v);
+template ITPP_EXPORT cvec operator-(std::complex<double> t, const cvec &v);
+template ITPP_EXPORT ivec operator-(int t, const ivec &v);
+template ITPP_EXPORT svec operator-(short t, const svec &v);
+template ITPP_EXPORT bvec operator-(bin t, const bvec &v);
 
 // unary minus
 
-template vec operator-(const vec &v);
-template cvec operator-(const cvec &v);
-template ivec operator-(const ivec &v);
-template svec operator-(const svec &v);
-template bvec operator-(const bvec &v);
+template ITPP_EXPORT vec operator-(const vec &v);
+template ITPP_EXPORT cvec operator-(const cvec &v);
+template ITPP_EXPORT ivec operator-(const ivec &v);
+template ITPP_EXPORT svec operator-(const svec &v);
+template ITPP_EXPORT bvec operator-(const bvec &v);
 
 // multiplication operator
+template ITPP_EXPORT std::complex<double> dot(const cvec &v1, const cvec &v2);
+template ITPP_EXPORT int dot(const ivec &v1, const ivec &v2);
+template ITPP_EXPORT short dot(const svec &v1, const svec &v2);
+template ITPP_EXPORT bin dot(const bvec &v1, const bvec &v2);
 
-template std::complex<double> dot(const cvec &v1, const cvec &v2);
-template int dot(const ivec &v1, const ivec &v2);
-template short dot(const svec &v1, const svec &v2);
-template bin dot(const bvec &v1, const bvec &v2);
+template ITPP_EXPORT double operator*(const vec &v1, const vec &v2);
+template ITPP_EXPORT std::complex<double> operator*(const cvec &v1, const cvec &v2);
+template ITPP_EXPORT int operator*(const ivec &v1, const ivec &v2);
+template ITPP_EXPORT short operator*(const svec &v1, const svec &v2);
+template ITPP_EXPORT bin operator*(const bvec &v1, const bvec &v2);
 
-template double operator*(const vec &v1, const vec &v2);
-template std::complex<double> operator*(const cvec &v1, const cvec &v2);
-template int operator*(const ivec &v1, const ivec &v2);
-template short operator*(const svec &v1, const svec &v2);
-template bin operator*(const bvec &v1, const bvec &v2);
+template ITPP_EXPORT imat outer_product(const ivec &v1, const ivec &v2, bool hermitian);
+template ITPP_EXPORT smat outer_product(const svec &v1, const svec &v2, bool hermitian);
+template ITPP_EXPORT bmat outer_product(const bvec &v1, const bvec &v2, bool hermitian);
 
-template imat outer_product(const ivec &v1, const ivec &v2, bool hermitian);
-template smat outer_product(const svec &v1, const svec &v2, bool hermitian);
-template bmat outer_product(const bvec &v1, const bvec &v2, bool hermitian);
+template ITPP_EXPORT vec operator*(const vec &v, double t);
+template ITPP_EXPORT cvec operator*(const cvec &v, std::complex<double> t);
+template ITPP_EXPORT ivec operator*(const ivec &v, int t);
+template ITPP_EXPORT svec operator*(const svec &v, short t);
+template ITPP_EXPORT bvec operator*(const bvec &v, bin t);
 
-template vec operator*(const vec &v, double t);
-template cvec operator*(const cvec &v, std::complex<double> t);
-template ivec operator*(const ivec &v, int t);
-template svec operator*(const svec &v, short t);
-template bvec operator*(const bvec &v, bin t);
-
-template vec operator*(double t, const vec &v);
-template cvec operator*(std::complex<double> t, const cvec &v);
-template ivec operator*(int t, const ivec &v);
-template svec operator*(short t, const svec &v);
-template bvec operator*(bin t, const bvec &v);
+template ITPP_EXPORT vec operator*(double t, const vec &v);
+template ITPP_EXPORT cvec operator*(std::complex<double> t, const cvec &v);
+template ITPP_EXPORT ivec operator*(int t, const ivec &v);
+template ITPP_EXPORT svec operator*(short t, const svec &v);
+template ITPP_EXPORT bvec operator*(bin t, const bvec &v);
 
 // elementwise multiplication
 
-template vec elem_mult(const vec &a, const vec &b);
-template cvec elem_mult(const cvec &a, const cvec &b);
-template ivec elem_mult(const ivec &a, const ivec &b);
-template svec elem_mult(const svec &a, const svec &b);
-template bvec elem_mult(const bvec &a, const bvec &b);
+template ITPP_EXPORT vec elem_mult(const vec &a, const vec &b);
+template ITPP_EXPORT cvec elem_mult(const cvec &a, const cvec &b);
+template ITPP_EXPORT ivec elem_mult(const ivec &a, const ivec &b);
+template ITPP_EXPORT svec elem_mult(const svec &a, const svec &b);
+template ITPP_EXPORT bvec elem_mult(const bvec &a, const bvec &b);
 
-template void elem_mult_out(const vec &a, const vec &b, vec &out);
-template void elem_mult_out(const cvec &a, const cvec &b, cvec &out);
-template void elem_mult_out(const ivec &a, const ivec &b, ivec &out);
-template void elem_mult_out(const svec &a, const svec &b, svec &out);
-template void elem_mult_out(const bvec &a, const bvec &b, bvec &out);
+template ITPP_EXPORT void elem_mult_out(const vec &a, const vec &b, vec &out);
+template ITPP_EXPORT void elem_mult_out(const cvec &a, const cvec &b, cvec &out);
+template ITPP_EXPORT void elem_mult_out(const ivec &a, const ivec &b, ivec &out);
+template ITPP_EXPORT void elem_mult_out(const svec &a, const svec &b, svec &out);
+template ITPP_EXPORT void elem_mult_out(const bvec &a, const bvec &b, bvec &out);
 
-template vec elem_mult(const vec &a, const vec &b, const vec &c);
-template cvec elem_mult(const cvec &a, const cvec &b, const cvec &c);
-template ivec elem_mult(const ivec &a, const ivec &b, const ivec &c);
-template svec elem_mult(const svec &a, const svec &b, const svec &c);
-template bvec elem_mult(const bvec &a, const bvec &b, const bvec &c);
+template ITPP_EXPORT vec elem_mult(const vec &a, const vec &b, const vec &c);
+template ITPP_EXPORT cvec elem_mult(const cvec &a, const cvec &b, const cvec &c);
+template ITPP_EXPORT ivec elem_mult(const ivec &a, const ivec &b, const ivec &c);
+template ITPP_EXPORT svec elem_mult(const svec &a, const svec &b, const svec &c);
+template ITPP_EXPORT bvec elem_mult(const bvec &a, const bvec &b, const bvec &c);
 
-template void elem_mult_out(const vec &a, const vec &b, const vec &c,
+template ITPP_EXPORT void elem_mult_out(const vec &a, const vec &b, const vec &c,
                             vec &out);
-template void elem_mult_out(const cvec &a, const cvec &b, const cvec &c,
+template ITPP_EXPORT void elem_mult_out(const cvec &a, const cvec &b, const cvec &c,
                             cvec &out);
-template void elem_mult_out(const ivec &a, const ivec &b, const ivec &c,
+template ITPP_EXPORT void elem_mult_out(const ivec &a, const ivec &b, const ivec &c,
                             ivec &out);
-template void elem_mult_out(const svec &a, const svec &b, const svec &c,
+template ITPP_EXPORT void elem_mult_out(const svec &a, const svec &b, const svec &c,
                             svec &out);
-template void elem_mult_out(const bvec &a, const bvec &b, const bvec &c,
+template ITPP_EXPORT void elem_mult_out(const bvec &a, const bvec &b, const bvec &c,
                             bvec &out);
 
-template vec elem_mult(const vec &a, const vec &b, const vec &c,
+template ITPP_EXPORT vec elem_mult(const vec &a, const vec &b, const vec &c,
                        const vec &d);
-template cvec elem_mult(const cvec &a, const cvec &b, const cvec &c,
+template ITPP_EXPORT cvec elem_mult(const cvec &a, const cvec &b, const cvec &c,
                         const cvec &d);
-template ivec elem_mult(const ivec &a, const ivec &b, const ivec &c,
+template ITPP_EXPORT ivec elem_mult(const ivec &a, const ivec &b, const ivec &c,
                         const ivec &d);
-template svec elem_mult(const svec &a, const svec &b, const svec &c,
+template ITPP_EXPORT svec elem_mult(const svec &a, const svec &b, const svec &c,
                         const svec &d);
-template bvec elem_mult(const bvec &a, const bvec &b, const bvec &c,
+template ITPP_EXPORT bvec elem_mult(const bvec &a, const bvec &b, const bvec &c,
                         const bvec &d);
 
-template void elem_mult_out(const vec &a, const vec &b, const vec &c,
+template ITPP_EXPORT void elem_mult_out(const vec &a, const vec &b, const vec &c,
                             const vec &d, vec &out);
-template void elem_mult_out(const cvec &a, const cvec &b, const cvec &c,
+template ITPP_EXPORT void elem_mult_out(const cvec &a, const cvec &b, const cvec &c,
                             const cvec &d, cvec &out);
-template void elem_mult_out(const ivec &a, const ivec &b, const ivec &c,
+template ITPP_EXPORT void elem_mult_out(const ivec &a, const ivec &b, const ivec &c,
                             const ivec &d, ivec &out);
-template void elem_mult_out(const svec &a, const svec &b, const svec &c,
+template ITPP_EXPORT void elem_mult_out(const svec &a, const svec &b, const svec &c,
                             const svec &d, svec &out);
-template void elem_mult_out(const bvec &a, const bvec &b, const bvec &c,
+template ITPP_EXPORT void elem_mult_out(const bvec &a, const bvec &b, const bvec &c,
                             const bvec &d, bvec &out);
 
 // in-place elementwise multiplication
 
-template void elem_mult_inplace(const vec &a, vec &b);
-template void elem_mult_inplace(const cvec &a, cvec &b);
-template void elem_mult_inplace(const ivec &a, ivec &b);
-template void elem_mult_inplace(const svec &a, svec &b);
-template void elem_mult_inplace(const bvec &a, bvec &b);
+template ITPP_EXPORT void elem_mult_inplace(const vec &a, vec &b);
+template ITPP_EXPORT void elem_mult_inplace(const cvec &a, cvec &b);
+template ITPP_EXPORT void elem_mult_inplace(const ivec &a, ivec &b);
+template ITPP_EXPORT void elem_mult_inplace(const svec &a, svec &b);
+template ITPP_EXPORT void elem_mult_inplace(const bvec &a, bvec &b);
 
 // elementwise multiplication followed by summation
 
-template double elem_mult_sum(const vec &a, const vec &b);
-template std::complex<double> elem_mult_sum(const cvec &a, const cvec &b);
-template int elem_mult_sum(const ivec &a, const ivec &b);
-template short elem_mult_sum(const svec &a, const svec &b);
-template bin elem_mult_sum(const bvec &a, const bvec &b);
+template ITPP_EXPORT double elem_mult_sum(const vec &a, const vec &b);
+template ITPP_EXPORT std::complex<double> elem_mult_sum(const cvec &a, const cvec &b);
+template ITPP_EXPORT int elem_mult_sum(const ivec &a, const ivec &b);
+template ITPP_EXPORT short elem_mult_sum(const svec &a, const svec &b);
+template ITPP_EXPORT bin elem_mult_sum(const bvec &a, const bvec &b);
 
 // division operator
 
-template vec operator/(const vec &v, double t);
-template cvec operator/(const cvec &v, std::complex<double> t);
-template ivec operator/(const ivec &v, int t);
-template svec operator/(const svec &v, short t);
-template bvec operator/(const bvec &v, bin t);
+template ITPP_EXPORT vec operator/(const vec &v, double t);
+template ITPP_EXPORT cvec operator/(const cvec &v, std::complex<double> t);
+template ITPP_EXPORT ivec operator/(const ivec &v, int t);
+template ITPP_EXPORT svec operator/(const svec &v, short t);
+template ITPP_EXPORT bvec operator/(const bvec &v, bin t);
 
-template vec operator/(double t, const vec &v);
-template cvec operator/(std::complex<double> t, const cvec &v);
-template ivec operator/(int t, const ivec &v);
-template svec operator/(short t, const svec &v);
-template bvec operator/(bin t, const bvec &v);
+template ITPP_EXPORT vec operator/(double t, const vec &v);
+template ITPP_EXPORT cvec operator/(std::complex<double> t, const cvec &v);
+template ITPP_EXPORT ivec operator/(int t, const ivec &v);
+template ITPP_EXPORT svec operator/(short t, const svec &v);
+template ITPP_EXPORT bvec operator/(bin t, const bvec &v);
 
 // elementwise division operator
 
-template vec elem_div(const vec &a, const vec &b);
-template cvec elem_div(const cvec &a, const cvec &b);
-template ivec elem_div(const ivec &a, const ivec &b);
-template svec elem_div(const svec &a, const svec &b);
-template bvec elem_div(const bvec &a, const bvec &b);
+template ITPP_EXPORT vec elem_div(const vec &a, const vec &b);
+template ITPP_EXPORT cvec elem_div(const cvec &a, const cvec &b);
+template ITPP_EXPORT ivec elem_div(const ivec &a, const ivec &b);
+template ITPP_EXPORT svec elem_div(const svec &a, const svec &b);
+template ITPP_EXPORT bvec elem_div(const bvec &a, const bvec &b);
 
-template vec elem_div(double t, const vec &v);
-template cvec elem_div(std::complex<double> t, const cvec &v);
-template ivec elem_div(int t, const ivec &v);
-template svec elem_div(short t, const svec &v);
-template bvec elem_div(bin t, const bvec &v);
+template ITPP_EXPORT vec elem_div(double t, const vec &v);
+template ITPP_EXPORT cvec elem_div(std::complex<double> t, const cvec &v);
+template ITPP_EXPORT ivec elem_div(int t, const ivec &v);
+template ITPP_EXPORT svec elem_div(short t, const svec &v);
+template ITPP_EXPORT bvec elem_div(bin t, const bvec &v);
 
-template void elem_div_out(const vec &a, const vec &b, vec &out);
-template void elem_div_out(const cvec &a, const cvec &b, cvec &out);
-template void elem_div_out(const ivec &a, const ivec &b, ivec &out);
-template void elem_div_out(const svec &a, const svec &b, svec &out);
-template void elem_div_out(const bvec &a, const bvec &b, bvec &out);
+template ITPP_EXPORT void elem_div_out(const vec &a, const vec &b, vec &out);
+template ITPP_EXPORT void elem_div_out(const cvec &a, const cvec &b, cvec &out);
+template ITPP_EXPORT void elem_div_out(const ivec &a, const ivec &b, ivec &out);
+template ITPP_EXPORT void elem_div_out(const svec &a, const svec &b, svec &out);
+template ITPP_EXPORT void elem_div_out(const bvec &a, const bvec &b, bvec &out);
 
 // elementwise division followed by summation
 
-template double elem_div_sum(const vec &a, const vec &b);
-template std::complex<double> elem_div_sum(const cvec &a, const cvec &b);
-template int elem_div_sum(const ivec &a, const ivec &b);
-template short elem_div_sum(const svec &a, const svec &b);
-template bin elem_div_sum(const bvec &a, const bvec &b);
+template ITPP_EXPORT double elem_div_sum(const vec &a, const vec &b);
+template ITPP_EXPORT std::complex<double> elem_div_sum(const cvec &a, const cvec &b);
+template ITPP_EXPORT int elem_div_sum(const ivec &a, const ivec &b);
+template ITPP_EXPORT short elem_div_sum(const svec &a, const svec &b);
+template ITPP_EXPORT bin elem_div_sum(const bvec &a, const bvec &b);
 
 // concat operator
 
-template vec concat(const vec &v, double a);
-template cvec concat(const cvec &v, std::complex<double> a);
-template ivec concat(const ivec &v, int a);
-template svec concat(const svec &v, short a);
-template bvec concat(const bvec &v, bin a);
+template ITPP_EXPORT vec concat(const vec &v, double a);
+template ITPP_EXPORT cvec concat(const cvec &v, std::complex<double> a);
+template ITPP_EXPORT ivec concat(const ivec &v, int a);
+template ITPP_EXPORT svec concat(const svec &v, short a);
+template ITPP_EXPORT bvec concat(const bvec &v, bin a);
 
-template vec concat(double a, const vec &v);
-template cvec concat(std::complex<double> a, const cvec &v);
-template ivec concat(int a, const ivec &v);
-template svec concat(short a, const svec &v);
-template bvec concat(bin a, const bvec &v);
+template ITPP_EXPORT vec concat(double a, const vec &v);
+template ITPP_EXPORT cvec concat(std::complex<double> a, const cvec &v);
+template ITPP_EXPORT ivec concat(int a, const ivec &v);
+template ITPP_EXPORT svec concat(short a, const svec &v);
+template ITPP_EXPORT bvec concat(bin a, const bvec &v);
 
-template vec concat(const vec &v1, const vec &v2);
-template cvec concat(const cvec &v1, const cvec &v2);
-template ivec concat(const ivec &v1, const ivec &v2);
-template svec concat(const svec &v1, const svec &v2);
-template bvec concat(const bvec &v1, const bvec &v2);
+template ITPP_EXPORT vec concat(const vec &v1, const vec &v2);
+template ITPP_EXPORT cvec concat(const cvec &v1, const cvec &v2);
+template ITPP_EXPORT ivec concat(const ivec &v1, const ivec &v2);
+template ITPP_EXPORT svec concat(const svec &v1, const svec &v2);
+template ITPP_EXPORT bvec concat(const bvec &v1, const bvec &v2);
 
-template vec concat(const vec &v1, const vec &v2, const vec &v3);
-template cvec concat(const cvec &v1, const cvec &v2, const cvec &v3);
-template ivec concat(const ivec &v1, const ivec &v2, const ivec &v3);
-template svec concat(const svec &v1, const svec &v2, const svec &v3);
-template bvec concat(const bvec &v1, const bvec &v2, const bvec &v3);
+template ITPP_EXPORT vec concat(const vec &v1, const vec &v2, const vec &v3);
+template ITPP_EXPORT cvec concat(const cvec &v1, const cvec &v2, const cvec &v3);
+template ITPP_EXPORT ivec concat(const ivec &v1, const ivec &v2, const ivec &v3);
+template ITPP_EXPORT svec concat(const svec &v1, const svec &v2, const svec &v3);
+template ITPP_EXPORT bvec concat(const bvec &v1, const bvec &v2, const bvec &v3);
 
-template vec concat(const vec &v1, const vec &v2,
+template ITPP_EXPORT vec concat(const vec &v1, const vec &v2,
                     const vec &v3, const vec &v4);
-template cvec concat(const cvec &v1, const cvec &v2,
+template ITPP_EXPORT cvec concat(const cvec &v1, const cvec &v2,
                      const cvec &v3, const cvec &v4);
-template ivec concat(const ivec &v1, const ivec &v2,
+template ITPP_EXPORT ivec concat(const ivec &v1, const ivec &v2,
                      const ivec &v3, const ivec &v4);
-template svec concat(const svec &v1, const svec &v2,
+template ITPP_EXPORT svec concat(const svec &v1, const svec &v2,
                      const svec &v3, const svec &v4);
-template bvec concat(const bvec &v1, const bvec &v2,
+template ITPP_EXPORT bvec concat(const bvec &v1, const bvec &v2,
                      const bvec &v3, const bvec &v4);
 
-template vec concat(const vec &v1, const vec &v2, const vec &v3,
+template ITPP_EXPORT vec concat(const vec &v1, const vec &v2, const vec &v3,
                     const vec &v4, const vec &v5);
-template cvec concat(const cvec &v1, const cvec &v2, const cvec &v3,
+template ITPP_EXPORT cvec concat(const cvec &v1, const cvec &v2, const cvec &v3,
                      const cvec &v4, const cvec &v5);
-template ivec concat(const ivec &v1, const ivec &v2, const ivec &v3,
+template ITPP_EXPORT ivec concat(const ivec &v1, const ivec &v2, const ivec &v3,
                      const ivec &v4, const ivec &v5);
-template svec concat(const svec &v1, const svec &v2, const svec &v3,
+template ITPP_EXPORT svec concat(const svec &v1, const svec &v2, const svec &v3,
                      const svec &v4, const svec &v5);
-template bvec concat(const bvec &v1, const bvec &v2, const bvec &v3,
+template ITPP_EXPORT bvec concat(const bvec &v1, const bvec &v2, const bvec &v3,
                      const bvec &v4, const bvec &v5);
 
 // I/O streams
 
-template std::ostream &operator<<(std::ostream& os, const vec &vect);
-template std::ostream &operator<<(std::ostream& os, const cvec &vect);
-template std::ostream &operator<<(std::ostream& os, const svec &vect);
-template std::ostream &operator<<(std::ostream& os, const ivec &vect);
-template std::ostream &operator<<(std::ostream& os, const bvec &vect);
-template std::istream &operator>>(std::istream& is, vec &vect);
-template std::istream &operator>>(std::istream& is, cvec &vect);
-template std::istream &operator>>(std::istream& is, svec &vect);
-template std::istream &operator>>(std::istream& is, ivec &vect);
-template std::istream &operator>>(std::istream& is, bvec &vect);
+template ITPP_EXPORT std::ostream &operator<<(std::ostream& os, const vec &vect);
+template ITPP_EXPORT std::ostream &operator<<(std::ostream& os, const cvec &vect);
+template ITPP_EXPORT std::ostream &operator<<(std::ostream& os, const svec &vect);
+template ITPP_EXPORT std::ostream &operator<<(std::ostream& os, const ivec &vect);
+template ITPP_EXPORT std::ostream &operator<<(std::ostream& os, const bvec &vect);
+template ITPP_EXPORT std::istream &operator>>(std::istream& is, vec &vect);
+template ITPP_EXPORT std::istream &operator>>(std::istream& is, cvec &vect);
+template ITPP_EXPORT std::istream &operator>>(std::istream& is, svec &vect);
+template ITPP_EXPORT std::istream &operator>>(std::istream& is, ivec &vect);
+template ITPP_EXPORT std::istream &operator>>(std::istream& is, bvec &vect);
 
 } // namespace itpp
 

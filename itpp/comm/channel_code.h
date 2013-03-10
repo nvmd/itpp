@@ -31,7 +31,7 @@
 
 #include <itpp/base/vec.h>
 #include <itpp/comm/modulator.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -47,7 +47,7 @@ namespace itpp
   \brief Generic Channel Code class
 
 */
-class Channel_Code
+class ITPP_EXPORT Channel_Code
 {
 public:
   //! Default constructor
@@ -83,7 +83,7 @@ public:
 
   A dummy code class. Uncoded output.
 */
-class Dummy_Code : public Channel_Code
+class ITPP_EXPORT Dummy_Code : public Channel_Code
 {
 public:
   //! Default constructor

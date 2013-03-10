@@ -32,7 +32,7 @@
 #include <itpp/base/vec.h>
 #include <itpp/base/math/min_max.h>
 #include <cstdlib>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -79,6 +79,19 @@ Vec<T> elem_mult(const Vec<T> &v1, const Sparse_Vec<T> &v2);
 //! Elementwise multiplication of a dense vector and a sparse vector returning a sparse vector
 template <class T>
 Sparse_Vec<T> elem_mult_s(const Vec<T> &v1, const Sparse_Vec<T> &v2);
+
+namespace details
+{
+	//this template selects appropriate type for Eps value used to remove small elements from
+	//sparse containers
+	template <typename NumT> struct Sparse_Eps_Type_Selector;
+	template <> struct Sparse_Eps_Type_Selector<double> {typedef double eps_type;};
+	template <> struct Sparse_Eps_Type_Selector<std::complex<double> > {typedef double eps_type;};
+	template <> struct Sparse_Eps_Type_Selector<int> {typedef int eps_type;};
+	template <> struct Sparse_Eps_Type_Selector<short> {typedef short eps_type;};
+	template <> struct Sparse_Eps_Type_Selector<itpp::bin> {typedef int eps_type;};
+}
+
 
 /*!
   \brief Templated sparse vector class
@@ -316,7 +329,7 @@ private:
   int v_size, used_size, data_size;
   T *data;
   int *index;
-  T eps;
+  typename details::Sparse_Eps_Type_Selector<T>::eps_type eps;
   bool check_small_elems_flag;
 };
 
@@ -432,12 +445,11 @@ Sparse_Vec<T>::Sparse_Vec(const Vec<T> &v, T epsilon)
   v_size = v.size();
   used_size = 0;
   data_size = std::min(v.size(), 10000);
-  eps = epsilon;
+  eps = std::abs(epsilon);
   alloc();
 
-  double e = std::abs(epsilon);
   for (int i = 0; i < v_size; i++) {
-    if (std::abs(v(i)) > e) {
+    if (std::abs(v(i)) > eps) {
       if (used_size == data_size)
         resize_data(data_size*2);
       data[used_size] = v(i);
@@ -479,7 +491,7 @@ double Sparse_Vec<T>::density()
 template <class T>
 void Sparse_Vec<T>::set_small_element(const T& epsilon)
 {
-  eps = epsilon;
+  eps = std::abs(epsilon);
   remove_small_elements();
 }
 
@@ -488,12 +500,10 @@ void Sparse_Vec<T>::remove_small_elements()
 {
   int i;
   int nrof_removed_elements = 0;
-  double e;
 
   //Remove small elements
-  e = std::abs(eps);
   for (i = 0;i < used_size;i++) {
-    if (std::abs(data[i]) <= e) {
+    if (std::abs(data[i]) <= eps) {
       nrof_removed_elements++;
     }
     else if (nrof_removed_elements > 0) {
@@ -593,7 +603,7 @@ void Sparse_Vec<T>::set(int i, T v)
     }
   }
 
-  larger_than_eps = (std::abs(v) > std::abs(eps));
+  larger_than_eps = (std::abs(v) > eps);
 
   if (found && larger_than_eps)
     data[p] = v;
@@ -606,7 +616,7 @@ void Sparse_Vec<T>::set(int i, T v)
   }
 
   //Check if the stored element is smaller than eps. In that case it should be removed.
-  if (std::abs(v) <= std::abs(eps)) {
+  if (std::abs(v) <= eps) {
     remove_small_elements();
   }
 
@@ -618,7 +628,7 @@ void Sparse_Vec<T>::set_new(int i, T v)
   it_assert_debug(v_size > i, "The index of the element exceeds the size of the sparse vector");
 
   //Check that the new element is larger than eps!
-  if (std::abs(v) > std::abs(eps)) {
+  if (std::abs(v) > eps) {
     if (used_size == data_size)
       resize_data(data_size*2 + 100);
     data[used_size] = v;
@@ -769,7 +779,7 @@ void Sparse_Vec<T>::set_new(const ivec& index_vec, const Vec<T>& v)
   clear();
 
   for (q = 0; q < nrof_nz; q++) {
-    if (std::abs(v[q]) > std::abs(eps)) {
+    if (std::abs(v[q]) > eps) {
       if (used_size == data_size)
         resize_data(data_size*2 + 100);
       data[used_size] = v(q);
@@ -847,7 +857,7 @@ void Sparse_Vec<T>::operator=(const Vec<T> &v)
   v_size = v.size();
   used_size = 0;
   data_size = std::min(v.size(), 10000);
-  eps = T(0);
+  eps = std::abs(T(0));
   check_small_elems_flag = false;
   alloc();
 
@@ -922,7 +932,7 @@ bool Sparse_Vec<T>::operator==(const Sparse_Vec<T> &v)
       //Ensure that the remaining non-zero elements in v are smaller than v.eps
       int nrof_small_elems = 0;
       for (q = 0;q < v.used_size;q++) {
-        if (std::abs(v.data[q]) <= std::abs(v.eps))
+        if (std::abs(v.data[q]) <= v.eps)
           nrof_small_elems++;
       }
       if (v.used_size - nrof_small_elems != used_size)
@@ -1022,7 +1032,7 @@ void Sparse_Vec<T>::operator/=(const T &v)
     data[p] /= v;
   }
 
-  if (std::abs(eps) > 0) {
+  if (eps > 0) {
     check_small_elems_flag = true;
   }
 }
@@ -1215,57 +1225,53 @@ inline Vec<T> full(const Sparse_Vec<T> &s)
 // Instantiations
 // ---------------------------------------------------------------------
 
-#ifndef _MSC_VER
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Sparse_Vec<int>;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Sparse_Vec<double>;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Sparse_Vec<std::complex<double> >;
 
-extern template class Sparse_Vec<int>;
-extern template class Sparse_Vec<double>;
-extern template class Sparse_Vec<std::complex<double> >;
-
-extern template sparse_ivec operator+(const sparse_ivec &,
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT sparse_ivec operator+(const sparse_ivec &,
                                         const sparse_ivec &);
-extern template sparse_vec operator+(const sparse_vec &,
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT sparse_vec operator+(const sparse_vec &,
                                        const sparse_vec &);
-extern template sparse_cvec operator+(const sparse_cvec &,
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT sparse_cvec operator+(const sparse_cvec &,
                                         const sparse_cvec &);
 
-extern template int operator*(const sparse_ivec &, const sparse_ivec &);
-extern template double operator*(const sparse_vec &, const sparse_vec &);
-extern template std::complex<double> operator*(const sparse_cvec &,
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT int operator*(const sparse_ivec &, const sparse_ivec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT double operator*(const sparse_vec &, const sparse_vec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT std::complex<double> operator*(const sparse_cvec &,
     const sparse_cvec &);
 
-extern template int operator*(const sparse_ivec &, const ivec &);
-extern template double operator*(const sparse_vec &, const vec &);
-extern template std::complex<double> operator*(const sparse_cvec &,
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT int operator*(const sparse_ivec &, const ivec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT double operator*(const sparse_vec &, const vec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT std::complex<double> operator*(const sparse_cvec &,
     const cvec &);
 
-extern template int operator*(const ivec &, const sparse_ivec &);
-extern template double operator*(const vec &, const sparse_vec &);
-extern template std::complex<double> operator*(const cvec &,
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT int operator*(const ivec &, const sparse_ivec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT double operator*(const vec &, const sparse_vec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT std::complex<double> operator*(const cvec &,
     const sparse_cvec &);
 
-extern template sparse_ivec elem_mult(const sparse_ivec &,
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT sparse_ivec elem_mult(const sparse_ivec &,
                                         const sparse_ivec &);
-extern template sparse_vec elem_mult(const sparse_vec &, const sparse_vec &);
-extern template sparse_cvec elem_mult(const sparse_cvec &,
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT sparse_vec elem_mult(const sparse_vec &, const sparse_vec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT sparse_cvec elem_mult(const sparse_cvec &,
                                         const sparse_cvec &);
 
-extern template ivec elem_mult(const sparse_ivec &, const ivec &);
-extern template vec elem_mult(const sparse_vec &, const vec &);
-extern template cvec elem_mult(const sparse_cvec &, const cvec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT ivec elem_mult(const sparse_ivec &, const ivec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT vec elem_mult(const sparse_vec &, const vec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec elem_mult(const sparse_cvec &, const cvec &);
 
-extern template sparse_ivec elem_mult_s(const sparse_ivec &, const ivec &);
-extern template sparse_vec elem_mult_s(const sparse_vec &, const vec &);
-extern template sparse_cvec elem_mult_s(const sparse_cvec &, const cvec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT sparse_ivec elem_mult_s(const sparse_ivec &, const ivec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT sparse_vec elem_mult_s(const sparse_vec &, const vec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT sparse_cvec elem_mult_s(const sparse_cvec &, const cvec &);
 
-extern template ivec elem_mult(const ivec &, const sparse_ivec &);
-extern template vec elem_mult(const vec &, const sparse_vec &);
-extern template cvec elem_mult(const cvec &, const sparse_cvec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT ivec elem_mult(const ivec &, const sparse_ivec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT vec elem_mult(const vec &, const sparse_vec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec elem_mult(const cvec &, const sparse_cvec &);
 
-extern template sparse_ivec elem_mult_s(const ivec &, const sparse_ivec &);
-extern template sparse_vec elem_mult_s(const vec &, const sparse_vec &);
-extern template sparse_cvec elem_mult_s(const cvec &, const sparse_cvec &);
-
-#endif // _MSC_VER
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT sparse_ivec elem_mult_s(const ivec &, const sparse_ivec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT sparse_vec elem_mult_s(const vec &, const sparse_vec &);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT sparse_cvec elem_mult_s(const cvec &, const sparse_cvec &);
 
 //! \endcond
 

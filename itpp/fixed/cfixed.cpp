@@ -33,6 +33,6 @@ namespace itpp
 {
 
 // Template instantiations
-template class CFixed<64, TC, WRAP>;
+template class ITPP_EXPORT CFixed<64, TC, WRAP>;
 
 } // namespace itpp

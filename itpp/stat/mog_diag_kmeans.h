@@ -31,16 +31,27 @@
 #define MOG_DIAG_KMEANS_H
 
 #include <itpp/stat/mog_diag.h>
+#include <itpp/itexports.h>
 
 
 namespace itpp
 {
 
+//! \cond
+
+#if (defined(_MSC_VER) && defined (ITPP_SHARED_LIB))
+//MSVC explicitely instantiate required template while building the shared library
+template class ITPP_EXPORT Array<ivec>;
+template class ITPP_EXPORT Vec<int>;
+#endif
+
+//! \endcond
+
 /*!
   \brief support class for MOG_diag_kmeans()
   \author Conrad Sanderson
 */
-class MOG_diag_kmeans_sup : public MOG_diag
+class ITPP_EXPORT MOG_diag_kmeans_sup : public MOG_diag
 {
 
 public:

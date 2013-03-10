@@ -33,10 +33,19 @@
 #include <itpp/base/mat.h>
 #include <itpp/base/array.h>
 #include <itpp/comm/convcode.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
+
+//! \cond
+
+#if (defined(_MSC_VER) && defined (ITPP_SHARED_LIB))
+//MSVC explicitly instantiate required template while building the shared library
+template class ITPP_EXPORT Mat<bin>;
+#endif
+
+//! \endcond
 
 /*!
   \ingroup fec
@@ -77,7 +86,7 @@ namespace itpp
   code.decode(rx_signal, decoded_bits);
   \endcode
 */
-class Punctured_Convolutional_Code : public Convolutional_Code
+class ITPP_EXPORT Punctured_Convolutional_Code : public Convolutional_Code
 {
 public:
   //! Constructor

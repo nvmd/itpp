@@ -35,6 +35,9 @@
 #include <itpp/base/matfunc.h>
 #include <itpp/base/specmat.h>
 #include <itpp/base/math/min_max.h>
+#include <itpp/signal/transforms.h>
+#include <itpp/base/math/elem_math.h>
+#include <itpp/itexports.h>
 
 
 namespace itpp
@@ -241,7 +244,7 @@ Vec<Num_T> Freq_Filt<Num_T>::filter(const Vec<Num_T> &input, const int strm)
     zfinal.zeros();
     old_data.set_size(0, false);
   }
-  else { // we aare in streaming mode
+  else { // we are in streaming mode
     tempv = concat(old_data, input);
     if (tempv.length() <= blksize) {
       x = tempv;
@@ -264,6 +267,76 @@ Vec<Num_T> Freq_Filt<Num_T>::filter(const Vec<Num_T> &input, const int strm)
 
   return output;
 }
+
+// Overlap-add routine
+template<class Num_T>
+void Freq_Filt<Num_T>::overlap_add(const cvec&x, cvec &y)
+{
+  int nb = impulse.length();
+  int nx = x.length();
+
+  y.set_size(nx, false);
+  y.zeros();
+  cvec X, Y;
+  int istart = 0;
+  int L = blksize;
+  while (istart < nx) {
+    int iend = std::min(istart + L - 1, nx - 1);
+
+    X = fft(x(istart, iend), fftsize);
+    Y = ifft(elem_mult(X, B));
+    Y.set_subvector(0, Y(0, nb - 2) + zfinal);
+    int yend = std::min(nx - 1, istart + fftsize - 1);
+    y.set_subvector(istart, Y(0, yend - istart));
+    zfinal = Y(fftsize - (nb - 1), fftsize - 1);
+    istart += L;
+  }
+}
+
+template<class Num_T>
+vec Freq_Filt<Num_T>::overlap_add(const vec &x)
+{
+  cvec y; // Size of y is set later
+  overlap_add(to_cvec(x), y);
+  return real(y);
+}
+
+template<class Num_T>
+svec Freq_Filt<Num_T>::overlap_add(const svec &x)
+{
+  cvec y; // Size of y is set later
+  overlap_add(to_cvec(x), y);
+  return to_svec(real(y));
+}
+
+template<class Num_T>
+ivec Freq_Filt<Num_T>::overlap_add(const ivec &x)
+{
+  cvec y; // Size of y is set later
+  overlap_add(to_cvec(x), y);
+  return to_ivec(real(y));
+}
+
+template<class Num_T>
+cvec Freq_Filt<Num_T>::overlap_add(const cvec &x)
+{
+  cvec y; // Size of y is set later
+  overlap_add(x, y);
+  return y;
+}
+
+//! \cond
+
+// ----------------------------------------------------------------------
+// Instantiations
+// ----------------------------------------------------------------------
+
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Freq_Filt<double>;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Freq_Filt<std::complex<double> >;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Freq_Filt<short>;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Freq_Filt<int>;
+
+//! \endcond
 
 } // namespace itpp
 

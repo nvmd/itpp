@@ -32,7 +32,7 @@
 
 #include <itpp/base/vec.h>
 #include <itpp/base/mat.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -41,13 +41,13 @@ namespace itpp
   \relatesalso Mat
   \brief Calculates m=m-v*v'*m
 */
-void sub_v_vT_m(mat &m, const vec &v);
+ITPP_EXPORT void sub_v_vT_m(mat &m, const vec &v);
 
 /*!
   \relatesalso Mat
   \brief Calculates m=m-m*v*v'
 */
-void sub_m_v_vT(mat &m, const vec &v);
+ITPP_EXPORT void sub_m_v_vT(mat &m, const vec &v);
 
 } // namespace itpp
 

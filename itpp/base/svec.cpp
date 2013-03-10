@@ -37,45 +37,45 @@ namespace itpp
 // Instantiations
 // ---------------------------------------------------------------------
 
-template class Sparse_Vec<int>;
-template class Sparse_Vec<double>;
-template class Sparse_Vec<std::complex<double> >;
+template class ITPP_EXPORT Sparse_Vec<int>;
+template class ITPP_EXPORT Sparse_Vec<double>;
+template class ITPP_EXPORT Sparse_Vec<std::complex<double> >;
 
-template sparse_ivec operator+(const sparse_ivec &, const sparse_ivec &);
-template sparse_vec operator+(const sparse_vec &, const sparse_vec &);
-template sparse_cvec operator+(const sparse_cvec &, const sparse_cvec &);
+template ITPP_EXPORT sparse_ivec operator+(const sparse_ivec &, const sparse_ivec &);
+template ITPP_EXPORT sparse_vec operator+(const sparse_vec &, const sparse_vec &);
+template ITPP_EXPORT sparse_cvec operator+(const sparse_cvec &, const sparse_cvec &);
 
-template int operator*(const sparse_ivec &, const sparse_ivec &);
-template double operator*(const sparse_vec &, const sparse_vec &);
-template std::complex<double> operator*(const sparse_cvec &, const sparse_cvec &);
+template ITPP_EXPORT int operator*(const sparse_ivec &, const sparse_ivec &);
+template ITPP_EXPORT double operator*(const sparse_vec &, const sparse_vec &);
+template ITPP_EXPORT std::complex<double> operator*(const sparse_cvec &, const sparse_cvec &);
 
-template int operator*(const sparse_ivec &, const ivec &);
-template double operator*(const sparse_vec &, const vec &);
-template std::complex<double> operator*(const sparse_cvec &, const cvec &);
+template ITPP_EXPORT int operator*(const sparse_ivec &, const ivec &);
+template ITPP_EXPORT double operator*(const sparse_vec &, const vec &);
+template ITPP_EXPORT std::complex<double> operator*(const sparse_cvec &, const cvec &);
 
-template int operator*(const ivec &, const sparse_ivec &);
-template double operator*(const vec &, const sparse_vec &);
-template std::complex<double> operator*(const cvec &, const sparse_cvec &);
+template ITPP_EXPORT int operator*(const ivec &, const sparse_ivec &);
+template ITPP_EXPORT double operator*(const vec &, const sparse_vec &);
+template ITPP_EXPORT std::complex<double> operator*(const cvec &, const sparse_cvec &);
 
-template sparse_ivec elem_mult(const sparse_ivec &, const sparse_ivec &);
-template sparse_vec elem_mult(const sparse_vec &, const sparse_vec &);
-template sparse_cvec elem_mult(const sparse_cvec &, const sparse_cvec &);
+template ITPP_EXPORT sparse_ivec elem_mult(const sparse_ivec &, const sparse_ivec &);
+template ITPP_EXPORT sparse_vec elem_mult(const sparse_vec &, const sparse_vec &);
+template ITPP_EXPORT sparse_cvec elem_mult(const sparse_cvec &, const sparse_cvec &);
 
-template ivec elem_mult(const sparse_ivec &, const ivec &);
-template vec elem_mult(const sparse_vec &, const vec &);
-template cvec elem_mult(const sparse_cvec &, const cvec &);
+template ITPP_EXPORT ivec elem_mult(const sparse_ivec &, const ivec &);
+template ITPP_EXPORT vec elem_mult(const sparse_vec &, const vec &);
+template ITPP_EXPORT cvec elem_mult(const sparse_cvec &, const cvec &);
 
-template sparse_ivec elem_mult_s(const sparse_ivec &, const ivec &);
-template sparse_vec elem_mult_s(const sparse_vec &, const vec &);
-template sparse_cvec elem_mult_s(const sparse_cvec &, const cvec &);
+template ITPP_EXPORT sparse_ivec elem_mult_s(const sparse_ivec &, const ivec &);
+template ITPP_EXPORT sparse_vec elem_mult_s(const sparse_vec &, const vec &);
+template ITPP_EXPORT sparse_cvec elem_mult_s(const sparse_cvec &, const cvec &);
 
-template ivec elem_mult(const ivec &, const sparse_ivec &);
-template vec elem_mult(const vec &, const sparse_vec &);
-template cvec elem_mult(const cvec &, const sparse_cvec &);
+template ITPP_EXPORT ivec elem_mult(const ivec &, const sparse_ivec &);
+template ITPP_EXPORT vec elem_mult(const vec &, const sparse_vec &);
+template ITPP_EXPORT cvec elem_mult(const cvec &, const sparse_cvec &);
 
-template sparse_ivec elem_mult_s(const ivec &, const sparse_ivec &);
-template sparse_vec elem_mult_s(const vec &, const sparse_vec &);
-template sparse_cvec elem_mult_s(const cvec &, const sparse_cvec &);
+template ITPP_EXPORT sparse_ivec elem_mult_s(const ivec &, const sparse_ivec &);
+template ITPP_EXPORT sparse_vec elem_mult_s(const vec &, const sparse_vec &);
+template ITPP_EXPORT sparse_cvec elem_mult_s(const cvec &, const sparse_cvec &);
 
 } // namespace itpp
 

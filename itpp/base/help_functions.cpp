@@ -33,51 +33,51 @@
 namespace itpp
 {
 
-template vec apply_function(double(*f)(double), const vec &v);
-template cvec apply_function(std::complex<double> (*f)(const std::complex<double> &),
+template ITPP_EXPORT vec apply_function(double(*f)(double), const vec &v);
+template ITPP_EXPORT cvec apply_function(std::complex<double> (*f)(const std::complex<double> &),
                              const cvec &v);
-template svec apply_function(short(*f)(short), const svec &v);
-template ivec apply_function(int (*f)(int), const ivec &v);
-template bvec apply_function(bin(*f)(bin), const bvec &v);
+template ITPP_EXPORT svec apply_function(short(*f)(short), const svec &v);
+template ITPP_EXPORT ivec apply_function(int (*f)(int), const ivec &v);
+template ITPP_EXPORT bvec apply_function(bin(*f)(bin), const bvec &v);
 
-template mat apply_function(double(*f)(double), const mat &m);
-template cmat apply_function(std::complex<double> (*f)(const std::complex<double> &),
+template ITPP_EXPORT mat apply_function(double(*f)(double), const mat &m);
+template ITPP_EXPORT cmat apply_function(std::complex<double> (*f)(const std::complex<double> &),
                              const cmat &m);
-template smat apply_function(short(*f)(short), const smat &m);
-template imat apply_function(int (*f)(int), const imat &m);
-template bmat apply_function(bin(*f)(bin), const bmat &m);
+template ITPP_EXPORT smat apply_function(short(*f)(short), const smat &m);
+template ITPP_EXPORT imat apply_function(int (*f)(int), const imat &m);
+template ITPP_EXPORT bmat apply_function(bin(*f)(bin), const bmat &m);
 
-template vec apply_function(double(*f)(double, double), const double& x, const vec &v);
-template cvec apply_function(std::complex<double> (*f)(const std::complex<double> &,
+template ITPP_EXPORT vec apply_function(double(*f)(double, double), const double& x, const vec &v);
+template ITPP_EXPORT cvec apply_function(std::complex<double> (*f)(const std::complex<double> &,
                              const std::complex<double> &),
                              const std::complex<double>& x, const cvec &v);
-template svec apply_function(short(*f)(short, short), const short& x, const svec &v);
-template ivec apply_function(int (*f)(int, int), const int& x, const ivec &v);
-template bvec apply_function(bin(*f)(bin, bin), const bin& x, const bvec &v);
+template ITPP_EXPORT svec apply_function(short(*f)(short, short), const short& x, const svec &v);
+template ITPP_EXPORT ivec apply_function(int (*f)(int, int), const int& x, const ivec &v);
+template ITPP_EXPORT bvec apply_function(bin(*f)(bin, bin), const bin& x, const bvec &v);
 
-template mat apply_function(double(*f)(double, double), const double& x, const mat &m);
-template cmat apply_function(std::complex<double> (*f)(const std::complex<double> &,
+template ITPP_EXPORT mat apply_function(double(*f)(double, double), const double& x, const mat &m);
+template ITPP_EXPORT cmat apply_function(std::complex<double> (*f)(const std::complex<double> &,
                              const std::complex<double> &),
                              const std::complex<double>& x, const cmat &m);
-template smat apply_function(short(*f)(short, short), const short& x, const smat &m);
-template imat apply_function(int (*f)(int, int), const int& x, const imat &m);
-template bmat apply_function(bin(*f)(bin, bin), const bin& x, const bmat &m);
+template ITPP_EXPORT smat apply_function(short(*f)(short, short), const short& x, const smat &m);
+template ITPP_EXPORT imat apply_function(int (*f)(int, int), const int& x, const imat &m);
+template ITPP_EXPORT bmat apply_function(bin(*f)(bin, bin), const bin& x, const bmat &m);
 
-template vec apply_function(double(*f)(double, double), const vec &v, const double& x);
-template cvec apply_function(std::complex<double> (*f)(const std::complex<double> &,
+template ITPP_EXPORT vec apply_function(double(*f)(double, double), const vec &v, const double& x);
+template ITPP_EXPORT cvec apply_function(std::complex<double> (*f)(const std::complex<double> &,
                              const std::complex<double> &),
                              const cvec &v, const std::complex<double>& x);
-template svec apply_function(short(*f)(short, short), const svec &v, const short& x);
-template ivec apply_function(int (*f)(int, int), const ivec &v, const int& x);
-template bvec apply_function(bin(*f)(bin, bin), const bvec &v, const bin& x);
+template ITPP_EXPORT svec apply_function(short(*f)(short, short), const svec &v, const short& x);
+template ITPP_EXPORT ivec apply_function(int (*f)(int, int), const ivec &v, const int& x);
+template ITPP_EXPORT bvec apply_function(bin(*f)(bin, bin), const bvec &v, const bin& x);
 
-template mat apply_function(double(*f)(double, double), const mat &m, const double& x);
-template cmat apply_function(std::complex<double> (*f)(const std::complex<double> &,
+template ITPP_EXPORT mat apply_function(double(*f)(double, double), const mat &m, const double& x);
+template ITPP_EXPORT cmat apply_function(std::complex<double> (*f)(const std::complex<double> &,
                              const std::complex<double> &),
                              const cmat &m, const std::complex<double>& x);
-template smat apply_function(short(*f)(short, short), const smat &m, const short& x);
-template imat apply_function(int (*f)(int, int), const imat &m, const int& x);
-template bmat apply_function(bin(*f)(bin, bin), const bmat &m, const bin& x);
+template ITPP_EXPORT smat apply_function(short(*f)(short, short), const smat &m, const short& x);
+template ITPP_EXPORT imat apply_function(int (*f)(int, int), const imat &m, const int& x);
+template ITPP_EXPORT bmat apply_function(bin(*f)(bin, bin), const bmat &m, const bin& x);
 
 } // namespace itpp
 

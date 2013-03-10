@@ -32,9 +32,29 @@
 #include <itpp/base/vec.h>
 #include <itpp/base/array.h>
 #include <itpp/comm/llr.h>
+#include <itpp/itexports.h>
 
 namespace itpp
 {
+
+//! \cond
+
+#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB))
+//MSVC explicitely instantiate required template while building the shared library
+template class ITPP_EXPORT Vec<int>;
+template class ITPP_EXPORT Vec<double>;
+template class ITPP_EXPORT Array<bmat>;
+template class ITPP_EXPORT Array<vec>;
+template class ITPP_EXPORT Array<ivec>;
+template class ITPP_EXPORT Array<cvec>;
+template class ITPP_EXPORT Array<Array<vec> >;
+template class ITPP_EXPORT Array<Array<cvec> >;
+template class ITPP_EXPORT Array<Vec<unsigned int> >;
+template class ITPP_EXPORT Mat<double>;
+template class ITPP_EXPORT Mat<std::complex<double> >;
+#endif
+
+//! \endcond
 
 /*!
  * \addtogroup modulators
@@ -58,7 +78,7 @@ namespace itpp
  * \note For issues relating to the accuracy of LLR computations,
  * please see the documentation of \c LLR_calc_unit
  */
-class Modulator_ND
+class ITPP_EXPORT Modulator_ND
 {
 public:
   //! Soft demodulation method
@@ -134,20 +154,20 @@ protected:
   Array<bmat> bitmap;
   //! Bit pattern in decimal form ordered and the corresponding symbols (one pattern per dimension)
   Array<ivec> bits2symbols;
-	//! The normalization factor in the exponent (in front of the square norm) in the Gaussian distribution
+  //! The normalization factor in the exponent (in front of the square norm) in the Gaussian distribution
   double gaussnorm;  
   //! Norms part dependent on H
   itpp::vec hnorms;
   //! Norms part depending on both H and y
   itpp::QLLRvec Qnorms;
   //! A prioi information
-	itpp::QLLRvec llrapr;
+  itpp::QLLRvec llrapr;
   //! The bit to column mapping
   itpp::ivec bpos2cpos;
   //! The cumulative sum of bits in the symbol vector
   itpp::ivec bitcumsum;
   //! The Gray to decimal mapping
-  itpp::Vec<itpp::Vec<unsigned> > gray2dec;
+  itpp::Array<itpp::Vec<unsigned> > gray2dec;
   //! Convert LLR to log-probabilities
   QLLRvec probabilities(QLLR l); // some abuse of what QLLR stands for...
   //! Convert LLR to log-probabilities, vector version
@@ -243,7 +263,7 @@ protected:
  * \note For issues relating to the accuracy of LLR computations,
  * please see the documentation of \c LLR_calc_unit
  */
-class Modulator_NRD : public Modulator_ND
+class ITPP_EXPORT Modulator_NRD : public Modulator_ND
 {
 public:
   //! Constructor
@@ -381,7 +401,7 @@ public:
                             QLLRvec &LLR_aposteriori);
 
   //! Output some properties of the MIMO modulator (mainly to aid debugging)
-  friend std::ostream &operator<<(std::ostream &os, const Modulator_NRD &m);
+  friend ITPP_EXPORT std::ostream &operator<<(std::ostream &os, const Modulator_NRD &m);
 
 protected:
   //! Vectors of modulation symbols (along each dimension)
@@ -413,16 +433,16 @@ protected:
 	//! Real channel matrix
 	itpp::mat H;
 	//! The spacing between different constellation points multiplied by the different H columns
-	itpp::Vec<itpp::Vec<itpp::vec> > hspacings;
+	itpp::Array<itpp::Array<itpp::vec> > hspacings;
 	//! The spacing between different constellation points scaled by different y elements
-  itpp::Vec<itpp::vec> yspacings;
+  itpp::Array<itpp::vec> yspacings;
 };
 
 /*!
  * \relatesalso Modulator_NRD
  * \brief Print some properties of the MIMO modulator (mainly to aid debugging)
  */
-std::ostream &operator<<(std::ostream &os, const Modulator_NRD &m);
+ITPP_EXPORT std::ostream &operator<<(std::ostream &os, const Modulator_NRD &m);
 
 
 // ----------------------------------------------------------------------
@@ -442,7 +462,7 @@ std::ostream &operator<<(std::ostream &os, const Modulator_NRD &m);
  * \note For issues relating to the accuracy of LLR computations,
  * please see the documentation of \c LLR_calc_unit
  */
-class Modulator_NCD : public Modulator_ND
+class ITPP_EXPORT Modulator_NCD : public Modulator_ND
 {
 public:
   //! Constructor
@@ -582,7 +602,7 @@ public:
                             QLLRvec &LLR_aposteriori);
 
   //! Print some properties of the MIMO modulator (mainly to aid debugging)
-  friend std::ostream &operator<<(std::ostream &os, const Modulator_NCD &m);
+  friend ITPP_EXPORT std::ostream &operator<<(std::ostream &os, const Modulator_NCD &m);
 
 protected:
   //! Vectors of modulation symbols (along each dimension)
@@ -590,9 +610,9 @@ protected:
 	//! Complex-valued channel matrix
 	itpp::cmat H;
 	//! The spacing between different constellation points multiplied by the different H columns
-	itpp::Vec<itpp::Vec<itpp::cvec> > hspacings;
+	itpp::Array<itpp::Array<itpp::cvec> > hspacings;
 	//! The spacing between different constellation points scaled by different y elements
-  itpp::Vec<itpp::vec> yspacings;
+  itpp::Array<itpp::vec> yspacings;
 	void hxnormupdate(itpp::cvec& Hx, unsigned& bitstring, unsigned& ind, unsigned bit);
 	void yxnormupdate(double& yx, itpp::QLLR& lapr, unsigned& bitstring, unsigned& ind, unsigned bit);
 };
@@ -601,7 +621,7 @@ protected:
  * \relatesalso Modulator_NCD
  * \brief Print some properties of the MIMO modulator (mainly to aid debugging)
  */
-std::ostream &operator<<(std::ostream &os, const Modulator_NCD &m);
+ITPP_EXPORT std::ostream &operator<<(std::ostream &os, const Modulator_NCD &m);
 
 
 // ----------------------------------------------------------------------
@@ -649,7 +669,7 @@ std::ostream &operator<<(std::ostream &os, const Modulator_NCD &m);
  * \note For issues relating to the accuracy of LLR computations,
  * please see the documentation of \c LLR_calc_unit
  */
-class ND_UPAM : public Modulator_NRD
+class ITPP_EXPORT ND_UPAM : public Modulator_NRD
 {
 public:
   //! Constructor
@@ -715,7 +735,7 @@ private:
  * \note For issues relating to the accuracy of LLR computations,
  * please see the documentation of \c LLR_calc_unit
  */
-class ND_UQAM : public Modulator_NCD
+class ITPP_EXPORT ND_UQAM : public Modulator_NCD
 {
 public:
   //! Constructor
@@ -763,7 +783,7 @@ protected:
  * \note For issues relating to the accuracy of LLR computations,
  * please see the documentation of \c LLR_calc_unit
  */
-class ND_UPSK : public Modulator_NCD
+class ITPP_EXPORT ND_UPSK : public Modulator_NCD
 {
 public:
   //! Constructor

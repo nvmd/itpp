@@ -1071,29 +1071,29 @@ vec idct(const vec &in, const int N)
 // Instantiation
 // ----------------------------------------------------------------------
 
-template vec dht(const vec &v);
-template cvec dht(const cvec &v);
+template ITPP_EXPORT vec dht(const vec &v);
+template ITPP_EXPORT cvec dht(const cvec &v);
 
-template void dht(const vec &vin, vec &vout);
-template void dht(const cvec &vin, cvec &vout);
+template ITPP_EXPORT void dht(const vec &vin, vec &vout);
+template ITPP_EXPORT void dht(const cvec &vin, cvec &vout);
 
-template void self_dht(vec &v);
-template void self_dht(cvec &v);
+template ITPP_EXPORT void self_dht(vec &v);
+template ITPP_EXPORT void self_dht(cvec &v);
 
-template vec dwht(const vec &v);
-template cvec dwht(const cvec &v);
+template ITPP_EXPORT vec dwht(const vec &v);
+template ITPP_EXPORT cvec dwht(const cvec &v);
 
-template void dwht(const vec &vin, vec &vout);
-template void dwht(const cvec &vin, cvec &vout);
+template ITPP_EXPORT void dwht(const vec &vin, vec &vout);
+template ITPP_EXPORT void dwht(const cvec &vin, cvec &vout);
 
-template void self_dwht(vec &v);
-template void self_dwht(cvec &v);
+template ITPP_EXPORT void self_dwht(vec &v);
+template ITPP_EXPORT void self_dwht(cvec &v);
 
-template mat  dht2(const mat &m);
-template cmat dht2(const cmat &m);
+template ITPP_EXPORT mat  dht2(const mat &m);
+template ITPP_EXPORT cmat dht2(const cmat &m);
 
-template mat  dwht2(const mat &m);
-template cmat dwht2(const cmat &m);
+template ITPP_EXPORT mat  dwht2(const mat &m);
+template ITPP_EXPORT cmat dwht2(const cmat &m);
 
 } // namespace itpp
 

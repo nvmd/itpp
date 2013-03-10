@@ -29,6 +29,7 @@
 #ifndef TIMING_H
 #define TIMING_H
 
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -41,7 +42,7 @@ namespace itpp
   \brief A virtual base class for timers.
   \ingroup timers
 */
-class Timer
+class ITPP_EXPORT Timer
 {
 public:
   //! Create a new timer.  Sets the time to zero.
@@ -100,7 +101,7 @@ protected:
   to reset and start clock and "time.toc();" stop and print the elapsed time.
   \warning May give an negative answer if the measured time is too long.
 */
-class CPU_Timer : public Timer
+class ITPP_EXPORT CPU_Timer : public Timer
 {
 public:
   //! Create a new timer. Sets the time to zero.
@@ -134,7 +135,7 @@ protected:
 
   \warning May give an negative answer if the measured time is too long.
 */
-class Real_Timer : public Timer
+class ITPP_EXPORT Real_Timer : public Timer
 {
 public:
   //! Create a new timer. Sets the time to zero.
@@ -149,19 +150,19 @@ protected:
   \brief Reset and start timer
   \ingroup timers
 */
-void tic();
+ITPP_EXPORT void tic();
 
 /*!
   \brief Returns the elapsed time since last tic()
   \ingroup timers
 */
-double toc();
+ITPP_EXPORT double toc();
 
 /*!
   \brief Prints the elapsed time since last tic()
   \ingroup timers
 */
-void toc_print();
+ITPP_EXPORT void toc_print();
 
 /*!
   \brief pause
@@ -171,7 +172,7 @@ void toc_print();
   \code pause(); \endcode  Pauses until a key is pressed
 
 */
-void pause(double t = -1);
+ITPP_EXPORT void pause(double t = -1);
 
 } // namespace itpp
 

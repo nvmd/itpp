@@ -31,6 +31,7 @@
 
 #include <complex>
 #include <itpp/base/binary.h>
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -125,7 +126,7 @@ template<class Num_T> class Vec;
 
   For a more interesting example, see Fix_Factory.
 */
-class Factory
+class ITPP_EXPORT Factory
 {
 public:
   //! Default constructor

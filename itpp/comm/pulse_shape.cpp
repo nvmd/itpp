@@ -36,16 +36,18 @@ namespace itpp
 // Instantiations
 // ----------------------------------------------------------------------
 
-template class Pulse_Shape<double, double, double>;
-template class Pulse_Shape < std::complex<double>, double,
+template class ITPP_EXPORT Pulse_Shape<double, double, double>;
+template class ITPP_EXPORT Pulse_Shape < std::complex<double>, double,
 std::complex<double> >;
-template class Pulse_Shape < std::complex<double>, std::complex<double>,
+template class ITPP_EXPORT Pulse_Shape < std::complex<double>, std::complex<double>,
 std::complex<double> >;
 
-template class Root_Raised_Cosine<double>;
-template class Root_Raised_Cosine<std::complex<double> >;
+template class ITPP_EXPORT Root_Raised_Cosine<double>;
+template class ITPP_EXPORT Root_Raised_Cosine<std::complex<double> >;
 
-template class Raised_Cosine<double>;
-template class Raised_Cosine<std::complex<double> >;
+template class ITPP_EXPORT Raised_Cosine<double>;
+template class ITPP_EXPORT Raised_Cosine<std::complex<double> >;
+
+//! \endcond
 
 } // namespace itpp

@@ -29,10 +29,10 @@
 #ifndef ITEXPORTS_H
 #define ITEXPORTS_H
 
-/*define when using the static version of IT++ library*/
-#cmakedefine ITPP_STATIC_LIBRARY
+/*defined from cmake when using the shared version of IT++ library*/
+#cmakedefine ITPP_SHARED_LIB
 
-#ifndef ITPP_STATIC_LIBRARY
+#ifdef ITPP_SHARED_LIB
 
 /*needed to export shared library symbols on Windows*/
 #ifdef _MSC_VER
@@ -44,15 +44,15 @@
     #endif
   #endif
 #elif (__GNUC__ >= 4) /*UNIX*/
-  #ifndef ITPP_EXPORT
-    #define ITPP_EXPORT __attribute__((visibility("default")))
+  #ifndef ITPP_EXPORT_TEMPLATE
+    #define ITPP_EXPORT_TEMPLATE extern
   #endif
   #ifndef ITPP_EXPORT_TEMPLATE
     #define ITPP_EXPORT_TEMPLATE extern
   #endif
 #endif
 
-#endif /*ITPP_STATIC_LIBRARY*/
+#endif /*ITPP_SHARED_LIB*/
 
 #ifndef ITPP_EXPORT
   #define ITPP_EXPORT

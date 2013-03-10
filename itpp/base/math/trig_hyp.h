@@ -30,7 +30,7 @@
 #define TRIG_HYP_H
 
 #include <itpp/base/help_functions.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -98,17 +98,17 @@ inline vec tanh(const vec &x) { return apply_function<double>(std::tanh, x); }
 //! Tan hyperbolic function
 inline mat tanh(const mat &x) { return apply_function<double>(std::tanh, x); }
 //! Inverse sine hyperbolic function
-vec asinh(const vec &x);
+ITPP_EXPORT vec asinh(const vec &x);
 //! Inverse sine hyperbolic function
-mat asinh(const mat &x);
+ITPP_EXPORT mat asinh(const mat &x);
 //! Inverse cosine hyperbolic function
-vec acosh(const vec &x);
+ITPP_EXPORT vec acosh(const vec &x);
 //! Inverse cosine hyperbolic function
-mat acosh(const mat &x);
+ITPP_EXPORT mat acosh(const mat &x);
 //! Inverse tan hyperbolic function
-vec atanh(const vec &x);
+ITPP_EXPORT vec atanh(const vec &x);
 //! Inverse tan hyperbolic function
-mat atanh(const mat &x);
+ITPP_EXPORT mat atanh(const mat &x);
 
 //!@}
 

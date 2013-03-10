@@ -31,7 +31,7 @@
 
 #include <itpp/base/help_functions.h>
 #include <itpp/base/math/misc.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -272,22 +272,22 @@ cmat to_cmat(const Mat<T> &real, const Mat<T> &imag)
 /*!
   \brief Convert a decimal int \a index to bvec using \a length bits in the representation
 */
-bvec dec2bin(int length, int index);
+ITPP_EXPORT bvec dec2bin(int length, int index);
 
 /*!
   \brief Convert a decimal int \a index to bvec. Value returned in \a v.
 */
-void dec2bin(int index, bvec &v);
+ITPP_EXPORT void dec2bin(int index, bvec &v);
 
 /*!
   \brief Convert a decimal int \a index to bvec with the first bit as MSB if \a msb_first == true
 */
-bvec dec2bin(int index, bool msb_first = true);
+ITPP_EXPORT bvec dec2bin(int index, bool msb_first = true);
 
 /*!
   \brief Convert a bvec to decimal int with the first bit as MSB if \a msb_first == true
 */
-int bin2dec(const bvec &inbvec, bool msb_first = true);
+ITPP_EXPORT int bin2dec(const bvec &inbvec, bool msb_first = true);
 
 /*!
   \brief Convert ivec of octal form to bvec
@@ -296,7 +296,7 @@ int bin2dec(const bvec &inbvec, bool msb_first = true);
   Removes zeros to the left if keepzeros = 0 (default).
   Example: oct2bin("3 5 5 1") returns {1 1 1 0 1 1 0 1 0 0 1}.
 */
-bvec oct2bin(const ivec &octalindex, short keepzeros = 0);
+ITPP_EXPORT bvec oct2bin(const ivec &octalindex, short keepzeros = 0);
 
 /*!
   \brief Convert bvec to octal ivec
@@ -305,13 +305,13 @@ bvec oct2bin(const ivec &octalindex, short keepzeros = 0);
   Adds zeros to the left if inbits.length() is not a factor of 3.
   Example: bin2oct("1 1 1 0 1 1 0 1 0 0 1") returns {3 5 5 1}.
 */
-ivec bin2oct(const bvec &inbits);
+ITPP_EXPORT ivec bin2oct(const bvec &inbits);
 
 //! Convert bvec to polar binary representation as ivec
-ivec bin2pol(const bvec &inbvec);
+ITPP_EXPORT ivec bin2pol(const bvec &inbvec);
 
 //! Convert binary polar ivec to bvec
-bvec pol2bin(const ivec &inpol);
+ITPP_EXPORT bvec pol2bin(const ivec &inpol);
 
 //! Convert radians to degrees
 inline double rad_to_deg(double x) { return (180.0 / itpp::pi * x); }
@@ -319,17 +319,17 @@ inline double rad_to_deg(double x) { return (180.0 / itpp::pi * x); }
 inline double deg_to_rad(double x) { return (itpp::pi / 180.0 * x); }
 
 //! Round to nearest integer, return result in double
-double round(double x);
+ITPP_EXPORT double round(double x);
 //! Round to nearest integer
-vec round(const vec &x);
+ITPP_EXPORT vec round(const vec &x);
 //! Round to nearest integer
-mat round(const mat &x);
+ITPP_EXPORT mat round(const mat &x);
 //! Round to nearest integer
-int round_i(double x);
+ITPP_EXPORT int round_i(double x);
 //! Round to nearest integer and return ivec
-ivec round_i(const vec &x);
+ITPP_EXPORT ivec round_i(const vec &x);
 //! Round to nearest integer and return imat
-imat round_i(const mat &x);
+ITPP_EXPORT imat round_i(const mat &x);
 
 //! Round to nearest upper integer
 inline vec ceil(const vec &x) { return apply_function<double>(std::ceil, x); }
@@ -338,9 +338,9 @@ inline mat ceil(const mat &x) { return apply_function<double>(std::ceil, x); }
 //! The nearest larger integer
 inline int ceil_i(double x) { return static_cast<int>(std::ceil(x)); }
 //! Round to nearest upper integer
-ivec ceil_i(const vec &x);
+ITPP_EXPORT ivec ceil_i(const vec &x);
 //! Round to nearest upper integer
-imat ceil_i(const mat &x);
+ITPP_EXPORT imat ceil_i(const mat &x);
 
 //! Round to nearest lower integer
 inline vec floor(const vec &x) { return apply_function<double>(std::floor, x); }
@@ -349,9 +349,9 @@ inline mat floor(const mat &x) { return apply_function<double>(std::floor, x); }
 //! The nearest smaller integer
 inline int floor_i(double x) { return static_cast<int>(std::floor(x)); }
 //! Round to nearest lower integer
-ivec floor_i(const vec &x);
+ITPP_EXPORT ivec floor_i(const vec &x);
 //! Round to nearest lower integer
-imat floor_i(const mat &x);
+ITPP_EXPORT imat floor_i(const mat &x);
 
 
 //! Round \a x to zero if \a abs(x) is smaller than \a threshold
@@ -381,10 +381,10 @@ inline mat round_to_zero(const mat &x, double threshold = 1e-14)
 }
 
 //! Round each element to zero if element < threshold
-cvec round_to_zero(const cvec &x, double threshold = 1e-14);
+ITPP_EXPORT cvec round_to_zero(const cvec &x, double threshold = 1e-14);
 
 //! Round each element to zero if element < threshold
-cmat round_to_zero(const cmat &x, double threshold = 1e-14);
+ITPP_EXPORT cmat round_to_zero(const cmat &x, double threshold = 1e-14);
 
 //! Remove trailing digits, found after the decimal point, for numbers greater than threshold
 inline double round_to_infty(const double in, const double threshold = 1e9)
@@ -412,10 +412,10 @@ inline mat round_to_infty(const mat &in, const double threshold = 1e9)
 }
 
 //! Remove trailing digits, found after the decimal point, for complex vectors greater than threshold
-cvec round_to_infty(const cvec &in, const double threshold = 1e9);
+ITPP_EXPORT cvec round_to_infty(const cvec &in, const double threshold = 1e9);
 
 //! Remove trailing digits, found after the decimal point, for complex matrices greater than threshold
-cmat round_to_infty(const cmat &in, const double threshold = 1e9);
+ITPP_EXPORT cmat round_to_infty(const cmat &in, const double threshold = 1e9);
 
 //! Convert to Gray Code
 inline int gray_code(int x) { return x ^(x >> 1); }
@@ -436,7 +436,7 @@ std::string to_str(const T &i);
   \param[in]  precision  The number of digits used to represent the
   fractional part
 */
-std::string to_str(const double &i, const int precision);
+ITPP_EXPORT std::string to_str(const double &i, const int precision);
 
 //@}
 
@@ -456,59 +456,55 @@ std::string to_str(const T &i)
 // Instantiations
 // ---------------------------------------------------------------------
 
-#ifndef _MSC_VER
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bvec to_bvec(const svec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bvec to_bvec(const ivec &v);
 
-extern template bvec to_bvec(const svec &v);
-extern template bvec to_bvec(const ivec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT svec to_svec(const bvec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT svec to_svec(const ivec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT svec to_svec(const vec &v);
 
-extern template svec to_svec(const bvec &v);
-extern template svec to_svec(const ivec &v);
-extern template svec to_svec(const vec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT ivec to_ivec(const bvec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT ivec to_ivec(const svec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT ivec to_ivec(const vec &v);
 
-extern template ivec to_ivec(const bvec &v);
-extern template ivec to_ivec(const svec &v);
-extern template ivec to_ivec(const vec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT vec to_vec(const bvec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT vec to_vec(const svec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT vec to_vec(const ivec &v);
 
-extern template vec to_vec(const bvec &v);
-extern template vec to_vec(const svec &v);
-extern template vec to_vec(const ivec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec to_cvec(const bvec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec to_cvec(const svec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec to_cvec(const ivec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec to_cvec(const vec &v);
 
-extern template cvec to_cvec(const bvec &v);
-extern template cvec to_cvec(const svec &v);
-extern template cvec to_cvec(const ivec &v);
-extern template cvec to_cvec(const vec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec to_cvec(const bvec &real, const bvec &imag);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec to_cvec(const svec &real, const svec &imag);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec to_cvec(const ivec &real, const ivec &imag);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cvec to_cvec(const vec &real, const vec &imag);
 
-extern template cvec to_cvec(const bvec &real, const bvec &imag);
-extern template cvec to_cvec(const svec &real, const svec &imag);
-extern template cvec to_cvec(const ivec &real, const ivec &imag);
-extern template cvec to_cvec(const vec &real, const vec &imag);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bmat to_bmat(const smat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT bmat to_bmat(const imat &m);
 
-extern template bmat to_bmat(const smat &m);
-extern template bmat to_bmat(const imat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT smat to_smat(const bmat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT smat to_smat(const imat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT smat to_smat(const mat &m);
 
-extern template smat to_smat(const bmat &m);
-extern template smat to_smat(const imat &m);
-extern template smat to_smat(const mat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT imat to_imat(const bmat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT imat to_imat(const smat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT imat to_imat(const mat &m);
 
-extern template imat to_imat(const bmat &m);
-extern template imat to_imat(const smat &m);
-extern template imat to_imat(const mat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT mat to_mat(const bmat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT mat to_mat(const smat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT mat to_mat(const imat &m);
 
-extern template mat to_mat(const bmat &m);
-extern template mat to_mat(const smat &m);
-extern template mat to_mat(const imat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat to_cmat(const bmat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat to_cmat(const smat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat to_cmat(const imat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat to_cmat(const mat &m);
 
-extern template cmat to_cmat(const bmat &m);
-extern template cmat to_cmat(const smat &m);
-extern template cmat to_cmat(const imat &m);
-extern template cmat to_cmat(const mat &m);
-
-extern template cmat to_cmat(const bmat &real, const bmat &imag);
-extern template cmat to_cmat(const smat &real, const smat &imag);
-extern template cmat to_cmat(const imat &real, const imat &imag);
-extern template cmat to_cmat(const mat &real, const mat &imag);
-
-#endif // _MSC_VER
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat to_cmat(const bmat &real, const bmat &imag);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat to_cmat(const smat &real, const smat &imag);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat to_cmat(const imat &real, const imat &imag);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT cmat to_cmat(const mat &real, const mat &imag);
 
 //! \endcond
 

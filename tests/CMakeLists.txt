@@ -27,7 +27,7 @@
 
 file ( GLOB ITPP_TEST_SRCS *.cpp )
 
-include_directories ( ${CMAKE_SOURCE_DIR} )
+include_directories ( ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} )
 
 foreach (FILE ${ITPP_TEST_SRCS})
 	get_filename_component ( target ${FILE} NAME_WE )

@@ -32,7 +32,7 @@
 #include <itpp/base/itassert.h>
 #include <itpp/base/math/misc.h>
 #include <itpp/base/factory.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -386,14 +386,6 @@ public:
   Mat<Num_T>& operator*=(const Mat<Num_T> &m);
   //! Multiplication by a scalar
   Mat<Num_T>& operator*=(Num_T t);
-  //! Multiplication of two matrices
-  friend Mat<Num_T> operator*<>(const Mat<Num_T> &m1, const Mat<Num_T> &m2);
-  //! Multiplication of matrix \c m and vector \c v (column vector)
-  friend Vec<Num_T> operator*<>(const Mat<Num_T> &m, const Vec<Num_T> &v);
-  //! Multiplication of matrix and scalar
-  friend Mat<Num_T> operator*<>(const Mat<Num_T> &m, Num_T t);
-  //! Multiplication of scalar and matrix
-  friend Mat<Num_T> operator*<>(Num_T t, const Mat<Num_T> &m);
 
   //! Element wise multiplication of two matrices
   friend Mat<Num_T> elem_mult<>(const Mat<Num_T> &m1, const Mat<Num_T> &m2);
@@ -1183,11 +1175,6 @@ Mat<Num_T> Mat<Num_T>::transpose() const
   return temp;
 }
 
-//! \cond
-template<>
-cmat cmat::hermitian_transpose() const;
-//! \endcond
-
 template<class Num_T>
 Mat<Num_T> Mat<Num_T>::hermitian_transpose() const
 {
@@ -1197,6 +1184,11 @@ Mat<Num_T> Mat<Num_T>::hermitian_transpose() const
   }
   return temp;
 }
+
+//! \cond
+template<>
+ITPP_EXPORT cmat cmat::hermitian_transpose() const;
+//! \endcond
 
 template<class Num_T>
 Mat<Num_T> concat_horizontal(const Mat<Num_T> &m1, const Mat<Num_T> &m2)
@@ -1465,10 +1457,6 @@ Mat<Num_T> operator-(const Mat<Num_T> &m)
   return r;
 }
 
-
-template<> mat& mat::operator*=(const mat &m);
-template<> cmat& cmat::operator*=(const cmat &m);
-
 template<class Num_T>
 Mat<Num_T>& Mat<Num_T>::operator*=(const Mat<Num_T> &m)
 {
@@ -1496,6 +1484,11 @@ Mat<Num_T>& Mat<Num_T>::operator*=(const Mat<Num_T> &m)
   return *this;
 }
 
+//! \cond
+template<> ITPP_EXPORT mat& mat::operator*=(const mat &m);
+template<> ITPP_EXPORT cmat& cmat::operator*=(const cmat &m);
+//! \endcond
+
 template<class Num_T> inline
 Mat<Num_T>& Mat<Num_T>::operator*=(Num_T t)
 {
@@ -1503,73 +1496,82 @@ Mat<Num_T>& Mat<Num_T>::operator*=(Num_T t)
   return *this;
 }
 
-
-template<> mat operator*(const mat &m1, const mat &m2);
-template<> cmat operator*(const cmat &m1, const cmat &m2);
-
+//! Multiplication of two matrices
 template<class Num_T>
 Mat<Num_T> operator*(const Mat<Num_T> &m1, const Mat<Num_T> &m2)
 {
-  it_assert_debug(m1.no_cols == m2.no_rows,
+  it_assert_debug(m1.cols() == m2.rows(),
                   "Mat<>::operator*(): Wrong sizes");
-  Mat<Num_T> r(m1.no_rows, m2.no_cols);
+  Mat<Num_T> r(m1.rows(), m2.cols());
 
   Num_T tmp;
   int i, j, k;
-  Num_T *tr = r.data, *t1, *t2 = m2.data;
+  Num_T *tr = r._data();
+  const Num_T *t1; const Num_T *t2 = m2._data();
 
-  for (i = 0; i < r.no_cols; i++) {
-    for (j = 0; j < r.no_rows; j++) {
+  for (i = 0; i < r.cols(); i++) {
+    for (j = 0; j < r.rows(); j++) {
       tmp = Num_T(0);
-      t1 = m1.data + j;
-      for (k = m1.no_cols; k > 0; k--) {
+      t1 = m1._data() + j;
+      for (k = m1.cols(); k > 0; k--) {
         tmp += *(t1) * *(t2++);
-        t1 += m1.no_rows;
+	    t1 += m1.rows();
       }
       *(tr++) = tmp;
-      t2 -= m2.no_rows;
+	  t2 -= m2.rows();
     }
-    t2 += m2.no_rows;
+    t2 += m2.rows();
   }
 
   return r;
 }
 
+//! \cond
+template<> ITPP_EXPORT mat operator*(const mat &m1, const mat &m2);
+template<> ITPP_EXPORT cmat operator*(const cmat &m1, const cmat &m2);
+//! \endcond
 
-template<> vec operator*(const mat &m, const vec &v);
-template<> cvec operator*(const cmat &m, const cvec &v);
-
+//! Multiplication of matrix \c m and vector \c v (column vector)
 template<class Num_T>
 Vec<Num_T> operator*(const Mat<Num_T> &m, const Vec<Num_T> &v)
 {
-  it_assert_debug(m.no_cols == v.size(),
+  it_assert_debug(m.cols() == v.size(),
                   "Mat<>::operator*(): Wrong sizes");
-  Vec<Num_T> r(m.no_rows);
+  Vec<Num_T> r(m.rows());
   int i, k, m_pos;
 
-  for (i = 0; i < m.no_rows; i++) {
+  for (i = 0; i < m.rows(); i++) {
     r(i) = Num_T(0);
     m_pos = 0;
-    for (k = 0; k < m.no_cols; k++) {
-      r(i) += m.data[m_pos+i] * v(k);
-      m_pos += m.no_rows;
+    for (k = 0; k < m.cols(); k++) {
+      r(i) += m._data()[m_pos+i] * v(k);
+      m_pos += m.rows();
     }
   }
 
   return r;
 }
 
+//! \cond
+template<> ITPP_EXPORT vec operator*(const mat &m, const vec &v);
+template<> ITPP_EXPORT cvec operator*(const cmat &m, const cvec &v);
+//! \endcond
+
+//! Multiplication of matrix and scalar
 template<class Num_T>
 Mat<Num_T> operator*(const Mat<Num_T> &m, Num_T t)
 {
-  Mat<Num_T> r(m.no_rows, m.no_cols);
+  Mat<Num_T> r(m.rows(), m.cols());
 
-  for (int i = 0; i < r.datasize; i++)
-    r.data[i] = m.data[i] * t;
+  const Num_T* m_data = m._data();
+  Num_T* r_data = r._data();
+  for (int i = 0; i < r._datasize(); i++)
+    r_data[i] = m_data[i] * t;
 
   return r;
 }
 
+//! Multiplication of scalar and matrix
 template<class Num_T> inline
 Mat<Num_T> operator*(Num_T t, const Mat<Num_T> &m)
 {
@@ -1849,207 +1851,203 @@ std::istream &operator>>(std::istream &is, Mat<Num_T> &m)
 // Instantiations
 // ---------------------------------------------------------------------
 
-#ifndef _MSC_VER
-
 // class instantiations
 
-extern template class Mat<double>;
-extern template class Mat<std::complex<double> >;
-extern template class Mat<int>;
-extern template class Mat<short int>;
-extern template class Mat<bin>;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Mat<double>;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Mat<std::complex<double> >;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Mat<int>;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Mat<short int>;
+ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Mat<bin>;
 
 // addition operators
 
-extern template mat operator+(const mat &m1, const mat &m2);
-extern template cmat operator+(const cmat &m1, const cmat &m2);
-extern template imat operator+(const imat &m1, const imat &m2);
-extern template smat operator+(const smat &m1, const smat &m2);
-extern template bmat operator+(const bmat &m1, const bmat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  mat operator+(const mat &m1, const mat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  cmat operator+(const cmat &m1, const cmat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  imat operator+(const imat &m1, const imat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  smat operator+(const smat &m1, const smat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  bmat operator+(const bmat &m1, const bmat &m2);
 
-extern template mat operator+(const mat &m, double t);
-extern template cmat operator+(const cmat &m, std::complex<double> t);
-extern template imat operator+(const imat &m, int t);
-extern template smat operator+(const smat &m, short t);
-extern template bmat operator+(const bmat &m, bin t);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  mat operator+(const mat &m, double t);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  cmat operator+(const cmat &m, std::complex<double> t);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  imat operator+(const imat &m, int t);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  smat operator+(const smat &m, short t);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  bmat operator+(const bmat &m, bin t);
 
-extern template mat operator+(double t, const mat &m);
-extern template cmat operator+(std::complex<double> t, const cmat &m);
-extern template imat operator+(int t, const imat &m);
-extern template smat operator+(short t, const smat &m);
-extern template bmat operator+(bin t, const bmat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  mat operator+(double t, const mat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  cmat operator+(std::complex<double> t, const cmat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  imat operator+(int t, const imat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  smat operator+(short t, const smat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  bmat operator+(bin t, const bmat &m);
 
 // subtraction operators
 
-extern template mat operator-(const mat &m1, const mat &m2);
-extern template cmat operator-(const cmat &m1, const cmat &m2);
-extern template imat operator-(const imat &m1, const imat &m2);
-extern template smat operator-(const smat &m1, const smat &m2);
-extern template bmat operator-(const bmat &m1, const bmat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  mat operator-(const mat &m1, const mat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  cmat operator-(const cmat &m1, const cmat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  imat operator-(const imat &m1, const imat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  smat operator-(const smat &m1, const smat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  bmat operator-(const bmat &m1, const bmat &m2);
 
-extern template mat operator-(const mat &m, double t);
-extern template cmat operator-(const cmat &m, std::complex<double> t);
-extern template imat operator-(const imat &m, int t);
-extern template smat operator-(const smat &m, short t);
-extern template bmat operator-(const bmat &m, bin t);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  mat operator-(const mat &m, double t);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  cmat operator-(const cmat &m, std::complex<double> t);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  imat operator-(const imat &m, int t);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  smat operator-(const smat &m, short t);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  bmat operator-(const bmat &m, bin t);
 
-extern template mat operator-(double t, const mat &m);
-extern template cmat operator-(std::complex<double> t, const cmat &m);
-extern template imat operator-(int t, const imat &m);
-extern template smat operator-(short t, const smat &m);
-extern template bmat operator-(bin t, const bmat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  mat operator-(double t, const mat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  cmat operator-(std::complex<double> t, const cmat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  imat operator-(int t, const imat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  smat operator-(short t, const smat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  bmat operator-(bin t, const bmat &m);
 
 // unary minus
 
-extern template mat operator-(const mat &m);
-extern template cmat operator-(const cmat &m);
-extern template imat operator-(const imat &m);
-extern template smat operator-(const smat &m);
-extern template bmat operator-(const bmat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  mat operator-(const mat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  cmat operator-(const cmat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  imat operator-(const imat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  smat operator-(const smat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  bmat operator-(const bmat &m);
 
 // multiplication operators
 
-extern template imat operator*(const imat &m1, const imat &m2);
-extern template smat operator*(const smat &m1, const smat &m2);
-extern template bmat operator*(const bmat &m1, const bmat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  imat operator*(const imat &m1, const imat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  smat operator*(const smat &m1, const smat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  bmat operator*(const bmat &m1, const bmat &m2);
 
-extern template ivec operator*(const imat &m, const ivec &v);
-extern template svec operator*(const smat &m, const svec &v);
-extern template bvec operator*(const bmat &m, const bvec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  ivec operator*(const imat &m, const ivec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  svec operator*(const smat &m, const svec &v);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  bvec operator*(const bmat &m, const bvec &v);
 
-extern template mat operator*(const mat &m, double t);
-extern template cmat operator*(const cmat &m, std::complex<double> t);
-extern template imat operator*(const imat &m, int t);
-extern template smat operator*(const smat &m, short t);
-extern template bmat operator*(const bmat &m, bin t);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  mat operator*(const mat &m, double t);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  cmat operator*(const cmat &m, std::complex<double> t);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  imat operator*(const imat &m, int t);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  smat operator*(const smat &m, short t);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  bmat operator*(const bmat &m, bin t);
 
-extern template mat operator*(double t, const mat &m);
-extern template cmat operator*(std::complex<double> t, const cmat &m);
-extern template imat operator*(int t, const imat &m);
-extern template smat operator*(short t, const smat &m);
-extern template bmat operator*(bin t, const bmat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  mat operator*(double t, const mat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  cmat operator*(std::complex<double> t, const cmat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  imat operator*(int t, const imat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  smat operator*(short t, const smat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  bmat operator*(bin t, const bmat &m);
 
 // element-wise multiplication
 
-extern template mat elem_mult(const mat &m1, const mat &m2);
-extern template cmat elem_mult(const cmat &m1, const cmat &m2);
-extern template imat elem_mult(const imat &m1, const imat &m2);
-extern template smat elem_mult(const smat &m1, const smat &m2);
-extern template bmat elem_mult(const bmat &m1, const bmat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  mat elem_mult(const mat &m1, const mat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  cmat elem_mult(const cmat &m1, const cmat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  imat elem_mult(const imat &m1, const imat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  smat elem_mult(const smat &m1, const smat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  bmat elem_mult(const bmat &m1, const bmat &m2);
 
-extern template void elem_mult_out(const mat &m1, const mat &m2, mat &out);
-extern template void elem_mult_out(const cmat &m1, const cmat &m2,
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  void elem_mult_out(const mat &m1, const mat &m2, mat &out);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  void elem_mult_out(const cmat &m1, const cmat &m2,
                                      cmat &out);
-extern template void elem_mult_out(const imat &m1, const imat &m2,
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  void elem_mult_out(const imat &m1, const imat &m2,
                                      imat &out);
-extern template void elem_mult_out(const smat &m1, const smat &m2,
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  void elem_mult_out(const smat &m1, const smat &m2,
                                      smat &out);
-extern template void elem_mult_out(const bmat &m1, const bmat &m2,
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  void elem_mult_out(const bmat &m1, const bmat &m2,
                                      bmat &out);
 
-extern template void elem_mult_out(const mat &m1, const mat &m2,
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  void elem_mult_out(const mat &m1, const mat &m2,
                                      const mat &m3, mat &out);
-extern template void elem_mult_out(const cmat &m1, const cmat &m2,
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  void elem_mult_out(const cmat &m1, const cmat &m2,
                                      const cmat &m3, cmat &out);
-extern template void elem_mult_out(const imat &m1, const imat &m2,
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  void elem_mult_out(const imat &m1, const imat &m2,
                                      const imat &m3, imat &out);
-extern template void elem_mult_out(const smat &m1, const smat &m2,
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  void elem_mult_out(const smat &m1, const smat &m2,
                                      const smat &m3, smat &out);
-extern template void elem_mult_out(const bmat &m1, const bmat &m2,
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  void elem_mult_out(const bmat &m1, const bmat &m2,
                                      const bmat &m3, bmat &out);
 
-extern template void elem_mult_out(const mat &m1, const mat &m2,
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  void elem_mult_out(const mat &m1, const mat &m2,
                                      const mat &m3, const mat &m4, mat &out);
-extern template void elem_mult_out(const cmat &m1, const cmat &m2,
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  void elem_mult_out(const cmat &m1, const cmat &m2,
                                      const cmat &m3, const cmat &m4,
                                      cmat &out);
-extern template void elem_mult_out(const imat &m1, const imat &m2,
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  void elem_mult_out(const imat &m1, const imat &m2,
                                      const imat &m3, const imat &m4,
                                      imat &out);
-extern template void elem_mult_out(const smat &m1, const smat &m2,
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  void elem_mult_out(const smat &m1, const smat &m2,
                                      const smat &m3, const smat &m4,
                                      smat &out);
-extern template void elem_mult_out(const bmat &m1, const bmat &m2,
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  void elem_mult_out(const bmat &m1, const bmat &m2,
                                      const bmat &m3, const bmat &m4,
                                      bmat &out);
 
-extern template void elem_mult_inplace(const mat &m1, mat &m2);
-extern template void elem_mult_inplace(const cmat &m1, cmat &m2);
-extern template void elem_mult_inplace(const imat &m1, imat &m2);
-extern template void elem_mult_inplace(const smat &m1, smat &m2);
-extern template void elem_mult_inplace(const bmat &m1, bmat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  void elem_mult_inplace(const mat &m1, mat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  void elem_mult_inplace(const cmat &m1, cmat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  void elem_mult_inplace(const imat &m1, imat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  void elem_mult_inplace(const smat &m1, smat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  void elem_mult_inplace(const bmat &m1, bmat &m2);
 
-extern template double elem_mult_sum(const mat &m1, const mat &m2);
-extern template std::complex<double> elem_mult_sum(const cmat &m1,
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  double elem_mult_sum(const mat &m1, const mat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  std::complex<double> elem_mult_sum(const cmat &m1,
     const cmat &m2);
-extern template int elem_mult_sum(const imat &m1, const imat &m2);
-extern template short elem_mult_sum(const smat &m1, const smat &m2);
-extern template bin elem_mult_sum(const bmat &m1, const bmat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  int elem_mult_sum(const imat &m1, const imat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  short elem_mult_sum(const smat &m1, const smat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  bin elem_mult_sum(const bmat &m1, const bmat &m2);
 
 // division operator
 
-extern template mat operator/(double t, const mat &m);
-extern template cmat operator/(std::complex<double> t, const cmat &m);
-extern template imat operator/(int t, const imat &m);
-extern template smat operator/(short t, const smat &m);
-extern template bmat operator/(bin t, const bmat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  mat operator/(double t, const mat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  cmat operator/(std::complex<double> t, const cmat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  imat operator/(int t, const imat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  smat operator/(short t, const smat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  bmat operator/(bin t, const bmat &m);
 
-extern template mat operator/(const mat &m, double t);
-extern template cmat operator/(const cmat &m, std::complex<double> t);
-extern template imat operator/(const imat &m, int t);
-extern template smat operator/(const smat &m, short t);
-extern template bmat operator/(const bmat &m, bin t);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  mat operator/(const mat &m, double t);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  cmat operator/(const cmat &m, std::complex<double> t);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  imat operator/(const imat &m, int t);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  smat operator/(const smat &m, short t);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  bmat operator/(const bmat &m, bin t);
 
 // element-wise division
 
-extern template mat elem_div(const mat &m1, const mat &m2);
-extern template cmat elem_div(const cmat &m1, const cmat &m2);
-extern template imat elem_div(const imat &m1, const imat &m2);
-extern template smat elem_div(const smat &m1, const smat &m2);
-extern template bmat elem_div(const bmat &m1, const bmat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  mat elem_div(const mat &m1, const mat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  cmat elem_div(const cmat &m1, const cmat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  imat elem_div(const imat &m1, const imat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  smat elem_div(const smat &m1, const smat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  bmat elem_div(const bmat &m1, const bmat &m2);
 
-extern template void elem_div_out(const mat &m1, const mat &m2, mat &out);
-extern template void elem_div_out(const cmat &m1, const cmat &m2, cmat &out);
-extern template void elem_div_out(const imat &m1, const imat &m2, imat &out);
-extern template void elem_div_out(const smat &m1, const smat &m2, smat &out);
-extern template void elem_div_out(const bmat &m1, const bmat &m2, bmat &out);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  void elem_div_out(const mat &m1, const mat &m2, mat &out);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  void elem_div_out(const cmat &m1, const cmat &m2, cmat &out);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  void elem_div_out(const imat &m1, const imat &m2, imat &out);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  void elem_div_out(const smat &m1, const smat &m2, smat &out);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  void elem_div_out(const bmat &m1, const bmat &m2, bmat &out);
 
-extern template double elem_div_sum(const mat &m1, const mat &m2);
-extern template std::complex<double> elem_div_sum(const cmat &m1,
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  double elem_div_sum(const mat &m1, const mat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  std::complex<double> elem_div_sum(const cmat &m1,
     const cmat &m2);
-extern template int elem_div_sum(const imat &m1, const imat &m2);
-extern template short elem_div_sum(const smat &m1, const smat &m2);
-extern template bin elem_div_sum(const bmat &m1, const bmat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  int elem_div_sum(const imat &m1, const imat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  short elem_div_sum(const smat &m1, const smat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  bin elem_div_sum(const bmat &m1, const bmat &m2);
 
 // concatenation
 
-extern template mat concat_horizontal(const mat &m1, const mat &m2);
-extern template cmat concat_horizontal(const cmat &m1, const cmat &m2);
-extern template imat concat_horizontal(const imat &m1, const imat &m2);
-extern template smat concat_horizontal(const smat &m1, const smat &m2);
-extern template bmat concat_horizontal(const bmat &m1, const bmat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  mat concat_horizontal(const mat &m1, const mat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  cmat concat_horizontal(const cmat &m1, const cmat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  imat concat_horizontal(const imat &m1, const imat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  smat concat_horizontal(const smat &m1, const smat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  bmat concat_horizontal(const bmat &m1, const bmat &m2);
 
-extern template mat concat_vertical(const mat &m1, const mat &m2);
-extern template cmat concat_vertical(const cmat &m1, const cmat &m2);
-extern template imat concat_vertical(const imat &m1, const imat &m2);
-extern template smat concat_vertical(const smat &m1, const smat &m2);
-extern template bmat concat_vertical(const bmat &m1, const bmat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  mat concat_vertical(const mat &m1, const mat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  cmat concat_vertical(const cmat &m1, const cmat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  imat concat_vertical(const imat &m1, const imat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  smat concat_vertical(const smat &m1, const smat &m2);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  bmat concat_vertical(const bmat &m1, const bmat &m2);
 
 // I/O streams
 
-extern template std::ostream &operator<<(std::ostream &os, const mat  &m);
-extern template std::ostream &operator<<(std::ostream &os, const cmat &m);
-extern template std::ostream &operator<<(std::ostream &os, const imat  &m);
-extern template std::ostream &operator<<(std::ostream &os, const smat  &m);
-extern template std::ostream &operator<<(std::ostream &os, const bmat  &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  std::ostream &operator<<(std::ostream &os, const mat  &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  std::ostream &operator<<(std::ostream &os, const cmat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  std::ostream &operator<<(std::ostream &os, const imat  &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  std::ostream &operator<<(std::ostream &os, const smat  &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  std::ostream &operator<<(std::ostream &os, const bmat  &m);
 
-extern template std::istream &operator>>(std::istream &is, mat  &m);
-extern template std::istream &operator>>(std::istream &is, cmat &m);
-extern template std::istream &operator>>(std::istream &is, imat  &m);
-extern template std::istream &operator>>(std::istream &is, smat  &m);
-extern template std::istream &operator>>(std::istream &is, bmat  &m);
-
-#endif // _MSC_VER
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  std::istream &operator>>(std::istream &is, mat  &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  std::istream &operator>>(std::istream &is, cmat &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  std::istream &operator>>(std::istream &is, imat  &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  std::istream &operator>>(std::istream &is, smat  &m);
+ITPP_EXPORT_TEMPLATE template ITPP_EXPORT  std::istream &operator>>(std::istream &is, bmat  &m);
 
 //! \endcond
 

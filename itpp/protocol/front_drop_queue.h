@@ -25,9 +25,19 @@
  *
  * -------------------------------------------------------------------------
  */
-
 #ifndef FRONT_DROP_QUEUE_H
 #define FRONT_DROP_QUEUE_H
+
+#include <itpp/itexports.h>
+
+#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB) && !defined(itpp_EXPORTS))
+
+#ifndef ITPP_PROTOCOL_EXCLUDED
+#define ITPP_PROTOCOL_EXCLUDED
+#pragma message( "PROTOCOL definitions are not available for MSVC shared builds" )
+#endif
+
+#else
 
 #include <itpp/protocol/packet.h>
 #include <itpp/protocol/events.h>
@@ -82,6 +92,8 @@ private:
 //@}
 
 } // namespace itpp
+
+#endif
 
 #endif // #ifndef FRONT_DROP_QUEUE_H
 

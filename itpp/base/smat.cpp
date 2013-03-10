@@ -37,45 +37,45 @@ namespace itpp
 // Instantiations
 // ---------------------------------------------------------------------
 
-template class Sparse_Mat<int>;
-template class Sparse_Mat<double>;
-template class Sparse_Mat<std::complex<double> >;
+template class ITPP_EXPORT Sparse_Mat<int>;
+template class ITPP_EXPORT Sparse_Mat<double>;
+template class ITPP_EXPORT Sparse_Mat<std::complex<double> >;
 
-template sparse_imat operator+(const sparse_imat &, const sparse_imat &);
-template sparse_mat operator+(const sparse_mat &, const sparse_mat &);
-template sparse_cmat operator+(const sparse_cmat &, const sparse_cmat &);
+template ITPP_EXPORT sparse_imat operator+(const sparse_imat &, const sparse_imat &);
+template ITPP_EXPORT sparse_mat operator+(const sparse_mat &, const sparse_mat &);
+template ITPP_EXPORT sparse_cmat operator+(const sparse_cmat &, const sparse_cmat &);
 
-template sparse_imat operator*(const sparse_imat &, const sparse_imat &);
-template sparse_mat operator*(const sparse_mat &, const sparse_mat &);
-template sparse_cmat operator*(const sparse_cmat &, const sparse_cmat &);
+template ITPP_EXPORT sparse_imat operator*(const sparse_imat &, const sparse_imat &);
+template ITPP_EXPORT sparse_mat operator*(const sparse_mat &, const sparse_mat &);
+template ITPP_EXPORT sparse_cmat operator*(const sparse_cmat &, const sparse_cmat &);
 
-template ivec operator*(const ivec &, const sparse_imat &);
-template vec operator*(const vec &, const sparse_mat &);
-template cvec operator*(const cvec &, const sparse_cmat &);
+template ITPP_EXPORT ivec operator*(const ivec &, const sparse_imat &);
+template ITPP_EXPORT vec operator*(const vec &, const sparse_mat &);
+template ITPP_EXPORT cvec operator*(const cvec &, const sparse_cmat &);
 
-template ivec operator*(const sparse_imat &, const ivec &);
-template vec operator*(const sparse_mat &, const vec &);
-template cvec operator*(const sparse_cmat &, const cvec &);
+template ITPP_EXPORT ivec operator*(const sparse_imat &, const ivec &);
+template ITPP_EXPORT vec operator*(const sparse_mat &, const vec &);
+template ITPP_EXPORT cvec operator*(const sparse_cmat &, const cvec &);
 
-template imat trans_mult(const sparse_imat &);
-template mat trans_mult(const sparse_mat &);
-template cmat trans_mult(const sparse_cmat &);
+template ITPP_EXPORT imat trans_mult(const sparse_imat &);
+template ITPP_EXPORT mat trans_mult(const sparse_mat &);
+template ITPP_EXPORT cmat trans_mult(const sparse_cmat &);
 
-template sparse_imat trans_mult_s(const sparse_imat &);
-template sparse_mat trans_mult_s(const sparse_mat &);
-template sparse_cmat trans_mult_s(const sparse_cmat &);
+template ITPP_EXPORT sparse_imat trans_mult_s(const sparse_imat &);
+template ITPP_EXPORT sparse_mat trans_mult_s(const sparse_mat &);
+template ITPP_EXPORT sparse_cmat trans_mult_s(const sparse_cmat &);
 
-template sparse_imat trans_mult(const sparse_imat &, const sparse_imat &);
-template sparse_mat trans_mult(const sparse_mat &, const sparse_mat &);
-template sparse_cmat trans_mult(const sparse_cmat &, const sparse_cmat &);
+template ITPP_EXPORT sparse_imat trans_mult(const sparse_imat &, const sparse_imat &);
+template ITPP_EXPORT sparse_mat trans_mult(const sparse_mat &, const sparse_mat &);
+template ITPP_EXPORT sparse_cmat trans_mult(const sparse_cmat &, const sparse_cmat &);
 
-template ivec trans_mult(const sparse_imat &, const ivec &);
-template vec trans_mult(const sparse_mat &, const vec &);
-template cvec trans_mult(const sparse_cmat &, const cvec &);
+template ITPP_EXPORT ivec trans_mult(const sparse_imat &, const ivec &);
+template ITPP_EXPORT vec trans_mult(const sparse_mat &, const vec &);
+template ITPP_EXPORT cvec trans_mult(const sparse_cmat &, const cvec &);
 
-template sparse_imat mult_trans(const sparse_imat &, const sparse_imat &);
-template sparse_mat mult_trans(const sparse_mat &, const sparse_mat &);
-template sparse_cmat mult_trans(const sparse_cmat &, const sparse_cmat &);
+template ITPP_EXPORT sparse_imat mult_trans(const sparse_imat &, const sparse_imat &);
+template ITPP_EXPORT sparse_mat mult_trans(const sparse_mat &, const sparse_mat &);
+template ITPP_EXPORT sparse_cmat mult_trans(const sparse_cmat &, const sparse_cmat &);
 
 } // namespace itpp
 

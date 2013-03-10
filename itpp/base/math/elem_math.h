@@ -32,7 +32,7 @@
 #include <itpp/base/help_functions.h>
 #include <itpp/base/converters.h>
 #include <cstdlib> // required by std::abs()
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -54,9 +54,9 @@ inline vec sqr(const vec &x) { return apply_function<double>(sqr, x); }
 //! Square of elements
 inline mat sqr(const mat &x) { return apply_function<double>(sqr, x); }
 //! Absolute square of elements
-vec sqr(const cvec &x);
+ITPP_EXPORT vec sqr(const cvec &x);
 //! Absolute square of elements
-mat sqr(const cmat &x);
+ITPP_EXPORT mat sqr(const cmat &x);
 
 
 // -------------------- abs function --------------------
@@ -70,9 +70,9 @@ inline ivec abs(const ivec &x) { return apply_function<int>(std::abs, x); }
 //! Absolute value
 inline imat abs(const imat &x) { return apply_function<int>(std::abs, x); }
 //! Absolute value
-vec abs(const cvec &x);
+ITPP_EXPORT vec abs(const cvec &x);
 //! Absolute value
-mat abs(const cmat &x);
+ITPP_EXPORT mat abs(const cmat &x);
 
 
 // -------------------- sign/sgn functions --------------------
@@ -128,11 +128,11 @@ inline mat sqrt(const mat &x) { return apply_function<double>(std::sqrt, x); }
 // -------------------- gamma function --------------------
 
 //! Deprecated gamma function - please use tgamma() instead
-double gamma(double x);
+ITPP_EXPORT double gamma(double x);
 //! Deprecated gamma function for vectors. Will be changed to tgamma().
-vec gamma(const vec &x);
+ITPP_EXPORT vec gamma(const vec &x);
 //! Deprecated gamma function for matrices. Will be changed to tgamma().
-mat gamma(const mat &x);
+ITPP_EXPORT mat gamma(const mat &x);
 
 
 // -------------------- rem function --------------------
@@ -172,19 +172,19 @@ inline int mod(int k, int n)
 // -------------------- factorial coefficient function --------------------
 
 //! Calculates factorial coefficient for index <= 170.
-double fact(int index);
+ITPP_EXPORT double fact(int index);
 
 
 // -------------------- binomial coefficient function --------------------
 
 //! Compute the binomial coefficient "n over k".
-double binom(int n, int k);
+ITPP_EXPORT double binom(int n, int k);
 
 //! Compute the binomial coefficient "n over k".
-int binom_i(int n, int k);
+ITPP_EXPORT int binom_i(int n, int k);
 
 //! Compute the base 10 logarithm of the binomial coefficient "n over k".
-double log_binom(int n, int k);
+ITPP_EXPORT double log_binom(int n, int k);
 
 
 // -------------------- greatest common divisor function --------------------
@@ -196,24 +196,24 @@ double log_binom(int n, int k);
  * \a a and \a b must be non-negative integers. \a gdc(0, 0) is 0 by
  * convention; all other GCDs are positive integers.
  */
-int gcd(int a, int b);
+ITPP_EXPORT int gcd(int a, int b);
 
 
 // -------------------- complex related functions --------------------
 
 //! Real part of complex values
-vec real(const cvec &x);
+ITPP_EXPORT vec real(const cvec &x);
 //! Real part of complex values
-mat real(const cmat &x);
+ITPP_EXPORT mat real(const cmat &x);
 //! Imaginary part of complex values
-vec imag(const cvec &x);
+ITPP_EXPORT vec imag(const cvec &x);
 //! Imaginary part of complex values
-mat imag(const cmat &x);
+ITPP_EXPORT mat imag(const cmat &x);
 
 //! Argument (angle)
-vec arg(const cvec &x);
+ITPP_EXPORT vec arg(const cvec &x);
 //! Argument (angle)
-mat arg(const cmat &x);
+ITPP_EXPORT mat arg(const cmat &x);
 //! Angle
 inline vec angle(const cvec &x) { return arg(x); }
 //! Angle
@@ -234,10 +234,10 @@ inline cmat conj(const cmat &x)
 }
 #else
 //! Conjugate of complex value
-cvec conj(const cvec &x);
+ITPP_EXPORT cvec conj(const cvec &x);
 
 //! Conjugate of complex value
-cmat conj(const cmat &x);
+ITPP_EXPORT cmat conj(const cmat &x);
 #endif
 
 //!@}

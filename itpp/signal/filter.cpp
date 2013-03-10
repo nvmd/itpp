@@ -251,27 +251,27 @@ vec fir1(int N, double cutoff)
   return a;
 }
 
-template class MA_Filter<double, double, double>;
-template class MA_Filter < double, std::complex<double>,
+template class ITPP_EXPORT MA_Filter<double, double, double>;
+template class ITPP_EXPORT MA_Filter < double, std::complex<double>,
 std::complex<double> >;
-template class MA_Filter<std::complex<double>, double, std::complex<double> >;
-template class MA_Filter < std::complex<double>, std::complex<double>,
-std::complex<double> >;
-
-template class AR_Filter<double, double, double>;
-template class AR_Filter < double, std::complex<double>,
-std::complex<double> >;
-template class AR_Filter < std::complex<double>, double,
-std::complex<double> >;
-template class AR_Filter < std::complex<double>, std::complex<double>,
+template class ITPP_EXPORT MA_Filter<std::complex<double>, double, std::complex<double> >;
+template class ITPP_EXPORT MA_Filter < std::complex<double>, std::complex<double>,
 std::complex<double> >;
 
-template class ARMA_Filter<double, double, double>;
-template class ARMA_Filter < double, std::complex<double>,
+template class ITPP_EXPORT AR_Filter<double, double, double>;
+template class ITPP_EXPORT AR_Filter < double, std::complex<double>,
 std::complex<double> >;
-template class ARMA_Filter < std::complex<double>, double,
+template class ITPP_EXPORT AR_Filter < std::complex<double>, double,
 std::complex<double> >;
-template class ARMA_Filter < std::complex<double>, std::complex<double>,
+template class ITPP_EXPORT AR_Filter < std::complex<double>, std::complex<double>,
+std::complex<double> >;
+
+template class ITPP_EXPORT ARMA_Filter<double, double, double>;
+template class ITPP_EXPORT ARMA_Filter < double, std::complex<double>,
+std::complex<double> >;
+template class ITPP_EXPORT ARMA_Filter < std::complex<double>, double,
+std::complex<double> >;
+template class ITPP_EXPORT ARMA_Filter < std::complex<double>, std::complex<double>,
 std::complex<double> >;
 
 } // namespace itpp

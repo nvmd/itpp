@@ -31,7 +31,7 @@
 
 #include <itpp/base/mat.h>
 #include <itpp/base/vec.h>
-
+#include <itpp/itexports.h>
 
 namespace itpp
 {
@@ -44,19 +44,19 @@ namespace itpp
   returned matrix.
   See also the \c gray() function in \c math/scalfunc.h.
 */
-bmat graycode(int m);
+ITPP_EXPORT bmat graycode(int m);
 
 /*!
   \brief Calculate the Hamming distance between \a a and \a b
   \ingroup misccommfunc
 */
-int hamming_distance(const bvec &a, const bvec &b);
+ITPP_EXPORT int hamming_distance(const bvec &a, const bvec &b);
 
 /*!
   \brief Calculate the Hamming weight of \a a
   \ingroup misccommfunc
 */
-int weight(const bvec &a);
+ITPP_EXPORT int weight(const bvec &a);
 
 /*!
  * \brief Compute the water-filling solution
@@ -78,7 +78,7 @@ int weight(const bvec &a);
  *
  * The computational complexity of the method is \f$O(n^2)\f$ at most
  */
-vec waterfilling(const vec& alpha, double P);
+ITPP_EXPORT vec waterfilling(const vec& alpha, double P);
 
 } // namespace itpp
 
