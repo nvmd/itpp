@@ -400,8 +400,7 @@ public:
 
   //! Output stream operator (plain text)
   friend ITPP_EXPORT std::ostream &operator<<(std::ostream &os, const GF2mat &X);
-
-#if (!defined(_MSC_VER) || (defined(_MSC_VER) && defined(ITPP_SHARED_LIB) && defined(itpp_EXPORTS)))
+#if (!defined(_MSC_VER) || (defined(_MSC_VER) && defined(itpp_EXPORTS))) || (defined(_MSC_VER) && !defined(ITPP_SHARED_LIB))
 //MSVC: disable it_file operations for the shared build.
 
   //! Write the matrix to file
@@ -432,8 +431,7 @@ private:
 // ----------------------------------------------------------------------
 // GF2mat related functions
 // ----------------------------------------------------------------------
-
-#if (!defined(_MSC_VER) || (defined(_MSC_VER) && defined(ITPP_SHARED_LIB) && defined(itpp_EXPORTS)))
+#if (!defined(_MSC_VER) || (defined(_MSC_VER) && defined(itpp_EXPORTS))) || (defined(_MSC_VER) && !defined(ITPP_SHARED_LIB))
 //MSVC: disable it_file operations for the shared build.
 /*!
   /relatesalso GF2mat

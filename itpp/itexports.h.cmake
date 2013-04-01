@@ -47,9 +47,6 @@
   #ifndef ITPP_EXPORT_TEMPLATE
     #define ITPP_EXPORT_TEMPLATE extern
   #endif
-  #ifndef ITPP_EXPORT_TEMPLATE
-    #define ITPP_EXPORT_TEMPLATE extern
-  #endif
 #endif
 
 #endif /*ITPP_SHARED_LIB*/

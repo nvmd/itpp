@@ -174,7 +174,7 @@ private:
 
   Vec<T3> mem;
   Vec<T2> coeffs;
-  T2 a0;
+  Vec<T2> a0;
   int inptr;
   bool init;
 };
@@ -421,8 +421,9 @@ void AR_Filter<T1, T2, T3>::set_coeffs(const Vec<T2> &a)
   it_assert(a.size() > 0, "AR_Filter: size of filter is 0!");
   it_assert(a(0) != T2(0), "AR_Filter: a(0) cannot be 0!");
 
-  a0 = a(0);
-  coeffs = a / a0;
+  a0.set_size(1);//needed to keep the first coefficient for future reuse
+  a0(0) = a(0);
+  coeffs = a / a0(0);
 
   mem.set_size(coeffs.size() - 1, false);
   mem.clear();
@@ -464,7 +465,7 @@ T3 AR_Filter<T1, T2, T3>::filter(const T1 Sample)
   T3 s = Sample;
 
   if (mem.size() == 0)
-    return (s / a0);
+    return (s / a0(0));
 
   int L = mem.size() - inptr;
   for (int i = 0; i < L; i++) {
@@ -479,7 +480,7 @@ T3 AR_Filter<T1, T2, T3>::filter(const T1 Sample)
     inptr += mem.size();
   mem(inptr) = s;
 
-  return (s / a0);
+  return (s / a0(0));
 }
 
 
