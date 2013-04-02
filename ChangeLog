@@ -1,3 +1,18 @@
+2013-04-02  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* gtests/CMakeLists.txt, gtests/bch_test.cpp, gtests/itfile_test.cpp,
+	itpp/base/base_exports.h, itpp/base/binfile.cpp, itpp/base/binfile.h,
+	itpp/base/gf2mat.h, itpp/base/itfile.cpp, itpp/base/itfile.h,
+	itpp/comm/channel.h, itpp/comm/convcode.h, itpp/comm/crc.h,
+	itpp/comm/egolay.h, itpp/comm/galois.h, itpp/comm/hammcode.h,
+	itpp/comm/ldpc.h, itpp/comm/llr.h, itpp/comm/modulator.h,
+	itpp/comm/modulator_nd.h, itpp/comm/punct_convcode.h,
+	itpp/comm/rec_syst_conv_code.h, itpp/comm/sequence.h, itpp/comm/siso.h,
+	itpp/comm/spread.h, itpp/comm/stc.h, itpp/comm/turbo.h, itpp/itbase.h,
+	itpp/optim/newton_search.h, itpp/stat/mog_diag_kmeans.h,
+	itpp/stat/mog_generic.h: binfile and itfile classes have been rewritten in
+	order to be exportable from shared library build with MSVC. Some code
+	refactoring has been done. Thanks to Andy Panov for providing the patch.
+
 2013-03-10  Bogdan Cristea <cristeab@users.sourceforge.net>
   * CMakeLists.txt, doc/local/installation.doc,
 	doc/tutorial/src/pccc_bersim_awgn.cpp,

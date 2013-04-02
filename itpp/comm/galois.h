@@ -34,19 +34,10 @@
 #include <itpp/base/binary.h>
 #include <itpp/base/converters.h>
 #include <itpp/itexports.h>
+#include <itpp/base/base_exports.h>
 
 namespace itpp
 {
-
-//! \cond
-
-#if (defined(_MSC_VER) && defined (ITPP_SHARED_LIB))
-//MSVC explicitely instantiate required template while building the shared library
-template class ITPP_EXPORT Array<Array<int> >;
-template class ITPP_EXPORT Vec<int>;
-#endif
-
-//! \endcond
 
 /*!
   \brief Galois Field GF(q).

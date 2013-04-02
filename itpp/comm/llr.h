@@ -40,15 +40,6 @@
 namespace itpp
 {
 
-//! \cond
-
-#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB))
-//MSVC explicitely instantiate required template while building the shared library
-template class ITPP_EXPORT Vec<int>;
-#endif
-
-//! \endcond
-
 /*! \relates LLR_calc_unit
   The quantized log-likelihood ratio (QLLR) representation, scalar form. See \c LLR_calc_unit.
 */

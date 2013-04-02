@@ -36,15 +36,6 @@
 namespace itpp
 {
 
-//! \cond
-
-#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB))
-//MSVC explicitely instantiate required template while building the shared library
-template class ITPP_EXPORT Vec<bin>;
-#endif
-
-//! \endcond
-
 /*!
   \ingroup fec
   \brief Cyclic Redundancy Check Codes

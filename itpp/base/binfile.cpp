@@ -40,6 +40,33 @@ using std::ios;
 namespace itpp
 {
 
+namespace binfile_details
+{
+    //! Default Constructor
+    Ofstream_Binfile_Facade::Ofstream_Binfile_Facade ( ) : _str(new std::ofstream()) {};
+    //! Constructor from filename and stream mode
+    Ofstream_Binfile_Facade::Ofstream_Binfile_Facade ( const char * filename, std::ios_base::openmode mode) :
+    _str(new std::ofstream(filename,mode)){};
+    //! Destructor
+    Ofstream_Binfile_Facade::~Ofstream_Binfile_Facade() {delete _str;}
+
+    //! Default Constructor
+    Ifstream_Binfile_Facade::Ifstream_Binfile_Facade ( ) : _str(new std::ifstream()) {};
+    //! Constructor from filename and stream mode
+    Ifstream_Binfile_Facade::Ifstream_Binfile_Facade ( const char * filename, std::ios_base::openmode mode) :
+    _str(new std::ifstream(filename,mode)){};
+    //! Destructor
+    Ifstream_Binfile_Facade::~Ifstream_Binfile_Facade() {delete _str;}
+
+    //! Default Constructor
+    Fstream_Binfile_Facade::Fstream_Binfile_Facade ( ) : _str(new std::fstream()) {};
+    //! Constructor from filename and stream mode
+    Fstream_Binfile_Facade::Fstream_Binfile_Facade ( const char * filename, std::ios_base::openmode mode) :
+    _str(new std::fstream(filename,mode)){};
+    //! Destructor
+    Fstream_Binfile_Facade::~Fstream_Binfile_Facade() {delete _str;}
+}
+
 //! Read binary data and optionally switch endianness
 template<typename T1, typename T2> inline
 void read_endian(T1& st, T2& data, bool switch_endian = false)
@@ -96,9 +123,9 @@ bfstream_base::bfstream_base(endian e):
 // ----------------------------------------------------------------------
 
 bofstream::bofstream(const std::string& name, endian e) :
-    bfstream_base(e), ofstream(name.c_str(), ios::out | ios::binary) {}
+    bfstream_base(e), binfile_details::Ofstream_Binfile_Facade(name.c_str(), ios::out | ios::binary) {}
 
-bofstream::bofstream() : bfstream_base(), ofstream() {}
+bofstream::bofstream() : bfstream_base(), binfile_details::Ofstream_Binfile_Facade() {}
 
 void bofstream::open(const std::string& name, endian e)
 {
@@ -106,7 +133,7 @@ void bofstream::open(const std::string& name, endian e)
     switch_endianity = true;
   else
     switch_endianity = false;
-  ofstream::open(name.c_str(), ios::out | ios::binary);
+  Ofstream_Binfile_Facade::open(name.c_str(), ios::out | ios::binary);
 }
 
 bofstream& bofstream::operator<<(char a)
@@ -169,6 +196,13 @@ bofstream& bofstream::operator<<(double a)
   return *this;
 }
 
+bofstream& bofstream::operator<<(bin a)
+{
+  write_endian<bofstream, int32_t>(*this, static_cast<int32_t>(a), switch_endianity);
+  return *this;
+}
+
+
 bofstream& bofstream::operator<<(const char *a)
 {
   write(a, strlen(a) + 1);
@@ -186,9 +220,9 @@ bofstream& bofstream::operator<<(const std::string& a)
 // ----------------------------------------------------------------------
 
 bifstream::bifstream(const std::string& name, endian e) :
-    bfstream_base(e), ifstream(name.c_str(), ios::in | ios::binary) {}
+    bfstream_base(e), binfile_details::Ifstream_Binfile_Facade(name.c_str(), ios::in | ios::binary) {}
 
-bifstream::bifstream() : bfstream_base(), ifstream() {}
+bifstream::bifstream() : bfstream_base(), binfile_details::Ifstream_Binfile_Facade() {}
 
 void bifstream::open(const std::string& name, endian e)
 {
@@ -196,7 +230,7 @@ void bifstream::open(const std::string& name, endian e)
     switch_endianity = true;
   else
     switch_endianity = false;
-  ifstream::open(name.c_str(), ios::in | ios::binary);
+  binfile_details::Ifstream_Binfile_Facade::open(name.c_str(), ios::in | ios::binary);
 }
 
 int bifstream::length() // in bytes
@@ -271,6 +305,16 @@ bifstream& bifstream::operator>>(double& a)
   return *this;
 }
 
+bifstream& bifstream::operator>>(bin& a)
+{
+  uint32_t tmp;
+  read_endian<bifstream, uint32_t>(*this, tmp, switch_endianity);
+  it_assert((tmp == 0) || (tmp == 1),
+            "bifstream::operator>>(): binary input value must be 0 or 1");
+  a = tmp;
+  return *this;
+}
+
 bifstream& bifstream::operator>>(char *a)
 {
   getline(a, '\0');
@@ -279,7 +323,7 @@ bifstream& bifstream::operator>>(char *a)
 
 bifstream& bifstream::operator>>(std::string& a)
 {
-  std::getline(*this, a, '\0');
+  std::getline(*stream(), a, '\0');
   return *this;
 }
 
@@ -288,10 +332,10 @@ bifstream& bifstream::operator>>(std::string& a)
 // ----------------------------------------------------------------------
 
 bfstream::bfstream(const std::string& name, endian e) :
-    bfstream_base(e), fstream(name.c_str(), ios::in | ios::out | ios::binary)
+    bfstream_base(e), binfile_details::Fstream_Binfile_Facade(name.c_str(), ios::in | ios::out | ios::binary)
 {}
 
-bfstream::bfstream() : bfstream_base(), fstream() {}
+bfstream::bfstream() : bfstream_base(), binfile_details::Fstream_Binfile_Facade() {}
 
 void bfstream::open(const std::string& name, bool trnc, endian e)
 {
@@ -301,10 +345,10 @@ void bfstream::open(const std::string& name, bool trnc, endian e)
     switch_endianity = false;
 
   if (trnc)
-    fstream::open(name.c_str(), ios::in | ios::out | ios::binary
+    binfile_details::Fstream_Binfile_Facade::open(name.c_str(), ios::in | ios::out | ios::binary
                   | ios::trunc);
   else
-    fstream::open(name.c_str(), ios::in | ios::out | ios::binary);
+    binfile_details::Fstream_Binfile_Facade::open(name.c_str(), ios::in | ios::out | ios::binary);
 }
 
 void bfstream::open_readonly(const std::string& name, endian e)
@@ -313,7 +357,7 @@ void bfstream::open_readonly(const std::string& name, endian e)
     switch_endianity = true;
   else
     switch_endianity = false;
-  fstream::open(name.c_str(), ios::in | ios::binary);
+  binfile_details::Fstream_Binfile_Facade::open(name.c_str(), ios::in | ios::binary);
 }
 
 int bfstream::length() // in bytes
@@ -383,6 +427,12 @@ bfstream& bfstream::operator<<(float a)
 bfstream& bfstream::operator<<(double a)
 {
   write_endian<bfstream, double>(*this, a, switch_endianity);
+  return *this;
+}
+
+bfstream& bfstream::operator<<(bin a)
+{
+  write_endian<bfstream, int32_t>(*this, static_cast<int32_t>(a), switch_endianity);
   return *this;
 }
 
@@ -461,6 +511,16 @@ bfstream& bfstream::operator>>(double& a)
   return *this;
 }
 
+bfstream& bfstream::operator>>(bin& a)
+{
+  uint32_t tmp;
+  read_endian<bfstream, uint32_t>(*this, tmp, switch_endianity);
+  it_assert((tmp == 0) || (tmp == 1),
+            "bfstream::operator>>(): binary input value must be 0 or 1");
+  a = tmp;
+  return *this;
+}
+
 bfstream& bfstream::operator>>(char *a)
 {
   getline(a, '\0');
@@ -469,7 +529,7 @@ bfstream& bfstream::operator>>(char *a)
 
 bfstream& bfstream::operator>>(std::string& a)
 {
-  std::getline(*this, a, '\0');
+  std::getline(*stream(), a, '\0');
   return *this;
 }
 

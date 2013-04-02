@@ -40,16 +40,6 @@
 namespace itpp
 {
 
-//! \cond
-
-#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB))
-//MSVC explicitely instantiate required template while building the shared library
-template class ITPP_EXPORT Sparse_Mat<bin>;
-template class ITPP_EXPORT Mat<int>;
-#endif
-
-//! \endcond
-
 // ---------------------------------------------------------------------------
 // LDPC_Parity
 // ---------------------------------------------------------------------------

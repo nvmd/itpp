@@ -38,15 +38,6 @@
 namespace itpp
 {
 
-//! \cond
-
-#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB))
-//MSVC explicitely instantiate required template while building the shared library
-template class ITPP_EXPORT Mat<int>;
-#endif
-
-//! \endcond
-
 /*!
   \ingroup fec
   \brief A Recursive Systematic Convolutional Encoder/Decoder class

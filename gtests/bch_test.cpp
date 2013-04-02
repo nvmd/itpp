@@ -136,7 +136,7 @@ TEST(BCH, codec)
     bvec decoded;
     bvec is_valid_cw;    // test the new decoding procedure for the systematic case (should extract the systematics)
     // all codewords valid?
-    ASSERT_EQ(0, bch.decode(err, decoded, is_valid_cw));
+    ASSERT_FALSE(bch.decode(err, decoded, is_valid_cw));
     // valid codeword?
     ASSERT_TRUE(bvec("0") == is_valid_cw);
 

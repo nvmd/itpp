@@ -30,10 +30,18 @@ file ( GLOB ITPP_TEST_SRCS *.cpp )
 include_directories ( ${CMAKE_SOURCE_DIR} ${CMAKE_BINARY_DIR} ${GTEST_DIR} ${GTEST_DIR}/include )
 
 add_executable ( itpp_gtests ${ITPP_TEST_SRCS} ${GTEST_DIR}/src/gtest-all.cc ${GTEST_DIR}/src/gtest_main.cc )
-set_target_properties ( itpp_gtests PROPERTIES COMPILE_FLAGS 
-                        -DFASTICA_TEST_FILE=\\""${CMAKE_CURRENT_SOURCE_DIR}"/fastica_test_data.txt\\"
-                        -DPARSER_TEST_FILE=\\""${CMAKE_CURRENT_SOURCE_DIR}"/parser_test_data.txt\\"
-                        -DITFILE_TEST_FILE=\\""${CMAKE_CURRENT_SOURCE_DIR}"/itfile_test_data.it\\" )
+foreach (FILE ${ITPP_TEST_SRCS})
+  get_filename_component ( target ${FILE} NAME_WE )
+  if (target MATCHES "^fastica")
+    set_source_files_properties(${target} PROPERTIES COMPILE_FLAGS -DFASTICA_TEST_FILE=\\""${CMAKE_CURRENT_SOURCE_DIR}"/fastica_test_data.txt\\")
+  endif()
+  if (target MATCHES "^parser")
+    set_source_files_properties(${target} PROPERTIES COMPILE_FLAGS -DPARSER_TEST_FILE=\\""${CMAKE_CURRENT_SOURCE_DIR}"/parser_test_data.txt\\")
+  endif()
+  if (target MATCHES "^itfile")
+    set_source_files_properties(${target} PROPERTIES COMPILE_FLAGS -DITFILE_TEST_FILE=\\""${CMAKE_CURRENT_SOURCE_DIR}"/itfile_test_data.it\\")
+  endif()
+endforeach (FILE)
 
 if (NOT WIN32)
   target_link_libraries ( itpp_gtests ${ITPP_LIBS} ${libitpp_target} pthread )

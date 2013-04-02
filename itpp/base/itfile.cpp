@@ -501,11 +501,10 @@ void it_ifile::low_level_read_hi(Array<std::complex<double> > &v)
 // it_file class
 // ----------------------------------------------------------------------
 
-it_file::it_file(): low_prec(false), next_name(""), next_desc(""),
-    fname("") {}
+it_file::it_file(): low_prec(false), _strings(new Strings_Holder) {}
 
 it_file::it_file(const std::string &name, bool trunc):
-    low_prec(false), next_name(""), next_desc(""), fname("")
+    low_prec(false), _strings(new Strings_Holder)
 {
   open(name, trunc);
 }
@@ -525,7 +524,7 @@ void it_file::open(const std::string &name, bool trunc)
     it_error("it_file::open(): Corrupt file (not an it_file)");
   }
 
-  fname = name;
+  fname() = name;
 }
 
 void it_file::close()
@@ -546,11 +545,11 @@ void it_file::write_file_header()
 
 void it_file::write_data_header(const std::string &type, uint64_t size)
 {
-  it_error_if(next_name == "", "it_file::write_data_header(): Can not "
+  it_error_if(next_name() == "", "it_file::write_data_header(): Can not "
               "write without a name");
-  write_data_header(type, next_name, size, next_desc);
-  next_name = "";
-  next_desc = "";
+  write_data_header(type, next_name(), size, next_desc());
+  next_name() = "";
+  next_desc() = "";
 }
 
 void it_file::write_data_header(const std::string &type,
@@ -686,7 +685,7 @@ void it_file::pack()
 
   // close and reopen file truncating it
   s.close();
-  s.open(fname, true, bfstream_base::l_endian);
+  s.open(fname(), true, bfstream_base::l_endian);
   // write compacted data to the reopend empty file
   for (uint64_t i = 0; i < size; ++i)
     s.put(buffer[i]);
@@ -2317,16 +2316,15 @@ void it_ifile_old::low_level_read_hi(Array<std::complex<double> > &v)
   }
 }
 
-it_file_old::it_file_old()
+it_file_old::it_file_old():_string(new String_Holder())
 {
   low_prec = false;
-  next_name = "";
 }
 
-it_file_old::it_file_old(const std::string &name, bool trunc)
+it_file_old::it_file_old(const std::string &name, bool trunc):
+_string(new String_Holder())
 {
   low_prec = false;
-  next_name = "";
   open(name, trunc);
 }
 
@@ -2364,9 +2362,9 @@ void it_file_old::write_file_header()
 
 void it_file_old::write_data_header(const std::string &type, uint32_t size)
 {
-  it_error_if(next_name == "", "Try to write without a name");
-  write_data_header(type, next_name, size);
-  next_name = "";
+  it_error_if(next_name() == "", "Try to write without a name");
+  write_data_header(type, next_name(), size);
+  next_name() = "";
 }
 
 void it_file_old::write_data_header(const std::string &type,

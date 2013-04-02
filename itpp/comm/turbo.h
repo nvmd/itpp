@@ -41,7 +41,6 @@ namespace itpp
 
 #if (defined(_MSC_VER) && defined (ITPP_SHARED_LIB))
 //MSVC explicitely instantiate required template while building the shared library
-template class ITPP_EXPORT Mat<bin>;
 template class ITPP_EXPORT Sequence_Interleaver<bin>;
 template class ITPP_EXPORT Sequence_Interleaver<double>;
 #endif

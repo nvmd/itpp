@@ -54,10 +54,14 @@ namespace itpp
 //! \cond
 
 #if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB))
-//MSVC explicitely instantiate required template while building the shared library
-template  class ITPP_EXPORT Mat<int>;
-template  class ITPP_EXPORT Mat<unsigned char>;
-template  class ITPP_EXPORT Vec<int>;
+//MSVC needs to explicitely instantiate required templates while building the
+//shared library. Also, these definitions are marked as imported when library is
+//linked with user's code.
+
+template class ITPP_EXPORT Sparse_Mat<bin>;
+template class ITPP_EXPORT Sparse_Vec<bin>;
+template class ITPP_EXPORT Mat<unsigned char>;
+
 #endif
 
 //! \endcond
@@ -400,15 +404,12 @@ public:
 
   //! Output stream operator (plain text)
   friend ITPP_EXPORT std::ostream &operator<<(std::ostream &os, const GF2mat &X);
-#if (!defined(_MSC_VER) || (defined(_MSC_VER) && defined(itpp_EXPORTS))) || (defined(_MSC_VER) && !defined(ITPP_SHARED_LIB))
-//MSVC: disable it_file operations for the shared build.
 
   //! Write the matrix to file
-  friend it_file &operator<<(it_file &f, const GF2mat &X);
+  friend ITPP_EXPORT it_file &operator<<(it_file &f, const GF2mat &X);
 
   //! Read the matrix from file
-  friend it_ifile &operator>>(it_ifile &f, GF2mat &X);
-#endif
+  friend ITPP_EXPORT it_ifile &operator>>(it_ifile &f, GF2mat &X);
 
   //!Multiplication X*Y' where X and Y are GF(2) matrices
   friend ITPP_EXPORT GF2mat mult_trans(const GF2mat &X, const GF2mat &Y);
@@ -431,21 +432,19 @@ private:
 // ----------------------------------------------------------------------
 // GF2mat related functions
 // ----------------------------------------------------------------------
-#if (!defined(_MSC_VER) || (defined(_MSC_VER) && defined(itpp_EXPORTS))) || (defined(_MSC_VER) && !defined(ITPP_SHARED_LIB))
-//MSVC: disable it_file operations for the shared build.
+
 /*!
   /relatesalso GF2mat
   /brief Write GF(2) matrix to file.
 */
-it_file &operator<<(it_file &f, const GF2mat &X);
+ITPP_EXPORT it_file &operator<<(it_file &f, const GF2mat &X);
 
 /*!
   /relatesalso GF2mat
   /brief Read GF(2) matrix from file.
 */
-it_ifile &operator>>(it_ifile &f, GF2mat &X);
+ITPP_EXPORT it_ifile &operator>>(it_ifile &f, GF2mat &X);
 
-#endif
 
 /*!
   \relatesalso GF2mat

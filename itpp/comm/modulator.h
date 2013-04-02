@@ -554,16 +554,6 @@ void Modulator<T>::calculate_softbit_matrices()
 // ----------------------------------------------------------------------
 // Instantiations
 // ----------------------------------------------------------------------
-
-#if (defined(_MSC_VER) && defined (ITPP_SHARED_LIB))
-//MSVC explicitely instantiate required template while building the shared library
-template class ITPP_EXPORT Mat<bin>;
-template class ITPP_EXPORT Mat<int>;
-template class ITPP_EXPORT Vec<int>;
-template class ITPP_EXPORT Vec<double>;
-template class ITPP_EXPORT Vec<std::complex<double> >;
-#endif
-
 ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Modulator<double>;
 ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Modulator<std::complex<double> >;
 

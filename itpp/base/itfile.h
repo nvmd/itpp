@@ -31,15 +31,6 @@
 
 #include <itpp/base/vec.h>
 
-#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB) && !defined(itpp_EXPORTS))
-
-#ifndef ITPP_ITFILE_EXCLUDED
-#define ITPP_ITFILE_EXCLUDED
-#pragma message( "ITFILE definitions are not available for MSVC shared builds" )
-#endif
-
-#else
-
 #include <itpp/base/array.h>
 #include <itpp/base/binfile.h>
 #include <itpp/base/ittypes.h>
@@ -100,7 +91,7 @@ namespace itpp
   \brief Base class for it_ifile and it_file.
   \ingroup itfile
 */
-class it_file_base
+class ITPP_EXPORT it_file_base
 {
 public:
   //! Data header structure
@@ -138,7 +129,7 @@ protected:
   \brief The IT++ file format reading class.
   \ingroup itfile
 */
-class it_ifile : public it_file_base
+class ITPP_EXPORT it_ifile : public it_file_base
 {
 public:
   //! Default constructor
@@ -157,7 +148,7 @@ public:
   //! Read and check the file header. Return true if the header is valid and false otherwise.
   bool read_check_file_header();
   //! Read data header and return the result in the variable \c h
-  void read_data_header(data_header& h);
+  void read_data_header(it_file_base::data_header& h);
 
   //! Read a char value at the current file pointer position
   void low_level_read(char& x);
@@ -251,7 +242,7 @@ protected:
   \brief The IT++ file format reading and writing class
   \ingroup itfile
 */
-class it_file : public it_ifile
+class ITPP_EXPORT it_file : public it_ifile
 {
 public:
   //! ACTION: Add documentation for this typedef
@@ -269,7 +260,7 @@ public:
   explicit it_file(const std::string& filename, bool trunc = false);
 
   //! Destructor
-  virtual ~it_file() { }
+  virtual ~it_file() { delete _strings;}
 
   /*!
     \brief Open a file for reading and writing
@@ -295,7 +286,7 @@ public:
   //! Set the name and optionally description of the next variable to be saved
   void set_next_name(const std::string& name,
                      const std::string& description = "")
-  { next_name = name; next_desc = description; }
+  { next_name() = name; next_desc() = description; }
 
   //! Write the header for the \c it_file
   void write_file_header();
@@ -386,13 +377,21 @@ protected:
   //! Low precision flag. If true, use float type, otherwise double
   bool low_prec;
   //! Name to be used for saving the next variable
-  std::string next_name;
+  std::string& next_name() {return _strings->_next_name;}
   //! Description to be used for saving the next variable
-  std::string next_desc;
+  std::string& next_desc()  {return _strings->_next_desc;}
 
 private:
+  struct Strings_Holder
+  {
+    std::string _next_name;
+    std::string _next_desc;
+    std::string _fname;
+    Strings_Holder():_next_name(""),_next_desc(""),_fname(""){}
+  };
+  Strings_Holder* _strings;
   // Name of the opened file. Needed by the pack() method.
-  std::string fname;
+  std::string& fname() {return _strings->_fname;}
 };
 
 
@@ -426,7 +425,7 @@ inline it_file& flush(it_file& f)
   f >> Name("v") >> v2;
   \endcode
 */
-class Name
+class ITPP_EXPORT Name
 {
 public:
   //! Constructor
@@ -458,178 +457,178 @@ inline it_file& operator<<(it_file& f, const Name& s)
 }
 
 //! Read the char variable \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, char& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, char& v);
 //! Read the bool variable \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile &f, bool &v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile &f, bool &v);
 
 //! Read the binary variable \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, bin& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, bin& v);
 //! Read the short variable \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, short& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, short& v);
 //! Read the integer variable \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, int& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, int& v);
 //! Read the float variable \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, float& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, float& v);
 //! Read the double variable \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, double& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, double& v);
 //! Read the float complex variable \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, std::complex<float>& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, std::complex<float>& v);
 //! Read the double complex variable \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, std::complex<double>& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, std::complex<double>& v);
 
 //! Read the bvec \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, bvec& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, bvec& v);
 //! Read the svec \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, svec& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, svec& v);
 //! Read the ivec \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, ivec& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, ivec& v);
 //! Read the vec \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, vec& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, vec& v);
 //! Read the cvec \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, cvec& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, cvec& v);
 
 //! Read the string \c str from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, std::string& str);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, std::string& str);
 
 //! Read the bmat \c m from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, bmat& m);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, bmat& m);
 //! Read the smat \c m from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, smat& m);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, smat& m);
 //! Read the imat \c m from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, imat& m);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, imat& m);
 //! Read the mat \c m from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, mat& m);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, mat& m);
 //! Read the cmat \c m from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, cmat& m);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, cmat& m);
 
 //! Read the binary Array \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, Array<bin>& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, Array<bin>& v);
 //! Read the short integer Array \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, Array<short>& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, Array<short>& v);
 //! Read the integer Array \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, Array<int>& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, Array<int>& v);
 //! Read the float Array \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, Array<float>& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, Array<float>& v);
 //! Read the double Array \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, Array<double>& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, Array<double>& v);
 //! Read the float complex Array \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, Array<std::complex<float> >& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, Array<std::complex<float> >& v);
 //! Read the double complex Array \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, Array<std::complex<double> >& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, Array<std::complex<double> >& v);
 
 //! Read the bvec Array \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, Array<bvec>& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, Array<bvec>& v);
 //! Read the svec Array \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, Array<svec>& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, Array<svec>& v);
 //! Read the ivec Array \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, Array<ivec>& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, Array<ivec>& v);
 //! Read the vec Array \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, Array<vec>& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, Array<vec>& v);
 //! Read the cvec Array \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, Array<cvec>& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, Array<cvec>& v);
 
 //! Read the string Array \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, Array<std::string>& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, Array<std::string>& v);
 
 //! Read the bmat Array \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, Array<bmat>& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, Array<bmat>& v);
 //! Read the bmat Array \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, Array<smat>& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, Array<smat>& v);
 //! Read the imat Array \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, Array<imat>& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, Array<imat>& v);
 //! Read the mat Array \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, Array<mat>& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, Array<mat>& v);
 //! Read the cmat Array \c v from the \c it_ifile pointer
-it_ifile& operator>>(it_ifile& f, Array<cmat>& v);
+ITPP_EXPORT it_ifile& operator>>(it_ifile& f, Array<cmat>& v);
 
 
 //! Write the char variable \c x to the \c it_file pointer
-it_file& operator<<(it_file& f, char x);
+ITPP_EXPORT it_file& operator<<(it_file& f, char x);
 //! Write the bool variable \c x to the \c it_file pointer
-it_file& operator<<(it_file &f, bool x);
+ITPP_EXPORT it_file& operator<<(it_file &f, bool x);
 
 //! Write the binary variable \c x to the \c it_file pointer
-it_file& operator<<(it_file& f, bin x);
+ITPP_EXPORT it_file& operator<<(it_file& f, bin x);
 //! Write the short variable \c x to the \c it_file pointer
-it_file& operator<<(it_file& f, short x);
+ITPP_EXPORT it_file& operator<<(it_file& f, short x);
 //! Write the integer variable \c x to the \c it_file pointer
-it_file& operator<<(it_file& f, int x);
+ITPP_EXPORT it_file& operator<<(it_file& f, int x);
 //! Write the float variable \c x to the \c it_file pointer
-it_file& operator<<(it_file& f, float x);
+ITPP_EXPORT it_file& operator<<(it_file& f, float x);
 //! Write the double variable \c x to the \c it_file pointer
-it_file& operator<<(it_file& f, double x);
+ITPP_EXPORT it_file& operator<<(it_file& f, double x);
 //! Write the float complex variable \c x to the \c it_file pointer
-it_file& operator<<(it_file& f, std::complex<float> x);
+ITPP_EXPORT it_file& operator<<(it_file& f, std::complex<float> x);
 //! Write the double complex variable \c x to the \c it_file pointer
-it_file& operator<<(it_file& f, std::complex<double> x);
+ITPP_EXPORT it_file& operator<<(it_file& f, std::complex<double> x);
 
 //! Write the bvec \c v to the \c it_file pointer
-it_file& operator<<(it_file& f, const bvec& v);
+ITPP_EXPORT it_file& operator<<(it_file& f, const bvec& v);
 //! Write the svec \c v to the \c it_file pointer
-it_file& operator<<(it_file& f, const svec& v);
+ITPP_EXPORT it_file& operator<<(it_file& f, const svec& v);
 //! Write the ivec \c v to the \c it_file pointer
-it_file& operator<<(it_file& f, const ivec& v);
+ITPP_EXPORT it_file& operator<<(it_file& f, const ivec& v);
 //! Write the vec \c v to the \c it_file pointer
-it_file& operator<<(it_file& f, const vec& v);
+ITPP_EXPORT it_file& operator<<(it_file& f, const vec& v);
 //! Write the cvec \c v to the \c it_file pointer
-it_file& operator<<(it_file& f, const cvec& v);
+ITPP_EXPORT it_file& operator<<(it_file& f, const cvec& v);
 
 //! Write the string \c str to the \c it_file pointer
-it_file& operator<<(it_file& f, const std::string& str);
+ITPP_EXPORT it_file& operator<<(it_file& f, const std::string& str);
 
 //! Write the bmat \c m to the \c it_file pointer
-it_file& operator<<(it_file& f, const bmat& m);
+ITPP_EXPORT it_file& operator<<(it_file& f, const bmat& m);
 //! Write the smat \c m to the \c it_file pointer
-it_file& operator<<(it_file& f, const smat& m);
+ITPP_EXPORT it_file& operator<<(it_file& f, const smat& m);
 //! Write the imat \c m to the \c it_file pointer
-it_file& operator<<(it_file& f, const imat& m);
+ITPP_EXPORT it_file& operator<<(it_file& f, const imat& m);
 //! Write the mat \c m to the \c it_file pointer
-it_file& operator<<(it_file& f, const mat& m);
+ITPP_EXPORT it_file& operator<<(it_file& f, const mat& m);
 //! Write the cmat \c m to the \c it_file pointer
-it_file& operator<<(it_file& f, const cmat& m);
+ITPP_EXPORT it_file& operator<<(it_file& f, const cmat& m);
 
 //! Write the bin Array \c v to the \c it_file pointer
-it_file& operator<<(it_file& f, const Array<bin>& v);
+ITPP_EXPORT it_file& operator<<(it_file& f, const Array<bin>& v);
 //! Write the short int Array \c v to the \c it_file pointer
-it_file& operator<<(it_file& f, const Array<short>& v);
+ITPP_EXPORT it_file& operator<<(it_file& f, const Array<short>& v);
 //! Write the int Array \c v to the \c it_file pointer
-it_file& operator<<(it_file& f, const Array<int>& v);
+ITPP_EXPORT it_file& operator<<(it_file& f, const Array<int>& v);
 //! Write the float Array \c v to the \c it_file pointer
-it_file& operator<<(it_file& f, const Array<float>& v);
+ITPP_EXPORT it_file& operator<<(it_file& f, const Array<float>& v);
 //! Write the double Array \c v to the \c it_file pointer
-it_file& operator<<(it_file& f, const Array<double>& v);
+ITPP_EXPORT it_file& operator<<(it_file& f, const Array<double>& v);
 //! Write the float complex Array \c v to the \c it_file pointer
-it_file& operator<<(it_file& f, const Array<std::complex<float> >& v);
+ITPP_EXPORT it_file& operator<<(it_file& f, const Array<std::complex<float> >& v);
 //! Write the double complex Array \c v to the \c it_file pointer
-it_file& operator<<(it_file& f, const Array<std::complex<double> >& v);
+ITPP_EXPORT it_file& operator<<(it_file& f, const Array<std::complex<double> >& v);
 
 //! Write the bvec Array \c v to the \c it_file pointer
-it_file& operator<<(it_file& f, const Array<bvec>& v);
+ITPP_EXPORT it_file& operator<<(it_file& f, const Array<bvec>& v);
 //! Write the svec Array \c v to the \c it_file pointer
-it_file& operator<<(it_file& f, const Array<svec>& v);
+ITPP_EXPORT it_file& operator<<(it_file& f, const Array<svec>& v);
 //! Write the ivec Array \c v to the \c it_file pointer
-it_file& operator<<(it_file& f, const Array<ivec>& v);
+ITPP_EXPORT it_file& operator<<(it_file& f, const Array<ivec>& v);
 //! Write the vec Array \c v to the \c it_file pointer
-it_file& operator<<(it_file& f, const Array<vec>& v);
+ITPP_EXPORT it_file& operator<<(it_file& f, const Array<vec>& v);
 //! Write the cvec Array \c v to the \c it_file pointer
-it_file& operator<<(it_file& f, const Array<cvec>& v);
+ITPP_EXPORT it_file& operator<<(it_file& f, const Array<cvec>& v);
 
 //! Write the string Array \c v to the \c it_file pointer
-it_file& operator<<(it_file& f, const Array<std::string>& v);
+ITPP_EXPORT it_file& operator<<(it_file& f, const Array<std::string>& v);
 
 //! Write the bmat Array \c v to the \c it_file pointer
-it_file& operator<<(it_file& f, const Array<bmat>& v);
+ITPP_EXPORT it_file& operator<<(it_file& f, const Array<bmat>& v);
 //! Write the smat Array \c v to the \c it_file pointer
-it_file& operator<<(it_file& f, const Array<smat>& v);
+ITPP_EXPORT it_file& operator<<(it_file& f, const Array<smat>& v);
 //! Write the imat Array \c v to the \c it_file pointer
-it_file& operator<<(it_file& f, const Array<imat>& v);
+ITPP_EXPORT it_file& operator<<(it_file& f, const Array<imat>& v);
 //! Write the mat Array \c v to the \c it_file pointer
-it_file& operator<<(it_file& f, const Array<mat>& v);
+ITPP_EXPORT it_file& operator<<(it_file& f, const Array<mat>& v);
 //! Write the cmat Array \c v to the \c it_file pointer
-it_file& operator<<(it_file& f, const Array<cmat>& v);
+ITPP_EXPORT it_file& operator<<(it_file& f, const Array<cmat>& v);
 
 //! Save the variable v in the file name.it as the name name.
-template <class T>
+template <class T> inline
 void it_save_var_as(const T& v, const std::string& name)
 {
   it_file f(name + ".it");
@@ -638,7 +637,7 @@ void it_save_var_as(const T& v, const std::string& name)
 }
 
 //! Load the variable v from the file name.it as the name name.
-template <class T>
+template <class T> inline
 void it_load_var_as(T& v, const std::string& name)
 {
   it_ifile f(name + ".it");
@@ -666,7 +665,7 @@ void it_load_var_as(T& v, const std::string& name)
   \warning This class is deprecated and will be removed in future.
   \ingroup itfile
 */
-class it_file_base_old
+class ITPP_EXPORT it_file_base_old
 {
 public:
 
@@ -705,7 +704,7 @@ protected:
   \warning This class is deprecated and will be removed in future.
   \ingroup itfile
 */
-class it_ifile_old : public it_file_base_old
+class ITPP_EXPORT it_ifile_old : public it_file_base_old
 {
 public:
   //!Constructor.
@@ -804,7 +803,7 @@ protected:
   \warning This class is deprecated and will be removed in future.
   \ingroup itfile
 */
-class it_file_old : public it_ifile_old
+class ITPP_EXPORT it_file_old : public it_ifile_old
 {
 public:
   //! ACTION: Add documentation for this typedef
@@ -822,7 +821,7 @@ public:
   explicit it_file_old(const std::string& name, bool trunc = false);
 
   //! Destructor.
-  virtual ~it_file_old() { }
+  virtual ~it_file_old() { delete _string;}
 
   /*!
     \brief Open a file for reading and writing.
@@ -848,7 +847,7 @@ public:
   bool get_low_precision() { return low_prec; }
 
   //! Set the name of the next name to be saved. See also the \c Name class.
-  void set_next_name(const std::string& n) { next_name = n; }
+  void set_next_name(const std::string& n) { next_name() = n; }
 
   //!Write the header for the \c it_file_old
   void write_file_header();
@@ -923,7 +922,14 @@ protected:
   //! ACTION: Add documenation for this protected member
   bool low_prec;
   //! ACTION: Add documenation for this protected member
-  std::string next_name;
+  std::string& next_name() {return _string->_next_name;}
+private:
+  struct String_Holder
+  {
+    std::string _next_name;
+  String_Holder():_next_name(""){}
+  };
+  String_Holder* _string;
 };
 
 /*!
@@ -963,197 +969,197 @@ inline it_file_old& operator<<(it_file_old& f, const Name& s)
 }
 
 //!Read the char variable \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, char& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, char& v);
 
 //!Read the binary variable \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, bin& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, bin& v);
 
 //!Read the short variable \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, short& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, short& v);
 
 //!Read the integer variable \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, int& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, int& v);
 
 //!Read the float variable \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, float& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, float& v);
 
 //!Read the double variable \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, double& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, double& v);
 
 //!Read the float complex variable \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, std::complex<float>& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, std::complex<float>& v);
 
 //!Read the double complex variable \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, std::complex<double>& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, std::complex<double>& v);
 
 //!Read the vec \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, vec& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, vec& v);
 
 //!Read the ivec \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, ivec& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, ivec& v);
 
 //!Read the bvec \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, bvec& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, bvec& v);
 
 //!Read the cvec \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, cvec& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, cvec& v);
 
 //!Read the string \c str from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, std::string& str);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, std::string& str);
 
 //!Read the mat \c m from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, mat& m);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, mat& m);
 
 //!Read the imat \c m from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, imat& m);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, imat& m);
 
 //!Read the bmat \c m from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, bmat& m);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, bmat& m);
 
 //!Read the cmat \c m from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, cmat& m);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, cmat& m);
 
 //!Read the float Array \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, Array<float>& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, Array<float>& v);
 
 //!Read the double Array \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, Array<double>& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, Array<double>& v);
 
 //!Read the integer Array \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, Array<int>& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, Array<int>& v);
 
 //!Read the binary Array \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, Array<bin>& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, Array<bin>& v);
 
 //!Read the float complex Array \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, Array<std::complex<float> >& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, Array<std::complex<float> >& v);
 
 //!Read the double complex Array \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, Array<std::complex<double> >& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, Array<std::complex<double> >& v);
 
 //!Read the vec Array \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, Array<vec>& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, Array<vec>& v);
 
 //!Read the ivec Array \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, Array<ivec>& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, Array<ivec>& v);
 
 //!Read the bvec Array \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, Array<bvec>& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, Array<bvec>& v);
 
 //!Read the cvec Array \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, Array<cvec>& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, Array<cvec>& v);
 
 //!Read the string Array \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, Array<std::string>& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, Array<std::string>& v);
 
 //!Read the mat Array \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, Array<mat>& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, Array<mat>& v);
 
 //!Read the imat Array \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, Array<imat>& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, Array<imat>& v);
 
 //!Read the bmat Array \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, Array<bmat>& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, Array<bmat>& v);
 
 //!Read the cmat Array \c v from the \c it_ifile_old pointer
-it_ifile_old& operator>>(it_ifile_old& f, Array<cmat>& v);
+ITPP_EXPORT it_ifile_old& operator>>(it_ifile_old& f, Array<cmat>& v);
 
 
 //!Write the char variable \c x to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, char x);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, char x);
 
 //!Write the binary variable \c x to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, bin x);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, bin x);
 
 //!Write the short variable \c x to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, short x);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, short x);
 
 //!Write the integer variable \c x to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, int x);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, int x);
 
 //!Write the float variable \c x to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, float x);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, float x);
 
 //!Write the double variable \c x to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, double x);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, double x);
 
 //!Write the float complex variable \c x to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, std::complex<float> x);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, std::complex<float> x);
 
 //!Write the double complex variable \c x to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, std::complex<double> x);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, std::complex<double> x);
 
 //!Write the vec \c v to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, const vec& v);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, const vec& v);
 
 //!Write the ivec \c v to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, const ivec& v);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, const ivec& v);
 
 //!Write the bvec \c v to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, const bvec& v);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, const bvec& v);
 
 //!Write the cvec \c v to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, const cvec& v);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, const cvec& v);
 
 //!Write the string \c str to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, const std::string& str);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, const std::string& str);
 
 //!Write the mat \c m to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, const mat& m);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, const mat& m);
 
 //!Write the imat \c m to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, const imat& m);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, const imat& m);
 
 //!Write the bmat \c m to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, const bmat& m);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, const bmat& m);
 
 //!Write the cmat \c m to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, const cmat& m);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, const cmat& m);
 
 //!Write the float Array \c v to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, const Array<float>& v);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, const Array<float>& v);
 
 //!Write the double Array \c v to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, const Array<double>& v);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, const Array<double>& v);
 
 //!Write the int Array \c v to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, const Array<int>& v);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, const Array<int>& v);
 
 //!Write the bin Array \c v to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, const Array<bin>& v);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, const Array<bin>& v);
 
 //!Write the float complex Array \c v to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, const Array<std::complex<float> >& v);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, const Array<std::complex<float> >& v);
 
 //!Write the double complex Array \c v to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, const Array<std::complex<double> >& v);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, const Array<std::complex<double> >& v);
 
 //!Write the vec Array \c v to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, const Array<vec>& v);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, const Array<vec>& v);
 
 //!Write the ivec Array \c v to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, const Array<ivec>& v);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, const Array<ivec>& v);
 
 //!Write the bvec Array \c v to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, const Array<bvec>& v);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, const Array<bvec>& v);
 
 //!Write the cvec Array \c v to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, const Array<cvec>& v);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, const Array<cvec>& v);
 
 //!Write the string Array \c v to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, const Array<std::string>& v);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, const Array<std::string>& v);
 
 //!Write the mat Array \c v to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, const Array<mat>& v);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, const Array<mat>& v);
 
 //!Write the imat Array \c v to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, const Array<imat>& v);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, const Array<imat>& v);
 
 //!Write the bmat Array \c v to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, const Array<bmat>& v);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, const Array<bmat>& v);
 
 //!Write the cmat Array \c v to the \c it_file_old pointer
-it_file_old& operator<<(it_file_old& f, const Array<cmat>& v);
+ITPP_EXPORT it_file_old& operator<<(it_file_old& f, const Array<cmat>& v);
 
 //!@}
 
@@ -1163,8 +1169,6 @@ it_file_old& operator<<(it_file_old& f, const Array<cmat>& v);
 // ----------------------------------------------------------------------
 
 } // namespace itpp
-
-#endif
 
 #endif // #ifndef IT_FILE_H
 

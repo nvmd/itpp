@@ -35,19 +35,6 @@
 namespace itpp
 {
 
-//! \cond
-
-#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB))
-//MSVC explicitely instantiate required template while building the shared library
-template class ITPP_EXPORT Mat<bin>;
-template class ITPP_EXPORT Mat<double>;
-template class ITPP_EXPORT Mat<std::complex<double> >;
-template class ITPP_EXPORT Vec<bin>;
-template class ITPP_EXPORT Vec<std::complex<double> >;
-#endif
-
-//! \endcond
-
 /*!
   \ingroup fec
   \brief Soft Input Soft Output (%SISO) modules
