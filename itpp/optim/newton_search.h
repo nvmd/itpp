@@ -33,21 +33,10 @@
 #include <itpp/base/array.h>
 #include <limits>
 #include <itpp/itexports.h>
-
+#include <itpp/base/base_exports.h>
 
 namespace itpp
 {
-
-//! \cond
-
-#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB))
-//MSVC explicitely instantiate required template while building the shared library
-template  class ITPP_EXPORT Vec<double>;
-template  class ITPP_EXPORT Mat<double>;
-template  class ITPP_EXPORT Array<vec>;
-#endif
-
-//! \endcond
 
 /*!
   \brief Numerical optimization routines

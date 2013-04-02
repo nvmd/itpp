@@ -36,16 +36,6 @@
 namespace itpp
 {
 
-//! \cond
-
-#if (defined(_MSC_VER) && defined (ITPP_SHARED_LIB))
-//MSVC explicitely instantiate required template while building the shared library
-template class ITPP_EXPORT Vec<double>;
-template class ITPP_EXPORT Mat<double>;
-#endif
-
-//! \endcond
-
 /*!
   \ingroup modulators
   \brief Spreading of float symbols to float output

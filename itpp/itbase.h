@@ -125,5 +125,6 @@
 #include <itpp/base/stack.h>
 #include <itpp/base/timing.h>
 #include <itpp/base/vec.h>
+#include <itpp/base/base_exports.h>
 
 #endif // #ifndef ITBASE_H

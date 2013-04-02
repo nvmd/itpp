@@ -35,6 +35,7 @@
 #include <itpp/base/binary.h>
 #include <itpp/comm/channel_code.h>
 #include <itpp/itexports.h>
+#include <itpp/base/base_exports.h>
 
 namespace itpp
 {
@@ -50,19 +51,6 @@ enum CONVOLUTIONAL_CODE_TYPE {MFD, ODS};
   \ingroup fec
 */
 enum CONVOLUTIONAL_CODE_METHOD {Trunc, Tail, Tailbite};
-
-//! \cond
-
-#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB))
-//MSVC explicitely instantiate required template while building the shared library
-template class ITPP_EXPORT Vec<double>;
-template class ITPP_EXPORT Vec<int>;
-template class ITPP_EXPORT Vec<bin>;
-template class ITPP_EXPORT Mat<int>;
-template class ITPP_EXPORT Array<bool>;
-#endif
-
-//! \endcond
 
 
 /*!

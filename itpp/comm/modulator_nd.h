@@ -33,28 +33,10 @@
 #include <itpp/base/array.h>
 #include <itpp/comm/llr.h>
 #include <itpp/itexports.h>
+#include <itpp/base/base_exports.h>
 
 namespace itpp
 {
-
-//! \cond
-
-#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB))
-//MSVC explicitely instantiate required template while building the shared library
-template class ITPP_EXPORT Vec<int>;
-template class ITPP_EXPORT Vec<double>;
-template class ITPP_EXPORT Array<bmat>;
-template class ITPP_EXPORT Array<vec>;
-template class ITPP_EXPORT Array<ivec>;
-template class ITPP_EXPORT Array<cvec>;
-template class ITPP_EXPORT Array<Array<vec> >;
-template class ITPP_EXPORT Array<Array<cvec> >;
-template class ITPP_EXPORT Array<Vec<unsigned int> >;
-template class ITPP_EXPORT Mat<double>;
-template class ITPP_EXPORT Mat<std::complex<double> >;
-#endif
-
-//! \endcond
 
 /*!
  * \addtogroup modulators

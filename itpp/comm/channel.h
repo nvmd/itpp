@@ -307,9 +307,7 @@ inline std::istream& operator>>(std::istream& is, DOPPLER_SPECTRUM& sp)
 }
 
 //MSVC explicitly instantiate required template while building the shared library
-template class ITPP_EXPORT MA_Filter<std::complex<double>,double,std::complex<double> >;
 template class ITPP_EXPORT Array<DOPPLER_SPECTRUM>;
-template class ITPP_EXPORT Vec<int>;
 template class ITPP_EXPORT Array<Fading_Generator*>;
 #endif
 

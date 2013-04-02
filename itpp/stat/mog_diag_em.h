@@ -31,7 +31,7 @@
 
 #include <itpp/stat/mog_diag.h>
 #include <itpp/itexports.h>
-
+#include <itpp/base/base_exports.h>
 
 namespace itpp
 {
