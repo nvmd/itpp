@@ -1,3 +1,8 @@
+2013-04-04  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* gtests/multilateration_test.cpp, itpp/comm/multilateration.cpp,
+	itpp/comm/multilateration.h, itpp/itcomm.h: add Multilateration class for
+	indoor localization
+
 2013-04-02  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* gtests/CMakeLists.txt, gtests/bch_test.cpp, gtests/itfile_test.cpp,
 	itpp/base/base_exports.h, itpp/base/binfile.cpp, itpp/base/binfile.h,

@@ -72,6 +72,6 @@
 #include <itpp/comm/siso.h>
 #include <itpp/comm/exit.h>
 #include <itpp/comm/stc.h>
-
+#include <itpp/comm/multilateration.h>
 
 #endif // #ifndef ITCOMM_H
