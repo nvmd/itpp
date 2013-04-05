@@ -43,13 +43,13 @@ using namespace std;
 static
 bool point_eq(const vec &expect, const vec &actual, double eps)
 {
-  if ((3 != length(expect)) || (3 != length(actual))) {
+  if((3 != length(expect)) || (3 != length(actual))) {
     it_warning("invalid input");
     return false;
   }
-  bool out = ((fabs(expect(0)-actual(0)) < eps) && (fabs(expect(1)-actual(1)) < eps) && (fabs(expect(2)-actual(2)) < eps)
-  && !isnan(actual(0)) && !isnan(actual(1)) && !isnan(actual(2)));
-  if (false == out) {
+  bool out = ((fabs(expect(0) - actual(0)) < eps) && (fabs(expect(1) - actual(1)) < eps) && (fabs(expect(2) - actual(2)) < eps)
+              && !isnan(actual(0)) && !isnan(actual(1)) && !isnan(actual(2)));
+  if(false == out) {
     cout << "expect " << expect << endl;
     cout << "actual " << actual << endl;
   }
@@ -57,12 +57,13 @@ bool point_eq(const vec &expect, const vec &actual, double eps)
 }
 
 static
-double get_dist(const vec &p0, const vec &p1) {
- double out = 0.0;
- for (int n = 0; n < 3; ++n) {
-   out += (p1[n]-p0[n])*(p1[n]-p0[n]);
- }
- return sqrt(out);
+double get_dist(const vec &p0, const vec &p1)
+{
+  double out = 0.0;
+  for(int n = 0; n < 3; ++n) {
+    out += (p1[n] - p0[n]) * (p1[n] - p0[n]);
+  }
+  return sqrt(out);
 }
 
 //used for both spheric and hybrid multilateration
@@ -72,25 +73,24 @@ bool generate_meas(vec &meas, const bvec &method, const mat &bs_pos, const vec &
   unsigned int method_len = length(method);
   unsigned int nb_bs = bs_pos.cols();
   bool column = true;
-  if (3 == nb_bs) {
+  if(3 == nb_bs) {
     nb_bs = bs_pos.rows();
     column = false;
   }
-  if ((nb_bs < method_len) || (3 != length(ms_pos)))
-  {
+  if((nb_bs < method_len) || (3 != length(ms_pos))) {
     return false;
   }
   meas.set_size(method_len);
   vec pos(3);
   vec pos_ref(3);
-  pos_ref = column?bs_pos.get_col(0):bs_pos.get_row(0);
-  for (unsigned int k = 0; k < method_len; ++k) {
-    if (bin(1) == method[k]) { /* hyperbolic */
-      pos = column?bs_pos.get_col(k+1):bs_pos.get_row(k+1);
-      meas[k] = get_dist(pos, ms_pos)-get_dist(pos_ref, ms_pos);
+  pos_ref = column ? bs_pos.get_col(0) : bs_pos.get_row(0);
+  for(unsigned int k = 0; k < method_len; ++k) {
+    if(bin(1) == method[k]) {  /* hyperbolic */
+      pos = column ? bs_pos.get_col(k + 1) : bs_pos.get_row(k + 1);
+      meas[k] = get_dist(pos, ms_pos) - get_dist(pos_ref, ms_pos);
     }
     else { /* spherical */
-      pos = column?bs_pos.get_col(k):bs_pos.get_row(k);
+      pos = column ? bs_pos.get_col(k) : bs_pos.get_row(k);
       meas[k] = get_dist(pos, ms_pos);
     }
   }
@@ -106,22 +106,21 @@ bool generate_meas(mat &meas, const bvec &method, const mat &bs_pos, const vec &
   unsigned int method_len = length(method);
   unsigned int nb_bs = bs_pos.cols();
   bool column = true;
-  if (3 == nb_bs) {
+  if(3 == nb_bs) {
     nb_bs = bs_pos.rows();
     column = false;
   }
-  if ((nb_bs < method_len) || (3 != length(ms_pos)))
-  {
+  if((nb_bs < method_len) || (3 != length(ms_pos))) {
     return false;
   }
   meas.set_size(nb_bs, nb_bs);
   vec pos_i(3);
   vec pos_k(3);
   for(k = 0; k < nb_bs; ++k) {
-    pos_k = column?bs_pos.get_col(k):bs_pos.get_row(k);
+    pos_k = column ? bs_pos.get_col(k) : bs_pos.get_row(k);
     for(i = 0; i < nb_bs; ++i) {
-      pos_i = column?bs_pos.get_col(i):bs_pos.get_row(i);
-      meas(i,k) = get_dist(pos_i, ms_pos) - get_dist(pos_k, ms_pos);
+      pos_i = column ? bs_pos.get_col(i) : bs_pos.get_row(i);
+      meas(i, k) = get_dist(pos_i, ms_pos) - get_dist(pos_k, ms_pos);
     }
   }
   return true;
@@ -141,9 +140,9 @@ bool get_bs(mat &bs_pos, unsigned int nb_bs, double l)
   i = j = k = 0;
   bs_pos.set_size(3, nb_bs);
   while((unsigned int)n < nb_bs) {
-    bs_pos(0,n) = (0.5 - i) * l;
-    bs_pos(1,n) = (0.5 - j) * l;
-    bs_pos(2,n++) = (1 - 2 * k) * l * SQRT2M1;
+    bs_pos(0, n) = (0.5 - i) * l;
+    bs_pos(1, n) = (0.5 - j) * l;
+    bs_pos(2, n++) = (1 - 2 * k) * l * SQRT2M1;
     switch(n) { /*ensure that the first 4 BSs are not on the same plane*/
     case 3:
       i = j = 0;
@@ -173,8 +172,8 @@ vec get_ms(double radius)
   static const double SQRT3M1 = 0.5773502691896258;
   vec out;
   out.set_size(3);
-  for (int n = 0; n< 3; ++n) {
-    out[n] = SQRT3M1*radius*(2.0*(double)rand()/RAND_MAX-1.0);
+  for(int n = 0; n < 3; ++n) {
+    out[n] = SQRT3M1 * radius * (2.0 * (double)rand() / RAND_MAX - 1.0);
   }
   return out;
 }
@@ -207,7 +206,7 @@ TEST(Multilateration, get_pos)
   multi.setup(method, bs_pos);
   ASSERT_TRUE(Multilateration::MULTI_HYPERBOLIC == multi.get_type());
 
-  for (method_len = 4; method_len < 8; ++method_len) {
+  for(method_len = 4; method_len < 8; ++method_len) {
     //spherical multilateration
     ASSERT_TRUE(get_bs(bs_pos, method_len, BASE_LINE_M));
     method.set_size(method_len);
@@ -220,7 +219,7 @@ TEST(Multilateration, get_pos)
     actual_ms_pos.zeros();
 
     //hybrid multilateration
-    ASSERT_TRUE(get_bs(bs_pos, method_len+1, BASE_LINE_M));
+    ASSERT_TRUE(get_bs(bs_pos, method_len + 1, BASE_LINE_M));
     for(i = 0; i < (method_len - 1); ++i) {
       method[i] = 1;
       multi.setup(method, bs_pos);
@@ -242,8 +241,8 @@ TEST(Multilateration, get_pos)
   }
 
   //test case when the last measure is always from TDOA
-  for (method_len = 5; method_len < 8; ++method_len) {
-    ASSERT_TRUE(get_bs(bs_pos, method_len+1, BASE_LINE_M));
+  for(method_len = 5; method_len < 8; ++method_len) {
+    ASSERT_TRUE(get_bs(bs_pos, method_len + 1, BASE_LINE_M));
     method.set_size(method_len);
     method.ones();
     for(i = 0; i < (method_len - 1); ++i) {
@@ -279,30 +278,30 @@ TEST(Multilateration, get_crlb)
   ASSERT_EQ(0.0, crlb);
 
   sigma2 = 1e-6;
-  for (method_len = 4; method_len < 8; ++method_len) {
-    ASSERT_TRUE(get_bs(bs_pos, method_len+1, BASE_LINE_M));
+  for(method_len = 4; method_len < 8; ++method_len) {
+    ASSERT_TRUE(get_bs(bs_pos, method_len + 1, BASE_LINE_M));
     method.set_size(method_len);
     method.zeros();
-    for (i = 0; i < method_len; ++i) {
+    for(i = 0; i < method_len; ++i) {
       method(i) = 1;
       multi.setup(method, bs_pos);
       ms_pos = get_ms(SPHERE_RADIUS_M);
       crlb = multi.get_crlb(ms_pos, sigma2);
-      ASSERT_NEAR(0.0, crlb, (i < 3)?1e-1:12);
+      ASSERT_NEAR(0.0, crlb, (i < 3) ? 1e-1 : 12);
     }
   }
 
   ms_pos.ones();
   sigma2 = 0.1;
-  for (method_len = 4; method_len < 8; ++method_len) {
+  for(method_len = 4; method_len < 8; ++method_len) {
     ASSERT_TRUE(get_bs(bs_pos, method_len, BASE_LINE_M));
     method.set_size(method_len);
     method.zeros();
     multi.setup(method, bs_pos);
     crlb = multi.get_crlb(ms_pos, sigma2);
     ASSERT_NEAR(0.5, crlb, 0.2);
-    ASSERT_TRUE(get_bs(bs_pos, method_len+1, BASE_LINE_M));
-    for (i = 0; i < method_len; ++i) {
+    ASSERT_TRUE(get_bs(bs_pos, method_len + 1, BASE_LINE_M));
+    for(i = 0; i < method_len; ++i) {
       method(i) = 1;
       multi.setup(method, bs_pos);
       crlb = multi.get_crlb(ms_pos, sigma2);

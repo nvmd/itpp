@@ -321,7 +321,7 @@ public:
   virtual bool setup(const Point *bs_pos, unsigned int bs_pos_len);
   virtual bool get_pos(Point *ms_pos, const double *range, unsigned int range_len);
   virtual void set_meas_mat(const double *meas) {
-    memcpy(meas_mat_, meas, nb_bs_*sizeof(*meas));
+    memcpy(meas_mat_, meas, nb_bs_ * sizeof(*meas));
   }
   virtual void get_meas(double *meas, const unsigned int *bs_subset_idx, unsigned int len);
   virtual bool get_meas_mult_mat(const unsigned int *bs_pos_idx, unsigned int rows, unsigned int cols);
@@ -644,7 +644,7 @@ public:
   virtual bool setup(const Point *bs_pos, unsigned int bs_pos_len);
   virtual bool get_pos(Point *ms_pos, const double *range, unsigned int range_len);
   virtual void set_meas_mat(const double *meas) {
-    memcpy(meas_mat_, meas, nb_bs_*nb_bs_*sizeof(*meas));
+    memcpy(meas_mat_, meas, nb_bs_ * nb_bs_ * sizeof(*meas));
   }
   virtual void get_meas(double *meas, const unsigned int *bs_subset_idx, unsigned int len);
   virtual bool get_meas_mult_mat(const unsigned int *bs_pos_idx, unsigned int rows, unsigned int cols);
@@ -972,7 +972,7 @@ bool Multilateration::set_method(const itpp::bvec &method)
   type_ = MULTI_FAILURE;
   method_.set_size(0);
 
-  if ((0 == nb_bs_) || (4 > method_len)) {
+  if((0 == nb_bs_) || (4 > method_len)) {
     it_warning("BSs positions are not set or too small method length");
     return false;
   }
@@ -1003,26 +1003,26 @@ bool Multilateration::set_method(const itpp::bvec &method)
 
 set_algo:
   //set algorithm
-  if (NULL != algo_) {
+  if(NULL != algo_) {
     delete algo_;
   }
   switch(type_) {
   case MULTI_HYPERBOLIC:
-    if ((method_len+1) != nb_bs_) {
+    if((method_len + 1) != nb_bs_) {
       it_warning("For hyperbolic multilateration the number of BSs should exceed by one the number of measures");
       return false;
     }
     algo_ = new Hyperbolic(nb_bs_);
     break;
   case MULTI_HYBRID:
-    if ((method_len+1) != nb_bs_) {
+    if((method_len + 1) != nb_bs_) {
       it_warning("For hybrid multilateration the number of BSs should exceed by one the number of measures");
       return false;
     }
-    algo_ = new Spherical(nb_bs_-1);/* after conversion the number of BSs is reduced by one */
+    algo_ = new Spherical(nb_bs_ - 1); /* after conversion the number of BSs is reduced by one */
     break;
   case MULTI_SPHERICAL:
-    if (method_len != nb_bs_) {
+    if(method_len != nb_bs_) {
       it_warning("For spherical multilateration the number of BSs should equal the number of measures");
       return false;
     }
@@ -1034,7 +1034,7 @@ set_algo:
   }
   nb_fails_part = nb_fails_pos = 0;
 
-  return (NULL != algo_)?true:false;
+  return (NULL != algo_) ? true : false;
 }
 
 bool Multilateration::set_bs_pos(const itpp::mat &bs_pos)
@@ -1047,7 +1047,7 @@ bool Multilateration::set_bs_pos(const itpp::mat &bs_pos)
     return false;
   }
   nb_bs_ = (3 == cols) ? rows : cols;
-  if (NULL != bs_pos_) {
+  if(NULL != bs_pos_) {
     delete[] bs_pos_;
   }
   bs_pos_ = new Point[nb_bs_];
@@ -1513,10 +1513,10 @@ bool Multilateration::prod(double *out, const double *AT, const unsigned int *d,
 
 double Multilateration::get_crlb(const vec &ms_pos, double sigma2)
 {
-  if ((3 != length(ms_pos)) || (0 == nb_bs_)) {
+  if((3 != length(ms_pos)) || (0 == nb_bs_)) {
     it_error("invalid input");
   }
-  if (0.0 == sigma2) {
+  if(0.0 == sigma2) {
     return 0.0;
   }
 
@@ -1532,33 +1532,33 @@ double Multilateration::get_crlb(const vec &ms_pos, double sigma2)
   dh.zeros();
   unsigned int n;
   unsigned int i;
-  for (n = 0; n < method_len; ++n) {
-    if (zero == method_(n)) {
+  for(n = 0; n < method_len; ++n) {
+    if(zero == method_(n)) {
       pos(0) = bs_pos_[n].x;
       pos(1) = bs_pos_[n].y;
       pos(2) = bs_pos_[n].z;
-      for (i = 0; i < 3; ++i) {
-        dh(i,n) = (ms_pos(i)-pos(i))/std::sqrt(sum_sqr(ms_pos-pos));
+      for(i = 0; i < 3; ++i) {
+        dh(i, n) = (ms_pos(i) - pos(i)) / std::sqrt(sum_sqr(ms_pos - pos));
       }
     }
     else {
-      pos(0) = bs_pos_[n+1].x;
-      pos(1) = bs_pos_[n+1].y;
-      pos(2) = bs_pos_[n+1].z;
-      for (i = 0; i < 3; ++i) {
-        dh(i,n) = (ms_pos(i)-pos(i))/std::sqrt(sum_sqr(ms_pos-pos))-
-                (ms_pos(i)-pos_ref(i))/std::sqrt(sum_sqr(ms_pos-pos_ref));
+      pos(0) = bs_pos_[n + 1].x;
+      pos(1) = bs_pos_[n + 1].y;
+      pos(2) = bs_pos_[n + 1].z;
+      for(i = 0; i < 3; ++i) {
+        dh(i, n) = (ms_pos(i) - pos(i)) / std::sqrt(sum_sqr(ms_pos - pos)) -
+                   (ms_pos(i) - pos_ref(i)) / std::sqrt(sum_sqr(ms_pos - pos_ref));
       }
     }
   }
 
-  mat info_mat(3,3);
-  for (n = 0; n < 3; ++n) {
-    for (i = 0; i < 3; ++i) {
-      info_mat(n,i) = dh.get_row(n)*dh.get_row(i);
+  mat info_mat(3, 3);
+  for(n = 0; n < 3; ++n) {
+    for(i = 0; i < 3; ++i) {
+      info_mat(n, i) = dh.get_row(n) * dh.get_row(i);
     }
   }
-  info_mat = info_mat/sigma2;
+  info_mat = info_mat / sigma2;
   return std::sqrt(sum(diag(inv(info_mat))));
 }
 

@@ -32,7 +32,8 @@
 #include <itpp/itbase.h>
 #include <itpp/itexports.h>
 
-namespace itpp {
+namespace itpp
+{
 
 /*!
   \ingroup misccommfunc
@@ -77,17 +78,18 @@ namespace itpp {
 class Algorithm;
 struct Point;
 
-class ITPP_EXPORT Multilateration {
+class ITPP_EXPORT Multilateration
+{
 public:
   //! Multilateration types as detected from user input (method binary vector)
   enum Type {MULTI_FAILURE = -1, //!< the algorithm has failed
-    MULTI_SPHERICAL, //!< spherical multilateration
-    MULTI_HYPERBOLIC, //!< hyperbolic multilateration
-    MULTI_HYBRID //!< hybrid multilateration
-  };
+             MULTI_SPHERICAL, //!< spherical multilateration
+             MULTI_HYPERBOLIC, //!< hyperbolic multilateration
+             MULTI_HYBRID //!< hybrid multilateration
+            };
   //! Multilateration constructor
   Multilateration() :
-  algo_(NULL), nb_fails_part(0), nb_fails_pos(0), type_(MULTI_FAILURE), method_(itpp::bvec()), bs_pos_(NULL), nb_bs_(0)
+    algo_(NULL), nb_fails_part(0), nb_fails_pos(0), type_(MULTI_FAILURE), method_(itpp::bvec()), bs_pos_(NULL), nb_bs_(0)
   {}
   /*!
    * \brief Multilateration constructor
@@ -101,10 +103,9 @@ public:
    *
    */
   Multilateration(const itpp::bvec &method, //!< multilateration method
-  const itpp::mat &bs_pos //!< base station positions in 3D cartezian coordinates
-  ) :
-  algo_(NULL), nb_fails_part(0), nb_fails_pos(0), type_(MULTI_FAILURE), method_(itpp::bvec()), bs_pos_(NULL), nb_bs_(0)
-  {
+                  const itpp::mat &bs_pos //!< base station positions in 3D cartezian coordinates
+                 ) :
+    algo_(NULL), nb_fails_part(0), nb_fails_pos(0), type_(MULTI_FAILURE), method_(itpp::bvec()), bs_pos_(NULL), nb_bs_(0) {
     setup(method, bs_pos);
   }
   //! Multilateration destructor
@@ -122,9 +123,9 @@ public:
    * For hybrid and hyperbolic multilateration the number of BSs should be the method length plus one.
    */
   void setup(const itpp::bvec &method, //!< multilateration method
-    const itpp::mat &bs_pos //!< base station positions
-  ) {
-    if ((false == set_bs_pos(bs_pos)) || (false == set_method(method))) {
+             const itpp::mat &bs_pos //!< base station positions
+            ) {
+    if((false == set_bs_pos(bs_pos)) || (false == set_method(method))) {
       it_error("cannot init multilateration");
     }
   }
@@ -142,8 +143,8 @@ public:
    *   \f[ measures(i) = dist(bs_pos(i), ms_pos)+noise \f]
    */
   bool get_pos(itpp::vec &ms_pos, //!< output with mobile station position in 3D cartezian coordinates
-    const itpp::vec &measures //!< vector with ranging measures
-  ) {
+               const itpp::vec &measures //!< vector with ranging measures
+              ) {
     return get_pos(ms_pos, measures._data());
   }
   /*!
@@ -154,8 +155,8 @@ public:
    * where \f$ dist() \f$ is the Euclidean distance between two points in 3D cartezian coordinates.
    */
   bool get_pos(itpp::vec &ms_pos, //!< output with mobile station position in 3D cartezian coordiates
-    const itpp::mat &measures //!< matrix with ranging measures
-  ) {
+               const itpp::mat &measures //!< matrix with ranging measures
+              ) {
     return get_pos(ms_pos, measures._data());
   }
   //! Gets the number of failures of the partitioning algorithm used internally by the ML-estimator
@@ -177,8 +178,8 @@ public:
   }
   //! Computes the Cramer Rao lower bound for the ML-estimator assuming the same noise variance for all measures
   double get_crlb(const vec &ms_pos, //!< true mobile station position
-    double sigma2 //!< noise variance affecting the measures
-  );
+                  double sigma2 //!< noise variance affecting the measures
+                 );
 private:
   bool get_pos(itpp::vec &ms_pos, const double *measures);
   bool set_method(const itpp::bvec &method);
