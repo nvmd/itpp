@@ -87,20 +87,17 @@ public:
              MULTI_HYPERBOLIC, //!< hyperbolic multilateration
              MULTI_HYBRID //!< hybrid multilateration
             };
-  //! Multilateration constructor
+  //! Multilateration class default constructor
   Multilateration() :
     algo_(NULL), nb_fails_part(0), nb_fails_pos(0), type_(MULTI_FAILURE), method_(itpp::bvec()), bs_pos_(NULL), nb_bs_(0)
-  {}
-  /*!
-   * \brief Multilateration constructor
-   *
-   * The BS positions are specified as a matrix, each BS position can be specified on either rows or columns.
+    {}
+  //! Multilateration class constructor
+  /*! The BS positions are specified as a matrix, each BS position can be specified on either rows or columns.
    * The method vector specify the measure type: O for TOA or 1 for TDOA. For example, a vector with all zeros represents
    * spherical multilateration, while a vector with all ones represents hyperbolic multilateration.
    *
    * For spherical multilateration the number of BSs and the method length should be equal.
    * For hybrid and hyperbolic multilateration the number of BSs should be the method length plus one.
-   *
    */
   Multilateration(const itpp::bvec &method, //!< multilateration method
                   const itpp::mat &bs_pos //!< base station positions in 3D cartezian coordinates
@@ -110,10 +107,8 @@ public:
   }
   //! Multilateration destructor
   virtual ~Multilateration();
-  /*!
-   * \brief Setup function for specifying the multilateration method and the base station positions
-   *
-   * The BS positions are specified as a matrix, each BS position can be specified on either rows or columns.
+  //! Setup function for specifying the multilateration method and the base station positions
+  /*! The BS positions are specified as a matrix, each BS position can be specified on either rows or columns.
    * The method vector specify the measure type: O for TOA or 1 for TDOA. A vector with all zeros represents
    * spherical multilateration, while a vector with all ones represents hyperbolic multilateration.
    *
@@ -129,10 +124,8 @@ public:
       it_error("cannot init multilateration");
     }
   }
-  /*!
-   * \brief Computes the mobile station position for spherical and hybrid multilateration
-   *
-   * For spherical multilateration the vector of measures should be generated as follows:
+  //! Computes the mobile station position for spherical and hybrid multilateration
+  /*! For spherical multilateration the vector of measures should be generated as follows:
    * \f[ measures(i) = dist(bs_pos(i), ms_pos)+noise \f]
    * where \f$ dist() \f$ is the Euclidean distance between two points in 3D cartezian coordinates.
    *
@@ -147,13 +140,11 @@ public:
               ) {
     return get_pos(ms_pos, measures._data());
   }
-  /*!
-   * \brief Computes the mobile station position for hyperbolic multilateration
-   *
-   * The matrix of measures is computed as follows:
-   * \f[ measures(i,j) = dist(bs_pos(i), ms_pos)-dist(bs_pos(j), ms_pos)+noise \f]
-   * where \f$ dist() \f$ is the Euclidean distance between two points in 3D cartezian coordinates.
-   */
+  //! Computes the mobile station position for hyperbolic multilateration
+  /*! The matrix of measures is computed as follows:
+  * \f[ measures(i,j) = dist(bs_pos(i), ms_pos)-dist(bs_pos(j), ms_pos)+noise \f]
+  * where \f$ dist() \f$ is the Euclidean distance between two points in 3D cartezian coordinates.
+  */
   bool get_pos(itpp::vec &ms_pos, //!< output with mobile station position in 3D cartezian coordiates
                const itpp::mat &measures //!< matrix with ranging measures
               ) {
@@ -181,13 +172,20 @@ public:
                   double sigma2 //!< noise variance affecting the measures
                  );
 private:
+  //! Computes MS position using as input an arrays of measures
   bool get_pos(itpp::vec &ms_pos, const double *measures);
+  //! Sets multilateation method vector
   bool set_method(const itpp::bvec &method);
+  //! Sets BS positions (must be called before set_method)
   bool set_bs_pos(const itpp::mat &bs_pos);
+  //! Converts a hybrid multilateration into an equivalent multilateration
   bool hybrid2spherical(Point *bs_pos, double *meas);
   bool partition(unsigned int **subsets_idx, unsigned int *subsets_nb, const Point *bs_pos, unsigned int nb_bs, unsigned int subset_len);
+  //! Computes MS position using the ML-estimator
   bool get_ml_pos(Point *ms_pos, const Point *bs_pos, unsigned int nb_bs, const unsigned int *subsets_idx, unsigned int subsets_nb, unsigned int subset_len);
+  //! Gets a subset of BSs based on an input subset of indices in the initial array of BSs
   bool get_bs_pos_subset(Point *bs_pos_subset, const Point *bs_pos, unsigned int nb_bs, const unsigned int *subset_idx, unsigned int subset_len);
+  //! Computes the product \f$A^T*d*A\f$
   bool prod(double *out, const double *AT, const unsigned int *d, unsigned int cols, unsigned int rows);
   Algorithm *algo_;
   unsigned int nb_fails_part;
