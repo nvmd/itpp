@@ -1,4 +1,4 @@
-2013-04-04  Bogdan Cristea <cristeab@users.sourceforge.net>
+2013-04-05  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* gtests/multilateration_test.cpp, itpp/comm/multilateration.cpp,
 	itpp/comm/multilateration.h, itpp/itcomm.h: add Multilateration class for
 	indoor localization

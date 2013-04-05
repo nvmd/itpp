@@ -131,14 +131,14 @@ public:
   }
   //! Computes the mobile station position for spherical and hybrid multilateration
   /*! For spherical multilateration the vector of measures should be generated as follows:
-   * \f[ measures(i) = dist(bs_pos(i), ms_pos)+noise \f]
+   * \f[ measures(i) = dist(bs\_pos(i), ms\_pos) \f]
    * where \f$ dist() \f$ is the Euclidean distance between two points in 3D cartezian coordinates.
    *
    * For hybrid multilateration the vector of measures is generated as:
    * - if \f$ 1 == method(i) \f$ (TDOA ranging measure)
-   *   \f[ measures(i) = dist(bs_pos(i+1), ms_pos)-dist(bs_pos(0), ms_pos)+noise \f]
+   *   \f[ measures(i) = dist(bs\_pos(i+1), ms\_pos)-dist(bs\_pos(0), ms\_pos) \f]
    * - if \f$ 0 == method(i) \f$ (TOA ranging measure)
-   *   \f[ measures(i) = dist(bs_pos(i), ms_pos)+noise \f]
+   *   \f[ measures(i) = dist(bs\_pos(i), ms\_pos) \f]
    */
   bool get_pos(itpp::vec &ms_pos, //!< output with mobile station position in 3D cartezian coordinates
                const itpp::vec &measures //!< vector with ranging measures
@@ -147,7 +147,7 @@ public:
   }
   //! Computes the mobile station position for hyperbolic multilateration
   /*! The matrix of measures is computed as follows:
-  * \f[ measures(i,j) = dist(bs_pos(i), ms_pos)-dist(bs_pos(j), ms_pos)+noise \f]
+  * \f[ measures(i,j) = dist(bs\_pos(i), ms\_pos)-dist(bs\_pos(j), ms\_pos) \f]
   * where \f$ dist() \f$ is the Euclidean distance between two points in 3D cartezian coordinates.
   */
   bool get_pos(itpp::vec &ms_pos, //!< output with mobile station position in 3D cartezian coordiates
