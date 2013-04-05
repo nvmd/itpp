@@ -35,14 +35,18 @@
 namespace itpp
 {
 
+class Algorithm;
+struct Point;
+
 /*!
   \ingroup misccommfunc
-  \brief Multilateration class for 3D indoor localization
+  \brief %Multilateration class for 3D indoor localization
 
   Implements geometry-based methods for indoor localization:
   - spherical multilateration (which uses Time Of Arrival (TOA) ranging techniques),
   - hyperbolic multilateration (using Time Difference Of Arrival (TDOA)) and
   - hybrid multilateration (both TOA and TDOA are used)
+
   In addition, it allows to compute the theoretical performance of the algorithm based on Cramer Rao Lower bound (CRLB).
 
   Geometry-based methods for indoor localization use several Base Stations (BSs), whose position is known, in order
@@ -54,6 +58,10 @@ namespace itpp
   ranging measure (0 for TOA and 1 for TDOA), a matrix with BSs positions and a vector (for spherical and hybrid) or a matrix
   (for hyperbolic multilateration) with the ranging measures. The output is a vector of lenth 3 with the position of the MS
   in 3D cartezian coordinates.
+
+  Note that for hybrid multilateration, each element in the method vector corresponds to a mesure element in the measures vector.
+  Thus the method vector is used to define how each measure has been obtained (TOA or TDOA). For spherical multilateration the
+  method vector is all zeros, while for hyperbolic multilateration is all ones.
 
   The CRLB is computed as the Euclidean distance between the estimated position of the MS and the true MS position. The noise
   variance is need as input together with the true MS position. It is assumed that the noise affecting the measures has
@@ -72,32 +80,29 @@ namespace itpp
   bool rc = multi.get_pos(ms_pos, measures);//algorithm has failed if the output is false
   \endcode
 
-  Reference: [1] Urruela, A. and Riba, J. - Novel closed-form ML position estimator for hyperbolic location, ICASSP'04
+  Reference:
+  [1] Urruela, A. and Riba, J. - Novel closed-form ML position estimator for hyperbolic location, ICASSP'04
 */
-
-class Algorithm;
-struct Point;
-
 class ITPP_EXPORT Multilateration
 {
 public:
-  //! Multilateration types as detected from user input (method binary vector)
+  //! %Multilateration types as detected from user input (method binary vector)
   enum Type {MULTI_FAILURE = -1, //!< the algorithm has failed
              MULTI_SPHERICAL, //!< spherical multilateration
              MULTI_HYPERBOLIC, //!< hyperbolic multilateration
              MULTI_HYBRID //!< hybrid multilateration
             };
-  //! Multilateration class default constructor
+  //! %Multilateration class default constructor
   Multilateration() :
     algo_(NULL), nb_fails_part(0), nb_fails_pos(0), type_(MULTI_FAILURE), method_(itpp::bvec()), bs_pos_(NULL), nb_bs_(0)
     {}
-  //! Multilateration class constructor
+  //! %Multilateration class constructor
   /*! The BS positions are specified as a matrix, each BS position can be specified on either rows or columns.
-   * The method vector specify the measure type: O for TOA or 1 for TDOA. For example, a vector with all zeros represents
+   * The method vector specify the measure type: 0 for TOA or 1 for TDOA. For example, a vector with all zeros represents
    * spherical multilateration, while a vector with all ones represents hyperbolic multilateration.
    *
-   * For spherical multilateration the number of BSs and the method length should be equal.
-   * For hybrid and hyperbolic multilateration the number of BSs should be the method length plus one.
+   * For spherical multilateration the number of BSs and the method length must be equal.
+   * For hybrid and hyperbolic multilateration the number of BSs must be the method length plus one.
    */
   Multilateration(const itpp::bvec &method, //!< multilateration method
                   const itpp::mat &bs_pos //!< base station positions in 3D cartezian coordinates
@@ -105,17 +110,17 @@ public:
     algo_(NULL), nb_fails_part(0), nb_fails_pos(0), type_(MULTI_FAILURE), method_(itpp::bvec()), bs_pos_(NULL), nb_bs_(0) {
     setup(method, bs_pos);
   }
-  //! Multilateration destructor
+  //! %Multilateration destructor
   virtual ~Multilateration();
   //! Setup function for specifying the multilateration method and the base station positions
   /*! The BS positions are specified as a matrix, each BS position can be specified on either rows or columns.
    * The method vector specify the measure type: O for TOA or 1 for TDOA. A vector with all zeros represents
    * spherical multilateration, while a vector with all ones represents hyperbolic multilateration.
    *
-   * For spherical multilateration the number of BSs and the method lenght should be equal and it should also equal
+   * For spherical multilateration the number of BSs and the method lenght must be equal and it must also equal
    * the length of the measures vector.
    *
-   * For hybrid and hyperbolic multilateration the number of BSs should be the method length plus one.
+   * For hybrid and hyperbolic multilateration the number of BSs must be the method length plus one.
    */
   void setup(const itpp::bvec &method, //!< multilateration method
              const itpp::mat &bs_pos //!< base station positions
