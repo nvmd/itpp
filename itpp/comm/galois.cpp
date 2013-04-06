@@ -98,7 +98,7 @@ std::istream &operator>>(std::istream &is, GF &ingf)
   if(c == 'a') {
   //read alpha^pow form from stream
     std::string::const_iterator pr_it = prefix.begin(); pr_it++;
-    for(pr_it; pr_it < prefix.end(); ++pr_it) {
+    for(; pr_it < prefix.end(); ++pr_it) {
         c = is.get();
         if(*pr_it != c) {
           is.setstate(std::ios_base::failbit);

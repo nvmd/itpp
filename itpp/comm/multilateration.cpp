@@ -1398,7 +1398,7 @@ bool Multilateration::get_bs_pos_subset(Point *bs_pos_subset, const Point *bs_po
   unsigned int k;
   for(i = 0; i < subset_len; ++i) {
     k = subset_idx[i];
-    if((0 > k) || (nb_bs <= k)) {
+    if(nb_bs <= k) {
       it_warning("index out of range");
       return false;
     }

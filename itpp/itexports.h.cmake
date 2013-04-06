@@ -32,10 +32,8 @@
 /*defined from cmake when using the shared version of IT++ library*/
 #cmakedefine ITPP_SHARED_LIB
 
-#ifdef ITPP_SHARED_LIB
-
 /*needed to export shared library symbols on Windows*/
-#ifdef _MSC_VER
+#if defined(ITPP_SHARED_LIB) && defined(_MSC_VER)
   #ifndef ITPP_EXPORT
     #ifdef itpp_EXPORTS /*automatically defined by cmake*/
       #define ITPP_EXPORT __declspec(dllexport)
@@ -43,13 +41,13 @@
       #define ITPP_EXPORT __declspec(dllimport)
     #endif
   #endif
-#elif (__GNUC__ >= 4) /*UNIX*/
+#endif
+
+#if (__GNUC__ >= 4) /*UNIX*/
   #ifndef ITPP_EXPORT_TEMPLATE
     #define ITPP_EXPORT_TEMPLATE extern
   #endif
 #endif
-
-#endif /*ITPP_SHARED_LIB*/
 
 #ifndef ITPP_EXPORT
   #define ITPP_EXPORT
