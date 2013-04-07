@@ -24,6 +24,7 @@
 ### List of vendors (BLA_VENDOR) valid in this module
 ##  Goto,ATLAS PhiPACK,CXML,DXML,SunPerf,SCSL,SGIMATH,IBMESSL,Intel10_32 (intel mkl v10 32 bit),Intel10_64lp (intel mkl v10 64 bit,lp thread model, lp64 model),
 ##  Intel10_64lp_seq (intel mkl v10 64 bit,sequential code, lp64 model),
+##  Intel11 (intel mkl v11)
 ##  Intel( older versions of mkl 32 and 64 bit), ACML,ACML_MP,ACML_GPU,Apple, NAS, Generic
 # C/CXX should be enabled to use Intel mkl
 
@@ -466,7 +467,7 @@ if (BLA_VENDOR STREQUAL "Generic" OR BLA_VENDOR STREQUAL "All")
  endif()
 endif ()
 
-#BLAS in intel mkl 10 library? (em64t 64bit)
+#BLAS in intel mkl 10, 11 library? (em64t 64bit)
 if (BLA_VENDOR MATCHES "Intel*" OR BLA_VENDOR STREQUAL "All")
  if (NOT WIN32)
   set(LM "-lm")
@@ -514,8 +515,14 @@ if (BLA_VENDOR MATCHES "Intel*" OR BLA_VENDOR STREQUAL "All")
     set(BLAS_mkl_SEARCH_SYMBOL sgemm)
     set(_LIBRARIES BLAS_LIBRARIES)
     if (WIN32)
-      list(APPEND BLAS_SEARCH_LIBS
-        "mkl_c_dll mkl_intel_thread_dll mkl_core_dll libguide40")
+      # mkl >= 11
+      if (BLA_VENDOR MATCHES "Intel11*")
+        list(APPEND BLAS_SEARCH_LIBS
+          "mkl_rt")
+      else()
+        list(APPEND BLAS_SEARCH_LIBS
+          "mkl_c_dll mkl_intel_thread_dll mkl_core_dll libguide40")
+      endif()
     else ()
       if (BLA_VENDOR STREQUAL "Intel10_32" OR BLA_VENDOR STREQUAL "All")
         list(APPEND BLAS_SEARCH_LIBS
@@ -536,6 +543,12 @@ if (BLA_VENDOR MATCHES "Intel*" OR BLA_VENDOR STREQUAL "All")
             "mkl_intel_lp64 mkl_intel_thread mkl_core iomp5")
         endif ()
       endif ()
+
+      #mkl 11
+      if (BLA_VENDOR MATCHES "Intel11*")
+        list(APPEND BLAS_SEARCH_LIBS
+          "mkl_rt")
+      endif()
 
       #older vesions of intel mkl libs
       if (BLA_VENDOR STREQUAL "Intel" OR BLA_VENDOR STREQUAL "All")

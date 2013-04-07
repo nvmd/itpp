@@ -36,6 +36,9 @@
 
 #if defined(HAVE_FFT_MKL)
 
+#include <stdio.h>
+#include <stdlib.h>
+
 namespace mkl
 {
 #  include <mkl_dfti.h>

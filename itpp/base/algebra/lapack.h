@@ -69,6 +69,7 @@
 #  define zgels_  ZGELS
 #  define dgees_  DGEES
 #  define zgees_  ZGEES
+
 #endif // #if defined(_MSC_VER) && (defined(HAVE_ACML) || defined(HAVE_MKL))
 
 #ifdef __cplusplus

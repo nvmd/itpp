@@ -1,4 +1,5 @@
 # - Find LAPACK library
+
 # This module finds an installed fortran library that implements the LAPACK
 # linear-algebra interface (see http://www.netlib.org/lapack/).
 #
@@ -112,7 +113,12 @@ if(_libraries_work)
   endif(UNIX AND BLA_STATIC)
 #  message("DEBUG: CMAKE_REQUIRED_LIBRARIES = ${CMAKE_REQUIRED_LIBRARIES}")
   if (NOT _LANGUAGES_ MATCHES Fortran)
-    check_function_exists("${_name}_" ${_prefix}${_combined_name}_WORKS)
+    if (BLA_VENDOR MATCHES "Intel11*")
+      #MKL 11
+      check_function_exists("${_name}" ${_prefix}${_combined_name}_WORKS)
+    else ()
+      check_function_exists("${_name}_" ${_prefix}${_combined_name}_WORKS)
+    endif()
   else (NOT _LANGUAGES_ MATCHES Fortran)
     check_fortran_function_exists(${_name} ${_prefix}${_combined_name}_WORKS)
   endif (NOT _LANGUAGES_ MATCHES Fortran)
@@ -130,18 +136,15 @@ endif(_libraries_work)
 
 endmacro(Check_Lapack_Libraries)
 
-
 set(LAPACK_LINKER_FLAGS)
 set(LAPACK_LIBRARIES)
 set(LAPACK95_LIBRARIES)
-
 
 if(LAPACK_FIND_QUIETLY OR NOT LAPACK_FIND_REQUIRED)
   find_package(BLAS)
 else(LAPACK_FIND_QUIETLY OR NOT LAPACK_FIND_REQUIRED)
   find_package(BLAS REQUIRED)
 endif(LAPACK_FIND_QUIETLY OR NOT LAPACK_FIND_REQUIRED)
-
 
 if(BLAS_FOUND)
   set(LAPACK_LINKER_FLAGS ${BLAS_LINKER_FLAGS})
@@ -279,6 +282,18 @@ if (BLA_VENDOR MATCHES "Intel*" OR BLA_VENDOR STREQUAL "All")
           "${CMAKE_THREAD_LIBS_INIT};${LM}"
           )
       endif(NOT LAPACK_LIBRARIES)
+      if(NOT LAPACK_LIBRARIES)
+        # new >= 11
+        check_lapack_libraries(
+          LAPACK_LIBRARIES
+          LAPACK
+          cheev
+          ""
+          "mkl_rt"
+          "${BLAS_LIBRARIES}"
+          "${CMAKE_THREAD_LIBS_INIT};${LM}"
+          )
+      endif()
     endif(BLA_F95)
   endif (_LANGUAGES_ MATCHES C OR _LANGUAGES_ MATCHES CXX)
 endif(BLA_VENDOR MATCHES "Intel*" OR BLA_VENDOR STREQUAL "All")

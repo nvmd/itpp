@@ -1,3 +1,9 @@
+2013-04-07  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* cmake/Modules/FindBLAS.cmake, cmake/Modules/FindFFT.cmake,
+	cmake/Modules/FindLAPACK.cmake, itpp/base/algebra/lapack.h,
+	itpp/signal/transforms.cpp: add support for MKL 11, FFT transform does not
+	work
+
 2013-04-06  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* itpp/itexports.h.cmake: corrected regression that generates error when
 	compiling as static library on UNIX systems

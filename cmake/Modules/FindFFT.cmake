@@ -36,6 +36,83 @@
 #
 # -------------------------------------------------------------------------
 
+#TODO: check for fft function in each library
+macro(Check_fft_Libraries LIBRARIES _prefix _name _list)
+
+set(_libraries_work TRUE)
+set(${LIBRARIES})
+set(_combined_name)
+if (NOT _libdir)
+  if (WIN32)
+    set(_libdir $ENV{LIB})
+  elseif (APPLE)
+    set(_libdir /usr/local/lib /usr/lib /usr/local/lib64 /usr/lib64 $ENV{DYLD_LIBRARY_PATH})
+  else ()
+    set(_libdir /usr/local/lib /usr/lib /usr/local/lib64 /usr/lib64 $ENV{LD_LIBRARY_PATH})
+  endif ()
+endif ()
+
+foreach(_library ${_list})
+  set(_combined_name ${_combined_name}_${_library})
+
+  if(_libraries_work)
+    if (BLA_STATIC)
+      if (WIN32)
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .lib ${CMAKE_FIND_LIBRARY_SUFFIXES})
+      endif ( WIN32 )
+      if (APPLE)
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .lib ${CMAKE_FIND_LIBRARY_SUFFIXES})
+      else (APPLE)
+        set(CMAKE_FIND_LIBRARY_SUFFIXES .a ${CMAKE_FIND_LIBRARY_SUFFIXES})
+      endif (APPLE)
+    else (BLA_STATIC)
+      if (CMAKE_SYSTEM_NAME STREQUAL "Linux")
+        # for ubuntu's libblas3gf and liblapack3gf packages
+        set(CMAKE_FIND_LIBRARY_SUFFIXES ${CMAKE_FIND_LIBRARY_SUFFIXES} .so.3gf)
+      endif ()
+    endif (BLA_STATIC)
+    find_library(${_prefix}_${_library}_LIBRARY
+      NAMES ${_library}
+      PATHS ${_libdir}
+      )
+    mark_as_advanced(${_prefix}_${_library}_LIBRARY)
+    set(${LIBRARIES} ${${LIBRARIES}} ${${_prefix}_${_library}_LIBRARY})
+    set(_libraries_work ${${_prefix}_${_library}_LIBRARY})
+  endif(_libraries_work)
+endforeach(_library ${_list})
+
+if(_libraries_work)
+  # Test this combination of libraries.
+  if(UNIX AND BLA_STATIC)
+    set(CMAKE_REQUIRED_LIBRARIES ${_flags} "-Wl,--start-group" ${${LIBRARIES}} ${_blas} "-Wl,--end-group" ${_threads})
+  else(UNIX AND BLA_STATIC)
+    set(CMAKE_REQUIRED_LIBRARIES ${_flags} ${${LIBRARIES}} ${_blas} ${_threads})
+  endif(UNIX AND BLA_STATIC)
+#  message("DEBUG: CMAKE_REQUIRED_LIBRARIES = ${CMAKE_REQUIRED_LIBRARIES}")
+  if (NOT _LANGUAGES_ MATCHES Fortran)
+    if (BLA_VENDOR MATCHES "Intel11*")
+      #MKL 11
+      check_function_exists("${_name}" ${_prefix}${_combined_name}_WORKS)
+    else ()
+      check_function_exists("${_name}_" ${_prefix}${_combined_name}_WORKS)
+    endif()
+  else (NOT _LANGUAGES_ MATCHES Fortran)
+    check_fortran_function_exists(${_name} ${_prefix}${_combined_name}_WORKS)
+  endif (NOT _LANGUAGES_ MATCHES Fortran)
+  set(CMAKE_REQUIRED_LIBRARIES)
+  mark_as_advanced(${_prefix}${_combined_name}_WORKS)
+  set(_libraries_work ${${_prefix}${_combined_name}_WORKS})
+  #message("DEBUG: ${LIBRARIES} = ${${LIBRARIES}}")
+endif(_libraries_work)
+
+ if(_libraries_work)
+   set(${LIBRARIES} ${${LIBRARIES}} ${_blas} ${_threads})
+ else(_libraries_work)
+    set(${LIBRARIES} FALSE)
+ endif(_libraries_work)
+
+endmacro(Check_fft_Libraries)
+
 if (FFT_INCLUDES)
   # Already in cache, be silent
   set (FFT_FIND_QUIETLY TRUE)
@@ -75,6 +152,13 @@ if (NOT FFT_FOUND)
         endif()
       endif()
     endif()
+    #need to find MKL FFT library
+    check_fft_libraries(
+        FFT_LIBRARIES
+        FFT
+        DftiCommitDescriptor
+        "mkl_rt"
+        )
   else()
     #check for generic FFT
     find_path (FFT_INCLUDES fftw3.h)
