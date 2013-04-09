@@ -136,13 +136,11 @@ the HTML documentation is generated (if Doxygen is detected) and no unit tests a
 
 The \c `cmake' command can be invoked with additional options:
 - \c `-DITPP_SHARED_LIB=off', allows to compile the static version of IT++ library. By default this option is
-set to `on'. This option should be disabled on Microsoft Windows with Visual Studio C++ since shared library generation
-is not yet supported for this platform.
-- \c `-DBLA_VENDOR=vendor', where vendor can be `ACML', `Intel', `Intel10_32', 
-`Intel10_64lp' or `ATLAS'. This is helpful in locating ACML or MKL libraries. If these 
-libraries are installed in nonstandard locations, on Linux, set \c `LD_LIBRARY_PATH' environment 
-variable to the location where the libraries are installed. For Windows
-use `LIB' variable, while Mac OS X users should use `DYLD_LIBRARY_PATH'.
+set to `on'.
+- \c `-DBLA_VENDOR=vendor', where vendor can be `ACML', `Intel11' or `ATLAS'. This is helpful in selecting a specific 
+external library (ACML or MKL 11). If these libraries are installed in nonstandard locations, on Linux, set 
+\c `LD_LIBRARY_PATH' environment variable to the location where the libraries are installed. For Windows `PATH' environment 
+variable should be set, while Mac OS X users should use `DYLD_LIBRARY_PATH'.
 - \c `-DGTEST_DIR=/path/to/gtest/sources' is used to specify the path to
 Google unit test framework (gtest) sources. Thus the unit tests are compiled and can be
 run separately to check IT++ library.
@@ -155,7 +153,7 @@ framework. In order to run these tests use `check_tests.py' script found in extr
 Doxygen is found.
 
 Note: in order to run the unit test binaries, external libraries need to be in your system path. On Linux
-one can use ldconfig, while in Windows `PATH' variable should be set to the location of external library
+one can use ldconfig, while in Windows `PATH' variable should be set to the location of external libraries
 (ACML or MKL).
 
 For further details on the available switches see <a href=http://www.cmake.org/cmake/help/documentation.html>
@@ -168,10 +166,10 @@ Library detection examples:
 \verbatim
   % cmake .. -DBLA_VENDOR=ACML
 \endverbatim
-  - in order detect MKL library the following commands can be used:
+  - in order detect MKL 11 library the following commands can be used:
 \verbatim
-  % export LD_LIBRARY_PATH=/opt/intel/mkl/lib/intel64
-  % cmake .. -DBLA_VENDOR=Intel10_64lp
+  % export LD_LIBRARY_PATH=/opt/intel/composer_xe_2013.2.146/mkl/lib/intel64/
+  % cmake .. -DBLA_VENDOR=Intel11
 \endverbatim
   - in order to detect ATLAS library use
 \verbatim
@@ -190,8 +188,18 @@ Library detection examples:
   BLA_VENDOR=ACML
   CMAKE_Fortran_COMPILER_ID=PGI
 \endverbatim
+  - in order to detect MKL 11, the following variables must be set:
+  from Windows Properties
+\verbatim
+  PATH=%PATH_TO_INTEL_COMPOSER%/mkl/lib/ia32
+\endverbatim
+  from cmake
+\verbatim
+  BLA_VENDOR=Intel11
+\endverbatim
 
-For further details see `cmake/Modules/FindBLAS.cmake' file.
+
+For more options see `cmake/Modules/FindBLAS.cmake' file.
 
 \section obsolete Obsolete Configuration and Installation Instructions
 

@@ -1,3 +1,8 @@
+2013-04-09  Bogdan Cristea <cristeab@users.sourceforge.net>
+	*	doc/local/installation.doc, itpp/signal/transforms.cpp: updated
+	installation instructions and corrected FFT bug when using MKL 11 (thanks to
+	Andy Panov for providing the patch)
+
 2013-04-07  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* cmake/Modules/FindBLAS.cmake, cmake/Modules/FindFFT.cmake,
 	cmake/Modules/FindLAPACK.cmake, itpp/base/algebra/lapack.h,
