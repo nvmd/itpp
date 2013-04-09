@@ -144,8 +144,6 @@ variable should be set, while Mac OS X users should use `DYLD_LIBRARY_PATH'.
 - \c `-DGTEST_DIR=/path/to/gtest/sources' is used to specify the path to
 Google unit test framework (gtest) sources. Thus the unit tests are compiled and can be
 run separately to check IT++ library.
-- \c `-DGTEST=on', allows to enable unit tests compilation using Google framework. Note that GTEST_DIR needs to be specified,
-otherwise an error message is generated. By default unit test compilation is disabled.
 - \c `-DOLD_TESTS=on' is used to activate the compilation of older unit tests (no unit test framework required). By default
 this option is set to `off'. These tests are no longer maintained, so it is recommended to use the tests based on Google
 framework. In order to run these tests use `check_tests.py' script found in extras folder (Python is required).
