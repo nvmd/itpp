@@ -1,4 +1,8 @@
 2013-04-09  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* itpp/base/random.cpp, itpp/base/random.h: fix thread-safety issue in
+	Gamma_RNG, thanks to Andy Panov for providing the patch
+
+2013-04-09  Bogdan Cristea <cristeab@users.sourceforge.net>
 	*	doc/local/installation.doc, itpp/signal/transforms.cpp: updated
 	installation instructions and corrected FFT bug when using MKL 11 (thanks to
 	Andy Panov for providing the patch)

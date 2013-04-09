@@ -393,7 +393,51 @@ mat Exponential_RNG::operator()(int h, int w)
 ///////////////////////////////////////////////
 // Gamma_RNG
 ///////////////////////////////////////////////
+void Gamma_RNG::init_state()
+{
+  const static double sqrt32 = 5.656854;
 
+  const static double q1 = 0.04166669;
+  const static double q2 = 0.02083148;
+  const static double q3 = 0.00801191;
+  const static double q4 = 0.00144121;
+  const static double q5 = -7.388e-5;
+  const static double q6 = 2.4511e-4;
+  const static double q7 = 2.424e-4;
+
+  double r = 1.0 / alpha;
+  _scale = 1.0 / beta;
+
+  it_error_if(!std::isfinite(alpha) || !std::isfinite(_scale) || (alpha < 0.0)
+              || (_scale <= 0.0), "Gamma_RNG::init_state() - wrong parameters");
+
+  _s2 = alpha - 0.5;
+  _s = std::sqrt(_s2);
+  _d = sqrt32 - _s * 12.0;
+
+  _q0 = ((((((q7 * r + q6) * r + q5) * r + q4) * r + q3) * r
+          + q2) * r + q1) * r;
+
+  /* Approximation depending on size of parameter alpha */
+  /* The constants in the expressions for _b, _si and _c */
+  /* were established by numerical experiments */
+  if(alpha <= 3.686) {
+    _b = 0.463 + _s + 0.178 * _s2;
+    _si = 1.235;
+    _c = 0.195 / _s - 0.079 + 0.16 * _s;
+  }
+  else if(alpha <= 13.022) {
+    _b = 1.654 + 0.0076 * _s2;
+    _si = 1.68 / _s + 0.275;
+    _c = 0.062 / _s + 0.024;
+  }
+  else {
+    _b = 1.77;
+    _si = 0.75;
+    _c = 0.1515 / _s;
+  }
+
+}
 vec Gamma_RNG::operator()(int n)
 {
   vec vv(n);
@@ -416,16 +460,7 @@ double Gamma_RNG::sample()
   // Smidl
 
   /* Constants : */
-  const static double sqrt32 = 5.656854;
   const static double exp_m1 = 0.36787944117144232159;/* exp(-1) = 1/e */
-
-  const static double q1 = 0.04166669;
-  const static double q2 = 0.02083148;
-  const static double q3 = 0.00801191;
-  const static double q4 = 0.00144121;
-  const static double q5 = -7.388e-5;
-  const static double q6 = 2.4511e-4;
-  const static double q7 = 2.424e-4;
 
   const static double a1 = 0.3333333;
   const static double a2 = -0.250003;
@@ -435,18 +470,9 @@ double Gamma_RNG::sample()
   const static double a6 = -0.1367177;
   const static double a7 = 0.1233795;
 
-  /* State variables [FIXME for threading!] :*/
-  static double aa = 0.;
-  static double aaa = 0.;
-  static double s, s2, d;    /* no. 1 (step 1) */
-  static double q0, b, si, c;/* no. 2 (step 4) */
-
-  double e, p, q, r, t, u, v, w, x, ret_val;
+  double e, p, q, t, u, v, w, x, ret_val;
   double a = alpha;
-  double scale = 1.0 / beta;
-
-  it_error_if(!std::isfinite(a) || !std::isfinite(scale) || (a < 0.0)
-              || (scale <= 0.0), "Gamma_RNG wrong parameters");
+  double scale = _scale;
 
   if(a < 1.) {  /* GS algorithm for parameters a < 1 */
     if(a == 0)
@@ -470,102 +496,69 @@ double Gamma_RNG::sample()
 
   /* --- a >= 1 : GD algorithm --- */
 
-  /* Step 1: Recalculations of s2, s, d if a has changed */
-  if(a != aa) {
-    aa = a;
-    s2 = a - 0.5;
-    s = std::sqrt(s2);
-    d = sqrt32 - s * 12.0;
-  }
-  /* Step 2: t = standard normal deviate, x = (s,1/2) -normal deviate. */
+  /* Step 1: t = standard normal deviate, x = (s,1/2) -normal deviate. */
   /* immediate acceptance (i) */
   t = NRNG.sample();
-  x = s + 0.5 * t;
+  x = _s + 0.5 * t;
   ret_val = x * x;
   if(t >= 0.0)
     return scale * ret_val;
 
-  /* Step 3: u = 0,1 - uniform sample. squeeze acceptance (s) */
+  /* Step 2: u = 0,1 - uniform sample. squeeze acceptance (s) */
   u = RNG.genrand_close_open();
-  if((d * u) <= (t * t * t))
+  if((_d * u) <= (t * t * t))
     return scale * ret_val;
 
-  /* Step 4: recalculations of q0, b, si, c if necessary */
-  if(a != aaa) {
-    aaa = a;
-    r = 1.0 / a;
-    q0 = ((((((q7 * r + q6) * r + q5) * r + q4) * r + q3) * r
-           + q2) * r + q1) * r;
 
-    /* Approximation depending on size of parameter a */
-    /* The constants in the expressions for b, si and c */
-    /* were established by numerical experiments */
-    if(a <= 3.686) {
-      b = 0.463 + s + 0.178 * s2;
-      si = 1.235;
-      c = 0.195 / s - 0.079 + 0.16 * s;
-    }
-    else if(a <= 13.022) {
-      b = 1.654 + 0.0076 * s2;
-      si = 1.68 / s + 0.275;
-      c = 0.062 / s + 0.024;
-    }
-    else {
-      b = 1.77;
-      si = 0.75;
-      c = 0.1515 / s;
-    }
-  }
-
-  /* Step 5: no quotient test if x not positive */
+  /* Step 3: no quotient test if x not positive */
   if(x > 0.0) {
-    /* Step 6: calculation of v and quotient q */
-    v = t / (s + s);
+    /* Step 4: calculation of v and quotient q */
+    v = t / (_s + _s);
     if(std::fabs(v) <= 0.25)
-      q = q0 + 0.5 * t * t * ((((((a7 * v + a6) * v + a5) * v + a4) * v
-                                + a3) * v + a2) * v + a1) * v;
+      q = _q0 + 0.5 * t * t * ((((((a7 * v + a6) * v + a5) * v + a4) * v
+                                 + a3) * v + a2) * v + a1) * v;
     else
-      q = q0 - s * t + 0.25 * t * t + (s2 + s2) * log(1.0 + v);
+      q = _q0 - _s * t + 0.25 * t * t + (_s2 + _s2) * log(1.0 + v);
 
-    /* Step 7: quotient acceptance (q) */
+    /* Step 5: quotient acceptance (q) */
     if(log(1.0 - u) <= q)
       return scale * ret_val;
   }
 
   for(;;) {  //VS repeat
-    /* Step 8: e = standard exponential deviate
+    /* Step 6: e = standard exponential deviate
      *         u =  0,1 -uniform deviate
      *         t = (b,si)-double exponential (laplace) sample */
     e = -std::log(RNG.genrand_open_close()); //see Exponential_RNG
     u = RNG.genrand_open_close();
     u = u + u - 1.0;
     if(u < 0.0)
-      t = b - si * e;
+      t = _b - _si * e;
     else
-      t = b + si * e;
-    /* Step 9: rejection if t < tau(1) = -0.71874483771719 */
+      t = _b + _si * e;
+    /* Step 7: rejection if t < tau(1) = -0.71874483771719 */
     if(t >= -0.71874483771719) {
-      /* Step 10:  calculation of v and quotient q */
-      v = t / (s + s);
+      /* Step 8:  calculation of v and quotient q */
+      v = t / (_s + _s);
       if(std::fabs(v) <= 0.25)
-        q = q0 + 0.5 * t * t *
+        q = _q0 + 0.5 * t * t *
             ((((((a7 * v + a6) * v + a5) * v + a4) * v + a3) * v
               + a2) * v + a1) * v;
       else
-        q = q0 - s * t + 0.25 * t * t + (s2 + s2) * log(1.0 + v);
-      /* Step 11: hat acceptance (h) */
-      /* (if q not positive go to step 8) */
+        q = _q0 - _s * t + 0.25 * t * t + (_s2 + _s2) * log(1.0 + v);
+      /* Step 9: hat acceptance (h) */
+      /* (if q not positive go to step 6) */
       if(q > 0.0) {
         // Try to use w = expm1(q); (Not supported on w32)
         w = expm1(q);
         /*  ^^^^^ original code had approximation with rel.err < 2e-7 */
-        /* if t is rejected sample again at step 8 */
-        if((c * std::fabs(u)) <= (w * std::exp(e - 0.5 * t * t)))
+        /* if t is rejected sample again at step 6 */
+        if((_c * std::fabs(u)) <= (w * std::exp(e - 0.5 * t * t)))
           break;
       }
     }
   } /* repeat .. until `t' is accepted */
-  x = s + 0.5 * t;
+  x = _s + 0.5 * t;
   return scale * x * x;
 }
 

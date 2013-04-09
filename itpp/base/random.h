@@ -511,7 +511,7 @@ class ITPP_EXPORT Gamma_RNG
 {
 public:
   //! Constructor, which sets alpha (a) and beta (b)
-  Gamma_RNG(double a = 1.0, double b = 1.0): alpha(a), beta(b) {}
+  Gamma_RNG(double a = 1.0, double b = 1.0): alpha(a), beta(b) {init_state();}
   //! Set alpha and beta
   void setup(double a, double b) { alpha = a; beta = b; }
   //! Get one sample
@@ -523,10 +523,19 @@ public:
   //! Get a sample
   double sample();
 private:
+  //! Initializer of state variables
+  void init_state();
+  //! shape parameter of Gamma distribution
   double alpha;
+  //! inverse scale parameter of Gamma distribution
   double beta;
+
   Random_Generator RNG;
   Normal_RNG NRNG;
+
+  /* State variables - used in Gamma_Rng::sample()*/
+  double _s, _s2, _d, _scale;
+  double _q0, _b, _si, _c;
 };
 
 /*!
@@ -579,22 +588,23 @@ public:
   Complex_Normal_RNG(): m_re(0.0), m_im(0.0), sigma(1.0), norm_factor(1.0 / std::sqrt(2.0)) {}
   //! Set mean and variance
   void setup(std::complex<double> mean, double variance) {
-    m_re = mean.real(); m_im = mean.imag();
+    m_re = mean.real();
+    m_im = mean.imag();
     sigma = std::sqrt(variance);
   }
   //! Get mean and variance
   void get_setup(std::complex<double> &mean, double &variance) {
-    mean = std::complex<double>(m_re,m_im);
+    mean = std::complex<double>(m_re, m_im);
     variance = sigma * sigma;
   }
   //! Get one sample.
-  std::complex<double> operator()() { return sigma * sample() + std::complex<double>(m_re,m_im); }
+  std::complex<double> operator()() { return sigma * sample() + std::complex<double>(m_re, m_im); }
   //! Get a sample vector.
   cvec operator()(int n) {
     cvec temp(n);
     sample_vector(n, temp);
     temp *= sigma;
-    temp += std::complex<double>(m_re,m_im);
+    temp += std::complex<double>(m_re, m_im);
     return temp;
   }
   //! Get a sample matrix.
@@ -602,7 +612,7 @@ public:
     cmat temp(h, w);
     sample_matrix(h, w, temp);
     temp *= sigma;
-    temp += std::complex<double>(m_re,m_im);
+    temp += std::complex<double>(m_re, m_im);
     return temp;
   }
   //! Get a Complex Normal (0,1) distributed sample
