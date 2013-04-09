@@ -196,8 +196,11 @@ template<> inline void init_fft_library<OmpThreaded>()
 inline void release_descriptor(mkl::DFTI_DESCRIPTOR* h)
 {
   if(h != NULL) {
-    if(!mkl::DftiFreeDescriptor(&h))
+    MKL_LONG status = mkl::DftiFreeDescriptor(&h);
+    if(status) {
+      it_info(mkl::DftiErrorMessage(status));
       it_error("MKL library release_descriptor() failed on DftiFreeDescriptor.");
+    }
   }
 }
 
@@ -214,13 +217,20 @@ public:
       release_descriptor(_h);
       _transform_length = in.size();
 
-      if(!mkl::DftiCreateDescriptor(&_h, mkl::DFTI_DOUBLE, mkl::DFTI_COMPLEX, 1, _transform_length))
+      MKL_LONG status = mkl::DftiCreateDescriptor(&_h, mkl::DFTI_DOUBLE, mkl::DFTI_COMPLEX, 1, _transform_length);
+      if(status) {
+        it_info(mkl::DftiErrorMessage(status));
         it_error("MKL library compute_transform() failed on DftiCreateDescriptor.");
+      }
 
       mkl::DftiSetValue(_h, mkl::DFTI_PLACEMENT, mkl::DFTI_NOT_INPLACE);
 
-      if(!mkl::DftiCommitDescriptor(_h))
+      status = mkl::DftiCommitDescriptor(_h);
+      if(status) {
+        it_info(mkl::DftiErrorMessage(status));
         it_error("MKL library compute_transform() failed on DftiCommitDescriptor.");
+      }
+
     }
     mkl::DftiComputeForward(_h, (void *)in._data(), out._data());
   }
@@ -240,15 +250,21 @@ public:
     if(_transform_length != in.size()) {
       release_descriptor(_h);
       _transform_length = in.size();
-
-      if(!mkl::DftiCreateDescriptor(&_h, mkl::DFTI_DOUBLE, mkl::DFTI_COMPLEX, 1, _transform_length))
+      MKL_LONG status = mkl::DftiCreateDescriptor(&_h, mkl::DFTI_DOUBLE, mkl::DFTI_COMPLEX, 1, _transform_length);
+      if(status) {
+        it_info(mkl::DftiErrorMessage(status));
         it_error("MKL library compute_transform() failed on DftiCreateDescriptor.");
+      }
 
       mkl::DftiSetValue(_h, mkl::DFTI_PLACEMENT, mkl::DFTI_NOT_INPLACE);
       mkl::DftiSetValue(_h, mkl::DFTI_BACKWARD_SCALE, 1.0 / _transform_length);
 
-      if(!mkl::DftiCommitDescriptor(_h))
+      status = mkl::DftiCommitDescriptor(_h);
+      if(status) {
+        it_info(mkl::DftiErrorMessage(status));
         it_error("MKL library compute_transform() failed on DftiCommitDescriptor.");
+      }
+
     }
     mkl::DftiComputeBackward(_h, (void *)in._data(), out._data());
   }
@@ -269,13 +285,20 @@ public:
       release_descriptor(_h);
       _transform_length = in.size();
 
-      if(!mkl::DftiCreateDescriptor(&_h, mkl::DFTI_DOUBLE, mkl::DFTI_REAL, 1, _transform_length))
+      MKL_LONG status = mkl::DftiCreateDescriptor(&_h, mkl::DFTI_DOUBLE, mkl::DFTI_REAL, 1, _transform_length);
+      if(status) {
+        it_info(mkl::DftiErrorMessage(status));
         it_error("MKL library compute_transform() failed on DftiCreateDescriptor.");
+      }
 
       mkl::DftiSetValue(_h, mkl::DFTI_PLACEMENT, mkl::DFTI_NOT_INPLACE);
 
-      if(!mkl::DftiCommitDescriptor(_h))
+      status = mkl::DftiCommitDescriptor(_h);
+      if(status) {
+        it_info(mkl::DftiErrorMessage(status));
         it_error("MKL library compute_transform() failed on DftiCommitDescriptor.");
+      }
+
     }
     mkl::DftiComputeForward(_h, (void *)in._data(), out._data());
     // Real FFT does not compute the 2nd half of the FFT points because it
@@ -302,14 +325,21 @@ public:
       release_descriptor(_h);
       _transform_length = in.size();
 
-      if(!mkl::DftiCreateDescriptor(&_h, mkl::DFTI_DOUBLE, mkl::DFTI_REAL, 1, _transform_length))
+      MKL_LONG status = mkl::DftiCreateDescriptor(&_h, mkl::DFTI_DOUBLE, mkl::DFTI_REAL, 1, _transform_length);
+      if(status) {
+        it_info(mkl::DftiErrorMessage(status));
         it_error("MKL library compute_transform() failed on DftiCreateDescriptor.");
+      }
 
       mkl::DftiSetValue(_h, mkl::DFTI_PLACEMENT, mkl::DFTI_NOT_INPLACE);
       mkl::DftiSetValue(_h, mkl::DFTI_BACKWARD_SCALE, 1.0 / _transform_length);
 
-      if(!mkl::DftiCommitDescriptor(_h))
+      status = mkl::DftiCommitDescriptor(_h);
+      if(status) {
+        it_info(mkl::DftiErrorMessage(status));
         it_error("MKL library compute_transform() failed on DftiCommitDescriptor.");
+      }
+
     }
     mkl::DftiComputeBackward(_h, (void *)in._data(), out._data());
   }
