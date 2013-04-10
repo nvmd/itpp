@@ -76,8 +76,10 @@ foreach(_library ${_list})
       PATHS ${_libdir}
       )
     mark_as_advanced(${_prefix}_${_library}_LIBRARY)
-    set(${LIBRARIES} ${${LIBRARIES}} ${${_prefix}_${_library}_LIBRARY})
-    set(_libraries_work ${${_prefix}_${_library}_LIBRARY})
+    if (${_prefix}_${_library}_LIBRARY)
+      set(${LIBRARIES} ${${LIBRARIES}} ${${_prefix}_${_library}_LIBRARY})
+      set(_libraries_work ${${_prefix}_${_library}_LIBRARY})
+    endif()
   endif(_libraries_work)
 endforeach(_library ${_list})
 
@@ -152,6 +154,7 @@ if (NOT FFT_FOUND)
         endif()
       endif()
     endif()
+    mark_as_advanced (TEMP_INC)
     #need to find MKL FFT library
     check_fft_libraries(
         FFT_LIBRARIES
