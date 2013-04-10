@@ -177,6 +177,10 @@ endif()
 include (FindPackageHandleStandardArgs)
 find_package_handle_standard_args (FFT DEFAULT_MSG FFT_LIBRARIES FFT_INCLUDES)
 
+if (FFT_FOUND)
+  message(STATUS "A library with FFT API found.")
+endif()
+
 if (FFT_LIBRARIES MATCHES "NOTFOUND$")
   set(FFT_LIBRARIES "")
 endif()
