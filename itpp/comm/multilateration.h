@@ -47,7 +47,7 @@ struct Point;
   - hyperbolic multilateration (using Time Difference Of Arrival (TDOA)) and
   - hybrid multilateration (both TOA and TDOA are used)
 
-  In addition, it allows to compute the theoretical performance of the algorithm based on Cramer Rao Lower bound (CRLB).
+  In addition, it allows to compute the theoretical performance of the algorithm based on Cramer Rao Lower Bound (CRLB).
 
   Geometry-based methods for indoor localization use several Base Stations (BSs), whose position is known, in order
   to compute the position of the Mobile Station (MS). By computing the distance to each BS (TOA ranging) or the difference
@@ -56,15 +56,14 @@ struct Point;
   The algorithm implemented in this class can handle any number of measures (at least four) by using an asymptotic Maximum
   Likelihood (ML) estimator [1]. The input of the algorithm is represented by a method vector, specifying the type of each
   ranging measure (0 for TOA and 1 for TDOA), a matrix with BSs positions and a vector (for spherical and hybrid) or a matrix
-  (for hyperbolic multilateration) with the ranging measures. The output is a vector of lenth 3 with the position of the MS
+  (for hyperbolic multilateration) with the ranging measures. The output is a vector of length 3 with the position of the MS
   in 3D cartezian coordinates.
 
-  Note that for hybrid multilateration, each element in the method vector corresponds to a mesure element in the measures vector.
-  Thus the method vector is used to define how each measure has been obtained (TOA or TDOA). For spherical multilateration the
+  Note that for hybrid multilateration, the method vector should have at least a one and a zero, for spherical multilateration the
   method vector is all zeros, while for hyperbolic multilateration is all ones.
 
   The CRLB is computed as the Euclidean distance between the estimated position of the MS and the true MS position. The noise
-  variance is need as input together with the true MS position. It is assumed that the noise affecting the measures has
+  variance is needed as input together with the true MS position. It is assumed that the noise affecting the measures has
   the same variance for all measures.
 
   Usage example:
