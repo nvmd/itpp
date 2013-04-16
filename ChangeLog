@@ -1,3 +1,7 @@
+2013-04-16  Andy Panov <andypanov@users.sourceforge.net>
+	* itpp/srccode/g711.cpp, itpp/srccode/g711.h, itpp/itsrccode.h, gtests/g711_test.cpp: 
+	G.711 audio codecs implementation is added
+
 2013-04-09  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* itpp/base/random.cpp, itpp/base/random.h: fix thread-safety issue in
 	Gamma_RNG, thanks to Andy Panov for providing the patch

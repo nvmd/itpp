@@ -44,6 +44,7 @@
  */
 
 #include <itpp/itsignal.h>
+#include <itpp/srccode/g711.h>
 #include <itpp/srccode/audiofile.h>
 #include <itpp/srccode/gmm.h>
 #include <itpp/srccode/lpcfunc.h>

@@ -324,7 +324,7 @@ public:
   };
 */
 
-#endif
+
 
 /*! \addtogroup audio */
 //!@{
@@ -350,6 +350,7 @@ ITPP_EXPORT bool snd_read(const char *fname, vec &v, int beg, int len);
 //! Write SND audio data
 ITPP_EXPORT bool snd_write(const char *fname, const vec &v, int rate = 8000,
                SND_Format::data_encoding e = SND_Format::enc_linear16);
+#endif
 /*
 // Read SAP audio data
 bool sap_read(const char *fname, vec &v);

@@ -41,6 +41,10 @@ foreach (FILE ${ITPP_TEST_SRCS})
   if (target MATCHES "^itfile")
     set_source_files_properties(${target} PROPERTIES COMPILE_FLAGS -DITFILE_TEST_FILE=\\""${CMAKE_CURRENT_SOURCE_DIR}"/itfile_test_data.it\\")
   endif()
+  if (target MATCHES "^g711")
+    set_source_files_properties(${target} PROPERTIES COMPILE_FLAGS -DG711_TEST_FILE=\\""${CMAKE_CURRENT_SOURCE_DIR}"/g711_ref_data.it\\")
+  endif()
+
 endforeach (FILE)
 
 if (NOT WIN32)
