@@ -1,3 +1,23 @@
+2013-05-22  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* gtests/fastmath_test.cpp, gtests/filter_design_test.cpp,
+	gtests/filter_test.cpp, gtests/fix_test.cpp, gtests/freq_filt_test.cpp,
+	gtests/galois_test.cpp, gtests/gf2mat_test.cpp,
+	gtests/histogram_test.cppgtests/histogram_test.cpp,
+	gtests/interleaver_test.cpp, gtests/inv_test.cpp, gtests/ldpc_test.cpp,
+	gtests/linspace_test.cppgtests/linspace_test.cpp, gtests/llr_test.cpp,
+	gtests/ls_solve_test.cpp, gtests/lu_test.cpp, gtests/mat_test.cpp,
+	gtests/matfunc_test.cpp, gtests/modulator_nd_test.cpp,
+	gtests/modulator_test.cpp, gtests/newton_search_test.cpp,
+	gtests/operators_test.cpp, gtests/parser_test.cpp, gtests/poly_test.cpp,
+	gtests/pulse_shape_test.cpp, gtests/qr_test.cpp,
+	gtests/rec_syst_conv_code_test.cpp, gtests/reedsolomon_test.cpp,
+	gtests/schur_test.cpp, gtests/sigfun_test.cpp, gtests/siso_test.cpp,
+	gtests/sort_test.cpp, gtests/source_test.cpp, gtests/sparse_test.cpp,
+	gtests/specmat_test.cpp, gtests/stat_test.cpp, gtests/stc_test.cpp,
+	gtests/svd_test.cpp, gtests/timer_test.cpp, gtests/turbo_test.cpp,
+	gtests/vec_test.cpp, gtests/window_test.cpp: ported all unit tests to Google
+	framework. Old tests are obsolete and will be no longer maintained.
+
 2013-04-16  Andy Panov <andypanov@users.sourceforge.net>
 	* itpp/srccode/g711.cpp, itpp/srccode/g711.h, itpp/itsrccode.h, gtests/g711_test.cpp: 
 	G.711 audio codecs implementation is added
