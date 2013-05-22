@@ -96,11 +96,11 @@ TEST(Parser, all)
   a  = p.get_int("a");
   ASSERT_EQ(4, a);
   b = p.get_double("b");   //The default value of b
-  ASSERT_NEAR(0, b, tol);
+  ASSERT_NEAR(2.35, b, tol);
   b = p.get_double("b", 1); //The first alternative value of b
-  ASSERT_NEAR(1, b, tol);
+  ASSERT_NEAR(2.36, b, tol);
   b = p.get_double("b", 2); //The second alternative value of b
-  ASSERT_NEAR(2, b, tol);
+  ASSERT_NEAR(2.37, b, tol);
   c  = p.get_string("c");
   ASSERT_TRUE(string("Hello World") == c);
   d  = p.get_ivec("d");
