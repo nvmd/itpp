@@ -54,7 +54,7 @@ TEST(Operators, All)
 		ASSERT_TRUE (to_cvec(x1_re-y, x1_im) == z1);
 
 		//complex scalar
-		float y1 = 2.7;
+		double y1 = 2.7;
 		z = x+y1;
 		ASSERT_TRUE (complex<double>(x.real()+y1, x.imag()) == z);
 		z = x-y1;
@@ -95,7 +95,7 @@ TEST(Operators, All)
 		ASSERT_TRUE (to_cvec(x-y1_re, -y1_im) == z1);
 
 		//complex scalar
-		float x1 = 2.7;
+		double x1 = 2.7;
 		z = x1+y;
 		ASSERT_TRUE (complex<double>(x1+y.real(), y.imag()) == z);
 		z = x1-y;

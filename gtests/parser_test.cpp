@@ -95,12 +95,12 @@ TEST(Parser, all)
   p.init(string(PARSER_TEST_FILE));
   a  = p.get_int("a");
   ASSERT_EQ(4, a);
-  p.get_double("b");   //The default value of b
+  b = p.get_double("b");   //The default value of b
   ASSERT_NEAR(0, b, tol);
-  p.get_double("b", 1); //The first alternative value of b
-  ASSERT_NEAR(0, b, tol);
-  p.get_double("b", 2); //The second alternative value of b
-  ASSERT_NEAR(0, b, tol);
+  b = p.get_double("b", 1); //The first alternative value of b
+  ASSERT_NEAR(1, b, tol);
+  b = p.get_double("b", 2); //The second alternative value of b
+  ASSERT_NEAR(2, b, tol);
   c  = p.get_string("c");
   ASSERT_TRUE(string("Hello World") == c);
   d  = p.get_ivec("d");

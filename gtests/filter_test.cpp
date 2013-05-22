@@ -36,7 +36,7 @@ using namespace std;
 TEST (FilterTest, All)
 {
   static const double eps = 1e-4;
-  unsigned int i;
+  int i;
 
   RNG_reset(0);
 
