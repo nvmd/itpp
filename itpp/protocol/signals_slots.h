@@ -31,7 +31,7 @@
 
 #include <itpp/itexports.h>
 
-#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB) && !defined(itpp_EXPORTS))
+#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB) && !(defined(itpp_EXPORTS) || defined(itpp_debug_EXPORTS)))
 
 #ifndef ITPP_PROTOCOL_EXCLUDED
 #define ITPP_PROTOCOL_EXCLUDED

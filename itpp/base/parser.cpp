@@ -93,7 +93,7 @@ void Parser::pre_parsing(void)
   NewLine = "";
   for (i = 0; i < SetupStrings.size(); i++) {
     Line = SetupStrings(i);
-    n = Line.size();
+    n = int(Line.size());
     cont_line = false;
     for (k = 0; k < (n - 2); k++) {
       if ((Line[k] == '.') && (Line[k+1] == '.') && (Line[k+2] == '.')) {
@@ -118,7 +118,7 @@ void Parser::pre_parsing(void)
   for (i = 0; i < size; i++) {
     NewLine = "";
     Line = SetupStrings(i);
-    n = Line.length();
+    n = int(Line.length());
     j = 0; //counter in Line
     while (j < n) {
       switch (Line[j]) {
@@ -182,7 +182,7 @@ void Parser::pre_parsing(void)
 
     NewLine = "";
     Line = SetupStrings(i);
-    n = Line.length();
+    n = int(Line.length());
     j = 0;
 
     while (j < n) {
@@ -607,7 +607,7 @@ std::string Parser::findname(const std::string &name, bool &error_flag, bool &pr
   }
 
   //Remove [, ],",' and ending ;. Set the print_flag:
-  n = Temp.size();
+  n = int(Temp.size());
   Out = "";
   for (i = 0; i < n; i++) {
     switch (Temp[i]) {
@@ -642,7 +642,7 @@ std::string Parser::findname(const std::string &name, bool &error_flag, bool &pr
 
     Temp = Out;
     Out  = "";
-    n    = Temp.size();
+    n    = int(Temp.size());
     j    = 0;
 
     while ((Temp[j]   == ' ') || (Temp[j]   == '\t') || (Temp[j]   == '\n')) { j++; } //Remove spaces/tabs/newline in beginning

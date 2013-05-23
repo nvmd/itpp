@@ -1751,7 +1751,7 @@ it_file &operator<<(it_file &f, const Array<std::string> &v)
   // calculate total length of Array
   int sum_l = 0;
   for (int i = 0; i < v.size(); ++i)
-    sum_l += v(i).size();
+    sum_l += int(v(i).size());
 
   // write header
   f.write_data_header("stringArray", sizeof(uint64_t) * (1 + v.size())
@@ -2377,7 +2377,7 @@ void it_file_old::write_data_header(const std::string &type,
   int skip;
 
   h1.endianity = static_cast<char>(s.get_native_endianity());
-  h1.hdr_bytes = 1 + 3 * 4 + type.size() + 1 + name.size() + 1;
+  h1.hdr_bytes = 1 + 3 * 4 + int(type.size()) + 1 + int(name.size()) + 1;
   h1.data_bytes = size;
   h1.block_bytes = h1.hdr_bytes + h1.data_bytes;
   h1.name = name;
@@ -2562,7 +2562,7 @@ void it_file_old::low_level_write(const cvec &v)
 
 void it_file_old::low_level_write(const std::string &str)
 {
-  int size = str.size();
+  int size = int(str.size());
   s << static_cast<int32_t>(size);
 
   for (int i = 0; i < size; i++)
@@ -3288,7 +3288,7 @@ it_file_old &operator<<(it_file_old &f, const cvec &v)
 
 it_file_old &operator<<(it_file_old &f, const std::string &str)
 {
-  f.write_data_header("string", sizeof(int) + str.size() * sizeof(char));
+  f.write_data_header("string", sizeof(int) + int(str.size()) * sizeof(char));
   f.low_level_write(str);
 
   return f;
@@ -3476,7 +3476,7 @@ it_file_old &operator<<(it_file_old &f, const Array<std::string> &v)
 
   // calculate total length of Array
   for (i = 0; i < v.size(); i++) {
-    sum_l += v(i).size();
+    sum_l += int(v(i).size());
   }
 
   // write header
