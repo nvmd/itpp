@@ -35,7 +35,7 @@
 /*needed to export shared library symbols on Windows*/
 #if defined(ITPP_SHARED_LIB) && defined(_MSC_VER)
   #ifndef ITPP_EXPORT
-    #ifdef itpp_EXPORTS /*automatically defined by cmake*/
+    #if defined(itpp_EXPORTS) || defined(itpp_debug_EXPORTS) /*automatically defined by cmake*/
       #define ITPP_EXPORT __declspec(dllexport)
     #else
       #define ITPP_EXPORT __declspec(dllimport)

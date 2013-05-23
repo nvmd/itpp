@@ -1,4 +1,13 @@
 2013-05-23  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* itpp/base/itfile.cpp, itpp/base/parser.cpp, itpp/base/vec.cpp,
+	itpp/itexports.h.cmake, itpp/protocol/events.h,
+	itpp/protocol/front_drop_queue.h, itpp/protocol/packet.h,
+	itpp/protocol/packet_channel.h, itpp/protocol/packet_generator.h,
+	itpp/protocol/selective_repeat.h, itpp/protocol/signals_slots.h,
+	itpp/protocol/tcp.h, itpp/srccode/audiofile.h: corrected shared library
+	compilation with MSVC in debug mode	
+
+2013-05-23  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* itpp/signal/fastica.cpp: corrected bug #206
 
 2013-05-22  Bogdan Cristea <cristeab@users.sourceforge.net>

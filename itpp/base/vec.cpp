@@ -101,7 +101,7 @@ void Vec<bin>::set(const std::string &str)
   std::vector<std::string> tokens = tokenize(str, abc_format);
   it_assert(!abc_format, "Vec<bin>::set(): \"a:b:c\" format string not "
             "supported for binary vectors");
-  set_size(tokens.size());
+  set_size(int(tokens.size()));
   for (std::vector<std::string>::size_type i = 0; i < tokens.size(); ++i) {
     std::istringstream buffer(tokens[i]);
     buffer >> data[i];
@@ -125,13 +125,13 @@ void Vec<int>::set(const std::string &str)
   std::vector<std::string> tokens = tokenize(str, abc_format);
   // no "a:b:c" tokens, so the size of output vector is known
   if (!abc_format) {
-    set_size(tokens.size());
+    set_size(int(tokens.size()));
     for (std::vector<std::string>::size_type i = 0; i < tokens.size(); ++i)
       data[i] = parse_token(tokens[i]);
   }
   else {
     int pos = 0;
-    set_size((tokens.size() > 20) ? tokens.size() : 20);
+    set_size((tokens.size() > 20) ? int(tokens.size()) : 20);
     for (std::vector<std::string>::size_type i = 0; i < tokens.size(); ++i) {
       // check if the current token is in "a:b[:c]" format
       if (tokens[i].find(':', 1) == std::string::npos) {
@@ -184,13 +184,13 @@ void Vec<double>::set(const std::string &str)
   std::vector<std::string> tokens = tokenize(str, abc_format);
   // no "a:b:c" tokens, so the size of output vector is known
   if (!abc_format) {
-    set_size(tokens.size());
+    set_size(int(tokens.size()));
     for (std::vector<std::string>::size_type i = 0; i < tokens.size(); ++i)
       data[i] = parse_token(tokens[i]);
   }
   else {
     int pos = 0;
-    set_size((tokens.size() > 20) ? tokens.size() : 20);
+    set_size((tokens.size() > 20) ? int(tokens.size()) : 20);
     for (std::vector<std::string>::size_type i = 0; i < tokens.size(); ++i) {
       // check if the current token is in "a:b[:c]" format
       if (tokens[i].find(':', 1) == std::string::npos) {
@@ -244,7 +244,7 @@ void Vec<std::complex<double> >::set(const std::string &str)
   std::vector<std::string> tokens = tokenize(str, abc_format);
   it_assert(!abc_format, "Vec<bin>::set(): \"a:b:c\" format string not "
             "supported for binary vectors");
-  set_size(tokens.size());
+  set_size(int(tokens.size()));
   for (std::vector<std::string>::size_type i = 0; i < tokens.size(); ++i) {
     std::istringstream buffer(tokens[i]);
     buffer >> data[i];
