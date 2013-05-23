@@ -82,7 +82,7 @@ using namespace itpp;
   @{
 */
 static void selcol(const mat oldMatrix, const vec maskVector, mat & newMatrix);
-static void pcamat(const mat vectors, const int numOfIC, int firstEig, int lastEig, mat & Es, vec & Ds);
+static int pcamat(const mat vectors, const int numOfIC, int firstEig, int lastEig, mat & Es, vec & Ds);
 static void remmean(mat inVectors, mat & outVectors, vec & meanValue);
 static void whitenv(const mat vectors, const mat E, const mat D, mat & newVectors, mat & whiteningMatrix, mat & dewhiteningMatrix);
 static mat orth(const mat A);
@@ -143,10 +143,16 @@ bool Fast_ICA::separate(void)
 
   remmean(mixedSig, mixedSigC, mixedMean);
 
-  pcamat(mixedSigC, numOfIC, firstEig, lastEig, E, D);
+  if (pcamat(mixedSigC, numOfIC, firstEig, lastEig, E, D) < 1) {
+    // no principal components could be found (e.g. all-zero data): return the unchanged input
+    icasig = mixedSig;
+    return false;
+  }
 
   whitenv(mixedSigC, E, diag(D), whitesig, whiteningMatrix, dewhiteningMatrix);
 
+  Dim = whitesig.rows();
+  if (numOfIC > Dim) numOfIC = Dim;
 
   ivec NcFirst = to_ivec(zeros(numOfIC));
   vec NcVp = D;
@@ -160,10 +166,6 @@ bool Fast_ICA::separate(void)
 
   bool result = true;
   if (PCAonly == false) {
-
-    Dim = whitesig.rows();
-
-    if (numOfIC > Dim) numOfIC = Dim;
 
     result = fpica(whitesig, whiteningMatrix, dewhiteningMatrix, approach, numOfIC, g, finetune, a1, a2, mu, stabilization, epsilon, maxNumIterations, maxFineTune, initState, guess, sampleSize, A, W);
 
@@ -257,7 +259,7 @@ static void selcol(const mat oldMatrix, const vec maskVector, mat & newMatrix)
 
 }
 
-static void pcamat(const mat vectors, const int numOfIC, int firstEig, int lastEig, mat & Es, vec & Ds)
+static int pcamat(const mat vectors, const int numOfIC, int firstEig, int lastEig, mat & Es, vec & Ds)
 {
 
   mat Et;
@@ -277,6 +279,7 @@ static void pcamat(const mat vectors, const int numOfIC, int firstEig, int lastE
 
   // Compute rank
   for (int i = 0; i < Dt.length(); i++) if (Dt(i) > FICA_TOL) maxLastEig++;
+  if (maxLastEig < 1) return 0;
 
   // Force numOfIC components
   if (maxLastEig > numOfIC) maxLastEig = numOfIC;
@@ -324,7 +327,7 @@ static void pcamat(const mat vectors, const int numOfIC, int firstEig, int lastE
       numTaken++;
     }
 
-  return;
+  return lastEig;
 
 }
 

@@ -1,3 +1,6 @@
+2013-05-23  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* itpp/signal/fastica.cpp: corrected bug #206
+
 2013-05-22  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* gtests/fastmath_test.cpp, gtests/filter_design_test.cpp,
 	gtests/filter_test.cpp, gtests/fix_test.cpp, gtests/freq_filt_test.cpp,
