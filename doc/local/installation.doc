@@ -174,9 +174,9 @@ Library detection examples:
   % export LD_LIBRARY_PATH=/usr/lib64/atlas
   % cmake .. -DBLA_VENDOR=ATLAS
 \endverbatim
-- on Windows, 32 bits:
+- on Windows, 32 bits, with MS Visual C++:
   - in order to detect ACML library (installed in the default path
-  `C:\\AMD\\acmln.n.n') using Intel build the following variables must be set (from the GUI):
+  `C:\\AMD\\acmln.n.n') for Intel build the following variables must be set (from the GUI):
 \verbatim
   BLA_VENDOR=ACML
   CMAKE_Fortran_COMPILER_ID=Intel
@@ -191,11 +191,15 @@ Library detection examples:
 \verbatim
   PATH=%PATH_TO_INTEL_COMPOSER%/mkl/lib/ia32
 \endverbatim
-  from cmake
+  (note that PATH variable must point to the location of mkl_rt.lib) and from cmake
 \verbatim
   BLA_VENDOR=Intel11
 \endverbatim
-
+- on Windows, 32 bits, with MINGW:
+  - in order to detect MKL 11 the PATH variable must be set as before and from command line use:
+\verbatim
+  %  "C:\Program Files (x86)\CMake 2.8\bin\cmake.exe" .. -G "MSYS Makefiles" -DBLA_VENDOR=Intel11 -DCMAKE_INSTALL_PREFIX="C:\ITPP"
+\endverbatim
 
 For more options see `cmake/Modules/FindBLAS.cmake' file.
 
