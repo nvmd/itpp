@@ -1,3 +1,7 @@
+2013-05-24  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* CMakeLists.txt, doc/local/installation.doc, gtests/commfunc_test.cpp,
+	gtests/vec_test.cpp, itpp/CMakeLists.txt: corrections for cygwin and mingw
+
 2013-05-23  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* itpp/base/itfile.cpp, itpp/base/parser.cpp, itpp/base/vec.cpp,
 	itpp/itexports.h.cmake, itpp/protocol/events.h,

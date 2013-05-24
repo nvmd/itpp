@@ -86,6 +86,9 @@ endif(FFT_FOUND)
 find_package ( OpenMP )
 if (OPENMP_FOUND)
   set (CMAKE_CXX_FLAGS "${OpenMP_CXX_FLAGS} ${CMAKE_CXX_FLAGS}")
+  if (MINGW)
+    set (CMAKE_SHARED_LINKER_FLAGS "${OpenMP_CXX_FLAGS} ${CMAKE_SHARED_LINKER_FLAGS}")
+  endif()
 endif()
 
 #check for Doxygen and LaTeX
@@ -152,7 +155,7 @@ set (PACKAGE_STRING "${PACKAGE_NAME} ${PACKAGE_VERSION}")
 set (PACKAGE_TARNAME ${PACKAGE})
 set (PACKAGE_URL "")
 
-if (WIN32)
+if (WIN32 AND NOT MINGW)
   #TODO: remove this from future versions
   CONFIGURE_FILE ( ${CMAKE_SOURCE_DIR}/itpp/config.h.cmake ${CMAKE_BINARY_DIR}/itpp/config_msvc.h )
 else()

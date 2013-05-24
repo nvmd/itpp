@@ -69,10 +69,10 @@ install(TARGETS ${libitpp_target}
 
 #headers
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/itpp DESTINATION include FILES_MATCHING PATTERN "*.h")
-if (NOT WIN32)
-  install(FILES ${CMAKE_BINARY_DIR}/itpp/config.h DESTINATION include/itpp)
-else()
+if (WIN32 AND NOT MINGW)
   install(FILES ${CMAKE_BINARY_DIR}/itpp/config_msvc.h DESTINATION include/itpp)
+else()
+  install(FILES ${CMAKE_BINARY_DIR}/itpp/config.h DESTINATION include/itpp)
 endif()
 install(FILES ${CMAKE_BINARY_DIR}/itpp/itexports.h DESTINATION include/itpp)
 
