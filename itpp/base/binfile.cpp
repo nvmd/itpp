@@ -1,11 +1,11 @@
 /*!
  * \file
  * \brief Binary file formats implementations
- * \author Tony Ottosson, Thomas Eriksson and Adam Piatyszek
+ * \author Tony Ottosson, Thomas Eriksson, Adam Piatyszek and Andy Panov
  *
  * -------------------------------------------------------------------------
  *
- * Copyright (C) 1995-2010  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2013  (see AUTHORS file for a list of contributors)
  *
  * This file is part of IT++ - a C++ library of mathematical, signal
  * processing, speech processing, and communications classes and functions.
@@ -123,17 +123,18 @@ bfstream_base::bfstream_base(endian e):
 // ----------------------------------------------------------------------
 
 bofstream::bofstream(const std::string& name, endian e) :
-    bfstream_base(e), binfile_details::Ofstream_Binfile_Facade(name.c_str(), ios::out | ios::binary) {}
+    bfstream_base(e), binfile_details::Ofstream_Binfile_Facade(name.c_str()) {}
 
 bofstream::bofstream() : bfstream_base(), binfile_details::Ofstream_Binfile_Facade() {}
 
-void bofstream::open(const std::string& name, endian e)
+void bofstream::open(const std::string& name, bool truncate, endian e)
 {
   if (native_endianity != e)
     switch_endianity = true;
   else
     switch_endianity = false;
-  Ofstream_Binfile_Facade::open(name.c_str(), ios::out | ios::binary);
+  Ofstream_Binfile_Facade::open(name.c_str(),
+    truncate? ios::out | ios::binary | ios::trunc : ios::out | ios::binary);
 }
 
 bofstream& bofstream::operator<<(char a)
@@ -142,8 +143,16 @@ bofstream& bofstream::operator<<(char a)
   return *this;
 }
 
-bofstream& bofstream::operator<<(unsigned char a)
+bofstream& bofstream::operator<<(int8_t a)
 {
+  static_assert(sizeof(char) == sizeof(int8_t),"Unexpected int8_t size.");
+  put(static_cast<char>(a));
+  return *this;
+}
+
+bofstream& bofstream::operator<<(uint8_t a)
+{
+  static_assert(sizeof(char) == sizeof(uint8_t),"Unexpected uint8_t size.");
   put(static_cast<char>(a));
   return *this;
 }
@@ -249,8 +258,18 @@ bifstream& bifstream::operator>>(char& a)
   return *this;
 }
 
-bifstream& bifstream::operator>>(unsigned char& a)
+bifstream& bifstream::operator>>(int8_t& a)
 {
+  static_assert(sizeof(char) == sizeof(int8_t),"Unexpected int8_t size.");
+  char tmp;
+  get(tmp);
+  a = tmp;
+  return *this;
+}
+
+bifstream& bifstream::operator>>(uint8_t& a)
+{
+  static_assert(sizeof(char) == sizeof(uint8_t),"Unexpected uint8_t size.");
   char tmp;
   get(tmp);
   a = tmp;
@@ -376,8 +395,16 @@ bfstream& bfstream::operator<<(char a)
   return *this;
 }
 
-bfstream& bfstream::operator<<(unsigned char a)
+bfstream& bfstream::operator<<(int8_t a)
 {
+  static_assert(sizeof(char) == sizeof(int8_t),"Unexpected int8_t size.");
+  put(static_cast<char>(a));
+  return *this;
+}
+
+bfstream& bfstream::operator<<(uint8_t a)
+{
+  static_assert(sizeof(char) == sizeof(uint8_t),"Unexpected uint8_t size.");
   put(static_cast<char>(a));
   return *this;
 }
@@ -455,8 +482,18 @@ bfstream& bfstream::operator>>(char& a)
   return *this;
 }
 
-bfstream& bfstream::operator>>(unsigned char& a)
+bfstream& bfstream::operator>>(int8_t& a)
 {
+  static_assert(sizeof(char) == sizeof(int8_t),"Unexpected int8_t size.");
+  char tmp;
+  get(tmp);
+  a = tmp;
+  return *this;
+}
+
+bfstream& bfstream::operator>>(uint8_t& a)
+{
+  static_assert(sizeof(char) == sizeof(uint8_t),"Unexpected uint8_t size.");
   char tmp;
   get(tmp);
   a = tmp;
