@@ -1,3 +1,8 @@
+2013-05-24  Andy Panov <andypanov@users.sourceforge.net>
+	* itpp/srccode/audiofile.cpp, itpp/srccode/audiofile.h, itpp/srccode/audiosample.h, gtests/audiofile_test.cpp: 
+	itpp/base/binfile.h, itpp/base/binfile.cpp
+	refactoring of audio streams.
+
 2013-05-24  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* CMakeLists.txt, doc/local/installation.doc, gtests/commfunc_test.cpp,
 	gtests/vec_test.cpp, itpp/CMakeLists.txt: corrections for cygwin and mingw
