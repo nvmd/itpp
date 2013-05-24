@@ -133,7 +133,7 @@ mentioned below, please let us know, so we could update this database.
 - <b>Date</b>: May 24, 2013
 - <b>Tester</b>: Bogdan Cristea
 
-\subsubsection win_4_3_mingw MinGW/MSYS 1.7.18-1
+\subsubsection win_4_3_mingw MinGW/MSYS
 
 - <b>Platform</b>: Intel Core i7-3667U
 - <b>Operating System</b>: Windows 8 x86_64

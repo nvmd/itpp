@@ -149,6 +149,11 @@ this option is set to `off'. These tests are no longer maintained, so it is reco
 framework. In order to run these tests use `check_tests.py' script found in extras folder (Python is required).
 - \c `-DHTML_DOCS=off' allows to disable the generation of HTML documentation. Default option is `on' provided that
 Doxygen is found.
+- \c `-DCMAKE_BUILD_TYPE=Release' allows to specify the build type: Release (default) or Debug. The library name in Debug
+mode is itpp_debug.*, so that both Release and Debug versions could exist in the installation folder.
+- \c `-DCMAKE_INSTALL_PREFIX=/install/path' allows to specify the installation path. This is used when installing IT++,
+either from command line, with 'make install', either using the INSTALL project from Visual Studio. Note that the user
+should have write permissions to the installation folder.
 
 Note: in order to run the unit test binaries, external libraries need to be in your system path. On Linux
 one can use ldconfig, while in Windows `PATH' variable should be set to the location of external libraries
