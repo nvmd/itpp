@@ -4,6 +4,16 @@
 \section toc Table of Contents
 - \ref intro
 
+- \ref itpp_4_3
+  - \ref linux_4_3
+    - \ref opensuse_12_3
+  - \ref macos_4_3
+    - \ref macos_4_3_lion
+  - \ref win_4_3
+    - \ref win_4_3_8
+    - \ref win_4_3_cygwin
+    - \ref win_4_3_mingw
+
 - \ref itpp_4_0
   - \ref linux_4_0
     - \ref ubuntu_910_4_0
@@ -67,6 +77,75 @@ mentioned below, please let us know, so we could update this database.
 
 \htmlonly <hr> \endhtmlonly
 
+\section itpp_4_3 IT++ 4.3.x (Stable)
+
+\subsection  linux_4_3 Linux Systems
+
+\subsubsection opensuse_12_3 OpenSUSE 12.3
+
+- <b>Platform</b>: AMD Athlon 64 X2 Dual Core Processor 3800+
+- <b>Operating System</b>: OpenSUSE 12.3
+- <b>Compiler</b>: g++ (GCC) 4.7.2
+- <b>IT++ release</b>: 4.3.0
+- <b>External Libraries</b>: blas, lapack and fftw from OpenSUSE repositories or ACML 5.1.0 or MKL 11.0.2
+- <b>Tests Status</b>: All tests PASSED
+- <b>Comments</b>: Please read Installation section of the main help page
+- <b>Date</b>: May 24, 2013
+- <b>Tester</b>: Bogdan Cristea
+
+\subsection  macos_4_3 MacOS Systems
+
+\subsubsection macos_4_3_lion MacOS Lion
+
+- <b>Platform</b>: Virtual Box 4.2.12 installed on Windows 8 x86_64 (Intel Core i7-3667U)
+- <b>Operating System</b>: MacOS Lion
+- <b>Compiler</b>: g++ (GCC) 4.2.1
+- <b>IT++ release</b>: 4.3.0
+- <b>External Libraries</b>: blas, lapack and fftw from MacOS repositories
+- <b>Tests Status</b>: All tests PASSED
+- <b>Comments</b>: Please read Installation section of the main help page
+- <b>Date</b>: May 24, 2013
+- <b>Tester</b>: Bogdan Cristea
+
+\subsection  win_4_3 Windows Systems
+
+\subsubsection win_4_3_8 Windows 8
+
+- <b>Platform</b>: Intel Core i7-3667U
+- <b>Operating System</b>: Windows 8 x86_64
+- <b>Compiler</b>: Visual Studio 2010
+- <b>IT++ release</b>: 4.3.0
+- <b>External Libraries</b>: ACML 5.1.0 or MKL 11.0.2
+- <b>Tests Status</b>: All tests PASSED
+- <b>Comments</b>: Please read Installation section of the main help page
+- <b>Date</b>: May 24, 2013
+- <b>Tester</b>: Bogdan Cristea
+
+\subsubsection win_4_3_cygwin Cygwin 1.7.18-1
+
+- <b>Platform</b>: Intel Core i7-3667U
+- <b>Operating System</b>: Windows 8 x86_64
+- <b>Compiler</b>: g++ (GCC) 4.5.3
+- <b>IT++ release</b>: 4.3.0
+- <b>External Libraries</b>: blas, lapack, fftw from cygwin repositories
+- <b>Tests Status</b>: All tests PASSED
+- <b>Comments</b>: Please read Installation section of the main help page
+- <b>Date</b>: May 24, 2013
+- <b>Tester</b>: Bogdan Cristea
+
+\subsubsection win_4_3_mingw MinGW/MSYS 1.7.18-1
+
+- <b>Platform</b>: Intel Core i7-3667U
+- <b>Operating System</b>: Windows 8 x86_64
+- <b>Compiler</b>: g++ (GCC) 4.7.2
+- <b>IT++ release</b>: 4.3.0
+- <b>External Libraries</b>: MKL 11.0.2
+- <b>Tests Status</b>: All tests PASSED
+- <b>Comments</b>: Please read Installation section of the main help page
+- <b>Date</b>: May 24, 2013
+- <b>Tester</b>: Bogdan Cristea
+
+\htmlonly <hr> \endhtmlonly
 
 \section itpp_4_0 IT++ 4.0.x (Stable)
 
