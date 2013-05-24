@@ -18,31 +18,26 @@ classes/functions. The test files should be maintained using version
 control and updated whenever new functionality is added to the IT++
 library.
 
-The test file should print relevant data to a standard output that can
-be used to verify the functionality. All relevant parameter settings
-should be tested.
+The test file should use Google C++ Testing Framework (http://code.google.com/p/googletest/) 
+for unit tests and should be, if possible, self contained, i.e. no external data needed. 
+Also, if you use random data, please use IT++ random generators with a fixed seed in order to
+ensure the same results on different platforms.
 
-The test file should be placed in the \c `tests' subdirectory and
+The test file should be placed in the \c `gtests' subdirectory and
 should have a name ending with <tt>`_test.cpp'</tt>.
-
-
-\section reference_file The Reference File
-
-Consider a test file named <tt>`module_test.cpp'</tt>. A reference
-file named <tt>`module_test.ref'</tt> should accompany the test
-file. The reference file contains a reference printout of the standard
-output generated when running the test program. The reference file
-should be maintained using version control and updated according to
-the test file.
-
 
 \section testing_using_make Testing IT++ Library
 
-One can compile and execute all test programs from \c `tests'
+One can compile and execute all test programs from \c `gtests'
 subdirectory by typing
 \verbatim
-% make check
+% ./itpp_gtests
 \endverbatim after
-successful compilation of the IT++ library.
+successful compilation of the IT++ library. Note that unit test compilation must
+be enabled by specifying for cmake the path to the folder containing Google C++
+Testing Framework sources. From the build folder the command is:
+\verbatim
+% cmake .. -DGTEST_DIR=/path/to/gtest
+\endverbatim
 
 */
