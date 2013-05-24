@@ -1,11 +1,11 @@
 /*!
  * \file
  * \brief Definitions of audio Audio classes and functions
- * \author Tobias Ringstrom and Adam Piatyszek
+ * \author Tobias Ringstrom, Adam Piatyszek and Andy Panov
  *
  * -------------------------------------------------------------------------
  *
- * Copyright (C) 1995-2010  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2013  (see AUTHORS file for a list of contributors)
  *
  * This file is part of IT++ - a C++ library of mathematical, signal
  * processing, speech processing, and communications classes and functions.
@@ -29,204 +29,485 @@
 #ifndef AUDIOFILE_H
 #define AUDIOFILE_H
 
+#include <string>
+#include <algorithm>
 #include <itpp/base/vec.h>
-#include <itpp/base/math/misc.h>
-#include <fstream>
+#include <itpp/base/mat.h>
+#include <itpp/base/binfile.h>
+#include <itpp/srccode/audiosample.h>
 #include <itpp/itexports.h>
 
 
 namespace itpp
 {
 
+
+/*!
+\addtogroup audio
+\section audiostreams Audio Streams.
+
+Audio streams are used to handle audio files in Sun/NeXT format (the .au format). SND file
+consists of header followed by the audio samples. Number of channels, samples encoding
+and sampling rate are stored inside the file header. Header can also contain annotation of
+variable length describing the stream contents.
+ Library provides Audio_Stream_Description class to describe the audio stream and
+ SND_In_File/SND_Out_File/SND_InOut_File classes to support handling of SND files.
+*/
+
+
+/*!
+\ingroup audio
+\brief Description of audio stream.
+
+This class holds information about the stream of audio samples. Information includes
+samples encoding, number of channels and sampling rate. Stream can be annotated
+via set_description() method.
+*/
+class Audio_Stream_Description
+{
+public:
+  //! Default ctor - creates uninitialized description
+  Audio_Stream_Description():_encoding(enc_unknown), _sampling_rate(0), _num_channels(0){}
+  //! Construct with stream parameters: encoding \a e, sampling rate \a sr and number of audio channels \a nc
+  Audio_Stream_Description(Audio_Encoding e, int sr, int nc = 1):
+  _encoding(e), _sampling_rate(sr), _num_channels(nc){}
+  //! Set encoding of audio samples
+  Audio_Stream_Description& set_encoding(Audio_Encoding e) {_encoding = e; return *this;}
+  //! Set sampling rate (samples per second)
+  Audio_Stream_Description& set_sampling_rate(int sr) {_sampling_rate = sr; return *this;}
+  //! Set number of audio channels
+  Audio_Stream_Description& set_num_channels(int nc) {_num_channels = nc; return *this;}
+  //! Set stream annotation
+  Audio_Stream_Description& set_description(const std::string& d) {_description = d; return *this;}
+  //! Get encoding of audio samples
+  Audio_Encoding get_encoding() const {return _encoding;}
+  //! Get sampling rate (samples per second)
+  int get_sampling_rate() const {return _sampling_rate;}
+  //! Get number of audio channels
+  int get_num_channels() const {return _num_channels;}
+  //! Get stream annotation
+  const std::string& get_description() const {return _description;}
+private:
+  //! Encoding of audio samples
+  Audio_Encoding _encoding;
+  //! Sampling rate
+  int _sampling_rate;
+  //! Number of audio channels
+  int _num_channels;
+  //! Stream annotation text
+  std::string _description;
+};
+
+//! validity check for stream description \a d
+inline bool is_valid(const Audio_Stream_Description& d)
+{
+  if(!encoded_sample_size(d.get_encoding())) return false;
+  if(!d.get_num_channels()) return false;
+  return true;
+}
+
 //! \cond
-#define SND_INFO_LEN 8
+namespace audiofile_details{
+
+  //abstract interfaces to read and write audio samples to streams
+
+  class Audio_Samples_Reader_If
+  {
+  public:
+    virtual bool read_sample(double& s, int ch) = 0;
+    virtual vec read_channel(int n, int ch) = 0;
+    virtual mat read(int n) = 0;
+    virtual std::streamoff tell() const = 0;
+    virtual bool seek(std::streamoff n) = 0;
+    virtual std::streamoff num_samples() = 0;
+    virtual ~Audio_Samples_Reader_If() {}
+  };
+
+
+  class Audio_Samples_Writer_If
+  {
+  public:
+    virtual bool write_sample(const double& s, int ch) = 0;
+    virtual bool write_channel(const vec& s, int ch) = 0;
+    //Write n samples to audio channel ch
+    virtual bool write(const mat& s) = 0;
+    virtual std::streamoff tell() const = 0;
+    virtual bool seek(std::streamoff n) = 0;
+    virtual std::streamoff num_samples() = 0;
+    virtual ~Audio_Samples_Writer_If() {}
+  };
+}
 //! \endcond
 
 /*!
-  \addtogroup audio
+\ingroup audio
+\brief Class to read audio data from au file
+
+Input stream of audio samples uses binary stream to get encoded audio data from
+snd audio file. Audio can be read as single sample from current read position in audio stream,
+as a vector of samples containing data from single audio channel or as matrix with audio channels
+stored columnwise.
+
+Following example illustratates read operations with SND_In_File
+\code
+#include <itpp/srccode/audiofile.h>
+using namespace itpp;
+
+int main() {
+  //create audio stream
+  SND_In_File f_in("inptut.au");
+  //get description
+  Audio_Stream_Description d = f_in.get_description();
+  //read 100 audio samples if file contains stereo data on 8 kHz sampling rate
+  mat in(100,2); vec first_channel(100); vec second_channel(100);
+  if((d.get_num_channels == 2) && (d.get_sampling_rate() == 8000) && (f_in.num_samples()>=100))
+  {
+     in = f_in.read(100);
+     f_in.seek_read(0); //reposition to the first sample
+     first_channel = f_in.read_channel(100); //read first channel
+     f_in.seek_read(0); //reposition to the first sample
+     second_channel = f_in.read_channel(100,1); //read second channel
+  }
+  return 0;
+}
+\endcode
+
 */
-
-#if (defined(_MSC_VER) && defined(ITPP_SHARED_LIB) && !(defined(itpp_EXPORTS) || defined(itpp_debug_EXPORTS)))
-
-#ifndef ITPP_AUDIOFILE_EXCLUDED
-#define ITPP_AUDIOFILE_EXCLUDED
-#pragma message( "Audio_File class definitions are not available for MSVC shared builds" )
-#endif
-
-#else
-
-/*!
-  \brief Base class - do not use this one!
-  \ingroup audio
-
-  ACTION: ADD DETAILED DOCUMENTATION FOR THIS CLASS!!!!!!!!!!!
-*/
-class Audio_File
+class ITPP_EXPORT SND_In_File
 {
 public:
-  //!Constructor
-  Audio_File();
-  //!Destructor
-  virtual ~Audio_File() { }
-
-  //!Returns true if everything is OK.
-  bool good() { return is_valid && file.good(); }
-
-protected:
-  //! ACTION: Add documentation for this protected member
-  std::fstream file;
-  //! ACTION: Add documentation for this protected member
-  bool is_valid;
-};
-
-/*!
-  \brief Base class for SND reading classes (the .au format)
-  \ingroup audio
-
-  ACTION: ADD DETAILED DOCUMENTATION FOR THIS CLASS!!!!!!!!!!!
-*/
-class ITPP_EXPORT SND_Format
-{
-public:
-  //! ACTION: ADD DOCUMENTATION FOR THIS MEMBER!!!!!!!!!!!
-  enum data_encoding { enc_unknown  =  0,
-                       enc_mulaw8   =  1,
-                       enc_alaw8    = 27,
-                       enc_linear8  =  2,
-                       enc_linear16 =  3,
-                       enc_linear24 =  4,
-                       enc_linear32 =  5,
-                       enc_float    =  6,
-                       enc_double   =  7
-                     };
-
-  //! ACTION: ADD DOCUMENTATION FOR THIS MEMBER!!!!!!!!!!!
-  int samples() const { return header.data_size / sample_size(); }
-  //! ACTION: ADD DOCUMENTATION FOR THIS MEMBER!!!!!!!!!!!
-  data_encoding encoding() const { return (data_encoding)header.encoding; }
-  //! ACTION: ADD DOCUMENTATION FOR THIS MEMBER!!!!!!!!!!!
-  int rate() const { return header.sample_rate; }
-  //! ACTION: ADD DOCUMENTATION FOR THIS MEMBER!!!!!!!!!!!
-  void set_rate(int r) { header.sample_rate = r; }
-  //! ACTION: ADD DOCUMENTATION FOR THIS MEMBER!!!!!!!!!!!
-  int channels() const { return header.channels; }
-
-protected:
-
-  struct {
-    //! Magic number
-    unsigned magic;
-    //! Size of this header
-    unsigned hdr_size;
-    //! Length of data (optional)
-    unsigned data_size;
-    //! Data encoding format
-    unsigned encoding;
-    //! Samples per second
-    unsigned sample_rate;
-    //! Number of interleaved channels
-    unsigned channels;
-    //! Info string
-    char info[SND_INFO_LEN];
-  } header; //!< Definition of the header structure
-
-
-  //! ACTION: Add documentation for this protected member
-  int sample_size() const;
-  //! ACTION: Add documentation for this protected member
-  bool read_header(std::istream &f);
-  //! ACTION: Add documentation for this protected member
-  bool write_header(std::ostream &f);
-};
-
-/*!
-  \brief A class to read SND-files (the .au format)
-  \ingroup audio
-
-  ACTION: ADD DETAILED DOCUMENTATION FOR THIS CLASS!!!!!!!!!!!
-*/
-class SND_In_File : virtual public Audio_File, virtual public SND_Format
-{
-public:
-  //! Default constructor
+  //! Default constructor - creates uninitialized stream
   SND_In_File();
-  //! Open the file {\em fname}.
-  SND_In_File(const char *fname);
-  //! Destructor
-  virtual ~SND_In_File() { close(); }
-
-  //! Open the file {\em fname}.
-  virtual bool open(const char *fname);
+  //! Constructor from file name \a fname
+  SND_In_File(const char* fname);
+  //! Stream destructor
+  ~SND_In_File();
+  //! Open the file \a fname
+  bool open(const char* fname);
   //! Close the file.
-  virtual void close();
+  void close();
+  //! Get stream description
+  Audio_Stream_Description get_description() const {return *_description;}
+  //! Go to sample number \a pos
+  bool seek_read(std::streamoff pos)
+  {
+    if((pos > _num_samples) || (pos < 0))
+      return false;
 
-  //! Go to sample number {\em pos}.
-  bool seek_read(int pos);
-  //! Return the current sample position in the file.
-  int tell_read();
-
-  //! Read the whole file into the vector {\em v}.
-  virtual bool read(vec &v);
-  //! Read {\em n} samples into the vector {\em v}.
-  virtual bool read(vec &v, int n);
+    if(_samples_reader)
+      return _samples_reader->seek(pos);
+    else
+      return false;
+  }
+  //! Get current position in samples.
+  std::streamoff tell_read()
+  {
+    if(_samples_reader)
+      return _samples_reader->tell();
+    else
+      return -1;
+  }
+  //! Get number of samples in stream
+  std::streamoff num_samples() const {return _num_samples;}
+  //! Read single sample \a s at current position to channel \a ch.
+  bool read_sample(double& s, int ch = 0)
+  {
+    if(_samples_reader)
+      return _samples_reader->read_sample(s,ch);
+    else
+      return false;
+  }
+  //! Read \a n samples from channel \a ch starting at current position
+  vec read_channel(int n, int ch = 0)
+  {
+    if(_samples_reader)
+      return _samples_reader->read_channel(n,ch);
+    else
+      return vec();
+  }
+  //! Read \a n samples from all channels starting at current position into matrix
+  mat read(int n)
+  {
+    if(_samples_reader)
+      return _samples_reader->read(n);
+    else
+      return mat();
+  }
+private:
+  //! Binary stream
+  bifstream _str;
+  //! Number of samples
+  std::streamoff _num_samples;
+  //! Samples Reader
+  audiofile_details::Audio_Samples_Reader_If* _samples_reader;
+  //! Stream Description
+  Audio_Stream_Description* _description;
 };
 
 /*!
-  \brief A class to write SND-files (the .au format)
-  \ingroup audio
+\ingroup audio
+\brief A class to write SND-files (the .au format)
 
-  ACTION: ADD DETAILED DOCUMENTATION FOR THIS CLASS!!!!!!!!!!!
+Output stream uses underlying binary stream to write audio data to the audio file in au format.
+Audio can be written sample-by sample, channel-wise or taken column-wise from the input matrix
+
+Following example illustrates write operations with SND_Out_File:
+\code
+#include <itpp/srccode/audiofile.h>
+using namespace itpp;
+
+int main() {
+  //create stream description to store 8kHz 16-bit PCM stereo audio data
+  d = Audio_Stream_Description(enc_linear16, 8000,2);
+  //create audio stream
+  SND_Out_File f_out("inptut.au",d);
+  //fill input with 10004 Hz test tone
+  mat in(100,2);
+  for(int i = 0; i < 100; ++i){
+    in(i,0) = sin(2*pi*i*1004/8000);
+    in(i,1) = cos(2*pi*i*1004/8000);
+  }
+  //write audio samples
+  f_out.write(in);
+  //zero sample 5 in channel 0
+  f_out.seek_write(5); f_out.write_sample(0,0);
+  //zero samples 5..7 in channel 1
+  vec z(3); z(0) = 0.0; z(1) = 0.0; z(2) = 0.0;
+  f_out.seek_write(5); f_out.write_channel(z,1);
+
+  return 0;
+}
+\endcode
 */
-class SND_Out_File : virtual public Audio_File, virtual public SND_Format
+class ITPP_EXPORT SND_Out_File
 {
 public:
-  //! Constructor
+  //! Default constructor - creates uninitialized stream
   SND_Out_File();
-  //! Open the file {\em fname}.
-  SND_Out_File(const char *fname, int rate = 8000, data_encoding e = enc_linear16);
-  //! Destructor
-  virtual ~SND_Out_File() { close(); }
-
-  //! Open the file {\em fname}.
-  bool open(const char *fname, int rate = 8000, data_encoding e = enc_linear16);
-
-  // Old definition. Removed since Sun CC gave a warning
-  //virtual bool open(const char *fname, int rate=8000, data_encoding e=enc_linear16);
-
+  //! Constructor from file name \a fname and stream description \a d
+  SND_Out_File(const char *fname, const Audio_Stream_Description& d);
+  //! Stream destructor
+  ~SND_Out_File();
+  //! Open the file \a fname with stream description \a d
+  bool open(const char *fname, const Audio_Stream_Description& d);
   //! Close the file.
-  virtual void close();
+  void close();
+  //! Get stream description
+  Audio_Stream_Description get_description() const {return *_description;}
+  //! Set current position to write to \a pos (samples).
+  bool seek_write(std::streamoff pos)
+  {
+    if((pos > _num_samples) || (pos < 0))
+      return false;
 
-  //! Go to sample number {\em pos}.
-  bool seek_write(int pos);
-  //! Return the current sample position in the file.
-  int tell_write();
-
-  //! Write the vector {\em v}.
-  virtual bool write(const vec &v);
+    if(_samples_writer)
+      return _samples_writer->seek(pos);
+    else
+      return false;
+  }
+  //! Get current position in samples.
+  std::streamoff tell_write()
+  {
+    if(_samples_writer)
+      return _samples_writer->tell();
+    else
+      return -1;
+  }
+  //! Get number of samples in stream
+  std::streamoff num_samples() const {return _num_samples;}
+  //! Write single sample \a s at current position to channel \a ch
+  bool write_sample(const double &s, int ch = 0)
+  {
+    if(_samples_writer){
+      bool ret = _samples_writer->write_sample(s,ch);
+      if(ret){
+        _num_samples = std::max(_num_samples, _samples_writer->tell());
+      }
+      return ret;
+    }
+    else
+      return false;
+  }
+  //! Write the vector \a v to channel \a ch starting at current position
+  bool write_channel(const vec &v, int ch = 0)
+  {
+    if(_samples_writer){
+      bool ret = _samples_writer->write_channel(v,ch);
+      if(ret){
+        _num_samples = std::max(_num_samples, _samples_writer->tell());
+      }
+      return ret;
+    }
+    else
+      return false;
+  }
+  //! Write audio channels from columns of the matrix \a m starting at current position
+  bool write(const mat &m)
+  {
+    if(_samples_writer){
+      bool ret = _samples_writer->write(m);
+      if(ret){
+        _num_samples = std::max(_num_samples, _samples_writer->tell());
+      }
+      return ret;
+    }
+    else
+      return false;
+  }
+private:
+  //! Binary stream
+  bofstream _str;
+  //! Number of samples
+  std::streamoff _num_samples;
+  //! Samples Writer
+  audiofile_details::Audio_Samples_Writer_If* _samples_writer;
+  //! Stream Description
+  Audio_Stream_Description* _description;
 };
 
 /*!
-  \brief This class is capable of doing both input and output.
-  \ingroup audio
+\ingroup audio
+\brief A class for doing both input and output of audio samples.
 
-  ACTION: ADD DETAILED DOCUMENTATION FOR THIS CLASS!!!!!!!!!!!
+SND_IO_File provides facilities for doing both input and output of audio samples.
 */
-class SND_IO_File : public SND_In_File, public SND_Out_File
+class ITPP_EXPORT SND_IO_File
 {
 public:
-  //! Constructor
-  SND_IO_File() { }
-  //! Open the file {\em fname}.
-  SND_IO_File(const char *fname) { open(fname); }
-  //! Destructor
-  virtual ~SND_IO_File() { close(); }
-
-  //! Open the file {\em fname}.
-  virtual bool open(const char *fname);
+  //! Constructor - creates uninitialized stream
+  SND_IO_File();
+  //! Open the file \a fname, check file header.
+  SND_IO_File(const char *fname);
+  //! Open the file \a fname, truncate and overwrite header with description \a d.
+  SND_IO_File(const char *fname, const Audio_Stream_Description& d);
+  //! Stream destructor
+  ~SND_IO_File();
+  //! Open the file \a fname, check file header.
+  bool open(const char *fname);
+  //! Open the file \a fname, truncate and overwrite header with description \a d.
+  bool open(const char *fname, const Audio_Stream_Description& d);
   //! Close the file.
-  virtual void close();
+  void close();
+  //! Get stream description
+  Audio_Stream_Description get_description() const {return *_description;}
+  //! Set current position to read from \a pos (samples).
+  bool seek_read(std::streamoff pos)
+  {
+    if((pos > _num_samples) || (pos < 0))
+      return false;
+
+    if(_samples_reader)
+      return _samples_reader->seek(pos);
+    else
+      return false;
+  }
+  //! Get current position to read from  in samples.
+  std::streamoff tell_read()
+  {
+    if(_samples_reader)
+      return _samples_reader->tell();
+    else
+      return -1;
+  }
+  //! Set current position to write to \a pos (samples).
+  bool seek_write(std::streamoff pos)
+  {
+    if((pos > _num_samples) || (pos < 0))
+      return false;
+
+    if(_samples_writer)
+      return _samples_writer->seek(pos);
+    else
+      return false;
+  }
+  //! Get current position to write in samples.
+  std::streamoff tell_write()
+  {
+    if(_samples_writer)
+      return _samples_writer->tell();
+    else
+      return -1;
+  }
+  //! Get number of samples in stream
+  std::streamoff num_samples() const {return _num_samples;}
+  //! Read single sample \a s at current position to channel \a ch.
+  bool read_sample(double& s, int ch = 0)
+  {
+    if(_samples_reader)
+      return _samples_reader->read_sample(s,ch);
+    else
+      return false;
+  }
+  //! Read \a n samples from channel \a ch starting at current position
+  vec read_channel(int n, int ch = 0)
+  {
+    if(_samples_reader)
+      return _samples_reader->read_channel(n,ch);
+    else
+      return vec();
+  }
+  //! Read \a n samples from all channels starting at current position
+  mat read(int n)
+  {
+    if(_samples_reader)
+      return _samples_reader->read(n);
+    else
+      return mat();
+  }
+
+  //! Write single sample \a s at current position to channel \a ch
+  bool write_sample(const double &s, int ch = 0)
+  {
+    if(_samples_writer){
+      bool ret = _samples_writer->write_sample(s,ch);
+      if(ret){
+        _num_samples = std::max(_num_samples, _samples_writer->tell());
+      }
+      return ret;
+    }
+    else
+      return false;
+  }
+  //! Write the vector \a v to channel \a ch starting at current position
+  bool write_channel(const vec &v, int ch = 0)
+  {
+    if(_samples_writer){
+      bool ret = _samples_writer->write_channel(v,ch);
+      if(ret){
+        _num_samples = std::max(_num_samples, _samples_writer->tell());
+      }
+      return ret;
+    }
+    else
+      return false;
+  }
+  //! Write audio channels from columns of the matrix \a m  starting at current position
+  bool write(const mat &m)
+  {
+    if(_samples_writer){
+      bool ret = _samples_writer->write(m);
+      if(ret){
+        _num_samples = std::max(_num_samples, _samples_writer->tell());
+      }
+      return ret;
+    }
+    else
+      return false;
+  }
+private:
+  //! Binary stream
+  bfstream _str;
+  //! Number of samples
+  std::streamoff _num_samples;
+  //! Samples Reader
+  audiofile_details::Audio_Samples_Reader_If* _samples_reader;
+  //! Samples Writer
+  audiofile_details::Audio_Samples_Writer_If* _samples_writer;
+  //! Stream Description
+  Audio_Stream_Description* _description;
 };
 
+//! \cond
 /*
    \brief SAP audio file input class
    \ingroup audio
@@ -323,34 +604,61 @@ public:
   virtual void close();
   };
 */
-
+//! \endcond
 
 
 /*! \addtogroup audio */
 //!@{
 
-//! Read raw 16-bin little endian audio data
-ITPP_EXPORT bool raw16le_read(const char *fname, vec &v);
-//! Read raw 16-bin little endian audio data
-ITPP_EXPORT bool raw16le_read(const char *fname, vec &v, int beg, int len);
-//! Write raw 16-bin little endian audio data
-ITPP_EXPORT bool raw16le_write(const char *fname, const vec &v, bool append = false);
 
-//! Read raw 16-bin big endian audio data
-ITPP_EXPORT bool raw16be_read(const char *fname, vec &v);
-//! Read raw 16-bin big endian audio data
-ITPP_EXPORT bool raw16be_read(const char *fname, vec &v, int beg, int len);
-//! Write raw 16-bin big endian audio data
-ITPP_EXPORT bool raw16be_write(const char *fname, const vec &v, bool append = false);
+//! Read audio channel
+inline vec snd_read_channel(const char *fname, int ch = 0)
+{
+  SND_In_File f(fname);
+  int ns = (int)std::min(f.num_samples(), (std::streamoff)std::numeric_limits<int>::max());
+  return f.read_channel(ns,ch);
+}
+//! Read \a len audio channel samples starting at position \a beg
+inline vec snd_read_channel(const char *fname, int ch, int len, std::streamoff beg = 0)
+{
+  vec ret; SND_In_File f(fname);
+  if(f.seek_read(beg)) ret = f.read_channel(len,ch);
+  return ret;
+}
 
-//! Read SND audio data
-ITPP_EXPORT bool snd_read(const char *fname, vec &v);
-//! Read SND audio data
-ITPP_EXPORT bool snd_read(const char *fname, vec &v, int beg, int len);
-//! Write SND audio data
-ITPP_EXPORT bool snd_write(const char *fname, const vec &v, int rate = 8000,
-               SND_Format::data_encoding e = SND_Format::enc_linear16);
-#endif
+//! Read audio data
+inline mat snd_read(const char *fname)
+{
+  SND_In_File f(fname);
+  int ns = (int)std::min(f.num_samples(), (std::streamoff)std::numeric_limits<int>::max());
+  return f.read(ns);
+}
+//! Read \a len audio samples starting at position \a beg
+inline mat snd_read(const char *fname, int len, std::streamoff beg = 0)
+{
+  mat ret; SND_In_File f(fname);
+  if(f.seek_read(beg)) ret = f.read(len);
+  return ret;
+}
+
+
+//! Write audio channel from vector \a s using stream description \a descr
+inline bool snd_write_channel(const char *fname, const Audio_Stream_Description& descr, const vec& s, int ch = 0)
+{
+  SND_Out_File f(fname,descr);
+  return f.write_channel(s,ch);
+}
+
+//! Write audio data
+inline bool snd_write(const char *fname, const Audio_Stream_Description& descr, const mat& s)
+{
+  SND_Out_File f(fname,descr);
+  return f.write(s);
+}
+
+//!@}
+
+//! \cond
 /*
 // Read SAP audio data
 bool sap_read(const char *fname, vec &v);
@@ -359,40 +667,7 @@ bool sap_read(const char *fname, vec &v, int beg, int len);
 // Write SAP audio data
 bool sap_write(const char *fname, const vec &v, const char *hdr);
 */
-
-//! Read binary data and optionally switch endianness
-template<typename T>
-inline T read_endian(std::istream &s, bool switch_endian = false)
-{
-  T data;
-  int bytes = sizeof(T);
-  char *c = reinterpret_cast<char *>(&data);
-  if (!switch_endian) {
-    s.read(c, bytes);
-  }
-  else {
-    for (int i = bytes - 1; i >= 0; i--)
-      s.get(c[i]);
-  }
-  return data;
-}
-
-//! Write binary data and optionally switch endianness
-template<typename T>
-inline void write_endian(std::ostream &s, T data, bool switch_endian = false)
-{
-  int bytes = sizeof(T);
-  char *c = reinterpret_cast<char *>(&data);
-  if (!switch_endian) {
-    s.write(c, bytes);
-  }
-  else {
-    for (int i = bytes - 1; i >= 0; i--)
-      s.put(c[i]);
-  }
-}
-
-//!@}
+//! \endcond
 
 } // namespace itpp
 

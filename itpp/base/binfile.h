@@ -1,11 +1,11 @@
 /*!
  * \file
  * \brief Binary file formats definitions
- * \author Tony Ottosson, Thomas Eriksson and Adam Piatyszek
+ * \author Tony Ottosson, Thomas Eriksson, Adam Piatyszek and Andy Panov
  *
  * -------------------------------------------------------------------------
  *
- * Copyright (C) 1995-2010  (see AUTHORS file for a list of contributors)
+ * Copyright (C) 1995-2013  (see AUTHORS file for a list of contributors)
  *
  * This file is part of IT++ - a C++ library of mathematical, signal
  * processing, speech processing, and communications classes and functions.
@@ -158,12 +158,12 @@ namespace binfile_details
     Ofstream_Binfile_Facade ( );
     //! Constructor from filename and stream mode
     explicit Ofstream_Binfile_Facade ( const char * filename,
-      std::ios_base::openmode mode = std::ios_base::out);
+      std::ios_base::openmode mode = std::ios_base::out | std::ios_base::binary);
     //! Open state
     bool is_open() {return _str->is_open();}
     //! Method to open corresponding file
     void open ( const char * filename,
-      std::ios_base::openmode mode = std::ios_base::out )
+      std::ios_base::openmode mode = std::ios_base::out | std::ios_base::binary )
     {_str->open(filename,mode);}
     //! Method to close corresponding file
     void close()
@@ -181,7 +181,7 @@ namespace binfile_details
     Ofstream_Binfile_Facade& seekp (std::streampos pos)
     {_str->seekp(pos); return *this;}
     //! Set relative position
-    Ofstream_Binfile_Facade& seekp (std::streampos pos, std::ios_base::seekdir way)
+    Ofstream_Binfile_Facade& seekp (std::streamoff pos, std::ios_base::seekdir way)
     {_str->seekp(pos,way); return *this;}
     //! Flushes stream buffer
     Ofstream_Binfile_Facade& flush()
@@ -248,13 +248,13 @@ namespace binfile_details
     Ifstream_Binfile_Facade ( );
     //! Constructor from filename and stream mode
     explicit Ifstream_Binfile_Facade ( const char * filename,
-      std::ios_base::openmode mode = std::ios_base::in);
+      std::ios_base::openmode mode = std::ios_base::in | std::ios_base::binary);
     //! Open state
     bool is_open()
     {return _str->is_open();}
     //! Method to open corresponding file
     void open ( const char * filename,
-      std::ios_base::openmode mode = std::ios_base::in)
+      std::ios_base::openmode mode = std::ios_base::in | std::ios_base::binary)
     {_str->open(filename,mode);}
     //! Method to close corresponding file
     void close() {_str->close();}
@@ -297,7 +297,7 @@ namespace binfile_details
     Ifstream_Binfile_Facade& seekg (std::streampos pos)
     {_str->seekg(pos); return *this;}
     //! Set relative position
-    Ifstream_Binfile_Facade& seekg (std::streampos pos, std::ios_base::seekdir way)
+    Ifstream_Binfile_Facade& seekg (std::streamoff pos, std::ios_base::seekdir way)
     {_str->seekg(pos,way); return *this;}
 
     //! This method returns true is stream state is good
@@ -362,12 +362,12 @@ namespace binfile_details
     Fstream_Binfile_Facade ( );
     //! Constructor from filename and stream mode
     explicit Fstream_Binfile_Facade ( const char * filename,
-      std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out);
+      std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out | std::ios_base::binary);
     //! Open state
     bool is_open() {return _str->is_open();}
     //! Method to open corresponding file
     void open ( const char * filename,
-      std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out)
+      std::ios_base::openmode mode = std::ios_base::in | std::ios_base::out | std::ios_base::binary)
     {_str->open(filename,mode);}
     //! Method to close corresponding file
     void close() {_str->close();}
@@ -384,7 +384,7 @@ namespace binfile_details
     Fstream_Binfile_Facade& seekp (std::streampos pos)
     {_str->seekp(pos); return *this;}
     //! Set relative position
-    Fstream_Binfile_Facade& seekp (std::streampos pos, std::ios_base::seekdir way)
+    Fstream_Binfile_Facade& seekp (std::streamoff pos, std::ios_base::seekdir way)
     {_str->seekp(pos,way); return *this;}
     //! Flushes stream buffer
     Fstream_Binfile_Facade& flush() {_str->flush(); return *this;}
@@ -428,7 +428,7 @@ namespace binfile_details
     Fstream_Binfile_Facade& seekg (std::streampos pos)
     {_str->seekg(pos); return *this;}
     //! Set relative position
-    Fstream_Binfile_Facade& seekg (std::streampos pos, std::ios_base::seekdir way)
+    Fstream_Binfile_Facade& seekg (std::streamoff pos, std::ios_base::seekdir way)
     {_str->seekg(pos,way); return *this;}
 
     //! This method returns true is stream state is good
@@ -481,6 +481,7 @@ public:
     \param e Defines the endianity of the class. Possible values are
     \c l_endian for "Little Endian" or \c b_endian for "Big Endian". The
     default value is \c b_endian.
+    Set \c truncate to true to discard file contents.
   */
   bofstream(const std::string& name, endian e = b_endian);
 
@@ -496,13 +497,16 @@ public:
     \param name The name of the file to open
     \param e Defines the endianity of the class (default value is
     \c b_endian )
+    Set \c trunc to true to discard file contents.
   */
-  void open(const std::string& name, endian e = b_endian);
+  void open(const std::string& name, bool trunc = false, endian e = b_endian);
 
   //! Writes a signed char variable to the binary output file
   bofstream& operator<<(char a);
-  //! Writes an unsigned char variable to the binary output file
-  bofstream& operator<<(unsigned char a);
+  //! Writes a 8-bit signed integer variable to the binary file
+  bofstream& operator<<(int8_t a);
+  //! Writes a 8-bit unsigned integer variable to the binary file
+  bofstream& operator<<(uint8_t a);
   //! Writes a 16-bit signed integer variable to the binary output file
   bofstream& operator<<(int16_t a);
   //! Writes a 16-bit unsigned integer variable to the binary output file
@@ -564,8 +568,10 @@ public:
 
   //! Reads a signed char variable from the binary input file
   bifstream& operator>>(char& a);
-  //! Reads an unsigned char variable from the binary input file
-  bifstream& operator>>(unsigned char& a);
+  //! Reads a 8-bit signed integer variable from the binary input file
+  bifstream& operator>>(int8_t& a);
+  //! Reads a 8-bit unsigned integer variable from the binary input file
+  bifstream& operator>>(uint8_t& a);
   //! Reads a 16-bit signed integer variable from the binary input file
   bifstream& operator>>(int16_t& a);
   //! Reads a 16-bit unsigned integer variable from the binary input file
@@ -635,10 +641,12 @@ public:
   //! Returns the length in bytes of the file
   int length();
 
-  //! Writes an signed char variable to the binary file
+  //! Writes an char variable to the binary file
   bfstream& operator<<(char a);
-  //! Writes an unsigned char variable to the binary file
-  bfstream& operator<<(unsigned char a);
+  //! Writes a 8-bit signed integer variable to the binary file
+  bfstream& operator<<(int8_t a);
+  //! Writes a 8-bit unsigned integer variable to the binary file
+  bfstream& operator<<(uint8_t a);
   //! Writes a 16-bit signed integer variable to the binary file
   bfstream& operator<<(int16_t a);
   //! Writes a 16-bit unsigned integer variable to the binary file
@@ -664,8 +672,10 @@ public:
 
   //! Reads a char variable from the binary file
   bfstream& operator>>(char& a);
-  //! Reads an unsigned char variable from the binary file
-  bfstream& operator>>(unsigned char& a);
+  //! Reads a 8-bit signed integer variable from the binary file
+  bfstream& operator>>(int8_t& a);
+  //! Reads a 8-bit unsigned integer variable from the binary file
+  bfstream& operator>>(uint8_t & a);
   //! Reads a 16-bit signed integer variable from the binary file
   bfstream& operator>>(int16_t& a);
   //! Reads a 16-bit unsigned integer variable from the binary file
