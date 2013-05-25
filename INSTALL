@@ -8,8 +8,8 @@ IT++ Requirements
 IT++ should compile without errors or warnings on most GNU/Linux, BSD and
 UNIX systems, and on POSIX based environments for Microsoft Windows like
 Cygwin or MinGW with MSYS. It can be also built on Microsoft Windows NT/2000/
-XP using Microsoft's Visual C++ .NET (or Express), but our support for this
-compiler is limited. For GNU/Linux, FreeBSD, Solaris SunOS, Cygwin and MinGW
+XP/Vista/7/8 using Microsoft's Visual C++ (or Express). 
+For GNU/Linux, FreeBSD, Solaris SunOS, Cygwin and MinGW
 we assume that you have at least the following GNU software installed on your
 computer:
 
@@ -31,7 +31,8 @@ Instead of using GCC, you might try to build and link the IT++ library using
 other C/C++/Fortran compilers. For instance, Intel C++ (icpc) and Fortran
 (ifc) compilers are known to work well.
 
-To perform tests, two command line programs: sed and diff are required.
+To perform tests you need Google C++ Testing Framework sources 
+(https://code.google.com/p/googletest/).
 Optionally, you might need a few additional programs, i.e. Doxygen, LaTeX,
 Dvips and Ghostscript, to generate the HTML documentation. The HTML
 documentation for each release is also available as separate packages for
@@ -73,10 +74,10 @@ IT++ is released under the terms of the GNU General Public License (GPL) and
 hence the source code of the IT++ library is available for free download. To
 obtain the IT++ source code, visit the project pages on SourceForge:
 
-  o http://itpp.sourceforge.net/
+ o http://sourceforge.net/projects/itpp/
 
 and download the file named itpp-<VERSION>.tar.gz or itpp-<VERSION>.tar.bz2,
-where <VERSION> is the latest release number, e.g. 4.0.0.
+where <VERSION> is the latest release number, e.g. 4.3.0.
 
 
 IT++ Configuration and Installation Instructions
@@ -92,56 +93,40 @@ package type you have downloaded, use the following commands:
   % bzip2 -cd itpp-<VERSION>.tar.bz2 | tar xf -
   % cd itpp-<VERSION>
 
-Since version 3.9.0, the IT++ library uses autoconf, automake and libtool for
-preparing Makefiles and configuration script, so the compilation procedure
-resembles a standard, well-known GNU method, i.e.
+Since version 4.3.0, the IT++ library uses cmake compilation system for
+preparing Makefiles, so the compilation procedure is as follows:
 
-  % ./configure
-  % make
+  % mkdir build && cd build
+  % cmake ..
 
-The `configure' command can be invoked with additional switches and options
-(run `./configure --help' to get a full list of them). The most important
-are:
+The `cmake' command can be invoked with additional switches and options
+(see cmake help for a full list of them). The most important are:
 
-  o `--prefix=PREFIX' - set top installation directory to a certain PREFIX
-    value. By default it is set to `/usr/local', so `make install' will
-    install appropriate files into `/usr/local/include', `/usr/local/lib`,
-    etc.
-  o `--enable-debug' - build an extra library named `libitpp_debug.*' using
-    special debugging flags for compiler and linker (disabled by default)
-  o `--enable-exceptions' - enable exceptions handling of run-time errors
-    instead of aborting the program (disabled by default)
-  o `--disable-html-doc' - do not generate and install the HTML documentation
-    (enabled by default)
-  o `--disable-shared' - do not build the shared version of the library
-    (enabled by default for non Windows based platforms)
-  o `--disable-static' - do not build the static version of the library
-    (enabled by default for Windows based platforms)
-
-Plese note that each `--enable-<OPTION>' switch can be replaced with its
-opposite switch `--disable-<OPTION>'.
-
-
-Modularization
---------------
-
-Since version 3.99.0, a modularization of the library has been introduced.
-Therefore, several additional switches have been added to the configure
-script, which can be used to disable building some of the library components.
-Here is a list of them:
-
-  o `--disable-comm' - do not build the `Communications' module
-  o `--disable-fixed' - do not build the `Fixed-point' module
-  o `--disable-optim' - do not build the `Numerical optimisations' module
-  o `--disable-protocol' - do not include the `Protocols' module
-  o `--disable-signal' - do not build the `Signal processing' module
-  o `--disable-srccode' - do not build the `Source coding' module
+  o `-DITPP_SHARED_LIB=off', allows to compile the static version of IT++ library. By default this option is
+    set to `on'.
+  o `-DBLA_VENDOR=vendor', where vendor can be `ACML', `Intel11' or `ATLAS'. This is helpful in selecting a specific 
+    external library (ACML or MKL 11). If these libraries are installed in nonstandard locations, on Linux, set 
+    `LD_LIBRARY_PATH' environment variable to the location where the libraries are installed. For Windows `PATH' environment 
+    variable should be set, while Mac OS X users should use `DYLD_LIBRARY_PATH'.
+  o `-DGTEST_DIR=/path/to/gtest/sources' is used to specify the path to
+    Google unit test framework (gtest) sources. Thus the unit tests are compiled and can be
+    run separately to check IT++ library.
+  o `-DOLD_TESTS=on' is used to activate the compilation of older unit tests (no unit test framework required). By default
+    this option is set to `off'. These tests are no longer maintained, so it is recommended to use the tests based on Google
+    framework. In order to run these tests use `check_tests.py' script found in extras folder (Python is required).
+  o `-DHTML_DOCS=off' allows to disable the generation of HTML documentation. Default option is `on' provided that
+    Doxygen is found.
+  o `-DCMAKE_BUILD_TYPE=Release' allows to specify the build type: Release (default) or Debug. The library name in Debug
+    mode is itpp_debug.*, so that both Release and Debug versions could exist in the installation folder.
+  o `-DCMAKE_INSTALL_PREFIX=/install/path' allows to specify the installation path. This is used when installing IT++,
+    either from command line, with 'make install', either using the INSTALL project from Visual Studio. Note that the user
+    should have write permissions to the installation folder.
 
 
 External Libraries
 ------------------
 
-By default, the `configure' script checks for a few external libraries, which
+By default, cmake checks for a few external libraries, which
 might be used by the IT++ library (cf. IT++ Requirements). The detection
 procedure is as follows:
 
@@ -163,158 +148,14 @@ procedure is as follows:
     HAVE_FFTW3 is defined, respectively.
 
 If some external libraries are installed in a non-standard location in your
-system, e.g. MKL in `/opt/intel/mkl/9.1', the `configure' script will not
-detect them automatically. In such a case, you should use LDFLAGS and
-CPPFLAGS environment variables to define additional directories to be
-searched for libraries (LDFLAGS) and include files (CPPFLAGS). For instance,
-to configure IT++ to link to 32-bit versions of MKL 9.1 external libraries,
-which is installed in `/opt/intel/mkl/9.1' directory, you should use the
-following commands:
+system, e.g. MKL in `/opt/intel/mkl/9.1', cmake will not
+detect them automatically. In such a case, you should use LD_LIBRARY_PATH
+environment variable to define additional directories to be
+searched for libraries and headers. For instance, to configure IT++ to link to 32-bit version 
+of MKL 11.0 external libraries, you should use the following commands:
 
-  % export LDFLAGS="-L/opt/intel/mkl/9.1/lib/32"
-  % export CPPFLAGS="-I/opt/intel/mkl/9.1/include"
-  % ./configure
-
-Instead of CPPFLAGS, one can use `--with-fft-include=<PATH>' configure option
-to set path to header files that provide FFT functionality, i.e. to
-`fftw3.h', `mkl_dft.h' or `acml.h'.
-
-In the case that external libraries have non-standard names, e.g.
-`libblas3.a' for BLAS, you might specify them to the configure using
-`--with-<LIBNAME>' switches, where <LIBNAME> is one of the following:
-`blas', `lapack' or `fft'. You might use more than one library names by
-quoting them, e.g.
-
-  % ./configure --with-blas="-latlas -lblas"
-
-If there is only one library specified, you can use a simplified notation
-without the preceding `-l', e.g. `--with-fft=fftw3' instead of `--with-fftw=
--lfftw3'.
-
-Please refer to the documentation of your external libraries, to find out
-what are the correct library names and paths on your architecture, operating
-system, etc.
-
-Since 4.0.3 release, the configure script provides a new `--with-zdotu=
-<method>' option. It can be used to force the default calling convention of
-BLAS zdotu_ Fortran function. The BLAS libraries built with g77 compiler do
-not return the complex result of a function, but pass it via the first
-argument of the function. By using `--with-zdotu=void' option, this approach
-can be forced (g77 compatible). On the other hand, the libraries built with
-a newer gfortran compiler return the complex result like a normal function
-does, but calling such interface from C++ is not portable, due to
-incompatibilities between C++ complex<double> and Fortran's COMPLEX.
-Therefore in such case a Fortran wrapper function `zdotusub_' can be used
-(`--with-zdotu=zdotusub'), however it requires a working Fortran compiler.
-By default, IT++ tries to guess the proper method based on the detected BLAS
-implementation. For instance, the BLAS library provided by Intel MKL works
-fine with the `void' method. Eventually, if no Fortran compiler is available
-and the `void' method can not be used, the `zdotu_' BLAS function is not
-used at all and a relevant warning message is displayed during the
-configuration step.
-
-Although it is not recommended, you can intentionally prevent detection of
-some external libraries. To do this you should use `--without-<LIBNAME>' or
-`--with-<LIBNAME>=no', e.g.:
-
-  % ./configure --without-blas --without-lapack
-
-
-Optimisation Flags
-------------------
-
-It is recommended to set the CXXFLAGS environment variable with some
-compiler- and platform-specific optimisation flags, before invoking the
-`configure' command. Additionally, `-DNDEBUG' should be included in the
-optimised CXXFLAGS, because it turns off all conditional assertion checks.
-This will improve the computation performance of many IT++ functions.For
-example, in the case of using the Intel Pentium 4 processor one might employ
-the following flags:
-
-  % CXXFLAGS="-DNDEBUG -O3 -march=pentium4 -pipe" ./configure
-
-In the case of Sun's UltraSPARC 64-bit platform and GCC compiler, the flags
-might be set as follows:
-
-  % export CXXFLAGS="-DNDEBUG -O3 -mcpu=v9 -m64 -pipe"
-  % ./confiugre
-
-If CXXFLAGS is not set in the environment, it will be initialised with the
-default flags, i.e. "-DNDEBUG -O3 -pipe".
-
-
-Configuration Status
---------------------
-
-When the configuration process is finished, a status message is displayed.
-For instance, after having invoked the following configuration command
-
-  % ./configure --with-blas="-lblas"
-
-on a recent Gentoo Linux system with blas-atlas, lapack-atlas and fftw
-packages installed, one can observe something like this:
-
-------------------------------------------------------------------------------
-itpp-4.0.3 library configuration:
-------------------------------------------------------------------------------
-
-Directories:
-  - prefix ......... : /usr/local
-  - exec_prefix .... : ${prefix}
-  - includedir ..... : ${prefix}/include
-  - libdir ......... : ${exec_prefix}/lib
-  - datarootdir .... : ${prefix}/share
-  - docdir ......... : ${datarootdir}/doc/${PACKAGE_TARNAME}
-
-Switches:
-  - debug .......... : no
-  - exceptions ..... : no
-  - html-doc ....... : yes
-  - shared ......... : yes
-  - static ......... : no
-  - explicit deps .. : no
-  - zdotu .......... : zdotusub
-
-Documentation tools:
-  - doxygen ........ : yes
-  - latex .......... : yes
-  - dvips .......... : yes
-  - ghostscript .... : yes
-
-Testing tools:
-  - diff ........... : yes
-
-Optional modules:
-  - comm ........... : yes
-  - fixed .......... : yes
-  - optim .......... : yes
-  - protocol ....... : yes
-  - signal ......... : yes
-  - srccode ........ : yes
-
-External libs:
-  - BLAS ........... : yes
-    * MKL .......... : no
-    * ACML ......... : no
-    * ATLAS ........ : yes
-  - LAPACK ......... : yes
-  - FFT ............ : yes
-    * MKL .......... : no
-    * ACML ......... : no
-    * FFTW ......... : yes
-
-Compiler/linker flags/libs/defs:
-  - CXX ............ : g++
-  - F77 ............ : gfortran
-  - CXXFLAGS ....... : -DNDEBUG -O3 -pipe
-  - CXXFLAGS_DEBUG . :
-  - CPPFLAGS ....... :
-  - LDFLAGS ........ :
-  - LIBS ........... : -lfftw3 -llapack -lblas
-
-------------------------------------------------------------------------------
-Now type 'make && make install' to build and install itpp-4.0.3 library
-------------------------------------------------------------------------------
+  % export LD_LIBRARY_PATH=/opt/intel/composer_xe_2013.2.146/mkl/lib/intel64/
+  % cmake .. -DBLA_VENDOR=Intel11
 
 
 Compilation
@@ -335,31 +176,16 @@ Testing the Compiled Library
 ----------------------------
 
 It is recommended that you check if your library has been compiled and linked
-properly and works as expected. To do so, you should execute the testing
-process:
+properly and works as expected. To do so, you need to specify the path to the
+Google C++ Test Framework sources as:
 
-  % make check
+  % cmake .. -DGTEST_DIR=/path/to/gtest
+  % make
+  % gtests/itpp_gtests
 
-As a result, you should obtain a similar report:
+As a result, you should obtain a report with test results.
 
-------------------------------------------------------------------------------
-Test `array_test' PASSED.
-------------------------------------------------------------------------------
-Test `bessel_test' PASSED.
-------------------------------------------------------------------------------
-
-[...]
-
-------------------------------------------------------------------------------
-Test `window_test' PASSED.
-------------------------------------------------------------------------------
-Test `histogram_test' PASSED.
-------------------------------------------------------------------------------
-Test `stat_test' PASSED.
-------------------------------------------------------------------------------
-
-Check if all the executed tests PASSED. If not, please report the problem on
-the IT++ Help forum.
+If not all tests passed please report the problem on the IT++ Help forum.
 
 
 Installation
@@ -370,15 +196,15 @@ and HTML documentation (optionally) by typing:
 
   % make install
 
-Depending on the PREFIX settings during configuration, you might need the
+Depending on the CMAKE_INSTALL_PREFIX settings during configuration, you might need the
 root (administrator) access to perform this step.
 
 Eventually, you might invoke the following command
 
   % make clean
 
-to remove all files created during compilation process, or even
+to remove all files created during compilation process. Alternatively you could remove
+build folder:
+  % cd ..
+  % rm -rf build
 
-  % make distclean
-
-to remove all files generated by the `configure' script.

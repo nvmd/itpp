@@ -1,87 +1,51 @@
 ===============================================================================
-IT++ version 4.2.0                                         Released: 2010-09-21
+IT++ version 4.3.0                                         Released: 2013-05-25
 -------------------------------------------------------------------------------
 
-IT++ 4.2.0 is a new stable release based on the SVN development branch
-(trunk). Additionally to the new features and modifications listed below, it
-comprises all bug fixes included in the previous 4.0.x stable releases.
+IT++ 4.3.0 is the next release based on the IT++ stable master branch from git repository. 
+A list of new features and modifications is presented below:
 
 
 New features:
 -------------
 
-* Added SISO class implementing several algorithms used in turbo decoders/
-receivers
+* The compilation system is replaced with cmake. Thus compilation and installation 
+on supported OSs (Linux, Windows, MacOS) is handled in an unified way.
 
-* Added EXIT class for EXIT chart computation of turbo receivers
+* IT++ library can be compiled as shared library on Windows. This removes an
+important limitation of previous releases.
 
-* Added STC class for the generation of Space Time block codes used in MIMO
-systems with turbo receivers
+* Added unit testing support based on Google C++ Testing Framework
 
-* Added support for testing IT++ library in Visual C++ (2008 and 2010). Current approach 
-relies on fc (file compare) utility.
+* Added multilateration class for indoor localization
 
-* Added rank() function, which calculates the rank of a matrix by counting
-  the number of non-zero singular values. SVD function from LAPACK is thus
-  required by this function.
+* Added numerical integration with function objects as integrands
 
-* Added implementation of Gamma(alpha, beta) random number generator. The
-  implementation of the Gamma_RNG::sample() function was taken from the R
-  statistical language.
+* Added thread-safe Fourier and cosine transforms
 
-* Added qr() overloaded function that does not compute Q. For some tasks
-  (triangularization) the Q matrix is not really needed.
+* Added thread-safe generation of random numbers
 
-* Added missing get(int i) method and operator=(const std::string &) to the
-  Mat class
+* Added faster LLR demodulator
 
-* Added element-wise division operator with a scalar as the dividend to the
-  Mat class
+* Added non-narrow-sense Reed-Solomon and Erasure Decoding
 
-* Added missing operator=(const std::string &) to the Vec class
+* Added lte_turbo_interleaver_sequence
 
-* Added missing operator(bin_list) and get(index_list) methods to the Vec
-  class
+* Added pyitpp module providing itload() function for Python, similar to MATLAB 
+itload.m
 
-* Added LDPC_Code::get_ninfo() function, which returns the number of
-  information bits in a codeword.
-
-* Added cheb() and chebwin() function to evaluate the coefficients of the
-  Dolph-Chebyshev window.
+* Added punctured turbo codec (PTC) class
 
 
 Modifications:
 --------------
 
-* License updated from "GPLv2 or later" to "GPLv3 or later"
-
-* Mersenne Twister core random number generator replaced with an improved
-  Double-precision SIMD-oriented Fast Mersenne Twister (dSFMT)
-  implementation, which is 1.8-2.4 times faster than the previous code.
-
-* Vector string parser reimplemented to support multiple "a:b:c" format
-  strings. For instance:
-    ivec v = "1:2:5, 6 8 9:-1:0";
-  now works. Memory handling is also more efficient, i.e. for the cases when
-  "a:b:c" format is not used, memory is allocated only once. This solves
-  feature request #2041480.
-
-* Auto-calculate the BCH generator polynomial from (n, t) parameters. With
-  this change, the generator polynomial and 'k' (message word length)
-  parameters do not have to be explicitly passed to the class constructor.
-
-* Moved portability related definitions from config.h and other header files
-  to a common system and architecture dependent header itcompat.h
-
-* Deprecated Mat<>::set_submatrix(r1,r2,c1,c2,m) function
-
-* Deprecated elem_div(t,v) and set_subvector(i1, i2, &v) function of the Vec
-  class
-
-* Removed previously deprecated demodulate_soft_bits_approx() functions
-
-* Removed the deprecated multiplication operator of a column vector and a
-  matrix with only one row
-
-* Renamed check_big_endianness() to a simpler is_bigendian()
-
+* fixed errors in Read Solomon and BCH decoders
+* fixed FastICA accesses unallocated memory/ bails out if whitenig
+* fixed help for OFDM class
+* extras/astylerc is now compatible with astyle 2.02.1
+* fixed systematic Reed-Solomon decoding
+* fixed convolutional Decoder for certain generators
+* added operator +- between scalar and complex
+* fixed bug in FastICA with APPROACH_DEFL
+* added new linspace function
