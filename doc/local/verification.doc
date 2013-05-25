@@ -11,6 +11,7 @@
     - \ref macos_4_3_lion
   - \ref win_4_3
     - \ref win_4_3_8
+    - \ref win_4_3_7
     - \ref win_4_3_cygwin
     - \ref win_4_3_mingw
 
@@ -121,6 +122,18 @@ mentioned below, please let us know, so we could update this database.
 - <b>Date</b>: May 24, 2013
 - <b>Tester</b>: Bogdan Cristea
 
+\subsubsection win_4_3_7 Windows 7
+
+- <b>Platform</b>: Virtual Box 4.2.12 installed on Windows 8 x86_64 (Intel Core i7-3667U)
+- <b>Operating System</b>: Windows 7 x86
+- <b>Compiler</b>: Visual Studio 2010
+- <b>IT++ release</b>: 4.3.0
+- <b>External Libraries</b>: MKL 11.0.2
+- <b>Tests Status</b>: All tests PASSED
+- <b>Comments</b>: Please read Installation section of the main help page
+- <b>Date</b>: May 25, 2013
+- <b>Tester</b>: Bogdan Cristea
+
 \subsubsection win_4_3_cygwin Cygwin 1.7.18-1
 
 - <b>Platform</b>: Intel Core i7-3667U
@@ -140,7 +153,7 @@ mentioned below, please let us know, so we could update this database.
 - <b>Compiler</b>: g++ (GCC) 4.7.2
 - <b>IT++ release</b>: 4.3.0
 - <b>External Libraries</b>: MKL 11.0.2
-- <b>Tests Status</b>: All tests PASSED
+- <b>Tests Status</b>: All tests PASSED (Timer test might fail)
 - <b>Comments</b>: Please read Installation section of the main help page
 - <b>Date</b>: May 24, 2013
 - <b>Tester</b>: Bogdan Cristea
