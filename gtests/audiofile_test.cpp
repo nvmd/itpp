@@ -172,7 +172,7 @@ TEST_F(AudioFileTest, InOut)
   check_samples(v,v_ref);
 
   //write from and read to the matrix (position 150, length 10)
-  mat m_ref = ref_channels.get(150,159,1,2);
+  mat m_ref = ref_channels.get(150,159,0,1);
   ASSERT_TRUE(f.seek_write(150)) << "Seek failed" << endl;
   ASSERT_TRUE(f.write(m_ref)) << "Write failed" << endl;
   ASSERT_TRUE(f.seek_read(150)) << "Seek failed" << endl;
