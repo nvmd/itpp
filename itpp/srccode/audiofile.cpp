@@ -458,7 +458,7 @@ bool read_header(Binary_In_Stream& _str, Audio_Stream_Description* d,
     num_samples = ns;
   }
   else{
-    num_samples = std::min((long unsigned int)ns,(std::streamoff)data_size/(num_channels * sample_size));
+    num_samples = std::min<long unsigned int>((long unsigned int)ns,(std::streamoff)data_size/(num_channels * sample_size));
   }
 
   //update start position of audio samples
@@ -510,7 +510,9 @@ bool write_header(Binary_Out_Stream& _str, const Audio_Stream_Description* const
 template<typename Binary_Out_Stream>
 bool update_num_samples_in_header(Binary_Out_Stream& _str, const Audio_Stream_Description* const d, std::streamoff num_samples)
 {
-  uint32_t data_size = (uint32_t) std::min(num_samples * d->get_num_channels() * encoded_sample_size(d->get_encoding()), (long unsigned int)0xffffffff);
+  uint32_t data_size = (uint32_t) std::min<long unsigned int>((long unsigned int)(num_samples * 
+    d->get_num_channels() * encoded_sample_size(d->get_encoding())), 
+    (long unsigned int)0xffffffff);
   _str.seekp(2*sizeof(uint32_t),std::ios_base::beg);
   if(!_str) return false;
   _str << data_size;
