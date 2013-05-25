@@ -47,17 +47,20 @@ const int ref_sampling_rate = 8000;
 const int ref_tone_frequency = 1004;
 Audio_Stream_Description ref_description(ref_encoding,ref_sampling_rate,ref_num_channels);
 
+static
+const double tol = 1e-9;
+
 //checkers
 void check_sample(double s, double ref)
 {
-  ASSERT_EQ(ref,s) << "sample test failed." << endl;
+  ASSERT_NEAR(ref,s, tol) << "sample test failed." << endl;
 }
 
 void check_samples(const vec& s, const vec& ref)
 {
   ASSERT_EQ(s.length(),ref.length()) <<"check_samples: vector length test failed" << endl;
   for(int j = 0; j < s.length(); ++j){
-    ASSERT_EQ(ref(j), s(j)) <<"check_samples: failed for sample number: "<< j << endl;
+    ASSERT_NEAR(ref(j), s(j), tol) <<"check_samples: failed for sample number: "<< j << endl;
   }
 }
 
@@ -67,7 +70,7 @@ void check_samples(const mat& s, const mat& ref)
   ASSERT_EQ(s.cols(),ref.cols()) <<"check_samples: matrix columns test failed" << endl;
   for(int i = 0; i < s.rows(); ++i)
     for(int j = 0; j < s.cols(); ++j){
-      ASSERT_EQ(ref(i,j), s(i,j)) <<"check_samples: failed for row: "<< i << " column: " << j << endl;
+      ASSERT_NEAR(ref(i,j), s(i,j), tol) <<"check_samples: failed for row: "<< i << " column: " << j << endl;
     }
 }
 

@@ -249,7 +249,7 @@ public:
 \brief Audio samples encoded as floats.
 
 Samples are NOT saturated to +/- 1.0 during conversion to this format.
-Encoded values are limited to [FLT_MIN,FLT_MAX] to avoid overflow on conversion.
+Encoded values are limited to [INT_MIN,INT_MAX] to avoid overflow on conversion.
 */
 template<> class Audio_Sample<enc_float>
 {
@@ -258,7 +258,7 @@ public:
   static const std::size_t enc_sample_size = sizeof(enc_sample_type);
   static enc_sample_type encode(const double& s)
   {//saturate here to avoid Infinity values
-    return (enc_sample_type)(s < -FLT_MAX ? -FLT_MAX : s > FLT_MAX ? FLT_MAX : s);
+    return (enc_sample_type)(s < -INT_MAX ? -INT_MAX : s > INT_MAX ? INT_MAX : s);
   }
   static double decode(const enc_sample_type& s){return s;}
 };

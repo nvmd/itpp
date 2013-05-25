@@ -145,14 +145,14 @@ bofstream& bofstream::operator<<(char a)
 
 bofstream& bofstream::operator<<(int8_t a)
 {
-  static_assert(sizeof(char) == sizeof(int8_t),"Unexpected int8_t size.");
+  it_assert(sizeof(char) == sizeof(int8_t),"Unexpected int8_t size.");
   put(static_cast<char>(a));
   return *this;
 }
 
 bofstream& bofstream::operator<<(uint8_t a)
 {
-  static_assert(sizeof(char) == sizeof(uint8_t),"Unexpected uint8_t size.");
+  it_assert(sizeof(char) == sizeof(uint8_t),"Unexpected uint8_t size.");
   put(static_cast<char>(a));
   return *this;
 }
@@ -260,7 +260,7 @@ bifstream& bifstream::operator>>(char& a)
 
 bifstream& bifstream::operator>>(int8_t& a)
 {
-  static_assert(sizeof(char) == sizeof(int8_t),"Unexpected int8_t size.");
+  it_assert(sizeof(char) == sizeof(int8_t),"Unexpected int8_t size.");
   char tmp;
   get(tmp);
   a = tmp;
@@ -269,7 +269,7 @@ bifstream& bifstream::operator>>(int8_t& a)
 
 bifstream& bifstream::operator>>(uint8_t& a)
 {
-  static_assert(sizeof(char) == sizeof(uint8_t),"Unexpected uint8_t size.");
+  it_assert(sizeof(char) == sizeof(uint8_t),"Unexpected uint8_t size.");
   char tmp;
   get(tmp);
   a = tmp;
@@ -397,14 +397,14 @@ bfstream& bfstream::operator<<(char a)
 
 bfstream& bfstream::operator<<(int8_t a)
 {
-  static_assert(sizeof(char) == sizeof(int8_t),"Unexpected int8_t size.");
+  it_assert(sizeof(char) == sizeof(int8_t),"Unexpected int8_t size.");
   put(static_cast<char>(a));
   return *this;
 }
 
 bfstream& bfstream::operator<<(uint8_t a)
 {
-  static_assert(sizeof(char) == sizeof(uint8_t),"Unexpected uint8_t size.");
+  it_assert(sizeof(char) == sizeof(uint8_t),"Unexpected uint8_t size.");
   put(static_cast<char>(a));
   return *this;
 }
@@ -484,7 +484,7 @@ bfstream& bfstream::operator>>(char& a)
 
 bfstream& bfstream::operator>>(int8_t& a)
 {
-  static_assert(sizeof(char) == sizeof(int8_t),"Unexpected int8_t size.");
+  it_assert(sizeof(char) == sizeof(int8_t),"Unexpected int8_t size.");
   char tmp;
   get(tmp);
   a = tmp;
@@ -493,7 +493,7 @@ bfstream& bfstream::operator>>(int8_t& a)
 
 bfstream& bfstream::operator>>(uint8_t& a)
 {
-  static_assert(sizeof(char) == sizeof(uint8_t),"Unexpected uint8_t size.");
+  it_assert(sizeof(char) == sizeof(uint8_t),"Unexpected uint8_t size.");
   char tmp;
   get(tmp);
   a = tmp;
