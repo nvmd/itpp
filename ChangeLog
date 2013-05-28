@@ -1,4 +1,8 @@
 2013-05-24  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* CMakeLists.txt, itpp-config.cmake.in, itpp/CMakeLists.txt: add
+	configuration script generation for UNIX-like systems (bug #221)
+
+2013-05-24  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* doc/local/authors.doc, doc/local/index.doc.in, doc/local/installation.doc,
 	doc/local/test.doc, doc/local/verification.doc: documentation updates
 
