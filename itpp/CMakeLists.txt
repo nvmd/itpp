@@ -54,7 +54,6 @@ endif()
 #remove duplicates in external libraries list
 if (ITPP_LIBS)
   list(REMOVE_DUPLICATES ITPP_LIBS)
-  string (REPLACE ";" " " ITPP_LIBS "${ITPP_LIBS}")
 endif()
 
 target_link_libraries (${libitpp_target} ${ITPP_LIBS})
@@ -102,6 +101,9 @@ endif()
 
 #itpp-config script for UNIX-like systems
 if (UNIX)
+  if (ITPP_LIBS)
+    string (REPLACE ";" " " ITPP_LIBS "${ITPP_LIBS}")
+  endif()
   configure_file(${CMAKE_SOURCE_DIR}/itpp-config.cmake.in ${CMAKE_BINARY_DIR}/itpp-config @ONLY)
   install(FILES ${CMAKE_BINARY_DIR}/itpp-config DESTINATION bin PERMISSIONS OWNER_READ OWNER_EXECUTE
     GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
