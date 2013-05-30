@@ -96,6 +96,7 @@ if (HTML_DOCS AND DOXYGEN_FOUND)
     ${DOXYGEN_EXECUTABLE} ${CMAKE_BINARY_DIR}/Doxyfile
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     COMMENT "Generating API documentation with Doxygen" VERBATIM)
+  file(COPY ${CMAKE_SOURCE_DIR}/doc/images/itpp_logo.png DESTINATION ${CMAKE_BINARY_DIR}/html)
   install(DIRECTORY ${CMAKE_BINARY_DIR}/html DESTINATION share/doc/itpp)
 endif()
 
