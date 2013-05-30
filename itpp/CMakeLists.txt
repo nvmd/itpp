@@ -105,6 +105,8 @@ if (UNIX)
     string (REPLACE ";" " " ITPP_LIBS "${ITPP_LIBS}")
   endif()
   configure_file(${CMAKE_SOURCE_DIR}/itpp-config.cmake.in ${CMAKE_BINARY_DIR}/itpp-config @ONLY)
+  configure_file(${CMAKE_SOURCE_DIR}/itpp-config.1.cmake.in ${CMAKE_BINARY_DIR}/itpp-config.1 @ONLY)
   install(FILES ${CMAKE_BINARY_DIR}/itpp-config DESTINATION bin PERMISSIONS OWNER_READ OWNER_EXECUTE
     GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
+  install(FILES ${CMAKE_BINARY_DIR}/itpp-config.1 DESTINATION share/man/man1)
 endif()
