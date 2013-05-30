@@ -33,9 +33,8 @@ using namespace itpp;
 using namespace std;
 
 static
-void assert_mat_p(const mat &ref, const mat &act, int line)
+void assert_mat_p(const mat &ref, const mat &act, int line, double tol = 1e-4)
 {
-  static const double tol = 1e-4;
   ASSERT_EQ(ref.rows(), act.rows()) << line;
   ASSERT_EQ(ref.cols(), act.cols()) << line;
   for (int n = 0; n < ref.rows(); ++n) {
@@ -45,9 +44,12 @@ void assert_mat_p(const mat &ref, const mat &act, int line)
   }
 }
 #define assert_mat(ref, act) assert_mat_p(ref, act, __LINE__)
+#define assert_mat_tol(ref, act, tol) assert_mat_p(ref, act, __LINE__, tol)
 
 TEST(Turbo, All)
 {
+  RNG_reset(12345);
+
   Turbo_Codec turbo;
   ivec gen(2);
   gen(0) = 07;
@@ -88,7 +90,6 @@ TEST(Turbo, All)
   bvec decoded_bits_p;
 
   Normal_RNG noise_src;
-  RNG_reset(12345);
 
   BPSK bpsk;
   BERC berc;
@@ -298,12 +299,12 @@ TEST(Turbo, All)
           "2136 856 484 4 0;"
           "2137 857 487 4 0;"
           "2149 929 488 7 0";
-  assert_mat(ref, err);
+  assert_mat_tol(ref, err, 2);
   ref = "17022 18186 18962 19929 19961;"
           "17864 19144 19516 19996 20000;"
           "17863 19143 19513 19996 20000;"
           "17851 19071 19512 19993 20000";
-  assert_mat(ref, cor);
+  assert_mat_tol(ref, cor, 2);
 
   /*
   // The test program cannot print this out, but on my system

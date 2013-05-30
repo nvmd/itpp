@@ -173,13 +173,15 @@ vec get_ms(double radius)
   vec out;
   out.set_size(3);
   for(int n = 0; n < 3; ++n) {
-    out[n] = SQRT3M1 * radius * (2.0 * (double)rand() / RAND_MAX - 1.0);
+    out[n] = SQRT3M1 * radius * (2.0 * randu() - 1.0);
   }
   return out;
 }
 
 TEST(Multilateration, get_pos)
 {
+  RNG_reset(0);
+
   const unsigned int nb_points = 10;
   const double eps = 1e-3;
   mat bs_pos;

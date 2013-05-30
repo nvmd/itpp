@@ -36,7 +36,7 @@ TEST(BLAS, All)
 {
   int i,j;
 
-  const double eps = 4*std::numeric_limits<double>::epsilon();
+  const double eps = 8*std::numeric_limits<double>::epsilon();
 
   // dot() tests
   {
