@@ -243,6 +243,7 @@ TEST(Multilateration, get_pos)
   }
 
   //test case when the last measure is always from TDOA
+  ms_pos = "10 10 10";
   for(method_len = 5; method_len < 8; ++method_len) {
     ASSERT_TRUE(get_bs(bs_pos, method_len + 1, BASE_LINE_M));
     method.set_size(method_len);
@@ -250,7 +251,7 @@ TEST(Multilateration, get_pos)
     for(i = 0; i < (method_len - 1); ++i) {
       method[i] = 0;
       multi.setup(method, bs_pos);
-      ms_pos = get_ms(SPHERE_RADIUS_M);
+      //ms_pos = get_ms(SPHERE_RADIUS_M);
       EXPECT_TRUE(generate_meas(meas, method, bs_pos, ms_pos));
       EXPECT_TRUE(multi.get_pos(actual_ms_pos, meas));
       EXPECT_TRUE(point_eq(ms_pos, actual_ms_pos, eps));
