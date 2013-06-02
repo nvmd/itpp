@@ -29,6 +29,7 @@
 #ifndef LOG_EXP_H
 #define LOG_EXP_H
 
+#include <cmath>
 #include <itpp/base/help_functions.h>
 #include <itpp/itexports.h>
 
@@ -51,15 +52,25 @@ inline double logb(double b, double x)
 //! Calculate two to the power of x (2^x); x is integer
 inline int pow2i(int x) { return ((x < 0) ? 0 : (1 << x)); }
 //! Calculate two to the power of x (2^x)
-inline double pow2(double x) { return pow(2.0, x); }
+inline double pow2(double x) { return std::pow(2.0, x); }
+//! Calculate two to the power of x (2^x) for large integer x
+inline double pow2(int x) 
+{
+#ifdef _MSC_VER
+  //use pow since it seems to be faster on MSVC
+  return std::pow(2.0, x); 
+#else
+  return std::ldexp(1.0,x);
+#endif
+}
 
 //! Calculate ten to the power of x (10^x)
-inline double pow10(double x) { return pow(10.0, x); }
+inline double pow10(double x) { return std::pow(10.0, x); }
 
 //! Decibel of x (10*log10(x))
-inline double dB(double x) { return 10.0 * log10(x); }
+inline double dB(double x) { return 10.0 * std::log10(x); }
 //! Inverse of decibel of x
-inline double inv_dB(double x) { return pow(10.0, 0.1 * x); }
+inline double inv_dB(double x) { return std::pow(10.0, 0.1 * x); }
 
 //! Calculate the number of bits needed to represent an integer \c n
 inline int int2bits(int n)
@@ -187,10 +198,32 @@ inline vec pow2(const vec &x)
 {
   return apply_function<double>(pow2, x);
 }
+
+//! Calculates two to the power of x (2^x) for integer x
+inline vec pow2(const ivec &x)
+{
+  vec out(x.length());
+  for(int i = 0; i < x.length(); i++)
+    out(i) = pow2(x(i));
+  return out;
+}
+
 //! Calculates two to the power of x (2^x)
 inline mat pow2(const mat &x)
 {
   return apply_function<double>(pow2, x);
+}
+
+//! Calculates two to the power of x (2^x) for integer x
+inline mat pow2(const imat &x)
+{
+  mat out(x.rows(), x.cols());
+  for(int i = 0; i < x.rows(); i++) {
+    for(int j = 0; j < x.cols(); j++) {
+      out(i, j) = pow2(x(i, j));
+    }
+  }
+  return out;
 }
 
 //! Calculates ten to the power of x (10^x)

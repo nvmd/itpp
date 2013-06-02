@@ -1,3 +1,7 @@
+2013-06-02  Andy Panov <andypanov@users.sourceforge.net>
+	* itpp/base/math/log_exp.h
+	pow2 overloads for integer arguments added.
+
 2013-05-24  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* CMakeLists.txt, itpp-config.cmake.in, itpp/CMakeLists.txt: add
 	configuration script generation for UNIX-like systems (bug #221)
