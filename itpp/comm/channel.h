@@ -292,14 +292,16 @@ protected:
 //otherwise explicit instantiation of Array is impossible
 inline std::istream& operator>>(std::istream& is, Fading_Generator* &pfg)
 {
-  void* p; is>>p;
+  void* p;
+  is >> p;
   if(is) pfg = (Fading_Generator*)p;
   return is;
 }
 
 inline std::istream& operator>>(std::istream& is, DOPPLER_SPECTRUM& sp)
 {
-  int val; is>>val;
+  int val;
+  is >> val;
   if(!is) return is;
   if(val > 0 && val <= G2) sp = (DOPPLER_SPECTRUM)val;
   else is.setstate(std::ios_base::failbit);
@@ -307,8 +309,10 @@ inline std::istream& operator>>(std::istream& is, DOPPLER_SPECTRUM& sp)
 }
 
 //MSVC explicitly instantiate required template while building the shared library
+#ifdef _WIN32
 template class ITPP_EXPORT Array<DOPPLER_SPECTRUM>;
 template class ITPP_EXPORT Array<Fading_Generator*>;
+#endif
 #endif
 
 //! \endcond
@@ -366,7 +370,8 @@ public:
 
 protected:
   //! Static Rayleigh distributed sample
-  double static_sample_re; double static_sample_im;
+  double static_sample_re;
+  double static_sample_im;
 };
 
 
@@ -599,7 +604,7 @@ class ITPP_EXPORT IFFT_Fading_Generator : public Correlated_Fading_Generator
 public:
   //! Default constructor
   IFFT_Fading_Generator(double norm_doppler) :
-      Correlated_Fading_Generator(norm_doppler) {}
+    Correlated_Fading_Generator(norm_doppler) {}
   //! Destructor
   virtual ~IFFT_Fading_Generator() {}
 
