@@ -266,8 +266,8 @@ public:
   * \brief Soft MAP demodulation for multidimensional channel, by
   * "brute-force" enumeration of all constellation points.
   *
-  * This function computes the norms
-  * \f[\frac{|y - Hs|^2}{2\sigma^2}\f]
+  * This function precomputes the norms
+  * \f[\frac{|Hs|^2}{2\sigma^2}\f]
   * used to compute the LLR values
   * \f[
   * LLR(k) = \log \left( \frac
