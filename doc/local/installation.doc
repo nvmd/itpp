@@ -5,6 +5,7 @@
 - \ref requirements
 - \ref download
 - \ref inst_instr_cmake
+  - \ref localinst_cmake
 - \ref obsolete
   - \ref inst_instructions
     - \ref modularization
@@ -207,6 +208,55 @@ Library detection examples:
 \endverbatim
 
 For more options see `cmake/Modules/FindBLAS.cmake' file.
+
+\subsection localinst_cmake How To Set Up a Local IT++ Installation without Being Root
+
+This section presents a walkthrough of how to easily set up an IT++
+environment without being root (all files are installed locally).
+
+The philosophy behind this installation is:
+- to locally compile and install all required external libraries (LAPACK,
+  BLAS and FFTW) from sources; this is because not all systems
+  provide these libraries as ready to use binaries
+- to compile IT++ using all other available options with no modifications
+
+The source code will reside in the directories itpp-external-3.2.0 and
+itpp-4.3.0. The libraries will be created in the directories
+it++external-3.2.0 and it++4.3.0.
+
+The installation procedure goes as follows (\c $HOME can be replaced by any
+directory where you have write access):
+<ol>
+<li> Download itpp-external-3.2.0.tar.bz2 and itpp-4.3.0.tar.bz2. Save
+them in your \c $HOME directory, and unpack them:
+\verbatim
+% cd $HOME
+% tar jzf itpp-external-3.2.0.tar.bz2
+% tar jzf itpp-4.3.0.tar.bz2
+\endverbatim
+</li>
+
+<li> Compile and install the external libs
+\verbatim
+% cd $HOME/itpp-external-3.0.0
+% make distclean
+% ./configure --prefix=$HOME/it++external-3.2.0
+% make && make install
+\endverbatim
+</li>
+
+<li> Compile and install IT++ libraries:
+\verbatim
+% cd $HOME/itpp-4.3.0
+% mkdir build && cd build
+% cmake .. -DCMAKE_INCLUDE_PATH=$HOME/it++external-3.2.0/include -DCMAKE_LIBRARY_PATH=$HOME/it++external-3.2.0/lib -DCMAKE_INSTALL_PREFIX=$HOME/it++4.3.0
+% make && make install
+\endverbatim
+</li>
+
+Please note that you could also enable unit tests compilation by providing the path to Google C++ 
+Testing Framework. Your own programs can be compiled using the script 'itpp-config` found in 
+$HOME/it++4.3.0/bin.
 
 \section obsolete Obsolete Configuration and Installation Instructions
 
