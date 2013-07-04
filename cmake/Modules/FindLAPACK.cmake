@@ -205,22 +205,29 @@ if (BLA_VENDOR STREQUAL "NAS" OR BLA_VENDOR STREQUAL "All")
     )
   endif ( NOT LAPACK_LIBRARIES )
 endif (BLA_VENDOR STREQUAL "NAS" OR BLA_VENDOR STREQUAL "All")
+
 # Generic LAPACK library?
 if (BLA_VENDOR STREQUAL "Generic" OR
     BLA_VENDOR STREQUAL "ATLAS" OR
     BLA_VENDOR STREQUAL "All")
+  if (BLA_STATIC)
+    set(_flags "gfortran;m")#needed by itpp-external
+  else()
+    set(_flags " ")
+  endif()
   if ( NOT LAPACK_LIBRARIES )
     check_lapack_libraries(
     LAPACK_LIBRARIES
     LAPACK
     cheev
-    ""
+    ${_flags}
     "lapack"
     "${BLAS_LIBRARIES}"
     ""
     )
   endif ( NOT LAPACK_LIBRARIES )
 endif ()
+
 #intel lapack
 if (BLA_VENDOR MATCHES "Intel*" OR BLA_VENDOR STREQUAL "All")
   if (NOT WIN32)

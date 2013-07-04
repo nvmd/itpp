@@ -236,7 +236,7 @@ them in your \c $HOME directory, and unpack them:
 \endverbatim
 </li>
 
-<li> Compile and install the external libs
+<li> Compile and install the external libs as shared libs:
 \verbatim
 % cd $HOME/itpp-external-3.0.0
 % make distclean
@@ -245,11 +245,29 @@ them in your \c $HOME directory, and unpack them:
 \endverbatim
 </li>
 
-<li> Compile and install IT++ libraries:
+<li> Compile and install IT++ library as shared library:
 \verbatim
 % cd $HOME/itpp-4.3.0
 % mkdir build && cd build
 % cmake .. -DCMAKE_INCLUDE_PATH=$HOME/it++external-3.2.0/include -DCMAKE_LIBRARY_PATH=$HOME/it++external-3.2.0/lib -DCMAKE_INSTALL_PREFIX=$HOME/it++4.3.0
+% make && make install
+\endverbatim
+</li>
+
+<li> Compile and install the external libs as static libs:
+\verbatim
+% cd $HOME/itpp-external-3.0.0
+% make distclean
+% ./configure --prefix=$HOME/it++external-3.2.0 --enable-static --disable-shared
+% make && make install
+\endverbatim
+</li>
+
+<li> Compile and install IT++ library as static library:
+\verbatim
+% cd $HOME/itpp-4.3.0
+% mkdir build && cd build
+% cmake .. -DCMAKE_INCLUDE_PATH=$HOME/it++external-3.2.0/include -DCMAKE_LIBRARY_PATH=$HOME/it++external-3.2.0/lib -DCMAKE_INSTALL_PREFIX=$HOME/it++4.3.0 -DBLA_STATIC=on -DITPP_SHARED_LIB=off
 % make && make install
 \endverbatim
 </li>
