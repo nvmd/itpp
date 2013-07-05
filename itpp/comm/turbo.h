@@ -98,7 +98,7 @@ public:
   */
   void set_parameters(ivec gen1, ivec gen2, int constraint_length,
                       const ivec &interleaver_sequence, int in_iterations = 8,
-                      std::string in_metric = "LOGMAX", double in_logmax_scale_factor = 1.0,
+                      const std::string &in_metric = "LOGMAX", double in_logmax_scale_factor = 1.0,
                       bool in_adaptive_stop = false, LLR_calc_unit lcalc = LLR_calc_unit());
 
   /*!

@@ -53,7 +53,7 @@ std::string Turbo_Codec::string_from_metric(const Turbo_Codec::Metric& in_metric
   }
 }
 void Turbo_Codec::set_parameters(ivec gen1, ivec gen2, int constraint_length, const ivec &interleaver_sequence,
-                                 int in_iterations, std::string in_metric, double in_logmax_scale_factor,
+                                 int in_iterations, const std::string &in_metric, double in_logmax_scale_factor,
                                  bool in_adaptive_stop,  LLR_calc_unit in_llrcalc)
 {
   //Set the input parameters:
