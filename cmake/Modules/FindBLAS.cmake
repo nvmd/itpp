@@ -130,7 +130,7 @@ endif()
 if(_libraries_work)
   # Test this combination of libraries.
   set(CMAKE_REQUIRED_LIBRARIES ${_flags} ${${LIBRARIES}} ${_thread})
-#  message("DEBUG: CMAKE_REQUIRED_LIBRARIES = ${CMAKE_REQUIRED_LIBRARIES}")
+  #message("DEBUG: CMAKE_REQUIRED_LIBRARIES = ${CMAKE_REQUIRED_LIBRARIES}")
   if (_CHECK_FORTRAN)
     check_fortran_function_exists("${_name}" ${_prefix}${_combined_name}_WORKS)
   elseif(WIN32)
@@ -453,17 +453,23 @@ if (BLA_VENDOR STREQUAL "NAS" OR BLA_VENDOR STREQUAL "All")
     )
  endif ()
 endif ()
+
 # Generic BLAS library?
 if (BLA_VENDOR STREQUAL "Generic" OR BLA_VENDOR STREQUAL "All")
- if(NOT BLAS_LIBRARIES)
-  check_fortran_libraries(
-  BLAS_LIBRARIES
-  BLAS
-  sgemm
-  ""
-  "blas"
-  ""
-  )
+  if(NOT BLAS_LIBRARIES)
+    if (BLA_STATIC)
+      set(_flags "gfortran") #needed by itpp-external
+    else()
+      set(_flags " ")
+    endif()
+    check_fortran_libraries(
+      BLAS_LIBRARIES
+      BLAS
+      sgemm
+      ${_flags}
+      "blas"
+      ""
+    )
  endif()
 endif ()
 

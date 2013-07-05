@@ -1,3 +1,12 @@
+2013-07-04  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* cmake/Modules/FindBLAS.cmake, cmake/Modules/FindLAPACK.cmake,
+	doc/local/installation.doc: add support for detecting itpp-external compiled
+	as static libraries
+
+2013-07-03  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* doc/local/installation.doc: add install instructions with cmake using external
+	libraries without being root
+
 2013-06-16  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* itpp.pc.cmake.in, itpp/CMakeLists.txt: generate and install itpp.pc
 
