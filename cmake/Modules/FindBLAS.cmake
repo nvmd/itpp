@@ -180,8 +180,8 @@ if (BLA_VENDOR STREQUAL "ATLAS" OR BLA_VENDOR STREQUAL "All")
   BLAS_LIBRARIES
   BLAS
   dgemm
-  ""
-  "f77blas;satlas;tatlas;atlas;gfortran"
+  "gfortran"
+  "f77blas;satlas;tatlas;atlas"
   ""
   )
  endif()
