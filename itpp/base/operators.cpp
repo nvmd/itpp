@@ -335,6 +335,17 @@ cvec operator+(const ivec &a, const cvec &b)
   return temp;
 }
 
+cvec operator+(const vec &a, const cvec &b)
+{
+  it_assert_debug(a.size() == b.size(), "operator+(): sizes don't match");
+  cvec temp(b);
+
+  for (int i = 0; i < a.size(); i++) {
+    temp(i) += std::complex<double>(a(i), 0.0);
+  }
+  return temp;
+}
+
 // ---------------- Multiplication of vectors ---------------
 
 double operator*(const bvec &a, const vec &b)

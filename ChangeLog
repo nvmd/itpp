@@ -1,3 +1,7 @@
+2013-07-16  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* gtests/operators_test.cpp, itpp/base/operators.cpp, itpp/base/operators.h:
+	add plus/minus operators between cvec and vec
+
 2013-07-04  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* cmake/Modules/FindBLAS.cmake, cmake/Modules/FindLAPACK.cmake,
 	doc/local/installation.doc: add support for detecting itpp-external compiled

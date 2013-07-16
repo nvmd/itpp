@@ -785,6 +785,12 @@ ITPP_EXPORT cvec operator+(const ivec &a, const cvec &b);
 
 /*!
   \relatesalso Vec
+  \brief Addition operator for vec and cvec
+*/
+ITPP_EXPORT cvec operator+(const vec &a, const cvec &b);
+
+/*!
+  \relatesalso Vec
   \brief Addition operator for cvec and bvec
 */
 inline cvec operator+(const cvec &a, const bvec &b) {return b + a;}
@@ -800,6 +806,12 @@ inline cvec operator+(const cvec &a, const svec &b) {return b + a;}
   \brief Addition operator for cvec and ivec
 */
 inline cvec operator+(const cvec &a, const ivec &b) {return b + a;}
+
+/*!
+  \relatesalso Vec
+  \brief Addition operator for cvec and vec
+*/
+inline cvec operator+(const cvec &a, const vec &b) {return b + a;}
 
 /*!
   \relatesalso Vec
@@ -821,6 +833,12 @@ inline cvec operator-(const ivec &a, const cvec &b) {return a + (-b);}
 
 /*!
   \relatesalso Vec
+  \brief Subtraction operator for vec and cvec
+*/
+inline cvec operator-(const vec &a, const cvec &b) {return a + (-b);}
+
+/*!
+  \relatesalso Vec
   \brief Subtraction operator for cvec and bvec
 */
 inline cvec operator-(const cvec &a, const bvec &b) {return a + (-b);}
@@ -836,6 +854,12 @@ inline cvec operator-(const cvec &a, const svec &b) {return a + (-b);}
   \brief Subtraction operator for cvec and ivec
 */
 inline cvec operator-(const cvec &a, const ivec &b) {return a + (-b);}
+
+/*!
+  \relatesalso Vec
+  \brief Subtraction operator for cvec and vec
+*/
+inline cvec operator-(const cvec &a, const vec &b) {return a + (-b);}
 
 /*!
   \relatesalso Vec

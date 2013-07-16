@@ -74,7 +74,8 @@ TEST(Operators, All)
 		ASSERT_TRUE (to_cmat(x2_re+double(y1), x2_im) == z2);
 		z2 = x2-complex<double>(y1, 0);
 		ASSERT_TRUE (to_cmat(x2_re-double(y1), x2_im) == z2);
-	}
+  }
+
 	//scalar plus/minus complex
 	{
 		//complex scalar
@@ -115,5 +116,17 @@ TEST(Operators, All)
 		ASSERT_TRUE (to_cmat(x1+y2_re, y2_im) == z2);
 		z2 = complex<double>(x1, 0)-y2;
 		ASSERT_TRUE (to_cmat(x1-y2_re, -y2_im) == z2);
-	}
+  }
+
+  //vec plus/minus cvec
+  {
+    const vec v1 = "1 2 3";
+    const cvec v2 = "1+4i 2+5i 3+6i";
+    const cvec r1 = "2+4i 4+5i 6+6i";
+    const cvec r2 = "0+4i 0+5i 0+6i";
+    ASSERT_TRUE(r1 == (v1+v2));
+    ASSERT_TRUE(r1 == (v2+v1));
+    ASSERT_TRUE(r2 == (v2-v1));
+    ASSERT_TRUE(-r2 == (v1-v2));
+  }
 }
