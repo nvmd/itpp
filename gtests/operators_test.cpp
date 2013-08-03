@@ -129,4 +129,13 @@ TEST(Operators, All)
     ASSERT_TRUE(r2 == (v2-v1));
     ASSERT_TRUE(-r2 == (v1-v2));
   }
+
+  //cvec multiply vec
+  {
+    const vec v1 = "1 2 3";
+    const cvec v2 = "1+4i 2+5i 3+6i";
+    const complex<double> ref(14.0, 32.0);
+    ASSERT_TRUE(ref == v1*v2);
+    ASSERT_TRUE(ref == v2*v1);
+  }
 }

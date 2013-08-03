@@ -396,6 +396,14 @@ std::complex<double> operator*(const ivec &a, const cvec &b)
   return temp;
 }
 
+std::complex<double> operator*(const vec &a, const cvec &b)
+{
+  it_assert_debug(a.size() == b.size(), "operator*(): sizes does not match");
+  std::complex<double> temp = 0;
+  for (int i = 0;i < a.size();i++) {temp += a(i) * b(i);}
+  return temp;
+}
+
 // ---------------- Addition of matricies ---------------
 
 mat operator+(const bmat &a, const mat &b)

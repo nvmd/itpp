@@ -881,6 +881,12 @@ ITPP_EXPORT std::complex<double> operator*(const ivec &a, const cvec &b);
 
 /*!
   \relatesalso Vec
+  \brief Multiplication operator for vec and cvec
+*/
+ITPP_EXPORT std::complex<double> operator*(const vec &a, const cvec &b);
+
+/*!
+  \relatesalso Vec
   \brief Multiplication operator for cvec and bvec
 */
 inline std::complex<double> operator*(const cvec &a, const bvec &b) {return b*a;}
@@ -897,7 +903,13 @@ inline std::complex<double> operator*(const cvec &a, const svec &b) {return b*a;
 */
 inline std::complex<double> operator*(const cvec &a, const ivec &b) {return b*a;}
 
-//---------------------- between mat and matricies --------------------
+/*!
+  \relatesalso Vec
+  \brief Multiplication operator for cvec and vec
+*/
+inline std::complex<double> operator*(const cvec &a, const vec &b) {return b*a;}
+
+//---------------------- between mat and matrices --------------------
 
 /*!
   \relatesalso Mat
