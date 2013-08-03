@@ -1,4 +1,7 @@
 2013-08-03  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* itpp-config.cmake.in: add external libraries when using --libs options
+
+2013-08-03  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* gtests/operators_test.cpp, itpp/base/operators.cpp, itpp/base/operators.h:
 	add multiply operator between cvec and vec
 

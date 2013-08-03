@@ -85,9 +85,9 @@ while test $# -gt 0; do
       else
         flags="${flags} -l@libitpp_target@"
       fi
-      if test "x$static_flag" = xyes; then
+      #if test "x$static_flag" = xyes; then
       flags="${flags} @ITPP_LIBS@"
-      fi
+      #fi
       ;;
     --libs-deb*)
       echo "-L${libdir} -l@libitpp_target@"
