@@ -1,3 +1,8 @@
+2013-09-14  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* CMakeLists.txt: incremented cmake version number to 2.8.11 due to issues
+	on previous releases that do not allow to detect external libraries (BUG
+	#231)
+
 2013-08-03  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* itpp-config.cmake.in: add external libraries when using --libs options
 
