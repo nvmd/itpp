@@ -211,7 +211,7 @@ if (BLA_VENDOR STREQUAL "Generic" OR
     BLA_VENDOR STREQUAL "ATLAS" OR
     BLA_VENDOR STREQUAL "All")
   if (BLA_STATIC)
-    set(_flags "gfortran;m")#needed by itpp-external
+    set(_flags "gfortran")#needed by itpp-external
   else()
     set(_flags " ")
   endif()
