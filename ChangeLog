@@ -1,3 +1,7 @@
+2013-11-17  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* itpp/comm/punct_convcode.cpp: add check for empty puncturing matrix (bug
+	#234). Thanks to Gilbert Forkel for providing the patch.
+
 2013-09-14  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* CMakeLists.txt: incremented cmake version number to 2.8.11 due to issues
 	on previous releases that do not allow to detect external libraries (BUG

@@ -37,6 +37,10 @@ namespace itpp
 //------- Protected functions -----------------------
 int Punctured_Convolutional_Code::weight(int state, int input, int time)
 {
+  if (puncture_matrix.size() == 0) {
+    it_error("Punctured_Convolutional_Code::weight(int, int, int); Set puncturing matrix before.");
+  }
+
   int i, j, temp, out, w = 0, shiftreg = state;
 
   shiftreg = shiftreg | (int(input) << m);
@@ -56,6 +60,10 @@ int Punctured_Convolutional_Code::weight(int state, int input, int time)
 
 int Punctured_Convolutional_Code::weight_reverse(int state, int input, int time)
 {
+  if (puncture_matrix.size() == 0) {
+    it_error("Punctured_Convolutional_Code::weight_reverse(int, int, int); Set puncturing matrix before.");
+  }
+
   int i, j, temp, out, w = 0, shiftreg = state;
 
   shiftreg = shiftreg | (int(input) << m);
@@ -75,6 +83,10 @@ int Punctured_Convolutional_Code::weight_reverse(int state, int input, int time)
 
 void Punctured_Convolutional_Code::weight(int state, int &w0, int &w1, int time)
 {
+  if (puncture_matrix.size() == 0) {
+    it_error("Punctured_Convolutional_Code::weight(int, int, int, int); Set puncturing matrix before.");
+  }
+
   int i, j, temp, out, shiftreg = state;
   w0 = 0;
   w1 = 0;
@@ -96,6 +108,10 @@ void Punctured_Convolutional_Code::weight(int state, int &w0, int &w1, int time)
 
 void Punctured_Convolutional_Code::weight_reverse(int state, int &w0, int &w1, int time)
 {
+  if (puncture_matrix.size() == 0) {
+    it_error("Punctured_Convolutional_Code::weight_reverse(int, int, int, int); Set puncturing matrix before.");
+  }
+
   int i, j, temp, out, shiftreg = state;
   w0 = 0;
   w1 = 0;
@@ -153,6 +169,10 @@ void Punctured_Convolutional_Code::encode(const bvec &input, bvec &output)
 
 void Punctured_Convolutional_Code::encode_trunc(const bvec &input, bvec &output)
 {
+  if (puncture_matrix.size() == 0) {
+    it_error("Punctured_Convolutional_Code::encode_trunc(bvec, bvec); Set puncturing matrix before.");
+  }
+
   Convolutional_Code::encode_trunc(input, output);
 
   int nn = 0, i, p = 0, j;
@@ -171,6 +191,10 @@ void Punctured_Convolutional_Code::encode_trunc(const bvec &input, bvec &output)
 
 void Punctured_Convolutional_Code::encode_tail(const bvec &input, bvec &output)
 {
+  if (puncture_matrix.size() == 0) {
+    it_error("Punctured_Convolutional_Code::encode_tail(bvec, bvec); Set puncturing matrix before.");
+  }
+
   Convolutional_Code::encode_tail(input, output);
 
   int nn = 0, i, p = 0, j;
@@ -189,6 +213,10 @@ void Punctured_Convolutional_Code::encode_tail(const bvec &input, bvec &output)
 
 void Punctured_Convolutional_Code::encode_tailbite(const bvec &input, bvec &output)
 {
+  if (puncture_matrix.size() == 0) {
+    it_error("Punctured_Convolutional_Code::encode_tailbite(bvec, bvec); Set puncturing matrix before.");
+  }
+
   Convolutional_Code::encode_tailbite(input, output);
 
   int nn = 0, i, p = 0, j;
@@ -243,6 +271,10 @@ void Punctured_Convolutional_Code::decode(const vec &received_signal, bvec &outp
 // Viterbi decoder using TruncLength (=5*K if not specified)
 void Punctured_Convolutional_Code::decode_trunc(const vec &received_signal, bvec &output)
 {
+  if (puncture_matrix.size() == 0) {
+    it_error("Punctured_Convolutional_Code::decode_trunc(vec, bvec); Set puncturing matrix before.");
+  }
+
   int nn = 0, i = 0, p = received_signal.size() / total, j;
 
   int temp_size = p * Period * n;
@@ -293,6 +325,10 @@ void Punctured_Convolutional_Code::decode_trunc(const vec &received_signal, bvec
 // Viterbi decoder using TruncLength (=5*K if not specified)
 void Punctured_Convolutional_Code::decode_tail(const vec &received_signal, bvec &output)
 {
+  if (puncture_matrix.size() == 0) {
+    it_error("Punctured_Convolutional_Code::decode_tail(vec, bvec); Set puncturing matrix before.");
+  }
+
   int nn = 0, i = 0, p = received_signal.size() / total, j;
 
   int temp_size = p * Period * n;
@@ -344,6 +380,10 @@ void Punctured_Convolutional_Code::decode_tail(const vec &received_signal, bvec 
 // Decode a block of encoded data where encode_tailbite has been used. Tries all start states.
 void Punctured_Convolutional_Code::decode_tailbite(const vec &received_signal, bvec &output)
 {
+  if (puncture_matrix.size() == 0) {
+    it_error("Punctured_Convolutional_Code::decode_tailbite(vec, bvec); Set puncturing matrix before.");
+  }
+
   int nn = 0, i = 0, p = received_signal.size() / total, j;
 
   int temp_size = p * Period * n;
@@ -403,6 +443,10 @@ void Punctured_Convolutional_Code::decode_tailbite(const vec &received_signal, b
 */
 bool Punctured_Convolutional_Code::inverse_tail(const bvec coded_sequence, bvec &input)
 {
+  if (puncture_matrix.size() == 0) {
+    it_error("Punctured_Convolutional_Code::decode_inverse_tail(bvec, bvec); Set puncturing matrix before.");
+  }
+
   int state = 0, zero_state, one_state, zero_temp, one_temp, i, j, p = 0, prev_pos = 0, no_symbols;
   int block_length = 0;
   bvec zero_output(n), one_output(n), temp_output(n);
