@@ -87,7 +87,7 @@ public:
     for(unsigned int i = 0; i < size_; ++i) {
       if(data_[i] == elem) {
         if((i + 1) < size_) {
-          memcpy(data_ + i, data_ + i + 1, (size_ - i - 1)*sizeof(*data_));
+          memmove(data_+i, data_+i+1, (size_ - i - 1)*sizeof(*data_));
         }
         --size_;
         res = true;

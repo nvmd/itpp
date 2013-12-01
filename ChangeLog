@@ -1,3 +1,8 @@
+
+2013-12-01  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* itpp/comm/multilateration.cpp: memcpy is replaced by memmove when moving
+	overlapping data (bug #235)
+
 2013-11-17  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* itpp/comm/punct_convcode.cpp: add check for empty puncturing matrix (bug
 	#234). Thanks to Gilbert Forkel for providing the patch.
