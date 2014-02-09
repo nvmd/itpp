@@ -450,7 +450,7 @@ static bool pnm_read_header(ifstream & file, char & pnm_type,
   if (pnm_type_required != '0')
     if (pnm_type_required != pnm_type) {
       string err_msg("Found file code P");
-      err_msg += pnm_type + " instead of P" + pnm_type_required;
+      err_msg += pnm_type + string(" instead of P") + pnm_type_required;
       it_error(err_msg);
     }
 

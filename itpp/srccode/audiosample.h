@@ -71,7 +71,7 @@ Input values are limited before mapping.
 template<typename T, T max_abs> T limit_audio_sample(double s)
 {
    //ternary operators allow optimizer to deploy SIMD floating-point instructions
-   s < -1.0 ? -1.0 : s > 1.0 ? 1.0 : s;
+   s = s < -1.0 ? -1.0 : s > 1.0 ? 1.0 : s;
    return (T)(s*max_abs);
 }
 

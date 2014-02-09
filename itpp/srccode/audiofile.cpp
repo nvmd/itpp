@@ -453,7 +453,7 @@ bool read_header(Binary_In_Stream& _str, Audio_Stream_Description* d,
   std::streamoff ns = ((std::streamoff)_str.tellg() - hdr_size)/(num_channels * sample_size);
 
   //update number of samples just read from header
-  if(data_size = 0xffffffff){
+  if(data_size == 0xffffffff){
     //data size was set to unknown in file header, use number of smaples obtained from file length
     num_samples = ns;
   }

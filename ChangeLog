@@ -1,4 +1,10 @@
 2014-02-09  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* itpp/base/bessel/gamma.cpp, itpp/base/itcompat.h,
+	itpp/srccode/audiofile.cpp, itpp/srccode/audiosample.h,
+	itpp/srccode/pnm.cpp: fixed compilation warnings on MacOsX 10.9. Unit tests
+	don't pass on MacOsX 10.9, possible issue with vec string parser (bug #238).
+	
+2014-02-09  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* itpp/CMakeLists.txt: fixed installation path issues on 64 bits systems
 	(bug #236)
 
