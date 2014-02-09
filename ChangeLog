@@ -1,3 +1,6 @@
+2014-02-09  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* itpp/CMakeLists.txt: fixed installation path issues on 64 bits systems
+	(bug #236)
 
 2013-12-01  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* itpp/comm/multilateration.cpp: memcpy is replaced by memmove when moving

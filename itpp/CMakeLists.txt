@@ -69,8 +69,8 @@ set_target_properties(${libitpp_target} PROPERTIES VERSION ${LIBITPP_VERSION_STR
 #library
 install(TARGETS ${libitpp_target}
         RUNTIME DESTINATION bin
-        LIBRARY DESTINATION lib
-        ARCHIVE DESTINATION lib)
+        LIBRARY DESTINATION lib${LIB_SUFFIX}
+        ARCHIVE DESTINATION lib${LIB_SUFFIX})
 
 #headers
 install(DIRECTORY ${CMAKE_SOURCE_DIR}/itpp DESTINATION include FILES_MATCHING PATTERN "*.h")
@@ -111,5 +111,5 @@ if (UNIX)
   install(FILES ${CMAKE_BINARY_DIR}/itpp-config DESTINATION bin PERMISSIONS OWNER_READ OWNER_EXECUTE
     GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
   install(FILES ${CMAKE_BINARY_DIR}/itpp-config.1 DESTINATION share/man/man1)
-  install(FILES ${CMAKE_BINARY_DIR}/itpp.pc DESTINATION lib/pkgconfig)
+  install(FILES ${CMAKE_BINARY_DIR}/itpp.pc DESTINATION lib${LIB_SUFFIX}/pkgconfig)
 endif()
