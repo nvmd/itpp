@@ -31,6 +31,11 @@ set ( CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules/ ${CMAKE_MODULE_PATH} 
 
 project(ITPP)
 
+#allows to compile IT++ on MacOsX 10.9
+if (APPLE)
+  SET(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libstdc++")
+endif()
+
 #check for BLAS library
 find_package ( BLAS )
 if (BLAS_FOUND)

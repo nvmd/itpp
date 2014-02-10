@@ -1,3 +1,6 @@
+2014-02-10  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* CMakeLists.txt: corrected compilation on MacOsX 10.9 (bug #238)
+
 2014-02-09  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* itpp/base/bessel/gamma.cpp, itpp/base/itcompat.h,
 	itpp/srccode/audiofile.cpp, itpp/srccode/audiosample.h,
