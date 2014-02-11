@@ -1,3 +1,8 @@
+2014-02-11  Bogdan Cristea <cristeab@users.sourceforge.net>
+* CMakeLists.txt, itpp/signal/freq_filt.cpp: corrected compilation errors
+	on MacOsX 10.9. Many thanks to Andy Panov for providing the patches (bug
+	#238).
+
 2014-02-10  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* CMakeLists.txt: corrected compilation on MacOsX 10.9 (bug #238)
 

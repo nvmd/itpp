@@ -34,11 +34,6 @@
 namespace itpp
 {
 
-template  class ITPP_EXPORT Vec<double>;
-template  class ITPP_EXPORT Vec<short>;
-template  class ITPP_EXPORT Vec<int>;
-template  class ITPP_EXPORT Vec<std::complex<double> >;
-
 template class ITPP_EXPORT Freq_Filt<double>;
 template class ITPP_EXPORT Freq_Filt<std::complex<double> >;
 template class ITPP_EXPORT Freq_Filt<short>;
