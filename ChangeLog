@@ -1,3 +1,8 @@
+2014-02-16  Bogdan Cristea <cristeab@users.sourceforge.net>
+* gtests/modulator_test.cpp, itpp/comm/modulator.cpp, itpp/comm/modulator.h:
+add support for odd number of bits/symbol for QAM. Thanks to Kumar Appaiah for
+providing the patch (feature #73).
+
 2014-02-11  Bogdan Cristea <cristeab@users.sourceforge.net>
 * CMakeLists.txt, itpp/signal/freq_filt.cpp: corrected compilation errors
 	on MacOsX 10.9. Many thanks to Andy Panov for providing the patches (bug

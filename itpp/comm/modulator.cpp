@@ -49,26 +49,63 @@ void QAM::set_M(int Mary)
 {
   k = levels2bits(Mary);
   M = Mary;
-  it_assert((pow2i(k) == M) && (is_even(k)),
-            "QAM::set_M(): M = " << M << " is not an even power of 2");
-  L = round_i(std::sqrt(static_cast<double>(M)));
+  it_assert((pow2i(k) == M),
+            "QAM::set_M(): M = " << M << " is not a power of 2");
 
-  double average_energy = (M - 1) * 2.0 / 3.0;
-  scaling_factor = std::sqrt(average_energy);
+  // Check if the number of bits per symbol is even or odd
+  if (k % 2 == 0) {
+    // Even number of bits per symbol
+    L = round_i(std::sqrt(static_cast<double>(M)));
+    double average_energy = (M - 1) * 2.0 / 3.0;
+    scaling_factor = std::sqrt(average_energy);
 
-  symbols.set_size(M);
-  bitmap.set_size(M, k);
-  bits2symbols.set_size(M);
+    symbols.set_size(M);
+    bitmap.set_size(M, k);
+    bits2symbols.set_size(M);
 
-  bmat gray_code = graycode(levels2bits(L));
+    bmat gray_code = graycode(levels2bits(L));
 
-  for (int i = 0; i < L; i++) {
-    for (int j = 0; j < L; j++) {
-      symbols(i*L + j) = std::complex<double>(((L - 1) - j * 2) / scaling_factor,
-                                              ((L - 1) - i * 2) / scaling_factor);
-      bitmap.set_row(i*L + j, concat(gray_code.get_row(i),
-                                     gray_code.get_row(j)));
-      bits2symbols(bin2dec(bitmap.get_row(i*L + j))) = i * L + j;
+    for (int i = 0; i < L; i++) {
+      for (int j = 0; j < L; j++) {
+	symbols(i*L + j) = std::complex<double>(((L - 1) - j * 2) / scaling_factor,
+						((L - 1) - i * 2) / scaling_factor);
+	bitmap.set_row(i*L + j, concat(gray_code.get_row(i),
+				       gray_code.get_row(j)));
+	bits2symbols(bin2dec(bitmap.get_row(i*L + j))) = i * L + j;
+      }
+    }
+  }
+  else {
+    // Odd number of bits per symbol
+
+    // Here, L is the number of "columns" in the constellation
+    L = round_i(std::sqrt(static_cast<double>(M * 2)));
+
+    double average_energy = (5 * L * L - 8) / 12;
+    scaling_factor = std::sqrt(average_energy);
+
+    symbols.set_size(M);
+    bitmap.set_size(M, k);
+    bits2symbols.set_size(M);
+    bmat gray_code = graycode(k);
+    for (int i = 0; i < L / 2; i++) {
+      for (int j = 0; j < L; j++) {
+	symbols(i * L + j) = std::complex<double>(((L - 1) - j * 2) / scaling_factor,
+						  ((L / 2 - 1) - i * 2) / scaling_factor);
+
+	// Here, we use a more naïve gray coding method, than the above,
+	// wherein we enumerate the gray coded words, and assign them left
+	// to right on the first row, right to left on the second, and so on.
+	if (i % 2) {
+	  // Odd row; assign from right to left
+	  bitmap.set_row(i*L + j, gray_code.get_row(i*L + L - j - 1));
+	}
+	else {
+	  // Even row; assign from left to right
+	  bitmap.set_row(i*L + j, gray_code.get_row(i*L + j));
+	}
+	bits2symbols(bin2dec(bitmap.get_row(i*L + j))) = i * L + j;
+      }
     }
   }
 
@@ -86,18 +123,22 @@ void QAM::demodulate_bits(const cvec &signal, bvec &out) const
   int temp_real, temp_imag;
 
   for (int i = 0; i < signal.size(); i++) {
+    // Check if the constellation has an even k (square)
+    // or it has odd k (rectangle), and choose L2 accodringly
+    int L2 = (k % 2) ? L / 2 : L;
     temp_real = round_i((L - 1) - (std::real(signal(i) * scaling_factor)
                                    + (L - 1)) / 2.0);
-    temp_imag = round_i((L - 1) - (std::imag(signal(i) * scaling_factor)
-                                   + (L - 1)) / 2.0);
+    temp_imag = round_i((L2 - 1) - (std::imag(signal(i) * scaling_factor)
+                                   + (L2 - 1)) / 2.0);
     if (temp_real < 0)
       temp_real = 0;
     else if (temp_real > (L - 1))
       temp_real = (L - 1);
     if (temp_imag < 0)
       temp_imag = 0;
-    else if (temp_imag > (L - 1))
-      temp_imag = (L - 1);
+    else if (temp_imag > (L2 - 1))
+      temp_imag = (L2 - 1);
+
     out.replace_mid(k*i, bitmap.get_row(temp_imag * L + temp_real));
   }
 }

@@ -350,4 +350,44 @@ TEST(Modulator, All)
     "-9.31168 0.655842 4.9714 -3.0286 1.91266 -6.08734 -16.0596 4.02981";
     assert_vec(ref, softbits_approx);
   }
+
+  {
+    // 32-QAM
+    QAM qam(32);
+    int bps = round_i(qam.bits_per_symbol());
+
+    bvec tx_bits = randb(no_symbols * bps);
+    ivec tx_sym_numbers = randi(no_symbols, 0, pow2i(bps) - 1);
+    cvec noise = sqrt(N0) * randn_c(no_symbols);
+
+    cvec tx_symbols = qam.modulate(tx_sym_numbers);
+    cvec rx_symbols = tx_symbols + noise;
+    ivec dec_sym_numbers = qam.demodulate(rx_symbols);
+
+    cvec ref_c = "0.980581-0.588348i 0.196116-0.196116i -0.588348-0.588348i 1.37281-0.588348i -0.196116-0.196116i";
+    assert_cvec(ref_c, tx_symbols);
+    ref_c = "0.724532-0.4802i 0.19542+0.132461i -0.488467-0.623738i 1.39266-0.740942i -0.328249+0.391317i";
+    assert_cvec(ref_c, rx_symbols);
+    ivec ref_i = "26 11 29 24 12";
+    ASSERT_TRUE(ref_i == dec_sym_numbers);
+
+    tx_symbols = qam.modulate_bits(tx_bits);
+    rx_symbols = tx_symbols + noise;
+    bvec decbits = qam.demodulate_bits(rx_symbols);
+    vec softbits_approx = qam.demodulate_soft_bits(rx_symbols, N0, APPROX);
+    vec softbits = qam.demodulate_soft_bits(rx_symbols, N0, LOGMAP);
+
+    ref_c = "0.588348-0.588348i -1.37281-0.196116i -0.980581+0.588348i 0.588348+0.588348i -0.196116-0.196116i";
+    assert_cvec(ref_c, tx_symbols);
+    ref_c = "0.3323-0.4802i -1.37351+0.132461i -0.880699+0.552959i 0.608196+0.435755i -0.328249+0.391317i";
+    assert_cvec(ref_c, rx_symbols);
+    bvec ref_b = "1 0 0 1 0 0 1 1 0 0 0 0 1 0 1 0 0 0 1 1 0 1 1 1 0";
+    ASSERT_TRUE(ref_b == decbits);
+    vec ref = "-4.8625 0.66723 3.09987 -4.54589 0.512555 1.14543 -2.29738 -24.8325 6.35786 1.53413 5.84754 1.24787 "
+    "-11.9519 0.827027 -2.60839 4.29519 0.309214 6.82779 -1.54127 -1.89404 3.75717 -0.052465 -3.05533 -4.59934 0.547382";
+    assert_vec(ref, softbits);
+    ref = "-4.45707 0.690076 2.60678 -4.01722 0.470147 1.03911 -2.03781 -24.6372 6.16477 1.54392 5.59861 1.26085 "
+   "-11.4955 0.754926 -2.322 3.75976 0.34142 6.46525 -1.38276 -1.69416 3.06975 -0.00717789 -2.575 -4.08077 0.501924";
+    assert_vec(ref, softbits_approx);
+  }
 }

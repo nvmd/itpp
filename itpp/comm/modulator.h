@@ -571,7 +571,8 @@ ITPP_EXPORT_TEMPLATE template class ITPP_EXPORT Modulator<std::complex<double> >
   \ldots \f$. Symbol values in each dimension are: \f$\{-(\sqrt{M}-1),
   \ldots, -3, -1, 1, 3, \ldots, (\sqrt{M}-1)\}\f$. The bitmap is Gray
   encoded. Symbols are normalized so that the average energy is 1. That
-  is, normalized with \f$\sqrt{2(M-1)/3}\f$.
+  is, normalized with \f$\sqrt{2(M-1)/3}\f$. For odd values of \f$k\f$,
+  a regular rectangular constellation is used.
 
   Beside hard demapping, this class can also perform soft demodulation,
   calculating the log-MAP estimate of the individual bits. To use it
