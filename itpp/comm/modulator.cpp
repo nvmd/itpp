@@ -81,7 +81,7 @@ void QAM::set_M(int Mary)
     // Here, L is the number of "columns" in the constellation
     L = round_i(std::sqrt(static_cast<double>(M * 2)));
 
-    double average_energy = (5 * L * L - 8) / 12;
+    double average_energy = (5.0 * L * L - 8.0) / 12.0;
     scaling_factor = std::sqrt(average_energy);
 
     symbols.set_size(M);
