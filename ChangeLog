@@ -1,3 +1,8 @@
+2014-05-18  Bogdan Cristea <cristeab@users.sourceforge.net>
+* CMakeLists.txt, gtests/CMakeLists.txt, itpp/base/vec.cpp, itpp/base/vec.h:
+corrected compilation with clang compiler. Thanks to xiangyuliu for providing
+the patch.
+
 2014-02-16  Bogdan Cristea <cristeab@users.sourceforge.net>
 * gtests/modulator_test.cpp, itpp/comm/modulator.cpp, itpp/comm/modulator.h:
 add support for odd number of bits/symbol for QAM. Thanks to Kumar Appaiah for

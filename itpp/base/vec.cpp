@@ -243,7 +243,7 @@ void Vec<std::complex<double> >::set(const std::string &str)
   bool abc_format;
   std::vector<std::string> tokens = tokenize(str, abc_format);
   it_assert(!abc_format, "Vec<bin>::set(): \"a:b:c\" format string not "
-            "supported for binary vectors");
+            "supported for complex double vectors");
   set_size(int(tokens.size()));
   for (std::vector<std::string>::size_type i = 0; i < tokens.size(); ++i) {
     std::istringstream buffer(tokens[i]);

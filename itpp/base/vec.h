@@ -1779,6 +1779,8 @@ std::vector<std::string> Vec<Num_T>::tokenize(const std::string &str_in,
   bool colon = false;
   bool comma = false;
   bool lparen = false;
+  int minus_indx = -3;
+  int plus_indx = -3;
   abc_format = false;
   for (std::string::size_type i = 0; i < str_in.size(); ++i) {
     char c = str_in[i];
@@ -1787,22 +1789,32 @@ std::vector<std::string> Vec<Num_T>::tokenize(const std::string &str_in,
       space = true;             // set flag for whitespaces
       break;
     case ',':
-      if (lparen)
+      if (lparen) {
         comma = true;           // set flag for comma in "(re,im)" format
+        s.push_back(c);         // keep (a,b) format available, so we need comma
+      }
       else
         space = true;           // otherwise treat comma as separator
      break;
-    case ')':
-      s.push_back('i');         // replace right paren in "(re,im)" with 'i'
+    case 'i':
+      if(minus_indx > 0)        // convert a+/-bi to (a,+/-b), so we need insert a comma
+      {
+         s.insert(minus_indx, ",");  // insert comma before '-' at specific position
+         minus_indx = -3;
+      }
+      if(plus_indx > 0)
+      {
+         s.insert(plus_indx, ",");   // insert comma before '+' at specific position
+         plus_indx = -3;
+      }
+      s.push_back(')');         // replace right 'i' with ')', convert a+-bi to (a,+-b)
+      s.insert(0, "(");         // missing '(' for a+/-bi, insert '('
       break;
     case ':':
       colon = true;             // set flag for "a:b[:c]" format string
       space = false;            // reset flag for whitespaces
       abc_format = true;        // set external flag for "a:b[:c]" format
       s.push_back(c);
-      break;
-    case '(':
-      lparen = true;            // set flag for complex "(re,im)" format
       break;
     default:
       if (colon) {              // reset colon and space flags
@@ -1813,8 +1825,8 @@ std::vector<std::string> Vec<Num_T>::tokenize(const std::string &str_in,
         lparen = false;
         comma = false;
         space = false;
-        if ((c != '-') && (c != '+')) // if needed
-          s.push_back('+');           // insert '+' between "re" and "im"
+        //if ((c != '-') && (c != '+')) // if needed
+        //  s.push_back('+');           // insert '+' between "re" and "im"
       }
       else if (space) {         // new token detected
         space = false;
@@ -1823,6 +1835,24 @@ std::vector<std::string> Vec<Num_T>::tokenize(const std::string &str_in,
           s.clear();            // and start parsing the next token
         }
       }
+
+      // we need '(' for (a,b) format, so keep the '(' in default case, and set flag
+      if(c == '(') lparen = true;
+
+      // we need to support format such as -0.05e+05-9.23e-6i,
+      // so the only right '+'/'-' position to insert comma is that position:
+      // 1) current symbol is '+'/'-', and this is not the first char in s,
+      // 2) the last symbol before '+'/'-' is a numerical symbol, i.e. '0'~'9'
+      if( ((c == '-') || (c == '+')) && (s.length() >= 1) ) {
+        char t = s[s.length()-1];
+        if ((t >= '0' ) && ( t <= '9')) {  //record right position
+          if(c == '-')
+            minus_indx = s.length();
+          else if(c == '+')
+            plus_indx = s.length();
+        }
+      }
+
       s.push_back(c);          // append next character to the current token
       start = false;           // reset the "beginning of the string" flag
       break;
