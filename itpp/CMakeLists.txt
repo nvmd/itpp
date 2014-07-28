@@ -39,7 +39,7 @@ file ( GLOB ITPP_SRCS
        "stat/*.cpp" )
 
 include_directories ( ${CMAKE_BINARY_DIR}
-                      ${CMAKE_SOURCE_DIR}
+                      ${PROJECT_SOURCE_DIR}
                       ${BLAS_INCLUDES}
                       ${LAPACK_INCLUDES}
                       ${FFT_INCLUDES}
@@ -73,7 +73,7 @@ install(TARGETS ${libitpp_target}
         ARCHIVE DESTINATION lib${LIB_SUFFIX})
 
 #headers
-install(DIRECTORY ${CMAKE_SOURCE_DIR}/itpp DESTINATION include FILES_MATCHING PATTERN "*.h")
+install(DIRECTORY ${PROJECT_SOURCE_DIR}/itpp DESTINATION include FILES_MATCHING PATTERN "*.h")
 if (WIN32 AND NOT MINGW)
   install(FILES ${CMAKE_BINARY_DIR}/itpp/config_msvc.h DESTINATION include/itpp)
 else()
@@ -82,21 +82,21 @@ endif()
 install(FILES ${CMAKE_BINARY_DIR}/itpp/itexports.h DESTINATION include/itpp)
 
 #extra files (MATLAB and python)
-install(FILES ${CMAKE_SOURCE_DIR}/extras/itsave.m
-              ${CMAKE_SOURCE_DIR}/extras/itload.m
-              ${CMAKE_SOURCE_DIR}/extras/pyitpp.py
+install(FILES ${PROJECT_SOURCE_DIR}/extras/itsave.m
+              ${PROJECT_SOURCE_DIR}/extras/itload.m
+              ${PROJECT_SOURCE_DIR}/extras/pyitpp.py
         DESTINATION share/itpp)
 
 #html help
 if (HTML_DOCS AND DOXYGEN_FOUND)
-  configure_file(${CMAKE_SOURCE_DIR}/doc/doxygen_html.cfg.cmake.in ${CMAKE_BINARY_DIR}/Doxyfile @ONLY)
-  configure_file(${CMAKE_SOURCE_DIR}/doc/local/index.doc.in ${CMAKE_BINARY_DIR}/doc/local/index.doc @ONLY)
+  configure_file(${PROJECT_SOURCE_DIR}/doc/doxygen_html.cfg.cmake.in ${CMAKE_BINARY_DIR}/Doxyfile @ONLY)
+  configure_file(${PROJECT_SOURCE_DIR}/doc/local/index.doc.in ${CMAKE_BINARY_DIR}/doc/local/index.doc @ONLY)
   #make sure that this target is executed last
   add_custom_target(itpp_doc ALL
     ${DOXYGEN_EXECUTABLE} ${CMAKE_BINARY_DIR}/Doxyfile
     WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
     COMMENT "Generating API documentation with Doxygen" VERBATIM)
-  file(COPY ${CMAKE_SOURCE_DIR}/doc/images/itpp_logo.png DESTINATION ${CMAKE_BINARY_DIR}/html)
+  file(COPY ${PROJECT_SOURCE_DIR}/doc/images/itpp_logo.png DESTINATION ${CMAKE_BINARY_DIR}/html)
   install(DIRECTORY ${CMAKE_BINARY_DIR}/html DESTINATION share/doc/itpp)
 endif()
 
@@ -105,9 +105,9 @@ if (UNIX)
   if (ITPP_LIBS)
     string (REPLACE ";" " " ITPP_LIBS "${ITPP_LIBS}")
   endif()
-  configure_file(${CMAKE_SOURCE_DIR}/itpp-config.cmake.in ${CMAKE_BINARY_DIR}/itpp-config @ONLY)
-  configure_file(${CMAKE_SOURCE_DIR}/itpp-config.1.cmake.in ${CMAKE_BINARY_DIR}/itpp-config.1 @ONLY)
-  configure_file(${CMAKE_SOURCE_DIR}/itpp.pc.cmake.in ${CMAKE_BINARY_DIR}/itpp.pc @ONLY)
+  configure_file(${PROJECT_SOURCE_DIR}/itpp-config.cmake.in ${CMAKE_BINARY_DIR}/itpp-config @ONLY)
+  configure_file(${PROJECT_SOURCE_DIR}/itpp-config.1.cmake.in ${CMAKE_BINARY_DIR}/itpp-config.1 @ONLY)
+  configure_file(${PROJECT_SOURCE_DIR}/itpp.pc.cmake.in ${CMAKE_BINARY_DIR}/itpp.pc @ONLY)
   install(FILES ${CMAKE_BINARY_DIR}/itpp-config DESTINATION bin PERMISSIONS OWNER_READ OWNER_EXECUTE
     GROUP_READ GROUP_EXECUTE WORLD_READ WORLD_EXECUTE)
   install(FILES ${CMAKE_BINARY_DIR}/itpp-config.1 DESTINATION share/man/man1)
