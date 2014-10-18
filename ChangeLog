@@ -1,3 +1,11 @@
+2014-10-18  Bogdan Cristea <cristeab@users.sourceforge.net>
+* CMakeLists.txt, cmake/Modules/CheckCXXFunctionExists.cmake,
+doc/doxygen_html.cfg.cmake.in, doc/tutorial/src/CMakeLists.txt,
+gtests/CMakeLists.txt, itpp/CMakeLists.txt, tests/CMakeLists.txt: Replaced
+CMAKE_SOURCE_DIR with PROJECT_SOURCE_DIR (feature request #99). This will allow to include it++ as
+sub-project using add_subdirectory(). Thanks to Sergey Nikulov for providing
+the patch.
+
 2014-05-18  Bogdan Cristea <cristeab@users.sourceforge.net>
 * CMakeLists.txt, gtests/CMakeLists.txt, itpp/base/vec.cpp, itpp/base/vec.h:
 corrected compilation with clang compiler. Thanks to xiangyuliu for providing

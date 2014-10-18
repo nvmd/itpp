@@ -5,7 +5,7 @@
 #
 # -------------------------------------------------------------------------
 #
-# Copyright (C) 1995-2012  (see AUTHORS file for a list of contributors)
+# Copyright (C) 1995-2014  (see AUTHORS file for a list of contributors)
 #
 # This file is part of IT++ - a C++ library of mathematical, signal
 # processing, speech processing, and communications classes and functions.
@@ -27,9 +27,9 @@
 
 cmake_minimum_required ( VERSION 2.8.11 )
 
-set ( CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/Modules/ ${CMAKE_MODULE_PATH} )
-
 project(ITPP)
+
+set ( CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake/Modules/ ${CMAKE_MODULE_PATH} )
 
 #check for BLAS library
 find_package ( BLAS )
@@ -163,9 +163,9 @@ endif()
 
 if (WIN32 AND NOT MINGW)
   #TODO: remove this from future versions
-  CONFIGURE_FILE ( ${CMAKE_SOURCE_DIR}/itpp/config.h.cmake ${CMAKE_BINARY_DIR}/itpp/config_msvc.h )
+  CONFIGURE_FILE ( ${PROJECT_SOURCE_DIR}/itpp/config.h.cmake ${CMAKE_BINARY_DIR}/itpp/config_msvc.h )
 else()
-  CONFIGURE_FILE ( ${CMAKE_SOURCE_DIR}/itpp/config.h.cmake ${CMAKE_BINARY_DIR}/itpp/config.h )
+  CONFIGURE_FILE ( ${PROJECT_SOURCE_DIR}/itpp/config.h.cmake ${CMAKE_BINARY_DIR}/itpp/config.h )
 endif()
 
 #set library type: shared or static
@@ -181,7 +181,7 @@ if (ITPP_SHARED_LIB)
 else()
   set (libitpp_target itpp_static)
 endif()
-CONFIGURE_FILE (${CMAKE_SOURCE_DIR}/itpp/itexports.h.cmake ${CMAKE_BINARY_DIR}/itpp/itexports.h)
+CONFIGURE_FILE (${PROJECT_SOURCE_DIR}/itpp/itexports.h.cmake ${CMAKE_BINARY_DIR}/itpp/itexports.h)
 
 #build HTML docs
 option(HTML_DOCS "Building HTML documentation with Doxygen if available" on)
