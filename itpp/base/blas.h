@@ -36,6 +36,13 @@
 #endif
 
 #include <complex>
+#include <itpp/base/ittypes.h>
+
+#if defined(BLAS_INT32)
+  typedef int32_t int_blas_t;
+#elif defined(BLAS_INT64)
+  typedef int64_t int_blas_t;
+#endif
 
 //! \cond
 
@@ -58,7 +65,6 @@
 #  define zgemm_ ZGEMM
 #endif // #if defined(_MSC_VER) && (defined(HAVE_ACML) || defined(HAVE_MKL))
 
-
 namespace blas
 {
 
@@ -71,99 +77,99 @@ extern "C"
   // BLAS 1 functions
   // ----------------------------------------------------------------------
 
-  void dswap_(const int *n,
-              double *x, const int *incx,
-              double *y, const int *incy);
+  void dswap_(const int_blas_t *n,
+              double *x, const int_blas_t *incx,
+              double *y, const int_blas_t *incy);
 
-  void zswap_(const int *n,
-              std::complex<double> *x, const int *incx,
-              std::complex<double> *y, const int *incy);
+  void zswap_(const int_blas_t *n,
+              std::complex<double> *x, const int_blas_t *incx,
+              std::complex<double> *y, const int_blas_t *incy);
 
-  void dscal_(const int *n,
+  void dscal_(const int_blas_t *n,
               const double *alpha,
-              double *x, const int *incx);
+              double *x, const int_blas_t *incx);
 
-  void zscal_(const int *n,
+  void zscal_(const int_blas_t *n,
               const std::complex<double> *alpha,
-              std::complex<double> *x, const int *incx);
+              std::complex<double> *x, const int_blas_t *incx);
 
-  void dcopy_(const int *n,
-              const double *x, const int *incx,
-              double *y, const int *incy);
+  void dcopy_(const int_blas_t *n,
+              const double *x, const int_blas_t *incx,
+              double *y, const int_blas_t *incy);
 
-  void zcopy_(const int *n,
-              const std::complex<double> *x, const int *incx,
-              std::complex<double> *y, const int *incy);
+  void zcopy_(const int_blas_t *n,
+              const std::complex<double> *x, const int_blas_t *incx,
+              std::complex<double> *y, const int_blas_t *incy);
 
-  void daxpy_(const int *n,
+  void daxpy_(const int_blas_t *n,
               const double *alpha,
-              const double *x, const int *incx,
-              double *y, const int *incy);
+              const double *x, const int_blas_t *incx,
+              double *y, const int_blas_t *incy);
 
-  void zaxpy_(const int *n,
+  void zaxpy_(const int_blas_t *n,
               const std::complex<double> *alpha,
-              const std::complex<double> *x, const int *incx,
-              std::complex<double> *y, const int *incy);
+              const std::complex<double> *x, const int_blas_t *incx,
+              std::complex<double> *y, const int_blas_t *incy);
 
-  double ddot_(const int *n,
-               const double *x, const int *incx,
-               const double *y, const int *incy);
+  double ddot_(const int_blas_t *n,
+               const double *x, const int_blas_t *incx,
+               const double *y, const int_blas_t *incy);
 
   // ----------------------------------------------------------------------
   // BLAS 2 functions
   // ----------------------------------------------------------------------
 
-  void dgemv_(const char *transA, const int *m, const int *n,
+  void dgemv_(const char *transA, const int_blas_t *m, const int_blas_t *n,
               const double *alpha,
-              const double *A, const int *ldA,
-              const double *x, const int *incx,
+              const double *A, const int_blas_t *ldA,
+              const double *x, const int_blas_t *incx,
               const double *beta,
-              double *y, const int *incy);
+              double *y, const int_blas_t *incy);
 
-  void zgemv_(const char *transA, const int *m, const int *n,
+  void zgemv_(const char *transA, const int_blas_t *m, const int_blas_t *n,
               const std::complex<double> *alpha,
-              const std::complex<double> *A, const int *ldA,
-              const std::complex<double> *x, const int *incx,
+              const std::complex<double> *A, const int_blas_t *ldA,
+              const std::complex<double> *x, const int_blas_t *incx,
               const std::complex<double> *beta,
-              std::complex<double> *y, const int *incy);
+              std::complex<double> *y, const int_blas_t *incy);
 
-  void dger_(const int *m, const int *n,
+  void dger_(const int_blas_t *m, const int_blas_t *n,
              const double *alpha,
-             const double *x, const int *incx,
-             const double *y, const int *incy,
-             double *A, const int *ldA);
+             const double *x, const int_blas_t *incx,
+             const double *y, const int_blas_t *incy,
+             double *A, const int_blas_t *ldA);
 
-  void zgeru_(const int *m, const int *n,
+  void zgeru_(const int_blas_t *m, const int_blas_t *n,
               const std::complex<double> *alpha,
-              const std::complex<double> *x, const int *inxx,
-              const std::complex<double> *y, const int *incy,
-              std::complex<double> *A, const int *ldA);
+              const std::complex<double> *x, const int_blas_t *inxx,
+              const std::complex<double> *y, const int_blas_t *incy,
+              std::complex<double> *A, const int_blas_t *ldA);
 
-  void zgerc_(const int *m, const int *n,
+  void zgerc_(const int_blas_t *m, const int_blas_t *n,
               const std::complex<double> *alpha,
-              const std::complex<double> *x, const int *inxx,
-              const std::complex<double> *y, const int *incy,
-              std::complex<double> *A, const int *ldA);
+              const std::complex<double> *x, const int_blas_t *inxx,
+              const std::complex<double> *y, const int_blas_t *incy,
+              std::complex<double> *A, const int_blas_t *ldA);
 
   // ----------------------------------------------------------------------
   // BLAS 3 functions
   // ----------------------------------------------------------------------
 
   void dgemm_(const char *transA, const char *transB,
-              const int *m, const int *n, const int *k,
+              const int_blas_t *m, const int_blas_t *n, const int_blas_t *k,
               const double *alpha,
-              const double *A, const int *ldA,
-              const double *B, const int *ldB,
+              const double *A, const int_blas_t *ldA,
+              const double *B, const int_blas_t *ldB,
               const double *beta,
-              double *C, const int *ldC);
+              double *C, const int_blas_t *ldC);
 
   void zgemm_(const char *transA, const char *transB,
-              const int *m, const int *n, const int *k,
+              const int_blas_t *m, const int_blas_t *n, const int_blas_t *k,
               const std::complex<double> *alpha,
-              const std::complex<double> *A, const int *ldA,
-              const std::complex<double> *B, const int *ldB,
+              const std::complex<double> *A, const int_blas_t *ldA,
+              const std::complex<double> *B, const int_blas_t *ldB,
               const std::complex<double> *beta,
-              std::complex<double> *C, const int *ldC);
+              std::complex<double> *C, const int_blas_t *ldC);
 
 #ifdef __cplusplus
 }

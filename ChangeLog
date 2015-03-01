@@ -1,3 +1,13 @@
+2015-03-01  Bogdan Cristea <cristeab@users.sourceforge.net>
+* CMakeLists.txt, itpp/base/algebra/cholesky.cpp, itpp/base/algebra/eigen.cpp,
+itpp/base/algebra/inv.cpp, itpp/base/algebra/lapack.h,
+itpp/base/algebra/ls_solve.cpp, itpp/base/algebra/lu.cpp,
+itpp/base/algebra/qr.cpp, itpp/base/algebra/schur.cpp,
+itpp/base/algebra/svd.cpp, itpp/base/blas.h, itpp/base/copy_vector.cpp,
+itpp/base/mat.cpp, itpp/base/vec.cpp: lapack and blas API can use either
+32-bit or 64-bit integers. This solves MATLAB R2011+ mex files crash under
+Linux (bug #202). Thanks to Andreas Winkelbauer for providing the patch.
+
 2014-10-18  Bogdan Cristea <cristeab@users.sourceforge.net>
 * CMakeLists.txt, cmake/Modules/CheckCXXFunctionExists.cmake,
 doc/doxygen_html.cfg.cmake.in, doc/tutorial/src/CMakeLists.txt,

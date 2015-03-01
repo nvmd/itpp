@@ -42,181 +42,174 @@
 namespace itpp
 {
 
+void copy_vector(int n, const double *x, double *y)
+{
 #if defined (HAVE_BLAS)
-void copy_vector(int n, const double *x, double *y)
-{
-  int incr = 1;
-  blas::dcopy_(&n, x, &incr, y, &incr);
-}
-void copy_vector(int n, const std::complex<double> *x, std::complex<double> *y)
-{
-  int incr = 1;
-  blas::zcopy_(&n, x, &incr, y, &incr);
-}
+  int_blas_t incr = 1;
+  int_blas_t _n = static_cast<int_blas_t>(n);
+  blas::dcopy_(&_n, x, &incr, y, &incr);
 #else
-void copy_vector(int n, const double *x, double *y)
-{
   memcpy(y, x, static_cast<unsigned int>(n) * sizeof(double));
+#endif
 }
+
 void copy_vector(int n, const std::complex<double> *x, std::complex<double> *y)
 {
+#if defined (HAVE_BLAS)
+  int_blas_t incr = 1;
+  int_blas_t _n = static_cast<int_blas_t>(n);
+  blas::zcopy_(&_n, x, &incr, y, &incr);
+#else
   memcpy(y, x, static_cast<unsigned int>(n) * sizeof(std::complex<double>));
-}
 #endif
+}
 
-
-#if defined (HAVE_BLAS)
 void copy_vector(int n, const double *x, int incx, double *y, int incy)
 {
-  blas::dcopy_(&n, x, &incx, y, &incy);
+#if defined (HAVE_BLAS)
+  int_blas_t _n = static_cast<int_blas_t>(n);
+  int_blas_t _incx = static_cast<int_blas_t>(incx);
+  int_blas_t _incy = static_cast<int_blas_t>(incy);
+  blas::dcopy_(&_n, x, &_incx, y, &_incy);
+#else
+  for (int i = 0; i < n; i++)
+    y[i*incy] = x[i*incx];
+#endif
 }
+
 void copy_vector(int n, const std::complex<double> *x, int incx,
                  std::complex<double> *y, int incy)
 {
-  blas::zcopy_(&n, x, &incx, y, &incy);
-}
+#if defined (HAVE_BLAS)
+  int_blas_t _n = static_cast<int_blas_t>(n);
+  int_blas_t _incx = static_cast<int_blas_t>(incx);
+  int_blas_t _incy = static_cast<int_blas_t>(incy);
+  blas::zcopy_(&_n, x, &_incx, y, &_incy);
 #else
-void copy_vector(int n, const double *x, int incx, double *y, int incy)
-{
   for (int i = 0; i < n; i++)
     y[i*incy] = x[i*incx];
-}
-void copy_vector(int n, const std::complex<double> *x, int incx,
-                 std::complex<double> *y, int incy)
-{
-  for (int i = 0; i < n; i++)
-    y[i*incy] = x[i*incx];
-}
 #endif
+}
 
-
-#if defined (HAVE_BLAS)
 void swap_vector(int n, double *x, double *y)
 {
-  int incr = 1;
-  blas::dswap_(&n, x, &incr, y, &incr);
-}
-void swap_vector(int n, std::complex<double> *x, std::complex<double> *y)
-{
-  int incr = 1;
-  blas::zswap_(&n, x, &incr, y, &incr);
-}
+#if defined (HAVE_BLAS)
+  int_blas_t incr = 1;
+  int_blas_t _n = static_cast<int_blas_t>(n);
+  blas::dswap_(&_n, x, &incr, y, &incr);
 #else
-void swap_vector(int n, double *x, double *y)
-{
   for (int i = 0; i < n; i++)
     std::swap(x[i], y[i]);
+#endif
 }
+
 void swap_vector(int n, std::complex<double> *x, std::complex<double> *y)
 {
+#if defined (HAVE_BLAS)
+  int_blas_t incr = 1;
+  int_blas_t _n = static_cast<int_blas_t>(n);
+  blas::zswap_(&_n, x, &incr, y, &incr);
+#else
   for (int i = 0; i < n; i++)
     std::swap(x[i], y[i]);
-}
 #endif
+}
 
-
-#if defined (HAVE_BLAS)
 void swap_vector(int n, double *x, int incx, double *y, int incy)
 {
-  blas::dswap_(&n, x, &incx, y, &incy);
+#if defined (HAVE_BLAS)
+  int_blas_t _n = static_cast<int_blas_t>(n);
+  int_blas_t _incx = static_cast<int_blas_t>(incx);
+  int_blas_t _incy = static_cast<int_blas_t>(incy);
+  blas::dswap_(&_n, x, &_incx, y, &_incy);
+#else
+  for (int i = 0; i < n; i++)
+    std::swap(x[i*incx], y[i*incy]);
+#endif
 }
+
 void swap_vector(int n, std::complex<double> *x, int incx,
                  std::complex<double> *y, int incy)
 {
-  blas::zswap_(&n, x, &incx, y, &incy);
-}
+#if defined (HAVE_BLAS)
+  int_blas_t _n = static_cast<int_blas_t>(n);
+  int_blas_t _incx = static_cast<int_blas_t>(incx);
+  int_blas_t _incy = static_cast<int_blas_t>(incy);
+  blas::zswap_(&_n, x, &_incx, y, &_incy);
 #else
-void swap_vector(int n, double *x, int incx, double *y, int incy)
-{
   for (int i = 0; i < n; i++)
     std::swap(x[i*incx], y[i*incy]);
-}
-void swap_vector(int n, std::complex<double> *x, int incx,
-                 std::complex<double> *y, int incy)
-{
-  for (int i = 0; i < n; i++)
-    std::swap(x[i*incx], y[i*incy]);
-}
 #endif
+}
 
-
+void scal_vector(int n, double alpha, double *x)
+{
 #if defined(HAVE_BLAS)
-void scal_vector(int n, double alpha, double *x)
-{
-  int incr = 1;
-  blas::dscal_(&n, &alpha, x, &incr);
-}
-void scal_vector(int n, std::complex<double> alpha, std::complex<double> *x)
-{
-  int incr = 1;
-  blas::zscal_(&n, &alpha, x, &incr);
-}
+  int_blas_t incr = 1;
+  int_blas_t _n = static_cast<int_blas_t>(n);
+  blas::dscal_(&_n, &alpha, x, &incr);
 #else
-void scal_vector(int n, double alpha, double *x)
-{
   if (alpha != 1.0) {
     for (int i = 0; i < n; ++i) {
       x[i] *= alpha;
     }
   }
+#endif
 }
+
 void scal_vector(int n, std::complex<double> alpha, std::complex<double> *x)
 {
+#if defined(HAVE_BLAS)
+  int_blas_t incr = 1;
+  int_blas_t _n = static_cast<int_blas_t>(n);
+  blas::zscal_(&_n, &alpha, x, &incr);
+#else
   if (alpha != std::complex<double>(1.0)) {
     for (int i = 0; i < n; ++i) {
       x[i] *= alpha;
     }
   }
-}
 #endif
+}
 
-
+void scal_vector(int n, double alpha, double *x, int incx)
+{
 #if defined(HAVE_BLAS)
-void scal_vector(int n, double alpha, double *x, int incx)
-{
-  blas::dscal_(&n, &alpha, x, &incx);
-}
-void scal_vector(int n, std::complex<double> alpha, std::complex<double> *x,
-                 int incx)
-{
-  blas::zscal_(&n, &alpha, x, &incx);
-}
+  int_blas_t _n = static_cast<int_blas_t>(n);
+  int_blas_t _incx = static_cast<int_blas_t>(incx);
+  blas::dscal_(&_n, &alpha, x, &_incx);
 #else
-void scal_vector(int n, double alpha, double *x, int incx)
-{
   if (alpha != 1.0) {
     for (int i = 0; i < n; ++i) {
       x[i*incx] *= alpha;
     }
   }
+#endif
 }
+
 void scal_vector(int n, std::complex<double> alpha, std::complex<double> *x,
                  int incx)
 {
+#if defined(HAVE_BLAS)
+  int_blas_t _n = static_cast<int_blas_t>(n);
+  int_blas_t _incx = static_cast<int_blas_t>(incx);
+  blas::zscal_(&_n, &alpha, x, &_incx);
+#else
   if (alpha != std::complex<double>(1.0)) {
     for (int i = 0; i < n; ++i) {
       x[i*incx] *= alpha;
     }
   }
-}
 #endif
+}
 
-
+void axpy_vector(int n, double alpha, const double *x, double *y)
+{
 #if defined(HAVE_BLAS)
-void axpy_vector(int n, double alpha, const double *x, double *y)
-{
-  int incr = 1;
-  blas::daxpy_(&n, &alpha, x, &incr, y, &incr);
-}
-void axpy_vector(int n, std::complex<double> alpha,
-                 const std::complex<double> *x, std::complex<double> *y)
-{
-  int incr = 1;
-  blas::zaxpy_(&n, &alpha, x, &incr, y, &incr);
-}
+  int_blas_t incr = 1;
+  int_blas_t _n = static_cast<int_blas_t>(n);
+  blas::daxpy_(&_n, &alpha, x, &incr, y, &incr);
 #else
-void axpy_vector(int n, double alpha, const double *x, double *y)
-{
   if (alpha != 1.0) {
     for (int i = 0; i < n; ++i) {
       y[i] += alpha * x[i];
@@ -227,10 +220,17 @@ void axpy_vector(int n, double alpha, const double *x, double *y)
       y[i] += x[i];
     }
   }
+#endif
 }
+
 void axpy_vector(int n, std::complex<double> alpha,
                  const std::complex<double> *x, std::complex<double> *y)
 {
+#if defined(HAVE_BLAS)
+  int_blas_t incr = 1;
+  int_blas_t _n = static_cast<int_blas_t>(n);
+  blas::zaxpy_(&_n, &alpha, x, &incr, y, &incr);
+#else
   if (alpha != std::complex<double>(1.0)) {
     for (int i = 0; i < n; ++i) {
       y[i] += alpha * x[i];
@@ -241,26 +241,18 @@ void axpy_vector(int n, std::complex<double> alpha,
       y[i] += x[i];
     }
   }
-}
 #endif
+}
 
-
+void axpy_vector(int n, double alpha, const double *x, int incx, double *y,
+                 int incy)
+{
 #if defined(HAVE_BLAS)
-void axpy_vector(int n, double alpha, const double *x, int incx, double *y,
-                 int incy)
-{
-  blas::daxpy_(&n, &alpha, x, &incx, y, &incy);
-}
-void axpy_vector(int n, std::complex<double> alpha,
-                 const std::complex<double> *x, int incx,
-                 std::complex<double> *y, int incy)
-{
-  blas::zaxpy_(&n, &alpha, x, &incx, y, &incy);
-}
+  int_blas_t _n = static_cast<int_blas_t>(n);
+  int_blas_t _incx = static_cast<int_blas_t>(incx);
+  int_blas_t _incy = static_cast<int_blas_t>(incy);
+  blas::daxpy_(&_n, &alpha, x, &_incx, y, &_incy);
 #else
-void axpy_vector(int n, double alpha, const double *x, int incx, double *y,
-                 int incy)
-{
   if (alpha != 1.0) {
     for (int i = 0; i < n; ++i) {
       y[i*incy] += alpha * x[i*incx];
@@ -271,11 +263,19 @@ void axpy_vector(int n, double alpha, const double *x, int incx, double *y,
       y[i*incy] += x[i*incx];
     }
   }
+#endif
 }
+
 void axpy_vector(int n, std::complex<double> alpha,
                  const std::complex<double> *x, int incx,
                  std::complex<double> *y, int incy)
 {
+#if defined(HAVE_BLAS)
+  int_blas_t _n = static_cast<int_blas_t>(n);
+  int_blas_t _incx = static_cast<int_blas_t>(incx);
+  int_blas_t _incy = static_cast<int_blas_t>(incy);
+  blas::zaxpy_(&_n, &alpha, x, &_incx, y, &_incy);
+#else
   if (alpha != std::complex<double>(1.0)) {
     for (int i = 0; i < n; ++i) {
       y[i*incy] += alpha * x[i*incx];
@@ -286,7 +286,7 @@ void axpy_vector(int n, std::complex<double> alpha,
       y[i*incy] += x[i*incx];
     }
   }
-}
 #endif
+}
 
 } // namespace itpp

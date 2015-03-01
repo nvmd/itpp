@@ -42,61 +42,60 @@
 namespace itpp
 {
 
+
+bool inv(const mat &X, mat &Y)
+{
+  it_assert_debug(X.rows() == X.cols(), "inv: matrix is not square");
+
 #if defined(HAVE_LAPACK)
+  int_lapack_t info;
+  int_lapack_t m = static_cast<int_lapack_t>(X.rows());
+  int_lapack_t lwork = m; // may be choosen better
+  int_lapack_t *p = new int_lapack_t[m];
 
-bool inv(const mat &X, mat &Y)
-{
-  it_assert_debug(X.rows() == X.cols(), "inv: matrix is not square");
-
-  int m = X.rows(), info, lwork;
-  lwork = m; // may be choosen better
-
-  ivec p(m);
   Y = X;
-  vec work(lwork);
+  vec work(static_cast<int>(lwork));
 
-  dgetrf_(&m, &m, Y._data(), &m, p._data(), &info); // LU-factorization
+  dgetrf_(&m, &m, Y._data(), &m, p, &info); // LU-factorization
   if (info != 0)
     return false;
 
-  dgetri_(&m, Y._data(), &m, p._data(), work._data(), &lwork, &info);
+  dgetri_(&m, Y._data(), &m, p, work._data(), &lwork, &info);
+  delete[] p;
+
   return (info == 0);
-}
-
-bool inv(const cmat &X, cmat &Y)
-{
-  it_assert_debug(X.rows() == X.cols(), "inv: matrix is not square");
-
-  int m = X.rows(), info, lwork;
-  lwork = m; // may be choosen better
-
-  ivec p(m);
-  Y = X;
-  cvec work(lwork);
-
-  zgetrf_(&m, &m, Y._data(), &m, p._data(), &info); // LU-factorization
-  if (info != 0)
-    return false;
-
-  zgetri_(&m, Y._data(), &m, p._data(), work._data(), &lwork, &info);
-  return (info == 0);
-}
-
 #else
-
-bool inv(const mat &X, mat &Y)
-{
   it_error("LAPACK library is needed to use inv() function");
   return false;
+#endif
 }
 
 bool inv(const cmat &X, cmat &Y)
 {
+  it_assert_debug(X.rows() == X.cols(), "inv: matrix is not square");
+
+#if defined(HAVE_LAPACK)
+  int_lapack_t info;
+  int_lapack_t m = static_cast<int_lapack_t>(X.rows());
+  int_lapack_t lwork = m; // may be choosen better
+  int_lapack_t *p = new int_lapack_t[m];
+
+  Y = X;
+  cvec work(static_cast<int>(lwork));
+
+  zgetrf_(&m, &m, Y._data(), &m, p, &info); // LU-factorization
+  if (info != 0)
+    return false;
+
+  zgetri_(&m, Y._data(), &m, p, work._data(), &lwork, &info);
+  delete[] p;
+
+  return (info == 0);
+#else
   it_error("LAPACK library is needed to use inv() function");
   return false;
+#endif
 }
-
-#endif // HAVE_LAPACK
 
 cmat inv(const cmat &X)
 {

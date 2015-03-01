@@ -218,6 +218,32 @@ if (FFT_LIBRARIES)
   set(ITPP_LIBS ${FFT_LIBRARIES} ${ITPP_LIBS})
 endif()
 
+#set integer width for BLAS
+if (BLAS_INT)
+  if (BLAS_INT EQUAL 32)
+    add_definitions( -DBLAS_INT32 )
+  elseif (BLAS_INT EQUAL 64)
+    add_definitions( -DBLAS_INT64 )
+  else()
+    message(SEND_ERROR "BLAS_INT must be either 32 or 64.")
+  endif()
+else()
+    add_definitions( -DBLAS_INT32 )
+endif()
+
+#set integer width for LAPACK
+if (LAPACK_INT)
+  if (LAPACK_INT EQUAL 32)
+    add_definitions( -DLAPACK_INT32 )
+  elseif (LAPACK_INT EQUAL 64)
+    add_definitions( -DLAPACK_INT64 )
+  else()
+    message(SEND_ERROR "LAPACK_INT must be either 32 or 64.")
+  endif()
+else()
+    add_definitions( -DLAPACK_INT32 )
+endif()
+
 #add it++ sources
 add_subdirectory ( itpp )
 

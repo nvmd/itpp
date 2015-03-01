@@ -43,21 +43,22 @@
 namespace itpp
 {
 
-#if defined(HAVE_LAPACK)
-
 bool lu(const mat &X, mat &L, mat &U, ivec &p)
 {
   it_assert_debug(X.rows() == X.cols(), "lu: matrix is not quadratic");
-  //int m, n, lda, info;
-  //m = n = lda = X.rows();
-  int m = X.rows(), info;
+
+#if defined(HAVE_LAPACK)
+  int_lapack_t info;
+  int m = X.rows();
+  int_lapack_t _m = static_cast<int_lapack_t>(m);
+  int_lapack_t *_p = new int_lapack_t[m];
 
   mat A(X);
   L.set_size(m, m, false);
   U.set_size(m, m, false);
   p.set_size(m, false);
 
-  dgetrf_(&m, &m, A._data(), &m, p._data(), &info);
+  dgetrf_(&_m, &_m, A._data(), &_m, _p, &info);
 
   for (int i = 0; i < m; i++) {
     for (int j = i; j < m; j++) {
@@ -71,27 +72,37 @@ bool lu(const mat &X, mat &L, mat &U, ivec &p)
         U(i, j) = A(i, j);
       }
     }
+
+    p[i] = static_cast<int>(_p[i]);
   }
 
+  delete[] _p;
   p = p - 1; // Fortran counts from 1
 
   return (info == 0);
+#else
+  it_error("LAPACK library is needed to use lu() function");
+  return false;
+#endif
 }
 
 // Slower than not using LAPACK when matrix size smaller than approx 20.
 bool lu(const cmat &X, cmat &L, cmat &U, ivec &p)
 {
   it_assert_debug(X.rows() == X.cols(), "lu: matrix is not quadratic");
-  //int m, n, lda, info;
-  //m = n = lda = X.rows();
-  int m = X.rows(), info;
+
+#if defined(HAVE_LAPACK)
+  int_lapack_t info;
+  int m = X.rows();
+  int_lapack_t _m = static_cast<int_lapack_t>(m);
+  int_lapack_t *_p = new int_lapack_t[m];
 
   cmat A(X);
   L.set_size(m, m, false);
   U.set_size(m, m, false);
   p.set_size(m, false);
 
-  zgetrf_(&m, &m, A._data(), &m, p._data(), &info);
+  zgetrf_(&_m, &_m, A._data(), &_m, _p, &info);
 
   for (int i = 0; i < m; i++) {
     for (int j = i; j < m; j++) {
@@ -105,29 +116,19 @@ bool lu(const cmat &X, cmat &L, cmat &U, ivec &p)
         U(i, j) = A(i, j);
       }
     }
+
+    p[i] = static_cast<int>(_p[i]);
   }
 
+  delete[] _p;
   p = p - 1; // Fortran counts from 1
 
   return (info == 0);
-}
-
 #else
-
-bool lu(const mat &X, mat &L, mat &U, ivec &p)
-{
   it_error("LAPACK library is needed to use lu() function");
   return false;
+#endif
 }
-
-bool lu(const cmat &X, cmat &L, cmat &U, ivec &p)
-{
-  it_error("LAPACK library is needed to use lu() function");
-  return false;
-}
-
-#endif // HAVE_LAPACK
-
 
 void interchange_permutations(vec &b, const ivec &p)
 {

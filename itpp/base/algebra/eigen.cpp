@@ -43,60 +43,75 @@
 namespace itpp
 {
 
-#if defined(HAVE_LAPACK)
-
 bool eig_sym(const mat &A, vec &d, mat &V)
 {
-  it_assert_debug(A.rows() == A.cols(), "eig_sym: Matrix is not symmetric");
-
+  it_assert_debug(A.rows() == A.cols(), "eig_sym: Matrix is not square");
   // Test for symmetric?
 
-  char jobz = 'V', uplo = 'U';
-  int n, lda, lwork, info;
-  n = lda = A.rows();
-  lwork = std::max(1, 3 * n - 1); // This may be choosen better!
+#if defined(HAVE_LAPACK)
+  int_lapack_t _n, lda, _lwork, info;
+  char jobz = 'V';
+  char uplo = 'U';
+  int n = A.rows();
+  int lwork = std::max(1, 3 * n - 1); // This may be choosen better!
+  _n = lda = static_cast<int_lapack_t>(n);
+  _lwork = static_cast<int_lapack_t>(lwork);
 
   d.set_size(n, false);
   vec work(lwork);
 
   V = A; // The routine overwrites input matrix with eigenvectors
 
-  dsyev_(&jobz, &uplo, &n, V._data(), &lda, d._data(), work._data(), &lwork, &info);
+  dsyev_(&jobz, &uplo, &_n, V._data(), &lda, d._data(), work._data(), &_lwork, &info);
 
   return (info == 0);
+#else
+  it_error("LAPACK library is needed to use eig_sym() function");
+  return false;
+#endif
 }
 
 bool eig_sym(const mat &A, vec &d)
 {
-  it_assert_debug(A.rows() == A.cols(), "eig_sym: Matrix is not symmetric");
-
+  it_assert_debug(A.rows() == A.cols(), "eig_sym: Matrix is not square");
   // Test for symmetric?
 
-  char jobz = 'N', uplo = 'U';
-  int n, lda, lwork, info;
-  n = lda = A.rows();
-  lwork = std::max(1, 3 * n - 1); // This may be choosen better!
+#if defined(HAVE_LAPACK)
+  int_lapack_t _n, lda, _lwork, info;
+  char jobz = 'N';
+  char uplo = 'U';
+  int n = A.rows();
+  int lwork = std::max(1, 3 * n - 1); // This may be choosen better!
+  _n = lda = static_cast<int_lapack_t>(n);
+  _lwork = static_cast<int_lapack_t>(lwork);
 
   d.set_size(n, false);
   vec work(lwork);
 
   mat B(A); // The routine overwrites input matrix
 
-  dsyev_(&jobz, &uplo, &n, B._data(), &lda, d._data(), work._data(), &lwork, &info);
+  dsyev_(&jobz, &uplo, &_n, B._data(), &lda, d._data(), work._data(), &_lwork, &info);
 
   return (info == 0);
+#else
+  it_error("LAPACK library is needed to use eig_sym() function");
+  return false;
+#endif
 }
 
 bool eig_sym(const cmat &A, vec &d, cmat &V)
 {
-  it_assert_debug(A.rows() == A.cols(), "eig_sym: Matrix is not hermitian");
-
+  it_assert_debug(A.rows() == A.cols(), "eig_sym: Matrix is not square");
   // Test for symmetric?
 
-  char jobz = 'V', uplo = 'U';
-  int n, lda, lwork, info;
-  n = lda = A.rows();
-  lwork = std::max(1, 2 * n - 1); // This may be choosen better!
+#if defined(HAVE_LAPACK)
+  int_lapack_t _n, lda, _lwork, info;
+  char jobz = 'V';
+  char uplo = 'U';
+  int n = A.rows();
+  int lwork = std::max(1, 2 * n - 1); // This may be choosen better!
+  _n = lda = static_cast<int_lapack_t>(n);
+  _lwork = static_cast<int_lapack_t>(lwork);
 
   d.set_size(n, false);
   cvec work(lwork);
@@ -104,21 +119,28 @@ bool eig_sym(const cmat &A, vec &d, cmat &V)
 
   V = A; // The routine overwrites input matrix with eigenvectors
 
-  zheev_(&jobz, &uplo, &n, V._data(), &lda, d._data(), work._data(), &lwork, rwork._data(), &info);
+  zheev_(&jobz, &uplo, &_n, V._data(), &lda, d._data(), work._data(), &_lwork, rwork._data(), &info);
 
   return (info == 0);
+#else
+  it_error("LAPACK library is needed to use eig_sym() function");
+  return false;
+#endif
 }
 
 bool eig_sym(const cmat &A, vec &d)
 {
-  it_assert_debug(A.rows() == A.cols(), "eig_sym: Matrix is not hermitian");
-
+  it_assert_debug(A.rows() == A.cols(), "eig_sym: Matrix is not square");
   // Test for symmetric?
 
-  char jobz = 'N', uplo = 'U';
-  int n, lda, lwork, info;
-  n = lda = A.rows();
-  lwork = std::max(1, 2 * n - 1); // This may be choosen better!
+#if defined(HAVE_LAPACK)
+  int_lapack_t _n, lda, _lwork, info;
+  char jobz = 'N';
+  char uplo = 'U';
+  int n = A.rows();
+  int lwork = std::max(1, 2 * n - 1); // This may be choosen better!
+  _n = lda = static_cast<int_lapack_t>(n);
+  _lwork = static_cast<int_lapack_t>(lwork);
 
   d.set_size(n, false);
   cvec work(lwork);
@@ -126,32 +148,40 @@ bool eig_sym(const cmat &A, vec &d)
 
   cmat B(A); // The routine overwrites input matrix
 
-  zheev_(&jobz, &uplo, &n, B._data(), &lda, d._data(), work._data(), &lwork, rwork._data(), &info);
+  zheev_(&jobz, &uplo, &_n, B._data(), &lda, d._data(), work._data(), &_lwork, rwork._data(), &info);
 
   return (info == 0);
+#else
+  it_error("LAPACK library is needed to use eig_sym() function");
+  return false;
+#endif
 }
-
 
 // Non-symmetric matrix
 bool eig(const mat &A, cvec &d, cmat &V)
 {
   it_assert_debug(A.rows() == A.cols(), "eig: Matrix is not square");
 
-  char jobvl = 'N', jobvr = 'V';
-  int n, lda, ldvl, ldvr, lwork, info;
-  n = lda = A.rows();
+#if defined(HAVE_LAPACK)
+  int_lapack_t _n, lda, ldvl, ldvr, _lwork, info;
+  char jobvl = 'N';
+  char jobvr = 'V';
+  int n = A.rows();
+  int lwork = std::max(1, 4 * n); // This may be choosen better!
+  _n = lda = ldvr = static_cast<int_lapack_t>(n);
+  _lwork = static_cast<int_lapack_t>(lwork);
   ldvl = 1;
-  ldvr = n;
-  lwork = std::max(1, 4 * n); // This may be choosen better!
 
   vec work(lwork);
   vec rwork(std::max(1, 2*n)); // This may be choosen better
-  vec wr(n), wi(n);
-  mat vl, vr(n, n);
+  vec wr(n);
+  vec wi(n);
+  mat vl;
+  mat vr(n, n);
 
   mat B(A); // The routine overwrites input matrix
 
-  dgeev_(&jobvl, &jobvr, &n, B._data(), &lda, wr._data(), wi._data(), vl._data(), &ldvl, vr._data(), &ldvr, work._data(), &lwork, &info);
+  dgeev_(&jobvl, &jobvr, &_n, B._data(), &lda, wr._data(), wi._data(), vl._data(), &ldvl, vr._data(), &ldvr, work._data(), &_lwork, &info);
 
   d = to_cvec(wr, wi);
 
@@ -170,6 +200,10 @@ bool eig(const mat &A, cvec &d, cmat &V)
   }
 
   return (info == 0);
+#else
+  it_error("LAPACK library is needed to use eig() function");
+  return false;
+#endif
 }
 
 // Non-symmetric matrix
@@ -177,37 +211,50 @@ bool eig(const mat &A, cvec &d)
 {
   it_assert_debug(A.rows() == A.cols(), "eig: Matrix is not square");
 
-  char jobvl = 'N', jobvr = 'N';
-  int n, lda, ldvl, ldvr, lwork, info;
-  n = lda = A.rows();
+#if defined(HAVE_LAPACK)
+  int_lapack_t _n, lda, ldvl, ldvr, _lwork, info;
+  char jobvl = 'N';
+  char jobvr = 'N';
+  int n = A.rows();
+  int lwork = std::max(1, 4 * n); // This may be choosen better!
+  _n = lda = static_cast<int_lapack_t>(n);
+  _lwork = static_cast<int_lapack_t>(lwork);
   ldvl = 1;
   ldvr = 1;
-  lwork = std::max(1, 4 * n); // This may be choosen better!
 
   vec work(lwork);
   vec rwork(std::max(1, 2*n)); // This may be choosen better
-  vec wr(n), wi(n);
-  mat vl, vr;
+  vec wr(n);
+  vec wi(n);
+  mat vl;
+  mat vr;
 
   mat B(A); // The routine overwrites input matrix
 
-  dgeev_(&jobvl, &jobvr, &n, B._data(), &lda, wr._data(), wi._data(), vl._data(), &ldvl, vr._data(), &ldvr, work._data(), &lwork, &info);
+  dgeev_(&jobvl, &jobvr, &_n, B._data(), &lda, wr._data(), wi._data(), vl._data(), &ldvl, vr._data(), &ldvr, work._data(), &_lwork, &info);
 
   d = to_cvec(wr, wi);
 
   return (info == 0);
+#else
+  it_error("LAPACK library is needed to use eig() function");
+  return false;
+#endif
 }
 
 bool eig(const cmat &A, cvec &d, cmat &V)
 {
   it_assert_debug(A.rows() == A.cols(), "eig: Matrix is not square");
 
-  char jobvl = 'N', jobvr = 'V';
-  int n, lda, ldvl, ldvr, lwork, info;
-  n = lda = A.rows();
+#if defined(HAVE_LAPACK)
+  int_lapack_t _n, lda, ldvl, ldvr, _lwork, info;
+  char jobvl = 'N';
+  char jobvr = 'V';
+  int n = A.rows();
+  int lwork = std::max(1, 2 * n); // This may be choosen better!
+  _n = lda = ldvr = static_cast<int_lapack_t>(n);
+  _lwork = static_cast<int_lapack_t>(lwork);
   ldvl = 1;
-  ldvr = n;
-  lwork = std::max(1, 2 * n); // This may be choosen better!
 
   d.set_size(n, false);
   V.set_size(n, n, false);
@@ -217,88 +264,46 @@ bool eig(const cmat &A, cvec &d, cmat &V)
 
   cmat B(A); // The routine overwrites input matrix
 
-  zgeev_(&jobvl, &jobvr, &n, B._data(), &lda, d._data(), vl._data(), &ldvl, V._data(), &ldvr, work._data(), &lwork, rwork._data(), &info);
-
+  zgeev_(&jobvl, &jobvr, &_n, B._data(), &lda, d._data(), vl._data(), &ldvl, V._data(), &ldvr, work._data(), &_lwork, rwork._data(), &info);
 
   return (info == 0);
+#else
+  it_error("LAPACK library is needed to use eig() function");
+  return false;
+#endif
 }
 
 bool eig(const cmat &A, cvec &d)
 {
   it_assert_debug(A.rows() == A.cols(), "eig: Matrix is not square");
 
-  char jobvl = 'N', jobvr = 'N';
-  int n, lda, ldvl, ldvr, lwork, info;
-  n = lda = A.rows();
+#if defined(HAVE_LAPACK)
+  int_lapack_t _n, lda, ldvl, ldvr, _lwork, info;
+  char jobvl = 'N';
+  char jobvr = 'N';
+  int n = A.rows();
+  int lwork = std::max(1, 2 * n); // This may be choosen better!
+  _n = lda = static_cast<int_lapack_t>(n);
+  _lwork = static_cast<int_lapack_t>(lwork);
   ldvl = 1;
   ldvr = 1;
-  lwork = std::max(1, 2 * n); // This may be choosen better!
 
   d.set_size(n, false);
   cvec work(lwork);
   vec rwork(std::max(1, 2*n)); // This may be choosen better!
-  cmat vl, vr;
+  cmat vl;
+  cmat vr;
 
   cmat B(A); // The routine overwrites input matrix
 
-  zgeev_(&jobvl, &jobvr, &n, B._data(), &lda, d._data(), vl._data(), &ldvl, vr._data(), &ldvr, work._data(), &lwork, rwork._data(), &info);
-
+  zgeev_(&jobvl, &jobvr, &_n, B._data(), &lda, d._data(), vl._data(), &ldvl, vr._data(), &ldvr, work._data(), &_lwork, rwork._data(), &info);
 
   return (info == 0);
-}
-
 #else
-
-bool eig_sym(const mat &A, vec &d, mat &V)
-{
-  it_error("LAPACK library is needed to use eig_sym() function");
-  return false;
-}
-
-bool eig_sym(const mat &A, vec &d)
-{
-  it_error("LAPACK library is needed to use eig_sym() function");
-  return false;
-}
-
-bool eig_sym(const cmat &A, vec &d, cmat &V)
-{
-  it_error("LAPACK library is needed to use eig_sym() function");
-  return false;
-}
-
-bool eig_sym(const cmat &A, vec &d)
-{
-  it_error("LAPACK library is needed to use eig_sym() function");
-  return false;
-}
-
-
-bool eig(const mat &A, cvec &d, cmat &V)
-{
   it_error("LAPACK library is needed to use eig() function");
   return false;
+#endif
 }
-
-bool eig(const mat &A, cvec &d)
-{
-  it_error("LAPACK library is needed to use eig() function");
-  return false;
-}
-
-bool eig(const cmat &A, cvec &d, cmat &V)
-{
-  it_error("LAPACK library is needed to use eig() function");
-  return false;
-}
-
-bool eig(const cmat &A, cvec &d)
-{
-  it_error("LAPACK library is needed to use eig() function");
-  return false;
-}
-
-#endif // HAVE_LAPACK
 
 vec eig_sym(const mat &A)
 {

@@ -42,18 +42,17 @@
 namespace itpp
 {
 
+bool chol(const mat &X, mat &F)
+{
 #if defined(HAVE_LAPACK)
-
-bool chol(const mat &X, mat &F)
-{
-
+  int_lapack_t _n, lda, info;
   char uplo = 'U';
-  int n, lda, info;
-  n = lda = X.rows();
+  int n = X.rows();
+  _n = lda = static_cast<int_lapack_t>(n);
 
   F = X; // input matrix is overwritten
 
-  dpotrf_(&uplo, &n, F._data(), &lda, &info);
+  dpotrf_(&uplo, &_n, F._data(), &lda, &info);
 
   // Set lower part to zero
   for (int i = 0; i < n; i++)
@@ -61,17 +60,23 @@ bool chol(const mat &X, mat &F)
       F(j, i) = 0;
 
   return (info == 0);
+#else
+  it_error("LAPACK library is needed to use chol() function");
+  return false;
+#endif
 }
 
 bool chol(const cmat &X, cmat &F)
 {
+#if defined(HAVE_LAPACK)
+  int_lapack_t _n, lda, info;
   char uplo = 'U';
-  int n, lda, info;
-  n = lda = X.rows();
+  int n = X.rows();
+  _n = lda = static_cast<int_lapack_t>(n);
 
   F = X; // input matrix is overwritten
 
-  zpotrf_(&uplo, &n, F._data(), &lda, &info);
+  zpotrf_(&uplo, &_n, F._data(), &lda, &info);
 
   // Set lower part to zero
   for (int i = 0; i < n; i++)
@@ -79,24 +84,11 @@ bool chol(const cmat &X, cmat &F)
       F(j, i) = 0;
 
   return (info == 0);
-}
-
-#else // HAVE_LAPACK
-
-bool chol(const mat &X, mat &F)
-{
+#else
   it_error("LAPACK library is needed to use chol() function");
   return false;
+#endif
 }
-
-bool chol(const cmat &X, cmat &F)
-{
-
-  it_error("LAPACK library is needed to use chol() function");
-  return false;
-}
-
-#endif // HAVE_LAPACK
 
 cmat chol(const cmat &X)
 {

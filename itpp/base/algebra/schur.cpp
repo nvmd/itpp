@@ -42,33 +42,36 @@
 namespace itpp
 {
 
-#if defined(HAVE_LAPACK)
-
 bool schur(const mat &A, mat &U, mat &T)
 {
   it_assert_debug(A.rows() == A.cols(), "schur(): Matrix is not square");
 
+#if defined(HAVE_LAPACK)
+  int_lapack_t _n, lda, ldvs, sdim, _lwork, info;
   char jobvs = 'V';
   char sort = 'N';
-  int info;
   int n = A.rows();
-  int lda = n;
-  int ldvs = n;
   int lwork = 3 * n; // This may be choosen better!
-  int sdim = 0;
+  _n = lda = ldvs = static_cast<int_lapack_t>(n);
+  _lwork = static_cast<int_lapack_t>(lwork);
+  sdim = 0;
   vec wr(n);
   vec wi(n);
   vec work(lwork);
 
-  T.set_size(lda, n, false);
-  U.set_size(ldvs, n, false);
+  T.set_size(static_cast<int>(lda), n, false);
+  U.set_size(static_cast<int>(ldvs), n, false);
 
   T = A; // The routine overwrites input matrix with eigenvectors
 
-  dgees_(&jobvs, &sort, 0, &n, T._data(), &lda, &sdim, wr._data(), wi._data(),
-         U._data(), &ldvs, work._data(), &lwork, 0, &info);
+  dgees_(&jobvs, &sort, 0, &_n, T._data(), &lda, &sdim, wr._data(), wi._data(),
+         U._data(), &ldvs, work._data(), &_lwork, 0, &info);
 
   return (info == 0);
+#else
+  it_error("LAPACK library is needed to use schur() function");
+  return false;
+#endif
 }
 
 
@@ -76,45 +79,33 @@ bool schur(const cmat &A, cmat &U, cmat &T)
 {
   it_assert_debug(A.rows() == A.cols(), "schur(): Matrix is not square");
 
+#if defined(HAVE_LAPACK)
+  int_lapack_t _n, lda, ldvs, sdim, _lwork, info;
   char jobvs = 'V';
   char sort = 'N';
-  int info;
   int n = A.rows();
-  int lda = n;
-  int ldvs = n;
   int lwork = 2 * n; // This may be choosen better!
-  int sdim = 0;
+  _n = lda = ldvs = static_cast<int_lapack_t>(n);
+  _lwork = static_cast<int_lapack_t>(lwork);
+  sdim = 0;
   vec rwork(n);
   cvec w(n);
   cvec work(lwork);
 
-  T.set_size(lda, n, false);
-  U.set_size(ldvs, n, false);
+  T.set_size(static_cast<int>(lda), n, false);
+  U.set_size(static_cast<int>(ldvs), n, false);
 
   T = A; // The routine overwrites input matrix with eigenvectors
 
-  zgees_(&jobvs, &sort, 0, &n, T._data(), &lda, &sdim, w._data(), U._data(),
-         &ldvs, work._data(), &lwork, rwork._data(), 0, &info);
+  zgees_(&jobvs, &sort, 0, &_n, T._data(), &lda, &sdim, w._data(), U._data(),
+         &ldvs, work._data(), &_lwork, rwork._data(), 0, &info);
 
   return (info == 0);
-}
-
 #else
-
-bool schur(const mat &A, mat &U, mat &T)
-{
   it_error("LAPACK library is needed to use schur() function");
   return false;
+#endif
 }
-
-
-bool schur(const cmat &A, cmat &U, cmat &T)
-{
-  it_error("LAPACK library is needed to use schur() function");
-  return false;
-}
-
-#endif // HAVE_LAPACK
 
 mat schur(const mat &A)
 {

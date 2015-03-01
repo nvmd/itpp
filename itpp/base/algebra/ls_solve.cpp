@@ -44,112 +44,97 @@ namespace itpp
 
 // ----------- ls_solve_chol -----------------------------------------------------------
 
-#if defined(HAVE_LAPACK)
-
 bool ls_solve_chol(const mat &A, const vec &b, vec &x)
 {
-  int n, lda, ldb, nrhs, info;
-  n = lda = ldb = A.rows();
-  nrhs = 1;
+  it_assert_debug(A.cols() == A.rows(), "ls_solve_chol: System-matrix is not square");
+  it_assert_debug(A.rows() == b.size(), "The number of rows in A must equal the length of b!");
+
+#if defined(HAVE_LAPACK)
+  int_lapack_t n, lda, ldb, nrhs, info;
   char uplo = 'U';
+  nrhs = 1;
+  n = lda = ldb = static_cast<int_lapack_t>(A.rows());
 
-  it_assert_debug(A.cols() == n, "ls_solve_chol: System-matrix is not square");
-  it_assert_debug(n == b.size(), "The number of rows in A must equal the length of b!");
-
-  ivec ipiv(n);
   x = b;
   mat Chol = A;
 
   dposv_(&uplo, &n, &nrhs, Chol._data(), &lda, x._data(), &ldb, &info);
 
   return (info == 0);
+#else
+  it_error("LAPACK library is needed to use ls_solve_chol() function");
+  return false;
+#endif
 }
-
 
 bool ls_solve_chol(const mat &A, const mat &B, mat &X)
 {
-  int n, lda, ldb, nrhs, info;
-  n = lda = ldb = A.rows();
-  nrhs = B.cols();
+  it_assert_debug(A.cols() == A.rows(), "ls_solve_chol: System-matrix is not square");
+  it_assert_debug(A.rows() == B.rows(), "The number of rows in A must equal the length of B!");
+
+#if defined(HAVE_LAPACK)
+  int_lapack_t n, lda, ldb, nrhs, info;
   char uplo = 'U';
+  nrhs = B.cols();
+  n = lda = ldb = static_cast<int_lapack_t>(A.rows());
 
-  it_assert_debug(A.cols() == n, "ls_solve_chol: System-matrix is not square");
-  it_assert_debug(n == B.rows(), "The number of rows in A must equal the length of B!");
-
-  ivec ipiv(n);
   X = B;
   mat Chol = A;
 
   dposv_(&uplo, &n, &nrhs, Chol._data(), &lda, X._data(), &ldb, &info);
 
   return (info == 0);
+#else
+  it_error("LAPACK library is needed to use ls_solve_chol() function");
+  return false;
+#endif
 }
 
 bool ls_solve_chol(const cmat &A, const cvec &b, cvec &x)
 {
-  int n, lda, ldb, nrhs, info;
-  n = lda = ldb = A.rows();
-  nrhs = 1;
+  it_assert_debug(A.cols() == A.rows(), "ls_solve_chol: System-matrix is not square");
+  it_assert_debug(A.rows() == b.size(), "The number of rows in A must equal the length of b!");
+
+#if defined(HAVE_LAPACK)
+  int_lapack_t n, lda, ldb, nrhs, info;
   char uplo = 'U';
+  nrhs = 1;
+  n = lda = ldb = static_cast<int_lapack_t>(A.rows());
 
-  it_assert_debug(A.cols() == n, "ls_solve_chol: System-matrix is not square");
-  it_assert_debug(n == b.size(), "The number of rows in A must equal the length of b!");
-
-  ivec ipiv(n);
   x = b;
   cmat Chol = A;
 
   zposv_(&uplo, &n, &nrhs, Chol._data(), &lda, x._data(), &ldb, &info);
 
   return (info == 0);
+#else
+  it_error("LAPACK library is needed to use ls_solve_chol() function");
+  return false;
+#endif
 }
 
 bool ls_solve_chol(const cmat &A, const cmat &B, cmat &X)
 {
-  int n, lda, ldb, nrhs, info;
-  n = lda = ldb = A.rows();
-  nrhs = B.cols();
+  it_assert_debug(A.cols() == A.rows(), "ls_solve_chol: System-matrix is not square");
+  it_assert_debug(A.rows() == B.rows(), "The number of rows in A must equal the length of B!");
+
+#if defined(HAVE_LAPACK)
+  int_lapack_t n, lda, ldb, nrhs, info;
   char uplo = 'U';
+  nrhs = B.cols();
+  n = lda = ldb = static_cast<int_lapack_t>(A.rows());
 
-  it_assert_debug(A.cols() == n, "ls_solve_chol: System-matrix is not square");
-  it_assert_debug(n == B.rows(), "The number of rows in A must equal the length of B!");
-
-  ivec ipiv(n);
   X = B;
   cmat Chol = A;
 
   zposv_(&uplo, &n, &nrhs, Chol._data(), &lda, X._data(), &ldb, &info);
 
   return (info == 0);
-}
-
 #else
-
-bool ls_solve_chol(const mat &A, const vec &b, vec &x)
-{
   it_error("LAPACK library is needed to use ls_solve_chol() function");
   return false;
+#endif
 }
-
-bool ls_solve_chol(const mat &A, const mat &B, mat &X)
-{
-  it_error("LAPACK library is needed to use ls_solve_chol() function");
-  return false;
-}
-
-bool ls_solve_chol(const cmat &A, const cvec &b, cvec &x)
-{
-  it_error("LAPACK library is needed to use ls_solve_chol() function");
-  return false;
-}
-
-bool ls_solve_chol(const cmat &A, const cmat &B, cmat &X)
-{
-  it_error("LAPACK library is needed to use ls_solve_chol() function");
-  return false;
-}
-
-#endif // HAVE_LAPACK
 
 vec ls_solve_chol(const mat &A, const vec &b)
 {
@@ -189,107 +174,102 @@ cmat ls_solve_chol(const cmat &A, const cmat &B)
 
 
 // --------- ls_solve ---------------------------------------------------------------
+
+bool ls_solve(const mat &A, const vec &b, vec &x)
+{
+  it_assert_debug(A.cols() == A.rows(), "ls_solve: System-matrix is not square");
+  it_assert_debug(A.rows() == b.size(), "The number of rows in A must equal the length of b!");
+
 #if defined(HAVE_LAPACK)
-
-bool ls_solve(const mat &A, const vec &b, vec &x)
-{
-  int n, lda, ldb, nrhs, info;
-  n = lda = ldb = A.rows();
+  int_lapack_t n, lda, ldb, nrhs, info;
   nrhs = 1;
+  n = lda = ldb = static_cast<int_lapack_t>(A.rows());
+  int_lapack_t *ipiv = new int_lapack_t[n];
 
-  it_assert_debug(A.cols() == n, "ls_solve: System-matrix is not square");
-  it_assert_debug(n == b.size(), "The number of rows in A must equal the length of b!");
-
-  ivec ipiv(n);
   x = b;
   mat LU = A;
 
-  dgesv_(&n, &nrhs, LU._data(), &lda, ipiv._data(), x._data(), &ldb, &info);
+  dgesv_(&n, &nrhs, LU._data(), &lda, ipiv, x._data(), &ldb, &info);
+  delete[] ipiv;
 
   return (info == 0);
-}
-
-bool ls_solve(const mat &A, const mat &B, mat &X)
-{
-  int n, lda, ldb, nrhs, info;
-  n = lda = ldb = A.rows();
-  nrhs = B.cols();
-
-  it_assert_debug(A.cols() == n, "ls_solve: System-matrix is not square");
-  it_assert_debug(n == B.rows(), "The number of rows in A must equal the length of B!");
-
-  ivec ipiv(n);
-  X = B;
-  mat LU = A;
-
-  dgesv_(&n, &nrhs, LU._data(), &lda, ipiv._data(), X._data(), &ldb, &info);
-
-  return (info == 0);
-}
-
-bool ls_solve(const cmat &A, const cvec &b, cvec &x)
-{
-  int n, lda, ldb, nrhs, info;
-  n = lda = ldb = A.rows();
-  nrhs = 1;
-
-  it_assert_debug(A.cols() == n, "ls_solve: System-matrix is not square");
-  it_assert_debug(n == b.size(), "The number of rows in A must equal the length of b!");
-
-  ivec ipiv(n);
-  x = b;
-  cmat LU = A;
-
-  zgesv_(&n, &nrhs, LU._data(), &lda, ipiv._data(), x._data(), &ldb, &info);
-
-  return (info == 0);
-}
-
-bool ls_solve(const cmat &A, const cmat &B, cmat &X)
-{
-  int n, lda, ldb, nrhs, info;
-  n = lda = ldb = A.rows();
-  nrhs = B.cols();
-
-  it_assert_debug(A.cols() == n, "ls_solve: System-matrix is not square");
-  it_assert_debug(n == B.rows(), "The number of rows in A must equal the length of B!");
-
-  ivec ipiv(n);
-  X = B;
-  cmat LU = A;
-
-  zgesv_(&n, &nrhs, LU._data(), &lda, ipiv._data(), X._data(), &ldb, &info);
-
-  return (info == 0);
-}
-
 #else
-
-bool ls_solve(const mat &A, const vec &b, vec &x)
-{
   it_error("LAPACK library is needed to use ls_solve() function");
   return false;
+#endif
 }
 
 bool ls_solve(const mat &A, const mat &B, mat &X)
 {
+  it_assert_debug(A.cols() == A.rows(), "ls_solve: System-matrix is not square");
+  it_assert_debug(A.rows() == B.rows(), "The number of rows in A must equal the length of B!");
+
+#if defined(HAVE_LAPACK)
+  int_lapack_t n, lda, ldb, nrhs, info;
+  nrhs = B.cols();
+  n = lda = ldb = static_cast<int_lapack_t>(A.rows());
+  int_lapack_t *ipiv = new int_lapack_t[n];
+
+  X = B;
+  mat LU = A;
+
+  dgesv_(&n, &nrhs, LU._data(), &lda, ipiv, X._data(), &ldb, &info);
+  delete[] ipiv;
+
+  return (info == 0);
+#else
   it_error("LAPACK library is needed to use ls_solve() function");
   return false;
+#endif
 }
 
 bool ls_solve(const cmat &A, const cvec &b, cvec &x)
 {
+  it_assert_debug(A.cols() == A.rows(), "ls_solve: System-matrix is not square");
+  it_assert_debug(A.rows() == b.size(), "The number of rows in A must equal the length of b!");
+
+#if defined(HAVE_LAPACK)
+  int_lapack_t n, lda, ldb, nrhs, info;
+  nrhs = 1;
+  n = lda = ldb = static_cast<int_lapack_t>(A.rows());
+  int_lapack_t *ipiv = new int_lapack_t[n];
+
+  x = b;
+  cmat LU = A;
+
+  zgesv_(&n, &nrhs, LU._data(), &lda, ipiv, x._data(), &ldb, &info);
+  delete[] ipiv;
+
+  return (info == 0);
+#else
   it_error("LAPACK library is needed to use ls_solve() function");
   return false;
+#endif
 }
 
 bool ls_solve(const cmat &A, const cmat &B, cmat &X)
 {
+  it_assert_debug(A.cols() == A.rows(), "ls_solve: System-matrix is not square");
+  it_assert_debug(A.rows() == B.rows(), "The number of rows in A must equal the length of B!");
+
+#if defined(HAVE_LAPACK)
+  int_lapack_t n, lda, ldb, nrhs, info;
+  nrhs = B.cols();
+  n = lda = ldb = static_cast<int_lapack_t>(A.rows());
+  int_lapack_t *ipiv = new int_lapack_t[n];
+
+  X = B;
+  cmat LU = A;
+
+  zgesv_(&n, &nrhs, LU._data(), &lda, ipiv, X._data(), &ldb, &info);
+  delete[] ipiv;
+
+  return (info == 0);
+#else
   it_error("LAPACK library is needed to use ls_solve() function");
   return false;
+#endif
 }
-
-#endif // HAVE_LAPACK
 
 vec ls_solve(const mat &A, const vec &b)
 {
@@ -329,123 +309,128 @@ cmat ls_solve(const cmat &A, const cmat &B)
 
 
 // ----------------- ls_solve_od ------------------------------------------------------------------
+
+bool ls_solve_od(const mat &A, const vec &b, vec &x)
+{
+  it_assert_debug(A.rows() >= A.cols(), "The system is under-determined!");
+  it_assert_debug(A.rows() == b.size(), "The number of rows in A must equal the length of b!");
+
 #if defined(HAVE_LAPACK)
-
-bool ls_solve_od(const mat &A, const vec &b, vec &x)
-{
-  int m, n, lda, ldb, nrhs, lwork, info;
+  int_lapack_t _m, _n, lda, ldb, nrhs, _lwork, info;
   char trans = 'N';
-  m = lda = ldb = A.rows();
-  n = A.cols();
+  int m = A.rows();
+  int n = A.cols();
+  int lwork = n + m;
   nrhs = 1;
-  lwork = n + std::max(m, nrhs);
-
-  it_assert_debug(m >= n, "The system is under-determined!");
-  it_assert_debug(m == b.size(), "The number of rows in A must equal the length of b!");
+  _m = lda = ldb = static_cast<int_lapack_t>(m);
+  _n = static_cast<int_lapack_t>(n);
+  _lwork = _n + _m;
 
   vec work(lwork);
   x = b;
   mat QR = A;
 
-  dgels_(&trans, &m, &n, &nrhs, QR._data(), &lda, x._data(), &ldb, work._data(), &lwork, &info);
+  dgels_(&trans, &_m, &_n, &nrhs, QR._data(), &lda, x._data(), &ldb, work._data(), &_lwork, &info);
   x.set_size(n, true);
 
   return (info == 0);
-}
-
-bool ls_solve_od(const mat &A, const mat &B, mat &X)
-{
-  int m, n, lda, ldb, nrhs, lwork, info;
-  char trans = 'N';
-  m = lda = ldb = A.rows();
-  n = A.cols();
-  nrhs = B.cols();
-  lwork = n + std::max(m, nrhs);
-
-  it_assert_debug(m >= n, "The system is under-determined!");
-  it_assert_debug(m == B.rows(), "The number of rows in A must equal the length of b!");
-
-  vec work(lwork);
-  X = B;
-  mat QR = A;
-
-  dgels_(&trans, &m, &n, &nrhs, QR._data(), &lda, X._data(), &ldb, work._data(), &lwork, &info);
-  X.set_size(n, nrhs, true);
-
-  return (info == 0);
-}
-
-bool ls_solve_od(const cmat &A, const cvec &b, cvec &x)
-{
-  int m, n, lda, ldb, nrhs, lwork, info;
-  char trans = 'N';
-  m = lda = ldb = A.rows();
-  n = A.cols();
-  nrhs = 1;
-  lwork = n + std::max(m, nrhs);
-
-  it_assert_debug(m >= n, "The system is under-determined!");
-  it_assert_debug(m == b.size(), "The number of rows in A must equal the length of b!");
-
-  cvec work(lwork);
-  x = b;
-  cmat QR = A;
-
-  zgels_(&trans, &m, &n, &nrhs, QR._data(), &lda, x._data(), &ldb, work._data(), &lwork, &info);
-  x.set_size(n, true);
-
-  return (info == 0);
-}
-
-bool ls_solve_od(const cmat &A, const cmat &B, cmat &X)
-{
-  int m, n, lda, ldb, nrhs, lwork, info;
-  char trans = 'N';
-  m = lda = ldb = A.rows();
-  n = A.cols();
-  nrhs = B.cols();
-  lwork = n + std::max(m, nrhs);
-
-  it_assert_debug(m >= n, "The system is under-determined!");
-  it_assert_debug(m == B.rows(), "The number of rows in A must equal the length of b!");
-
-  cvec work(lwork);
-  X = B;
-  cmat QR = A;
-
-  zgels_(&trans, &m, &n, &nrhs, QR._data(), &lda, X._data(), &ldb, work._data(), &lwork, &info);
-  X.set_size(n, nrhs, true);
-
-  return (info == 0);
-}
-
 #else
-
-bool ls_solve_od(const mat &A, const vec &b, vec &x)
-{
   it_error("LAPACK library is needed to use ls_solve_od() function");
   return false;
+#endif
 }
 
 bool ls_solve_od(const mat &A, const mat &B, mat &X)
 {
+  it_assert_debug(A.rows() >= A.cols(), "The system is under-determined!");
+  it_assert_debug(A.rows() == B.rows(), "The number of rows in A must equal the length of b!");
+
+#if defined(HAVE_LAPACK)
+  int_lapack_t _m, _n, lda, ldb, _nrhs, _lwork, info;
+  char trans = 'N';
+  int m = A.rows();
+  int n = A.cols();
+  int nrhs = B.cols();
+  int lwork = n + std::max(m, nrhs);
+  _m = lda = ldb = static_cast<int_lapack_t>(m);
+  _n = static_cast<int_lapack_t>(n);
+  _nrhs = static_cast<int_lapack_t>(nrhs);
+  _lwork = static_cast<int_lapack_t>(lwork);
+
+  vec work(lwork);
+  X = B;
+  mat QR = A;
+
+  dgels_(&trans, &_m, &_n, &_nrhs, QR._data(), &lda, X._data(), &ldb, work._data(), &_lwork, &info);
+  X.set_size(n, nrhs, true);
+
+  return (info == 0);
+#else
   it_error("LAPACK library is needed to use ls_solve_od() function");
   return false;
+#endif
 }
 
 bool ls_solve_od(const cmat &A, const cvec &b, cvec &x)
 {
+  it_assert_debug(A.rows() >= A.cols(), "The system is under-determined!");
+  it_assert_debug(A.rows() == b.size(), "The number of rows in A must equal the length of b!");
+
+#if defined(HAVE_LAPACK)
+  int_lapack_t _m, _n, lda, ldb, nrhs, _lwork, info;
+  char trans = 'N';
+  int m = A.rows();
+  int n = A.cols();
+  int lwork = n + m;
+  nrhs = 1;
+  _m = lda = ldb = static_cast<int_lapack_t>(m);
+  _n = static_cast<int_lapack_t>(n);
+  _lwork = _n + _m;
+
+  cvec work(lwork);
+  x = b;
+  cmat QR = A;
+
+  zgels_(&trans, &_m, &_n, &nrhs, QR._data(), &lda, x._data(), &ldb, work._data(), &_lwork, &info);
+  x.set_size(n, true);
+
+  return (info == 0);
+#else
   it_error("LAPACK library is needed to use ls_solve_od() function");
   return false;
+#endif
 }
 
 bool ls_solve_od(const cmat &A, const cmat &B, cmat &X)
 {
+  it_assert_debug(A.rows() >= A.cols(), "The system is under-determined!");
+  it_assert_debug(A.rows() == B.rows(), "The number of rows in A must equal the length of b!");
+
+#if defined(HAVE_LAPACK)
+  int_lapack_t _m, _n, lda, ldb, _nrhs, _lwork, info;
+  char trans = 'N';
+  int m = A.rows();
+  int n = A.cols();
+  int nrhs = B.cols();
+  int lwork = n + std::max(m, nrhs);
+  _m = lda = ldb = static_cast<int_lapack_t>(m);
+  _n = static_cast<int_lapack_t>(n);
+  _nrhs = static_cast<int_lapack_t>(nrhs);
+  _lwork = static_cast<int_lapack_t>(lwork);
+
+  cvec work(lwork);
+  X = B;
+  cmat QR = A;
+
+  zgels_(&trans, &_m, &_n, &_nrhs, QR._data(), &lda, X._data(), &ldb, work._data(), &_lwork, &info);
+  X.set_size(n, nrhs, true);
+
+  return (info == 0);
+#else
   it_error("LAPACK library is needed to use ls_solve_od() function");
   return false;
+#endif
 }
-
-#endif // HAVE_LAPACK
 
 vec ls_solve_od(const mat &A, const vec &b)
 {
@@ -483,131 +468,132 @@ cmat ls_solve_od(const cmat &A, const cmat &B)
   return X;
 }
 
+
 // ------------------- ls_solve_ud -----------------------------------------------------------
+
+bool ls_solve_ud(const mat &A, const vec &b, vec &x)
+{
+  it_assert_debug(A.rows() < A.cols(), "The system is over-determined!");
+  it_assert_debug(A.rows() == b.size(), "The number of rows in A must equal the length of b!");
+
 #if defined(HAVE_LAPACK)
-
-bool ls_solve_ud(const mat &A, const vec &b, vec &x)
-{
-  int m, n, lda, ldb, nrhs, lwork, info;
+  int_lapack_t _m, _n, lda, ldb, nrhs, _lwork, info;
   char trans = 'N';
-  m = lda = A.rows();
-  n = A.cols();
-  ldb = n;
+  int m = A.rows();
+  int n = A.cols();
+  int lwork = m + n;
   nrhs = 1;
-  lwork = m + std::max(n, nrhs);
-
-  it_assert_debug(m < n, "The system is over-determined!");
-  it_assert_debug(m == b.size(), "The number of rows in A must equal the length of b!");
+  _m = lda = static_cast<int_lapack_t>(A.rows());
+  _n = ldb = static_cast<int_lapack_t>(A.cols());
+  _lwork = static_cast<int_lapack_t>(lwork);
 
   vec work(lwork);
   x = b;
   x.set_size(n, true);
   mat QR = A;
 
-  dgels_(&trans, &m, &n, &nrhs, QR._data(), &lda, x._data(), &ldb, work._data(), &lwork, &info);
+  dgels_(&trans, &_m, &_n, &nrhs, QR._data(), &lda, x._data(), &ldb, work._data(), &_lwork, &info);
 
   return (info == 0);
-}
-
-bool ls_solve_ud(const mat &A, const mat &B, mat &X)
-{
-  int m, n, lda, ldb, nrhs, lwork, info;
-  char trans = 'N';
-  m = lda = A.rows();
-  n = A.cols();
-  ldb = n;
-  nrhs = B.cols();
-  lwork = m + std::max(n, nrhs);
-
-  it_assert_debug(m < n, "The system is over-determined!");
-  it_assert_debug(m == B.rows(), "The number of rows in A must equal the length of b!");
-
-  vec work(lwork);
-  X = B;
-  X.set_size(n, std::max(m, nrhs), true);
-  mat QR = A;
-
-  dgels_(&trans, &m, &n, &nrhs, QR._data(), &lda, X._data(), &ldb, work._data(), &lwork, &info);
-  X.set_size(n, nrhs, true);
-
-  return (info == 0);
-}
-
-bool ls_solve_ud(const cmat &A, const cvec &b, cvec &x)
-{
-  int m, n, lda, ldb, nrhs, lwork, info;
-  char trans = 'N';
-  m = lda = A.rows();
-  n = A.cols();
-  ldb = n;
-  nrhs = 1;
-  lwork = m + std::max(n, nrhs);
-
-  it_assert_debug(m < n, "The system is over-determined!");
-  it_assert_debug(m == b.size(), "The number of rows in A must equal the length of b!");
-
-  cvec work(lwork);
-  x = b;
-  x.set_size(n, true);
-  cmat QR = A;
-
-  zgels_(&trans, &m, &n, &nrhs, QR._data(), &lda, x._data(), &ldb, work._data(), &lwork, &info);
-
-  return (info == 0);
-}
-
-bool ls_solve_ud(const cmat &A, const cmat &B, cmat &X)
-{
-  int m, n, lda, ldb, nrhs, lwork, info;
-  char trans = 'N';
-  m = lda = A.rows();
-  n = A.cols();
-  ldb = n;
-  nrhs = B.cols();
-  lwork = m + std::max(n, nrhs);
-
-  it_assert_debug(m < n, "The system is over-determined!");
-  it_assert_debug(m == B.rows(), "The number of rows in A must equal the length of b!");
-
-  cvec work(lwork);
-  X = B;
-  X.set_size(n, std::max(m, nrhs), true);
-  cmat QR = A;
-
-  zgels_(&trans, &m, &n, &nrhs, QR._data(), &lda, X._data(), &ldb, work._data(), &lwork, &info);
-  X.set_size(n, nrhs, true);
-
-  return (info == 0);
-}
-
 #else
-
-bool ls_solve_ud(const mat &A, const vec &b, vec &x)
-{
   it_error("LAPACK library is needed to use ls_solve_ud() function");
   return false;
+#endif
 }
 
 bool ls_solve_ud(const mat &A, const mat &B, mat &X)
 {
+  it_assert_debug(A.rows() < A.cols(), "The system is over-determined!");
+  it_assert_debug(A.rows() == B.rows(), "The number of rows in A must equal the length of b!");
+
+#if defined(HAVE_LAPACK)
+  int_lapack_t _m, _n, lda, ldb, _nrhs, _lwork, info;
+  char trans = 'N';
+  int m = A.rows();
+  int n = A.cols();
+  int nrhs = B.cols();
+  int lwork = m + std::max(n, nrhs);
+  _m = lda = static_cast<int_lapack_t>(m);
+  _n = ldb = static_cast<int_lapack_t>(n);
+  _nrhs = static_cast<int_lapack_t>(nrhs);
+  _lwork = static_cast<int_lapack_t>(lwork);
+
+  vec work(lwork);
+  X = B;
+  X.set_size(n, std::max(m, nrhs), true);
+  mat QR = A;
+
+  dgels_(&trans, &_m, &_n, &_nrhs, QR._data(), &lda, X._data(), &ldb, work._data(), &_lwork, &info);
+  X.set_size(n, nrhs, true);
+
+  return (info == 0);
+#else
   it_error("LAPACK library is needed to use ls_solve_ud() function");
   return false;
+#endif
 }
 
 bool ls_solve_ud(const cmat &A, const cvec &b, cvec &x)
 {
+  it_assert_debug(A.rows() < A.cols(), "The system is over-determined!");
+  it_assert_debug(A.rows() == b.size(), "The number of rows in A must equal the length of b!");
+
+#if defined(HAVE_LAPACK)
+  int_lapack_t _m, _n, lda, ldb, nrhs, _lwork, info;
+  char trans = 'N';
+  int m = A.rows();
+  int n = A.cols();
+  int lwork = m + n;
+  nrhs = 1;
+  _m = lda = static_cast<int_lapack_t>(A.rows());
+  _n = ldb = static_cast<int_lapack_t>(A.cols());
+  _lwork = static_cast<int_lapack_t>(lwork);
+
+  cvec work(lwork);
+  x = b;
+  x.set_size(n, true);
+  cmat QR = A;
+
+  zgels_(&trans, &_m, &_n, &nrhs, QR._data(), &lda, x._data(), &ldb, work._data(), &_lwork, &info);
+
+  return (info == 0);
+#else
   it_error("LAPACK library is needed to use ls_solve_ud() function");
   return false;
+#endif
 }
 
 bool ls_solve_ud(const cmat &A, const cmat &B, cmat &X)
 {
+  it_assert_debug(A.rows() < A.cols(), "The system is over-determined!");
+  it_assert_debug(A.rows() == B.rows(), "The number of rows in A must equal the length of b!");
+
+#if defined(HAVE_LAPACK)
+  int_lapack_t _m, _n, lda, ldb, _nrhs, _lwork, info;
+  char trans = 'N';
+  int m = A.rows();
+  int n = A.cols();
+  int nrhs = B.cols();
+  int lwork = m + std::max(n, nrhs);
+  _m = lda = static_cast<int_lapack_t>(m);
+  _n = ldb = static_cast<int_lapack_t>(n);
+  _nrhs = static_cast<int_lapack_t>(nrhs);
+  _lwork = static_cast<int_lapack_t>(lwork);
+
+  cvec work(lwork);
+  X = B;
+  X.set_size(n, std::max(m, nrhs), true);
+  cmat QR = A;
+
+  zgels_(&trans, &_m, &_n, &_nrhs, QR._data(), &lda, X._data(), &ldb, work._data(), &_lwork, &info);
+  X.set_size(n, nrhs, true);
+
+  return (info == 0);
+#else
   it_error("LAPACK library is needed to use ls_solve_ud() function");
   return false;
+#endif
 }
-
-#endif // HAVE_LAPACK
-
 
 vec ls_solve_ud(const mat &A, const vec &b)
 {

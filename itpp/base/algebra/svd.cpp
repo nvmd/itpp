@@ -42,17 +42,20 @@
 namespace itpp
 {
 
-#if defined(HAVE_LAPACK)
-
 bool svd(const mat &A, vec &S)
 {
-  char jobu = 'N', jobvt = 'N';
-  int m, n, lda, ldu, ldvt, lwork, info;
-  m = lda = ldu = A.rows();
-  n = ldvt = A.cols();
-  lwork = std::max(3 * std::min(m, n) + std::max(m, n), 5 * std::min(m, n));
+#if defined(HAVE_LAPACK)
+  int_lapack_t _n, _m, lda, ldu, ldvt, _lwork, info;
+  char jobu = 'N';
+  char jobvt = 'N';
+  int m = A.rows();
+  int n = A.cols();
+  int lwork = std::max(3 * std::min(m, n) + std::max(m, n), 5 * std::min(m, n));
+  _m = lda = ldu = static_cast<int_lapack_t>(m);
+  _n = ldvt = static_cast<int_lapack_t>(n);
 
-  mat U, V;
+  mat U;
+  mat V;
   S.set_size(std::min(m, n), false);
   vec work(lwork);
 
@@ -62,29 +65,39 @@ bool svd(const mat &A, vec &S)
   // needed for dgesvd_ to run to completion without having memory errors.
   // For speed improvement it is best to set lwork=-1 and have dgesvd_
   // calculate the best workspace requirement.
-  int lwork_tmp = -1;
-  dgesvd_(&jobu, &jobvt, &m, &n, B._data(), &lda, S._data(), U._data(), &ldu,
+  int_lapack_t lwork_tmp = -1;
+  dgesvd_(&jobu, &jobvt, &_m, &_n, B._data(), &lda, S._data(), U._data(), &ldu,
           V._data(), &ldvt, work._data(), &lwork_tmp, &info);
   if (info == 0) {
     lwork = static_cast<int>(work(0));
     work.set_size(lwork, false);
   }
 
-  dgesvd_(&jobu, &jobvt, &m, &n, B._data(), &lda, S._data(), U._data(), &ldu,
-          V._data(), &ldvt, work._data(), &lwork, &info);
+  _lwork = static_cast<int_lapack_t>(lwork);
+  dgesvd_(&jobu, &jobvt, &_m, &_n, B._data(), &lda, S._data(), U._data(), &ldu,
+          V._data(), &ldvt, work._data(), &_lwork, &info);
 
   return (info == 0);
+#else
+  it_error("LAPACK library is needed to use svd() function");
+  return false;
+#endif
 }
 
 bool svd(const cmat &A, vec &S)
 {
-  char jobu = 'N', jobvt = 'N';
-  int m, n, lda, ldu, ldvt, lwork, info;
-  m = lda = ldu = A.rows();
-  n = ldvt = A.cols();
-  lwork = 2 * std::min(m, n) + std::max(m, n);
+#if defined(HAVE_LAPACK)
+  int_lapack_t _n, _m, lda, ldu, ldvt, _lwork, info;
+  char jobu = 'N';
+  char jobvt = 'N';
+  int m = A.rows();
+  int n = A.cols();
+  int lwork = 2 * std::min(m, n) + std::max(m, n);
+  _m = lda = ldu = static_cast<int_lapack_t>(m);
+  _n = ldvt = static_cast<int_lapack_t>(n);
 
-  cvec U, V;
+  cvec U;
+  cvec V;
   S.set_size(std::min(m, n), false);
   cvec work(lwork);
   vec rwork(5*std::min(m, n));
@@ -95,27 +108,36 @@ bool svd(const cmat &A, vec &S)
   // needed for zgesvd_ to run to completion without having memory errors.
   // For speed improvement it is best to set lwork=-1 and have zgesvd_
   // calculate the best workspace requirement.
-  int lwork_tmp = -1;
-  zgesvd_(&jobu, &jobvt, &m, &n, B._data(), &lda, S._data(), U._data(), &ldu,
+  int_lapack_t lwork_tmp = -1;
+  zgesvd_(&jobu, &jobvt, &_m, &_n, B._data(), &lda, S._data(), U._data(), &ldu,
           V._data(), &ldvt, work._data(), &lwork_tmp, rwork._data(), &info);
   if (info == 0) {
     lwork = static_cast<int>(real(work(0)));
     work.set_size(lwork, false);
   }
 
-  zgesvd_(&jobu, &jobvt, &m, &n, B._data(), &lda, S._data(), U._data(), &ldu,
-          V._data(), &ldvt, work._data(), &lwork, rwork._data(), &info);
+  _lwork = static_cast<int_lapack_t>(lwork);
+  zgesvd_(&jobu, &jobvt, &_m, &_n, B._data(), &lda, S._data(), U._data(), &ldu,
+          V._data(), &ldvt, work._data(), &_lwork, rwork._data(), &info);
 
   return (info == 0);
+#else
+  it_error("LAPACK library is needed to use svd() function");
+  return false;
+#endif
 }
 
 bool svd(const mat &A, mat &U, vec &S, mat &V)
 {
-  char jobu = 'A', jobvt = 'A';
-  int m, n, lda, ldu, ldvt, lwork, info;
-  m = lda = ldu = A.rows();
-  n = ldvt = A.cols();
-  lwork = std::max(3 * std::min(m, n) + std::max(m, n), 5 * std::min(m, n));
+#if defined(HAVE_LAPACK)
+  int_lapack_t _n, _m, lda, ldu, ldvt, _lwork, info;
+  char jobu = 'A';
+  char jobvt = 'A';
+  int m = A.rows();
+  int n = A.cols();
+  int lwork = std::max(3 * std::min(m, n) + std::max(m, n), 5 * std::min(m, n));
+  _m = lda = ldu = static_cast<int_lapack_t>(m);
+  _n = ldvt = static_cast<int_lapack_t>(n);
 
   U.set_size(m, m, false);
   V.set_size(n, n, false);
@@ -128,29 +150,38 @@ bool svd(const mat &A, mat &U, vec &S, mat &V)
   // needed for dgesvd_ to run to completion without having memory errors.
   // For speed improvement it is best to set lwork=-1 and have dgesvd_
   // calculate the best workspace requirement.
-  int lwork_tmp = -1;
-  dgesvd_(&jobu, &jobvt, &m, &n, B._data(), &lda, S._data(), U._data(), &ldu,
+  int_lapack_t lwork_tmp = -1;
+  dgesvd_(&jobu, &jobvt, &_m, &_n, B._data(), &lda, S._data(), U._data(), &ldu,
           V._data(), &ldvt, work._data(), &lwork_tmp, &info);
   if (info == 0) {
     lwork = static_cast<int>(work(0));
     work.set_size(lwork, false);
   }
 
-  dgesvd_(&jobu, &jobvt, &m, &n, B._data(), &lda, S._data(), U._data(), &ldu,
-          V._data(), &ldvt, work._data(), &lwork, &info);
+  _lwork = static_cast<int_lapack_t>(lwork);
+  dgesvd_(&jobu, &jobvt, &_m, &_n, B._data(), &lda, S._data(), U._data(), &ldu,
+          V._data(), &ldvt, work._data(), &_lwork, &info);
 
   V = V.T(); // This is probably slow!!!
 
   return (info == 0);
+#else
+  it_error("LAPACK library is needed to use svd() function");
+  return false;
+#endif
 }
 
 bool svd(const cmat &A, cmat &U, vec &S, cmat &V)
 {
-  char jobu = 'A', jobvt = 'A';
-  int m, n, lda, ldu, ldvt, lwork, info;
-  m = lda = ldu = A.rows();
-  n = ldvt = A.cols();
-  lwork = 2 * std::min(m, n) + std::max(m, n);
+#if defined(HAVE_LAPACK)
+  int_lapack_t _n, _m, lda, ldu, ldvt, _lwork, info;
+  char jobu = 'A';
+  char jobvt = 'A';
+  int m = A.rows();
+  int n = A.cols();
+  int lwork = 2 * std::min(m, n) + std::max(m, n);
+  _m = lda = ldu = static_cast<int_lapack_t>(m);
+  _n = ldvt = static_cast<int_lapack_t>(n);
 
   U.set_size(m, m, false);
   V.set_size(n, n, false);
@@ -164,49 +195,26 @@ bool svd(const cmat &A, cmat &U, vec &S, cmat &V)
   // needed for zgesvd_ to run to completion without having memory errors.
   // For speed improvement it is best to set lwork=-1 and have zgesvd_
   // calculate the best workspace requirement.
-  int lwork_tmp = -1;
-  zgesvd_(&jobu, &jobvt, &m, &n, B._data(), &lda, S._data(), U._data(), &ldu,
+  int_lapack_t lwork_tmp = -1;
+  zgesvd_(&jobu, &jobvt, &_m, &_n, B._data(), &lda, S._data(), U._data(), &ldu,
           V._data(), &ldvt, work._data(), &lwork_tmp, rwork._data(), &info);
   if (info == 0) {
     lwork = static_cast<int>(real(work(0)));
     work.set_size(lwork, false);
   }
 
-  zgesvd_(&jobu, &jobvt, &m, &n, B._data(), &lda, S._data(), U._data(), &ldu,
-          V._data(), &ldvt, work._data(), &lwork, rwork._data(), &info);
+  _lwork = static_cast<int_lapack_t>(lwork);
+  zgesvd_(&jobu, &jobvt, &_m, &_n, B._data(), &lda, S._data(), U._data(), &ldu,
+          V._data(), &ldvt, work._data(), &_lwork, rwork._data(), &info);
 
   V = V.H(); // This is slow!!!
 
   return (info == 0);
-}
-
 #else
-
-bool svd(const mat &A, vec &S)
-{
   it_error("LAPACK library is needed to use svd() function");
   return false;
+#endif
 }
-
-bool svd(const cmat &A, vec &S)
-{
-  it_error("LAPACK library is needed to use svd() function");
-  return false;
-}
-
-bool svd(const mat &A, mat &U, vec &S, mat &V)
-{
-  it_error("LAPACK library is needed to use svd() function");
-  return false;
-}
-
-bool svd(const cmat &A, cmat &U, vec &S, cmat &V)
-{
-  it_error("LAPACK library is needed to use svd() function");
-  return false;
-}
-
-#endif // HAVE_LAPACK
 
 vec svd(const mat &A)
 {

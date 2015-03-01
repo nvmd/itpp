@@ -253,39 +253,46 @@ void Vec<std::complex<double> >::set(const std::string &str)
   }
 }
 
+template<>
+double dot(const vec &v1, const vec &v2)
+{
+  double r;
+  it_assert_debug(v1.length() == v2.length(), "vec::dot(): Wrong sizes");
 #if defined(HAVE_BLAS)
-template<>
-double dot(const vec &v1, const vec &v2)
-{
-  it_assert_debug(v1.length() == v2.length(), "vec::dot(): Wrong sizes");
-  int incr = 1; int v1_l = v1.length();
-  return blas::ddot_(&v1_l, v1._data(), &incr, v2._data(), &incr);
-}
+  int_blas_t incr = 1;
+  int_blas_t v1_l = static_cast<int_blas_t>(v1.length());
+  r = blas::ddot_(&v1_l, v1._data(), &incr, v2._data(), &incr);
 #else
-template<>
-double dot(const vec &v1, const vec &v2)
-{
-  it_assert_debug(v1.length() == v2.length(), "vec::dot(): Wrong sizes");
-  double r = 0.0;
+  r = 0.0;
   for (int i = 0; i < v1.length(); ++i)
     r += v1._data()[i] * v2._data()[i];
+#endif
   return r;
 }
-#endif // HAVE_BLAS
 
-#if defined(HAVE_BLAS)
 template<>
 mat outer_product(const vec &v1, const vec &v2, bool)
 {
   it_assert_debug((v1.length() > 0) && (v2.length() > 0),
                   "Vec::outer_product:: Input vector of zero size");
-  int v1_l = v1.length(); int v2_l = v2.length();
-  mat out(v1_l, v2_l);
+  mat out(v1.length(), v2.length());
+#if defined(HAVE_BLAS)
   out.zeros();
   double alpha = 1.0;
-  int incr = 1;
+  int_blas_t incr = 1;
+  int_blas_t v1_l = static_cast<int_blas_t>(v1.length());
+  int_blas_t v2_l = static_cast<int_blas_t>(v2.length());
   blas::dger_(&v1_l, &v2_l, &alpha, v1._data(), &incr,
               v2._data(), &incr, out._data(), &v1_l);
+#else
+  int v1_l = v1.length();
+  int v2_l = v2.length();
+  for (int i = 0; i < v1_l; ++i) {
+    for (int j = 0; j < v2_l; ++j) {
+      out(i, j) = v1._data()[i] * v2._data()[j];
+    }
+  }
+#endif
   return out;
 }
 
@@ -294,11 +301,13 @@ cmat outer_product(const cvec &v1, const cvec &v2, bool hermitian)
 {
   it_assert_debug((v1.length() > 0) && (v2.length() > 0),
                   "Vec::outer_product:: Input vector of zero size");
-  int v1_l = v1.length(); int v2_l = v2.length();
-  cmat out(v1_l, v2_l);
+  cmat out(v1.length(), v2.length());
+#if defined(HAVE_BLAS)
   out.zeros();
   std::complex<double> alpha(1.0);
-  int incr = 1;
+  int_blas_t incr = 1;
+  int_blas_t v1_l = static_cast<int_blas_t>(v1.length());
+  int_blas_t v2_l = static_cast<int_blas_t>(v2.length());
   if (hermitian) {
     blas::zgerc_(&v1_l, &v2_l, &alpha, v1._data(), &incr,
                  v2._data(), &incr, out._data(), &v1_l);
@@ -307,31 +316,9 @@ cmat outer_product(const cvec &v1, const cvec &v2, bool hermitian)
     blas::zgeru_(&v1_l, &v2_l, &alpha, v1._data(), &incr,
                  v2._data(), &incr, out._data(), &v1_l);
   }
-  return out;
-}
 #else
-template<>
-mat outer_product(const vec &v1, const vec &v2, bool)
-{
-  it_assert_debug((v1.length() > 0) && (v2.length() > 0),
-                  "Vec::outer_product:: Input vector of zero size");
-  int v1_l = v1.length(); int v2_l = v2.length();
-  mat out(v1_l, v2_l);
-  for (int i = 0; i < v1_l; ++i) {
-    for (int j = 0; j < v2_l; ++j) {
-      out(i, j) = v1._data()[i] * v2._data()[j];
-    }
-  }
-  return out;
-}
-
-template<>
-cmat outer_product(const cvec &v1, const cvec &v2, bool hermitian)
-{
-  it_assert_debug((v1.length() > 0) && (v2.length() > 0),
-                  "Vec::outer_product:: Input vector of zero size");
-  int v1_l = v1.length(); int v2_l = v2.length();
-  cmat out(v1_l, v2_l);
+  int v1_l = v1.length();
+  int v2_l = v2.length();
   if (hermitian) {
     for (int i = 0; i < v1_l; ++i) {
       for (int j = 0; j < v2_l; ++j) {
@@ -346,9 +333,9 @@ cmat outer_product(const cvec &v1, const cvec &v2, bool hermitian)
       }
     }
   }
+#endif
   return out;
 }
-#endif // HAVE_BLAS
 
 
 template<>

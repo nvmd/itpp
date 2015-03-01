@@ -57,41 +57,23 @@ cmat cmat::hermitian_transpose() const
 
 // -------- Multiplication operator -------------
 
-#if defined(HAVE_BLAS)
-
 template<>
 mat& mat::operator*=(const mat &m)
 {
   it_assert_debug(no_cols == m.no_rows, "mat::operator*=(): Wrong sizes");
   mat r(no_rows, m.no_cols); // unnecessary memory??
+#if defined(HAVE_BLAS)
   double alpha = 1.0;
   double beta = 0.0;
   char trans = 'n';
-  blas::dgemm_(&trans, &trans, &no_rows, &m.no_cols, &no_cols, &alpha, data,
-               &no_rows, m.data, &m.no_rows, &beta, r.data, &r.no_rows);
-  operator=(r); // time consuming
-  return *this;
-}
-
-template<>
-cmat& cmat::operator*=(const cmat &m)
-{
-  it_assert_debug(no_cols == m.no_rows, "cmat::operator*=(): Wrong sizes");
-  cmat r(no_rows, m.no_cols); // unnecessary memory??
-  std::complex<double> alpha = std::complex<double>(1.0);
-  std::complex<double> beta = std::complex<double>(0.0);
-  char trans = 'n';
-  blas::zgemm_(&trans, &trans, &no_rows, &m.no_cols, &no_cols, &alpha, data,
-               &no_rows, m.data, &m.no_rows, &beta, r.data, &r.no_rows);
-  operator=(r); // time consuming
-  return *this;
-}
+  int_blas_t _no_rows   = static_cast<int_blas_t>(no_rows);
+  int_blas_t _no_rows_m = static_cast<int_blas_t>(m.no_rows);
+  int_blas_t _no_rows_r = static_cast<int_blas_t>(r.no_rows);
+  int_blas_t _no_cols   = static_cast<int_blas_t>(no_cols);
+  int_blas_t _no_cols_m = static_cast<int_blas_t>(m.no_cols);
+  blas::dgemm_(&trans, &trans, &_no_rows, &_no_cols_m, &_no_cols, &alpha, data,
+               &_no_rows, m.data, &_no_rows_m, &beta, r.data, &_no_rows_r);
 #else
-template<>
-mat& mat::operator*=(const mat &m)
-{
-  it_assert_debug(no_cols == m.no_rows, "Mat<>::operator*=(): Wrong sizes");
-  mat r(no_rows, m.no_cols);
   int r_pos = 0, pos = 0, m_pos = 0;
 
   for (int i = 0; i < r.no_cols; i++) {
@@ -107,6 +89,7 @@ mat& mat::operator*=(const mat &m)
     r_pos += r.no_rows;
     m_pos += m.no_rows;
   }
+#endif
   operator=(r); // time consuming
   return *this;
 }
@@ -114,8 +97,20 @@ mat& mat::operator*=(const mat &m)
 template<>
 cmat& cmat::operator*=(const cmat &m)
 {
-  it_assert_debug(no_cols == m.no_rows, "Mat<>::operator*=(): Wrong sizes");
-  cmat r(no_rows, m.no_cols);
+  it_assert_debug(no_cols == m.no_rows, "cmat::operator*=(): Wrong sizes");
+  cmat r(no_rows, m.no_cols); // unnecessary memory??
+#if defined(HAVE_BLAS)
+  std::complex<double> alpha = std::complex<double>(1.0);
+  std::complex<double> beta = std::complex<double>(0.0);
+  char trans = 'n';
+  int_blas_t _no_rows   = static_cast<int_blas_t>(no_rows);
+  int_blas_t _no_rows_m = static_cast<int_blas_t>(m.no_rows);
+  int_blas_t _no_rows_r = static_cast<int_blas_t>(r.no_rows);
+  int_blas_t _no_cols   = static_cast<int_blas_t>(no_cols);
+  int_blas_t _no_cols_m = static_cast<int_blas_t>(m.no_cols);
+  blas::zgemm_(&trans, &trans, &_no_rows, &_no_cols_m, &_no_cols, &alpha, data,
+               &_no_rows, m.data, &_no_rows_m, &beta, r.data, &_no_rows_r);
+#else
   int r_pos = 0, pos = 0, m_pos = 0;
 
   for (int i = 0; i < r.no_cols; i++) {
@@ -131,51 +126,28 @@ cmat& cmat::operator*=(const cmat &m)
     r_pos += r.no_rows;
     m_pos += m.no_rows;
   }
+#endif
   operator=(r); // time consuming
   return *this;
 }
-#endif // HAVE_BLAS
 
-
-#if defined(HAVE_BLAS)
 template<>
 mat operator*(const mat &m1, const mat &m2)
 {
   it_assert_debug(m1.cols() == m2.rows(), "mat::operator*(): Wrong sizes");
-  int m1_r = m1.rows(); int m1_c = m1.cols();
-  int m2_r = m2.rows(); int m2_c = m2.cols();
-  mat r(m1_r, m2_c);
+  mat r(m1.rows(), m2.cols());
+#if defined(HAVE_BLAS)
   double alpha = 1.0;
   double beta = 0.0;
   char trans = 'n';
+  int_blas_t m1_r = static_cast<int_blas_t>(m1.rows());
+  int_blas_t m1_c = static_cast<int_blas_t>(m1.cols());
+  int_blas_t m2_r = static_cast<int_blas_t>(m2.rows());
+  int_blas_t m2_c = static_cast<int_blas_t>(m2.cols());
   blas::dgemm_(&trans, &trans, &m1_r, &m2_c, &m1_c, &alpha,
                m1._data(), &m1_r, m2._data(), &m2_r, &beta, r._data(),
                &m1_r);
-  return r;
-}
-
-template<>
-cmat operator*(const cmat &m1, const cmat &m2)
-{
-  it_assert_debug(m1.cols() == m2.rows(), "cmat::operator*(): Wrong sizes");
-  int m1_r = m1.rows(); int m1_c = m1.cols();
-  int m2_r = m2.rows(); int m2_c = m2.cols();
-  cmat r(m1_r, m2_c);
-  std::complex<double> alpha = std::complex<double>(1.0);
-  std::complex<double> beta = std::complex<double>(0.0);
-  char trans = 'n';
-  blas::zgemm_(&trans, &trans, &m1_r, &m2_c, &m1_c, &alpha,
-               m1._data(), &m1_r, m2._data(), &m2_r, &beta, r._data(),
-               &m1_r);
-  return r;
-}
 #else
-template<>
-mat operator*(const mat &m1, const mat &m2)
-{
-  it_assert_debug(m1.rows() == m2.cols(),
-                  "Mat<>::operator*(): Wrong sizes");
-  mat r(m1.rows(), m2.cols());
   double *tr = r._data();
   const double *t1;
   const double *t2 = m2._data();
@@ -192,15 +164,27 @@ mat operator*(const mat &m1, const mat &m2)
     }
     t2 += m2.rows();
   }
+#endif
   return r;
 }
 
 template<>
 cmat operator*(const cmat &m1, const cmat &m2)
 {
-  it_assert_debug(m1.cols() == m2.rows(),
-                  "Mat<>::operator*(): Wrong sizes");
+  it_assert_debug(m1.cols() == m2.rows(), "cmat::operator*(): Wrong sizes");
   cmat r(m1.rows(), m2.cols());
+#if defined(HAVE_BLAS)
+  std::complex<double> alpha = std::complex<double>(1.0);
+  std::complex<double> beta = std::complex<double>(0.0);
+  char trans = 'n';
+  int_blas_t m1_r = static_cast<int_blas_t>(m1.rows());
+  int_blas_t m1_c = static_cast<int_blas_t>(m1.cols());
+  int_blas_t m2_r = static_cast<int_blas_t>(m2.rows());
+  int_blas_t m2_c = static_cast<int_blas_t>(m2.cols());
+  blas::zgemm_(&trans, &trans, &m1_r, &m2_c, &m1_c, &alpha,
+               m1._data(), &m1_r, m2._data(), &m2_r, &beta, r._data(),
+               &m1_r);
+#else
   std::complex<double> *tr = r._data();
   const std::complex<double> *t1;
   const std::complex<double> *t2 = m2._data();
@@ -217,48 +201,25 @@ cmat operator*(const cmat &m1, const cmat &m2)
     }
     t2 += m2.rows();
   }
+#endif
   return r;
 }
-#endif // HAVE_BLAS
 
-
-#if defined(HAVE_BLAS)
 template<>
 vec operator*(const mat &m, const vec &v)
 {
   it_assert_debug(m.cols() == v.size(), "mat::operator*(): Wrong sizes");
-  int m_r = m.rows(); int m_c = m.cols();
-  vec r(m_r);
+  vec r(m.rows());
+#if defined(HAVE_BLAS)
   double alpha = 1.0;
   double beta = 0.0;
   char trans = 'n';
-  int incr = 1;
+  int_blas_t incr = 1;
+  int_blas_t m_r = static_cast<int_blas_t>(m.rows());
+  int_blas_t m_c = static_cast<int_blas_t>(m.cols());
   blas::dgemv_(&trans, &m_r, &m_c, &alpha, m._data(), &m_r,
                v._data(), &incr, &beta, r._data(), &incr);
-  return r;
-}
-
-template<>
-cvec operator*(const cmat &m, const cvec &v)
-{
-  it_assert_debug(m.cols() == v.size(), "cmat::operator*(): Wrong sizes");
-  int m_r = m.rows(); int m_c = m.cols();
-  cvec r(m_r);
-  std::complex<double> alpha = std::complex<double>(1.0);
-  std::complex<double> beta = std::complex<double>(0.0);
-  char trans = 'n';
-  int incr = 1;
-  blas::zgemv_(&trans, &m_r, &m_c, &alpha, m._data(), &m_r,
-               v._data(), &incr, &beta, r._data(), &incr);
-  return r;
-}
 #else
-template<>
-vec operator*(const mat &m, const vec &v)
-{
-  it_assert_debug(m.cols() == v.size(),
-                  "Mat<>::operator*(): Wrong sizes");
-  vec r(m.rows());
   for (int i = 0; i < m.rows(); i++) {
     r(i) = 0.0;
     int m_pos = 0;
@@ -267,15 +228,25 @@ vec operator*(const mat &m, const vec &v)
       m_pos += m.rows();
     }
   }
+#endif
   return r;
 }
 
 template<>
 cvec operator*(const cmat &m, const cvec &v)
 {
-  it_assert_debug(m.cols() == v.size(),
-                  "Mat<>::operator*(): Wrong sizes");
+  it_assert_debug(m.cols() == v.size(), "cmat::operator*(): Wrong sizes");
   cvec r(m.rows());
+#if defined(HAVE_BLAS)
+  std::complex<double> alpha = std::complex<double>(1.0);
+  std::complex<double> beta = std::complex<double>(0.0);
+  char trans = 'n';
+  int_blas_t incr = 1;
+  int_blas_t m_r = static_cast<int_blas_t>(m.rows());
+  int_blas_t m_c = static_cast<int_blas_t>(m.cols());
+  blas::zgemv_(&trans, &m_r, &m_c, &alpha, m._data(), &m_r,
+               v._data(), &incr, &beta, r._data(), &incr);
+#else
   for (int i = 0; i < m.rows(); i++) {
     r(i) = std::complex<double>(0.0);
     int m_pos = 0;
@@ -284,9 +255,9 @@ cvec operator*(const cmat &m, const cvec &v)
       m_pos += m.rows();
     }
   }
+#endif
   return r;
 }
-#endif // HAVE_BLAS
 
 
 //---------------------------------------------------------------------
