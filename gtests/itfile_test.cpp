@@ -174,7 +174,7 @@ TEST_F(ItFileTest, Contents)
 {
   stringstream str;
   it_ifile ff(test_file_name);
-  int items_read = list_file_contents(ff,str);
+  list_file_contents(ff,str);
   string cur; int i = 0;
   while(getline(str,cur))
   {

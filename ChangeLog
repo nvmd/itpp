@@ -1,30 +1,37 @@
+2015-03-03  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* ChangeLog-2009, gtests/fastica_test.cpp, gtests/itfile_test.cpp,
+	gtests/multilateration_test.cpp, itpp/base/algebra/qr.cpp,
+	itpp/base/base_exports.h, itpp/comm/multilateration.cpp,
+	itpp/srccode/audiofile.cpp, itpp/srccode/vq.cpp: fixed minor errors. Thanks to
+	Andreas Winkelbauer for providing the patches.
+
 2015-03-01  Bogdan Cristea <cristeab@users.sourceforge.net>
-* CMakeLists.txt, itpp/base/algebra/cholesky.cpp, itpp/base/algebra/eigen.cpp,
-itpp/base/algebra/inv.cpp, itpp/base/algebra/lapack.h,
-itpp/base/algebra/ls_solve.cpp, itpp/base/algebra/lu.cpp,
-itpp/base/algebra/qr.cpp, itpp/base/algebra/schur.cpp,
-itpp/base/algebra/svd.cpp, itpp/base/blas.h, itpp/base/copy_vector.cpp,
-itpp/base/mat.cpp, itpp/base/vec.cpp: lapack and blas API can use either
-32-bit or 64-bit integers. This solves MATLAB R2011+ mex files crash under
-Linux (bug #202). Thanks to Andreas Winkelbauer for providing the patch.
+	* CMakeLists.txt, itpp/base/algebra/cholesky.cpp, itpp/base/algebra/eigen.cpp,
+	itpp/base/algebra/inv.cpp, itpp/base/algebra/lapack.h,
+	itpp/base/algebra/ls_solve.cpp, itpp/base/algebra/lu.cpp,
+	itpp/base/algebra/qr.cpp, itpp/base/algebra/schur.cpp,
+	itpp/base/algebra/svd.cpp, itpp/base/blas.h, itpp/base/copy_vector.cpp,
+	itpp/base/mat.cpp, itpp/base/vec.cpp: lapack and blas API can use either
+	32-bit or 64-bit integers. This solves MATLAB R2011+ mex files crash under
+	Linux (bug #202). Thanks to Andreas Winkelbauer for providing the patch.
 
 2014-10-18  Bogdan Cristea <cristeab@users.sourceforge.net>
-* CMakeLists.txt, cmake/Modules/CheckCXXFunctionExists.cmake,
-doc/doxygen_html.cfg.cmake.in, doc/tutorial/src/CMakeLists.txt,
-gtests/CMakeLists.txt, itpp/CMakeLists.txt, tests/CMakeLists.txt: Replaced
-CMAKE_SOURCE_DIR with PROJECT_SOURCE_DIR (feature request #99). This will allow to include it++ as
-sub-project using add_subdirectory(). Thanks to Sergey Nikulov for providing
-the patch.
+	* CMakeLists.txt, cmake/Modules/CheckCXXFunctionExists.cmake,
+	doc/doxygen_html.cfg.cmake.in, doc/tutorial/src/CMakeLists.txt,
+	gtests/CMakeLists.txt, itpp/CMakeLists.txt, tests/CMakeLists.txt: Replaced
+	CMAKE_SOURCE_DIR with PROJECT_SOURCE_DIR (feature request #99). This will allow to include it++ as
+	sub-project using add_subdirectory(). Thanks to Sergey Nikulov for providing
+	the patch.
 
 2014-05-18  Bogdan Cristea <cristeab@users.sourceforge.net>
-* CMakeLists.txt, gtests/CMakeLists.txt, itpp/base/vec.cpp, itpp/base/vec.h:
-corrected compilation with clang compiler. Thanks to xiangyuliu for providing
+	* CMakeLists.txt, gtests/CMakeLists.txt, itpp/base/vec.cpp, itpp/base/vec.h:
+	corrected compilation with clang compiler. Thanks to xiangyuliu for providing
 the patch.
 
 2014-02-16  Bogdan Cristea <cristeab@users.sourceforge.net>
-* gtests/modulator_test.cpp, itpp/comm/modulator.cpp, itpp/comm/modulator.h:
-add support for odd number of bits/symbol for QAM. Thanks to Kumar Appaiah for
-providing the patch (feature #73).
+	* gtests/modulator_test.cpp, itpp/comm/modulator.cpp, itpp/comm/modulator.h:
+	add support for odd number of bits/symbol for QAM. Thanks to Kumar Appaiah for
+	providing the patch (feature #73).
 
 2014-02-11  Bogdan Cristea <cristeab@users.sourceforge.net>
 * CMakeLists.txt, itpp/signal/freq_filt.cpp: corrected compilation errors

@@ -108,7 +108,10 @@ TEST(Fastica, All)
   //Test program for FastICA / IT++
 
   int ret = fscanf(fpin, "%d", &nrSamples);
+  ASSERT_TRUE(ret != EOF) << "Error: Reading from FASTICA_TEST_FILE failed";
+
   ret = fscanf(fpin, "%d", &nrIC);
+  ASSERT_TRUE(ret != EOF) << "Error: Reading from FASTICA_TEST_FILE failed";
 
   mat X = zeros(nrIC, nrSamples);
 

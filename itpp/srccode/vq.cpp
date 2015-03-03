@@ -134,7 +134,6 @@ ifstream &operator>>(ifstream &ifs, vec &v)
   int    i;
   char    str[2000];
   char    *ptr, *ptr_old;
-  bool flag;
   if (length(v) != 0) {
     for (i = 0;i < length(v);i++) {
       ifs.operator >> (v[i]) ;
@@ -166,8 +165,6 @@ ifstream &operator>>(ifstream &ifs, vec &v)
         ptr = strchr(ptr, ' ');
       }
     }
-    flag = true;
-    flag = false;
     v.set_length(i, true);
   }
   return ifs;
