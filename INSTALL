@@ -102,25 +102,41 @@ preparing Makefiles, so the compilation procedure is as follows:
 The `cmake' command can be invoked with additional switches and options
 (see cmake help for a full list of them). The most important are:
 
-  o `-DITPP_SHARED_LIB=off', allows to compile the static version of IT++ library. By default this option is
-    set to `on'.
-  o `-DBLA_VENDOR=vendor', where vendor can be `ACML', `Intel11' or `ATLAS'. This is helpful in selecting a specific 
-    external library (ACML or MKL 11). If these libraries are installed in nonstandard locations, on Linux, set 
-    `LD_LIBRARY_PATH' environment variable to the location where the libraries are installed. For Windows `PATH' environment 
-    variable should be set, while Mac OS X users should use `DYLD_LIBRARY_PATH'.
-  o `-DGTEST_DIR=/path/to/gtest/sources' is used to specify the path to
-    Google unit test framework (gtest) sources. Thus the unit tests are compiled and can be
-    run separately to check IT++ library.
-  o `-DOLD_TESTS=on' is used to activate the compilation of older unit tests (no unit test framework required). By default
-    this option is set to `off'. These tests are no longer maintained, so it is recommended to use the tests based on Google
-    framework. In order to run these tests use `check_tests.py' script found in extras folder (Python is required).
-  o `-DHTML_DOCS=off' allows to disable the generation of HTML documentation. Default option is `on' provided that
-    Doxygen is found.
-  o `-DCMAKE_BUILD_TYPE=Release' allows to specify the build type: Release (default) or Debug. The library name in Debug
-    mode is itpp_debug.*, so that both Release and Debug versions could exist in the installation folder.
-  o `-DCMAKE_INSTALL_PREFIX=/install/path' allows to specify the installation path. This is used when installing IT++,
-    either from command line, with 'make install', either using the INSTALL project from Visual Studio. Note that the user
-    should have write permissions to the installation folder.
+  o `-DITPP_SHARED_LIB=off', allows to compile the static version of IT++
+    library. By default this option is set to `on'.
+
+  o `-DBLA_VENDOR=vendor', where vendor can be `ACML', `Intel11' or `ATLAS'.
+    This is helpful in selecting a specific external library (ACML or MKL 11).
+    If these libraries are installed in nonstandard locations, on Linux, set
+    `LD_LIBRARY_PATH' environment variable to the location where the libraries
+    are installed. For Windows `PATH' environment variable should be set, while
+    Mac OS X users should use `DYLD_LIBRARY_PATH'.
+
+  o `-DBLAS_INT=32|64' and `-DLAPACK_INT=32|64' can be used to respectively
+    specify whether the BLAS and LAPACK APIs expect 32-bit integers (default)
+    or 64-bit integers (used, e.g., by some versions of MKL).
+
+  o `-DGTEST_DIR=/path/to/gtest/sources' is used to specify the path to Google
+    unit test framework (gtest) sources. Thus the unit tests are compiled and
+    can be run separately to check IT++ library.
+
+  o `-DOLD_TESTS=on' is used to activate the compilation of older unit tests
+    (no unit test framework required). By default this option is set to `off'.
+    These tests are no longer maintained, so it is recommended to use the tests
+    based on Google framework. In order to run these tests use `check_tests.py'
+    script found in extras folder (Python is required).
+
+  o `-DHTML_DOCS=off' allows to disable the generation of HTML documentation.
+    Default option is `on' provided that Doxygen is found.
+
+  o `-DCMAKE_BUILD_TYPE=Release' allows to specify the build type: Release
+    (default) or Debug. The library name in Debug mode is itpp_debug.*, so that
+    both Release and Debug versions could exist in the installation folder.
+
+  o `-DCMAKE_INSTALL_PREFIX=/install/path' allows to specify the installation
+    path. This is used when installing IT++, either from command line, with
+    'make install', either using the INSTALL project from Visual Studio. Note
+    that the user should have write permissions to the installation folder.
 
 
 External Libraries
@@ -151,8 +167,9 @@ If some external libraries are installed in a non-standard location in your
 system, e.g. MKL in `/opt/intel/mkl/9.1', cmake will not
 detect them automatically. In such a case, you should use LD_LIBRARY_PATH
 environment variable to define additional directories to be
-searched for libraries and headers. For instance, to configure IT++ to link to 32-bit version 
-of MKL 11.0 external libraries, you should use the following commands:
+searched for libraries and headers. For instance, to configure IT++ to link to
+32-bit version of MKL 11.0 external libraries, you should use the following
+commands:
 
   % export LD_LIBRARY_PATH=/opt/intel/composer_xe_2013.2.146/mkl/lib/intel64/
   % cmake .. -DBLA_VENDOR=Intel11
@@ -196,15 +213,15 @@ and HTML documentation (optionally) by typing:
 
   % make install
 
-Depending on the CMAKE_INSTALL_PREFIX settings during configuration, you might need the
-root (administrator) access to perform this step.
+Depending on the CMAKE_INSTALL_PREFIX settings during configuration, you might
+need root (administrator) permissions to perform this step.
 
 Eventually, you might invoke the following command
 
   % make clean
 
-to remove all files created during compilation process. Alternatively you could remove
-build folder:
+to remove all files created during compilation process. Alternatively you could
+remove the build folder:
   % cd ..
   % rm -rf build
 

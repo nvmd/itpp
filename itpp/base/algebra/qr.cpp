@@ -99,14 +99,13 @@ bool qr(const mat &A, mat &Q, mat &R)
 bool qr(const mat &A, mat &R)
 {
 #if defined(HAVE_LAPACK)
-  int_lapack_t _n, _m, _k, _lwork, info;
+  int_lapack_t _n, _m, _lwork, info;
   int m = A.rows();
   int n = A.cols();
   int k = std::min(m, n);
   int lwork = n;
   _m = static_cast<int_lapack_t>(m);
   _n = static_cast<int_lapack_t>(n);
-  _k = static_cast<int_lapack_t>(k);
   vec tau(k);
   vec work(lwork);
 
@@ -258,14 +257,13 @@ bool qr(const cmat &A, cmat &Q, cmat &R)
 bool qr(const cmat &A, cmat &R)
 {
 #if defined(HAVE_LAPACK)
-  int_lapack_t _n, _m, _k, _lwork, info;
+  int_lapack_t _n, _m, _lwork, info;
   int m = A.rows();
   int n = A.cols();
   int k = std::min(m, n);
   int lwork = n;
   _m = static_cast<int_lapack_t>(m);
   _n = static_cast<int_lapack_t>(n);
-  _k = static_cast<int_lapack_t>(k);
   cvec tau(k);
   cvec work(lwork);
 

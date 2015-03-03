@@ -165,7 +165,6 @@ mat Audio_Samples_Reader<Binary_In_Stream,Encoding>::read(int n)
   mat ret(n,_num_channels);
 
   //read samples
-  const std::streamsize stride = sample_size*(_num_channels - 1);
   _str.seekg(_start_pos + _cur_pos * sample_size *_num_channels, std::ios_base::beg);
   for(int i = 0; (i < n) && _str; ++i) {
     for(int j = 0; j < _num_channels && _str; ++j) {

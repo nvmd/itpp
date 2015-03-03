@@ -1008,21 +1008,21 @@ set_algo:
   }
   switch(type_) {
   case MULTI_HYPERBOLIC:
-    if((method_len + 1) != nb_bs_) {
+    if((method_len + 1) != static_cast<int>(nb_bs_)) {
       it_warning("For hyperbolic multilateration the number of BSs should exceed by one the number of measures");
       return false;
     }
     algo_ = new Hyperbolic(nb_bs_);
     break;
   case MULTI_HYBRID:
-    if((method_len + 1) != nb_bs_) {
+    if((method_len + 1) != static_cast<int>(nb_bs_)) {
       it_warning("For hybrid multilateration the number of BSs should exceed by one the number of measures");
       return false;
     }
     algo_ = new Spherical(nb_bs_ - 1); /* after conversion the number of BSs is reduced by one */
     break;
   case MULTI_SPHERICAL:
-    if(method_len != nb_bs_) {
+    if(method_len != static_cast<int>(nb_bs_)) {
       it_warning("For spherical multilateration the number of BSs should equal the number of measures");
       return false;
     }

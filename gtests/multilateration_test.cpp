@@ -186,7 +186,6 @@ TEST(Multilateration, get_pos)
 {
   RNG_reset(0);
 
-  const unsigned int nb_points = 10;
   const double eps = 1e-3;
   mat bs_pos;
   unsigned int method_len = 0;//NB: the number of BSs is greater by one for hyprid and hyperbolic
