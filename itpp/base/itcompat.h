@@ -41,8 +41,12 @@
 #if defined(_MSC_VER)
 #  include <cfloat>
 #  define finite(x) _finite(x)
+#ifndef HAVE_STD_ISFINITE
 #  define isfinite(x) _finite(x)
+#endif
+#ifndef HAVE_STD_ISNAN
 #  define isnan(x) _isnan(x)
+#endif
 #  define fpclass(x) _fpclass(x)
 #  define FP_NINF _FPCLASS_NINF
 #  define FP_PINF _FPCLASS_PINF
@@ -119,12 +123,18 @@ inline bool isfinite(double x)
 double tgamma(double x);
 #endif
 
-#if !defined(HAVE_LGAMMA) || (HAVE_DECL_SIGNGAM != 1)
+#if !defined(HAVE_LGAMMA) && (HAVE_DECL_SIGNGAM != 1)
+//Provide own definitions if both conditions are met:
+//-lgammma is not defined
+//-signgam  was not found
+//See ODR discussion in itcompat.cpp
+
 //! Lograrithm of an absolute gamma function
 double lgamma(double x);
 //! Global variable needed by \c lgamma function
 extern int signgam;
 #endif
+
 
 #ifndef HAVE_CBRT
 //! Cubic root
@@ -141,7 +151,7 @@ inline double log1p(double x) { return std::log(1.0 + x); }
 //! Base-2 logarithm
 inline double log2(double x)
 {
-  static const double one_over_log2 = 1.0 / std::log(2.0);
+  const double one_over_log2 = 1.0 / std::log(2.0);
   return std::log(x) * one_over_log2;
 }
 #endif

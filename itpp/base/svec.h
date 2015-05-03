@@ -33,6 +33,7 @@
 #include <itpp/base/math/min_max.h>
 #include <cstdlib>
 #include <itpp/itexports.h>
+#include <algorithm>
 
 namespace itpp
 {

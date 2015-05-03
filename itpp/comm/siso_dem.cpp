@@ -32,6 +32,12 @@
 #define INFINITY std::numeric_limits<double>::infinity()
 #endif
 
+#ifdef _MSC_VER
+//suppress warnings regarding the use infinity in fp arithmetic
+#pragma warning(disable: 4056)
+#endif
+
+
 namespace itpp
 {
 void SISO::find_half_const(int &select_half, itpp::vec &re_part, itpp::bmat &re_bin_part, itpp::vec &im_part, itpp::bmat &im_bin_part)

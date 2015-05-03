@@ -39,6 +39,7 @@
 #include <itpp/base/algebra/qr.h>
 #include <itpp/base/specmat.h>
 
+#include <algorithm>
 
 namespace itpp
 {

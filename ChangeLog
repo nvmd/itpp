@@ -1,3 +1,13 @@
+2015-05-03  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* CMakeLists.txt, gtests/transforms_test.cpp, itpp/base/algebra/eigen.cpp,
+	itpp/base/algebra/ls_solve.cpp, itpp/base/algebra/qr.cpp,
+	itpp/base/algebra/svd.cpp, itpp/base/bessel/gamma.cpp,
+	itpp/base/itcompat.cpp, itpp/base/itcompat.h, itpp/base/matfunc.h,
+	itpp/base/svec.h, itpp/comm/siso_dem.cpp, itpp/comm/siso_eq.cpp,
+	itpp/comm/siso_mud.cpp, itpp/comm/siso_nsc.cpp, itpp/comm/siso_rsc.cpp:
+	corrected compilation errors on Windows with Visual Studio 2013. Thanks to
+	Andy Panov for providing the patch.
+
 2015-03-03  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* ChangeLog-2009, gtests/fastica_test.cpp, gtests/itfile_test.cpp,
 	gtests/multilateration_test.cpp, itpp/base/algebra/qr.cpp,

@@ -39,6 +39,7 @@
 #include <itpp/base/algebra/eigen.h>
 #include <itpp/base/converters.h>
 
+#include <algorithm>
 
 namespace itpp
 {
