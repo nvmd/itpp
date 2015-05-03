@@ -47,12 +47,21 @@ double tgamma(double x)
 }
 #endif
 
-#if !defined(HAVE_LGAMMA) || (HAVE_DECL_SIGNGAM != 1)
+#if !defined(HAVE_LGAMMA) && (HAVE_DECL_SIGNGAM != 1)
 // The sign of the Gamma function is returned in the external integer
 // signgam declared in <math.h>. It is 1 when the Gamma function is positive
 // or zero, -1 when it is negative. However, MinGW definition of lgamma()
 // function does not use the global signgam variable.
+// May 3rd 2015 (Andy Panov):
+// Nonetheless, I guess it would be smarter not to break the ODR rule and not to provide our own definition of lgamma
+// function when HAVE_LGAMMA is defined. If we still provide the definition, two definitions
+// of the same function will exist in the program (this is undefined behaviour, as C++ standard says),
+// so we can not ensure linker will choose our definition and user's code will work as expected.
+// I guess, error message from linker regarding the unresolved symbol is much better option,
+// since it clearly points to the math library limitations. Otherwise user can get a malfunctioning program
+// with really subtle error.
 int signgam;
+
 // Logarithm of an absolute value of gamma function
 double lgamma(double x)
 {

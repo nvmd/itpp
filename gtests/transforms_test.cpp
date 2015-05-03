@@ -47,8 +47,8 @@ inline void test_result(const Vec<T>& in, const Vec<T>& ref)
   int n = size(in);
   it_assert(n == ref.size(), "compute_rel_error(): input and reference sizes must be equal.");
   for(int i = 0; i < n ; ++i) {
-    if(abs(in(i) - ref(i)) < max_abs_error) continue; //handle numbers with absolute value close to zero (relative error can be huge for them)
-    double rel_error = abs(in(i) - ref(i)) / abs(in(i));
+    if(std::abs(in(i) - ref(i)) < max_abs_error) continue; //handle numbers with absolute value close to zero (relative error can be huge for them)
+    double rel_error = std::abs(in(i) - ref(i)) / std::abs(in(i));
     ASSERT_LE(rel_error, max_rel_error);
   }
 }

@@ -34,6 +34,11 @@
 #include <itpp/base/itcompat.h>
 #include <itpp/base/math/misc.h>
 
+#ifdef _MSC_VER
+//suppress warnings regarding the use infinity in fp arithmetic
+#pragma warning(disable: 4056)
+#pragma warning(disable: 4756)
+#endif
 
 /*
  * Gamma function

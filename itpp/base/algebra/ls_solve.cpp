@@ -37,7 +37,7 @@
 #endif
 
 #include <itpp/base/algebra/ls_solve.h>
-
+#include <algorithm>
 
 namespace itpp
 {

@@ -33,6 +33,12 @@
 #define INFINITY std::numeric_limits<double>::infinity()
 #endif
 
+#ifdef _MSC_VER
+//suppress warnings regarding the use infinity in fp arithmetic
+#pragma warning(disable: 4056)
+#pragma warning(disable: 4756)
+#endif
+
 namespace itpp
 {
 void SISO::gen_nsctrellis(void)

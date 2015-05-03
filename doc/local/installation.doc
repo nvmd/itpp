@@ -153,8 +153,8 @@ Doxygen is found.
 - \c `-DCMAKE_BUILD_TYPE=Release' allows to specify the build type: Release (default) or Debug. The library name in Debug
 mode is itpp_debug.*, so that both Release and Debug versions could exist in the installation folder.
 - \c `-DCMAKE_INSTALL_PREFIX=/install/path' allows to specify the installation path. This is used when installing IT++,
-either from command line, with 'make install', either using the INSTALL project from Visual Studio. Note that the user
-should have write permissions to the installation folder.
+either from command line, with 'make install', either using the INSTALL project from Visual Studio. Note that the user should have write permissions to the installation folder.
+- \c `-DITPP_DISABLE_MATH_LIB=off' disable automatic linking using math library: off (default) or on. One should enable this option when compiling for example with Visual Studio 2013.
 
 Note: in order to run the unit test binaries, external libraries need to be in your system path. On Linux
 one can use ldconfig, while in Windows `PATH' variable should be set to the location of external libraries

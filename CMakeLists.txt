@@ -122,7 +122,10 @@ CHECK_CXX_SYMBOL_EXISTS ( isnan "cmath" HAVE_DECL_ISNAN )
 CHECK_CXX_SYMBOL_EXISTS ( signgam "cmath" HAVE_DECL_SIGNGAM )
 
 #check for functions
-set(CMAKE_REQUIRED_LIBRARIES m)
+option(ITPP_DISABLE_MATH_LIB "Don't automatically use math library when linking" off)
+if( NOT ITPP_DISABLE_MATH_LIB )
+  set(CMAKE_REQUIRED_LIBRARIES m)
+endif()
 include (CheckFunctionExists)
 CHECK_FUNCTION_EXISTS ( acosh HAVE_ACOSH )
 CHECK_FUNCTION_EXISTS ( asinh HAVE_ASINH )

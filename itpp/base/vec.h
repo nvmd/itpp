@@ -1847,9 +1847,9 @@ std::vector<std::string> Vec<Num_T>::tokenize(const std::string &str_in,
         char t = s[s.length()-1];
         if ((t >= '0' ) && ( t <= '9')) {  //record right position
           if(c == '-')
-            minus_indx = s.length();
+            minus_indx = static_cast<int>(s.length());
           else if(c == '+')
-            plus_indx = s.length();
+			  plus_indx = static_cast<int>(s.length());
         }
       }
 

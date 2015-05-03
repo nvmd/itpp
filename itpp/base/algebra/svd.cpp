@@ -37,7 +37,7 @@
 #endif
 
 #include <itpp/base/algebra/svd.h>
-
+#include <algorithm>
 
 namespace itpp
 {

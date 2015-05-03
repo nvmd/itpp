@@ -36,6 +36,7 @@
 #include <itpp/base/algebra/inv.h>
 #include <itpp/base/algebra/svd.h>
 #include <itpp/itexports.h>
+#include <algorithm>
 
 namespace itpp
 {
