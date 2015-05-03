@@ -142,7 +142,7 @@ ITPP_EXPORT vec xcorr(const vec &x, const int max_lag = -1, const std::string sc
 /*!
   \brief Cross Correlation
 
-  \code r = xcorr(x) \endcode returns the auto-correlation vecotr \b r.
+  \code r = xcorr(x) \endcode returns the auto-correlation vector \b r.
 */
 ITPP_EXPORT cvec xcorr(const cvec &x, const int max_lag = -1, const std::string scaleopt = "none");
 
