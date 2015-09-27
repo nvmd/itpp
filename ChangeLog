@@ -1,3 +1,8 @@
+2015-09-27  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* itpp/comm/ldpc.cpp, itpp/comm/ldpc.h: solved LDPC_Code segfault in
+	destructor (bug #245). Thanks to Etienne Pierre-Doray for providing the
+	patch.
+
 2015-05-03  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* CMakeLists.txt, gtests/transforms_test.cpp, itpp/base/algebra/eigen.cpp,
 	itpp/base/algebra/ls_solve.cpp, itpp/base/algebra/qr.cpp,

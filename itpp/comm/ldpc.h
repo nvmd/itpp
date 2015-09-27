@@ -755,7 +755,7 @@ public:
   LDPC_Code(const std::string& filename, LDPC_Generator* const G = 0);
 
   //! Destructor
-  virtual ~LDPC_Code() {delete dec_method;}
+  virtual ~LDPC_Code() {}
 
 
   /*!
@@ -928,7 +928,7 @@ public:
   int get_ninfo() const { return nvar - ncheck; }
 
   //! Return the decoding method
-  std::string get_decoding_method() const { return *dec_method; }
+  std::string get_decoding_method() const { return dec_method; }
 
   //! Get the maximum number of iterations of the decoder
   int get_nrof_iterations() const { return max_iters; }
@@ -957,7 +957,7 @@ private:
   LDPC_Generator *G;  //!< Generator object pointer
 
   // decoder parameters
-  std::string* dec_method; //!< Decoding method
+  std::string dec_method; //!< Decoding method
   int max_iters;  //!< Maximum number of iterations
   bool psc;   //!< check syndrom after each iteration
   bool pisc;   //!< check syndrom before first iteration

@@ -1203,14 +1203,14 @@ void BLDPC_Generator::load(const std::string& filename)
 // LDPC_Code
 // ----------------------------------------------------------------------
 
-LDPC_Code::LDPC_Code(): H_defined(false), G_defined(false), dec_method(new std::string),
+LDPC_Code::LDPC_Code(): H_defined(false), G_defined(false),
     max_iters(50), psc(true), pisc(false),
     llrcalc(LLR_calc_unit()) { set_decoding_method("BP");}
 
 LDPC_Code::LDPC_Code(const LDPC_Parity* const H,
                      LDPC_Generator* const G_in,
                      bool perform_integrity_check):
-    H_defined(false), G_defined(false), dec_method(new std::string), max_iters(50),
+    H_defined(false), G_defined(false), max_iters(50),
     psc(true), pisc(false), llrcalc(LLR_calc_unit())
 {
     set_decoding_method("BP");
@@ -1219,7 +1219,7 @@ LDPC_Code::LDPC_Code(const LDPC_Parity* const H,
 
 LDPC_Code::LDPC_Code(const std::string& filename,
                      LDPC_Generator* const G_in):
-    H_defined(false), G_defined(false), dec_method(new std::string), max_iters(50),
+    H_defined(false), G_defined(false), max_iters(50),
     psc(true), pisc(false), llrcalc(LLR_calc_unit())
 {
   set_decoding_method("BP");
@@ -1324,7 +1324,7 @@ void LDPC_Code::set_decoding_method(const std::string& method_in)
 {
   it_assert((method_in == "bp") || (method_in == "BP"),
             "LDPC_Code::set_decoding_method(): Not implemented decoding method");
-  *dec_method = method_in;
+  dec_method = method_in;
 }
 
 void LDPC_Code::set_exit_conditions(int max_iters_in,
