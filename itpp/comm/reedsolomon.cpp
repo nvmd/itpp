@@ -265,7 +265,7 @@ bool Reed_Solomon::decode(const bvec &coded_bits, const ivec &erasure_positions,
         mbit = coded_bits.mid(i * n * m, k * m);
       }
       else {
-        mbit = zeros_b(k);
+        mbit = zeros_b(m*k);
       }
       no_dec_failure = false;
     }
