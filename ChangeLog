@@ -1,3 +1,8 @@
+2015-10-08  Stephan Ludwig <donludovico@users.sourceforge.net>
+	* itpp/comm/reedsolomon.cpp: Bug-Fix (#246) RS decode crashes on certain 
+	occasions with non-systematic codes in case of a decoding failure; according to 
+	Forum: https://sourceforge.net/p/itpp/discussion/115656/thread/5172b4b8/ .
+
 2015-09-27  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* itpp/comm/ldpc.cpp, itpp/comm/ldpc.h: solved LDPC_Code segfault in
 	destructor (bug #245). Thanks to Etienne Pierre-Doray for providing the
