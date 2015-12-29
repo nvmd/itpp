@@ -517,7 +517,7 @@ vec lerouxguegenrc(const vec &R, int order)
   }
   for (m = 1;m <= M;m++) {
     k[m-1] = -r[M+m] / r[M];
-    for (j = -M;j <= M;j++) {
+    for (j = -M+m+1;j <= M;j++) {
       rny[M+j] = r[M+j] + k[m-1] * r[M+m-j];
     }
     for (j = -M;j <= M;j++) {
