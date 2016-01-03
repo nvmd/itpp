@@ -691,7 +691,7 @@ void it_file::pack()
     s.put(buffer[i]);
 
   // free buffer memory
-  delete buffer;
+  delete[] buffer;
 
   // go back to the first data block (skiping file header)
   s.seekg(sizeof(file_header));
