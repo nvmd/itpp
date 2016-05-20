@@ -1,3 +1,9 @@
+2016-05-20  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* itpp/comm/ldpc.cpp: Calling LDPC_Generator_Systematic::construct()
+	with natural_ordering=false, the returned permutation vector was
+	inconsistent with the column changes performed on the parity check matrix
+	(bug ID #251). Thanks to Michael Meidlinger for providing the patch.
+
 2015-12-29  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* itpp/srccode/lpcfunc.cpp: Algorithm computes values not necessary for
 	evaluation (bug ID #247). Thanks to Pinky for providing the patch.

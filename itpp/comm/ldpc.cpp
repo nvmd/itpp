@@ -938,25 +938,25 @@ ivec LDPC_Generator_Systematic::construct(LDPC_Parity* const H,
     if (j2 == 0) {     // first column in P2 is number col_order(k)
       P2 = GF2mat(c);
       P2.T_fact(T, U, perm);/* return value not used */
-      actual_ordering(k) = nvar - ncheck;
+      actual_ordering(col_order(k)) = nvar - ncheck;
       j2++;
     }
     else {
       if (j2 < ncheck) {
         if (P2.T_fact_update_addcol(T, U, perm, c)) {
           P2 = P2.concatenate_horizontal(c);
-          actual_ordering(k) = nvar - ncheck + j2;
+          actual_ordering(col_order(k)) = nvar - ncheck + j2;
           j2++;
           continue;
         }
       }
       if (j1 == 0) {
         P1 = GF2mat(c);
-        actual_ordering(k) = j1;
+        actual_ordering(col_order(k)) = j1;
       }
       else {
         P1 = P1.concatenate_horizontal(c);
-        actual_ordering(k) = j1;
+        actual_ordering(col_order(k)) = j1;
       }
       j1++;
     }
