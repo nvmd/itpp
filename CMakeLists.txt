@@ -157,12 +157,7 @@ set (PACKAGE_VERSION "4.3.1")
 set (PACKAGE_STRING "${PACKAGE_NAME} ${PACKAGE_VERSION}")
 set (PACKAGE_TARNAME ${PACKAGE})
 set (PACKAGE_URL "")
-if (UNIX)
-  EXECUTE_PROCESS(COMMAND "date" "+%d/%m/%Y" OUTPUT_VARIABLE PACKAGE_DATE)
-  string(REGEX REPLACE "(..)/(..)/..(..).*" "\\1/\\2/\\3" PACKAGE_DATE "${PACKAGE_DATE}")
-else()
-  set(PACKAGE_DATE "")
-endif()
+string(TIMESTAMP PACKAGE_DATE "%Y-%m-%d" UTC)
 
 if (WIN32 AND NOT MINGW)
   #TODO: remove this from future versions
