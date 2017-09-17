@@ -1,3 +1,9 @@
+2017-09-17  Bogdan Cristea <cristeab@users.sourceforge.net>
+	* CMakeLists.txt, cmake/Modules/CheckCXXFunctionExists.cmake,
+	doc/tutorial/src/CMakeLists.txt, gtests/CMakeLists.txt, itpp/CMakeLists.txt,
+	tests/CMakeLists.txt: using PROJECT_SOURCE_DIR instead of CMAKE_SOURCE_DIR
+	(thanks to S. Nikulov for the merge request)
+
 2016-05-20  Bogdan Cristea <cristeab@users.sourceforge.net>
 	* itpp/comm/ldpc.cpp: Calling LDPC_Generator_Systematic::construct()
 	with natural_ordering=false, the returned permutation vector was
