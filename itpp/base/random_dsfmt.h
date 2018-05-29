@@ -299,7 +299,7 @@ private:
    */
   static void do_recursion(typename Context::w128_t *r, typename Context::w128_t *a, typename Context::w128_t *b, typename Context::w128_t *lung) {
 #if defined(__SSE2__)
-    const unsigned int SSE2_SHUFF = 0x1bU;
+#define SSE2_SHUFF 0x1bU
 
     __m128i x = a->si;
     __m128i z = _mm_slli_epi64(x, SL1);
