@@ -7,6 +7,7 @@ pkgs.mkShell rec {
     python
     graphviz
     doxygen
+    rsync
 
     # debugging tools
     gdb

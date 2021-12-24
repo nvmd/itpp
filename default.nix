@@ -20,6 +20,7 @@ in pkgs.stdenv.mkDerivation rec {
   nativeBuildInputs = with pkgs; [
     cmake
     python
+    rsync
   ] ++ lib.optional enableDoxygen [ doxygen graphviz ];
 
   buildInputs = with pkgs; [
@@ -47,9 +48,39 @@ in pkgs.stdenv.mkDerivation rec {
   '';
 
   installPhase = ''
-    mkdir -p $out $out/build
-    cp -r $src/* $out/
-    cp -r . $out/build/
-    echo installPhase is not yet implemented
+    mkdir -p $out/bin
+    cp itpp-config $out/bin
+    chmod a+rx $out/bin/itpp-config
+
+    mkdir -p $out/lib
+    cp itpp/libitpp*.dylib $out/lib
+
+    # Headers
+    mkdir -p $out/include/itpp
+    rsync --recursive --prune-empty-dirs --exclude='config_msvc.h' --include='*.h' --include='*/' --exclude='*' $src/itpp/ $out/include/itpp/
+    cp itpp/config.h $out/include/itpp
+    cp itpp/itexports.h $out/include/itpp
+
+    # Extra (Matlab, Python)
+    mkdir -p $out/share/itpp
+    cp $src/extras/itsave.m $out/share/itpp/
+    cp $src/extras/itload.m $out/share/itpp/
+    cp $src/extras/pyitpp.py $out/share/itpp/
+    cp $src/extras/gdb_macros_for_itpp $out/share/itpp/
+
+    # Pkg-config support
+    mkdir -p $out/lib/pkgconfig
+    cp itpp.pc $out/lib/pkgconfig
+
+    # Man page
+    mkdir -p $out/share/man/man1
+    cp itpp-config.1 $out/share/man/man1
+
+    # Doxygen documentation
+    if [ -d "html" ]; then
+      mkdir -p $out/share/doc/itpp
+      cp -r html $out/share/doc/itpp
+      cp $src/doc/images/itpp_logo.png $out/share/doc/itpp/html
+    fi
   '';
 }
