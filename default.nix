@@ -24,8 +24,8 @@ in pkgs.stdenv.mkDerivation rec {
   ] ++ lib.optional enableDoxygen [ doxygen graphviz ];
 
   buildInputs = with pkgs; [
-    blas
-    lapack
+    openblas
+    lapack-reference
     fftw
     gtestSrc
   ];

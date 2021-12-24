@@ -14,8 +14,8 @@ pkgs.mkShell rec {
    ];
 
    buildInputs = with pkgs; [
-    blas
-    lapack
+    openblas
+    lapack-reference
     fftw
    ];
 }
